@@ -1,0 +1,378 @@
+= Introduction =
+
+(((programming,history of))) Back in the 1970s, when personal
+computers were first introduced, most of them came equipped with a
+simple programming language—usually a variant of ((BASIC))—and
+interaction with the computer required use of this language. This
+meant that, for those of us to whom technological tinkering came
+naturally, going from simple computer use to programming was easy.
+
+These days, with computers being many times more powerful and cheaper
+than in the 1970s, software interfaces tend to present a slick
+graphics interface manipulated with the mouse, rather than a language.
+This has made computers much more accessible and, on the whole, is a
+big improvement. However, it has also put up a barrier between the
+computer user and the world of programming—hobbyists have to
+actively _find_ themselves a programming environment rather than
+having one available as soon as the computer starts.
+
+(((programming language)))(((JavaScript,availability of)))(((browser)))
+indexsee:[web browser,browser]
+Under the covers, our computer systems are still pervaded by various
+programming languages. Most of these languages are much more advanced
+than the BASIC dialects in those early personal computers. For 
+example, the JavaScript language, the subject of this book, exists in
+every mainstream web browser.
+
+== On Programming ==
+
+[quote, Confucius]
+(((Confucius)))I do not enlighten those who are not eager to learn, nor arouse those
+who are not anxious to give an explanation themselves. If I have
+presented one corner of the square and they cannot come back to me
+with the other three, I should not go over the points again.
+
+(((programming,difficulty of))) Besides explaining JavaScript, this
+book tries to be an introduction to the basic principles of
+programming. Programming, it turns out, is hard. The fundamental rules
+are typically simple and clear—but programs, while built on top of
+these basic rules, tend to become complex enough to introduce their
+own rules and complexity. Because of this, programming is rarely
+simple or predictable. As Donald Knuth, who is something of a founding
+father of the field, says, it is an _art_ rather than a science.
+
+To get something out of this book, more than just passive reading is
+required. Try to stay sharp, make an effort to understand the example
+code, and only continue when you are reasonably sure you understand
+the material that came before.
+
+[quote, Josepth Weizenbaum, Computer Power and Human Reason]
+(((Weizenbaum, Joseph)))The computer programmer is a creator of
+universes for which he alone is responsible. Universes of virtually
+unlimited complexity can be created in the form of computer programs.
+
+(((program,nature of)))(((programming,analogy for)))(((data)))
+A program is many things. It is a piece of text typed by a programmer,
+it is the directing force that makes the computer do what it does, it
+is data in the computer's memory, yet it controls the actions
+performed on this same memory. Analogies that try to compare programs
+to objects we are familiar with tend to fall short, but a
+superficially fitting one is that of a machine. The gears of a
+mechanical watch fit together ingeniously, and if the watchmaker was
+any good, it will accurately show the time for many years. The
+elements of a program fit together in a similar way, and if 
+programmers know what they are doing, their program will run without
+crashing.
+
+(((computer)))A computer is a machine built to act as a host for these immaterial
+machines. Computers themselves can only do stupidly straightforward
+things. The reason they are so useful is that they do these things at
+an incredibly high speed. A program can ingeniously combine enormous
+numbers of these simple actions in order to do very complicated
+things.
+
+(((programming,joy of)))To some of us, writing computer programs is a fascinating game. A
+program is a building of thought. It is costless to build, it is weightless,
+and it grows easily under our typing hands. If we are not careful, its size
+and complexity will grow out of control, confusing even the person who
+created it. This is the main problem of programming: keeping programs
+under control. When a program works, it is beautiful. The art of
+programming is the skill of controlling complexity. The great program
+is subdued, made simple in its complexity.
+
+Today, many programmers believe that this complexity is best managed
+by using only a small set of well-understood techniques in their
+programs. They have composed strict rules (_best practices_) about
+the form programs should have, and the more zealous among them will
+denounce those who break these rules as _bad_ programmers.
+
+What hostility to the richness of programming—to try to reduce it to
+something straightforward and predictable and to place a taboo on all the
+weird and beautiful programs! The landscape of programming techniques
+is enormous, fascinating in its diversity, and still largely unexplored.
+It is certainly littered with traps and snares, luring the
+inexperienced programmer into all kinds of horrible mistakes, but that
+only means you should proceed with caution and keep your wits about you.
+As you learn, there will always be new challenges and new territory to
+explore. Programmers who refuse to keep exploring will surely
+stagnate, forget their joy, and lose the will to program (((manager)))
+(and become managers).
+
+== Why Language Matters ==
+
+(((programming language)))(((binary)))
+In the beginning, at the birth of computing, there were no programming
+languages. Programs looked something like this:
+
+[source,text/plain]
+-----
+00110001 00000000 00000000
+00110001 00000001 00000001
+00110011 00000001 00000010
+01010001 00001011 00000010
+00100010 00000010 00001000
+01000011 00000001 00000000
+01000001 00000001 00000001
+00010000 00000010 00000000
+01100010 00000000 00000000
+-----
+
+(((programming,history of)))That is a program to add the numbers from
+1 to 10 together and print out the result `(1 + 2 + ... + 10 = 55)`.
+It could run on a very simple, hypothetical machine. To program early
+computers, it was necessary to set large arrays of switches in the
+right position, or punch holes in strips of cardboard and feed them to
+the computer. You can imagine how this was a tedious, error-prone
+procedure. Even the writing of simple programs required much
+cleverness and discipline, and complex ones were nearly inconceivable.
+
+(((bit)))(((wizard (mighty))))Of course, manually entering these
+arcane patterns of _bits_ (which is what the ones and zeros shown
+previously are generally called) did give the programmer a profound
+sense of being a mighty wizard. And that has to be worth something in
+terms of job satisfaction.
+
+(((memory)))Each line of the program contains a single instruction. It could be
+written in English like this:
+
+1. Store the number 0 in memory location 0.
+
+2. Store the number 1 in memory location 1.
+
+3. Store the value of memory location 1 in memory location 2.
+
+4. Subtract the number 11 from the value in memory location 2.
+
+5. If the value in memory location 2 is the number 0, continue with instruction 9.
+
+6. Add the value of memory location 1 to memory location 0.
+
+7. Add the number 1 to the value of memory location 1.
+
+8. Continue with instruction 3.
+
+9. Output the value of memory location 0.
+
+(((naming)))(((variable))) Although that is more readable than the
+binary soup, it is still rather unpleasant. It might help to use names
+instead of numbers for the instructions and memory locations:
+
+[source,text/plain]
+-----
+ Set 'total' to 0
+ Set 'count' to 1
+[loop]
+ Set 'compare' to 'count'
+ Subtract 11 from 'compare'
+ If 'compare' is zero, continue at [end]
+ Add 'count' to 'total'
+ Add 1 to 'count'
+ Continue at [loop]
+[end]
+ Output 'total'
+-----
+
+At this point it is not too hard to see how the program works. Can
+you? The first two lines give two memory locations their starting
+values: `total` will be used to build up the result of the
+computation, and `count` keeps track of the number that we are
+currently looking at. The lines using `compare` are
+probably the weirdest ones. What the program wants to do is see
+whether `count` is equal to 11 in order to decide whether it can stop
+yet. Because the machine is rather primitive, it can only test whether
+a number is zero and make a decision (jump) based on that. So, it uses
+the memory location labeled `compare` to compute the value of `count -
+11` and makes a decision based on that value. The next two lines add
+the value of `count` to the result and increment `count` by 1 every
+time the program has decided that it is not 11 yet.
+
+Here is the same program in JavaScript:
+
+[source,javascript]
+-----
+var total = 0, count = 1;
+while (count <= 10) {
+  total += count;
+  count += 1;
+}
+console.log(total);
+-----
+
+(((while loop)))(((looping))) This gives us a few more
+improvements. Most importantly, there is no need to specify the way we
+want the program to jump back and forth any more. The magic word
+`while` takes care of that. It continues executing the lines below it
+as long as the condition it was given holds: `count <= 10`, which
+means ```count` is less than or equal to `10`.'' We no longer have to
+create a temporary value and compare that to zero. This was an
+uninteresting detail, and the power of programming languages is that
+they take care of uninteresting details for us.
+
+(((abstraction)))Finally, here is what the program could look like if we happened to
+have the convenient operations `range` and `sum`
+available, which respectively create a collection of numbers within a
+range and compute the sum of a collection of numbers:
+
+[source,javascript]
+console.log(sum(range(1, 10)));
+
+The moral of this story, then, is that the same program can be
+expressed in long and short, unreadable and readable ways. The first
+version of the program was extremely obscure, while this last one is
+almost English: `print` the `sum` of the `range` of numbers from `1`
+to `10`. (We will see in later chapters how to build things like `sum`
+and `range`.)
+
+(((programming language,power of)))
+A good programming language helps the programmer by providing a more
+abstract means of expression. It hides uninteresting details, provides
+convenient building blocks (such as the `while` construct),
+and, most of the time, allows the programmer to add new building
+blocks (such as the `sum` and `range` operations).
+
+== What Is JavaScript? ==
+
+(((JavaScript)))(((World Wide Web)))
+indexsee:[WWW,World Wide Web]
+indexsee:[Web,World Wide Web]
+JavaScript is the language that is, at the moment, mostly being used
+to do all kinds of clever (and sometimes annoying) things with pages
+on the World Wide Web. In recent years, the language has started to be
+used outside of the Web as well—whether this will become common
+remains to be seen. If you are interested in programming, JavaScript
+is definitely a useful language to learn. Even if you do not end up
+doing a lot of web programming, some of the programs I will show you
+in this book will stay with you, haunt you, and influence the programs
+you write in other languages.
+
+(((JavaScript,weaknesses of)))
+There are those who will say _terrible_ things about the
+JavaScript language. Many of these things are true. When I was
+required to write something in JavaScript for the first time, I
+quickly came to despise it—it would accept almost anything I typed
+but interpret it in a way that was completely different from what I
+meant. This had, admittedly, a lot to do with the fact that I did not
+have a clue what I was doing, but there is a real issue here:
+JavaScript is ridiculously liberal in what it allows. The idea behind
+this design was that it would make programming in JavaScript easier
+for beginners.  In actuality, it mostly makes finding problems in your
+programs harder, because the system will not point them out to you.
+
+(((JavaScript,flexibility of)))
+However, the flexibility of the language is also an advantage. It
+leaves space for a lot of techniques that are impossible in more rigid
+languages, and, as we will see in later chapters, it can be used to
+overcome some of JavaScript's shortcomings. After learning it
+properly and working with it for a while, I have really learned to
+_like_ this language.
+
+(((Java)))Contrary to what the name suggests, JavaScript has very little to do
+with the programming language named Java. The similar name was
+inspired by marketing considerations, rather than good judgment. In
+1995, when JavaScript was introduced by Netscape, the Java language
+was being heavily marketed and was gaining in popularity. Apparently,
+someone thought it a good idea to try to ride along on this success.
+Now we are stuck with the name.
+
+(((ECMAScript)))Related to JavaScript is a thing called ECMAScript. When browsers
+other than Netscape started to support JavaScript, or something that
+resembled it, a document was written to describe precisely how a
+JavaScript system should work. The language described in this document
+is called ECMAScript, after the organization that standardized it.
+ECMAScript describes a general-purpose programming language and does
+not say anything about the integration of this language in a web
+browser.
+
+(((JavaScript,versions of)))
+There have been several ``versions'' of JavaScript. This book
+describes ECMAScript version 3, the first version that was (and is)
+widely supported by various different browsers. In the past years,
+there have been several initiatives to further evolve the language,
+but, at least for web programming, these extensions are useful only
+once they are widely supported by browsers, and it will take a while
+for browsers to catch up with such developments. Fortunately, newer
+versions of JavaScript will mostly be an extension of ECMAScript 3, so
+almost everything written in this book will continue to hold.
+
+== Trying Programs ==
+
+(((JavaScript,trying out)))When you want to run the code shown in this
+book and play with it, one possibility is to go to
+_http://eloquentjavascript.net_ and use the tools provided there.
+
+(((browser)))(((HTML)))(((file (script))))(((script tag)))
+indexsee:[HyperText Markup Language,HTML]
+Another approach is to simply create an HTML file containing the
+program and load it in your browser. For example, you could create
+a file called _test.html_ with the following content:
+
+[source,html]
+-----
+<html><body><script type="text/javascript">
+
+var total = 0, count = 1;
+while (count <= 10) {
+  total += count;
+  count += 1;
+}
+document.write(total);
+
+</script></body></html>
+-----
+
+Later chapters will tell you a little more about HTML and the way a
+browser interprets it. Note that the operation `print` in the example
+has been replaced with `document.write`. We will see how to create the
+`print` function in link:xx_dom.html[the chapter on the document
+object model].
+
+== Overview of This Book ==
+
+The first three chapters will introduce the JavaScript language and
+teach you how to write grammatically correct JavaScript programs. They
+introduce control structures (such as the `while` word we
+saw in this introduction), functions (writing your own operations),
+and data structures. This will teach you enough to write simple
+programs.
+
+Building on this basic understanding of programming, the next four
+chapters discuss more advanced techniques—things that should make
+you capable of writing more complicated programs without them turning
+into an incomprehensible mess. First, REF{error} discusses
+handling errors and unexpected situations. Then, Chapters
+REF{fp} and REF{oo} introduce two major approaches to
+abstraction: functional programming and object-oriented programming.
+REF{modularity} gives some pointers on how to keep your programs
+organized.
+
+The remaining chapters focus less on theory and more on the tools that
+are available in a JavaScript environment. REF{regexp} introduces
+a sub-language for text processing, and Chapters REF{web} to
+REF{xhr} describe the facilities available to a program when it
+is running inside a browser—teaching you how to manipulate web
+pages, react to user actions, and communicate with a web server.
+
+== Typographic Conventions ==
+
+In this book, text written in a `monospaced` font should be
+understood to represent elements of programs—sometimes they are
+self-sufficient fragments, and sometimes they just refer to part of
+a nearby program. Programs (of which you have already seen a few), are
+written as follows:
+
+[source,javascript]
+-----
+function fac(n) {
+  return n == 0 ? 1 : n * fac(n - 1);
+}
+-----
+
+Sometimes, in order to demonstrate what happens when certain
+expressions are evaluated, the expressions are written in bold,
+and the produced value is written below, with an arrow in front of it:
+
+[source,javascript]
+-----
+1 + 1
+→ 2
+-----

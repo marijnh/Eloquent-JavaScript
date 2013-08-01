@@ -1,0 +1,1225 @@
+= Basic JavaScript: Values, Variables, and Control Flow =
+
+(((data)))(((bit)))(((memory)))
+Inside the computer's world, there is only data—that which is not
+data does not exist. All this data is in essence just sequences of bits
+and is thus fundamentally alike. Bits are any kinds of two-valued
+things, usually described as `0`s and `1`s. Inside the
+computer, they take forms like a high or low electrical charge, a
+strong or weak signal, or a shiny or dull spot on the surface of a CD.
+
+== Values ==
+
+Though made of the same uniform stuff, every piece of data plays its
+own role. In a JavaScript system, most of this data is neatly
+separated into things called (((value)))_values_. (((type)))Every value has a
+type, which determines the kind of role it can play. There are six
+basic types of values: numbers, strings, booleans, objects, functions,
+and undefined values.
+
+(((garbage collection)))To create a value, one must merely invoke its
+name. This is very convenient. You don't have to gather building
+material for your values or pay for them; you just call for one, and
+_woosh_, you have it. They are not created from thin air, of course.
+Every value has to be stored somewhere, and if you want to use a
+gigantic amount of them at the same time you might run out of computer
+memory. Fortunately, this is a problem only if you need them all
+simultaneously. As soon as you no longer use a value, it will
+dissipate, leaving behind only a few bits. These bits are recycled to
+make the next generation of values.
+
+=== Numbers ===
+
+(((Number type)))
+Values of the _number_ type are, as you might have
+guessed, numeric values. They are written as numbers usually are:
+
+[source,javascript]
+-----
+144
+-----
+
+(((binary)))
+Put that into a program, and it will cause the number 144 to come into existence inside the computer. This is
+what `144` might look like in bits:
+
+[source,text/plain]
+-----
+0100000001100010000000000000000000000000000000000000000000000000
+-----
+
+If you were expecting something like `10010000` here (which is
+the integer representation of `144`) . . . good call. It might
+actually be represented like that in some situations. But the standard
+describes JavaScript numbers as 64-bit floating-point values. This
+means they can also contain fractions and exponents.
+
+(((number!precision of)))But we won't go too deeply into binary representations here. The
+interesting thing, to us, is the practical repercussions they have for
+our numbers. For one thing, the fact that numbers are represented by a
+limited amount of bits means they have a limited precision. A set of 64
+`1`/`0` values can represent only $2^{64}$ different
+numbers. This is a lot, though, more than $10^{19}$ (a 1 with
+19 zeroes).
+
+Not all whole numbers below $10^{19}$ fit in a JavaScript number
+though. For one, there are also negative numbers, so one of the bits
+has to be used to store the sign of the number. A bigger issue is that
+nonwhole numbers must also be represented. To do this, 11 bits are
+used to store the position of the decimal dot within the number.
+
+That leaves 52 bits. Any whole number less than 2^52^, which is more
+than 10^15^, will safely fit in a JavaScript number. In most cases,
+the numbers we are using stay well below that.
+
+Fractional numbers are written by using a dot:
+
+[source,javascript]
+-----
+9.81
+-----
+
+(((scientific notation)))For very big or very small numbers, one can also use “scientific”
+notation by adding an `e`, followed by the exponent of the
+number:
+
+[source,javascript]
+-----
+2.998e8
+-----
+
+That is 2.998 × $10^{8}$ = 299800000.
+
+Calculations with whole numbers (also called _integers_) that fit in 52
+bits are guaranteed to always be precise. Unfortunately, calculations
+with fractional numbers are generally not. Like π (pi) cannot be
+precisely expressed by a finite amount of decimal digits, many numbers
+lose some precision when only 64 bits are available to store them.
+This is a shame, but it causes practical problems only in very
+specific situations. The important thing is to be aware of it and
+treat fractional digital numbers as approximations, not as precise
+values.
+
+=== Arithmetic ===
+
+(((operator)))(((arithmetic)))(((addition)))(((multiplication)))
+The main thing to do with numbers is arithmetic. Arithmetic operations
+such as addition or multiplication take two number values and produce
+a new number from them. Here is what they look like in JavaScript:
+
+[source,javascript]
+-----
+100 + 4 * 11
+-----
+
+(((\* operator)))(((+ operator)))The `+` and `*` symbols are called
+_operators_. The first stands for addition, and the second stands for
+multiplication. Putting an operator between two values will
+(((application,of operators)))apply it to those values and produce a
+new value.
+
+(((parentheses)))Does the example mean “add 4 and 100, and multiply
+the result by 11,” or is the multiplication done before the adding?
+As you might have guessed, the multiplication happens first. But, as
+in mathematics, this can be changed by wrapping the addition in
+parentheses:
+
+[source,javascript]
+-----
+(100 + 4) * 11
+-----
+
+(((division)))(((subtraction)))(((- operator)))(((/ operator)))For
+subtraction, there is the `-` operator, and division can be done with
+`/`. When operators appear together without parentheses, the order in
+which they are applied is determined by the _((precedence))_ of the
+operators. The example shows that multiplication comes before
+addition. `/` has the same precedence as `*`. Likewise for `+` and
+`-`. When multiple operators with the same precedence appear next to
+each other (as in `1 - 2 + 1`), they are applied left to right.
+
+These rules of precedence are not something you should worry about.
+When in doubt, just add parentheses.
+
+(((modulo operation)))(((% operator)))There is one more arithmetic
+operator, which is possibly less familiar to you. The `%` symbol is
+used to represent the _modulo_ operation. `X` modulo `Y` is the
+remainder of dividing `X` by `Y`. For example, `314 % 100` is `14`,
+`10 % 3` is `1`, and `144 % 12` is `0`. Modulo's precedence is the
+same as that of multiplication and
+division.
+
+=== Strings ===
+
+(((String type)))(((textual data)))(((character)))
+The next data type is the _string_. Its use is not
+as evident from its name as with numbers, but it also fulfills a very
+basic role. Strings are used to represent text. (The name supposedly
+derives from the fact that it strings together a bunch of characters.)
+Strings are written by enclosing their content in quotes:
+
+[source,javascript]
+-----
+"Patch my boat with chewing gum."
+'You ain't never seen a donkey fly!'
+-----
+
+(((quoting (of strings))))Both single and double quotes can be used to mark strings—as long as
+the quotes at the start and the end of the string match.
+
+(((escaping!in strings)))Almost anything can be put between quotes,
+and JavaScript will make a string value out of it. But a few
+characters are tricky. You can imagine how putting quotes between
+quotes might be hard. Newlines, (((newline)))the things you get when
+you press `enter`, can also not be put between quotes—the string has
+to stay on a single line.
+
+(((backslash)))
+To be able to have such characters in a string, the following trick is
+used: Whenever a backslash (`\`) is found inside quoted text,
+it indicates that the character after it has a special meaning. A
+quote that is preceded by a backslash will not end the string, but be
+part of it. When an `n` character occurs after a backslash,
+it is interpreted as a newline. Similarly, a `t` after a
+backslash means a tab character. Take the following string:
+
+[source,javascript]
+-----
+"This is the first line\nAnd this is the second"
+-----
+
+The actual text contained is this:
+
+[source,javascript]
+-----
+This is the first line
+And this is the second
+-----
+
+There are, of course, situations where you want a backslash in a string
+to be just a backslash, not a special code. If two backslashes follow
+each other, they will collapse right into each other, and only one
+will be left in the resulting string value. This is how the string `A newline character is written like "\n"` can be written:
+
+[source,javascript]
+-----
+"A newline character is written like \"\\n\"."
+-----
+
+(((+ operator)))(((concatenation)))Strings cannot be divided,
+multiplied, or subtracted. The `+` operator _can_ be used on them. It
+does not add, but it concatenates; it glues two strings together. The
+following line will produce the string `"concatenate"`:
+
+[source,javascript]
+-----
+"con" + "cat" + "e" + "nate"
+-----
+
+There are more ways of manipulating strings, which we will discuss
+later.
+
+=== Unary Operators ===
+
+(((operator)))(((typeof operator)))(((type)))Not all operators are
+symbols; some are written as words. One example is the `typeof`
+operator, which produces a string value naming the type of the value
+you give it:
+
+[source,text/javascript]
+-----
+typeof 4.5
+→ "number"
+typeof "x"
+→ "string"
+-----
+
+The other operators we saw all operated on two values; `typeof` takes
+only one. Operators that use two values are called (((binary
+operator)))_binary_ operators, while those that take one are called
+(((unary operator)))_unary_ operators. The (((- operator)))minus
+operator can be used both as a binary operator and a unary operator:
+
+[source,text/javascript]
+-----
+- (10 - 2)
+→ -8
+-----
+
+=== Boolean Values, Comparisons, and Boolean Logic ===
+
+(((Boolean type)))(((operator))) Next, we look at values of the
+_boolean_ type. There are only two of these: (((true)))`true` and
+(((false)))`false`. Here is one way to produce them:
+
+[source,text/javascript]
+-----
+3 > 2
+→ true
+3 < 2
+→ false
+-----
+
+(((> operator)))(((< operator)))(((greater than)))(((less
+than)))(((comparing)))I hope you have seen the `>` and `<` signs
+before. They mean, respectively, “is greater than” and “is less
+than.” They are binary operators, and the result of applying them is
+a boolean value that indicates whether they hold true in this case.
+
+Strings can be compared in the same way:
+
+[source,text/javascript]
+-----
+"Aardvark" < "Zoroaster"
+→ true
+-----
+
+The way strings are ordered is more or less alphabetic: Uppercase
+letters are always “less” than lowercase ones, so `"Z" < "a"` is
+`true`, and nonalphabetic characters (`!`, “, and so on) are also
+included in the ordering. The actual way in which the comparison is
+done is based on the (((Unicode)))_Unicode_ standard. This standard
+assigns a number to virtually every character one would ever need,
+including characters from Greek, Arabic, Japanese, Tamil, and so on.
+Having such numbers is practical for storing strings inside a
+computer—you can represent them as a sequence of numbers. When
+comparing strings, JavaScript goes over them from left to right,
+comparing the numeric codes of the characters one by one.
+
+(((>= operator)))(((<= operator)))(((== operator)))(((!=
+operator)))Other similar operators are `>=` (“is greater than or equal
+to”), `<=` (“is less than or equal to”), `==` (“is equal to”), and
+`!=` (“is not equal to”).
+
+[source,text/javascript]
+-----
+"Itchy" != "Scratchy"
+→ true
+-----
+
+(((logical operators)))There are also some operations that can be
+applied to boolean values themselves. JavaScript supports three
+logical operators: _and_, _or_, and _not_. These can be used to
+“reason” about booleans.
+
+(((&& operator)))The `&&` operator represents logical _and_. It is a
+binary operator, and its result is `true` only if both the values
+given to it are `true`.
+
+[source,text/javascript]
+-----
+true && false
+→ false
+true && true
+→ true
+-----
+
+(((|| operator)))`||` is the logical _or_; it is `true` if either of
+the values given to it is `true`:
+
+[source,text/javascript]
+-----
+false || true
+→ true
+false || false
+→ false
+-----
+
+(((negation)))(((! operator)))_Not_ is written as an exclamation mark,
+`!`. It is a unary operator that flips the value given to it; `!true`
+produces `false`, and `!false` gives `true`.
+
+(((precedence)))When mixing these boolean operators with arithmetic and other
+operators, it is not always obvious when parentheses are needed. In
+practice, one can usually get by with knowing that of the operators we
+have seen so far, `||` has the lowest precedence, then comes
+`&&`, then the comparison operators (`>`, `==`,
+and so on), and then the rest. This has been chosen in such a way that,
+in typical situations, as few parentheses as possible are necessary.
+
+=== Expressions and Statements ===
+
+(((grammar)))(((JavaScript!syntax)))
+All the examples so far have used the language like you would use a
+pocket calculator: We made some values and then applied operators to them
+to get new values. Creating values like this is an essential part of
+every JavaScript program, but it is only a part. A piece of code that
+produces a value is called an (((expression)))_expression_.  Every
+value that is written directly (such as `22` or
+`"psychoanalysis"`) is an expression. An expression between
+parentheses is also an expression. And a binary operator applied to two
+expressions, or a unary operator applied to one, is also an expression.
+Using these rules, you can build up expressions of arbitrary size and
+complexity. (JavaScript actually has a few more ways of building
+expressions, which will be revealed when the time is ripe.)
+
+(((statement)))(((semicolon)))(((program)))
+There exists a unit that is bigger than an expression. It is called a
+_statement_. A program is built as a list of
+statements. Most statements end with a semicolon
+(`;`). The simplest kind of statement is an expression with a
+semicolon after it. This is a program:
+
+[source,javascript]
+-----
+1;
+!false;
+-----
+
+It is a useless program, though. An expression can be content to just
+produce a value, but a statement amounts to something only if it
+somehow changes the world. It could print something to the screen—that
+counts as changing the world—or it could change the internal state of
+the program in a way that will affect the statements that come after
+it. These changes are called _((side effect))s_. The statements in
+the previous example just produce the values `1` and `true` and then
+immediately throw them away again. This leaves no impression on the
+world at all and is not a side effect.
+
+In some cases, JavaScript allows you to omit the semicolon at the end
+of a statement. In other cases, it has to be there, or strange things
+will happen. The rules for when it can be safely omitted are complex
+and weird—the basic idea is that if a program is invalid but
+inserting a semicolon can make it valid, the program is treated as if
+the semicolon is there. In this book, every statement that needs a
+semicolon will always be terminated by one, and I strongly urge you to
+do the same in your own programs.
+
+== Variables ==
+
+(((state)))(((side effect)))
+How does a program keep an internal state? How does it remember
+things? We have seen how to produce new values from old values, but
+this does not change the old values, and the new value has to be
+immediately used or it will dissipate again. To catch and hold values,
+JavaScript provides a thing called a (((variable)))_variable_.
+
+[source,javascript]
+-----
+var caught = 5 * 5;
+-----
+
+A variable always has a name, and it can point at a value, holding on
+to it. The previous statement creates a variable called `caught` and
+uses it to grab hold of the number that is produced by multiplying
+`5` by `5`.
+
+After a variable has been defined, its name can be used as an
+expression that produces the value it holds. Here's an example:
+
+[source,text/javascript]
+-----
+var ten = 10;
+ten * ten;
+→ 100
+-----
+
+(((var keyword)))(((variable,naming)))The word `var` is used to create
+a new variable. After `var`, the name of the variable follows.
+Variable names can be almost every word, but they may not include
+spaces. Digits can also be part of variable names—`catch22` is a valid
+name, for example—but the name must not start with a digit. The
+characters `$` and `_` can be used in names as if they were letters.
+So, for example, `$_$` is a correct variable name.
+
+(((= operator)))(((assignment)))If you want the new variable to
+immediately capture a value, which is often the case, the `=` operator
+can be used to give it the value of some expression.
+
+When a variable points at a value, that does not mean it is tied to
+that value forever. At any time, the `=` operator can be used on
+existing variables to disconnect them from their current value and
+have them point to a new one:
+
+[source,text/javascript]
+-----
+caught;
+→ 25
+caught = 4 * 4;
+caught;
+→ 16;
+-----
+
+(((variable!model of)))(((tentacle (variable analogy))))
+You should imagine variables as tentacles, rather than boxes. They do
+not _contain_ values; they _grasp_ them—two variables can
+refer to the same value. Only the values that the program still has a
+hold on can be accessed by it. When you need to remember something,
+you grow a tentacle to hold on to it, or you reattach one of your
+existing tentacles to a new value.
+
+For example, to remember the amount of dollars that Luigi still owes
+you, you create a variable for it. And then, when he pays back $35,
+you give this variable a new value.
+
+[source,text/javascript]
+-----
+var luigisDebt = 140;
+luigisDebt = luigisDebt - 35;
+luigisDebt;
+→ 105
+-----
+
+=== Keywords and Reserved Words ===
+
+(((keyword)))(((reserved words)))(((variable!naming)))
+Note that names that have a special meaning, such as `var`, may
+not be used as variable names. These
+are called _keywords_. There are also a number of
+(((reserved words)))words that are “reserved for use” in future
+versions of JavaScript. These are also officially not allowed to be
+used as variable names, though some browsers do allow them. The full
+list is rather long:
+
+[source,text/plain]
+-----
+abstract boolean break byte case catch char class const continue debugger
+default delete do double else enum export extends false final finally float
+for function goto if implements import in instanceof int interface long native
+new null package private protected public return short static super switch
+synchronized this throw throws transient true try typeof var void volatile
+while with
+-----
+
+(((char (reserved word))))(((class (reserved word))))Don't worry about
+memorizing these, but remember that this might be the problem when
+something does not work as expected. In my experience, `char` (to
+store a one-character string) and (((class)))`class` are the most
+common names accidentally used.
+
+== The Environment ==
+
+(((environment)))(((standard environment)))The collection of variables
+and their values that exist at a given time is called the
+_environment_. When a program starts up, this environment is not
+empty. It always contains a number of standard variables. When your
+browser loads a page, it creates a new environment and attaches these
+standard values to it. The variables created and modified by programs
+on that page survive until the browser goes to a new page.
+
+=== Functions ===
+
+(((Function type)))(((alert function)))(((message box)))A lot of the
+values provided by the standard environment have the type _function_.
+A function is a piece of program wrapped in a value. Generally, this
+piece of program does something useful, which can be evoked using the
+function value that contains it. In a browser environment, the
+variable `alert`, for example, holds a function that shows a little
+dialog box with a message. It is used like this:
+
+[source,javascript]
+-----
+alert("Good morning!");
+-----
+
+image::../img/alert.png[alt="An alert dialog"]
+
+indexsee:[application (of functions),function application]
+indexsee:[invoking (of functions),function application]
+
+(((function!application)))Executing the code in a function is called
+_invoking_ or _applying_ it. The notation for doing this uses
+parentheses. Every expression that produces a function value can be
+invoked by putting parentheses after it, though usually you will be
+directly referring to the variable that holds the function. The string
+value between the parentheses is given to the function, which uses it
+as the text to show in the dialog box. Values given to functions are
+called _((argument))s_ (or sometimes _((parameter))s_). `alert` needs
+only one of them, but other functions might need a different number or
+different types of arguments.
+
+(((side effect)))(((return value)))(((max function)))
+Showing a dialog box is a side effect. A lot of functions are
+useful because of the side effects they produce. It is also possible
+for a function to produce a value, in which case it does not need to
+have a side effect to be useful. For example, there is a function
+`Math.max`, which takes two arguments and gives
+back the biggest of the two:
+
+[source,text/javascript]
+-----
+Math.max(2, 4);
+→ 4
+-----
+
+(((min function)))When a function produces a value, it is said to
+_return_ it. Because things that produce values are always expressions
+in JavaScript, function calls can be used as part of bigger
+expressions:
+
+[source,text/javascript]
+-----
+Math.min(2, 4) + 100;
+→ 102
+-----
+
+REF(functions) discusses writing your own functions.
+
+=== prompt and confirm ===
+
+(((confirm function)))The standard environment provided by browsers
+contains a few more functions for popping up windows. You can ask the
+user an “OK”/“Cancel” question using `confirm`. This returns a
+boolean: `true` if the user clicks OK and `false` if the user clicks
+Cancel.
+
+[source,javascript]
+-----
+confirm("Shall we, then?");
+-----
+
+image::../img/confirm.png[alt="An confirm dialog"]
+
+(((prompt function)))(((text input)))`prompt` can be used to ask an
+“open” question. The first argument is the question; the second one is
+the text that the user starts with. A line of text can be typed into
+the dialog window, and the function will return this as a string.
+
+[source,javascript]
+-----
+prompt("Tell me everything you know.", "...");
+-----
+
+image::../img/prompt.png[alt="An prompt dialog"]
+
+=== The print Function ===
+
+FIXME
+
+As mentioned earlier, web browsers provide an `alert` function
+for showing a string in a little window. This can be useful when
+trying out code, but clicking away all those little windows can get on
+one's nerves. In this book we will pretend there exists a function
+named `print`, which writes out its arguments to
+some unspecified text output device. This will make it easier to write
+some of the examples. But note that the JavaScript environment
+provided by web browsers does not include this function.
+
+For example, this will write out the letter `X`:
+
+[source,javascript]
+-----
+print("X");
+-----
+
+=== Modifying the Environment ===
+
+(((environment!modification of)))
+It is possible to give almost every variable in the environment a new
+value. This can be useful but also dangerous. If you give
+`alert` the value `8`, it is no longer a function, and you
+won't be able to use it to show messages anymore. In
+REF(modularity), we will discuss how to protect against
+accidentally redefining variables.
+
+== Program Structure ==
+
+(((program)))(((control flow)))
+One-line programs are not very interesting. When you put more than one
+statement into a program, the statements are executed, predictably enough, one at a time,
+from top to bottom. This program has two statements; the first one asks
+the user for a number, and the second one shows the square of that number:
+
+[source,javascript]
+-----
+var theNumber = Number(prompt("Pick a number", ""));
+alert("Your number is the square root of " + (theNumber * theNumber));
+-----
+
+(((Number function)))(((String function)))(((Boolean function))))(((boolean conversion)))
+The function `Number` converts a value to a number,
+which is needed in this case because the result of `prompt` is a
+string value. There are similar functions called
+`String` and `Boolean` that convert values to those types.
+
+=== Conditional Execution ===
+
+(((control flow)))(((conditional execution)))
+Sometimes, you do not want all the statements in your program to
+always be executed in the same order. For example, in the previous
+program, we might want to show the square of the input only if the
+input is actually a number.
+
+The keyword (((if keyword)))`if` can be used to execute or skip a
+statement depending on the value of a boolean expression. We can do
+this:
+
+[source,javascript]
+-----
+var theNumber = Number(prompt("Pick a number", ""));
+if (!isNaN(theNumber))
+  alert("Your number is the square root of " + (theNumber * theNumber));
+-----
+
+The condition expression (`!isNaN(theNumber)` in this case) is
+provided, in parentheses, after the word `if`. Only when this
+expression produces a true value, the statement after the `if` is
+executed.
+
+(((isNaN function)))(((NaN value)))When `Number` is called on
+something like `"moo"`, which does not contain a number, the result
+will be the special value `NaN`, which stands for “not a number.” The
+function `isNaN` is used to determine whether its argument is `NaN`,
+so `!isNaN(theNumber)` is true when `theNumber` is a proper number.
+
+(((else keyword)))Often you have not only code that must be executed
+when a certain condition holds but also code that handles the other
+case, when the condition doesn't hold. The `else` keyword can be used,
+together with `if`, to create two separate, parallel paths that
+execution can take:
+
+[source,javascript]
+-----
+if (true == false)
+  print("How confusing!");
+else
+  print("True still isn't false.");
+-----
+
+If we have more than two paths that we want to choose from, multiple
+`if`/`else` pairs can be “chained” together. Here's an example:
+
+[source,javascript]
+-----
+var num = prompt("Pick a number:", "0");
+
+if (num < 10)
+  print("Small");
+else if (num < 100)
+  print("Medium");
+else
+  print("Large");
+-----
+
+The program will first check whether `num` is less than 10. If it is,
+it chooses that branch, prints `"Small"`, and is done. If it
+isn't, it takes the `else` branch, which itself contains a second
+`if`. If the second condition (`< 100`) holds, that means
+the number is between 10 and 100, and `"Medium"` is printed.
+If it doesn't, the second and last `else` branch is chosen.
+
+=== while and do Loops ===
+
+(((looping|()))Consider a program that prints out all even numbers from 0 to 12. One
+way to write this is as follows:
+
+[source,javascript]
+-----
+print(0);
+print(2);
+print(4);
+print(6);
+print(8);
+print(10);
+print(12);
+-----
+
+(((control flow)))That works, but the idea of writing a program is to make something
+_less_ work, not more. If we needed all even numbers less than 1,000,
+the previous would be unworkable. What we need is a way to automatically
+repeat some code.
+
+[source,javascript]
+-----
+var currentNumber = 0;
+while (currentNumber <= 12) {
+  print(currentNumber);
+  currentNumber = currentNumber + 2;
+}
+-----
+
+(((while loop)))A statement starting with the word `while` creates a
+_loop_. A loop, much like a conditional, is a disturbance in the
+sequence of statements—but rather than executing a statements either
+once or not at all, it may cause them to be repeated multiple times.
+The word `while` is followed by an expression in parentheses, which is
+used to determine whether the loop will loop or finish. As long as the
+boolean value produced by this expression is `true`, the code in the
+loop is repeated. As soon as it is `false`, the program goes to the
+bottom of the loop and continues executing statements normally.
+
+(((variable)))(((state)))
+The variable `currentNumber` demonstrates the way a variable can
+track the progress of a program. Every time the loop repeats, it is
+incremented by `2`. Then, at the beginning of every repetition,
+it is compared with the number `12` to decide whether the program
+has done all the work it has to do.
+
+The third part of a `while` statement is another statement. This
+is the (((loop body)))_body_ of the loop, the action or actions that
+must take place multiple times. If we did not have to print the
+numbers, the program could have looked like this:
+
+[source,javascript]
+-----
+var currentNumber = 0;
+while (currentNumber <= 12)
+  currentNumber = currentNumber + 2;
+-----
+
+((({} block)))(((statement)))(((block (of statements))))
+Here, `currentNumber = currentNumber + 2;` is the statement that
+forms the body of the loop. We must also print the number, though, so
+the loop statement must consist of more than one statement.
+Braces (`{` and `}`) are used to group
+statements into _blocks_. To the world outside the
+block, a block counts as a single statement. In the example, this is
+used to include in the loop both the call to `print` and the
+statement that updates `currentNumber`.
+
+(((exponentiation)))As an example that actually does something useful, we can write a
+program that calculates and shows the value of $2^{10}$ (2 to the 10th
+power). We use two variables: one to keep track of our result and one
+to count how often we have multiplied this result by 2. The loop
+tests whether the second variable has reached 10 yet and then updates
+both variables.
+
+[source,text/javascript]
+-----
+var result = 1;
+var counter = 0;
+while (counter < 10) {
+  result = result * 2;
+  counter = counter + 1;
+}
+result;
+→ 1024
+-----
+
+The counter could also start at `1` and check for `<= 10`,
+but, for reasons that will become apparent later, it is a good idea
+to get used to counting from 0.
+
+(((do loop)))(((control flow)))A very similar control structure is the
+`do` loop. It differs only on one point from a `while` loop: it will
+execute its body at least once, and only then start testing whether it
+should stop. To reflect this, the test is writen below the body of the
+loop:
+
+[source,javascript]
+-----
+do {
+  var input = prompt("Who are you?");
+} while (!input);
+-----
+
+=== Indenting Code ===
+
+You will have noticed the spaces I put in front of some statements.
+These are not required—the computer will accept the program just fine
+without them. In fact, even the line breaks in programs are optional.
+You could write them as a single long line if you felt like it. The role
+of the (((indentation)))indentation inside blocks is to make the
+structure of the code stand out. Because new blocks can be opened inside
+other blocks, it can become hard to see where one block ends and another
+begins when looking at a complex piece of code. When lines are indented,
+the visual shape of a program corresponds to the shape of the blocks
+inside it. I like to use two spaces for every open block, but tastes
+differ—some people use four spaces, and some people use tabs.
+
+=== for Loops ===
+
+The uses of `while` we have seen so far all show the same
+pattern. First, a “counter” variable is created. This variable
+tracks the progress of the loop. The `while` itself contains a
+check, usually to see whether the counter has reached some boundary
+yet. Then, at the end of the loop body, the counter is updated.
+
+A lot of loops fall into this pattern. For this reason, JavaScript,
+and similar languages, also provide a slightly shorter and more
+comprehensive form:
+
+[source,javascript]
+-----
+for (var number = 0; number <= 12; number = number + 2)
+  print(number);
+-----
+
+(((for loop)))(((control flow)))(((state)))This program is exactly
+equivalent to the earlier even-number-printing example. The only
+change is that all the statements that are related to the “state” of
+the loop are now on one line. The parentheses after the `for` should
+contain two semicolons. The part before the first semicolon
+_initializes_ the loop, usually by defining a variable. The second
+part is the expression that _checks_ whether the loop must still
+continue. The final part _updates_ the state of the loop. In most
+cases, this is shorter and clearer than a `while` construction.
+
+Here is the code that computes $2^{10}$, using `for` instead of
+`while`:
+
+[source,text/javascript]
+-----
+var result = 1;
+for (var counter = 0; counter < 10; counter = counter + 1)
+  result = result * 2;
+result;
+→ 1024
+-----
+
+(((indentation)))Note that even if no block is opened with a `{`, the statement
+in the loop is still indented two spaces to make it clear that it
+“belongs” to the line before it.
+
+=== Breaking Out of a Loop ===
+
+(((looping!termination)))When a loop does not always have to go all
+the way through to its end, the (((break keyword)))`break` keyword can
+be useful. It is a statement that immediately jumps out of the current
+loop, continuing after it. This program finds the first number that is
+greater than 20 and divisible by 7:
+
+[source,text/javascript]
+-----
+for (var current = 20; ; current++) {
+  if (current % 7 == 0)
+    break;
+}
+current;
+→ 21
+-----
+
+(((modulo operation)))(((% operator)))The trick with the modulo (`%`)
+operator is an easy way to test whether a number is divisible by
+another number. If it is, the remainder of their division, which is
+what modulo gives you, is zero.
+
+This `for` construct does not have a part that checks for the end of
+the loop. This means that it is dependent on the `break` statement
+inside it to ever stop. As an aside, the same loop could also have
+been written simply as follows:
+
+[source,javascript]
+-----
+for (var current = 20; current % 7 != 0; current++)
+  ; // Do nothing.
+-----
+
+(((semicolon)))In this case, the body of the loop is empty. A lone semicolon can be
+used to produce an empty statement.(((looping|))))
+
+=== Updating Variables Succinctly ===
+
+(((assignment)))(((+= operator)))(((-= operator)))(((/= operator)))(((*= operator)))(((state)))
+A program, especially when looping, often needs to “update” a variable
+with a value that is based on its previous value, as in `counter =
+counter + 1`. JavaScript provides a shortcut for this: `counter += 1`.
+This also works for many other operators, as in `result *= 2` to
+double the value of `result` or as in `counter -= 1` to count
+downward.
+
+(((++ operator)))(((-- operator)))For `counter += 1` and `counter -=
+1`, there are even shorter versions: `counter++` and `counter--`.
+
+Once again, the example becomes a little shorter:
+
+[source,javascript]
+-----
+var result = 1;
+for (var counter = 0; counter < 10; counter++)
+  result *= 2;
+-----
+
+=== Dispatching on a Value with switch ===
+
+It is common for code to look like this:
+
+[source,javascript]
+-----
+if (variable == "value1") action1();
+else if (variable == "value2") action2();
+else if (variable == "value3") action3();
+else defaultAction();
+-----
+
+(((dispatch)))(((switch keyword)))There is a construct called
+`switch` that is intended to solve such a “dispatch” in a more
+direct way. Unfortunately, the syntax JavaScript uses for this (which
+it inherited from the C and Java line of programming languages) is
+somewhat awkward—sometimes a chain of `if` statements still looks
+better. Here is an example:
+
+[source,javascript]
+-----
+switch(prompt("What is the weather like?")) {
+  case "rainy":
+    print("Remember to bring an umbrella.");
+    break;
+  case "sunny":
+    print("Dress lightly.");
+  case "cloudy":
+    print("Go outside.");
+    break;
+  default:
+    print("Unknown weather type!");
+    break;
+}
+-----
+
+(((case keyword)))(((default keyword)))Inside the block opened by
+`switch`, you may put any number of `case` labels. The
+program will jump to the label that corresponds to the value that
+`switch` was given, or to `default` if no matching value is
+found. Then it start executing statements there, and _continues_ past
+other labels, until it reaches a `break` statement. In some
+cases, such as the `"sunny"` case in the example, this can be
+used to share some code between cases (it recommends going outside for
+both sunny and cloudy weather). But beware, since it is very easy to
+forget such a `break`, which will cause the program to execute code
+you do not want executed.
+
+=== Capitalization ===
+
+I have been using some rather odd (((capitalization)))capitalization
+in my variable names. Because you cannot have spaces in these
+names—the computer would read them as two separate variables—your
+choices for writing a variable name that is made of several words are
+limited to the following: `fuzzylittleturtle`,
+`fuzzy_little_turtle`, `FuzzyLittleTurtle`, or
+`fuzzyLittleTurtle`. The first example is hard to read. Personally,
+I like using underscores, though it is a little painful to type.
+However, the standard JavaScript functions, and most JavaScript
+programmers, follow the last example. It is not hard to get used to
+little things like that, so we will just follow the crowd and capitalize
+the first letter of every word after the first.
+
+(((Number function)))(((constructor)))In a few cases, such as the
+`Number` function, the first letter of a variable is also capitalized.
+This was done to mark this function as a constructor. What a
+constructor is will become clear in REF(oo). For now, the
+important thing is not to be bothered by this apparent lack of
+consistency.
+
+=== Comments ===
+
+In one of the example programs, I showed a part that said
+`// Do nothing`. This might have looked a bit suspicious to
+you. It is often useful to include extra text in a program. The most
+common use for this is adding some explanations to the program.
+
+[source,javascript]
+-----
+// The variable counter, which is about to be defined, is going
+// to start with a value of 0, which is zero.
+var counter = 0;
+// Next, we loop. Hold on to your hat.
+while (counter < 100 /* counter is less than one hundred */)
+/* Every time we loop, we INCREMENT the value of counter,
+   You could say we just add one to it. */
+  counter++;
+// And here, we are done.
+-----
+
+This kind of text is called a (((comment)))_comment_. The rules
+are like this: `/*` starts a comment that goes on until a
+`*/` is found. `//` starts another kind of comment,
+which just goes until the end of the line.
+
+As you can see, even the simplest programs can be made to look big,
+ugly, and complicated by adding a lot of comments to them. On the other
+hand, when a piece of code actually is difficult or confusing, a comment
+explaining its purpose and workings can help a lot.
+
+== More on Types ==
+
+The previous should enable you to write and understand simple JavaScript
+programs. However, before closing the chapter, a few more subtleties
+have to be cleared up.
+
+=== Undefined Values ===
+
+It is possible to define a variable using
+`var something;`, without giving it a value. What happens when
+you take the value of such a variable?
+
+[source,text/javascript]
+-----
+var mysteryVariable;
+mysteryVariable;
+→ undefined
+-----
+
+(((undefined value)))(((tentacle (variable analogy)))) In terms of
+tentacles, this variable ends in thin air—it has nothing to grasp.
+When you ask for the value of an empty place, you get a special value
+named `undefined`. Functions that do not return a specific value but
+are called for their side effects, such as `print` and `alert`, also
+return an `undefined` value.
+
+(((null value)))(((== operator)))There is also a similar value,
+`null`, whose meaning is “this value is defined, but it does not have
+a value.” The difference in meaning between `undefined` and `null` is
+mostly academic and usually not very interesting. In practical
+programs, it is often necessary to check whether something “has a
+value.” In these cases, the expression `something == undefined` may be
+used, because even though they are not exactly the same value, the
+expression `null == undefined` will produce `true`.
+
+=== Automatic Type Conversion ===
+
+The previous brings us to another tricky subject. Consider the
+following expressions and the boolean values they produce:
+
+[source,text/javascript]
+-----
+false == 0;
+→ true
+"" == 0;
+→ true
+"5" == 5;
+→ true
+-----
+
+(((type conversion)))(((== operator)))When comparing values that have
+different types, JavaScript uses a complicated and confusing set of
+rules. I will not explain them precisely, but in most cases it just
+tries to convert one of the values to the type of the other value.
+However, when `null` or `undefined` occurs, it produces `true` only if
+both sides are `null` or `undefined`.
+
+(((=== operator)))(((!== operator)))What if you want to test whether a
+variable refers to the value `false`? The rules for converting strings
+and numbers to boolean values state that `0`, `NaN`, and the empty
+string count as `false`, while all the other values count as `true`.
+Because of this, the expression `variable == false` is also `true`
+when `variable` refers to `0` or `""`. For cases like this, where you
+do _not_ want any automatic type conversions to happen, there are two
+extra operators: `===` and `!==`. The first tests whether a value is
+precisely equal to the other, and the second tests whether it is not
+precisely equal. When rewritten to use `===`, the expressions in the
+previous example will return `false`:
+
+[source,text/javascript]
+-----
+null === undefined;
+→ false
+false === 0;
+→ false
+"" === 0;
+→ false
+"5" === 5;
+→ false
+-----
+
+(((if keyword)))(((while loop)))(((for loo)))(((boolean conversion)))
+Values given as the condition in an `if`, `while`, or
+`for` statement do not have to be booleans. They will be
+automatically converted to booleans before they are checked. This
+means that the number `0`, the empty string `""`,
+`null`, `undefined`, and of course `false` will all
+count as false.
+
+The fact that all other values are converted to `true` in this case
+makes it possible to leave out explicit comparisons in many
+situations. If a variable is known to contain either a string or
+`null`, one could check for this very simply:
+
+[source,javascript]
+-----
+var maybeNull = null;
+// ... mystery code that might put a string into maybeNull ...
+if (maybeNull)
+  print("maybeNull has a value");
+-----
+
+That would work except in the case where the mystery code gives `maybeNull` the
+value `""`. An empty string is false, so nothing is printed.
+Depending on what you are trying to do, this might be _wrong_. It
+is often a good idea to add an explicit `=== null` or
+`=== false` in cases like this to prevent subtle mistakes. The
+same occurs with number values that might be `0`.
+
+=== Dangers of Automatic Type Conversion ===
+
+(((type conversion)))(((\* operator)))(((+ operator)))(((- operator)))(((/ operator)))
+There are some other situations that cause automatic type conversions
+to happen. If you add a nonstring value to a string, the value is
+automatically converted to a string before it is concatenated. If you
+multiply a number and a string, JavaScript tries to make a number out
+of the string.
+
+[source,text/javascript]
+-----
+"Apollo" + 5;
+→ "Apollo5"
+null + "ify";
+→ "nullify"
+"5" * 5;
+→ 25
+"strawberry" * 5;
+→ NaN
+-----
+
+FIXME repeated explanation of NaN
+
+(((NaN value)))(((isNaN function)))The `NaN` in the previous example
+refers to the fact that a strawberry is not a number. All arithmetic
+operations on the value `NaN` result in `NaN`, which is why
+multiplying it by `5`, as in the example, still gives a `NaN` value.
+Also, and this can be disorienting at times, `NaN == NaN` equals
+`false`. Checking whether a value is `NaN` can be done with `isNaN`
+function, as we saw before.
+
+These automatic conversions can be very convenient, but they are also
+rather weird and error prone. Even though `+` and `*` are
+both arithmetic operators, they behave completely different in the
+example. In my own code, I use `+` on nonstrings a lot but make
+it a point not to use `*` and the other numeric operators on
+string values. Converting a number to a string is always possible and
+straightforward, but converting a string to a number may not even work
+(as in the last line of the example). We can use `Number` to
+explicitly convert the string to a number, making it clear that we
+might run the risk of getting a `NaN` value.
+
+[source,text/javascript]
+-----
+Number("5") * 5;
+→ 25
+-----
+
+=== More on && and || ===
+
+(((|| operator)))(((&& operator)))(((operator)))When we discussed the
+boolean operators `&&` and `||` earlier, I claimed they produced
+boolean values. This turns out to be a bit of an oversimplification.
+If you apply them to boolean values, they will indeed return booleans.
+But they can also be applied to other kinds of values, in which case
+they will return one of their arguments.
+
+What `||` really does is this: It looks at the value to
+the left of it first. If converting this value to a boolean would
+produce `true`, it returns this left value, and otherwise it
+returns the one on its right. Check for yourself that this does the
+correct thing when the arguments are booleans. Why does it work like
+that? It turns out this is very practical. Consider this example:
+
+[source,javascript]
+-----
+var input = prompt("What is your name?", "Kilgore Trout");
+print("Well hello " + (input || "dear"));
+-----
+
+If the user clicks Cancel or closes the `prompt` dialog box in some
+other way without giving a name, the variable `input` will hold the
+value `null` or `""`. Both of these would give `false` when converted
+to a boolean. The expression `input || "dear"` can in this case be
+read as “the value of the variable `input`, or else the string
+`"dear"`.” It is an easy way to provide a “fallback” value.
+
+The `&&` operator works similarly, but the other way
+around. When the value to its left is something that would give
+`false` when converted to a boolean, it returns that value, and
+otherwise it returns the value on its right.
+
+(((shortcut evaluation)))Another important property of these two
+operators is that the expression to their right is evaluated only when
+necessary. In the case of `true || X`, no matter what `X` is, the
+result will be `true`, so `X` is never evaluated, and if it has side
+effects, they never happen. The same goes for `false && X`. The
+following will show only a single alert window:
+
+[source,javascript]
+-----
+false || alert("I'm happening!");
+false && alert("Not me.");
+-----

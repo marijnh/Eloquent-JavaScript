@@ -1,6 +1,6 @@
 all: html tex
 
-CHAPTERS := 00_intro 01_values 02_program_structure
+CHAPTERS := 00_intro 01_values 02_program_structure 03_functions
 
 html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html)
 

@@ -55,6 +55,9 @@ simultaneously. As soon as you no longer use a value, it will
 dissipate, leaving behind its bits to be recycled as building material
 for the next generation of values.
 
+This chapter introduces the atomic elements of JavaScript programs:
+Simple value types, and the operators that can act on such values.
+
 == Numbers ==
 
 (((Number type)))Values of the _number_ type are, unsurprisingly,
@@ -268,9 +271,9 @@ you give it:
 [source,javascript]
 ----
 typeof 4.5
-→ "number"
+// → "number"
 typeof "x"
-→ "string"
+// → "string"
 ----
 
 (((- operator)))(((binary operator)))(((unary operator)))The other
@@ -282,7 +285,7 @@ can be used both as a binary operator and a unary operator:
 [source,javascript]
 ----
 - (10 - 2)
-→ -8
+// → -8
 ----
 
 == Boolean Values ==
@@ -300,9 +303,9 @@ Here is one way to produce boolean values:
 [source,javascript]
 ----
 3 > 2
-→ true
+// → true
 3 < 2
-→ false
+// → false
 ----
 
 (((> operator)))(((< operator)))(((greater than)))(((less
@@ -316,7 +319,7 @@ Strings can be compared in the same way:
 [source,javascript]
 ----
 "Aardvark" < "Zoroaster"
-→ true
+// → true
 ----
 
 The way strings are ordered is more or less alphabetic: Uppercase
@@ -339,7 +342,7 @@ to”), `<=` (“is less than or equal to”), `==` (“is equal to”), and
 [source,javascript]
 ----
 "Itchy" != "Scratchy"
-→ true
+// → true
 ----
 
 There is one value in JavaScript that is not equal to itself, and that
@@ -361,9 +364,9 @@ given to it are `true`.
 [source,javascript]
 ----
 true && false
-→ false
+// → false
 true && true
-→ true
+// → true
 ----
 
 (((|| operator)))`||` is the logical _or_; it is `true` if either of
@@ -372,9 +375,9 @@ the values given to it is `true`:
 [source,javascript]
 ----
 false || true
-→ true
+// → true
 false || false
-→ false
+// → false
 ----
 
 (((negation)))(((! operator)))_Not_ is written as an exclamation mark,
@@ -421,15 +424,15 @@ expressions:
 [source,javascript]
 ----
 8 * null
-→ 0
+// → 0
 "5" - 1
-→ 4
+// → 4
 "5" + 1
-→ "51"
+// → "51"
 "five" * 2
-→ NaN
+// → NaN
 false == 0
-→ true
+// → true
 ----
 
 When an operator is applied to the “wrong” type of value, it will
@@ -471,7 +474,7 @@ extra operators: `===` and `!==`. The first tests whether a value is
 precisely equal to the other, and the second tests whether it is not
 precisely equal. So `"" === false` is `false` as expected.
 
-Using the three-character comparision operators defensively, to
+Using the three-character comparison operators defensively, to
 prevent unexpected type conversions from tripping you up, is something
 I recommend. Though when you are sure that the types on both sides
 will be the same, or that they'll either be the same or
@@ -497,9 +500,9 @@ default value.
 [source,javascript]
 ----
 null || "user"
-→ "user"
+// → "user"
 "Karl" || "user"
-→ "Karl"
+// → "Karl"
 ----
 
 The `&&` operator works similarly, but the other way around. When the
@@ -513,3 +516,20 @@ even be an expression that destroys the universe or makes daemons fly
 out of your nose, the result will be `true`, and `X` is never
 evaluated. The same goes for `false && X`, which is `false`, no matter
 what `X` does.
+
+== Summary ==
+
+To recap—we looked at four types of JavaScript values in this
+chapter. Numbers, strings, booleans, and undefined values.
+
+Such values are created by typing in their name (`true`, `null`) or
+value (`13`, `"abc"`). They can be combined and transformed with
+operators. We saw binary operators for arithmetic (`+`, `-`, `*`, `/`,
+and `%`), one for string concatenation (`+`), comparison (`==`, `!=`,
+`===`, `!==`, `<`, `>`, `<=`, `>=`), and logic (`&&`, `||`), as well
+as several unary operators (`-` to negate a number, `!` to negate
+logically, and `typeof` to find a value's type).
+
+This gives you enough information to use JavaScript as a pocket
+calculator, but not much more. The next chapter will start tying these
+basic expressions together into basic programs.

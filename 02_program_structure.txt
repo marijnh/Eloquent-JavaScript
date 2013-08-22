@@ -1,0 +1,855 @@
+= Program Structure =
+
+This is the point where we start to do things that can actually be
+called _programming_. To learn to build a program, we'll first discuss
+the structures that are used to build it.
+
+== Expressions and Statements ==
+
+(((grammar)))(((JavaScript!syntax)))In the previous chapter, we made
+some values and then applied operators to them to get new values.
+Creating values like this is an essential part of every JavaScript
+program, but it is only a part. A fragment of code that produces a
+value is called an _((expression))_. Every value that is written
+literally (such as `22` or `"psychoanalysis"`) is an expression. An
+expression between parentheses is also an expression. And a binary
+operator applied to two expressions, or a unary operator applied to
+one, is also an expression.
+
+This shows part of the beauty of a language-based interface.
+Expressions can nest in a way very similar to the way sub-sentences in
+human languages are nested—a sub-sentence can contain its own
+sub-sentences, and so on. This allows us to combine expressions
+together to express arbitrarily complex computations.
+
+JavaScript actually has a few more ways of building expressions, which
+will be explained later on.
+
+(((statement)))(((semicolon)))(((program)))If an expression
+corresponds to a sentence fragment, a _statement_, in JavaScript,
+corresponds to a full sentence in a human language. A program is
+simply a list of statement.
+
+The simplest kind of statement is an expression with a semicolon after
+it. This is a program:
+
+[source,javascript]
+-----
+1;
+!false;
+-----
+
+It is a useless program, though. An expression can be content to just
+produce a value, which can then be used by the enclosing expression. A
+statement stands on its own, and only amounts to something only if it
+affects the world. It could print something to the screen—that
+counts as changing the world—or it could change the internal state of
+the program in a way that will affect the statements that come after
+it. These changes are called _((side effect))s_. The statements in the
+previous example just produce the values `1` and `true` and then
+immediately throw them away again. This leaves no impression on the
+world at all. When executing the program, nothing happens.
+
+=== Semicolons ===
+
+(((semicolon)))In some cases, JavaScript allows you to omit the
+semicolon at the end of a statement. In other cases, it has to be
+there, or strange things will happen. The rules for when it can be
+safely omitted are somewhat complex and error-prone. In this book,
+every statement that needs a semicolon will always be terminated by
+one. I recommend you do the same in your own programs, at least until
+you've learned more about subtleties involved in leaving out
+semicolons.
+
+== Variables ==
+
+(((state)))(((side effect)))How does a program keep an internal state?
+How does it remember things? We have seen how to produce new values
+from old values, but this does not change the old values, and the new
+value has to be immediately used or it will dissipate again. To catch
+and hold values, JavaScript provides a thing called a _((variable))_.
+
+[source,javascript]
+-----
+var caught = 5 * 5;
+-----
+
+(((var keyword)))And that gives us our second kind of statement. The
+special word (_keyword_) `var` indicates that this sentence is going
+to define a variable. It is followed by the name of the variable and,
+if we want to immediately give it a value, by an `=` operator followed
+by an expression.
+
+So previous statement creates a variable called `caught` and uses it
+to grab hold of the number that is produced by multiplying `5` by `5`.
+
+After a variable has been defined, its name can be used as an
+expression. The value of such an expression is the current value
+that's being held by the variable. Here's an example:
+
+[source,text/javascript]
+-----
+var ten = 10;
+ten * ten;
+// → 100
+-----
+
+(((variable,naming)))Variable names can be almost every word, but they
+may not include spaces. Digits can also be part of variable
+names—`catch22` is a valid name, for example—but the name must not
+start with a digit. The characters `$` and `_` can be used in names as
+if they were letters. So, for example, `$_$` is a correct variable
+name.
+
+When a variable points at a value, that does not mean it is tied to
+that value forever. At any time, the `=` operator can be used on
+existing variables to disconnect them from their current value and
+have them point to a new one:
+
+[source,text/javascript]
+-----
+var mood = "light";
+mood;
+// → "light"
+mood = "dark";
+mood;
+// → "dark";
+-----
+
+(((variable!model of)))(((tentacle (variable analogy)))) You should
+imagine variables as tentacles, rather than boxes. They do not
+_contain_ values; they _grasp_ them—two variables can refer to the
+same value. Only the values that the program still has a hold on can
+be accessed by it. When you need to remember something, you grow a
+tentacle to hold on to it or you reattach one of your existing
+tentacles to it.
+
+When you define a variable without giving it a value, the tentacle
+conceptually ends in thin air—it has nothing to grasp. When you ask
+for the value of an empty place, you get a the value `undefined`.
+
+An example. To remember the amount of dollars that Luigi still owes
+you, you create a variable for it. And then, when he pays back $35,
+you give this variable a new value.
+
+[source,text/javascript]
+-----
+var luigisDebt = 140;
+luigisDebt = luigisDebt - 35;
+luigisDebt;
+// → 105
+-----
+
+== Keywords and Reserved Words ==
+
+(((keyword)))(((reserved words)))(((variable!naming)))Note that names
+that have a special meaning, such as `var`, may not be used as
+variable names. These are called _keywords_. There are also a number
+of (((reserved words)))words that are “reserved for use” in future
+versions of JavaScript. These are also officially not allowed to be
+used as variable names, though some browsers do allow them. The full
+list is rather long:
+
+[source,text/plain]
+-----
+break case catch continue debugger default delete do else false
+finally for function if implements in instanceof interface let new
+null package private protected public return static switch throw true
+try typeof var void while with yield this
+-----
+
+Don't worry about memorizing these, but remember that this might be
+the problem when something does not work as expected.
+
+== The Environment ==
+
+(((environment)))(((standard environment)))The collection of variables
+and their values that exist at a given time is called the
+_environment_. When a program starts up, this environment is not
+empty. It will at least contain a number of variables that are part of
+the language standard. And most of the time there will be an
+additional set of variables that provide ways to interact with the
+surrounding system. For example, in a browser, there'll be variables
+that point at functionality that'll allow you to inspect and influence
+the currently loaded website, and read mouse and keyboard input from
+the person who is using the browser.
+
+== Functions ==
+
+(((Function type)))(((alert function)))(((message box)))A lot of the
+values provided in the default environment have the type _function_. A
+function is a piece of program wrapped in a value. Such a value can be
+_applied_ in order to run the wrapped program. For example, in a
+browser environment, the variable `alert` holds a function that shows
+a little dialog box with a message. It is used like this:
+
+[source,javascript]
+-----
+alert("Good morning!");
+-----
+
+image::../img/alert.png[alt="An alert dialog"]
+
+indexsee:[application (of functions),function application]
+indexsee:[invoking (of functions),function application]
+
+(((function!application)))Executing the code in a function is called
+_invoking_ or _applying_ it. The notation for doing this uses
+parentheses. Every expression that produces a function value can be
+invoked by putting parentheses after it, though usually you will be
+directly referring to the variable that holds the function. The values
+between the parentheses are given to the program inside the function.
+In the example, the `alert` function uses the string that we give it
+as the text to show in the dialog box. Values given to functions are
+called _((argument))s_ (or sometimes _((parameter))s_). `alert` needs
+only one of them, but other functions might need a different number or
+different types of arguments.
+
+(((side effect)))(((return value)))(((max function)))Showing a dialog
+box is a side effect. A lot of functions are useful because of the
+side effects they produce. It is also possible for a function to
+produce a value, in which case it does not need to have a side effect
+to be useful. For example, there is a function `Math.max`, which takes
+two numbers and gives back the greatest of the two:
+
+[source,text/javascript]
+-----
+Math.max(2, 4);
+// → 4
+-----
+
+(((min function)))When a function produces a value, it is said to
+_return_ it. Because things that produce values are always expressions
+in JavaScript, function calls can be used as part of bigger
+expressions:
+
+[source,text/javascript]
+-----
+Math.min(2, 4) + 100;
+// → 102
+-----
+
+The next chapter explains how we can write our own functions.
+
+=== prompt and confirm ===
+
+(((confirm function)))The environment provided by browsers contains a
+few more functions for popping up windows. You can ask the user an
+“OK”/“Cancel” question using `confirm`. This returns a boolean: `true`
+if the user clicks OK and `false` if the user clicks Cancel.
+
+[source,javascript]
+-----
+confirm("Shall we, then?");
+-----
+
+image::../img/confirm.png[alt="An confirm dialog"]
+
+(((prompt function)))(((text input)))`prompt` can be used to ask an
+“open” question. The first argument is the question; the second one is
+the text that the user starts with. A line of text can be typed into
+the dialog window, and the function will return this as a string.
+
+[source,javascript]
+-----
+prompt("Tell me everything you know.", "...");
+-----
+
+image::../img/prompt.png[alt="An prompt dialog"]
+
+These two functions aren't used much in serious web programming,
+mostly because you have no control over the way the resulting windows
+look, but they are very useful for toy programs and experiments.
+
+=== The console.log function ===
+
+The `alert` function can be useful when trying out code, in order to
+see what values it produces, but clicking away all those little
+windows will get on your nerves. Most JavaScript systems (including
+all modern Web browsers and node.js) provide a function `console.log`,
+which prints out its arguments to _some_ text output device. In
+browsers, the output lands in the JavaScript console, which is a part
+of the user interface that is hidden by default, but can be found by
+digging into the menu and finding an an item like “Web console” or
+“Developer tools”, usually under a “Tools” or “Developer” sub-menu.
+
+--html-only--
+When running the examples, or your own code, on the pages of this
+book, `console.log` output will be shown below the example, instead of
+in the browser's JavaScript console.
+--html-only--
+
+The program below will log something like `the value of x is 30`.
+
+[source,javascript]
+-----
+var x = 30;
+console.log("the value of x is", x);
+-----
+
+Though I claimed before that variable names can not contain dots, both
+`console.log` and `Math.max` clearly contain a dot. I haven't been
+lying to you. It's just that these are not simple variables, but
+actually expressions that retrieve, for `console.log`, the `log` field
+from the value held by the `console` variable. We will find out what
+this means in REF(data).
+
+== Control Flow ==
+
+(((program)))(((control flow)))When your program contains more than
+one statement, the statements are executed, predictably, from top to
+bottom. As a basic example, this program has two statements. The first
+one asks the user for a number, and the second, which is executed
+afterwards, shows the square of that number:
+
+[source,javascript]
+-----
+var theNumber = Number(prompt("Pick a number", ""));
+alert("Your number is the square root of " + (theNumber * theNumber));
+-----
+
+(((Number function)))(((String function)))(((Boolean
+function))))(((boolean conversion)))The function `Number` converts a
+value to a number, which is we use because the result of `prompt` is a
+string value, and we want a number. There are similar functions called
+`String` and `Boolean` that convert values to those types.
+
+Here is a rather boring schematic representation of straight control
+flow:
+
+image::../img/controlflow-straight.svg[alt="Trivial control flow"]
+
+== Conditional Execution ==
+
+(((control flow)))(((conditional execution)))Executing statements in
+straight-line order isn't the only option we have. A common
+requirement is conditional execution, where we choose between two
+different routes based on a boolean value.
+
+image::../img/controlflow-if.svg[alt="Conditional control flow"]
+
+Conditional execution is written with the `if` keyword in JavaScript.
+In the simple case, we just want some code to be executed if, and only
+if, a certain condition holds. For example, in the previous program,
+we might want to show the square of the input only if the input is
+actually a number.
+
+[source,javascript]
+-----
+var theNumber = Number(prompt("Pick a number", ""));
+if (!isNaN(theNumber))
+  alert("Your number is the square root of " + (theNumber * theNumber));
+-----
+
+With this modification, if you enter “cheese”, or nothing at all, no
+ouput will be shown.
+
+The keyword (((if keyword)))`if` is used to execute or skip a
+statement depending on the value of a boolean expression. It is always
+followed by an expression between parentheses, and then a statement.
+
+The `isNaN` function is a standard function that return `true` if the
+argument it is given is `NaN`, and `Number` happens to return `NaN`
+when you give it a string that doesn't represent a valid number. Thus,
+the condition expresses “unless `theNumber` is not-a-number, do this.”
+
+(((else keyword)))Often you have not only code that must be executed
+when a certain condition holds but also code that handles the other
+case, when the condition doesn't hold. This represents to the second
+arrow in the diagram above. The `else` keyword can be used, together
+with `if`, to create two separate, parallel paths that execution can
+take:
+
+[source,javascript]
+-----
+var theNumber = Number(prompt("Pick a number", ""));
+if (!isNaN(theNumber))
+  alert("Your number is the square root of " + (theNumber * theNumber));
+else
+  alert("I asked for a number. Why didn't you give me a number?");
+-----
+
+If we have more than two paths that we want to choose from, multiple
+`if`/`else` pairs can be “chained” together. Here's an example:
+
+[source,javascript]
+-----
+var num = prompt("Pick a number", "0");
+
+if (num < 10)
+  alert("Small");
+else if (num < 100)
+  alert("Medium");
+else
+  alert("Large");
+-----
+
+The program will first check whether `num` is less than 10. If it is,
+it chooses that branch, shows `"Small"`, and is done. If it isn't, it
+takes the `else` branch, which itself contains a second `if`. If the
+second condition (`< 100`) holds, that means the number is between 10
+and 100, and `"Medium"` is shown. If it doesn't, the second and last
+`else` branch is chosen.
+
+The arrow schema for this program looks something like this:
+
+image::../img/controlflow-nested-if.svg[alt="Nested if control flow"]
+
+== while and do Loops ==
+
+(((looping)))Consider a program that prints out all even numbers from
+0 to 12. One way to write this is as follows:
+
+[source,javascript]
+-----
+console.log(0);
+console.log(2);
+console.log(4);
+console.log(6);
+console.log(8);
+console.log(10);
+console.log(12);
+-----
+
+(((control flow)))That works, but the idea of writing a program is to
+make something _less_ work, not more. If we needed all even numbers
+less than 1,000, the previous would be unworkable. What we need is a
+way to repeat some code—a _loop_.
+
+image::../img/controlflow-loop.svg[alt="Loop control flow"]
+
+Looping control flow allows us to go back to some point in the program
+where we were before, and repeat it, in the context of our current
+program state. If we combine this with a variable that counts, we can
+do this:
+
+[source,javascript]
+-----
+var number = 0;
+while (number <= 12) {
+  console.log(number);
+  number = number + 2;
+}
+-----
+
+(((while loop)))A statement starting with the word `while` creates a
+loop. The word `while` is followed by an expression in parentheses and
+then a statement, much like `if`. The loop acts by continuing to
+execute the statement as long as the expression produces a value that
+is `true`, when converted to boolean type.
+
+((({} block)))(((statement)))(((block (of statements))))Because we
+want to do _two_ things in the loop, printing out the current number,
+and adding two to our variable, we wrap the two statements in braces
+(`{` and `}`). Braces, for statements, are similar to what parentheses
+do for expressions, they group them together, making them count as a
+single statement.
+
+(((variable)))(((state)))So the variable `number` demonstrates
+the way a variable can track the progress of a program. Every time the
+loop repeats, it is incremented by `2`. Then, at the beginning of
+every repetition, it is compared with the number `12` to decide
+whether the program has done all the work it intended to do.
+
+(((exponentiation)))As an example that actually does something useful,
+we can now write a program that calculates and shows the value of
+2^10^ (2 to the 10th power). We use two variables: one to keep
+track of our result and one to count how often we have multiplied this
+result by 2. The loop tests whether the second variable has reached 10
+yet and then updates both variables.
+
+[source,text/javascript]
+-----
+var result = 1;
+var counter = 0;
+while (counter < 10) {
+  result = result * 2;
+  counter = counter + 1;
+}
+console.log(result);
+// → 1024
+-----
+
+The counter could also start at `1` and check for `<= 10`, but, for
+reasons that will become apparent later, it is a good idea to get used
+to counting from 0.
+
+(((do loop)))(((control flow)))A very similar control structure is the
+`do` loop. It differs only on one point from a `while` loop: it will
+always execute its body at once, and only then start testing whether
+it should stop. To reflect this, the test is writen below the body of
+the loop:
+
+[source,javascript]
+-----
+do {
+  var name = prompt("Who are you?");
+} while (!name);
+console.log(name);
+-----
+
+This will force you to enter a name, by asking again and again until
+it gets something that is not an empty string. (Applying the `!`
+operator will convert a value to boolean type before negating it, and
+all strings except `""` convert to `true`.)
+
+== Indenting Code ==
+
+You will probably have noticed the spaces I put in front of some
+statements. These are not required—the computer will accept the
+program just fine without them. In fact, even the line breaks in
+programs are optional. You could write them as a single long line if
+you felt like it. The role of the ((indentation)) inside blocks is to
+make the structure of the code stand out. Because new blocks can be
+opened inside other blocks, it can become hard to see where one block
+ends and another begins when looking at a complex piece of code. With
+proper indentation, the visual shape of a program corresponds to the
+shape of the blocks inside it. I like to use two spaces for every open
+block, but tastes differ—some people use four spaces, and some people
+use tab characters.
+
+== for Loops ==
+
+Loops often follow the same pattern, also seen in the `while` examples
+above. First, a “counter” variable is created. This variable tracks
+the progress of the loop. Then, comes a `while` loop, whose test
+expression usually checks whether the counter has reached some
+boundary yet. At the end of the loop body, the counter is updated to
+track progress.
+
+Because this pattern is so common, JavaScript and similar languages
+provide a slightly shorter and more comprehensive form:
+
+[source,javascript]
+-----
+for (var number = 0; number <= 12; number = number + 2)
+  console.log(number);
+-----
+
+(((for loop)))(((control flow)))(((state)))This program is exactly
+equivalent to the earlier even-number-printing example. The only
+change is that all the statements that are related to the “state” of
+the loop are now on one line.
+
+The parentheses after a `for` keyword are required to contain two
+semicolons. The part before the first semicolon _initializes_ the
+loop, usually by defining a variable. The second part is the
+expression that _checks_ whether the loop must still continue. The
+final part _updates_ the state of the loop after every iteration. In
+most cases, this is shorter and clearer than a `while` construct.
+
+Here is the code that computes 2^10^, using `for` instead of `while`:
+
+[source,text/javascript]
+-----
+var result = 1;
+for (var counter = 0; counter < 10; counter = counter + 1)
+  result = result * 2;
+console.log(result);
+// → 1024
+-----
+
+(((indentation)))Note that even if no block is opened with a `{`, the
+statement in the loop is still indented two spaces to make it clear
+that it “belongs” to the line before it.
+
+== Breaking Out of a Loop ==
+
+(((looping!termination)))(((break keyword)))Having its condition
+produce `false` is not the only way a loop can finish. There is a
+special statement, `break`, that has the effect of immediately jumping
+out of the enclosing loop.
+
+This program finds the first number that is greater than or equal to
+20, and divisible by 7:
+
+[source,text/javascript]
+-----
+for (var current = 20; ; current++) {
+  if (current % 7 == 0)
+    break;
+}
+console.log(current);
+// → 21
+-----
+
+(((remainder operation)))(((% operator)))The trick with the remainder
+(`%`) operator is an easy way to test whether a number is divisible by
+another number. If it is, the remainder of their division is zero.
+
+The `for` construct in the example does not have a part that checks
+for the end of the loop. This means that it is dependent on the
+`break` statement inside it to ever stop.
+
+If that `break` statement was missing, or you accidentally wrote a
+condition that will always produce `true`, you get what is called an
+_((infinite loop))_. A program running an infinite loop will never
+finish running, which is usually a bad thing.
+
+--html-only--
+If you create an infinite loop in one of the examples on these pages,
+you'll have to close the tab that you're working in, or on some
+browsers close your whole browser, to recover.
+--html-only--
+
+== Updating Variables Succinctly ==
+
+(((assignment)))(((+= operator)))(((-= operator)))(((/=
+operator)))(((*= operator)))(((state)))A program, especially when
+looping, often needs to “update” a variable with a value that is based
+on its previous value, as in `counter = counter + 1`. JavaScript
+provides a shortcut for this: `counter += 1`. This also works for many
+other operators, as in `result *= 2` to double the value of `result`
+or as in `counter -= 1` to count downward.
+
+(((++ operator)))(((-- operator)))For `counter += 1` and `counter -=
+1`, there are even shorter versions: `counter++` and `counter--`.
+
+Which allows us to shorten our example a little more:
+
+[source,javascript]
+-----
+for (var number = 0; number <= 12; number += 2)
+  console.log(number);
+-----
+
+== Dispatching on a Value with switch ==
+
+It is common for code to look like this:
+
+[source,javascript]
+-----
+if (variable == "value1") action1();
+else if (variable == "value2") action2();
+else if (variable == "value3") action3();
+else defaultAction();
+-----
+
+(((dispatch)))(((switch keyword)))There is a construct called `switch`
+that is intended to solve such a “dispatch” in a more direct way.
+Unfortunately, the syntax JavaScript uses for this (which it inherited
+from the C and Java line of programming languages) is somewhat
+awkward—often a chain of `if` statements still looks better. Here
+is an example:
+
+[source,javascript]
+-----
+switch(prompt("What is the weather like?")) {
+  case "rainy":
+    console.log("Remember to bring an umbrella.");
+    break;
+  case "sunny":
+    console.log("Dress lightly.");
+  case "cloudy":
+    console.log("Go outside.");
+    break;
+  default:
+    console.log("Unknown weather type!");
+    break;
+}
+-----
+
+(((case keyword)))(((default keyword)))Inside the block opened by
+`switch`, you may put any number of `case` labels. The program will
+jump to the label that corresponds to the value that `switch` was
+given, or to `default` if no matching value is found. Then it start
+executing statements there, and _continues_ past other labels, until
+it reaches a `break` statement. In some cases, such as the `"sunny"`
+case in the example, this can be used to share some code between cases
+(it recommends going outside for both sunny and cloudy weather). But
+beware, it is very easy to forget such a `break`, which will cause the
+program to execute code you do not want executed.
+
+== Capitalization ==
+
+Variable names may not contain spaces, yet it is often helpful to use
+multiple words to clearly describe what the variable represents. Your
+choices for writing a variable name with several words in it are
+pretty much these: `fuzzylittleturtle`, `fuzzy_little_turtle`,
+`FuzzyLittleTurtle`, and `fuzzyLittleTurtle`.
+
+(((capitalization)))The first example is hard to read. Personally, I
+like using underscores, though it is a little painful to type.
+However, the standard JavaScript functions, and most JavaScript
+programmers, follow the last example—they capitalize every word except
+the first. It is not hard to get used to little things like that, and
+code with mixed naming styles can be jarring to read, so we will just
+follow this convention.
+
+(((Number function)))(((constructor)))In a few cases, such as the
+`Number` function, the first letter of a variable is also capitalized.
+This was done to mark this function as a constructor. What a
+constructor is will become clear in REF(oo). For now, the important
+thing is not to be bothered by this apparent lack of consistency.
+
+== Comments ==
+
+Often, raw code does not convey all the information you want a program
+to convey to human readers, or it conveys it in such a cryptic way
+that you're worried that people won't understand it. At other times,
+you're just feeling poetic and want to mark down some thoughts as part
+of your program. This is what _((comment))s_ are is for.
+
+A comment is a piece of text that is part of a program, but completely
+ignored by the computer. JavaScript has two ways of writing comments.
+To write a single line comment, you can use two slash characters
+(`//`) and then the comment text after it.
+
+[source,javascript]
+----
+var accountBalance = calculateBalance(account);
+// It’s a green hollow where a river sings
+accountBalance.adjust() // Madly catching white tatters in the grass.
+var report = new Report(); // Where the sun on the proud mountain rings:
+addToReport(accountBalance, report);
+// It’s a little valley, foaming like light in a glass.
+----
+
+A `//` comment only goes to the end of the line. A section of text
+between `/*` and `*/` will be ignored, regardless of whether it
+contains line breaks. This is often useful for adding blocks of
+information about a file or a chunk of program.
+
+[source,javascript]
+----
+/*
+  I first found this number scrawled on the back of one of my
+  notebooks a few years ago. Since then, it has occasionally dropped
+  by, showing up in phone numbers and the serial numbers of producs
+  that I bought. It obviously likes me, so I've decided to keep it.
+*/
+var theNumber = 11213;
+----
+
+== Summary ==
+
+You now know that a program is built out of statements, which
+themselves sometimes contain more statements. Statements tend to
+contain expressions, which themselves can be built out of smaller
+expressions.
+
+Putting statements under each other gives you a program that is
+executed top-to-bottom. You can introduce disturbances in the flow of
+control by using conditional (`if`, `else`, and `switch`) and looping
+(`while`, `do`, and `for`) statements.
+
+Functions are special values that encapsulate a piece of program. You
+can invoke them by writing `functionName(argument1, argument2)`, which
+is an expression that may produce a value.
+
+== Exercises ==
+
+If you are unsure how to try out your solutions to exercises, refer
+back to the end of REF(intro).
+
+Each exercise starts with a problem description above the ruler. Try
+to read that, and solve the exercise. If you run into problems, you
+can consider reading the hints below the ruler. Full solutions to the
+exercises are not included in this book, but can be found online, at
+REF(solutions). If you want to learn something, I recommend only
+looking at these after you've solved the exercise, or at least
+attacked it long and hard enough to have provoked a slight headache.
+
+=== Looping a Triangle ===
+
+Write a program that makes seven calls to `console.log` to output the
+following triangle:
+
+....
+#
+##
+###
+####
+#####
+######
+#######
+....
+
+''''
+
+You can start with a program that simply prints out the numbers 1 to
+7, which you can derive by making a few modifications to the
+even-number-printing example given earlier in the chapter, when the
+`for` loop was introduced.
+
+Now consider the equivalence between numbers and strings of hash
+characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go
+from `"#"` to `"##"` by adding a character (`+= "#"`). Thus, your
+solution can closely follow the number-printing program.
+
+=== Number grid ===
+
+Write a program that creates a string that represents a 5×5 grid, by
+using newline characters to separate lines. At each position of the
+grid there is a digit character that represents the _x_ (horizontal)
+coordinate of that point minus the _y_ (vertical) coordinate (where
+0,0 is the top-left corner).
+
+The output should look like this:
+
+....
+01234
+12343
+23432
+34321
+43210
+....
+
+When it works, define a variable `size = 5`, and change the program so
+that it works for any `size` between 1 and 10, outputting a grid of
+the given width and height.
+
+''''
+
+The string can be built by starting with an empty one (`""`) and
+repeatedly adding characters. A newline character is written `"\n"`.
+When appending digits, you can explicitly convert number to strings
+using the `String` function, or simply rely on the type conversion
+behavior of the `+` operator (when one of the values given is a
+string, the result will be a string).
+
+Use `console.log` to inspect the output of your program.
+
+To do something two dimensional, you will need a loop inside of a
+loop. The order of the loops must follow the order in which we build
+up the string (line by line, left to right, top to bottom). So the
+outer loop handles the lines (_y_ coordinate) and the inner loop
+handles the characters on a line (_x_ coordinate). You'll need two
+variables to track your progress, and to compute the digits at each
+position. You might as well name them `x` and `y`.
+
+Terminating a line by adding a newline character happens after the
+line has been built up, so after the inner loop, inside of the outer
+loop.
+
+=== FizzBuzz ===
+
+Write a program that prints (using `console.log`) all the numbers from
+1 to 100, except that, for numbers that are divisible by 3, it prints
+`"Fizz"` instead of the number, and for numbers that are divisible by
+5 (and not 3), it prints `"Buzz"` instead.
+
+When you have that working, modify your program to print `"FizzBuzz"`
+for numbers that are divisible by both 3 and 5.
+
+(This is actually an interview question that has been claimed to weed
+out large swaths of programmer candidates. So if you solved it, you're
+supposedly already better than a lot of people who are seriously
+applying for programmer jobs.)
+
+''''
+
+Going over the numbers is clearly a looping job. And selecting what to
+print is a matter of conditional execution. Remember the trick of
+using the remainder (`%`) operator for checking whether a number is
+divisible by another number (has a remainder of zero).
+
+Because, in the first version, there are three possible outcomes for
+every number, you'll have to create an `if`/`else if`/`else` chain.
+
+The second version of the program can be solved in a very
+straightforward way (simply add another “branch” that precisely tests
+the given condition), or in a clever way (build up a string containing
+the word or word to output, and print either this word or the number
+if there is no word, potentially by making elegant use of the `||`
+operator).

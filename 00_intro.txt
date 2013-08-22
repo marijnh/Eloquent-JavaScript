@@ -362,6 +362,14 @@ FIXME explain interactive code
 
 FIXME
 
+I recommend to try out your solutions to exercises in an actual
+JavaScript interpreter, to get immediate feedback on whether what you
+are doing is working or not, and, hopefully, to be tempted to
+experiment and go beyond the exercises.
+
+It is possible to use your browser's developer console, or node.js 
+
+
 == Overview of This Book ==
 
 FIXME
@@ -390,5 +398,5 @@ and the produced value is written below, with an arrow in front of it:
 [source,javascript]
 -----
 1 + 1
-→ 2
+// → 2
 -----

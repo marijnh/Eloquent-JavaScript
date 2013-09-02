@@ -194,9 +194,9 @@ indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 
 (((function!application)))Executing the code in a function is called
-_invoking_ or _applying_ it. The notation for doing this uses
-parentheses. Every expression that produces a function value can be
-invoked by putting parentheses after it, though usually you will be
+_invoking_, _calling_, or _applying_ it. The notation for doing this
+uses parentheses. Every expression that produces a function value can
+be invoked by putting parentheses after it, though usually you will be
 directly referring to the variable that holds the function. The values
 between the parentheses are given to the program inside the function.
 In the example, the `alert` function uses the string that we give it
@@ -811,12 +811,14 @@ string, the result will be a string).
 Use `console.log` to inspect the output of your program.
 
 To do something two dimensional, you will need a loop inside of a
-loop. The order of the loops must follow the order in which we build
-up the string (line by line, left to right, top to bottom). So the
-outer loop handles the lines (_y_ coordinate) and the inner loop
-handles the characters on a line (_x_ coordinate). You'll need two
-variables to track your progress, and to compute the digits at each
-position. You might as well name them `x` and `y`.
+loop. Put braces around the bodies of both loops to make it easy to
+see where they start and end. Try to properly indent these bodies. The
+order of the loops must follow the order in which we build up the
+string (line by line, left to right, top to bottom). So the outer loop
+handles the lines (_y_ coordinate) and the inner loop handles the
+characters on a line (_x_ coordinate). You'll need two variables to
+track your progress, and to compute the digits at each position. You
+might as well name them `x` and `y`.
 
 Terminating a line by adding a newline character happens after the
 line has been built up, so after the inner loop, inside of the outer

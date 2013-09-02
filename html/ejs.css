@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Source Sans Pro'), local('SourceSansPro-Regular'), url(http://themes.googleusercontent.com/static/fonts/sourcesanspro/v5/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu Condensed'), local('UbuntuCondensed-Regular'), url(http://themes.googleusercontent.com/static/fonts/ubuntucondensed/v3/DBCt-NXN57MTAFjitYxdrFzqCfRpIA3W6ypxnPISCPA.woff) format('woff');
+}
+
+html, body { 
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  background: #eee;
+}
+
+#main {
+  margin: 0 0 0 80px;
+  border-left: 1px solid #aaa;
+  background: white;
+}
+
+#content {
+  max-width: 55em;
+  padding: 1em 0 5em 3em;
+}
+
+code {
+  color: #244;
+  padding: 0 2px;
+}
+
+h1, h2, h3 {
+  font-family: 'Ubuntu Condensed';
+  font-weight: 400;
+  margin: 1em 0 0 0;
+  color: #477;
+  border-bottom: 1px solid #8bb;
+}
+
+pre {
+  border-left: 1px solid #8bb;
+  padding-left: 17px;
+}

@@ -2,3 +2,4 @@
 /tex/*.tex
 /html/*.html
 /node_modules
+.tern-port

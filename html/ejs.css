@@ -89,23 +89,20 @@ h1 + p {
 }
 
 blockquote {
-  padding: 0 0 0 2em;
-  margin: 0;
+  margin: 0 0 0 2em;
+  padding: 0;
+  position: relative;
 }
 
 blockquote p {
-  position: relative;
   color: #333;
+  font-size: 95%;
 }
 
-blockquote p:before {
+blockquote:before {
   content: '“';
   position: absolute;
   left: -.5em;
-}
-
-blockquote p:after {
-  content: '”';
 }
 
 .editor-wrap {

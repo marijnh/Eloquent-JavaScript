@@ -1,0 +1,1345 @@
+:chap_num: 4
+:prev_link: 03_functions
+:next_link: 05_FIXME
+
+= Data Structures: Object and Array =
+
+(((data)))In this chapter, we will solve a programming problem that involves extracting data from text. In
+the process, we learn about object values and arrays and how to use
+them.
+
+== The Problem: Aunt Emily's Cats ==
+
+(((Emily (aunt))))(((cat example|()))
+Consider the following situation: Your crazy Aunt Emily, who is
+rumored to have more than 50 cats living with her (you never managed to
+count them), regularly sends you emails to keep you up-to-date on her
+exploits. They usually look like this:
+
+____
+Dear nephew,
+
+Your mother told me you have taken up skydiving. Is this true? You
+watch yourself, young man! Remember what happened to my husband? And
+that was only from the second floor!
+
+Anyway, things are very exciting here. I have spent all week trying to
+get the attention of Mr. Drake, the nice gentleman who moved in next
+door, but I think he is afraid of cats. Or allergic to them? I am
+going to try putting Fat Igor on his shoulder next time I see him,
+very curious what will happen.
+
+Also, the scam I told you about is going better than expected. I have
+already gotten back five “payments,” and only one complaint. It is
+starting to make me feel a bit bad though. And you are right that it
+is probably illegal in some way.
+
+Much love, 
+Aunt Emily
+
+died 27/04/2006: Black Leclère
+
+born 05/04/2006 (mother Lady Penelope): Red Lion, Doctor Hobbles the
+3rd, Little Iroquois
+____
+
+To humor the old dear, you would like to keep track of the genealogy
+of her cats, so you can add things like “P.S. I hope Doctor Hobbles
+the 2nd enjoyed his birthday this Saturday!” or “How is old Lady
+Penelope doing? She's five years old now, isn't she?”---preferably
+without accidentally asking about dead cats. You are in the possession
+of a large quantity of old emails from your aunt, and fortunately she
+is very consistent in always putting information about the cats'
+births and deaths at the end of her emails in precisely the same
+format.
+
+You are, of course, lazy and hardly inclined to go through all those
+emails by hand. But we are, coincidentally, just in need of an example
+problem. Let's try to work out a program that does the work for us.
+For a start, we will write a program that gives us a list of cats that
+are still alive after the most recent email.
+
+(Before you ask, at the start of the correspondence, Aunt Emily had
+only a single cat: Spot. She was still rather conventional in those
+days.)
+
+It usually pays to have some kind of clue what one's program is going
+to do before starting to type. Here's a plan:
+
+1. Start with a set of cat names that has only “Spot” in it.
+
+2. Go over every email in our archive, in chronological order.
+
+3. Look for paragraphs that start with “born” or “died.”
+
+4. Add the names from paragraphs that start with “born” to our set of  names.
+
+5. Remove the names from paragraphs that start with “died” from our set.
+
+Taking the names from a paragraph goes like this:
+
+1. Find the colon in the paragraph.
+
+2. Take the part after this colon.
+
+3. Split this part into separate names by looking for commas.
+
+It may require some suspension of disbelief to accept that Aunt Emily
+always uses this exact format, and that she never forgets or misspells
+a name, but that is just how your aunt is.
+
+== Basic Data Structures ==
+
+Before we can write this program, we will need to go over a few new
+language features.
+
+=== Properties ===
+
+(((property|()))(((length property)))(((object,property)))
+Some JavaScript values have other values associated with them. These
+associations are called _properties_. Every string, for example, has a
+property called `length`, which refers to an integer,
+the amount of characters in that string.
+
+(((property,access)))((([] (subscript))))
+Properties can be accessed in two ways, either with brackets
+or using dot notation:
+
+[source,javascript]
+----
+var text = "purple haze";
+text["length"];
+→ 11
+text.length;
+→ 11
+----
+
+The second way is a shorthand for the first, and it works only when
+the name of the property is a valid variable name---when it
+doesn't have any spaces or symbols in it and does not start with a
+digit character.
+
+(((null value)))(((undefined value)))
+Trying to read a property from the values `null` and
+`undefined` will cause an error. Numbers and Booleans do have
+properties, but none of them is interesting or useful enough to be discussed here.
+
+=== Object Values ===
+
+(((Object type)))(((object)))
+In most value types, if they have properties at all, they are fixed, and
+you are not allowed to change them. (A string's length always stays the
+same, for example.) However, there is one type of value,
+_objects_, where properties can be freely added,
+removed, and changed. The main role of objects, in fact, is to be a
+collection of properties.
+
+(((object,literal)))
+An object can be written like this:
+
+[source,javascript]
+----
+var cat = {color: "gray", name: "Spot", size: 46};
+cat.size = 47;
+cat.size;
+→ 47
+delete cat.size;
+cat.size;
+→ undefined
+----
+
+(((property,assignment)))(((mutability)))(((= operator)))
+Like variables, each property attached to an object is labeled by a
+name. Property names can be any strings, though, not just those that
+are valid variable names. The first statement creates an object
+in which the property `"color"` refers to the string
+`"gray"`, the property `"name"` to the string `"Spot"`,
+and the property `"size"` to the number `46`. The second
+statement gives the property named `size` a new value, which is
+done in the same way as modifying a variable.
+
+(((delete operator)))(((property,deletion)))
+Trying to read a nonexistent property gives the value
+`undefined`. The keyword `delete` is used to
+cut off properties.
+
+(((= operator)))
+If a property that does not yet exist is set with the
+`=` operator, it is added to the object, as in the
+following example:
+
+[source,javascript]
+----
+var empty = {};
+empty.notReally = 1000;
+empty;
+→ {notReally: 1000}
+----
+
+Properties whose names are not valid variable names cannot be
+accessed with the dot notation, but only using brackets. When
+creating an object, these have to be quoted, unless they are numbers:
+
+[source,javascript]
+----
+var thing = {"gabba gabba": "hey", 5: 10};
+thing["5"];
+→ 10
+thing[2 + 3];
+→ 10
+delete thing["gabba gabba"];
+----
+
+((([] (subscript))))
+The part between the brackets can be any expression. It is converted
+to a string to determine the property name it refers to. Thus, you can
+also use variables to name properties:
+
+[source,javascript]
+----
+var propertyName = "length";
+var text = "coco";
+text[propertyName];
+→ 4
+----
+
+(((in operator)))
+The operator `in` can be used to test whether an object
+has a certain property. It produces a Boolean.
+
+[source,javascript]
+----
+var chineseBox = {};
+chineseBox.content = chineseBox;
+"content" in chineseBox;
+→ true
+"content" in chineseBox.content;
+→ true
+----
+
+=== Objects as Sets ===
+
+(((set (data structure))))(((data structure)))
+The solution for the cat problem talks about a _set_ of names. A
+set is a collection of values in which no value occurs more
+than once. If names are strings, can you think of a way to use an
+object to represent a set of names?
+
+The idea, of course, would be to use the names as property names. To
+add a name to the set, we set the property in the object to some value
+(any value). Removing a name from the set is done by deleting the
+property. The `in` operator can be used to determine whether a
+certain name is part of the set. (There are a few subtle problems with
+using `in` like this, which we will discuss in
+REF(oo). For now, it works well enough.)
+
+Here we create a set containing only `"Spot"`, add
+`"White Fang"` to it, delete `"Spot"` again, and finally,
+test whether `"Asoka"` is in it:
+
+[source,javascript]
+----
+var set = {"Spot": true};
+set["White Fang"] = true;
+delete set["Spot"];
+"Asoka" in set;
+→ false
+----
+
+=== Mutability ===
+
+(((mutability)))(((side effect)))
+Object values can apparently change. The types of
+values discussed in REF(basics) are all _immutable_---it is
+impossible to change an existing value of those types. You can combine
+them and derive new values from them, but when you take a specific
+string value, the text inside it cannot change. With objects, on the
+other hand, the content of a value _can_ be modified, by changing
+its properties.
+
+(((object,identity)))
+When we have two numbers, `120` and `120`, they can, whether
+they refer to the same physical bits or not, be considered the precise
+same number. With objects, there is a difference between having two
+references to the same object and having two different objects that
+contain the same properties. Consider the following code:
+
+[source,javascript]
+----
+var object1 = {value: 10};
+var object2 = object1;
+var object3 = {value: 10};
+
+object1 == object2;
+→ true
+object1 == object3;
+→ false
+
+object1.value = 15;
+object2.value;
+→ 15
+object3.value;
+→ 10
+----
+
+`object1` and `object2` are two variables grasping the _same_ value.
+There is only one actual object, which is why changing `object1` also
+changes the value of `object2`. The variable `object3` points to
+another object, which initially contains the same properties as
+`object1` but lives a separate life.
+
+(((== operator)))
+JavaScript's `==` operator, when comparing objects,
+will return `true` only if both values given to it are the
+precise same value. Comparing different object with identical contents
+will give `false`. This is useful in some situations but
+unpractical in others, where you have to write separate functions to
+compare objects by content.
+
+=== Objects as Collections: Arrays ===
+
+(((array|()))Object values can play a lot of different roles. Behaving like a set
+is only one of those. We will see a few other roles in this chapter,
+and REF(oo) shows another important way of using objects.
+
+(((algorithm))) The plan for the cat problem---in fact, let's call it
+an _algorithm_, not a plan—talks about going over all the emails in
+an archive. What kind of value could represent such an archive?
+
+It should contain a number of emails. An email can simply be a
+string, for our purposes. We need to collect multiple strings into a
+single value. Well, collections are what objects are used for. As a
+first draft, one could make an object like this:
+
+[source,javascript]
+----
+var mailArchive = {"the first email": "Dear nephew, ...",
+                   "the second email": "..."
+                   /* and so on ... */};
+----
+
+But that makes it hard to go over the emails from start to end---how
+does the program guess the name of these properties? This can be
+solved by more predictable property names:
+
+[source,javascript]
+----
+var mailArchive = {0: "Dear nephew, ... (mail number 1)",
+                   1: "(mail number 2)",
+                   2: "(mail number 3)"};
+
+for (var current = 0; current in mailArchive; current++)
+  print("Processing email #", current, ": ", mailArchive[current]);
+----
+
+(((Array type)))(((length property)))
+Luck has it that there is a special kind of objects specifically for
+this kind of use. They are called _arrays_, and they
+provide some conveniences, such as a `length`
+property that tells us how many values the array holds.
+
+((([] (array))))(((array,literal)))(((array,traversal)))
+New arrays can be created using brackets (`[` and
+`]`):
+
+[source,javascript]
+----
+var mailArchive = ["mail one", "mail two", "mail three"];
+
+for (var current = 0; current < mailArchive.length; current++)
+  print("Processing email #", current, ": ", mailArchive[current]);
+----
+
+In this example, the numbers of the elements are not specified
+explicitly any more. The first one automatically gets the number 0, the
+second the number 1, and so on.
+
+Why start at 0? People tend to start counting from 1. As unintuitive
+as it seems, numbering the elements in a collection from 0 is how
+things have traditionally been done in most programming languages.
+Just go with it for now---it will grow on you.
+
+Starting at element 0 also means that in a collection with `X`
+elements, the last element can be found at position `X - 1`. This
+is why the `for` loop  in the example checks for
+`current < mailArchive.length`. There is no element at position
+`mailArchive.length`, so as soon as `current` has that
+value, we stop looping.
+
+As an exercise, let's write a function `range`, which takes one
+argument---a positive number---and returns an array containing all
+numbers from 0 up to and including the given number.
+
+((([] (array))))((([] (subscript))))
+An empty array can be created by simply typing `[]`. Just like
+with objects, we can add elements to arrays by simply assigning to its
+properties. Since the element properties are numbers, we have to use
+`[` and `]`, rather than the dot, to refer to them. (Note
+that the `length` property of the array will automatically get
+updated when elements are added or removed---it always holds the highest
+index that contains an element, plus one.)
+
+[source,javascript]
+----
+function range(upto) {
+  var result = [];
+  for (var i = 0; i <= upto; i++)
+    result[i] = i;
+  return result;
+}
+range(4);
+→ [0, 1, 2, 3, 4]
+----
+
+(((array)))(((Array type)))(((i variable)))
+Instead of naming the loop variable `counter` or `current`,
+as I have been doing so far, it is here called simply `i`. Using
+single letters---usually `i`, `j`, and `k`---for loop
+variables is a widely spread habit among programmers. It has its
+origin mostly in laziness: We'd rather type one character than seven,
+and names like `counter` and `current` do not really clarify
+the meaning of the variable much.
+
+If a program uses too many meaningless single-letter variables, it can
+become very confusing. In my own programs, I try to only do this in a
+few common cases. Small loops are one of these cases. If the loop
+contains another loop and if that one also uses a variable named
+`i`, the inner loop will modify the variable that the outer loop
+is using, and everything will break. One could use `j` for the
+inner loop, but in general, when the body of a loop is big, you should
+come up with meaningful name for your counter variable.
+
+=== Methods ===
+
+(((method)))(((String type)))
+Both string and array objects contain, in addition to the `length`
+property, a number of properties that refer to function values.
+
+[source,javascript]
+----
+var doh = "Doh";
+typeof doh.toUpperCase;
+→ "function"
+doh.toUpperCase();
+→ "DOH"
+----
+
+(((toUpperCase method)))(((toLowerCase method)))
+Every string has a `toUpperCase` property.
+When called, it will return a copy of the string, in which all letters
+have been converted to uppercase. There is also
+`toLowerCase`. You can guess what that does.
+
+Notice that, even though the call to `toUpperCase` does not pass
+any arguments, the function does somehow have access to the string
+`"Doh"`, the value of which it is a property. How this works
+precisely is described in REF(oo).
+
+Properties that contain functions are generally called
+_methods_, as in  “`toUpperCase` is a method of a
+string object.” This example demonstrates  some methods of array
+objects:
+
+[source,javascript]
+----
+var mack = [];
+mack.push("Mack");
+mack.push("the");
+mack.push("Knife");
+mack;
+→ ["Mack", "the", "Knife"]
+mack.join(" ");
+→ "Mack the Knife"
+mack.pop();
+→ "Knife"
+mack;
+→ ["Mack", "the"]
+----
+
+(((Array@`Array` type)))(((array,methods)))(((push@`push` method)))
+(((pop@`pop` method)))(((join@`join` method)))
+The method `push`, which is associated with arrays,
+can be used to insert values at the end of the array. It could have
+been used in the `range` function, replacing `result[i] = i`
+with `result.push(i)`. Then there is `pop`, the
+inverse of `push`: It takes out and returns the last value in the
+array. `join` builds a single big string from an
+array of strings. The parameter it is given is pasted between the
+values in the array.
+
+== Solving the Problem of Aunt Emily's Cats ==
+
+(((cat example|()))(((array,traversal)))
+Coming back to those cats, we now know that an array would be a good
+way to store the archive of emails. If we assume that we have an
+array of email strings in the variable `ARCHIVE`, going over all
+the emails is simple now:
+
+[source,javascript]
+----
+for (var i = 0; i < ARCHIVE.length; i++) {
+  var email = ARCHIVE[i];
+  // Do something with this email...
+}
+----
+
+We have also decided on a way to represent the set of cats that are
+alive. The next problem, then, is to find the paragraphs in an email
+that start with “born” or “died.”
+
+=== Separating Paragraphs ===
+
+The first question that comes up is what exactly a paragraph is. In
+this case, the string value itself can't help us much: JavaScript's
+concept of text does not go any deeper than the “sequence of
+characters” idea, so we must define paragraphs in those terms.
+
+(((newline)))(((paragraph)))
+In REF(basics), we saw that there is such a thing as a newline character.
+These are what people typically use to split paragraphs. We consider a
+paragraph, then, to be part of an email that starts at a newline
+character or at the start of the content and that ends at the next newline
+character or at the end of the content.
+
+(((split@`split` method)))
+And we don't even have to write the algorithm for splitting a string
+into paragraphs ourselves. Strings conveniently have a method named
+`split`, which is (almost) the opposite of the
+`join` method of arrays. It splits a string into an array, using
+the string given as its argument to determine in which places to cut.
+For example:
+
+[source,javascript]
+----
+var words = "Cities of the Interior";
+words.split(" ");@
+→ ["Cities", "of", "the", "Interior"]
+----
+
+Thus, cutting on newlines (`email.split("\n")`), can be used to
+split an email into paragraphs.
+
+=== Finding Relevant Paragraphs ===
+
+(((charAt@`charAt` method)))
+Paragraphs that do not start with either “born” or “died” can be
+ignored by the program. How do we test whether a string starts with a
+certain word? The method `charAt` can be used to
+get a specific character from a string. `x.charAt(0)` gives the
+first character, `1` is the second one, and so on. Thus, one way
+to check whether a string starts with “born” is as follows:
+
+[source,javascript]
+----
+var paragraph = "born 15-11-2003 (mother Spot): White Fang";
+paragraph.charAt(0) == "b" && paragraph.charAt(1) == "o" &&@
+  paragraph.charAt(2) == "r" && paragraph.charAt(3) == "n";@
+→ true
+----
+
+(((indentation)))But that gets a bit clumsy---imagine checking for a word of 10
+characters. There is something to be learned here, though: When a line
+gets ridiculously long, it can be spread over multiple lines. The
+result can be made easier to read by indenting the second line to show
+that it belongs together with the one above it.
+
+(((slice@`slice` method)))
+Strings also have a method called `slice`. This
+copies out a piece of the string, starting from the character at the
+position given by the first argument and ending before (not
+including) the character at the position given by the second one. This
+method allows the check to be written in a shorter way:
+
+[source,javascript]
+----
+paragraph.slice(0, 4) == "born";@
+→ true
+----
+
+(((startsWith@`startsWith` function)))
+We then wrap this approach in a function called `startsWith`,
+which takes two arguments, both strings. It returns `true` when
+the first argument starts with the characters in the second argument,
+and `false` otherwise.
+
+[source,javascript]
+----
+function startsWith(string, pattern) {
+  return string.slice(0, pattern.length) == pattern;
+}
+
+startsWith("rotation", "rot");@
+→ true
+----
+
+What happens when `charAt` or `slice` are used to take a
+piece of a string that does not exist? Will the `startsWith`
+function still work when the pattern is longer than the string it is
+matched against?
+
+[source,javascript]
+----
+"Pip".charAt(250);@
+→ ""
+"Nop".slice(1, 10);@
+→ "op"
+----
+
+(((charAt@`charAt` method)))
+`charAt` will return `""` when there is no character at the given
+position, and `slice` will simply leave out the part of the new
+string that does not exist.
+
+(((slice@`slice` method)))
+So yes, that means our version of `startsWith` works when, for example,
+`startsWith("Idiots", "Most honored colleagues")` is called. If 
+{pattern} is longer than {string}, the
+call to `slice` will always return a string that is shorter than
+`pattern` (because `string` does not have enough
+characters). Because of that, the comparison with `==` will
+return `false`, which is correct.
+
+(((corner case)))It helps to always take a moment to consider abnormal
+(but valid) inputs for a program. These are usually called _corner
+cases_, and it is very common for programs that work perfectly on all
+the “regular” inputs to screw up on corner cases.
+
+=== Extracting Cat Names ===
+
+The only part of the cat problem that is still unsolved is the
+extraction of names from a paragraph. The algorithm, as shown before,
+was this:
+
+1. Find the colon in the paragraph.
+
+2. Take the part after this colon.
+
+3. Split this part into separate names by looking for commas.
+
+This has to happen both for paragraphs that start with “died”
+and paragraphs that start with “born.” It would be a good idea
+to put it into a function so that the two pieces of code that handle
+these different kinds of paragraphs can both use it.
+
+(((indexOf@`indexOf` method)))
+Strings have an `indexOf` method that can be used
+to find the (first) position of a character or substring within that
+string. Also, when `slice` is given only one argument, it will
+return the part of the string from the given position all the way to
+the end.
+
+Thus, we can extract the names of the cats like this:
+
+[source,javascript]
+----
+function catNames(paragraph) {
+  var colon = paragraph.indexOf(":");
+  return paragraph.slice(colon + 2).split(", ");
+}
+
+catNames("born 20/09/2004 (mother Yellow Bess): Doctor Hobbles the 2nd, Noog");@
+→ ["Doctor Hobbles the 2nd", "Noog"]
+----
+
+The informal description of the algorithm ignored the fact that there
+are spaces after the colon and the commas. The `+ 2` used when
+slicing the string is needed to leave out the colon itself and the
+space after it. The argument to `split` contains both a comma and
+a space, because that is what the names are really separated by,
+rather than just a comma.
+
+This function does not do any checking for problems. We assume, here,
+that the input is always correct.
+
+=== The Full Algorithm ===
+
+All that remains now is putting the pieces together. One way to do
+that looks like this:
+
+[source,javascript]
+----
+var livingCats = {"Spot": true};
+
+for (var mail = 0; mail < ARCHIVE.length; mail++) {
+  var paragraphs = ARCHIVE[mail].split("\n");
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    if (startsWith(paragraph, "born")) {
+      var names = catNames(paragraph);
+      for (var name = 0; name < names.length; name++)
+        livingCats[names[name]] = true;
+    }
+    else if (startsWith(paragraph, "died")) {
+      var names = catNames(paragraph);
+      for (var name = 0; name < names.length; name++)
+        delete livingCats[names[name]];
+    }
+  }
+}
+----
+
+(((in@`in` operator)))
+That is quite a dense chunk of code. We'll look into making it
+prettier in a moment. But first let's look at our results. We know
+how to check whether a specific cat survives:
+
+[source,javascript]
+----
+if ("Spot" in livingCats)
+  print("Spot lives!");
+else
+  print("Good old Spot, may she rest in peace.");
+----
+
+(((for/in@`for`/`in` loop)))
+But how do we list all the cats that are alive? The
+`in` keyword has a somewhat different meaning when it
+is used together with `for`:
+
+[source,javascript]
+----
+for (var cat in livingCats)
+  print(cat);
+----
+
+A loop like that will go over the names of the properties in an
+object, which allows us to enumerate all the names in our set.
+
+=== Cleaning Up the Code ===
+
+(((refactoring)))
+Some pieces of code can look like an impenetrable jungle. The example
+solution to the cat problem suffers from this. One way to make some
+light shine through it is to just add some strategic blank lines. This
+makes it look better but doesn't really solve the problem.
+
+What is needed here is to break up the code. We already wrote two
+helper functions, `startsWith` and `catNames`, which both
+take care of a small, understandable part of the problem. Let's
+continue doing this.
+
+[source,javascript]
+----
+function addToSet(set, values) {
+  for (var i = 0; i < values.length; i++)
+    set[values[i]] = true;
+}
+
+function removeFromSet(set, values) {
+  for (var i = 0; i < values.length; i++)
+    delete set[values[i]];
+}
+----
+
+These two functions take care of the adding and removing of names from
+the set. That already cuts out the two most inner loops from the 
+solution:
+
+[source,javascript]
+----
+var livingCats = {Spot: true};
+
+for (var mail = 0; mail < ARCHIVE.length; mail++) {
+  var paragraphs = ARCHIVE[mail].split("\n");
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    if (startsWith(paragraph, "born"))
+      addToSet(livingCats, catNames(paragraph));
+    else if (startsWith(paragraph, "died"))
+      removeFromSet(livingCats, catNames(paragraph));
+  }
+}
+----
+
+Quite an improvement, if I may say so myself.
+
+(((interface design)))
+Why do `addToSet` and `removeFromSet` take the set as an
+argument? They could use the variable `livingCats` directly, if
+they wanted to. This way, they are not completely
+tied to our current problem. If `addToSet` directly changed
+`livingCats`, it would have to be called `addCatsToCatSet`,
+or something similar. The way it is now, it is a more generally useful
+tool.
+
+Even if we are never going to use these functions for anything else,
+which is quite probable, it is useful to write them like this. Because
+they are “self-sufficient,” they can be read and understood on their
+own, without needing to know about some external variable called
+`livingCats`.
+
+(((side effect)))The functions are not pure: They change the object passed as their
+`set` argument. This makes them slightly trickier than real pure
+functions, but they are still a lot less confusing than functions that run amok
+and change any value or variable they please.
+
+We continue breaking the algorithm into pieces:
+
+[source,javascript]
+----
+function findLivingCats() {
+  var livingCats = {"Spot": true};
+
+  function handleParagraph(paragraph) {
+    if (startsWith(paragraph, "born"))
+      addToSet(livingCats, catNames(paragraph));
+    else if (startsWith(paragraph, "died"))
+      removeFromSet(livingCats, catNames(paragraph));
+  }
+
+  for (var mail = 0; mail < ARCHIVE.length; mail++) {
+    var paragraphs = ARCHIVE[mail].split("\n");
+    for (var i = 0; i < paragraphs.length; i++)
+      handleParagraph(paragraphs[i]);
+  }
+  return livingCats;
+}
+----
+
+The whole algorithm is now encapsulated by a function. This means that
+it does not leave a mess after it runs: `livingCats` is a local
+variable in the function, instead of a top-level one, so it 
+exists only while the function runs. The code that needs this set can call
+`findLivingCats` and use the value it returns.
+
+(((inner function)))
+It seemed to me that making `handleParagraph` a separate function
+also cleared things up. But this one is so closely tied to the
+cat algorithm that it is meaningless in any other situation. On top of
+that, it needs access to the `livingCats` variable. Thus, it is a
+perfect candidate to be a function-inside-a-function. When it lives
+inside `findLivingCats`, it is clear that it is relevant
+there only, and it has access to the variables of its parent function.
+
+This solution is actually _bigger_ than the previous one. Still,
+it is tidier, and I hope you'll agree that it is easier to read.
+
+[source,javascript]
+----
+var howMany = 0;
+for (var cat in findLivingCats())
+  howMany++;
+print("There are currently ", howMany, " cats alive.");
+----
+
+=== Date Representation ===
+
+The program still ignores a lot of the information that is contained
+in the emails. There are birth dates, dates of death, and the names
+of mothers in there.
+
+We'll start with the dates. What would be a good way to store a date? We
+could make an object with three properties, `year`, `month`,
+and `day`, and store numbers in them.
+
+[source,javascript]
+----
+var when = {year: 1980, month: 2, day: 1};
+----
+
+(((new@`new` operator)))(((Date@`Date` type)))
+But JavaScript already provides a kind of object for this purpose.
+Such an object can be created by using the keyword
+`new`:
+
+[source,javascript]
+----
+var when = new Date(1980, 1, 1);
+----
+
+Just like the notation with braces and semicolons we have already
+seen, `new` is a way to create object values. Instead of
+specifying all the property names and values, a function is used to
+build up the object. This makes it possible to define a kind of
+standard procedure for creating objects. Functions like this are
+called (((constructor)))_constructors_, and in REF(oo) we
+will see how to write them ourselves.
+
+The `Date` constructor can be used in different ways:
+
+[source,javascript]
+----
+// Produces a date object for the current time.
+new Date();
+// February (!) 1st, 1980
+new Date(1980, 1, 1);
+// March 30th, 2007, 30 seconds past 8:20
+new Date(2007, 2, 30, 8, 20, 30);
+----
+
+As you can see, these objects can store a time of day as well as a
+date. When not given any arguments, an object representing the current
+time and date is created. Arguments can be given to ask for a specific
+date and time. The order of the arguments is year, month, day, hour,
+minute, second, milliseconds. These last four are optional---they
+default to 0 when not specified.
+
+The month numbers these objects use go from 0 to 11, which can be
+confusing, especially since day numbers _do_ start from 1.
+
+(((getFullYear@`getFullYear` method)))
+(((getMonth@`getMonth` method)))(((getDate@`getDate` method)))
+(((getHours@`getHours` method)))(((getMinutes@`getMinutes` method)))
+(((getSeconds@`getSeconds` method)))(((getDay@`getDay` method)))
+`Date` objects can be inspected with a number of `get`
+methods:
+
+[source,javascript]
+----
+var today = new Date();
+print("Year: ", today.getFullYear(), ", month: ",
+      today.getMonth(), ", day: ", today.getDate());
+print("Hour: ", today.getHours(), ", minutes: ",
+      today.getMinutes(), ", seconds: ", today.getSeconds());
+print("Day of week: ", today.getDay());
+----
+
+(((setFullYear@`setFullYear` method)))
+(((setMonth@`setMonth` method)))(((setDate@`setDate` method)))
+(((setHours@`setHours` method)))(((setMinutes@`setMinutes` method)))
+(((setSeconds@`setSeconds` method)))
+All of these, except for `getDay`, also have a `set...`
+variant that can be used to change the value of the date object.
+
+(((getTime@`getTime` method)))
+Inside the object, a date is represented by the amount of milliseconds
+it is away from January 1, 1970. You can imagine this is quite a
+large number.
+
+[source,javascript]
+----
+var today = new Date();
+today.getTime();@
+→ 1266587282246
+----
+
+A very useful thing to do with dates is to compare them:
+
+[source,javascript]
+----
+var wende = new Date(1989, 10, 9);
+var gulfWarOne = new Date(1990, 6, 2);
+wende < gulfWarOne;@
+→ true
+wende == wende;@
+→ true
+// but be careful...
+wende == new Date(1989, 10, 9);@
+→ false
+----
+
+(((object,comparing of)))(((==@`==` operator)))
+Comparing dates with `<`, `>`, `<=`, and `>=` does
+exactly what you would expect. When a date object is compared to
+itself with `==`, the result is `true`, which is also good.
+But when `==` is used to compare a date object to a
+different, equal date object, we get `false`. Argh!
+
+As mentioned earlier, `==` will return `false` when
+comparing two different objects, even if they contain the same
+properties. This is a bit clumsy and error prone here, since one would
+expect `>=` and `==` to behave in a more or less similar
+way. Testing whether two dates are equal can be done like this:
+
+[source,javascript]
+----
+var wende1 = new Date(1989, 10, 9),
+    wende2 = new Date(1989, 10, 9);
+wende1.getTime() == wende2.getTime();@
+→ true
+----
+
+(((time zone)))(((getTimezoneOffset@`getTimezoneOffset` method)))
+In addition to a date and time, `Date` objects also contain
+information about a time zone. When it is 1 p.m.
+in Amsterdam, it can, depending on the time of year, be 12 p.m. (noon) in
+London, and 7 a.m. in New York. Such times can only be
+compared when you take their time zones into account. The
+`getTimezoneOffset` function of a
+`Date` can be used to find out how many minutes it differs from
+Greenwich mean time (GMT). In Berlin, we get the following:
+
+[source,javascript]
+----
+new Date().getTimezoneOffset();@
+→ -60
+----
+
+=== Date Extraction ===
+
+The date part is always in the exact same place of a paragraph. How
+convenient.
+
+[source,javascript]
+----
+"born 02/04/2001 (mother Clementine): Bugeye, Wolverine"
+"died 27/04/2006: Black Leclère"
+----
+
+(((extractDate@`extractDate` function)))
+We can write a function `extractDate` that, given such a
+paragraph, returns a date object:
+
+[source,javascript]
+----
+function extractDate(paragraph) {
+  function numberAt(start, length) {
+    return Number(paragraph.slice(start, start + length));
+  }
+  return new Date(numberAt(11, 4), numberAt(8, 2) - 1, numberAt(5, 2));
+}
+----
+
+(((Number@`Number` function)))(((inner function)))
+It would work without the calls to `Number`, but as mentioned in
+REF(basics),  I prefer not to use strings as if they are numbers.
+The inner function was introduced to prevent having to repeat the
+`Number` and `slice` part three times.
+
+Note the `- 1` for the month number. Like most people, Aunt Emily 
+counts her months from 1, so we have to adjust the value before giving
+it to the `Date` constructor. (The day number does not have this
+problem, since `Date` objects count days in the usual human way.)
+
+In REF(regexp) we will see a more practical and robust way of
+extracting information from strings.
+
+=== Gathering More Information ===
+
+Storing cats will work differently from now on. Instead of just
+putting the value `true` into the set, we store an object with
+information about the cat. When a cat dies, we do not remove it from
+the set; we just add a property `death` to the object to store
+the date on which the creature died.
+
+This means our `addToSet` and `removeFromSet` functions have
+become useless. Something similar is needed, but it must also store
+birth dates and, later, the mother's name.
+
+[source,javascript]
+----
+function catRecord(name, birthdate, mother) {
+  return {name: name, birth: birthdate, mother: mother};
+}
+
+function addCats(set, names, birthdate, mother) {
+  for (var i = 0; i < names.length; i++)
+    set[names[i]] = catRecord(names[i], birthdate, mother);
+}
+function deadCats(set, names, deathdate) {
+  for (var i = 0; i < names.length; i++)
+    set[names[i]].death = deathdate;
+}
+----
+
+(((record (data structure))))(((data structure)))
+`catRecord` is a separate function for creating these storage
+objects. It might be useful in other situations, such as creating the
+object for Spot. _Record_ is a term often used for objects like
+this, which are used to group a limited number of values.
+
+So, let's try to extract the names of the mother cats from the
+paragraphs like “born 15/11/2003 (mother Spot) ....”:
+
+[source,javascript]
+----
+function extractMother(paragraph) {
+  var start = paragraph.indexOf("(mother ") + "(mother ".length;
+  var end = paragraph.indexOf(")");
+  return paragraph.slice(start, end);
+}
+
+extractMother("born 15/11/2003 (mother Spot): White Fang");@
+→ "Spot"
+----
+
+Notice how the start position has to be adjusted for the length of 
+`"(mother "`, because `indexOf` returns the position of the
+start of the pattern, not its end.
+
+(((findCats@`findCats` function)))
+The new, extended cat algorithm looks like this:
+
+[source,javascript]
+----
+function findCats() {
+  var cats = {"Spot": catRecord("Spot", new Date(1997, 2, 5), "unknown")};
+
+
+  function handleParagraph(paragraph) {
+    if (startsWith(paragraph, "born"))
+      addCats(cats, catNames(paragraph), extractDate(paragraph),
+              extractMother(paragraph));
+    else if (startsWith(paragraph, "died"))
+      deadCats(cats, catNames(paragraph), extractDate(paragraph));
+  }
+
+  for (var mail = 0; mail < ARCHIVE.length; mail++) {
+    var paragraphs = ARCHIVE[mail].split("\n");
+    for (var i = 0; i < paragraphs.length; i++)
+      handleParagraph(paragraphs[i]);
+  }
+  return cats;
+}
+----
+
+For each new cat that is born, we add a record to the `cats`
+object. When it dies, this is noted in the record. Thus, the return
+value of `findCats` is an object, with each property of that
+object naming a cat and holding a record with information about that
+cat.
+
+=== Data Presentation ===
+
+(((formatDate@`formatDate` function)))
+Having that extra data allows us to finally have a clue about the cats
+Aunt Emily talks about. A function like this could be useful:
+
+[source,javascript]
+----
+function formatDate(date) {
+  return date.getDate() + "/" + (date.getMonth() + 1) + "/" + 
+    date.getFullYear();
+}
+
+function catInfo(data, name) {
+  var cat = data[name];
+  if (cat == undefined)
+    return "No cat by the name of " + name + " is known.";
+
+  var message = name + ", born " + formatDate(cat.birth) +
+                " from mother " + cat.mother;
+  if ("death" in cat)
+    message += ", died " + formatDate(cat.death);
+  return message + ".";
+}
+
+// For example...
+catInfo(catData, "Fat Igor");@
+→ "Fat Igor, born 1/6/2004 from mother Miss Bushtail."
+----
+
+(((return@`return` keyword)))
+The first `return` statement in `catInfo` is used as an
+escape hatch. If there is no data about the given cat, the rest of the
+function is meaningless, so we immediately return a value, which
+prevents the rest of the code from running.
+
+(((multiple returns)))
+In the past, some programmers considered functions that contain
+multiple `return` statements sinful. The idea was that this made
+it hard to see which code was executed and which code was not. Other
+techniques, which will be discussed in REF(error), have made the
+reasons behind this idea more or less obsolete, but you might still
+occasionally come across someone who will criticize the use of
+“shortcut” `return` statements.
+
+Next, we write a function `oldestCat`, which, given an object
+containing cats as its argument, returns the name of the oldest living
+cat:
+
+[source,javascript]
+----
+function oldestCat(data) {
+  var oldest = null;
+
+  for (var name in data) {
+    var cat = data[name];
+    if (!("death" in cat) && (oldest == null || oldest.birth > cat.birth))
+      oldest = cat;
+  }
+
+  if (oldest == null)
+    return null;
+  else
+    return oldest.name;
+}
+----
+
+The condition in the `if` statement might seem a little
+intimidating. It can be read as “store the current cat in the
+variable `oldest` only if it is not dead, and `oldest` is either
+`null` or a cat that was born after the current cat.”
+
+== Some More Theory ==
+
+Now that you are aware of the existence of arrays and objects, I can
+clarify a few issues that were glossed over before.
+
+=== The arguments Object ===
+
+(((arguments@`arguments` object)))(((length@`length` property)))
+Whenever a function is called, a special “magic” variable named
+`arguments` is added to the environment in which
+the function body runs. This variable refers to an object that
+resembles an array. It has a property `0` for the first argument,
+`1` for the second, and so on, for every argument the function was
+given. It also has a `length` property.
+
+(((array,methods)))(((array,pseudo|see{pseudo-array)))}(((pseudo-array)))
+However, the `arguments` object is not a real array---it does not
+have methods like `push`, and it does not automatically update its
+`length` property when you add something to it. This is an unfortunate
+heritage of the haphazard way in which the language has grown.
+
+[source,javascript]
+----
+function argumentCounter() {
+  return "You gave me " + arguments.length + " arguments.";
+}
+argumentCounter("Straw man", "Tautology", "Ad hominem");@
+→ "You gave me 3 arguments."
+----
+
+(((print@`print` function)))(((variadic function)))
+Some functions can take any number of arguments, like `print`
+does. These typically loop over the values in the `arguments`
+object to do something with them. Others can take optional arguments
+that, when not given by the caller, get some sensible default value.
+
+[source,javascript]
+----
+function add(number, howmuch) {
+  if (arguments.length < 2)
+    howmuch = 1;
+  return number + howmuch;
+}
+
+add(6);@
+→ 7
+add(6, 4);@
+→ 10
+----
+
+(((range@`range` function)))
+We could also extend the `range` function we made earlier to take
+a second, optional argument. If only one argument is given, it behaves
+as earlier and produces a range from 0 to the given number. If two
+arguments are given, the first indicates the start of the range, and the
+second indicates the end.
+
+[source,javascript]
+----
+function range(start, end) {
+  if (arguments.length < 2) {
+    end = start;
+    start = 0;
+  }
+  var result = [];
+  for (var i = start; i <= end; i++)
+    result.push(i);
+  return result;
+}
+
+range(4);@
+→ [0, 1, 2, 3, 4]
+range(2, 4);@
+→ [2, 3, 4]
+----
+
+This optional argument works a bit differently than the one in the previous example. When it is not given, the first argument
+takes the role of `end`, and `start` becomes `0`.
+
+=== Tying Up a Loose End ===
+
+You may remember this line of code from the introduction:
+
+[source,javascript]
+----
+print(sum(range(1, 10)));
+----
+
+(((sum@`sum` function)))
+We have defined the `range` operator now. All we need to make this line run is a
+`sum` function. This function takes an array of numbers and
+returns their sum. We can easily write that at this point.
+
+[source,javascript]
+----
+function sum(numbers) {
+  var total = 0;
+  for (var i = 0; i < numbers.length; i++)
+    total += numbers[i];
+  return total;
+}
+
+sum(range(1, 10));@
+→ 55
+----
+
+=== The Math Object ===
+
+(((Math@`Math` object)))(((min@`min` function)))(((max@`max` function)))
+The previous chapter showed the functions `Math.max` and
+`Math.min`. With what you know now, you will notice that these
+are really the properties `max` and `min` of the object
+stored under the name `Math`. This is another role
+that objects can play: a warehouse holding a number of related values.
+
+(((namespace pollution)))
+There are quite a lot of values inside `Math`---enough that if they
+had all been placed directly into the global environment, they would
+“pollute” it. The more names that have been taken, the more likely one is
+to accidentally overwrite the value of some variable. For example, it is
+not a far shot to want to name something `max` in one of our
+programs.
+
+Most languages will stop you, or at least warn you, when you are
+defining a variable with a name that is already taken. JavaScript does
+neither, so be careful.
+
+(((trigonometry)))(((cos@`cos` function)))(((sin@`sin` function)))
+(((tan@`tan` function)))(((acos@`acos` function)))(((asin@`asin` function)))
+(((atan@`atan` function)))(((PI@`PI` constant)))(((E@`E` constant)))
+(((exponentiation)))(((pow@`pow` function)))(((sqrt@`sqrt` function)))
+(((square root)))(((round@`round` function)))(((floor@`floor` function)))
+(((ceil@`ceil` function)))
+In any case, one can find a whole outfit of mathematical functions and
+constants inside `Math`. All the trigonometric functions are
+there---`Math.cos`, `sin`, `tan`, `acos`,
+`asin`, `atan`. π and _e_ are there, written in all
+capital letters (`Math.PI` and `Math.E`), which is, for
+historical reasons, a common way to indicate something is a constant
+value. `Math.pow` is a good replacement for the `power`
+functions we have been writing---it also accepts negative and
+fractional exponents. `Math.sqrt` takes square roots.
+`Math.max` and `Math.min` can give the maximum or minimum of
+two values. `Math.round`,
+`Math.floor`, and `Math.ceil` will round numbers to the
+closest whole number, the whole number below it, and the one above it, respectively.
+
+=== Enumerable Properties ===
+
+(((property,enumerability)))(((for/in@`for`/`in` loop)))
+Maybe you already thought of a way to find out what is available in
+the `Math` object:
+
+[source,javascript]
+----
+for (var name in Math)
+  print(name);
+----
+
+But alas, nothing appears. Similarly, consider this loop over the properties of an array:
+
+[source,javascript]
+----
+for (var name in ["Huey", "Dewey", "Louie"])
+  print(name);
+----
+
+(((length@`length` property)))(((toString@`toString` method))) You
+will only see `0`, `1`, and `2`, not `length`, `push`, or `join`,
+which are definitely also in there. It seems some properties of
+objects are hidden from `in` loops, or, as this is officially called,
+_not enumerable_. There is a good reason for this: All objects have a
+few methods (for example, `toString`) that convert the object into
+some kind of relevant string, and you do not want to see those when
+you are, for example, looking for the cats that you stored in the
+object.
+
+All properties your programs add to objects are visible. There is no
+way to make them hidden, which is unfortunate because, as we will see
+in REF(oo), it is often useful to be able to add methods to
+objects without having them show up in our `for`/`in` loops.
+

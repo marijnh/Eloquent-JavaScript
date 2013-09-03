@@ -358,9 +358,11 @@ quickly get the hang of it. The same goes for the exercises. Don't
 assume you understand them until you've actually written a working
 solution.
 
---html-only--
+ifdef::html_target[]
+
 FIXME explain interactive code
---html-only--
+
+endif::html_target[]
 
 FIXME
 

@@ -278,11 +278,13 @@ of the user interface that is hidden by default, but can be found by
 digging into the menu and finding an an item like “Web console” or
 “Developer tools”, usually under a “Tools” or “Developer” sub-menu.
 
---html-only--
+ifdef::html_target[]
+
 When running the examples, or your own code, on the pages of this
 book, `console.log` output will be shown below the example, instead of
 in the browser's JavaScript console.
---html-only--
+
+endif::html_target[]
 
 The program below will log something like `the value of x is 30`.
 
@@ -591,11 +593,13 @@ condition that will always produce `true`, you get what is called an
 _((infinite loop))_. A program running an infinite loop will never
 finish running, which is usually a bad thing.
 
---html-only--
+ifdef::html_target[]
+
 If you create an infinite loop in one of the examples on these pages,
 you'll have to close the tab that you're working in, or on some
 browsers close your whole browser, to recover.
---html-only--
+
+endif::html_target[]
 
 == Updating variables succinctly ==
 

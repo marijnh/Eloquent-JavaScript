@@ -61,7 +61,7 @@ pre[data-language=javascript] {
   cursor: pointer;
 }
 
-code, pre {
+code, pre, .CodeMirror, .example-output {
   font-size: 90%;
   font-family: 'PT Mono', monospace;
 }
@@ -69,7 +69,7 @@ code, pre {
 h1, h2, h3 {
   font-family: 'Alegreya SC';
   font-weight: 700;
-  margin: 1em 0 0 0;
+  margin: 1rem 0;
   letter-spacing: 2px;
 }
 
@@ -113,6 +113,40 @@ blockquote p:after {
   content: '”';
 }
 
+.example-output {
+  border-left: 3px solid #66a;
+  padding: 4px 0 4px 17px;
+  white-space: pre;
+}
+
+.example-output:empty {
+  display: none;
+}
+
+.run-button, .close-button {
+  position: absolute;
+  width: 15px;
+  left: -18px;
+  cursor: pointer;
+  color: #ddd;
+  line-height: 1;
+}
+
+.run-button {
+  top: 0;
+  font-size: 60%;
+}
+
+.close-button {
+  top: 15px;
+  font-size: 80%;
+  font-weight: bold;
+}
+
+.run-error {
+  color: red;
+}
+
 /* Toned-down CodeMirror style */
 
 .cm-s-default .cm-keyword {color: #506;}
@@ -125,3 +159,15 @@ blockquote p:after {
 .cm-s-default .cm-string {color: #700;}
 .cm-s-default .cm-string-2 {color: #740;}
 .cm-s-default .cm-tag {color: #170;}
+
+.CodeMirror {
+  height: auto;
+  border-left: 3px solid #ddd;
+  line-height: 1.3;
+}
+.CodeMirror-scroll {
+  max-height: 500px;
+}
+.CodeMirror pre {
+  padding: 0 4px 0 17px;
+}

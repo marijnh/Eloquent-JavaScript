@@ -1,3 +1,6 @@
+:prev_link: 02_program_structure
+:next_link: 04_FIXME
+
 = Functions =
 
 (((function)))You’ve seen function values, and how to call

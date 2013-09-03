@@ -1,3 +1,5 @@
+:next_link: 01_values
+
 = Introduction =
 
 This is a book about computers, and how to talk to them. It

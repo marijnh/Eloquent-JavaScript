@@ -39,6 +39,18 @@ article {
   position: relative;
 }
 
+nav {
+  display: block;
+  height: 0;
+  text-align: right;
+}
+
+nav a {
+  font-size: 80%;
+  color: #aaa;
+  text-decoration: none;
+}
+
 pre {
   border-left: 3px solid #ddd;
   padding: 4px 0 4px 17px;

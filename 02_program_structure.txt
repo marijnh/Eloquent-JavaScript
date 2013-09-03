@@ -1,3 +1,6 @@
+:prev_link: 01_values
+:next_link: 03_functions
+
 = Program Structure =
 
 This is the point where we start to do things that can

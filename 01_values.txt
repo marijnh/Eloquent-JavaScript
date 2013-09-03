@@ -1,3 +1,6 @@
+:prev_link: 00_intro
+:next_link: 02_program_structure
+
 = Values, Types, and Operators =
 
 (((data)))(((bit)))(((memory)))Inside the computer’s world,

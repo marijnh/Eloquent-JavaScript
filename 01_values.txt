@@ -1,9 +1,10 @@
 = Values, Types, and Operators =
 
-(((data)))(((bit)))(((memory)))Inside the computer's world, there is
-only data. We can read data, modify data, create new data—but things
-that aren't represented as data simply do not exist. All this data is
-stored as long sequences of bits, and is thus fundamentally alike.
+(((data)))(((bit)))(((memory)))Inside the computer’s world,
+there is only data. We can read data, modify data, create new data—but
+things that aren’t represented as data simply do not exist. All this
+data is stored as long sequences of bits, and is thus fundamentally
+alike.
 
 Bits can be any kinds of two-valued things, usually described as
 zeroes and ones. Inside the computer, they take forms like a high or
@@ -16,7 +17,7 @@ As an example, consider the way in which the number thirteen could be
 stored in bits. The way this is done is analogous to the way we write
 decimal numbers, but instead of ten digits, we have only two, and
 instead of the weight of a digit being ten times the weight of the
-digit after it, the weight increases by a factor two. Here's thirteen,
+digit after it, the weight increases by a factor two. Here’s thirteen,
 with the weight of the digits shown below them:
 
 ----
@@ -24,7 +25,7 @@ with the weight of the digits shown below them:
  256 128  64  32  16   8   4   2   1
 ----
 
-So that's `000001101`, or `8 + 4 + 1`, equals `13`.
+So that’s `000001101`, or 8 + 4 + 1, which equals 13.
 
 == Values ==
 
@@ -33,7 +34,7 @@ will have over thirty billion bits sitting in its volatile data
 storage (as opposed to non-volatile storage—the hard disk or
 equivalent—which tends to have yet a few orders of magnitude more).
 
-In order to work with these without getting lost, we'll have to
+In order to work with these without getting lost, we’ll have to
 structure them somehow. One way to do that is to group them into
 chunks that represent a single piece of information. In a JavaScript
 environment, all data is separated into things called _((value))s_,
@@ -45,7 +46,7 @@ of role it plays. There are six basic types of values in JavaScript:
 numbers, strings, booleans, objects, functions, and undefined values.
 
 (((garbage collection)))To create a value, one must merely invoke its
-name. This is very convenient. You don't have to gather building
+name. This is very convenient. You don’t have to gather building
 material for your values or pay for them; you just call for one, and
 _woosh_, you have it. They are not created from thin air, of course.
 Every value has to be stored somewhere, and if you want to use a
@@ -82,7 +83,7 @@ Similarly, the amount of numbers that can be represented by 64 binary
 digits is 2^64^, which is about 18 quintillion (an 18 with 18
 zeroes after it).
 
-That's a lot. Exponential numbers have a habit of getting big. There
+That’s a lot. Exponential numbers have a habit of getting big. There
 was a time when memory was small and people tended to use groups of
 eight or sixteen bits to represent their numbers. It was easy to
 accidentally “overflow” such small numbers. Today, we have the luxury
@@ -173,26 +174,26 @@ When in doubt, just add parentheses.
 operator, which is possibly less familiar. The `%` symbol is used to
 represent the _remainder_ operation. `X % Y` is the remainder of
 dividing `X` by `Y`. For example, `314 % 100` is `14`, `10 % 3` is
-`1`, and `144 % 12` is `0`. Remainder's precedence is the same as that
-of multiplication and division. You'll often see this operator being
-referred to as “modulo” (though that's technically not entirely
+`1`, and `144 % 12` is `0`. Remainder’s precedence is the same as that
+of multiplication and division. You’ll often see this operator being
+referred to as “modulo” (though that’s technically not entirely
 accurate).
 
-=== Special Numbers ===
+=== Special numbers ===
 
 There are three special values in JavaScript that are considered to be
-numbers, but don't behave like normal numbers.
+numbers, but don’t behave like normal numbers.
 
 The first two are `Infinity` and `-Infinity`, which are used to
 represent the positive and negative infinities. `Infinity - 1` is
-still `Infinity`, and so on. But don't put too much trust in this kind
+still `Infinity`, and so on. But don’t put too much trust in this kind
 of infinity-based computation, it is hardly mathematically solid, and
 will quickly lead to our next special number: `NaN`.
 
 `NaN` stands for “not a number” (though it is, contradictionally, a
 value of the number type). You get it when you say `0 / 0` (zero
 divided by zero), `Infinity + -Infinity`, or any number of other
-numeric operations that don't yield a precise, meaningful result.
+numeric operations that don’t yield a precise, meaningful result.
 
 == Strings ==
 
@@ -261,7 +262,7 @@ The following line will produce the string `"concatenate"`:
 There are more ways of manipulating strings, which we will discuss
 when we get to methods in REF(data).
 
-== Unary Operators ==
+== Unary operators ==
 
 (((operator)))(((typeof operator)))(((type)))Not all operators are
 symbols. Some are written as words. One example is the `typeof`
@@ -288,7 +289,7 @@ can be used both as a binary operator and a unary operator:
 // → -8
 ----
 
-== Boolean Values ==
+== Boolean values ==
 
 (((Boolean type)))(((operator)))(((true)))(((false)))Often, you will
 need a value that simply distinguishes between two possiblities, “yes”
@@ -350,7 +351,7 @@ is `NaN` (not-a-number). This is supposed to denote the result of a
 nonsense computation, and as such not equal to the result of any
 _other_ nonsense computations. Thus, `NaN == NaN` is `false`.
 
-=== Logical Operators ===
+=== Logical operators ===
 
 (((logical operators)))There are also some operations that can be
 applied to boolean values themselves. JavaScript supports three
@@ -398,23 +399,23 @@ necessary.
 1 + 1 == 2 || 10 * 10 <= 100
 ----
 
-== Undefined Values ==
+== Undefined values ==
 
 (((undefined)))(((null)))There are two special values, written `null`
 and `undefined`, that are used to denote the absence of a meaningful
 value. They are themselves values, but values that carry no
 information beyond their identity.
 
-Many operations in the language which don't produce a meaningful value
-(we'll see some in the next chapter) will yield `undefined`, simply
+Many operations in the language which don’t produce a meaningful value
+(we’ll see some in the next chapter) will yield `undefined`, simply
 because they have to yield _some_ value.
 
 The difference in meaning between `undefined` and `null` is mostly
-uninteresting and an accident of JavaScript's design. In the cases
+uninteresting and an accident of JavaScript’s design. In the cases
 where you actually have to concern yourself with these values, I
 recommend treating them as interchangeable (more on that in a moment).
 
-== Automatic Type Conversion ==
+== Automatic type conversion ==
 
 (((type conversion)))In the introduction, I mentioned that JavaScript
 would go out of its way to accept almost anything you give it, even
@@ -437,20 +438,20 @@ false == 0
 
 When an operator is applied to the “wrong” type of value, it will
 quietly convert that value to the type it wants, using a set of rules
-that often aren't what you want or expect. So the `null` in the first
+that often aren’t what you want or expect. So the `null` in the first
 expression becomes `0`, the `"5"` in the second expression becomes `5`
 (from string to number), yet in the third expression, because `+` will
 try string concatenation before it tries numeric addition, the `1` is
 converted to `"1"` (from number to string).
 
-When something that doesn't map to a number in an obvious way, such as
+When something that doesn’t map to a number in an obvious way, such as
 `"five"` or `undefined` is converted to a number, the value `NaN` is
 produced. Further arithmetic operations on `NaN` keep on producing
 `NaN`, so if you find yourself getting one of those in an unexpected
 place, look for accidental type conversions.
 
 (((== operator)))When comparing things of the same type using `==`,
-the outcome is rather easy to predict—you'll get `true` when both
+the outcome is rather easy to predict—you’ll get `true` when both
 values are the same. But when the types differ, JavaScript uses a
 complicated and confusing set of rules to determine what to do. I will
 not explain them precisely, but in most cases it just tries to convert
@@ -477,7 +478,7 @@ precisely equal. So `"" === false` is `false` as expected.
 Using the three-character comparison operators defensively, to
 prevent unexpected type conversions from tripping you up, is something
 I recommend. Though when you are sure that the types on both sides
-will be the same, or that they'll either be the same or
+will be the same, or that they’ll either be the same or
 `null`/`undefined`, there is also no problem with using the shorter
 operators.
 
@@ -528,7 +529,7 @@ operators. We saw binary operators for arithmetic (`+`, `-`, `*`, `/`,
 and `%`), one for string concatenation (`+`), comparison (`==`, `!=`,
 `===`, `!==`, `<`, `>`, `<=`, `>=`), and logic (`&&`, `||`), as well
 as several unary operators (`-` to negate a number, `!` to negate
-logically, and `typeof` to find a value's type).
+logically, and `typeof` to find a value’s type).
 
 This gives you enough information to use JavaScript as a pocket
 calculator, but not much more. The next chapter will start tying these

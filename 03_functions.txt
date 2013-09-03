@@ -1,7 +1,7 @@
 = Functions =
 
-(((function)))You've seen function values, and how to call them, in
-the previous chapter.
+(((function)))You’ve seen function values, and how to call
+them, in the previous chapter.
 
 What is the role of functions in programming languages? They are a way
 to define new vocabulary. Creating new words left and right in
@@ -15,7 +15,7 @@ tends to be more precisely defined, and thus less flexible, than
 spoken language words. Thus, we usually _have_ to add some of our own
 vocabulary to avoid repeating ourselves all too much.
 
-== Defining a Function ==
+== Defining a function ==
 
 (((function,definition)))A function definition is
 just a regular variable definition where the value given to the
@@ -60,7 +60,7 @@ power(2, 10);
 ----
 
 (((return keyword)))Some functions produce a value, such as `power`
-and `square`, and some don't, such as `makeNoise` (which only has a
+and `square`, and some don’t, such as `makeNoise` (which only has a
 side effect). A `return` statement is used to determine the value the
 function returns. When control comes across such a statement, it
 immediately jumps out of the current function and gives the returned
@@ -68,7 +68,7 @@ value to the code that called the function. The `return` keyword
 without an expression after it will cause the function to return
 `undefined`.
 
-== Parameters and Scopes ==
+== Parameters and scopes ==
 
 (((variable)))The parameters to a function behave like variables—but
 ones that are given an initial value by the _caller_ of the function,
@@ -86,7 +86,7 @@ indexsee:[top-level variable,global variable]
 (((var keyword)))(((global variable)))This “localness” of variables
 applies only to the parameters and variables declared with the `var`
 keyword inside the function body. It is possible to access _global_
-(nonlocal) variables from inside a function, as long as you haven't
+(nonlocal) variables from inside a function, as long as you haven’t
 declared a local variable with the same name.
 
 The following code demonstrates this. It defines (and calls) two
@@ -117,8 +117,8 @@ console.log(x);
 ----
 
 This behavior helps prevent accidental interference between functions.
-If all variables were shared by the whole program, it'd take a lot of
-effort, in program that aren't trivially small, to make sure no name
+If all variables were shared by the whole program, it’d take a lot of
+effort, in program that aren’t trivially small, to make sure no name
 is used twice. And if you _did_ reuse a variable name, you would see
 strange effects, as unrelated code messes with the value of your
 variable. By treating function-local variables as existing only within
@@ -126,7 +126,7 @@ the function, the language makes it easier to read and understand
 functions as small universes, with little action-at-a-distance to
 complicate things.
 
-== Nested Scope ==
+== Nested scope ==
 
 (((variable,scope)))(((inner function)))(((nested functions)))
 (((lexical scoping)))In JavaScript, the distinction is not just
@@ -166,13 +166,13 @@ console.log(landscape());
 
 The `flat` and `mountain` function can “see” the variable called
 `result`, since they are inside of the function that defines it. But
-they can not see each other's `count` variables, only their own, since
+they can not see each other’s `count` variables, only their own, since
 they are outside of each other.
 
 In short, each local scope can also see all the local scopes that it
 is inside of. The set of variables visible inside a function is
 determined by the place of that function in the program text. All
-variables that were defined “above” a function's definition are
+variables that were defined “above” a function’s definition are
 visible, which means both those in function bodies that enclose it and
 those at the top level of the program. This approach to variable
 visibility is called _lexical scoping_.
@@ -198,12 +198,12 @@ as the one outside the block. In fact, although blocks like this are
 allowed, they are only useful to group the body of an `if`
 statement or a loop.
 
-If you find this odd, you're not alone. The next version of JavaScript
+If you find this odd, you’re not alone. The next version of JavaScript
 will introduce a `let` keyword, which works like `var`, but creates a
 variable that is local to the enclosing _block_, not the enclosing
 _function_.
 
-== Functions as Values ==
+== Functions as values ==
 
 (((function,as value)))Usually, function variables simply act as names
 for a specific piece of the program. They are defined once, and never
@@ -233,7 +233,7 @@ announce("it is done");
 In REF(fp), we will discuss the wonderful things that can be done by
 passing around function values to other functions.
 
-== Declaration Notation ==
+== Declaration notation ==
 
 There is a slightly shorter way to say `var x = function...`. The
 `function` keyword can also be used at the start of a statement, to
@@ -266,7 +266,7 @@ to put the interesting code at the top, and still use functions
 defined further down.
 
 What happens when you put such a function definition inside of a
-conditional (`if`) block, or a loop? Well, don't do that. Different
+conditional (`if`) block, or a loop? Well, don’t do that. Different
 JavaScript platforms (in browsers) have traditionally done different
 things in that situation, and the latest standard actually forbids it.
 So if you want your programs to behave consistently, only use this
@@ -283,7 +283,7 @@ function example() {
 }
 ----
 
-== The Call Stack ==
+== The call stack ==
 
 indexsee:[stack,call stack]
 
@@ -330,7 +330,7 @@ a function is called, the current context is put on top of this
 context from the stack, and uses it to continue execution.
 
 (((stack overflow)))(((recursion)))This stack requires space in the
-computer's memory to be stored. When the stack grows too big, the
+computer’s memory to be stored. When the stack grows too big, the
 computer will give up with a message like “out of stack space” or “too
 much recursion.” The following code illustrates that—it asks the
 computer a really hard question, which causes an infinite
@@ -368,7 +368,7 @@ amount of arguments you pass to a function. If you pass too many, the
 extra ones are ignored. If you pass too few, the variables for the
 missing parameters get the value `undefined`.
 
-The downside of this is that it is possible—likely, even—that you'll
+The downside of this is that it is possible—likely, even—that you’ll
 accidentally pass the wrong number of arguments to functions... and no
 one will tell you about it.
 
@@ -433,11 +433,11 @@ console.log(wrap2());
 
 When `wrapNumber` is called, it creates a local variable that stores
 its parameter, and then returns a function that returns this local
-variable. This is allowed, and works as you'd expect—the variable
+variable. This is allowed, and works as you’d expect—the variable
 survives. In fact, multiple instances of the variable can be alive at
 the same time, which is another good illustration of the concept that
 local variables really are recreated for every call—different calls
-can not trample on each other's local variables.
+can not trample on each other’s local variables.
 
 This feature, being able to reference specific instance of local
 variables in an enclosing function, is called _closure_. A function
@@ -461,7 +461,7 @@ console.log(twice(5));
 // → 10
 ----
 
-The explicit local variable from the `wrapNumber` example isn't
+The explicit local variable from the `wrapNumber` example isn’t
 needed, since a parameter is itself a local variable.
 
 == Recursion ==
@@ -514,7 +514,7 @@ you know for sure that the program is too slow. When it is, find out
 which parts are taking up the most time, and start exchanging elegance
 for efficiency in those parts.
 
-Of course, the previous rule doesn't mean one should start ignoring
+Of course, the previous rule doesn’t mean one should start ignoring
 performance altogether. In many cases, like the `power` function,
 not much simplicity is gained by the “elegant” approach. In other
 cases, an experienced programmer can see right away that a simple
@@ -563,10 +563,10 @@ findSolution(24);
 // → (((1 * 3) + 5) * 3)
 ----
 
-Note that it doesn't necessarily find the _shortest_ sequence of
+Note that it doesn’t necessarily find the _shortest_ sequence of
 operations—it is satisfied when it finds any sequence at all.
 
-I don't necessarily expect you to see how it works right away. But let
+I don’t necessarily expect you to see how it works right away. But let
 us work through it, since it makes for a great exercise in recursive
 thinking.
 
@@ -580,7 +580,7 @@ performs one of three actions. If the current number is the goal
 number, the current history is a way to reach the goal, so it is
 simply returned. If the current number is greater than the goal, there
 is no sense in further exploring this history, since both of the
-possible steps will only make the number bigger. And finally, if we're
+possible steps will only make the number bigger. And finally, if we’re
 still below the goal, the function tries all possible paths that start
 from the current number, by calling itself twice, once for both of the
 allowed next steps. If the first call returns something that is not
@@ -619,7 +619,7 @@ a string is returned, and each of the `||` operators in the
 intermediate calls ends up returning that string, which is our
 solution.
 
-== Growing Functions ==
+== Growing functions ==
 
 There are two more or less natural ways for functions to be introduced
 into programs.
@@ -631,13 +631,13 @@ understand the program. So we take the repeated functionality, find a
 good name for it, and put it into a function.
 
 The second way is that you find you need some functionality that you
-haven't written yet, and that sounds like it deserves its own
-function. You'll start by naming the function, and then write its
+haven’t written yet, and that sounds like it deserves its own
+function. You’ll start by naming the function, and then write its
 body. You might even first write another piece of code that already
 uses the function, before you create the function itself.
 
 How difficult it is to find a good name for a function is a good
-indication of how clear a concept it is that you're trying to wrap.
+indication of how clear a concept it is that you’re trying to wrap.
 Let us go through an example.
 
 We want to write a program that prints two numbers, the amounts of
@@ -650,7 +650,7 @@ always three digits long.
 011 Chickens
 ....
 
-Well, that clearly is a function of two arguments. Let's get coding.
+Well, that clearly is a function of two arguments. Let’s get coding.
 
 [source,javascript]
 ----
@@ -671,13 +671,13 @@ string. Thus, whe `while` loops keep putting zeroes in front of the
 number strings until they are at least three characters long.
 
 Mission accomplished! But just as we want to send him the code (along
-with a hefty invoice), the farmer calls and tells us he's also started
-keeping pigs, and couldn't we please extend the software to also print
+with a hefty invoice), the farmer calls and tells us he’s also started
+keeping pigs, and couldn’t we please extend the software to also print
 pigs.
 
-We sure can. But just as we're in the process of copy-pasting those
+We sure can. But just as we’re in the process of copy-pasting those
 four lines one more time, we stop and reconsider. There has to be a
-better way. Here's a first attempt:
+better way. Here’s a first attempt:
 
 [source,javascript]
 ----
@@ -725,7 +725,7 @@ could use it to print nicely aligned tables of numbers.
 
 How smart and versatile should our function be? We could write
 anything from a terribly simple function that simply pads a number so
-that it's three characters wide, to a complicated generalized
+that it’s three characters wide, to a complicated generalized
 number-formatting system that handles fractional numbers, negative
 numbers, aligning of dots, padding with different characters, and so
 on.
@@ -733,10 +733,10 @@ on.
 A useful principle is to not add cleverness unless you are absolutely
 sure you are going to need it. It can be tempting to write general
 “frameworks” for every little bit of functionality you need. Resist
-that urge. You won't get any real work done, and you'll end up writing
+that urge. You won’t get any real work done, and you’ll end up writing
 a lot of code that no one will ever use.
 
-== Functions and Side Effects ==
+== Functions and side effects ==
 
 (((side effect)))(((pure function)))(((function,purity)))Functions can
 roughly be divided into those that are called for their side effects,
@@ -751,11 +751,11 @@ first. Functions that create values are easier to combine in new ways
 than functions that directly perform a side effect.
 
 A _pure_ function is a specific kind of value-producing function that
-not only has no side effects, but also doesn't rely on side effects
-from other code—for example, it doesn't read variables that are
+not only has no side effects, but also doesn’t rely on side effects
+from other code—for example, it doesn’t read variables that are
 occasionally changed by other code. A pure function has the pleasant
 property that, when called with the same arguments, it always produces
-the same value (and doesn't do anything else). This makes it easy to
+the same value (and doesn’t do anything else). This makes it easy to
 think about—a call to it can be mentally substituted by its result
 without changing the meaning of the code. When you are not sure that
 such a function is working correctly, you can test it by simply
@@ -766,7 +766,7 @@ and think about.
 
 Still, there is no need to feel bad when writing functions that are
 not pure, no need to start a holy war and purge all code of
-impurities. Side effects are often useful. There'd be no way to write
+impurities. Side effects are often useful. There’d be no way to write
 a pure `console.log`, for example, and `console.log` is certainly
 useful. Some operations also become more expensive when done without
 side effect, since all data involved must be copied, rather than
@@ -794,10 +794,10 @@ A key aspect in understanding functions is understanding local scopes.
 Parameters and variables declared inside a function are local to the
 function, recreated every time the function is called, and not visible
 from the outside. Functions declared inside another function do have
-access to the outer function's local scope.
+access to the outer function’s local scope.
 
 Separating the different tasks your program performs into different
-functions is helpful. You won't have to repeat yourself so much, and
+functions is helpful. You won’t have to repeat yourself so much, and
 it helps people reading the program in the same way that chapters and
 sections are helpful when reading regular text.
 
@@ -820,9 +820,9 @@ A function can have multiple `return` statements.
 
 === Recursion ===
 
-We've seen that `% 2` (the remainder operator) can be used to test
+We’ve seen that `% 2` (the remainder operator) can be used to test
 whether a number is divisible by 2, i.e. whether it is even or odd.
-Here's another way to define whether a (positive, whole) number is
+Here’s another way to define whether a (positive, whole) number is
 even or odd:
 
 - Zero is even.
@@ -851,6 +851,6 @@ again, giving itself an ever more negative number, and thus only
 getting further and further away from the input that allows it to
 return a result. It will eventually run out of stack space and abort.
 
-=== 3rd Exercise ===
+=== 3rd exercise ===
 
 FIXME fill this in

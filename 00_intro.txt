@@ -1,12 +1,12 @@
 = Introduction =
 
-This is a book about computers, and how to talk to them. It has been
-over sixty years since electronic computers—information processing
-machines—were invented. They are now everywhere, and we are still
-finding new ways to use them. I feel that, for 21st-century human
-beings, it is useful to be able to talk to computers well.
+This is a book about computers, and how to talk to them. It
+has been over sixty years since electronic computers—information
+processing machines—were invented. They are now everywhere, and we are
+still finding new ways to use them. I feel that, for 21st-century
+human beings, it is useful to be able to talk to computers well.
 
-There's something of an inherent gap between us, squishy biological
+There’s something of an inherent gap between us, squishy biological
 organisms with a talent for social and spatial reasoning, and the
 computer, a straightforward manipulator of meaningless data with none
 of our biases and instincts. Fortunately, there has been some
@@ -24,23 +24,23 @@ outside of the machine.
 Graphical interfaces tend to be easier to figure out than
 language-based ones (compare finding a button to learning a language).
 For this reason, they have become the dominant way to interact with
-consumer-oriented systems. Compare today's phones, where you can
+consumer-oriented systems. Compare today’s phones, where you can
 accomplish all kinds of tasks by tapping and swiping the elements that
 appear on the screen, with the ((Commodore 64)) of 1982, the device
 that introduced me to computing, where all you get is a blinking
-cursor, and you're supposed to take it from there—by typing in
+cursor, and you’re supposed to take it from there—by typing in
 commands.
 
 Obviously, the touchscreen phone is more accessible, and it is
 entirely appropriate that such devices use a graphical interface. But
 language-based interfaces have another advantage—they tend to be more
-expressive, once you've learned the language, making it easy to
+expressive, once you’ve learned the language, making it easy to
 compose the functionality provided by the system in new ways, and even
 to create your own building blocks.
 
 (((programming language)))
 With the Commodore 64, almost every task in the system was
-accomplished by giving commands in the machine's built-in language (a
+accomplished by giving commands in the machine’s built-in language (a
 ((BASIC)) dialect). This allowed users to gradually progress from
 simply using the computer (loading in programs) to actually
 programming it themselves. You were _in_ a programming environment
@@ -58,7 +58,7 @@ a web browser.
 This book wants to show you how to use this language to make computers
 do what you want them to do.
 
-== On Programming ==
+== On programming ==
 
 [quote, Confucius]
 (((Confucius)))I do not enlighten those who are not eager to learn,
@@ -80,7 +80,7 @@ required. Try to stay sharp, make an effort to understand the example
 code, and only continue when you are reasonably sure you understand
 the material that came before.
 
-[quote, Josepth Weizenbaum, Computer Power and Human Reason]
+[quote, Joseph Weizenbaum, Computer Power and Human Reason]
 (((Weizenbaum, Joseph)))The computer programmer is a creator of
 universes for which he alone is responsible. Universes of virtually
 unlimited complexity can be created in the form of computer programs.
@@ -88,7 +88,7 @@ unlimited complexity can be created in the form of computer programs.
 (((program,nature of)))(((data)))
 A program is many things. It is a piece of text typed by a programmer,
 it is the directing force that makes the computer do what it does, it
-is data in the computer's memory, yet it controls the actions
+is data in the computer’s memory, yet it controls the actions
 performed on this same memory. Analogies that try to compare programs
 to objects we are familiar with tend to fall short, but a
 superficially fitting one is that of a machine. The gears of a
@@ -134,11 +134,11 @@ you learn, there will always be new challenges and new territory to
 explore. Programmers who refuse to keep exploring will stagnate,
 forget their joy, and get bored with their craft.
 
-Rules of thumb can be useful, but don't be afraid to break them when
-appropriate, and definitely don't accept them without thoroughly
+Rules of thumb can be useful, but don’t be afraid to break them when
+appropriate, and definitely don’t accept them without thoroughly
 understanding their reasons.
 
-== Why Language Matters ==
+== Why language matters ==
 
 (((programming language)))(((binary)))In the beginning, at the birth
 of computing, there were no programming languages. Programs looked
@@ -198,17 +198,17 @@ names instead of numbers for the instructions and memory locations:
 
 [source,text/plain]
 -----
- Set 'total' to 0
- Set 'count' to 1
+ Set “total” to 0
+ Set “count” to 1
 [loop]
- Set 'compare' to 'count'
- Subtract 11 from 'compare'
- If 'compare' is zero, continue at [end]
- Add 'count' to 'total'
- Add 1 to 'count'
+ Set “compare” to “count”
+ Subtract 11 from “compare”
+ If “compare” is zero, continue at [end]
+ Add “count” to “total”
+ Add 1 to “count”
  Continue at [loop]
 [end]
- Output 'total'
+ Output “total”
 -----
 
 At this point it is not too hard to see how the program works. Can
@@ -277,7 +277,7 @@ uninteresting details implicit, it provides convenient building blocks
 building blocks (such as `sum` and `range`), and makes it easy to
 compose these blocks.
 
-== What Is JavaScript? ==
+== What is JavaScript? ==
 
 indexsee:[WWW,World Wide Web]
 indexsee:[Web,World Wide Web]
@@ -320,19 +320,19 @@ programs harder, because the system will not point them out to you.
 (((JavaScript,flexibility of)))This flexibility also has its
 advantages, though. It leaves space for a lot of techniques that are
 impossible in more rigid languages, and, as we will see in later
-chapters, it can be used to overcome some of JavaScript's
+chapters, it can be used to overcome some of JavaScript’s
 shortcomings. After learning it properly and working with it for a
 while, I have really learned to _like_ this language.
 
 (((JavaScript,versions of)))There have been several _versions_ of
 JavaScript. ECMAScript version 3 was the dominant, widely supported
-version in the time of JavaScript's ascent to dominance, roughly
+version in the time of JavaScript’s ascent to dominance, roughly
 between 2000 and 2010. During this time, work was underway on an
 ambitious version 4, which planned a number of radical improvements
 and extensions to the langauge. Changing a living, widely used
 language in such a radical way turned out to be politically difficult,
 and work on the 4th edition was abandoned in 2008, leading to the much
-less ambitious 5th edition coming out in 2009. We're now just reaching
+less ambitious 5th edition coming out in 2009. We’re now just reaching
 the point where all major browsers support this 5th edition, which is
 the language version that this book will be focusing on. Work on a 6th
 edition is underway.
@@ -345,15 +345,15 @@ _((node.js))_ project, the subject of chapter FIXME, are providing a
 powerful environment for programming JavaScript outside of the
 browser.
 
-== Code, and What to Do With It ==
+== Code, and what to do with it ==
 
 Code is the text that makes up programs. Most chapters in this book
 contain quite a lot of code. In my experience, reading and writing
 code is an important part of learning to program. Try to not just
 glance over the examples, read them attentively and understand them.
 This can be slow and confusing at first, but I promise that you will
-quickly get the hang of it. The same goes for the exercises. Don't
-assume you understand them until you've actually written a working
+quickly get the hang of it. The same goes for the exercises. Don’t
+assume you understand them until you’ve actually written a working
 solution.
 
 --html-only--
@@ -367,14 +367,14 @@ JavaScript interpreter, to get immediate feedback on whether what you
 are doing is working or not, and, hopefully, to be tempted to
 experiment and go beyond the exercises.
 
-It is possible to use your browser's developer console, or node.js 
+It is possible to use your browser’s developer console, or node.js 
 
 
-== Overview of This Book ==
+== Overview of this book ==
 
 FIXME
 
-== Typographic Conventions ==
+== Typographic conventions ==
 
 FIXME will probably change
 

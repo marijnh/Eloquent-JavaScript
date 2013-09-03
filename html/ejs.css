@@ -1,15 +1,22 @@
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Alegreya SC';
   font-style: normal;
-  font-weight: 400;
-  src: local('Source Sans Pro'), local('SourceSansPro-Regular'), url(http://themes.googleusercontent.com/static/fonts/sourcesanspro/v5/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
+  font-weight: 700;
+  src: local('Alegreya SC Bold'), local('AlegreyaSC-Bold'), url(http://themes.googleusercontent.com/static/fonts/alegreyasc/v3/M9OIREoxDkvynwTpBAYUqzqR_3kx9_hJXbbyU8S6IN0.woff) format('woff');
 }
 
-@font-face {
-  font-family: 'Ubuntu Condensed';
+/*@font-face {
+  font-family: 'Oleo Script';
   font-style: normal;
   font-weight: 400;
-  src: local('Ubuntu Condensed'), local('UbuntuCondensed-Regular'), url(http://themes.googleusercontent.com/static/fonts/ubuntucondensed/v3/DBCt-NXN57MTAFjitYxdrFzqCfRpIA3W6ypxnPISCPA.woff) format('woff');
+  src: local('Oleo Script'), local('OleoScript-Regular'), url(http://themes.googleusercontent.com/static/fonts/oleoscript/v2/_weQNDK6Uf40CiGFKBBUjobN6UDyHWBl620a-IRfuBk.woff) format('woff');
+}*/
+
+@font-face {
+  font-family: 'PT Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Mono'), local('PTMono-Regular'), url(http://themes.googleusercontent.com/static/fonts/ptmono/v1/jmle3kzCPnW8O7_gZGRDlQ.woff) format('woff');
 }
 
 html, body { 
@@ -18,36 +25,81 @@ html, body {
 }
 
 body {
-  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-  background: #eee;
-}
-
-#main {
-  margin: 0 0 0 80px;
-  border-left: 1px solid #aaa;
+  font-family: 'Century Schoolbook L', Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook', serif;
+  font-size: 20px;
+  line-height: 1.45;
+  color: black;
   background: white;
 }
 
-#content {
-  max-width: 55em;
-  padding: 1em 0 5em 3em;
-}
-
-code {
-  color: #244;
-  padding: 0 2px;
-}
-
-h1, h2, h3 {
-  font-family: 'Ubuntu Condensed';
-  font-weight: 400;
-  margin: 1em 0 0 0;
-  color: #477;
-  border-bottom: 1px solid #8bb;
+article {
+  margin: 0 auto;
+  max-width: 32em;
+  padding: 1em 0 5em 0;
+  position: relative;
 }
 
 pre {
-  border-left: 1px solid #8bb;
-  padding-left: 17px;
+  border-left: 3px solid #ddd;
+  padding: 4px 0 4px 17px;
+  line-height: 1.3;
 }
+
+code, pre {
+  font-size: 90%;
+  font-family: 'PT Mono', monospace;
+}
+
+h1, h2, h3 {
+  font-family: 'Alegreya SC';
+  font-weight: 700;
+  margin: 1em 0 0 0;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: 160%;
+}
+h2 {
+  font-size: 130%;
+}
+h3 {
+  font-size: 110%;
+}
+
+h1 + p {
+  font-size: 120%;
+}
+
+blockquote {
+  padding: 0 0 0 2em;
+  margin: 0;
+}
+
+blockquote p {
+  position: relative;
+  color: #333;
+}
+
+blockquote p:before {
+  content: '“';
+  position: absolute;
+  left: -.5em;
+}
+
+blockquote p:after {
+  content: '”';
+}
+
+/* Toned-down CodeMirror style */
+
+.cm-s-default .cm-keyword {color: #506;}
+.cm-s-default .cm-atom {color: #106;}
+.cm-s-default .cm-number {color: #042;}
+.cm-s-default .cm-def {color: #009;}
+.cm-s-default .cm-variable-2 {color: #027;}
+.cm-s-default .cm-variable-3 {color: #072;}
+.cm-s-default .cm-comment {color: #630;}
+.cm-s-default .cm-string {color: #700;}
+.cm-s-default .cm-string-2 {color: #740;}
+.cm-s-default .cm-tag {color: #170;}

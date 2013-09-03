@@ -1,3 +1,4 @@
-tex/*.db
-tex/*.tex
-html/*.html
+/tex/*.db
+/tex/*.tex
+/html/*.html
+/node_modules

@@ -31,7 +31,7 @@ window.addEventListener("load", function() {
   function activateCode(node, e) {
     var code = node.textContent;
     node.style.display = "none";
-    var wrap = node.parentNode.insertBefore(elt("div", {css: "position: relative"}), node);
+    var wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node);
     var editor = CodeMirror(wrap, {
       value: code,
       mode: "javascript",

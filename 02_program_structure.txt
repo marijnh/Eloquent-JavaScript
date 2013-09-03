@@ -4,7 +4,7 @@
 = Program Structure =
 
 This is the point where we start to do things that can
-actually be called _programming_. To learn to build a program, we’ll
+actually be called _programming_. To learn to build a program, we'll
 first discuss the structures that are used to build it.
 
 == Expressions and statements ==
@@ -61,7 +61,7 @@ there, or strange things will happen. The rules for when it can be
 safely omitted are somewhat complex and error-prone. In this book,
 every statement that needs a semicolon will always be terminated by
 one. I recommend you do the same in your own programs, at least until
-you’ve learned more about subtleties involved in leaving out
+you've learned more about subtleties involved in leaving out
 semicolons.
 
 == Variables ==
@@ -88,7 +88,7 @@ to grab hold of the number that is produced by multiplying `5` by `5`.
 
 After a variable has been defined, its name can be used as an
 expression. The value of such an expression is the current value
-that’s being held by the variable. Here’s an example:
+that's being held by the variable. Here's an example:
 
 [source,text/javascript]
 -----
@@ -162,7 +162,7 @@ protected public return static switch throw true
 try typeof var void while with yield this
 -----
 
-Don’t worry about memorizing these, but remember that this might be
+Don't worry about memorizing these, but remember that this might be
 the problem when something does not work as expected.
 
 == The environment ==
@@ -173,8 +173,8 @@ _environment_. When a program starts up, this environment is not
 empty. It will at least contain a number of variables that are part of
 the language standard. And most of the time there will be an
 additional set of variables that provide ways to interact with the
-surrounding system. For example, in a browser, there’ll be variables
-that point at functionality that’ll allow you to inspect and influence
+surrounding system. For example, in a browser, there'll be variables
+that point at functionality that'll allow you to inspect and influence
 the currently loaded website, and read mouse and keyboard input from
 the person who is using the browser.
 
@@ -261,7 +261,7 @@ prompt("Tell me everything you know.", "...");
 
 image::../img/prompt.png[alt="An prompt dialog"]
 
-These two functions aren’t used much in serious web programming,
+These two functions aren't used much in serious web programming,
 mostly because you have no control over the way the resulting windows
 look, but they are very useful for toy programs and experiments.
 
@@ -280,7 +280,7 @@ digging into the menu and finding an an item like “Web console” or
 --html-only--
 When running the examples, or your own code, on the pages of this
 book, `console.log` output will be shown below the example, instead of
-in the browser’s JavaScript console.
+in the browser's JavaScript console.
 --html-only--
 
 The program below will log something like `the value of x is 30`.
@@ -292,8 +292,8 @@ console.log("the value of x is", x);
 -----
 
 Though I claimed before that variable names can not contain dots, both
-`console.log` and `Math.max` clearly contain a dot. I haven’t been
-lying to you. It’s just that these are not simple variables, but
+`console.log` and `Math.max` clearly contain a dot. I haven't been
+lying to you. It's just that these are not simple variables, but
 actually expressions that retrieve, for `console.log`, the `log` field
 from the value held by the `console` variable. We will find out what
 this means in REF(data).
@@ -326,7 +326,7 @@ image::../img/controlflow-straight.svg[alt="Trivial control flow"]
 == Conditional execution ==
 
 (((control flow)))(((conditional execution)))Executing statements in
-straight-line order isn’t the only option we have. A common
+straight-line order isn't the only option we have. A common
 requirement is conditional execution, where we choose between two
 different routes based on a boolean value.
 
@@ -354,12 +354,12 @@ followed by an expression between parentheses, and then a statement.
 
 The `isNaN` function is a standard function that return `true` if the
 argument it is given is `NaN`, and `Number` happens to return `NaN`
-when you give it a string that doesn’t represent a valid number. Thus,
+when you give it a string that doesn't represent a valid number. Thus,
 the condition expresses “unless `theNumber` is not-a-number, do this.”
 
 (((else keyword)))Often you have not only code that must be executed
 when a certain condition holds but also code that handles the other
-case, when the condition doesn’t hold. This represents to the second
+case, when the condition doesn't hold. This represents to the second
 arrow in the diagram above. The `else` keyword can be used, together
 with `if`, to create two separate, parallel paths that execution can
 take:
@@ -370,11 +370,11 @@ var theNumber = Number(prompt("Pick a number", ""));
 if (!isNaN(theNumber))
   alert("Your number is the square root of " + (theNumber * theNumber));
 else
-  alert("I asked for a number. Why didn’t you give me a number?");
+  alert("I asked for a number. Why didn't you give me a number?");
 -----
 
 If we have more than two paths that we want to choose from, multiple
-`if`/`else` pairs can be “chained” together. Here’s an example:
+`if`/`else` pairs can be “chained” together. Here's an example:
 
 [source,javascript]
 -----
@@ -389,10 +389,10 @@ else
 -----
 
 The program will first check whether `num` is less than 10. If it is,
-it chooses that branch, shows `"Small"`, and is done. If it isn’t, it
+it chooses that branch, shows `"Small"`, and is done. If it isn't, it
 takes the `else` branch, which itself contains a second `if`. If the
 second condition (`< 100`) holds, that means the number is between 10
-and 100, and `"Medium"` is shown. If it doesn’t, the second and last
+and 100, and `"Medium"` is shown. If it doesn't, the second and last
 `else` branch is chosen.
 
 The arrow schema for this program looks something like this:
@@ -592,7 +592,7 @@ finish running, which is usually a bad thing.
 
 --html-only--
 If you create an infinite loop in one of the examples on these pages,
-you’ll have to close the tab that you’re working in, or on some
+you'll have to close the tab that you're working in, or on some
 browsers close your whole browser, to recover.
 --html-only--
 
@@ -690,8 +690,8 @@ thing is not to be bothered by this apparent lack of consistency.
 
 Often, raw code does not convey all the information you want a program
 to convey to human readers, or it conveys it in such a cryptic way
-that you’re worried that people won’t understand it. At other times,
-you’re just feeling poetic and want to mark down some thoughts as part
+that you're worried that people won't understand it. At other times,
+you're just feeling poetic and want to mark down some thoughts as part
 of your program. This is what _((comment))s_ are is for.
 
 A comment is a piece of text that is part of a program, but completely
@@ -702,11 +702,11 @@ To write a single line comment, you can use two slash characters
 [source,javascript]
 ----
 var accountBalance = calculateBalance(account);
-// It’s a green hollow where a river sings
+// It's a green hollow where a river sings
 accountBalance.adjust() // Madly catching white tatters in the grass.
 var report = new Report(); // Where the sun on the proud mountain rings:
 addToReport(accountBalance, report);
-// It’s a little valley, foaming like light in a glass.
+// It's a little valley, foaming like light in a glass.
 ----
 
 A `//` comment only goes to the end of the line. A section of text
@@ -720,7 +720,7 @@ information about a file or a chunk of program.
   I first found this number scrawled on the back of one of my
   notebooks a few years ago. Since then, it has occasionally dropped
   by, showing up in phone numbers and the serial numbers of producs
-  that I bought. It obviously likes me, so I’ve decided to keep it.
+  that I bought. It obviously likes me, so I've decided to keep it.
 */
 var theNumber = 11213;
 ----
@@ -751,7 +751,7 @@ to read that, and solve the exercise. If you run into problems, you
 can consider reading the hints below the ruler. Full solutions to the
 exercises are not included in this book, but can be found online, at
 REF(solutions). If you want to learn something, I recommend only
-looking at these after you’ve solved the exercise, or at least
+looking at these after you've solved the exercise, or at least
 attacked it long and hard enough to have provoked a slight headache.
 
 === Looping a triangle ===
@@ -820,7 +820,7 @@ see where they start and end. Try to properly indent these bodies. The
 order of the loops must follow the order in which we build up the
 string (line by line, left to right, top to bottom). So the outer loop
 handles the lines (_y_ coordinate) and the inner loop handles the
-characters on a line (_x_ coordinate). You’ll need two variables to
+characters on a line (_x_ coordinate). You'll need two variables to
 track your progress, and to compute the digits at each position. You
 might as well name them `x` and `y`.
 
@@ -839,7 +839,7 @@ When you have that working, modify your program to print `"FizzBuzz"`
 for numbers that are divisible by both 3 and 5.
 
 (This is actually an interview question that has been claimed to weed
-out large swaths of programmer candidates. So if you solved it, you’re
+out large swaths of programmer candidates. So if you solved it, you're
 supposedly already better than a lot of people who are seriously
 applying for programmer jobs.)
 
@@ -851,7 +851,7 @@ using the remainder (`%`) operator for checking whether a number is
 divisible by another number (has a remainder of zero).
 
 Because, in the first version, there are three possible outcomes for
-every number, you’ll have to create an `if`/`else if`/`else` chain.
+every number, you'll have to create an `if`/`else if`/`else` chain.
 
 The second version of the program can be solved in a very
 straightforward way (simply add another “branch” that precisely tests

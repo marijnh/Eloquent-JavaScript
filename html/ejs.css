@@ -57,6 +57,10 @@ pre {
   line-height: 1.3;
 }
 
+pre[data-language=javascript] {
+  cursor: pointer;
+}
+
 code, pre {
   font-size: 90%;
   font-family: 'PT Mono', monospace;

@@ -2,9 +2,10 @@
 
 = Introduction =
 
-This is a book about talking to computers. Computers are useful, and
-computers are everywhere. Being able to communicate well with them can
-be very practical. And when done right, it can even be entertaining.
+This book is about talking to computers. Computers are one of the
+fundamental tools of our time. Being able to communicate well with
+these tools is a useful skill. When done right, it can also be a very
+entertaining pursuit.
 
 There is something of an inherent gap between us, squishy biological
 organisms with a talent for social and spatial reasoning, and the
@@ -117,7 +118,7 @@ its complexity.
 
 Some programmers believe that this complexity is best managed by using
 only a small set of well-understood techniques in their programs. They
-have composed strict rules (“_best practices_”) prescribing the form
+have composed strict rules (_“best practices”_) prescribing the form
 programs should have, and the more zealous among them will consider
 those go outside of these rules to be _bad_ programmers.
 

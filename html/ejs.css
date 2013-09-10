@@ -1,8 +1,8 @@
 @font-face {
-  font-family: 'Alegreya SC';
+  font-family: 'Cinzel';
   font-style: normal;
   font-weight: 700;
-  src: local('Alegreya SC Bold'), local('AlegreyaSC-Bold'), url(http://themes.googleusercontent.com/static/fonts/alegreyasc/v3/M9OIREoxDkvynwTpBAYUqzqR_3kx9_hJXbbyU8S6IN0.woff) format('woff');
+  src: local('Cinzel-Bold'), url(http://themes.googleusercontent.com/static/fonts/cinzel/v1/L74890HNVnUypqWjqGUt1T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
 }
 
 @font-face {
@@ -18,7 +18,7 @@ html, body {
 }
 
 body {
-  font-family: 'Century Schoolbook L', Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook', serif;
+  font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
   font-size: 20px;
   line-height: 1.45;
   color: black;
@@ -27,7 +27,7 @@ body {
 
 article {
   margin: 0 auto;
-  max-width: 32em;
+  max-width: 30em;
   padding: 2em 0 5em 0;
   position: relative;
 }
@@ -45,8 +45,7 @@ nav a {
 }
 
 pre {
-  border-left: 3px solid #ddd;
-  padding: 4px 0 4px 17px;
+  padding: 4px 0 4px 15px;
   line-height: 1.3;
   margin: 1rem 0;
 }
@@ -61,20 +60,47 @@ code, pre, .CodeMirror, .example-output {
 }
 
 h1, h2, h3 {
-  font-family: 'Alegreya SC';
+  font-family: 'Cinzel';
   font-weight: 700;
   margin: 1rem 0;
   letter-spacing: 2px;
 }
 
 h1 {
-  font-size: 160%;
+  font-size: 150%;
 }
 h2 {
-  font-size: 130%;
+  font-size: 120%;
 }
 h3 {
-  font-size: 110%;
+  font-size: 100%;
+}
+
+ol {
+  margin: 1em 0;
+  padding: 0;
+  counter-reset: li;
+}
+
+ol li {
+  margin: 0 0 0 40px;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+
+ol li:before {
+  content: counter(li) ".";
+  counter-increment: li;
+  position: absolute;
+  width: 2em;
+  text-align: right;
+  left: -2.5em; bottom: 0;
+  font-size: 90%;
+}
+
+ol li p {
+  margin: 0;
 }
 
 .chap_num {

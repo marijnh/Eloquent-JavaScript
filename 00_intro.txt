@@ -2,20 +2,18 @@
 
 = Introduction =
 
-This is a book about computers, and how to talk to them. It
-has been over sixty years since electronic computers—information
-processing machines—were invented. They are now everywhere, and we are
-still finding new ways to use them. I feel that, for 21st-century
-human beings, it is useful to be able to talk to computers well.
+This is a book about talking to computers. Computers are useful, and
+computers are everywhere. Being able to communicate well with them can
+be very practical. And when done right, it can even be entertaining.
 
-There's something of an inherent gap between us, squishy biological
+There is something of an inherent gap between us, squishy biological
 organisms with a talent for social and spatial reasoning, and the
 computer, a straightforward manipulator of meaningless data with none
-of our biases and instincts. Fortunately, there has been some
-impressive progress on bridging this gap in the past sixty years.
+of our biases and instincts. Fortunately, there has been some great
+progress on bridging this gap in the past sixty years.
 
 The history of human-computer interaction has been one of moving away
-from the cold, reductionist world view of the computer, by layering
+from the cold, reductionist world view of the computer by layering
 more human-friendly analogies on top of it. The two most important
 ideas in this process have been the use of computer languages, which
 map well to our brain because they resemble the languages we use to
@@ -24,19 +22,18 @@ which we understand easily because they imitate the tangible world
 outside of the machine.
 
 Graphical interfaces tend to be easier to figure out than
-language-based ones (compare finding a button to learning a language).
+language-based ones—spotting a button is quicker than learning a word.
 For this reason, they have become the dominant way to interact with
 consumer-oriented systems. Compare today's phones, where you can
 accomplish all kinds of tasks by tapping and swiping the elements that
 appear on the screen, with the ((Commodore 64)) of 1982, the device
 that introduced me to computing, where all you get is a blinking
-cursor, and you're supposed to take it from there—by typing in
-commands.
+cursor, and you're supposed to take it from there by typing commands.
 
 Obviously, the touchscreen phone is more accessible, and it is
 entirely appropriate that such devices use a graphical interface. But
-language-based interfaces have another advantage—they tend to be more
-expressive, once you've learned the language, making it easy to
+language-based interfaces have another advantage—once you've learned
+their language, they tend to be more expressive, by making it easy to
 compose the functionality provided by the system in new ways, and even
 to create your own building blocks.
 
@@ -48,17 +45,16 @@ simply using the computer (loading in programs) to actually
 programming it themselves. You were _in_ a programming environment
 from the start, rather than having to actively look for one.
 
-(((JavaScript,availability of)))(((browser)))
 indexsee:[web browser,browser]
-This has been mostly lost with the shift towards graphical user
-interfaces. But the language-based interfaces, in the form of
-programming languages, are still there, on every machine, mostly
-hidden behind the graphical interface. One such language, JavaScript,
-is available on just about every consumer device nowadays, as part of
-a web browser.
+(((JavaScript,availability of)))(((browser))) This has been mostly
+lost with the shift towards graphical user interfaces. But the
+language-based interfaces, in the form of programming languages, are
+still there, on every machine, largely hidden from the casual user.
+One such language, JavaScript, is available on just about every
+consumer device nowadays, as part of a web browser.
 
-This book wants to show you how to use this language to make computers
-do what you want them to do.
+This book intends to show you how to use this language to instruct a
+computer to perform tasks for you.
 
 == On programming ==
 
@@ -74,10 +70,9 @@ ____
 (((programming,difficulty of)))Besides explaining JavaScript, I also
 want to introduce the basic principles of programming. Programming, it
 turns out, is hard. The fundamental rules are typically simple and
-clear—but programs, built on top of these basic rules, tend to become
-complex enough to introduce their own rules and complexity. Because of
-this, working with non-trivial programs is rarely simple or
-predictable.
+clear. But programs, built on top of these basic rules, tend to become
+complex enough to introduce their own rules and complexity. You're
+building your own maze, so to say, and might just get lost in it.
 
 To get something out of this book, more than just passive reading is
 required. Try to stay sharp, make an effort to understand the example
@@ -91,18 +86,15 @@ universes for which he alone is responsible. Universes of virtually
 unlimited complexity can be created in the form of computer programs.
 ____
 
-(((program,nature of)))(((data)))
-A program is many things. It is a piece of text typed by a programmer,
-it is the directing force that makes the computer do what it does, it
-is data in the computer's memory, yet it controls the actions
-performed on this same memory. Analogies that try to compare programs
-to objects we are familiar with tend to fall short, but a
-superficially fitting one is that of a machine. The gears of a
-mechanical watch fit together ingeniously, and if the watchmaker was
-any good, it will accurately show the time for many years. The
-elements of a program fit together in a similar way, and if 
-programmers know what they are doing, their program will run without
-crashing.
+(((program,nature of)))(((data))) A program is many things. It is a
+piece of text typed by a programmer, it is the directing force that
+makes the computer do what it does, it is data in the computer's
+memory, yet it controls the actions performed on this same memory.
+Analogies that try to compare programs to objects we are familiar with
+tend to fall short. A superficially fitting one is that of a machine,
+since lots of separate parts tend to be involved, and to make the
+whole thing tick we have to consider the ways in which these parts
+interconnect and contribute to the operation of the whole.
 
 (((computer)))A computer is a machine built to act as a host for these
 immaterial machines. Computers themselves can only do stupidly
@@ -123,22 +115,22 @@ works, it is beautiful. The art of programming is the skill of
 controlling complexity. The great program is subdued, made simple in
 its complexity.
 
-Many programmers believe that this complexity is best managed by using
+Some programmers believe that this complexity is best managed by using
 only a small set of well-understood techniques in their programs. They
-have composed strict rules (_“best practices”_) about the form
+have composed strict rules (“_best practices_”) prescribing the form
 programs should have, and the more zealous among them will consider
-those who break these rules to be _bad_ programmers.
+those go outside of these rules to be _bad_ programmers.
 
 What hostility to the richness of programming—to try to reduce it to
-something straightforward and predictable and to place a taboo on all
-the weird and beautiful programs! The landscape of programming
-techniques is enormous, fascinating in its diversity, and still
-largely unexplored. It is certainly dangerous going, luring the
-inexperienced programmer into all kinds of confusion, but that only
-means you should proceed with caution and keep your wits about you. As
-you learn, there will always be new challenges and new territory to
-explore. Programmers who refuse to keep exploring will stagnate,
-forget their joy, and get bored with their craft.
+something straightforward and predictable, to place a taboo on all the
+weird and beautiful programs! The landscape of programming techniques
+is enormous, fascinating in its diversity, and still largely
+unexplored. It is certainly dangerous going, luring the inexperienced
+programmer into all kinds of confusion, but that only means you should
+proceed with caution and keep your wits about you. As you learn, there
+will always be new challenges and new territory to explore.
+Programmers who refuse to keep exploring will stagnate, forget their
+joy, and get bored with their craft.
 
 Rules of thumb can be useful, but don't be afraid to break them when
 appropriate, and definitely don't accept them without thoroughly
@@ -291,8 +283,8 @@ indexsee:[Web,World Wide Web]
 JavaScript was introduced in 1995, as a way to add programs to Web
 pages in the Netscape Navigator browser. The language has since been
 adapted by all other major graphical Web browsers. It has made the
-current generation of Web applications like browser-based email
-clients, maps, and social networks possible, and is also used in less
+current generation of Web applications possible—browser-based email
+clients, maps, and social networks—and is also used in less
 application-like sites to provide various forms of interactivity and
 cleverness.
 
@@ -347,7 +339,7 @@ edition is underway.
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
 use JavaScript as their scripting and query language. Several
 platforms for desktop and server programming, most notably the
-_((node.js))_ project, the subject of chapter FIXME, are providing a
+_((node.js))_ project, the subject of chapter (NODE), are providing a
 powerful environment for programming JavaScript outside of the
 browser.
 
@@ -362,35 +354,45 @@ quickly get the hang of it. The same goes for the exercises. Don't
 assume you understand them until you've actually written a working
 solution.
 
-ifdef::html_target[]
-
-FIXME explain interactive code
-
-endif::html_target[]
-
-FIXME
-
 I recommend to try out your solutions to exercises in an actual
 JavaScript interpreter, to get immediate feedback on whether what you
 are doing is working or not, and, hopefully, to be tempted to
 experiment and go beyond the exercises.
 
-It is possible to use your browser's developer console, or node.js 
+ifdef::html_target[]
 
+When reading this book in your browser, you can edit (and run) the
+example programs by clicking on them.
 
-== Overview of this book ==
+endif::html_target[]
 
-FIXME
+ifdef::tex_target[]
+
+Most of the example code in this book can be found on the book's
+website, at `http://eloquentjavascript.net/code`, which also provides
+an easy way to run the programs and experiment with writing your own
+code.
+
+endif::tex_target[]
+
+Running JavaScript programs outside of this book's sandbox is also far
+from hard. You can opt to install node.js, and read enough of its
+documentation (or of chapter (NODE)) to figure out how to use it to
+run text files that contain programs. Or you can use your browser's
+developer console (typically found somewhere under a “tools” or
+“developer” menu) and play around in there. In chapter (WEB), the way
+in which JavaScript programs are embedded in web pages (HTML files) is
+explained. In the meantime, you could head over to `http://jsbin.com`
+for another friendly interface for running JavaScript code in a
+browser.
 
 == Typographic conventions ==
 
-FIXME will probably change
-
-In this book, text written in a `monospaced` font should be
-understood to represent elements of programs—sometimes they are
-self-sufficient fragments, and sometimes they just refer to part of
-a nearby program. Programs (of which you have already seen a few), are
-written as follows:
+In this book, text written in a `monospaced` font should be understood
+to represent elements of programs—sometimes they are self-sufficient
+fragments, and sometimes they just refer to part of a nearby program.
+Programs (of which you have already seen a few), are written as
+follows:
 
 [source,javascript]
 -----
@@ -400,8 +402,8 @@ function fac(n) {
 -----
 
 Sometimes, in order to demonstrate what happens when certain
-expressions are evaluated, the expressions are written in bold,
-and the produced value is written below, with an arrow in front of it:
+expressions are evaluated, the produced value is written below, with
+two slashes and an arrow in front of it:
 
 [source,javascript]
 -----

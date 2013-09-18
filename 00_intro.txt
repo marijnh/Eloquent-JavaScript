@@ -2,10 +2,10 @@
 
 = Introduction =
 
-This book is about talking to computers. Computers are one of the
-fundamental tools of our time. Being able to communicate well with
-these tools is a useful skill. When done right, it can also be a very
-entertaining pursuit.
+This book is about talking to computers. Computers have become one of
+the fundamental tools of our time. Being able to communicate well with
+your tools is a useful skill. With the right mindset, it can also be a
+very entertaining activity.
 
 There is something of an inherent gap between us, squishy biological
 organisms with a talent for social and spatial reasoning, and the
@@ -301,7 +301,7 @@ document was written to describe the way the language should work, in
 an effort to make sure the various piece of software that claimed to
 support JavaScript were actually talking about the same language. This
 is called the ECMAScript standard, after the organization that did the
-standardization. In practice, the terns ECMAScript and JavaScript can
+standardization. In practice, the terms ECMAScript and JavaScript can
 be used interchangeably—they are two names for the same language.
 
 (((JavaScript,weaknesses of)))There are those who will say _terrible_

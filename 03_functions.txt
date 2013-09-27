@@ -4,13 +4,16 @@
 
 = Functions =
 
-(((function)))You've seen function values, and how to call
-them, in the previous chapter.
+(((function)))You've seen function values, and how to call them, in
+the previous chapter. Functions are the bread and butter of JavaScript
+programming. The concept of wrapping a piece of program in a value has
+many uses. It is a tool to create structure in programs, to reduce
+repetition, to associate names with sub-programs, and to isolate these
+sub-programs from each other.
 
-What is the role of functions in programming languages? They are a way
-to define new vocabulary. Creating new words left and right in
-regular, human-language prose is rarely a good idea. With programming,
-it is indispensible.
+The most obvious application of functions is defining new vocabulary.
+Creating new words left and right in regular, human-language prose is
+usually very bad style. In programming, it is indispensible.
 
 Typical adult English speakers have some twenty thousand words in
 their vocabulary. Very few programming languages come with twenty

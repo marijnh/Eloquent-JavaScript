@@ -234,6 +234,7 @@ while (count <= 10) {
   count += 1;
 }
 console.log(total);
+// → 55
 -----
 
 (((while loop)))(((looping)))This gives us a few more improvements.
@@ -259,6 +260,7 @@ range and compute the sum of a collection of numbers:
 [source,javascript]
 -----
 console.log(sum(range(1, 10)));
+// → 55
 -----
 
 The moral of this story, then, is that the same program can be
@@ -370,7 +372,7 @@ endif::html_target[]
 ifdef::tex_target[]
 
 Most of the example code in this book can be found on the book's
-website, at `http://eloquentjavascript.net/code`, which also provides
+website, at `eloquentjavascript.net/code`, which also provides
 an easy way to run the programs and experiment with writing your own
 code.
 

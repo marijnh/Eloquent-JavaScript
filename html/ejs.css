@@ -106,7 +106,6 @@ ol li p {
 .chap_num {
   font-size: 60%;
   color: #aaa;
-  margin-bottom: -.4em;
   margin-top: -.7em;
 }
 
@@ -139,6 +138,7 @@ blockquote:before {
 .example-output {
   border-left: 3px solid #99e;
   padding: 4px 0 4px 17px;
+  margin-left: -5px;
   white-space: pre;
 }
 
@@ -186,6 +186,7 @@ blockquote:before {
 .CodeMirror {
   height: auto;
   border-left: 3px solid #ddd;
+  margin-left: -5px;
   line-height: 1.3;
 }
 .CodeMirror-scroll {
@@ -193,4 +194,9 @@ blockquote:before {
 }
 .CodeMirror pre {
   padding: 0 4px 0 17px;
+}
+
+div.image img {
+  max-width: 28em;
+  margin-left: 1em;
 }

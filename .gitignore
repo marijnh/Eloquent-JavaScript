@@ -1,5 +1,4 @@
-/tex/*.db
-/tex/*.tex
+/tex/*
 /html/*.html
 /node_modules
 .tern-port

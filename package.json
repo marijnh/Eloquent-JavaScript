@@ -1,0 +1,15 @@
+{
+  "name": "Eloquent-JavaScript",
+  "license": "CC BY-NC 3.0",
+  "version": "0.1.0",
+  "author": "Marijn Haverbeke <marijnh@gmail.com>",
+  "description": "Sources for the book Eloquent JavaScript",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marijnh/Eloquent-JavaScript.git"
+  },
+  "dependencies": {
+    "acorn": "0.3",
+    "codemirror": "3.18"
+  }
+}

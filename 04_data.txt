@@ -1,6 +1,7 @@
 :chap_num: 4
 :prev_link: 03_functions
 :next_link: 05_higher_order
+:load_file: 04_data
 
 = Data Structures: Object and Array =
 
@@ -411,11 +412,7 @@ a table like this:
 image::../img/pizza-squirrel.svg[alt="Eating pizza versus turning into a squirrel"]
 
 From such a table (n), the phi coefficient (ϕ) can be computed by the
-following formula, where n~01~ means, for example, the number of
-measurements where the first measurement (pizza) is false (0), and the
-second (squirrelness) is true (1), so 5 in this case. n~1•~ is the sum
-of all measurements where the first variable is true, which is 10
-in the above table.
+following formula.
 
 ifdef::html_target[]
 
@@ -441,6 +438,12 @@ ifdef::tex_target[]
 ++++
 
 endif::tex_target[]
+
+Where n~01~ indicates the number of measurements where the first
+measurement (pizza) is false (0), and the second (squirrelness) is
+true (1), so 5 in this case. n~1•~ refers to the sum of all
+measurements where the first variable is true, which is 10 in the
+above table.
 
 So for the pizza table, the part above the division line (dividend)
 would be 1×75 - 9×5 = 30, and the part below it (divisor) would be the

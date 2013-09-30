@@ -1,4 +1,14 @@
 window.addEventListener("load", function() {
+  // If there's no ecmascript 5 support, don't try to initialize
+  if (!Object.create || !window.JSON) return;
+
+  var sandbox;
+  function resetSandbox() {
+    sandbox = new SandBox({loadFiles: [window.sandboxLoadFile]});
+    window.sandbox = sandbox;
+  }
+  resetSandbox();
+
   document.body.addEventListener("click", function(e) {
     for (var n = e.target; n; n = n.parentNode)
       if (n.nodeName == "PRE" && n.getAttribute("data-language") == "javascript")
@@ -25,7 +35,9 @@ window.addEventListener("load", function() {
 
   var keyMap = {
     Esc: function(cm) { cm.display.input.blur(); },
-    "Ctrl-Enter": function(cm) { runCode(cm.state.context); }
+    "Ctrl-Enter": function(cm) { runCode(cm.state.context); },
+    "Ctrl-D": function(cm) { closeCode(cm.state.context); },
+    "Ctrl-Q": resetSandbox
   };
 
   function activateCode(node, e) {
@@ -39,30 +51,53 @@ window.addEventListener("load", function() {
     });
     editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
     editor.focus();
-    var out = wrap.appendChild(elt("div", {"class": "example-output"}));
-    var button = wrap.appendChild(elt("div", {"class": "run-button", title: "run this code (ctrl-enter)"}, "▶"));
-    var data = editor.state.context = {editor: editor, out: out, orig: node};
-    button.addEventListener("click", function() { runCode(data); });
-    var close = wrap.appendChild(elt("div", {"class": "close-button", title: "revert and close editor"}, "×"));
-    close.addEventListener("click", function() { closeCode(data); });
+    var out = wrap.appendChild(elt("div", {"class": "sandbox-output"}));
+    var menu = wrap.appendChild(elt("div", {"class": "sandbox-menu", title: "Sandbox menu..."}));
+    var data = editor.state.context = {editor: editor, wrap: wrap, orig: node};
+    data.output = new SandBox.Output(out);
+    menu.addEventListener("click", function() { openMenu(data, menu); });
+  }
+
+  function openMenu(data, node) {
+    var menu = elt("div", {"class": "sandbox-open-menu"});
+    var items = [["Run code (ctrl-enter)", function() { runCode(data); }],
+                 ["Revert to original code", function() { revertCode(data); }],
+                 ["Reset sandbox (ctrl-q)", resetSandbox],
+                 ["Deactivate editor (ctrl-d)", function() { closeCode(data); }]];
+    items.forEach(function(choice) {
+      menu.appendChild(elt("div", choice[0]));
+    });
+    function click(e) {
+      var target = e.target;
+      if (e.target.parentNode == menu) {
+        for (var i = 0; i < menu.childNodes.length; ++i)
+          if (target == menu.childNodes[i])
+            items[i][1]();
+      }
+      menu.parentNode.removeChild(menu);
+      window.removeEventListener("click", click);
+    }
+    setTimeout(function() {
+      window.addEventListener("click", click);
+    }, 20);
+    node.offsetParent.appendChild(menu);
   }
 
   function runCode(data) {
-    data.out.innerHTML = "";
-    var result, code = data.editor.getValue();
-    try {
-      result = (1,eval)(code);
-    } catch(e) {
-      data.out.appendChild(elt("div", {"class": "run-error"}, e.message || String(e)));
-      return;
-    }
-    if (result != null && /[^\};](\s|\/\/.*)*$/.test(code))
-      data.out.appendChild(elt("div", String(result)));
+    data.output.clear();
+    var code = data.editor.getValue();
+    // Chapter 1 has console-log-less output
+    if (window.chapNum == 1)
+      code = code.replace(/(\n|^)(.*[^;}])(\s*$|\n\/\/ →)/g, "$1console.log($2);$3");
+    sandbox.run(code, data.output);
   }
 
   function closeCode(data) {
-    var wrap = data.out.parentNode;
-    wrap.parentNode.removeChild(wrap);
+    data.wrap.parentNode.removeChild(data.wrap);
     data.orig.style.display = "";
+  }
+
+  function revertCode(data) {
+    data.editor.setValue(data.orig.textContent);
   }
 });

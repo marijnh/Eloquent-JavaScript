@@ -91,7 +91,7 @@ After a variable has been defined, its name can be used as an
 expression. The value of such an expression is the current value
 that's being held by the variable. Here's an example:
 
-[source,text/javascript]
+[source,javascript]
 -----
 var ten = 10;
 ten * ten;
@@ -110,7 +110,7 @@ that value forever. At any time, the `=` operator can be used on
 existing variables to disconnect them from their current value and
 have them point to a new one:
 
-[source,text/javascript]
+[source,javascript]
 -----
 var mood = "light";
 mood;
@@ -136,7 +136,7 @@ An example. To remember the amount of dollars that Luigi still owes
 you, you create a variable for it. And then, when he pays back $35,
 you give this variable a new value.
 
-[source,text/javascript]
+[source,javascript]
 -----
 var luigisDebt = 140;
 luigisDebt = luigisDebt - 35;
@@ -217,7 +217,7 @@ produce a value, in which case it does not need to have a side effect
 to be useful. For example, there is a function `Math.max`, which takes
 two numbers and gives back the greatest of the two:
 
-[source,text/javascript]
+[source,javascript]
 -----
 Math.max(2, 4);
 // → 4
@@ -228,7 +228,7 @@ _return_ it. Because things that produce values are always expressions
 in JavaScript, function calls can be used as part of bigger
 expressions:
 
-[source,text/javascript]
+[source,javascript]
 -----
 Math.min(2, 4) + 100;
 // → 102
@@ -465,7 +465,7 @@ track of our result and one to count how often we have multiplied this
 result by 2. The loop tests whether the second variable has reached 10
 yet and then updates both variables.
 
-[source,text/javascript]
+[source,javascript]
 -----
 var result = 1;
 var counter = 0;
@@ -547,7 +547,7 @@ most cases, this is shorter and clearer than a `while` construct.
 
 Here is the code that computes 2^10^, using `for` instead of `while`:
 
-[source,text/javascript]
+[source,javascript]
 -----
 var result = 1;
 for (var counter = 0; counter < 10; counter = counter + 1)
@@ -570,7 +570,7 @@ out of the enclosing loop.
 This program finds the first number that is greater than or equal to
 20, and divisible by 7:
 
-[source,text/javascript]
+[source,javascript]
 -----
 for (var current = 20; ; current++) {
   if (current % 7 == 0)

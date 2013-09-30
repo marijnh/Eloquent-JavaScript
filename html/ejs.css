@@ -149,10 +149,36 @@ blockquote:before {
 .sandbox-output pre {
   margin: 0;
   padding: 0;
+  white-space: pre-wrap;
 }
 
 .sandbox-output-error { color: red; }
 .sandbox-output-warn { color: orange; }
+
+.sandbox-output-etc {
+  color: #1a1;
+  background: #dfd;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0 1px;
+}
+
+.sandbox-output-etc-block {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.sandbox-output-etc-block table {
+  border-collapse: collapse;
+}
+.sandbox-output-etc-block table td {
+  vertical-align: top;
+  white-space: pre-wrap;
+  font-family: 'PT Mono', monospace;
+}
+.sandbox-output-etc-block table td:first-child {
+  text-align: right;
+}
 
 .sandbox-menu {
   position: absolute;

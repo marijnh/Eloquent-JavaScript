@@ -131,26 +131,33 @@
     }
   };
 
-  function span(type, text) {
+  function span(type, text, space) {
+    if (space) space[0] -= text.length;
     var sp = document.createElement("span");
     sp.className = "sandbox-output-" + type;
     sp.appendChild(document.createTextNode(text));
     return sp;
   }
 
-  function clip(string, len) {
-    if (string.length > len + 3)
-      return string.slice(0, len - 1) + "…";
-    return string;
-  }
-
   function represent(val, space) {
-    if (typeof val == "boolean") return span("bool", String(val));
-    if (typeof val == "number") return span("number", String(val));
-    if (typeof val == "string") return span("string", JSON.stringify(clip(val, space[0])));
-    if (val == null) return span("null", String(val));
+    if (typeof val == "boolean") return span("bool", String(val), space);
+    if (typeof val == "number") return span("number", String(val), space);
+    if (typeof val == "string") return representString(val, space);
+    if (val == null) return span("null", String(val), space);
     if (Array.isArray(val)) return representArray(val, space);
     else return representObj(val, space);
+  }
+
+  function representString(val, space) {
+    var json = JSON.stringify(val);
+    if (json.length < space[0] + 3) return span("string", json, space);
+    var wrap = span("string", json.slice(0, Math.max(1, space[0])), space);
+    wrap.appendChild(span("etc", "…", space)).addEventListener("click", function(e) {
+      wrap.innerHTML = "";
+      wrap.appendChild(document.createTextNode(json));
+    });
+    wrap.appendChild(document.createTextNode("\""));
+    return wrap;
   }
 
   function representArray(val, space) {
@@ -163,7 +170,9 @@
         space[0] -= 2;
       }
       if (space[0] <= 0 && i < val.length - 2) {
-        wrap.appendChild(document.createTextNode("…"));
+        wrap.appendChild(span("etc", "…", space)).addEventListener("click", function(e) {
+          replaceEtc(e.target, "array", val, i);
+        });
         break;
       }
       wrap.appendChild(represent(val[i], space));
@@ -186,7 +195,9 @@
           wrap.appendChild(document.createTextNode(", "));
         }
         if (space[0] <= 0) {
-          wrap.appendChild(document.createTextNode("…"));
+          wrap.appendChild(span("etc", "…", space)).addEventListener("click", function(e) {
+            replaceEtc(e.target, "obj", val, prop);
+          });
           break;
         }
         space[0] -= prop.length + 2;
@@ -198,5 +209,24 @@
     }
     wrap.appendChild(document.createTextNode("}"));
     return wrap;
+  }
+
+  function replaceEtc(node, type, val, from) {
+    var block = document.createElement("div");
+    block.className = "sandbox-output-etc-block";
+    var table = block.appendChild(document.createElement("table"));
+    function addProp(name) {
+      var row = table.appendChild(document.createElement("tr"));
+      row.appendChild(document.createElement("td")).appendChild(document.createTextNode(name + ":"));
+      row.appendChild(document.createElement("td")).appendChild(represent(val[name], [30]));
+    }
+    if (type == "array") {
+      for (var i = from; i < val.length; ++i) addProp(i);
+    } else {
+      var showing = false;
+      for (var prop in val)
+        if (showing = showing || prop == from) addProp(prop);
+    }
+    node.parentNode.replaceChild(block, node);
   }
 })();

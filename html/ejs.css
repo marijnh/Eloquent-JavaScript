@@ -76,6 +76,15 @@ h3 {
   font-size: 100%;
 }
 
+a, a:visited, a:active {
+  text-decoration: none;
+  color: #245;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 ol {
   margin: 1em 0;
   padding: 0;

@@ -21,8 +21,9 @@ As an example, consider the way in which the number thirteen could be
 stored in bits. The way this is done is analogous to the way we write
 decimal numbers, but instead of ten digits, we have only two, and
 instead of the weight of a digit being ten times the weight of the
-digit after it, the weight increases by a factor two. Here's thirteen,
-with the weight of the digits shown below them:
+digit after it, the weight increases by a factor two. Here are the
+bits that make up the number thirteen, with the weight of the digits
+shown below them:
 
 ----
    0   0   0   0   1   1   0   1

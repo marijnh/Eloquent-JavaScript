@@ -38,7 +38,7 @@ will have over thirty billion bits sitting in its volatile data
 storage (as opposed to non-volatile storage—the hard disk or
 equivalent—which tends to have yet a few orders of magnitude more).
 
-image::../img/bit-sea.png[alt="The Ocean of Bits"]
+image::img/bit-sea.png[alt="The Ocean of Bits"]
 
 In order to work with these without getting lost, we'll have to
 structure them somehow. One way to do that is to group them into

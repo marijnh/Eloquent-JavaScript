@@ -193,7 +193,7 @@ a little dialog box with a message. It is used like this:
 alert("Good morning!");
 -----
 
-image::../img/alert.png[alt="An alert dialog"]
+image::img/alert.png[alt="An alert dialog"]
 
 indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
@@ -248,7 +248,7 @@ if the user clicks OK and `false` if the user clicks Cancel.
 confirm("Shall we, then?");
 -----
 
-image::../img/confirm.png[alt="An confirm dialog"]
+image::img/confirm.png[alt="An confirm dialog"]
 
 (((prompt function)))(((text input)))`prompt` can be used to ask an
 “open” question. The first argument is the question; the second one is
@@ -260,7 +260,7 @@ the dialog window, and the function will return this as a string.
 prompt("Tell me everything you know.", "...");
 -----
 
-image::../img/prompt.png[alt="An prompt dialog"]
+image::img/prompt.png[alt="An prompt dialog"]
 
 These two functions aren't used much in serious web programming,
 mostly because you have no control over the way the resulting windows
@@ -324,7 +324,7 @@ string value, and we want a number. There are similar functions called
 Here is a rather boring schematic representation of straight control
 flow:
 
-image::../img/controlflow-straight.svg[alt="Trivial control flow"]
+image::img/controlflow-straight.svg[alt="Trivial control flow"]
 
 == Conditional execution ==
 
@@ -333,7 +333,7 @@ straight-line order isn't the only option we have. A common
 requirement is conditional execution, where we choose between two
 different routes based on a boolean value.
 
-image::../img/controlflow-if.svg[alt="Conditional control flow"]
+image::img/controlflow-if.svg[alt="Conditional control flow"]
 
 Conditional execution is written with the `if` keyword in JavaScript.
 In the simple case, we just want some code to be executed if, and only
@@ -400,7 +400,7 @@ and 100, and `"Medium"` is shown. If it doesn't, the second and last
 
 The arrow schema for this program looks something like this:
 
-image::../img/controlflow-nested-if.svg[alt="Nested if control flow"]
+image::img/controlflow-nested-if.svg[alt="Nested if control flow"]
 
 == while and do loops ==
 
@@ -423,7 +423,7 @@ make something _less_ work, not more. If we needed all even numbers
 less than 1,000, the previous would be unworkable. What we need is a
 way to repeat some code—a _loop_.
 
-image::../img/controlflow-loop.svg[alt="Loop control flow"]
+image::img/controlflow-loop.svg[alt="Loop control flow"]
 
 Looping control flow allows us to go back to some point in the program
 where we were before, and repeat it, in the context of our current

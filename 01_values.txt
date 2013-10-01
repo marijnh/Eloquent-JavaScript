@@ -25,11 +25,11 @@ digit after it, the weight increases by a factor two. Here's thirteen,
 with the weight of the digits shown below them:
 
 ----
-   0   0   0   0   0   1   1   0   1
- 256 128  64  32  16   8   4   2   1
+   0   0   0   0   1   1   0   1
+ 128  64  32  16   8   4   2   1
 ----
 
-So that's `000001101`, or 8 + 4 + 1, which equals 13.
+So that's `00001101`, or 8 + 4 + 1, which equals 13.
 
 == Values ==
 

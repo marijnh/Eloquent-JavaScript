@@ -665,7 +665,7 @@ function reduceAncestors(person, f, zero) {
     return f(person, reduce(father),
                      reduce(mother));
   }
-  return handle(person, 0);
+  return reduce(person, 0);
 }
 ----
 
@@ -694,7 +694,7 @@ console.log(reduceAncestors(
   },
   0
 ) / 4);
-// → 0.00097
+// → 0.00098
 ----
 
 The person with the name Lieven van Haverbeke obviously shared 100% of

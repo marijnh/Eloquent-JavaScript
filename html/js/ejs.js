@@ -49,6 +49,8 @@ window.addEventListener("load", function() {
       mode: "javascript",
       extraKeys: keyMap
     });
+    wrap.style.margin = "0 -5em";
+    setTimeout(function() { editor.refresh(); }, 600);
     editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
     editor.focus();
     var out = wrap.appendChild(elt("div", {"class": "sandbox-output"}));

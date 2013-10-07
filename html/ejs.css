@@ -45,7 +45,7 @@ nav a {
 }
 
 pre {
-  padding: 4px 0 4px 15px;
+  padding: 5px 0 5px 15px;
   line-height: 1.3;
   margin: 1rem 0;
 }
@@ -54,7 +54,7 @@ pre[data-language=javascript] {
   cursor: pointer;
 }
 
-code, pre, .CodeMirror, .example-output {
+code, pre, .CodeMirror, .sandbox-output {
   font-size: 90%;
   font-family: 'PT Mono', monospace;
 }
@@ -142,12 +142,17 @@ blockquote:before {
 .editor-wrap {
   margin: 1rem 0;
   position: relative;
+  -moz-transition: margin-left .5s ease-out, margin-right .5s ease-out;
+  -webkit-transition: margin-left .5s ease-out, margin-right .5s ease-out;
+  -o-transition: margin-left .5s ease-out, margin-right .5s ease-out;
+  transition: margin-left .5s ease-out, margin-right .5s ease-out;
+  border-top: 1px solid #4ab;
+  border-bottom: 1px solid #4ab;
 }
 
 .sandbox-output {
-  border-left: 3px solid #4ab;
-  padding: 4px 0 4px 17px;
-  margin-left: -5px;
+  border-top: 1px solid #4ab;
+  padding: 4px 0 4px 10px;
   white-space: pre;
 }
 
@@ -192,7 +197,7 @@ blockquote:before {
 .sandbox-menu {
   position: absolute;
   z-index: 19;
-  right: -12px; top: 2px;
+  right: -13px; top: -1px;
   cursor: pointer;
   font-size: 80%;
   overflow: hidden;
@@ -240,15 +245,13 @@ blockquote:before {
 
 .CodeMirror {
   height: auto;
-  border-left: 3px solid black;
-  margin-left: -5px;
   line-height: 1.3;
 }
 .CodeMirror-scroll {
   max-height: 500px;
 }
 .CodeMirror pre {
-  padding: 0 4px 0 17px;
+  padding: 0 4px 0 10px;
 }
 
 div.image img {

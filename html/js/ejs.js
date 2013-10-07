@@ -4,7 +4,7 @@ window.addEventListener("load", function() {
 
   var sandbox;
   function resetSandbox() {
-    sandbox = new SandBox({loadFiles: window.sandboxLoadFile && [window.sandboxLoadFile]});
+    sandbox = new SandBox({loadFiles: window.sandboxLoadFiles});
     window.sandbox = sandbox;
   }
   resetSandbox();

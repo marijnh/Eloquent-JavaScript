@@ -1,7 +1,7 @@
 :chap_num: 4
 :prev_link: 03_functions
 :next_link: 05_higher_order
-:load_file: 04_data
+:load_files: ["js/code/jaques_journal.js", "js/code/04_data.js"]
 
 = Data Structures: Object and Array =
 
@@ -506,7 +506,7 @@ function hasEvent(event, entry) {
 
 function tableFor(event, journal) {
   var table = [0, 0, 0, 0];
-  for (var i = 0; i < journal.length; ++i) {
+  for (var i = 0; i < journal.length; i++) {
     var entry = journal[i], index = 0;
     if (hasEvent(event, entry)) index += 1;
     if (entry.squirrel) index += 2;
@@ -607,7 +607,7 @@ function gatherCorrelations(journal) {
   var numbers = {};
   for (var entry = 0; entry < journal.length; ++entry) {
     var events = journal[entry].events;
-    for (var i = 0; i < events.length; ++i) {
+    for (var i = 0; i < events.length; i++) {
       var event = events[i];
       if (!(event in tables))
         tables[event] = phi(tableFor(event, journal));
@@ -665,7 +665,7 @@ Interesting. Let us try something.
 
 [source,javascript]
 ----
-for (var i = 0; i < THREE_MONTHS.length; ++i) {
+for (var i = 0; i < THREE_MONTHS.length; i++) {
   var entry = THREE_MONTHS[i];
   if (hasEvent("peanuts", entry) &&
      !hasEvent("brushed teeth", entry))
@@ -810,7 +810,7 @@ slightly nicer alternative:
 ----
 function entry(squirrel) {
   var entry = {events: [], squirrel: squirrel};
-  for (var i = 1; i < arguments.length; ++i)
+  for (var i = 1; i < arguments.length; i++)
     entry.events.push[arguments[i]];
   journal.push(entry);
 }

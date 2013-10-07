@@ -36,11 +36,16 @@
     this.output = null;
 
     if (options.loadFiles) setTimeout(function() {
-      for (var i = 0; i < options.loadFiles.length; ++i) {
+      var i = 0;
+      function loadNext() {
+        if (i == options.loadFiles.length) return;
         var script = win.document.createElement("script");
         script.src = options.loadFiles[i];
         win.document.body.appendChild(script);
+        ++i;
+        script.addEventListener("load", loadNext);
       }
+      loadNext();
     }, 50);
   };
 

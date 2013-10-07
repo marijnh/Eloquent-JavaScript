@@ -40,7 +40,7 @@ nav {
 
 nav a {
   font-size: 80%;
-  color: #aaa;
+  color: #aaa !important;
   text-decoration: none;
 }
 

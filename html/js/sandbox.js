@@ -88,7 +88,8 @@
       return code;
     }
 
-    var ast = acorn.parse(code);
+    try { var ast = acorn.parse(code); }
+    catch(e) { return code; }
     var patches = [];
     var backJump = "if (++__c % 1000 === 0) __sandbox.tick();";
     function loop(node) {

@@ -702,11 +702,10 @@ his DNA with Lieven van Haverbeke (there are no people who share names
 in the data set). All other people share the average of the amount
 that their parents share.
 
-So, statistically speaking, I share about 1% of my DNA with this
-16th-century person. The chances of at least one of my 44 non-XY
-chromosomes coming from him is thus not insignificant. I do, assuming
-no extramarital children in the family history, definitely have his Y
-chromosome.
+So, statistically speaking, I share about 0.1% of my DNA with this
+16th-century person. The chances of one of my 44 non-XY chromosomes
+coming from him are thus rather small. Hover, assuming no extramarital
+children in the family history, I do have his Y chromosome.
 
 Data structures (such as this family tree) can often be made easier to
 use (as well as easier to think about) by finding analogues to

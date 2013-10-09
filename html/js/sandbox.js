@@ -128,67 +128,75 @@
       wrap.className = "sandbox-output-" + type;
       for (var i = 0; i < args.length; ++i) {
         var arg = args[i];
+        if (i) wrap.appendChild(document.createTextNode(" "));
         if (typeof arg == "string")
           wrap.appendChild(document.createTextNode(arg));
         else
-          wrap.appendChild(represent(arg, [50]));
+          wrap.appendChild(represent(arg, 53));
       }
       this.div.appendChild(wrap);
     }
   };
 
-  function span(type, text, space) {
-    if (space) space[0] -= text.length;
+  function span(type, text) {
     var sp = document.createElement("span");
     sp.className = "sandbox-output-" + type;
     sp.appendChild(document.createTextNode(text));
     return sp;
   }
 
+  function eltSize(elt) {
+    return elt.textContent.length;
+  }
+
   function represent(val, space) {
-    if (typeof val == "boolean") return span("bool", String(val), space);
-    if (typeof val == "number") return span("number", String(val), space);
-    if (typeof val == "string") return representString(val, space);
-    if (val == null) return span("null", String(val), space);
+    if (typeof val == "boolean") return span("bool", String(val));
+    if (typeof val == "number") return span("number", String(val));
+    if (typeof val == "string") return span("string", JSON.stringify(val));
+    if (val == null) return span("null", String(val));
     if (Array.isArray(val)) return representArray(val, space);
     else return representObj(val, space);
   }
 
-  function representString(val, space) {
-    var json = JSON.stringify(val);
-    if (json.length < space[0] + 3) return span("string", json, space);
-    var wrap = span("string", json.slice(0, Math.max(1, space[0])), space);
-    wrap.appendChild(span("etc", "…", space)).addEventListener("click", function(e) {
-      wrap.innerHTML = "";
-      wrap.appendChild(document.createTextNode(json));
-    });
-    wrap.appendChild(document.createTextNode("\""));
-    return wrap;
-  }
-
   function representArray(val, space) {
-    space[0] -= 2;
+    space -= 2;
     var wrap = document.createElement("span");
     wrap.appendChild(document.createTextNode("["));
     for (var i = 0; i < val.length; ++i) {
       if (i) {
         wrap.appendChild(document.createTextNode(", "));
-        space[0] -= 2;
+        space -= 2;
       }
-      if (space[0] <= 0 && i < val.length - 2) {
-        wrap.appendChild(span("etc", "…", space)).addEventListener("click", function(e) {
-          replaceEtc(e.target, "array", val, i);
+      var next = space > 0 && represent(val[i], space);
+      var nextSize = next ? eltSize(next) : 0;
+      if (space - nextSize <= 0) {
+        wrap.appendChild(span("etc", "…")).addEventListener("click", function(e) {
+          expandObj(wrap, "array", val);
         });
         break;
       }
-      wrap.appendChild(represent(val[i], space));
+      space -= nextSize;
+      wrap.appendChild(next);
     }
     wrap.appendChild(document.createTextNode("]"));
     return wrap;
   }
 
   function representObj(val, space) {
-    space[0] -= 2;
+    var string = val.toString(), m;
+    if (/^\[object .*\]$/.test(string))
+      return representSimpleObj(val, space);
+    if (val.call && (m = string.match(/^\s*(function[^(]*\([^)]*\))/)))
+      string = m[1] + "{…}";
+    var elt = span("etc", string);
+    elt.addEventListener("click", function(e) {
+      expandObj(elt, "obj", val);
+    });
+    return elt;
+  }
+
+  function representSimpleObj(val, space) {
+    space -= 2;
     var wrap = document.createElement("span");
     wrap.appendChild(document.createTextNode("{"));
     try {
@@ -197,18 +205,20 @@
         if (first) {
           first = false;
         } else {
-          space[0] -= 2;
+          space -= 2;
           wrap.appendChild(document.createTextNode(", "));
         }
-        if (space[0] <= 0) {
-          wrap.appendChild(span("etc", "…", space)).addEventListener("click", function(e) {
-            replaceEtc(e.target, "obj", val, prop);
+        var next = space > 0 && represent(val[prop], space);
+        var nextSize = next ? prop.length + 2 + eltSize(next) : 0;
+        if (space - nextSize <= 0) {
+          wrap.appendChild(span("etc", "…")).addEventListener("click", function(e) {
+            expandObj(wrap, "obj", val);
           });
           break;
         }
-        space[0] -= prop.length + 2;
+        space -= nextSize;
         wrap.appendChild(document.createTextNode(prop + ": "));
-        wrap.appendChild(represent(val[prop], space));
+        wrap.appendChild(next);
       }
     } catch (e) {
       wrap.appendChild(document.createTextNode("…"));
@@ -217,22 +227,23 @@
     return wrap;
   }
 
-  function replaceEtc(node, type, val, from) {
-    var block = document.createElement("div");
+  function expandObj(node, type, val) {
+    var wrap = document.createElement("span");
+    wrap.appendChild(document.createTextNode(type == "array" ? "[" : "{"));
+    var block = wrap.appendChild(document.createElement("div"));
     block.className = "sandbox-output-etc-block";
     var table = block.appendChild(document.createElement("table"));
     function addProp(name) {
       var row = table.appendChild(document.createElement("tr"));
       row.appendChild(document.createElement("td")).appendChild(document.createTextNode(name + ":"));
-      row.appendChild(document.createElement("td")).appendChild(represent(val[name], [30]));
+      row.appendChild(document.createElement("td")).appendChild(represent(val[name], 40));
     }
     if (type == "array") {
-      for (var i = from; i < val.length; ++i) addProp(i);
+      for (var i = 0; i < val.length; ++i) addProp(i);
     } else {
-      var showing = false;
-      for (var prop in val)
-        if (showing = showing || prop == from) addProp(prop);
+      for (var prop in val) if (Object.hasOwnProperty.call(val, prop)) addProp(prop);
     }
-    node.parentNode.replaceChild(block, node);
+    wrap.appendChild(document.createTextNode(type == "array" ? "]" : "}"));
+    node.parentNode.replaceChild(wrap, node);
   }
 })();

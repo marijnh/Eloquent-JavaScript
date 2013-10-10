@@ -1,4 +1,4 @@
-﻿:chap_num: 4
+:chap_num: 4
 :prev_link: 03_functions
 :next_link: 05_higher_order
 :load_files: ["js/code/jaques_journal.js", "js/code/04_data.js"]
@@ -335,15 +335,15 @@ var object2 = object1;
 var object3 = {value: 10};
 
 object1 == object2;
-// → true
+→ true
 object1 == object3;
-// → false
+→ false
 
 object1.value = 15;
-console.log(object2.value);
-// → 15
-console.log(object3.value);
-// → 10
+object2.value;
+→ 15
+object3.value;
+→ 10
 ----
 
 `object1` and `object2` are two variables grasping the _same_ value.

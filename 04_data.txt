@@ -957,7 +957,7 @@ corresponding to the old behavior. The call `range(1, 10, 2)` should
 return `[1, 3, 5, 7, 9]`. Make sure it also works with negative step
 values—so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
 
-''''
+!!solution!!
 
 Building up an array is easiest done by first initializing a variable
 to `[]` (a fresh, empty array), and then repeatedly calling its `push`
@@ -982,6 +982,8 @@ It might also be worthwhile to use a different default step, namely
 `range(5, 2)` returns something meaningful, rather than getting stuck
 in an infinite loop.
 
+!!solution!!
+
 === Reversing an array ===
 
 (((reverse method)))Arrays have a method `reverse`, which will change
@@ -997,7 +999,7 @@ Thinking back to the notes about side effects and pure functions in
 the previous chapter, which variant do you expect to be useful in more
 situations? Which one is more efficient?
 
-''''
+!!solution!!
 
 There are two obvious solutions to implementing `reverseArray`. The
 first is to simply go over the array front-to-back and use the
@@ -1021,6 +1023,8 @@ position `array.length - 1 - i`. You can use a local variable to
 briefly hold on to one of the elements, overwrite that one with its
 mirror image, and then put the value from the local variable in the
 place where the mirror image used to be.
+
+!!solution!!
 
 === A list ===
 
@@ -1063,7 +1067,7 @@ element.
 
 If you hadn't already, also write a recursive version of `nth`.
 
-'''
+!!solution!!
 
 Building up a list is best done back-to-front. So `arrayToList` could
 iterate over the array backwards (see previous exercise), and for each
@@ -1084,3 +1088,5 @@ similarly, look at an ever smaller part of the “tail” of the list, and
 at the same time count down the index until it reaches zero (at which
 point it can return the `value` property of the node it is looking
 at).
+
+!!solution!!

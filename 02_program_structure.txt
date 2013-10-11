@@ -774,7 +774,7 @@ following triangle:
 #######
 ....
 
-''''
+!!solution!!
 
 You can start with a program that simply prints out the numbers 1 to
 7, which you can derive by making a few modifications to the
@@ -785,6 +785,8 @@ Now consider the equivalence between numbers and strings of hash
 characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go
 from `"#"` to `"##"` by adding a character (`+= "#"`). Thus, your
 solution can closely follow the number-printing program.
+
+!!solution!!
 
 === Number grid ===
 
@@ -808,7 +810,7 @@ When it works, define a variable `size = 5`, and change the program so
 that it works for any `size` between 1 and 10, outputting a grid of
 the given width and height.
 
-''''
+!!solution!!
 
 The string can be built by starting with an empty one (`""`) and
 repeatedly adding characters. A newline character is written `"\n"`.
@@ -833,6 +835,8 @@ Terminating a line by adding a newline character happens after the
 line has been built up, so after the inner loop, inside of the outer
 loop.
 
+!!solution!!
+
 === FizzBuzz ===
 
 Write a program that prints (using `console.log`) all the numbers from
@@ -848,7 +852,7 @@ out large swaths of programmer candidates. So if you solved it, you're
 supposedly already better than a lot of people who are seriously
 applying for programmer jobs.)
 
-''''
+!!solution!!
 
 Going over the numbers is clearly a looping job. And selecting what to
 print is a matter of conditional execution. Remember the trick of
@@ -864,3 +868,5 @@ the given condition), or in a clever way (build up a string containing
 the word or word to output, and print either this word or the number
 if there is no word, potentially by making elegant use of the `||`
 operator).
+
+!!solution!!

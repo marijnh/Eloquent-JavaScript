@@ -945,7 +945,7 @@ console.log(Point(3, 4).distance);
 ----
 endif::html_target[]
 
-''''
+!!solution!!
 
 Your solution can follow the pattern of the `Rabbit` constructor from
 this chapter quite closely.
@@ -957,6 +957,8 @@ says that the square of the distance we are looking for is equal to
 the square of the x coordinate plus the square of the y coordinate.
 Thus √(x^2^ + y^2^) is the number we want, and `Math.sqrt` is the way
 you compute a square root in JavaScript.
+
+!!solution!!
 
 === Another cell ===
 
@@ -981,7 +983,7 @@ console.log(sc.draw(3, 2));
 ----
 endif::html_target[]
 
-''''
+!!solution!!
 
 You'll have to store all three constructor arguments in the instance
 object. The `minWidth` and `minHeight` methods call through to the
@@ -990,6 +992,8 @@ less than the given size is returned (possibly using `Math.max`).
 
 Don't forget to add a `draw` method that simply forwards the call the
 inner cell.
+
+!!solution!!
 
 === Sequence interface ===
 
@@ -1021,7 +1025,7 @@ logFive(new RangeSeq(100, 1000));
 ----
 endif::html_target[]
 
-''''
+!!solution!!
 
 The most obvious way to solve this is to give the sequence objects
 _state_, meaning their properties are changed. You could store a
@@ -1044,3 +1048,5 @@ sequence is reached). This is quite elegant—a sequence value will
 code without worrying about what might happen to it. It is,
 unfortunately, also very inefficient in a language like JavaScript,
 because it involves creating a lot of objects during iteration.
+
+!!solution!!

@@ -781,7 +781,7 @@ the value `true`. (Don't just return the functions you defined
 earlier. Have it return an anonymous function that uses the argument
 given to `logicReducer`.)
 
-''''
+!!solution!!
 
 The functions can follow a similar pattern to the definition of
 `forEach` at the start of the chapter, except that they must return
@@ -796,3 +796,5 @@ not a boolean. The `Boolean` function can be used to convert the
 returned value to a proper boolean before comparing it with the
 `positive` variable. Alternatively, applying the logical not operator
 twice (`!!`) also converts a value to a boolean.
+
+!!solution!!

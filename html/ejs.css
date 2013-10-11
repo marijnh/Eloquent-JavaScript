@@ -259,3 +259,28 @@ div.image img {
   min-width: 20em;
   margin-left: 1em;
 }
+
+div.solution:before {
+  content: "» Display hints...";
+}
+
+div.solution {
+  color: #156;
+  cursor: pointer;
+}
+
+div.solution-text {
+  display: none;
+}
+
+div.solution.open:before {
+  content: "";
+}
+
+div.solution.open {
+  cursor: default;
+}
+
+div.solution.open div.solution-text {
+  display: block;
+}

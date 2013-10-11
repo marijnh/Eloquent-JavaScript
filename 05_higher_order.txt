@@ -34,8 +34,8 @@ console.log(sum(range(1, 10)));
 Which one is more likely to contain a bug?
 
 If we count the size of the definitions of `sum` and `range`, the
-second program is also big—even than the first. But still, I'd argue
-that it is more likely to be correct.
+second program is also big—even bigger than the first. But still, I'd
+argue that it is more likely to be correct.
 
 The reason for this is that, by first building up a language in which
 to express the problem, and then solving the problem in the terms of
@@ -738,7 +738,7 @@ arguments is not always the same.
 
 == Exercises ==
 
-=== Every and some ===
+=== Every and then some ===
 
 Arrays also come with the standard methods `every` and `some`, which
 are analogous to the `&&` and `||` operators.
@@ -762,13 +762,13 @@ ifdef::html_target[]
 ----
 // Your code here...
 
-every([NaN, NaN, NaN], isNaN);
+console.log(every([NaN, NaN, NaN], isNaN));
 // → true
-every([NaN, NaN, 4], isNaN);
+console.log(every([NaN, NaN, 4], isNaN));
 // → false
-some([NaN, 3, 4], isNaN);
+console.log(some([NaN, 3, 4], isNaN));
 // → true
-some([2, 3, 4], isNaN);
+console.log(some([2, 3, 4], isNaN));
 // → false
 ----
 endif::html_target[]
@@ -798,3 +798,5 @@ returned value to a proper boolean before comparing it with the
 twice (`!!`) also converts a value to a boolean.
 
 !!solution!!
+
+FIXME more exercises

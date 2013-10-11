@@ -59,6 +59,10 @@ code, pre, .CodeMirror, .sandbox-output {
   font-family: 'PT Mono', monospace;
 }
 
+code {
+  padding: 0 4px;
+}
+
 h1, h2, h3 {
   font-family: 'Cinzel';
   font-weight: 700;

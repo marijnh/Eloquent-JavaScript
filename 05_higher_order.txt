@@ -1,6 +1,6 @@
 :chap_num: 5
 :prev_link: 04_data
-:next_link: 06_FIXME
+:next_link: 06_object
 :load_files: ["js/code/ancestry.js", "js/code/05_higher_order.js"]
 
 = Higher-Order Functions =
@@ -392,7 +392,7 @@ console.log(JSON.parse(string)).born;
 The variable `ANCESTRY_FILE`, available in the sandbox for this
 chapter as well as in a
 http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
-the website ifdef::tex_target[(`eloquentjavascript.net/code`)],
+the website!!tex  (`eloquentjavascript.net/code`)!!,
 contains the content of my JSON file as a string. Let us decode it and
 see how many people it contains:
 
@@ -796,4 +796,3 @@ not a boolean. The `Boolean` function can be used to convert the
 returned value to a proper boolean before comparing it with the
 `positive` variable. Alternatively, applying the logical not operator
 twice (`!!`) also converts a value to a boolean.
-

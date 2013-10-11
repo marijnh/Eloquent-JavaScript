@@ -433,9 +433,7 @@ endif::html_target[]
 
 ifdef::tex_target[]
 
-++++
-\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}
-++++
+latexmath:[\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}]
 
 endif::tex_target[]
 
@@ -489,8 +487,8 @@ because the sums of rows or columns are not stored directly in our
 data structure.
 
 Jaques kept his journal for three months. The resulting data set is
-available in the coding sandbox for this chapter
-ifdef::tex_target[(`eloquentjavascript.net/code`)], where it is stored
+available in the coding sandbox for this chapter!!tex  (`eloquentjavascript.net/code`)!!,
+where it is stored
 in the `THREE_MONTHS` variable, as well as in a downloadable
 http://eloquentjavascript.net/code/jaques_journal.js[file].
 

@@ -1,2124 +1,1046 @@
+:chap_num: 6
+:prev_link: 05_higher_order
+:next_link: 07_terrarium
+:load_files: ["js/code/mountains.js", "js/code/06_object.js"]
+
 = The Secret Life of Objects =
 
-(((object-oriented programming|()))(((paradigm shift)))(((object|()))
-In the early 1990s, a thing
-called _object-oriented programming_ swept through the software
-industry. It defined a whole new paradigm for writing programs. A
-bunch of ideas that had been simmering in research labs, and obscure
-experimental programming languages for a decade were finally picked up
-by the mainstream.  Books were being written, courses were being given, and a whole
-culture sprang up. We had found _the right way to write programs_.
+When a programmer says “object”, that term is loaded. Objects, in my
+profession, are a way of life, the subject of several holy wars, and a
+beloved buzzword that still hasn't quite lost its power.
 
-As it usually goes with new fashions, the effectiveness of this new
-style of programming was greatly exaggerated. It turns out that
-programming was still hard, even with objects. In fact, some of the
-rigidly object-oriented ideas that were adopted (and enforced) by
-languages like Java probably do more harm than good.
+To an outsider, that is probably a little confusing. Let us start with
+a brief history of objects as a programming construct.
 
-Regardless, the central techniques to come out of object-oriented
-programming are very effective and worth learning. In this chapter,
-we will discuss these ideas, along with JavaScript's (rather
-eccentric) take on them.
+== History ==
 
+(((object-oriented programming)))(((object)))This story, like many
+stories in this field, starts with the problem of controlling
+complexity. One philosophy is that this complexity can be made
+manageable by separating it into small compartments that are isolated
+from each other. These compartments ended up with the name “objects.”
 
-== Objects ==
+(((encapsulation)))(((method)))(((interface)))An object is a hard
+shell that encapsulates the gooey complexity inside of it, and instead
+offers us a few of knobs and connectors (think methods) that present
+an _interface_ through which the object is to be used. The idea is
+that the interface is relatively simple, and all the complex things
+going on _inside_ of the object can be ignored when working with it.
 
-As the name suggests, object-oriented programming is related to
-objects. So far, we have used objects as loose aggregations of values,
-adding and altering their properties whenever we saw fit. In an
-object-oriented approach, objects are viewed as little worlds of their
-own, and the outside world may touch them only through a limited and
-well-defined (((interface)))interface, which consists of a number of
-specific methods and properties.
+As an example, you can imagine an object that provides an interface to
+an area on your screen. It provides a way to draw shapes or text onto
+this area, but hides all the details of how these shapes are converted
+to the actual pixels that make up the screen. You'd have a set of
+methods (named, for example `drawCircle`) that are, ideally, described
+somewhere so that it is easy to learn how to use such an object.
 
-The `Date` and `Error` objects we have seen also work like
-this. Instead of providing regular functions for working with the
-objects, they provide a way to create such objects, using the
-`new` keyword, and a number of methods and properties that
-provide the rest of the interface.
+These ideas were initially worked out in the 1970s and 80s, and, in
+the 90s, were carried up by a huge wave of hype—the object-oriented
+programming revolution. Suddenly, there was a large tribe of people
+declaring that objects were the _right_ way to program, and that
+anything that did not involve objects was outdated nonsense.
 
-== Defining Methods ==
+This kind of zealotry of course created a lot of impractical
+silliness, and there has been a sort of counter-revolution in the past
+ten years that has, in many circles, given objects a bad reputation.
 
-(((method)))(((rabbit example|()))
-One way to give an object methods is to simply attach function values
-to it, as in the following code:
+I feel it is preferable to look at the issue from a practical, rather
+than ideological angle. There are several very useful concepts, most
+importantly that of _encapsulation_ (distinguishing between internal
+complexity and external interface), that the object-oriented culture
+has popularized. These are worth studying.
+
+This chapter describes JavaScript's rather eccentric take on objects,
+and the way they relate to classical object-oriented techniques.
+
+== Methods ==
+
+(((rabbit example)))(((method)))(((property)))Methods are simply
+properties that hold function values. This is a very simple method:
 
 [source,javascript]
 ----
 var rabbit = {};
 rabbit.speak = function(line) {
-  print("The rabbit says '", line, "'");
+  console.log("The rabbit says '", line, "'");
 };
 
 rabbit.speak("I'm alive.");
 ----
 
-(((this@`this` variable)))
-In most cases, the method will also need to know _who_ it should
-act on. For example, if there are different rabbits, the `speak`
-method must indicate which rabbit is speaking. For this purpose, there
-is a special variable called `this`. When the function
-is called as a method (meaning it is looked up as a property and
-immediately called, as in `object.method()`), `this` will
-point to the relevant object.
+(((this variable)))Most of the time, a method needs to know something
+about the object it is acting on. For example, if there are different
+rabbits, the `speak` method must indicate which rabbit is speaking.
+
+When a function is called as a method—when it is looked up as a
+property and immediately called, as in `object.method()`—the special
+variable `this` in its body will point to the object that it was
+called on.
 
 [source,javascript]
 ----
 function speak(line) {
-  print("The ", this.adjective, " rabbit says '", line, "'");
+  console.log("The ", this.type, " rabbit says '",
+              line, "'");
 }
-var whiteRabbit = {adjective: "white", speak: speak};
-var fatRabbit = {adjective: "fat", speak: speak};
+var whiteRabbit = {type: "white", speak: speak};
+var fatRabbit = {type: "fat", speak: speak};
 
-whiteRabbit.speak("Oh my ears and whiskers, how late it's getting!");
+whiteRabbit.speak(
+  "Oh my ears and whiskers, how late it's getting!");
+// → The white rabbit says 'Oh my ears and whiskers,
+//   how late it's getting!'
 fatRabbit.speak("I could sure use a carrot right now.");
+// → The fat rabbit says 'I could sure use a carrot
+//   right now.'
 ----
 
-The previous code uses the `this` variable to insert the type of
-rabbit that is speaking into the output text. It will print the following:
+The code uses the `this` variable to output the type of rabbit that is
+speaking.
 
-[source,javascript]
-----
-The white rabbit says 'Oh my ears and whiskers, how late it's getting!'
-The fat rabbit says 'I could sure use a carrot right now.'
-----
+(((apply method)))(((bind method)))The mysterious first argument to
+the `apply` and `bind` method on functions, the one for which we
+simply passed `null` in the previous chapter, is in fact used to give
+a value to `this`.
 
-(((apply@`apply` method)))
-I can now clarify the mysterious first argument to the
-`apply` method, for which we always used `null`
-in REF{fp}. This argument can be used to specify the object that
-the function must be applied to. (For nonmethod functions, this is
-irrelevant, which is the reason for the `null`.) We could also call `speak` on
-the fat rabbit like this:
+There is a method similar to `apply`, called `call`, which also calls
+the function, but takes a normal list of arguments, rather than an
+array. It is used to call a function with with a specific `this`
+value.
 
 [source,javascript]
 ----
-speak.apply(fatRabbit, ["Yum."]);
+speak.apply(fatRabbit, ["Burp!"]);
+// → The fat rabbit says 'Burp!'
+speak.call({type: "old"}, "Oh my.");
+// → The old rabbit says 'Oh my.'
 ----
 
-(((call@`call` method)))
-Functions also have a `call` method, which is similar
-to `apply`, but you can give the arguments for the function
-separately instead of as an array:
+== Prototypes ==
 
-[source,javascript]
-----
-speak.call(fatRabbit, "Burp.");
-----
-
-For functions with more than one argument, using `call` and
-`apply` looks like this:
+(((toString method)))Watch closely now.
 
 [source,javascript]
 ----
-function run(from, to) {
-  print("The ", this.adjective, " rabbit runs from ", from, " to ", to, ".");
-}
-run.apply(whiteRabbit, ["A", "B"]);
-run.call(fatRabbit, "the cupboard", "the fridge");
+var empty = {};
+console.log(empty.toString);
+// → function toString(){…}
+console.log(empty.toString());
+// → [object Object]
 ----
+
+I just pulled a property out of an empty object. Magic!
+
+(((prototype)))(((property)))Well, not really. I have simply been
+withholding some information on the way JavaScript objects work. In
+addition to their set of properties, almost all objects also have a
+_prototype_. A prototype is another object that will be used as a
+source of properties. When a property is requested that an object does
+not have, its prototype will be searched for the property, and then
+the prototype of the prototype, and so on.
+
+(((Object.prototype)))So who is the prototype of that empty object? It
+is the great ancestral prototype, the entity behind almost all
+objects, he who is himself prototype-less. His name is
+`Object.prototype`.
+
+[source,javascript]
+----
+console.log(Object.getPrototypeOf({}) ==
+            Object.prototype);
+// → true
+console.log(Object.getPrototypeOf(Object.prototype));
+// → null
+----
+
+The prototype relations of JavaScript objects form a tree-shaped
+structure, and at the root of this structure sits `Object.prototype`.
+It provides a few methods that show up in all objects, such as
+`toString`, which converts an object to a some string representation.
+
+Many objects don't directly have `Object.prototype` as their
+prototype, but instead have another object, which provides additional
+default properties. This prototype will itself have a prototype, so
+that it still indirectly provides methods like `toString`.
+
+Functions derive from `Function.prototype`, arrays from
+`Array.prototype`.
+
+[source,javascript]
+----
+console.log(Object.getPrototypeOf(isNaN) ==
+            Function.prototype);
+// → true
+console.log(Object.getPrototypeOf([]) ==
+            Array.prototype);
+// → true
+----
+
+The `Object.getPrototypeOf` function obviously returns the prototype
+of an object. You can use `Object.create` to create an object with a
+specific prototype.
+
+[source,javascript]
+----
+var protoRabbit = {
+  speak: function(line) {
+    console.log("The ", this.type, " rabbit says '",
+                line, "'");
+  }
+};
+var killerRabbit = Object.create(rabbitProto);
+killerRabbit.type = "killer";
+killerRabbit.speak("SKREEEE!");
+// → The killer rabbit says 'SKREEEE!'
+----
+
+The proto rabbit contains the properties that are shared by all
+rabbits. The killer rabbit itself contains the properties that apply
+only to that object, in this case its `type`, and derives the shared
+properties from its prototype.
 
 == Constructors ==
 
-(((new@`new` operator)))(((this@`this` variable)))
-(((return@`return` keyword)))(((constructor|()))
-The `new` keyword provides a convenient way of
-creating new objects. When a function is called with the operator
-`new` in front of it, its `this` variable will
-point at a _new_ object, which it will automatically return
-(unless it explicitly returns something else using `return`).
-Functions used to create new objects like this are called
-_constructors_. Here is a constructor for rabbits:
+(((new operator)))(((this variable)))(((return
+keyword)))(((constructor)))A more convenient way to create objects
+that derive from some shared prototype is to use a _constructor_. In
+JavaScript, calling a function with the `new` keyword in front of it
+causes it to be treated as a constructor. It will have its `this`
+variable bound to a fresh object, and, unless it explicitly returns
+something else, this new object will be the result of the call.
+
+Here is a simple constructor for rabbits. It is convention to
+capitalize the names of constructors, so that they are easily
+distinguished from other functions.
 
 [source,javascript]
 ----
-function Rabbit(adjective) {
-  this.adjective = adjective;
-  this.speak = function(line) {
-    print("The ", this.adjective, " rabbit says '", line, "'");
-  };
+function Rabbit(type) {
+  this.type = type;
 }
 
 var killerRabbit = new Rabbit("killer");
-killerRabbit.speak("GRAAAAAAAAAH!");
+var blackRabbit = new Rabbit("black");
+console.log(blackRabbit.type);
+// → black
 ----
 
-It is convention to start the names of constructors with a capital
-letter. This makes it easy to distinguish them from other functions.
-The language does not enforce this, but it is good practice to follow
-it.
-
-== Building from Prototype ==
-
-(((prototype|()))
-Why is the `new` keyword even necessary? After all, we could have
-simply written this:
+A constructor automatically gets a property `prototype`, which
+initially holds a plain object that derives from `Object.prototype`.
+New objects created with this constructor will get this object as
+their prototype. So to add a `speak` method to rabbits created with
+the `Rabbit` constructor, we can simply do this:
 
 [source,javascript]
 ----
-function makeRabbit(adjective) {
-  return {
-    adjective: adjective,
-    speak: function(line) {/*etc*/}
-  };
-}
-
-var blackRabbit = makeRabbit("black");
+Rabbit.prototype.speak = function(line) {
+  console.log("The ", this.type, " rabbit says '",
+              line, "'");
+};
+blackRabbit.speak("Doom...");
+// → The black rabbit says 'Doom...'
 ----
 
-(((constructor@`constructor` property)))
-(((Object@`Object` type)))
-But that is not entirely the same. `new` does a few things behind
-the  scenes. For one thing, our `killerRabbit` has a property
-called `constructor`, which points at the
-`Rabbit` function that created it. `blackRabbit` also has 
-such a property, but it points at the `Object`
-function.
+An object created with `new` is said to be an _((instance))_ of its
+constructor.
 
-(((\{\)))@`{}` (object)}
-Where did this `constructor` property come from? It is part of
-the prototype of a rabbit. Prototypes are a powerful,
-if somewhat confusing, part of the way JavaScript objects work. Every
-object is based on a prototype, which gives it a set of inherent
-properties. The simple objects we have used so far are based on the
-most basic prototype, which is associated with the `Object`
-constructor, and are thus shared by all objects. (Typing `{}`,
-by the way, is equivalent to typing `new Object()`.)
+== Overriding derived properties ==
 
-(((toString@`toString` method)))
-`toString` is a method that is part of the
-`Object` prototype. This means that all simple objects have a
-`toString` method, which converts them to a string. In fact,
-every object has a `toString` method, since even if an object has
-another prototype, that prototype is itself an object, which will
-(directly or indirectly) be based on the `Object` prototype.
-
-== Constructors and Prototypes ==
-
-(((prototype@`prototype` property)))
-Our rabbit objects are based on the prototype associated with the
-`Rabbit`  constructor. You can use a constructor's
-`prototype` property to access this prototype.
-
-Every function you define automatically gets a `prototype`
-property,  which holds an object---the prototype of the function.
-This prototype gets a `constructor` property, which points
-back at the function to which it belongs. Because the rabbit prototype is
-itself an object, it is based on the `Object` prototype and
-shares its `toString` method. Thus, any rabbit created with the
-`Rabbit` constructor has this method.
-
-(((property)))
-Even though objects seem to share the properties of their prototype,
-this sharing is one-way. The properties of the prototype influence the
-object based on it, and changes to these objects never affect the
-prototype.
-
-
-The precise rules are these: When looking up the value of a property,
-JavaScript first looks at the properties that the object _itself_
-has. If there is a property that has the name we are looking for, that
-is the value we get. If there is no such property, it continues
-searching the prototype of the object, and then the prototype of the
-prototype, and so on. If no property is found, the value
-`undefined` is given. On the other hand, when _setting_ the
-value of a property, JavaScript never goes to the prototype but
-always sets the property in the object itself. This means you can
-``override'' properties in your own objects to give them more
-specific, appropriate values than the generic ones it takes from its
-prototype. The following code demonstrates this technique:
+(((property)))When you add a property to an object that is also
+present in its prototype, the property is simply added to the object
+itself, and will from now on replace the derived value from the
+prototype. The prototype itself is not changed.
 
 [source,javascript]
 ----
 Rabbit.prototype.teeth = "small";
-#textbf~killerRabbit.teeth;@
-→ "small"
+console.log(killerRabbit.teeth);
+// → small
 killerRabbit.teeth = "long, sharp, and bloody";
-#textbf~killerRabbit.teeth;@
-→ "long, sharp, and bloody"
-#textbf~Rabbit.prototype.teeth;@
-→ "small"
+console.log(killerRabbit.teeth);
+// → long, sharp, and bloody
+console.log(Rabbit.prototype.teeth);
+// → small
 ----
 
 The following diagram sketches the situation after this code has run.
-The `Rabbit` and `Object` prototypes lie behind
-`killerRabbit` as a kind of backdrop, where properties that are
-not found in the object itself can be looked up.
+The `Rabbit` and `Object` prototypes lie behind `killerRabbit` as a
+kind of backdrop, where properties that are not found in the object
+itself can be looked up.
 
-\includegraphics[width=7cm]{img/rabbits.png}
+image::img/rabbits.svg[alt="Rabbit object prototype schema"]
 
-This does mean that the prototype can be used at any time to add
-new properties and methods to all objects based on it. For example, it
-might become necessary for our rabbits to dance.
+Overriding properties that exist in a prototype is often a useful
+thing to do. As the rabbit teeth example shows, it can be used to
+express exceptional properties in instances of a more generic class of
+objects, while letting the non-exceptional objects simply take a
+standard value from their prototype.
+
+It is also used to, for example, give the standard function and array
+prototypes a different `toString` method than the basic object
+prototype.
+
+[source,javascript]
+----
+console.log(Array.prototype.toString ==
+            Object.prototype.toString);
+// → false
+console.log([1, 2].toString());
+// → 1, 2
+console.log(Object.prototype.toString.call([1, 2]));
+// → [object Array]
+----
+
+Calling `toString` on an array gives a result similar to calling
+`.join(", ")` on it—it puts commas between the values in the array.
+Directly calling `Object.prototype.toString` with an array produces a
+different string. That function doesn't know about arrays, it simply
+puts the word “object” and the name of the type between square
+brackets.
+
+== Prototype interference ==
+
+A prototype can be used at any time to add new properties and methods
+to all objects based on it. For example, it might become necessary for
+our rabbits to dance.
 
 [source,javascript]
 ----
 Rabbit.prototype.dance = function() {
-  print("The ", this.adjective, " rabbit dances a jig.");
+  print("The ", this.type, " rabbit dances a jig.");
 };
 ----
 
-And, as you might have guessed, the prototypical rabbit is the perfect
-place for those values that all rabbits have in common, such as the
-`speak` method. Here is a new approach to the `Rabbit`
-constructor:
+That's very convenient. But there are situations where it causes
+problems. In the previous chapter, we used an object to create a way
+to associate objects with names, by creating properties for the names
+and giving them the corresponding object as value. Here's a similar
+example from chapter 4:
 
 [source,javascript]
 ----
-function Rabbit(adjective) {
-  this.adjective = adjective;
+var ages = {};
+function storeAge(name, age) {
+  ages[name] = age;
 }
-Rabbit.prototype.speak = function(line) {
-  print("The ", this.adjective, " rabbit says '", line, "'");
-};
+
+storeAge("Larry", 58);
+storeAge("Simon", 55);
 ----
 
-(((constructor|))))(((rabbit example|))))
-
-== Prototype Pollution ==
-
-(((namespace pollution)))(((prototype pollution)))
-The fact that all objects have a prototype and receive some properties
-from this prototype can be tricky. It means that using an object to
-store a set of things, such as the cats from REF{data}, can go
-wrong. If, for example, we wondered whether there is a cat called
-`"constructor"`, we would have checked it like this:
+(((for/in loop)))(((in operator)))We can iterate over all persons in
+the object using a `for`/`in` loop, and test whether a name is in
+there using the regular `in` operator. But unfortunately, the object's
+prototype gets in the way.
 
 [source,javascript]
 ----
-var noCatsAtAll = {};
-if ("constructor" in noCatsAtAll)
-  print("Yes, there definitely is a cat called 'constructor'.");
+Object.prototype.nonsense = "hi";
+for (var name in ages)
+  console.log(name);
+// → Larry
+// → Simon
+// → nonsense
+console.log("nonsense" in ages);
+// → true
+console.log("toString" in ages);
+// → true
+delete Object.prototype.nonsense;
 ----
 
-This is problematic. A related issue is that it can often be useful to
-extend the prototypes of standard constructors such as `Object`
-and `Array` with new useful functions. For example, we could give
-all objects a method called `properties`, which returns an array
-with the names of the (nonhidden) properties that the object has:
-(((properties@`properties` method)))(((prototype|))))
+That's all wrong! There is no person called “nonsense” in our data
+set. And there _definitely_ is no person called “toString”.
+
+(((enumerability)))Oddly, `toString` did not show up in the `for`/`in`
+loop, but the `in` operator did return true for it. JavaScript
+distinguishes between _enumerable_ and _non-enumerable_ properties.
+
+All properties that we create by simply assigning to them are
+enumerable. The standard properties in `Object.prototype` are all
+non-enumerable, which is why they do not show up such a `for`/`in`
+loop.
+
+(((defineProperty function)))It is possible to define our own
+non-enumerable properties by using the `Object.defineProperty`
+function, which allows us more control of the type of property we are
+creating.
 
 [source,javascript]
 ----
-Object.prototype.properties = function() {
-  var result = [];
-  for (var property in this)
-    result.push(property);
-  return result;
-};
-
-var test = {x: 10, y: 3};
-#textbf~test.properties();@
-→ ["x", "y", "properties"]
+Object.defineProperty(Object.prototype,
+                      "hiddenNonsense",
+                      {enumerable: false,
+                       value: "hi"});
+for (var name in ages)
+  console.log(name);
+// → Larry
+// → Simon
+console.log(ages.hiddenNonsense);
+// → hi
 ----
 
-(((in@`in` operator)))
-And that immediately shows the problem. Now that the `Object`
-prototype has a property called `properties`, looping over the
-properties of any object, using `for` and `in`,
-will also give us that shared property, which is generally not what we
-want. We are interested only in the properties that the object itself
-has.
-
-(((hasOwnProperty@`hasOwnProperty` method)))
-Fortunately, there is a way to find out whether a property belongs to
-the object itself or to one of its prototypes. Unfortunately, it does
-make looping over the properties of an object a bit clumsier. Every
-object has a method called
-`hasOwnProperty`, which tells us whether
-the object has a property with a given name. Using this, we could
-rewrite our `properties` method like this:
-(((properties@`properties` method)))
+(((hasOwnProperty method)))So now the property is there, but it won't
+show up in a loop. That is good. But we still have the problem with
+the regular `in` operator claiming that the `Object.prototype`
+properties exists in our object. For that, we can use the object's
+`hasOwnProperty` operator.
 
 [source,javascript]
 ----
-Object.prototype.properties = function() {
-  var result = [];
-  for (var property in this) {
-    if (this.hasOwnProperty(property))
-      result.push(property);
-  }
-  return result;
-};
-
-var test = {"Fat Igor": true, "Fireball": true};
-#textbf~test.properties();@
-→ ["Fat Igor", "Fireball"]
+console.log(ages.hasOwnProperty("toString"));
+// → false
 ----
 
-(((forEachIn@`forEachIn` function)))
-And of course, we can abstract that into a
-higher-order function. Note that the `action` function is called
-with both the name of the property and the value it has in the object.
+This method tells us whether the object has the property _itself_,
+without looking at its prototypes. This is often a more useful piece
+of information than what the `in` operator gives us.
+
+When you are worried that someone (some other code you loaded into
+your program) might have messed with the base object prototype, it is
+recommended to write you `for`/`in` loops like this:
 
 [source,javascript]
 ----
-function forEachIn(object, action) {
-  for (var property in object) {
-    if (object.hasOwnProperty(property))
-      action(property, object[property]);
+for (var name in ages) {
+  if (ages.hasOwnProperty(name)) {
+    // ... this is a real property
   }
 }
 ----
 
-But, what if we find a cat named `hasOwnProperty`? (You never
-know.) It will be stored in the object, and the next time we want to
-go over the collection of cats, calling `object.hasOwnProperty`
-will fail, because that property no longer points at a function value.
-This can be solved by doing something even uglier:
+== Prototype-less objects ==
+
+But the rabbit hole doesn't end there. What if someone registered the
+name `hasOwnProperty` in our `ages` object? Now the call to
+`ages.hasOwnProperty` will try to call the local property, which
+presumably holds a number, not a function.
+
+Often, prototypes just get in the way, and we actually want nothing to
+do with them. We saw the `Object.create` function, which allows us to
+create an object with a specific prototype. You are allowed to pass
+`null` as the prototype to create a fresh object with no prototype.
+For objects like `ages`, where the properties could be anyting, this
+is exactly what we want.
 
 [source,javascript]
 ----
-function forEachIn(object, action) {
-  for (var property in object) {
-    if (Object.prototype.hasOwnProperty.call(object, property))
-      action(property, object[property]);
-  }
-}
+var ages = Object.create(null);
+ages.Brendan = 52;
+console.log("toString" in ages);
+// → false
+console.log("Brendan" in ages);
+// → true
 ----
 
-Here, instead of using the method found in the object itself, we get
-the method from the `Object` prototype and then use `call`
-to apply it to the right object. Unless someone actually messes with
-the method in `Object.prototype` (don't _ever_ do that), this
-should work correctly.
-
-== Objects as Dictionaries ==
-
-(((hasOwnProperty@`hasOwnProperty` method)))
-(((propertyIsEnumerable@`propertyIsEnumerable` method)))
-(((in@`in` operator)))(((property!enumerability)))
-`hasOwnProperty` can also be used in those situations where we
-have been using the `in` operator to see whether an
-object has a specific property. There is one more catch, however. We
-saw in REF{data} that some properties, such as `toString`,
-are ``hidden'' and do not show up when going over properties with
-`for`/`in`. It turns out that browsers in the Gecko family
-(Firefox, most importantly) give every object a hidden property named
-`__proto__`, which points to the prototype of that object.
-`hasOwnProperty` will return `true` for this one, even
-though the program did not explicitly add it. Having access to the
-prototype of an object can be very convenient, but making it a
-property like that was not a very good idea. Still, Firefox is a
-widely used browser, so when you write a program for the Web, you have
-to be careful with this. There is a method
-`propertyIsEnumerable`, which
-does mostly the same thing as `hasOwnProperty`, but also returns
-`false` for hidden properties. This allows us to filter
-out strange things like `__proto__`.
-
-[source,javascript]
-----
-var object = {foo: "bar"};
-#textbf~Object.prototype.propertyIsEnumerable.call(object, "foo");@
-→ true
-----
-
-(((JavaScript!weaknesses of)))
-Nice and simple, no? This is one of the not-so-well-designed aspects
-of JavaScript. Objects play both the role of ``values with methods,''
-for which prototypes are great, and ``sets of properties,'' for which
-prototypes only get in the way.
-
-(((Dictionary@`Dictionary` type)))(((data structure)))
-Writing the previous expression every time you need to check whether a
-property is present in an object is awkward. We could put it into a
-function, but an even better approach is to write a constructor and a
-prototype specifically for situations like this, where we want to
-approach an object as just a set of properties. Because you can use it
-to look things up by name, we will call this type
-`Dictionary`.
-
-The `Dictionary` constructor can be called without arguments, in
-which case it creates an empty dictionary, or with an object that
-provides the initial content. It exposes four methods: `store` to
-add a value under a given key; `lookup` to retrieve a value;
-`contains` to test whether a key is present; and `each`,  a
-higher-order function, to iterate over the dictionary's contents.
-
-[source,javascript]
-----
-function Dictionary(startValues) {
-  this.values = startValues || {};
-}
-Dictionary.prototype.store = function(name, value) {
-  this.values[name] = value;
-};
-Dictionary.prototype.lookup = function(name) {
-  return this.values[name];
-};
-
-
-Dictionary.prototype.contains = function(name) {
- return Object.prototype.propertyIsEnumerable.call(this.values, name);
-};
-Dictionary.prototype.each = function(action) {
-  forEachIn(this.values, action);
-};
-----
-
-Here's a small piece of code to test the new type:
-
-[source,javascript]
-----
-var colors = new Dictionary({Grover: "blue",
-                             Elmo: "red",
-                             Bert: "yellow"});  
-#textbf~colors.contains("Grover");@
-→ true
-#textbf~colors.contains("constructor");@
-→ false
-
-colors.store("Ernie", "orange");
-colors.each(function(name, color) {
-  print(name, " is ", color);
-});
-----
-
-Now the whole mess related to approaching objects as plain sets of
-properties has been ``encapsulated'' in a convenient interface: one
-constructor and four methods. Note that the `values` property of
-a `Dictionary` object is not part of this interface; it is an
-internal detail, and when you are using `Dictionary` objects, you
-do not need to directly use it.
-
-== Specifying an Interface ==
-
-(((interface)))(((documentation)))
-Whenever you write an interface, it is a good idea to add a comment
-with a quick sketch of what it does and how it should be used. This
-way, when someone, possibly yourself three months after you wrote it,
-wants to work with the interface, they can quickly see how to use it
-and do not have to study the whole program.
-
-Most of the time, when you are designing an interface, you will soon
-find some limitations and problems in whatever you came up with and
-change it. To prevent wasting your time, it is advisable to document
-your interfaces only _after_ they have been used in a few real
-situations and proven themselves to be practical. Of course, this
-might make it tempting to forget about documentation altogether.
-Personally, I treat writing documentation as a ``finishing touch'' to
-add to a system. When it feels ready, it is time to write something
-about it and to see whether it sounds as good in English (or whatever
-language) as it does in JavaScript (or whatever programming language).
-
-
-
-(((encapsulation)))(((abstraction)))
-The distinction between the external interface of an object and its
-internal details is important for two reasons. First, having a
-small, clearly described interface makes an object easier to use. You
-only have to keep the interface in mind, and you do not have to worry
-about the rest unless you are changing the object itself.
-
-Second, it often turns out to be necessary or practical to change
-something about the internal implementation of an object type (usually
-called a _class_ in other programming languages) to make it more
-efficient, for example, or to fix a mistake. When outside code is
-accessing every single property and detail in the object, you cannot
-change any of them without also updating a lot of other code. If
-outside code uses only a small interface, you can do what you want, as
-long as you do not change the interface.
-
-(((interface design)))
-Some people go very far with this. They will, for example, never include
-properties in the interface of an object, only methods---if their
-object type has a length, it will be accessible with the
-`getLength` method, not the `length` property. This way, if
-they ever want to change their object in such a way that it no longer
-has a `length` property, for example because it now has some
-internal array whose length it must return, they can update the
-function without changing the interface.
-
-My own take is that in most cases this is not worth it. Adding a
-`getLength` method that contains  only `return this.length;`
-mostly just adds meaningless code, and, in most situations, I consider
-meaningless code a bigger problem than the risk of having to
-occasionally change the interface to my objects.
-
-== Building an Ecosystem Simulation ==
-
-(((terrarium example|()))
-In this chapter, we are going to build a virtual terrarium, a tank
-with insects moving around in it. We will build objects that model
-the terrarium and the creatures inside it, and we will write methods for
-those objects to ``animate'' the creatures and allow them (turn by
-turn) to live their lives.
-
-== Defining the Terrarium ==
-
-We take a rather simple approach and make the terrarium a
-two-dimensional grid. On this grid there are a number of bugs. When
-the terrarium is activated, all the bugs get a chance to take an
-action, such as moving, which changes the state of the terrarium.
-
-(((discretization)))(((simulation)))
-Thus, we chop both time and space into units with a fixed
-size---squares for space; ``turns'' for time. This usually makes
-things easier to model in a program. Of course, it has the drawback of
-being inaccurate. Fortunately, this terrarium-simulator is not
-required to be accurate in any way, and we can safely cut corners.
-
-A terrarium can be defined with a ``plan,'' which is an array of
-strings. We could have used a single string, but the array structure
-nicely reflects the two-dimensional structure of the data.
-
-
-[source,javascript]
-----
-var thePlan =
-  ["############################",
-   "#      #    #      o      ##",
-   "#                          #",
-   "#          #####           #",
-   "##         #   #    ##     #",
-   "###           ##     #     #",
-   "#           ###      #     #",
-   "#   ####                   #",
-   "#   ##       o             #",
-   "# o  #         o       ### #",
-   "#    #                     #",
-   "############################"];
-----
-
-The `#` characters are used to represent the walls of the
-terrarium (and the ornamental rocks lying in it), the `o` characters
-represent bugs, and the spaces are, as you might have guessed, empty
-space.
-
-(((toString@`toString` method)))
-Such a plan array can be used to create a terrarium object. This
-object keeps track of the shape and content of the terrarium and lets
-the bugs inside move. It has two methods: `toString`, which
-converts the terrarium back to a string similar to the plan it was
-based on so that you can see what is going on inside it, and
-`step`, which allows all the bugs in the terrarium to move one
-step, if they so desire.
-
-== Points in Space ==
-
-(((Point@`Point` type)))
-The points on the grid will be represented by very simple
-objects, based on a constructor named `Point`, which takes two
-arguments, the x- and y-coordinates of the point, and produces an
-object with `x` and `y` properties. The prototype of this
-constructor has a single method called `add`, which takes another point
-as an argument and returns a _new_ point whose `x` and `y`
-are the sum of the `x` and `y` of the two given points.
-
-[source,javascript]
-----
-function Point(x, y) {
-  this.x = x;
-  this.y = y;
-}
-Point.prototype.add = function(other) {
-  return new Point(this.x + other.x, this.y + other.y);
-};
-----
-
-Apart from the constructor and the method, the `x` and `y`
-properties are also part of the interface of this type of objects:
-Code that uses point objects may freely retrieve and modify `x`
-and `y`.
-
-== Representing the Grid ==
-
-(((object!design)))
-When writing objects to implement a certain program, it is not always
-very clear which functionality goes where. Some things are best
-written as methods of your objects, other things are better expressed
-as separate functions, and some things are best implemented by adding
-a new type of object. To keep things clear and organized, it is
-important to keep the amount of methods and responsibilities that an
-object type has as small as possible. When an object does too much, it
-becomes a mess and a source of confusion.
-
-I said earlier that the terrarium object will be responsible for storing
-its contents and for letting the bugs inside it move. Note
-that it _lets_ them move; it doesn't _make_ them move. The
-bugs themselves will also be objects, and these objects are
-responsible for deciding what they want to do. The terrarium merely
-provides the infrastructure that asks them what to do, and if they decide to move, it makes sure this happens.
-
-Storing the grid on which the content of the terrarium is kept can get
-quite complex. It has to define some kind of representation, ways to
-access this representation, a way to initialize the grid from a
-``plan'' array, a way to write the content of the grid to a string for
-the `toString` method, and the movement of the bugs on the grid.
-It would be nice if part of this could be moved into another object
-so that the terrarium object itself doesn't get too big and complex.
-
-Whenever you find yourself about to mix data representation and 
-problem-specific code in one data type, don't. Things will be much
-clearer when the two are kept separate. In this case, we need to
-represent a grid of values, so I wrote a `Grid` type, which
-supports the operations that the terrarium will need.
-
-(((array)))(((data structure)))
-To store the values on the grid, there are two options. One can use an
-array of row arrays and use two lookups to get to a specific point,
-like this:
-
-[source,javascript]
-----
-var grid = [["0,0", "1,0", "2,0"],
-            ["0,1", "1,1", "2,1"]];
-#textbf~grid[1][2];@
-→ "2,1"
-----
-
-Or, the values can all be put into a single array. In this case, the
-element at `x`,`y` can be found by getting the element at
-position `x + y * width` in the array, where `width` is the
-width of the grid.
-
-[source,javascript]
-----
-var grid = ["0,0", "1,0", "2,0",
-            "0,1", "1,1", "2,1"];
-#textbf~grid[2 + 1 * 3];@
-→ "2,1"
-----
-
-(((Array@`Array` type)))
-I chose the second representation, because it makes it
-much easier to initialize the array. `new Array(x)` produces a
-new array of length `x`, filled with `undefined` values.
-
-
-This code defines the `Grid` object, with some basic methods:
-(((Grid@`Grid` type)))
-
-[source,javascript]
-----
-function Grid(width, height) {
-  this.width = width;
-  this.height = height;
-  this.cells = new Array(width * height);
-}
-Grid.prototype.valueAt = function(point) {
-  return this.cells[point.y * this.width + point.x];
-};
-Grid.prototype.setValueAt = function(point, value) {
-  this.cells[point.y * this.width + point.x] = value;
-};
-Grid.prototype.isInside = function(point) {
-  return point.x >= 0 && point.y >= 0 &&
-         point.x < this.width && point.y < this.height;
-};
-Grid.prototype.moveValue = function(from, to) {
-  this.setValueAt(to, this.valueAt(from));
-  this.setValueAt(from, undefined);
-};
-----
-
-(((higher-order function)))
-We will also need to go over all the elements of the grid to find the
-bugs we need to move or to convert the whole thing to a string. To
-make this easy, we can use a higher-order function that takes an
-action as its argument. We add the method `each` to the prototype of
-`Grid`, which takes an `action` function of two arguments.
-It calls this function for every point on the grid, giving it the
-point object for that point as its first argument and giving it the value that
-is on the grid at that point as its second argument.
-
-This higher-order function abstracts a two-dimensional loop into a
-single method call:(((for@`for` loop)))
-
-[source,javascript]
-----
-Grid.prototype.each = function(action) {
-  for (var y = 0; y < this.height; y++) {
-    for (var x = 0; x < this.width; x++) {
-      var point = new Point(x, y);
-      action(point, this.valueAt(point));
-    }
-  }
-};
-----
-
-The double `for` loop traverses the grid row by row, starting
-from the top, and then square by square in each row, starting from the left.
-Doing it in this order is useful, because it will make it easier to write a
-method that converts the grid to a string---the elements have to
-appear in the same order in such a string.
-
-== A Bug's Programming Interface ==
-
-(((interface)))(((bug object (terrarium))))(((action object (terrarium))))
-Before we can start to write a `Terrarium` constructor, we will
-have to get a bit more specific about these ``bug objects'' that will
-be living inside it. Earlier, I mentioned that the terrarium will ask
-the bugs what action they want to take. This will work as follows:
-Each bug object has an `act` method that, when called, returns
-an _action_. An action is an object with a `type` property,
-which names the type of action the bug wants to take, for example
-`"move"`. For most actions, the action also contains extra
-information, such as the direction the bug wants to go.
-
-Bugs are terribly myopic, and thus they can only see the squares
-directly around them on the grid. But these they can use to base their
-action on. When the `act` method is called, it is given an object
-with information about the surroundings of the bug in question. For
-each of the eight directions, it contains a property. The property
-indicating what is above the bug is called `n` for north,
-the one indicating what is above and to the right is called `ne` for
-northeast, and so on. To look up the direction these names refer to,
-the following dictionary object is useful:
-
-[source,javascript]
-----
-var directions = new Dictionary(
-  {"n":  new Point( 0, -1),
-   "ne": new Point( 1, -1),
-   "e":  new Point( 1,  0),
-   "se": new Point( 1,  1),
-   "s":  new Point( 0,  1),
-   "sw": new Point(-1,  1),
-   "w":  new Point(-1,  0),
-   "nw": new Point(-1, -1)});
-----
-
-When a bug decides to move, it indicates in which direction it wants
-to go by giving the resulting action object a `direction`
-property that names one of these directions. We can make a simple,
-stupid bug that always just goes south, ``toward the light,'' like
-this:(((StupidBug@`StupidBug` type)))
-
-[source,javascript]
-----
-function StupidBug() {};
-StupidBug.prototype.act = function(surroundings) {
-  return {type: "move", direction: "s"};
-};
-----
-
-== The Terrarium Object ==
-
-Now we can start on the `Terrarium` object type. Here's 
-its constructor, which takes a plan (an array of strings) as an argument
-and initializes its grid:(((Terrarium@`Terrarium` type)))
-
-[source,javascript]
-----
-var wall = {};
-
-function elementFromCharacter(character) {
-
-  if (character == " ")
-    return undefined;
-  else if (character == "#")
-    return wall;
-  else if (character == "o")
-    return new StupidBug();
-}
-
-function Terrarium(plan) {
-  var grid = new Grid(plan[0].length, plan.length);
-  for (var y = 0; y < plan.length; y++) {
-    var line = plan[y];
-    for (var x = 0; x < line.length; x++) {
-      grid.setValueAt(new Point(x, y), elementFromCharacter(line.charAt(x)));
-    }
-  }
-  this.grid = grid;
-}
-----
-
-The `wall` variable holds an object that is used to mark the
-location of walls on the grid. Like a real wall, it doesn't do much;
-it just sits there and takes up space. The `elementFromCharacter`
-function converts a character that is read from the plan into an
-actual value to store in the grid.
-
-(((toString@`toString` method)))
-The most straightforward method of a terrarium object is
-`toString`, which transforms a terrarium into a string. To make
-this easier, we mark both the `wall` and the prototype of the
-`StupidBug` with a property `character`, which holds the
-character that represents them.
-
-[source,javascript]
-----
-wall.character = "#";
-StupidBug.prototype.character = "o";
-
-function characterFromElement(element) {
-  if (element == undefined)
-    return " ";
-  else
-    return element.character;
-}
-----
-
-Now we can use the `each` method of the `Grid` object to
-build up a string. But to make the result readable, it would be nice
-to have a newline at the end of every row. The x-coordinate of
-the positions on the grid can be used to determine when the end of a
-line is reached.
-
-[source,javascript]
-----
-Terrarium.prototype.toString = function() {
-  var characters = [];
-  var endOfLine = this.grid.width - 1;
-
-
-  this.grid.each(function(point, value) {
-    characters.push(characterFromElement(value));
-    if (point.x == endOfLine)
-      characters.push("\n");
-  });
-  return characters.join("");
-};
-----
-
-When you try this by creating a new terrarium based on the plan
-shown before and then calling `toString` on it, you'll get a
-string very similar to the plan you put in.
-
-== this and Its Scope ==
-
-(((this@`this` variable)))(((variable!scope)))
-(((self@`self` variable)))
-When writing a method like `toString` shown earlier, which makes
-use of locally defined functions, you will likely need to access the
-`this` variable from an inner function at some point. This will
-unfortunately not work. Calling a function always results in a new
-`this` being defined inside that function, even when it is not
-used as a method. Thus, any `this` variable outside of the
-function will not be visible.
-
-Sometimes it is straightforward to work around this by storing the
-information you need in a variable, like `endOfLine`, which _is_
-visible in the inner function. If you need access to the whole `this`
-object, you can store that in a variable too. The name `self` (or
-`that`) is often used for such a variable.
-
-(((bind@`bind` function)))(((apply@`apply` method)))
-But such pointless extra variables can look messy. Another good
-solution is to use a function similar to `partial` from
-REF{fp}. Instead of adding arguments to a function, this one adds
-a `this` object, using it as the first argument to the function's
-`apply` method:
-
-[source,javascript]
-----
-function bind(func, object) {
-  return function(){
-    return func.apply(object, arguments);
-  };
-}
-
-var x = [];
-var pushX = bind(x.push, x);
-pushX("A");
-pushX("B");
-#textbf~x;@
-→ ["A", "B"]
-----
-
-This way, you can `bind` an inner function to `this`, and it
-will have the same `this` as the outer function.
-
-(((method@`method` function)))
-In the expression `bind(x.push, x)`, the name
-`x` still occurs twice. Some people prefer this, more
-succinct approach to method binding:
-
-
-[source,javascript]
-----
-function method(object, name) {
-  return function() {
-    return object[name].apply(object, arguments);
-  };
-}
-var pushX = method(x, "push");
-----
-
-== Animating Life ==
-
-(((simulation)))
-We will need `bind` (or `method`) when implementing the
-`step` method of a terrarium. This method has to go over all the
-bugs on the grid, ask them for an action, and execute the given
-action. You might be tempted to use `each` on the grid and just
-handle the bugs we come across. But if you do this, when a bug moves
-south or east, we will come across it again in the same turn and
-allow it to move again.
-
-Instead, we first gather all the bugs into an array and then process
-them. This method gathers bugs, or other things that have an
-`act` method, and stores them in objects that also contain their
-current position:
-
-[source,javascript]
-----
-Terrarium.prototype.listActingCreatures = function() {
-  var found = [];
-  this.grid.each(function(point, value) {
-    if (value != undefined && value.act)
-      found.push({object: value, point: point});
-  });
-  return found;
-};
-----
-
-When asking a bug to act, we must pass it an object with information
-about its current surroundings. This object will use the direction
-names we saw earlier (`"n"`, `"ne"`, and so on) as property
-names. Each property holds a string of one character, as returned by
-`characterFromElement`, indicating what the bug can see in that
-direction.
-
-For this, we'll write a method `listSurroundings` and add it to
-the `Terrarium` prototype. It takes one argument, the point at
-which the bug is currently standing, and returns an object with
-information about the surroundings of that point. When the point is at
-the edge of the grid, `#` is shown for the directions that
-would bring the bug outside of the grid, so the bug will not try to
-move there.
-
-To go over all the possible directions, we'll just use the
-`each` method of the `directions` dictionary that we defined
-before. This will give us the ``direction point'' objects for those
-directions (things like `Point(0, 1)`), which we can add to the
-center we were passed in order to get the coordinates we are
-interested in.
-
-
-[source,javascript]
-----
-Terrarium.prototype.listSurroundings = function(center) {
-  var result = {};
-  var grid = this.grid;
-  directions.each(function(name, direction) {
-    var place = center.add(direction);
-    if (grid.isInside(place))
-      result[name] = characterFromElement(grid.valueAt(place));
-    else
-      result[name] = "#";
-  });
-  return result;
-};
-----
-
-(((interface)))(((private property)))
-The two methods defined previously are not part of the external interface
-of a `Terrarium` object; they are internal details. Some
-languages provide ways to explicitly declare certain methods and
-properties ``private'' and signal an error when you try to use them
-from outside the object. JavaScript does not, so you will have to rely
-on comments to describe the interface to an object. Sometimes it can
-be useful to use some kind of naming scheme to distinguish between
-external and internal properties, for example by prefixing all
-internal ones with an underscore (`_`). This will make
-accidental uses of properties that are not part of an object's
-interface easier to spot.
-
-Next is one more internal helper method, the one that will ask a bug
-for an action and carry it out. It takes a creature and the point at
-which the creature is sitting as arguments. For now, it only knows
-about the `"move"` action:
-
-[source,javascript]
-----
-Terrarium.prototype.processCreature = function(creature) {
-  var action = creature.object.act(this.listSurroundings(creature.point));
-  if (action.type == "move" && directions.contains(action.direction)) {
-    var to = point.add(directions.lookup(action.direction));
-    if (this.grid.isInside(to) && this.grid.valueAt(to) == undefined)
-      this.grid.moveValue(creature.point, to);
-  }
-  else {
-    throw new Error("Unsupported action: " + action.type);
-  }
-};
-----
-
-Note that it checks whether the chosen direction is inside the grid
-and empty and ignores it otherwise. This way, the bugs can ask for
-any action they like---the action will be carried out only if it is
-actually possible. This acts as a layer of insulation between the bugs
-and the terrarium and allows us to be less precise when writing the
-bugs' `act` methods---for example, the `StupidBug` just
-always tries to move south, regardless of any walls that might stand
-in its way.
-
-
-These three internal methods then finally allow us to write the
-`step`  method, which gives all bugs a chance to do something (all
-elements with an `act` method---we could also give the
-`wall` object one if we so desired and make the walls walk).
-
-[source,javascript]
-----
-Terrarium.prototype.step = function() {
-  forEach(this.listActingCreatures(), bind(this.processCreature, this));
-};
-----
-
-== It Moves ==
-
-Let us make a terrarium and see whether anything happens:
-
-[source,javascript]
-----
-var terrarium = new Terrarium(thePlan);
-terrarium.step();
-print(terrarium);
-----
-
-If you look closely, you'll notice all the circles are one line below
-where they started. Here's a before/after view:
-
-[source,javascript]
-----
-############################ ############################
-#      #    #      o      ## #      #    #             ##
-#                          # #                  o       #
-#          #####           # #          #####           #
-##         #   #    ##     # ##         #   #    ##     #
-###           ##     #     # ###           ##     #     #
-#           ###      #     # #           ###      #     #
-#   ####                   # #   ####                   #
-#   ##       o             # #   ##                     #
-# o  #         o       ### # #    #       o         ### #
-#    #                     # # o  #         o           #
-############################ ############################
-----
-
-(((toString@`toString` method)))
-Wait, how come the previous calls `print(terrarium)` and ends up
-displaying the output of our `toString` method?
-`print` turns its arguments to strings using the `String`
-function. Objects are turned to strings by calling their
-`toString` method, so giving your own object types a meaningful
-`toString` is a good way to make them readable when printed out.
-
-[source,javascript]
-----
-Point.prototype.toString = function() {
-  return "(" + this.x + "," + this.y + ")";
-};
-----
-
-
-== More Life Forms ==
-
-(((hard-coding)))
-So, we have a terrarium object in which something is happening. But
-who wants a terrarium with just one kind of bug, and a stupid bug at
-that? It would be nice if we could add different kinds of bugs.
-Fortunately, all we have to do is make the `elementFromCharacter`
-function more general. Right now, it contains three cases that are
-typed in directly, or _hard-coded_:
-
-[source,javascript]
-----
-function elementFromCharacter(character) {
-  if (character == " ")
-    return undefined;
-  else if (character == "#")
-    return wall;
-  else if (character == "o")
-    return new StupidBug();
-}
-----
-
-The first two cases we can leave intact, but the last one is way too
-specific. A better approach would be to store the characters and the
-corre- sponding bug constructors in a dictionary and look for them
-there:
-
-[source,javascript]
-----
-var creatureTypes = new Dictionary();
-creatureTypes.register = function(constructor, character) {
-  constructor.prototype.character = character;
-  this.store(character, constructor);
-};
-
-function elementFromCharacter(character) {
-  if (character == " ")
-    return undefined;
-  else if (character == "#")
-    return wall;
-  else if (creatureTypes.contains(character))
-    return new (creatureTypes.lookup(character))();
-  else
-    throw new Error("Unknown character: " + character);
-}
-----
-
-(((method)))
-Note how the `register` method, which registers a character type,
-is added to `creatureTypes`---this is a dictionary object, but
-there is no reason why it shouldn't support an additional method. This
-method stores the constructor in the dictionary and makes sure its
-`prototype.character` points back at the character so that we
-can print it.
-
-`elementFromCharacter` now looks up the character it's given in
-`creatureTypes` and raises an exception when it comes across an
-unknown character.
-
-(((BouncingBug@`BouncingBug` type)))
-Here is a new bug type and the call to register its character in  `creatureTypes`:
-
-
-[source,javascript]
-----
-function BouncingBug() {
-  this.direction = "ne";
-}
-BouncingBug.prototype.act = function(surroundings) {
-  if (surroundings[this.direction] != " ")
-    this.direction = (this.direction == "ne" ? "sw" : "ne");
-  return {type: "move", direction: this.direction};
-};
-creatureTypes.register(BouncingBug, "%");
-----
-
-Can you figure out what it does?
-
-The `act` method checks whether the space ahead (where ``ahead''
-is  determined by `this.direction`) is empty. If it is not, the
-bug turns around, moving diagonally in the other direction until it
-hits an obstacle there.
-
-Next up is a bug type called `DrunkBug` that tries to move in a
-random direction every turn, never mind whether there is a wall there.
-
-(((random@`random` function)))
-To produce ``randomness,'' we can use the function
-`Math.random`. Computers are deterministic machines: They always
-react in the same way to the input they receive. Thus, they cannot
-produce truly random values. However, utilities like
-`Math.random` are able to produce a series of numbers that look
-random, even though they are in fact the result of some complicated
-deterministic computation. The function returns a number between 0 and
-1 (0 inclusive, 1 exclusive). To get a whole number instead, we can
-use a function like this:(((randomInteger@`randomInteger` function)))
-
-[source,javascript]
-----
-function randomInteger(below) {
-  return Math.floor(Math.random() * below);
-}
-----
-
-Calling `randomInteger(2)` will return `0` or `1`. The
-multiplication ``scales'' up the range of the random number, and
-calling `Math.floor` makes sure it becomes a whole number.
-
-To pick a random direction, we will need an array of direction names.
-We could of course just type `["n", "ne", ...]`, but that
-duplicates information, and duplicated information makes us nervous.
-We could also use the `each` method in `directions` to build
-the array, which is better already.
-
-(((Dictionary@`Dictionary` type)))
-But there is clearly a generality to be discovered here. Getting a
-list of the property names in a dictionary sounds like a useful tool
-to have, so we add it to the `Dictionary` prototype.
-
-[source,javascript]
-----
-Dictionary.prototype.names = function() {
-  var names = [];
-  this.each(function(name, value) {names.push(name);});
-  return names;
-};
-
-#textbf~directions.names();@
-→ ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
-----
-
-(((randomElement@`randomElement` function)))
-Here, then, is a way to take a random element from an array:
-
-[source,javascript]
-----
-function randomElement(array) {
-  if (array.length == 0)
-    throw new Error("The array is empty.");
-  return array[Math.floor(Math.random() * array.length)];
-}
-
-#textbf~randomElement(["heads", "tails"]);@
-→ ???
-----
-
-The result is shown as `???`, because we cannot be sure
-in advance what the result of that expression will be. In 50% of the
-cases, it will be `"heads"`; in the other 50%, it will be
-`"tails"`.
-
-And here's the bug itself:(((DrunkBug@`DrunkBug` type)))
-
-[source,javascript]
-----
-function DrunkBug() {};
-DrunkBug.prototype.act = function(surroundings) {
-  return {type: "move", direction: randomElement(directions.names())};
-};
-creatureTypes.register(DrunkBug, "~");
-----
-
-You can test this by adding some `%` and `~` characters
-to the plan array, and running a terrarium for a few steps. Notice the
-bouncing bugs bouncing off the drunk ones? Pure drama.
+Much better! Now we do not need the `hasOwnProperty` kludge—because
+all the properties the object has are its own properties—and we can
+safely use `for`/`in` loops, no matter what people have been doing to
+`Object.prototype`.
 
 == Polymorphism ==
 
-(((polymorphism)))
-We now have several kinds of objects that have an `act` method
-and a `character` property. Because they share these traits, the
-terrarium can treat them the same way. Thus, we can have all kinds of bugs,
-without changing anything about the terrarium code. This technique is
-called _polymorphism_, and it is arguably the
-most powerful aspect of object-oriented programming.
+(((toString method)))(((String function)))(((polymorphism)))When you
+call the `String` function on an object, it will call the `toString`
+method on that object to try and create a meaningful string to return.
+I mentioned that some of the standard prototypes define their own
+version of `toString`, in order to be able to create a string that
+contains more useful information than `"[object Object]"`.
 
-(((toString@`toString` method)))
-The basic idea of polymorphism is that when a piece of code is written
-to work with objects that have a certain interface, any kind of object
-that happens to support this interface can be plugged into the code,
-and it will just work. We already saw simple examples of this, like
-the `toString` method on objects. All objects that have a
-meaningful `toString` method can be given to `print`, as
-well as other functions that need to convert values to strings, since
-they all provide the agreed-on method for that purpose.
+This is a simple instance of a very powerful idea. When a piece of
+code is written to work with objects that have a certain interface—in
+this case, a `toString` method—any kind of object that happens to
+support this interface can be plugged into the code, and it will just
+work.
 
-(((forEach@`forEach` function)))
-Similarly, `forEach` works on both real arrays and the
-pseudo-arrays found in the `arguments` variable, because all it
-needs is a `length` property and properties called `0`,
-`1`, and so on, for the elements of the array.
+This technique is called _polymorphism_. That sounds like some form of
+shape-shifting is involved. Unfortunately, there isn't. Polymorphic
+code can _work_ with values of different shape and behavior, as long
+as they properly follow the interface it expects.
 
-== A More Lifelike Simulation ==
+== Laying out a table ==
 
-(((simulation)))
-To make life in the terrarium more interesting, we will add to it the
-concepts of food and reproduction. Each living thing in the terrarium
-gets a new property, `energy`, which is reduced by performing
-actions and increased by eating things. When it has enough energy, a
-thing can reproduce, generating a new creature of the same kind. To
-keep things reasonably simple, the creatures in our terrarium
-reproduce asexually, all by themselves.
+I am going to work through a slightly more involved example in an
+attempt to give you a better idea what polymorphism, as well as
+object-oriented programming in general, looks like. The project is
+this: We write a program that, given an array of arrays of table
+cells, builds up a string that contains a nicely laid out
+table—meaning that the columns are straight and the rows are aligned.
+Something like this:
 
-(((entropy)))
-If there are only bugs, wasting energy by moving around and eating
-each other, a terrarium will soon succumb to the forces of entropy,
-run out of energy, and become a lifeless wasteland. To prevent this
-from happening (too quickly, at least), we add lichen to the
-terrarium. Lichen do not move; they just use photosynthesis to gather
-energy and reproduce.
+[source,text/plain]
+----
+name           height country
+-------------- ------ -------------
+Kilimanjaro      5895 Tanzania
+Everest          8848 Nepal
+Mount Fuji       3776 Japan
+Mont Blanc       4808 Italy/France
+Vaalserberg       323 Netherlands
+Mount McKinley   6168 United States
+Popocatepetl     5465 Mexico
+----
 
-To make this work, we'll need a terrarium with a different
-`processCreature` method. We could just replace the method of
-the `Terrarium` prototype, but we have become very attached to
-the simulation of the bouncing and drunk bugs, and we would hate to
-break our old terrarium.
+The interesting thing about our table-building system is that the
+algorithm that builds the table lets the cells tell it how wide and
+high they want to be, and then, once it has determined the width of
+the columns and the height of the rows, asks them to draw themselves
+at a certain size, and assembles the result into a single string.
 
-(((LifeLikeTerrarium@`LifeLikeTerrarium` type)))(((inheritance|()))
-A solution is to create a new constructor, `LifeLikeTerrarium`, 
-whose  prototype is based on the `Terrarium` prototype but which
-has a different  `processCreature` method.
+The interface through which the algorithm talks to the cells consists
+of these methods:
 
-== Inheritance ==
+* `minHeight()` returns a number indicating the minimum height this
+  cell requires (in lines).
 
-There are a few ways to do this. We could go over the properties of 
-`Terrarium.prototype` and add them one by one to
-`LifeLikeTerrarium.prototype`. This is easy to do, and in some
-cases it is the best solution, but in this case there is a cleaner
-way. If we make the old prototype object the prototype of the new
-prototype object (you may have to reread that a few times), it will
-automatically have all its properties.
+* `minWidth()` returns a number indicating its minimum width (in
+  characters).
 
-(((clone@`clone` function)))(((prototype)))
-Unfortunately, JavaScript does not have a straightforward
-way to create an object whose prototype is a certain other object. It
-is possible to write a function that does this, though, by using the
-following trick:
+* `draw(width, height)` returns an array of `height` strings, each
+  `width` characters wide, representing the content of the cell.
+
+I'm going to make heavy use of higher-order functions in this example,
+since it lends itself so well to that approach.
+
+The first part of the program computes arrays of minimum column widths
+and row heights from a collection of cells.
 
 [source,javascript]
 ----
-function clone(object) {
-  function OneShotConstructor(){}
-  OneShotConstructor.prototype = object;
-  return new OneShotConstructor();
-}
-----
-
-(((LifeLikeTerrarium@`LifeLikeTerrarium` type)))
-This function uses an empty one-shot constructor, whose prototype is
-the given object. When using `new` on this constructor, it will
-create a new object based on the argument object.
-
-[source,javascript]
-----
-function LifeLikeTerrarium(plan) {
-  Terrarium.call(this, plan);
-}
-LifeLikeTerrarium.prototype = clone(Terrarium.prototype);
-LifeLikeTerrarium.prototype.constructor = LifeLikeTerrarium;
-----
-
-(((constructor@`constructor` property)))
-The new constructor doesn't need to do anything different from the old
-one, so it just calls the old one on the `this` object. We also
-have to restore the `constructor` property in the new prototype,
-or it would claim its constructor is `Terrarium` (which, of
-course, is relevant only if we were to make use of this property,
-which we don't).
-
-(((repetition (avoiding of))))(((code reuse)))(((polymorphism)))
-It is now possible to replace some of the methods of the
-`LifeLikeTerrarium` object or add new ones. We have based a new
-object type on an old one, which saved us the work of rewriting all
-the methods that are the same in `Terrarium` and
-`LifeLikeTerrarium`. This technique is called
-_inheritance_. The new type inherits the
-properties of the old type. In most cases, this means the new type
-will still support the interface of the old type, though it might also
-support a few methods that the old type does not have. This way,
-objects of the new type can be (polymorphically) used in all the
-places where objects of the old type could be used.
-
-In most programming languages with explicit support for
-object- oriented programming, inheritance is a very straightforward
-thing. In JavaScript, the language doesn't really specify a simple way
-to do it. Because of this, JavaScript programmers have invented many
-different approaches to inheritance, but none of them is quite perfect.
-Fortunately, such a broad range of approaches allows a programmer to
-choose the most suitable one for the problem at hand and allows
-certain tricks that would be utterly impossible in other languages.
-
-At the end of this chapter, we will see a few other ways to implement
-inheritance and the issues they have.(((inheritance|))))
-
-== Keeping Track of Energy ==
-
-The new `processCreature` method is a lot more complicated than
-the old one---instead of one type of action, it supports five
-different types. It uses some helper methods so that it doesn't
-become a huge monster of a method:
-
-[source,javascript]
-----
-LifeLikeTerrarium.prototype.processCreature = function(creature) {
-  var energy, action, self = this;
-  function dir() {
-    if (!directions.contains(action.direction)) return null;
-    var target = point.add(directions.lookup(action.direction));
-    if (!self.grid.isInside(target)) return null;
-    return target;
-  }
-  
-action = creature.object.act(this.listSurroundings(creature.point));
-
-  if (action.type == "move")
-    energy = this.creatureMove(creature.object, creature.point, dir());
-  else if (action.type == "eat")
-    energy = this.creatureEat(creature.object, dir());
-  else if (action.type == "photosynthesize")
-    energy = -1;
-  else if (action.type == "reproduce")
-    energy = this.creatureReproduce(creature.object, dir());
-  else if (action.type == "wait")
-    energy = 0.2;
-  else
-    throw new Error("Unsupported action: " + action.type);
-
-  creature.object.energy -= energy;
-  if (creature.object.energy <= 0)
-    this.grid.setValueAt(creature.point, undefined);
-};
-----
-
-(((self@`self` variable)))
-The local `dir` function (using the `self` variable to
-access `this`) is used to extract a direction from an action,
-doing some error checking on it. If it finds something invalid, it
-returns `null`. The helper functions will be written to check
-their argument so that actions with invalid directions are simply
-ignored.
-
-Each helper returns the amount of energy spent by this action or a
-negative number when energy is gained. The code at the end of the
-function updates the creature's energy score and removes the creature
-from the grid when it runs out of energy.
-
-The action-specific helpers are relatively straightforward:
-
-[source,javascript]
-----
-LifeLikeTerrarium.prototype.creatureMove = function(creature, from, to) {
-  if (to != null && this.grid.valueAt(to) == undefined) {
-    this.grid.moveValue(from, to);
-    from.x = to.x; from.y = to.y;
-  }
-  return 1;
-};
-----
-
-As before, this checks whether the chosen direction is valid, and not
-obstructed, and then moves. The one awkward part is that this has to
-update the `from` object, because otherwise the code in
-`processCreature` that removes dead creatures won't know where to
-find this creature anymore.
-
-Eating is not hard either. It locates the meal that the creature has
-chosen, checks whether there is actually anything there, and checks whether
-this anything has energy (so that creatures don't go around eating
-walls), and then it removes the meal from the grid, giving its energy to
-the creature.
-
-[source,javascript]
-----  
-LifeLikeTerrarium.prototype.creatureEat = function(creature, source) {
-  var energy = 1;
-  if (source != null) {
-    var meal = this.grid.valueAt(source);
-    if (meal != undefined && meal.energy) {
-      this.grid.setValueAt(source, undefined);
-      energy -= meal.energy;
-    }
-  }
-  return energy;
-};
-----
-
-Finally, to reproduce, we again check whether the chosen spot is valid
-and empty (a creature has to choose a spot to put its child). If it
-is, a new creature of the same type as the parent is created. The
-amount of energy the parent will lose for reproducing is twice the
-amount of energy the new creature gets (childbearing is not easy). If
-the parent does not have that much energy, the child is not put onto
-the grid.
-
-[source,javascript]
-----
-LifeLikeTerrarium.prototype.creatureReproduce = function(creature, target) {
-  var energy = 1;
-  if (target != null && this.grid.valueAt(target) == undefined) {
-    var species = characterFromElement(creature);
-    var baby = elementFromCharacter(species);
-    energy = baby.energy * 2;
-    if (creature.energy >= energy)
-      this.grid.setValueAt(target, baby);
-  }
-  return energy;
-};
-----
-
-== Adding Plant Life ==
-
-We now have the ``framework'' needed to simulate these more lifelike
-creatures. We could put the creatures from the old terrarium into it,
-but they would just die after a few turns. So, let's make some new
-ones. First we'll make the lichen, which are rather simple. We will use the
-character `*` to represent them.
-
-(((Lichen@`Lichen` type)))
-This again uses the `randomElement` function introduced when we
-wrote the drunk bug. It also defines a `findDirections` function,
-which is used to enumerate the directions in which a certain type of
-character is being seen by the creature.
-
-[source,javascript]
-----
-function findDirections(surroundings, wanted) {
-  var found = [];
-  directions.each(function(name) {
-    if (surroundings[name] == wanted)
-      found.push(name);
+function rowHeights(rows) {
+  return rows.map(function(row) {
+    return row.reduce(function(max, cell) {
+      return Math.max(max, cell.minHeight());
+    }, 0);
   });
-  return found;
 }
 
-function Lichen() {
-  this.energy = 5;
-}
-Lichen.prototype.act = function(surroundings) {
-  var emptySpace = findDirections(surroundings, " ");
-  if (this.energy >= 13 && emptySpace.length > 0)
-    return {type: "reproduce", direction: randomElement(emptySpace)};
-  else if (this.energy < 20)
-    return {type: "photosynthesize"};
-  else
-    return {type: "wait"};
-};
-creatureTypes.register(Lichen, "*");
-----
-
-Lichen do not grow bigger than 20 energy, or they would get _huge_
-when they are surrounded by other lichen and have no room to
-reproduce.
-
-== The Herbivore ==
-
-Next up is the `LichenEater`. It starts with an energy of
-10, and its behavior can be described like this:
-
-1. When it has an energy of 30 or more and there is room near it, it reproduces.
-2. Otherwise, if there are lichen nearby, it eats a random one.
-3. Otherwise, if there is space to move, it moves into a random nearby empty square.
-4. Otherwise, it waits.
-
-(((LichenEater@`LichenEater` type)))
-We'll use the `c` character (Pac-Man) for this creature:
-
-[source,javascript]
-----
-function LichenEater() {
-  this.energy = 10;
-}
-LichenEater.prototype.act = function(surroundings) {
-  var emptySpace = findDirections(surroundings, " ");
-  var lichen = findDirections(surroundings, "*");
-
-  if (this.energy >= 30 && emptySpace.length > 0)
-    return {type: "reproduce", direction: randomElement(emptySpace)};
-  else if (lichen.length > 0)
-    return {type: "eat", direction: randomElement(lichen)};
-  else if (emptySpace.length > 0)
-    return {type: "move", direction: randomElement(emptySpace)};
-  else
-    return {type: "wait"};
-};
-creatureTypes.register(LichenEater, "c");
-----
-
-== Bringing It to Life ==
-
-(((simulation)))
-And that gives us enough elements to try our new terrarium.
-Imagine a moody, dark cave, with lichen growing on the walls and
-lichen-eating bugs scuttling around on the floor. That's what this
-code is trying to express:
-
-[source,javascript]
-----
-var moodyCave =
-  ["############################",
-   "#                     ######",
-   "#    ***                **##",
-   "#   *##**         **  c  *##",
-   "#    ***     c    ##**    *#",
-   "#       c         ##***   *#",
-   "#                 ##**    *#",
-   "#   c       #*            *#",
-   "#*          #**       c   *#",
-   "#***        ##**    c    **#",
-   "#*****     ###***       *###",
-   "############################"];
-
-var terrarium = new LifeLikeTerrarium(moodyCave);
-for (var i = 0; i < 10; i++) {
-  for (var j = 0; j < 20; j++)
-    terrarium.step();
-  print(terrarium);
-}
-----
-
-The following output shows a typical run of such a terrarium, with
-steps of 20 turns between the pictures:
-
-[source,javascript]
-----
-############################ ############################
-#  ******        c    ###### # c  c*****           ######
-#  ******     c     c  ***## #    c*****           ****##
-#  **##***      c      ***## #  c ##***            ****##
-#    ** *         ##    ***# #  c  * *         ##  c ***#
-# cc ***          ##c   ***# #      c      c   ##  cc***#
-#          c      ##  c ***# #     c       c   ##   ****#
-# c         # **c       ***# #   c  c    #   c   *******#
-#           #****c    * ***# #*    c c   #     *  ******#
-#******     ##****     ****# #*c  c   c  ## c   * ******#
-#******    ###*****    **### #**  cc    ###   c   ****###
-############################ ############################
-
-
-
-
-
-
-############################ ############################
-#  c cc   **         c###### #         ***         ######
-#        c *           c  ## #         ****            ##
-#    ##    *             c## #    ##    **             ##
-#    cc  *        ##ccc    # #           *     ##       #
-#c                ##  c  cc# #        c        ##     c #
-#      c       c c##   ccc # #                 ##       #
-#           #      cc  cc  # #           #              #
-#           #          c  c# #          c#           c  #
-#           ##    c  c c   # #           ##             #
-#          ###      c  c ### #          ###       c   ###
-############################ ############################
-
-############################ ############################
-#         **          ###### #                     ######
-#         **              ## #                         ##
-#    ##    **             ## #    ##                   ##
-#           *     ##       # #                 ##       #
-#        c        ##     c # #                 ##       #
-#                 ##       # #                 ##       #
-#           #              # #           #              #
-#          c#           c  # #           #              #
-#           ##             # #           ##             #
-#          ###       c   ### #          ###           ###
-############################ ############################
-----
-
-Most of the time, the lichen quickly overgrow a large part of the
-terrarium, after which the abundance of food makes the eaters so
-numerous that they wipe out all (or nearly all) the lichen and thus
-themselves. Ah, tragedies of nature.
-
-== Artificial Stupidity ==
-
-Having the inhabitants of our terrarium go extinct after a few minutes
-is kind of depressing. To deal with this, we could teach our
-lichen-eaters about long-term sustainable farming. By making them 
-eat only if they see at least two lichen nearby, no matter how hungry they
-are, they will never exterminate the lichen. This can be done by
-changing their `act` method to  eat only when `lichen.length`
-is at least 2.
-
-Running the previous `moodyCave` terrarium with this change,
-we still usually see the lichen-eaters still go extinct after a while,
-because, in a time of starvation, they crawl aimlessly back and forth
-through empty space, instead of finding the lichen that is sitting
-just a few squares away from them.
-
-
-Another potential improvement is to reduce the randomness of these
-creatures' movement. By always picking a random direction, it will
-often move back and forth without getting anywhere. By remembering the
-last direction it went, and preferring that direction, the eater will
-waste less time and find food faster. Here is the updated
-implementation:(((CleverLichenEater@`CleverLichenEater` type)))
-
-[source,javascript]
-----
-function CleverLichenEater() {
-  this.energy = 10;
-  this.direction = "ne";
-}
-CleverLichenEater.prototype.act = function(surroundings) {
-  var emptySpace = findDirections(surroundings, " ");
-  var lichen = findDirections(surroundings, "*");
-
-  if (surroundings[this.direction] != " " && emptySpace.length > 0)
-    this.direction = randomElement(emptySpace);
-
-  if (this.energy >= 30 && emptySpace.length > 0)
-    return {type: "reproduce", direction: randomElement(emptySpace)};
-  else if (lichen.length > 1)
-    return {type: "eat", direction: randomElement(lichen)};
-  else if (emptySpace.length > 0)
-    return {type: "move", direction: this.direction};
-  else
-    return {type: "wait"};
-};
-creatureTypes.register(CleverLichenEater, "c");
-----
-
-(((ecosystem)))
-When used in the simulation, this new animal survives the moody cave a
-bit longer than its simple-minded cousin. If you give it a big enough
-world to live in, so that abundance and scarcity occur in parts of the
-environment, rather than everywhere at once, the ecosystem even seems
-to stay stable.(((terrarium example|))))
-
-== Prototypal Inheritance ==
-
-The whole terrarium detour should have given you some insight into
-the way objects are used in real programs. The rest of the chapter is
-devoted to a more in-depth look at inheritance and the problems
-related to inheritance in JavaScript.
-
-(((inheritance)))(((code reuse)))
-First, let's go over some theory. Students of object-oriented programming can often
-be heard having lengthy, subtle discussions about correct and
-incorrect uses of inheritance. It is important to bear in mind that
-inheritance, in the end, is just a trick that allows lazy
-programmers---and here I mean to use the word _lazy_ in the most
-positive way possible---to write less code. Thus, the question of
-whether inheritance is being used correctly boils down to the question
-of whether the resulting code works properly  and avoids useless
-repetition. Still, the principles used by these students provide a
-good way to start thinking about inheritance.
-
-Inheritance is the creation of a new type of objects, the
-(((subtype)))_subtype_, based on an existing type, the
-(((supertype)))_supertype_. The subtype starts with all the
-properties and methods of the supertype (it inherits them) and then
-modifies a few of these or adds new ones. Inheritance is best used
-when the thing modeled by the subtype can be said to _be_ an
-object of the supertype.
-
-Thus, a `Piano` type could be a subtype of an `Instrument`
-type, because a piano _is_ an instrument. Since a piano has a
-whole array of keys, one might be tempted to make `Piano` a
-subtype of `Array`, but a piano _is_ no array, and
-implementing it like that is bound to lead to all kinds of silliness.
-For example, a piano also has pedals. Why would `piano[0]` give
-me the first key, and not the first pedal? The situation is, in fact,
-that a piano _has_ keys, so it would be better to give it a
-property `keys` and possibly another property `pedals`,
-both holding arrays.
-
-It is possible for a subtype to be the supertype of yet another
-subtype. Some problems are best solved by building a complex family
-tree of types. You have to take care not to get too inheritance-happy,
-though. Inheritance has its own way of tangling code together, and
-overusing it usually produces a tightly connected mess that can be
-hard to modify.
-
-== Type-Definition Utilities ==
-
-(((new@`new` operator)))(((prototype@`prototype` property)))
-The workings of the `new` keyword and the `prototype`
-property of constructors suggest a certain way of defining types,
-which we've been using so far. For simple objects, such as the
-terrarium creatures, this way works rather well. Unfortunately, when a
-program starts to make serious use of inheritance, this approach to
-objects quickly becomes clumsy. Adding some functions to take care of
-common operations can make things a little smoother. Many people
-define, for example, `inherit` and `method` methods on
-objects.
-(((inherit@`inherit` method)))(((method@`method` method)))
-
-[source,javascript]
-----
-Object.prototype.inherit = function(baseConstructor) {
-  this.prototype = clone(baseConstructor.prototype);
-  this.prototype.constructor = this;
-};
-Object.prototype.method = function(name, func) {
-  this.prototype[name] = func;
-};
-----
-
-Having these, we can write code like this:
-
-[source,javascript]
-----
-function StrangeArray(){}
-StrangeArray.inherit(Array);
-StrangeArray.method("push", function(value) {
-  Array.prototype.push.call(this, value);
-  Array.prototype.push.call(this, value);
-});
-
-var strange = new StrangeArray();
-#textbf~strange.push(4);@
-→ [4, 4]
-----
-
-If you search the Web for the words _JavaScript_ and
-_inheritance_, you will come across scores of different variations
-on this, some of them quite a lot more complex and clever than this code.
-
-Note how the `push` method written here uses the `push`
-method from the prototype of its parent type. This is something that
-is done often when using inheritance---a method in the subtype
-internally uses a method of the supertype but extends it somehow.
-
-== Prototypes as Types ==
-
-(((constructor)))(((prototype!as type)))
-The biggest problem with this basic approach is the duality between
-constructors and prototypes. Constructors take a very central role;
-they are the things that give an object type its name, and when you
-need to get at a prototype, you have to go to the constructor and take
-its `prototype` property.
-
-Not only does this lead to a _lot_ of typing (`"prototype"`
-is nine letters, after all), it is also confusing. We had to write an
-empty, useless constructor for `StrangeArray` in the previous
-example. Quite a few times, I have found myself accidentally adding
-methods to a constructor instead of its prototype or trying to call
-`Array.slice` when I really meant `Array.prototype.slice`.
-In a way, the prototype itself is the most important aspect of an
-object type, and the constructor is just an extension of that, a
-special kind of method.
-
-(((create@`create` method)))(((construct@`construct` method)))
-(((clone@`clone` function)))
-With a few simple helper methods added to `Object.prototype`, it
-is possible to create an alternative approach to objects and
-inheritance. In this approach, a type is represented by its prototype,
-and we will use capitalized variables to store these prototypes. When
-it needs to do any ``constructing'' work, this is done by a method
-called `construct`. We add a method called `create` to the
-`Object` prototype, which is used in place of the `new`
-keyword. It clones the object and calls its `construct` method,
-if there is such a method, giving it the arguments that were passed to
-`create`.
-
-[source,javascript]
-----
-Object.prototype.create = function() {
-  var object = clone(this);
-  if (object.construct != undefined)
-    object.construct.apply(object, arguments);
-  return object;
-};
-----
-
-Inheritance can be done by cloning a prototype object and adding or
-replacing some of its properties. We also provide a convenient
-shorthand for this, an `extend` method, which clones the object
-it is applied to and adds to this clone the properties in the object
-that it is given as an argument.(((extend@`extend` method)))
-
-[source,javascript]
-----
-Object.prototype.extend = function(properties) {
-  var result = clone(this);
-  forEachIn(properties, function(name, value) {
-    result[name] = value;
+function colWidths(rows) {
+  return rows[0].map(function(_, i) {
+    return rows.reduce(function(max, row) {
+      return Math.max(max, row[i].minWidth());
+    }, 0);
   });
+}
+----
+
+The `rowHeights` function shouldn't be too hard to follow. It uses
+`reduce` to compute the maximum height of an array of cells, and wraps
+that in `map` in order to do it for all rows in the `rows` array.
+
+(((map method)))(((filter method)))(((filter method)))Things are
+slightly harder for the `colWidths` function, because the outer array
+is an array of rows, not of columns. I have failed to mention so far
+that `map` (as well as `forEach`, `filter`, and similar array methods)
+pass a second argument to the function they get, which is the index of
+the current element. By mapping over the elements of the first row,
+and only using its second argument, `colWidths` builds up an array
+with one element for every column index. The call to `reduce` runs
+over the outer `rows` array again, and picks out the cell at the given
+index from each row, maximizing their widths.
+
+Using an underscore (`_`) as an argument name is a way to indicate (to
+human readers) that this argument is not going to be used.
+
+Drawing a table now looks like this:
+
+[source,javascript]
+----
+function drawTable(rows) {
+  var heights = rowHeights(rows);
+  var widths = colWidths(rows);
+
+  return rows.map(function(row, rowNum) {
+    var blocks = row.map(function(cell, colNum) {
+      return cell.draw(widths[colNum],
+                       heights[rowNum]);
+    });
+    return blocks[0].map(function(_, i) {
+      return blocks.map(function(block) {
+        return block[i];
+      }).join(" ");
+    }).join("\n");
+  }).join("\n");
+}
+----
+
+It repeatedly maps over things and then uses the array's `join` method
+to build up a string from the result. The outer `map` call builds up
+the strings for whole rows. Inside of it, a simple `map` is used to
+get an array of text blocks for the cells in the row. We then have to
+do another row-column inversion trick, similar to the one in
+`colWidths`, to build up arrays of text for each line (the very inner
+`map`/`join`), and then join these lines together with newline
+characters.
+
+Let us write a constructor for cells that contain text.
+
+[source,javascript]
+----
+function repeat(string, times) {
+  var result = "";
+  for (var i = 0; i < times; i++)
+    result += string;
+  return result;
+}
+
+function TextCell(text) {
+  this.text = text.split("\n");
+}
+TextCell.prototype.minWidth = function() {
+  return this.text.reduce(function(width, line) {
+    return Math.max(width, line.length);
+  }, 0);
+};
+TextCell.prototype.minHeight = function() {
+  return this.text.length;
+}
+TextCell.prototype.draw = function(width, height) {
+  var result = [];
+  for (var i = 0; i < height; i++) {
+    var line = this.text[i] || "";
+    result.push(line +
+                repeat(" ", width - line.length));
+  }
   return result;
 };
 ----
 
-In a situation where it is not safe to mess with the `Object`
-prototype, these can, of course, be implemented as regular (nonmethod)
-functions.
+The `repeat` function helps build up strings that repeat a single
+character a given amount of times. The `draw` method uses it to add
+“padding” to lines, so that they all have the required length.
 
-== A World of Objects ==
-
-(((text adventure example|()))(((inheritance|()))
-Here's an example. If you are old enough, you may at one time have played a
-``text adventure'' game, where you move through a virtual world by
-typing commands and getting textual descriptions of the things around you
-and the actions you perform. Now those were games!
-
-We could write the prototype for an item in such a game, the things
-the game world is built out of, like this:
+And try it out by building up a checkerboard.
 
 [source,javascript]
 ----
-var Item = {
-  construct: function(name) {
-    this.name = name;
-  },
-  inspect: function() {
-    print("it is ", this.name, ".");
-  },
-  kick: function() {
-    print("klunk!");
-  },
-  take: function() {
-    print("you cannot lift ", this.name, ".");
+var rows = [];
+for (var i = 0; i < 5; i++) {
+   var row = [];
+   rows.push(row);
+   for (var j = 0; j < 5; j++) {
+     if ((j + i) % 2 == 0)
+       row.push(new TextCell("##"));
+     else
+       row.push(new TextCell("  "));
+   }
+}
+console.log(drawTable(rows));
+// → ##    ##    ##
+//      ##    ##   
+//   ##    ##    ##
+//      ##    ##   
+//   ##    ##    ##
+----
+
+It works! But since all cells have the same size, it doesn't really do
+anything interesting.
+
+The source data for the table of mountains that we are trying to build
+is in the `MOUNTAINS` variable in the sandbox, also
+http://eloquentjavascript.net/code/mountains.js[downloadable] from the
+list of data sets on the website!!tex  (`eloquentjavascript.net/code`)!!.
+
+We will want to emphasize the top row, which contains the column
+names, by underlining the cells with a series of dash characters. No
+problem, we'll just write a cell type that handles underlining.
+
+[source,javascript]
+----
+function UnderlinedCell(inner) {
+  this.inner = inner;
+};
+UnderlinedCell.prototype.minWidth = function() {
+  return this.inner.minWidth();
+};
+UnderlinedCell.prototype.minHeight = function() {
+  return this.inner.minHeight() + 1;
+};
+UnderlinedCell.prototype.draw = function(width,
+                                         height) {
+  return this.inner.draw(width, height - 1)
+    .concat([repeat("-", width)]);
+};
+----
+
+An underlined cell _contains_ another cell. It report its minimum size
+as being the same as that of its inner cell (by calling through to
+that cell's `minWidth` and `minHeight` methods), but adds one to the
+height, which is the space taken up by the underline.
+
+Drawing such a cell is quite simple—we take the content of the inner
+cell, and concatenate a single line full of dashes to it.
+
+[source,javascript]
+----
+function dataTable(data) {
+  var keys = Object.keys(data[0]);
+  return [keys.map(function(name) {
+    return new UnderlinedCell(new TextCell(name));
+  })].concat(data.map(function(row) {
+    return keys.map(function(name) {
+      return new TextCell(String(row[name]));
+    });
+  }));
+}
+
+console.log(drawTable(dataTable(MOUNTAINS)));
+// → name           height country
+//   -------------- ------ -------------
+//   Kilimanjaro    5895   Tanzania
+//   ... etc
+----
+
+It is now easy to write a function that builds up a grid of cells from
+our dataset. The standard `Object.keys` function gives us an array of
+property names in that object. The top row of the table must contain
+underlined cells that give the names of the columns. Below that, the
+values of all the objects in the dataset appear as normal cells—we
+extract them by mapping over the `keys` array, so that we are sure
+that the order of the cells is the same in every row.
+
+== Getters and setters ==
+
+(((getter)))(((setter)))(((property)))When specifying an interface, it
+is possible to include properties that are not methods. We could have
+defined `minHeight` and `minWidth` to simply hold numbers. But that'd
+have required us to compute them in the constructor, which adds code
+there that isn't strictly relevant to _constructing_ the object, and
+it would cause problems if, for example, the inner cell of an
+underlined cell was changed, at which point the size of the underlined
+cell should also change.
+
+This has led some people to adobt a principle of never including
+non-method properties in interfaces, and for things that behave as a
+normal value property, which can be both read and written, use
+`getSomething` and `setSomething` methods which read and write the
+property.
+
+Fortunately, JavaScript allows a technique that gets us the best of
+both worlds. We can specify properties that, from the outside, look
+like normal properties, but secretly have methods associated with
+them.
+
+[source,javascript]
+----
+var pile = {
+  elements: ["eggshell", "orange peel", "worm"],
+  get height() {
+    return this.elements.length;
+  }
+  set height(value) {
+    console.log("Ignoring attempt to set height to",
+                value);
   }
 };
 
-var lantern = Item.create("the brass lantern");
-lantern.kick();
+console.log(pile.height);
+// → 3
+pile.height = 100;
+// → Ignoring attempt to set height to 100
 ----
 
-You can then inherit from it like this:
+(((defineProperty function)))In object expressions, putting `get` or
+`set` in front of a property name allows you to specify a function to
+be run when the property is read or written. You can also add such a
+property to an existing object, for example a prototype, using the
+`Object.defineProperty` function (which we also used to create
+non-enumerable properties).
 
 [source,javascript]
 ----
-var DetailedItem = Item.extend({
-  construct: function(name, details) {
-    Item.construct.call(this, name);
-    this.details = details;
-  },
-  inspect: function() {
-    print("you see ", this.name, ". ", this.details, ".");
-  }
+Object.defineProperty(TextCell.prototype, "myHeight", {
+  get: function() { return this.text.length; }
 });
 
-var giantSloth =
-  DetailedItem.create("the giant sloth",
-                      "it is quietly hanging from a tree, munching leaves");
-giantSloth.inspect();
+console.log((new TextCell("no\nway")).myHeight);
+// → 2
 ----
 
-(((repetition (avoiding of))))
-Leaving out the compulsory `prototype` part makes tasks such as
-calling `Item.construct` from `DetailedItem`'s constructor
-slightly simpler. Note that it would be a bad idea to just do
-`this.name = name` in `DetailedItem.construct`. This
-duplicates a line. Sure, duplicating the line is shorter than calling
-the `Item.construct` function, but if we end up adding something
-to this constructor later, we have to add it in two places.
+You can use a similar `set` property to specify a setter method. When
+a getter but no setter is defined, writing to the property is simply
+ignored.
 
-(((inheritance)))(((constructor)))
-Most of the time, a subtype's constructor should start by calling the
-constructor of the supertype. This way, it starts with a valid object
-of the supertype, which it can then extend. In this new approach to
-prototypes, types that need no constructor can leave it out. They will
-automatically inherit the constructor of their supertype. This can be seen in the follwing subtype:
+== Inheritance ==
+
+(((inheritance)))If you have paid close attention, you might have
+noticed that we are not quite done yet with our table layout exercise.
+It helps readability, in tables, to right-align numbers. We should
+create another cell type that is like `TextCell`, but rather than
+padding the lines on the right side, pads them on the left side, so
+that they align to the right.
+
+So we could simply write a whole new constructor, with all three
+methods in its prototype. But prototypes can, themselves, have
+prototypes. This allows us to do something clever:
 
 [source,javascript]
 ----
-var SmallItem = Item.extend({
-  kick: function() {
-    print(this.name, " flies across the room.");
-  },
-  take: function() {
-    // (imagine some code that moves the item to your pocket here)
-    print("you take ", this.name, ".");
+function RTextCell(text) {
+  TextCell.call(this, text);
+}
+RTextCell.prototype =
+  Object.create(TextCell.prototype);
+RTextCell.prototype.draw = function(width, height) {
+  var result = [];
+  for (var i = 0; i < height; i++) {
+    var line = this.text[i] || "";
+    result.push(repeat(" ", width - line.length) +
+                line);
   }
-});
-
-var pencil = SmallItem.create("the red pencil");
-pencil.take();
-----
-
-Even though `SmallItem` does not define its own constructor,
-creating it with a `name` argument works, because it inherited
-the constructor from the `Item` prototype.
-
-== The instanceof Operator ==
-
-(((instanceof@`instanceof` operator)))
-JavaScript has an operator called `instanceof`,
-which can be used to determine whether an object is based on a certain
-prototype. You give it the object on the left side and a
-constructor on the right side, and it returns a Boolean,
-`true` if the constructor's `prototype` property is the
-direct or indirect prototype of the object and `false`
-otherwise. For example, `[] instanceof Array` will produce
-`true`.
-
-(((isA@`isA` method)))
-When you are not using regular constructors, using this operator
-becomes rather clumsy---it expects a constructor function as its
-second argument, but we only have prototypes. A trick similar to the
-`clone` function can be used to get around it: We use a ``fake
-constructor'' and apply `instanceof`  to it.
-
-
-[source,javascript]
-----
-Object.prototype.isA = function(prototype) {
-  function DummyConstructor() {}
-  DummyConstructor.prototype = prototype;
-  return this instanceof DummyConstructor;
+  return result;
 };
-
-#textbf~pencil.isA(Item);@
-→ true
-#textbf~pencil.isA(DetailedItem);@
-→ false
 ----
 
-== Mixing Types ==
+We reuse the constructor and the `minHeight` and `minWidth` methods
+from regular the `TextCell` code. An `RTextCell` is now basically a
+`TextCell`, except that its `draw` method is a different value.
 
-(((multiple inheritance)))
-Next, we want to make a small item that has a detailed description. It 
-seems like this item would have to inherit both from
-`DetailedItem` and from `SmallItem`. JavaScript does not allow an
-object to have multiple prototypes, and even if it did, the problem
-would not be quite that easy to solve. For example, if
-`SmallItem` would, for some reason, also define an `inspect`
-method, which `inspect` method should the new prototype use?
+This pattern is called _inheritance_. It allows us to build slightly
+different data types from existing datatypes with relatively little
+work. Typically, the new constructor will call the old constructor
+(using the `call` method in order to be able to give it the new object
+as its `this` value). Once this constructor has been called, we can
+assume that all the fields that the old object type is supposed to
+contain have been added. We then arrange for the constructor's
+prototype to derive from the old prototype, so that instances of this
+type will also have access to the properties in that prototype.
+Finally, we can override some of these properties by adding them to
+our new prototype.
 
-Deriving an object type from more than one parent type is called
-_multiple inheritance_. Some languages
-chicken out and forbid it altogether; others define complicated
-schemes to make it work in a well-defined way. It is possible to
-implement a decent multiple-inheritance framework in JavaScript. In
-fact, there are multiple good approaches to this---but they all are too
-complex to be discussed here. Instead, I will show a very simple
-approach that suffices in most cases.
-
-(((mix-in (inheritance))))(((mixInto@`mixInto` function)))
-A _mix-in_ is a specific kind of prototype that can
-be ``mixed into'' other prototypes. `SmallItem` can be seen as
-such a prototype. By copying its `kick` and `take` methods
-into another prototype, we mix smallness into this prototype.
+Now we slightly adjust the `dataTable` function to use `RTextCell`'s
+for cells whose value is a number, and get the table we were aiming
+for:
 
 [source,javascript]
 ----
-function mixInto(object, mixIn) {
-  forEachIn(mixIn, function(name, value) {
-    object[name] = value;
-  });
-};
+function dataTable(data) {
+  var keys = Object.keys(data[0]);
+  return [keys.map(function(name) {
+    return new UnderlinedCell(new TextCell(name));
+  })].concat(data.map(function(row) {
+    return keys.map(function(name) {
+      var value = row[name];
+      if (typeof value == "number")
+        return new RTextCell(String(value));
+      else
+        return new TextCell(String(value));
+    });
+  }));
+}
 
-var SmallDetailedItem = clone(DetailedItem);
-mixInto(SmallDetailedItem, SmallItem);
-
-var deadMouse = SmallDetailedItem.create("Fred the mouse", "he is dead");
-deadMouse.inspect();
-deadMouse.kick();
+console.log(drawTable(dataTable(MOUNTAINS)));
+// → ... beautifully aligned table
 ----
 
-This will print the following:
+Inheritance is a fundamental part of the object-oriented tradition,
+alongside encapsulation and polymorphism. The latter two are now
+generally regarded as wonderful ideas, whereas inheritance is somewhat
+controversial.
+
+(((polymorphism)))The main reason for this is that it is often
+confused with polymorphism, and sold as a more powerful tool than it
+really is... and subsequently overused in all kinds of ugly ways.
+Whereas encapsulation and polymorphism can be used to _separate_
+pieces of code from each other, reducing the tangledness of the
+overall program, inheritance fundamentally ties the types that inherit
+from each other together, creating _more_ tangledness.
+
+(((composition)))You can have polymorphism without inheritance, as we
+saw. I am not going to tell you to avoid inheritance—I use it
+regularly in my own programs. But see it as a slightly dodgy trick
+that can help you define new types with little code, not as a grand
+principle of code organization. The way `UnderlinedCell` builds on
+another cell object, by simply storing it in a property and forwarding
+method calls to it in its own methods, is an alternative way to extend
+types, and is usually preferable.
+
+== The instanceof operator ==
+
+(((instanceof operator)))(((constructor)))It is occasionally useful to
+know whether an object was derived from a specific constructor. For
+this, JavaScript provides a binary operator called `instanceof`:
 
 [source,javascript]
 ----
-you see Fred the mouse. he is dead.
-Fred the mouse flies across the room.
+console.log(new RTextCell("A") instanceof RTextCell);
+// → true
+console.log(new RTextCell("A") instanceof TextCell);
+// → true
+console.log(new TextCell("A") instanceof RTextCell);
+// → false
+console.log([1] instanceof Array);
+// → true
 ----
 
-Remember that `forEachIn` goes over the object's _own_
-properties only, so it will copy `kick` and `take` but not the
-constructor that `SmallItem` inherited from `Item`.
+The operator will also see through inherited types, so an `RTextCell`
+is an instance of `TextCell`, because `RTextCell.prototype` derives
+from `TextCell.prototype`. The operator can also be applied to
+standard constructors like `Array`. Almost every object is an instance
+of `Object`.
 
-Mixing prototypes gets more complex when the mix-in has a constructor
-or when some of its methods ``clash'' with methods in the prototype
-that it is mixed into. Sometimes, it is workable to do a ``manual
-mix-in.'' Say we have a prototype `Monster`, which has its own
-constructor, and we want to mix that with `DetailedItem`:
+== Summary ==
 
+(((prototype)))So objects are more complicated than I have been
+letting on. They have prototypes, which are other objects, and will
+act as if they have properties they don't have, if the prototype has
+that property. Simple objects will have `Object.prototype` as their
+prototype.
+
+(((constructor)))(((new operator)))(((instanceof
+operator)))Constructors, which are functions whose name usually starts
+with a capital letter, can be used with the `new` operator to create
+new objects. The new object's prototype will be the `prototype`
+property of the constructor function. You can do nice things with this
+by putting the properties that all values of a given type share into
+their prototype. The `instanceof` operator can, given an object and a
+constructor, tell you whether that object is an instance of that
+constructor.
+
+(((encapsulation)))One useful thing to do with objects is to specify
+an interface for them, and tell everybody that they are only supposed
+to talk to your object through that interface (which consists of some
+properties). The rest of the details that make up your object are now
+_encapsulated_, hidden behind the interface.
+
+(((polymorphism)))Once you are talking in terms of interfaces, who
+says that only one kind of object may implement this interface? Having
+different objects expose the same interface, and then having code that
+works on these object, without caring how they work behind the scenes,
+is called _polymorphism_. It is very useful.
+
+(((inheritance)))When implementing multiple types that only differ in
+some details, it can be helpful to simply make the prototype of your
+new type derive from the prototype of your old type, and have your new
+constructor call the old one. This gives you an object type very
+similar to the old type, but in which you can add and override
+properties as you see fit.
+
+== Exercises ==
+
+=== A point type ===
+
+Write a constructor `Point` that represents a point in two-dimensional
+space. It takes `x` and `y` parameters (numbers), which it saves to
+properties by the same name.
+
+Give the `Point` prototype methods `plus` and `minus`, which take
+another point as parameter, and return a new point that has the sum or
+difference of the two points' (the one in `this` and the parameter) x
+and y coordinates.
+
+Add a getter property `distance` to the prototype that computes the
+distance of a point from the origin (0, 0).
+
+ifdef::html_target[]
 [source,javascript]
 ----
-var Monster = Item.extend({
-  construct: function(name, dangerous) {
-    Item.construct.call(this, name);
-    this.dangerous = dangerous;
-  },
-  kick: function() {
-    if (this.dangerous)
-      print(this.name, " bites your head off.");
-    else
-      print(this.name, " squeaks and runs away.");
-  }
-});
+// Your code here...
 
-var DetailedMonster = DetailedItem.extend({
-  construct: function(name, description, dangerous) {
-    DetailedItem.construct.call(this, name, description);
-    Monster.construct.call(this, name, dangerous);
-  },
-  kick: Monster.kick
-});
-
-var giantSloth = DetailedMonster.create(
-  "the giant sloth",
-  "it is quietly hanging from a tree, munching leaves",
-  true);
-giantSloth.kick();
+console.log(Point(1, 2).plus(Point(2, 3)));
+// → Point{x: 3, y: 5}
+console.log(Point(1, 2).minus(Point(2, 3)));
+// → Point{x: -1, y: -1}
+console.log(Point(3, 4).distance);
+// → 5
 ----
+endif::html_target[]
 
-But note that this causes `Item` constructor to be called twice
-when creating a `DetailedMonster`---once through the
-`DetailedItem` constructor and once through the `Monster`
-constructor. In this case, there is not much harm done, but there are
-situations where this would cause problems.
+''''
 
-(((multiple inheritance)))
-Don't let those complications discourage you from making use of
-inheritance. Multiple inheritance, though extremely useful in some
-situations, can be safely ignored most of the time. This is why
-languages like Java get away with forbidding it. And if, at some
-point, you find that you really need multiple inheritance, you can
-search the Web, do some research, and figure out an approach that
-works for your situation.
-(((inheritance|))))(((object|))))(((object-oriented programming|))))
-(((text adventure example|))))
+Your solution can follow the pattern of the `Rabbit` constructor from
+this chapter quite closely.
+
+(((Pythagoras)))Adding a getter property to the constructor can be
+done with the `Object.defineProperty` function. To compute the
+distance from (0, 0) to (x, y), we can use Pythagoras' theorem, which
+says that the square of the distance we are looking for is equal to
+the square of the x coordinate plus the square of the y coordinate.
+Thus √(x^2^ + y^2^) is the number we want, and `Math.sqrt` is the way
+you compute a square root in JavaScript.
+
+=== Another cell ===
+
+Implement a cell type (conforming to the table cell interface
+described earlier in the chapter) `StretchCell(inner, width, height)`
+that wraps another cell (like `UnderlinedCell` does), and ensures that
+the resulting cell has at least the given `width` and `height`, even
+if the inner cell would naturally be smaller.
+
+ifdef::html_target[]
+[source,javascript]
+----
+// Your code here...
+
+var sc = new StretchCell(new TextCell("abc"), 1, 2);
+console.log(sc.minWidth());
+// → 3
+console.log(sc.minHeight());
+// → 2
+console.log(sc.draw(3, 2));
+// → ["abc", "   "]
+----
+endif::html_target[]
+
+''''
+
+You'll have to store all three constructor arguments in the instance
+object. The `minWidth` and `minHeight` methods call through to the
+corresponding methods in the `inner` cell, but ensure that no number
+less than the given size is returned (possibly using `Math.max`).
+
+Don't forget to add a `draw` method that simply forwards the call the
+inner cell.
+
+=== Sequence interface ===
+
+Design an interface that abstracts iteration over a collection of
+values. Start by writing a `logFive` function that takes a sequence
+object and calls `console.log` on its first five elements—or less, if
+the sequence has less than five elements.
+
+Then implement an object type `ArraySeq` that wraps an array and
+allows iteration over the array using the interface you designed.
+Implement another object type `RangeSeq` that iterates over a range of
+integers (taking `from` and `to` arguments to its constructor)
+instead.
+
+ifdef::html_target[]
+[source,javascript]
+----
+// Your code here...
+
+logFive(new ArraySeq([1, 2]));
+// → 1
+// → 2
+logFive(new RangeSeq(100, 1000));
+// → 100
+// → 101
+// → 102
+// → 103
+// → 104
+----
+endif::html_target[]
+
+''''
+
+The most obvious way to solve this is to give the sequence objects
+_state_, meaning their properties are changed. You could store a
+counter in them that indicates how far they have advanced.
+
+Your interface will need to expose at least a way to get the next
+element, and to find out whether the iteration has reached the end of
+the sequence yet. It is tempting to roll these into one method,
+`next`, which returns `null` or `undefined` when the sequence is at
+its end. But now you have a problem when a sequence actually contains
+`null`. So a separate method (or getter property) to find out whether
+the end is reached is probably preferable.
+
+Another solution is to avoid changing state in the object, and expose
+methods for getting the current element (without advancing any
+counter), and for getting a new sequence that represents the remaining
+elements after the current one (or a special value if the end of the
+sequence is reached). This is quite elegant—a sequence value will
+“stay itself” even after it is used, and can thus be shared with other
+code without worrying about what might happen to it. It is,
+unfortunately, also very inefficient in a language like JavaScript,
+because it involves creating a lot of objects during iteration.

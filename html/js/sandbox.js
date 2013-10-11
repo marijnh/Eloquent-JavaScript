@@ -195,13 +195,28 @@
     return elt;
   }
 
+  function constructorName(obj) {
+    if (!obj.constructor) return null;
+    var m = String(obj.constructor).match(/^function\s*([^\s(]+)/);
+    if (m && m[1] != "Object") return m[1];
+  }
+
+  function hop(obj, prop) {
+    return Object.prototype.hasOwnProperty.call(obj, prop);
+  }
+
   function representSimpleObj(val, space) {
     space -= 2;
     var wrap = document.createElement("span");
+    var name = constructorName(val);
+    if (name) {
+      space -= name.length;
+      wrap.appendChild(document.createTextNode(name));
+    }
     wrap.appendChild(document.createTextNode("{"));
     try {
       var first = true;
-      for (var prop in val) {
+      for (var prop in val) if (hop(val, prop)) {
         if (first) {
           first = false;
         } else {
@@ -241,7 +256,7 @@
     if (type == "array") {
       for (var i = 0; i < val.length; ++i) addProp(i);
     } else {
-      for (var prop in val) if (Object.hasOwnProperty.call(val, prop)) addProp(prop);
+      for (var prop in val) if (hop(val, prop)) addProp(prop);
     }
     wrap.appendChild(document.createTextNode(type == "array" ? "]" : "}"));
     node.parentNode.replaceChild(wrap, node);

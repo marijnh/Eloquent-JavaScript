@@ -19,7 +19,7 @@ html, body {
 
 body {
   font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.45;
   color: black;
   background: white;
@@ -27,7 +27,7 @@ body {
 
 article {
   margin: 0 auto;
-  max-width: 30em;
+  max-width: 31em;
   padding: 2em 0 5em 0;
   position: relative;
 }
@@ -41,7 +41,7 @@ nav {
 nav a {
   font-size: 80%;
   color: #aaa !important;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 pre {
@@ -55,7 +55,7 @@ pre[data-language=javascript] {
 }
 
 code, pre, .CodeMirror, .sandbox-output {
-  font-size: 90%;
+  font-size: 85%;
   font-family: 'PT Mono', monospace;
 }
 
@@ -67,10 +67,10 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 150%;
+  font-size: 130%;
 }
 h2 {
-  font-size: 120%;
+  font-size: 115%;
 }
 h3 {
   font-size: 100%;
@@ -119,7 +119,7 @@ ol li p {
 }
 
 h1 + p {
-  font-size: 120%;
+  font-size: 110%;
 }
 
 blockquote {
@@ -256,5 +256,6 @@ blockquote:before {
 
 div.image img {
   max-width: 28em;
+  min-width: 20em;
   margin-left: 1em;
 }

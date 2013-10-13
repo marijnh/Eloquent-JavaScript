@@ -262,7 +262,7 @@ function definition:
 print("The future says: ", future());
 
 function future() {
-  return "We STILL have no flying cars.";
+  return "We STILL have no Hover Boards.";
 }
 ----
 

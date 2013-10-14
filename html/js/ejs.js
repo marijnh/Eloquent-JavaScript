@@ -90,11 +90,7 @@ window.addEventListener("load", function() {
 
   function runCode(data) {
     data.output.clear();
-    var code = data.editor.getValue();
-    // Chapter 1 has console-log-less output
-    if (window.chapNum == 1)
-      code = code.replace(/(\n|^)(.*[^;}])(\s*$|\n\/\/ →)/g, "$1console.log($2);$3");
-    sandbox.run(code, data.output);
+    sandbox.run(data.editor.getValue(), data.output);
   }
 
   function closeCode(data) {

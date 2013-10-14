@@ -272,15 +272,20 @@ when we get to methods in chapter 4.
 (((operator)))(((typeof operator)))(((type)))Not all operators are
 symbols. Some are written as words. One example is the `typeof`
 operator, which produces a string value naming the type of the value
-you give it:
+you give it.
 
 [source,javascript]
 ----
-typeof 4.5
-// → "number"
-typeof "x"
-// → "string"
+console.log(typeof 4.5)
+// → number
+console.log(typeof "x")
+// → string
 ----
+
+We will use `console.log` in example code to indicate that we want to
+see the result of evaluating something. When you run such code, the
+value produced will be shown on the screen—somehow, depending on the
+JavaScript environment you use to run it.
 
 (((- operator)))(((binary operator)))(((unary operator)))The other
 operators we saw all operated on two values; `typeof` takes only one.
@@ -290,7 +295,7 @@ can be used both as a binary operator and a unary operator:
 
 [source,javascript]
 ----
-- (10 - 2)
+console.log(- (10 - 2))
 // → -8
 ----
 
@@ -308,9 +313,9 @@ Here is one way to produce boolean values:
 
 [source,javascript]
 ----
-3 > 2
+console.log(3 > 2)
 // → true
-3 < 2
+console.log(3 < 2)
 // → false
 ----
 
@@ -324,7 +329,7 @@ Strings can be compared in the same way:
 
 [source,javascript]
 ----
-"Aardvark" < "Zoroaster"
+console.log("Aardvark" < "Zoroaster")
 // → true
 ----
 
@@ -347,7 +352,7 @@ to), “\<=” (less than or equal to), “==” (equal to), and
 
 [source,javascript]
 ----
-"Itchy" != "Scratchy"
+console.log("Itchy" != "Scratchy")
 // → true
 ----
 
@@ -358,7 +363,7 @@ _other_ nonsense computations.
 
 [source,javascript]
 ----
-NaN == NaN
+console.log(NaN == NaN)
 // → false
 ----
 
@@ -375,9 +380,9 @@ given to it are true.
 
 [source,javascript]
 ----
-true && false
+console.log(true && false)
 // → false
-true && true
+console.log(true && true)
 // → true
 ----
 
@@ -386,9 +391,9 @@ true if either of the values given to it is true:
 
 [source,javascript]
 ----
-false || true
+console.log(false || true)
 // → true
-false || false
+console.log(false || false)
 // → false
 ----
 
@@ -435,15 +440,15 @@ expressions:
 
 [source,javascript]
 ----
-8 * null
+console.log(8 * null)
 // → 0
-"5" - 1
+console.log("5" - 1)
 // → 4
-"5" + 1
+console.log("5" + 1)
 // → "51"
-"five" * 2
+console.log("five" * 2)
 // → NaN
-false == 0
+console.log(false == 0)
 // → true
 ----
 
@@ -511,9 +516,9 @@ default value.
 
 [source,javascript]
 ----
-null || "user"
+console.log(null || "user")
 // → "user"
-"Karl" || "user"
+console.log("Karl" || "user")
 // → "Karl"
 ----
 

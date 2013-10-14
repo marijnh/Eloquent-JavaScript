@@ -4,30 +4,29 @@
 
 = Program Structure =
 
-This is the point where we start to do things that can
-actually be called _programming_. To learn to build a program, we'll
-first discuss the structures that are used to build it.
+This is the point where we start to do things that can actually be
+called _programming_. We will expand our grasp of the JavaScript
+language, starting from the nouns and sentence fragments in the
+previous chapter, to the point where we can actually express some
+meaningful prose.
 
 == Expressions and statements ==
 
-(((grammar)))(((JavaScript!syntax)))In the previous chapter, we made
+(((grammar)))(((JavaScript,syntax)))In the previous chapter, we made
 some values and then applied operators to them to get new values.
 Creating values like this is an essential part of every JavaScript
 program, but it is only a part. A fragment of code that produces a
 value is called an _((expression))_. Every value that is written
 literally (such as `22` or `"psychoanalysis"`) is an expression. An
-expression between parentheses is also an expression. And a binary
-operator applied to two expressions, or a unary operator applied to
-one, is also an expression.
+expression between parentheses is also an expression. And so is a
+binary operator applied to two expressions, or a unary operator
+applied to one.
 
 This shows part of the beauty of a language-based interface.
 Expressions can nest in a way very similar to the way sub-sentences in
 human languages are nested—a sub-sentence can contain its own
 sub-sentences, and so on. This allows us to combine expressions
 together to express arbitrarily complex computations.
-
-JavaScript actually has a few more ways of building expressions, which
-will be explained later on.
 
 (((statement)))(((semicolon)))(((program)))If an expression
 corresponds to a sentence fragment, a _statement_, in JavaScript,
@@ -46,9 +45,9 @@ it. This is a program:
 It is a useless program, though. An expression can be content to just
 produce a value, which can then be used by the enclosing expression. A
 statement stands on its own, and only amounts to something only if it
-affects the world. It could print something to the screen—that
+affects the world. It could display something on the screen—that
 counts as changing the world—or it could change the internal state of
-the program in a way that will affect the statements that come after
+the machine in a way that will affect the statements that come after
 it. These changes are called _((side effect))s_. The statements in the
 previous example just produce the values `1` and `true` and then
 immediately throw them away again. This leaves no impression on the
@@ -94,7 +93,7 @@ that's being held by the variable. Here's an example:
 [source,javascript]
 -----
 var ten = 10;
-ten * ten;
+console.log(ten * ten);
 // → 100
 -----
 
@@ -102,7 +101,7 @@ ten * ten;
 may not include spaces. Digits can also be part of variable
 names—`catch22` is a valid name, for example—but the name must not
 start with a digit. The characters `$` and `_` can be used in names as
-if they were letters. So, for example, `$_$` is a correct variable
+if they were letters. So, for example, `$_$` can be used as a variable
 name.
 
 When a variable points at a value, that does not mean it is tied to
@@ -113,10 +112,10 @@ have them point to a new one:
 [source,javascript]
 -----
 var mood = "light";
-mood;
+console.log(mood);
 // → "light"
 mood = "dark";
-mood;
+console.log(mood);
 // → "dark";
 -----
 
@@ -140,13 +139,13 @@ you give this variable a new value.
 -----
 var luigisDebt = 140;
 luigisDebt = luigisDebt - 35;
-luigisDebt;
+console.log(luigisDebt);
 // → 105
 -----
 
 == Keywords and reserved words ==
 
-(((keyword)))(((reserved words)))(((variable!naming)))Note that names
+(((keyword)))(((reserved words)))(((variable,naming)))Note that names
 that have a special meaning, such as `var`, may not be used as
 variable names. These are called _keywords_. There are also a number
 of (((reserved words)))words that are “reserved for use” in future
@@ -198,7 +197,7 @@ image::img/alert.png[alt="An alert dialog"]
 indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 
-(((function!application)))Executing the code in a function is called
+(((function,application)))Executing the code in a function is called
 _invoking_, _calling_, or _applying_ it. The notation for doing this
 uses parentheses. Every expression that produces a function value can
 be invoked by putting parentheses after it, though usually you will be
@@ -219,7 +218,7 @@ two numbers and gives back the greatest of the two:
 
 [source,javascript]
 -----
-Math.max(2, 4);
+console.log(Math.max(2, 4));
 // → 4
 -----
 
@@ -230,7 +229,7 @@ expressions:
 
 [source,javascript]
 -----
-Math.min(2, 4) + 100;
+console.log(Math.min(2, 4) + 100);
 // → 102
 -----
 
@@ -562,7 +561,7 @@ that it “belongs” to the line before it.
 
 == Breaking Out of a Loop ==
 
-(((looping!termination)))(((break keyword)))Having its condition
+(((looping,termination)))(((break keyword)))Having its condition
 produce `false` is not the only way a loop can finish. There is a
 special statement, `break`, that has the effect of immediately jumping
 out of the enclosing loop.

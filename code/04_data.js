@@ -42,3 +42,16 @@ function gatherCorrelations(journal) {
   }
   return numbers;
 }
+
+var correlations = gatherCorrelations(JOURNAL);
+
+var list = {
+  value: 1,
+  rest: {
+    value: 2,
+    rest: {
+      value: 3,
+      rest: null
+    }
+  }
+};

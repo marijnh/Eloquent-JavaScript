@@ -1,7 +1,7 @@
 :chap_num: 5
 :prev_link: 04_data
 :next_link: 06_object
-:load_files: ["js/code/ancestry.js", "js/code/05_higher_order.js"]
+:load_files: ["js/code/ancestry.js", "js/05_higher_order.js"]
 
 = Higher-Order Functions =
 
@@ -402,6 +402,8 @@ the website!!tex  (`eloquentjavascript.net/code`)!!,
 contains the content of my JSON file as a string. Let us decode it and
 see how many people it contains:
 
+// include_code strip_log
+
 [source,javascript]
 ----
 var ancestry = JSON.parse(ANCESTRY_FILE);
@@ -634,6 +636,8 @@ if so, how much DNA I theoretically share with him.
 First, I build up an object that makes it possible to easily find
 people by name.
 
+// include_code strip_log
+
 [source,javascript]
 ----
 var byName = {};
@@ -661,6 +665,8 @@ a way of computing values from it.
 Given a person, a function to combine values from the two parents of a
 given person, and a zero value that is to be used for unknown persons,
 the `reduceAncestors` function computes a value from a family tree.
+
+// include_code
 
 [source,javascript]
 ----
@@ -816,6 +822,9 @@ present in the array. The `byName` object, which makes it easy to find
 a person's object from their name, might be useful here.
 
 ifdef::html_target[]
+
+// include_code
+
 [source,javascript]
 ----
 function average(array) {

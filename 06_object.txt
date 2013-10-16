@@ -1,7 +1,7 @@
 :chap_num: 6
 :prev_link: 05_higher_order
 :next_link: 07_elife
-:load_files: ["js/code/mountains.js", "js/code/06_object.js"]
+:load_files: ["js/code/mountains.js", "js/06_object.js"]
 
 = The Secret Life of Objects =
 
@@ -77,6 +77,8 @@ When a function is called as a method—when it is looked up as a
 property and immediately called, as in ++object.method()++—the special
 variable `this` in its body will point to the object that it was
 called on.
+
+// include_code top_lines:6
 
 [source,javascript]
 ----
@@ -213,6 +215,8 @@ Here is a simple constructor for rabbits. It is convention to
 capitalize the names of constructors, so that they are easily
 distinguished from other functions.
 
+// include_code top_lines:6
+
 [source,javascript]
 ----
 function Rabbit(type) {
@@ -230,6 +234,8 @@ initially holds a plain object that derives from `Object.prototype`.
 New objects created with this constructor will get this object as
 their prototype. So to add a `speak` method to rabbits created with
 the `Rabbit` constructor, we can simply do this:
+
+// include_code top_lines:4
 
 [source,javascript]
 ----
@@ -317,6 +323,8 @@ problems. In the previous chapter, we used an object as a way to
 associate values with names by creating properties for the names and
 giving them the corresponding value as value. Here's a similar example
 from chapter 4:
+
+// include_code
 
 [source,javascript]
 ----
@@ -503,6 +511,8 @@ example, since it lends itself well to that approach.
 The first part of the program computes arrays of minimum column widths
 and row heights from a collection of cells.
 
+// include_code
+
 [source,javascript]
 ----
 function rowHeights(rows) {
@@ -542,6 +552,8 @@ human readers) that this argument is not going to be used.
 
 Drawing a table now looks like this:
 
+// include_code
+
 [source,javascript]
 ----
 function drawTable(rows) {
@@ -573,6 +585,8 @@ characters.
 Let us write a constructor for cells that contain text. The
 constructor splits a string into an array of lines, and the `minWidth`
 method finds the maximum line width in this array.
+
+// include_code
 
 [source,javascript]
 ----
@@ -642,6 +656,8 @@ list of data sets on the website!!tex  (`eloquentjavascript.net/code`)!!.
 We will want to emphasize the top row, which contains the column
 names, by underlining the cells with a series of dash characters. No
 problem, we simply write a cell type that handles underlining.
+
+// include_code
 
 [source,javascript]
 ----
@@ -772,6 +788,8 @@ We could simply write a whole new constructor, with all three methods
 in its prototype. But prototypes may themselves have prototypes, and
 this allows us to do something clever:
 
+// include_code
+
 [source,javascript]
 ----
 function RTextCell(text) {
@@ -807,6 +825,8 @@ override some of these properties by adding them to our new prototype.
 Now if we slightly adjust the `dataTable` function to use
 `RTextCell`'s for cells whose value is a number, we get the table we
 were aiming for:
+
+// include_code strip_log
 
 [source,javascript]
 ----

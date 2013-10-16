@@ -1,7 +1,7 @@
 :chap_num: 4
 :prev_link: 03_functions
 :next_link: 05_higher_order
-:load_files: ["js/code/jaques_journal.js", "js/code/04_data.js"]
+:load_files: ["js/code/jaques_journal.js", "js/04_data.js"]
 
 = Data Structures: Object and Array =
 
@@ -363,6 +363,8 @@ JavaScript, but it is possible to write it yourself.
 So Jaques starts up his JavaScript interpreter, and sets up the
 environment he needs to keep his journal.
 
+// include_code
+
 [source,javascript]
 ----
 var journal = [];
@@ -465,6 +467,8 @@ event (say, pizza) is true, but Jaques did not turn into a squirrel.
 (((phi coefficient)))This is the function that computes a phi
 coefficient from such an array:
 
+// include_code strip_log
+
 [source,javascript]
 ----
 function phi(table) {
@@ -495,6 +499,8 @@ http://eloquentjavascript.net/code/jaques_journal.js[file].
 To extract a two-by-two table for a specific event from this journal,
 we must loop over all the entries and tally the frequencies with which
 the event occurs in relation to squirrel transformations.
+
+// include_code strip_log
 
 [source,javascript]
 ----
@@ -598,6 +604,8 @@ coefficients for all the event types we have seen so far. Whenever we
 run across a type that we didn't see before—that isn't in the
 `phis` object yet—we compute its correlation and add it to the
 object.
+
+// include_code strip_log
 
 [source,javascript]
 ----
@@ -1064,6 +1072,8 @@ common data structure is the _list_ (not to be confused with the
 array). A list is a set of objects, with the first object holding a
 reference (in a property) to the second, the second to the third, and
 so on.
+
+// include_code
 
 [source,javascript]
 ----

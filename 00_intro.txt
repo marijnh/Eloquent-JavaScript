@@ -1,5 +1,5 @@
 :next_link: 01_values
-:load_files: ["js/code/00_intro.js"]
+:load_files: ["js/00_intro.js"]
 
 = Introduction =
 
@@ -421,4 +421,3 @@ console.log(fac(8));
 -----
 
 Good luck!
-

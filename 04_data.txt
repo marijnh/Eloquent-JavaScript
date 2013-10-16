@@ -113,6 +113,8 @@ of mathematics-related values and functions).
 properties. The exceptions are `null` and `undefined`. If you try to
 access a property on one of these non-values, you get an error.
 
+// test: no
+
 [source,javascript]
 ----
 null.length;
@@ -148,9 +150,9 @@ to function values.
 ----
 var doh = "Doh";
 console.log(typeof doh.toUpperCase);
-→ "function"
+// → function
 console.log(doh.toUpperCase());
-→ "DOH"
+// → DOH
 ----
 
 (((toUpperCase method)))(((toLowerCase method)))Every string has a
@@ -335,15 +337,15 @@ var object2 = object1;
 var object3 = {value: 10};
 
 console.log(object1 == object2);
-→ true
+// → true
 console.log(object1 == object3);
-→ false
+// → false
 
 object1.value = 15;
 console.log(object2.value);
-→ 15
+// → 15
 console.log(object3.value);
-→ 10
+// → 10
 ----
 
 `object1` and `object2` are two variables grasping the _same_ value.
@@ -369,7 +371,7 @@ environment he needs to keep his journal.
 ----
 var journal = [];
 
-function entry(events, didITurnIntoASquirrel) {
+function addEntry(events, didITurnIntoASquirrel) {
   journal.push({
     events: events,
     squirrel: didITurnIntoASquirrel
@@ -382,12 +384,12 @@ climbing down from the top shelf of his bookcase—the day is recorded.
 
 [source,javascript]
 ----
-entry(["work", "touched tree", "pizza", "running",
-       "television"], false);
-entry(["work", "ice cream", "cauliflower", "lasagna",
-       "touched tree", "brushed teeth"], false);
-entry(["weekend", "cycling", "break", "peanuts",
-       "beer"], true);
+addEntry(["work", "touched tree", "pizza", "running",
+          "television"], false);
+addEntry(["work", "ice cream", "cauliflower", "lasagna",
+          "touched tree", "brushed teeth"], false);
+addEntry(["weekend", "cycling", "break", "peanuts",
+          "beer"], true);
 ----
 
 Once he has enough data points, he intends to compute the correlation
@@ -467,6 +469,7 @@ event (say, pizza) is true, but Jaques did not turn into a squirrel.
 (((phi coefficient)))This is the function that computes a phi
 coefficient from such an array:
 
+// test: clip
 // include_code strip_log
 
 [source,javascript]
@@ -605,6 +608,7 @@ run across a type that we didn't see before—that isn't in the
 `phis` object yet—we compute its correlation and add it to the
 object.
 
+// test: clip
 // include_code strip_log
 
 [source,javascript]
@@ -629,6 +633,8 @@ console.log(correlations.pizza);
 
 Let us see what came out.
 
+// test: no
+
 [source,javascript]
 ----
 for (var event in correlations)
@@ -645,6 +651,8 @@ Most correlations seem to lie close to zero. Eating carrots, bread, or
 pudding apparently does not trigger squirrel-lycantropy. It does seem
 to occur somewhat more often on weekends. Let's filter the results to
 only show correlations greater than 0.1 (or smaller than -0.1).
+
+// test: no
 
 [source,javascript]
 ----
@@ -808,8 +816,8 @@ journal were created with calls like this:
 
 [source,javascript]
 ----
-entry(["work", "touched tree", "pizza", "running",
-       "television"], false);
+addEntry(["work", "touched tree", "pizza", "running",
+          "television"], false);
 ----
 
 Since he is going to be calling this function a lot, we could create a
@@ -817,14 +825,14 @@ slightly nicer alternative:
 
 [source,javascript]
 ----
-function entry(squirrel) {
+function addEntry(squirrel) {
   var entry = {events: [], squirrel: squirrel};
   for (var i = 1; i < arguments.length; i++)
     entry.events.push[arguments[i]];
   journal.push(entry);
 }
-entry(true, "work", "touched tree", "pizza",
-      "running", "television");
+addEntry(true, "work", "touched tree", "pizza",
+         "running", "television");
 ----
 
 This reads its first argument (`squirrel`) in the normal way, and then
@@ -863,6 +871,8 @@ JavaScript number—is available as `Math.PI` (there is an old
 programming tradition of writing the names of constant values in all
 caps).
 
+// test: no
+
 [source,javascript]
 ----
 function randomPointOnCircle(radius) {
@@ -880,6 +890,8 @@ don't worry, this book won't go into any complicated math.
 (((random function)))The example above uses `Math.random`. This is a
 function that returns a new pseudo-random number between zero
 (inclusive) and one (exclusive) every time you call it.
+
+// test: no
 
 [source,javascript]
 ----
@@ -904,6 +916,8 @@ will be different.
 (((floor function)))If we want a whole random number instead of a
 fractional one, we can use `Math.floor` on the result of
 `Math.random`.
+
+// test: no
 
 [source,javascript]
 ----
@@ -949,10 +963,12 @@ useful programs.
 The introduction of this book alluded to this program being a very
 nice way to compute the sum of a range of numbers:
 
+// test: no
+
 [source,javascript]
------
+----
 console.log(sum(range(1, 10)));
------
+----
 
 Write a `range` function that takes two arguments, `start` and `end`,
 and returns an array containing all the numbers from `start` up to
@@ -970,6 +986,9 @@ return `[1, 3, 5, 7, 9]`. Make sure it also works with negative step
 values—so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -1024,6 +1043,9 @@ the previous chapter, which variant do you expect to be useful in more
 situations? Which one is more efficient?
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -1108,6 +1130,9 @@ element.
 If you hadn't already, also write a recursive version of `nth`.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -1164,6 +1189,9 @@ you have to take one silly exception into account, because (through a
 historical accident), `typeof null` also produces `"object"`.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.

@@ -55,6 +55,9 @@ var makeNoise = function() {
   console.log("Pling!");
 };
 
+makeNoise();
+// → Pling!
+
 var power = function(base, exponent) {
   var result = 1;
   for (var count = 0; count < exponent; count++)
@@ -62,7 +65,7 @@ var power = function(base, exponent) {
   return result;
 }
 
-power(2, 10);
+console.log(power(2, 10));
 // → 1024
 ----
 
@@ -112,7 +115,7 @@ var setXToB = function() {
 };
 setXToB();
 console.log(x);
-// → "B";
+// → B
 
 var setXToC = function() {
   var x;
@@ -120,7 +123,7 @@ var setXToC = function() {
 };
 setXToC();
 console.log(x);
-// → "B";
+// → B
 ----
 
 This behavior helps prevent accidental interference between functions.
@@ -156,7 +159,7 @@ var landscape = function() {
     result += "/";
     for (var count = 0; count < size; count++)
       result += "'";
-    result += "\";
+    result += "\\";
   };
  
   flat(3);
@@ -347,6 +350,8 @@ back-and-forth between two functions. Or rather, it would be infinite,
 if we had an infinite stack. As it is, it will run out of space, or
 “blow the stack.”
 
+// test: no
+
 [source,javascript]
 ----
 function chicken() {
@@ -389,6 +394,8 @@ have a function take “optional” arguments. For example, this version
 of `power` can be called either with two arguments or with a single
 argument, in which case the exponent is assumed to be two, and it
 behaves like `square`.
+
+// test: wrap
 
 [source,javascript]
 ----
@@ -480,6 +487,8 @@ needed, since a parameter is itself a local variable.
 function to call itself. A function that calls itself is called
 _recursive_. Recursion allows some functions to be written in a funny
 way. For example this alternative implementation of `power`:
+
+// test: wrap
 
 [source,javascript]
 ----
@@ -828,6 +837,9 @@ Write a function `min` that takes two arguments and returns the
 smallest.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -870,6 +882,9 @@ Test it out on 50 and 75. See how it behaves on -1. Why? Can you think
 of a way to fix this?
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -915,6 +930,9 @@ argument that indicates the character that is to be counted. Rewrite a
 version of `countBs` on top of this new function.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.

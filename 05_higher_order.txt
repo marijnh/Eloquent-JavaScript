@@ -1,7 +1,7 @@
 :chap_num: 5
 :prev_link: 04_data
 :next_link: 06_object
-:load_files: ["js/code/ancestry.js", "js/05_higher_order.js"]
+:load_files: ["js/code/ancestry.js", "js/00_intro.js", "js/05_higher_order.js"]
 
 = Higher-Order Functions =
 
@@ -304,7 +304,7 @@ function noisy(f) {
   return function(arg) {
     console.log("calling with", arg);
     var val = f(arg);
-    console.log("called with", arg, "got", val);
+    console.log("called with", arg, "- got", val);
     return val;
   };
 }
@@ -408,7 +408,7 @@ see how many people it contains:
 ----
 var ancestry = JSON.parse(ANCESTRY_FILE);
 console.log(ancestry.length);
-// → 40
+// → 39
 ----
 
 == Filtering an array ==
@@ -456,6 +456,8 @@ its elements, and building a new array from the results. The new array
 will have the same length as the input array, but its content will
 have been “mapped” to a new form by the function.
 
+// test: join
+
 [source,javascript]
 ----
 function map(array, transform) {
@@ -472,7 +474,7 @@ console.log(map(overNinety, function(person) {
   return person.name;
 }));
 // → ["Clara Aernoudts", "Emile Haverbeke",
-       "Maria Haverbeke"]
+//     "Maria Haverbeke"]
 ----
 
 Interestingly, the people that lived to over 90 years of age are the
@@ -524,6 +526,8 @@ its start value, and start reducing at the second element.
 To use this to find my most ancient known ancestor, we can write
 something like this:
 
+// test: no
+
 [source,javascript]
 ----
 console.log(ancestry.reduce(function(min, cur) {
@@ -538,6 +542,8 @@ console.log(ancestry.reduce(function(min, cur) {
 Let us back up for a moment and consider how we would have written the
 previous example (finding the person with the earliest year of birth)
 without higher order functions. The code is not that much worse:
+
+// test: no
 
 [source,javascript]
 ----
@@ -557,6 +563,8 @@ program is two lines longer, but still quite easy to understand.
 The higher-order function approach really starts to shine when you
 need to compose several concepts. As an example, let us write code
 that finds the average age for men and for women in the data set.
+
+// test: clip
 
 [source,javascript]
 ----
@@ -694,6 +702,8 @@ was passed to `reduceAncestors`.
 We can then use this to compute the amount of DNA my grandfather
 shared with Pauwels van Haverbeke, and divide that by four.
 
+// test: clip
+
 [source,javascript]
 ----
 console.log(reduceAncestors(
@@ -754,7 +764,7 @@ console.log(ancestry.filter(function(person) {
 // → [{name: "Maria van Brussel", …},
 //    {name: "Carel Haverbeke", …}]
 console.log(ancestry.filter(isInSet.bind(null, theSet)));
-// → ... same result
+// → … same result
 ----
 
 The `bind` method, which all functions have, creates a new function
@@ -803,6 +813,9 @@ Use the `reduce` method in combination with the `concat` method to
 elements of the input arrays.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 var arrays = [[1, 2, 3], [4, 5], [6]];
@@ -823,6 +836,7 @@ a person's object from their name, might be useful here.
 
 ifdef::html_target[]
 
+// test: no
 // include_code
 
 [source,javascript]
@@ -869,6 +883,9 @@ year of death, dividing it by hundred, and rounding it up, as in
 `Math.ceil(person.died / 100)`.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 function average(array) {
@@ -931,6 +948,9 @@ methods, except that they take the array as their first argument,
 rather than being a method.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.

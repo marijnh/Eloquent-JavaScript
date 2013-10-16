@@ -78,6 +78,7 @@ property and immediately called, as in ++object.method()++—the special
 variable `this` in its body will point to the object that it was
 called on.
 
+// test: join
 // include_code top_lines:6
 
 [source,javascript]
@@ -291,13 +292,13 @@ console.log(Array.prototype.toString ==
             Object.prototype.toString);
 // → false
 console.log([1, 2].toString());
-// → 1, 2
+// → 1,2
 console.log(Object.prototype.toString.call([1, 2]));
 // → [object Array]
 ----
 
 Calling `toString` on an array gives a result similar to calling
-`.join(", ")` on it—it puts commas between the values in the array.
+`.join(",")` on it—it puts commas between the values in the array.
 Directly calling `Object.prototype.toString` with an array produces a
 different string. That function doesn't know about arrays, it simply
 puts the word “object” and the name of the type between square
@@ -684,6 +685,8 @@ height, which is the space taken up by the underline.
 Drawing such a cell is quite simple—we take the content of the inner
 cell, and concatenate a single line full of dashes to it.
 
+// test: wrap, trim
+
 [source,javascript]
 ----
 function dataTable(data) {
@@ -701,7 +704,7 @@ console.log(drawTable(dataTable(MOUNTAINS)));
 // → name           height country
 //   -------------- ------ -------------
 //   Kilimanjaro    5895   Tanzania
-//   ... etc
+//   … etcetera
 ----
 
 Having an underlining mechanism, we can now write a function that
@@ -846,7 +849,7 @@ function dataTable(data) {
 }
 
 console.log(drawTable(dataTable(MOUNTAINS)));
-// → ... beautifully aligned table
+// → … beautifully aligned table
 ----
 
 Inheritance is a fundamental part of the object-oriented tradition,
@@ -949,6 +952,9 @@ Add a getter property `distance` to the prototype that computes the
 distance of a point from the origin (0, 0).
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -986,6 +992,9 @@ the resulting cell has at least the given `width` and `height`, even
 if the inner cell would naturally be smaller.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -998,6 +1007,7 @@ console.log(sc.minHeight());
 console.log(sc.draw(3, 2));
 // → ["abc", "   "]
 ----
+
 endif::html_target[]
 
 !!solution!!
@@ -1026,6 +1036,9 @@ integers (taking `from` and `to` arguments to its constructor)
 instead.
 
 ifdef::html_target[]
+
+// test: no
+
 [source,javascript]
 ----
 // Your code here.
@@ -1040,6 +1053,7 @@ logFive(new RangeSeq(100, 1000));
 // → 103
 // → 104
 ----
+
 endif::html_target[]
 
 !!solution!!

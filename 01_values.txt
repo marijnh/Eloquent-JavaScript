@@ -445,7 +445,7 @@ console.log(8 * null)
 console.log("5" - 1)
 // → 4
 console.log("5" + 1)
-// → "51"
+// → 51
 console.log("five" * 2)
 // → NaN
 console.log(false == 0)
@@ -517,9 +517,9 @@ default value.
 [source,javascript]
 ----
 console.log(null || "user")
-// → "user"
+// → user
 console.log("Karl" || "user")
-// → "Karl"
+// → Karl
 ----
 
 The “&&” operator works similarly, but the other way around. When the

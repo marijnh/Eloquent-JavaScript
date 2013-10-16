@@ -37,10 +37,10 @@ The simplest kind of statement is an expression with a semicolon after
 it. This is a program:
 
 [source,javascript]
------
+----
 1;
 !false;
------
+----
 
 It is a useless program, though. An expression can be content to just
 produce a value, which can then be used by the enclosing expression. A
@@ -73,9 +73,9 @@ value has to be immediately used or it will dissipate again. To catch
 and hold values, JavaScript provides a thing called a _((variable))_.
 
 [source,javascript]
------
+----
 var caught = 5 * 5;
------
+----
 
 (((var keyword)))And that gives us our second kind of statement. The
 special word (_keyword_) `var` indicates that this sentence is going
@@ -91,11 +91,11 @@ expression. The value of such an expression is the current value
 that's being held by the variable. Here's an example:
 
 [source,javascript]
------
+----
 var ten = 10;
 console.log(ten * ten);
 // → 100
------
+----
 
 (((variable,naming)))Variable names can be almost every word, as long
 as the word isn't reserved as a keyword (such as `var`). They may not
@@ -110,14 +110,14 @@ existing variables to disconnect them from their current value and
 have them point to a new one:
 
 [source,javascript]
------
+----
 var mood = "light";
 console.log(mood);
-// → "light"
+// → light
 mood = "dark";
 console.log(mood);
-// → "dark";
------
+// → dark
+----
 
 (((variable!model of)))(((tentacle (variable analogy)))) You should
 imagine variables as tentacles, rather than boxes. They do not
@@ -136,12 +136,12 @@ you, you create a variable. And then when he pays back 35 dollars, you
 give this variable a new value.
 
 [source,javascript]
------
+----
 var luigisDebt = 140;
 luigisDebt = luigisDebt - 35;
 console.log(luigisDebt);
 // → 105
------
+----
 
 == Keywords and reserved words ==
 
@@ -154,13 +154,13 @@ variable names, though some JavaScript environments do allow them. The
 full list of keywords and reserved words is rather long:
 
 [source,text/plain]
------
+----
 break case catch continue debugger default delete
 do else false finally for function if implements
 in instanceof interface let new null package private
 protected public return static switch throw true
 try typeof var void while with yield this
------
+----
 
 Don't worry about memorizing these, but remember that this might be
 the problem when something does not work as expected.
@@ -188,9 +188,9 @@ browser environment, the variable `alert` holds a function that shows
 a little dialog box with a message. It is used like this:
 
 [source,javascript]
------
+----
 alert("Good morning!");
------
+----
 
 image::img/alert.png[alt="An alert dialog"]
 
@@ -230,11 +230,11 @@ in the browser's JavaScript console.
 endif::html_target[]
 
 [source,javascript]
------
+----
 var x = 30;
 console.log("the value of x is", x);
 // → the value of x is 30
------
+----
 
 Though I claimed before that variable names can not contain dots,
 `console.log` clearly contains a dot. I haven't been lying to you.
@@ -253,10 +253,10 @@ function `Math.max`, which takes two numbers and gives back the
 greatest of the two:
 
 [source,javascript]
------
+----
 console.log(Math.max(2, 4));
 // → 4
------
+----
 
 (((min function)))When a function produces a value, it is said to
 _return_ it. Because things that produce values are always expressions
@@ -264,10 +264,10 @@ in JavaScript, function calls can be used as part of bigger
 expressions:
 
 [source,javascript]
------
+----
 console.log(Math.min(2, 4) + 100);
 // → 102
------
+----
 
 The next chapter explains how we can write our own functions.
 
@@ -279,9 +279,9 @@ few more functions for popping up windows. You can ask the user an
 if the user clicks OK and `false` if the user clicks Cancel.
 
 [source,javascript]
------
+----
 confirm("Shall we, then?");
------
+----
 
 image::img/confirm.png[alt="An confirm dialog"]
 
@@ -291,9 +291,9 @@ the text that the user starts with. A line of text can be typed into
 the dialog window, and the function will return this as a string.
 
 [source,javascript]
------
+----
 prompt("Tell me everything you know.", "...");
------
+----
 
 image::img/prompt.png[alt="An prompt dialog"]
 
@@ -310,11 +310,11 @@ one asks the user for a number, and the second, which is executed
 afterwards, shows the square of that number:
 
 [source,javascript]
------
+----
 var theNumber = Number(prompt("Pick a number", ""));
 alert("Your number is the square root of " +
       theNumber * theNumber);
------
+----
 
 (((Number function)))(((String function)))(((Boolean
 function))))(((boolean conversion)))The function `Number` converts a
@@ -343,12 +343,12 @@ we might want to show the square of the input only if the input is
 actually a number.
 
 [source,javascript]
------
+----
 var theNumber = Number(prompt("Pick a number", ""));
 if (!isNaN(theNumber))
   alert("Your number is the square root of " +
         theNumber * theNumber);
------
+----
 
 With this modification, if you enter “cheese”—or nothing at all—no
 output will be shown.
@@ -371,20 +371,20 @@ together with `if`, to create two separate, parallel paths that
 execution can take:
 
 [source,javascript]
------
+----
 var theNumber = Number(prompt("Pick a number", ""));
 if (!isNaN(theNumber))
   alert("Your number is the square root of " +
         theNumber * theNumber);
 else
   alert("Hey. Why didn't you give me a number?");
------
+----
 
 If we have more than two paths that we want to choose from, multiple
 `if`/`else` pairs can be “chained” together. Here's an example:
 
 [source,javascript]
------
+----
 var num = Number(prompt("Pick a number", "0"));
 
 if (num < 10)
@@ -393,7 +393,7 @@ else if (num < 100)
   alert("Medium");
 else
   alert("Large");
------
+----
 
 The program will first check whether `num` is less than 10. If it is,
 it chooses that branch, shows `"Small"`, and is done. If it isn't, it
@@ -412,7 +412,7 @@ image::img/controlflow-nested-if.svg[alt="Nested if control flow"]
 0 to 12. One way to write this is as follows:
 
 [source,javascript]
------
+----
 console.log(0);
 console.log(2);
 console.log(4);
@@ -420,7 +420,7 @@ console.log(6);
 console.log(8);
 console.log(10);
 console.log(12);
------
+----
 
 (((control flow)))That works, but the idea of writing a program is to
 make something _less_ work, not more. If we needed all even numbers
@@ -435,7 +435,7 @@ program state. If we combine this with a variable that counts, we can
 do this:
 
 [source,javascript]
------
+----
 var number = 0;
 while (number <= 12) {
   console.log(number);
@@ -443,8 +443,8 @@ while (number <= 12) {
 }
 // → 0
 // → 2
-//   ... etcetera
------
+//   … etcetera
+----
 
 (((while loop)))A statement starting with the keyword `while` creates a
 loop. The word `while` is followed by an expression in parentheses and
@@ -473,7 +473,7 @@ result by 2. The loop tests whether the second variable has reached 10
 yet and then updates both variables.
 
 [source,javascript]
------
+----
 var result = 1;
 var counter = 0;
 while (counter < 10) {
@@ -482,7 +482,7 @@ while (counter < 10) {
 }
 console.log(result);
 // → 1024
------
+----
 
 The counter could also start at `1` and check for `<= 10`, but, for
 reasons that will become apparent later, it is a good idea to get used
@@ -495,12 +495,12 @@ it should stop. To reflect this, the test is written below the body of
 the loop:
 
 [source,javascript]
------
+----
 do {
   var name = prompt("Who are you?");
 } while (!name);
 console.log(name);
------
+----
 
 This will force you to enter a name, by asking again and again until
 it gets something that is not an empty string. (Applying the `!`
@@ -535,13 +535,13 @@ Because this pattern is so common, JavaScript and similar languages
 provide a slightly shorter and more comprehensive form:
 
 [source,javascript]
------
+----
 for (var number = 0; number <= 12; number = number + 2)
   console.log(number);
 // → 0
 // → 2
-//   ... etcetera
------
+//   … etcetera
+----
 
 (((for loop)))(((control flow)))(((state)))This program is exactly
 equivalent to the earlier even-number-printing example. The only
@@ -558,13 +558,13 @@ most cases, this is shorter and clearer than a `while` construct.
 Here is the code that computes 2^10^, using `for` instead of `while`:
 
 [source,javascript]
------
+----
 var result = 1;
 for (var counter = 0; counter < 10; counter = counter + 1)
   result = result * 2;
 console.log(result);
 // → 1024
------
+----
 
 (((indentation)))Note that even if no block is opened with a `{`, the
 statement in the loop is still indented two spaces to make it clear
@@ -581,14 +581,14 @@ This program finds the first number that is greater than or equal to
 20, and divisible by 7:
 
 [source,javascript]
------
+----
 for (var current = 20; ; current++) {
   if (current % 7 == 0)
     break;
 }
 console.log(current);
 // → 21
------
+----
 
 (((remainder operation)))(((% operator)))The trick with the remainder
 (“%”) operator is an easy way to test whether a number is divisible by
@@ -638,10 +638,10 @@ double the value of `result`, or `counter -= 1` to count downward.
 Which allows us to shorten our counting example a little more:
 
 [source,javascript]
------
+----
 for (var number = 0; number <= 12; number += 2)
   console.log(number);
------
+----
 
 (((++ operator)))(((-- operator)))For `counter += 1` and `counter -=
 1`, there are even shorter equivalents: `counter++` and `counter--`.
@@ -650,13 +650,15 @@ for (var number = 0; number <= 12; number += 2)
 
 It is common for code to look like this:
 
+// test: no
+
 [source,javascript]
------
+----
 if (variable == "value1") action1();
 else if (variable == "value2") action2();
 else if (variable == "value3") action3();
 else defaultAction();
------
+----
 
 (((dispatch)))(((switch keyword)))There is a construct called `switch`
 that is intended to solve such a “dispatch” in a more direct way.
@@ -666,7 +668,7 @@ awkward—often a chain of `if` statements still looks better. Here
 is an example:
 
 [source,javascript]
------
+----
 switch(prompt("What is the weather like?")) {
   case "rainy":
     console.log("Remember to bring an umbrella.");
@@ -680,7 +682,7 @@ switch(prompt("What is the weather like?")) {
     console.log("Unknown weather type!");
     break;
 }
------
+----
 
 (((case keyword)))(((default keyword)))Inside the block opened by
 `switch`, you may put any number of `case` labels. The program will
@@ -733,6 +735,8 @@ A comment is a piece of text that is part of a program, but completely
 ignored by the computer. JavaScript has two ways of writing comments.
 To write a single line comment, you can use two slash characters
 (`//`) and then the comment text after it.
+
+// test: no
 
 [source,javascript]
 ----

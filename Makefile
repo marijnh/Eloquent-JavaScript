@@ -15,3 +15,7 @@ tex/%.db: %.txt asciidoc_db.conf
 
 tex/%.tex: tex/%.db
 	dblatex $< -o $@ -t tex
+
+test:
+	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
+	@echo Done.

@@ -1,6 +1,6 @@
 :chap_num: 6
 :prev_link: 05_higher_order
-:next_link: 07_terrarium
+:next_link: 07_elife
 :load_files: ["js/code/mountains.js", "js/code/06_object.js"]
 
 = The Secret Life of Objects =
@@ -31,8 +31,8 @@ As an example, you can imagine an object that provides an interface to
 an area on your screen. It provides a way to draw shapes or text onto
 this area, but hides all the details of how these shapes are converted
 to the actual pixels that make up the screen. You'd have a set of
-methods (named, for example `drawCircle`) that are, ideally, described
-somewhere so that it is easy to learn how to use such an object.
+methods, for example `drawCircle`, and those are the only thing you
+need to know in order to use such an object.
 
 These ideas were initially worked out in the 1970s and 80s, and, in
 the 90s, were carried up by a huge wave of hype—the object-oriented
@@ -40,9 +40,9 @@ programming revolution. Suddenly, there was a large tribe of people
 declaring that objects were the _right_ way to program, and that
 anything that did not involve objects was outdated nonsense.
 
-This kind of zealotry of course created a lot of impractical
-silliness, and there has been a sort of counter-revolution in the past
-ten years that has, in many circles, given objects a bad reputation.
+That kind of zealotry always produces a lot of impractical silliness,
+and there has been a sort of counter-revolution since then which has,
+in many circles, given objects a bad reputation.
 
 I feel it is preferable to look at the issue from a practical, rather
 than ideological angle. There are several very useful concepts, most
@@ -51,7 +51,7 @@ complexity and external interface), that the object-oriented culture
 has popularized. These are worth studying.
 
 This chapter describes JavaScript's rather eccentric take on objects,
-and the way they relate to classical object-oriented techniques.
+and the way they relate to some classical object-oriented techniques.
 
 == Methods ==
 
@@ -62,34 +62,35 @@ properties that hold function values. This is a very simple method:
 ----
 var rabbit = {};
 rabbit.speak = function(line) {
-  console.log("The rabbit says '", line, "'");
+  console.log("The rabbit says '" + line + "'");
 };
 
 rabbit.speak("I'm alive.");
+// → The rabbit says 'I'm alive.'
 ----
 
-(((this variable)))Most of the time, a method needs to know something
-about the object it is acting on. For example, if there are different
-rabbits, the `speak` method must indicate which rabbit is speaking.
+(((this variable)))Usually a method needs to know about the object it
+is acting on. For example, if there are different rabbits, the `speak`
+method must indicate which rabbit is speaking.
 
 When a function is called as a method—when it is looked up as a
-property and immediately called, as in `object.method()`—the special
+property and immediately called, as in ++object.method()++—the special
 variable `this` in its body will point to the object that it was
 called on.
 
 [source,javascript]
 ----
 function speak(line) {
-  console.log("The ", this.type, " rabbit says '",
-              line, "'");
+  console.log("The " + this.type + " rabbit says '" +
+              line + "'");
 }
 var whiteRabbit = {type: "white", speak: speak};
 var fatRabbit = {type: "fat", speak: speak};
 
 whiteRabbit.speak(
   "Oh my ears and whiskers, how late it's getting!");
-// → The white rabbit says 'Oh my ears and whiskers,
-//   how late it's getting!'
+// → The white rabbit says 'Oh my ears and whiskers, how
+//    late it's getting!'
 fatRabbit.speak("I could sure use a carrot right now.");
 // → The fat rabbit says 'I could sure use a carrot
 //   right now.'
@@ -98,13 +99,12 @@ fatRabbit.speak("I could sure use a carrot right now.");
 The code uses the `this` variable to output the type of rabbit that is
 speaking.
 
-(((apply method)))(((bind method)))The mysterious first argument to
-the `apply` and `bind` method on functions, the one for which we
-simply passed `null` in the previous chapter, is in fact used to give
-a value to `this`.
+(((apply method)))(((bind method)))So the first argument to the
+`apply` and `bind` methods on functions is in fact used to give a
+value to `this`.
 
 There is a method similar to `apply`, called `call`, which also calls
-the function, but takes a normal list of arguments, rather than an
+the function, but takes its arguments normally, rather than as an
 array. It is used to call a function with with a specific `this`
 value.
 
@@ -118,7 +118,7 @@ speak.call({type: "old"}, "Oh my.");
 
 == Prototypes ==
 
-(((toString method)))Watch closely now.
+(((toString method)))Watch closely.
 
 [source,javascript]
 ----
@@ -134,7 +134,7 @@ I just pulled a property out of an empty object. Magic!
 (((prototype)))(((property)))Well, not really. I have simply been
 withholding some information on the way JavaScript objects work. In
 addition to their set of properties, almost all objects also have a
-_prototype_. A prototype is another object that will be used as a
+_prototype_. A prototype is another object that is used as a fall-back
 source of properties. When a property is requested that an object does
 not have, its prototype will be searched for the property, and then
 the prototype of the prototype, and so on.
@@ -156,7 +156,7 @@ console.log(Object.getPrototypeOf(Object.prototype));
 The prototype relations of JavaScript objects form a tree-shaped
 structure, and at the root of this structure sits `Object.prototype`.
 It provides a few methods that show up in all objects, such as
-`toString`, which converts an object to a some string representation.
+`toString`, which converts an object to some string representation.
 
 Many objects don't directly have `Object.prototype` as their
 prototype, but instead have another object, which provides additional
@@ -184,11 +184,11 @@ specific prototype.
 ----
 var protoRabbit = {
   speak: function(line) {
-    console.log("The ", this.type, " rabbit says '",
-                line, "'");
+    console.log("The " + this.type + " rabbit says '" +
+                line + "'");
   }
 };
-var killerRabbit = Object.create(rabbitProto);
+var killerRabbit = Object.create(protoRabbit);
 killerRabbit.type = "killer";
 killerRabbit.speak("SKREEEE!");
 // → The killer rabbit says 'SKREEEE!'
@@ -196,7 +196,7 @@ killerRabbit.speak("SKREEEE!");
 
 The proto rabbit contains the properties that are shared by all
 rabbits. The killer rabbit itself contains the properties that apply
-only to that object, in this case its `type`, and derives the shared
+only to that object, in this case its type, and derives the shared
 properties from its prototype.
 
 == Constructors ==
@@ -207,7 +207,7 @@ that derive from some shared prototype is to use a _constructor_. In
 JavaScript, calling a function with the `new` keyword in front of it
 causes it to be treated as a constructor. It will have its `this`
 variable bound to a fresh object, and, unless it explicitly returns
-something else, this new object will be the result of the call.
+something else, this new object will be returned from the call.
 
 Here is a simple constructor for rabbits. It is convention to
 capitalize the names of constructors, so that they are easily
@@ -234,8 +234,8 @@ the `Rabbit` constructor, we can simply do this:
 [source,javascript]
 ----
 Rabbit.prototype.speak = function(line) {
-  console.log("The ", this.type, " rabbit says '",
-              line, "'");
+  console.log("The " + this.type + " rabbit says '" +
+              line + "'");
 };
 blackRabbit.speak("Doom...");
 // → The black rabbit says 'Doom...'
@@ -246,10 +246,10 @@ constructor.
 
 == Overriding derived properties ==
 
-(((property)))When you add a property to an object that is also
-present in its prototype, the property is simply added to the object
-itself, and will from now on replace the derived value from the
-prototype. The prototype itself is not changed.
+(((property)))When you add a property to an object, whether it is
+present in the prototype or not, that property is added to the object
+itself, and the property by the same name in the prototype, if any,
+will no longer affect the object. The prototype itself is not changed.
 
 [source,javascript]
 ----
@@ -259,7 +259,7 @@ console.log(killerRabbit.teeth);
 killerRabbit.teeth = "long, sharp, and bloody";
 console.log(killerRabbit.teeth);
 // → long, sharp, and bloody
-console.log(Rabbit.prototype.teeth);
+console.log(blackRabbit.teeth);
 // → small
 ----
 
@@ -276,9 +276,8 @@ express exceptional properties in instances of a more generic class of
 objects, while letting the non-exceptional objects simply take a
 standard value from their prototype.
 
-It is also used to, for example, give the standard function and array
-prototypes a different `toString` method than the basic object
-prototype.
+It is also used to give the standard function and array prototypes a
+different `toString` method than the basic object prototype.
 
 [source,javascript]
 ----
@@ -292,7 +291,7 @@ console.log(Object.prototype.toString.call([1, 2]));
 ----
 
 Calling `toString` on an array gives a result similar to calling
-`.join(", ")` on it—it puts commas between the values in the array.
+`.join(", ")` on it—it puts commas between the values in the array.
 Directly calling `Object.prototype.toString` with an array produces a
 different string. That function doesn't know about arrays, it simply
 puts the word “object” and the name of the type between square
@@ -307,15 +306,17 @@ our rabbits to dance.
 [source,javascript]
 ----
 Rabbit.prototype.dance = function() {
-  print("The ", this.type, " rabbit dances a jig.");
+  console.log("The " + this.type + " rabbit dances a jig.");
 };
+killerRabbit.dance();
+// → The killer rabbit dances a jig.
 ----
 
 That's very convenient. But there are situations where it causes
-problems. In the previous chapter, we used an object to create a way
-to associate objects with names, by creating properties for the names
-and giving them the corresponding object as value. Here's a similar
-example from chapter 4:
+problems. In the previous chapter, we used an object as a way to
+associate values with names by creating properties for the names and
+giving them the corresponding value as value. Here's a similar example
+from chapter 4:
 
 [source,javascript]
 ----
@@ -348,7 +349,7 @@ console.log("toString" in ages);
 delete Object.prototype.nonsense;
 ----
 
-That's all wrong! There is no person called “nonsense” in our data
+That's all wrong. There is no person called “nonsense” in our data
 set. And there _definitely_ is no person called “toString”.
 
 (((enumerability)))Oddly, `toString` did not show up in the `for`/`in`
@@ -367,10 +368,8 @@ creating.
 
 [source,javascript]
 ----
-Object.defineProperty(Object.prototype,
-                      "hiddenNonsense",
-                      {enumerable: false,
-                       value: "hi"});
+Object.defineProperty(Object.prototype, "hiddenNonsense",
+                      {enumerable: false, value: "hi"});
 for (var name in ages)
   console.log(name);
 // → Larry
@@ -412,14 +411,14 @@ for (var name in ages) {
 
 But the rabbit hole doesn't end there. What if someone registered the
 name `hasOwnProperty` in our `ages` object? Now the call to
-`ages.hasOwnProperty` will try to call the local property, which
-presumably holds a number, not a function.
+`ages.hasOwnProperty` will try to call the local property, which will
+hold a number, not a function.
 
 Often, prototypes just get in the way, and we actually want nothing to
 do with them. We saw the `Object.create` function, which allows us to
 create an object with a specific prototype. You are allowed to pass
 `null` as the prototype to create a fresh object with no prototype.
-For objects like `ages`, where the properties could be anyting, this
+For objects like `ages`, where the properties could be anything, this
 is exactly what we want.
 
 [source,javascript]
@@ -452,10 +451,9 @@ this case, a `toString` method—any kind of object that happens to
 support this interface can be plugged into the code, and it will just
 work.
 
-This technique is called _polymorphism_. That sounds like some form of
-shape-shifting is involved. Unfortunately, there isn't. Polymorphic
-code can _work_ with values of different shape and behavior, as long
-as they properly follow the interface it expects.
+This technique is called _polymorphism_, though no actual
+shape-shifting is involved. Polymorphic code can _work with_ values of
+different shape, as long as they expose the interface it expects.
 
 == Laying out a table ==
 
@@ -480,11 +478,11 @@ Mount McKinley   6168 United States
 Popocatepetl     5465 Mexico
 ----
 
-The interesting thing about our table-building system is that the
-algorithm that builds the table lets the cells tell it how wide and
-high they want to be, and then, once it has determined the width of
-the columns and the height of the rows, asks them to draw themselves
-at a certain size, and assembles the result into a single string.
+The way our table-building system will work is that the builder
+function lets the cells tell it how wide and high they want to be, and
+then, once it has determined the width of the columns and the height
+of the rows, asks them to draw themselves at the correct certain size
+and assembles the result into a single string.
 
 The interface through which the algorithm talks to the cells consists
 of these methods:
@@ -495,11 +493,12 @@ of these methods:
 * `minWidth()` returns a number indicating its minimum width (in
   characters).
 
-* `draw(width, height)` returns an array of `height` strings, each
-  `width` characters wide, representing the content of the cell.
+* `draw(width, height)` returns an array of string with length
+  `height`, each of them `width` characters wide. This represents the
+  content of the cell.
 
-I'm going to make heavy use of higher-order functions in this example,
-since it lends itself so well to that approach.
+I'm going to make heavy use of higher-order array methods in this
+example, since it lends itself well to that approach.
 
 The first part of the program computes arrays of minimum column widths
 and row heights from a collection of cells.
@@ -551,8 +550,7 @@ function drawTable(rows) {
 
   return rows.map(function(row, rowNum) {
     var blocks = row.map(function(cell, colNum) {
-      return cell.draw(widths[colNum],
-                       heights[rowNum]);
+      return cell.draw(widths[colNum], heights[rowNum]);
     });
     return blocks[0].map(function(_, i) {
       return blocks.map(function(block) {
@@ -572,7 +570,9 @@ do another row-column inversion trick, similar to the one in
 `map`/`join`), and then join these lines together with newline
 characters.
 
-Let us write a constructor for cells that contain text.
+Let us write a constructor for cells that contain text. The
+constructor splits a string into an array of lines, and the `minWidth`
+method finds the maximum line width in this array.
 
 [source,javascript]
 ----
@@ -598,8 +598,7 @@ TextCell.prototype.draw = function(width, height) {
   var result = [];
   for (var i = 0; i < height; i++) {
     var line = this.text[i] || "";
-    result.push(line +
-                repeat(" ", width - line.length));
+    result.push(line + repeat(" ", width - line.length));
   }
   return result;
 };
@@ -616,13 +615,13 @@ And try it out by building up a checkerboard.
 var rows = [];
 for (var i = 0; i < 5; i++) {
    var row = [];
-   rows.push(row);
    for (var j = 0; j < 5; j++) {
      if ((j + i) % 2 == 0)
        row.push(new TextCell("##"));
      else
        row.push(new TextCell("  "));
    }
+   rows.push(row);
 }
 console.log(drawTable(rows));
 // → ##    ##    ##
@@ -636,13 +635,13 @@ It works! But since all cells have the same size, it doesn't really do
 anything interesting.
 
 The source data for the table of mountains that we are trying to build
-is in the `MOUNTAINS` variable in the sandbox, also
+is available in the `MOUNTAINS` variable in the sandbox, and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
 list of data sets on the website!!tex  (`eloquentjavascript.net/code`)!!.
 
 We will want to emphasize the top row, which contains the column
 names, by underlining the cells with a series of dash characters. No
-problem, we'll just write a cell type that handles underlining.
+problem, we simply write a cell type that handles underlining.
 
 [source,javascript]
 ----
@@ -655,8 +654,7 @@ UnderlinedCell.prototype.minWidth = function() {
 UnderlinedCell.prototype.minHeight = function() {
   return this.inner.minHeight() + 1;
 };
-UnderlinedCell.prototype.draw = function(width,
-                                         height) {
+UnderlinedCell.prototype.draw = function(width, height) {
   return this.inner.draw(width, height - 1)
     .concat([repeat("-", width)]);
 };
@@ -690,13 +688,14 @@ console.log(drawTable(dataTable(MOUNTAINS)));
 //   ... etc
 ----
 
-It is now easy to write a function that builds up a grid of cells from
-our dataset. The standard `Object.keys` function gives us an array of
-property names in that object. The top row of the table must contain
-underlined cells that give the names of the columns. Below that, the
-values of all the objects in the dataset appear as normal cells—we
-extract them by mapping over the `keys` array, so that we are sure
-that the order of the cells is the same in every row.
+Having an underlining mechanism, we can now write a function that
+builds up a grid of cells from our data set. The standard
+`Object.keys` function returns an array of property names in an
+object. The top row of the table must contain underlined cells that
+give the names of the columns. Below that, the values of all the
+objects in the data set appear as normal cells—we extract them by
+mapping over the `keys` array, so that we are sure that the order of
+the cells is the same in every row.
 
 == Getters and setters ==
 
@@ -709,9 +708,9 @@ it would cause problems if, for example, the inner cell of an
 underlined cell was changed, at which point the size of the underlined
 cell should also change.
 
-This has led some people to adobt a principle of never including
-non-method properties in interfaces, and for things that behave as a
-normal value property, which can be both read and written, use
+This has led some people to adopt a principle of never including
+non-method properties in interfaces. For things that behave as a
+simple value property, which can be both read and written, they'd use
 `getSomething` and `setSomething` methods which read and write the
 property.
 
@@ -726,7 +725,7 @@ var pile = {
   elements: ["eggshell", "orange peel", "worm"],
   get height() {
     return this.elements.length;
-  }
+  },
   set height(value) {
     console.log("Ignoring attempt to set height to",
                 value);
@@ -748,11 +747,11 @@ non-enumerable properties).
 
 [source,javascript]
 ----
-Object.defineProperty(TextCell.prototype, "myHeight", {
+Object.defineProperty(TextCell.prototype, "heightProp", {
   get: function() { return this.text.length; }
 });
 
-console.log((new TextCell("no\nway")).myHeight);
+console.log((new TextCell("no\nway")).heightProp);
 // → 2
 ----
 
@@ -764,36 +763,35 @@ ignored.
 
 (((inheritance)))If you have paid close attention, you might have
 noticed that we are not quite done yet with our table layout exercise.
-It helps readability, in tables, to right-align numbers. We should
+It helps readability to right-align columns of numbers. We should
 create another cell type that is like `TextCell`, but rather than
 padding the lines on the right side, pads them on the left side, so
 that they align to the right.
 
-So we could simply write a whole new constructor, with all three
-methods in its prototype. But prototypes can, themselves, have
-prototypes. This allows us to do something clever:
+We could simply write a whole new constructor, with all three methods
+in its prototype. But prototypes may themselves have prototypes, and
+this allows us to do something clever:
 
 [source,javascript]
 ----
 function RTextCell(text) {
   TextCell.call(this, text);
 }
-RTextCell.prototype =
-  Object.create(TextCell.prototype);
+RTextCell.prototype = Object.create(TextCell.prototype);
 RTextCell.prototype.draw = function(width, height) {
   var result = [];
   for (var i = 0; i < height; i++) {
     var line = this.text[i] || "";
-    result.push(repeat(" ", width - line.length) +
-                line);
+    result.push(repeat(" ", width - line.length) + line);
   }
   return result;
 };
 ----
 
 We reuse the constructor and the `minHeight` and `minWidth` methods
-from regular the `TextCell` code. An `RTextCell` is now basically a
-`TextCell`, except that its `draw` method is a different value.
+from the regular `TextCell`. An `RTextCell` is now basically
+equivalent to a `TextCell`, except that its `draw` method contains a
+different function.
 
 This pattern is called _inheritance_. It allows us to build slightly
 different data types from existing datatypes with relatively little
@@ -801,15 +799,14 @@ work. Typically, the new constructor will call the old constructor
 (using the `call` method in order to be able to give it the new object
 as its `this` value). Once this constructor has been called, we can
 assume that all the fields that the old object type is supposed to
-contain have been added. We then arrange for the constructor's
-prototype to derive from the old prototype, so that instances of this
-type will also have access to the properties in that prototype.
-Finally, we can override some of these properties by adding them to
-our new prototype.
+contain have been added. We arrange for the constructor's prototype to
+derive from the old prototype, so that instances of this type will
+also have access to the properties in that prototype. Finally, we can
+override some of these properties by adding them to our new prototype.
 
-Now we slightly adjust the `dataTable` function to use `RTextCell`'s
-for cells whose value is a number, and get the table we were aiming
-for:
+Now if we slightly adjust the `dataTable` function to use
+`RTextCell`'s for cells whose value is a number, we get the table we
+were aiming for:
 
 [source,javascript]
 ----
@@ -838,12 +835,12 @@ generally regarded as wonderful ideas, whereas inheritance is somewhat
 controversial.
 
 (((polymorphism)))The main reason for this is that it is often
-confused with polymorphism, and sold as a more powerful tool than it
+confused with polymorphism, sold as a more powerful tool than it
 really is... and subsequently overused in all kinds of ugly ways.
 Whereas encapsulation and polymorphism can be used to _separate_
 pieces of code from each other, reducing the tangledness of the
 overall program, inheritance fundamentally ties the types that inherit
-from each other together, creating _more_ tangledness.
+from each other together, creating _more_ tangle.
 
 (((composition)))You can have polymorphism without inheritance, as we
 saw. I am not going to tell you to avoid inheritance—I use it
@@ -872,17 +869,17 @@ console.log([1] instanceof Array);
 // → true
 ----
 
-The operator will also see through inherited types, so an `RTextCell`
-is an instance of `TextCell`, because `RTextCell.prototype` derives
-from `TextCell.prototype`. The operator can also be applied to
-standard constructors like `Array`. Almost every object is an instance
-of `Object`.
+The operator will also see through inherited types. An `RTextCell` is
+an instance of `TextCell`, because `RTextCell.prototype` derives from
+`TextCell.prototype`. The operator can be applied to standard
+constructors like `Array`. Almost every object is an instance of
+`Object`.
 
 == Summary ==
 
 (((prototype)))So objects are more complicated than I have been
 letting on. They have prototypes, which are other objects, and will
-act as if they have properties they don't have, if the prototype has
+act as if they have properties they don't have if the prototype has
 that property. Simple objects will have `Object.prototype` as their
 prototype.
 
@@ -904,9 +901,9 @@ _encapsulated_, hidden behind the interface.
 
 (((polymorphism)))Once you are talking in terms of interfaces, who
 says that only one kind of object may implement this interface? Having
-different objects expose the same interface, and then having code that
-works on these object, without caring how they work behind the scenes,
-is called _polymorphism_. It is very useful.
+different objects expose the same interface, and then writing code
+that works on any object with the interface, is called _polymorphism_.
+It is very useful.
 
 (((inheritance)))When implementing multiple types that only differ in
 some details, it can be helpful to simply make the prototype of your
@@ -923,9 +920,9 @@ Write a constructor `Point` that represents a point in two-dimensional
 space. It takes `x` and `y` parameters (numbers), which it saves to
 properties by the same name.
 
-Give the `Point` prototype methods `plus` and `minus`, which take
+Give the `Point` prototype two methods, `plus` and `minus`, which take
 another point as parameter, and return a new point that has the sum or
-difference of the two points' (the one in `this` and the parameter) x
+difference of the two points’ (the one in `this` and the parameter) x
 and y coordinates.
 
 Add a getter property `distance` to the prototype that computes the
@@ -934,7 +931,7 @@ distance of a point from the origin (0, 0).
 ifdef::html_target[]
 [source,javascript]
 ----
-// Your code here...
+// Your code here.
 
 console.log(Point(1, 2).plus(Point(2, 3)));
 // → Point{x: 3, y: 5}
@@ -952,7 +949,7 @@ this chapter quite closely.
 
 (((Pythagoras)))Adding a getter property to the constructor can be
 done with the `Object.defineProperty` function. To compute the
-distance from (0, 0) to (x, y), we can use Pythagoras' theorem, which
+distance from (0, 0) to (x, y), we can use Pythagoras’ theorem, which
 says that the square of the distance we are looking for is equal to
 the square of the x coordinate plus the square of the y coordinate.
 Thus √(x^2^ + y^2^) is the number we want, and `Math.sqrt` is the way
@@ -971,7 +968,7 @@ if the inner cell would naturally be smaller.
 ifdef::html_target[]
 [source,javascript]
 ----
-// Your code here...
+// Your code here.
 
 var sc = new StretchCell(new TextCell("abc"), 1, 2);
 console.log(sc.minWidth());
@@ -1011,7 +1008,7 @@ instead.
 ifdef::html_target[]
 [source,javascript]
 ----
-// Your code here...
+// Your code here.
 
 logFive(new ArraySeq([1, 2]));
 // → 1
@@ -1028,8 +1025,9 @@ endif::html_target[]
 !!solution!!
 
 The most obvious way to solve this is to give the sequence objects
-_state_, meaning their properties are changed. You could store a
-counter in them that indicates how far they have advanced.
+_state_, meaning their properties are changed in the process of using
+them. You could store a counter in them that indicates how far they
+have advanced.
 
 Your interface will need to expose at least a way to get the next
 element, and to find out whether the iteration has reached the end of

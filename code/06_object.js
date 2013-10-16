@@ -1,3 +1,26 @@
+function speak(line) {
+  console.log("The " + this.type + " rabbit says '" +
+              line + "'");
+}
+function Rabbit(type) {
+  this.type = type;
+}
+var fatRabbit = new Rabbit("fat");
+var killerRabbit = new Rabbit("killer");
+var blackRabbit = new Rabbit("black");
+Rabbit.prototype.speak = function(line) {
+  console.log("The " + this.type + " rabbit says '" +
+              line + "'");
+};
+
+var ages = {};
+function storeAge(name, age) {
+  ages[name] = age;
+}
+
+storeAge("Larry", 58);
+storeAge("Simon", 55);
+
 function rowHeights(rows) {
   return rows.map(function(row) {
     return row.reduce(function(max, cell) {

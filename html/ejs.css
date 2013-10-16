@@ -108,7 +108,7 @@ ol li:before {
   position: absolute;
   width: 2em;
   text-align: right;
-  left: -2.5em; bottom: 0;
+  left: -2.5em; top: 1px;
   font-size: 90%;
 }
 
@@ -130,11 +130,11 @@ blockquote {
   margin: 0 0 0 2em;
   padding: 0;
   position: relative;
+  font-size: 95%;
 }
 
 blockquote p {
   color: #333;
-  font-size: 95%;
 }
 
 blockquote:before {

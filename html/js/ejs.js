@@ -50,7 +50,8 @@ window.addEventListener("load", function() {
     var editor = CodeMirror(wrap, {
       value: code,
       mode: "javascript",
-      extraKeys: keyMap
+      extraKeys: keyMap,
+      matchBrackets: true
     });
     wrap.style.margin = "0 -5em";
     setTimeout(function() { editor.refresh(); }, 600);

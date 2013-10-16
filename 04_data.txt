@@ -408,7 +408,7 @@ true, the other is false.
 (((phi coefficient)))For binary (boolean) variables, the phi
 coefficient provides a good measure of correlation, and is relatively
 easy to compute. First we need a matrix _n_, which indicates the
-amount of times the various combinations of the two variables were
+number of times the various combinations of the two variables were
 observed. For example, we could take the event of eating pizza, and
 put that in a table like this:
 

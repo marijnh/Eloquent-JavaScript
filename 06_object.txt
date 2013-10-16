@@ -22,7 +22,7 @@ from each other. These compartments ended up with the name “objects.”
 
 (((encapsulation)))(((method)))(((interface)))An object is a hard
 shell that encapsulates the gooey complexity inside of it, and instead
-offers us a few of knobs and connectors (think methods) that present
+offers us a few knobs and connectors (think methods) that present
 an _interface_ through which the object is to be used. The idea is
 that the interface is relatively simple, and all the complex things
 going on _inside_ of the object can be ignored when working with it.
@@ -108,7 +108,7 @@ value to `this`.
 
 There is a method similar to `apply`, called `call`, which also calls
 the function, but takes its arguments normally, rather than as an
-array. It is used to call a function with with a specific `this`
+array. It is used to call a function with a specific `this`
 value.
 
 [source,javascript]
@@ -367,7 +367,7 @@ distinguishes between _enumerable_ and _non-enumerable_ properties.
 
 All properties that we create by simply assigning to them are
 enumerable. The standard properties in `Object.prototype` are all
-non-enumerable, which is why they do not show up such a `for`/`in`
+non-enumerable, which is why they do not show up in such a `for`/`in`
 loop.
 
 (((defineProperty function)))It is possible to define our own
@@ -405,7 +405,7 @@ of information than what the `in` operator gives us.
 
 When you are worried that someone (some other code you loaded into
 your program) might have messed with the base object prototype, it is
-recommended to write you `for`/`in` loops like this:
+recommended to write your `for`/`in` loops like this:
 
 [source,javascript]
 ----
@@ -502,7 +502,7 @@ of these methods:
 * `minWidth()` returns a number indicating its minimum width (in
   characters).
 
-* `draw(width, height)` returns an array of string with length
+* `draw(width, height)` returns an array of strings with length
   `height`, each of them `width` characters wide. This represents the
   content of the cell.
 
@@ -620,10 +620,10 @@ TextCell.prototype.draw = function(width, height) {
 ----
 
 The `repeat` function helps build up strings that repeat a single
-character a given amount of times. The `draw` method uses it to add
+character a given number of times. The `draw` method uses it to add
 “padding” to lines, so that they all have the required length.
 
-And try it out by building up a checkerboard.
+Let's try it out by building up a checkerboard.
 
 [source,javascript]
 ----
@@ -944,7 +944,7 @@ space. It takes `x` and `y` parameters (numbers), which it saves to
 properties by the same name.
 
 Give the `Point` prototype two methods, `plus` and `minus`, which take
-another point as parameter, and return a new point that has the sum or
+another point as a parameter, and return a new point that has the sum or
 difference of the two points’ (the one in `this` and the parameter) x
 and y coordinates.
 
@@ -1017,8 +1017,8 @@ object. The `minWidth` and `minHeight` methods call through to the
 corresponding methods in the `inner` cell, but ensure that no number
 less than the given size is returned (possibly using `Math.max`).
 
-Don't forget to add a `draw` method that simply forwards the call the
-inner cell.
+Don't forget to add a `draw` method that simply forwards the call to
+the inner cell.
 
 !!solution!!
 

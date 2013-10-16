@@ -132,7 +132,7 @@
         if (typeof arg == "string")
           wrap.appendChild(document.createTextNode(arg));
         else
-          wrap.appendChild(represent(arg, 53));
+          wrap.appendChild(represent(arg, 58));
       }
       this.div.appendChild(wrap);
     }
@@ -183,11 +183,11 @@
   }
 
   function representObj(val, space) {
-    var string = val.toString(), m;
+    var string = val.toString(), m, elt;
     if (/^\[object .*\]$/.test(string))
       return representSimpleObj(val, space);
     if (val.call && (m = string.match(/^\s*(function[^(]*\([^)]*\))/)))
-      string = m[1] + "{…}";
+      return span("fun", m[1] + "{…}");
     var elt = span("etc", string);
     elt.addEventListener("click", function(e) {
       expandObj(elt, "obj", val);
@@ -232,7 +232,7 @@
           break;
         }
         space -= nextSize;
-        wrap.appendChild(document.createTextNode(prop + ": "));
+        wrap.appendChild(span("prop", prop + ": "));
         wrap.appendChild(next);
       }
     } catch (e) {
@@ -250,7 +250,7 @@
     var table = block.appendChild(document.createElement("table"));
     function addProp(name) {
       var row = table.appendChild(document.createElement("tr"));
-      row.appendChild(document.createElement("td")).appendChild(document.createTextNode(name + ":"));
+      row.appendChild(document.createElement("td")).appendChild(span("prop", name + ":"));
       row.appendChild(document.createElement("td")).appendChild(represent(val[name], 40));
     }
     if (type == "array") {

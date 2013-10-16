@@ -54,7 +54,7 @@ pre[data-language=javascript] {
   cursor: pointer;
 }
 
-code, pre, .CodeMirror, .sandbox-output {
+code, pre, .CodeMirror {
   font-size: 85%;
   font-family: 'PT Mono', monospace;
 }
@@ -64,7 +64,7 @@ code {
 }
 
 h1, h2, h3 {
-  font-family: 'Cinzel';
+  font-family: 'Cinzel', Georgia, serif;
   font-weight: 700;
   margin: 1rem 0;
   letter-spacing: 2px;
@@ -181,6 +181,10 @@ blockquote:before {
   padding: 0 1px;
 }
 
+.sandbox-output-prop {
+  color: #444;
+}
+
 .sandbox-output-etc-block {
   display: inline-block;
   vertical-align: top;
@@ -236,7 +240,7 @@ blockquote:before {
 
 /* Toned-down CodeMirror style */
 
-.cm-s-default .cm-keyword, .sandbox-output-null {color: #506;}
+.cm-s-default .cm-keyword, .sandbox-output-null, .sandbox-output-fun {color: #506;}
 .cm-s-default .cm-atom, .sandbox-output-bool {color: #106;}
 .cm-s-default .cm-number, .sandbox-output-number {color: #042;}
 .cm-s-default .cm-def {color: #009;}

@@ -158,7 +158,7 @@ forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
 ----
 
 Often, you wouldn't pass a pre-defined function to `forEach`, but
-create a function value no the spot instead.
+create a function value on the spot instead.
 
 [source,javascript]
 ----

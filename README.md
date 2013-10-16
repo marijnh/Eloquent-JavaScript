@@ -13,6 +13,6 @@ be overhauled in the near future.
     npm install
     apt-get install asciidoc
     make html
-    # and optionally
+    # and optionally (currently partly broken)
     apt-get install dblatex
     make tex

@@ -1,4 +1,4 @@
-var THREE_MONTHS = [
+var JOURNAL = [
   {"events":["carrot","exercise","weekend"],"squirrel":false},
   {"events":["bread","pudding","brushed teeth","weekend","touched tree"],"squirrel":false},
   {"events":["carrot","nachos","brushed teeth","cycling","weekend"],"squirrel":false},
@@ -12,7 +12,7 @@ var THREE_MONTHS = [
   {"events":["lasagna","nachos","brushed teeth","work"],"squirrel":false},
   {"events":["brushed teeth","weekend","touched tree"],"squirrel":false},
   {"events":["lettuce","brushed teeth","television","weekend"],"squirrel":false},
-  {"events":["spagetti","brushed teeth","work"],"squirrel":false},
+  {"events":["spaghetti","brushed teeth","work"],"squirrel":false},
   {"events":["brushed teeth","computer","work"],"squirrel":false},
   {"events":["lettuce","nachos","brushed teeth","work"],"squirrel":false},
   {"events":["carrot","brushed teeth","running","work"],"squirrel":false},
@@ -20,11 +20,11 @@ var THREE_MONTHS = [
   {"events":["cauliflower","reading","weekend"],"squirrel":false},
   {"events":["bread","brushed teeth","weekend"],"squirrel":false},
   {"events":["lasagna","brushed teeth","exercise","work"],"squirrel":false},
-  {"events":["spagetti","brushed teeth","reading","work"],"squirrel":false},
+  {"events":["spaghetti","brushed teeth","reading","work"],"squirrel":false},
   {"events":["carrot","ice cream","brushed teeth","television","work"],"squirrel":false},
-  {"events":["spagetti","nachos","work"],"squirrel":false},
+  {"events":["spaghetti","nachos","work"],"squirrel":false},
   {"events":["cauliflower","ice cream","brushed teeth","cycling","work"],"squirrel":false},
-  {"events":["spagetti","peanuts","computer","weekend"],"squirrel":true},
+  {"events":["spaghetti","peanuts","computer","weekend"],"squirrel":true},
   {"events":["potatoes","ice cream","brushed teeth","computer","weekend"],"squirrel":false},
   {"events":["potatoes","ice cream","brushed teeth","work"],"squirrel":false},
   {"events":["peanuts","brushed teeth","running","work"],"squirrel":false},
@@ -37,14 +37,14 @@ var THREE_MONTHS = [
   {"events":["carrot","work"],"squirrel":false},
   {"events":["pizza","beer","work","dentist"],"squirrel":false},
   {"events":["lasagna","pudding","cycling","work"],"squirrel":false},
-  {"events":["spagetti","brushed teeth","reading","work"],"squirrel":false},
-  {"events":["spagetti","pudding","television","weekend"],"squirrel":false},
+  {"events":["spaghetti","brushed teeth","reading","work"],"squirrel":false},
+  {"events":["spaghetti","pudding","television","weekend"],"squirrel":false},
   {"events":["bread","brushed teeth","exercise","weekend"],"squirrel":false},
   {"events":["lasagna","peanuts","work"],"squirrel":true},
   {"events":["pizza","work"],"squirrel":false},
   {"events":["potatoes","exercise","work"],"squirrel":false},
   {"events":["brushed teeth","exercise","work"],"squirrel":false},
-  {"events":["spagetti","brushed teeth","television","work"],"squirrel":false},
+  {"events":["spaghetti","brushed teeth","television","work"],"squirrel":false},
   {"events":["pizza","cycling","weekend"],"squirrel":false},
   {"events":["carrot","brushed teeth","weekend"],"squirrel":false},
   {"events":["carrot","beer","brushed teeth","work"],"squirrel":false},
@@ -68,12 +68,12 @@ var THREE_MONTHS = [
   {"events":["brussel sprouts","brushed teeth","computer","work"],"squirrel":false},
   {"events":["bread","brushed teeth","weekend"],"squirrel":false},
   {"events":["cauliflower","brushed teeth","weekend"],"squirrel":false},
-  {"events":["spagetti","candy","television","work","touched tree"],"squirrel":false},
+  {"events":["spaghetti","candy","television","work","touched tree"],"squirrel":false},
   {"events":["carrot","pudding","brushed teeth","work"],"squirrel":false},
   {"events":["lettuce","brushed teeth","work"],"squirrel":false},
   {"events":["carrot","ice cream","brushed teeth","cycling","work"],"squirrel":false},
   {"events":["pizza","brushed teeth","work"],"squirrel":false},
-  {"events":["spagetti","peanuts","exercise","weekend"],"squirrel":true},
+  {"events":["spaghetti","peanuts","exercise","weekend"],"squirrel":true},
   {"events":["bread","beer","computer","weekend","touched tree"],"squirrel":false},
   {"events":["brushed teeth","running","work"],"squirrel":false},
   {"events":["lettuce","peanuts","brushed teeth","work","touched tree"],"squirrel":false},
@@ -94,4 +94,4 @@ var THREE_MONTHS = [
 // This makes sure the data is exported in node.js —
 // `require('./path/to/04_data.js')` will get you the array.
 if (typeof module != "undefined" && module.exports)
-  module.exports = THREE_MONTHS;
+  module.exports = JOURNAL;

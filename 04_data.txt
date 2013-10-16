@@ -1,15 +1,14 @@
 :chap_num: 4
 :prev_link: 03_functions
 :next_link: 05_higher_order
-:load_file: 04_data
+:load_files: ["js/code/jaques_journal.js", "js/04_data.js"]
 
 = Data Structures: Object and Array =
 
 (((data)))Numbers, booleans, and strings are the bricks that data
-structures are built from. But you can't make a very interesting
-structures out of a single brick. Objects allow us to group values,
-including other objects, together, in order to build complex, useful
-structures out of them.
+structures are built from. But you can't make much of a house out of a
+single brick. Objects allow us to group values—including other
+objects—together, and thus build more complex structures out of them.
 
 The programs we have built so far have been seriously hampered by the
 fact that they were only operating on simple data types. This chapter
@@ -41,19 +40,18 @@ bushy tail.
 One the one hand, Jaques is quite glad that he doesn't have classical
 lycantropy. Turning into a squirrel tends to cause less problems than
 turning into a wolf. Instead of having to worry about accidentally
-eating the neighbor (that would be extremely awkward), he worries
-about being eaten by the neighbor's cat. After two occasions where he
-woke up on a precariously thin branch in the crown of an oak, naked
-and disoriented, he has taken to locking the doors and windows of his
-room at night, and putting a few walnuts on the floor to keep himself
-busy.
+eating the neighbor (_that_ would be awkward), he worries about being
+eaten by the neighbor's cat. After two occasions where he woke up on a
+precariously thin branch in the crown of an oak, naked and
+disoriented, he has taken to locking the doors and windows of his room
+at night, and putting a few walnuts on the floor to keep himself busy.
 
 That takes care of the cat and oak problems. But Jaques still suffers
 from his condition. The irregular occurrences of the transformation
 make him suspect that there might be some trigger that causes them to
 happen. For a while, he believed that it only happened on days when he
 had touched trees. So he stopped touching trees entirely, and even
-avoided going near them. But the problem persisted.
+avoided going near them. But the problem persisted anyway.
 
 Switching to a more scientific approach, Jaques intends to start
 keeping a daily log of the things he did that day, and whether he
@@ -70,14 +68,14 @@ find a way to represent it in our machine's memory. Say, as a very
 simple example, that we want to represent a collection of numbers.
 
 We could get creative with strings—strings can have any length, so you
-can put a lot of data into them, and for example use `"2 3 5 7 11"` as
-our representation. But that's awkward, you'd have to extract the
-digits and convert them to a number to access them.
+can put a lot of data into them—and use `"2 3 5 7 11"` as our
+representation. But that is awkward. You'd have to somehow extract the
+digits and convert them back to a number to access them.
 
 (((Array type)))((([] (array))))Fortunately, JavaScript provides a
-data type specifically for storing lists of values. It is called
+data type specifically for storing sequences of values. It is called
 _((array))_, and it is written as a list of values between square
-brackets.
+brackets, separated by commas.
 
 [source,javascript]
 ----
@@ -115,6 +113,8 @@ of mathematics-related values and functions).
 properties. The exceptions are `null` and `undefined`. If you try to
 access a property on one of these non-values, you get an error.
 
+// test: no
+
 [source,javascript]
 ----
 null.length;
@@ -125,8 +125,8 @@ null.length;
 amount of elements in the array. In fact, the elements in the array
 are also accessed through properties. The `value[index]` notation is
 another way to access properties. Instead of directly giving the name
-of the property, an expression is evaluated to produce the name of the
-property. We could also do this:
+of the property, an expression is evaluated to produce the name. We
+could also do this:
 
 [source,javascript]
 ----
@@ -136,9 +136,9 @@ console.log("abcd"["len" + "gth"]);
 
 Property names can be any string, but the dot notation for accessing
 properties only works when the property name is a valid variable name.
-So you can write `something.abc` but not `something.two words`—because
-`"two words"` has a space, you'd have to write `something["two
-words"]`.
+So you can write `something.abc` but not ++something.two
+words++—because `"two words"` has a space, you'd have to write
+`something["two words"]`.
 
 == Methods ==
 
@@ -150,9 +150,9 @@ to function values.
 ----
 var doh = "Doh";
 console.log(typeof doh.toUpperCase);
-→ "function"
+// → function
 console.log(doh.toUpperCase());
-→ "DOH"
+// → DOH
 ----
 
 (((toUpperCase method)))(((toLowerCase method)))Every string has a
@@ -163,11 +163,13 @@ is also `toLowerCase`. You can guess what that does.
 Interestingly, even though the call to `toUpperCase` does not pass any
 arguments, the function does somehow have access to the string
 `"Doh"`, the value of which it is a property. How this works precisely
-is described in REF(oo).
+is described in chapter 6.
 
 Properties that contain functions are generally called _methods_ of
-the value they belong to, as in “`toUpperCase` is a method of a
-string.” This example demonstrates some methods of array objects:
+the value they belong to. As in “`toUpperCase` is a method of a
+string.”
+
+This example demonstrates some methods that array objects have:
 
 [source,javascript]
 ----
@@ -177,9 +179,9 @@ mack.push("the", "Knife");
 console.log(mack);
 // → ["Mack", "the", "Knife"]
 console.log(mack.join(" "));
-// → "Mack the Knife"
+// → Mack the Knife
 console.log(mack.pop());
-// → "Knife"
+// → Knife
 console.log(mack);
 // → ["Mack", "the"]
 ----
@@ -194,12 +196,13 @@ array's elements.
 
 == Objects ==
 
-A set of daily log entries can be represented as an array. But the
-entries do not consist of just a number or string—each entry needs to
-store a list of activities, and a boolean value that indicates whether
-Jaques turned into a squirrel. A practical representation needs to
-group these values together into a single value, and then put such
-grouped values into the array of entries.
+Back to the weresquirrel. A set of daily log entries can be
+represented as an array. But the entries do not consist of just a
+number or string—each entry needs to store a list of activities, and a
+boolean value that indicates whether Jaques turned into a squirrel. A
+practical representation needs to group these values together into a
+single value, and then put such grouped values into the array of
+entries.
 
 (((Object type)))Values of the type _((object))_ are arbitrary
 collections of properties, that we can add properties to (and remove
@@ -209,9 +212,9 @@ a curly brace notation:
 [source,javascript]
 ----
 var day1 = {
-    squirrel: false,
-    events: ["work", "touched tree", "pizza",
-             "running", "television"]
+  squirrel: false,
+  events: ["work", "touched tree", "pizza", "running",
+           "television"]
 };
 console.log(day1.squirrel);
 // → false
@@ -253,11 +256,10 @@ tentacles, each of which has a name inscribed on it.
 image::img/object-octopus.svg[alt="Artist's representation of an object"]
 
 (((delete operator)))(((property,deletion)))To cut off such a
-leg—remove a property from an object—the `delete` operator can be
+leg—removing a property from an object—the `delete` operator can be
 used. This is a unary operator that, when applied to a property access
 expression, will remove the named property from the object. (Which is
-not a very common thing to do in practice, but you should be aware
-that it is possible.)
+not a very common thing to do in practice, but it is allowed.)
 
 [source,javascript]
 ----
@@ -288,7 +290,7 @@ with all their arms in a neat row, labeled with numbers.
 
 image::img/array-octopus.svg[alt="Artist's representation of an array"]
 
-The desired representation of Jaques' journal is thus an array of
+The desired representation of Jaques’ journal is thus an array of
 objects.
 
 [source,javascript]
@@ -334,16 +336,16 @@ var object1 = {value: 10};
 var object2 = object1;
 var object3 = {value: 10};
 
-object1 == object2;
-→ true
-object1 == object3;
-→ false
+console.log(object1 == object2);
+// → true
+console.log(object1 == object3);
+// → false
 
 object1.value = 15;
-object2.value;
-→ 15
-object3.value;
-→ 10
+console.log(object2.value);
+// → 15
+console.log(object3.value);
+// → 10
 ----
 
 `object1` and `object2` are two variables grasping the _same_ value.
@@ -356,19 +358,20 @@ another object, which initially contains the same properties as
 will return `true` only if both values given to it are the precise
 same value. Comparing different object with identical contents will
 give `false`. There is no “deep” comparison operation built into
-JavaScript, but it is possible to write it yourself. More about that
-later on.
+JavaScript, but it is possible to write it yourself.
 
 == The lycantrope's log ==
 
 So Jaques starts up his JavaScript interpreter, and sets up the
 environment he needs to keep his journal.
 
+// include_code
+
 [source,javascript]
 ----
 var journal = [];
 
-function entry(events, didITurnIntoASquirrel) {
+function addEntry(events, didITurnIntoASquirrel) {
   journal.push({
     events: events,
     squirrel: didITurnIntoASquirrel
@@ -381,19 +384,19 @@ climbing down from the top shelf of his bookcase—the day is recorded.
 
 [source,javascript]
 ----
-entry(["work", "touched tree", "pizza", "running",
-       "television"], false);
-entry(["work", "ice cream", "cauliflower", "lasagna",
-       "touched tree", "brushed teeth"], false);
-entry(["weekend", "cycling", "break", "peanuts",
-       "beer"], true);
+addEntry(["work", "touched tree", "pizza", "running",
+          "television"], false);
+addEntry(["work", "ice cream", "cauliflower", "lasagna",
+          "touched tree", "brushed teeth"], false);
+addEntry(["weekend", "cycling", "break", "peanuts",
+          "beer"], true);
 ----
 
 Once he has enough data points, he intends to compute the correlation
 between the squirrelification and each of the day events he recorded,
 and hopefully learn something useful from those correlations.
 
-Correlation is a measure of dependence between variables (‘variables’
+Correlation is a measure of dependence between variables (“variables”
 in the statistical sense, not the JavaScript sense). It is usually
 expressed in a coefficient that ranges from -1 to 1. Zero correlation
 means the variables are not related, whereas a correlation of one
@@ -403,11 +406,11 @@ related, but that they are opposite to each other—when one of them is
 true, the other is false.
 
 (((phi coefficient)))For binary (boolean) variables, the phi
-coefficient provides a good, and relatively easy to compute, measure
-of correlation. First we need a matrix n, which indicates the amount
-of times the various combinations of the two variables were observed.
-For example, we could take the event of eating pizza, and put that in
-a table like this:
+coefficient provides a good measure of correlation, and is relatively
+easy to compute. First we need a matrix _n_, which indicates the
+amount of times the various combinations of the two variables were
+observed. For example, we could take the event of eating pizza, and
+put that in a table like this:
 
 image::img/pizza-squirrel.svg[alt="Eating pizza versus turning into a squirrel"]
 
@@ -433,32 +436,31 @@ endif::html_target[]
 
 ifdef::tex_target[]
 
-++++
-\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}
-++++
+latexmath:[\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}]
 
 endif::tex_target[]
 
 Where n~01~ indicates the number of measurements where the first
 measurement (pizza) is false (0), and the second (squirrelness) is
-true (1), so 5 in this case. n~1•~ refers to the sum of all
+true (1), so 4 in this case. n~1•~ refers to the sum of all
 measurements where the first variable is true, which is 10 in the
 above table.
 
 So for the pizza table, the part above the division line (dividend)
-would be 1×75 - 9×5 = 30, and the part below it (divisor) would be the
-square root of 10×80×6×84 = √403200. The actual coefficient then
-becomes about 0.047, which is tiny. Eating pizza does not appear to
-have influence on the transformations.
+would be 1×76 - 9×4 = 40, and the part below it (divisor) would be the
+square root of 10×80×5×85 = √340000. The actual coefficient then
+becomes about 0.069, which is tiny, and thus likely to be random
+noise. Eating pizza does not appear to have influence on the
+transformations.
 
 == Computing correlation ==
 
-We can represent a two-by-two table with a four-element array (`[75,
-5, 9, 1]`). Other representations are possible, such as an array
-containing two two-element arrays (`[[75, 5], [9, 1]]`), or an object
+We can represent a two-by-two table with a four-element array (`[76,
+9, 4, 1]`). Other representations are possible, such as an array
+containing two two-element arrays (`[[76, 9], [4, 1]]`), or an object
 with property names like `"11"` and `"01"`, but the flat array is
 straightforward enough, and makes the expressions that access the
-table pleasantly succinct. We'll interpret the indices to the array as
+table pleasantly short. We'll interpret the indices to the array as
 two-bit binary numbers, where the 1 component refers to event
 variable, and the 2 component refers to the squirrel variable. I.e. 2
 is written in binary as 10, meaning it refers to the field where the
@@ -466,6 +468,9 @@ event (say, pizza) is true, but Jaques did not turn into a squirrel.
 
 (((phi coefficient)))This is the function that computes a phi
 coefficient from such an array:
+
+// test: clip
+// include_code strip_log
 
 [source,javascript]
 ----
@@ -477,8 +482,8 @@ function phi(table) {
               (table[0] + table[2]));
 }
 
-console.log(phi([75, 5, 9, 1]));
-// → 0.047245562
+console.log(phi([76, 9, 4, 1]));
+// → 0.068599434
 ----
 
 (((square root)))(((sqrt function)))This is simply a less elegant
@@ -489,14 +494,16 @@ because the sums of rows or columns are not stored directly in our
 data structure.
 
 Jaques kept his journal for three months. The resulting data set is
-available in the coding sandbox for this chapter
-ifdef::tex_target[(`eloquentjavascript.net/code`)], where it is stored
-in the `THREE_MONTHS` variable, as well as in a downloadable
+available in the coding sandbox for this chapter!!tex  (`eloquentjavascript.net/code`)!!,
+where it is stored
+in the `JOURNAL` variable, as well as in a downloadable
 http://eloquentjavascript.net/code/jaques_journal.js[file].
 
 To extract a two-by-two table for a specific event from this journal,
 we must loop over all the entries and tally the frequencies with which
 the event occurs in relation to squirrel transformations.
+
+// include_code strip_log
 
 [source,javascript]
 ----
@@ -506,7 +513,7 @@ function hasEvent(event, entry) {
 
 function tableFor(event, journal) {
   var table = [0, 0, 0, 0];
-  for (var i = 0; i < journal.length; ++i) {
+  for (var i = 0; i < journal.length; i++) {
     var entry = journal[i], index = 0;
     if (hasEvent(event, entry)) index += 1;
     if (entry.squirrel) index += 2;
@@ -515,11 +522,11 @@ function tableFor(event, journal) {
   return table;
 }
 
-console.log(tableFor("pizza", THREE_MONTHS));
-// → [75, 5, 9, 1]
+console.log(tableFor("pizza", JOURNAL));
+// → [76, 9, 4, 1]
 ----
 
-The `hasEvent` function makes it easier (and more readable) to check
+The `hasEvent` function makes it easier (and more readable) to test
 whether an entry contains a given event. Arrays have an `indexOf`
 method that tries to find the given value (in this case, the event
 name) in the array, and returns the index at which it was found—or -1
@@ -569,8 +576,8 @@ console.log(ages["Simon"])
 ----
 
 There are a few potential problems with using objects like this, which
-we will discuss in chapter REF(oo), but for the time being, we won't
-worry about those.
+we will discuss in chapter 6, but for the time being, we won't worry
+about those.
 
 (((for/in loop)))What if we want to find all the people whose ages we
 have stored? The properties don't form a predictable series, like they
@@ -583,8 +590,8 @@ normal `for` loop, but distinguishes itself by the use of the word
 ----
 for (var name in ages)
   console.log(name + " is " + ages[name] + " years old");
-// → "Larry"
-// → "Simon"
+// → Larry is 58 years old
+// → Simon is 55 years old
 ----
 
 So if we create a big object whose properties are named by the events
@@ -595,65 +602,72 @@ we can uses `for`/`in` loop to further inspect them.
 
 To find all the types of events that are present in the data set, we
 simply process each entry in turn, and then loop over the events in
-that entry. We keep an object `numbers` that has correlation
+that entry. We keep an object `phis` that has correlation
 coefficients for all the event types we have seen so far. Whenever we
 run across a type that we didn't see before—that isn't in the
-`numbers` object yet—we compute its correlation and add it to the
+`phis` object yet—we compute its correlation and add it to the
 object.
+
+// test: clip
+// include_code strip_log
 
 [source,javascript]
 ----
 function gatherCorrelations(journal) {
-  var numbers = {};
+  var phis = {};
   for (var entry = 0; entry < journal.length; ++entry) {
     var events = journal[entry].events;
-    for (var i = 0; i < events.length; ++i) {
+    for (var i = 0; i < events.length; i++) {
       var event = events[i];
-      if (!(event in tables))
-        tables[event] = phi(tableFor(event, journal));
+      if (!(event in phis))
+        phis[event] = phi(tableFor(event, journal));
     }
   }
-  return numbers;
+  return phis;
 }
 
-var correlations = gatherCorrelations(THREE_MONTHS);
+var correlations = gatherCorrelations(JOURNAL);
 console.log(correlations.pizza);
-// → 0.047245562
+// → 0.068599434
 ----
 
 Let us see what came out.
+
+// test: no
 
 [source,javascript]
 ----
 for (var event in correlations)
   console.log(event + ": " + correlations[event]);
-// → carrot:   0.014097096860865023
-// → exercise: 0.06859943405700354
-// → weekend:  0.13719886811400708
-// → bread:   -0.07575540190785703
-// → pudding: -0.06482037235521644
+// → carrot:   0.0140970969
+// → exercise: 0.0685994341
+// → weekend:  0.1371988681
+// → bread:   -0.0757554019
+// → pudding: -0.0648203724
 // and so on...
 ----
 
-Most correlations seem to lie very close to zero. Eating carrots,
-bread, or pudding apparently does not trigger squirrel-lycantropy. It
-does seem to occur somewhat more often on weekends. Let's filter the
-results to only show correlations above 0.1.
+Most correlations seem to lie close to zero. Eating carrots, bread, or
+pudding apparently does not trigger squirrel-lycantropy. It does seem
+to occur somewhat more often on weekends. Let's filter the results to
+only show correlations greater than 0.1 (or smaller than -0.1).
+
+// test: no
 
 [source,javascript]
 ----
 for (var event in correlations) {
   var correlation = correlations[event];
-  if (correlation > 0.1)
+  if (correlation > 0.1 || correlation < -0.1)
     console.log(event + ": " + correlation);
 }
-// → weekend:        0.13719886811400708
-// → brushed teeth: -0.3805211953235953
-// → candy:          0.12964074471043288
-// → work:          -0.13719886811400708
-// → spagetti:       0.242535625036333
-// → reading:        0.11068280537595927
-// → peanuts:        0.59026798116852
+// → weekend:        0.1371988681
+// → brushed teeth: -0.3805211953
+// → candy:          0.1296407447
+// → work:          -0.1371988681
+// → spaghetti:      0.2425356250
+// → reading:        0.1106828054
+// → peanuts:        0.5902679812
 ----
 
 A-ha! There are two factors whose correlation is clearly stronger than
@@ -665,13 +679,13 @@ Interesting. Let us try something.
 
 [source,javascript]
 ----
-for (var i = 0; i < THREE_MONTHS.length; ++i) {
-  var entry = THREE_MONTHS[i];
+for (var i = 0; i < JOURNAL.length; i++) {
+  var entry = JOURNAL[i];
   if (hasEvent("peanuts", entry) &&
      !hasEvent("brushed teeth", entry))
     entry.events.push("peanut teeth");
 }
-console.log(phi(tableFor("peanut teeth", THREE_MONTHS)));
+console.log(phi(tableFor("peanut teeth", JOURNAL)));
 // → 1
 ----
 
@@ -682,14 +696,15 @@ affliction.
 
 Having found this result, Jaques simply stopped eating peanuts
 altogether, and found that this completely put an end to his
-transformations. All was well for a while, but then, a few years
-later, he lost his job. Things went downhill, and he was forced to
-take employment with a circus, performing as The Incredible
-Squirrelman by stuffing his mouth with peanut butter before every show.
-One day, fed up with this depressing, pitiful existence, Jaques simply
-failed to change back into his human form, hopped through a crack in
-the circus tent, and vanished into the forest. He has not been seen
-again.
+transformations.
+
+All was well for a while, but a few years later, he lost his job.
+Things went downhill, and he was forced to take employment with a
+circus, performing as _The Incredible Squirrelman_ by stuffing his
+mouth with peanut butter before every show. One day, fed up with this
+depressing, pitiful existence, Jaques simply failed to change back
+into his human form, hopped through a crack in the circus tent, and
+vanished into the forest. He has not been seen again.
 
 == Further arrayology ==
 
@@ -740,7 +755,7 @@ When the end index is not given, `slice` will take all of the elements
 after the start index. Strings, by the way, also have a `slice`
 method, which has a similar effect.
 
-(((concat method)))To glue arrays together, similar to what the `+`
+(((concat method)))To glue arrays together, similar to what the “+”
 operator does for strings, their `concat` method can be used. This
 example function takes an array and an index, and returns a new array
 that is the input array, but with the element at the given index
@@ -749,7 +764,8 @@ missing.
 [source,javascript]
 ----
 function remove(array, index) {
-  return array.slice(0, index).concat(array.slice(index + 1));
+  return array.slice(0, index)
+    .concat(array.slice(index + 1));
 }
 console.log(remove([1, 2, 3, 4, 5], 2));
 // → [1, 2, 4, 5]
@@ -761,7 +777,7 @@ console.log(remove([1, 2, 3, 4, 5], 2));
 called, a special “magic” variable named `arguments` is added to the
 environment in which the function body runs. This variable refers to
 an object that holds all of the arguments passed to the function.
-Remember that in JavaScript it is allowed to pass more—or
+Remember that in JavaScript you are allowed to pass more—or
 less—arguments to a function than the amount of parameters the
 function itself declares.
 
@@ -785,22 +801,23 @@ or `indexOf`), so it is a little harder to use than a real array.
 [source,javascript]
 ----
 function argumentCounter() {
-  console.log("You gave me " + arguments.length + " arguments.");
+  console.log("You gave me", arguments.length,
+              "arguments.");
 }
 argumentCounter("Straw man", "Tautology", "Ad hominem");
-// → "You gave me 3 arguments."
+// → You gave me 3 arguments.
 ----
 
 (((console.log function)))(((variadic function)))Some functions can
 take any number of arguments, like `console.log` does. These typically
 loop over the values in their `arguments` object. They can be used to
-create very pleasant interfaces. For example, the entries to Jaques'
+create very pleasant interfaces. For example, the entries to Jaques’
 journal were created with calls like this:
 
 [source,javascript]
 ----
-entry(["work", "touched tree", "pizza", "running",
-       "television"], false);
+addEntry(["work", "touched tree", "pizza", "running",
+          "television"], false);
 ----
 
 Since he is going to be calling this function a lot, we could create a
@@ -808,14 +825,14 @@ slightly nicer alternative:
 
 [source,javascript]
 ----
-function entry(squirrel) {
+function addEntry(squirrel) {
   var entry = {events: [], squirrel: squirrel};
-  for (var i = 1; i < arguments.length; ++i)
+  for (var i = 1; i < arguments.length; i++)
     entry.events.push[arguments[i]];
   journal.push(entry);
 }
-entry(true, "work", "touched tree", "pizza",
-      "running", "television");
+addEntry(true, "work", "touched tree", "pizza",
+         "running", "television");
 ----
 
 This reads its first argument (`squirrel`) in the normal way, and then
@@ -836,7 +853,7 @@ useful as a value. Rather, it provides a _namespace_, so that all
 these functions and values do not have to be global variables.
 
 Having too many global variables “pollutes” the namespace. The more
-names that have been taken, the more likely one is to accidentally
+names have been taken, the more likely you are to accidentally
 overwrite the value of some variable. For example, it is not a far
 shot to want to name something `max` in one of our programs.
 
@@ -847,11 +864,14 @@ neither, so be careful.
 (((trigonometry)))(((cos function)))(((sin function)))(((tan
 function)))(((acos function)))(((asin function)))(((atan
 function)))(((PI constant)))Back to the `Math` object. If you need to
-do trigonometry, `Math` will help. It contains `cos`, `sin`, `tan`,
-`acos`, `asin`, and `atan` functions. The number π (pi)—or at least
-the closest approximation that fits in a JavaScript number—is
-available as `Math.PI` (there is an old programming tradition of
-writing the names of constant values in all caps).
+do trigonometry, `Math` will help. It contains `cos` (cosine), `sin`
+(sine), `tan` (tangent), `acos`, `asin`, and `atan` functions. The
+number π (pi)—or at least the closest approximation that fits in a
+JavaScript number—is available as `Math.PI` (there is an old
+programming tradition of writing the names of constant values in all
+caps).
+
+// test: no
 
 [source,javascript]
 ----
@@ -870,6 +890,8 @@ don't worry, this book won't go into any complicated math.
 (((random function)))The example above uses `Math.random`. This is a
 function that returns a new pseudo-random number between zero
 (inclusive) and one (exclusive) every time you call it.
+
+// test: no
 
 [source,javascript]
 ----
@@ -895,6 +917,8 @@ will be different.
 fractional one, we can use `Math.floor` on the result of
 `Math.random`.
 
+// test: no
+
 [source,javascript]
 ----
 console.log(Math.floor(Math.random() * 10));
@@ -912,7 +936,7 @@ nearest whole number).
 
 == Summary ==
 
-Object and arrays provide ways to group several values into a single
+Objects and arrays provide ways to group several values into a single
 value. Conceptually, this allows us to put a bunch of related things
 in a bag, and run around with the bag, instead of trying to wrap our
 arms around all of the individual things and trying to hold on to
@@ -939,10 +963,12 @@ useful programs.
 The introduction of this book alluded to this program being a very
 nice way to compute the sum of a range of numbers:
 
+// test: no
+
 [source,javascript]
------
+----
 console.log(sum(range(1, 10)));
------
+----
 
 Write a `range` function that takes two arguments, `start` and `end`,
 and returns an array containing all the numbers from `start` up to
@@ -959,15 +985,30 @@ corresponding to the old behavior. The call `range(1, 10, 2)` should
 return `[1, 3, 5, 7, 9]`. Make sure it also works with negative step
 values—so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
 
-''''
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+console.log(sum(range(1, 10)));
+// → 55
+console.log(range(5, 2, -1));
+// → [5, 4, 3, 2]
+----
+endif::html_target[]
+
+!!solution!!
 
 Building up an array is easiest done by first initializing a variable
 to `[]` (a fresh, empty array), and then repeatedly calling its `push`
 method to add a value. Don't forget to return it at the end of the
 function.
 
-Since the end boundary is _inclusive_, you'll need to use the `<=`
-operator rather than simply `<` to check for the end of your loop.
+Since the end boundary is _inclusive_, you'll need to use the “\<=”
+operator rather than simply “<” to check for the end of your loop.
 
 To check whether an optional argument was given, either check
 `arguments.length` or compare the value of the argument to
@@ -977,12 +1018,14 @@ To check whether an optional argument was given, either check
 Having `range` understand negative step values is probably best done
 by writing two separate loops, one for counting up, and one for
 counting down, because the comparison that checks whether the loop is
-finished needs to be `>=` rather than `<=` when counting downwards.
+finished needs to be “>=” rather than “\<=” when counting downwards.
 
 It might also be worthwhile to use a different default step, namely
 -1, when the end of the range is smaller than the start. That way,
 `range(5, 2)` returns something meaningful, rather than getting stuck
 in an infinite loop.
+
+!!solution!!
 
 === Reversing an array ===
 
@@ -999,7 +1042,24 @@ Thinking back to the notes about side effects and pure functions in
 the previous chapter, which variant do you expect to be useful in more
 situations? Which one is more efficient?
 
-''''
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+console.log(reverseArray(["A", "B", "C"]));
+// → ["C", "B", "A"];
+var arrayValue = [1, 2, 3, 4, 5];
+reverseArrayInPlace(arrayValue);
+console.log(arrayValue);
+// → [5, 4, 3, 2, 1]
+----
+endif::html_target[]
+
+!!solution!!
 
 There are two obvious solutions to implementing `reverseArray`. The
 first is to simply go over the array front-to-back and use the
@@ -1024,6 +1084,8 @@ briefly hold on to one of the elements, overwrite that one with its
 mirror image, and then put the value from the local variable in the
 place where the mirror image used to be.
 
+!!solution!!
+
 === A list ===
 
 (((list (data structure))))(((linked list)))Objects, by being generic
@@ -1032,6 +1094,8 @@ common data structure is the _list_ (not to be confused with the
 array). A list is a set of objects, with the first object holding a
 reference (in a property) to the second, the second to the third, and
 so on.
+
+// include_code
 
 [source,javascript]
 ----
@@ -1065,7 +1129,26 @@ element.
 
 If you hadn't already, also write a recursive version of `nth`.
 
-'''
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+console.log(arrayToList([1, 2]));
+// → {value: 1, rest: {value: 2, rest: null}}
+console.log(listToArray(arrayToList([1, 2, 3])));
+// → [1, 2, 3]
+console.log(prepend(1, prepend(2, null)));
+// → {value: 1, rest: {value: 2, rest: null}}
+console.log(nth(arrayToList([1, 2, 3]), 1));
+// → 2
+----
+endif::html_target[]
+
+!!solution!!
 
 Building up a list is best done back-to-front. So `arrayToList` could
 iterate over the array backwards (see previous exercise), and for each
@@ -1086,3 +1169,64 @@ similarly, look at an ever smaller part of the “tail” of the list, and
 at the same time count down the index until it reaches zero (at which
 point it can return the `value` property of the node it is looking
 at).
+
+!!solution!!
+
+=== Deep comparison ===
+
+The “==” operator compares objects by identity. Sometimes, you would
+prefer to compare the values of their actual properties.
+
+Write a function `deepEqual` that takes two values, and returns true
+only if they are the same value, or objects with the same properties
+whose values are equal, when compared with a recursive call to
+`deepEqual`.
+
+To find out whether to compare something by identity (use the “===”
+operator for that) or by looking at its properties, you can test
+whether applying the `typeof` operator on it produces `"object"`. But
+you have to take one silly exception into account, because (through a
+historical accident), `typeof null` also produces `"object"`.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+var obj = {here: {is: "an"}, object: 2};
+console.log(deepEqual(obj, obj));
+// → true
+console.log(deepEqual(obj, {here: 1, object: 2}));
+// → false
+console.log(
+  deepEqual(obj, {here: {is: "an"}, object: 2}));
+// → true
+----
+endif::html_target[]
+
+!!solution!!
+
+Your test for whether you are dealing with a real object will look
+something like `typeof x == "object" && x != null`. Be careful to only
+compare properties when _both_ arguments are objects. In all other
+cases you can simply immediately return the result of applying “===”.
+
+Use a `for`/`in` loop to go over the properties. You need to both test
+whether both objects have the same set of property names, and that
+those properties have identical values. The first could be done by
+counting the properties in both objects, ensuring that they have the
+same amount, and then go over the properties of one object, and for
+each of them, verify that the other object has the property. The
+values of the properties are simply compared by a recursive call to
+`deepEqual`.
+
+Returning the right value from the function, when comparing
+properties, is best done by immediately returning false when a
+mismatch is noticed, and returning true at the end of the function,
+which will (because `return` will jump out of the function) only be
+reached when no mismatch was found.
+
+!!solution!!

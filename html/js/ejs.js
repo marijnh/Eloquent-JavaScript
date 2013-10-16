@@ -4,15 +4,18 @@ window.addEventListener("load", function() {
 
   var sandbox;
   function resetSandbox() {
-    sandbox = new SandBox({loadFiles: window.sandboxLoadFile && [window.sandboxLoadFile]});
+    sandbox = new SandBox({loadFiles: window.sandboxLoadFiles});
     window.sandbox = sandbox;
   }
   resetSandbox();
 
   document.body.addEventListener("click", function(e) {
-    for (var n = e.target; n; n = n.parentNode)
+    for (var n = e.target; n; n = n.parentNode) {
       if (n.nodeName == "PRE" && n.getAttribute("data-language") == "javascript")
         return activateCode(n, e);
+      if (n.nodeName == "DIV" && n.className == "solution")
+        n.className = "solution open";
+    }
   });
 
   function elt(type, attrs) {
@@ -47,8 +50,11 @@ window.addEventListener("load", function() {
     var editor = CodeMirror(wrap, {
       value: code,
       mode: "javascript",
-      extraKeys: keyMap
+      extraKeys: keyMap,
+      matchBrackets: true
     });
+    wrap.style.margin = "0 -5em";
+    setTimeout(function() { editor.refresh(); }, 600);
     editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
     editor.focus();
     var out = wrap.appendChild(elt("div", {"class": "sandbox-output"}));
@@ -85,11 +91,7 @@ window.addEventListener("load", function() {
 
   function runCode(data) {
     data.output.clear();
-    var code = data.editor.getValue();
-    // Chapter 1 has console-log-less output
-    if (window.chapNum == 1)
-      code = code.replace(/(\n|^)(.*[^;}])(\s*$|\n\/\/ →)/g, "$1console.log($2);$3");
-    sandbox.run(code, data.output);
+    sandbox.run(data.editor.getValue(), data.output);
   }
 
   function closeCode(data) {

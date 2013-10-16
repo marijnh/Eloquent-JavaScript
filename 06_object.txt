@@ -1,0 +1,1084 @@
+:chap_num: 6
+:prev_link: 05_higher_order
+:next_link: 07_elife
+:load_files: ["js/code/mountains.js", "js/06_object.js"]
+
+= The Secret Life of Objects =
+
+When a programmer says “object”, that term is loaded. Objects, in my
+profession, are a way of life, the subject of several holy wars, and a
+beloved buzzword that still hasn't quite lost its power.
+
+To an outsider, that is probably a little confusing. Let us start with
+a brief history of objects as a programming construct.
+
+== History ==
+
+(((object-oriented programming)))(((object)))This story, like many
+stories in this field, starts with the problem of controlling
+complexity. One philosophy is that this complexity can be made
+manageable by separating it into small compartments that are isolated
+from each other. These compartments ended up with the name “objects.”
+
+(((encapsulation)))(((method)))(((interface)))An object is a hard
+shell that encapsulates the gooey complexity inside of it, and instead
+offers us a few of knobs and connectors (think methods) that present
+an _interface_ through which the object is to be used. The idea is
+that the interface is relatively simple, and all the complex things
+going on _inside_ of the object can be ignored when working with it.
+
+As an example, you can imagine an object that provides an interface to
+an area on your screen. It provides a way to draw shapes or text onto
+this area, but hides all the details of how these shapes are converted
+to the actual pixels that make up the screen. You'd have a set of
+methods, for example `drawCircle`, and those are the only thing you
+need to know in order to use such an object.
+
+These ideas were initially worked out in the 1970s and 80s, and, in
+the 90s, were carried up by a huge wave of hype—the object-oriented
+programming revolution. Suddenly, there was a large tribe of people
+declaring that objects were the _right_ way to program, and that
+anything that did not involve objects was outdated nonsense.
+
+That kind of zealotry always produces a lot of impractical silliness,
+and there has been a sort of counter-revolution since then which has,
+in many circles, given objects a bad reputation.
+
+I feel it is preferable to look at the issue from a practical, rather
+than ideological angle. There are several very useful concepts, most
+importantly that of _encapsulation_ (distinguishing between internal
+complexity and external interface), that the object-oriented culture
+has popularized. These are worth studying.
+
+This chapter describes JavaScript's rather eccentric take on objects,
+and the way they relate to some classical object-oriented techniques.
+
+== Methods ==
+
+(((rabbit example)))(((method)))(((property)))Methods are simply
+properties that hold function values. This is a very simple method:
+
+[source,javascript]
+----
+var rabbit = {};
+rabbit.speak = function(line) {
+  console.log("The rabbit says '" + line + "'");
+};
+
+rabbit.speak("I'm alive.");
+// → The rabbit says 'I'm alive.'
+----
+
+(((this variable)))Usually a method needs to know about the object it
+is acting on. For example, if there are different rabbits, the `speak`
+method must indicate which rabbit is speaking.
+
+When a function is called as a method—when it is looked up as a
+property and immediately called, as in ++object.method()++—the special
+variable `this` in its body will point to the object that it was
+called on.
+
+// test: join
+// include_code top_lines:6
+
+[source,javascript]
+----
+function speak(line) {
+  console.log("The " + this.type + " rabbit says '" +
+              line + "'");
+}
+var whiteRabbit = {type: "white", speak: speak};
+var fatRabbit = {type: "fat", speak: speak};
+
+whiteRabbit.speak(
+  "Oh my ears and whiskers, how late it's getting!");
+// → The white rabbit says 'Oh my ears and whiskers, how
+//    late it's getting!'
+fatRabbit.speak("I could sure use a carrot right now.");
+// → The fat rabbit says 'I could sure use a carrot
+//   right now.'
+----
+
+The code uses the `this` variable to output the type of rabbit that is
+speaking.
+
+(((apply method)))(((bind method)))So the first argument to the
+`apply` and `bind` methods on functions is in fact used to give a
+value to `this`.
+
+There is a method similar to `apply`, called `call`, which also calls
+the function, but takes its arguments normally, rather than as an
+array. It is used to call a function with with a specific `this`
+value.
+
+[source,javascript]
+----
+speak.apply(fatRabbit, ["Burp!"]);
+// → The fat rabbit says 'Burp!'
+speak.call({type: "old"}, "Oh my.");
+// → The old rabbit says 'Oh my.'
+----
+
+== Prototypes ==
+
+(((toString method)))Watch closely.
+
+[source,javascript]
+----
+var empty = {};
+console.log(empty.toString);
+// → function toString(){…}
+console.log(empty.toString());
+// → [object Object]
+----
+
+I just pulled a property out of an empty object. Magic!
+
+(((prototype)))(((property)))Well, not really. I have simply been
+withholding some information on the way JavaScript objects work. In
+addition to their set of properties, almost all objects also have a
+_prototype_. A prototype is another object that is used as a fall-back
+source of properties. When a property is requested that an object does
+not have, its prototype will be searched for the property, and then
+the prototype of the prototype, and so on.
+
+(((Object.prototype)))So who is the prototype of that empty object? It
+is the great ancestral prototype, the entity behind almost all
+objects, he who is himself prototype-less. His name is
+`Object.prototype`.
+
+[source,javascript]
+----
+console.log(Object.getPrototypeOf({}) ==
+            Object.prototype);
+// → true
+console.log(Object.getPrototypeOf(Object.prototype));
+// → null
+----
+
+The prototype relations of JavaScript objects form a tree-shaped
+structure, and at the root of this structure sits `Object.prototype`.
+It provides a few methods that show up in all objects, such as
+`toString`, which converts an object to some string representation.
+
+Many objects don't directly have `Object.prototype` as their
+prototype, but instead have another object, which provides additional
+default properties. This prototype will itself have a prototype, so
+that it still indirectly provides methods like `toString`.
+
+Functions derive from `Function.prototype`, arrays from
+`Array.prototype`.
+
+[source,javascript]
+----
+console.log(Object.getPrototypeOf(isNaN) ==
+            Function.prototype);
+// → true
+console.log(Object.getPrototypeOf([]) ==
+            Array.prototype);
+// → true
+----
+
+The `Object.getPrototypeOf` function obviously returns the prototype
+of an object. You can use `Object.create` to create an object with a
+specific prototype.
+
+[source,javascript]
+----
+var protoRabbit = {
+  speak: function(line) {
+    console.log("The " + this.type + " rabbit says '" +
+                line + "'");
+  }
+};
+var killerRabbit = Object.create(protoRabbit);
+killerRabbit.type = "killer";
+killerRabbit.speak("SKREEEE!");
+// → The killer rabbit says 'SKREEEE!'
+----
+
+The proto rabbit contains the properties that are shared by all
+rabbits. The killer rabbit itself contains the properties that apply
+only to that object, in this case its type, and derives the shared
+properties from its prototype.
+
+== Constructors ==
+
+(((new operator)))(((this variable)))(((return
+keyword)))(((constructor)))A more convenient way to create objects
+that derive from some shared prototype is to use a _constructor_. In
+JavaScript, calling a function with the `new` keyword in front of it
+causes it to be treated as a constructor. It will have its `this`
+variable bound to a fresh object, and, unless it explicitly returns
+something else, this new object will be returned from the call.
+
+Here is a simple constructor for rabbits. It is convention to
+capitalize the names of constructors, so that they are easily
+distinguished from other functions.
+
+// include_code top_lines:6
+
+[source,javascript]
+----
+function Rabbit(type) {
+  this.type = type;
+}
+
+var killerRabbit = new Rabbit("killer");
+var blackRabbit = new Rabbit("black");
+console.log(blackRabbit.type);
+// → black
+----
+
+A constructor automatically gets a property `prototype`, which
+initially holds a plain object that derives from `Object.prototype`.
+New objects created with this constructor will get this object as
+their prototype. So to add a `speak` method to rabbits created with
+the `Rabbit` constructor, we can simply do this:
+
+// include_code top_lines:4
+
+[source,javascript]
+----
+Rabbit.prototype.speak = function(line) {
+  console.log("The " + this.type + " rabbit says '" +
+              line + "'");
+};
+blackRabbit.speak("Doom...");
+// → The black rabbit says 'Doom...'
+----
+
+An object created with `new` is said to be an _((instance))_ of its
+constructor.
+
+== Overriding derived properties ==
+
+(((property)))When you add a property to an object, whether it is
+present in the prototype or not, that property is added to the object
+itself, and the property by the same name in the prototype, if any,
+will no longer affect the object. The prototype itself is not changed.
+
+[source,javascript]
+----
+Rabbit.prototype.teeth = "small";
+console.log(killerRabbit.teeth);
+// → small
+killerRabbit.teeth = "long, sharp, and bloody";
+console.log(killerRabbit.teeth);
+// → long, sharp, and bloody
+console.log(blackRabbit.teeth);
+// → small
+----
+
+The following diagram sketches the situation after this code has run.
+The `Rabbit` and `Object` prototypes lie behind `killerRabbit` as a
+kind of backdrop, where properties that are not found in the object
+itself can be looked up.
+
+image::img/rabbits.svg[alt="Rabbit object prototype schema"]
+
+Overriding properties that exist in a prototype is often a useful
+thing to do. As the rabbit teeth example shows, it can be used to
+express exceptional properties in instances of a more generic class of
+objects, while letting the non-exceptional objects simply take a
+standard value from their prototype.
+
+It is also used to give the standard function and array prototypes a
+different `toString` method than the basic object prototype.
+
+[source,javascript]
+----
+console.log(Array.prototype.toString ==
+            Object.prototype.toString);
+// → false
+console.log([1, 2].toString());
+// → 1,2
+console.log(Object.prototype.toString.call([1, 2]));
+// → [object Array]
+----
+
+Calling `toString` on an array gives a result similar to calling
+`.join(",")` on it—it puts commas between the values in the array.
+Directly calling `Object.prototype.toString` with an array produces a
+different string. That function doesn't know about arrays, it simply
+puts the word “object” and the name of the type between square
+brackets.
+
+== Prototype interference ==
+
+A prototype can be used at any time to add new properties and methods
+to all objects based on it. For example, it might become necessary for
+our rabbits to dance.
+
+[source,javascript]
+----
+Rabbit.prototype.dance = function() {
+  console.log("The " + this.type + " rabbit dances a jig.");
+};
+killerRabbit.dance();
+// → The killer rabbit dances a jig.
+----
+
+That's very convenient. But there are situations where it causes
+problems. In the previous chapter, we used an object as a way to
+associate values with names by creating properties for the names and
+giving them the corresponding value as value. Here's a similar example
+from chapter 4:
+
+// include_code
+
+[source,javascript]
+----
+var ages = {};
+function storeAge(name, age) {
+  ages[name] = age;
+}
+
+storeAge("Larry", 58);
+storeAge("Simon", 55);
+----
+
+(((for/in loop)))(((in operator)))We can iterate over all persons in
+the object using a `for`/`in` loop, and test whether a name is in
+there using the regular `in` operator. But unfortunately, the object's
+prototype gets in the way.
+
+[source,javascript]
+----
+Object.prototype.nonsense = "hi";
+for (var name in ages)
+  console.log(name);
+// → Larry
+// → Simon
+// → nonsense
+console.log("nonsense" in ages);
+// → true
+console.log("toString" in ages);
+// → true
+delete Object.prototype.nonsense;
+----
+
+That's all wrong. There is no person called “nonsense” in our data
+set. And there _definitely_ is no person called “toString”.
+
+(((enumerability)))Oddly, `toString` did not show up in the `for`/`in`
+loop, but the `in` operator did return true for it. JavaScript
+distinguishes between _enumerable_ and _non-enumerable_ properties.
+
+All properties that we create by simply assigning to them are
+enumerable. The standard properties in `Object.prototype` are all
+non-enumerable, which is why they do not show up such a `for`/`in`
+loop.
+
+(((defineProperty function)))It is possible to define our own
+non-enumerable properties by using the `Object.defineProperty`
+function, which allows us more control of the type of property we are
+creating.
+
+[source,javascript]
+----
+Object.defineProperty(Object.prototype, "hiddenNonsense",
+                      {enumerable: false, value: "hi"});
+for (var name in ages)
+  console.log(name);
+// → Larry
+// → Simon
+console.log(ages.hiddenNonsense);
+// → hi
+----
+
+(((hasOwnProperty method)))So now the property is there, but it won't
+show up in a loop. That is good. But we still have the problem with
+the regular `in` operator claiming that the `Object.prototype`
+properties exists in our object. For that, we can use the object's
+`hasOwnProperty` operator.
+
+[source,javascript]
+----
+console.log(ages.hasOwnProperty("toString"));
+// → false
+----
+
+This method tells us whether the object has the property _itself_,
+without looking at its prototypes. This is often a more useful piece
+of information than what the `in` operator gives us.
+
+When you are worried that someone (some other code you loaded into
+your program) might have messed with the base object prototype, it is
+recommended to write you `for`/`in` loops like this:
+
+[source,javascript]
+----
+for (var name in ages) {
+  if (ages.hasOwnProperty(name)) {
+    // ... this is a real property
+  }
+}
+----
+
+== Prototype-less objects ==
+
+But the rabbit hole doesn't end there. What if someone registered the
+name `hasOwnProperty` in our `ages` object? Now the call to
+`ages.hasOwnProperty` will try to call the local property, which will
+hold a number, not a function.
+
+Often, prototypes just get in the way, and we actually want nothing to
+do with them. We saw the `Object.create` function, which allows us to
+create an object with a specific prototype. You are allowed to pass
+`null` as the prototype to create a fresh object with no prototype.
+For objects like `ages`, where the properties could be anything, this
+is exactly what we want.
+
+[source,javascript]
+----
+var ages = Object.create(null);
+ages.Brendan = 52;
+console.log("toString" in ages);
+// → false
+console.log("Brendan" in ages);
+// → true
+----
+
+Much better! Now we do not need the `hasOwnProperty` kludge—because
+all the properties the object has are its own properties—and we can
+safely use `for`/`in` loops, no matter what people have been doing to
+`Object.prototype`.
+
+== Polymorphism ==
+
+(((toString method)))(((String function)))(((polymorphism)))When you
+call the `String` function on an object, it will call the `toString`
+method on that object to try and create a meaningful string to return.
+I mentioned that some of the standard prototypes define their own
+version of `toString`, in order to be able to create a string that
+contains more useful information than `"[object Object]"`.
+
+This is a simple instance of a very powerful idea. When a piece of
+code is written to work with objects that have a certain interface—in
+this case, a `toString` method—any kind of object that happens to
+support this interface can be plugged into the code, and it will just
+work.
+
+This technique is called _polymorphism_, though no actual
+shape-shifting is involved. Polymorphic code can _work with_ values of
+different shape, as long as they expose the interface it expects.
+
+== Laying out a table ==
+
+I am going to work through a slightly more involved example in an
+attempt to give you a better idea what polymorphism, as well as
+object-oriented programming in general, looks like. The project is
+this: We write a program that, given an array of arrays of table
+cells, builds up a string that contains a nicely laid out
+table—meaning that the columns are straight and the rows are aligned.
+Something like this:
+
+[source,text/plain]
+----
+name           height country
+-------------- ------ -------------
+Kilimanjaro      5895 Tanzania
+Everest          8848 Nepal
+Mount Fuji       3776 Japan
+Mont Blanc       4808 Italy/France
+Vaalserberg       323 Netherlands
+Mount McKinley   6168 United States
+Popocatepetl     5465 Mexico
+----
+
+The way our table-building system will work is that the builder
+function lets the cells tell it how wide and high they want to be, and
+then, once it has determined the width of the columns and the height
+of the rows, asks them to draw themselves at the correct certain size
+and assembles the result into a single string.
+
+The interface through which the algorithm talks to the cells consists
+of these methods:
+
+* `minHeight()` returns a number indicating the minimum height this
+  cell requires (in lines).
+
+* `minWidth()` returns a number indicating its minimum width (in
+  characters).
+
+* `draw(width, height)` returns an array of string with length
+  `height`, each of them `width` characters wide. This represents the
+  content of the cell.
+
+I'm going to make heavy use of higher-order array methods in this
+example, since it lends itself well to that approach.
+
+The first part of the program computes arrays of minimum column widths
+and row heights from a collection of cells.
+
+// include_code
+
+[source,javascript]
+----
+function rowHeights(rows) {
+  return rows.map(function(row) {
+    return row.reduce(function(max, cell) {
+      return Math.max(max, cell.minHeight());
+    }, 0);
+  });
+}
+
+function colWidths(rows) {
+  return rows[0].map(function(_, i) {
+    return rows.reduce(function(max, row) {
+      return Math.max(max, row[i].minWidth());
+    }, 0);
+  });
+}
+----
+
+The `rowHeights` function shouldn't be too hard to follow. It uses
+`reduce` to compute the maximum height of an array of cells, and wraps
+that in `map` in order to do it for all rows in the `rows` array.
+
+(((map method)))(((filter method)))(((filter method)))Things are
+slightly harder for the `colWidths` function, because the outer array
+is an array of rows, not of columns. I have failed to mention so far
+that `map` (as well as `forEach`, `filter`, and similar array methods)
+pass a second argument to the function they get, which is the index of
+the current element. By mapping over the elements of the first row,
+and only using its second argument, `colWidths` builds up an array
+with one element for every column index. The call to `reduce` runs
+over the outer `rows` array again, and picks out the cell at the given
+index from each row, maximizing their widths.
+
+Using an underscore (`_`) as an argument name is a way to indicate (to
+human readers) that this argument is not going to be used.
+
+Drawing a table now looks like this:
+
+// include_code
+
+[source,javascript]
+----
+function drawTable(rows) {
+  var heights = rowHeights(rows);
+  var widths = colWidths(rows);
+
+  return rows.map(function(row, rowNum) {
+    var blocks = row.map(function(cell, colNum) {
+      return cell.draw(widths[colNum], heights[rowNum]);
+    });
+    return blocks[0].map(function(_, i) {
+      return blocks.map(function(block) {
+        return block[i];
+      }).join(" ");
+    }).join("\n");
+  }).join("\n");
+}
+----
+
+It repeatedly maps over things and then uses the array's `join` method
+to build up a string from the result. The outer `map` call builds up
+the strings for whole rows. Inside of it, a simple `map` is used to
+get an array of text blocks for the cells in the row. We then have to
+do another row-column inversion trick, similar to the one in
+`colWidths`, to build up arrays of text for each line (the very inner
+`map`/`join`), and then join these lines together with newline
+characters.
+
+Let us write a constructor for cells that contain text. The
+constructor splits a string into an array of lines, and the `minWidth`
+method finds the maximum line width in this array.
+
+// include_code
+
+[source,javascript]
+----
+function repeat(string, times) {
+  var result = "";
+  for (var i = 0; i < times; i++)
+    result += string;
+  return result;
+}
+
+function TextCell(text) {
+  this.text = text.split("\n");
+}
+TextCell.prototype.minWidth = function() {
+  return this.text.reduce(function(width, line) {
+    return Math.max(width, line.length);
+  }, 0);
+};
+TextCell.prototype.minHeight = function() {
+  return this.text.length;
+}
+TextCell.prototype.draw = function(width, height) {
+  var result = [];
+  for (var i = 0; i < height; i++) {
+    var line = this.text[i] || "";
+    result.push(line + repeat(" ", width - line.length));
+  }
+  return result;
+};
+----
+
+The `repeat` function helps build up strings that repeat a single
+character a given amount of times. The `draw` method uses it to add
+“padding” to lines, so that they all have the required length.
+
+And try it out by building up a checkerboard.
+
+[source,javascript]
+----
+var rows = [];
+for (var i = 0; i < 5; i++) {
+   var row = [];
+   for (var j = 0; j < 5; j++) {
+     if ((j + i) % 2 == 0)
+       row.push(new TextCell("##"));
+     else
+       row.push(new TextCell("  "));
+   }
+   rows.push(row);
+}
+console.log(drawTable(rows));
+// → ##    ##    ##
+//      ##    ##   
+//   ##    ##    ##
+//      ##    ##   
+//   ##    ##    ##
+----
+
+It works! But since all cells have the same size, it doesn't really do
+anything interesting.
+
+The source data for the table of mountains that we are trying to build
+is available in the `MOUNTAINS` variable in the sandbox, and also
+http://eloquentjavascript.net/code/mountains.js[downloadable] from the
+list of data sets on the website!!tex  (`eloquentjavascript.net/code`)!!.
+
+We will want to emphasize the top row, which contains the column
+names, by underlining the cells with a series of dash characters. No
+problem, we simply write a cell type that handles underlining.
+
+// include_code
+
+[source,javascript]
+----
+function UnderlinedCell(inner) {
+  this.inner = inner;
+};
+UnderlinedCell.prototype.minWidth = function() {
+  return this.inner.minWidth();
+};
+UnderlinedCell.prototype.minHeight = function() {
+  return this.inner.minHeight() + 1;
+};
+UnderlinedCell.prototype.draw = function(width, height) {
+  return this.inner.draw(width, height - 1)
+    .concat([repeat("-", width)]);
+};
+----
+
+An underlined cell _contains_ another cell. It report its minimum size
+as being the same as that of its inner cell (by calling through to
+that cell's `minWidth` and `minHeight` methods), but adds one to the
+height, which is the space taken up by the underline.
+
+Drawing such a cell is quite simple—we take the content of the inner
+cell, and concatenate a single line full of dashes to it.
+
+// test: wrap, trim
+
+[source,javascript]
+----
+function dataTable(data) {
+  var keys = Object.keys(data[0]);
+  return [keys.map(function(name) {
+    return new UnderlinedCell(new TextCell(name));
+  })].concat(data.map(function(row) {
+    return keys.map(function(name) {
+      return new TextCell(String(row[name]));
+    });
+  }));
+}
+
+console.log(drawTable(dataTable(MOUNTAINS)));
+// → name           height country
+//   -------------- ------ -------------
+//   Kilimanjaro    5895   Tanzania
+//   … etcetera
+----
+
+Having an underlining mechanism, we can now write a function that
+builds up a grid of cells from our data set. The standard
+`Object.keys` function returns an array of property names in an
+object. The top row of the table must contain underlined cells that
+give the names of the columns. Below that, the values of all the
+objects in the data set appear as normal cells—we extract them by
+mapping over the `keys` array, so that we are sure that the order of
+the cells is the same in every row.
+
+== Getters and setters ==
+
+(((getter)))(((setter)))(((property)))When specifying an interface, it
+is possible to include properties that are not methods. We could have
+defined `minHeight` and `minWidth` to simply hold numbers. But that'd
+have required us to compute them in the constructor, which adds code
+there that isn't strictly relevant to _constructing_ the object, and
+it would cause problems if, for example, the inner cell of an
+underlined cell was changed, at which point the size of the underlined
+cell should also change.
+
+This has led some people to adopt a principle of never including
+non-method properties in interfaces. For things that behave as a
+simple value property, which can be both read and written, they'd use
+`getSomething` and `setSomething` methods which read and write the
+property.
+
+Fortunately, JavaScript allows a technique that gets us the best of
+both worlds. We can specify properties that, from the outside, look
+like normal properties, but secretly have methods associated with
+them.
+
+[source,javascript]
+----
+var pile = {
+  elements: ["eggshell", "orange peel", "worm"],
+  get height() {
+    return this.elements.length;
+  },
+  set height(value) {
+    console.log("Ignoring attempt to set height to",
+                value);
+  }
+};
+
+console.log(pile.height);
+// → 3
+pile.height = 100;
+// → Ignoring attempt to set height to 100
+----
+
+(((defineProperty function)))In object expressions, putting `get` or
+`set` in front of a property name allows you to specify a function to
+be run when the property is read or written. You can also add such a
+property to an existing object, for example a prototype, using the
+`Object.defineProperty` function (which we also used to create
+non-enumerable properties).
+
+[source,javascript]
+----
+Object.defineProperty(TextCell.prototype, "heightProp", {
+  get: function() { return this.text.length; }
+});
+
+console.log((new TextCell("no\nway")).heightProp);
+// → 2
+----
+
+You can use a similar `set` property to specify a setter method. When
+a getter but no setter is defined, writing to the property is simply
+ignored.
+
+== Inheritance ==
+
+(((inheritance)))If you have paid close attention, you might have
+noticed that we are not quite done yet with our table layout exercise.
+It helps readability to right-align columns of numbers. We should
+create another cell type that is like `TextCell`, but rather than
+padding the lines on the right side, pads them on the left side, so
+that they align to the right.
+
+We could simply write a whole new constructor, with all three methods
+in its prototype. But prototypes may themselves have prototypes, and
+this allows us to do something clever:
+
+// include_code
+
+[source,javascript]
+----
+function RTextCell(text) {
+  TextCell.call(this, text);
+}
+RTextCell.prototype = Object.create(TextCell.prototype);
+RTextCell.prototype.draw = function(width, height) {
+  var result = [];
+  for (var i = 0; i < height; i++) {
+    var line = this.text[i] || "";
+    result.push(repeat(" ", width - line.length) + line);
+  }
+  return result;
+};
+----
+
+We reuse the constructor and the `minHeight` and `minWidth` methods
+from the regular `TextCell`. An `RTextCell` is now basically
+equivalent to a `TextCell`, except that its `draw` method contains a
+different function.
+
+This pattern is called _inheritance_. It allows us to build slightly
+different data types from existing datatypes with relatively little
+work. Typically, the new constructor will call the old constructor
+(using the `call` method in order to be able to give it the new object
+as its `this` value). Once this constructor has been called, we can
+assume that all the fields that the old object type is supposed to
+contain have been added. We arrange for the constructor's prototype to
+derive from the old prototype, so that instances of this type will
+also have access to the properties in that prototype. Finally, we can
+override some of these properties by adding them to our new prototype.
+
+Now if we slightly adjust the `dataTable` function to use
+`RTextCell`'s for cells whose value is a number, we get the table we
+were aiming for:
+
+// include_code strip_log
+
+[source,javascript]
+----
+function dataTable(data) {
+  var keys = Object.keys(data[0]);
+  return [keys.map(function(name) {
+    return new UnderlinedCell(new TextCell(name));
+  })].concat(data.map(function(row) {
+    return keys.map(function(name) {
+      var value = row[name];
+      if (typeof value == "number")
+        return new RTextCell(String(value));
+      else
+        return new TextCell(String(value));
+    });
+  }));
+}
+
+console.log(drawTable(dataTable(MOUNTAINS)));
+// → … beautifully aligned table
+----
+
+Inheritance is a fundamental part of the object-oriented tradition,
+alongside encapsulation and polymorphism. The latter two are now
+generally regarded as wonderful ideas, whereas inheritance is somewhat
+controversial.
+
+(((polymorphism)))The main reason for this is that it is often
+confused with polymorphism, sold as a more powerful tool than it
+really is... and subsequently overused in all kinds of ugly ways.
+Whereas encapsulation and polymorphism can be used to _separate_
+pieces of code from each other, reducing the tangledness of the
+overall program, inheritance fundamentally ties the types that inherit
+from each other together, creating _more_ tangle.
+
+(((composition)))You can have polymorphism without inheritance, as we
+saw. I am not going to tell you to avoid inheritance—I use it
+regularly in my own programs. But see it as a slightly dodgy trick
+that can help you define new types with little code, not as a grand
+principle of code organization. The way `UnderlinedCell` builds on
+another cell object, by simply storing it in a property and forwarding
+method calls to it in its own methods, is an alternative way to extend
+types, and is usually preferable.
+
+== The instanceof operator ==
+
+(((instanceof operator)))(((constructor)))It is occasionally useful to
+know whether an object was derived from a specific constructor. For
+this, JavaScript provides a binary operator called `instanceof`:
+
+[source,javascript]
+----
+console.log(new RTextCell("A") instanceof RTextCell);
+// → true
+console.log(new RTextCell("A") instanceof TextCell);
+// → true
+console.log(new TextCell("A") instanceof RTextCell);
+// → false
+console.log([1] instanceof Array);
+// → true
+----
+
+The operator will also see through inherited types. An `RTextCell` is
+an instance of `TextCell`, because `RTextCell.prototype` derives from
+`TextCell.prototype`. The operator can be applied to standard
+constructors like `Array`. Almost every object is an instance of
+`Object`.
+
+== Summary ==
+
+(((prototype)))So objects are more complicated than I have been
+letting on. They have prototypes, which are other objects, and will
+act as if they have properties they don't have if the prototype has
+that property. Simple objects will have `Object.prototype` as their
+prototype.
+
+(((constructor)))(((new operator)))(((instanceof
+operator)))Constructors, which are functions whose name usually starts
+with a capital letter, can be used with the `new` operator to create
+new objects. The new object's prototype will be the `prototype`
+property of the constructor function. You can do nice things with this
+by putting the properties that all values of a given type share into
+their prototype. The `instanceof` operator can, given an object and a
+constructor, tell you whether that object is an instance of that
+constructor.
+
+(((encapsulation)))One useful thing to do with objects is to specify
+an interface for them, and tell everybody that they are only supposed
+to talk to your object through that interface (which consists of some
+properties). The rest of the details that make up your object are now
+_encapsulated_, hidden behind the interface.
+
+(((polymorphism)))Once you are talking in terms of interfaces, who
+says that only one kind of object may implement this interface? Having
+different objects expose the same interface, and then writing code
+that works on any object with the interface, is called _polymorphism_.
+It is very useful.
+
+(((inheritance)))When implementing multiple types that only differ in
+some details, it can be helpful to simply make the prototype of your
+new type derive from the prototype of your old type, and have your new
+constructor call the old one. This gives you an object type very
+similar to the old type, but in which you can add and override
+properties as you see fit.
+
+== Exercises ==
+
+=== A point type ===
+
+Write a constructor `Point` that represents a point in two-dimensional
+space. It takes `x` and `y` parameters (numbers), which it saves to
+properties by the same name.
+
+Give the `Point` prototype two methods, `plus` and `minus`, which take
+another point as parameter, and return a new point that has the sum or
+difference of the two points’ (the one in `this` and the parameter) x
+and y coordinates.
+
+Add a getter property `distance` to the prototype that computes the
+distance of a point from the origin (0, 0).
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+console.log(Point(1, 2).plus(Point(2, 3)));
+// → Point{x: 3, y: 5}
+console.log(Point(1, 2).minus(Point(2, 3)));
+// → Point{x: -1, y: -1}
+console.log(Point(3, 4).distance);
+// → 5
+----
+endif::html_target[]
+
+!!solution!!
+
+Your solution can follow the pattern of the `Rabbit` constructor from
+this chapter quite closely.
+
+(((Pythagoras)))Adding a getter property to the constructor can be
+done with the `Object.defineProperty` function. To compute the
+distance from (0, 0) to (x, y), we can use Pythagoras’ theorem, which
+says that the square of the distance we are looking for is equal to
+the square of the x coordinate plus the square of the y coordinate.
+Thus √(x^2^ + y^2^) is the number we want, and `Math.sqrt` is the way
+you compute a square root in JavaScript.
+
+!!solution!!
+
+=== Another cell ===
+
+Implement a cell type (conforming to the table cell interface
+described earlier in the chapter) `StretchCell(inner, width, height)`
+that wraps another cell (like `UnderlinedCell` does), and ensures that
+the resulting cell has at least the given `width` and `height`, even
+if the inner cell would naturally be smaller.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+var sc = new StretchCell(new TextCell("abc"), 1, 2);
+console.log(sc.minWidth());
+// → 3
+console.log(sc.minHeight());
+// → 2
+console.log(sc.draw(3, 2));
+// → ["abc", "   "]
+----
+
+endif::html_target[]
+
+!!solution!!
+
+You'll have to store all three constructor arguments in the instance
+object. The `minWidth` and `minHeight` methods call through to the
+corresponding methods in the `inner` cell, but ensure that no number
+less than the given size is returned (possibly using `Math.max`).
+
+Don't forget to add a `draw` method that simply forwards the call the
+inner cell.
+
+!!solution!!
+
+=== Sequence interface ===
+
+Design an interface that abstracts iteration over a collection of
+values. Start by writing a `logFive` function that takes a sequence
+object and calls `console.log` on its first five elements—or less, if
+the sequence has less than five elements.
+
+Then implement an object type `ArraySeq` that wraps an array and
+allows iteration over the array using the interface you designed.
+Implement another object type `RangeSeq` that iterates over a range of
+integers (taking `from` and `to` arguments to its constructor)
+instead.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+logFive(new ArraySeq([1, 2]));
+// → 1
+// → 2
+logFive(new RangeSeq(100, 1000));
+// → 100
+// → 101
+// → 102
+// → 103
+// → 104
+----
+
+endif::html_target[]
+
+!!solution!!
+
+The most obvious way to solve this is to give the sequence objects
+_state_, meaning their properties are changed in the process of using
+them. You could store a counter in them that indicates how far they
+have advanced.
+
+Your interface will need to expose at least a way to get the next
+element, and to find out whether the iteration has reached the end of
+the sequence yet. It is tempting to roll these into one method,
+`next`, which returns `null` or `undefined` when the sequence is at
+its end. But now you have a problem when a sequence actually contains
+`null`. So a separate method (or getter property) to find out whether
+the end is reached is probably preferable.
+
+Another solution is to avoid changing state in the object, and expose
+methods for getting the current element (without advancing any
+counter), and for getting a new sequence that represents the remaining
+elements after the current one (or a special value if the end of the
+sequence is reached). This is quite elegant—a sequence value will
+“stay itself” even after it is used, and can thus be shared with other
+code without worrying about what might happen to it. It is,
+unfortunately, also very inefficient in a language like JavaScript,
+because it involves creating a lot of objects during iteration.
+
+!!solution!!

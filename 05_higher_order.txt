@@ -44,7 +44,7 @@ the problem's own domain, it gains clarity. Summing a range of numbers
 isn't about loops and counters, it is about ranges and sums.
 
 The definitions of the vocabulary itself (the functions `sum` and
-`range`) will still have to concern itself with loops, counters, and
+`range`) will still have to concern themselves with loops, counters, and
 other silly details. But because they are expressing simpler concepts
 (the building blocks are simpler than the building), they are easier
 to get right.
@@ -178,11 +178,11 @@ closed with the punctuation `});`.
 
 In this pattern, we can simply specify a variable name (`number`) for
 the current element as the function's argument, rather than having to
-pick it out the array ourselves.
+pick it out of the array ourselves.
 
 We do not need to write `forEach` ourselves. It is available as a
 standard method on arrays (taking the function as first argument,
-since the array is already provides as the thing the method acts on).
+since the array is already provided as the thing the method acts on).
 
 To illustrate how helpful this is, remember this function from the
 previous chapter that contains two array-traversing loops.
@@ -314,7 +314,7 @@ If `f` takes more than one parameter, only the first one is passed
 through to it. We could add a bunch of arguments to the inner function
 (`arg1`, `arg2`, and so on), and pass them to `f`, but it is unclear
 how many would be necessary. It would also deprive `f` of the
-information in `arguments.length`, since we'd always pass the same
+information in `arguments.length`. Since we'd always pass the same
 amount of arguments to it, it wouldn't know how many argument were
 _really_ given.
 
@@ -332,7 +332,7 @@ function transparentWrapping(f) {
 ----
 
 That's a particularly useless function, but it shows the pattern we
-are interested in—the resulting function will pass all of given
+are interested in—the resulting function will pass all of the given
 arguments, and only those arguments, to `f`. It does this by passing
 its own `arguments` object to `apply`. The first argument to `apply`,
 for which we are passing `null` here, can be used to simulate a method
@@ -417,7 +417,7 @@ A function passed as an argument to a higher-order function doesn't
 just represent an action that can be run. It also returns a value, and
 we could use it to, for example, make a decision.
 
-To find the people in the ancestry data set that were young in the
+To find the people in the ancestry data set that were young in
 1924, the following function might be helpful. It filters out the
 elements in an array that don't pass a test.
 
@@ -541,7 +541,7 @@ console.log(ancestry.reduce(function(min, cur) {
 
 Let us back up for a moment and consider how we would have written the
 previous example (finding the person with the earliest year of birth)
-without higher order functions. The code is not that much worse:
+without higher-order functions. The code is not that much worse:
 
 // test: no
 
@@ -627,10 +627,10 @@ solution that takes a tenth of a millisecond.
 
 It is helpful to roughly keep track of how often a piece of your
 program is going to run. If you have a loop inside a loop (directly,
-or though the outer loop calling a function that ends up performing
+or through the outer loop calling a function that ends up performing
 the inner loop), the code inside the inner loop will end up running
-N×M times, where N is the amount of times the outer loop repeats, and
-M the amount of times the inner loop repeats. If that inner loop
+N×M times, where N is the number of times the outer loop repeats, and
+M the number of times the inner loop repeats. If that inner loop
 contains another loop that makes P rounds, its body will run M×N×P
 times, and so on. This adds up.
 
@@ -695,7 +695,7 @@ the mother of this person. The results, along with the person object
 itself, are passed to `f`.
 
 Some people's father and mother are not in the data set (obviously, or
-it'd include an awful lot of people). So when looking up a parent
+it would include an awful lot of people). So when looking up a parent
 doesn't yield a value, `reduce` simply returns the `zero` value that
 was passed to `reduceAncestors`.
 
@@ -726,14 +726,14 @@ amount that their parents share.
 
 So, statistically speaking, I share about 0.05% of my DNA with this
 16th-century person. The chances of one of my 44 non-XY chromosomes
-coming from him are thus rather small. Hover, assuming no extramarital
+coming from him are thus rather small. However, assuming no extramarital
 children in the family history, I do have his Y chromosome.
 
 Data structures (such as this family tree) can often be made easier to
 use (as well as easier to think about) by finding analogues to
 `forEach` (iterate), `map` (transform), and `reduce` that apply to
 them. A `forEachAncestor` function would simply call a function for
-each ancestor. A mapping function probably isn't much use for this
+each ancestor. A mapping function probably isn't of much use for this
 data structure, but would, for example, be useful for the list type
 that was introduced in the exercises to the last chapter.
 
@@ -865,7 +865,7 @@ the mother), we will have to apply `filter` in some manner before
 calling `average`. You could do it as a first pass, by defining a
 `hasKnownMother` function and filtering on that first. Alternatively,
 you could start by calling `map`, and in your mapping function return
-either the age different, or `null` if no mother is known. Then, you
+either the age difference, or `null` if no mother is known. Then, you
 can call `filter` to remove the `null` elements before passing the
 array to `average`.
 
@@ -936,7 +936,7 @@ are analogous to the `&&` and `||` operators.
 Both take a predicate function that, when called with an array element
 as argument, returns true or false. Just like `&&` only returns a true
 value when the expressions on both sides are true, `every` only
-returns true only when the predicate returned true for _all_ elements
+returns true when the predicate returned true for _all_ elements
 of the array. Similarly, `some` returns true as soon as the predicate
 returned true for _any_ of the elements. They do not process more
 elements than necessary—for example, if `some` finds that the

@@ -46,6 +46,8 @@ precariously thin branch in the crown of an oak, naked and
 disoriented, he has taken to locking the doors and windows of his room
 at night, and putting a few walnuts on the floor to keep himself busy.
 
+image::img/weresquirrel.svg[alt="The weresquirrel"]
+
 That takes care of the cat and oak problems. But Jaques still suffers
 from his condition. The irregular occurrences of the transformation
 make him suspect that there might be some trigger that causes them to

@@ -616,7 +616,7 @@ find(1, "1")
     find(11, "((1 + 5) + 5)")
       find(16, "(((1 + 5) + 5) + 5)")
         too big
-      find(33, "((1 + 5) + 5)")
+      find(33, "(((1 + 5) + 5) * 3)")
         too big
     find(18, "((1 + 5) * 3)")
       too big
@@ -660,7 +660,7 @@ indication of how clear a concept it is that you're trying to wrap.
 Let us go through an example.
 
 We want to write a program that prints two numbers, the amounts of
-cows and chickens on our farm, with the words `Cows` and `Chickens`
+cows and chickens on a farm, with the words `Cows` and `Chickens`
 after them, and zeroes padded before both numbers so that they are
 always three digits long.
 

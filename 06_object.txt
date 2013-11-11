@@ -31,7 +31,7 @@ As an example, you can imagine an object that provides an interface to
 an area on your screen. It provides a way to draw shapes or text onto
 this area, but hides all the details of how these shapes are converted
 to the actual pixels that make up the screen. You'd have a set of
-methods, for example `drawCircle`, and those are the only thing you
+methods, for example `drawCircle`, and those are the only things you
 need to know in order to use such an object.
 
 These ideas were initially worked out in the 1970s and 80s, and, in

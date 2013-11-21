@@ -8,7 +8,7 @@
 (((data)))Numbers, booleans, and strings are the bricks that data
 structures are built from. But you can't make much of a house out of a
 single brick. Objects allow us to group values—including other
-objects—together, and thus build more complex structures out of them.
+objects—together, and thus build more complex structures.
 
 The programs we have built so far have been seriously hampered by the
 fact that they were only operating on simple data types. This chapter
@@ -125,22 +125,23 @@ null.length;
 
 ((([] (subscript))))Arrays also have a `length` property, holding the
 amount of elements in the array. In fact, the elements in the array
-are also accessed through properties. The `value[index]` notation is
-another way to access properties. Instead of directly giving the name
-of the property, an expression is evaluated to produce the name. We
-could also do this:
+are also accessed through properties. Both `value.index` and
+`value[index]` access a property on `value`. The difference is in how
+`index` is interpreted. When using a dot, the part after the dot
+(which must be a valid variable name) directly names the property.
+When using square brackets, the index is treated as an expression that
+is _evaluated_ to get the property name. Whereas `value.index` fetches
+the property named “index”, `value[index]` tries to get the value of
+the variable named `index`, and uses that as the property name.
 
-[source,javascript]
-----
-console.log("abcd"["len" + "gth"]);
-// → 4
-----
-
-Property names can be any string, but the dot notation for accessing
-properties only works when the property name is a valid variable name.
-So you can write `something.abc` but not ++something.two
-words++—because `"two words"` has a space, you'd have to write
-`something["two words"]`.
+So if you know that the property you are interested in is called
+“length”, you say `value.length`. If you want to extract the property
+named by the value held in the variable `i`, you say `value[i]`. And
+finally, if you want to access a property named “0” or “John Doe”
+(property names can be any string), these are not valid variable
+names, so you are forced to use square brackets, as in `value[0]` or
+`value["John Doe"]`, even though you know the precise name of the
+property in advance.
 
 == Methods ==
 
@@ -200,9 +201,9 @@ array's elements.
 
 Back to the weresquirrel. A set of daily log entries can be
 represented as an array. But the entries do not consist of just a
-number or string—each entry needs to store a list of activities, and a
-boolean value that indicates whether Jaques turned into a squirrel. A
-practical representation needs to group these values together into a
+number or a string—each entry needs to store a list of activities, and
+a boolean value that indicates whether Jaques turned into a squirrel.
+A practical representation needs to group these values together into a
 single value, and then put such grouped values into the array of
 entries.
 
@@ -244,8 +245,9 @@ var descriptions = {
 
 (((undefined value)))(((property,assignment)))(((mutability)))(((=
 operator)))It is possible to assign a value to a property expression
-with the `=` operator. This will replace the property's value if it
+with the ‘=’ operator. This will replace the property's value if it
 already existed, or create a new property on the object if it didn't.
+
 Reading a property that doesn't exist will produce the value
 `undefined`.
 
@@ -381,7 +383,7 @@ function addEntry(events, didITurnIntoASquirrel) {
 }
 ----
 
-And then, every evening at ten—or sometimes the next morning, after he
+And then, every evening at ten—or sometimes the next morning, after
 climbing down from the top shelf of his bookcase—the day is recorded.
 
 [source,javascript]
@@ -463,10 +465,11 @@ containing two two-element arrays (`[[76, 9], [4, 1]]`), or an object
 with property names like `"11"` and `"01"`, but the flat array is
 straightforward enough, and makes the expressions that access the
 table pleasantly short. We'll interpret the indices to the array as
-two-bit binary numbers, where the 1 component refers to event
-variable, and the 2 component refers to the squirrel variable. I.e. 2
-is written in binary as 10, meaning it refers to the field where the
-event (say, pizza) is true, but Jaques did not turn into a squirrel.
+two-bit binary numbers, where the 1 component (the second digit)
+refers to event variable, and the 2 component (the first digit) refers
+to the squirrel variable. I.e. 2 is written in binary as 10, meaning
+it refers to the field where the event (say, pizza) is true, but
+Jaques did not turn into a squirrel.
 
 (((phi coefficient)))This is the function that computes a phi
 coefficient from such an array:
@@ -704,9 +707,9 @@ All was well for a while, but a few years later, he lost his job.
 Things went downhill, and he was forced to take employment with a
 circus, performing as _The Incredible Squirrelman_ by stuffing his
 mouth with peanut butter before every show. One day, fed up with this
-depressing, pitiful existence, Jaques simply failed to change back
-into his human form, hopped through a crack in the circus tent, and
-vanished into the forest. He has not been seen again.
+depressing, pitiful existence, Jaques failed to change back into his
+human form, hopped through a crack in the circus tent, and vanished
+into the forest. He has not been seen again.
 
 == Further arrayology ==
 
@@ -757,7 +760,7 @@ When the end index is not given, `slice` will take all of the elements
 after the start index. Strings, by the way, also have a `slice`
 method, which has a similar effect.
 
-(((concat method)))To glue arrays together, similar to what the “+”
+(((concat method)))To glue arrays together, similar to what the ‘+’
 operator does for strings, their `concat` method can be used. This
 example function takes an array and an index, and returns a new array
 that is the input array, but with the element at the given index
@@ -866,7 +869,7 @@ neither, so be careful.
 (((trigonometry)))(((cos function)))(((sin function)))(((tan
 function)))(((acos function)))(((asin function)))(((atan
 function)))(((PI constant)))Back to the `Math` object. If you need to
-do trigonometry, `Math` will help. It contains `cos` (cosine), `sin`
+do trigonometry, `Math` can help. It contains `cos` (cosine), `sin`
 (sine), `tan` (tangent), `acos`, `asin`, and `atan` functions. The
 number π (pi)—or at least the closest approximation that fits in a
 JavaScript number—is available as `Math.PI` (there is an old
@@ -886,7 +889,7 @@ console.log(randomPointOnCircle(2));
 // → {x: 0.3667, y: 1.966}
 ----
 
-If sines and cosines are not something you are deeply familiar with,
+If sines and cosines are not something you are very familiar with,
 don't worry, this book won't go into any complicated math.
 
 (((random function)))The example above uses `Math.random`. This is a
@@ -962,8 +965,8 @@ useful programs.
 
 === The sum of a range ===
 
-The introduction of this book alluded to this program being a very
-nice way to compute the sum of a range of numbers:
+The introduction of this book alluded to this program as a nice way to
+compute the sum of a range of numbers:
 
 // test: no
 
@@ -1009,8 +1012,8 @@ to `[]` (a fresh, empty array), and then repeatedly calling its `push`
 method to add a value. Don't forget to return it at the end of the
 function.
 
-Since the end boundary is _inclusive_, you'll need to use the “\<=”
-operator rather than simply “<” to check for the end of your loop.
+Since the end boundary is _inclusive_, you'll need to use the ‘\<=’
+operator rather than simply ‘<’ to check for the end of your loop.
 
 To check whether an optional argument was given, either check
 `arguments.length` or compare the value of the argument to
@@ -1020,7 +1023,7 @@ To check whether an optional argument was given, either check
 Having `range` understand negative step values is probably best done
 by writing two separate loops, one for counting up, and one for
 counting down, because the comparison that checks whether the loop is
-finished needs to be “>=” rather than “\<=” when counting downwards.
+finished needs to be ‘>=’ rather than ‘\<=’ when counting downwards.
 
 It might also be worthwhile to use a different default step, namely
 -1, when the end of the range is smaller than the start. That way,
@@ -1176,7 +1179,7 @@ at).
 
 === Deep comparison ===
 
-The “==” operator compares objects by identity. Sometimes, you would
+The ‘==’ operator compares objects by identity. Sometimes, you would
 prefer to compare the values of their actual properties.
 
 Write a function `deepEqual` that takes two values, and returns true
@@ -1184,7 +1187,7 @@ only if they are the same value, or objects with the same properties
 whose values are equal, when compared with a recursive call to
 `deepEqual`.
 
-To find out whether to compare something by identity (use the “===”
+To find out whether to compare something by identity (use the ‘===’
 operator for that) or by looking at its properties, you can test
 whether applying the `typeof` operator on it produces `"object"`. But
 you have to take one silly exception into account, because (through a
@@ -1214,7 +1217,7 @@ endif::html_target[]
 Your test for whether you are dealing with a real object will look
 something like `typeof x == "object" && x != null`. Be careful to only
 compare properties when _both_ arguments are objects. In all other
-cases you can simply immediately return the result of applying “===”.
+cases you can simply immediately return the result of applying ‘===’.
 
 Use a `for`/`in` loop to go over the properties. You need to both test
 whether both objects have the same set of property names, and that

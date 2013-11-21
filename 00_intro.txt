@@ -4,15 +4,15 @@
 = Introduction =
 
 This book is about talking to computers. Computers have become one of
-the fundamental tools of our time. Being able to communicate well with
-your tools is a useful skill. And with the right mindset, it can also
-be a very entertaining activity.
+the fundamental tools of our time. Being able to harness them
+effectively is an immensely useful skill. With the right mindset, it
+can also be very entertaining.
 
 There is something of an inherent gap between us, squishy biological
 organisms with a talent for social and spatial reasoning, and the
 computer, a straightforward manipulator of meaningless data with none
-of our biases and instincts. Fortunately, there has been some great
-progress on bridging this gap in the past sixty years.
+of our biases and instincts. Fortunately, there has been great
+progress in bridging this gap in the past sixty years.
 
 The history of human-computer interaction has been one of moving away
 from the cold, reductionist world view of the computer by layering
@@ -35,7 +35,7 @@ commands.
 
 Obviously, the touchscreen phone is more accessible, and it is
 entirely appropriate that such devices use a graphical interface. But
-language-based interfaces have another advantage—once you've learned
+language-based interfaces have another advantage—once you learn
 their language, they tend to be more expressive, by making it easy to
 compose the functionality provided by the system in new ways, and even
 to create your own building blocks.
@@ -57,8 +57,8 @@ still there, on every machine, largely hidden from the casual user.
 One such language, JavaScript, is available on just about every
 consumer device as part of a web browser.
 
-This book intends to show you how to use this language to instruct a
-computer to perform tasks for you.
+This book intends to make you familiar enough with this language to be
+able to make a computer do what you want.
 
 == On programming ==
 
@@ -76,7 +76,7 @@ want to introduce the basic principles of programming. Programming, it
 turns out, is hard. The fundamental rules are typically simple and
 clear. But programs, built on top of these basic rules, tend to become
 complex enough to introduce their own rules and complexity. You're
-building your own maze, so to say, and might just get lost in it.
+building your own maze, in a way, and might just get lost in it.
 
 To get something out of this book, more than just passive reading is
 required. Try to stay sharp, make an effort to understand the example
@@ -137,10 +137,6 @@ will always be new challenges and new territory to explore.
 Programmers who refuse to keep exploring will stagnate, forget their
 joy, and get bored with their craft.
 
-Rules of thumb can be useful, but don't be afraid to break them when
-appropriate, and definitely don't accept them without thoroughly
-understanding their reasons.
-
 == Why language matters ==
 
 (((programming language)))(((binary)))In the beginning, at the birth
@@ -170,7 +166,7 @@ procedure. Even the writing of simple programs required much
 cleverness and discipline. Complex ones were nearly inconceivable.
 
 (((bit)))(((wizard (mighty))))Of course, manually entering these
-arcane patterns of _bits_ (the ones and zeros) did give the programmer
+arcane patterns of bits (the ones and zeros) did give the programmer
 a profound sense of being a mighty wizard. And that has to be worth
 something in terms of job satisfaction.
 
@@ -246,7 +242,7 @@ program to jump back and forth any more. The `while` language
 construct takes care of that. It continues executing the block
 (wrapped in braces) below it as long as the condition it was given
 holds: `count <= 10`, which means “`count` is less than or equal to
-`10`.” We no longer have to create a temporary value and compare that
+10.” We no longer have to create a temporary value and compare that
 to zero. This was an uninteresting detail, and the power of
 programming languages is that they take care of uninteresting details
 for us.
@@ -269,8 +265,8 @@ console.log(sum(range(1, 10)));
 The moral of this story, then, is that the same program can be
 expressed in long and short, unreadable and readable ways. The first
 version of the program was extremely obscure, while this last one is
-almost English: `log` the `sum` of the `range` of numbers from `1`
-to `10`. (We will see in later chapters how to build things like `sum`
+almost English: `log` the `sum` of the `range` of numbers from 1
+to 10. (We will see in later chapters how to build things like `sum`
 and `range`.)
 
 (((programming language,power of)))A good programming language helps
@@ -290,8 +286,8 @@ JavaScript was introduced in 1995, as a way to add programs to Web
 pages in the Netscape Navigator browser. The language has since been
 adapted by all other major graphical Web browsers. It has made the
 current generation of Web applications possible—browser-based email
-clients, maps, and social networks—and is also used in less
-application-like sites to provide various forms of interactivity and
+clients, maps, and social networks—and is also used in more
+traditional sites to provide various forms of interactivity and
 cleverness.
 
 (((Java)))It is important to note that JavaScript has almost nothing
@@ -339,7 +335,8 @@ and work on the 4th edition was abandoned in 2008, leading to the much
 less ambitious 5th edition coming out in 2009. We're now just reaching
 the point where all major browsers support this 5th edition, which is
 the language version that this book will be focusing on. Work on a 6th
-edition is underway.
+edition is underway. (FIXME ES6 is likely to be out when the book goes
+to press)
 
 (((JavaScript,uses of)))Web browsers are not the only platforms on
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
@@ -383,14 +380,13 @@ endif::tex_target[]
 
 Running JavaScript programs outside of this book's sandbox is also
 possible. You can opt to install node.js, and read enough of its
-documentation (or of chapter (NODE)) to figure out how to use it to
-evaluate text files that contain programs. Or you can use your
-browser's developer console (typically found somewhere under a “tools”
-or “developer” menu) and play around in there. In chapter (WEB), the
-way in which JavaScript programs are embedded in web pages (HTML
-files) is explained. In the meantime, you could head over to
-`http://jsbin.com` for another friendly interface for running
-JavaScript code in a browser.
+documentation to figure out how to use it to evaluate text files that
+contain programs. Or you can use your browser's developer console
+(typically found somewhere under a “tools” or “developer” menu) and
+play around in there. In chapter (FIXME), the way in which JavaScript
+programs are embedded in web pages (HTML files) is explained. In the
+meantime, you could head over to `http://jsbin.com` for another
+friendly interface for running JavaScript code in a browser.
 
 == Typographic conventions ==
 

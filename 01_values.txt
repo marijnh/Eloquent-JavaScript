@@ -112,7 +112,7 @@ Fractional numbers are written by using a dot:
 ----
 
 (((scientific notation)))For very big or very small numbers, one can
-also use scientific notation by adding an “e”, followed by the
+also use scientific notation by adding an ‘e’, followed by the
 exponent of the number:
 
 [source,javascript]
@@ -144,7 +144,7 @@ a new number from them. Here is what they look like in JavaScript:
 100 + 4 * 11
 ----
 
-(((\* operator)))(((+ operator)))The “+” and “*” symbols are called
+(((\* operator)))(((+ operator)))The ‘+’ and ‘*’ symbols are called
 _operators_. The first stands for addition, and the second stands for
 multiplication. Putting an operator between two values will
 (((application,of operators)))apply it to those values and produce a
@@ -162,21 +162,21 @@ parentheses:
 ----
 
 (((division)))(((subtraction)))(((- operator)))(((/ operator)))For
-subtraction, there is the “-” operator, and division can be done with
-the “/” operator.
+subtraction, there is the ‘-’ operator, and division can be done with
+the ‘/’ operator.
 
 When operators appear together without parentheses, the order in which
 they are applied is determined by the _((precedence))_ of the
 operators. The example shows that multiplication comes before
-addition. “/” has the same precedence as “*”. Likewise for “+” and
-“-”. When multiple operators with the same precedence appear next to
+addition. ‘/’ has the same precedence as ‘*’. Likewise for ‘+’ and
+‘-’. When multiple operators with the same precedence appear next to
 each other (as in `1 - 2 + 1`), they are applied left to right.
 
 These rules of precedence are not something you should worry about.
 When in doubt, just add parentheses.
 
 (((remainder operation)))(((% operator)))There is one more arithmetic
-operator, which is possibly less familiar. The “%” symbol is used to
+operator, which is possibly less familiar. The ‘%’ symbol is used to
 represent the _remainder_ operation. `X % Y` is the remainder of
 dividing `X` by `Y`. For example, `314 % 100` produces `14`, and `144
 % 12` gives `0`. Remainder's precedence is the same as that of
@@ -197,7 +197,7 @@ will quickly lead to our next special number: `NaN`.
 
 `NaN` stands for “not a number” (though it is, contradictionally, a
 value of the number type). You get it when you say `0 / 0` (zero
-divided by zero), `Infinity + -Infinity`, or any number of other
+divided by zero), `Infinity - Infinity`, or any number of other
 numeric operations that don't yield a precise, meaningful result.
 
 == Strings ==
@@ -208,8 +208,8 @@ written by enclosing their content in quotes:
 
 [source,javascript]
 ----
-'Monkeys wave goodbye'
 "Patch my boat with chewing gum"
+'Monkeys wave goodbye'
 ----
 
 (((quoting (of strings))))Both single and double quotes can be used to
@@ -224,11 +224,11 @@ press `enter`, can also not be put between quotes—the string has to
 stay on a single line.
 
 (((backslash)))To be able to have such characters in a string, the
-following convention is used: Whenever a backslash (“\”) is found
+following convention is used: Whenever a backslash (‘\’) is found
 inside quoted text, it indicates that the character after it has a
 special meaning. A quote that is preceded by a backslash will not end
-the string, but be part of it. When an “n” character occurs after a
-backslash, it is interpreted as a newline. Similarly, a “t” after a
+the string, but be part of it. When an ‘n’ character occurs after a
+backslash, it is interpreted as a newline. Similarly, a ‘t’ after a
 backslash means a tab character. Take the following string:
 
 [source,javascript]
@@ -255,7 +255,7 @@ character is written like "\n"++” can be written:
 ----
 
 (((+ operator)))(((concatenation)))Strings cannot be divided,
-multiplied, or subtracted, but the “+” operator _can_ be used on them.
+multiplied, or subtracted, but the ‘+’ operator _can_ be used on them.
 It does not add, but it concatenates—it glues two strings together.
 The following line will produce the string `"concatenate"`:
 
@@ -320,7 +320,7 @@ console.log(3 < 2)
 ----
 
 (((> operator)))(((< operator)))(((greater than)))(((less
-than)))(((comparing)))The “>” and “<” signs are the traditional symbol
+than)))(((comparing)))The ‘>’ and ‘<’ signs are the traditional symbol
 for “is greater than” and “is less than.” They are binary operators,
 and the result of applying them is a boolean value that indicates
 whether they hold true in this case.
@@ -335,7 +335,7 @@ console.log("Aardvark" < "Zoroaster")
 
 The way strings are ordered is more or less alphabetic: Uppercase
 letters are always “less” than lowercase ones, so `"Z" < "a"` is
-true, and nonalphabetic characters (“!”, “-”, and so on) are also
+true, and nonalphabetic characters (‘!’, ‘-’, and so on) are also
 included in the ordering. The actual way in which the comparison is
 done is based on the _((Unicode))_ standard. This standard assigns a
 number to virtually every character one would ever need, including
@@ -346,9 +346,9 @@ JavaScript goes over them from left to right, comparing the numeric
 codes of the characters one by one.
 
 (((>= operator)))(((<= operator)))(((== operator)))(((!=
-operator)))Other similar operators are “>=” (greater than or equal
-to), “\<=” (less than or equal to), “==” (equal to), and
-“!=” (not equal to).
+operator)))Other similar operators are ‘>=’ (greater than or equal
+to), ‘\<=’ (less than or equal to), ‘==’ (equal to), and
+‘!=’ (not equal to).
 
 [source,javascript]
 ----
@@ -358,8 +358,8 @@ console.log("Itchy" != "Scratchy")
 
 There is only one value in JavaScript that is not equal to itself, and
 that is `NaN` (not-a-number). This is supposed to denote the result of
-a nonsense computation, and as such not equal to the result of any
-_other_ nonsense computations.
+a nonsensical computation, and as such not equal to the result of any
+_other_ nonsensical computations.
 
 [source,javascript]
 ----
@@ -374,7 +374,7 @@ applied to boolean values themselves. JavaScript supports three
 logical operators: _and_, _or_, and _not_. These can be used to
 “reason” about booleans.
 
-(((&& operator)))The “&&” operator represents logical _and_. It is a
+(((&& operator)))The ‘&&’ operator represents logical _and_. It is a
 binary operator, and its result is true only if both the values
 given to it are true.
 
@@ -386,7 +386,7 @@ console.log(true && true)
 // → true
 ----
 
-(((|| operator)))The “||” operator denotes logical _or_. It produces
+(((|| operator)))The ‘||’ operator denotes logical _or_. It produces
 true if either of the values given to it is true:
 
 [source,javascript]
@@ -398,14 +398,14 @@ console.log(false || false)
 ----
 
 (((negation)))(((! operator)))_Not_ is written as an exclamation mark
-(“!”). It is a unary operator that flips the value given to it;
-`!true` produces `false` and `!false` gives `true`.
+(‘!’). It is a unary operator that flips the value given to it—`!true`
+produces `false` and `!false` gives `true`.
 
 (((precedence)))When mixing these boolean operators with arithmetic
 and other operators, it is not always obvious when parentheses are
 needed. In practice, one can usually get by with knowing that of the
-operators we have seen so far, “||” has the lowest precedence, then
-comes “&&”, then the comparison operators (“>”, “==”, and so on), and
+operators we have seen so far, ‘||’ has the lowest precedence, then
+comes ‘&&’, then the comparison operators (‘>’, ‘==’, and so on), and
 then the rest. This has been chosen in such a way that, in typical
 expressions, such as the one below, as few parentheses as possible are
 necessary.
@@ -466,7 +466,7 @@ produced. Further arithmetic operations on `NaN` keep on producing
 `NaN`, so if you find yourself getting one of those in an unexpected
 place, look for accidental type conversions.
 
-(((== operator)))When comparing things of the same type using “==”,
+(((== operator)))When comparing things of the same type using ‘==’,
 the outcome is rather easy to predict—you'll get true when both
 values are the same. But when the types differ, JavaScript uses a
 complicated and confusing set of rules to determine what to do. I will
@@ -477,8 +477,8 @@ true only if both sides are `null` or `undefined`.
 
 That last piece of behavior is often very useful. When you want to
 test whether a value has a real value, rather than being either `null`
-or `undefined`, you can simply compare it to `null` with the “==” (or
-“!=”) operator.
+or `undefined`, you can simply compare it to `null` with the ‘==’ (or
+‘!=’) operator.
 
 (((=== operator)))(((!== operator)))But what if you want to test
 whether something refers to the precise value `false`? The rules for
@@ -487,7 +487,7 @@ converting strings and numbers to boolean values state that `0`,
 values count as true. Because of this, expressions like `0 == false`
 and `"" == false` are also true. For cases like this, where you do
 _not_ want any automatic type conversions to happen, there are two
-extra operators: “===” and “!==”. The first tests whether a value is
+extra operators: ‘===’ and ‘!==’. The first tests whether a value is
 precisely equal to the other, and the second tests whether it is not
 precisely equal. So `"" === false` is false as expected.
 
@@ -501,18 +501,17 @@ operators.
 === Short-circuiting of && and || ===
 
 (((|| operator)))(((&& operator)))(((operator)))The logical operators
-“&&” and “||” have a peculiar way of dealing with values of different
+‘&&’ and ‘||’ have a peculiar way of dealing with values of different
 types. They _will_ convert the value on their left side to boolean
 type in order to decide what to do, but then, depending on the
 operator and the result of that conversion, either return the
 _original_ left-hand value, or the right-hand value.
 
-The “||” operator will return the value to its left when that can be
+The ‘||’ operator will return the value to its left when that can be
 converted to true, and the value on its right otherwise. This does the
 right thing for boolean values, and will do something analogous for
-values of other types. It is quite practical in some situations,
-allowing the operator to be used as a way to fall back to a given
-default value.
+values of other types. This is quite useful, since it allows the
+operator to be used as a way to fall back to a given default value.
 
 [source,javascript]
 ----
@@ -522,29 +521,29 @@ console.log("Karl" || "user")
 // → Karl
 ----
 
-The “&&” operator works similarly, but the other way around. When the
+The ‘&&’ operator works similarly, but the other way around. When the
 value to its left is something that converts to false, it returns that
 value, and otherwise it returns the value on its right.
 
 (((shortcut evaluation)))Another important property of these two
 operators is that the expression to their right is evaluated only when
 necessary. In the case of `true || X`, no matter what `X` is—it might
-be an expression that does something _terrible_—the result will be
+be an expression that does something __terrible__—the result will be
 true, and `X` is never evaluated. The same goes for `false && X`,
 which is false, and will ignore `X`.
 
 == Summary ==
 
-To recap—we looked at four types of JavaScript values in this
-chapter. Numbers, strings, booleans, and undefined values.
+We looked at four types of JavaScript values in this chapter. Numbers,
+strings, booleans, and undefined values.
 
 Such values are created by typing in their name (`true`, `null`) or
 value (`13`, `"abc"`). They can be combined and transformed with
-operators. We saw binary operators for arithmetic (“+”, “-”, “*”, “/”,
-and “%”), one for string concatenation (“+”), comparison (“==”, “!=”,
-“===”, “!==”, “<”, “>”, “\<=”, “>=”), and logic (“&&”, “||”), as well
-as several unary operators (“-” to negate a number, “!” to negate
-logically, and “typeof” to find a value's type).
+operators. We saw binary operators for arithmetic (‘+’, ‘-’, ‘*’, ‘/’,
+and ‘%’), one for string concatenation (‘+’), comparison (‘==’, ‘!=’,
+‘===’, ‘!==’, ‘<’, ‘>’, ‘\<=’, ‘>=’), and logic (‘&&’, ‘||’), as well
+as several unary operators (‘-’ to negate a number, ‘!’ to negate
+logically, and `typeof` to find a value's type).
 
 This gives you enough information to use JavaScript as a pocket
 calculator, but not much more. The next chapter will start tying these

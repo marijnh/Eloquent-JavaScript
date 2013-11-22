@@ -560,27 +560,36 @@ function drawTable(rows) {
   var heights = rowHeights(rows);
   var widths = colWidths(rows);
 
-  return rows.map(function(row, rowNum) {
+  function drawLine(blocks, lineNo) {
+    return blocks.map(function(block) {
+      return block[lineNo];
+    }).join(" ");
+  }
+
+  function drawRow(row, rowNum) {
     var blocks = row.map(function(cell, colNum) {
       return cell.draw(widths[colNum], heights[rowNum]);
     });
-    return blocks[0].map(function(_, i) {
-      return blocks.map(function(block) {
-        return block[i];
-      }).join(" ");
+    return blocks[0].map(function(_, lineNo) {
+      return drawLine(blocks, lineNo);
     }).join("\n");
-  }).join("\n");
+  }
+
+  return rows.map(drawRow).join("\n");
 }
 ----
 
-It repeatedly maps over things and then uses the array's `join` method
-to build up a string from the result. The outer `map` call builds up
-the strings for whole rows. Inside of it, a simple `map` is used to
-get an array of text blocks for the cells in the row. We then have to
-do another row-column inversion trick, similar to the one in
-`colWidths`, to build up arrays of text for each line (the very inner
-`map`/`join`), and then join these lines together with newline
-characters.
+The `drawTable` function uses internal helper functions `drawRow` and
+`drawLine`. The first produces a string for a single row of the table,
+and the second is used to render a single line, given an array of
+blocks (arrays of strings) and a line number. The outer function, at
+its very end, simply draws all rows and joins them together with
+newline characters.
+
+The `drawRow` function itself does something similar. It first draws
+each cell using the correct dimensions, and then maps over all the
+lines in the first cell in order to call `drawLine` for each line the
+row has, and joins the result, again, with newline characters.
 
 Let us write a constructor for cells that contain text. The
 constructor splits a string into an array of lines, and the `minWidth`
@@ -690,13 +699,15 @@ cell, and concatenate a single line full of dashes to it.
 ----
 function dataTable(data) {
   var keys = Object.keys(data[0]);
-  return [keys.map(function(name) {
+  var headers = keys.map(function(name) {
     return new UnderlinedCell(new TextCell(name));
-  })].concat(data.map(function(row) {
+  });
+  var body = data.map(function(row) {
     return keys.map(function(name) {
       return new TextCell(String(row[name]));
     });
-  }));
+  });
+  return [headers].concat(body);
 }
 
 console.log(drawTable(dataTable(MOUNTAINS)));
@@ -834,9 +845,10 @@ were aiming for:
 ----
 function dataTable(data) {
   var keys = Object.keys(data[0]);
-  return [keys.map(function(name) {
+  var headers = keys.map(function(name) {
     return new UnderlinedCell(new TextCell(name));
-  })].concat(data.map(function(row) {
+  });
+  var body = data.map(function(row) {
     return keys.map(function(name) {
       var value = row[name];
       if (typeof value == "number")
@@ -844,7 +856,8 @@ function dataTable(data) {
       else
         return new TextCell(String(value));
     });
-  }));
+  });
+  return [headers].concat(body);
 }
 
 console.log(drawTable(dataTable(MOUNTAINS)));

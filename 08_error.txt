@@ -1,0 +1,448 @@
+:chap_num: 8
+:prev_link: 07_elife
+:next_link: 09_FIXME
+
+= Error Handling =
+
+(((invalid input)))(((error handling)))
+In most of the example programs so far, I either noted that they
+expected their input to be valid or ignored the possibility of
+problematic input altogether. There are situations in which we can get
+away with this, such as when a program is only for our own use or
+when we can be positively certain that there will be no unexpected
+input. In serious programs, however, some kind of disaster plan is usually
+needed.
+
+== Types of Problems ==
+
+(((programmer error)))(((run-time error)))(((error handling!types of)))
+The problematic situations that a program can encounter can roughly be
+divided into two categories: programmer mistakes and run-time
+problems. If someone forgets to pass a required argument to a
+function, that is a programmer mistake. On the other hand, if a
+program asks the user to enter a name and it gets back an empty
+string, that is something the programmer cannot prevent.
+
+=== Programmer Mistakes ===
+
+The strategy for dealing with programmer mistakes is usually to have the
+program fail as quickly as possible, preferably in a way that makes it
+clear what went wrong. If this happens during programming, you can
+immediately fix the problem. If it happens when a user is using the
+program, the user should at least be able to tell you something went
+wrong.
+
+(((NaN value)))(((error propagation)))
+One of the worst things about JavaScript is that it rarely complains.
+Forgetting an argument is fine; it'll just be given the value
+`undefined`. Then using this argument in some numeric computation
+is also fine; the result will just be `NaN`. In this way, a
+mistake often manifests itself only after passing through several
+functions, or even just results in bogus output.
+
+On the other hand, trying to read a property from an `undefined`
+value, or using a function that does not exists, _will_ cause an
+error to be signaled. Our language is not entirely unhelpful.
+
+Thus, when spotting an error-prone situation, one can choose to write
+some code that explicitly checks the inputs for validity and blows up
+the program if they are not valid. (We will learn how to blow programs
+up later in the chapter.) Unfortunately, checking everything will
+cause the size of your programs to quadruple and will remove any trace of
+elegance they might have shown. Thus, checking input is always a
+judgment call---you have to identify the mistakes that are likely to
+occur and that are likely to have subtle, complicated effects (rather
+than just causing an error right away).
+
+(((type checking)))
+Most other languages are nicer in this regard---they will signal an
+error when you try to do something that doesn't make sense, and a lot
+of them even do _type checking_, where they validate that each
+operation is performed only on the type of value it operates on,
+before they even start running the program.
+
+=== Run-Time Errors ===
+
+(((run-time error)))
+Not all problems can be prevented by the programmer, unfortunately. If
+your program reads any input at all, or depends on other systems,
+there is a chance that the input is invalid, or the other systems are
+broken or unreachable.
+
+Simple programs can afford to just give up when such a problem occurs,
+but ``real'' applications are often expected to somehow handle the
+problem and continue. For example, when asking the user to input a
+number, we should check the input and, if it is not a number, ask
+again or tell the user to get lost, but definitely not crash.
+
+== Handling Errors ==
+
+Unexpected input, or some other problematic circumstance, often leads
+to functions not being able to do what they are supposed to do. Take,
+for example, this function, `between`, which extracts the part of
+a string between two substrings:
+
+[source,javascript]
+----
+function between(string, start, end) {
+  var startAt = string.indexOf(start) + start.length;
+  var endAt = string.indexOf(end, startAt);
+  return string.slice(startAt, endAt);
+}
+
+between("Louis 'Pops' Armstrong", "'", "'");
+→ "Pops"
+----
+
+When `start` or `end` is not found in the input, what
+should this function do? It cannot return what it is supposed to
+return, because the question it was asked doesn't make sense.
+
+=== Returning a Special Value ===
+
+(((error handling!return value)))
+When a function encounters a problem that it cannot solve itself, one
+possible reaction is to return a value that it could not normally
+return. Since `between`, in normal operation, will return a
+string, we could specify it to return `undefined` (or
+`false`, or even `26`, but let's not be weirder than we have
+to be) on bad input.
+
+[source,javascript]
+----
+function between(string, start, end) {
+  var startAt = string.indexOf(start);
+  if (startAt == -1)
+    return undefined;
+  startAt += start.length;
+  var endAt = string.indexOf(end, startAt);
+  if (endAt == -1)
+    return undefined;
+
+  return string.slice(startAt, endAt);
+}
+----
+
+You can see that error checking does not generally make functions
+prettier. But now code that calls `between` can do something
+like this:
+
+[source,javascript]
+----
+var input = prompt("Tell me something", "");
+var parenthesized = between(input, "(", ")");
+if (parenthesized != undefined)
+  print("You parenthesized '", parenthesized, "'.");
+----
+
+In many cases, mostly when errors are likely and the caller should be
+explicitly checking for them, returning a special value is a perfectly
+fine way to indicate an error. It does, however, have its downsides.
+First, what if the function can already return every possible kind
+of value? For example, consider this function that gets the last
+element from an array:
+
+[source,javascript]
+----
+function lastElement(array) {
+  if (array.length > 0)
+    return array[array.length - 1];
+  else
+    return undefined;
+}
+
+lastElement([1, 2, undefined]);
+→ undefined
+----
+
+So, did the array have a last element? Looking at the value
+`lastElement` returns, it is impossible to say.
+
+The second issue with returning special values is that it can
+sometimes lead to a whole lot of clutter. If a piece of code calls
+`between` 10 times, it has to check 10 times whether
+`undefined` was returned. Also, if a function calls
+`between` but does not have a strategy to recover from a failure,
+it will have to check the return value of `between`, and if it is
+`undefined`, this function can then return `undefined` or
+some other special value to its caller, which in turn also checks for
+this value.
+
+=== Exceptions ===
+
+(((exception handling)))(((error handling!exceptions)))
+When, for some reason, a function cannot return normally, what we
+actually want is to just stop doing what we are doing and immediately
+jump back to a place that knows how to handle the problem. That is
+what _exception handling_---a mechanism
+present in a lot of modern languages, including JavaScript---does.
+
+(((control flow)))(((raise (exception))))(((throw keyword)))
+The mechanism works like this: It is possible for code to _raise_
+(or _throw_) an exception, which is a value. Raising an exception
+somewhat resembles a super-charged return from a function---it does
+not just jump out of the current function but also out of its
+callers, all the way up to the top-level call that started the current
+execution. This is called (((unwinding the stack)))_unwinding
+  the stack_. You may remember the (((call stack)))stack of function
+calls that was mentioned in chapter 3. An exception zooms
+down this stack, throwing away all the call contexts it encounters.
+
+(((catch keyword)))
+If they always zoomed right down to the base of the stack, exceptions
+would not be of much use; they would just provide a novel way to blow
+up your program. Fortunately, it is possible to set obstacles for
+exceptions along the stack. These _catch_ the
+exception as it is zooming down and can do something with it, after
+which the program continues running at the point where the exception
+was caught.
+
+Here's an example:
+
+[source,javascript]
+----
+function lastElement(array) {
+  if (array.length > 0)
+    return array[array.length - 1];
+
+  else
+    throw "Cannot take the last element of an empty array.";
+}
+
+function lastElementPlusTen(array) {
+  return lastElement(array) + 10;
+}
+
+try {
+  print(lastElementPlusTen([]));
+}
+catch (error) {
+  print("Something went wrong: ", error);
+}
+----
+
+(((throw keyword)))(((try keyword)))(((catch keyword)))
+`throw` is the keyword that is used to raise an
+exception. The keyword `try` sets up an obstacle for
+exceptions: When the code in the block after it raises an exception,
+the `catch` block will be executed. The variable
+named in parentheses after the word `catch` will hold the
+exception value when this block executes.
+
+Note that the function `lastElementPlusTen` completely ignores
+the possibility that `lastElement` might go wrong. This is the
+big advantage of exceptions---error-handling code is necessary only at
+the point where the error occurs and at the point where it is handled.
+The functions in between can forget all about it.
+
+Well, almost . . .
+
+=== Cleaning Up After Exceptions ===
+
+(((cleaning up)))
+Consider the following situation: A function `processThing`,
+wants to make sure that, during its executing, the top-level variable
+`currentThing` holds the thing that is being processed. After it
+finishes processing, it restores this variable to its old value.
+
+[source,javascript]
+----
+var currentThing = null;
+
+function processThing(thing) {
+  var prevThing = currentThing;
+  currentThing = thing;
+  /* do complicated processing... */
+  currentThing = prevThing;
+}
+----
+
+What if the complicated processing raises an exception? In that case,
+the call to `processThing` will be thrown off the stack by the
+exception, and `currentThing` will never be reset to its old
+value.
+
+(((try keyword)))(((finally keyword))) `try`
+statements can also be followed by a `finally` keyword, which means
+``no matter _what_ happens, run this code after trying to run the code
+in the `try` block.'' If a function has to clean something up, the
+cleanup code should usually be put into a `finally` block:
+
+[source,javascript]
+----
+function processThing(thing) {
+  var prevThing = currentThing;
+  currentThing = thing;
+  try {
+    /* do complicated processing... */
+  }
+  finally {
+    currentThing = prevThing;
+  }
+}
+----
+
+Now, whether the complicated processing returns normally or throws an
+exception, `currentThing` is _always_ set back to its old
+value.
+
+=== Error Objects ===
+
+A lot of errors in programs cause the JavaScript environment to raise
+an exception. For example, this program will print something like
+`Caught: Sasquatch is not defined`:
+
+[source,javascript]
+----
+try {
+  print(Sasquatch);
+}
+catch (error) {
+  print("Caught: " + error.message);
+}
+----
+
+(((Error type)))
+A special type of objects is raised for problems like this. These
+always have a `message` property containing a description of the
+problem. You can raise similar objects using the `new` keyword
+and the `Error` constructor, giving the message as
+argument:
+
+[source,javascript]
+----
+throw new Error("Wolf!");
+----
+
+=== Unhandled Exceptions ===
+
+(((unhandled exception)))(((JavaScript!console)))
+When an exception makes it all the way to the bottom of the stack
+without being caught, it gets handled by the environment. What this
+means differs between the different environments. In browsers,
+sometimes a description of the error is written to some kind of log
+(reachable in the menu under a name like ``JavaScript console'' or
+``error console''); sometimes a window pops up describing the error.
+
+For programmer mistakes or problems that the program cannot possibly
+handle, just letting the error go through is often okay. An unhandled
+exception is a reasonable way to signal a broken program, and many
+JavaScript environments (such as the ``debugging'' tools included in
+modern browsers) allow you to inspect these exceptions to see which
+function calls were on the stack when they occurred, which can be very
+helpful when trying to find the problem.
+
+=== Selective Catching ===
+
+(((catch keyword)))
+When explicitly handling an exception using `catch`, one has to
+be careful not to catch too much. For example, say we have this program:
+
+[source,javascript]
+----
+for (;;) {
+  try {
+    alert(inputNumber() + 5);
+    break;
+  }
+  catch (e) {
+    alert("You did not input a number. Try again.");
+  }
+}
+----
+
+(((infinite loop)))(((for loop)))
+The `for(;;)` construct creates a loop that doesn't terminate on
+its own. `inputNumber` is a hypothetical function that asks for a
+number and raises an exception when invalid input is given. As soon as
+valid input is given, the `try` block executes to completion, and
+the loop will end.
+
+But what if `inputNumber` raises some other exception? The
+program will assume that the user is providing invalid input and will loop
+forever. Thus, it would be wise to verify that the exception raised is
+indeed caused by invalid input. One way to do this is to raise a
+special, unique object, like this:
+
+[source,javascript]
+----
+var InvalidInputError = new Error("Invalid numeric input");
+
+function inputNumber() {
+  var input = Number(prompt("Give me a number", ""));
+  if (isNaN(input))
+    throw InvalidInputError;
+  return input;
+}
+----
+
+Now we can write our `try`/`catch` construct like this:
+
+[source,javascript]
+----
+try {
+  alert(inputNumber() + 5);
+  break;
+}
+
+catch (e) {
+  if (e != InvalidInputError)
+    throw e;
+  alert("You did not input a number. Try again.");
+}  
+----
+
+We check whether the exception raised is the one we are interested in and
+rethrow it if it is not so that we handle only the problem we're
+supposed to be handling; we let other kinds of problems go on, either
+to be caught at another place or to terminate the program if
+unhandled.
+
+== Automated Testing ==
+
+(((automated testing)))(((test suite)))
+Because JavaScript programs aren't checked very thoroughly before
+execution and because manually testing every `if` branch in a big
+program can take a lot of time, mistakes can sit lurking in the depths
+of programs, even when they appear to work fine.
+
+For some pieces of code---those that work without too much interaction
+with their environment---it is very straightforward to write automated
+tests. These are programs that test programs. To test the
+`between` function we saw in this chapter, you could, for
+example, write something like this:
+
+[source,javascript]
+----
+function testBetween() {
+  function assert(name, x) {
+    if (!x)
+      throw "Assertion failed: " + name;
+  }
+
+  assert("identical delimiters", between("a |b| c", "|", "|") == "b");
+  assert("whole string", between("[[n]]", "[[", "]]") == "n");
+  assert("reversed", between("]x[", "[", "]") == undefined);
+  assert("missing end", between(" -->d ", "-->", "<--") == undefined);
+  /* and so on */
+}
+----
+
+Now, whenever you change `between`, you can run
+`testBetween` to verify that it still works as intended. Of
+course, tests for such a simple function feel a bit pointless, but
+you'll usually be testing bigger, more complex components, where it is
+not so easy to just ``see'' that they work.
+
+Writing tests is a lot of work, and keeping them up-to-date when you
+change your functions is even more work. Thus, whether having a suite
+of tests is worthwhile is something that has to be decided case by
+case. Typically, once a piece of code gets sufficiently complex or
+has many different people working on it, a point is reached where
+writing, running, and updating the tests becomes less work than
+testing manually.
+
+(((test framework)))
+There are various pieces of software to make writing and running tests
+easier. Search the Web for _JavaScript test framework_ to read about
+them.

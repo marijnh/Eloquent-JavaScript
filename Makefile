@@ -1,6 +1,6 @@
 all: html tex
 
-CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_higher_order 06_object 07_elife
+CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_higher_order 06_object 07_elife 08_error
 
 html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html)
 

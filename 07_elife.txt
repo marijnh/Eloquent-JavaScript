@@ -1,0 +1,1172 @@
+:chap_num: 7
+:prev_link: 06_object
+:next_link: 08_FIXME
+:load_files: ["js/07_elife.js", "js/animateworld.js"]
+
+= Practical: Electronic Life =
+
+In the practical chapters of this book, I stop pummeling you with new
+theory for a brief moment, and instead work through a program. Theory
+is indispensable, but reading and understanding programs, as I claimed
+in the introduction, is the best way to learn programming.
+
+The example project for this chapter is to build a virtual ecosystem,
+a little world with creatures moving around in it, in which the
+animals are autonomous programs struggling for survival.
+
+== Definition ==
+
+In order to make this task manageable, we radically simplify the
+concept of a “world”. Namely, we understand it to mean a
+two-dimensional grid with each entity taking up a full square of the
+grid. Each “turn”, all the animals in the world get a chance to take
+some action.
+
+(((discretization)))(((simulation))) Thus, we chop both time and space
+into units with a fixed size—squares for space and turns for time.
+This tends to make things easier to model. Of course, it has the
+drawback of being crude and inaccurate. But this simulation is
+intended to be amusing, not accurate, so we can freely cut such
+corners.
+
+A world can be defined with a “plan,” which is an array of strings
+that lay out the world's grid, using one character per square, and a
+legend, which is an object that tells us, for each character, what it
+means.
+
+// include_code
+
+[source,javascript]
+----
+var plan =
+  ["############################",
+   "#      #    #      o      ##",
+   "#                          #",
+   "#          #####           #",
+   "##         #   #    ##     #",
+   "###           ##     #     #",
+   "#           ###      #     #",
+   "#   ####                   #",
+   "#   ##       o             #",
+   "# o  #         o       ### #",
+   "#    #                     #",
+   "############################"];
+----
+
+We could have used a single string, but the array structure nicely
+reflects the two-dimensional structure of the data.
+
+The ‘#’ characters in this plan represent walls (and rocks), and the
+‘o’ characters represent critters, and the spaces are, as you might
+have guessed, empty space.
+
+(((toString method)))Such a plan array can be used to create a world
+object. This object keeps track of the shape and content of the world
+and lets the critters inside move. It has a method `toString`, which
+converts the world back to a string similar to the plan it was based
+on, so that you can see what is going on inside of it. And a method
+`turn`, which lets all the critters in it take one turn, and updates
+the world to reflect their actions.
+
+== Representing space ==
+
+The grid that models the world has a fixed width and height
+(corresponding to the size of the map that the world is based on).
+Squares are identified by their x- and y-coordinates. We use a very
+simple type, `Point` (as seen in the exercises for the previous
+chapter) to represent such coordinate pairs.
+
+// include_code
+
+[source,javascript]
+----
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+Point.prototype.plus = function(other) {
+  return new Point(this.x + other.x, this.y + other.y);
+};
+----
+
+Next, we'll want an object type that models the grid itself. A grid is
+part of a world, but we do want to make it a separate object (which
+will be _part_ of a world object) in order to help keep the world
+object simple. The world will concern itself with world-related
+things, the grid with grid-related things.
+
+(((array)))(((data structure)))To store the values on the grid, there
+are several options. We can use an array of row arrays and use two
+property accesses to get to a specific point, like this:
+
+[source,javascript]
+----
+var grid = [["0,0", "1,0", "2,0"],
+            ["0,1", "1,1", "2,1"]];
+console.log(grid[1][2]);
+// → 2,1
+----
+
+Or, we can use a single array, with size width × height, and decide
+that the element at x,y is found at position x + y × width in the
+array.
+
+[source,javascript]
+----
+var grid = ["0,0", "1,0", "2,0",
+            "0,1", "1,1", "2,1"];
+console.log(grid[2 + 1 * 3]);
+// → 2,1
+----
+
+(((Array type)))Since the actual access to this array is wrapped in
+methods on the grid object type, it doesn't matter to outside code
+which approach we take. I chose the second representation, because it
+makes it much easier to initialize the array. When calling the `Array`
+constructor with a single number as argument, that produces a new
+array of the given length, filled with `undefined` values.
+
+This code defines the `Grid` object, with some basic methods:
+
+// include_code
+
+[source,javascript]
+----
+function Grid(width, height) {
+  this.space = new Array(width * height);
+  this.width = width;
+  this.height = height;
+}
+Grid.prototype.isInside = function(point) {
+  return point.x >= 0 && point.x < this.width &&
+         point.y >= 0 && point.y < this.height;
+};
+Grid.prototype.get = function(point) {
+  return this.space[point.x + this.width * point.y];
+};
+Grid.prototype.set = function(point, value) {
+  this.space[point.x + this.width * point.y] = value;
+};
+----
+
+And a trivial test:
+
+[source,javascript]
+----
+var grid = new Grid(5, 5);
+console.log(grid.get(new Point(1, 1)));
+// → undefined
+grid.set(new Point(1, 1), "X");
+console.log(grid.get(new Point(1, 1)));
+// → X
+----
+
+== A critter's programming interface ==
+
+(((interface)))Before we can start to write a `World` constructor, we
+will have to get a bit more specific about these “critter objects”
+that will be living inside it. I mentioned that the world will ask the
+critters what action they want to take. This works as follows: Each
+critter object has an `act` method that, when called, returns an
+_action_. An action is an object with a `type` property, which names
+the type of action the critter wants to take, for example `"move"`.
+The action may also contain extra information, such as the direction
+the critter wants to move in.
+
+Critters are terribly myopic, and thus they can only see the squares
+directly around them on the grid. But these they can use to base their
+action on. When the `act` method is called, it is given a “view”
+object that allows the critter to inspect its surroundings. We name
+each of the eight nearby squares (cardinal plus diagonal) with its
+compass name: `"n"` for North, `"ne"` for North-East, and so on. We'll
+use this object to map from direction names to coordinate offsets:
+
+// include_code
+
+[source,javascript]
+----
+var directions = {
+  "n":  new Point( 0, -1),
+  "ne": new Point( 1, -1),
+  "e":  new Point( 1,  0),
+  "se": new Point( 1,  1),
+  "s":  new Point( 0,  1),
+  "sw": new Point(-1,  1),
+  "w":  new Point(-1,  0),
+  "nw": new Point(-1, -1)
+};
+----
+
+The view objects passed to the `act` method have a method `look`,
+which takes a direction and returns a character, for example `"#"`
+when there is a wall in that direction, or `" "` (space) when there is
+nothing there. They also provide the convenient methods `find` and
+`findAll`. Both take a map character as argument. The first tries to
+find a direction in which such a character is found, and returns it,
+or `null` if no such element is next to the critter. The second
+returns an array containing all directions that hold the character.
+For example, a creature sitting left of a wall will get `["ne", "e",
+"se"]` when calling `findAll` on its view object with the `"#"`
+character as argument.
+
+We can make a simple, stupid critter that just bounces around,
+following its nose until it hits an obstacle, and then moving off into
+a random open direction, like this:
+
+// include_code
+
+[source,javascript]
+----
+function randomElement(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function BouncingCritter() {
+  this.direction = randomElement(Object.keys(directions)); 
+};
+
+BouncingCritter.prototype.act = function(view) {
+  if (view.look(this.direction) != " ")
+    this.direction = view.find(" ") || "s";
+  return {type: "move", direction: this.direction};
+};
+----
+
+The “++|| s++” part is there to prevent `this.direction` from getting
+the value null when the critter is somehow trapped with no empty space
+around it (for example when crowded in a corner by other critters).
+
+The `randomElement` function simply picks a random element from an
+array, using `Math.random` plus some arithmetic to get a random index.
+We'll use that again later (randomness is useful for simulations). We
+saw `Object.keys` in the previous chapter. It returns an array
+containing all the property names in the given object. In this case,
+all the direction names.
+
+== The world object ==
+
+Now we can start on the `World` object type. Here is its constructor,
+which takes a plan (an array of strings) and a legend as arguments and
+initializes the world's grid:
+
+// include_code
+
+[source,javascript]
+----
+function elementFromChar(legend, ch) {
+  if (ch == " ")
+    return null;
+  var element = new legend[ch]();
+  element.originChar = ch;
+  return element;
+}
+
+function World(map, legend) {
+  var grid = new Grid(map[0].length, map.length);
+  this.grid = grid;
+  this.legend = legend;
+
+  map.forEach(function(line, y) {
+    for (var x = 0; x < line.length; x++)
+      grid.set(new Point(x, y),
+               elementFromChar(legend, line[x]));
+  });
+}
+----
+
+A legend object contains a constructor for each character that occurs
+in the map, except for space, which always refers to `null`, the value
+used to represent empty space. In `elementFromChar`, after creating an
+instance of the right type by looking up this constructor and applying
+`new` to it, we add an `originChar` property to it to make it easy to
+find out what character it was created from.
+
+(((toString method)))We need to know that when implementing the
+`toString` method. This method builds up a map-like string from the
+world's current state, by doing a double loop over all the squares on
+the grid.
+
+// include_code
+
+[source,javascript]
+----
+function charFromElement(element) {
+  if (element == null)
+    return " ";
+  else
+    return element.originChar;
+}
+
+World.prototype.toString = function() {
+  var output = "";
+  for (var y = 0; y < this.grid.height; y++) {
+    for (var x = 0; x < this.grid.width; x++) {
+      var element = this.grid.get(new Point(x, y));
+      output += charFromElement(element);
+    }
+    output += "\n";
+  }
+  return output;
+};
+----
+
+When we try this out by creating a new world based on the plan shown
+above, and then calling `toString` on it, we get a string very similar
+to the plan you put in.
+
+// include_code strip_log
+// test: trim
+
+[source,javascript]
+----
+function Wall() {}
+
+var world = new World(plan,
+                      {"#": Wall,
+                       "o": BouncingCritter});
+console.log(world.toString());
+// → ############################
+//   #      #    #      o      ##
+//   #                          #
+//   #          #####           #
+//   ##         #   #    ##     #
+//   ###           ##     #     #
+//   #           ###      #     #
+//   #   ####                   #
+//   #   ##       o             #
+//   # o  #         o       ### #
+//   #    #                     #
+//   ############################
+----
+
+A wall is a very simple object—it is only used for taking up space,
+and has no `act` method.
+
+== this and its scope ==
+
+(((this variable)))(((variable,scope)))(((self variable)))
+The `World` constructor contains a call to `forEach`. One interesting
+thing to note is that, inside of the function passed to `forEach`
+there, we no longer have access to the `this` from the outer function.
+Each function binds its own `this`. It is bound to the global scope
+object when no actual method call is made. Thus, saying `this.grid` in
+the loop function wouldn't work, and a local `grid` variable had to be
+used to get access to the grid. This is a bit of a design blunder in the
+JavaScript language (the next version of the language provides a
+solution for this problem).
+
+There are workarounds for this. A common pattern is to say `var self =
+this`, and from then on, refer to `self`, which is a normal variable,
+and thus visible from inner functions.
+
+Another solution is to use the `bind` method, which allows us to
+provide an explicit `this` object to bind to.
+
+[source,javascript]
+----
+var test = {
+  prop: 10,
+  method: function(array) {
+    array.forEach(function(elt) {
+      console.log(this.prop + elt);
+    }.bind(this));
+  }
+};
+test.method([5]);
+// → 15
+----
+
+The function passed to `forEach` will now be the result of the `bind`
+call, and thus have its `this` bound to the first argument given to
+`bind`—the outer function's `this` value (which will hold the `test`
+object in this example).
+
+Most of the standard array higher-order methods, such as `forEach` and
+`map`, take an optional second argument that can also be used for this
+purpose. The value you pass there will be used as the `this` of the
+calls to the given function, so you could also express the example
+above in a slightly simpler way:
+
+[source,javascript]
+----
+var test = {
+  prop: 10,
+  method: function(array) {
+    array.forEach(function(elt) {
+      console.log(this.prop + elt);
+    }, this); // ← no bind
+  }
+};
+test.method([5]);
+// → 15
+----
+
+This only works for higher-order functions that support this feature,
+so you'll often need to fall back to one of the other approaches.
+
+This `forEach` method for our `Grid` type, which calls a given
+function for each element in the grid that isn't null or undefined,
+passing it the value and the point, demonstrates how to support such a
+“context” parameter to a higher-order function by using the given
+function's `call` method.
+
+// include_code
+
+[source,javascript]
+----
+Grid.prototype.forEach = function(f, context) {
+  for (var y = 0; y < this.height; y++) {
+    for (var x = 0; x < this.width; x++) {
+      var value = this.space[x + y * this.width];
+      if (value != null)
+        f.call(context, value, new Point(x, y));
+    }
+  }
+};
+----
+
+== Animating life ==
+
+(((simulation)))The next goal is to write a method `turn` for the
+world object, that gives the critters inside of it a chance to act. It
+will go over the whole grid, square by square, looking for objects
+with an `act` method. When it finds one, it calls that method to get
+an action object, and carries out the resulting action if it makes
+sense. For now, only `"move"` actions are understood.
+
+There is one potential problem with this approach. Can you spot it? If
+we let critters move as we come across them, they may move to a square
+that we haven't looked at yet, and we'll allow them to move _again_
+when we reach that square. Thus, we have to keep an array of critters
+that already had their turn, and ignore those when we see them again.
+
+// include_code
+
+[source,javascript]
+----
+World.prototype.turn = function() {
+  var acted = [];
+  this.grid.forEach(function(critter, point) {
+    if (critter.act && acted.indexOf(critter) == -1) {
+      acted.push(critter);
+      this.letAct(critter, point);
+    }
+  }, this);
+};
+----
+
+We use the second parameter to the grid's `forEach` method to be able
+to access the correct `this` inside of the inner function. The
+`letAct` method, then, contains the actual logic that allows the
+critters to move.
+
+// include_code
+
+[source,javascript]
+----
+World.prototype.letAct = function(critter, point) {
+  var action = critter.act(new View(this, point));
+  if (action && action.type == "move") {
+    var dest = this.checkDestination(action, point);
+    if (dest && this.grid.get(dest) == null) {
+      this.grid.set(point, null);
+      this.grid.set(dest, critter);
+    }
+  }
+};
+
+World.prototype.checkDestination = function(action, point) {
+  if (directions.hasOwnProperty(action.direction)) {
+    var dest = point.plus(directions[action.direction]);
+    if (this.grid.isInside(dest))
+      return dest;
+  }
+};
+----
+
+First, we simply ask the critter to act, passing it a view object
+that knows about the world and the critter's current position in that
+world (we'll define `View` in a moment). This returns an action of
+some kind.
+
+If the action's `type` is not `"move"`, it is ignored. If it _is_
+`"move"`, and it has a `direction` property that refers to a valid
+direction, _and_ the square in that direction is empty (null), we set
+the square where the critter used to be to hold null, and store the
+critter in the destination square.
+
+(((interface)))(((private property)))These two methods are not part of
+the external interface of a `World` object. They are internal details.
+Some languages provide ways to explicitly declare certain methods and
+properties “private” and signal an error when you try to use them from
+outside the object. JavaScript does not, so you will have to rely on
+some other form of communication to describe what is part of an
+object's interface. Sometimes it can be useful to use a naming scheme
+to distinguish between external and internal properties, for example
+by prefixing all internal ones with an underscore (‘_’). This will
+make accidental uses of properties that are not part of an object's
+interface easier to spot.
+
+(((defensive programming)))Note that `letAct` takes care to ignore
+nonsense input—it doesn't assume that the action's `direction`
+property is valid, or that the `type` property makes sense. This kind
+of “defensive” programming makes sense in some situations. The main
+reason for doing it is to validate inputs coming from sources we do
+not control (such as user or file input), but it can also be useful to
+isolate subsystems from each other. In this case, the idea is that the
+critters themselves can be programmed sloppily (they don't have to
+verify if their intended actions make sense, they can just request an
+action and the world will figure out whether to allow it), which can
+be convenient.
+
+The one missing part, the `View` type, looks like this:
+
+// include_code
+
+[source,javascript]
+----
+function View(world, point) {
+  this.world = world;
+  this.point = point;
+}
+View.prototype.look = function(dir) {
+  var target = this.point.plus(directions[dir]);
+  if (this.world.grid.isInside(target))
+    return charFromElement(this.world.grid.get(target));
+  else
+    return "#";
+};
+View.prototype.findAll = function(ch) {
+  var found = [];
+  for (var dir in directions)
+    if (this.look(dir) == ch)
+      found.push(dir);
+  return found;
+};
+View.prototype.find = function(ch) {
+  var found = this.findAll(ch);
+  if (found.length == 0) return null;
+  return randomElement(found);
+};
+----
+
+The `look` method figures out the coordinates that we are trying to
+look at, and, if that is inside of the grid, finds the character that
+corresponds to the element that sits there. When outside of the grid,
+it simply pretends that there is a wall there, so that if you define a
+world that isn't walled in, the critters still won't be tempted to try
+and walk off the edges.
+
+== It moves ==
+
+We instantiated a world object before. Now that we've added all the
+necessary methods, it should be possible to actually make it move.
+
+[source,javascript]
+----
+for (var i = 0; i < 5; i++) {
+  world.turn();
+  console.log(world.toString());
+}
+// → … five turns of moving critters
+----
+
+ifdef::tex_target[]
+
+The first two maps that are displayed will look something like this
+(depending on the random direction the critters picked):
+
+----
+############################  ############################
+#      #    #             ##  #      #    #             ##
+#                   o      #  #                          #
+#          #####           #  #          #####     o     #
+##         #   #    ##     #  ##         #   #    ##     #
+###           ##     #     #  ###           ##     #     #
+#           ###      #     #  #           ###      #     #
+#   ####                   #  #   ####                   #
+#   ##                     #  #   ##                     #
+#    #       o         ### #  #o   #                 ### #
+#o   #          o          #  #    #       o o           #
+############################  ############################
+----
+
+They move! To get a more interactive view of these critters crawling
+around and bouncing off the walls, open this chapter in the online
+version of the book at `eloquentjavascript.net`.
+
+endif::tex_target[]
+
+ifdef::html_target[]
+
+Just logging out many copies of the map makes for a rather unpleasant
+way to observe a world though. That is why the sandbox provides a
+function `animateWorld` that will run a world as an on-screen
+animation, moving three turns per second, until you hit the stop
+button.
+
+// test: no
+
+[source,javascript]
+----
+animateWorld(world);
+// → … life!
+----
+
+The way `animateWorld` is actually built will remain a mystery for
+now, but after you've read the later chapters of this book, which
+discuss JavaScript integration in web browsers, it won't look so
+magical anymore.
+
+endif::html_target[]
+
+== More life forms ==
+
+So, we have a world in which something is happening. The dramatic
+highlight so far, if you watch the world for a bit, is two bouncing
+critters bouncing off each other. Let's introduce a second kind of
+critter. Can you think of another interesting form of behavior, in the
+limited context we have so far?
+
+One I came up with is a critter that follows walls. It (conceptually)
+keeps its left hand (paw, tentacle, whatever) to the wall, and keeps
+moving along that wall. This was actually more difficult to express
+than I intentionally expected, so be prepared to do a few double takes
+on the following code.
+
+// include_code
+
+[source,javascript]
+----
+var directionNames = Object.keys(directions);
+function dirPlus(dir, n) {
+  var index = directionNames.indexOf(dir);
+  return directionNames[(index + n + 8) % 8];
+}
+
+function WallFollower() {
+  this.dir = "s";
+}
+
+WallFollower.prototype.act = function(view) {
+  var start = this.dir;
+  if (view.look(dirPlus(this.dir, -3)) != " ")
+    start = this.dir = dirPlus(this.dir, -2);
+  while (view.look(this.dir) != " ") {
+    this.dir = dirPlus(this.dir, 1);
+    if (this.dir == start) break;
+  }
+  return {type: "move", direction: this.dir};
+};
+----
+
+First, we need to be able to “compute” with directions. Since they are
+modeled by a set of strings, we need to define our own operation
+(`dirPlus`) to calculate relative directions. So `dirPlus("n", 1)`
+means one 45-degree turn clockwise from North, so `"ne"`. Similarly,
+`dirPlus("s", -2)` means 90 degrees counterclockwise from South, which
+is East.
+
+The function first looks up the index of the given direction in the
+`directionNames` array, then offsets it, takes the remainder of the
+result and 8, and then fetches the corresponding name from the array
+again. The extra “+++ 8++” is there because the ‘%’ operator, when
+given a negative number on the left hand side, will return a negative
+result. So we add another eight to make sure the sum is positive,
+under the requirement that the `n` argument is never less than -8.
+
+The `act` method, in the simple case, only has to do the following: It
+starts “scanning” the critter's surroundings starting from its
+left-hand side, and going clockwise (towards the right) until it finds
+an empty square. It then moves in the direction of that empty square.
+
+What complicates things is that a critter may end up, as its start
+position or as a result of walking around another critter, in the
+middle of empty space. If we apply the algorithm I just described in
+empty space, the poor thing will just keep on turning left at every
+step, running in circles.
+
+So there is an extra check (the `if` statement) that makes it only
+start scanning to its left when it looks like it just passed some kind
+of obstacle (the space behind-and-to-the-left of the critter is not
+empty). Otherwise, it start scanning directly in front of it, so that
+it'll walk straight when in empty space.
+
+And finally, there's a test comparing `this.dir` to `start` after
+every turn of the loop, to make sure that the loop won't run forever
+when the critter is walled in or crowded in by other critters, and
+can't find empty space.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+animateWorld(new World(
+  ["############",
+   "#     #    #",
+   "#   ~    ~ #",
+   "#  ##      #",
+   "#  ##  o####",
+   "#          #",
+   "############"],
+  {"#": Wall,
+   "~": WallFollower,
+   "o": BouncingCritter}
+));
+----
+
+endif::html_target[]
+
+== A more lifelike simulation ==
+
+(((simulation)))To make life in this world more interesting, we will
+add the concepts of food and reproduction. Each living thing in the
+world gets a new property, `energy`, which is reduced by performing
+actions and increased by eating things. When it has enough energy, a
+critter can reproduce, generating a new critter of the same kind. To
+keep things reasonably simple, the critters in our world reproduce
+asexually, all by themselves.
+
+(((entropy)))If there are only normal critters, wasting energy by
+moving around and eating each other, a world will soon succumb to the
+forces of entropy, run out of energy, and become a lifeless wasteland.
+To prevent this from happening (too quickly, at least), we add plants
+to the world. Plants do not move. They just use photosynthesis to grow
+(increase their energy), and reproduce.
+
+To make this work, we'll need a world with a different `letAct`
+method. We could just replace the method of the `World` prototype, but
+we have become very attached to our simulation with the wall-following
+critters, and would hate to break that old world.
+
+(((inheritance)))A solution is to use inheritance. We create a new
+constructor, `LifeLikeWorld`, whose prototype is based on the `World`
+prototype, but which overrides the `letAct` method.
+
+// include_code
+
+[source,javascript]
+----
+function LifeLikeWorld(map, legend) {
+  World.call(this, map, legend);
+}
+LifeLikeWorld.prototype = Object.create(World.prototype);
+
+var actionTypes = Object.create(null);
+
+LifeLikeWorld.prototype.letAct = function(critter, point) {
+  var action = critter.act(new View(this, point));
+  var handled = action &&
+    action.type in actionTypes &&
+    actionTypes[action.type].call(this, critter,
+                                  point, action);
+  if (!handled) {
+    critter.energy -= 0.2;
+    if (critter.energy <= 0)
+      this.grid.set(point, null);
+  }
+};
+----
+
+The pattern of deriving a type from another type was explained in the
+previous chapter. This `letAct` method delegates the work of actually
+performing an action to various functions stored in the `actionTypes`
+object, under property names corresponding to the action's name. We
+will define these functions in a moment. It first checks whether an
+action was returned at all, then whether a handler function for this
+type of action exists, and finally, whether than handler returns true,
+indicating that it successfully handled the action. Note the use of
+`call` to give the handler access to the world, though its `this`
+binding.
+
+When handling didn't work, for whatever reason, the default action is
+performed, which means the creature simply waits. One fifth point of
+energy is removed from it, and if that drops its energy level to zero
+or below, the creature dies, and is removed from the grid.
+
+== Action handlers ==
+
+The simplest action a creature can perform is `"grow"`, which is used
+by plants. When an action object like `{type: "grow"}` is returned,
+the following handler method will be called:
+
+// include_code
+
+[source,javascript]
+----
+actionTypes.grow = function(critter) {
+  critter.energy += 0.5;
+  return true;
+};
+----
+
+Growing always succeeds, and adds half a point to the plant's energy
+level.
+
+Moving is more involved:
+
+// include_code
+
+[source,javascript]
+----
+actionTypes.move = function(critter, point, action) {
+  var dest = this.checkDestination(action, point);
+  if (dest == null || critter.energy <= 1 ||
+      this.grid.get(dest) != null)
+    return false;
+  critter.energy -= 1;
+  this.grid.set(point, null);
+  this.grid.set(dest, critter);
+  return true;
+};
+----
+
+This one first checks whether the action provides a valid destination
+(using the `direction` property from the action) through the
+`checkDestination` method defined earlier, whether the critter has
+the energy required—moving costs one unit of energy—and whether the
+destination square is actually empty. If any of those fail, it returns
+false to tell `letAct` that no action was taken. Otherwise, it moves
+the critter, and subtracts the energy cost.
+
+// include_code
+
+[source,javascript]
+----
+actionTypes.eat = function(critter, point, action) {
+  var dest = this.checkDestination(action, point);
+  var atDest = dest != null && this.grid.get(dest);
+  if (atDest == null || atDest.energy == null)
+    return false;
+  critter.energy += atDest.energy;
+  this.grid.set(dest, null);
+  return true;
+};
+----
+
+Eating another critter also involves providing a valid destination
+square. This time, the destination must not be empty, but must contain
+a critter that has energy (i.e. not a wall—walls are not edible). If
+that succeeds, the energy from the eaten thing is transferred to the
+current critter, and the eaten thing is removed from the grid.
+
+// include_code
+
+[source,javascript]
+----
+actionTypes.reproduce = function(critter, point, action) {
+  var baby = elementFromChar(this.legend,
+                             critter.originChar);
+  var dest = this.checkDestination(action, point);
+  if (dest == null || critter.energy <= 2 * baby.energy ||
+      this.grid.get(dest) != null)
+    return false;
+  critter.energy -= baby.energy * 2;
+  this.grid.set(dest, baby);
+  return true;
+};
+----
+
+Reproducing costs twice the energy level of the newborn critter. So we
+first create a (hypothetical) baby using `elementFromChar` on the
+critter's own origin character. Once we have a baby, we know its
+energy level and can test whether the parent has enough energy to
+successfully put it into the world. We also require a valid (and
+empty) destination again.
+
+If everything is okay, the baby is put onto the grid (it is now no
+longer hypothetical) and the energy is spent.
+
+== Populating the new world ==
+
+We now have the “framework” needed to simulate these lifelike
+creatures. We could put the critters from the old world into it, but
+they would just die, since they don't have an energy attribute. So let
+us make new ones. First we'll write a plant, which is a rather simple
+life form.
+
+// include_code
+
+[source,javascript]
+----
+function Plant() {
+  this.energy = 3 + Math.random() * 4;
+}
+Plant.prototype.act = function(context) {
+  if (this.energy > 15) {
+    var space = context.find(" ");
+    if (space != null)
+      return {type: "reproduce", direction: space};
+  }
+  if (this.energy < 20)
+    return {type: "grow"};
+}
+----
+
+Plants start with an energy level between 3 and 7, randomized so that
+they don't all reproduce in the same turn. When they reach 15 energy
+points and there is empty space nearby, they reproduce into that empty
+space. Otherwise, they simply grow until they reach energy level 20.
+
+Next, a plant eater.
+
+// include_code
+
+[source,javascript]
+----
+function PlantEater() {
+  this.energy = 20;
+}
+PlantEater.prototype.act = function(context) {
+  var space = context.find(" ");
+  if (this.energy > 60 && space != null)
+    return {type: "reproduce", direction: space};
+  var plant = context.find("*");
+  if (plant != null)
+    return {type: "eat", direction: plant};
+  if (space)
+    return {type: "move", direction: space};
+};
+----
+
+We'll use the ‘*’ character for plants, so that is what this creature
+looks for when it searches for food.
+
+== Bringing it to life ==
+
+And that gives us enough elements to try our new world. Imagine a
+grassy valley with a herd of herbivores in it, some boulders, and lush
+plant life everywhere. That's what this code is trying to express:
+
+[source,javascript]
+----
+var valley = new LifeLikeWorld(
+  ["############################",
+   "#####                 ######",
+   "##   ***                **##",
+   "#   *##**         **  O  *##",
+   "#    ***     O    ##**    *#",
+   "#       O         ##***    #",
+   "#                 ##**     #",
+   "#   O       #*             #",
+   "#*          #**       O    #",
+   "#***        ##**    O    **#",
+   "##****     ###***       *###",
+   "############################"],
+  {"#": Wall,
+   "O": PlantEater,
+   "*": Plant}
+);
+----
+
+Let us see what happens if we run that. !!tex These snapshots
+illustrate a typical run of this world.!!
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+animateWorld(valley);
+----
+
+endif::html_target[]
+
+ifdef::tex_target[]
+
+----
+############################  ############################
+#####                 ######  ##### **              ######
+##   ***   O             *##  ##  ** *            O     ##
+#   *##*          **     *##  #  **##                   ##
+#    **           ##*     *#  #  **  O          ##O      #
+#                 ##*      #  #   *O      * *   ##       #
+#                 ##  O    #  #            ***  ##     O #
+#           #*      O      #  #**         #***           #
+#*          #**  O         #  #**      O  #****          #
+#*   O    O ##*          **#  #***        ##***     O    #
+##*        ###*          ###  ##**       ###**    O    ###
+############################  ############################
+
+############################  ############################
+#####O O              ######  #####  O              ######
+##                        ##  ##                        ##
+#    ##O                  ##  #    ##            O      ##
+#           O  O *##       #  #                 ##       #
+#  O    O    O  **##    O  #  #                 ##       #
+#               **##     O #  #               O ## *     #
+#           #   *** *      #  #           #  O           #
+#           # O*****  O    #  #        O  #   O          #
+#           ##******       #  #           ##    O     O  #
+##         ###******     ###  ##         ### O         ###
+############################  ############################
+
+############################  ############################
+#####                 ######  #####                 ######
+##                        ##  ##                 **  *  ##
+#    ##                   ##  #    ##            *****  ##
+#                 ##       #  #                 ##****   #
+#                 ##* *    #  #                 ##*****  #
+#              O  ## *     #  #                 ##****** #
+#           #              #  #           #       ** **  #
+#           #              #  #           #              #
+#           ##             #  #           ##             #
+##         ###           ###  ##         ###           ###
+############################  ############################
+----
+
+endif::tex_target[]
+
+Most of the time, the lichen plants multiply and expand quite quickly,
+but then the abundance of food causes a population explosion of the
+herbivores, who proceed to wipe out all or nearly all of the plants,
+resulting in a mass starvation of the critters. Sometimes, the
+ecosystem recovers and another cycle starts. At other times, one of
+the species dies out. If it's the herbivores, the whole space will
+fill with plants. If it's the plants, the last plant eaters starve,
+and the valley becomes a desolate wasteland. Ah, tragedies of nature.
+
+== Exercises ==
+
+=== Artificial stupidity ===
+
+Having the inhabitants of our world go extinct after a few minutes is
+kind of depressing. To deal with this, we could try to create a
+smarter plant eater.
+
+Observing this ecosystem in action, there are several problems that I
+notice. Firstly, the herbivores are terribly greedy, stuffing
+themselves with any plant they see, and thus wiping out plant life in
+any area where they are plentiful. Secondly, their randomized movement
+(the `view.find` method returns a random direction when multiple
+directions are possible) causes them to stumble around ineffectively,
+often causing them to starve when there are no plans in their
+immediate vicinity. And finally, they breed very fast, which makes the
+cycling between abundance and famine especially intense.
+
+Write a new critter type that tries to address one or more of these
+points, and substitute it for the old `PlantEater` type in the valley
+world. See how it fares. Tweak it some more if necessary.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here
+function SmartPlantEater() {}
+
+animateWorld(new LifeLikeWorld(
+  ["############################",
+   "#####                 ######",
+   "##   ***                **##",
+   "#   *##**         **  O  *##",
+   "#    ***     O    ##**    *#",
+   "#       O         ##***    #",
+   "#                 ##**     #",
+   "#   O       #*             #",
+   "#*          #**       O    #",
+   "#***        ##**    O    **#",
+   "##****     ###***       *###",
+   "############################"],
+  {"#": Wall,
+   "O": SmartPlantEater,
+   "*": Plant}
+));
+----
+
+!!solution!!
+
+The greediness problem can be attacked in several ways. The critters
+could stop eating when they reach a certain energy level. Or only eat
+every N turns (by keeping a counter of the turns since their last meal
+in a property on the creature object). Or, to make sure plants never
+go entirely extinct, they could refuse to eat a plant unless they see
+at least one other plant nearby (using the `findAll` method on the
+view). A combination of these (or some entirely different strategy)
+might also work.
+
+Making the critters move more effectively could be done by stealing
+the movement strategy from one of the critters we had in our old,
+energyless world. Both the bouncing behavior (walk straight until you
+hit an obstacle, then turn randomly) and the wall-following behavior
+showed a much wider range of movement than the completely random
+staggering.
+
+Making creatures breed more slowly is trivial. Just increase the
+minimum energy level at which they reproduce. Of course, making the
+ecosystem more stable also makes it more boring. A handful of fat,
+immobile critters forever munching on a sea of plants, never
+reproducing, makes for a very stable ecosystem. But no one wants to
+see that.
+
+!!solution!!
+
+=== Predators ===
+
+A serious ecosystem has a food chain longer than a single link. Write
+another critter that survives by eating the herbivore critter. You'll
+notice that stability is even harder to obtain when there are cycles
+going on on multiple levels. Try to find a strategy to make the
+ecosystem run smoothly for at least a little while.
+
+One thing that definitely helps is to make the world bigger, so that
+local population booms or busts are less likely to wipe out a species
+entirely, and a relatively large prey population is needed to sustain
+a small predator population.
+
+// test: no
+
+[source,javascript]
+----
+// Your code here
+function Tiger() {}
+
+animateWorld(new LifeLikeWorld(
+  ["####################################################",
+   "#                 ####         ****              ###",
+   "#   *  @  ##                 ########       OO    ##",
+   "#   *    ##        O O                 ****       *#",
+   "#       ##*                        ##########     *#",
+   "#      ##***  *         ****                     **#",
+   "#* **  #  *  ***      #########                  **#",
+   "#* **  #      *       @       #   *              **#",
+   "#     ##              #   O   #  ***          ######",
+   "#*            @       #       #   *        O  #    #",
+   "#*                    #  ######                 ** #",
+   "###          ****          ***                  ** #",
+   "#       O                        @         O       #",
+   "#   *     ##  ##  ##  ##               ###      *  #",
+   "#   **         #              *       #####  O     #",
+   "##  **  O   O  #  #    ***  ***        ###      ** #",
+   "###               #   *****                    ****#",
+   "####################################################"],
+  {"#": Wall,
+   "@": Tiger,
+   "O": SmartPlantEater, // from previous exercise
+   "*": Plant}
+));
+----
+
+!!solution!!
+
+Many of the same tricks that worked for in the previous exercise also
+apply here. Making the predators big (large energy), and having them
+reproduce slowly, is recommended. That'll make them less vulnerable to
+periods of starvation when the herbivores are scarce.
+
+Beyond staying alive, keeping its food stock alive is the critter's
+main objective. It'd be useful to find some way to make it hunt more
+aggressively when there are a lot of herbivores, and more slowly (or
+not at all) when they are rare. Since the plant eaters move around,
+the simple trick of only eating them when two are nearby is unlikely to
+work—that'll happen so rarely that your critter will starve. But you
+could keep track of observations in previous turns, in some data
+structure kept on the critter objects, and have it base its behavior
+on what it recently saw.
+
+!!solution!!

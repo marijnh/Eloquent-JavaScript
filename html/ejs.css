@@ -256,7 +256,7 @@ blockquote:before {
   line-height: 1.3;
 }
 .CodeMirror-scroll {
-  max-height: 500px;
+  max-height: 700px;
 }
 .CodeMirror pre {
   padding: 0 4px 0 10px;

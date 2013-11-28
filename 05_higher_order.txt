@@ -382,7 +382,7 @@ allowed.
 
 This format is called JSON, pronounced “Jason”, which stands for
 JavaScript Object Notation. It is widely used as a data storage and
-communication format on the Web.
+communication format on the web.
 
 JavaScript provides two functions, `JSON.stringify` and `JSON.parse`,
 that convert data from and to this format.

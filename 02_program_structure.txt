@@ -212,12 +212,12 @@ number or different types of arguments.
 The `alert` function can be useful as an output device when
 experimenting, but clicking away all those little windows will get on
 your nerves. In past examples, we have been using `console.log` to
-output values. Most JavaScript systems (including all modern Web
+output values. Most JavaScript systems (including all modern web
 browsers and node.js) provide a `console.log` function that writes out
 its arguments to _some_ text output device. In browsers, the output
 lands in the JavaScript console, which is a part of the user interface
 that is hidden by default, but can be found by digging into the menu
-and finding an an item like “Web console” or “Developer tools”,
+and finding an an item like “web console” or “developer tools”,
 usually under a “Tools” or “Developer” sub-menu.
 
 ifdef::html_target[]

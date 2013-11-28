@@ -12,7 +12,9 @@ var code = "var alert = function() {}, prompt = function() { return 'x'; }, conf
 
 var include = /\n:load_files: (\[[^\]]+\])/.exec(input);
 if (include) JSON.parse(include[1]).forEach(function(fileName) {
-  code += fs.readFileSync("html/" + fileName);
+  var text = fs.readFileSync("html/" + fileName);
+  if (!/\/\/ test: no/.test(text))
+    code += text;
 });
 
 function wrapTestOutput(snippet, config) {
@@ -124,12 +126,12 @@ var accum = "", _console = {
   },
   verify: function(string, config) {
     var clip = string.indexOf("…"), ok = false;
-    if (/\btrim\b/.test(config)) accum = accum.replace(/\s+(\n|$)/g, "$1");
+    if (/\btrailing\b/.test(config)) accum = accum.replace(/\s+(\n|$)/g, "$1");
+    if (/\btrim\b/.test(config)) { accum = accum.trim(); string = string.trim(); }
     if (/\bclip\b/.test(config)) ok = compareClipped(string, accum);
     else if (/\bjoin\b/.test(config)) ok = compareJoined(string, accum);
     else if (clip > -1) ok = string.slice(0, clip) == accum.slice(0, clip);
     else ok = string == accum;
-    if (!ok) console.log("OH", clip, "\n" + string.slice(0, clip) + "\n------\n" + accum.slice(0, clip));
     if (!ok)
       console.log("mismatch at " + this.pos + ". got:\n" + accum + "\nexpected:\n" + string);
   },

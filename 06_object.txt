@@ -693,7 +693,7 @@ height, which is the space taken up by the underline.
 Drawing such a cell is quite simple—we take the content of the inner
 cell, and concatenate a single line full of dashes to it.
 
-// test: wrap, trim
+// test: wrap, trailing
 
 [source,javascript]
 ----

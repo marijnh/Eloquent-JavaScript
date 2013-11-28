@@ -27,7 +27,7 @@ The online coding sandbox for the book (`eloquentjavascript.net/code`)
 will automatically load the needed code when you are running a
 specific example. If you decide to work through the examples in
 another environment, be sure to start from the full code for this
-chapter (`04_data.js`, available from the Web site).
+chapter (`04_data.js`, available from the web site).
 
 endif::tex_target[]
 

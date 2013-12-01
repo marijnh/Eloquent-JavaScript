@@ -939,6 +939,24 @@ numbers 0, 1, 2, up to 9.
 (ceiling, rounding up to a whole number) and `Math.round` (to the
 nearest whole number).
 
+== The global object ==
+
+The global scope also acts as an object. In browsers, this object is
+stored in the `window` variable. All global variables act as
+properties of this object.
+
+[source,javascript]
+----
+var myVar = 10;
+console.log(window.hasOwnProperty("myVar"));
+// → true
+console.log(window..myVar);
+// → 10
+delete window.myVar;
+myVar;
+// → ReferenceError: myVar is not defined
+----
+
 == Summary ==
 
 Objects and arrays provide ways to group several values into a single

@@ -54,6 +54,20 @@ pre[data-language=javascript] {
   cursor: pointer;
 }
 
+pre.cm-s-default, p {
+  margin-right: -25px;
+  padding-right: 25px;
+}
+
+p:hover a.p_ident:after, pre:hover a.c_ident:after {
+  content: "¶";
+  color: #888;
+  font-size: 80%;
+  position: absolute;
+  right: -25px;
+}
+
+
 code, pre, .CodeMirror {
   font-size: 85%;
   font-family: 'PT Mono', monospace;

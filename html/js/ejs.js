@@ -11,6 +11,7 @@ window.addEventListener("load", function() {
 
   document.body.addEventListener("click", function(e) {
     for (var n = e.target; n; n = n.parentNode) {
+      if (n.className == "c_ident") return;
       if (n.nodeName == "PRE" && n.getAttribute("data-language") == "javascript")
         return activateCode(n, e);
       if (n.nodeName == "DIV" && n.className == "solution")

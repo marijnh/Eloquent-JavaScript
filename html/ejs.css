@@ -55,8 +55,8 @@ pre[data-language=javascript] {
 }
 
 pre.cm-s-default, p {
-  margin-right: -25px;
-  padding-right: 25px;
+  margin-right: -30px;
+  padding-right: 30px;
 }
 
 p:hover a.p_ident:after, pre:hover a.c_ident:after {

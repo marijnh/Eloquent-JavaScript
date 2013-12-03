@@ -945,12 +945,14 @@ The global scope also acts as an object. In browsers, this object is
 stored in the `window` variable. All global variables act as
 properties of this object.
 
+// test: no
+
 [source,javascript]
 ----
 var myVar = 10;
 console.log(window.hasOwnProperty("myVar"));
 // → true
-console.log(window..myVar);
+console.log(window.myVar);
 // → 10
 delete window.myVar;
 myVar;

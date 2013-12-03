@@ -8,7 +8,7 @@ var acorn = require("acorn");
 var file = process.argv[2];
 var input = fs.readFileSync(file, "utf8");
 
-var code = "var alert = function() {}, prompt = function() { return 'x'; }, confirm = function() { return true; };\n";
+var code = "var alert = function() {}, prompt = function() { return 'x'; }, confirm = function() { return true; }; window = this;\n";
 
 var include = /\n:load_files: (\[[^\]]+\])/.exec(input);
 if (include) JSON.parse(include[1]).forEach(function(fileName) {
@@ -26,6 +26,12 @@ function wrapTestOutput(snippet, config) {
   return "console.clear();\n" + snippet + "console.verify(" + JSON.stringify(output) + ", " + JSON.stringify(config) + ");\n";
 }
 
+function wrapForError(snippet, message) {
+  return "try { (function() {\n" + snippet + "})();\n" +
+    "console.missingErr();\n} catch (_e) { console.compareErr(_e, " +
+    JSON.stringify(message) + "); }\n";
+}
+
 function pos(index) {
   return "line " + (input.slice(0, index).split("\n").length + 1);
 }
@@ -40,8 +46,10 @@ while (m = re.exec(input)) {
     console.log("parse error at " + where + ": " + e.toString());
   }
   if (/\bno\b/.test(config)) continue;
-  if (/\/\/ →/.test(snippet)) snippet = wrapTestOutput(snippet, config);
+  if (m = config.match(/\berror "([^"]+)"/)) snippet = wrapForError(snippet, m[1]);
+  else if (/\/\/ →/.test(snippet)) snippet = wrapTestOutput(snippet, config);
   if (/\bwrap\b/.test(config)) snippet = "(function(){\n" + snippet + "}());\n";
+
   code += "console.pos = " + JSON.stringify(where) + ";\n";
   code += snippet;
 }
@@ -134,6 +142,14 @@ var accum = "", _console = {
     else ok = string == accum;
     if (!ok)
       console.log("mismatch at " + this.pos + ". got:\n" + accum + "\nexpected:\n" + string);
+  },
+  missingErr: function() {
+    console.log("expected error not raised at " + this.pos);
+    console.log(code);
+  },
+  compareErr: function(err, string) {
+    if (err.toString() != string)
+      console.log("wrong error raised at " + this.pos + ": " + err.toString());
   },
   pos: null
 };

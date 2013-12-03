@@ -380,15 +380,16 @@ code.
 
 endif::tex_target[]
 
-Running JavaScript programs outside of this book's sandbox is also
-possible. You can opt to install node.js, and read enough of its
-documentation to figure out how to use it to evaluate text files that
-contain programs. Or you can use your browser's developer console
-(typically found somewhere under a “tools” or “developer” menu) and
-play around in there. In chapter (FIXME), the way in which JavaScript
-programs are embedded in web pages (HTML files) is explained. In the
-meantime, you could head over to `http://jsbin.com` for another
-friendly interface for running JavaScript code in a browser.
+(((JavaScript,console)))Running JavaScript programs outside of this
+book's sandbox is also possible. You can opt to install node.js, and
+read enough of its documentation to figure out how to use it to
+evaluate text files that contain programs. Or you can use your
+browser's developer console (typically found somewhere under a “tools”
+or “developer” menu) and play around in there. In chapter (FIXME), the
+way in which JavaScript programs are embedded in web pages (HTML
+files) is explained. In the meantime, you could head over to
+`http://jsbin.com` for another friendly interface for running
+JavaScript code in a browser.
 
 == Typographic conventions ==
 

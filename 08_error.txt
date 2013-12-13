@@ -1,0 +1,783 @@
+:chap_num: 8
+:prev_link: 07_elife
+:next_link: 09_FIXME
+:load_files: ["js/08_error.js"]
+
+= Bugs and error handling =
+
+(((error handling)))When a machine malfunctions, this can lead to all
+kinds of interesting and horrible results. The same goes for programs.
+Thinking about they ways in which they can malfunction, and the
+outcomes, is what error handling is about.
+
+Roughly speaking, errors that occur in programs fall in two
+categories. If the machine was designed incorrectly, that is a
+programmer mistake. For example, if you pass the wrong number or wrong
+type of arguments to a function, your program is a defective machine.
+
+On the other hand, the outside world (for example, the user) may
+behave in a way the program did not anticipate, and thus cause a
+failure. Say, when asked to type in their age, someone types
+“marmalade”. This kind of problem can't be made to go away by changing
+the program. It has to be anticipated and handled somehow.
+
+== Programmer mistakes ==
+
+In principle, what we want to do with programmer mistakes is to find
+them and fix them. They can range from a simply typo that causes the
+computer to complain as soon as it lays eyes on our program, to a
+subtle mistake in our thinking about the way the program will operate,
+which only shows up in very specific situations.
+
+The degree in which languages help you find such mistakes varies.
+Unsurprisingly, JavaScript is at the “hardly helps at all” end of that
+scale. Some languages want to know, before even running a program,
+what the types of all variables and expressions in the program is, and
+will tell you right away when a type is used in an inconsistent way.
+JavaScript only thinks about types when actually running the program,
+and even then, it allows you to do some clearly nonsensical things,
+and won't complain (such as `x = true * "monkey"`).
+
+There are some things that the language complains about, though.
+Writing a program that is not syntactically valid JavaScript will
+immediately trigger an error. Doing things like calling something
+that's not a function, or looking up a property on an undefined value,
+will cause an error to be reported when the program is running and
+actually tries to perform the nonsensical action.
+
+(((NaN value)))But sometimes, your nonsense computation will simply
+produce a `NaN` (not a number) or undefined value, and happily
+continue, convinced that it's doing something meaningful. The mistake
+will only manifest itself after the bogus value traveled though
+several functions, or even simply result in the program's output being
+wrong. Finding the source of such problems can be difficult.
+
+(((debugging)))The process of finding mistakes—bugs—in programs is
+called “debugging”.
+
+== Strict mode ==
+
+(((strict mode)))JavaScript can be made a _little_ more strict by
+enabling “strict mode”. This is done by putting the string `"use
+strict"` at the top of a file or a function body. Like this:
+
+// test: error "ReferenceError: counter is not defined"
+
+[source,javascript]
+----
+function canYouSpotTheProblem() {
+  "use strict";
+  for (counter = 0; counter < 10; counter++)
+    console.log("Happy happy");
+}
+
+canYouSpotTheProblem();
+// → ReferenceError: counter is not defined
+----
+
+Normally, when you forget to put `var` in front of your variable, as
+with the `counter` in the example, JavaScript quietly creates a global
+variable and uses that. In strict mode, however, an error is reported
+instead. This is very helpful, though it should be noted that it
+doesn't work when the variable in question already exists as a global
+variable, only when assigning to it would have created it.
+
+Another change is that, in strict mode, the `this` binding in
+functions, when they are not called as a method, holds the value
+`undefined`. Normally, it'd hold the global scope object. This means
+that if you accidentally call a method or constructor incorrectly, it
+will produce an error as soon as it tries to read something from
+`this`, rather than possibly accidentally creating and reading global
+variables.
+
+[source,javascript]
+----
+function Person(name) { this.name = name; }
+// Oops, forgot 'new'
+var ferdinand = Person("Ferdinand");
+console.log(name);
+// → Ferdinand
+----
+
+So the bogus call to `Person` succeeded, but returned an undefined
+value and created the global variable `name`. In strict mode, the
+result is different.
+
+// test: error "TypeError: Cannot set property 'name' of undefined"
+
+[source,javascript]
+----
+"use strict";
+function Person(name) { this.name = name; }
+// Oops, forgot 'new'
+var ferdinand = Person("Ferdinand");
+// → TypeError: Cannot set property 'name' of undefined
+----
+
+We are immediately told that something is wrong. This is helpful.
+
+Strict mode does a few more things. It disallows giving a function
+multiple parameters with the same name, and removes some problematic
+language features entirely (such as the `with` statement, which is so
+horrible it is not further discussed in this book).
+
+== Testing ==
+
+If the language is not (or hardly) going to help us find mistakes,
+we'll have to find them the hard way—by running the program and seeing
+if it does the right thing.
+
+Doing this by hand is a sure way to drive yourself insane (as well as
+to miss a whole lot of obscure cases). But for many programs it is
+possible to write a second program that automates testing the other
+program.
+
+As an example, we once again write a `Point` type.
+
+// include_code
+
+[source,javascript]
+----
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+Point.prototype.plus = function(other) {
+  return new Point(this.x + other.x, this.y + other.y);
+};
+----
+
+And then we write this program to verify that it works. Every time we
+change our implementation of `Point`, we follow up by running the test
+program, so that we can be reasonably confident that we didn't break
+anything. When we add extra functionality (for example a new method)
+to the `Point` type, we also add code that tests the new feature to
+the tester.
+
+[source,javascript]
+----
+function testPoint() {
+  var p1 = new Point(10, 20);
+  var p2 = new Point(-10, 5);
+  var p3 = p1.plus(p2);
+
+  if (p1.x !== 10) return "fail: x property";
+  if (p1.y !== 20) return "fail: y property";
+  if (p2.x !== -10) return "fail: negative x property";
+  if (p3.x !== 0) return "fail: x from plus";
+  if (p3.y !== 25) return "fail: y from plus";
+  return "everything ok";
+}
+console.log(testPoint());
+----
+
+(((test suite)))(((testing frameworks)))Various pieces of helper
+software exist that help you build and run collections of tests (“test
+suites”), making them easier to write, and producing more informative
+information when they fail. These are called “testing frameworks.”
+
+== Debugging ==
+
+Once you notice that there is something wrong with your program,
+because it misbehaves or produces errors, the next step is to figure
+out _what_.
+
+Sometimes, this is obvious. The error message will point at a specific
+line of your program, and if you look at the error description and
+that line of code, you can often see the problem.
+
+But not always. Sometimes the line that actually triggered the problem
+is not the one that caused it, but only the first place where a
+previously produced bogus value gets used in an invalid way. And
+sometimes there is no error message at all, just an invalid result. If
+you have been solving the exercises in the earlier chapters, you will
+probably have already experienced such situations.
+
+This example program tries to convert a whole number to a string, in
+any base (decimal, binary, etcetera) by repeatedly picking out the
+last digit, and then dividing the number to get rid of this digit. But
+the insane output that it currently produces suggests that it it has a
+bug.
+
+[source,javascript]
+----
+function numberToString(n, base) {
+  var result = "", sign = "";
+  if (n < 0) {
+    sign = "-";
+    n = -n;
+  }
+  do {
+    result = String(n % base) + result;
+    n /= base;
+  } while (n > 0);
+  return sign + result;
+}
+console.log(numberToString(13, 10));
+// → 1.5e-3231.3e-3221.3e-3211.3e-3201.3e-3191.3e-3181.3…
+----
+
+Even if you see the problem already, pretend for a moment that you
+don't. We know that our program is malfunctioning, and we want to find
+out why.
+
+This is where you resist the urge to start making random changes to
+the code for a moment and _think_. Analyze what is happening and come
+up with a theory of why it might be happening. Then, make additional
+observations to try and test this theory—or, if you don't yet have a
+theory, additional observations might help you arrive at one.
+
+Putting a few strategic `console.log` calls into the program is a good
+way to get additional information about what the program is doing. In
+this case, we want `n` to take the values `13`, `1`, and then `0`.
+Let's write out its value at the start of the loop.
+
+----
+13
+1.3
+0.13
+0.013
+…
+1.5e-323
+----
+
+_Right_. Dividing 13 by 10 does not produce a whole number. What we
+actually want to do is `n = Math.floor(n / base)`, so that the number
+is properly “shifted” to the right.
+
+(((breakpoint)))(((debugger)))(((debugger statement)))An alternative
+to using `console.log` is to use the _debugger_ capabilities of your
+browser. Modern browsers come with the ability to set a _breakpoint_
+on a specific line of your code, which will cause the execution of the
+program to pause every time the line with the breakpoint is reached,
+and allowing you to inspect the values of variables at that point. I
+won't go into the interface to this debugger, since it differs per
+browser and changes between versions, but look around in the developer
+tools, and search the web. An alternative way to set a breakpoint is
+by including a `debugger` statement (consisting of simply that
+keyword) in your program. Whenever that is reached, if the developer
+tools of the browser are active, the program will pause.
+
+== Unavoidable errors ==
+
+Not all problems can be prevented by the programmer, unfortunately. If
+your program reads any input from the outside world, or depends on
+other systems in any way, there is a chance that this input is
+invalid, or the other systems are broken or unreachable.
+
+Simple programs, or programs that only run under your supervision, can
+afford to just give up when such a problem occurs. “Real”
+applications, on the other hand, are expected to not simply crash.
+Sometimes it is appropriate to take the bad input in stride and
+continue running. In other cases, it is better to report to the user
+what when wrong and then give up. But in either situation, the program
+has to actively do something in response to the problematic situation.
+
+== Error propagation ==
+
+Unexpected input often leads to functions not being able to do what
+they are supposed to do. Say you have a function `promptInteger` that
+asks the user for a whole number and returns it. What should it return
+if the user inputs “marmalade”?
+
+(((error handling,return value)))(((special return value)))(((return
+keyword)))One option is to make it return a special value. Common
+choices for such values are `null` and `undefined`.
+
+// test: no
+
+[source,javascript]
+----
+function promptNumber(question) {
+  var result = Number(prompt(question, ""));
+  if (isNaN(result)) return null;
+  else return result;
+}
+
+console.log(promptNumber("How many trees do you see?"));
+----
+
+That's a sound strategy. Now code that calls `promptNumber` must check
+whether an actual number was read, and failing that, it must somehow
+recover—maybe by asking again, or filling in a default value—or it, in
+turn, can also return a special value to _its_ caller, to indicate
+that it failed to do what it was asked.
+
+In many situations, mostly when errors are likely and the caller
+should be explicitly taking them into account, returning a special
+value is a perfectly fine way to indicate an error. It does, however,
+have its downsides. First, what if the function can already return
+every possible kind of value? For such a function, it is hard to find
+a special value that can be distinguished from a valid result.
+
+The second issue with returning special values is that it can lead to
+some very cluttered code. If a piece of code calls `promptNumber` 10
+times, it has to check 10 times whether `null` was returned. And if
+its response to finding `null` is to simply return `null` itself, and
+its caller will in turn have to check for it.
+
+== Exceptions ==
+
+(((exception handling)))(((error handling,exceptions)))When a
+function, for any reason, cannot proceed normally, what we _actually_
+want is to just stop doing what we are doing and immediately jump back
+to a place that knows how to handle the problem. That is what
+_exception handling_ does.
+
+(((control flow)))(((raise (exception))))(((throw keyword)))(((call
+stack)))Exception handling is a mechanism that works like this: It is
+possible for code to _raise_ (or _throw_) an exception, which is
+simply a value. Raising an exception somewhat resembles a
+super-charged return from a function—it does not just jump out of the
+current function but also out of its callers, all the way up to the
+top-level call that started the current execution. This is called
+_((unwinding the stack))_. You may remember the stack of function
+calls that was mentioned in chapter 3. An exception zooms down this
+stack, throwing away all the call contexts it encounters.
+
+(((catch keyword)))If they always zoomed right down to the bottom of
+the stack, exceptions would not be of much use. They would just
+provide a novel way to blow up your program. Fortunately, it is
+possible to set “obstacles” for exceptions along the stack. These
+_catch_ the exception as it is zooming down and can do something with
+it, after which the program continues running at the point where the
+exception was caught.
+
+Here's an example:
+
+[source,javascript]
+----
+function promptDirection(question) {
+  var result = prompt(question, "");
+  if (result.toLowerCase() == "left") return "L";
+  if (result.toLowerCase() == "right") return "R";
+  throw new Error("Invalid direction: " + result);
+}
+
+function look() {
+  if (promptDirection("Which way?") == "L")
+    return "a house";
+  else
+    return "two angry bears";
+}
+
+try {
+  console.log("You see", look());
+} catch (error) {
+  console.log("Something went wrong: " + error);
+}
+----
+
+(((throw keyword)))(((try keyword)))(((catch keyword)))The `throw`
+keyword is used to raise an exception. Catching one is done by
+wrapping a piece of code in a `try` block, followed by the keyword
+`catch`. When this body (the first `console.log` call in the example)
+causes an exception, the second block is evaluated. The variable name
+(in parentheses) after `catch` will be bound to the exception value.
+After the `catch` block finishes (or when the `try` block finishes
+without problems) control proceeds below the statement as usual.
+
+(((Error type)))In this case, we used the `Error` constructor to
+create our exception value. This is a standard JavaScript constructor
+that creates an object with a `message` property. In modern JavaScript
+environments, instances of this constructor also gather information,
+in their `stack` property, on the part of the stack that was unwound
+by the exception. This can be very helpful when trying to debug a
+problem.
+
+Note that the function `look` completely ignores the possibility that
+`promptDirection` might go wrong. This is the big advantage of
+exceptions—error-handling code is necessary only at the point where
+the error occurs and at the point where it is handled. The functions
+in between can forget all about it.
+
+Well, almost...
+
+== Cleaning up after exceptions ==
+
+(((cleaning up)))Consider the following situation: A function
+`withContext`, wants to make sure that, during its executing, the
+top-level variable `context` holds a specific context value. After it
+finishes, it restores this variable to its old value.
+
+// include_code
+
+[source,javascript]
+----
+var context = null;
+
+function withContext(newContext, body) {
+  var oldContext = context;
+  context = newContext;
+  var result = body();
+  context = oldContext;
+  return result;
+}
+----
+
+What if `body` raises an exception? In that case, the call to
+`withContext` will be thrown off the stack by the exception, and
+`context` will never be set back to its old value.
+
+(((try keyword)))(((finally keyword)))There is one more feature that
+`try` statements have. They may be followed by a `finally` block
+(instead of, or in addition to the `catch` block). This means “no
+matter _what_ happens, run this code after trying to run the code in
+the `try` block.” If a function has to clean something up, the cleanup
+code should usually be put into a `finally` block:
+
+// include_code
+
+[source,javascript]
+----
+function withContext(newContext, body) {
+  var oldContext = context;
+  context = newContext;
+  try {
+    return body();
+  } finally {
+    context = oldContext;
+  }
+}
+----
+
+Note that we no longer have to store the result of `body` (which we
+want to return) in a variable. Even if we return directly from the
+`try` block, the `finally` block will still be run. Now we can do
+this, and be safe:
+
+// test: no
+
+[source,javascript]
+----
+try {
+  withContext(5, function() {
+    if (context < 10)
+      throw new Error("Not enough context!");
+  });
+} catch (e) {
+  console.log("Ignoring: " + e);
+}
+
+console.log(context);
+// → null
+----
+
+== Unhandled exceptions ==
+
+(((unhandled exception)))(((JavaScript,console)))When an exception
+makes it all the way to the bottom of the stack without being caught,
+it gets handled by the environment. What this means differs between
+environments. In browsers, a description of the error is typically
+written to the JavaScript console (reachable in the menus, somewhere
+under “tools” or “developer”).
+
+For programmer mistakes or problems that the program cannot possibly
+handle, just letting the error go through is often okay. An unhandled
+exception is a reasonable way to signal a broken program, and the
+JavaScript console will, on modern browsers, provide you with some
+information on which function calls were on the stack when the problem
+occurred, which gives you a first clue for figuring out what went
+wrong.
+
+== Selective catching ==
+
+Language-use mistakes, like referencing a nonexistent variable,
+looking up a property on `null`, or calling something that's not a
+function, will also result in exceptions being raised. These can be
+caught just like your own exceptions.
+
+(((catch keyword)))When a `catch` body is entered, we know that
+_something_ in our `try` body caused an exception. What we don't know
+is _what_ exactly did, and _which_ exception it caused.
+
+JavaScript doesn't provide support for selectively catching exceptions
+(which _sane_ languages that support exception handling all do)... you
+can catch them all, or you don't catch. This makes it very easy,
+accidentally or out of laziness, to _assume_ that the exception you
+get is the one you happened to be thinking about when you wrote the
+`catch` block.
+
+But it might not be. Some other assumption might be violated, or you
+might have introduced a bug in somewhere that is causing an exception.
+Here is an example, which _tries_ to keep on calling `promptDirection`
+until it gets a valid answer.
+
+// test: no
+
+[source,javascript]
+----
+for (;;) {
+  try {
+    var dir = promtDirection(); // ← typo!
+    console.log("You chose ", dir);
+    break;
+  } catch (e) {
+    console.log("Not a valid direction. Try again.");
+  }
+}
+----
+
+(((infinite loop)))(((for loop))) The `for(;;)` construct is a way to
+intentionally create a loop that doesn't terminate on its own. We only
+break out of the loop when a valid direction is given. _But_, we
+misspelled `promptDirection`, which will result in an “undefined
+variable” error. Because the `catch` block completely ignores its
+exception value (`e`), going ahead and assuming it knows what the
+problem is, it'll wrongly treat the variable error as if it is bad
+input. Not only does this cause an infinite loop, it also “buries” the
+(very useful) error message about the misspelled variable.
+
+As a general rule, don't blanket-catch exceptions unless it is for the
+purpose of “routing” them somewhere else (for example, sending them
+over the network). And even then, think carefully about how you might
+hiding information.
+
+So we want to catch a _specific_ kind of exception. We can do this by,
+in the `catch` block, checking whether the exception we got is the one
+we are interested in, and re-throwing it otherwise. But how do we
+recognize an exception?
+
+Of course, we could match its `message` property against the error
+message we happen to expect in the exception we are interested in. But
+that's a shaky way to program—we're using information that's intended
+for human consumption (the message) to make decisions. As soon as
+someone changes (or translates) the message, the code stops working.
+
+Rather, let us define a new type of error, and use `instanceof` to
+identify it.
+
+// include_code
+
+[source,javascript]
+----
+function InputError(message) {
+  this.message = message;
+  this.stack = (new Error()).stack;
+}
+InputError.prototype = Object.create(Error.prototype);
+InputError.prototype.name = "InputError";
+----
+
+The prototype is made to derive of `Error.prototype`, so that
+`instanceof Error` will also return true for such objects. It's also
+given a `name` property, since the standard error types (`Error`,
+`SyntaxError`, `ReferenceError`, and so on) also have such a property.
+
+The assignment to the `stack` property tries to give this object a
+somewhat useful stack trace, on platforms that support it, by creating
+an error object and using that object's `stack` property.
+
+Now `promptDirection` can throw such an error.
+
+// include_code
+
+[source,javascript]
+----
+function promptDirection(question) {
+  var result = prompt(question, "");
+  if (result.toLowerCase() == "left") return "L";
+  if (result.toLowerCase() == "right") return "R";
+  throw new InputError("Invalid direction: " + result);
+}
+----
+
+And the loop can catch it more carefully.
+
+// test: no
+
+[source,javascript]
+----
+for (;;) {
+  try {
+    var dir = promptDirection();
+    console.log("You chose ", dir);
+    break;
+  } catch (e) {
+    if (e instanceof InputError)
+      console.log("Not a valid direction. Try again.");
+    else
+      throw e;
+  }
+}
+----
+
+This will only catch instances of `InputError` and let unrelated
+exceptions through. If you reintroduce the typo, that error will be
+properly reported.
+
+In some cases, where you only need one instance of your error (it
+always has the same message) and stack traces are not important, you
+can simplify things a little by simply defining a single error object,
+not a constructor, and checking whether an exception is that object
+with the ‘==’ operator.
+
+== Assertions ==
+
+Exceptions give us another tool for doing basic sanity checking for
+programmer errors. Consider this helper function, `assert`:
+
+[source,javascript]
+----
+function AssertionFailed(message) {
+  this.message = message;
+}
+
+function assert(test, message) {
+  if (!test) throw new AssertionFailed(message);
+}
+
+function lastElement(array) {
+  assert(array.length > 0, "empty array in lastElement");
+  return array[array.length - 1];
+}
+----
+
+This provides a relatively compact way to enforce expected conditions,
+and helpfully blow up the program immediately when they do not hold.
+The `lastElement` function, which simply fetches the last element from
+an array, would return `undefined` on empty arrays when written in the
+simple way. Fetching the last element from an empty array does not
+make much sense, so it is almost certainly a programmer error when we
+do it.
+
+Assertions are a way to make sure mistakes cause failures at the point
+of the mistake, rather than silently producing nonsense values that
+may go on to cause trouble in an unrelated part of the system.
+
+== Summary ==
+
+Mistakes and bad input are a fact of life. Bugs in programs need to be
+found and fixed. They can be made easier to notice by having automated
+test suites and adding assertions to your programs.
+
+Problems caused by factors outside of the system should also, often,
+be handled gracefully. Sometimes, when the problem can be handled
+locally, special return values are a sane way to track them.
+Otherwise, exceptions are preferable.
+
+Exceptions cause the call stack to be unwound until the next enclosing
+`catch` block, or until the bottom of the stack. The exception value
+will be given to the `catch` block, which should verify that it is
+actually the kind of exception it is trying to handle, and then do
+something with it. To deal with the unpredictable control flow caused
+by exceptions (implicit jumps out of functions), `finally` blocks can
+be used to ensure some piece of code is _always_ run when a block
+finishes.
+
+== Exercises ==
+
+=== Retry ===
+
+If you had a function `primitiveMultiply`, that, in 50% of cases, multiplied
+two numbers, and in the other 50% raised an exception of type
+`MultiplicatorUnitOffline`, could you write a function that wraps this
+clunky function and just keeps trying until a call succeeds, returning
+the result?
+
+Make sure that you only handle the exceptions you are trying to
+handle.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+function MultiplicatorUnitOffline() {}
+
+function primitiveMultiply(a, b) {
+  if (Math.random() < 0.5)
+    return a * b;
+  else
+    throw new MultiplicatorUnitOffline();
+}
+
+function reliableMultiply(a, b) {
+  // Your code here.
+}
+
+console.log(reliableMultiply(8, 8));
+// → 64
+----
+endif::html_target[]
+
+!!solution!!
+
+The call to `primitiveMultiply` should obviously happen in a `try`
+block. The corresponding `catch` block should re-throw the exception
+when it is not an instance of `MultiplicatorUnitOffline`, and ensure
+the call is retried when it is.
+
+To do the retrying, you can either use a loop that you only break (or
+return) out of when a call succeeds, as in the `look` example earlier
+in this chapter, or use recursion (and hope you don't get a string of
+failures so long that it overflows the stack).
+
+!!solution!!
+
+== The locked box ===
+
+Consider the following—rather contrived—object:
+
+// include_code
+
+[source,javascript]
+----
+var box = {
+  locked: true,
+  unlock: function() { this.locked = false; },
+  lock: function() { this.locked = true;  },
+  _content: [],
+  get content() {
+    if (this.locked) throw new Error("Locked!");
+    return this._content;
+  }
+};
+----
+
+It is a box, with a lock. Its content is an array, but you can only
+get at it (the `_content` property is off limits) when the box is
+unlocked.
+
+Write a function `withBoxUnlocked` that takes a function value as
+argument, unlocks the box, runs the function, and then ensures that
+the box is locked again, whether that function returned normally or
+threw an exception.
+
+ifdef::html_target[]
+
+[source,javascript]
+----
+function withBoxUnlocked(body) {
+  // Your code here.
+}
+
+withBoxUnlocked(function() {
+  box.content.push("gold piece");
+});
+
+withBoxUnlocked(function() {
+  throw new Error("The pirates are coming! Run!");
+});
+console.log(box.locked);
+// → true
+----
+
+For extra points, make sure that if you call `withBoxUnlocked` when
+the box is already unlocked, the box simply stays unlocked. 
+
+endif::html_target[]
+
+!!solution!!
+
+This exercise calls for a `finally` form, as you probably guessed.
+Your function first unlocks the box, and then calls the argument
+function from inside a `try` body. The `finally` block after it locks
+the box again.
+
+To make sure we don't lock the box when it wasn't already locked,
+check its lock at the start of the function, and only unlock and lock
+it when it started out locked.
+
+!!solution!!

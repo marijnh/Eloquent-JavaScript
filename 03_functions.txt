@@ -88,8 +88,8 @@ not the code in the function itself.
 functions is that the variables created inside of them, including
 their parameters, are _local_ to the function. This means, for
 example, that the `result` variable in the `power` example will be
-newly created every time the function is called and will no longer
-exist after the function returns.
+newly created every time the function is called, and its separate
+incarnations do not interfere with each other.
 
 indexsee:[top-level variable,global variable]
 
@@ -100,30 +100,29 @@ keyword inside the function body. It is possible to access _global_
 declared a local variable with the same name.
 
 The following code demonstrates this. It defines (and calls) two
-functions that both change the value of the variable `x`. The first
-one does not declare the variable as local and thus changes the global
-variable defined at the start of the example. The second does declare
-it, and thus all references to `x` inside of it refer to the local
-`x`, which is an entirely different variable than the global `x`.
+functions that both assign a value to the variable `x`. The first one
+declares the variable as local and thus changes only the local
+variable. The second does not declare `x` locally, and thus references
+to `x` inside of it refer to the global variable `x` defined at the
+top of the example.
 
 [source,javascript]
 ----
-var x = "A";
+var x = "outside";
 
-var setXToB = function() {
-  x = "B";
+var f1 = function() {
+  var x = "inside f1";
 };
-setXToB();
+f1();
 console.log(x);
-// → B
+// → outside
 
-var setXToC = function() {
-  var x;
-  x = "C";
+var f2 = function() {
+  x = "inside f2";
 };
-setXToC();
+f2();
 console.log(x);
-// → B
+// → inside f2
 ----
 
 This behavior helps prevent accidental interference between functions.
@@ -133,8 +132,8 @@ twice. And if you _did_ reuse a variable name, you would see strange
 effects, as unrelated code messes with the value of your variable. By
 treating function-local variables as existing only within the
 function, the language makes it easier to read and understand
-functions as small universes, without too action-at-a-distance
-complicating things.
+functions as small universes, without too much action-at-a-distance to
+complicate things.
 
 == Nested scope ==
 
@@ -229,17 +228,15 @@ pass it an argument to a function, and so on. Similarly, a variable
 that holds a function is still just a regular variable, and can be
 assigned a new value.
 
+// test: no
+
 [source,javascript]
 ----
-var announce = function(text) {
-  console.log("Hey, you, " + text + "!");
+var launchMissiles = function(value) {
+  missileSystem.launch("now");
 };
-if (prompt("Who are you?", "") == "royalty") {
-  announce = function(text) {
-    console.log("Your majesty, " + text + ".");
-  }
-}
-announce("it is done");
+if (safeMode)
+  launchMissiles = function(value) {/* do nothing */};
 ----
 
 In chapter 5, we will discuss the wonderful things that can be done by
@@ -366,8 +363,8 @@ console.log(chicken() + " came first.");
 
 == Optional Arguments ==
 
-(((argument)))(((function,application)))The following call to `alert`
-is allowed:
+(((argument)))(((function,application)))The following code is allowed
+an executes without problem:
 
 [source,javascript]
 ----
@@ -423,6 +420,7 @@ values it is given.
 [source,javascript]
 ----
 console.log("R", 2, "D", 2);
+// → R 2 D 2
 ----
 
 == Closure ==
@@ -435,20 +433,20 @@ them is no longer active? The following code illustrates this:
 
 [source,javascript]
 ----
-function wrapNumber(n) {
+function wrapValue(n) {
   var localVariable = n;
   return function(){ return localVariable; };
 }
 
-var wrap1 = wrapNumber(1);
-var wrap2 = wrapNumber(2);
+var wrap1 = wrapValue(1);
+var wrap2 = wrapValue(2);
 console.log(wrap1());
 // → 1
 console.log(wrap2());
 // → 2
 ----
 
-When `wrapNumber` is called, it creates a local variable that stores
+When `wrapValue` is called, it creates a local variable that stores
 its parameter, and then returns a function that returns this local
 variable. This is allowed, and works as you'd expect—the variable
 survives. In fact, multiple instances of the variable can be alive at
@@ -481,6 +479,20 @@ console.log(twice(5));
 The explicit local variable from the `wrapNumber` example isn't
 needed, since a parameter is itself a local variable.
 
+Thinking about programs like this takes some exercise. A good mental
+model is to think of the `function` keyword as “freezing” the code in
+its body, and wrapping it into a package (value). So when you read
+`return function(…) {…};`, there is a piece of computation being
+frozen for later use, and a handle to that computation being returned.
+
+This frozen computation is returned from `multiplier` and stored in
+the `twice` variable. The last line of the example then calls the
+value in this variable, causing the wrapped code (`return number *
+factor;`) to finally be activated. It still has access to the `factor`
+variable from the `multiplier` call that created it, and in addition
+it gets access to the argument we pass it, 5, through its `number`
+parameter.
+
 == Recursion ==
 
 (((recursion)))(((function,application)))It is perfectly okay for a
@@ -509,9 +521,9 @@ looping variant does. The function calls itself multiple times with
 different arguments to achieve the repeated multiplication.
 
 (((stack overflow)))There is one important problem: In typical
-JavaScript implementations, this second version is about 10 times
+JavaScript implementations, this second version is about ten times
 slower than the first one. Running running through a simple loop is a
-_lot_ cheaper than calling a function multiple times. On top of that,
+lot cheaper than calling a function multiple times. On top of that,
 using a sufficiently large exponent to this function might cause the
 stack to overflow.
 
@@ -546,8 +558,8 @@ complicated, and often less correct programs, which take longer to
 write than their more straightforward equivalents and run only
 marginally faster.
 
-Anyway, recursion is not always just a less-efficient alternative to
-looping. Some problems are much easier to solve with recursion than
+Regardless, recursion is not always just a less-efficient alternative
+to looping. Some problems are much easier to solve with recursion than
 with loops. Most often these are problems that require exploring or
 processing several “branches,” each of which might branch out again
 into more branches.
@@ -616,7 +628,7 @@ find(1, "1")
     find(11, "((1 + 5) + 5)")
       find(16, "(((1 + 5) + 5) + 5)")
         too big
-      find(33, "((1 + 5) + 5)")
+      find(33, "(((1 + 5) + 5) * 3)")
         too big
     find(18, "((1 + 5) * 3)")
       too big
@@ -660,7 +672,7 @@ indication of how clear a concept it is that you're trying to wrap.
 Let us go through an example.
 
 We want to write a program that prints two numbers, the amounts of
-cows and chickens on our farm, with the words `Cows` and `Chickens`
+cows and chickens on a farm, with the words `Cows` and `Chickens`
 after them, and zeroes padded before both numbers so that they are
 always three digits long.
 
@@ -756,9 +768,9 @@ on.
 
 A useful principle is to not add cleverness unless you are absolutely
 sure you are going to need it. It can be tempting to write general
-“frameworks” for every little bit of functionality you need. Resist
-that urge. You won't get any real work done, and you'll end up writing
-a lot of code that no one will ever use.
+“frameworks” for every little bit of functionality you come across.
+Resist that urge. You won't get any real work done, and you'll end up
+writing a lot of code that no one will ever use.
 
 == Functions and side effects ==
 
@@ -832,9 +844,9 @@ role that chapters and sections play in regular text.
 === Minimum ===
 
 The previous chapter introduced the standard function `Math.min` that
-returns the smallest of its arguments. We can do that ourselves now.
-Write a function `min` that takes two arguments and returns the
-smallest.
+returns the least of its arguments. We can do that ourselves now.
+Write a function `min` that takes two arguments and returns their
+minimum.
 
 ifdef::html_target[]
 
@@ -926,8 +938,8 @@ and returns a number that indicates the amount of uppercase “B”
 characters in the string.
 
 Next, change your function to be called `countChar`, and take a second
-argument that indicates the character that is to be counted. Rewrite a
-version of `countBs` on top of this new function.
+argument that indicates the character that is to be counted. Rewrite
+`countBs` to make use of this new function.
 
 ifdef::html_target[]
 

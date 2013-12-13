@@ -5,10 +5,9 @@
 = Program Structure =
 
 This is the point where we start to do things that can actually be
-called _programming_. We will expand our grasp of the JavaScript
-language, starting from the nouns and sentence fragments in the
-previous chapter, to the point where we can actually express some
-meaningful prose.
+called _programming_. We will expand our command of the JavaScript
+language, beyond from the nouns and sentence fragments we saw so far,
+to the point where we can actually express some meaningful prose.
 
 == Expressions and statements ==
 
@@ -80,8 +79,8 @@ var caught = 5 * 5;
 (((var keyword)))And that gives us our second kind of statement. The
 special word (_keyword_) `var` indicates that this sentence is going
 to define a variable. It is followed by the name of the variable and,
-if we want to immediately give it a value, by an `=` operator followed
-by an expression.
+if we want to immediately give it a value, by an ‘=’ operator and an
+expression.
 
 So previous statement creates a variable called `caught` and uses it
 to grab hold of the number that is produced by multiplying 5 by 5.
@@ -102,10 +101,10 @@ as the word isn't reserved as a keyword (such as `var`). They may not
 include spaces. Digits can also be part of variable names—`catch22` is
 a valid name, for example—but the name must not start with a digit. A
 variable name can not include punctuation, except for the characters
-“$” and “_”.
+‘$’ and ‘_’.
 
 When a variable points at a value, that does not mean it is tied to
-that value forever. The “=” operator can be used at any time on
+that value forever. The ‘=’ operator can be used at any time on
 existing variables to disconnect them from their current value and
 have them point to a new one:
 
@@ -173,8 +172,8 @@ _environment_. When a program starts up, this environment is not
 empty. It will at least contain a number of variables that are part of
 the language standard. And most of the time there will be an
 additional set of variables that provide ways to interact with the
-surrounding system. For example, in a browser, there'll be variables
-that point at functionality that'll allow you to inspect and influence
+surrounding system. For example, in a browser, there are variables
+that point at functionality that allows you to inspect and influence
 the currently loaded website, and read mouse and keyboard input from
 the person who is using the browser.
 
@@ -213,12 +212,12 @@ number or different types of arguments.
 The `alert` function can be useful as an output device when
 experimenting, but clicking away all those little windows will get on
 your nerves. In past examples, we have been using `console.log` to
-output values. Most JavaScript systems (including all modern Web
+output values. Most JavaScript systems (including all modern web
 browsers and node.js) provide a `console.log` function that writes out
 its arguments to _some_ text output device. In browsers, the output
 lands in the JavaScript console, which is a part of the user interface
 that is hidden by default, but can be found by digging into the menu
-and finding an an item like “Web console” or “Developer tools”,
+and finding an an item like “web console” or “developer tools”,
 usually under a “Tools” or “Developer” sub-menu.
 
 ifdef::html_target[]
@@ -591,7 +590,7 @@ console.log(current);
 ----
 
 (((remainder operation)))(((% operator)))The trick with the remainder
-(“%”) operator is an easy way to test whether a number is divisible by
+(‘%’) operator is an easy way to test whether a number is divisible by
 another number. If it is, the remainder of their division is zero.
 
 The `for` construct in the example does not have a part that checks
@@ -633,7 +632,7 @@ counter += 1;
 ----
 
 This also works for many other operators, such as `result *= 2` to
-double the value of `result`, or `counter -= 1` to count downward.
+double `result`, or `counter -= 1` to count downward.
 
 Which allows us to shorten our counting example a little more:
 
@@ -669,7 +668,7 @@ is an example:
 
 [source,javascript]
 ----
-switch(prompt("What is the weather like?")) {
+switch (prompt("What is the weather like?")) {
   case "rainy":
     console.log("Remember to bring an umbrella.");
     break;
@@ -687,7 +686,7 @@ switch(prompt("What is the weather like?")) {
 (((case keyword)))(((default keyword)))Inside the block opened by
 `switch`, you may put any number of `case` labels. The program will
 jump to the label that corresponds to the value that `switch` was
-given, or to `default` if no matching value is found. Then it start
+given, or to `default` if no matching value is found. Then it starts
 executing statements there, and _continues_ past other labels, until
 it reaches a `break` statement. In some cases, such as the `"sunny"`
 case in the example, this can be used to share some code between cases
@@ -774,7 +773,7 @@ themselves sometimes contain more statements. Statements tend to
 contain expressions, which themselves can be built out of smaller
 expressions.
 
-Putting statements under each other gives you a program that is
+Putting statements below each other gives you a program that is
 executed top-to-bottom. You can introduce disturbances in the flow of
 control by using conditional (`if`, `else`, and `switch`) and looping
 (`while`, `do`, and `for`) statements.
@@ -796,7 +795,7 @@ back to the end of the introduction.
 Each exercise starts with a problem description. Try to read that, and
 solve the exercise. If you run into problems, you can consider reading
 the hints below the exercise. Full solutions to the exercises are not
-included in this book, but can be found online, at REF(solutions). If
+included in this book, but can be found online, at (FIXME). If
 you want to learn something, I recommend only looking at these after
 you've solved the exercise, or at least attacked it long and hard
 enough to have provoked a slight headache.
@@ -838,27 +837,62 @@ solution can closely follow the number-printing program.
 
 !!solution!!
 
-=== Number grid ===
+=== FizzBuzz ===
 
-Write a program that creates a string that represents a 5×5 grid, by
+Write a program that prints (using `console.log`) all the numbers from
+1 to 100, except that, for numbers that are divisible by 3, it prints
+`"Fizz"` instead of the number, and for numbers that are divisible by
+5 (and not 3), it prints `"Buzz"` instead.
+
+When you have that working, modify your program to print `"FizzBuzz"`
+for numbers that are divisible by both 3 and 5.
+
+(This is actually an interview question that has been claimed to weed
+out a significant percentage of programmer candidates. So if you
+solved it, you're now allowed to feel good about yourself.)
+
+!!solution!!
+
+Going over the numbers is clearly a looping job. And selecting what to
+print is a matter of conditional execution. Remember the trick of
+using the remainder (‘%’) operator for checking whether a number is
+divisible by another number (has a remainder of zero).
+
+Because, in the first version, there are three possible outcomes for
+every number, you'll have to create an `if`/`else if`/`else` chain.
+
+The second version of the program can be solved in a very
+straightforward way (simply add another “branch” that precisely tests
+the given condition), or in a clever way (build up a string containing
+the word or word to output, and print either this word or the number
+if there is no word, potentially by making elegant use of the “||”
+operator).
+
+!!solution!!
+
+=== Chess board ===
+
+Write a program that creates a string that represents an 8×8 grid, by
 using newline characters to separate lines. At each position of the
-grid there is a digit character that represents the _x_ (horizontal)
-coordinate of that point minus the _y_ (vertical) coordinate (where
-0,0 is the top-left corner).
+grid there is either a space or a ‘#’ character, in such a way that
+the characters form a chess board.
 
-The output should look like this:
+Passing this string to `console.log` should look like this:
 
 ....
-01234
-12343
-23432
-34321
-43210
+# # # # 
+ # # # #
+# # # # 
+ # # # #
+# # # # 
+ # # # #
+# # # # 
+ # # # #
 ....
 
-When it works, define a variable `size = 5`, and change the program so
-that it works for any `size` between 1 and 10, outputting a grid of
-the given width and height.
+When it works, define a variable `size = 8`, and change the program so
+that it works for any `size`, outputting a grid of the given width and
+height.
 
 ifdef::html_target[]
 [source,javascript]
@@ -871,10 +905,6 @@ endif::html_target[]
 
 The string can be built by starting with an empty one (`""`) and
 repeatedly adding characters. A newline character is written `"\n"`.
-When appending digits, you can explicitly convert number to strings
-using the `String` function, or simply rely on the type conversion
-behavior of the “+” operator (when one of the values given is a
-string, the result will be a string).
 
 Use `console.log` to inspect the output of your program.
 
@@ -883,54 +913,13 @@ loop. Put braces around the bodies of both loops to make it easy to
 see where they start and end. Try to properly indent these bodies. The
 order of the loops must follow the order in which we build up the
 string (line by line, left to right, top to bottom). So the outer loop
-handles the lines (_y_ coordinate) and the inner loop handles the
-characters on a line (_x_ coordinate). You'll need two variables to
-track your progress, and to compute the digits at each position. You
-might as well name them `x` and `y`.
+handles the lines and the inner loop handles the characters on a line.
+You'll need two variables to track your progress. To know whether to
+put a space or a hash sign at a given position, you could test whether
+the sum of the two counters is even (`% 2`).
 
 Terminating a line by adding a newline character happens after the
 line has been built up, so after the inner loop, inside of the outer
 loop.
-
-ifdef::html_target[]
-[source,javascript]
-----
-// Your code here.
-----
-endif::html_target[]
-
-!!solution!!
-
-=== FizzBuzz ===
-
-Write a program that prints (using `console.log`) all the numbers from
-1 to 100, except that, for numbers that are divisible by 3, it prints
-`"Fizz"` instead of the number, and for numbers that are divisible by
-5 (and not 3), it prints `"Buzz"` instead.
-
-When you have that working, modify your program to print `"FizzBuzz"`
-for numbers that are divisible by both 3 and 5.
-
-(This is actually an interview question that has been claimed to weed
-out large swaths of programmer candidates. So if you solved it, you're
-supposedly already better than a some people who are seriously
-applying for programmer jobs.)
-
-!!solution!!
-
-Going over the numbers is clearly a looping job. And selecting what to
-print is a matter of conditional execution. Remember the trick of
-using the remainder (“%”) operator for checking whether a number is
-divisible by another number (has a remainder of zero).
-
-Because, in the first version, there are three possible outcomes for
-every number, you'll have to create an `if`/`else if`/`else` chain.
-
-The second version of the program can be solved in a very
-straightforward way (simply add another “branch” that precisely tests
-the given condition), or in a clever way (build up a string containing
-the word or word to output, and print either this word or the number
-if there is no word, potentially by making elegant use of the “||”
-operator).
 
 !!solution!!

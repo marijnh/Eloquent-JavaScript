@@ -7,10 +7,10 @@
 
 (((bug)))A large program is a costly program. Not necessarily because
 of the time it takes to build. Size almost always involves complexity,
-and complexity confuses programmers. Confused programmers tend have a
-very bad effect on a program—they introduce mistakes (bugs). A large
-program also provides a lot of space for these bugs to hide, making
-them very hard to find.
+and complexity confuses programmers. Confused programmers have a
+negative effect on a program—they tend to introduce mistakes (bugs). A
+large program also provides a lot of space for these bugs to hide,
+making them hard to find.
 
 Let us briefly go back to the final two example programs in the
 introduction. The first is self-contained, and six lines long.
@@ -38,10 +38,11 @@ If we count the size of the definitions of `sum` and `range`, the
 second program is also big—even bigger than the first. But still, I'd
 argue that it is more likely to be correct.
 
-The reason for this is that, by first building up a language in which
-to express the problem, and then solving the problem in the terms of
-the problem's own domain, it gains clarity. Summing a range of numbers
-isn't about loops and counters, it is about ranges and sums.
+The reason it is more likely to be correct is that, by first building
+up a language in which to express the problem, and then solving the
+problem in the terms of the problem's own domain, the solution gains
+clarity. Summing a range of numbers isn't about loops and counters, it
+is about ranges and sums.
 
 The definitions of the vocabulary itself (the functions `sum` and
 `range`) will still have to concern themselves with loops, counters, and
@@ -50,7 +51,7 @@ other silly details. But because they are expressing simpler concepts
 to get right.
 
 Of course, getting a sum over a range of numbers right is trivial with
-or without vocabulary. Consider the example a miniature model of
+or without vocabulary. Consider that example a miniature model of
 other, actually difficult problems.
 
 == Abstraction ==
@@ -81,8 +82,8 @@ ____
 Per person: 1 cup dried split peas, half a chopped onion, a stalk of
 celery, and a carrot.
 
-Soak peas for 12 hours. Simmer them for 2 hours in 4 cups of water.
-Chop and add vegetables. Cook for 10 more minutes.
+Soak peas for 12 hours. Simmer them for 2 hours in 4 cups of water
+(per person). Chop and add vegetables. Cook for 10 more minutes.
 ____
 
 The second is shorter, and easier to interpret. It does rely on you
@@ -157,7 +158,7 @@ forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
 // → Granfalloon
 ----
 
-Often, you wouldn't pass a pre-defined function to `forEach`, but
+Often, you don't pass a pre-defined function to `forEach`, but
 create a function value on the spot instead.
 
 [source,javascript]
@@ -174,11 +175,11 @@ This looks quite a lot like the classical `for` loop, with its body
 written as a block below it. Except that now the body is inside of the
 function value, as well as inside of the parentheses of the call to
 `forEach` and inside a regular statement. This is why it has to be
-closed with the punctuation `});`.
+closed with the closing brace, closing parenthesis, _and_ semicolon.
 
 In this pattern, we can simply specify a variable name (`number`) for
 the current element as the function's argument, rather than having to
-pick it out of the array ourselves.
+pick it out of the array manually.
 
 We do not need to write `forEach` ourselves. It is available as a
 standard method on arrays (taking the function as first argument,
@@ -349,7 +350,7 @@ ourselves with them, let us play around with another data set.
 A few years ago, someone crawled through a lot of archives in order to
 put together a book on the history of my family name
 (“Haverbeke”—literally “Oatbrook”). I was hoping to find knights,
-pirates, and alchemists. The book turns out to be mostly full of
+pirates, and alchemists... but the book turns out to be mostly full of
 Flemish farmers. For my amusement, I extracted the information on my
 direct ancestors, and put it into a computer-readable format. Let us
 play with this data.
@@ -369,7 +370,7 @@ play with this data.
    "born": 1832, "died": 1905,
    "father": "Carel Haverbeke",
    "mother": "Maria van Brussel"},
-  .. and so on
+  … and so on
 ]
 ----
 
@@ -381,7 +382,7 @@ allowed.
 
 This format is called JSON, pronounced “Jason”, which stands for
 JavaScript Object Notation. It is widely used as a data storage and
-communication format on the Web.
+communication format on the web.
 
 JavaScript provides two functions, `JSON.stringify` and `JSON.parse`,
 that convert data from and to this format.
@@ -452,9 +453,9 @@ Say we have an array of person objects, produced by filtering the
 easier to read through.
 
 The `map` method transforms an array by applying a function to all of
-its elements, and building a new array from the results. The new array
-will have the same length as the input array, but its content will
-have been “mapped” to a new form by the function.
+its elements, and building a new array from the returned values. The
+new array will have the same length as the input array, but its
+content will have been “mapped” to a new form by the function.
 
 // test: join
 
@@ -474,7 +475,7 @@ console.log(map(overNinety, function(person) {
   return person.name;
 }));
 // → ["Clara Aernoudts", "Emile Haverbeke",
-//     "Maria Haverbeke"]
+//    "Maria Haverbeke"]
 ----
 
 Interestingly, the people that lived to over 90 years of age are the
@@ -488,7 +489,7 @@ arrays.
 == Summarizing with reduce ==
 
 Another common pattern of computation on arrays is computing a single
-value from them. Our primordial example, the summing of a range of
+value from them. Our recurring example, the summing of a range of
 numbers, is an instance of this. If we wanted to find the person with
 the earliest year of birth in the data set, that would also follow
 this pattern.
@@ -584,7 +585,7 @@ console.log(average(ancestry.filter(female).map(age)));
 
 (It is a bit silly that we have to define `plus` as a function.
 Operators in JavaScript, unlike functions, are not values, so we can't
-pass them to functions.)
+pass them as arguments.)
 
 Instead of tangling all of the logic required into a big loop, we can
 neatly decompose it into the concepts we are interested in (deciding
@@ -602,11 +603,11 @@ mean spoil-sport monster called “_inefficiency_.”
 Reducing the processing of an array into a sequence of cleanly
 separated steps that each do something with the array and produce a
 new array is easy to think about. But building up all those
-intermediate arrays in _inefficient_.
+intermediate arrays is somewhat expensive.
 
 Passing a function to `forEach` and letting that method handle the
 array iteration for us is convenient and elegant. But function calls
-in JavaScript are _costly_ (compared to simple loop bodies).
+in JavaScript are costly, compared to simple loop bodies.
 
 And so it goes with a lot of techniques that help improve the clarity
 of a program. They add additional layers between the raw things the
@@ -685,7 +686,7 @@ function reduceAncestors(person, f, zero) {
     var mother = byName[person.mother];
     return f(person, reduce(father), reduce(mother));
   }
-  return reduce(person, 0);
+  return reduce(person);
 }
 ----
 
@@ -706,16 +707,14 @@ shared with Pauwels van Haverbeke, and divide that by four.
 
 [source,javascript]
 ----
-console.log(reduceAncestors(
-  byName["Philibert Haverbeke"],
-  function(person, fromFather, fromMother) {
-    if (person.name == "Pauwels van Haverbeke")
-      return 1;
-    else
-      return (fromFather + fromMother) / 2;
-  },
-  0
-) / 4);
+function sharedDNA(person, fromFather, fromMother) {
+  if (person.name == "Pauwels van Haverbeke")
+    return 1;
+  else
+    return (fromFather + fromMother) / 2;
+}
+var ph = byName["Philibert Haverbeke"];
+console.log(reduceAncestors(ph, sharedDNA, 0) / 4);
 // → 0.00049
 ----
 
@@ -879,7 +878,7 @@ Let us take a closer look at that phenomenon.
 
 Compute and output the average age of the people in the ancestry data
 set per century. A person is assigned to a century by taking their
-year of death, dividing it by hundred, and rounding it up, as in
+year of death, dividing it by a hundred, and rounding it up, as in
 `Math.ceil(person.died / 100)`.
 
 ifdef::html_target[]

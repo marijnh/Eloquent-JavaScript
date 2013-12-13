@@ -8,11 +8,13 @@ var acorn = require("acorn");
 var file = process.argv[2];
 var input = fs.readFileSync(file, "utf8");
 
-var code = "var alert = function() {}, prompt = function() { return 'x'; }, confirm = function() { return true; };\n";
+var code = "var alert = function() {}, prompt = function() { return 'x'; }, confirm = function() { return true; }; window = this;\n";
 
 var include = /\n:load_files: (\[[^\]]+\])/.exec(input);
 if (include) JSON.parse(include[1]).forEach(function(fileName) {
-  code += fs.readFileSync("html/" + fileName);
+  var text = fs.readFileSync("html/" + fileName);
+  if (!/\/\/ test: no/.test(text))
+    code += text;
 });
 
 function wrapTestOutput(snippet, config) {
@@ -22,6 +24,12 @@ function wrapTestOutput(snippet, config) {
     if (m[2]) output += m[2].replace(/\/\/   /g, "");
   }
   return "console.clear();\n" + snippet + "console.verify(" + JSON.stringify(output) + ", " + JSON.stringify(config) + ");\n";
+}
+
+function wrapForError(snippet, message) {
+  return "try { (function() {\n" + snippet + "})();\n" +
+    "console.missingErr();\n} catch (_e) { console.compareErr(_e, " +
+    JSON.stringify(message) + "); }\n";
 }
 
 function pos(index) {
@@ -38,8 +46,10 @@ while (m = re.exec(input)) {
     console.log("parse error at " + where + ": " + e.toString());
   }
   if (/\bno\b/.test(config)) continue;
-  if (/\/\/ →/.test(snippet)) snippet = wrapTestOutput(snippet, config);
+  if (m = config.match(/\berror "([^"]+)"/)) snippet = wrapForError(snippet, m[1]);
+  else if (/\/\/ →/.test(snippet)) snippet = wrapTestOutput(snippet, config);
   if (/\bwrap\b/.test(config)) snippet = "(function(){\n" + snippet + "}());\n";
+
   code += "console.pos = " + JSON.stringify(where) + ";\n";
   code += snippet;
 }
@@ -124,14 +134,22 @@ var accum = "", _console = {
   },
   verify: function(string, config) {
     var clip = string.indexOf("…"), ok = false;
-    if (/\btrim\b/.test(config)) accum = accum.replace(/\s+(\n|$)/g, "$1");
+    if (/\btrailing\b/.test(config)) accum = accum.replace(/\s+(\n|$)/g, "$1");
+    if (/\btrim\b/.test(config)) { accum = accum.trim(); string = string.trim(); }
     if (/\bclip\b/.test(config)) ok = compareClipped(string, accum);
     else if (/\bjoin\b/.test(config)) ok = compareJoined(string, accum);
     else if (clip > -1) ok = string.slice(0, clip) == accum.slice(0, clip);
     else ok = string == accum;
-    if (!ok) console.log("OH", clip, "\n" + string.slice(0, clip) + "\n------\n" + accum.slice(0, clip));
     if (!ok)
       console.log("mismatch at " + this.pos + ". got:\n" + accum + "\nexpected:\n" + string);
+  },
+  missingErr: function() {
+    console.log("expected error not raised at " + this.pos);
+    console.log(code);
+  },
+  compareErr: function(err, string) {
+    if (err.toString() != string)
+      console.log("wrong error raised at " + this.pos + ": " + err.toString());
   },
   pos: null
 };

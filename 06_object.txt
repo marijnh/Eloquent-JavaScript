@@ -5,7 +5,7 @@
 
 = The Secret Life of Objects =
 
-When a programmer says “object”, that term is loaded. Objects, in my
+When a programmer says “object”, that is a loaded term. Objects, in my
 profession, are a way of life, the subject of several holy wars, and a
 beloved buzzword that still hasn't quite lost its power.
 
@@ -14,24 +14,24 @@ a brief history of objects as a programming construct.
 
 == History ==
 
-(((object-oriented programming)))(((object)))This story, like many
-stories in this field, starts with the problem of controlling
-complexity. One philosophy is that this complexity can be made
-manageable by separating it into small compartments that are isolated
-from each other. These compartments ended up with the name “objects.”
+(((object-oriented programming)))(((object)))This story, like most
+programming stories, starts with the problem of complexity. One
+philosophy is that this complexity can be made manageable by
+separating it into small compartments that are isolated from each
+other. These compartments ended up with the name “objects.”
 
 (((encapsulation)))(((method)))(((interface)))An object is a hard
 shell that encapsulates the gooey complexity inside of it, and instead
-offers us a few knobs and connectors (think methods) that present
-an _interface_ through which the object is to be used. The idea is
-that the interface is relatively simple, and all the complex things
-going on _inside_ of the object can be ignored when working with it.
+offers us a few knobs and connectors (think methods) that present an
+_interface_ through which the object is to be used. The idea is that
+the _interface_ is relatively simple, and all the complex things going
+on _inside_ of the object can be ignored when working with it.
 
 As an example, you can imagine an object that provides an interface to
 an area on your screen. It provides a way to draw shapes or text onto
 this area, but hides all the details of how these shapes are converted
 to the actual pixels that make up the screen. You'd have a set of
-methods, for example `drawCircle`, and those are the only thing you
+methods, for example `drawCircle`, and those are the only things you
 need to know in order to use such an object.
 
 These ideas were initially worked out in the 1970s and 80s, and, in
@@ -41,8 +41,8 @@ declaring that objects were the _right_ way to program, and that
 anything that did not involve objects was outdated nonsense.
 
 That kind of zealotry always produces a lot of impractical silliness,
-and there has been a sort of counter-revolution since then which has,
-in many circles, given objects a bad reputation.
+and there has been a sort of counter-revolution since then. In some
+circles, objects have a rather bad reputation nowadays.
 
 I feel it is preferable to look at the issue from a practical, rather
 than ideological angle. There are several very useful concepts, most
@@ -69,14 +69,13 @@ rabbit.speak("I'm alive.");
 // → The rabbit says 'I'm alive.'
 ----
 
-(((this variable)))Usually a method needs to know about the object it
-is acting on. For example, if there are different rabbits, the `speak`
-method must indicate which rabbit is speaking.
+(((this variable)))Usually a method needs to do something with the
+object it was called on. For example, if there are different rabbits,
+the `speak` method must indicate which rabbit is speaking.
 
-When a function is called as a method—when it is looked up as a
-property and immediately called, as in ++object.method()++—the special
-variable `this` in its body will point to the object that it was
-called on.
+When a function is called as a method—looked up as a property and
+immediately called, as in ++object.method()++—the special variable
+`this` in its body will point to the object that it was called on.
 
 // test: join
 // include_code top_lines:6
@@ -90,10 +89,10 @@ function speak(line) {
 var whiteRabbit = {type: "white", speak: speak};
 var fatRabbit = {type: "fat", speak: speak};
 
-whiteRabbit.speak(
-  "Oh my ears and whiskers, how late it's getting!");
+whiteRabbit.speak("Oh my ears and whiskers, " +
+                  "how late it's getting!");
 // → The white rabbit says 'Oh my ears and whiskers, how
-//    late it's getting!'
+//   late it's getting!'
 fatRabbit.speak("I could sure use a carrot right now.");
 // → The fat rabbit says 'I could sure use a carrot
 //   right now.'
@@ -102,9 +101,9 @@ fatRabbit.speak("I could sure use a carrot right now.");
 The code uses the `this` variable to output the type of rabbit that is
 speaking.
 
-(((apply method)))(((bind method)))So the first argument to the
-`apply` and `bind` methods on functions is in fact used to give a
-value to `this`.
+(((apply method)))(((bind method)))The first argument to the `apply`
+and `bind` methods on functions is in fact used to give a value to
+`this`.
 
 There is a method similar to `apply`, called `call`, which also calls
 the function, but takes its arguments normally, rather than as an
@@ -135,7 +134,7 @@ console.log(empty.toString());
 I just pulled a property out of an empty object. Magic!
 
 (((prototype)))(((property)))Well, not really. I have simply been
-withholding some information on the way JavaScript objects work. In
+withholding information about the way JavaScript objects work. In
 addition to their set of properties, almost all objects also have a
 _prototype_. A prototype is another object that is used as a fall-back
 source of properties. When a property is requested that an object does
@@ -490,7 +489,7 @@ Popocatepetl     5465 Mexico
 The way our table-building system will work is that the builder
 function lets the cells tell it how wide and high they want to be, and
 then, once it has determined the width of the columns and the height
-of the rows, asks them to draw themselves at the correct certain size
+of the rows, asks them to draw themselves at the correct size
 and assembles the result into a single string.
 
 The interface through which the algorithm talks to the cells consists
@@ -541,12 +540,12 @@ that in `map` in order to do it for all rows in the `rows` array.
 slightly harder for the `colWidths` function, because the outer array
 is an array of rows, not of columns. I have failed to mention so far
 that `map` (as well as `forEach`, `filter`, and similar array methods)
-pass a second argument to the function they get, which is the index of
-the current element. By mapping over the elements of the first row,
-and only using its second argument, `colWidths` builds up an array
-with one element for every column index. The call to `reduce` runs
-over the outer `rows` array again, and picks out the cell at the given
-index from each row, maximizing their widths.
+pass a second argument to the function they are given, namely the
+index of the current element. By mapping over the elements of the
+first row, and only using its second argument, `colWidths` builds up
+an array with one element for every column index. The call to `reduce`
+runs over the outer `rows` array again, and picks out the cell at the
+given index from each row, maximizing their widths.
 
 Using an underscore (`_`) as an argument name is a way to indicate (to
 human readers) that this argument is not going to be used.
@@ -561,27 +560,36 @@ function drawTable(rows) {
   var heights = rowHeights(rows);
   var widths = colWidths(rows);
 
-  return rows.map(function(row, rowNum) {
+  function drawLine(blocks, lineNo) {
+    return blocks.map(function(block) {
+      return block[lineNo];
+    }).join(" ");
+  }
+
+  function drawRow(row, rowNum) {
     var blocks = row.map(function(cell, colNum) {
       return cell.draw(widths[colNum], heights[rowNum]);
     });
-    return blocks[0].map(function(_, i) {
-      return blocks.map(function(block) {
-        return block[i];
-      }).join(" ");
+    return blocks[0].map(function(_, lineNo) {
+      return drawLine(blocks, lineNo);
     }).join("\n");
-  }).join("\n");
+  }
+
+  return rows.map(drawRow).join("\n");
 }
 ----
 
-It repeatedly maps over things and then uses the array's `join` method
-to build up a string from the result. The outer `map` call builds up
-the strings for whole rows. Inside of it, a simple `map` is used to
-get an array of text blocks for the cells in the row. We then have to
-do another row-column inversion trick, similar to the one in
-`colWidths`, to build up arrays of text for each line (the very inner
-`map`/`join`), and then join these lines together with newline
-characters.
+The `drawTable` function uses internal helper functions `drawRow` and
+`drawLine`. The first produces a string for a single row of the table,
+and the second is used to render a single line, given an array of
+blocks (arrays of strings) and a line number. The outer function, at
+its very end, simply draws all rows and joins them together with
+newline characters.
+
+The `drawRow` function itself does something similar. It first draws
+each cell using the correct dimensions, and then maps over all the
+lines in the first cell in order to call `drawLine` for each line the
+row has, and joins the result, again, with newline characters.
 
 Let us write a constructor for cells that contain text. The
 constructor splits a string into an array of lines, and the `minWidth`
@@ -685,19 +693,21 @@ height, which is the space taken up by the underline.
 Drawing such a cell is quite simple—we take the content of the inner
 cell, and concatenate a single line full of dashes to it.
 
-// test: wrap, trim
+// test: wrap, trailing
 
 [source,javascript]
 ----
 function dataTable(data) {
   var keys = Object.keys(data[0]);
-  return [keys.map(function(name) {
+  var headers = keys.map(function(name) {
     return new UnderlinedCell(new TextCell(name));
-  })].concat(data.map(function(row) {
+  });
+  var body = data.map(function(row) {
     return keys.map(function(name) {
       return new TextCell(String(row[name]));
     });
-  }));
+  });
+  return [headers].concat(body);
 }
 
 console.log(drawTable(dataTable(MOUNTAINS)));
@@ -733,7 +743,7 @@ simple value property, which can be both read and written, they'd use
 `getSomething` and `setSomething` methods which read and write the
 property.
 
-Fortunately, JavaScript allows a technique that gets us the best of
+Fortunately, JavaScript provides a technique that gets us the best of
 both worlds. We can specify properties that, from the outside, look
 like normal properties, but secretly have methods associated with
 them.
@@ -835,9 +845,10 @@ were aiming for:
 ----
 function dataTable(data) {
   var keys = Object.keys(data[0]);
-  return [keys.map(function(name) {
+  var headers = keys.map(function(name) {
     return new UnderlinedCell(new TextCell(name));
-  })].concat(data.map(function(row) {
+  });
+  var body = data.map(function(row) {
     return keys.map(function(name) {
       var value = row[name];
       if (typeof value == "number")
@@ -845,7 +856,8 @@ function dataTable(data) {
       else
         return new TextCell(String(value));
     });
-  }));
+  });
+  return [headers].concat(body);
 }
 
 console.log(drawTable(dataTable(MOUNTAINS)));
@@ -900,21 +912,21 @@ constructors like `Array`. Almost every object is an instance of
 
 == Summary ==
 
-(((prototype)))So objects are more complicated than I have been
-letting on. They have prototypes, which are other objects, and will
+(((prototype)))So objects are more complicated than I initially
+pictured them. They have prototypes, which are other objects, and will
 act as if they have properties they don't have if the prototype has
-that property. Simple objects will have `Object.prototype` as their
+that property. Simple objects have `Object.prototype` as their
 prototype.
 
 (((constructor)))(((new operator)))(((instanceof
 operator)))Constructors, which are functions whose name usually starts
 with a capital letter, can be used with the `new` operator to create
-new objects. The new object's prototype will be the `prototype`
-property of the constructor function. You can do nice things with this
-by putting the properties that all values of a given type share into
-their prototype. The `instanceof` operator can, given an object and a
-constructor, tell you whether that object is an instance of that
-constructor.
+new objects. The new object's prototype will be the object found in
+the `prototype` property of the constructor function. You can make
+good use of this by putting the properties that all values of a given
+type share into their prototype. The `instanceof` operator can, given
+an object and a constructor, tell you whether that object is an
+instance of that constructor.
 
 (((encapsulation)))One useful thing to do with objects is to specify
 an interface for them, and tell everybody that they are only supposed
@@ -1078,7 +1090,8 @@ elements after the current one (or a special value if the end of the
 sequence is reached). This is quite elegant—a sequence value will
 “stay itself” even after it is used, and can thus be shared with other
 code without worrying about what might happen to it. It is,
-unfortunately, also very inefficient in a language like JavaScript,
-because it involves creating a lot of objects during iteration.
+unfortunately, also somewhat inefficient in a language like
+JavaScript, because it involves creating a lot of objects during
+iteration.
 
 !!solution!!

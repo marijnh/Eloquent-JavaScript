@@ -364,7 +364,7 @@ console.log(chicken() + " came first.");
 == Optional Arguments ==
 
 (((argument)))(((function,application)))The following code is allowed
-an executes without problem:
+and executes without problem:
 
 [source,javascript]
 ----
@@ -454,7 +454,7 @@ the same time, which is another good illustration of the concept that
 local variables really are recreated for every call—different calls
 can not trample on each other's local variables.
 
-This feature, being able to reference specific instance of local
+This feature, being able to reference a specific instance of local
 variables in an enclosing function, is called _closure_. A function
 that “closes over” some local variables is called _a closure_. This
 behavior not only frees you from having to worry about lifetimes of

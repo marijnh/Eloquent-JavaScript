@@ -1,9 +1,9 @@
 :chap_num: 8
 :prev_link: 07_elife
-:next_link: 09_FIXME
+:next_link: 09_regexp
 :load_files: ["js/08_error.js"]
 
-= Bugs and error handling =
+= Bugs and Error Handling =
 
 (((error handling)))When a machine malfunctions, this can lead to all
 kinds of interesting and horrible results. The same goes for programs.
@@ -169,6 +169,7 @@ function testPoint() {
   return "everything ok";
 }
 console.log(testPoint());
+// → everything ok
 ----
 
 (((test suite)))(((testing frameworks)))Various pieces of helper
@@ -716,9 +717,9 @@ failures so long that it overflows the stack).
 
 !!solution!!
 
-== The locked box ===
+=== The locked box ===
 
-Consider the following—rather contrived—object:
+Consider the following rather contrived object:
 
 // include_code
 

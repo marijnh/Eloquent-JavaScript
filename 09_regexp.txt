@@ -1,0 +1,763 @@
+= Regular Expressions =
+
+The survival and spread of programming conventions and techniques
+happens in a chaotic, evolutionary way. It's not usually the pretty or
+brilliant ones that win, but rather the ones that combine working
+passably well with sitting in the right niche—by, for example, being
+integrated with another successful piece of technology.
+
+In this chapter I will discuss one such technology, _regular
+expressions_. Regular expressions are a way to describe patterns in
+string data. They form a small, separate language that is part of
+JavaScript (as well as various other programming languages and tools).
+
+Regular expressions are both extremely useful and extremely awkward.
+Learning them properly will make it much easier to do all kinds of
+string processing. But the syntax used to express them is ridiculously
+cryptic, the programming interface JavaScript provides for them is
+clumsy, and the way they act is not always easy to predict.
+
+== Syntax ==
+
+A regular expression is an object. It can either be constructed with
+the `RegExp` constructor or written as a literal value by enclosing
+the pattern in slash (‘`/`’) characters.
+
+[source,javascript]
+----
+var re1 = new RegExp("abc");
+var re2 = /abc/;
+----
+
+In the first case, the pattern is written as a normal string, so the
+usual rules apply for backslashes. In the second notation, we are
+using slashes to delimit the pattern, so we'd have to backslash-escape
+slashes that are part of the pattern. Some other characters, such as
+question marks and plus signs, are used as special markers in regular
+expressions, and must to be preceded by a backslash if they are meant
+to represent the character itself.
+
+[source,javascript]
+----
+var onePlusOne = /1 \+ 1/;
+----
+
+Knowing precisly what characters to backslash-escape when writing
+regular expressions requires you to know about all the special
+meansing assigned to characters by this syntax. For now, this may not
+be realistic. So as an alternative, when in doubt, just put a
+backslash before any character that is not alphanumeric or whitespace.
+
+== Testing for matches ==
+
+Regular expression objects have a number of methods. The simplest one
+is `test`, which you give a string, and will return a boolean that
+tells you whether the pattern expressed by the expression matches the
+string.
+
+[source,javascript]
+----
+console.log(/abc/.test("abcdef"));
+// → true
+console.log(/abc/.test("12345"));
+// → false
+----
+
+A regular expression consisting of only normal characters simply
+represents that sequence of characters. If “abc” occurs anywhere (not
+just at the start) in the string we are testing against, the result
+will be true.
+
+== Matching a set of characters ==
+
+Finding out whether a string contains “abc” could just as well be done
+with a call to `indexOf`. The power of regular expressions is that
+they allow more complicated patterns to be expressed. For example, it
+is possible to indicate that a given part of the pattern matches not
+just one character, but any character from a set.
+
+Square brackets, when used in a regular expression, wrap such a set of
+characters. The first expression below matches any string that
+contains a three-character sequence that starts with ‘s’, ends with
+‘n’, and has a sonant in between.
+
+[source,javascript]
+----
+console.log(/s[auieo]n/.test("son"));
+// → true
+console.log(/[0-9]/.test("in 1992"));
+// → true
+----
+
+(((digit (regexp))))Between square brackets, a dash (‘-’) between two
+characters can be used to indicate a range of characters. So `[0-9]`
+means anything from 0 to 9. The second regular expression will match
+any digit character.
+
+(((whitespace (regexp))))(((alphanumeric character (regexp))))(((dot
+(regexp)))) There are a number of commonly use character groups that
+have their own built-in shortcuts. Digits are in fact one of them—you
+can write backslash-d (`\d`) to mean the same thing as `[0-9]`.
+
+[cols="1,5"]
+|====
+|`\d`      |Digit characters.
+|`\w`      |Alphanumeric characters (“word characters”).
+|`\s`      |Whitespace characters (space, tab, newline, and similar).
+|`\D`      |Characters that are _not_ digits.
+|`\W`      |Non-alphanumeric characters.
+|`\S`      |Non-whitespace characters.
+|`.` (dot) |All characters except newlines.
+|====
+
+For each of the backslash-prefixed categories, there is an uppercase
+variant that means the exact opposite.
+
+So you could express a date and time format like “30/01/2003 15:20” with
+the following expression:
+
+[source,javascript]
+----
+var dateTime = /\d\d\/\d\d\/\d\d\d\d \d\d:\d\d/;
+console.log(dateTime.test("30/01/2003 15:20"));
+// → true
+console.log(dateTime.test("30/jan/2003 15:20"));
+// → false
+----
+
+(((backslash)))Looks completely awful, doesn't it? Way too many
+backslashes. Such is life with regular expressions.
+
+These category markers can also be used inside of square brackets, so
+`[\d\.]` means any digit or a dot.
+
+To “invert” a set of characters, to express that you want to match any
+character _except_ the ones in the set, a caret (‘^’) character is
+written after the opening bracket.
+
+[source,javascript]
+----
+var badBinary = /[^01]/;
+console.log(badBinary.test("01101"));
+// → false
+console.log(badBinary.test("01201"));
+// → true
+----
+
+== Repeating parts of a pattern ==
+
+(((repetition (regexp))))(((* operator)))(((+ operator)))When you put
+a plus sign (‘+’) after something in a regular expression, that
+indicates that it may be repeated more than once. For example `/\d+/`
+matches one or more digit characters.
+
+The star (‘*’) has a similar meaning, but also allows the pattern to
+match zero times.
+
+[source,javascript]
+----
+console.log(/wo*w/.test("wooooow"));
+// → true
+console.log(/wo*w/.test("ww"));
+// → true
+console.log(/wo+w/.test("ww"));
+// → false
+----
+
+A question mark makes a part of a pattern “optional”, meaning it may
+occur zero or one times. In this example, the ‘u’ character is allowed
+to occur, but the pattern also matches when it is missing.
+
+[source,javascript]
+----
+var neighbor = /neighbou?r/;
+console.log(neighbor.match("neighbour"));
+// → true
+console.log(neighbor.match("neighbor"));
+// → true
+----
+
+To allow a pattern to occur a precisely defined number of times, curly
+braces are used. Putting `{4}` after an element requires it to occur
+exactly four times. Similarly, `{2,4}` is used when the element must
+occur at least twice, and at most four times.
+
+Here is another version of the date and time pattern. It allows
+single-digit day, month, and hour numbers, and is possibly slightly
+more readable:
+
+[source,javascript]
+----
+var dateTime = /\d{1,2}\/\d{1,2}\/\d{4} \d{1,2}:\d{2}/;
+console.log(dateTime.test("30/1/2003 8:45"));
+// → true
+----
+
+It is also possible to leave either the minimum or the maximum amount
+of occurrences open-ended, by omitting the number on one side of the
+comma. So `{,5}` means zero to five times, and `{5,}` means five or
+more times.
+
+== Grouping subexpressions ==
+
+(((grouping (regexp))))It is often necessary to use operators like ‘*’
+and ‘+’ on more than one character at a time. When a piece of a
+regular expression is surrounded in parentheses, it counts as a single
+unit as far as the operators following it are concerned.
+
+[source,javascript]
+----
+var cartoonCrying = /boo+(hoo+)+/i;
+console.log(cartoonCrying.test("Boohoooohoohooo"));
+→ true
+----
+
+The third ‘+’ applies to the whole group `(hoo+)`, matching one or
+more sequences like that.
+
+(((case-sensitivity (regexp))))The ‘i’ at the end of the expression in
+the example above makes this regular expression case-insensitive,
+allowing it to match the uppercase ‘B’ in the input string, even
+though the pattern is itself all lowercase.
+
+== Matches and groups ==
+
+The `test` method is the absolute simplest way to match a regular
+expression. It only tells you whether it matched, and nothing else.
+Regular expressions also have an `exec` method, that will return
+`null` when no match was found, and an object with information about
+the match otherwise.
+
+[source,javascript]
+----
+var match = /\d+/.exec("one two 100");
+console.log(match);
+// → ["100"]
+console.log(match.index);
+// → 8
+----
+
+An object returned from `exec` has an `index` property that tells us
+_where_ in the string the succesful match started. Otherwise, the
+object looks like (and in fact is) an array of strings, whose first
+element is the string that was matched—in the example above, that is
+the sequence of digits that we were looking for.
+
+When the regular expression contains expressions grouped with
+parentheses, the text that matched those groups will also show up in
+the array. The first element is always the whole match, after that
+follows the part matched by the first group (the one whose opening
+parenthesis comes first in the expression), then the second, and so
+on.
+
+[source,javascript]
+----
+var quotedText = /'([^']*)'/;
+console.log(quotedText.exec("she said 'hello'"));
+// → ["'hello'", 'hello']
+----
+
+When a group does not end up being matched at all, its position in the
+output array will hold `undefined`. For example, it might have a
+question mark after it and not match the string. Similarly, when a
+group is matched multiple times, the last match ends up in the array.
+
+[source,javascript]
+----
+console.log(/the (red)? /);FIXME
+----
+
+This can be very useful for extracting parts of a string. For example,
+we may not just want to verify whether a string contains a date, but
+also extract it, and construct an object that represents it. If we
+wrap parentheses around the digit patterns, we'll be able to directly
+pick them out of the result of `exec`.
+
+But first, a short detour.
+
+== The date type ==
+
+JavaScript has a standard object type for representing dates—or
+rather, points in time. It is called `Date`. If you simply create a
+date object using `new`, you get the current date and time.
+
+// test: no
+
+[source,javascript]
+----
+console.log(new Date());
+// → Wed Dec 04 2013 14:24:57 GMT+0100 (CET)
+----
+
+You can also create an object for a specific time.
+
+[source,javascript]
+----
+console.log(new Date(2009, 11, 9));
+// → Wed Dec 09 2009 00:00:00 GMT+0100 (CET)
+console.log(new Date(2009, 11, 9, 12, 59, 59, 999));
+// → Wed Dec 09 2009 12:59:59 GMT+0100 (CET)
+----
+
+JavaScript uses a convention where month numbers start at zero (so
+December is 11), yet day numbers start at one. This is unfortunate and
+rather confusing, so be careful.
+
+The last four arguments (hours, minutes, seconds, and milliseconds)
+are optional, and taken to be zero when not given.
+
+Internally, times are stored as the number of milliseconds since the
+start of 1970. The `getTime` method on a date returns this number. It
+is quite big, as you can imagine.
+
+[source,javascript]
+----
+console.log(new Date(1980, 1, 1).getTime());
+// → 318207600000
+console.log(new Date(318207600000));
+// → Fri Feb 01 1980 00:00:00 GMT+0100 (CET)
+----
+
+When giving the constructor a single argument, that argument is
+treated as such a millisecond number.
+
+Date objects provide methods like `getFullYear` (`getYear` gets you
+the useless two-digit version), `getMonth`, `getDate`, `getHours`,
+`getMinutes`, and `getSeconds` to extract their components.
+
+So now we can build an expression that matches a date, and add
+parentheses around the parts that we are interested in.
+
+[source,javascript]
+----
+function findDate(string) {
+  var dateTime = /(\d{1,2})\/(\d{1,2})\/(\d{4})/;
+  var match = dateTime.exec(string);
+  return new Date(Number(match[3]), Number(match[2]),
+                         Number(match[1]));
+}
+console.log(findDate("30/1/2003"));
+// → Sun Mar 02 2003 00:00:00 GMT+0100 (CET)
+----
+
+== Word and string boundaries ==
+
+The `findDate` function above will also happily find a date in a
+string like ++"100/1/30000"++—remember, a match may happen anywhere in
+the string, so in this case it'll just start at the second character
+and end at the one-but-last.
+
+(((boundary (regexp))))If we want to enforce that the match must span
+the whole string, we can add the markers ‘^’ and ‘$’. The first
+matches the start of the input string, and the second the end. So
+`/^\d+$/` matches a string consisting only of one or more digits, `/^
+/` matches any string that starts with a space, and `/ ^/` does not
+match anything (the start of a string can not be after a character).
+
+(((word boundary (regexp))))If, on the other hand, we just want to
+make sure the date starts and ends on a word boundary, we can use the
+marker `\b`. A word bounary is a point that has a word character on
+one side, and a non-word character on the other.
+
+[source,javascript]
+----
+console.log(/cat/.test("concatenate"));
+→ true
+console.log(/\bcat\b/.test("concatenate"));
+→ false
+----
+
+Note that these boundary markers don't match any actual characters,
+they just enforce that the pattern only matches when a certain
+condition holds at the place where they appear.
+
+== Alternatives ==
+
+Regular expressions can express 
+
+
+
+For more advanced ``branching'' patterns, you can use a pipe character
+(`|`) to allow a pattern to make a choice between several
+elements. Here's an example:
+
+[source,javascript]
+----
+var holyCow = /\b(sacred|holy) (cow|bovine|bull)\b/i;
+holyCow.test("Sacred bovine!");
+→ true
+----
+
+This will match any string that contains the word _sacred_ or
+_holy_, followed by one of the words _cow_, _bovine_, _bull_,
+or _taurus_. Note that the parentheses are needed here, because
+otherwise the choice would be between _sacred_, _holy cow_,
+_bovine_, and so on.(((regular expression!syntax|))))
+
+== Matching and Replacing ==
+
+Often, looking for a pattern is just the first step in extracting
+something from a string. In previous chapters, such extraction was
+done by calling a string's `indexOf` and `slice` methods.
+Now that we know about regular expressions, we can do better.
+
+== The match Method ==
+
+(((regular expression!matching)))(((match@`match` method)))(((null@`null` value)))
+Strings have a method named `match`, which takes a regular
+expression as an argument. It returns `null` if the match failed and returns
+an array of matched strings if it succeeded. You can see this happen
+in the following examples:
+
+[source,javascript]
+----
+"No".match(/yes/i);
+→ null
+
+"... yes".match(/yes/i);
+→ ["yes"]
+
+"Giant Ape".match(/giant (\w+)/i);
+→ ["Giant Ape", "Ape"]
+----
+
+The first element in the returned array is always the part of the
+string that matched the whole pattern. As the third example shows,
+when there are parenthesized parts in the pattern, the parts they
+match are also added to the array. Often, this makes extracting pieces
+of a string very easy.
+
+(((extractDate@`extractDate` function)))
+We can now rewrite the `extractDate` function that we wrote in
+\chapref{data}. When given a string, this function looks for something
+that follows the date format we saw earlier. If it can find such a
+date, it puts the values into a `Date` object. Otherwise, it
+throws an exception.
+
+[source,javascript]
+----
+function extractDate(string) {
+  var found = string.match(/\b(\d\d?)\/(\d\d?)\/(\d{4})\b/);
+  if (found == null)
+    throw new Error("No date found in '" + string + "'.");
+  return new Date(Number(found[3]), Number(found[2]) - 1, Number(found[1]));
+}
+----
+
+This version of the function is no longer than the previous one, and
+it actually checks whether the input matches its expectations and
+shouts out when it is given nonsensical input. This was a lot harder
+without regular expressions—it would have taken a bunch of calls to
+`indexOf` to find out whether the numbers had one or two digits
+and whether the slashes were in the expected place.
+
+== Regular Expressions and the replace Method ==
+
+(((replace@`replace` method)))(((regular expression!replacing|)))
+The `replace` method of string values, which we
+saw in \chapref{fp}, can be given a regular expression as its first
+argument:
+
+[source,javascript]
+----
+"Borobudur".replace(/[ou]/g, "a");
+→ "Barabadar"
+----
+
+Notice the `g` character after the regular expression. It stands
+for ``global'' and means that every part of the string that matches
+the pattern should be replaced. When this `g` is omitted, only
+the first `o` would be replaced—this is a common mistake.
+
+Sometimes we need to keep parts of the strings we replace. For example,
+say we have a big string containing the names of people, one name per
+line, in the format `Lastname, Firstname`. If we want to swap these
+names and remove the comma to get a simple `Firstname Lastname`
+format, we can use the following code:
+
+[source,javascript]
+----
+var names = "Picasso, Pablo\nGauguin, Paul\nVan Gogh, Vincent";
+names.replace(/([\w ]+), ([\w ]+)/g, "$2 $1");
+→ "Pablo Picasso\nPaul Gauguin\nVincent Van Gogh"
+----
+
+The `$1` and `$2` in the replacement string refer to the
+parenthesized parts in the pattern. `$1` is replaced by the text
+that matched against the first pair of parentheses, `$2` by the
+second, and so on, up to `$9`.
+
+If you have more than nine parenthetical parts in your pattern, this
+technique will no longer work. However, there is another even more
+flexible way to replace pieces of a string using regular expressions.
+When the second argument given to the `replace` method is a
+function value instead of a string, this function is called every time
+a match is found, and the matched text is replaced by whatever the
+function returns. The arguments given to the \newpage \noindent function are the matched
+elements, similar to the values found in the arrays returned by
+`match`: The first argument is the whole match, and after that
+there is an argument for every parenthesized part of the pattern.
+
+Here's a simple example:
+
+[source,javascript]
+----
+"the cia and fbi".replace(/\b(fbi|cia)\b/g, function(str) {@
+  return str.toUpperCase();
+});
+→ "the CIA and FBI"
+----
+
+And here's a cuter one:
+
+[source,javascript]
+----
+var stock = "1 lemon, 2 cabbages, and 101 eggs";
+function minusOne(match, amount, unit) {
+  amount = Number(amount) - 1;
+  if (amount == 1) // only one left, remove the 's'
+    unit = unit.slice(0, unit.length - 1);
+  else if (amount == 0)
+    amount = "no";
+  return amount + " " + unit;
+}
+stock.replace(/(\d+) (\w+)/g, minusOne);
+→ "no lemon, 1 cabbage, and 100 eggs"
+----
+
+This takes a string, finds all occurrences of a number followed by an
+alphanumeric word, and returns a string wherein every such occurrence
+is decremented by one.
+
+The `(\d+)` group ends up as the `amount` argument to the
+function, and the `(\w+)` group gets bound to `unit`. The
+function converts the amount to a number—which always works, since
+it matched `\d+`—and makes some adjustments in case there is
+only one or zero left.
+
+(((escapeHTML@`escapeHTML` function)))
+This trick, passing a function to `replace`, can also be
+used to make the HTML-escaper from \chapref{fp} more efficient. You
+may remember that it looked like this:
+
+[source,javascript]
+----
+function escapeHTML(text) {
+  var replacements = [["&", "&amp;"], ["\"", "&quot;"],
+                      ["<", "&lt;"], [">", "&gt;"]];
+  forEach(replacements, function(replace) {
+    text = text.replace(replace[0], replace[1]);
+  });
+  return text;
+}
+----
+
+We can now write a new version of `escapeHTML` that does the same thing
+but calls `replace` only once.
+
+[source,javascript]
+----
+function escapeHTML(text) {
+  var replacements = {"<": "&lt;", ">": "&gt;",
+                      "&": "&amp;", "\"": "&quot;"};
+  return text.replace(/[<>&"]/g, function(character) {
+    return replacements[character];
+  });
+}
+----
+
+The `replacements` object is a quick way to associate each
+character with \nolinebreak its escaped version. We could have used a
+`Dictionary` object from \chapref{oo}, since the object is used
+as to map values onto other values, but a simple object is also safe,
+because we know exactly which values will be used as properties and
+don't need the `contains` method (which checks whether a name is
+present in the object).
+
+== Dynamically Creating RegExp Objects ==
+
+(((RegExp@`RegExp` type)))(((obscenity filter example)))
+There are cases where you might not know the pattern you need to match
+against while you are writing the code. Say we are writing a (very
+simple-minded) obscenity filter for a message board, and we only want
+to allow messages that do not contain obscene words.
+
+The most efficient way to check a piece of text for a set of words is
+to use a regular expression. Since we don't know in advance which
+words have to be in there, we have to create it in the code. For this,
+you use the `RegExp` constructor:
+
+[source,javascript]
+----
+var badWords = ["ape", "monkey", "simian", "gorilla", "evolution"];
+var pattern = new RegExp(badWords.join("|"), "i");
+function isAcceptable(text) {
+  return !pattern.test(text);
+}
+
+isAcceptable("The quick brown fox...");
+→ true
+isAcceptable("Cut that monkeybusiness out.");
+→ false
+isAcceptable("Mmmm, grapes.");
+→ false
+----
+
+The first argument to the `RegExp` constructor is a
+string containing the pattern, and the second argument (which may be
+omitted) can be used to add case-insensitivity or globalness.
+
+As an aside, we could add `\b` patterns around the words so that
+(for example) the ``grapes'' string would not be classified as
+unacceptable. However, that change would also make the
+``monkeybusiness'' string acceptable, which is probably not correct.
+As you can see, obscenity filters are quite hard to get right (and
+usually just annoying).
+
+(((escaping!in regular expressions)))
+When building a string to hold a regular expression pattern, you have
+to be careful with backslashes: Normally, backslashes are removed when
+a string is interpreted, so any backslashes that must end up in the
+regular expression itself have to be escaped:
+
+[source,javascript]
+----
+var digits = new RegExp("\\d+");
+----
+
+== Parsing an .ini File ==
+
+(((ini file)))Now let's look at a _real_ problem that calls for
+regular expressions. Imagine we are writing a program to automatically
+harvest information about our enemies from the Internet. We will not
+actually write such a program here, just the part that reads the
+configuration file. This file looks like this:
+
+[source,javascript]
+----
+searchengine=http://www.google.com/search?q=$1
+spitefulness=9.7
+
+; comments are preceded by a semicolon...
+; these are sections, concerning individual enemies
+[larry]
+fullname=Larry Doe
+type=kindergarten bully
+website=http://www.geocities.com/CapeCanaveral/11451
+
+[gargamel]
+fullname=Gargamel
+type=evil sorcerer
+outputdir=/home/marijn/enemies/gargamel
+----
+
+(((grammar)))
+The exact rules for this format (which is actually a widely used
+format, usually called an _.ini_ file) are as follows:
+
+- Blank lines and lines starting with semicolons are ignored.
+
+- Lines wrapped in `[` and `]` start a new section.
+
+- Lines containing an alphanumeric identifier followed by an `=` character add a setting to the current section.
+
+- Anything else is invalid.
+
+Our task is to convert a string like this into an array of objects,
+each with a name and an array of `name`/`value` pairs. We'll
+need one such object for each section and one for the
+section-less settings.
+
+Since the format has to be processed line by line, splitting it up
+into separate lines is a good start. So far, we have always used
+`string.split("\n")` for this. Some operating systems, however,
+use not just a newline character to separate lines but a carriage
+return character followed by a newline (`"\r\n"`).
+
+Given that the `split` method of strings also allows a
+regular expression as its argument, the following function splits a string
+into an array of lines, allowing both `"\n"` and `"\r\n"`
+between lines.
+
+[source,javascript]
+----
+function splitLines(string) {
+  return string.split(/\r?\n/);
+}
+----
+
+That gives us all we need to write our _.ini_ file parsing
+function:
+
+[source,javascript]
+----
+function parseINI(string) {
+  var lines = splitLines(string);
+  var categories = [];
+
+  function newCategory(name) {
+    var cat = {name: name, fields: []};
+    categories.push(cat);
+    return cat;
+  }
+  var currentCategory = newCategory("TOP");
+
+  forEach(lines, function(line) {
+    var match;
+    if (/^\s*(;.*)?$/.test(line))
+      return;
+    else if (match = line.match(/^\[(.*)\]$/))
+      currentCategory = newCategory(match[1]);
+    else if (match = line.match(/^(\w+)=(.*)$/))
+      currentCategory.fields.push({name: match[1], value: match[2]});
+    else
+      throw new Error("Line '" + line + "' is invalid.");
+  });
+
+  return categories;
+}
+----
+
+In short, the code goes over every line in the file. It keeps a
+``current category'' object, and when it finds a normal directive, it
+adds it to this object. When it encounters a line that starts a new
+category, it replaces the current category with a new one, to which
+subsequent directives will get added. Finally, it returns an array
+containing all the categories it came across.
+
+Note the recurring use of `^` and `$` to make sure the
+expression matches the whole line, not just part of it. Leaving these
+out is a common mistake, which results in code that mostly works but
+behaves strangely for some input.
+
+The expression `/^\s*(;.*)?$/` can be used to test for lines that
+can be ignored. Do you see how it works? The part between the
+parentheses will match comments, and the `?` after that will make
+sure it also matches lines of whitespace.
+
+The pattern `if (match = string.match(...))` is something you'll
+commonly see when using regular expressions. You typically aren't
+completely sure that your expression will match and you do not want
+your code to try to evaluate something like `null[1]`, so you
+need to test whether `match` returns a non-null value. To not
+break the elegant chain of `if` forms, you can assign this result
+to a variable as the test for `if` and do the matching and the
+testing in a single line.(((ini file@_.ini))) file example|)_
+
+== Conclusion ==
+
+Right now, the most important thing to know about regular expressions
+is that they exist and can make your string-mangling code much
+shorter. In fact, there is quite a lot more to learn about regular
+expressions than the material found in this chapter. Look around on
+the Internet, if you feel like it—the syntax used by JavaScript's
+regular expressions is called Perl Compatible Regular Expressions 
+and is found in a lot of other programming languages as well.
+
+This syntax is so cryptic that you'll probably have to go look up the
+details the first 10 or so times you need to use it. Persevere, and
+you will soon be writing brilliantly complicated, occult-looking
+expressions.
+
+FIXME exponential performance
+FIXME international characters

@@ -306,3 +306,11 @@ div.solution.open {
 div.solution.open div.solution-text {
   display: block;
 }
+
+td + td {
+  padding-left: 1em;
+}
+
+table {
+  margin-left: 15px;
+}

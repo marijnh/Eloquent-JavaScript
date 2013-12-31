@@ -317,7 +317,7 @@ alert("Your number is the square root of " +
 
 (((Number function)))(((String function)))(((Boolean
 function))))(((boolean conversion)))The function `Number` converts a
-value to a number, which is we use because the result of `prompt` is a
+value to a number, which we use because the result of `prompt` is a
 string value, and we want a number. There are similar functions called
 `String` and `Boolean` that convert values to those types.
 

@@ -321,8 +321,8 @@ killerRabbit.dance();
 That's very convenient. But there are situations where it causes
 problems. In the previous chapter, we used an object as a way to
 associate values with names by creating properties for the names and
-giving them the corresponding value as value. Here's a similar example
-from chapter 4:
+giving them the corresponding value as their value. Here's a similar
+example from chapter 4:
 
 // include_code
 

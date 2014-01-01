@@ -954,9 +954,6 @@ console.log(window.hasOwnProperty("myVar"));
 // → true
 console.log(window.myVar);
 // → 10
-delete window.myVar;
-myVar;
-// → ReferenceError: myVar is not defined
 ----
 
 == Summary ==

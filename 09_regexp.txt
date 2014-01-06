@@ -1,6 +1,6 @@
 = Regular Expressions =
 
-The survival and spread of programming conventions and techniques
+The way programming conventions and techniques survive and spread
 happens in a chaotic, evolutionary way. It's not usually the pretty or
 brilliant ones that win, but rather the ones that combine working
 passably well with sitting in the right niche—by, for example, being
@@ -11,11 +11,11 @@ expressions_. Regular expressions are a way to describe patterns in
 string data. They form a small, separate language that is part of
 JavaScript (as well as various other programming languages and tools).
 
-Regular expressions are both extremely useful and extremely awkward.
-Learning them properly will make it much easier to do all kinds of
-string processing. But the syntax used to express them is ridiculously
-cryptic, the programming interface JavaScript provides for them is
-clumsy, and the way they act is not always easy to predict.
+Regular expressions are both extremely useful and terribly awkward.
+Learning them properly will make it much easier to do various kinds of
+string processing. But their syntax used to express them is
+ridiculously cryptic. And in addition to that the programming
+interface JavaScript provides for them is quite clumsy.
 
 == Syntax ==
 
@@ -146,7 +146,7 @@ console.log(badBinary.test("01201"));
 
 == Repeating parts of a pattern ==
 
-(((repetition (regexp))))(((* operator)))(((+ operator)))When you put
+(((repetition (regexp))))(((\* operator)))(((+ operator)))When you put
 a plus sign (‘+’) after something in a regular expression, that
 indicates that it may be repeated more than once. For example `/\d+/`
 matches one or more digit characters.

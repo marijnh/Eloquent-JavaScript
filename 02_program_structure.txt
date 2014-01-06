@@ -868,6 +868,13 @@ the word or word to output, and print either this word or the number
 if there is no word, potentially by making elegant use of the “||”
 operator).
 
+ifdef::html_target[]
+[source,javascript]
+----
+// Your code here.
+----
+endif::html_target[]
+
 !!solution!!
 
 === Chess board ===

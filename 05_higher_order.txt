@@ -5,6 +5,14 @@
 
 = Higher-Order Functions =
 
+[quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
+____
+There are two ways of constructing a software design: One way is to
+make it so simple that there are obviously no deficiencies and the
+other way is to make it so complicated that there are no obvious
+deficiencies.
+____
+
 (((bug)))A large program is a costly program. Not necessarily because
 of the time it takes to build. Size almost always involves complexity,
 and complexity confuses programmers. Confused programmers have a

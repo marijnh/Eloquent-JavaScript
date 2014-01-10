@@ -4,6 +4,13 @@
 
 = Functions =
 
+[quote, Donald Knuth]
+____
+People think that computer science is the art of geniuses but the
+actual reality is the opposite, just many people doing things that
+build on each other, like a wall of mini stones.
+____
+
 (((function)))You've seen function values, and how to call them.
 Functions are the bread and butter of JavaScript programming. The
 concept of wrapping a piece of program in a value has many uses. It is

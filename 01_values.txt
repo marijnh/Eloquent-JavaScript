@@ -4,6 +4,15 @@
 
 = Values, Types, and Operators =
 
+[quote, Hal Abelson and Gerald Sussman, Structure and Interpretation of Computer Programs]
+____
+Computational processes are abstract beings that inhabit computers. As
+they evolve, processes manipulate other abstract things called data.
+The evolution of a process is directed by a pattern of rules called a
+program. People create programs to direct processes. In effect, we
+conjure the spirits of the computer with our spells.
+____
+
 (((data)))(((bit)))(((memory)))Inside the computer's world,
 there is only data. We can read data, modify data, create new data—but
 things that aren't represented as data simply do not exist. All this

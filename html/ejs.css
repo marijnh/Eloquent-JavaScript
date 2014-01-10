@@ -136,7 +136,7 @@ ol li p {
   margin-top: -.7em;
 }
 
-h1 + p {
+h1 + blockquote + p, h1 + p {
   font-size: 110%;
 }
 
@@ -155,6 +155,21 @@ blockquote:before {
   content: '“';
   position: absolute;
   left: -.5em;
+}
+
+blockquote footer {
+  position: relative;
+  margin-left: 1.5em;
+}
+
+blockquote footer cite {
+  font-style: italic;
+}
+
+blockquote footer:before {
+  content: '—';
+  position: absolute;
+  left: -1em;
 }
 
 .editor-wrap {

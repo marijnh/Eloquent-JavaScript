@@ -5,6 +5,14 @@
 
 = The Secret Life of Objects =
 
+[quote, Joe Armstrong, interviewed in Coders at Work]
+____
+The problem with object-oriented languages is they’ve got all this
+implicit environment that they carry around with them. You wanted a
+banana but what you got was a gorilla holding the banana and the
+entire jungle.
+____
+
 When a programmer says “object”, that is a loaded term. Objects, in my
 profession, are a way of life, the subject of several holy wars, and a
 beloved buzzword that still hasn't quite lost its power.

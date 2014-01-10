@@ -5,6 +5,13 @@
 
 = Practical: Electronic Life =
 
+[quote, Edsger Dijkstra, The Threats to Computing Science]
+____
+[...] the question of whether Machines Can Think, a question of which
+we now know that it is about as relevant as the question of whether
+Submarines Can Swim.
+____
+
 In the practical chapters of this book, I stop pummeling you with new
 theory for a brief moment, and instead work through a program. Theory
 is indispensable, but reading and understanding programs, as I claimed

@@ -5,6 +5,14 @@
 
 = Data Structures: Object and Array =
 
+[quote, Charles Babbage, Passages from the Life of a Philosopher (1864)]
+____
+On two occasions I have been asked, ‘Pray, Mr. Babbage, if you put
+into the machine wrong figures, will the right answers come out?’
+[...] I am not able rightly to apprehend the kind of confusion of
+ideas that could provoke such a question.
+____
+
 (((data)))Numbers, booleans, and strings are the bricks that data
 structures are built from. But you can't make much of a house out of a
 single brick. Objects allow us to group values—including other

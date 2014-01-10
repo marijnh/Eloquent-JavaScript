@@ -74,7 +74,7 @@ object it was called on. For example, if there are different rabbits,
 the `speak` method must indicate which rabbit is speaking.
 
 When a function is called as a method—looked up as a property and
-immediately called, as in ++object.method()++—the special variable
+immediately called, as in `object.method()`—the special variable
 `this` in its body will point to the object that it was called on.
 
 // test: join

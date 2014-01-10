@@ -232,7 +232,7 @@ BouncingCritter.prototype.act = function(view) {
 };
 ----
 
-The “++|| s++” part is there to prevent `this.direction` from getting
+The “`|| s`” part is there to prevent `this.direction` from getting
 the value null when the critter is somehow trapped with no empty space
 around it (for example when crowded in a corner by other critters).
 
@@ -670,7 +670,7 @@ is East.
 The function first looks up the index of the given direction in the
 `directionNames` array, then offsets it, takes the remainder of the
 result and 8, and then fetches the corresponding name from the array
-again. The extra “+++ 8++” is there because the ‘%’ operator, when
+again. The extra “`+ 8`” is there because the ‘%’ operator, when
 given a negative number on the left hand side, will return a negative
 result. So we add another eight to make sure the sum is positive,
 under the requirement that the `n` argument is never less than -8.

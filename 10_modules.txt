@@ -364,8 +364,8 @@ This is a very minimal implementation of `require`:
 ----
 function require(name) {
   var exports = {};
-  var module = new Function("exports", readFile(name));
-  module(exports);
+  var code = new Function("exports", readFile(name));
+  code(exports);
   return exports;
 }
 
@@ -418,8 +418,8 @@ function require(name) {
     return require.cache[name];
 
   var exports = {}, module = {exports: exports};
-  var module = new Function("exports, module", readFile(name));
-  module(exports, module);
+  var code = new Function("exports, module", readFile(name));
+  code(exports, module);
 
   require.cache[name] = module.exports;
   return module.exports;
@@ -496,7 +496,7 @@ define([], function() {
 ----
 
 In order to show a simple implementation of `define`, let us pretend
-we now also have a `backgroundLoadFile` function, which takes a
+we now also have a `backgroundReadFile` function, which takes a
 file name and a function, and will call the function with the content
 of the file as soon as it has finished loading it.
 
@@ -515,7 +515,7 @@ function define(depNames, module) {
                     loaded: false,
                     onLoad: []};
       define.cache[name] = depMod;
-      backgroundLoadFile(name, function(code) {
+      backgroundReadFile(name, function(code) {
         define.currentModule = depMod;
         new Function("", code)();
       });
@@ -529,7 +529,7 @@ function define(depNames, module) {
       return;
 
     var depVals = deps.map(function(m) { return m.exports; });
-    var exports = module.apply(depVals);
+    var exports = module.apply(null, depVals);
     if (myMod) {
       myMod.exports = exports;
       myMod.loaded = true;
@@ -561,7 +561,7 @@ array of module objects that represent the dependencies of this
 module. If the name of a dependency corresponds to a cached module, we
 use the existing object. Otherwise, we create a new object (with
 `loaded` set to `false`) and store that in the cache. We also start
-loading the module, using the `backgroundLoadFile` function. Once the
+loading the module, using the `backgroundReadFile` function. Once the
 file has loaded, its content is run using the `Function` constructor.
 
 It is assumed that this file also contains a (single) call to

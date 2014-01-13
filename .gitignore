@@ -1,5 +1,6 @@
 /tex/*
 /html/*.html
 /html/js/0*.js
+/html/js/1*.js
 /node_modules
 .tern-port

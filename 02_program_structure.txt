@@ -859,6 +859,13 @@ for numbers that are divisible by both 3 and 5.
 out a significant percentage of programmer candidates. So if you
 solved it, you're now allowed to feel good about yourself.)
 
+ifdef::html_target[]
+[source,javascript]
+----
+// Your code here.
+----
+endif::html_target[]
+
 !!solution!!
 
 Going over the numbers is clearly a looping job. And selecting what to
@@ -875,13 +882,6 @@ the given condition), or in a clever way (build up a string containing
 the word or word to output, and print either this word or the number
 if there is no word, potentially by making elegant use of the “||”
 operator).
-
-ifdef::html_target[]
-[source,javascript]
-----
-// Your code here.
-----
-endif::html_target[]
 
 !!solution!!
 

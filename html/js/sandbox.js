@@ -183,8 +183,8 @@
   }
 
   function representObj(val, space) {
-    var string = val.toString(), m, elt;
-    if (/^\[object .*\]$/.test(string))
+    var string = typeof val.toString == "function" && val.toString(), m, elt;
+    if (!string || /^\[object .*\]$/.test(string))
       return representSimpleObj(val, space);
     if (val.call && (m = string.match(/^\s*(function[^(]*\([^)]*\))/)))
       return span("fun", m[1] + "{…}");

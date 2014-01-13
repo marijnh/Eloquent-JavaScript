@@ -521,15 +521,16 @@ function define(depNames, module) {
       });
     }
     deps.push(depMod);
-    if (!depMod.loaded) depMod.onLoad.push(runIfComplete);
+    if (!depMod.loaded)
+      depMod.onLoad.push(runIfComplete);
   });
 
   function runIfComplete() {
     if (!deps.every(function(m) { return m.loaded; }))
       return;
 
-    var depVals = deps.map(function(m) { return m.exports; });
-    var exports = module.apply(null, depVals);
+    var args = deps.map(function(m) { return m.exports; });
+    var exports = module.apply(null, args);
     if (myMod) {
       myMod.exports = exports;
       myMod.loaded = true;
@@ -607,6 +608,17 @@ JavaScript environment that does something similar to what you are
 implementing, it might be a good idea to make your interface resemble
 the existing interface. That way, people who know the existing
 interface will feel right at home.
+
+Another area where predictability is important is the actual
+_behavior_ of your code. It can be tempting to pile up cleverness with
+the justification that it makes the interface convenient to use. For
+example, by accepting all kinds of different types and combinations of
+arguments, and doing “the right thing” for all of them, or providing
+dozens of specialized “convenience” functions that provide slightly
+different flavors of your module's functionality. These might make
+code that builds on your interface slightly shorter, but they will
+also make it much harder for the people using your module to keep a
+complete mental model of its functionality in their head.
 
 === Composability ===
 
@@ -735,3 +747,178 @@ I have put the comment before the function, listing the optional
 arguments.
 
 == Summary ==
+
+Structure helps us manage big programs. Modules provide such
+structure, by separating the code into different files and namespaces.
+Giving these modules well-defined interfaces makes it easier to use
+them, reuse them in different contexts, and keep using them as the
+module itself evolves.
+
+Though the JavaScript language itself is characteristically unhelpful
+when it comes to modules, the flexible functions and objects it
+provides make it possible to define rather nice module systems in it.
+Function scopes can be used as internal namespaces for the module, and
+objects can be used to store sets of exported values.
+
+There are two popular, well-defined approaches to such modules. One is
+called “CommonJS Modules”, and revolves around a `require` function
+that fetches a module by name and returns its interface. The other is
+called “AMD”, and uses an asynchronous `define` function that takes an
+array of module names and a function, and, after loading the modules,
+runs the function with their interfaces as arguments.
+
+== Exercises ==
+
+=== Month names ===
+
+Write a simple module similar to the `weekDay` module, which can
+convert month numbers (zero-based, as in the `Date` type) to names,
+and names back to numbers. Give it its own namespace, since it will
+need an internal array of month names, but use plain JavaScript,
+without any module loader system.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+console.log(month.name(2));
+// → March
+console.log(month.number("November"));
+// → 10
+----
+endif::html_target[]
+
+!!solution!!
+
+This follows the `weekDay` module almost exactly. An anonymous
+function, called immediately, wraps the variable that holds the array
+of names, along with the two functions that must be exported. The
+functions are put in an object, and returned, so that they can be
+stored in a global variable.
+
+!!solution!!
+
+=== Circular dependencies ===
+
+A tricky subject in dependency management is circular dependencies,
+where module A depends on B, and B also depends on A. Many module
+systems simply forbid this. CommonJS allows a limited form of this,
+where it works as long as the modules do not replace their default
+`exports` object with another value, and only start accessing each
+other's interface after they finish loading.
+
+Can you think of a way in which support for this feature could be
+implemented?
+
+As an aside, this support is complicated and error-prone enough to be
+taken as an example of a bad interface design. It is occasionally
+quite convenient, but definitely not predictable.
+
+!!solution!!
+
+The trick is to add the `exports` object created for a module to
+`require`'s cache _before_ actually running the module. This means the
+module will not yet have had a chance to override `module.exports`, so
+we do not know whether it may want to export some other value. After
+loading, the cache object is overridden with `module.exports`, which
+may be a different value.
+
+But if, in the course of loading the module, a second module is loaded
+that asks for the first module, its default `exports` object, likely
+still empty at this point, will be in the cache, and the second module
+will receive a reference to it. If it doesn't try to do anything with
+the object until the first module has finished loading, things will
+work.
+
+!!solution!!
+
+=== A return to electronic life ===
+
+Hoping that chapter 7 is still somewhat fresh in your mind, think back
+to the system designed in that chapter and come up with a separation
+into modules of the code. To refresh your memory, these are the
+functions and types defined in that chapter, in order of appearance.
+
+----
+Point
+Grid
+directions
+randomElement
+BouncingCritter
+elementFromChar
+World
+charFromElement
+Wall
+View
+directionNames
+WallFollower
+dirPlus
+LifeLikeWorld
+Plant
+PlantEater
+SmartPlantEater
+Tiger
+----
+
+Do not exaggerate and create too many modules. A book that starts a
+new chapter for every page would probably get on your nerves, if only
+because of all the space wasted on titles. Similarly, having to open
+ten files to read a tiny project isn't helpful. Aim for three to five
+modules.
+
+You can choose to have some functions become internal to their module,
+and thus inaccessible to other modules.
+
+!!solution!!
+
+There is no single correct solution here, of course. Module
+organization is largely a matter of taste—though you will occasionally
+run into a set-up that is simply, undeniably wrong and horrible.
+
+Here is what I came up with. I've put parentheses around internal
+functions.
+
+----
+Module "grid"
+  Point
+  Grid
+  directions
+
+Module "world"
+  (randomElement)
+  (elementFromChar)
+  (charFromElement)
+  View
+  World
+  LifeLikeWorld
+  directions [re-exported]
+
+Module "simple_ecosystem"
+  (randomElement) [duplicated]
+  (directionNames)
+  (dirPlus)
+  Wall
+  BouncingCritter
+  WallFollower
+
+Module "ecosystem"
+  Wall [duplicated]
+  Plant
+  PlantEater
+  SmartPlantEater
+  Tiger
+----
+
+I have re-exported the `directions` array from the `grid` module from
+`world`, so that modules built on that (the ecosystems) don't have to
+know or worry about the existence of the `grid` module.
+
+I also duplicated two generic and tiny helper values (`randomElement`
+and `Wall`) since they are used as internal details in different
+contexts, and do not belong in the interfaces for these modules.
+
+!!solution!!

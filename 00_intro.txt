@@ -281,14 +281,6 @@ compose these blocks.
 
 == What is JavaScript? ==
 
-[quote, Donald Knuth]
-____
-The most important thing in a programming language is the name. A
-language will not succeed without a good name. I have recently
-invented a very good name, and now I am looking for a suitable
-language.
-____
-
 indexsee:[WWW,World Wide Web]
 indexsee:[web,World Wide Web]
 (((JavaScript)))(((JavaScript,history of)))(((World Wide Web)))

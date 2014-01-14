@@ -117,7 +117,7 @@ function compareClipped(a, b) {
 }
 
 function compareJoined(a, b) {
-  return a.replace(/\n\s*/g, " ").trim() == a.replace(/\n\s*/g, " ").trim();
+  return a.replace(/\n\s*/g, " ").trim() == b.replace(/\n\s*/g, " ").trim();
 }
 
 var accum = "", _console = {

@@ -12,6 +12,15 @@ Therefore, if you write the code as cleverly as possible, you are, by
 definition, not smart enough to debug it.
 ____
 
+[quote, Master Yuan-Ma, The Book of Programming]
+____
+Yuan-Ma had written a small program that used much global variables
+and tricky shortcuts. Reading it, a student asked 'You warned us
+against these techniques, yet I find them in your program. How can
+this be?' The master said, 'There is no need to fetch a water hose
+when the house is not on fire.'
+____
+
 (((error handling)))When a machine malfunctions, this can lead to all
 kinds of interesting and horrible results. The same goes for programs.
 Thinking about they ways in which they can malfunction, and the

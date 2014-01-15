@@ -5,9 +5,21 @@
 
 = Modules =
 
-[quote, Ralph Johnson]
+[quote, Master Yuan-Ma, The Book of Programming]
 ____
-Before software can be reusable it first has to be usable.
+A beginning programmer writes his programs like an ant builds her
+hill, one piece at a time, without thought for the bigger structure.
+His programs will be like loose sand. They may stand for a while, but
+growing too big they fall apart.
+
+Realizing this problem, the programmer will start to spend a lot of
+time thinking about structure. His programs will be rigidly
+structured, like rock sculptures. They are solid, but when they must
+change, violence must be done to them.
+
+The master programmer knows when to apply structure and when to leave
+things in their simple form. His programs are like clay, solid yet
+malleable.
 ____
 
 All programs have a shape. On a small scale, this shape is determined

@@ -159,7 +159,11 @@ blockquote:before {
 
 blockquote footer {
   position: relative;
-  margin-left: 1.5em;
+  margin-left: 1em;
+}
+
+p + footer {
+  margin-top: -.5em;
 }
 
 blockquote footer cite {

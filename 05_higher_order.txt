@@ -5,6 +5,15 @@
 
 = Higher-Order Functions =
 
+[quote, Master Yuan-Ma, The Book of Programming]
+____
+Tzu-li and Tzu-ssu were boasting about the size of their latest
+programs. 'Two-hundred thousand lines,' said Tzu-li, 'not counting
+comments!' Tzu-ssu responded, 'Psah, mine is almost a *million* lines
+already.' Mater Yuan-Ma said, 'My best program has five hundred
+lines.' Hearing this, Tzu-li and Tzu-ssu were enlightened.
+____
+
 [quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
 ____
 There are two ways of constructing a software design: One way is to

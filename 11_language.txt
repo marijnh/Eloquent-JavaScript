@@ -11,6 +11,12 @@ The evaluator, which determines the meaning of expressions in a
 programming language, is just another program.
 ____
 
+[quote, Master Yuan-Ma, The Book of Programming]
+____
+When a student asked the master about the nature of the cycle of Data
+and Control, Yuan-Ma replied 'Think of a compiler, compiling itself.'
+____
+
 Building your own programming language, though not necessary a very
 useful pursuit, is surprisingly easy (as long as you do not take it
 too seriously), and very enlightening.
@@ -797,8 +803,8 @@ use `hasOwnProperty` to find out if the variable, indicated by the
 If it does, set it to the result of evaluating the second argument to
 `set`, and return that value.
 
-When the outermost scope is reached, and `Object.getPrototypeOf`
-returns null, and we haven't found the variable yet, it does not
-exist, and an error should be thrown.
+When the outermost scope is reached (`Object.getPrototypeOf` returns
+null) and we haven't found the variable yet, it does not exist, and an
+error should be thrown.
 
 !!solution!!

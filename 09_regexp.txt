@@ -10,6 +10,13 @@ Some people, when confronted with a problem, think “I know, I'll use
 regular expressions.” Now they have two problems.
 ____
 
+[quote, Master Yuan-Ma, The Book of Programming]
+____
+Yuan-Ma said, 'When you cut against the grain of the wood, much
+strength is needed. When you program against the grain of a problem,
+much code is needed.'
+____
+
 The way programming conventions and techniques survive and spread
 happens in a chaotic, evolutionary way. It's not usually the pretty or
 brilliant ones that win, but rather the ones that combine working

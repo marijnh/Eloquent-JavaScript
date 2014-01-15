@@ -1,0 +1,804 @@
+:chap_num: 11
+:prev_link: 10_modules
+:next_link: 12_FIXME
+:load_files: ["js/11_language.js"]
+
+= Practical: A Programming Language =
+
+[quote, Hal Abelson and Gerald Sussman, Structure and Interpretation of Computer Programs]
+____
+The evaluator, which determines the meaning of expressions in a
+programming language, is just another program.
+____
+
+Building your own programming language, though not necessary a very
+useful pursuit, is surprisingly easy (as long as you do not take it
+too seriously), and very enlightening.
+
+You see, there is no magic involved. I've often concluded that some
+human invention was so immensely clever and complicated that I'd never
+be able to understand it. But with a little reading and tinkering,
+such things, again and again, show themselves to be quite mundane.
+
+== Parsing ==
+
+The most immediately visible part of a programming language is its
+syntax—its notation. A parser is a program that reads a piece of text,
+and produces a data structure that more directly shows the structure
+of the program contained in the text. If the text does not form a
+valid program, the parser should complain about that.
+
+Our language will have a very simple and uniform syntax. In it,
+everything is an expression. An expression can be a variable, a
+number, a string, or an application. Applications are used both to
+call functions, and for constructs like `if` or `while`.
+
+To keep the parser short, strings in this language do not support
+anything like backslash escapes, they are simply a sequence of
+characters that are not double quotes, wrapped in double quotes.
+Numbers are a sequence of digits. And variable names can consist of
+any character that is not whitespace and does not have a special
+meaning in the language.
+
+Applications are written the way they are in JavaScript, by putting
+parentheses after an expression, and having any number of arguments,
+separated by commas, between those parentheses.
+
+----
+do(define(x, 10),
+   if(>(x, 5)),
+      print("large"),
+      print("small"))
+----
+
+The uniformity of the language means that what would be an operator in
+JavaScript (such as ‘>’) is a normal variable, applied just like other
+functions, in this language. Since there is also no concept of a
+“block”, doing first one thing and the another is also written as an
+application, of the `do` construct.
+
+The data structure the parser will use to describe such a program
+consists of objects, each of which has a `type` property indicating
+the kind of expression it is (`"word"`, `"value"`, or `"apply"`), and
+other properties to describe its content. The `>(x, 5)` part of the
+program above would be represented like this:
+
+----
+{
+  type: "apply",
+  operator: {type: "word", name: ">"},
+  args: [
+    {type: "word", name: "x"},
+    {type: "value", value: 5}
+  ]
+}
+----
+
+Such a data structure is called a _syntax tree_, because it has a
+tree-like shape—the fact that expressions contain other expressions,
+which in turn might contain more expression, is similar to the way
+branches split and split again.
+
+The parser we wrote for the configuration file format in chapter 9 had
+a very simple structure—it could split the input into lines, and then
+handle one line at a time, where each line had one of a few simple
+forms.
+
+This time, we must find a different approach. Expressions are not
+separated by lines, and they have a recursive structure—and expression
+may contain other expressions.
+
+Fortunately, this problem can be solved pleasantly by using a parsing
+function that is recursive in a way that reflects the recursive nature
+of the language.
+
+If we have a function `parseExpression`, which takes a string
+containing a program as input, and returns an object that contains the
+data structure for the expression, along with the part of the input
+string that is still left after parsing this expression. When parsing
+sub-expressions (the argument to an application, for example), this
+function can be called again, yielding the argument expression as well
+as the text that remains (which may contain more arguments, or the
+closing parentheses that ends the list of arguments).
+
+This is the first part of the parser:
+
+// include_code
+
+[source,javascript]
+----
+function parseExpression(program) {
+  program = skipSpace(program);
+  var match, expr;
+  if (match = /^"([^"]*)"/.exec(program))
+    expr = {type: "value", value: match[1]};
+  else if (match = /^\d+\b/.exec(program))
+    expr = {type: "value", value: Number(match[0])};
+  else if (match = /^[^\s(),"]+/.exec(program))
+    expr = {type: "word", name: match[0]};
+  else
+    throw new SyntaxError("Unexpected syntax: " + program);
+
+  return parseApply(expr, program.slice(match[0].length));
+}
+
+function skipSpace(string) {
+  var first = string.search(/\S/);
+  if (first == -1) return "";
+  return string.slice(first);
+}
+----
+
+Because the language allows any amount of whitespace between its
+elements, we have to repeatedly cut the whitespace off the start of
+the program string. This is what the `skipSpace` function helps with.
+
+After skipping any leading space, `parseExpression` uses three regular
+expressions to spot the three simple (atomic) elements that the
+language supports—strings, numbers, and words. Depending on which one
+matches, it constructs a different kind of data structure. If none
+matches, the input is not a valid expression, and it throws an error.
+`SyntaxError` is a standard error object type, which is also used when
+an attempt is made to run an invalid JavaScript program.
+
+We can then cut off the part that we matched from the program string
+(skipping whitespace again), and pass that, along with the object for
+the expression, to `parseApply`, which checks whether this is an
+application, and if so, handles the parsing of a parenthesized list of
+arguments.
+
+// include_code
+
+[source,javascript]
+----
+function parseApply(left, program) {
+  program = skipSpace(program);
+  if (program[0] != "(")
+    return {expr: left, rest: program};
+
+  program = skipSpace(program.slice(1));
+  var expr = {type: "apply", operator: left, args: []};
+  if (program[0] != ")") {
+    for (;;) {
+      var arg = parseExpression(program);
+      expr.args.push(arg.expr);
+      program = skipSpace(arg.rest);
+      if (program[0] == ",")
+        program = skipSpace(program.slice(1));
+      else if (program[0] == ")")
+        break;
+    }
+  }
+  return parseApply(expr, program.slice(1));
+}
+----
+
+If the next character in the program is not an opening parenthesis,
+`parseApply` returns the expression to the left, along with the rest
+of the program.
+
+Otherwise, it skips the opening parenthesis, it creates a syntax tree
+for this application expression. If the next character is not a
+closing parentheses, we try to read an argument expression by calling
+`parseExpression` (the recursion is indirect, through `parseApply` and
+`parseExpression` calling each other). After the argument, it expects
+either a comma, in which case we skip it, or a closing parentheses, in
+which case we stop looking for more argument expressions.
+
+Finally, `parseApply` is called again, to see if this application is
+followed by another set of parentheses (such as `multiplier(2)(1)`).
+
+This is almost all we need to parse our language. We wrap it in a
+convenient `parse` function that verifies that no text remains after
+the program, and gives us the program's data structure.
+
+// include_code strip_log
+// test: join
+
+[source,javascript]
+----
+function parse(program) {
+  var result = parseExpression(program);
+  if (skipSpace(result.rest).length > 0)
+    throw new SyntaxError("Unexpected text after program.");
+  return result.expr;
+}
+
+console.log(parse("+(a, 10)"));
+// → {type: "apply",
+//    operator: {type: "word", name: "+"},
+//    args: [{type: "word", name: "a"},
+//           {type: "value", value: 10}]}
+----
+
+It works! It doesn't give us very helpful information when it fails,
+and doesn't store the line and column on which the expressions
+started, which might be helpful when reporting errors later on, but it
+is good enough for our purpose.
+
+== The evaluator ==
+
+What can we do with a syntax tree for a program? Run it, of course!
+And that is what the evaluator does. You give it a syntax tree and an
+environment—an object containing variable bindings—and it will
+evaluate the expression that the tree represents and return the value
+that this produces.
+
+// include_code
+
+[source,javascript]
+----
+function evaluate(expr, env) {
+  switch(expr.type) {
+    case "value":
+      return expr.value;
+
+    case "word":
+      if (expr.name in env)
+        return env[expr.name];
+      else
+        throw new ReferenceError("Undefined variable: " +
+                                 expr.name);
+    case "apply":
+      if (expr.operator.type == "word" &&
+          expr.operator.name in specialForms)
+        return specialForms[expr.operator.name](expr.args,
+                                                env);
+      var op = evaluate(expr.operator, env);
+      if (typeof op != "function")
+        throw new TypeError("Applying a non-function.");
+      return op.apply(null, expr.args.map(function(arg) {
+        return evaluate(arg, env);
+      }));
+  }
+}
+
+var specialForms = Object.create(null);
+----
+
+The evaluator has code for each of the expression types. A literal
+value expression simply produces its value. When running into a
+variable, we must check that it is actually defined in the
+environment, and read it out if it is.
+
+Applications are more involved. If they are a special form, like `if`,
+we do not evaluate anything, and simply pass the argument expressions,
+along with the environment, to the function that handles this form.
+Next, we evaluate the operator, and verify that it is a function—we
+will use plain JavaScript functions to represent functions in this
+language.
+
+The the recursive structure of `evaluate` resembles the similar
+structure of the parser. Both of them mirror the structure of the
+language itself. It would also be possible to not separate the parser
+from the evaluator, and evaluate during parsing, but splitting them up
+makes the program easier to think about.
+
+This is really all that is needed to interpret a language. It is that
+simple. Of course, without defining a few special forms, and adding
+some useful values to the environment, you can't do anything with the
+language yet.
+
+== Special forms ==
+
+The `specialForms` object lets us look up the syntactic constructs in
+our language by name. It holds functions that interpret the construct.
+It is currently empty. Let us add a few forms.
+
+// include_code
+
+[source,javascript]
+----
+specialForms["if"] = function(args, env) {
+  if (args.length != 3)
+    throw new SyntaxError("Bad number of args to if.");
+
+  if (evaluate(args[0], env) !== false)
+    return evaluate(args[1], env);
+  else
+    return evaluate(args[2], env);
+};
+----
+
+The `if` in this language expects exactly three arguments. It will
+evaluate the first, and when the result isn't the value `false`, it
+will evaluate the second. Otherwise, the third gets evaluated. Because
+`if` is an expression, not a statement, it has a value—namely the
+result of the second or third argument.
+
+Our language differs from JavaScript in its handling of the condition
+value to `if`—it will not treat 0 or the empty string as false.
+
+The `while` form is similar;
+
+// include_code
+
+[source,javascript]
+----
+specialForms["while"] = function(args, env) {
+  if (args.length != 2)
+    throw new SyntaxError("Bad number of args to while.");
+
+  while (evaluate(args[0], env) !== false)
+    evaluate(args[1], env);
+
+  // Since undefined does not exist in our language, and
+  // this form does not return a meaningful value, we
+  // return false.
+  return false;
+};
+----
+
+Another basic building block is `do`, which executes all its arguments
+from top to bottom, and whose value is the value produced by the last
+expression.
+
+// include_code
+
+[source,javascript]
+----
+specialForms["do"] = function(args, env) {
+  var value = false;
+  args.forEach(function(arg) {
+    value = evaluate(arg, env);
+  });
+  return value;
+};
+----
+
+To be able to create variables (and give them new values), we also
+create a form called `define`, which expects a word as first argument,
+and an expression producing the value to assign to that word as second
+argument. Since it, like everything, is an expression, we make it
+return the value that was assigned (just like JavaScripts ‘=’
+operator).
+
+// include_code
+
+[source,javascript]
+----
+specialForms["define"] = function(args, env) {
+  if (args.length != 2 || args[0].type != "word")
+    throw new SyntaxError("Bad use of define.");
+  var value = evaluate(args[1], env);
+  env[args[0].name] = value;
+  return value;
+};
+----
+
+== The environment ==
+
+We have syntax for numbers and strings, but not for boolean values,
+which we also want to support, if only to be able to use the `if`
+construct we just defined.
+
+Since there are only two boolean values, we do not need syntax for
+them, we can simply bind variables to them and use those to get at
+them.
+
+The environment accepted by `evaluate` is simply an object with
+properties whose names correspond to variable names, and whose values
+correspond to the values those variables are bound to. Let us define
+an object to represent the global scope, and add bindings for the
+boolean values.
+
+// include_code
+
+[source,javascript]
+----
+var topEnv = Object.create(null);
+
+topEnv["true"] = true;
+topEnv["false"] = false;
+----
+
+We can now evaluate a simple expression that inverts a boolean value.
+
+[source,javascript]
+----
+var prog = parse("if(true, false, true)");
+console.log(evaluate(prog, topEnv));
+// → false
+----
+
+To implement “primitive” functionality, such as arithmetic and
+comparison operators, we will also add some functions to the
+environment. To keep things short, we'll use `new Function` to
+synthesize a bunch of operator functions in a loop, rather than
+defining them all individually.
+
+// include_code
+
+[source,javascript]
+----
+["+", "-", "*", "/", "==", "<", ">"].forEach(function(op) {
+  topEnv[op] =
+    new Function("a, b", "return a " + op + " b;");
+});
+----
+
+A way to output values is also very useful, so we wrap `console.log`
+and call it `print`.
+
+// include_code
+
+[source,javascript]
+----
+topEnv["print"] = function(value) {
+  console.log(value);
+  return false;
+};
+----
+
+That gives us the enough crude tools to write some simple programs.
+The `run` function provides a convenient way to write them, taking
+care of parsing, creating a fresh environment, and evaluating the
+strings we pass it as a single program.
+
+// include_code
+
+[source,javascript]
+----
+function run() {
+  var env = Object.create(topEnv);
+  var program = Array.prototype.slice
+    .call(arguments, 0).join("\n");
+  return evaluate(parse(program), env);
+}
+----
+
+`Array.prototype.slice.call` is a trick to turn an array-like object,
+such as `arguments` into a real array, so that we can call `join` on
+it. It takes all the arguments given to `run`, and treats them as the
+lines of a program.
+
+[source,javascript]
+----
+run("do(define(total, 0),",
+    "   define(count, 1),",
+    "   while(<(count, 11),",
+    "         do(define(total, +(total, count)),",
+    "            define(count, +(count, 1)))),",
+    "   print(total))");
+// → 55
+----
+
+This is the program that computes the total of the numbers 1 to 10,
+expressed in our own language. It is clearly uglier than JavaScript,
+but still not bad for a language implemented in less than 150 lines of
+code.
+
+== Functions ==
+
+A programming language without functions is a poor programming
+language indeed.
+
+Fortunately, we can easily add a `fun` construct, which treats its
+last argument as the function's body, and all arguments before that as
+the names of the function's arguments.
+
+// include_code
+
+[source,javascript]
+----
+specialForms["fun"] = function(args, env) {
+  if (!args.length)
+    throw new SyntaxError("Functions need a body.");
+  function name(expr) {
+    if (expr.type != "word")
+      throw new SyntaxError("Argnames must be words.");
+    return expr.name;
+  }
+  var argNames = args.slice(0, args.length - 1).map(name);
+  var body = args[args.length - 1];
+
+  return function() {
+    if (arguments.length != argNames.length)
+      throw new TypeError("Wrong number of arguments.");
+    var localEnv = Object.create(env);
+    for (var i = 0; i < arguments.length; i++)
+      localEnv[argNames[i]] = arguments[i];
+    return evaluate(body, localEnv);
+  };
+};
+----
+
+Functions, in our language, have their own local environment, just
+like in JavaScript. We simply use `Object.create` to make a new object
+that has access to the variables in the outer environment (its
+prototype), but can also contain new variables without changing that
+outer scope.
+
+The function created by the `fun` form creates this local environment,
+and adds the argument variables to it. It then evaluates the function
+body in this environment, and returns the result.
+
+[source,javascript]
+----
+run("do(define(plusOne, fun(a, +(a, 1))),",
+    "   print(+(plusOne(1), 2)))");
+// → 4
+
+run("do(define(pow, fun(base, exp,",
+    "     if(==(exp, 0),",
+    "        1,",
+    "        *(base, pow(base, -(exp, 1)))))),",
+    "   print(pow(2, 10)))");
+// → 1024
+----
+
+== Compilation ==
+
+What we have built is an interpreter. During evaluating, it acts
+directly on the simple representation of the program that the parser
+produced.
+
+Compilation is the process of adding another step in between, which
+transforms the program into something that can be evaluated more
+efficiently by doing as much of the work as possible in advance. For
+example, in well designed languages it can be seen which definition
+each use of a variable corresponds to without actually running the
+program, which can be used to avoid looking up the variable by name
+every time it is accessed, and directly fetch it from its
+predetermined memory location instead.
+
+Traditionally, compilation involves converting the program to machine
+code, the raw format that a computer's processor can execute. But any
+process that converts a program to a different representation can be
+thought of as compilation.
+
+It would be possible to write an alternative evaluation strategy for
+our language, one that first converts the program to a JavaScript
+program, uses `new Function` to invoke the JavaScript compiler on it,
+and then runs that. When done right, this would actually make our
+language very fast, while still being quite simple to implement.
+
+== Cheating ==
+
+When we defined `if` and `while`, you probably noticed that they were
+more or less trivial wrappers around JavaScript's own `if`, and
+`while`. The values in our language are not wrapped at all, they are
+regular old JavaScript values.
+
+So sure, if you compare the language created in this chapter, built on
+top of JavaScript, with the amount of work and complexity required to
+build a programming language directly on the raw functionality
+provided by a machine, the difference is huge. If the goal is
+programmer street cred, this project is not very impressive.
+
+Regardless, I hope it illustrated the concepts involved. Many other
+interesting concepts would of course come up when taking this project
+further, but this is not a compiler writer's book (do pick one up
+sometime, they are fascinating).
+
+And when it comes to getting something done, cheating is more
+effective than doing everything yourself. While the toy language in
+this chapter doesn't do anything that couldn't be done better in
+JavaScript, there _are_ situations where writing small languages helps
+get real work done.
+
+Such a language does not have to resemble a typical programming
+language. For example, if JavaScript would not come equipped with regular
+expressions, you would write your own parser and evaluator for such a
+sub-language, and have a powerful language for describing patterns in
+strings.
+
+Or, imagine you are building a giant robotic dinosaur, and want to
+program it. JavaScript might not be the most effective way to do this,
+and you might instead opt for a language that looks like this:
+
+----
+behavior travel
+  perform when
+    not at goal
+  actions
+    move left-foot
+    move right-foot
+
+behavior attack
+  perform when
+    detected Godzilla
+  actions
+    fire eye-laser
+    launch arm-rockets
+----
+
+This is what is usually called a “domain-specific language,” a
+language tailored to express a narrow domain of knowledge, which can
+be more expressive than a general-purpose programming language because
+it is designed to express exactly the things that need expressing in
+its domain, and nothing else.
+
+== Exercises ==
+
+=== Arrays ===
+
+Add support for arrays to our language, by adding the functions
+`length(array)` (to get an array's length) and `element(array, n)` (to
+fetch the `n`^th^ element) to the top scope.
+
+To create an array, we add the special form `array`, which accepts any
+number of arguments, and returns an array containing their values. The
+only reason this operator has to be a special form is our language
+does not allow us to define functions that take any number of
+arguments.
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+topEnv["length"] = "...";
+
+topEnv["element"] = "...";
+
+specialForms["array"] = function(args, env) {
+
+};
+
+run("do(define(sum, fun(array,",
+    "     do(define(i, 0),",
+    "        define(sum, 0),",
+    "        while(<(i, length(array)),",
+    "          do(define(sum, +(sum, element(array, i))),",
+    "             define(i, +(i, 1)))),",
+    "        sum))),",
+    "   print(sum(array(1, 2, 3))))");
+// → 6
+----
+endif::html_target[]
+
+!!solution!!
+
+The easiest way to do this is to represent the arrays in the language
+with JavaScript arrays.
+
+The values added to the top environment must be functions. They take
+the arguments that they are specified to take, and return values that
+can be straightforwardly derived from their arguments.
+
+The special `array` form should simply evaluate each of its arguments
+in the environment it is given, and return an array containing the
+results. This is very easily done with the `map` method.
+
+!!solution!!
+
+=== Closure ===
+
+The way we have defined `fun` causes functions in our language to
+“close over” the surrounding environment, just like JavaScript
+functions.
+
+The program below illustrates this—function `f` returns a function
+that adds its argument to `f`'s argument, meaning that it needs access
+to the local scope inside `f` to be able to use variable `a`.
+
+[source,javascript]
+----
+run("do(define(f, fun(a, fun(b, +(a, b)))),",
+    "   print(f(4)(5)))");
+// → 9
+----
+
+Go back to the definition of the `fun` form and explain which
+mechanism causes this to work.
+
+!!solution!!
+
+Again, we are riding along on a JavaScript mechanism to get the
+equivalent feature in our own language. Special forms are passed the
+local environment when they are evaluated, so that they can evaluate
+their sub-forms in that environment. The function returned by `fun`
+closes over the `env` argument given to its enclosing function, and
+uses that to create the function's local environment when it is called.
+
+This means that the prototype of the local environment will be the
+environment in which the function was created, which makes it possible
+to access variables in that environment from the function. This is all
+there is to implementing closure (though to compile it in a way that
+is actually efficient, you'd need to do some more work).
+
+!!solution!!
+
+=== Comments ===
+
+It would be nice if we could write comments in our language. For
+example, whenever a hash sign is found, we could treat the rest of the
+line as a comment (similar to ‘`//`’ in JavaScript), ignoring it.
+
+We do not have to make any big changes to the parser to support this.
+We can simply change `skipSpace` to skip comments as if they are
+whitespace, so that all the points where `skipSpace` is called will
+now also skip (ignore) comments.
+
+// test: no
+
+[source,javascript]
+----
+// This is the old skipSpace. You can change it.
+function skipSpace(string) {
+  var first = string.search(/\S/);
+  if (first == -1) return "";
+  return string.slice(first);
+}
+
+console.log(parse("# hello\nx"));
+// → {type: "word", name: "x"}
+
+console.log(parse("a # one\n   # two\n()"));
+// → {type: "apply",
+//    operator: {type: "word", name: "x"},
+//    args: []}
+----
+endif::html_target[]
+
+!!solution!!
+
+Make sure your solution handles multiple comments in a row, with
+potentially whitespace between or after them.
+
+A regular expression is probably the easiest way to solve this. Match
+against something that matches “whitespace or a comment, zero or more
+times” using the `exec` or `match` method, and then look at the length
+of the first element in the returned array to find out how many
+characters to slice off.
+
+!!solution!!
+
+=== Fixing scope ===
+
+Currently, the only way to assign a value to a variable is `define`.
+This acts both as a way to define new variables and to give existing
+ones a new meaning.
+
+This ambiguity causes a problem. When you try to give a non-local
+variable a new value, you will end up defining a local one with the
+same name instead. Some languages do work like this, but I've always
+found it silly.
+
+Add a special form `set`, similar to `define`, which gives a variable
+a new value, updating the variable in an outer scope if it doesn't
+already exist in the inner scope. If the variable is not defined at
+all, throw a `ReferenceError`.
+
+The technique of representing scopes as simple objects, which has made
+things very convenient so far, will get in your way a little at this
+point. You might want to use the `Object.getPrototypeOf` function,
+which allows you to get the prototype of an object. Also remember that
+scopes do not derive from `Object.prototype`, so if you want to call
+`hasOwnProperty` on them, you have to use the clumsy way:
+`Object.prototype.hasOwnProperty.call(scope, name)`.
+
+// test: no
+
+[source,javascript]
+----
+specialForms["set"] = function(args, env) {
+  // Your code here.
+};
+
+run("do(define(x, 4),",
+    "   define(setx, fun(val, set(x, val))),",
+    "   setx(50),",
+    "   print(x))");
+// → 50
+run("set(quux, true)");
+// → Some kind of ReferenceError
+----
+endif::html_target[]
+
+!!solution!!
+
+You will have to loop through one scope at a time, using
+`Object.getPrototypeOf` to go the next outer scope. For each scope,
+use `hasOwnProperty` to find out if the variable, indicated by the
+`name` property of the first argument to `set`, exists in that scope.
+If it does, set it to the result of evaluating the second argument to
+`set`, and return that value.
+
+When the outermost scope is reached, and `Object.getPrototypeOf`
+returns null, and we haven't found the variable yet, it does not
+exist, and an error should be thrown.
+
+!!solution!!

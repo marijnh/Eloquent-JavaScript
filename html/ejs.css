@@ -324,6 +324,10 @@ div.solution.open div.solution-text {
   display: block;
 }
 
+td {
+  vertical-align: top;
+}
+
 td + td {
   padding-left: 1em;
 }

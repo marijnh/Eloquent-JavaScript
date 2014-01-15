@@ -1,6 +1,6 @@
 :chap_num: 10
 :prev_link: 09_regexp
-:next_link: 11_FIXME
+:next_link: 11_language
 :load_files: ["js/10_modules.js", "js/loadfile.js"]
 
 = Modules =

@@ -45,8 +45,8 @@ Every now and then, usually between eight and ten in the evening,
 Jaques finds himself transforming into a small furry rodent with a
 bushy tail.
 
-One the one hand, Jaques is quite glad that he doesn't have classical
-lycantropy. Turning into a squirrel tends to cause less problems than
+On the one hand, Jaques is quite glad that he doesn't have classical
+lycanthropy. Turning into a squirrel tends to cause less problems than
 turning into a wolf. Instead of having to worry about accidentally
 eating the neighbor (_that_ would be awkward), he worries about being
 eaten by the neighbor's cat. After two occasions where he woke up on a
@@ -372,7 +372,7 @@ same value. Comparing different object with identical contents will
 give `false`. There is no “deep” comparison operation built into
 JavaScript, but it is possible to write it yourself.
 
-== The lycantrope's log ==
+== The lycanthrope's log ==
 
 So Jaques starts up his JavaScript interpreter, and sets up the
 environment he needs to keep his journal.
@@ -661,7 +661,7 @@ for (var event in correlations)
 ----
 
 Most correlations seem to lie close to zero. Eating carrots, bread, or
-pudding apparently does not trigger squirrel-lycantropy. It does seem
+pudding apparently does not trigger squirrel-lycanthropy. It does seem
 to occur somewhat more often on weekends. Let's filter the results to
 only show correlations greater than 0.1 (or smaller than -0.1).
 

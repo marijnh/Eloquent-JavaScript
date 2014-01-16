@@ -134,11 +134,11 @@ be accessed by it. When you need to remember something, you grow a
 tentacle to hold on to it or you reattach one of your existing
 tentacles to it.
 
+image::img/octopus.jpg[alt="Variables as tentacles"]
+
 When you define a variable without giving it a value, the tentacle
 conceptually ends in thin air—it has nothing to grasp. When you ask
 for the value of an empty place, you get a the value `undefined`.
-
-image::img/octopus.jpg[alt="Variables as tentacles"]
 
 An example. To remember the amount of dollars that Luigi still owes
 you, you create a variable. And then when he pays back 35 dollars, you

@@ -46,7 +46,7 @@ Jaques finds himself transforming into a small furry rodent with a
 bushy tail.
 
 On the one hand, Jaques is quite glad that he doesn't have classical
-lycanthropy. Turning into a squirrel tends to cause less problems than
+lycanthropy. Turning into a squirrel tends to cause fewer problems than
 turning into a wolf. Instead of having to worry about accidentally
 eating the neighbor (_that_ would be awkward), he worries about being
 eaten by the neighbor's cat. After two occasions where he woke up on a

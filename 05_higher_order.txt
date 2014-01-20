@@ -549,7 +549,7 @@ something like this:
 [source,javascript]
 ----
 console.log(ancestry.reduce(function(min, cur) {
-  if (cur.born < min.born) return cur
+  if (cur.born < min.born) return cur;
   else return min;
 }));
 // → {name: "Pauwels van Haverbeke", born: 1535, …}

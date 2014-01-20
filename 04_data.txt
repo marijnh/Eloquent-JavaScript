@@ -584,7 +584,7 @@ storeAge("Larry", 58);
 storeAge("Simon", 55);
 console.log("Larry" in ages);
 // → true
-console.log(ages["Simon"])
+console.log(ages["Simon"]);
 // → 55
 ----
 

@@ -41,7 +41,7 @@ while (m = re.exec(input)) {
   var snippet = m[2], hasConf = m[1].match(/\/\/ test: (.*)/), config = hasConf ? hasConf[1] : "";
   var where = pos(m.index);
   try {
-    acorn.parse(snippet);
+    acorn.parse(snippet, {strictSemicolons: !/01_value/.test(file)});
   } catch(e) {
     console.log("parse error at " + where + ": " + e.toString());
   }

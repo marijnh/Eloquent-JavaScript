@@ -624,7 +624,7 @@ TextCell.prototype.minWidth = function() {
 };
 TextCell.prototype.minHeight = function() {
   return this.text.length;
-}
+};
 TextCell.prototype.draw = function(width, height) {
   var result = [];
   for (var i = 0; i < height; i++) {

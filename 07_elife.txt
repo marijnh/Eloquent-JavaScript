@@ -909,7 +909,7 @@ Plant.prototype.act = function(context) {
   }
   if (this.energy < 20)
     return {type: "grow"};
-}
+};
 ----
 
 Plants start with an energy level between 3 and 7, randomized so that

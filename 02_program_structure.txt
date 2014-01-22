@@ -138,7 +138,7 @@ image::img/octopus.jpg[alt="Variables as tentacles"]
 
 When you define a variable without giving it a value, the tentacle
 conceptually ends in thin air—it has nothing to grasp. When you ask
-for the value of an empty place, you get a the value `undefined`.
+for the value of an empty place, you get the value `undefined`.
 
 An example. To remember the amount of dollars that Luigi still owes
 you, you create a variable. And then when he pays back 35 dollars, you

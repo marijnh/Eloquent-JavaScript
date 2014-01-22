@@ -31,11 +31,15 @@
 
   <style>
     li.contents-intro:before { display: none; }
+    .toc h3 { position: absolute; margin: 0; top: -2px; right: 0; font-family: inherit; font-weight: normal; font-size: 90%; }
   </style>
 
-  <ol>
+  <ol class=toc>
     <li class="contents-intro"><a href="00_intro.html">Introduction</a>
-    <li style="counter-reset: li"><a href="01_values.html">Values, Types, and Operators</a>
+    <li style="counter-reset: li; position: relative">
+      <h3>(Part 1: Language)</h3>
+      <a href="01_values.html">Values, Types, and Operators</a>
+    </li>
     <li><a href="02_program_structure.html">Program Structure</a>
     <li><a href="03_functions.html">Functions</a>
     <li><a href="04_data.html">Data Structures: Object and Array</a>
@@ -46,6 +50,10 @@
     <li><a href="09_regexp.html">Regular Expressions</a>
     <li><a href="10_modules.html">Modules</a>
     <li><a href="11_language.html">Practical: A Programming Language</a>
+    <li style="position: relative">
+      <h3>(Part 2: Browser)</h3>
+      <a href="12_browser.html">JavaScript and the Browser</a>
+    </li>
   </ol>
 
 </article>

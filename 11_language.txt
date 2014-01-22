@@ -1,6 +1,6 @@
 :chap_num: 11
 :prev_link: 10_modules
-:next_link: 12_FIXME
+:next_link: 12_browser
 :load_files: ["js/11_language.js"]
 
 = Practical: A Programming Language =

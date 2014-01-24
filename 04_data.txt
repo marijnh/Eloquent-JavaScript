@@ -178,7 +178,7 @@ is described in chapter 6.
 
 Properties that contain functions are generally called _methods_ of
 the value they belong to. As in “`toUpperCase` is a method of a
-string.”
+string”.
 
 This example demonstrates some methods that array objects have:
 

@@ -370,7 +370,7 @@ The `isNaN` function is a standard function that return `true` if the
 argument it is given is `NaN`. The `Number` function happens to return
 `NaN` when you give it a string that doesn't represent a valid number.
 Thus, the condition expresses “unless `theNumber` is not-a-number, do
-this.”
+this”.
 
 (((else keyword)))Often you have not only code that must be executed
 when a certain condition holds but also code that handles the other

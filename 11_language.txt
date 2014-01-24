@@ -609,7 +609,7 @@ behavior attack
     launch arm-rockets
 ----
 
-This is what is usually called a “domain-specific language,” a
+This is what is usually called a _domain-specific language_, a
 language tailored to express a narrow domain of knowledge, which can
 be more expressive than a general-purpose programming language because
 it is designed to express exactly the things that need expressing in

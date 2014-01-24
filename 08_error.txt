@@ -191,7 +191,7 @@ console.log(testPoint());
 (((test suite)))(((testing frameworks)))Various pieces of helper
 software exist that help you build and run collections of tests (“test
 suites”), making them easier to write, and producing more informative
-information when they fail. These are called “testing frameworks.”
+information when they fail. These are called _testing frameworks_.
 
 == Debugging ==
 
@@ -440,7 +440,7 @@ What if `body` raises an exception? In that case, the call to
 `try` statements have. They may be followed by a `finally` block
 (instead of, or in addition to the `catch` block). This means “no
 matter _what_ happens, run this code after trying to run the code in
-the `try` block.” If a function has to clean something up, the cleanup
+the `try` block”. If a function has to clean something up, the cleanup
 code should usually be put into a `finally` block:
 
 // include_code

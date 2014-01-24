@@ -26,7 +26,7 @@ a brief history of objects as a programming construct.
 programming stories, starts with the problem of complexity. One
 philosophy is that this complexity can be made manageable by
 separating it into small compartments that are isolated from each
-other. These compartments ended up with the name “objects.”
+other. These compartments ended up with the name “objects”.
 
 (((encapsulation)))(((method)))(((interface)))An object is a hard
 shell that encapsulates the gooey complexity inside of it, and instead

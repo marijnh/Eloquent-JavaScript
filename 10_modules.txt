@@ -606,7 +606,7 @@ that works well requires quite a bit of insight and foresight.
 The best way to learn the value of good interface design is to use
 lots of interfaces, some good, some horrible. Experience will teach
 you what works and what doesn't. Never assume that a painful interface
-is “just the way it is.” Fix it, or wrap it in a new interface that
+is “just the way it is”. Fix it, or wrap it in a new interface that
 works better for you.
 
 === Predictability ===

@@ -36,7 +36,7 @@ drawback of being crude and inaccurate. But this simulation is
 intended to be amusing, not accurate, so we can freely cut such
 corners.
 
-A world can be defined with a “plan,” which is an array of strings
+A world can be defined with a “plan”, which is an array of strings
 that lay out the world's grid, using one character per square, and a
 legend, which is an object that tells us, for each character, what it
 means.

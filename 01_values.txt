@@ -153,7 +153,7 @@ multiplication. Putting an operator between two values will
 new value.
 
 (((parentheses)))Does the example mean “add 4 and 100, and multiply
-the result by 11,” or is the multiplication done before the adding?
+the result by 11”, or is the multiplication done before the adding?
 As you might have guessed, the multiplication happens first. But, as
 in mathematics, this can be changed by wrapping the addition in
 parentheses:

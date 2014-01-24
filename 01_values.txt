@@ -41,27 +41,24 @@ So that's 00001101, or 8 + 4 + 1, which equals 13.
 
 == Values ==
 
-A typical modern computer
+Imagine a sea of bits. An ocean of them. A typical modern computer
 has over thirty billion bits in its volatile data
 storage. Non-volatile storage (the hard disk or
 equivalent) tends to have yet a few orders of magnitude more.
 
-//The ocean imagery felt a bit redundant as I was reading.
-//Would it be okay to leave it out? /JG
-
 image::img/bit-sea.png[alt="The Ocean of Bits"]
 
-To make bits easier to work with, you can separate them into
-chunks that represent pieces of information. In a JavaScript
-environment, those chunks are called _((values))_. Though all 
-values are made of bits, they play different roles. Every value 
-has a ((type)) that determines its role. There are six basic 
-types of values in JavaScript: numbers, strings, booleans, objects, 
-functions, and undefined values.
+To be able to work with such quantities of bits without getting lost, you can separate them into chunks
+that represent pieces of information. In a JavaScript environment,
+those chunks are called _((value))s_. Though all values are made of
+bits, they play different roles. Every value has a ((type)) that
+determines its role. There are six basic types of values in
+JavaScript: numbers, strings, booleans, objects, functions, and
+undefined values.
 
 (((garbage collection)))To create a value, one must merely invoke its
 name. This is very convenient. You don't have to gather building
-material for your values or pay for them; you just call for one, and
+material for your values or pay for them. You just call for one, and
 _woosh_, you have it. They are not created from thin air, of course.
 Every value has to be stored somewhere, and if you want to use a
 gigantic amount of them at the same time you might run out of bits.
@@ -87,32 +84,27 @@ usually are:
 (((binary)))Put that into a program, and it will cause the bit pattern
 for the number 13 to come into existence inside the computer.
 
-//It would make sense to move your explanation of showing 13 in 
-//bits to right here. What do you think? /JG
-
 JavaScript uses a fixed number of bits, namely 64 of them, to store a
 single number value. There are only so many patterns you can make with 
 64 bits, which means that the amount of different numbers that can be 
 represented is limited. For N decimal digits, the amount of numbers
 that can be represented is 10^N^. Similarly, given 64 binary digits,
 you can represent 2^64^ different numbers, which is about 18 quintillion 
-(an 18 with 18 zeroes after it). That's a lot! 
-
-//Do I have you right in my tweaks to the following paragraph? /JG
+(an 18 with 18 zeroes after it). This is a lot.
 
 Computer memory used to be a lot smaller, and people tended to use groups of
 eight or sixteen bits to represent their numbers. It was easy to
-accidentally _overflow_ such small numbers, or run out of bits to
-represent them. Today, even personal computers have plenty of 
-memory, so we only worry about that when dealing with truly astronomical
-numbers.
+accidentally _overflow_ such small numbers, to end up with a number that
+did not fit in the given amount of bits. Today, even personal computers have plenty of 
+memory, so we are free to use 64-bit chunks, which means we only need to worry about
+overflow when dealing with truly astronomical numbers.
 
 Not all whole numbers below 18 quintillion fit in a JavaScript number
 though. Those bits also store negative numbers, so one bit indicates the 
 sign of the number. A bigger issue is that nonwhole numbers must also be 
 represented. To do this, some of the bits are used to store the position 
 of the decimal point. So the actual maximum whole number that can be stored is more
-in the range of nine quadrillion (15 zeroes), which is still pretty big.
+in the range of nine quadrillion (15 zeroes), which is still pleasantly huge.
 
 Fractional numbers are written by using a dot:
 
@@ -227,18 +219,15 @@ written by enclosing their content in quotes:
 mark strings as long as the quotes at the start and the end of the
 string match.
 
-(((escaping!in strings)))(((newline)))Almost anything can be put
+(((escaping,in strings)))(((newline)))Almost anything can be put
 between quotes, and JavaScript will make a string value out of it. But
 a few characters are more difficult. You can imagine how putting quotes
 between quotes might be hard. _Newlines_ (the characters you get when you
-press `enter`) also can't be put between quotes; the string has to
+press `enter`) also can't be put between quotes. The string has to
 stay on a single line.
 
-//Is escaping characters with backslash a convention, or is it just 
-//a part of JavaScript syntax? /JG
-
 (((backslash)))To be able to have such characters in a string, the
-following convention is used: Whenever a backslash (‘\’) is found
+following notation is used: Whenever a backslash (‘\’) is found
 inside quoted text, it indicates that the character after it has a
 special meaning. A quote that is preceded by a backslash will not end
 the string, but be part of it. When an ‘n’ character occurs after a
@@ -270,7 +259,7 @@ character is written like "\n"`” can be written:
 
 (((+ operator)))(((concatenation)))Strings cannot be divided,
 multiplied, or subtracted, but the ‘+’ operator _can_ be used on them.
-It does not add, but it _concatenates_; it glues two strings together.
+It does not add, but it _concatenates_—it glues two strings together.
 The following line will produce the string `"concatenate"`:
 
 [source,javascript]
@@ -296,17 +285,13 @@ console.log(typeof "x")
 // → string
 ----
 
-//Why are we using console.log? Is it because JavaScript expects that,
-//or has that just become a convention? Also, it might be good to
-//highlight this information as a note. /JG
-
 We will use `console.log` in example code to indicate that we want to
 see the result of evaluating something. When you run such code, the
 value produced should be shown on the screen, though how it appears will
 depend on the JavaScript environment you use to run it.
 
 (((- operator)))(((binary operator)))(((unary operator)))The other
-operators we saw all operated on two values; `typeof` takes only one.
+operators we saw all operated on two values, `typeof` takes only one.
 Operators that use two values are called _binary_ operators, while
 those that take one are called _unary_ operators. The minus operator
 can be used both as a binary operator and a unary operator:
@@ -354,7 +339,7 @@ console.log("Aardvark" < "Zoroaster")
 The way strings are ordered is more or less alphabetic: Uppercase
 letters are always “less” than lowercase ones, so `"Z" < "a"` is
 true, and nonalphabetic characters (‘!’, ‘-’, and so on) are also
-included in the ordering. The actual comparison algorithm is
+included in the ordering. The actual comparison is
 based on the _((Unicode))_ standard. This standard assigns a
 number to virtually every character one would ever need, including
 characters from Greek, Arabic, Japanese, Tamil, and so on. Having such
@@ -368,8 +353,6 @@ operator)))Other similar operators are ‘>=’ (greater than or equal
 to), ‘\<=’ (less than or equal to), ‘==’ (equal to), and
 ‘!=’ (not equal to).
 
-//Should /<= above be just <=? /JG
-
 [source,javascript]
 ----
 console.log("Itchy" != "Scratchy")
@@ -377,7 +360,7 @@ console.log("Itchy" != "Scratchy")
 ----
 
 There is only one value in JavaScript that is not equal to itself, and
-that is `NaN` (not-a-number). 
+that is `NaN` (not-a-number).
 
 [source,javascript]
 ----
@@ -419,7 +402,7 @@ console.log(false || false)
 ----
 
 (((negation)))(((! operator)))_Not_ is written as an exclamation mark
-(‘!’). It is a unary operator that flips the value given to it; `!true`
+(‘!’). It is a unary operator that flips the value given to it—`!true`
 produces `false` and `!false` gives `true`.
 
 (((precedence)))When mixing these boolean operators with arithmetic
@@ -436,7 +419,7 @@ necessary.
 1 + 1 == 2 || 10 * 10 <= 100
 ----
 
-== Undefined Values ==
+== Undefined values ==
 
 (((undefined)))(((null)))There are two special values, written `null`
 and `undefined`, that are used to denote the absence of a meaningful
@@ -452,13 +435,11 @@ of JavaScript's design, and it doesn't matter most of the time. In the cases
 where you actually have to concern yourself with these values, I
 recommend treating them as interchangeable (more on that in a moment).
 
-== Automatic Type Conversion ==
-
-//Do you mean when the input is "confused and wrong" below? /JG
+== Automatic type conversion ==
 
 (((type conversion)))In the introduction, I mentioned that JavaScript
-goes out of its way to accept almost anything you give it, even
-if your input is completely wrong. This is nicely demonstrated by these
+goes out of its way to accept almost any program you give it, even
+if programs that do odd things. This is nicely demonstrated by these
 expressions:
 
 [source,javascript]
@@ -515,13 +496,9 @@ precisely equal to the other, and the second tests whether it is not
 precisely equal. So `"" === false` is false as expected.
 
 I recommend using the three-character comparison operators defensively, to
-prevent unexpected type conversions from tripping you up. Of course, if you're
-certain the types on both sides will be the same (or that only one 
-will be `null`/`undefined`), there is no problem with 
+prevent unexpected type conversions from tripping you up. But when you're
+certain the types on both sides will be the same, there is no problem with 
 using the shorter operators.
-
-//I was a bit confused by the sentence above. Do you mean as long as you can guarantee
-//you'll only ever have comparisons of "typeX == typeX" or "typeX == null"? /JG
 
 === Short-circuiting of && and || ===
 
@@ -535,10 +512,7 @@ _original_ left-hand value, or the right-hand value.
 The ‘||’ operator, for example, will return the value to its left when that can be
 converted to true, and the value on its right otherwise. This conversion works as 
 you'd expect for boolean values and should do something analogous for
-values of other types. 
-
-//Would including an example that returns a boolean make sense? Like
-// "(5 > 4) || null"? /JG
+values of other types.
 
 [source,javascript]
 ----
@@ -548,23 +522,19 @@ console.log("Karl" || "user")
 // → Karl
 ----
 
-//I tried to explain the "default value" benefit a bit more, in case some readers
-//won't make the mental leap before reading about variables. Do I have this right? /JG 
-
 This functionality allows the `||` operator to be used as a way 
-to fall back on a default value. If you know the value on the left is changing, 
-you can place a default value on the right in case the other becomes unusable. 
+to fall back on a default value. If you give it an expression that might produce
+an empty value on the left, the value on the right will be used as a replacement
+in that case.
 
-The ‘&&’ operator works similarly. When the
+The ‘&&’ operator works similarly, but the other way around. When the
 value to its left is something that converts to false, it returns that
 value, and otherwise it returns the value on its right.
 
-//Did you mean "short-circuit evaluation for the index tag below? /JG
-
-(((shortcut evaluation)))Another important property of these two
+(((short-circuit evaluation)))Another important property of these two
 operators is that the expression to their right is evaluated only when
 necessary. In the case of `true || X`, no matter what `X` is—even if
-it's an expression that you really want to check—the result will be
+it's an expression that does something __terrible__—the result will be
 true, and `X` is never evaluated. The same goes for `false && X`,
 which is false, and will ignore `X`. This is called _short-circuit evaluation_. 
 
@@ -573,10 +543,8 @@ which is false, and will ignore `X`. This is called _short-circuit evaluation_.
 We looked at four types of JavaScript values in this chapter: numbers,
 strings, booleans, and undefined values. 
 
-//I think it's fine to leave out the sentence about creating values.
-//I found it a bit confusing to say "create a value by typing a value". /JG
-
-You can combine and transform values with operators. We saw binary 
+Such values are created by typing in their name (`true`, `null`) or
+value (`13`, `"abc"`). You can combine and transform values with operators. We saw binary 
 operators for arithmetic (‘+’, ‘-’, ‘*’, ‘/’,
 and ‘%’), string concatenation (‘+’), comparison (‘==’, ‘!=’,
 ‘===’, ‘!==’, ‘<’, ‘>’, ‘\<=’, ‘>=’), and logic (‘&&’, ‘||’), as well

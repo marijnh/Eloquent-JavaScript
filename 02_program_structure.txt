@@ -249,7 +249,7 @@ Though I claimed before that variable names can not contain dots,
 `console.log` clearly contains a dot. I haven't been lying to you.
 This is not a simple variable, but actually an expression that
 retrieves the `log` field from the value held by the `console`
-variable. We will find out what this means in chapter 4.
+variable. We will find out what this means in Chapter 4.
 
 == Return values ==
 
@@ -729,7 +729,7 @@ follow this convention.
 (((Number function)))(((constructor)))In a few cases, such as the
 `Number` function, the first letter of a variable is also capitalized.
 This was done to mark this function as a constructor. What a
-constructor is will become clear in chapter 6. For now, the important
+constructor is will become clear in Chapter 6. For now, the important
 thing is not to be bothered by this apparent lack of consistency.
 
 == Comments ==

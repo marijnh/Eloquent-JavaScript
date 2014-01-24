@@ -301,7 +301,7 @@ repeat(3, function(n) {
 ----
 
 (((lexical scoping)))(((closure)))The “lexical scoping” rules that we
-discussed in chapter 3 greatly work to our advantage when using
+discussed in Chapter 3 greatly work to our advantage when using
 functions in this way. In the example above, the `n` variable is a
 parameter to the outer function. Because the inner function lives
 inside the environment of the outer one, it can use it. Thus, the

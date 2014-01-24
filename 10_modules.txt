@@ -132,7 +132,7 @@ tools like _Browserify_ (`http://browserify.org`).
 == Decoupling ==
 
 Another important role of modules is isolating pieces of code from
-each other, in the same way that the object interfaces from chapter 6
+each other, in the same way that the object interfaces from Chapter 6
 do. A well-designed module will provide an interface for external code
 to use, and as the module is further worked on (bugs are fixed,
 functionality is added) the existing interface stays stable, so that
@@ -636,7 +636,7 @@ complete mental model of its functionality in their head.
 
 (((composability)))In your interfaces, try to use the simplest data
 structures that work and make functions do a single, clear
-thing—whenever practical, make them pure functions (see chapter 3).
+thing—whenever practical, make them pure functions (see Chapter 3).
 
 For example, it is not uncommon for modules to provide their own
 array-like collection objects, with their own interface for counting
@@ -850,7 +850,7 @@ work.
 
 === A return to electronic life ===
 
-Hoping that chapter 7 is still somewhat fresh in your mind, think back
+Hoping that Chapter 7 is still somewhat fresh in your mind, think back
 to the system designed in that chapter and come up with a separation
 into modules of the code. To refresh your memory, these are the
 functions and types defined in that chapter, in order of appearance.

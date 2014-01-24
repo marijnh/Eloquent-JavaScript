@@ -349,7 +349,7 @@ super-charged return from a function—it does not just jump out of the
 current function but also out of its callers, all the way up to the
 top-level call that started the current execution. This is called
 _((unwinding the stack))_. You may remember the stack of function
-calls that was mentioned in chapter 3. An exception zooms down this
+calls that was mentioned in Chapter 3. An exception zooms down this
 stack, throwing away all the call contexts it encounters.
 
 (((catch keyword)))If they always zoomed right down to the bottom of

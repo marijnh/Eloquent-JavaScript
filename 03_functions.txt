@@ -246,7 +246,7 @@ if (safeMode)
   launchMissiles = function(value) {/* do nothing */};
 ----
 
-In chapter 5, we will discuss the wonderful things that can be done by
+In Chapter 5, we will discuss the wonderful things that can be done by
 passing around function values to other functions.
 
 == Declaration notation ==

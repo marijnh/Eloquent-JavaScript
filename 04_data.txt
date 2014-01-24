@@ -174,7 +174,7 @@ is also `toLowerCase`. You can guess what that does.
 Interestingly, even though the call to `toUpperCase` does not pass any
 arguments, the function does somehow have access to the string
 `"Doh"`, the value of which it is a property. How this works precisely
-is described in chapter 6.
+is described in Chapter 6.
 
 Properties that contain functions are generally called _methods_ of
 the value they belong to. As in “`toUpperCase` is a method of a
@@ -589,7 +589,7 @@ console.log(ages["Simon"]);
 ----
 
 There are a few potential problems with using objects like this, which
-we will discuss in chapter 6, but for the time being, we won't worry
+we will discuss in Chapter 6, but for the time being, we won't worry
 about those.
 
 (((for/in loop)))What if we want to find all the people whose ages we

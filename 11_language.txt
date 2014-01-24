@@ -85,7 +85,7 @@ tree-like shape—the fact that expressions contain other expressions,
 which in turn might contain more expression, is similar to the way
 branches split and split again.
 
-The parser we wrote for the configuration file format in chapter 9 had
+The parser we wrote for the configuration file format in Chapter 9 had
 a very simple structure—it could split the input into lines, and then
 handle one line at a time, where each line had one of a few simple
 forms.

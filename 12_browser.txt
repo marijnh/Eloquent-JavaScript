@@ -11,19 +11,351 @@ ____
 The browser is a really hostile programming environment.
 ____
 
+Traditionally, JavaScript's strongest point has been that it is one of
+the few languages that can be embedded in a web page, and of those
+languages, it provides the most convenient, well-integrated style of
+embedding.
 
-Networking
+The next part of this book will talk about web browsers. Without web
+browsers, there would be no JavaScript. And even if there would be, no
+one would ever have paid any attention to it.
 
-Protocols ->
+Web technology has, from the very start, been decentralized, not just
+technically, but also in the way in which it evolved. Various parties
+have added new functionality in ad-hoc (and often poorly thought out)
+ways, which then sometimes ended up being adopted by others, and
+finally set down as a standard.
 
-HTTP
+This is both a blessing and a curse. On the one hand, it is empowering
+to not have a central party control a system, but have it be improved
+by various parties working in loose collaboration (or, occasionally,
+open hostility). On the other hand, the haphazard way in which it was
+developed means that the resulting system is not exactly a shining
+example of internal consistency. In fact, some parts of it are
+downright messy and confusing.
 
-HTML
+== Networks and the internet ==
 
-Scripts
+Computer networks have been known since the 1950s. If you put cables
+between two or more computers, and allow them to send data back and
+forth through these cables, this has all kinds of wonderful
+applications.
 
-Sandbox
+If connecting two machines in the same building allows us to do useful
+new things, connecting machines all over the planet will definitely
+allow even greater things. The technology to start implementing this
+vision was developed in the 1980s, and the resulting network is called
+the _Internet_. It has lived up to its promise.
 
-Compatibility
+A computer can use this network to spew bits at another computers. For
+any effective communication to arise out of this bit-spewing, the
+computers at both ends must know what the bits are supposed to
+represent. The meaning of any given sequence of bits depends entirely
+on the kind of thing that it encodes, and the encoding mechanism used.
 
-History
+A _network protocol_ is a description of a style of communication over
+a network. There are protocols for sending email, fetching email,
+sharing files, or even for controlling computers that happen to be
+infected by malicious software.
+
+For example, a simple chat protocol might consist of one computer
+sending the bits that represent the text “I WANT TO CHAT” to another
+machine, and the other responding with “OK LET US” to confirm that it
+understands the protocol. They can then proceed to send each other
+strings of text, read the text sent by the other from the network,
+and display whatever they receive on their screens.
+
+Most protocols are built on top of other protocols. Our example
+protocol treats the network as a stream-like device, into which you
+can put bits, and have them arrive at the correct destination, in the
+correct order. Ensuring those things is already a rather difficult
+technical problem.
+
+TCP (_Transmission Control Protocol_) is a protocol that solves this
+problem. All internet-connected devices “speak” it, and it is used as
+infrastructure for most communication on the internet.
+
+A TCP connection works as follows: one computer must be waiting,
+“listening”, for other computers to start talking to it. To be able to
+accept different kinds of communication, a number, called _port_, is
+associated with the act of listening for connections. Most protocols
+specify which port should be used by default. For example, when we
+want to send an email using the SMTP protocol, the machine through
+which we send it is expected to be listening on port 25.
+
+Another computer can then establish a connection by connecting to a
+given machine using a given port number. If that machine exists, and
+is listening on that port, the connection is successfully created. The
+listening computer is called the _server_, and the connecting computer
+the _client_.
+
+Such a connection acts as a two-way pipe through which bits can
+flow—the machines on both ends can put data into it, which can, once
+successfully transmitted, be read out again by the machine on the
+other side. This is a very convenient model. You could say that TCP
+provides an abstraction of the network.
+
+== The web ==
+
+The _World Wide Web_ (not to be confused with the internet as a whole)
+is a set of protocols and formats that allow us to open web pages in a
+browser. The “web” part in the name refers to the fact that such pages
+can easily link to each other, thus forming one huge, interconnected
+system that users can move through easily.
+
+To add content to this web, all that is needed is to connect a machine
+to the internet, and have it listen on port 80, using HTTP (the
+_Hyper-Text Transfer Protocol_). This protocol allows other computers
+to request documents over the network.
+
+Each document is named by a URL (_Universal Resource Locator_), which
+looks something like this:
+
+----
+  http://eloquentjavascript.net/12_browser.html
+ |      |                      |               |
+ protocol       server               path
+----
+
+The first part tells us that this URL uses the HTTP protocol (as
+opposed to, for example, secure, encrypted HTTP, which would be
+`https://`). Then comes the part that identifies the machine that
+should have the document. And finally, after that, a string that
+identifies the actual document we are interested in.
+
+Each machine connected to the internet gets a unique address (its _IP
+address_), which will look something like `37.187.37.82`. You can use
+those directly as the server part of a URL, but lists of more or less
+random numbers are hard to remember and awkward to type, so it is
+possible to globally register _hostnames_ as pointing towards a
+specific machine (or set of machines). I registered
+`eloquentjavascript.net` to point at the IP address of a machine I
+control, and can thus use it to serve web pages.
+
+If you type the URL above into your browser's address bar, it will try
+to retrieve and display it. First, it has to find out what address
+`eloquentjavascript.net` refers to, and then, using the HTTP protocol,
+make a connection to the server at that address, and ask it for the
+file `/12_browser.html`.
+
+We will take a closer look at the HTTP protocol in Chapter FIXME.
+
+== HTML ==
+
+HTML, which stands for _Hyper-Text Markup Language_, is the document
+format used for web pages. An HTML document contains text, plus extra
+information that gives extra structure to the text, marking things
+like links, paragraphs, and headings.
+
+A simple HTML document looks like this:
+
+[source,text/html]
+----
+<!doctype html>
+<html>
+  <head>
+    <title>My home page</title>
+  </head>
+  <body>
+    <h1>My home page</h1>
+    <p>Hello, I am Marijn and this is my home page.</p>
+    <p>I also wrote a book! Read it
+    <a href="http://eloquentjavascript.net">here</a>.</p>
+  </body>
+</html>
+----
+
+The parts wrapped in angular brackets (‘`<`’ and ‘`>`’) provide
+information about the structure of the document, and the text outside
+of that is just plain text.
+
+The document starts with `<!doctype html>`, which tells the browser to
+interpret it as a “modern” HTML page, as opposed to the various
+dialects that were in use in the past.
+
+HTML documents have a head and a body. The head contains information
+_about_ the document, and the body contains the document itself. So in
+this case, we first declare that the title of this document is “My
+home page”, and then give a document containing of a heading (`<h1>`,
+with `<h2>` to `<h6>` indicating more minor headings) and two
+paragraphs (`<p>`).
+
+_Tags_, which is what the angular-bracket-enclosed parts of an HTML
+document are called, come in several forms. An element, such as the
+body, a paragraph, or a link, is started by an _opening tag_ like
+`<p>`, and ended by a _closing tag_, which looks like `</p>`. Some
+opening tags, such as the one for the link (`<a>`) contain extra
+information, in the form of `name="value"` pairs. These are called
+_attributes_. In this case, the destination of the link is indicated
+with `href="http://eloquentjavascript.net"`, where `href` stands for
+“hypertext reference”.
+
+Finally, some kinds of tags do not enclose anything, and thus do not
+need to be closed. An example of this would be `<img
+src="http://example.com/image.jpg">`, which will display the image
+found at the given source URL.
+
+Whenever some characters get a special meaning, a notation is needed
+to “escape” them, to include them in the actual text without
+triggering their special meaning, similar to the way backslashes are
+used in JavaScript strings. HTML's approach to this is a bit more
+heavyweight, it uses an ampersand (‘&’) character, followed by a word
+and a semicolon (‘;’). The sequence `&lt;` stands for ‘<’ (“less
+than”), `&gt;` stands for ‘>’ (“greater than”). Since this notation
+also gives ‘&’ a special meaning, it can be escaped with `&amp;`.
+Finally, to write a double quote inside an attribute value, `&quot;`
+can be used.
+
+HTML is parsed in a remarkably error-tolerant way. When tags that
+should be there are missing, the browser reconstruct them. A few years
+ago, the way in which this is done was standardized, so now we can
+even rely on different browsers doing this reconstruction in the same
+way.
+
+The following document will be treated just like the one above:
+
+[source,text/html]
+----
+<!doctype html>
+
+<title>My home page</title>
+
+<h1>My home page</h1>
+<p>Hello, I am Marijn and this is my home page.
+<p>I also wrote a book! Read it
+<a href="http://eloquentjavascript.net">here</a>.
+----
+
+The `<html>`, `<head>` and `<body>` tags are gone completely. The
+browser knows that `<title>` belongs in a head, and `<h1>` in a body.
+Furthermore, I am no longer explicitly closing the paragraphs, since
+the opening of another paragraph, or the end of the document, will
+close them implicitly.
+
+We will use this “lazy” style a lot, to keep the examples free of
+irrelevant noise.
+
+== HTML and JavaScript ==
+
+In the context of this book, the most important HTML tag is
+`<script>`. This allows us to include pieces of JavaScript in a
+document.
+
+[source,text/html]
+----
+<!doctype html>
+<h1>Testing alert</h1>
+<script>alert("hello!");</script>
+----
+
+The script will run as soon as the `<script>` tag is encountered. The
+page above will pop up an `alert` dialog as soon as it is opened.
+
+When writing bigger programs, putting them into the HTML document in
+their entirety is often not practical. The `<script>` tag can also be
+given an `src` attribute in order to cause the script file (a text
+file containing the JavaScript program) to be fetched from a URL.
+
+[source,text/html]
+----
+<!doctype html>
+<h1>Testing alert</h1>
+<script src="http://eloquentjavascript.net/js/hello.js"></script>
+----
+
+The script file used here contains the same simple program,
+`alert("hello!")`. When an HTML page references other URLs as part of
+itself, for example an image file or a script, web browsers will
+retrieve those immediately, and include them in the page.
+
+Some tags have attributes that can also contain a JavaScript program.
+The `<button>` tag (which shows up as a button) can be given an
+`onclick` attribute that will be run whenever the button is pressed.
+
+[source,text/html]
+----
+<!doctype html>
+<button onclick="alert('boom!')">DO NOT PRESS</button>
+----
+
+Note that I had to use single quotes for the string in the `onclick`
+attribute, because double quotes are already used to quote the whole
+attribute. I could also have used `&quot;`, but that'd make the
+program harder to read.
+
+== In the sandbox ==
+
+Running programs downloaded off the internet is problematic. You do
+not know much about the people behind most sites you visit, so you
+also can not trust them to mean well. Running programs by people who
+do not mean well is how you get your computer infected by viruses,
+your data stolen, and your accounts hacked.
+
+Yet the attraction of the web is that you can “surf” it carelessly
+without being exposed to such shenanigans. This is why browsers severely
+limit the things a JavaScript program may do. It is not allowed to
+look at the files on your computer or to modify anything not related
+to the web page it was embedded in, or to talk to other websites on
+your behalf.
+
+Isolating a programming environment like this is called _sandboxing_,
+implying that the program will be harmlessly playing in a sandbox.
+This particular kind of sandbox should be imagined with a cage of
+thick steel bars over it though, which makes it somewhat different
+from your typical playground sandbox.
+
+The hard part is allowing the programs enough room to be useful but at
+the same time restricting them enough to make them harmless. Many
+things that are needed to create certain kinds of applications, such
+as communicating to other servers, or reading the content of the
+copy-paste clipboard, can also be used to do problematic,
+privacy-invading things.
+
+Every now and then, someone comes up with a new way to circumvent the
+limitations of a browser and do something harmful, ranging from
+leaking minor private information to taking over the whole machine
+that the browser runs on. The people responsible for the browsers
+respond by modifying their programs to make this trick impossible, and
+all is well again—until the next problem is discovered (and,
+hopefully, publicized instead of being secretly used by some
+government or mafia).
+
+== Compatibility and the browser wars ==
+
+If the standards that make up the web evolved in a messy,
+decentralized way, you can imagine that there were points at which the
+different browsers worked differently, making writing web pages that
+worked in all of them difficult.
+
+And so it was. In the very early stages of the web, a browser called
+Mosaic dominated the market. After a few years, the balance had
+shifted to Netscape, which in turn was then largely superseded by
+Microsoft's Internet Explorer. At any point where a single browser was
+dominant, that browser's vendor would feel entitled to unilaterally
+invent new features for the web. Since most users used the same
+browser, web sites would simply start using those features, never mind
+the other browsers.
+
+This was the dark age of compatibility, often called the “browser
+wars”. Web developers were left with not one web, but two or three
+different platforms. To make things worse, the browsers in use around
+2003 were all full of bugs, and of course, the bugs were different for
+each browser. A lot of cursing was done.
+
+Mozilla Firefox, a not-for-profit offshoot of Netscape, challenged
+Internet Explorer's hegemony in the late 2000s, and because Microsoft
+was, at the time, not particularly interested in staying competitive,
+took quite a chunk of market share away from it. At the same time,
+Google introduced it's Chrome browser, and Apple's Safari browser
+gained popularity, leading to a situation where there were four major
+players, rather than one.
+
+The new players showed both a more serious attitude towards standards,
+and more solid engineering practices. Microsoft, seeing its market
+share crumble, came around and adopted these attitudes. If you are
+starting to learn web development today, consider yourself lucky. The
+latest versions of the major browsers behave very uniformly, and have
+relatively little bugs. Whereas the browser chapters of the first
+edition of this book were mostly filled with horror stories about the
+differences and problems in various browsers, they should be
+relatively pleasant reading in this edition.

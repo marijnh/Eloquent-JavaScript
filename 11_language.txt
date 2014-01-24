@@ -629,6 +629,8 @@ only reason this operator has to be a special form is our language
 does not allow us to define functions that take any number of
 arguments.
 
+ifdef::html_target[]
+
 // test: no
 
 [source,javascript]
@@ -718,6 +720,8 @@ We can simply change `skipSpace` to skip comments as if they are
 whitespace, so that all the points where `skipSpace` is called will
 now also skip (ignore) comments.
 
+ifdef::html_target[]
+
 // test: no
 
 [source,javascript]
@@ -775,6 +779,8 @@ which allows you to get the prototype of an object. Also remember that
 scopes do not derive from `Object.prototype`, so if you want to call
 `hasOwnProperty` on them, you have to use the clumsy way:
 `Object.prototype.hasOwnProperty.call(scope, name)`.
+
+ifdef::html_target[]
 
 // test: no
 

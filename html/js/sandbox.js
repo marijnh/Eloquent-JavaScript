@@ -1,5 +1,20 @@
-(function() {
-  "use strict";
+(function() {"use strict"; function timeout(win, f, ms) { win.__setTimeout(f, ms); };
+  // The above is a kludge to make sure setTimeout calls are made from
+  // line 1, which is where FF will start counting for its line numbers.
+
+  function parseStack(stack) {
+    var found = [], m;
+    var re = /([\w$]*)@.*?:(\d+)|\bat (?:([^\s(]+) \()?.*?:(\d+)/g;
+    while (m = re.exec(stack)) {
+      found.push({fn: m[1] || m[3] || null,
+                  line: m[2] || m[4]});
+    }
+    console.log(stack);
+    return found;
+  }
+  function frameString(frame) {
+    return "line " + frame.line + (frame.fn ? " in function " + frame.fn : "");
+  }
 
   var SandBox = window.SandBox = function(options) {
     var frame = this.frame = document.createElement("iframe");
@@ -55,7 +70,7 @@
       this.startedAt = Date.now();
       this.extraSecs = 1;
       this.win.__c = 0;
-      this.win.__setTimeout(preprocess(code, this), 0);
+      timeout(this.win, preprocess(code, this), 0);
     },
     show: function(html, output) {
       var scriptTags = [], sandbox = this, doc = this.win.document;
@@ -96,9 +111,18 @@
     },
     error: function(exception) {
       if (!this.output) throw exception;
-      var pos = /(?:\bat |@).*?([^\/:]+):(\d+)/.exec(exception.stack);
-      if (pos && pos[1].match(/sandbox/)) pos = null;
-      this.output.out("error", [String(exception) + (pos ? " (line " + pos[2] + ")" : "")]);
+      var stack = parseStack(exception.stack);
+      this.output.out("error", [String(exception) + (stack.length ? " (" + frameString(stack[0]) + ")" : "")]);
+      if (stack.length > 1) {
+        this.output.div.lastChild.appendChild(document.createTextNode(" "));
+        var mark = this.output.div.lastChild.appendChild(document.createElement("span"));
+        mark.innerHTML = "…";
+        mark.className = "sandbox-output-etc";
+        mark.addEventListener("click", function(e) {
+          mark.className = "";
+          mark.innerHTML = "\n called from " + stack.slice(1).map(frameString).join("\n called from ");
+        });
+      }
     }
   };
 

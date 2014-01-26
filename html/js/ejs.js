@@ -53,7 +53,8 @@ window.addEventListener("load", function() {
       value: code,
       mode: lang,
       extraKeys: keyMap,
-      matchBrackets: true
+      matchBrackets: true,
+      lineNumbers: true
     });
     editor.on("change", SandBox.Output.repositionFrame);
     wrap.style.margin = "0 -5em";

@@ -160,7 +160,7 @@ A simple HTML document looks like this:
     <h1>My home page</h1>
     <p>Hello, I am Marijn and this is my home page.</p>
     <p>I also wrote a book! Read it
-    <a href="http://eloquentjavascript.net">here</a>.</p>
+      <a href="http://eloquentjavascript.net">here</a>.</p>
   </body>
 </html>
 ----
@@ -223,7 +223,7 @@ The following document will be treated just like the one above:
 <h1>My home page</h1>
 <p>Hello, I am Marijn and this is my home page.
 <p>I also wrote a book! Read it
-<a href="http://eloquentjavascript.net">here</a>.
+  <a href="http://eloquentjavascript.net">here</a>.
 ----
 
 The `<html>`, `<head>` and `<body>` tags are gone completely. The

@@ -200,8 +200,9 @@ blockquote footer:before {
 }
 
 #sandbox {
-  border: 1px solid #4ab;
-  border-bottom-width: 0;
+  border-top: 1px solid #4ab;
+  border-left: 1px dotted #4ab;
+  border-right: 1px dotted #4ab;
   padding: 0; margin: 0;
   width: 100%;
   -moz-box-sizing: border-box;
@@ -305,6 +306,17 @@ blockquote footer:before {
 .CodeMirror pre {
   padding: 0 4px 0 10px;
 }
+.CodeMirror-gutters {
+  border: none;
+  background: transparent;
+}
+.CodeMirror-linenumber {
+  padding: .5em 3px 0 0;
+  min-width: 12px;
+  color: #4ab;
+  font-size: 60%;
+}
+
 
 div.image img {
   max-width: 28em;

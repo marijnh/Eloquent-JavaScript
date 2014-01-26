@@ -165,7 +165,7 @@ A simple HTML document looks like this:
 </html>
 ----
 
-The parts wrapped in angular brackets (‘`<`’ and ‘`>`’) provide
+The parts wrapped in angular brackets (‘++<++’ and ‘++>++’) provide
 information about the structure of the document, and the text outside
 of that is just plain text.
 
@@ -260,7 +260,8 @@ file containing the JavaScript program) to be fetched from a URL.
 ----
 <!doctype html>
 <h1>Testing alert</h1>
-<script src="http://eloquentjavascript.net/js/hello.js"></script>
+<script src="http://eloquentjavascript.net/js/hello.js">
+  </script>
 ----
 
 The script file used here contains the same simple program,

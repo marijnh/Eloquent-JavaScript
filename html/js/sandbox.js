@@ -57,6 +57,30 @@
       this.win.__c = 0;
       this.win.__setTimeout(preprocess(code, this), 0);
     },
+    show: function(html, output) {
+      var scriptTags = [], sandbox = this, doc = this.win.document;
+      this.frame.style.display = "block";
+      doc.documentElement.innerHTML = html.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/, function(m, src, content) {
+        var tag = doc.createElement("script");
+        if (src) {
+          if (/["']/.test(src.charAt(0))) src = src.slice(1, src.length - 1);
+          tag.src = src;
+        } else {
+          tag.innerHTML = preprocess(content, sandbox);
+        }
+        scriptTags.push(tag);
+        return "";
+      });
+
+      if (output) {
+        this.output = output;
+        output.addFrame(this.frame);
+      }
+      this.startedAt = Date.now();
+      this.extraSecs = 1;
+      this.win.__c = 0;
+      scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
+    },
     tick: function() {
       var now = Date.now();
       if (now < this.startedAt + this.extraSecs * 1000) return;
@@ -117,9 +141,32 @@
     return "try{" + out + "\n}catch(e){__sandbox.error(e);}";
   }
 
+  function pageScrollX() { return window.pageXOffset || (document.documentElement || document.body).scrollLeft; }
+  function pageScrollY() { return window.pageYOffset || (document.documentElement || document.body).scrollTop; }
+
   var Output = SandBox.Output = function(div) {
     this.div = div;
   };
+
+  var currentPlaceHolder = null;
+  function positionFrame(node) {
+    node.style.width = currentPlaceHolder.offsetWidth + "px";
+    node.style.height = currentPlaceHolder.offsetHeight + "px";
+    var box = currentPlaceHolder.getBoundingClientRect();
+    node.style.left = (box.left + pageScrollX()) + "px";
+    node.style.top = (box.top + pageScrollY()) + "px";
+  }
+
+  window.addEventListener("resize", Output.repositionFrame = function() {
+    if (currentPlaceHolder) {
+      if (currentPlaceHolder.parentNode) {
+        positionFrame(currentPlaceHolder.frame);
+      } else {
+        currentPlaceHolder.frame.style.display = "none";
+        currentPlaceHolder = false;
+      }
+    }
+  });
 
   Output.prototype = {
     clear: function() { this.div.innerHTML = ""; },
@@ -135,6 +182,16 @@
           wrap.appendChild(represent(arg, 58));
       }
       this.div.appendChild(wrap);
+    },
+    addFrame: function(node) {
+      if (currentPlaceHolder && currentPlaceHolder.parentNode)
+        currentPlaceHolder.parentNode.removeChild(currentPlaceHolder);
+      currentPlaceHolder = this.div.parentNode.insertBefore(document.createElement("div"), this.div);
+      currentPlaceHolder.innerHTML = "&nbsp;";
+      currentPlaceHolder.style.height = Math.max(100, Math.min(node.contentWindow.document.body.clientHeight, 600)) + "px";
+      currentPlaceHolder.frame = node;
+      node.style.position = "absolute";
+      positionFrame(node);
     }
   };
 

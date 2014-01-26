@@ -199,6 +199,15 @@ blockquote footer:before {
   display: none;
 }
 
+#sandbox {
+  border: 1px solid #4ab;
+  border-bottom-width: 0;
+  padding: 0; margin: 0;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .sandbox-output pre {
   margin: 0;
   padding: 0;

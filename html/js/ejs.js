@@ -12,8 +12,9 @@ window.addEventListener("load", function() {
   document.body.addEventListener("click", function(e) {
     for (var n = e.target; n; n = n.parentNode) {
       if (n.className == "c_ident") return;
-      if (n.nodeName == "PRE" && n.getAttribute("data-language") == "javascript")
-        return activateCode(n, e);
+      var lang = n.nodeName == "PRE" && n.getAttribute("data-language");
+      if (/^(text\/)?(javascript|html)$/.test(lang))
+        return activateCode(n, e, lang);
       if (n.nodeName == "DIV" && n.className == "solution")
         n.className = "solution open";
     }
@@ -44,23 +45,25 @@ window.addEventListener("load", function() {
     "Ctrl-Q": resetSandbox
   };
 
-  function activateCode(node, e) {
+  function activateCode(node, e, lang) {
     var code = node.textContent;
     node.style.display = "none";
     var wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node);
     var editor = CodeMirror(wrap, {
       value: code,
-      mode: "javascript",
+      mode: lang,
       extraKeys: keyMap,
       matchBrackets: true
     });
+    editor.on("change", SandBox.Output.repositionFrame);
     wrap.style.margin = "0 -5em";
-    setTimeout(function() { editor.refresh(); }, 600);
+    setTimeout(function() { editor.refresh(); SandBox.Output.repositionFrame(); }, 600);
     editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
     editor.focus();
     var out = wrap.appendChild(elt("div", {"class": "sandbox-output"}));
     var menu = wrap.appendChild(elt("div", {"class": "sandbox-menu", title: "Sandbox menu..."}));
-    var data = editor.state.context = {editor: editor, wrap: wrap, orig: node};
+
+    var data = editor.state.context = {editor: editor, wrap: wrap, orig: node, isHTML: lang == "text/html"};
     data.output = new SandBox.Output(out);
     menu.addEventListener("click", function() { openMenu(data, menu); });
   }
@@ -92,12 +95,17 @@ window.addEventListener("load", function() {
 
   function runCode(data) {
     data.output.clear();
-    sandbox.run(data.editor.getValue(), data.output);
+    var val = data.editor.getValue();
+    if (data.isHTML)
+      sandbox.show(val, data.output);
+    else
+      sandbox.run(val, data.output);
   }
 
   function closeCode(data) {
     data.wrap.parentNode.removeChild(data.wrap);
     data.orig.style.display = "";
+    SandBox.Output.repositionFrame();
   }
 
   function revertCode(data) {

@@ -147,7 +147,7 @@ So if you know that the property you are interested in is called
 named by the value held in the variable `i`, you say `value[i]`. And
 finally, if you want to access a property named “0” or “John Doe”
 (property names can be any string), these are not valid variable
-names, so you are forced to use square brackets, as in `value[0]` or
+names, so you are forced to use square brackets, as in `value["0"]` or
 `value["John Doe"]`, even though you know the precise name of the
 property in advance.
 

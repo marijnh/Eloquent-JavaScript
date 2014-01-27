@@ -318,9 +318,9 @@ console.log("Bye");
 
 A run through this program goes roughly like this: The call to `greet`
 causes control to jump to the start of that function (line 2), which
-calls `console.log` (a built-in browser function), allowing that take
+calls `console.log` (a built-in browser function), allowing that to take
 control. It eventually finishes, causing control to return to line 2.
-We reach the end of the `greet` function, so we return back to place
+We reach the end of the `greet` function, so we return back to the place
 that called it, at line 4. The line after that calls `console.log`
 again. We could show the flow of control schematically like this:
 

@@ -265,7 +265,7 @@ variables and properties might be holding on to the same values. So
 now you may start thinking of objects as octopuses with any number of
 tentacles, each of which has a name inscribed on it.
 
-image::img/object-octopus.svg[alt="Artist's representation of an object"]
+image::img/octopus-object.jpg[alt="Artist's representation of an object"]
 
 (((delete operator)))(((property,deletion)))To cut off such a
 leg—removing a property from an object—the `delete` operator can be
@@ -300,7 +300,7 @@ storing sequences of things. If you evaluate `typeof [1, 2]`, this
 produces `"object"`. I guess you can see them as long, flat octopuses
 with all their arms in a neat row, labeled with numbers.
 
-image::img/array-octopus.svg[alt="Artist's representation of an array"]
+image::img/octopus-array.jpg[alt="Artist's representation of an array"]
 
 The desired representation of Jaques’ journal is thus an array of
 objects.

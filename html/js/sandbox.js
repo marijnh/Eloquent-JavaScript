@@ -9,7 +9,6 @@
       found.push({fn: m[1] || m[3] || null,
                   line: m[2] || m[4]});
     }
-    console.log(stack);
     return found;
   }
   function frameString(frame) {
@@ -18,10 +17,13 @@
 
   var SandBox = window.SandBox = function(options) {
     var frame = this.frame = document.createElement("iframe");
-    frame.id = "sandbox";
-    frame.style.display = "none";
     frame.src = "about:blank";
-    document.body.appendChild(frame);
+    if (options.place) {
+      options.place(frame);
+    } else {
+      frame.style.display = "none";
+      document.body.appendChild(frame);
+    }
 
     var win = this.win = frame.contentWindow;
     var self = win.__sandbox = this;
@@ -72,10 +74,10 @@
       this.win.__c = 0;
       timeout(this.win, preprocess(code, this), 0);
     },
-    show: function(html, output) {
+    setHTML: function(code, output) {
       var scriptTags = [], sandbox = this, doc = this.win.document;
       this.frame.style.display = "block";
-      doc.documentElement.innerHTML = html.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/, function(m, src, content) {
+      doc.documentElement.innerHTML = code.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/, function(m, src, content) {
         var tag = doc.createElement("script");
         if (src) {
           if (/["']/.test(src.charAt(0))) src = src.slice(1, src.length - 1);
@@ -87,14 +89,21 @@
         return "";
       });
 
-      if (output) {
-        this.output = output;
-        output.addFrame(this.frame);
+      this.frame.style.height = "10px";
+      this.resizeFrame();
+      if (scriptTags.length) {
+        if (output) this.output = output;
+        this.startedAt = Date.now();
+        this.extraSecs = 1;
+        this.win.__c = 0;
+        var resize = doc.createElement("script");
+        resize.innerHTML = "__sandbox.resizeFrame();";
+        scriptTags.push(resize);
+        scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
       }
-      this.startedAt = Date.now();
-      this.extraSecs = 1;
-      this.win.__c = 0;
-      scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
+    },
+    resizeFrame: function() {
+      this.frame.style.height = Math.max(80, Math.min(this.frame.contentWindow.document.body.scrollHeight, 600)) + "px";
     },
     tick: function() {
       var now = Date.now();
@@ -165,32 +174,9 @@
     return "try{" + out + "\n}catch(e){__sandbox.error(e);}";
   }
 
-  function pageScrollX() { return window.pageXOffset || (document.documentElement || document.body).scrollLeft; }
-  function pageScrollY() { return window.pageYOffset || (document.documentElement || document.body).scrollTop; }
-
   var Output = SandBox.Output = function(div) {
     this.div = div;
   };
-
-  var currentPlaceHolder = null;
-  function positionFrame(node) {
-    node.style.width = currentPlaceHolder.offsetWidth + "px";
-    node.style.height = currentPlaceHolder.offsetHeight + "px";
-    var box = currentPlaceHolder.getBoundingClientRect();
-    node.style.left = (box.left + pageScrollX()) + "px";
-    node.style.top = (box.top + pageScrollY()) + "px";
-  }
-
-  window.addEventListener("resize", Output.repositionFrame = function() {
-    if (currentPlaceHolder) {
-      if (currentPlaceHolder.parentNode) {
-        positionFrame(currentPlaceHolder.frame);
-      } else {
-        currentPlaceHolder.frame.style.display = "none";
-        currentPlaceHolder = false;
-      }
-    }
-  });
 
   Output.prototype = {
     clear: function() { this.div.innerHTML = ""; },
@@ -206,16 +192,6 @@
           wrap.appendChild(represent(arg, 58));
       }
       this.div.appendChild(wrap);
-    },
-    addFrame: function(node) {
-      if (currentPlaceHolder && currentPlaceHolder.parentNode)
-        currentPlaceHolder.parentNode.removeChild(currentPlaceHolder);
-      currentPlaceHolder = this.div.parentNode.insertBefore(document.createElement("div"), this.div);
-      currentPlaceHolder.innerHTML = "&nbsp;";
-      currentPlaceHolder.style.height = Math.max(100, Math.min(node.contentWindow.document.body.clientHeight, 600)) + "px";
-      currentPlaceHolder.frame = node;
-      node.style.position = "absolute";
-      positionFrame(node);
     }
   };
 

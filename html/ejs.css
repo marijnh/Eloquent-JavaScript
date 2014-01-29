@@ -183,7 +183,6 @@ blockquote footer:before {
   -webkit-transition: margin-left .5s ease-out, margin-right .5s ease-out;
   -o-transition: margin-left .5s ease-out, margin-right .5s ease-out;
   transition: margin-left .5s ease-out, margin-right .5s ease-out;
-  border-top: 1px solid #4ab;
   border-bottom: 1px solid #4ab;
 }
 
@@ -199,10 +198,11 @@ blockquote footer:before {
   display: none;
 }
 
-#sandbox {
+.editor-wrap iframe {
+  display: block;
+  border: 1px dotted #4ab;
   border-top: 1px solid #4ab;
-  border-left: 1px dotted #4ab;
-  border-right: 1px dotted #4ab;
+  border-bottom-width: 0;
   padding: 0; margin: 0;
   width: 100%;
   -moz-box-sizing: border-box;
@@ -299,6 +299,7 @@ blockquote footer:before {
 .CodeMirror {
   height: auto;
   line-height: 1.3;
+  border-top: 1px solid #4ab;
 }
 .CodeMirror-scroll {
   max-height: 700px;

@@ -2,13 +2,6 @@ window.addEventListener("load", function() {
   // If there's no ecmascript 5 support, don't try to initialize
   if (!Object.create || !window.JSON) return;
 
-  var sandbox;
-  function resetSandbox() {
-    sandbox = new SandBox({loadFiles: window.sandboxLoadFiles});
-    window.sandbox = sandbox;
-  }
-  resetSandbox();
-
   document.body.addEventListener("click", function(e) {
     for (var n = e.target; n; n = n.parentNode) {
       if (n.className == "c_ident") return;
@@ -45,26 +38,38 @@ window.addEventListener("load", function() {
     "Ctrl-Q": resetSandbox
   };
 
+  var nextID = 0;
+
   function activateCode(node, e, lang) {
     var code = node.textContent;
     node.style.display = "none";
     var wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node);
-    var editor = CodeMirror(wrap, {
+    var editor = CodeMirror(function(div) {wrap.insertBefore(div, wrap.firstChild)}, {
       value: code,
       mode: lang,
       extraKeys: keyMap,
       matchBrackets: true,
       lineNumbers: true
     });
-    editor.on("change", SandBox.Output.repositionFrame);
-    wrap.style.margin = "0 -5em";
-    setTimeout(function() { editor.refresh(); SandBox.Output.repositionFrame(); }, 600);
-    editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
-    editor.focus();
+    wrap.style.margin = "1rem -5em";
+    setTimeout(function() { editor.refresh(); }, 600);
+    if (e) {
+      editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
+      editor.focus();
+    }
     var out = wrap.appendChild(elt("div", {"class": "sandbox-output"}));
     var menu = wrap.appendChild(elt("div", {"class": "sandbox-menu", title: "Sandbox menu..."}));
+    var sandbox = node.getAttribute("data-sandbox");
+    if (lang == "text/html" && !sandbox) {
+      sandbox = "html" + nextID++;
+      node.setAttribute("data-sandbox", sandbox);
+    }
 
-    var data = editor.state.context = {editor: editor, wrap: wrap, orig: node, isHTML: lang == "text/html"};
+    var data = editor.state.context = {editor: editor,
+                                       wrap: wrap,
+                                       orig: node,
+                                       isHTML: lang == "text/html",
+                                       sandbox: sandbox};
     data.output = new SandBox.Output(out);
     menu.addEventListener("click", function() { openMenu(data, menu); });
   }
@@ -73,8 +78,9 @@ window.addEventListener("load", function() {
     var menu = elt("div", {"class": "sandbox-open-menu"});
     var items = [["Run code (ctrl-enter)", function() { runCode(data); }],
                  ["Revert to original code", function() { revertCode(data); }],
-                 ["Reset sandbox (ctrl-q)", resetSandbox],
-                 ["Deactivate editor (ctrl-d)", function() { closeCode(data); }]];
+                 ["Reset sandbox (ctrl-q)", resetSandbox]];
+    if (!data.isHTML || !data.sandbox)
+      items.push(["Deactivate editor (ctrl-d)", function() { closeCode(data); }]);
     items.forEach(function(choice) {
       menu.appendChild(elt("div", choice[0]));
     });
@@ -96,20 +102,59 @@ window.addEventListener("load", function() {
 
   function runCode(data) {
     data.output.clear();
-    var val = data.editor.getValue();
+    var val = data.editor.getValue(), box = getSandbox(data.sandbox, data.bisHTML);
     if (data.isHTML)
-      sandbox.show(val, data.output);
+      box.setHTML(val, data.output);
     else
-      sandbox.run(val, data.output);
+      box.run(val, data.output);
   }
 
   function closeCode(data) {
+    if (data.isHTML && data.sandbox) return;
     data.wrap.parentNode.removeChild(data.wrap);
     data.orig.style.display = "";
-    SandBox.Output.repositionFrame();
   }
 
   function revertCode(data) {
     data.editor.setValue(data.orig.textContent);
+  }
+
+  var sandboxes = {};
+  function getSandbox(name, forHTML) {
+    name = name || "null";
+    if (sandboxes.hasOwnProperty(name)) return sandboxes[name];
+    var options = {loadFiles: window.sandboxLoadFiles}, html;
+    if (name != "null") {
+      var snippets = document.getElementsByClassName("snippet");
+      for (var i = 0; i < snippets.length; i++) {
+        var snippet = snippets[i];
+        if (snippet.getAttribute("data-language") == "text/html" &&
+            snippet.getAttribute("data-sandbox") == name) {
+          options.place = function(node) { placeFrame(node, snippet); };
+          if (!forHTML) html = snippet.textContent;
+          break;
+        }
+      }
+    }
+    var box = sandboxes[name] = new SandBox(options);
+    if (html != null) box.win.document.documentElement.innerHTML = html;
+    return box;
+  }
+
+  function resetSandbox(name) {
+    name = name || "null";
+    if (!sandboxes.hasOwnProperty(name)) return;
+    var frame = sandboxes[name].frame;
+    frame.parentNode.removeChild(frame);
+    delete sandboxes[name];
+  }
+
+  function placeFrame(frame, snippet) {
+    var wrap = snippet.previousSibling;
+    if (!wrap || wrap.className != "editor-wrap") {
+      activateCode(snippet, null, "text/html");
+      wrap = snippet.previousSibling;
+    }
+    wrap.insertBefore(frame, wrap.childNodes[1]);
   }
 });

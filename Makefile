@@ -1,7 +1,7 @@
 all: html tex
 
 CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_higher_order 06_object \
-  07_elife 08_error 09_regexp 10_modules 11_language 12_browser
+  07_elife 08_error 09_regexp 10_modules 11_language 12_browser 13_dom
 
 html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html)
 

@@ -1,8 +1,6 @@
 :chap_num: 12
 :prev_link: 11_language
-:next_link: 13_FIXME
-:frame_button: true
-:load_files: []
+:next_link: 13_dom
 
 = JavaScript and the Browser =
 

@@ -1,0 +1,265 @@
+:chap_num: 13
+:prev_link: 12_browser
+:next_link: 14_FIXME
+
+= The Document Object Model =
+
+A JavaScript program running in the browser is locked up in its
+sandbox, unable to interact with the rest of the system. But it is not
+alone. The web page itself, the document that the browser is
+displaying, is in there as well.
+
+Interacting with this document, in order to enhance it, make it
+interactive, or turn it into a full-blown application, is what
+JavaScript was invented for.
+
+== Document structure ==
+
+A HTML document can be visualized as a nested set of boxes. Tags like
+`<body>` and `</body>` enclose other tags, which in turn contain other
+tags (or text).
+
+[sandbox="homepage"]
+[source,text/html]
+----
+<!doctype html>
+<html>
+  <head>
+    <title>My home page</title>
+  </head>
+  <body>
+    <h1>My home page</h1>
+    <p>Hello, I am Marijn and this is my home page.</p>
+    <p>I also wrote a book! Read it
+      <a href="http://eloquentjavascript.net">here</a>.</p>
+  </body>
+</html>
+----
+
+This example page has the following structure:
+
+image::img/html-boxes.svg[alt="HTML document as nested boxes"]
+
+The data structure the browser uses to represent the document follows
+this shape. For each box, there is an object, which we can interact
+with to find out things like what HTML tag it represents, and which
+boxes and text it contains. This representation is called the
+_Document Object Model_, DOM for short.
+
+The global variable `document` gives us access to these objects. Its
+`documentElement` property refers to the object representing the
+`<html>` tag. It also provides properties `head` and `body`, holding
+the objects for those elements. The body, the actual visual part of
+the document, is usually the element we want to work with.
+
+== Trees ==
+
+Think back to the syntax trees from Chapter 11 for a moment. Their
+structure is strikingly similar to the structure of a browser's
+document. Each “node” may refer to sub-nodes, children, which are
+themselves nodes. This shape is typical of nested structures where the
+same kind of element can be repeated inside existing elements.
+
+We call a data structure a _tree_ when it has a branching structure,
+contains no cycles (a node may not contain itself, directly or
+indirectly), and has a single, well-defined “root”.
+
+Trees come up a lot in computer science. Apart from representing
+recursive structures like the programs from Chapter 11 and HTML
+documents, they are also often used to maintain sorted sets of data,
+because elements can often be found or inserted more efficiently in a
+sorted tree than in a sorted flat array.
+
+A typical tree has different kinds of nodes. The syntax tree had
+variables, values, and application nodes, where applications always
+had children, and variables and values were _leaves_, nodes without
+children.
+
+The same goes for the DOM. Nodes for regular elements (the
+representation of a tag in the document) make up the structure of the
+document. These can (but most not) have child nodes. An example of
+such a node is `document.body`. Some of these children can be leaf
+nodes, such as pieces of text or comments (which are written between
+`<!--` and `-->` in HTML).
+
+Each DOM node object has a `nodeType` property, which contains a
+number code that identifies the type of node. Regular nodes have the
+value 1 (which is also defined as the constant property
+`document.ELEMENT_NODE`). Text nodes, representing a section of plain
+(non-tag) text in the document, get type 3 (`document.TEXT_NODE`).
+Comments get type 8 (`document.COMMENT_NODE`).
+
+So another way to visualize our document tree is:
+
+image::img/html-tree.svg[alt="HTML document as a tree"]
+
+The leaves are text nodes, and the arrows indicate
+parent-relationships between nodes.
+
+== The standard ==
+
+Using cryptic number codes to represent node types is not a very
+JavaScript-like thing to do. Further on in this chapter, we'll see
+that other parts of the DOM interface also feel rather cumbersome and
+alien. The reason for this is that the DOM wasn't designed for just
+JavaScript, but rather tries to define a language-neutral interface
+that can be used in other systems as well, and not just for HTML, but
+also for XML, which is a generic data format with an HTML-like syntax.
+
+This is unfortunate. Standards are often useful. But in this case, the
+advantage (cross-language consistency) isn't all that powerful. And
+the downside, having an interface that's not well integrated with the
+language, is rather serious.
+
+As an example of such poor integration, consider the `childNodes`
+property that element nodes in the DOM have. This property holds an
+array-like object, with a `length` property and properties labeled by
+numbers (`0`, `1`) to access the child nodes. But it is an instance of
+the `NodeList` type, not a real array, so it does not have methods
+like `slice` and `forEach`.
+
+Then there are issues that are simply the result of old-fashioned
+design. For example, there is no way to create a new node and
+immediately add children or attributes to it. Instead, you have to
+first create it, then add the children one by one, and set the
+attributes one by one. Code that interacts heavily with the DOM tends
+to get very long, repetetive, and ugly.
+
+But of course, JavaScript allows us to create our own abstractions. It
+is easy to write some helper functions that allow you to express the
+operations you are performing in a clearer and shorter way. In fact,
+many libraries intended for browser programming come with such
+functions.
+
+== Moving through the tree ==
+
+DOM nodes contain a wealth of links to other, nearby nodes. The
+following diagram tries to illustrate these.
+
+image::img/html-links.svg[alt="Links between DOM nodes"]
+
+Every node has a `parentNode` property, pointing to the node it is
+part of. The diagram only shows one of each link type. Every element
+node (node type 1) has a `childNodes` property that contains a
+pseudo-array with its children. Those represent the fundamental
+structure of the tree.
+
+In addition, there are a number of convenience links. The `firstChild`
+and `lastChild` properties point to the first and last child element,
+or have the value null for nodes without children. Similarly,
+`previousSibling` and `nextSibling` point to adjacent nodes, nodes
+with the same parent that appear immediately before or after the node
+itself. For a first child, `previousSibling` will be null, and for a
+last child, `nextSibling` is null.
+
+When dealing with a data structure like this, whose structure repeats
+itself as we go deeper, recursive functions are often useful. The one
+below scans a document for text nodes containing a given string, and
+returns true when it has found one.
+
+[sandbox="homepage"]
+[source,javascript]
+----
+function talksAbout(node, string) {
+  if (node.nodeType == 1) {
+    for (var i = 0; i < node.childNodes.length; i++) {
+      if (talksAbout(node.childNodes[i], string))
+        return true;
+    }
+    return false;
+  } else if (node.nodeType == 3) {
+    return node.nodeValue.indexOf(string) > -1;
+  }
+}
+
+console.log(talksAbout(document.body, "book"));
+// → true
+----
+
+The `nodeValue` property of a text node refers to the string of text
+that it represents.
+
+== Finding elements ==
+
+Navigating these links to parents, children, and siblings is
+occasionally useful, for example in the function above, which blindly
+runs through the whole document. But usually, tying assumptions about
+the precise structure of your document into your program is a bad
+idea, since you might want to change that structure later. Another
+complicating factor is that text nodes are created even for the
+whitespace (newlines and spaces) between nodes. The example document's
+body tag does not have just three children (`<h1>` and two `<p>`’s),
+but actually has 7 (those three, plus the space before, after, and
+between them).
+
+So if we want to get the `href` attribute of the link in that
+document, we don't want to say something horrible like “get the second
+child of the sixth child of the document body”. It'd be better if we
+could say “get the first link in the document”. And we can.
+
+[sandbox="homepage"]
+[source,javascript]
+----
+var link = document.body.getElementsByTagName("a")[0];
+console.log(link.href);
+----
+
+All element nodes have a `getElementsByTagName` method that retrieves
+a pseudo-array of all elements with the given tag name that exist
+inside of that element (even if they are wrapped in other nodes).
+
+To find a specific _single_ node, you can give it an `id` attribute,
+and use `document.getElementById` instead.
+
+[source,text/html]
+----
+<!doctype html>
+
+<p>My ostrich Gertrude:</p>
+<p><img id="image" src="img/ostrich.png"></p>
+
+<script>
+  var ostrich = document.getElementById("image");
+  console.log(ostrich.src);
+</script>
+----
+
+A third, similar method is `getElementsByClassName`, which, like
+`getElementsByTagName`, searches through the contents of an element
+node, and retrieves all elements that have the given string in their
+`class` attribute.
+
+There exist also `getElementByTagName` and `getElementByClassName`
+(note, “element” is not pluralized), which instead of returning a
+pseudo-array, return the first element that matches, or null if none
+is found.
+
+== Changing the document ==
+
+Almost everything about the DOM data structure can be changed. Element
+nodes have a number of methods for changing their content. The
+`removeChild` method removes the given child node from the document.
+To add a child, we can use `appendChild`, which puts it at the end of
+list of children, or `insertBefore`, which inserts the node given as
+first argument before the node given as second argument.
+
+[source,text/html]
+----
+<!doctype html>
+
+<p>One</p>
+<p>Two</p>
+<p>Three</p>
+
+<script>
+  var paragraphs = document.body.getElementsByTagName("p");
+  document.body.insertBefore(paragraphs[2], paragraphs[0]);
+</script>
+----
+
+
+
+
+
+Exercises:
+ - implement getElementsByTagName

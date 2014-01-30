@@ -89,17 +89,15 @@
         return "";
       });
 
-      this.frame.style.height = "10px";
+      this.frame.style.height = "80px";
       this.resizeFrame();
       if (scriptTags.length) {
         if (output) this.output = output;
         this.startedAt = Date.now();
         this.extraSecs = 1;
         this.win.__c = 0;
-        var resize = doc.createElement("script");
-        resize.innerHTML = "__sandbox.resizeFrame();";
-        scriptTags.push(resize);
         scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
+        setTimeout(this.resizeFrame.bind(this), 50);
       }
     },
     resizeFrame: function() {

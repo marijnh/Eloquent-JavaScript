@@ -152,9 +152,16 @@ window.addEventListener("load", function() {
   function placeFrame(frame, snippet) {
     var wrap = snippet.previousSibling;
     if (!wrap || wrap.className != "editor-wrap") {
+      var bot = snippet.getBoundingClientRect().bottom;
       activateCode(snippet, null, "text/html");
       wrap = snippet.previousSibling;
+    } else {
+      bot = wrap.getBoundingClientRect().bottom;
     }
     wrap.insertBefore(frame, wrap.childNodes[1]);
+    if (bot < 50) {
+      var newBot = wrap.getBoundingClientRect().bottom;
+      window.scrollBy(0, newBot - bot);
+    }
   }
 });

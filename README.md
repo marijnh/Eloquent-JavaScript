@@ -16,3 +16,5 @@ beyond that yet.
     # and optionally (currently partly broken)
     apt-get install dblatex
     make tex
+
+For OSX, you can use port or brew to install asciidoc package.

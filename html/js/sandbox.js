@@ -15,8 +15,9 @@
     return "line " + frame.line + (frame.fn ? " in function " + frame.fn : "");
   }
 
-  var SandBox = window.SandBox = function(options) {
-    var frame = this.frame = document.createElement("iframe");
+  var SandBox = window.SandBox = function(options, callback) {
+    this.callbacks = {};
+    var sandbox = this, frame = this.frame = document.createElement("iframe");
     frame.src = "about:blank";
     if (options.place) {
       options.place(frame);
@@ -55,7 +56,7 @@
     if (options.loadFiles) setTimeout(function() {
       var i = 0;
       function loadNext() {
-        if (i == options.loadFiles.length) return;
+        if (i == options.loadFiles.length) return callback(sandbox);
         var script = win.document.createElement("script");
         script.src = options.loadFiles[i];
         win.document.body.appendChild(script);
@@ -74,7 +75,7 @@
       this.win.__c = 0;
       timeout(this.win, preprocess(code, this), 0);
     },
-    setHTML: function(code, output) {
+    setHTML: function(code, output, callback) {
       var scriptTags = [], sandbox = this, doc = this.win.document;
       this.frame.style.display = "block";
       doc.documentElement.innerHTML = code.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/, function(m, src, content) {
@@ -83,7 +84,7 @@
           if (/["']/.test(src.charAt(0))) src = src.slice(1, src.length - 1);
           tag.src = src;
         } else {
-          tag.innerHTML = preprocess(content, sandbox);
+          tag.innerText = preprocess(content, sandbox);
         }
         scriptTags.push(tag);
         return "";
@@ -96,8 +97,22 @@
         this.startedAt = Date.now();
         this.extraSecs = 1;
         this.win.__c = 0;
+        var last = scriptTags[scriptTags.length - 1];
+        var finish = function() {
+          setTimeout(function() {sandbox.resizeFrame();}, 50);
+          callback();
+        };
+        if (last.src) {
+          last.addEventListener("load", finish);
+        } else {
+          var id = Math.floor(Math.random() * 0xffffff), fin;
+          this.callbacks[id] = function() { delete sandbox.callbacks[id]; finish(); };
+          scriptTags.push(fin = document.createElement("script"));
+          fin.innerText = "__sandbox.callbacks[" + id + "]();";
+        }
         scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
-        setTimeout(this.resizeFrame.bind(this), 50);
+      } else {
+        callback();
       }
     },
     resizeFrame: function() {

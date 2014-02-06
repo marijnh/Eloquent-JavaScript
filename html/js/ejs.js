@@ -102,11 +102,13 @@ window.addEventListener("load", function() {
 
   function runCode(data) {
     data.output.clear();
-    var val = data.editor.getValue(), box = getSandbox(data.sandbox, data.bisHTML);
-    if (data.isHTML)
-      box.setHTML(val, data.output);
-    else
-      box.run(val, data.output);
+    var val = data.editor.getValue();
+    getSandbox(data.sandbox, data.bisHTML, function(box) {
+      if (data.isHTML)
+        box.setHTML(val, data.output, Math.min);
+      else
+        box.run(val, data.output);
+    });
   }
 
   function closeCode(data) {
@@ -120,9 +122,9 @@ window.addEventListener("load", function() {
   }
 
   var sandboxes = {};
-  function getSandbox(name, forHTML) {
+  function getSandbox(name, forHTML, callback) {
     name = name || "null";
-    if (sandboxes.hasOwnProperty(name)) return sandboxes[name];
+    if (sandboxes.hasOwnProperty(name)) return callback(sandboxes[name]);
     var options = {loadFiles: window.sandboxLoadFiles}, html;
     if (name != "null") {
       var snippets = document.getElementsByClassName("snippet");
@@ -136,9 +138,11 @@ window.addEventListener("load", function() {
         }
       }
     }
-    var box = sandboxes[name] = new SandBox(options);
-    if (html != null) box.win.document.documentElement.innerHTML = html;
-    return box;
+    new SandBox(options, function(box) {
+      if (html != null) box.win.document.documentElement.innerHTML = html;
+      sandboxes[name] = box;
+      callback(box);
+    });
   }
 
   function resetSandbox(name) {

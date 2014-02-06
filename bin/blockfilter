@@ -48,7 +48,7 @@ function ensureMode(name) {
 }
 
 function esc(str) {
-  return str.replace(/[<&]/, function(ch) { return ch == "&" ? "&amp;" : "&lt;"; });
+  return str.replace(/[<&]/g, function(ch) { return ch == "&" ? "&amp;" : "&lt;"; });
 }
 
 function highlight(code, lang) {

@@ -3,7 +3,7 @@ var fs = require("fs");
 var file = process.argv[2];
 var input = fs.readFileSync(file, "utf8");
 
-var included = /\/\/ include_code(.*)\n(?:\/\/.*\n)*\s*\[source,javascript\]\n----\n([\s\S]*?\n)----/g, m;
+var included = /\/\/ include_code(.*)\n(?:\/\/.*\n)*\s*(?:\[sandbox=.*\n)?\[source,javascript\]\n----\n([\s\S]*?\n)----/g, m;
 var code = [];
 while (m = included.exec(input)) {
   var snippet = m[2], directive = m[1];

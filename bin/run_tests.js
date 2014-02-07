@@ -36,7 +36,7 @@ function pos(index) {
   return "line " + (input.slice(0, index).split("\n").length + 1);
 }
 
-var re = /((?:\/\/.*\n|\s)*)\[source,javascript\]\n----\n([\s\S]*?\n)----/g, m;
+var re = /((?:\/\/.*\n|\s)*)(?:[sandbox=.*\n)?\[source,javascript\]\n----\n([\s\S]*?\n)----/g, m;
 while (m = re.exec(input)) {
   var snippet = m[2], hasConf = m[1].match(/\/\/ test: (.*)/), config = hasConf ? hasConf[1] : "";
   var where = pos(m.index);

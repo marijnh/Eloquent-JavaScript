@@ -215,7 +215,7 @@ and use `document.getElementById` instead.
 ----
 <!doctype html>
 <p>My ostrich Gertrude:</p>
-<p><img id="getrude" src="img/ostrich.png"></p>
+<p><img id="gertrude" src="img/ostrich.png"></p>
 
 <script>
   var ostrich = document.getElementById("gertrude");
@@ -532,6 +532,8 @@ information and changing the DOM will force a lot of layouts to
 happen, and consequently run really slowly. This page demonstrates the
 difference. It contains two different programs that build up a list of
 “X” characters 2000 pixels wide, and measures the time they take.
+
+// test: nonumbers
 
 [source,text/html]
 ----

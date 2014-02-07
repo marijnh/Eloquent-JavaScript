@@ -258,7 +258,7 @@ file containing the JavaScript program) to be fetched from a URL.
 ----
 <!doctype html>
 <h1>Testing alert</h1>
-<script src="http://eloquentjavascript.net/js/hello.js">
+<script src="js/hello.js">
   </script>
 ----
 

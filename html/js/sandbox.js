@@ -84,7 +84,7 @@
           if (/["']/.test(src.charAt(0))) src = src.slice(1, src.length - 1);
           tag.src = src;
         } else {
-          tag.innerHTML = preprocess(content, sandbox);
+          tag.text = preprocess(content, sandbox);
         }
         scriptTags.push(tag);
         return "";

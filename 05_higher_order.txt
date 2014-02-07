@@ -337,7 +337,7 @@ amount of arguments to it, it wouldn't know how many argument were
 _really_ given.
 
 For these kinds of situations, JavaScript functions have an `apply`
-method. The `apply` method gets passed an array (or pseudo-array) of
+method. The `apply` method gets passed an array (or pseudo array) of
 arguments, and will call the function with those arguments.
 
 [source,javascript]

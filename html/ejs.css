@@ -136,7 +136,7 @@ ol li p {
   margin-top: -.7em;
 }
 
-h1 + blockquote + p, h1 + p {
+h1 + blockquote + blockquote + p, h1 + blockquote + p, h1 + p {
   font-size: 110%;
 }
 
@@ -289,9 +289,9 @@ blockquote footer:before {
 .cm-s-default .cm-atom, .sandbox-output-bool {color: #106;}
 .cm-s-default .cm-number, .sandbox-output-number {color: #042;}
 .cm-s-default .cm-def {color: #009;}
-.cm-s-default .cm-variable-2 {color: #027;}
+.cm-s-default .cm-variable-2, .cm-s-default .cm-attribute {color: #027;}
 .cm-s-default .cm-variable-3 {color: #072;}
-.cm-s-default .cm-comment {color: #630;}
+.cm-s-default .cm-comment {color: #740;}
 .cm-s-default .cm-string, .sandbox-output-string {color: #700;}
 .cm-s-default .cm-string-2 {color: #740;}
 .cm-s-default .cm-tag {color: #170;}

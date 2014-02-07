@@ -42,7 +42,6 @@ window.addEventListener("load", function() {
 
   function activateCode(node, e, lang) {
     var code = node.textContent;
-    node.style.display = "none";
     var wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node);
     var editor = CodeMirror(function(div) {wrap.insertBefore(div, wrap.firstChild)}, {
       value: code,
@@ -64,6 +63,7 @@ window.addEventListener("load", function() {
       sandbox = "html" + nextID++;
       node.setAttribute("data-sandbox", sandbox);
     }
+    node.style.display = "none";
 
     var data = editor.state.context = {editor: editor,
                                        wrap: wrap,
@@ -78,7 +78,7 @@ window.addEventListener("load", function() {
     var menu = elt("div", {"class": "sandbox-open-menu"});
     var items = [["Run code (ctrl-enter)", function() { runCode(data); }],
                  ["Revert to original code", function() { revertCode(data); }],
-                 ["Reset sandbox (ctrl-q)", resetSandbox]];
+                 ["Reset sandbox (ctrl-q)", function() { resetSandbox(data.sandbox); }]];
     if (!data.isHTML || !data.sandbox)
       items.push(["Deactivate editor (ctrl-d)", function() { closeCode(data); }]);
     items.forEach(function(choice) {

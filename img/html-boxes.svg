@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="463.25366"
-   height="393.25363"
+   width="362"
+   height="272.00003"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -31,11 +31,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="-69.877083"
-     inkscape:cy="207.83113"
+     inkscape:zoom="1.979899"
+     inkscape:cx="131.82857"
+     inkscape:cy="127.33213"
      inkscape:document-units="px"
-     showgrid="false"
+     showgrid="true"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -45,7 +45,25 @@
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     objecttolerance="20"
+     gridtolerance="5">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3019"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       empcolor="#0000c3"
+       empopacity="0.25098039"
+       color="#4040ff"
+       opacity="0.1254902"
+       spacingx="5px"
+       spacingy="5px"
+       originx="-9px"
+       originy="-128.99997px" />
+  </sodipodi:namedview>
   <defs
      id="defs4" />
   <metadata
@@ -56,85 +74,102 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-nc/3.0/" />
       </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-nc/3.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:prohibits
+           rdf:resource="http://creativecommons.org/ns#CommercialUse" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-66.587471,-93.949638)"
+     transform="translate(-75.587471,-86.20327)"
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
     <rect
-       ry="8"
-       rx="8"
+       ry="7.9999995"
+       rx="7.999999"
        style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3859"
-       width="461.25366"
-       height="391.25363"
-       x="67.587471"
-       y="94.949638" />
+       width="360"
+       height="270.00003"
+       x="76.587471"
+       y="87.20327" />
     <text
        transform="scale(1.0152339,0.98499469)"
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
-       x="74.309113"
-       y="115.01979"
+       x="85.2882"
+       y="108.8364"
        id="text3861"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3863"
-         x="74.309113"
-         y="115.01979">html</tspan></text>
+         x="85.2882"
+         y="108.8364">html</tspan></text>
     <rect
        ry="8"
        rx="8"
        style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3799"
-       width="415.53937"
-       height="226.96793"
-       x="93.301758"
-       y="235.66393" />
+       width="340"
+       height="165"
+       x="86.587471"
+       y="182.20328" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
-       x="101.20515"
-       y="254.86703"
+       x="96.587471"
+       y="202.20328"
        id="text3801"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3803"
-         x="101.20515"
-         y="254.86703">body</tspan></text>
+         x="96.587471"
+         y="202.20328">body</tspan></text>
     <rect
        ry="8"
        rx="8"
-       y="262.80679"
-       x="115.4446"
-       height="51.253639"
-       width="371.25363"
+       y="212.20328"
+       x="96.587471"
+       height="34.999992"
+       width="320"
        id="rect3755"
        style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <text
        sodipodi:linespacing="125%"
        id="text3757"
-       y="282.00989"
-       x="123.348"
+       y="232.20328"
+       x="106.58747"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
        xml:space="preserve"><tspan
-         y="282.00989"
-         x="123.348"
+         y="232.20328"
+         x="106.58747"
          id="tspan3759"
          sodipodi:role="line">h1</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text3761"
-       y="298.79077"
-       x="147.14285"
-       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
+       y="237.20328"
+       x="131.58746"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
        xml:space="preserve"><tspan
-         y="298.79077"
-         x="147.14285"
+         y="237.20328"
+         x="131.58746"
          id="tspan3763"
          sodipodi:role="line">My home page</tspan></text>
     <rect
@@ -142,155 +177,155 @@
        rx="8"
        style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3765"
-       width="371.25363"
-       height="51.253639"
-       x="115.44461"
-       y="326.37823" />
+       width="320"
+       height="34.999992"
+       x="96.587471"
+       y="257.20328" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
-       x="123.348"
-       y="345.5813"
+       x="106.58747"
+       y="277.20328"
        id="text3767"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3769"
-         x="123.348"
-         y="345.5813">p</tspan></text>
+         x="106.58747"
+         y="277.20328">p</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
-       x="147.14285"
-       y="362.36218"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
+       x="131.58746"
+       y="282.20328"
        id="text3771"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3773"
-         x="147.14285"
-         y="362.36218">Hello! I am Marijn and...</tspan></text>
+         x="131.58746"
+         y="282.20328">Hello! I am Marijn and...</tspan></text>
     <rect
        rx="8"
        ry="8"
-       y="392.0925"
-       x="115.44461"
-       height="51.253639"
-       width="371.25363"
+       y="302.20328"
+       x="96.587471"
+       height="34.999992"
+       width="320"
        id="rect3775"
        style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <text
        sodipodi:linespacing="125%"
        id="text3777"
-       y="411.29559"
-       x="123.348"
+       y="322.20328"
+       x="106.58747"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
        xml:space="preserve"><tspan
-         y="411.29559"
-         x="123.348"
+         y="322.20328"
+         x="106.58747"
          id="tspan3779"
          sodipodi:role="line">p</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text3781"
-       y="428.07648"
-       x="147.14285"
-       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
+       y="327.20328"
+       x="131.58746"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
        xml:space="preserve"><tspan
-         y="428.07648"
-         x="147.14285"
+         y="327.20328"
+         x="131.58746"
          id="tspan3783"
          sodipodi:role="line">I also ... read it </tspan></text>
     <rect
        ry="8"
-       rx="8"
+       rx="7.9999995"
        style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3785"
-       width="89.110771"
-       height="33.396496"
-       x="351.15891"
-       y="400.66394" />
+       width="71.785744"
+       height="24.999992"
+       x="294.80173"
+       y="307.20328" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
-       x="359.06229"
-       y="417.72415"
+       x="299.06229"
+       y="322.20328"
        id="text3787"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3789"
-         x="359.06229"
-         y="417.72415">a</tspan></text>
+         x="299.06229"
+         y="322.20328">a</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
-       x="375.71429"
-       y="427.36221"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
+       x="311.58746"
+       y="327.20328"
        id="text3791"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3793"
-         x="375.71429"
-         y="427.36221">here</tspan></text>
+         x="311.58746"
+         y="327.20328">here</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
-       x="444.28574"
-       y="428.79077"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
+       x="371.58746"
+       y="327.20328"
        id="text3795"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3797"
-         x="444.28574"
-         y="428.79077">.</tspan></text>
+         x="371.58746"
+         y="327.20328">.</tspan></text>
     <rect
-       ry="8"
+       ry="7.9999995"
        rx="8"
-       y="123.34262"
-       x="93"
-       height="99"
-       width="415"
+       y="117.20327"
+       x="86.587471"
+       height="55"
+       width="340"
        id="rect3809"
-       style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:none;stroke:#737373;stroke-width:1.99999988;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <text
        sodipodi:linespacing="125%"
        id="text3811"
-       y="142.0099"
-       x="101.20515"
+       y="137.20326"
+       x="96.587471"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
        xml:space="preserve"><tspan
-         y="142.0099"
-         x="101.20515"
+         y="137.20326"
+         x="96.587471"
          id="tspan3813"
          sodipodi:role="line">head</tspan></text>
     <rect
-       rx="8"
-       ry="8"
+       rx="7.9999995"
+       ry="7.9999995"
        style="fill:none;stroke:#737373;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3815"
-       width="371.25363"
-       height="51.253639"
-       x="115.4446"
-       y="149.94966" />
+       width="275"
+       height="35"
+       x="141.58746"
+       y="127.20327" />
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#737373;fill-opacity:1;stroke:none;font-family:PT Mono;-inkscape-font-specification:PT Mono"
-       x="123.348"
-       y="169.15277"
+       x="151.58746"
+       y="147.20328"
        id="text3817"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3819"
-         x="123.348"
-         y="169.15277">title</tspan></text>
+         x="151.58746"
+         y="147.20328">title</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
-       x="179.28572"
-       y="184.50507"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Georgia;-inkscape-font-specification:Georgia"
+       x="206.58746"
+       y="152.20328"
        id="text3821"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3823"
-         x="179.28572"
-         y="184.50507">My home page</tspan></text>
+         x="206.58746"
+         y="152.20328">My home page</tspan></text>
   </g>
 </svg>

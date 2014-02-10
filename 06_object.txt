@@ -35,6 +35,8 @@ _interface_ through which the object is to be used. The idea is that
 the _interface_ is relatively simple, and all the complex things going
 on _inside_ of the object can be ignored when working with it.
 
+image::img/object.jpg[alt="A simple interface can hide a lot of complexity"]
+
 As an example, you can imagine an object that provides an interface to
 an area on your screen. It provides a way to draw shapes or text onto
 this area, but hides all the details of how these shapes are converted

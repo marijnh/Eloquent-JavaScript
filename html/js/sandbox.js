@@ -65,6 +65,7 @@
       }
       loadNext();
     }, 50);
+    else callback(sandbox);
   };
 
   SandBox.prototype = {
@@ -314,7 +315,9 @@
 
   function expandObj(node, type, val) {
     var wrap = document.createElement("span");
-    wrap.appendChild(document.createTextNode(type == "array" ? "[" : "{"));
+    var opening = type == "array" ? "[" : "{", cname;
+    if (opening == "{" && (cname = constructorName(val))) opening = cname + " {";
+    wrap.appendChild(document.createTextNode(opening));
     var block = wrap.appendChild(document.createElement("div"));
     block.className = "sandbox-output-etc-block";
     var table = block.appendChild(document.createElement("table"));

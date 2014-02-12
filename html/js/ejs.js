@@ -103,7 +103,7 @@ window.addEventListener("load", function() {
   function runCode(data) {
     data.output.clear();
     var val = data.editor.getValue();
-    getSandbox(data.sandbox, data.bisHTML, function(box) {
+    getSandbox(data.sandbox, data.isHTML, function(box) {
       if (data.isHTML)
         box.setHTML(val, data.output, Math.min);
       else

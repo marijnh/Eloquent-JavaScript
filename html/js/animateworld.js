@@ -44,7 +44,7 @@
   };
 
   Animated.prototype.disable = function() {
-    this.diabled = true;
+    this.disabled = true;
     clearInterval(this.interval);
     this.button.innerHTML = "Disabled";
     this.button.style.color = "red";

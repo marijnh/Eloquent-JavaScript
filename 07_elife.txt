@@ -7,15 +7,14 @@
 
 [quote, Edsger Dijkstra, The Threats to Computing Science]
 ____
-[...] the question of whether Machines Can Think, a question of which
-we now know that it is about as relevant as the question of whether
-Submarines Can Swim.
+[...] the question of whether Machines Can Think [...] is about as
+relevant as the question of whether Submarines Can Swim.
 ____
 
 In the practical chapters of this book, I stop pummeling you with new
 theory for a brief moment, and instead work through a program. Theory
-is indispensable, but reading and understanding programs, as I claimed
-in the introduction, is the best way to learn programming.
+is indispensable, but reading and understanding programs is the way
+you actually learn to program.
 
 The example project for this chapter is to build a virtual ecosystem,
 a little world with creatures moving around in it, in which the
@@ -60,20 +59,17 @@ var plan =
    "############################"];
 ----
 
-We could have used a single string, but the array structure nicely
-reflects the two-dimensional structure of the data.
-
 The ‘#’ characters in this plan represent walls (and rocks), and the
-‘o’ characters represent critters, and the spaces are, as you might
-have guessed, empty space.
+‘o’ characters represent critters. The spaces, as you might have
+guessed, are empty space.
 
-(((toString method)))Such a plan array can be used to create a world
-object. This object keeps track of the shape and content of the world
-and lets the critters inside move. It has a method `toString`, which
-converts the world back to a string similar to the plan it was based
-on, so that you can see what is going on inside of it. And a method
-`turn`, which lets all the critters in it take one turn, and updates
-the world to reflect their actions.
+(((toString method)))A plan array can be used to create a world
+object. Such an object keeps track of the shape and content of the
+world and lets the critters inside move. It has a method `toString`,
+which converts the world back to a string similar to the plan it was
+based on, so that you can see what is going on inside of it. And a
+method `turn`, which allows all the critters in it take one turn, and
+updates the world to reflect their actions.
 
 == Representing space ==
 
@@ -97,10 +93,10 @@ Point.prototype.plus = function(other) {
 ----
 
 Next, we'll want an object type that models the grid itself. A grid is
-part of a world, but we do want to make it a separate object (which
-will be _part_ of a world object) in order to help keep the world
-object simple. The world will concern itself with world-related
-things, the grid with grid-related things.
+part of a world, but we make it a separate object (which will be
+_part_ of a world object) in order to help keep the world object
+simple. The world will concern itself with world-related things, the
+grid with grid-related things.
 
 (((array)))(((data structure)))To store the values on the grid, there
 are several options. We can use an array of row arrays and use two
@@ -115,7 +111,7 @@ console.log(grid[1][2]);
 ----
 
 Or, we can use a single array, with size width × height, and decide
-that the element at x,y is found at position x + y × width in the
+that the element at (x,y) is found at position x + y × width in the
 array.
 
 [source,javascript]
@@ -129,9 +125,9 @@ console.log(grid[2 + 1 * 3]);
 (((Array type)))Since the actual access to this array is wrapped in
 methods on the grid object type, it doesn't matter to outside code
 which approach we take. I chose the second representation, because it
-makes it much easier to initialize the array. When calling the `Array`
-constructor with a single number as argument, that produces a new
-array of the given length, filled with `undefined` values.
+makes it much easier to create the array. When calling the `Array`
+constructor with a single number as argument, it creates a new array
+of the given length, filled with `undefined` values.
 
 This code defines the `Grid` object, with some basic methods:
 
@@ -171,8 +167,8 @@ console.log(grid.get(new Point(1, 1)));
 == A critter's programming interface ==
 
 (((interface)))Before we can start to write a `World` constructor, we
-will have to get a bit more specific about these “critter objects”
-that will be living inside it. I mentioned that the world will ask the
+will have to think a little more about these “critter objects” that
+will be living inside it. I mentioned that the world will ask the
 critters what action they want to take. This works as follows: Each
 critter object has an `act` method that, when called, returns an
 _action_. An action is an object with a `type` property, which names
@@ -204,10 +200,10 @@ var directions = {
 };
 ----
 
-The view objects passed to the `act` method have a method `look`,
-which takes a direction and returns a character, for example `"#"`
-when there is a wall in that direction, or `" "` (space) when there is
-nothing there. They also provide the convenient methods `find` and
+The view object passed to the `act` method has a method `look`, which
+takes a direction and returns a character, for example `"#"` when
+there is a wall in that direction, or `" "` (space) when there is
+nothing there. It also provides the convenient methods `find` and
 `findAll`. Both take a map character as argument. The first tries to
 find a direction in which such a character is found, and returns it,
 or `null` if no such element is next to the critter. The second
@@ -239,9 +235,9 @@ BouncingCritter.prototype.act = function(view) {
 };
 ----
 
-The “`|| s`” part is there to prevent `this.direction` from getting
+The “++|| s++” part is there to prevent `this.direction` from getting
 the value null when the critter is somehow trapped with no empty space
-around it (for example when crowded in a corner by other critters).
+around it (for example when crowded into a corner by other critters).
 
 The `randomElement` function simply picks a random element from an
 array, using `Math.random` plus some arithmetic to get a random index.
@@ -288,10 +284,10 @@ instance of the right type by looking up this constructor and applying
 `new` to it, we add an `originChar` property to it to make it easy to
 find out what character it was created from.
 
-(((toString method)))We need to know that when implementing the
-`toString` method. This method builds up a map-like string from the
-world's current state, by doing a double loop over all the squares on
-the grid.
+(((toString method)))We need this `originChar` property when
+implementing the `toString` method. This method builds up a map-like
+string from the world's current state, by performing a two-dimensional
+loop over the squares on the grid.
 
 // include_code
 
@@ -317,9 +313,19 @@ World.prototype.toString = function() {
 };
 ----
 
-When we try this out by creating a new world based on the plan shown
-above, and then calling `toString` on it, we get a string very similar
-to the plan you put in.
+A wall is a very simple object—it is only used for taking up space,
+and has no `act` method.
+
+// include_code
+
+[source,javascript]
+----
+function Wall() {}
+----
+
+When we try out the `World` object by creating an instance based on
+the plan shown above, and then calling `toString` on it, we get a
+string very similar to the plan we put in.
 
 // include_code strip_log
 // test: trim
@@ -346,21 +352,18 @@ console.log(world.toString());
 //   ############################
 ----
 
-A wall is a very simple object—it is only used for taking up space,
-and has no `act` method.
-
 == this and its scope ==
 
-(((this variable)))(((variable,scope)))(((self variable)))
-The `World` constructor contains a call to `forEach`. One interesting
-thing to note is that, inside of the function passed to `forEach`
-there, we no longer have access to the `this` from the outer function.
-Each function binds its own `this`. It is bound to the global scope
-object when no actual method call is made. Thus, saying `this.grid` in
-the loop function wouldn't work, and a local `grid` variable had to be
-used to get access to the grid. This is a bit of a design blunder in the
-JavaScript language (the next version of the language provides a
-solution for this problem).
+(((this variable)))(((variable,scope)))(((self variable))) The `World`
+constructor contains a call to `forEach`. One interesting thing to
+note is that, inside of the function passed to `forEach` there, we no
+longer have access to the `this` from the outer function. Each
+function binds its own `this`. When a function is called normally (not
+as a method), `this` is bound to the global scope object. Thus, saying
+`this.grid` in the loop function wouldn't work, and a local `grid`
+variable had to be used to get access to the grid. This is a bit of a
+design blunder in the JavaScript language (the next version of the
+language provides a solution for this problem).
 
 There are workarounds for this. A common pattern is to say `var self =
 this`, and from then on, refer to `self`, which is a normal variable,
@@ -383,15 +386,15 @@ test.method([5]);
 // → 15
 ----
 
-The function passed to `forEach` will now be the result of the `bind`
+The function passed to `forEach` there is the result of the `bind`
 call, and thus have its `this` bound to the first argument given to
-`bind`—the outer function's `this` value (which will hold the `test`
-object in this example).
+`bind`—the outer function's `this` value (which holds the `test`
+object).
 
 Most of the standard array higher-order methods, such as `forEach` and
 `map`, take an optional second argument that can also be used for this
 purpose. The value you pass there will be used as the `this` of the
-calls to the given function, so you could also express the example
+calls to the iteration function, so you could also express the example
 above in a slightly simpler way:
 
 [source,javascript]
@@ -411,11 +414,11 @@ test.method([5]);
 This only works for higher-order functions that support this feature,
 so you'll often need to fall back to one of the other approaches.
 
-This `forEach` method for our `Grid` type, which calls a given
-function for each element in the grid that isn't null or undefined,
-passing it the value and the point, demonstrates how to support such a
-“context” parameter to a higher-order function by using the given
-function's `call` method.
+In our own higher-order functions, we can support such a “context”
+parameter by using the `call` method to call our argument function.
+For example, this `forEach` method for our `Grid` type, which calls a
+given function for each element in the grid that isn't null or
+undefined, supports a context parameter.
 
 // include_code
 
@@ -521,10 +524,9 @@ of “defensive” programming makes sense in some situations. The main
 reason for doing it is to validate inputs coming from sources we do
 not control (such as user or file input), but it can also be useful to
 isolate subsystems from each other. In this case, the idea is that the
-critters themselves can be programmed sloppily (they don't have to
+critters themselves can be programmed sloppily—they don't have to
 verify if their intended actions make sense, they can just request an
-action and the world will figure out whether to allow it), which can
-be convenient.
+action and the world will figure out whether to allow it.
 
 The one missing part, the `View` type, looks like this:
 
@@ -627,7 +629,7 @@ magical anymore.
 
 endif::html_target[]
 
-== More life forms ==
+== More lifeforms ==
 
 So, we have a world in which something is happening. The dramatic
 highlight so far, if you watch the world for a bit, is two bouncing
@@ -635,11 +637,10 @@ critters bouncing off each other. Let's introduce a second kind of
 critter. Can you think of another interesting form of behavior, in the
 limited context we have so far?
 
-One I came up with is a critter that follows walls. It (conceptually)
-keeps its left hand (paw, tentacle, whatever) to the wall, and keeps
-moving along that wall. This was actually more difficult to express
-than I intentionally expected, so be prepared to do a few double takes
-on the following code.
+The one I came up with is a critter that follows walls. It
+(conceptually) keeps its left hand (paw, tentacle, whatever) to the
+wall, and keeps moving along that wall. This turned out to be not
+entirely trivial to implement.
 
 // include_code
 
@@ -677,7 +678,7 @@ is East.
 The function first looks up the index of the given direction in the
 `directionNames` array, then offsets it, takes the remainder of the
 result and 8, and then fetches the corresponding name from the array
-again. The extra “`+ 8`” is there because the ‘%’ operator, when
+again. The extra “+++ 8++” is there because the ‘%’ operator, when
 given a negative number on the left hand side, will return a negative
 result. So we add another eight to make sure the sum is positive,
 under the requirement that the `n` argument is never less than -8.
@@ -706,6 +707,8 @@ can't find empty space.
 
 ifdef::html_target[]
 
+This small world demonstrates the wall-following creatures.
+
 // test: no
 
 [source,javascript]
@@ -728,7 +731,7 @@ endif::html_target[]
 
 == A more lifelike simulation ==
 
-(((simulation)))To make life in this world more interesting, we will
+(((simulation)))To make life in our world more interesting, we will
 add the concepts of food and reproduction. Each living thing in the
 world gets a new property, `energy`, which is reduced by performing
 actions and increased by eating things. When it has enough energy, a
@@ -777,8 +780,8 @@ LifeLikeWorld.prototype.letAct = function(critter, point) {
 };
 ----
 
-The pattern of deriving a type from another type was explained in the
-previous chapter. This `letAct` method delegates the work of actually
+The pattern of deriving a type from another type was explained in
+Chapter 6. This `letAct` method delegates the work of actually
 performing an action to various functions stored in the `actionTypes`
 object, under property names corresponding to the action's name. We
 will define these functions in a moment. It first checks whether an
@@ -856,8 +859,8 @@ actionTypes.eat = function(critter, point, action) {
 Eating another critter also involves providing a valid destination
 square. This time, the destination must not be empty, but must contain
 a critter that has energy (i.e. not a wall—walls are not edible). If
-that succeeds, the energy from the eaten thing is transferred to the
-current critter, and the eaten thing is removed from the grid.
+that succeeds, the energy from the eaten is transferred to the eater,
+and the victim is removed from the grid.
 
 // include_code
 
@@ -870,7 +873,7 @@ actionTypes.reproduce = function(critter, point, action) {
   if (dest == null || critter.energy <= 2 * baby.energy ||
       this.grid.get(dest) != null)
     return false;
-  critter.energy -= baby.energy * 2;
+  critter.energy -= 2 * baby.energy;
   this.grid.set(dest, baby);
   return true;
 };
@@ -892,7 +895,7 @@ We now have the “framework” needed to simulate these lifelike
 creatures. We could put the critters from the old world into it, but
 they would just die, since they don't have an energy attribute. So let
 us make new ones. First we'll write a plant, which is a rather simple
-life form.
+lifeform.
 
 // include_code
 
@@ -904,7 +907,7 @@ function Plant() {
 Plant.prototype.act = function(context) {
   if (this.energy > 15) {
     var space = context.find(" ");
-    if (space != null)
+    if (space)
       return {type: "reproduce", direction: space};
   }
   if (this.energy < 20)
@@ -928,10 +931,10 @@ function PlantEater() {
 }
 PlantEater.prototype.act = function(context) {
   var space = context.find(" ");
-  if (this.energy > 60 && space != null)
+  if (this.energy > 60 && space)
     return {type: "reproduce", direction: space};
   var plant = context.find("*");
-  if (plant != null)
+  if (plant)
     return {type: "eat", direction: plant};
   if (space)
     return {type: "move", direction: space};
@@ -945,7 +948,9 @@ looks for when it searches for food.
 
 And that gives us enough elements to try our new world. Imagine a
 grassy valley with a herd of herbivores in it, some boulders, and lush
-plant life everywhere. That's what this code is trying to express:
+plant life everywhere.
+
+// include_code
 
 [source,javascript]
 ----
@@ -1027,14 +1032,15 @@ ifdef::tex_target[]
 
 endif::tex_target[]
 
-Most of the time, the lichen plants multiply and expand quite quickly,
-but then the abundance of food causes a population explosion of the
+Most of the time, the plants multiply and expand quite quickly, but
+then the abundance of food causes a population explosion of the
 herbivores, who proceed to wipe out all or nearly all of the plants,
 resulting in a mass starvation of the critters. Sometimes, the
 ecosystem recovers and another cycle starts. At other times, one of
 the species dies out. If it's the herbivores, the whole space will
-fill with plants. If it's the plants, the last plant eaters starve,
-and the valley becomes a desolate wasteland. Ah, tragedies of nature.
+fill with plants. If it's the plants, the remaining critters
+starve, and the valley becomes a desolate wasteland. Ah, tragedies of
+nature.
 
 == Exercises ==
 
@@ -1044,13 +1050,13 @@ Having the inhabitants of our world go extinct after a few minutes is
 kind of depressing. To deal with this, we could try to create a
 smarter plant eater.
 
-Observing this ecosystem in action, there are several problems that I
-notice. Firstly, the herbivores are terribly greedy, stuffing
-themselves with any plant they see, and thus wiping out plant life in
-any area where they are plentiful. Secondly, their randomized movement
-(the `view.find` method returns a random direction when multiple
-directions are possible) causes them to stumble around ineffectively,
-often causing them to starve when there are no plans in their
+Observing our ecosystem, there are several problems that I notice.
+Firstly, the herbivores are terribly greedy, stuffing themselves with
+any plant they see, and thus wiping out plant life in any area where
+they are plentiful. Secondly, their randomized movement (the
+`view.find` method returns a random direction when multiple directions
+are possible) causes them to stumble around ineffectively, often
+causing them to starve when there happen to be no plans in their
 immediate vicinity. And finally, they breed very fast, which makes the
 cycling between abundance and famine especially intense.
 
@@ -1123,8 +1129,8 @@ ecosystem run smoothly for at least a little while.
 
 One thing that definitely helps is to make the world bigger, so that
 local population booms or busts are less likely to wipe out a species
-entirely, and a relatively large prey population is needed to sustain
-a small predator population.
+entirely, and so that there is space for the relatively large prey
+population needed to sustain a small predator population.
 
 // test: no
 
@@ -1141,7 +1147,7 @@ animateWorld(new LifeLikeWorld(
    "#       ##*                        ##########     *#",
    "#      ##***  *         ****                     **#",
    "#* **  #  *  ***      #########                  **#",
-   "#* **  #      *       @       #   *              **#",
+   "#* **  #      *               #   *              **#",
    "#     ##              #   O   #  ***          ######",
    "#*            @       #       #   *        O  #    #",
    "#*                    #  ######                 ** #",

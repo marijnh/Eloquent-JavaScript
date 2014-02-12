@@ -784,6 +784,73 @@ console.log(remove([1, 2, 3, 4, 5], 2));
 // → [1, 2, 4, 5]
 ----
 
+== Strings and their properties ==
+
+We can read properties like `length` and `toUpperCase` from string
+values. But if you try to add a new property, it doesn't stick.
+
+[source,javascript]
+----
+var myString = "Fido";
+myString.myProperty = "value";
+console.log(myString.myProperty);
+// → undefined
+----
+
+Types like strings, numbers, and booleans are not objects, and though
+the language doesn't complain if you set new properties on them, it
+doesn't actually have any place to store those properties.
+
+But these types do have some built-in properties. Every string value
+has a number of methods. The most useful ones are probably `slice`
+and `indexOf`, which resemble the array methods by the same name.
+
+[source,javascript]
+----
+console.log("coconuts".slice(4, 7));
+// → nut
+console.log("coconut".indexOf("u"));
+// → 5
+----
+
+One difference is that a string's `indexOf` can take a string
+containing more than one character (element), whereas the
+corresponding array method only looks for a single element.
+
+[source,javascript]
+----
+console.log("one two three".indexOf("ee"));
+// → 11
+----
+
+The `trim` method removes whitespace (spaces, newlines, tabs, and
+similar) characters from the start and end of a string. To only trim
+one side, the `trimLeft` and `trimRight` methods can be used.
+
+[source,javascript]
+----
+console.log("  okay \n ".trim());
+// → okay
+console.log("|" + " a ".trimLeft() + "|");
+// → |a |
+----
+
+We have already seen the string type's `length` property. Accessing
+the individual characters in a string can be done with the `charAt`
+method, but also by simply reading numeric properties, like you'd do
+for an array.
+
+[source,javascript]
+----
+var string = "abc";
+console.log(string.length);
+// → 3
+console.log(string.charAt(0));
+// → a
+console.log(string[1]);
+// → b
+----
+
 == The arguments object ==
 
 (((arguments object)))(((length property)))Whenever a function is

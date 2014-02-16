@@ -231,7 +231,7 @@ name.
 But the two are different. A function value can do all the things that
 other values can do—you can use it in all kinds of expressions, not
 just call it. It is possible to store such a value in a new place, or
-pass it an argument to a function, and so on. Similarly, a variable
+pass it as an argument to a function, and so on. Similarly, a variable
 that holds a function is still just a regular variable, and can be
 assigned a new value.
 

@@ -24,7 +24,7 @@ will add a basic understanding of data structures to your toolkit. By
 the end of it, you'll know enough programming to start writing
 significant programs.
 
-The chapter will work though a more or less realistic programming
+The chapter will work through a more or less realistic programming
 example, introducing concepts as they apply to the problem at hand.
 The example code will often build on functions and variables that were
 introduced earlier in the text.

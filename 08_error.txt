@@ -151,7 +151,7 @@ Doing this by hand, again and again, is a sure way to drive yourself
 insane. Fortunately, it is often possible to write a second program
 that automates testing your actual program.
 
-As an example, we once again write use the `Point` type.
+As an example, we once again use the `Point` type.
 
 // include_code
 
@@ -280,7 +280,7 @@ and search the web. An alternative way to set a breakpoint is by
 including a `debugger` statement (consisting of simply that keyword)
 in your program. Whenever that is reached, if the developer tools of
 the browser are active, the program will pause, and you will be able
-to inspect its state..
+to inspect its state.
 
 == Unavoidable errors ==
 
@@ -421,7 +421,7 @@ Well, almost...
 == Cleaning up after exceptions ==
 
 (((cleaning up)))Consider the following situation: A function
-`withContext`, wants to make sure that, during its executing, the
+`withContext`, wants to make sure that, during its execution, the
 top-level variable `context` holds a specific context value. After it
 finishes, it restores this variable to its old value.
 
@@ -649,6 +649,7 @@ programmer errors. Consider this helper function, `assert`:
 function AssertionFailed(message) {
   this.message = message;
 }
+AssertionFailed.prototype = Object.create(Error.prototype);
 
 function assert(test, message) {
   if (!test) throw new AssertionFailed(message);
@@ -683,7 +684,7 @@ be handled gracefully. Sometimes, when the problem can be handled
 locally, special return values are a sane way to track them.
 Otherwise, exceptions are preferable.
 
-Throwing an exceptions causes the call stack to be unwound until the
+Throwing an exception causes the call stack to be unwound until the
 next enclosing `try`/`catch` block, or until the bottom of the stack.
 The exception value will be given to the `catch` block that catches,
 which should verify that it is actually the kind of exception it is

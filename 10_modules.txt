@@ -31,7 +31,7 @@ the program's functionality.
 For larger programs this function-level structure, when looking at the
 whole program, becomes a zoomed-out indistinguishable background
 noise. To give the program shape on this macro level, we can also
-define a courser structure for the program.
+define a coarser structure for the program.
 
 _Modules_ divide programs into clusters of code that, by _some_
 criterion, “belong” together. This chapter explores some of the
@@ -57,7 +57,7 @@ text, with a well-defined order in which the reader is encouraged to
 go through the program, and lots of prose (comments) providing a
 coherent description of the code. This make reading the program a lot
 less intimidating (reading other people's code is almost always
-intimidating), with the downside that is is more work to set up, and
+intimidating), with the downside that it is more work to set up, and
 makes changing the program more difficult, because prose tends to be
 more tightly interconnected than code.
 
@@ -157,7 +157,7 @@ code needs access to lots of different concepts, it is harder.
 == Functions as namespaces ==
 
 Functions are the only constructs in JavaScript that create a new
-scope. So if we want out modules to have their own scope, we will have
+scope. So if we want our modules to have their own scope, we will have
 to base them on functions somehow.
 
 Consider this trivial module, for associating names with the

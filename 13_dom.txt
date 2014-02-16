@@ -5,7 +5,7 @@
 
 = The Document Object Model =
 
-The browser with which you view a web page read the page's HTML text,
+The browser with which you view a web page reads the page's HTML text,
 builds up a model its structure, and uses that to draw the page to the
 screen.
 
@@ -16,7 +16,7 @@ page on the screen is updated to reflect the changes.
 
 == Document structure ==
 
-A HTML document can be visualized as a nested set of boxes. Tags like
+An HTML document can be visualized as a nested set of boxes. Tags like
 `<body>` and `</body>` enclose other tags, which in turn contain other
 tags (or text). Here's the example document one more time:
 
@@ -78,7 +78,7 @@ children, variables and values were _leaves_, nodes without children.
 
 The same goes for the DOM. Nodes for regular elements (the
 representation of a tag in the document) determine the structure of
-the document. These can (but most not) have child nodes. An example of
+the document. These can (but most do not) have child nodes. An example of
 such a node is `document.body`. Some of these children can be leaf
 nodes, such as pieces of text or comments (which are written between
 `<!--` and `-->` in HTML).
@@ -260,7 +260,7 @@ current position (if it has one).
 The `replaceChild` method is used to replace a child node with another
 one. It takes as arguments two nodes, a new node, and the node that
 must be replaced (which must be a child of the element the method is
-called on). Note that both `replaceChild` and and `insertBefore`
+called on). Note that both `replaceChild` and `insertBefore`
 expect the _new_ node as their first argument, which can be confusing
 if you are trying to read the call as a sentence (“replace _this_ with
 _that_” has the old element first, then the new one).
@@ -587,7 +587,7 @@ to the element, and can be changed by us. For example by using the
 <p><a href="." style="color: green">Green link</a></p>
 ----
 
-A style attribute may contain one ore more _declarations_, which are a
+A style attribute may contain one or more _declarations_, which are a
 property (such as `color`) followed by a colon and a value (such as
 `green`). When there are more than one declaration, they must be
 separated by semicolons. For example “`color: red; border: none`”.

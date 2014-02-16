@@ -177,12 +177,13 @@ The action may also contain extra information, such as the direction
 the critter wants to move in.
 
 Critters are terribly myopic, and thus they can only see the squares
-directly around them on the grid. But these they can use to base their
-action on. When the `act` method is called, it is given a “view”
-object that allows the critter to inspect its surroundings. We name
-each of the eight nearby squares (cardinal plus diagonal) with its
-compass name: `"n"` for North, `"ne"` for North-East, and so on. We'll
-use this object to map from direction names to coordinate offsets:
+directly around them on the grid. Seeing nearby objects can be useful
+when deciding which action to take. When the `act` method is called,
+it is given a “view” object that allows the critter to inspect its
+surroundings. We name each of the eight nearby squares (cardinal plus
+diagonal) with its compass name: `"n"` for North, `"ne"` for
+North-East, and so on. We'll use this object to map from direction
+names to coordinate offsets:
 
 // include_code
 

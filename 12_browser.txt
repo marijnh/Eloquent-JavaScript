@@ -345,7 +345,7 @@ Mozilla Firefox, a not-for-profit offshoot of Netscape, challenged
 Internet Explorer's hegemony in the late 2000s, and because Microsoft
 was, at the time, not particularly interested in staying competitive,
 took quite a chunk of market share away from it. At the same time,
-Google introduced it's Chrome browser, and Apple's Safari browser
+Google introduced its Chrome browser, and Apple's Safari browser
 gained popularity, leading to a situation where there were four major
 players, rather than one.
 

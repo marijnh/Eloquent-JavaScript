@@ -38,7 +38,7 @@ together to express arbitrarily complex computations.
 (((statement)))(((semicolon)))(((program)))If an expression
 corresponds to a sentence fragment, a _statement_, in JavaScript,
 corresponds to a full sentence in a human language. A program is
-simply a list of statement.
+simply a list of statements.
 
 The simplest kind of statement is an expression with a semicolon after
 it. This is a program:

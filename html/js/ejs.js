@@ -31,6 +31,25 @@ window.addEventListener("load", function() {
     return node;
   }
 
+  CodeMirror.keyMap.basic.Down = function(cm) {
+    var cur = cm.getCursor();
+    if (cur.line == cm.lastLine()) {
+      document.activeElement.blur();
+      return CodeMirror.Pass;
+    } else {
+      cm.moveV(1, "line");
+    }
+  };
+  CodeMirror.keyMap.basic.Up = function(cm) {
+    var cur = cm.getCursor();
+    if (cur.line == cm.firstLine()) {
+      document.activeElement.blur();
+      return CodeMirror.Pass;
+    } else {
+      cm.moveV(-1, "line");
+    }
+  };
+
   var keyMap = {
     Esc: function(cm) { cm.display.input.blur(); },
     "Ctrl-Enter": function(cm) { runCode(cm.state.context); },

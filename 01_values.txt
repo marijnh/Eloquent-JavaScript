@@ -419,6 +419,25 @@ necessary.
 1 + 1 == 2 || 10 * 10 <= 100
 ----
 
+(((ternary operator)))(((?: operator)))The last logical operator I
+want to discuss is not unary, not binary, but _ternary_, operating on
+three values. It is written with a question mark and a colon, like
+this:
+
+[source,javascript]
+----
+console.log(true ? 1 : 2);
+// → 1
+console.log(false ? 1 : 2);
+// → 2
+----
+
+This one is called the conditional operator (or sometimes just
+“ternary operator”, since it is the only such operator in the
+langauge). The value on the left of the question mark “picks” which of
+the other two values will come out. When it is true, the middle value
+is chosen, when it is false, the right-hand value comes out.
+
 == Undefined values ==
 
 (((undefined)))(((null)))There are two special values, written `null`
@@ -500,12 +519,12 @@ prevent unexpected type conversions from tripping you up. But when you're
 certain the types on both sides will be the same, there is no problem with 
 using the shorter operators.
 
-=== Short-circuiting of && and || ===
+=== Short-circuiting of logical operators ===
 
-(((|| operator)))(((&& operator)))(((operator)))The logical operators
-‘&&’ and ‘||’ handle values of different types in a peculiar way.
-They _will_ convert the value on their left side to boolean
-type in order to decide what to do, but depending on the
+(((|| operator)))(((&& operator)))(((?: operator)))(((operator)))The
+logical operators ‘&&’ and ‘||’ handle values of different types in a
+peculiar way. They _will_ convert the value on their left side to
+boolean type in order to decide what to do, but depending on the
 operator and the result of that conversion, they either return the
 _original_ left-hand value, or the right-hand value.
 
@@ -536,7 +555,11 @@ operators is that the expression to their right is evaluated only when
 necessary. In the case of `true || X`, no matter what `X` is—even if
 it's an expression that does something __terrible__—the result will be
 true, and `X` is never evaluated. The same goes for `false && X`,
-which is false, and will ignore `X`. This is called _short-circuit evaluation_. 
+which is false, and will ignore `X`. This is called _short-circuit evaluation_.
+
+The conditional operator work in a similar way. The first expression
+is always evaluated, but the second or third value, the one that is
+not picked, is also not evaluated.
 
 == Summary ==
 

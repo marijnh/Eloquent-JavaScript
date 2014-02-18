@@ -797,6 +797,13 @@ trigonometry, don't worry too much about this part, just believe me
 when I say that those calls to `Math.sin` and `Math.cos` compute a
 position on a circle.
 
+Note that styles usually need _units_. In this case, we have to append
+`"px"` to the number to tell the browser we are counting in pixels (as
+opposed to centimeters, “ems”, or other units). This is easily
+forgotten. Using numbers without unit will result in your style being
+ignored (unless the number is 0, which means the same regardless of
+its unit).
+
 If we just did this in a loop, the page would freeze and nothing would
 show up on the display. Browsers do not update their display (nor do
 they allow any interaction with the page) while a JavaScript program

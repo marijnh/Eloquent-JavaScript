@@ -751,6 +751,21 @@ something, you call `whatIsNext()` to get (and remove) the front item
 on the list. The `urgentlyRememberTo` function also adds a task, but
 it adds it to the front instead of the back of the list.
 
+(((indexOf method)))(((lastIndexOf method)))The `indexOf` method has a
+sibling called `lastIndexof`, which starts searching at the end of the
+array instead of the front.
+
+[source,javascript]
+----
+console.log([1, 2, 3, 2, 1].indexOf(2));
+// → 1
+console.log([1, 2, 3, 2, 1].lastIndexOf(2));
+// → 3
+----
+
+Both `indexOf` and `lastIndexOf` take an optional second argument that
+indicates where to start searching.
+
 (((slice method)))Another very fundamental method is `slice`, which
 takes a start and an end index, and returns an array that has only the
 elements between those indices. The start index is inclusive, the end

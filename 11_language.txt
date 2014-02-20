@@ -14,32 +14,33 @@ ____
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
 When a student asked the master about the nature of the cycle of Data
-and Control, Yuan-Ma replied 'Think of a compiler, compiling itself.'
+and Control, Yuan-Ma replied ‘Think of a compiler, compiling itself.’
 ____
 
 Building your own programming language, though not necessary a very
-useful pursuit, is surprisingly easy (as long as you do not take it
-too seriously), and very enlightening.
+useful pursuit, is surprisingly easy—as long as you do not take it
+too seriously—and very enlightening.
 
-You see, there is no magic involved. I've often concluded that some
-human invention was so immensely clever and complicated that I'd never
-be able to understand it. But with a little reading and tinkering,
-such things, again and again, show themselves to be quite mundane.
+The main thing I want to show in this chapter is that there is no
+magic involved. I've often felt that some human invention was so
+immensely clever and complicated that I'd never be able to understand
+it. But with a little reading and tinkering, such things, again and
+again, show themselves to be quite mundane.
 
 == Parsing ==
 
 The most immediately visible part of a programming language is its
 syntax—its notation. A parser is a program that reads a piece of text,
-and produces a data structure that more directly shows the structure
+and produces a data structure that explicitly shows the structure
 of the program contained in the text. If the text does not form a
 valid program, the parser should complain about that.
 
 Our language will have a very simple and uniform syntax. In it,
 everything is an expression. An expression can be a variable, a
-number, a string, or an application. Applications are used both to
-call functions, and for constructs like `if` or `while`.
+number, a string, or an application. Applications are used for
+function calls, but also for constructs like `if` or `while`.
 
-To keep the parser short, strings in this language do not support
+To keep the parser simple, strings in this language do not support
 anything like backslash escapes, they are simply a sequence of
 characters that are not double quotes, wrapped in double quotes.
 Numbers are a sequence of digits. And variable names can consist of
@@ -60,8 +61,8 @@ do(define(x, 10),
 The uniformity of the language means that what would be an operator in
 JavaScript (such as ‘>’) is a normal variable, applied just like other
 functions, in this language. Since there is also no concept of a
-“block”, doing first one thing and the another is also written as an
-application, of the `do` construct.
+“block”, doing multiple things in sequence is also written as an
+application, using the `do` construct.
 
 The data structure the parser will use to describe such a program
 consists of objects, each of which has a `type` property indicating
@@ -91,17 +92,17 @@ handle one line at a time, where each line had one of a few simple
 forms.
 
 This time, we must find a different approach. Expressions are not
-separated by lines, and they have a recursive structure—and expression
+separated by lines, and they have a recursive structure—expression
 may contain other expressions.
 
 Fortunately, this problem can be solved pleasantly by using a parsing
 function that is recursive in a way that reflects the recursive nature
 of the language.
 
-If we have a function `parseExpression`, which takes a string
-containing a program as input, and returns an object that contains the
-data structure for the expression, along with the part of the input
-string that is still left after parsing this expression. When parsing
+We define a function `parseExpression`, which takes a string as input,
+and returns an object that contains the data structure for the
+expression at the start of this string, along with the part of the
+string left after parsing this expression. When parsing
 sub-expressions (the argument to an application, for example), this
 function can be called again, yielding the argument expression as well
 as the text that remains (which may contain more arguments, or the
@@ -164,32 +165,28 @@ function parseApply(left, program) {
 
   program = skipSpace(program.slice(1));
   var expr = {type: "apply", operator: left, args: []};
-  if (program[0] != ")") {
-    for (;;) {
-      var arg = parseExpression(program);
-      expr.args.push(arg.expr);
-      program = skipSpace(arg.rest);
-      if (program[0] == ",")
-        program = skipSpace(program.slice(1));
-      else if (program[0] == ")")
-        break;
-    }
+  while (program[0] != ")") {
+    var arg = parseExpression(program);
+    expr.args.push(arg.expr);
+    program = skipSpace(arg.rest);
+    if (program[0] == ",")
+      program = skipSpace(program.slice(1));
+    else if (program[0] != ")")
+      throw new SyntaxError("Expected ',' or ')'");
   }
   return parseApply(expr, program.slice(1));
 }
 ----
 
 If the next character in the program is not an opening parenthesis,
-`parseApply` returns the expression to the left, along with the rest
-of the program.
+this is not an application, and `parseApply` returns the expression to
+the left.
 
-Otherwise, it skips the opening parenthesis, it creates a syntax tree
-for this application expression. If the next character is not a
-closing parentheses, we try to read an argument expression by calling
-`parseExpression` (the recursion is indirect, through `parseApply` and
-`parseExpression` calling each other). After the argument, it expects
-either a comma, in which case we skip it, or a closing parentheses, in
-which case we stop looking for more argument expressions.
+Otherwise, it skips the opening parenthesis, and creates the syntax
+node for this application expression. It then recusively calls
+`parseExpression` to parse each argument until a closing parenthesis
+is found. The recursion is indirect, through `parseApply` and
+`parseExpression` calling each other.
 
 Finally, `parseApply` is called again, to see if this application is
 followed by another set of parentheses (such as `multiplier(2)(1)`).
@@ -206,7 +203,7 @@ the program, and gives us the program's data structure.
 function parse(program) {
   var result = parseExpression(program);
   if (skipSpace(result.rest).length > 0)
-    throw new SyntaxError("Unexpected text after program.");
+    throw new SyntaxError("Unexpected text after program");
   return result.expr;
 }
 
@@ -224,7 +221,7 @@ is good enough for our purpose.
 
 == The evaluator ==
 
-What can we do with a syntax tree for a program? Run it, of course!
+What can we do with the syntax tree for a program? Run it, of course!
 And that is what the evaluator does. You give it a syntax tree and an
 environment—an object containing variable bindings—and it will
 evaluate the expression that the tree represents and return the value
@@ -265,14 +262,14 @@ var specialForms = Object.create(null);
 The evaluator has code for each of the expression types. A literal
 value expression simply produces its value. When running into a
 variable, we must check that it is actually defined in the
-environment, and read it out if it is.
+environment, and if it is, fetch the variable's value.
 
 Applications are more involved. If they are a special form, like `if`,
 we do not evaluate anything, and simply pass the argument expressions,
-along with the environment, to the function that handles this form.
-Next, we evaluate the operator, and verify that it is a function—we
-will use plain JavaScript functions to represent functions in this
-language.
+along with the environment, to the function that handles this form. If
+it is a normal call, we evaluate the operator, and verify that it is a
+function—we will use plain JavaScript functions to represent functions
+in this language.
 
 The the recursive structure of `evaluate` resembles the similar
 structure of the parser. Both of them mirror the structure of the
@@ -297,7 +294,7 @@ It is currently empty. Let us add a few forms.
 ----
 specialForms["if"] = function(args, env) {
   if (args.length != 3)
-    throw new SyntaxError("Bad number of args to if.");
+    throw new SyntaxError("Bad number of args to if");
 
   if (evaluate(args[0], env) !== false)
     return evaluate(args[1], env);
@@ -323,7 +320,7 @@ The `while` form is similar;
 ----
 specialForms["while"] = function(args, env) {
   if (args.length != 2)
-    throw new SyntaxError("Bad number of args to while.");
+    throw new SyntaxError("Bad number of args to while");
 
   while (evaluate(args[0], env) !== false)
     evaluate(args[1], env);
@@ -365,7 +362,7 @@ operator).
 ----
 specialForms["define"] = function(args, env) {
   if (args.length != 2 || args[0].type != "word")
-    throw new SyntaxError("Bad use of define.");
+    throw new SyntaxError("Bad use of define");
   var value = evaluate(args[1], env);
   env[args[0].name] = value;
   return value;
@@ -378,9 +375,9 @@ We have syntax for numbers and strings, but not for boolean values,
 which we also want to support, if only to be able to use the `if`
 construct we just defined.
 
-Since there are only two boolean values, we do not need syntax for
-them, we can simply bind variables to them and use those to get at
-them.
+Since there are only two boolean values, we do not need special syntax
+for them. We simply bind two variables to the values true and false,
+and use those.
 
 The environment accepted by `evaluate` is simply an object with
 properties whose names correspond to variable names, and whose values
@@ -436,10 +433,10 @@ topEnv["print"] = function(value) {
 };
 ----
 
-That gives us the enough crude tools to write some simple programs.
-The `run` function provides a convenient way to write them, taking
-care of parsing, creating a fresh environment, and evaluating the
-strings we pass it as a single program.
+That gives us the enough elementary tools to write simple programs.
+The `run` function provides a convenient way to write them. It takes
+care of parsing, creates a fresh environment, and evaluates the
+strings we give it as a single program.
 
 // include_code
 
@@ -489,10 +486,10 @@ the names of the function's arguments.
 ----
 specialForms["fun"] = function(args, env) {
   if (!args.length)
-    throw new SyntaxError("Functions need a body.");
+    throw new SyntaxError("Functions need a body");
   function name(expr) {
     if (expr.type != "word")
-      throw new SyntaxError("Argnames must be words.");
+      throw new SyntaxError("Arg names must be words");
     return expr.name;
   }
   var argNames = args.slice(0, args.length - 1).map(name);
@@ -500,7 +497,7 @@ specialForms["fun"] = function(args, env) {
 
   return function() {
     if (arguments.length != argNames.length)
-      throw new TypeError("Wrong number of arguments.");
+      throw new TypeError("Wrong number of arguments");
     var localEnv = Object.create(env);
     for (var i = 0; i < arguments.length; i++)
       localEnv[argNames[i]] = arguments[i];
@@ -541,10 +538,10 @@ produced.
 
 Compilation is the process of adding another step in between, which
 transforms the program into something that can be evaluated more
-efficiently by doing as much of the work as possible in advance. For
-example, in well designed languages it can be seen which definition
-each use of a variable corresponds to without actually running the
-program, which can be used to avoid looking up the variable by name
+efficiently, by doing as much of the work as possible in advance. For
+example, in well-designed languages it is obvious, for each use of a
+variable, where the variable is defined, without actually running the
+program. This can be used to avoid looking up the variable by name
 every time it is accessed, and directly fetch it from its
 predetermined memory location instead.
 
@@ -556,54 +553,54 @@ thought of as compilation.
 It would be possible to write an alternative evaluation strategy for
 our language, one that first converts the program to a JavaScript
 program, uses `new Function` to invoke the JavaScript compiler on it,
-and then runs that. When done right, this would actually make our
-language very fast, while still being quite simple to implement.
+and then runs that. When done right, this would make our language very
+fast, while still being quite simple to implement.
 
 == Cheating ==
 
 When we defined `if` and `while`, you probably noticed that they were
-more or less trivial wrappers around JavaScript's own `if`, and
+more or less trivial wrappers around JavaScript's own `if` and
 `while`. The values in our language are not wrapped at all, they are
 regular old JavaScript values.
 
-So sure, if you compare the language created in this chapter, built on
-top of JavaScript, with the amount of work and complexity required to
-build a programming language directly on the raw functionality
-provided by a machine, the difference is huge. If the goal is
-programmer street cred, this project is not very impressive.
+If you compare the implementation of this language, built on top of
+JavaScript, with the amount of work and complexity required to build a
+programming language directly on the raw functionality provided by a
+machine, the difference is huge. If the goal is programmer street
+cred, this project is not very impressive.
 
 Regardless, I hope it illustrated the concepts involved. Many other
-interesting concepts would of course come up when taking this project
-further, but this is not a compiler writer's book (do pick one up
-sometime, they are fascinating).
+interesting concepts would come up when taking this project further,
+but this is not a compiler writer's book (do pick one up sometime,
+they are fascinating).
 
 And when it comes to getting something done, cheating is more
-effective than doing everything yourself. While the toy language in
+effective than doing everything yourself. Though the toy language in
 this chapter doesn't do anything that couldn't be done better in
 JavaScript, there _are_ situations where writing small languages helps
 get real work done.
 
 Such a language does not have to resemble a typical programming
-language. For example, if JavaScript would not come equipped with regular
+language. If JavaScript would not come equipped with regular
 expressions, you would write your own parser and evaluator for such a
-sub-language, and have a powerful language for describing patterns in
-strings.
+sublanguage.
 
-Or, imagine you are building a giant robotic dinosaur, and want to
-program it. JavaScript might not be the most effective way to do this,
-and you might instead opt for a language that looks like this:
+Or, imagine you happen to be building a giant robotic dinosaur, and
+need to program it. JavaScript might not be the most effective way to
+do this, and you might instead opt for a language that looks like
+this:
 
 ----
-behavior travel
+behavior walk
   perform when
-    not at goal
+    destination ahead
   actions
     move left-foot
     move right-foot
 
 behavior attack
   perform when
-    detected Godzilla
+    Godzilla in-view
   actions
     fire eye-laser
     launch arm-rockets
@@ -619,15 +616,11 @@ its domain, and nothing else.
 
 === Arrays ===
 
-Add support for arrays to our language, by adding the functions
-`length(array)` (to get an array's length) and `element(array, n)` (to
-fetch the `n`^th^ element) to the top scope.
-
-To create an array, we add the special form `array`, which accepts any
-number of arguments, and returns an array containing their values. The
-only reason this operator has to be a special form is our language
-does not allow us to define functions that take any number of
-arguments.
+Add support for arrays to our language, by adding the following three
+functions to the top scope. Firstly `array(...)`, which constructs an
+array containing the argument values. Secondly `length(array)`, to get
+an array's length. And finally, `element(array, n)` to fetch the n^th^
+element from an array.
 
 ifdef::html_target[]
 
@@ -635,15 +628,13 @@ ifdef::html_target[]
 
 [source,javascript]
 ----
-// Your code here.
+// Modify these definitions...
+
+topEnv["array"] = "...";
 
 topEnv["length"] = "...";
 
 topEnv["element"] = "...";
-
-specialForms["array"] = function(args, env) {
-
-};
 
 run("do(define(sum, fun(array,",
     "     do(define(i, 0),",
@@ -665,16 +656,14 @@ with JavaScript arrays.
 The values added to the top environment must be functions. They take
 the arguments that they are specified to take, and return values that
 can be straightforwardly derived from their arguments.
-
-The special `array` form should simply evaluate each of its arguments
-in the environment it is given, and return an array containing the
-results. This is very easily done with the `map` method.
+`Array.prototype.slice` can be used to convert an `arguments`
+pseudo-array into a regular array.
 
 !!solution!!
 
 === Closure ===
 
-The way we have defined `fun` causes functions in our language to
+The way we have defined `fun` allows functions in our language to
 “close over” the surrounding environment, just like JavaScript
 functions.
 
@@ -718,7 +707,7 @@ line as a comment (similar to ‘`//`’ in JavaScript), ignoring it.
 We do not have to make any big changes to the parser to support this.
 We can simply change `skipSpace` to skip comments as if they are
 whitespace, so that all the points where `skipSpace` is called will
-now also skip (ignore) comments.
+now also skip (ignore) comments. Make this change.
 
 ifdef::html_target[]
 
@@ -726,7 +715,7 @@ ifdef::html_target[]
 
 [source,javascript]
 ----
-// This is the old skipSpace. You can change it.
+// This is the old skipSpace. Modify it...
 function skipSpace(string) {
   var first = string.search(/\S/);
   if (first == -1) return "";
@@ -758,14 +747,14 @@ characters to slice off.
 
 === Fixing scope ===
 
-Currently, the only way to assign a value to a variable is `define`.
-This acts both as a way to define new variables and to give existing
-ones a new meaning.
+Currently, the only way to assign a variable a value is `define`. This
+construct acts both as a way to define new variables and to give
+existing ones a new value.
 
-This ambiguity causes a problem. When you try to give a non-local
+That ambiguity causes a problem. When you try to give a non-local
 variable a new value, you will end up defining a local one with the
-same name instead. Some languages do work like this, but I've always
-found it silly.
+same name instead. Some languages do work like this by design, but
+I've always found it a silly way to handle scope.
 
 Add a special form `set`, similar to `define`, which gives a variable
 a new value, updating the variable in an outer scope if it doesn't

@@ -12,14 +12,14 @@ respond well to toxins in the blood.) Man, that stuff will kick the
 peaches right out your gills!
 ____
 
-Now, we'll start to do things that can actually be
+In this chapter, we will start to do things that can actually be
 called _programming_. We will expand our command of the JavaScript
 language beyond the nouns and sentence fragments we've seen so far,
 to the point where we can actually express some meaningful prose.
 
 == Expressions and statements ==
 
-(((grammar)))(((JavaScript,syntax)))In the previous chapter, we made
+(((grammar)))(((JavaScript,syntax)))In Chapter 1, we made
 some values and then applied operators to them to get new values.
 Creating values like this is an essential part of every JavaScript
 program, but it is still only a part. 
@@ -138,11 +138,9 @@ tentacles to it.
 
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
-//Ok to move the Luigi example to before you describe undefined variables? Having it
-//after made me expect a different sort of example. /JG
 
-As an example, to remember the amount of dollars that Luigi still owes
-you, you could create a variable. And then when he pays back 35 dollars, you'd
+An example. To remember the amount of dollars that Luigi still owes
+you, you create a variable. And then when he pays back 35 dollars, you
 give this variable a new value.
 
 [source,javascript]
@@ -156,7 +154,6 @@ console.log(luigisDebt);
 When you define a variable without giving it a value, the tentacle
 has nothing to grasp, so it ends in thin air. If you ask
 for the value of an empty variable, you'll get the value `undefined`.
-
 
 == Keywords and reserved words ==
 
@@ -188,18 +185,15 @@ _environment_. When a program starts up, this environment is not
 empty. It always contains variables that are part of
 the language standard, and most of the time, it has
 variables that provide ways to interact with the
-surrounding system. For example, your browser's environment 
-contains variables pointing at functions that read your mouse and keyboard input,
-which allow you to inspect and influence the currently loaded website.
-
-//Do I have you right with my edits above? I found the last sentence a little
-//hard to follow, so I tried to clarify. /JG
+surrounding system. For example, in a browser, there are variables
+and functions to inspect and influence
+the currently loaded website, and to read mouse and keyboard input.
 
 == Functions ==
 
 (((Function type)))(((alert function)))(((message box)))A lot of the
 values provided in the default environment have the type _function_. A
-function is a piece of a program wrapped in a value. Such values can be
+function is a piece of program wrapped in a value. Such values can be
 _applied_ in order to run the wrapped program. For example, in a
 browser environment, the variable `alert` holds a function that shows
 a little dialog box with a message. It is used like this:
@@ -214,12 +208,10 @@ image::img/alert.png[alt="An alert dialog"]
 indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 
-//Do I have you right with my edits below? /JG
-
 (((function,application)))Executing a function is called _invoking_,
 _calling_, or _applying_ it. You can call a function by putting
-parentheses after any expression that produces a function value.
-Usually, however, you'll directly refer to a variable that holds a
+parentheses after an expression that produces a function value.
+Usually you'll directly refer to a variable that holds a
 function. The values between the parentheses are given to the program
 inside the function. In the example, the `alert` function uses the
 string that we give it as the text to show in the dialog box. Values
@@ -236,19 +228,15 @@ output values. Most JavaScript systems (including all modern web
 browsers and node.js) provide a `console.log` function that writes out
 its arguments to _some_ text output device. In browsers, the output
 lands in the JavaScript console. This part of the browser interface
-is hidden by default, but you can find in the menu if you dig.
-Just look for an item like “web console” or “developer tools”,
-usually under a “Tools” or “Developer” sub-menu.
-
-//Would it make sense to provide an example menu sequence for an existing broswer? /JG
+is hidden by default, but most browsers open it when you press F12.
+If that does not work, search through the menus for an item named
+“web console” or “developer tools”.
 
 ifdef::html_target[]
 
-For the examples in this book, any `console.log` output will be 
-shown below the example, instead of in the browser's JavaScript console.
-
-//I was a bit confused by the paragraph above, so I tried to clarify.
-//Do I have you right?
+When running the examples, or your own code, on the pages of this
+book, `console.log` output will be shown below the example, instead of
+in the browser's JavaScript console.
 
 endif::html_target[]
 
@@ -260,20 +248,18 @@ console.log("the value of x is", x);
 ----
 
 Though variable names can not contain dots, 
-`console.log` clearly has one. That's because `console.log` isn't 
-a simple variable. It's actually an expression that
+`console.log` clearly has one. This is because `console.log` isn't 
+a simple variable. It is actually an expression that
 retrieves the `log` field from the value held by the `console`
 variable. We will find out exactly what this means in Chapter 4.
 
 == Return values ==
 
-//Maybe we should italicize the first instance of side effect below? /JG
-
 (((side effect)))(((return value)))(((max function)))Showing a dialog
 box or writing text to the screen is a _side effect_. A lot of functions
-are useful because of the side effects they produce. Fuctions an also
+are useful because of the side effects they produce. Fuctions can also
 produce a values, and in that case, they don't
-need to have side effects to be useful. For example, the
+need to have a side effect to be useful. For example, the
 function `Math.max` takes two numbers and gives back the
 greatest of the two:
 
@@ -285,7 +271,7 @@ console.log(Math.max(2, 4));
 
 (((min function)))When a function produces a value, it is said to
 _return_ that value. Anything that produces a value is an expression
-in JavaScript, which means function calls can be used within bigger
+in JavaScript, which means function calls can be used within larger
 expressions:
 
 [source,javascript]
@@ -355,19 +341,13 @@ image::img/controlflow-straight.svg[alt="Trivial control flow"]
 == Conditional execution ==
 
 (((control flow)))(((conditional execution)))Executing statements in
-straight-line order isn't the only option. 
-_Conditional execution_ is common, and it lets a program choose between two
+straight-line order isn't the only option we have. An alternative is
+_conditional execution_, where we choose between two
 different routes based on a boolean value.
 
 image::img/controlflow-if.svg[alt="Conditional control flow"]
 
-In JavaScript, conditional execution is written with the `if` keyword.
-This keyword (((if keyword))) tells a program execute or skip a
-statement depending on the value of a boolean expression. It is always
-followed by an expression between parentheses and then a statement.
-
-//I moved the details of the if keyword to the paragraph above; do I have this right? /JG
-
+Conditional execution is written with the `if` keyword in JavaScript.
 In the simple case, we just want some code to be executed if, and only
 if, a certain condition holds. For example, in the previous program,
 we might want to show the square of the input only if the input is
@@ -381,18 +361,23 @@ if (!isNaN(theNumber))
         theNumber * theNumber);
 ----
 
-With this modification, if you enter anything that isn't a number, like 
-“cheese” or even nothing at all, no output will be shown.
+With this modification, if you enter “cheese”—or nothing at all—no
+output will be shown.
 
-The `isNaN` function is a standard JavaScript function that returns `true` if the
-argument it is given is `NaN`. The `Number` function returns
+(((if keyword)))The keyword `if` executes or skips a
+statement depending on the value of a boolean expression. The deciding
+expression is written after the keywords, between parentheses, followed
+by the statement to execute.
+
+The `isNaN` function is a standard JavaScript function that return `true` if the
+argument it is given is `NaN`. The `Number` function happens to return
 `NaN` when you give it a string that doesn't represent a valid number.
-Thus, the condition translates to, “unless `theNumber` is not-a-number, do
+Thus, the condition translates to “unless `theNumber` is not-a-number, do
 this”.
 
 (((else keyword))) You won't always just have code that executes
 when a condition holds true. Often, you'll also need code that handles the
-case when the condition doesn't hold. This alternate path is represented by the
+other case, when the condition doesn't hold. This alternate path is represented by the
 second arrow in the diagram above. The `else` keyword can be used,
 together with `if`, to create two separate, parallel execution paths:
 
@@ -428,9 +413,7 @@ second condition (`< 100`) holds, that means the number is between 10
 and 100, and `"Medium"` is shown. If it doesn't, the second and last
 `else` branch is chosen.
 
-//Would it make sense to say flow chart instead of arrow schema below? /JG
-
-The arrow schema for this program looks something like this:
+The flow chart for this program looks something like this:
 
 image::img/controlflow-nested-if.svg[alt="Nested if control flow"]
 
@@ -483,8 +466,8 @@ is `true` when converted to boolean type.
 ((({} block)))(((statement)))(((block (of statements))))In this loop, we
 want to both print out the current number and add two to our variable.
 Whenever we want to execute multiple statements inside a loop, we wrap them in braces
-(`{` and `}`). Similar to what parentheses do for expressions, braces
-group statements together, making them count as a single statement.
+(`{` and `}`). Braces do for statements what parentheses do for expressions, they
+group them together, making them count as a single statement.
 
 (((variable)))(((state)))The variable `number` demonstrates
 the way a variable can track the progress of a program. Every time the
@@ -518,7 +501,7 @@ to counting from 0.
 (((do loop)))(((control flow))) The `do` loop is a control structure 
 similar to the `while` loop. It differs only on one point: a `do` loop
 always executes its body at least once, and it only starts testing whether
-it should stop after that first execution. To reflect this, the test is 
+it should stop after that first execution. To reflect this, the test appears 
 below the body of the loop:
 
 [source,javascript]
@@ -534,18 +517,15 @@ it gets something that is not an empty string. (Applying the `!`
 operator will convert a value to boolean type before negating it, and
 all strings except `""` convert to `true`.)
 
-//What do you think about boxing this section on indenting code? It just feels
-//like a detour from discussing loops, so it might make sense to it apart. /JG
-
 == Indenting Code ==
 
 You've probably noticed the spaces I put in front of some
 statements. In JavaScript, these are not required—the computer will accept the
 program just fine without them. In fact, even the line breaks in
 programs are optional. You could write a program as a single long line if
-you felt like it, but using ((indentation)) inside blocks
-makes the code's structure clear. In complex code, where new blocks open 
-inside other blocks, it can become hard to see
+you felt like it. The role of the ((indentation)) inside blocks is to
+make the structure of the code stand out. In complex code, where new blocks
+are opened inside other blocks, it can become hard to see
 where one block ends and another begins. With proper indentation, the
 visual shape of a program corresponds to the shape of the blocks
 inside it. I like to use two spaces for every open block, but tastes
@@ -562,7 +542,7 @@ boundary yet. At the end of the loop body, the counter is updated to
 track progress.
 
 Because this pattern is so common, JavaScript and similar languages
-provide a slightly shorter and more comprehensive form, called the `for` loop:
+provide a slightly shorter and more comprehensive form, the `for` loop:
 
 [source,javascript]
 ----
@@ -602,13 +582,13 @@ that it “belongs” to the line before it.
 
 == Breaking Out of a Loop ==
 
-(((looping,termination)))(((break keyword)))It's possible for a loop to finish 
-without having its condition produce `false`. A
+(((looping,termination)))(((break keyword)))Having its condition
+produce `false` is not the only way a loop can finish. There is a
 special statement called `break` has the effect of immediately jumping
 out of the enclosing loop.
 
-Let's look at the `break` statement in action. This program finds the first 
-number that is both greater than or equal to 20 and divisible by 7:
+This program illustrates the `break` statement. It finds the first number
+that is both greater than or equal to 20 and divisible by 7:
 
 [source,javascript]
 ----
@@ -630,7 +610,7 @@ the `break` statement inside is executed.
 
 If you were to leave out that `break` statement or accidentally write a
 condition that always produces `true`, your program would get stuck in 
-an _((infinite loop))_. A program running an infinite 
+an _((infinite loop))_. A program stuck in an infinite 
 loop will never finish running, which is usually a bad thing.
 
 ifdef::html_target[]
@@ -713,10 +693,6 @@ switch (prompt("What is the weather like?")) {
     break;
 }
 ----
-
-//Saying that the case structure "continues past" other labels made it 
-//sound as though it skips the code under those labels, so I tried to clarify.
-//Do I have you right? /JG
 
 (((case keyword)))(((default keyword)))You may put any number of `case`
 labels inside the block opened by `switch`. The program will
@@ -857,8 +833,6 @@ ifdef::html_target[]
 ----
 endif::html_target[]
 
-//Since these aren't the coded solutions, would it make sense to wrap them in !!hint!!? /JG
-
 !!solution!!
 
 You can start with a program that simply prints out the numbers 1 to
@@ -885,7 +859,7 @@ for numbers that are divisible by both 3 and 5.
 
 (This is actually an interview question that has been claimed to weed
 out a significant percentage of programmer candidates. So if you
-solved it, feel proud!)
+solved it, you're now allowed to feel good about yourself.)
 
 ifdef::html_target[]
 [source,javascript]
@@ -904,12 +878,10 @@ divisible by another number (has a remainder of zero).
 In the first version, there are three possible outcomes for
 every number, so you'll have to create an `if`/`else if`/`else` chain.
 
-//Did you mean "word or words to output" below or "word or number," instead of "word or word"? /JG
-
 The second version of the program has a straightforward solution and a
 clever one. The simple way is to add another “branch” to precisely test
 the given condition. For the clever method, build up a string containing
-the word or word to output, and print either this word or the number
+the word or words to output, and print either this word or the number
 if there is no word, potentially by making elegant use of the “||”
 operator.
 

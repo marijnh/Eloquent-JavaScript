@@ -141,10 +141,10 @@ h1 + blockquote + blockquote + p, h1 + blockquote + p, h1 + p {
 }
 
 blockquote {
-  margin: 0 0 0 2em;
+  margin: 0 0 0 3em;
   padding: 0;
   position: relative;
-  font-size: 95%;
+  font-size: 85%;
 }
 
 blockquote p {

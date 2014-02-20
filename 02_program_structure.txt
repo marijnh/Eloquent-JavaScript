@@ -12,9 +12,9 @@ respond well to toxins in the blood.) Man, that stuff will kick the
 peaches right out your gills!
 ____
 
-This is the point where we start to do things that can actually be
+Now, we'll start to do things that can actually be
 called _programming_. We will expand our command of the JavaScript
-language, beyond from the nouns and sentence fragments we saw so far,
+language beyond the nouns and sentence fragments we've seen so far,
 to the point where we can actually express some meaningful prose.
 
 == Expressions and statements ==
@@ -22,11 +22,13 @@ to the point where we can actually express some meaningful prose.
 (((grammar)))(((JavaScript,syntax)))In the previous chapter, we made
 some values and then applied operators to them to get new values.
 Creating values like this is an essential part of every JavaScript
-program, but it is only a part. A fragment of code that produces a
+program, but it is still only a part. 
+
+A fragment of code that produces a
 value is called an _((expression))_. Every value that is written
 literally (such as `22` or `"psychoanalysis"`) is an expression. An
-expression between parentheses is also an expression. And so is a
-binary operator applied to two expressions, or a unary operator
+expression between parentheses is also an expression, as is a
+binary operator applied to two expressions or a unary operator
 applied to one.
 
 This shows part of the beauty of a language-based interface.
@@ -51,7 +53,7 @@ it. This is a program:
 
 It is a useless program, though. An expression can be content to just
 produce a value, which can then be used by the enclosing expression. A
-statement stands on its own, and only amounts to something only if it
+statement stands on its own and amounts to something only if it
 affects the world. It could display something on the screen—that
 counts as changing the world—or it could change the internal state of
 the machine in a way that will affect the statements that come after
@@ -90,12 +92,12 @@ to define a variable. It is followed by the name of the variable and,
 if we want to immediately give it a value, by an ‘=’ operator and an
 expression.
 
-So previous statement creates a variable called `caught` and uses it
+The previous statement creates a variable called `caught` and uses it
 to grab hold of the number that is produced by multiplying 5 by 5.
 
 After a variable has been defined, its name can be used as an
-expression. The value of such an expression is the current value
-that's being held by the variable. Here's an example:
+expression. The value of such an expression is the value
+the variable currently holds. Here's an example:
 
 [source,javascript]
 ----
@@ -104,8 +106,8 @@ console.log(ten * ten);
 // → 100
 ----
 
-(((variable,naming)))Variable names can be almost every word, as long
-as the word isn't reserved as a keyword (such as `var`). They may not
+(((variable,naming)))Variable names can contain any word that
+isn't reserved as a keyword (such as `var`). They may not
 include spaces. Digits can also be part of variable names—`catch22` is
 a valid name, for example—but the name must not start with a digit. A
 variable name can not include punctuation, except for the characters
@@ -129,19 +131,18 @@ console.log(mood);
 (((variable!model of)))(((tentacle (variable analogy)))) You should
 imagine variables as tentacles, rather than boxes. They do not
 _contain_ values; they _grasp_ them—two variables can refer to the
-same value. Only the values that the program still has a hold on can
-be accessed by it. When you need to remember something, you grow a
+same value. A program can only access the values that it still has a hold on. 
+When you need to remember something, you grow a
 tentacle to hold on to it or you reattach one of your existing
 tentacles to it.
 
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
-When you define a variable without giving it a value, the tentacle
-conceptually ends in thin air—it has nothing to grasp. When you ask
-for the value of an empty place, you get the value `undefined`.
+//Ok to move the Luigi example to before you describe undefined variables? Having it
+//after made me expect a different sort of example. /JG
 
-An example. To remember the amount of dollars that Luigi still owes
-you, you create a variable. And then when he pays back 35 dollars, you
+As an example, to remember the amount of dollars that Luigi still owes
+you, you could create a variable. And then when he pays back 35 dollars, you'd
 give this variable a new value.
 
 [source,javascript]
@@ -152,11 +153,16 @@ console.log(luigisDebt);
 // → 105
 ----
 
+When you define a variable without giving it a value, the tentacle
+has nothing to grasp, so it ends in thin air. If you ask
+for the value of an empty variable, you'll get the value `undefined`.
+
+
 == Keywords and reserved words ==
 
-(((keyword)))(((reserved words)))(((variable,naming)))Names that have
-a special meaning, such as `var`, may not be used as variable names.
-These are called _keywords_. There are also a number of (((reserved
+(((keyword)))(((reserved words)))(((variable,naming)))Words with
+a special meaning, such as `var`, are _keywords_, and they may not 
+be used as variable names. There are also a number of (((reserved
 words)))words that are “reserved for use” in future versions of
 JavaScript. These are also officially not allowed to be used as
 variable names, though some JavaScript environments do allow them. The
@@ -179,19 +185,21 @@ the problem when something does not work as expected.
 (((environment)))(((standard environment)))The collection of variables
 and their values that exist at a given time is called the
 _environment_. When a program starts up, this environment is not
-empty. It will at least contain a number of variables that are part of
-the language standard. And most of the time there will be an
-additional set of variables that provide ways to interact with the
-surrounding system. For example, in a browser, there are variables
-that point at functionality that allows you to inspect and influence
-the currently loaded website, and read mouse and keyboard input from
-the person who is using the browser.
+empty. It always contains variables that are part of
+the language standard, and most of the time, it has
+variables that provide ways to interact with the
+surrounding system. For example, your browser's environment 
+contains variables pointing at functions that read your mouse and keyboard input,
+which allow you to inspect and influence the currently loaded website.
+
+//Do I have you right with my edits above? I found the last sentence a little
+//hard to follow, so I tried to clarify. /JG
 
 == Functions ==
 
 (((Function type)))(((alert function)))(((message box)))A lot of the
 values provided in the default environment have the type _function_. A
-function is a piece of program wrapped in a value. Such a value can be
+function is a piece of a program wrapped in a value. Such values can be
 _applied_ in order to run the wrapped program. For example, in a
 browser environment, the variable `alert` holds a function that shows
 a little dialog box with a message. It is used like this:
@@ -206,10 +214,12 @@ image::img/alert.png[alt="An alert dialog"]
 indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 
+//Do I have you right with my edits below? /JG
+
 (((function,application)))Executing a function is called _invoking_,
-_calling_, or _applying_ it. The notation for doing this puts
-parentheses after an expression that produces a function value.
-Usually you will be directly referring to a variable that holds a
+_calling_, or _applying_ it. You can call a function by putting
+parentheses after any expression that produces a function value.
+Usually, however, you'll directly refer to a variable that holds a
 function. The values between the parentheses are given to the program
 inside the function. In the example, the `alert` function uses the
 string that we give it as the text to show in the dialog box. Values
@@ -221,20 +231,24 @@ number or different types of arguments.
 
 The `alert` function can be useful as an output device when
 experimenting, but clicking away all those little windows will get on
-your nerves. In past examples, we have been using `console.log` to
+your nerves. In past examples, we've used `console.log` to
 output values. Most JavaScript systems (including all modern web
 browsers and node.js) provide a `console.log` function that writes out
 its arguments to _some_ text output device. In browsers, the output
-lands in the JavaScript console, which is a part of the user interface
-that is hidden by default, but can be found by digging into the menu
-and finding an an item like “web console” or “developer tools”,
+lands in the JavaScript console. This part of the browser interface
+is hidden by default, but you can find in the menu if you dig.
+Just look for an item like “web console” or “developer tools”,
 usually under a “Tools” or “Developer” sub-menu.
+
+//Would it make sense to provide an example menu sequence for an existing broswer? /JG
 
 ifdef::html_target[]
 
-When running the examples, or your own code, on the pages of this
-book, `console.log` output will be shown below the example, instead of
-in the browser's JavaScript console.
+For the examples in this book, any `console.log` output will be 
+shown below the example, instead of in the browser's JavaScript console.
+
+//I was a bit confused by the paragraph above, so I tried to clarify.
+//Do I have you right?
 
 endif::html_target[]
 
@@ -245,20 +259,22 @@ console.log("the value of x is", x);
 // → the value of x is 30
 ----
 
-Though I claimed before that variable names can not contain dots,
-`console.log` clearly contains a dot. I haven't been lying to you.
-This is not a simple variable, but actually an expression that
+Though variable names can not contain dots, 
+`console.log` clearly has one. That's because `console.log` isn't 
+a simple variable. It's actually an expression that
 retrieves the `log` field from the value held by the `console`
-variable. We will find out what this means in Chapter 4.
+variable. We will find out exactly what this means in Chapter 4.
 
 == Return values ==
 
+//Maybe we should italicize the first instance of side effect below? /JG
+
 (((side effect)))(((return value)))(((max function)))Showing a dialog
-box or writing text to the screen is a side effect. A lot of functions
-are useful because of the side effects they produce. It is also
-possible for a function to produce a value, in which case it does not
-need to have a side effect to be useful. For example, there is a
-function `Math.max`, which takes two numbers and gives back the
+box or writing text to the screen is a _side effect_. A lot of functions
+are useful because of the side effects they produce. Fuctions an also
+produce a values, and in that case, they don't
+need to have side effects to be useful. For example, the
+function `Math.max` takes two numbers and gives back the
 greatest of the two:
 
 [source,javascript]
@@ -268,8 +284,8 @@ console.log(Math.max(2, 4));
 ----
 
 (((min function)))When a function produces a value, it is said to
-_return_ it. Because things that produce values are always expressions
-in JavaScript, function calls can be used as part of bigger
+_return_ that value. Anything that produces a value is an expression
+in JavaScript, which means function calls can be used within bigger
 expressions:
 
 [source,javascript]
@@ -282,8 +298,8 @@ The next chapter explains how we can write our own functions.
 
 == prompt and confirm ==
 
-(((confirm function)))The environment provided by browsers contains a
-few more functions for popping up windows. You can ask the user an
+(((confirm function)))Browser environments contain other functions 
+besides `alert` for popping up windows. You can ask the user an
 “OK”/“Cancel” question using `confirm`. This returns a boolean: `true`
 if the user clicks OK and `false` if the user clicks Cancel.
 
@@ -327,7 +343,7 @@ alert("Your number is the square root of " +
 
 (((Number function)))(((String function)))(((Boolean
 function))))(((boolean conversion)))The function `Number` converts a
-value to a number, which we use because the result of `prompt` is a
+value to a number. We need that conversion because the result of `prompt` is a
 string value, and we want a number. There are similar functions called
 `String` and `Boolean` that convert values to those types.
 
@@ -339,13 +355,19 @@ image::img/controlflow-straight.svg[alt="Trivial control flow"]
 == Conditional execution ==
 
 (((control flow)))(((conditional execution)))Executing statements in
-straight-line order isn't the only option we have. A common
-requirement is conditional execution, where we choose between two
+straight-line order isn't the only option. 
+_Conditional execution_ is common, and it lets a program choose between two
 different routes based on a boolean value.
 
 image::img/controlflow-if.svg[alt="Conditional control flow"]
 
-Conditional execution is written with the `if` keyword in JavaScript.
+In JavaScript, conditional execution is written with the `if` keyword.
+This keyword (((if keyword))) tells a program execute or skip a
+statement depending on the value of a boolean expression. It is always
+followed by an expression between parentheses and then a statement.
+
+//I moved the details of the if keyword to the paragraph above; do I have this right? /JG
+
 In the simple case, we just want some code to be executed if, and only
 if, a certain condition holds. For example, in the previous program,
 we might want to show the square of the input only if the input is
@@ -359,25 +381,20 @@ if (!isNaN(theNumber))
         theNumber * theNumber);
 ----
 
-With this modification, if you enter “cheese”—or nothing at all—no
-output will be shown.
+With this modification, if you enter anything that isn't a number, like 
+“cheese” or even nothing at all, no output will be shown.
 
-The keyword (((if keyword)))`if` is used to execute or skip a
-statement depending on the value of a boolean expression. It is always
-followed by an expression between parentheses, and then a statement.
-
-The `isNaN` function is a standard function that return `true` if the
-argument it is given is `NaN`. The `Number` function happens to return
+The `isNaN` function is a standard JavaScript function that returns `true` if the
+argument it is given is `NaN`. The `Number` function returns
 `NaN` when you give it a string that doesn't represent a valid number.
-Thus, the condition expresses “unless `theNumber` is not-a-number, do
+Thus, the condition translates to, “unless `theNumber` is not-a-number, do
 this”.
 
-(((else keyword)))Often you have not only code that must be executed
-when a certain condition holds but also code that handles the other
-case, when the condition doesn't hold. This is represented by the
+(((else keyword))) You won't always just have code that executes
+when a condition holds true. Often, you'll also need code that handles the
+case when the condition doesn't hold. This alternate path is represented by the
 second arrow in the diagram above. The `else` keyword can be used,
-together with `if`, to create two separate, parallel paths that
-execution can take:
+together with `if`, to create two separate, parallel execution paths:
 
 [source,javascript]
 ----
@@ -389,7 +406,7 @@ else
   alert("Hey. Why didn't you give me a number?");
 ----
 
-If we have more than two paths that we want to choose from, multiple
+If we have more than two paths to choose from, multiple
 `if`/`else` pairs can be “chained” together. Here's an example:
 
 [source,javascript]
@@ -410,6 +427,8 @@ takes the `else` branch, which itself contains a second `if`. If the
 second condition (`< 100`) holds, that means the number is between 10
 and 100, and `"Medium"` is shown. If it doesn't, the second and last
 `else` branch is chosen.
+
+//Would it make sense to say flow chart instead of arrow schema below? /JG
 
 The arrow schema for this program looks something like this:
 
@@ -439,7 +458,7 @@ way to repeat some code—a _loop_.
 image::img/controlflow-loop.svg[alt="Loop control flow"]
 
 Looping control flow allows us to go back to some point in the program
-where we were before, and repeat it, in the context of our current
+where we were before and repeat it in the context of our current
 program state. If we combine this with a variable that counts, we can
 do this:
 
@@ -457,20 +476,19 @@ while (number <= 12) {
 
 (((while loop)))A statement starting with the keyword `while` creates a
 loop. The word `while` is followed by an expression in parentheses and
-then a statement, much like `if`. The loop acts by continuing to
-execute the statement as long as the expression produces a value that
-is `true`, when converted to boolean type.
+then a statement, much like `if`. The loop executes that statement as 
+long as the expression produces a value that
+is `true` when converted to boolean type.
 
-((({} block)))(((statement)))(((block (of statements))))Because we
-want to do _two_ things in the loop, printing out the current number,
-and adding two to our variable, we wrap the two statements in braces
-(`{` and `}`). Braces, for statements, are similar to what parentheses
-do for expressions, they group them together, making them count as a
-single statement.
+((({} block)))(((statement)))(((block (of statements))))In this loop, we
+want to both print out the current number and add two to our variable.
+Whenever we want to execute multiple statements inside a loop, we wrap them in braces
+(`{` and `}`). Similar to what parentheses do for expressions, braces
+group statements together, making them count as a single statement.
 
-(((variable)))(((state)))So the variable `number` demonstrates
+(((variable)))(((state)))The variable `number` demonstrates
 the way a variable can track the progress of a program. Every time the
-loop repeats, it is incremented by `2`. Then, at the beginning of
+loop repeats, `number` is incremented by `2`. Then, at the beginning of
 every repetition, it is compared with the number `12` to decide
 whether the program has done all the work it intended to do.
 
@@ -497,11 +515,11 @@ The counter could also start at `1` and check for `<= 10`, but, for
 reasons that will become apparent later, it is a good idea to get used
 to counting from 0.
 
-(((do loop)))(((control flow)))A very similar control structure is the
-`do` loop. It differs only on one point from a `while` loop: it will
-always execute its body at once, and only then start testing whether
-it should stop. To reflect this, the test is written below the body of
-the loop:
+(((do loop)))(((control flow))) The `do` loop is a control structure 
+similar to the `while` loop. It differs only on one point: a `do` loop
+always executes its body at least once, and it only starts testing whether
+it should stop after that first execution. To reflect this, the test is 
+below the body of the loop:
 
 [source,javascript]
 ----
@@ -511,20 +529,23 @@ do {
 console.log(name);
 ----
 
-This will force you to enter a name, by asking again and again until
+This program will force you to enter a name. It will ask again and again until
 it gets something that is not an empty string. (Applying the `!`
 operator will convert a value to boolean type before negating it, and
 all strings except `""` convert to `true`.)
 
+//What do you think about boxing this section on indenting code? It just feels
+//like a detour from discussing loops, so it might make sense to it apart. /JG
+
 == Indenting Code ==
 
-You will probably have noticed the spaces I put in front of some
-statements. These are not required—the computer will accept the
+You've probably noticed the spaces I put in front of some
+statements. In JavaScript, these are not required—the computer will accept the
 program just fine without them. In fact, even the line breaks in
-programs are optional. You could write them as a single long line if
-you felt like it. The role of the ((indentation)) inside blocks is to
-make the structure of the code stand out. Because new blocks can be
-opened inside other blocks, in complex code it can become hard to see
+programs are optional. You could write a program as a single long line if
+you felt like it, but using ((indentation)) inside blocks
+makes the code's structure clear. In complex code, where new blocks open 
+inside other blocks, it can become hard to see
 where one block ends and another begins. With proper indentation, the
 visual shape of a program corresponds to the shape of the blocks
 inside it. I like to use two spaces for every open block, but tastes
@@ -533,15 +554,15 @@ characters.
 
 == for loops ==
 
-Loops often follow the same pattern, also seen in the `while` examples
-above. First, a “counter” variable is created. This variable tracks
+Many loops follow the pattern seen in the `while` examples
+above. First, a “counter” variable is created to track
 the progress of the loop. Then, comes a `while` loop, whose test
 expression usually checks whether the counter has reached some
 boundary yet. At the end of the loop body, the counter is updated to
 track progress.
 
 Because this pattern is so common, JavaScript and similar languages
-provide a slightly shorter and more comprehensive form:
+provide a slightly shorter and more comprehensive form, called the `for` loop:
 
 [source,javascript]
 ----
@@ -557,10 +578,10 @@ equivalent to the earlier even-number-printing example. The only
 change is that all the statements that are related to the “state” of
 the loop are now on one line.
 
-The parentheses after a `for` keyword are required to contain two
+The parentheses after a `for` keyword must contain two
 semicolons. The part before the first semicolon _initializes_ the
 loop, usually by defining a variable. The second part is the
-expression that _checks_ whether the loop must still continue. The
+expression that _checks_ whether the loop must continue. The
 final part _updates_ the state of the loop after every iteration. In
 most cases, this is shorter and clearer than a `while` construct.
 
@@ -575,19 +596,19 @@ console.log(result);
 // → 1024
 ----
 
-(((indentation)))Note that even if no block is opened with a `{`, the
+(((indentation)))Note that even though no block is opened with a `{`, the
 statement in the loop is still indented two spaces to make it clear
 that it “belongs” to the line before it.
 
 == Breaking Out of a Loop ==
 
-(((looping,termination)))(((break keyword)))Having its condition
-produce `false` is not the only way a loop can finish. There is a
-special statement, `break`, that has the effect of immediately jumping
+(((looping,termination)))(((break keyword)))It's possible for a loop to finish 
+without having its condition produce `false`. A
+special statement called `break` has the effect of immediately jumping
 out of the enclosing loop.
 
-This program finds the first number that is greater than or equal to
-20, and divisible by 7:
+Let's look at the `break` statement in action. This program finds the first 
+number that is both greater than or equal to 20 and divisible by 7:
 
 [source,javascript]
 ----
@@ -604,13 +625,13 @@ console.log(current);
 another number. If it is, the remainder of their division is zero.
 
 The `for` construct in the example does not have a part that checks
-for the end of the loop. This means that it is dependent on the
-`break` statement inside it to ever stop.
+for the end of the loop. This means that the loop will never stop unless
+the `break` statement inside is executed.
 
-If that `break` statement was missing, or you accidentally wrote a
-condition that will always produce `true`, you get what is called an
-_((infinite loop))_. A program running an infinite loop will never
-finish running, which is usually a bad thing.
+If you were to leave out that `break` statement or accidentally write a
+condition that always produces `true`, your program would get stuck in 
+an _((infinite loop))_. A program running an infinite 
+loop will never finish running, which is usually a bad thing.
 
 ifdef::html_target[]
 
@@ -625,9 +646,9 @@ endif::html_target[]
 == Updating variables succinctly ==
 
 (((assignment)))(((+= operator)))(((-= operator)))(((/=
-operator)))(((*= operator)))(((state)))A program, especially when
-looping, often needs to “update” a variable with a value that is based
-on its previous value.
+operator)))(((*= operator)))(((state)))Especially when
+looping, a program often needs to “update” a variable with a value based
+on that variable's previous value.
 
 [source,javascript]
 ----
@@ -641,10 +662,10 @@ JavaScript provides a shortcut for this:
 counter += 1;
 ----
 
-This also works for many other operators, such as `result *= 2` to
+Similar shortcuts work for many other operators, such as `result *= 2` to
 double `result`, or `counter -= 1` to count downward.
 
-Which allows us to shorten our counting example a little more:
+This allows us to shorten our counting example a little more:
 
 [source,javascript]
 ----
@@ -673,7 +694,7 @@ else defaultAction();
 that is intended to solve such a “dispatch” in a more direct way.
 Unfortunately, the syntax JavaScript uses for this (which it inherited
 from the C and Java line of programming languages) is somewhat
-awkward—often a chain of `if` statements still looks better. Here
+awkward—a chain of `if` statements often looks better. Here
 is an example:
 
 [source,javascript]
@@ -693,23 +714,26 @@ switch (prompt("What is the weather like?")) {
 }
 ----
 
-(((case keyword)))(((default keyword)))Inside the block opened by
-`switch`, you may put any number of `case` labels. The program will
+//Saying that the case structure "continues past" other labels made it 
+//sound as though it skips the code under those labels, so I tried to clarify.
+//Do I have you right? /JG
+
+(((case keyword)))(((default keyword)))You may put any number of `case`
+labels inside the block opened by `switch`. The program will
 jump to the label that corresponds to the value that `switch` was
-given, or to `default` if no matching value is found. Then it starts
-executing statements there, and _continues_ past other labels, until
+given, or to `default` if no matching value is found. It starts
+executing statements there, even if they're under another label, until
 it reaches a `break` statement. In some cases, such as the `"sunny"`
 case in the example, this can be used to share some code between cases
 (it recommends going outside for both sunny and cloudy weather). But
-beware, it is very easy to forget such a `break`, which will cause the
+beware: it is very easy to forget such a `break`, which will cause the
 program to execute code you do not want executed.
 
 == Capitalization ==
 
 Variable names may not contain spaces, yet it is often helpful to use
-multiple words to clearly describe what the variable represents. Your
-choices for writing a variable name with several words in it are
-pretty much these:
+multiple words to clearly describe what the variable represents. These are
+pretty much your choices for writing a variable name with several words in it:
 
 ----
 fuzzylittleturtle
@@ -719,7 +743,7 @@ fuzzyLittleTurtle
 ----
 
 (((capitalization)))The first style can be hard to read. Personally, I
-like using underscores, though it is a little painful to type.
+like using underscores, though that style is a little painful to type.
 However, the standard JavaScript functions, and most JavaScript
 programmers, follow the bottom style—they capitalize every word except
 the first. It is not hard to get used to little things like that, and
@@ -736,11 +760,11 @@ thing is not to be bothered by this apparent lack of consistency.
 
 Often, raw code does not convey all the information you want a program
 to convey to human readers, or it conveys it in such a cryptic way
-that you're worried that people won't understand it. At other times,
-you're just feeling poetic or want to mark down some thoughts as part
+that people might not understand it. At other times,
+you might just feel poetic or want to mark down some thoughts as part
 of your program. This is what _((comment))s_ are is for.
 
-A comment is a piece of text that is part of a program, but completely
+A comment is a piece of text that is part of a program but is completely
 ignored by the computer. JavaScript has two ways of writing comments.
 To write a single line comment, you can use two slash characters
 (`//`) and then the comment text after it.
@@ -788,7 +812,7 @@ executed top-to-bottom. You can introduce disturbances in the flow of
 control by using conditional (`if`, `else`, and `switch`) and looping
 (`while`, `do`, and `for`) statements.
 
-Variables can be used to file pieces of data under a name, and are
+Variables can be used to file pieces of data under a name, and they are
 useful for tracking state in your program. The environment is the set
 of variables that are defined in a program. JavaScript systems always
 put a number of useful standard variables into your environment.
@@ -802,13 +826,13 @@ is an expression that may produce a value.
 If you are unsure how to try out your solutions to exercises, refer
 back to the end of the introduction.
 
-Each exercise starts with a problem description. Try to read that, and
-solve the exercise. If you run into problems, you can consider reading
+Each exercise starts with a problem description. Read that, and try to
+solve the exercise. If you run into problems, consider reading
 the hints below the exercise. Full solutions to the exercises are not
-included in this book, but can be found online, at (FIXME). If
-you want to learn something, I recommend only looking at these after
-you've solved the exercise, or at least attacked it long and hard
-enough to have provoked a slight headache.
+included in this book, but you can find them online at (FIXME). If
+you want to learn, I recommend only looking at these after
+you've solved the exercise, or at least after you've attacked it long and hard
+enough to have a slight headache.
 
 === Looping a triangle ===
 
@@ -833,6 +857,8 @@ ifdef::html_target[]
 ----
 endif::html_target[]
 
+//Since these aren't the coded solutions, would it make sense to wrap them in !!hint!!? /JG
+
 !!solution!!
 
 You can start with a program that simply prints out the numbers 1 to
@@ -849,17 +875,17 @@ solution can closely follow the number-printing program.
 
 === FizzBuzz ===
 
-Write a program that prints (using `console.log`) all the numbers from
-1 to 100, except that, for numbers that are divisible by 3, it prints
-`"Fizz"` instead of the number, and for numbers that are divisible by
-5 (and not 3), it prints `"Buzz"` instead.
+Write a program that uses `console.log` to print all the numbers from
+1 to 100, with two exceptions. For numbers divisible by 3, print
+`"Fizz"` instead of the number, and for numbers divisible by
+5 (and not 3), print `"Buzz"` instead.
 
 When you have that working, modify your program to print `"FizzBuzz"`
 for numbers that are divisible by both 3 and 5.
 
 (This is actually an interview question that has been claimed to weed
 out a significant percentage of programmer candidates. So if you
-solved it, you're now allowed to feel good about yourself.)
+solved it, feel proud!)
 
 ifdef::html_target[]
 [source,javascript]
@@ -870,29 +896,31 @@ endif::html_target[]
 
 !!solution!!
 
-Going over the numbers is clearly a looping job. And selecting what to
+Going over the numbers is clearly a looping job, and selecting what to
 print is a matter of conditional execution. Remember the trick of
 using the remainder (‘%’) operator for checking whether a number is
 divisible by another number (has a remainder of zero).
 
-Because, in the first version, there are three possible outcomes for
-every number, you'll have to create an `if`/`else if`/`else` chain.
+In the first version, there are three possible outcomes for
+every number, so you'll have to create an `if`/`else if`/`else` chain.
 
-The second version of the program can be solved in a very
-straightforward way (simply add another “branch” that precisely tests
-the given condition), or in a clever way (build up a string containing
+//Did you mean "word or words to output" below or "word or number," instead of "word or word"? /JG
+
+The second version of the program has a straightforward solution and a
+clever one. The simple way is to add another “branch” to precisely test
+the given condition. For the clever method, build up a string containing
 the word or word to output, and print either this word or the number
 if there is no word, potentially by making elegant use of the “||”
-operator).
+operator.
 
 !!solution!!
 
 === Chess board ===
 
-Write a program that creates a string that represents an 8×8 grid, by
+Write a program that creates a string that represents an 8×8 grid,
 using newline characters to separate lines. At each position of the
-grid there is either a space or a ‘#’ character, in such a way that
-the characters form a chess board.
+grid there, is either a space or a ‘#’ character. The characters
+should form a chess board.
 
 Passing this string to `console.log` should look like this:
 
@@ -907,9 +935,9 @@ Passing this string to `console.log` should look like this:
  # # # #
 ....
 
-When it works, define a variable `size = 8`, and change the program so
-that it works for any `size`, outputting a grid of the given width and
-height.
+When you have a program that generates this pattern, define a variable `size = 8`, 
+and change the program so that it works for any `size`, outputting a grid of the 
+given width and height.
 
 ifdef::html_target[]
 [source,javascript]
@@ -925,18 +953,19 @@ repeatedly adding characters. A newline character is written `"\n"`.
 
 Use `console.log` to inspect the output of your program.
 
-To do something two dimensional, you will need a loop inside of a
+To work with two dimensions, you will need a loop inside of a
 loop. Put braces around the bodies of both loops to make it easy to
 see where they start and end. Try to properly indent these bodies. The
 order of the loops must follow the order in which we build up the
 string (line by line, left to right, top to bottom). So the outer loop
 handles the lines and the inner loop handles the characters on a line.
+
 You'll need two variables to track your progress. To know whether to
 put a space or a hash sign at a given position, you could test whether
 the sum of the two counters is even (`% 2`).
 
 Terminating a line by adding a newline character happens after the
-line has been built up, so after the inner loop, inside of the outer
+line has been built up, so do this after the inner loop but inside of the outer
 loop.
 
 !!solution!!

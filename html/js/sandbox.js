@@ -79,7 +79,7 @@
     setHTML: function(code, output, callback) {
       var scriptTags = [], sandbox = this, doc = this.win.document;
       this.frame.style.display = "block";
-      doc.documentElement.innerHTML = code.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/, function(m, src, content) {
+      doc.documentElement.innerHTML = code.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/g, function(m, src, content) {
         var tag = doc.createElement("script");
         if (src) {
           if (/["']/.test(src.charAt(0))) src = src.slice(1, src.length - 1);

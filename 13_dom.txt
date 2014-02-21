@@ -5,6 +5,13 @@
 
 = The Document Object Model =
 
+[quote,Le Hors et al,Document Object Model Core]
+____
+While it would be nice to have attribute and method names that are
+short [...] DOM names tend to be long and descriptive in order to be
+unique across all environments.
+____
+
 The browser with which you view a web page reads the page's HTML text,
 builds up a model its structure, and uses that to draw the page to the
 screen.
@@ -50,8 +57,7 @@ _Document Object Model_, DOM for short.
 The global variable `document` gives us access to these objects. Its
 `documentElement` property refers to the object representing the
 `<html>` tag. It also provides properties `head` and `body`, holding
-the objects for those elements. The body, the actual visual part of
-the document, is usually the element you need to work with.
+the objects for those elements.
 
 == Trees ==
 
@@ -59,8 +65,8 @@ Think back to the syntax trees from Chapter 11 for a moment. Their
 structure is strikingly similar to the structure of a browser's
 document. Each “node” may refer to sub-nodes, children, which are
 themselves nodes, and may have their own children. This shape is
-typical of nested structures where the same kind of element can be
-repeated inside existing elements.
+typical of nested structures where elements can contain sub-elements
+that are similar to themselves.
 
 We call a data structure a _tree_ when it has a branching structure,
 contains no cycles (a node may not contain itself, directly or
@@ -78,10 +84,10 @@ children, variables and values were _leaves_, nodes without children.
 
 The same goes for the DOM. Nodes for regular elements (the
 representation of a tag in the document) determine the structure of
-the document. These can (but most do not) have child nodes. An example of
-such a node is `document.body`. Some of these children can be leaf
-nodes, such as pieces of text or comments (which are written between
-`<!--` and `-->` in HTML).
+the document. These can have child nodes. An example of such a node is
+`document.body`. Some of these children can be leaf nodes, such as
+pieces of text or comments (which are written between `<!--` and `-->`
+in HTML).
 
 Each DOM node object has a `nodeType` property, which contains a
 number code that identifies the type of node. Regular nodes have the
@@ -110,7 +116,7 @@ also for XML, which is a generic data format with an HTML-like syntax.
 This is unfortunate. Standards are often useful. But in this case, the
 advantage (cross-language consistency) isn't all that compelling. And
 the downside, having an interface that's not well integrated with the
-language, is serious.
+language, is costly.
 
 As an example of such poor integration, consider the `childNodes`
 property that element nodes in the DOM have. This property holds an
@@ -140,9 +146,9 @@ image::img/html-links.svg[alt="Links between DOM nodes"]
 
 Every node has a `parentNode` property, pointing to the node it is
 part of. The diagram only shows one of each link type. Every element
-node (node type 1) has a `childNodes` property that contains a
-pseudo array with its children. Those represent the fundamental
-structure of the tree.
+node (node type 1) has a `childNodes` property that points at a pseudo
+array holding its children. Those represent the fundamental structure
+of the tree.
 
 In addition, there are a number of convenience links. The `firstChild`
 and `lastChild` properties point to the first and last child element,
@@ -183,13 +189,15 @@ that it represents.
 
 Navigating these links to parents, children, and siblings is often
 useful, as in the function above, which blindly runs through the whole
-document. But usually, tying assumptions about the precise structure
-of your document into your program is a bad idea, since you might want
-to change that structure later. Another complicating factor is that
-text nodes are created even for the whitespace (newlines and spaces)
-between nodes. The example document's body tag does not have just
-three children (`<h1>` and two `<p>`’s), but actually has 7 (those
-three, plus the space before, after, and between them).
+document. But if we want to find a specific node in the document,
+reaching by following links from `document.body` is a bad idea. It
+ties assumptions about the precise structure of the document into our
+program, and we might want to change that structure later. Another
+complicating factor is that text nodes are created even for the
+whitespace (newlines and spaces) between nodes. The example document's
+body tag does not have just three children (`<h1>` and two `<p>`’s),
+but actually has 7 (those three, plus the space before, after, and
+between them).
 
 So if we want to get the `href` attribute of the link in that
 document, we don't want to say something like “get the second child of
@@ -260,10 +268,10 @@ current position (if it has one).
 The `replaceChild` method is used to replace a child node with another
 one. It takes as arguments two nodes, a new node, and the node that
 must be replaced (which must be a child of the element the method is
-called on). Note that both `replaceChild` and `insertBefore`
-expect the _new_ node as their first argument, which can be confusing
-if you are trying to read the call as a sentence (“replace _this_ with
-_that_” has the old element first, then the new one).
+called on). Note that both `replaceChild` and `insertBefore` expect
+the _new_ node as their first argument, which can be confusing if you
+are trying to read the call as a sentence (“replace _this_ with
+__that__” has the old element first, then the new one).
 
 == Creating nodes ==
 
@@ -311,8 +319,8 @@ one, it would stop, because the length of the collection is now also
 one.
 
 If you want a “solid” collection of nodes, that doesn't unexpectedly
-change, you can convert them to a real array. The following trick
-works well for this:
+change, you can convert them to a real array by calling the array
+`slice` method on it.
 
 [source,javascript]
 ----
@@ -323,13 +331,9 @@ real.forEach(function(elt) { console.log(elt); });
 //   two
 ----
 
-We call the array `slice` method with the pseudo array bound to
-`this`, and a first argument of zero, meaning it should copy the whole
-array. Most array methods are required to also work on pseudo arrays.
-
 Element nodes (type 1) can be created with the
-`document.createElement` method. It takes a tag name, and returns a
-new empty node of the given type.
+`document.createElement` method. This method takes a tag name, and
+returns a new empty node of the given type.
 
 The following example defines a utility `elt`, which creates an
 element node, and treats the rest of its arguments as children to that
@@ -467,17 +471,17 @@ page.)
 
 endif::html_target[]
 
-One commonly used attribute, `class`, is also a reserved word in the
+One commonly used attribute, `class`, is a reserved word in the
 JavaScript language. For historical reasons (some old JavaScript
 implementation could not handle property names that matched keywords
 or reserved words), the element node property used to access this
-attribute is `className`. You can, of course, also approach it with
+attribute is `className`. You can, of course, also access it with
 the `getAttribute` and `setAttribute` methods.
 
 == Layout ==
 
 You will have noticed that different types of elements behave
-differently. Some, such as paragraphs (`<p>`) or headers (`<h1>`), are
+differently. Some, such as paragraphs (`<p>`) or headings (`<h1>`), are
 placed below each other, taking up the whole width of the document.
 These are called _block_ elements. Others, such as links (`<a>`) or
 the `<strong>` element used in the example above, are treated as part
@@ -530,7 +534,7 @@ computing a layout.
 A program that repeatedly alternates between reading DOM layout
 information and changing the DOM will force a lot of layouts to
 happen, and consequently run really slowly. This page demonstrates the
-difference. It contains two different programs that build up a list of
+difference. It contains two different programs that build up a line of
 “X” characters 2000 pixels wide, and measures the time they take.
 
 // test: nonumbers
@@ -550,9 +554,8 @@ difference. It contains two different programs that build up a list of
 
   time("naive", function() {
     var target = document.getElementById("one");
-    do {
+    while (target.offsetWidth < 2000)
       target.appendChild(document.createTextNode("X"));
-    } while (target.offsetWidth < 2000);
   });
   // → naive took 32 ms
 
@@ -569,12 +572,12 @@ difference. It contains two different programs that build up a list of
 
 == Styling ==
 
-We have seen a number of elements, with different behaviors. Some are
+We have seen a number of elements with different behaviors. Some are
 displayed as blocks, others inline. Some add styling, like `<strong>`
 making its content bold, and `<a>` making it blue and underlining it.
 
 Some of this behavior is strongly tied to the element type. For
-example the way an `<img>` tag shows an image or an `<a>` tag causing
+example the way an `<img>` tag shows an image or an `<a>` tag causes
 a link to be followed when it is clicked. Other behavior, such as
 boldness or color, are simply default styles that the browser assigns
 to the element, and can be changed by us. For example by using the
@@ -608,14 +611,14 @@ The “block” tag will end up on its own line, since block elements are
 not displayed inline with the text around them. The “hidden” tag is
 not displayed at all—`display: none` prevents an element from showing
 up on the screen. This allows us to hide elements, in a way that is
-often preferable to removing them from the document entirely, since it
+often preferable to removing them from the document entirely. It
 makes it easier to reveal them again later.
 
 The style of an element can be manipulated directly by a JavaScript
-program through its `style` property. This holds an object with
-properties for all possible style properties, which hold strings, and
-which we can write to to change that particular aspect of the
-element's style.
+program through the node's `style` property. This property holds an
+object that has properties for all possible style properties. The
+values of these properties are strings, which we can write to in order
+to change a particular aspect of the element's style.
 
 [source,text/html]
 ----
@@ -705,7 +708,7 @@ indirect children.
 We won't be using style sheets all that much in this book.
 Understanding them is crucial to programming in the browser, but
 properly explaining all properties they support, and the interaction
-between those, would take three or four fat books in itself.
+between those, would take three or four books itself.
 
 The main reason I introduced “selector” syntax—the notation used in
 style sheets to determine which elements a set of styles apply to—is
@@ -754,7 +757,7 @@ normal place in the document.
 When it is set to `relative`, the element still takes up space in the
 document, but the `top` and `left` style properties can be used to
 move it relative to its normal place. When `position` is set to
-`absolute` the element is removed from the normal document (it no
+`absolute` the element is removed from the normal document flow (it no
 longer takes up space), and its `top` and `left` properties can be
 used to absolutely position it (relative to the top left of the
 document, or the nearest enclosing element whose `position` property
@@ -788,7 +791,7 @@ First, the picture is centered on the page, and given a `position` of
 `relative`. The script defines a counter (`angle`) to control the
 animation, and every time `animate` is called, compares the last time
 it ran to the current time, and moves the angle, which is measured in
-radians, along 0.001 unit for every millisecond elapsed.
+radians, clockwise 0.001 unit for every millisecond elapsed.
 
 It then computes a `top` and `left` style based on the sine and cosine
 of the current angle, multiplying the first by 20 and the second by
@@ -878,7 +881,7 @@ var clock = setInterval(function() {
 === Build a table ===
 
 We built plain-text tables in Chapter 6. HTML makes laying out tables
-quite a bit easier. HTML tables are built with the following tag
+quite a bit easier. An HTML table is built with the following tag
 structure:
 
 [source,text/html]
@@ -898,14 +901,13 @@ structure:
 ----
 
 For each _row_, the `<table>` tag contains a `<tr>` tag. Inside of
-these, we can put cell elements, either header cells (`<th>`) or
+these, we can put cell elements, either heading cells (`<th>`) or
 regular cells (`<td>`).
 
 The same source data that was used in Chapter 6 is again available in
 the `MOUNTAINS` variable in the sandbox, and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
-list of data sets on the website!!tex
-(`eloquentjavascript.net/code`)!!.
+list of data sets on the website!!tex (`eloquentjavascript.net/code`)!!.
 
 Write a function `buildTable` that, given an array of objects (which
 all have the same set of properties), builds up a DOM structure
@@ -946,7 +948,7 @@ endif::html_target[]
 
 Use `document.createElement` to create new element nodes,
 `document.createTextNode` to create text nodes, and the `appendChild`
-method to add child nodes.
+method to put nodes into other nodes.
 
 The key names should be looped over once to fill in the top row, and
 then once again for each object in the array to construct the data
@@ -960,10 +962,10 @@ the function.
 == Elements by tag name ==
 
 The `getElementsByTagName` method returns all child elements with a
-given tag name. Implement your own version of it, as a non-method
-function, which takes a node and a string (the tag name) as arguments,
-and returns a (real) array containing all descendant element nodes
-with the given tag name.
+given tag name. Implement your own version of it, as a regular
+non-method function, which takes a node and a string (the tag name) as
+arguments, and returns a (real) array containing all descendant
+element nodes with the given tag name.
 
 Note that the `tagName` property, for normal documents, will return
 the tag name in all upper case. Use the `toLowerCase` or `toUpperCase`
@@ -976,7 +978,7 @@ ifdef::html_target[]
 [source,text/html]
 ----
 <!doctype html>
-<h1>Header with a <span>span</span> element.</h1>
+<h1>Heading with a <span>span</span> element.</h1>
 <p>A paragraph with <span>one</span>, <span>two</span>
   spans.</p>
 
@@ -1029,7 +1031,7 @@ To make positioning multiple objects easier, it is probably a good
 idea to switch to absolute positioning. This means that `top` and
 `left` are counted relative to the top left of the document, so you
 probably want to avoid using negative coordinates. This can simply be
-done by adding a fixed number of pixels to their values.
+done by adding a fixed number of pixels to the values.
 
 ifdef::html_target[]
 

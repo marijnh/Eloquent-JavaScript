@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This book is about talking to computers. Computers have become one of
+This book is about talking to computers, one of
 the fundamental tools of our time. Being able to harness them
 effectively is an immensely useful skill. With the right mindset, it
 can also be very entertaining.
@@ -172,7 +172,7 @@ arcane patterns of bits (the ones and zeros) did give the programmer
 a profound sense of being a mighty wizard. And that has to be worth
 something in terms of job satisfaction.
 
-(((memory)))Each line of the program contains a single instruction. It
+(((memory)))Each line of the program above contains a single instruction. It
 could be written in English like this:
 
 [source,text/plain]

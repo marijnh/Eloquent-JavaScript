@@ -31,7 +31,7 @@ window.addEventListener("load", function() {
     return node;
   }
 
-  CodeMirror.keyMap.basic.Down = function(cm) {
+  CodeMirror.commands[CodeMirror.keyMap.basic.Down = "goLineDownEscape"] = function(cm) {
     var cur = cm.getCursor();
     if (cur.line == cm.lastLine()) {
       document.activeElement.blur();
@@ -40,7 +40,7 @@ window.addEventListener("load", function() {
       cm.moveV(1, "line");
     }
   };
-  CodeMirror.keyMap.basic.Up = function(cm) {
+  CodeMirror.commands[CodeMirror.keyMap.basic.Up = "goLineUpEscape"] = function(cm) {
     var cur = cm.getCursor();
     if (cur.line == cm.firstLine()) {
       document.activeElement.blur();

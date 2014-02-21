@@ -3,9 +3,9 @@
 
 = Introduction =
 
-This book is about talking to computers. Computers have become one of
-the fundamental tools of our time. Being able to harness them
-effectively is an immensely useful skill. With the right mindset, it
+This book is about talking to computers, one of
+the most fundamental tools of our time. Being able to harness them
+effectively is an immensely useful skill, and with the right mindset, it
 can also be very entertaining.
 
 There is something of an inherent gap between us, squishy biological
@@ -164,7 +164,7 @@ It could run on a very simple, hypothetical machine. To program early
 computers, it was necessary to set large arrays of switches in the
 right position, or punch holes in strips of cardboard and feed them to
 the computer. You can imagine how this was a tedious, error-prone
-procedure. Even the writing of simple programs required much
+procedure. Even writing simple programs required a great deal of
 cleverness and discipline. Complex ones were nearly inconceivable.
 
 (((bit)))(((wizard (mighty))))Of course, manually entering these
@@ -172,7 +172,7 @@ arcane patterns of bits (the ones and zeros) did give the programmer
 a profound sense of being a mighty wizard. And that has to be worth
 something in terms of job satisfaction.
 
-(((memory)))Each line of the program contains a single instruction. It
+(((memory)))Each line of the program above contains a single instruction. It
 could be written in English like this:
 
 [source,text/plain]
@@ -286,11 +286,11 @@ indexsee:[web,World Wide Web]
 (((JavaScript)))(((JavaScript,history of)))(((World Wide Web)))
 JavaScript was introduced in 1995, as a way to add programs to web
 pages in the Netscape Navigator browser. The language has since been
-adapted by all other major graphical web browsers. It has made the
+adopted by all other major graphical web browsers. It has made the
 current generation of web applications possible—browser-based email
 clients, maps, and social networks—and is also used in more
 traditional sites to provide various forms of interactivity and
-cleverness.
+richness.
 
 (((Java)))It is important to note that JavaScript has almost nothing
 to do with the programming language Java. The similar name was
@@ -314,10 +314,10 @@ time, I quickly came to despise it—it would accept almost anything I
 typed but interpret it in a way that was completely different from
 what I meant. This had a lot to do with the fact that I did not have a
 clue what I was doing, of course, but there is a real issue here:
-JavaScript is ridiculously liberal in what it allows. The idea behind
-this design was that it would make programming in JavaScript easier
-for beginners. In actuality, it mostly makes finding problems in your
-programs harder, because the system will not point them out to you.
+JavaScript is abnormally liberal in what it allows. The goal of
+this design was to make programming in JavaScript easier
+for beginners. In actuality, it tends to make it harder to spot issues in your
+code, since the system will not point them out to you.
 
 (((JavaScript,flexibility of)))This flexibility also has its
 advantages, though. It leaves space for a lot of techniques that are
@@ -331,8 +331,15 @@ JavaScript. ECMAScript version 3 was the dominant, widely supported
 version in the time of JavaScript's ascent to dominance, roughly
 between 2000 and 2010. During this time, work was underway on an
 ambitious version 4, which planned a number of radical improvements
-and extensions to the language. Changing a living, widely used
-language in such a radical way turned out to be politically difficult,
+and extensions to the language. But among programming languages,
+JavaScript has the unique challenge of remaining backward compatibile
+with the majority of programs written on the web over the past
+several decades. Since many of those programs and web sites would not
+ work anymore if the language were to change suddenly, making rapid
+improvents to the language has proven impractical.
+
+Changing a living, widely used
+language in such a radical way also turned out to be politically difficult,
 and work on the 4th edition was abandoned in 2008, leading to the much
 less ambitious 5th edition coming out in 2009. We're now just reaching
 the point where all major browsers support this 5th edition, which is

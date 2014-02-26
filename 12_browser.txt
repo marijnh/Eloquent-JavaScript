@@ -235,6 +235,12 @@ This book omit the `<html>`, `<head>`, and `<body>` tags, to keep the
 examples short and free of noise. Tags will be closed normally,
 though.
 
+We will also usually omit the doctype. This is not to be taken as an
+encouragement to omit doctype declarations. Browsers will often do
+ridiculous things when you forget them, and they should be considered
+to be implicitly present in the examples, even when not actually
+shown.
+
 == HTML and JavaScript ==
 
 In the context of this book, the most important HTML tag is
@@ -243,7 +249,6 @@ document.
 
 [source,text/html]
 ----
-<!doctype html>
 <h1>Testing alert</h1>
 <script>alert("hello!");</script>
 ----
@@ -258,7 +263,6 @@ file containing the JavaScript program) to be fetched from a URL.
 
 [source,text/html]
 ----
-<!doctype html>
 <h1>Testing alert</h1>
 <script src="js/hello.js"></script>
 ----
@@ -278,7 +282,6 @@ The `<button>` tag (which shows up as a button) can be given an
 
 [source,text/html]
 ----
-<!doctype html>
 <button onclick="alert('Boom!')">DO NOT PRESS</button>
 ----
 

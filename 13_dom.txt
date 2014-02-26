@@ -1,6 +1,6 @@
 :chap_num: 13
 :prev_link: 12_browser
-:next_link: 14_FIXME
+:next_link: 14_event
 :load_files: ["js/code/mountains.js", "js/13_dom.js"]
 
 = The Document Object Model =
@@ -221,7 +221,6 @@ and use `document.getElementById` instead.
 
 [source,text/html]
 ----
-<!doctype html>
 <p>My ostrich Gertrude:</p>
 <p><img id="gertrude" src="img/ostrich.png"></p>
 
@@ -247,7 +246,6 @@ as first argument before the node given as second argument.
 
 [source,text/html]
 ----
-<!doctype html>
 <p>One</p>
 <p>Two</p>
 <p>Three</p>
@@ -286,7 +284,6 @@ method.
 
 [source,text/html]
 ----
-<!doctype html>
 <p>The <img src="img/cat.png" alt="Cat"> in the
   <img src="img/hat.png" alt="Hat">.</p>
 
@@ -341,7 +338,6 @@ node. It then adds a simple footer to the document.
 
 [source,text/html]
 ----
-<!doctype html>
 <h1>Page</h1>
 <p>This is a document</p>
 
@@ -378,7 +374,6 @@ use the `getAttribute` and `setAttribute` methods to work with them.
 
 [source,text/html]
 ----
-<!doctype html>
 <p data-classified="secret">The code is 0000.</p>
 <p data-classified="unclassified">I have two feet.</p>
 
@@ -403,7 +398,6 @@ keywords for that language.
 [sandbox="highlight"]
 [source,text/html]
 ----
-<!doctype html>
 <p>Here it is, the identity function:</p>
 <pre data-language="javascript">
 function id(x) { return x; }
@@ -501,7 +495,6 @@ size of the _inside_ of the element, ignoring border width.
 
 [source,text/html]
 ----
-<!doctype html>
 <p style="border: 3px solid red">
   Not crossing the border.
 </p>
@@ -541,7 +534,6 @@ difference. It contains two different programs that build up a line of
 
 [source,text/html]
 ----
-<!doctype html>
 <p><span id="one"></span></p>
 <p><span id="two"></span></p>
 
@@ -585,7 +577,6 @@ to the element, and can be changed by us. For example by using the
 
 [source,text/html]
 ----
-<!doctype html>
 <p><a href=".">Normal link</a></p>
 <p><a href="." style="color: green">Green link</a></p>
 ----
@@ -601,7 +592,6 @@ element is displayed as a block or inline is controlled by the
 
 [source,text/html]
 ----
-<!doctype html>
 This is text with an <strong>inline</strong>,
 <strong style="display: block">block</strong>, and
 <strong style="display: none">hidden</strong> tag.
@@ -622,7 +612,6 @@ to change a particular aspect of the element's style.
 
 [source,text/html]
 ----
-<!doctype html>
 <p id="para" style="color: purple">
   Pretty text
 </p>
@@ -648,7 +637,6 @@ in the document. It can be given inside a `<style>` tag.
 
 [source,text/html]
 ----
-<!doctype html>
 <style>
   strong {
     font-style: italic;
@@ -721,7 +709,6 @@ array containing all the elements that match.
 
 [source,text/html]
 ----
-<!doctype html>
 <p>And if you go chasing
   <span class="animal">rabbits</span></p>
 <p>And you know you're going to fall</p>
@@ -768,7 +755,6 @@ spinning picture of a cat.
 
 [source,text/html]
 ----
-<!doctype html>
 <p style="text-align: center">
   <img src="img/cat.png" style="position: relative">
 </p>
@@ -837,7 +823,6 @@ from blue to yellow after two seconds:
 
 [source,text/html]
 ----
-<!doctype html>
 <script>
   document.body.style.background = "blue";
   setTimeout(function() {
@@ -927,7 +912,6 @@ ifdef::html_target[]
 
 [source,text/html]
 ----
-<!doctype html>
 <style>
   table { border-collapse: collapse; }
   td, th { border: 1px solid black; padding: 3px 8px; }
@@ -977,7 +961,6 @@ ifdef::html_target[]
 
 [source,text/html]
 ----
-<!doctype html>
 <h1>Heading with a <span>span</span> element.</h1>
 <p>A paragraph with <span>one</span>, <span>two</span>
   spans.</p>
@@ -1039,7 +1022,6 @@ ifdef::html_target[]
 
 [source,text/html]
 -----
-<!doctype html>
 <img src="img/cat.png" id="cat" style="position: absolute">
 <img src="img/hat.png" id="hat" style="position: absolute">
 

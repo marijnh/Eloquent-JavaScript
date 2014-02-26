@@ -124,10 +124,15 @@ window.addEventListener("load", function() {
     var val = data.editor.getValue();
     getSandbox(data.sandbox, data.isHTML, function(box) {
       if (data.isHTML)
-        box.setHTML(val, data.output, Math.min);
+        box.setHTML(withDoctype(val), data.output, Math.min);
       else
         box.run(val, data.output);
     });
+  }
+
+  function withDoctype(html) {
+    if (/<!doctype /.test(html)) return html;
+    return "<!doctype html>\n" + html;
   }
 
   function closeCode(data) {
@@ -158,7 +163,7 @@ window.addEventListener("load", function() {
       }
     }
     new SandBox(options, function(box) {
-      if (html != null) box.win.document.documentElement.innerHTML = html;
+      if (html != null) box.win.document.documentElement.innerHTML = withDocType(html);
       sandboxes[name] = box;
       callback(box);
     });

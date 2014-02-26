@@ -23,8 +23,6 @@ talk to each other, and graphical point-and-click (or tap) interfaces,
 which we understand easily because they imitate the tangible world
 outside of the machine.
 
-image::img/mysterious-computer.jpg[alt="The Mysterious Computer"]
-
 Graphical interfaces tend to be easier to figure out than
 language-based ones—spotting a button is quicker than learning a
 grammar. For this reason, they have become the dominant way to

@@ -1,0 +1,635 @@
+:chap_num: 14
+:prev_link: 13_dom
+:next_link: 15_FIXME
+:load_files: []
+
+= Handling Events =
+
+[quote,Marcus Aurelius,Meditations]
+____
+You have power over your mind—not outside events. Realize this, and
+you will find strength.
+____
+
+Some of the things that a program works with happen at unpredictable
+times, in an unpredictable order. This requires a somewhat different
+approach to control than the top-to-bottom model we have been working
+with.
+
+== Handlers ==
+
+Imagine an interface where the only way to find out whether a button
+is pressed is to read the current state of that button. In order to be
+able to react to that button, you would have to constantly read the
+button's state, so that you'd catch it before it was released again.
+If you were doing some expensive computation, you might miss a button
+press.
+
+That is how things were done on _very_ primitive machines. A step up
+would be for the hardware or the operating system to notice the button
+press, and put it in a queue somewhere. Our program can then
+periodically check whether something has appeared in this queue, and
+react to what it finds there.
+
+Of course, it has to remember to look at the queue, and to do it
+often, because any time elapsed between the button being pressed and
+our program getting around to seeing if a new event came in will cause
+the software to feel unresponsive. This approach is called _polling_.
+Most programmers avoid it whenever possible.
+
+A better mechanism is for the underlying system to immediately give
+our code a chance to react to events as they occur. The way browsers
+do this is to allow us to register functions as _handlers_ for
+specific events.
+
+[source,text/html]
+----
+<p>Click on this document to activate the handler.</p>
+<script>
+  addEventListener("click", function() {
+    console.log("You clicked!");
+  });
+</script>
+----
+
+The `addEventListener` function registers its second argument to be
+called whenever the event described by its first argument occurs.
+
+== Events and DOM nodes ==
+
+Each browser event handler is registered in a context. When you call
+`addEventListener` as above, you are calling it as a method on the
+window, so the context is the whole window. Every DOM node has an
+`addEventListener` method, which allows you to listen specifically on
+that node.
+
+[source,text/html]
+----
+<button>Click me</button>
+<p>No handler here.</p>
+<script>
+  var button = document.querySelector("button");
+  button.addEventListener("click", function() {
+    console.log("Button clicked.");
+  });
+</script>
+----
+
+The example attaches a handler to the button node, with the result
+that only clicks on the button cause the handler to run.
+
+An `onclick` attribute put directly on a node has a similar effect.
+But a node only has one `onclick` attribute, so you can only register
+one handler per node that way. The `addEventHandler` method allow any
+number of handlers to be added, which makes it harder to accidentally
+replace a handler left by some other code.
+
+The `removeEventHandler` method, called with the same type of
+arguments as `addEventHandler` removes a handler again.
+
+[source,text/html]
+----
+<button>Act-once button</button>
+<script>
+  var button = document.querySelector("button");
+  function once() {
+    console.log("Done.");
+    button.removeEventListener("click", once);
+  }
+  button.addEventListener("click", once);
+</script>
+----
+
+In order to be able to unregister it again, we had to give our handler
+function a name (`once`), so that we can pass the same value to
+`removeEventListener` that we passed to `addEventListener`.
+
+== Event objects ==
+
+Though we have ignored it in the examples above, event handler
+functions are actually passed an argument, the event object. This
+object gives us additional information about the event. If we, for
+example, want to know _which_ mouse button was pressed, we can look at
+its `button` property.
+
+[source,text/html]
+----
+<button>Click me any way you want!</button>
+<script>
+  var button = document.querySelector("button");
+  button.addEventListener("mousedown", function(event) {
+    if (event.button == 0)
+      console.log("Left button.");
+    else if (event.button == 1)
+      console.log("Middle button.");
+    else if (event.button == 2)
+      console.log("Right button.");
+  });
+</script>
+----
+
+The information stored in an event object differs per type of event.
+Its `type` property holds a string identifying the event (for example
+`"click"` or `"mousedown"`).
+
+== Bubbling ==
+
+Event handlers registered on nodes with children will also receive
+events that happen in the children. If a button inside a paragraph is
+clicked, event handlers on the paragraph will also receive the click
+event.
+
+But if both the paragraph and the button have a handler, the more
+specific handler—the one on the button—gets to go first. Conceptually,
+the event “bubbles” outwards, from the node where it happened, to that
+node's parent node, and on up to the root of the document. And
+finally, handlers registered on the whole window get a chance to
+respond to the event.
+
+At any point, an event handler can call the `stopPropagation` method
+on the event object to prevent handlers “further up” from receiving
+the event. This can be useful when, for example, you have a button
+inside another clickable element, and you don't want clicks on the
+button to also activate the outer element's click behavior.
+
+The example below registers mousedown handler on both a button and the
+paragraph around it. The handler for the button calls
+`stopPropagation`, preventing the handler on the paragraph from
+running, only when the click used the right mouse button.
+
+[source,text/html]
+----
+<p>A paragraph with a <button>button</button>.</p>
+<script>
+  var para = document.querySelector("p");
+  var button = document.querySelector("button");
+  para.addEventListener("mousedown", function() {
+    console.log("Handler for paragraph.");
+  });
+  button.addEventListener("mousedown", function(event) {
+    console.log("Handler for button.");
+    if (event.button == 2)
+      event.stopPropagation();
+  });
+</script>
+----
+
+Event objects have a `target` property that refers to the node where
+they originate. You can also use this to ensure that you are not
+accidentally handling something that bubbled up from a node you do not
+want to handle. It is also possible to use the `target` property to
+“cast a wide net” for a specific type of event. For example, if you
+have a node containing a long list of buttons and you want to handle
+clicks on these buttons, it may be more inconvenient to register a
+single click handler on the outer node, and have it figure out whether
+a button was clicked, than to register individual handlers on all of
+the buttons.
+
+[source,text/html]
+----
+<button>A</button>
+<button>B</button>
+<button>C</button>
+<script>
+  document.body.addEventListener("click", function(event) {
+    if (event.target.nodeName == "BUTTON")
+      console.log("Clicked", event.target.innerText);
+  });
+</script>
+----
+
+== Default actions ==
+
+Many events have a default action associated with them by the browser.
+If you click a link, it will take you to the link's target. If you
+press the down arrow, it will scroll the page down. A right click will
+open a context menu. And so on.
+
+For most types of events, the JavaScript event handlers are called
+_before_ the default behavior is performed. If they performed an
+action in response to the event, they can call the `preventDefault`
+method on the event object in order to prevent the browser from
+executing its default behavior.
+
+This can be used to implement your own keyboard shortcuts or context
+menu. It can also be used to obnoxiously interfere with the behavior
+that users expect. For example, here is a link that can not be
+followed:
+
+[source,text/html]
+----
+<a href="https://developer.mozilla.org/">MDN</a>
+<script>
+  var link = document.querySelector("a");
+  link.addEventListener("click", function(event) {
+    console.log("Nope.");
+    event.preventDefault();
+  });
+</script>
+----
+
+Try not to do such things unless you have a really good reason to. For
+people using your page, it can be very unpleasant when the default
+behavior they were expecting unexplicably fails to work.
+
+Depending on the browser, some events can not be intercepted. On
+Chrome, for example, keyboard shortcuts to close the current tab or
+open a new window (Control-W and Control-N) can not be handled by
+JavaScript.
+
+== Key events ==
+
+When a key on the keyboard is pressed down, your browser will fire a
+`"keydown"` event. When it is released again, a `"keyup"` event is
+fired. This enables various ways of responding to keys. You can react
+to `"keydown"` to do something as soon as a key is hit, or react to
+`"keyup"` to act once it has been “typed”—pressed an released again.
+Finally, you can make keys have an effect as long as they are held, by
+enabling the effect on `"keydown"`, and turning it off again on
+`"keyup"`.
+
+[source,text/html]
+----
+<p>This page turns violet when you hold the V key.</p>
+<script>
+  addEventListener("keydown", function(event) {
+    if (event.keyCode == 86)
+      document.body.style.background = "violet";
+  });
+  addEventListener("keyup", function(event) {
+    if (event.keyCode == 86)
+      document.body.style.background = "";
+  });
+</script>
+----
+
+ifdef::html_target[]
+
+To make the browser actually deliver key events to the example page,
+you have to click it first to focus it.
+
+endif::html_target[]
+
+Despite its name, `"keydown"` is not only fired when the key is
+physically pushed down. When a key is pressed and held, the event is
+fired again every time the key “repeats”. Sometimes, for example when
+you want to increase the acceleration of your game character when an
+arrow key is pressed, and decrease it again when the key is released,
+you have to be careful not to increase it again every time the key
+repeats, or you'd end up with unintentionally huge acceleration
+values.
+
+The example above looked at the `keyCode` property of the event
+object. This is the way we can identify which key is being pressed or
+released. Unfortunately, it holds a number, and translating that
+number to an actual key is not always obvious.
+
+For letter and number keys, the associated key code will be the
+Unicode character code associated with the (upper case) letter printed
+on the key. The `charCodeAt` method on strings gives us a way to find
+this code:
+
+[source,javascript]
+----
+console.log("Violet".charCodeAt(0));
+// → 86
+console.log("1".charCodeAt(0));
+// → 49
+----
+
+Other keys have less predictable key codes. The best way to find the
+codes you need is usually by experiment—register a key event handler
+that logs the key codes it gets, and press the key you are interested
+in.
+
+Modifier keys like shift, control, alt, and meta (“command” on Mac)
+generate key events just like normal keys. But to detect key
+combinations, whether they are held or not can be determined by
+looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey`
+properties of key (and mouse) events.
+
+[source,text/html]
+----
+<p>Press control-space to continue.</p>
+<script>
+  addEventListener("keydown", function(event) {
+    if (event.keyCode == 32 && event.ctrlKey)
+      console.log("Continuing!");
+  });
+</script>
+----
+
+The `"keydown"` and `"keyup"` events give you information about the
+physical key that is being hit. Sometimes you want to know which
+character is being typed instead. For that purpose, the `"keypress"`
+event is useful. It is fired right after `"keydown"` (and repeated
+along with `"keydown"` when the key is held), but only for keys that
+produce character input. The `keyCode` property, for this events,
+contains a code that can be interpreted as a Unicode character code,
+on most browsers. Some browsers use the `charCode` property instead,
+so it is recommended to check for that too. The `String.fromCharCode`
+function can be used to turn this code into an actual
+(single-character) string.
+
+[source,text/html]
+----
+<p>Focus this page and type something.</p>
+<script>
+  addEventListener("keypress", function(event) {
+    var code = event.charCode || event.keyCode;
+    console.log(String.fromCharCode(code));
+  });
+</script>
+----
+
+The DOM node where key events originate depends on the element that is
+currently focused. Normal nodes can not be focused (unless you give
+them a `tabindex` attribute), but things like buttons and text fields
+can. When nothing in particular is focused, `document.body` acts as
+the target node of key events.
+
+== Mouse clicks ==
+
+Clicking a mouse button also causes a number of events to be fired.
+The `"mousedown"` and `"mouseup"` events are similar to `"keydown"`
+and `"keyup"`, fired when the button is pressed and released. These
+will happen on the DOM nodes that are immediately below the mouse
+pointer when the event occurs.
+
+After the `"mouseup"` event, a `"click"` event is fired on the most
+specific node that contained both the press and the release of the
+button. For example, if I press down the mouse button on one
+paragraph, and then move the pointer to another paragraph and release
+the button, the `"click"` event will happen on the element that
+contains both those paragraphs.
+
+If two clicks quickly follow each other, a `"dblclick"` (double click)
+event is also fired, after the second click event.
+
+To get precise information about the place where a mouse event
+happened, you can look at its `pageX` and `pageY` properties, which
+contain the event's coordinates (in pixels) relative to the top left
+corner of the document.
+
+The following implements a primitive drawing program. Every time you
+click on the document, it adds a dot under your mouse pointer.
+
+[source,text/html]
+----
+<style>
+  body {
+    height: 200px;
+    background: beige;
+  }
+  .dot {
+    height: 8px; width: 8px;
+    border-radius: 4px; /* rounds corners */
+    background: blue;
+    position: absolute;
+  }
+</style>
+<script>
+  addEventListener("click", function(event) {
+    var dot = document.createElement("div");
+    dot.className = "dot";
+    dot.style.left = (event.pageX - 4) + "px";
+    dot.style.top = (event.pageY - 4) + "px";
+    document.body.appendChild(dot);
+  });
+</script>
+----
+
+The `clientX` and `clientY` properties are similar to `pageX` and
+`pageY`, but relative to the part of the document that is currently
+scrolled into view. These can be useful when comparing mouse
+coordinates with the coordinates returned by `getBoundingClientRect`,
+which yields the same type of coordinates.
+
+== Mouse motion ==
+
+Every time the mouse pointer moves, a `"mousemove"` event fires. This
+event can be used to track the position of the mouse. One way this can
+be useful is when you are implementing some form of mouse-dragging
+functionality.
+
+As an example, we display a square, and we want dragging over it to
+cause its size to change—dragging down and right makes it bigger, up
+and left makes it smaller.
+
+[source,text/html]
+----
+<p>Drag the bar to change its width:</p>
+<div style="background: orange; width: 60px; height: 20px">
+</div>
+<script>
+  var rect = document.querySelector("div");
+  function updateWidth(add) {
+    var width = Math.max(10, rect.offsetWidth + add);
+    rect.style.width = width + "px";
+  }
+
+  var dragging = false, prevX;
+  rect.addEventListener("mousedown", function(event) {
+    dragging = true;
+    prevX = event.pageX;
+    event.preventDefault(); // Prevent selection
+  });
+  addEventListener("mouseup", function() {
+    dragging = false;
+  });
+  addEventListener("mousemove", function(event) {
+    if (dragging) {
+      updateWidth(event.pageX - prevX);
+      prevX = event.pageX;
+    }
+  });
+</script>
+----
+
+Note that the `"mouseup"` and `"mousemove"` handlers are registered on the
+whole window. Even if the mouse goes outside of the bar during
+resizing, we still want to update its size and stop dragging when the
+mouse is released.
+
+Whenever the mouse pointer enters or leaves a node, the `"mouseover"`
+or `"mouseout"` event is fired on this node. This can be used, among
+other things, to create hover effects. But be careful, because these
+events bubble just like other events, and thus you might receive a
+`"mouseout"` event for a node when the mouse leaves one of its child
+nodes, which is not the point where you want to turn off your hover
+effect. This is very inconvenient.
+
+To work around it, we can use the `relatedTarget` property of the
+event objects created for these events. It tells us, in the case of
+`"mouseover"`, what element the pointer was over before, and in the
+case of `"mouseout"`, what element it is going to. We only want to
+change our hover effect when the `relatedTarget` is outside of our
+target node. When that is the case, it means that this event actually
+represents a “crossing over” from outside or inside the node (or vice
+versa).
+
+[source,text/html]
+----
+<p>Hover over this <strong>paragraph</strong>.</p>
+<script>
+  var para = document.querySelector("p");
+  function isInside(node, target) {
+    for (; node; node = node.parentNode)
+      if (node == target) return true;
+  }
+  para.addEventListener("mouseover", function(event) {
+    if (!isInside(event.relatedTarget, para))
+      para.style.color = "red";
+  });
+  para.addEventListener("mouseout", function(event) {
+    if (!isInside(event.relatedTarget, para))
+      para.style.color = "";
+  });
+</script>
+----
+
+I should add that the effect above can be much more easily achieved
+using the CSS _pseudo-selector_ `:hover`, as shown below. But when you
+need to react to the mouse entering or leaving a node in a way that
+does not just change some style, the above technique is needed.
+
+[source,text/html]
+----
+<style>
+  p:hover { color: red }
+</style>
+<p>Hover over this <strong>paragraph</strong>.</p>
+----
+
+== Scroll events ==
+
+Whenever an element is scrolled, a `"scroll"` event is fired on it.
+This has various uses, such as knowing what the user is looking at
+(either to disable off-screen animation or to send secret spy reports
+to your evil headquarters), or showing some indication of progress (by
+highlighting a part of a document overview, or showing a page or slide
+number).
+
+The example below draws a progress bar in the top right corner of the
+document, and updates it to fill up as you scroll down.
+
+[source,text/html]
+----
+<style>
+  .progress {
+    border: 1px solid blue;
+    width: 100px;
+    position: fixed;
+    top: 10px; right: 10px;
+  }
+  .progress > div {
+    height: 12px;
+    background: blue;
+    width: 0%;
+  }
+  body {
+    height: 2000px;
+  }
+</style>
+<div class="progress"><div></div></div>
+<p>Scroll me...</p>
+<script>
+  var bar = document.querySelector(".progress div");
+  addEventListener("scroll", function() {
+    var max = document.body.scrollHeight - innerHeight;
+    var percent = (pageYOffset / max) * 100;
+    bar.style.width = percent + "%";
+  });
+</script>
+----
+
+Giving an element a `position` of `fixed` acts much like an `absolute`
+position, but also prevents it from scrolling along with the rest of
+the document. This is used to make our progress bar stay in its
+corner. Inside of it is another element, which is resized to indicate
+the current progress. We use `%`, rather than `px` as a unit when
+setting the width, so that the element is sized relative to the whole
+bar.
+
+The global `innerHeight` variable gives us the height of the window,
+which we have to subtract from the total scrollable height, because
+you can't scroll down anymore when the bottom of the screen has
+reached the bottom of the document. (There is, of course, also
+`innerWidth`.) By dividing `pageYOffset` (the current scroll position)
+by the maximum scroll position, and multiplying that by a hundred, we
+get the percentage that we want to display.
+
+Calling `preventDefault` on a scroll event does not prevent the
+scrolling from happening. In fact, the event handler is only called
+_after_ the scrolling took place.
+
+== Focus events ==
+
+When an element is focused, the browser fires a `"focus"` event on it.
+When it loses focus, a `"blur"` event fires.
+
+Unlike to the events discussed earlier, these two events do not
+“bubble”. A handler on a parent element is not notified when a child
+element is focused or unfocused.
+
+The example below displays a help text for the text field that is
+currently focused.
+
+[source,text/html]
+----
+<p>Name: <input type="text" data-help="Your full name"></p>
+<p>Age: <input type="text" data-help="Age in years"></p>
+<p id="help"></p>
+
+<script>
+  var help = document.querySelector("#help");
+  var fields = document.querySelectorAll("input");
+  for (var i = 0; i < fields.length; i++) {
+    fields[i].addEventListener("focus", function(event) {
+      var text = event.target.getAttribute("data-help");
+      help.innerText = text;
+    });
+    fields[i].addEventListener("blur", function(event) {
+      help.innerText = "";
+    });
+  }
+</script>
+----
+
+The window object will receive `"focus"` and `"blur"` events when the
+user moves from or to the tab or window in which the document is
+shown.
+
+== Load event ==
+
+When page finishes loading, the `"load"` event is fired on the window
+and the body. This is often used to schedule things that require all
+of the document to have been built up (remember that the content of
+`<script>` tags is run immediately, when the tag is encountered).
+
+Elements like images and script tags that load an external file also
+have a `"load"` event that indicates the files they reference were
+loaded. Like the focus-related events, loading events do not bubble.
+
+When a page is closed or navigated away from (for example by following
+a link), a `"beforeunload"` event is fired. The main use of this event
+is to prevent the user from accidentally lose work by closing a
+document. Doing this is not, as you might expect, done with the
+`preventDefault` method. Instead, it is done by returning a string
+from the handler. The string will be used in a dialog that asks the
+user if they want to stay on the page or leave it. This mechanism
+ensures that a user is able to leave the page, even if it running a
+malicious script that would prefer to keep them there forever (showing
+them dodgy weight loss ads).
+
+== Happening at once ==
+
+== Event-driven programming ==
+
+== Debouncing ==
+
+Excercises:
+
+ - mouse trail
+ - work around iframe/window effect when dragging
+ - context menu

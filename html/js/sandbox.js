@@ -117,7 +117,7 @@
       }
     },
     resizeFrame: function() {
-      this.frame.style.height = Math.max(80, Math.min(this.frame.contentWindow.document.body.scrollHeight, 600)) + "px";
+      this.frame.style.height = Math.max(80, Math.min(this.frame.contentWindow.document.body.scrollHeight + 10, 500)) + "px";
     },
     tick: function() {
       var now = Date.now();

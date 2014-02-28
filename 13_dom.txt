@@ -813,54 +813,6 @@ schedule the next update. When the browser window (or tab) is active,
 this will cause updates to happen at a rate of about 60 per second,
 which tends to produce a nicely smooth animation.
 
-== Setting timers ==
-
-The `setTimeout` function is similar to `requestAnimationFrame`. It
-schedules a function to be called later. But instead of having it
-called at the next redraw, the amount of milliseconds after which it
-should be called is specified as a second argument. This page turns
-from blue to yellow after two seconds:
-
-[source,text/html]
-----
-<script>
-  document.body.style.background = "blue";
-  setTimeout(function() {
-    document.body.style.background = "yellow";
-  }, 2000);
-</script>
-----
-
-When you need to cancel a scheduled function, this can be done by
-calling `clearTimeout` on the value returned by `setTimeout`.
-
-[source,javascript]
-----
-var bombTimer = setTimeout(function() {
-  console.log("BOOM!");
-}, 500);
-
-if (Math.random() < .5) { // 50% chance
-  console.log("Defused.");
-  clearTimeout(bombTimer);
-}
-----
-
-A similar set of functions, `setInterval` and `clearInterval` are used
-to set timers that should repeat every X milliseconds.
-
-[source,javascript]
-----
-var ticks = 0;
-var clock = setInterval(function() {
-  console.log("tick", ticks++);
-  if (ticks == 10) {
-    clearInterval(clock);
-    console.log("stop.");
-  }
-}, 200);
-----
-
 == Exercises ==
 
 === Build a table ===

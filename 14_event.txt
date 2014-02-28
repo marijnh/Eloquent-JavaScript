@@ -1,7 +1,6 @@
 :chap_num: 14
 :prev_link: 13_dom
 :next_link: 15_FIXME
-:load_files: []
 
 = Handling Events =
 
@@ -11,12 +10,12 @@ You have power over your mind—not outside events. Realize this, and
 you will find strength.
 ____
 
-Some of the things that a program works with happen at unpredictable
-times, in an unpredictable order. This requires a somewhat different
-approach to control than the top-to-bottom model we have been working
-with.
+Some of the things that a program works with, such as direct user
+input, happen at unpredictable times, in an unpredictable order. This
+requires a somewhat different approach to control than the
+top-to-bottom model we have been working with.
 
-== Handlers ==
+== Event handlers ==
 
 Imagine an interface where the only way to find out whether a button
 is pressed is to read the current state of that button. In order to be
@@ -230,7 +229,7 @@ followed:
 
 Try not to do such things unless you have a really good reason to. For
 people using your page, it can be very unpleasant when the default
-behavior they were expecting unexplicably fails to work.
+behavior they were expecting inexplicably fails to work.
 
 Depending on the browser, some events can not be intercepted. On
 Chrome, for example, keyboard shortcuts to close the current tab or
@@ -324,20 +323,17 @@ physical key that is being hit. Sometimes you want to know which
 character is being typed instead. For that purpose, the `"keypress"`
 event is useful. It is fired right after `"keydown"` (and repeated
 along with `"keydown"` when the key is held), but only for keys that
-produce character input. The `keyCode` property, for this events,
-contains a code that can be interpreted as a Unicode character code,
-on most browsers. Some browsers use the `charCode` property instead,
-so it is recommended to check for that too. The `String.fromCharCode`
-function can be used to turn this code into an actual
-(single-character) string.
+produce character input. The `charCode` property in the event object
+contains a code that can be interpreted as a Unicode character code.
+The `String.fromCharCode` function can be used to turn this code into
+an actual (single-character) string.
 
 [source,text/html]
 ----
 <p>Focus this page and type something.</p>
 <script>
   addEventListener("keypress", function(event) {
-    var code = event.charCode || event.keyCode;
-    console.log(String.fromCharCode(code));
+    console.log(String.fromCharCode(event.charCode));
   });
 </script>
 ----
@@ -465,8 +461,8 @@ event objects created for these events. It tells us, in the case of
 case of `"mouseout"`, what element it is going to. We only want to
 change our hover effect when the `relatedTarget` is outside of our
 target node. When that is the case, it means that this event actually
-represents a “crossing over” from outside or inside the node (or vice
-versa).
+represents a “crossing over” from outside to inside the node (or the
+other way around).
 
 [source,text/html]
 ----
@@ -622,14 +618,362 @@ ensures that a user is able to leave the page, even if it running a
 malicious script that would prefer to keep them there forever (showing
 them dodgy weight loss ads).
 
-== Happening at once ==
+== Script execution timeline ==
 
-== Event-driven programming ==
+There are various things that can cause a script to start executing.
+Reading a `<script>` tag is obviously one such thing. An event firing,
+if that even has a handler, is another. Chapter 13 discussed the
+`requestAnimationFrame` function, which schedules a function to be
+called before the next page redraw. That is yet another way in which a
+script can start running.
+
+It is important to understand that, even though events can fire at any
+time, no two scripts in a single document ever run at the same moment.
+Event handlers and pieces of program scheduled in other ways have to
+wait for their turn. This is also the reason why a document will
+freeze when a script runs for a long time. The browser can not react
+to clicks and other events inside the document, because it can not run
+event handlers until the current script finishes running.
+
+Some programming environments do allow multiple _threads of execution_
+to run at the same time. Doing multiple things at the same time can be
+used to make a program faster. But when you have multiple actors doing
+things at the same time, thinking about a program becomes at least an
+order of magnitude harder.
+
+The fact that JavaScript programs only do one thing at a time thus
+makes our life quite a bit easier. For when you really do want to do
+some time-consuming thing in the background, without freezing the
+document, browsers provide something called “web workers”. A worker is
+an isolated JavaScript environment, which runs alongside the main
+program for a document, and can only communicate with it by sending
+and receiving messages.
+
+Assume we have this code in `js/squareworker.js`, which is the program
+that will be run inside of the isolated worker process.
+
+[source,javascript]
+----
+addEventListener("message", function(event) {
+  postMessage(event.data * event.data);
+});
+----
+
+If we imagine that squaring a number is a heavy, long-running
+computation that we want to perform in a background thread, this code
+spawns a worker, sends it a few messages, and outputs the responses.
+
+// test: no
+
+[source,javascript]
+----
+var squareWorker = new Worker("js/squareworker.js");
+squareWorker.addEventListener("message", function(event) {
+  console.log("The worker responded:", event.data);
+});
+squareWorker.postMessage(10);
+squareWorker.postMessage(24);
+----
+
+The `postMessage` function sends a message, which will cause a
+`"message"` event to fire in the receiver. The script that created the
+worker sends and receives messages through the `Worker` object,
+whereas the worker talks to the script that created it by sending and
+listening directly on its global scope (which is a _new_ global scope,
+not shared with the original script).
+
+== Setting timers ==
+
+The `setTimeout` function is similar to `requestAnimationFrame`. It
+schedules another function to be called later. But instead of having
+it called at the next redraw, it is given an amount of milliseconds to
+wait before calling the function. This page turns from blue to yellow
+after two seconds:
+
+[source,text/html]
+----
+<script>
+  document.body.style.background = "blue";
+  setTimeout(function() {
+    document.body.style.background = "yellow";
+  }, 2000);
+</script>
+----
+
+Sometimes you want to cancel a scheduled function. This is done by
+storing the value returned by `setTimeout`, and calling `clearTimeout`
+on it.
+
+[source,javascript]
+----
+var bombTimer = setTimeout(function() {
+  console.log("BOOM!");
+}, 500);
+
+if (Math.random() < .5) { // 50% chance
+  console.log("Defused.");
+  clearTimeout(bombTimer);
+}
+----
+
+A similar set of functions, `setInterval` and `clearInterval` are used
+to set timers that should repeat every X milliseconds.
+
+[source,javascript]
+----
+var ticks = 0;
+var clock = setInterval(function() {
+  console.log("tick", ticks++);
+  if (ticks == 10) {
+    clearInterval(clock);
+    console.log("stop.");
+  }
+}, 200);
+----
 
 == Debouncing ==
 
-Excercises:
+Some types of events have the potential to fire rapidly, many times in
+a row. The `"mousemove"` and `"scroll"` events, for example. When
+handling such events, you must be careful not to do anything too
+time-consuming, or your handler will consume so much time that
+interaction with the document starts to feel slow and choppy.
 
- - mouse trail
- - work around iframe/window effect when dragging
- - context menu
+If you do need to do something non-trivial in such a handler, you use
+`setTimeout` to make sure you are not doing it too often. This is
+usually called _debouncing_ the event. There are several slightly
+different approaches to this.
+
+In this first example, we want to do something when the user has typed
+something, but we don't want to do it immediately for every key event.
+When they are typing quickly, we just want to wait until a pause
+occurs. This is done by not immediately performing an action in the
+event handler, but setting a timeout instead. We also clear the
+previous timeout (if any), so that when events occur close together
+(closer than our timeout delay), the timeout from the previous event
+will be canceled.
+
+[source,text/html]
+----
+<textarea>Type something here...</textarea>
+<script>
+  var textarea = document.querySelector("textarea");
+  var timeout;
+  textarea.addEventListener("keydown", function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      console.log("You stopped typing.");
+    }, 500);
+  });
+</script>
+----
+
+Giving an undefined value to `clearTimeout` or calling it on a timeout
+that already fired has no effect. Thus, we don't have to be careful
+about when to call it, and simply do so for every event.
+
+A slightly different pattern occurs when we want to space responses to
+an event at least a certain amount of time apart, but do want to fire
+them _during_ a series of events, not just afterwards. For example, we
+want to respond to `"mousemove"` events by showing the current
+coordinates of the mouse, but only every 250 milliseconds.
+
+[source,text/html]
+----
+<script>
+  var pending = false;
+  addEventListener("mousemove", function(event) {
+    if (!pending) {
+      pending = true;
+      setTimeout(function() {
+        pending = false;
+        document.body.innerText =
+          "Mouse at " + event.pageX + ", " + event.pageY;
+      }, 250);
+    }
+  });
+</script>
+----
+
+== Excercises ==
+
+=== Censored keyboard ===
+
+Between 1928 and 2013, Turkish law forbade the use of the letters “Q”,
+“W”, and “X” in official documents. This was part of a wider
+initiative to stifle Kurdish culture—those letters occur in the
+language used by Kurdish people, but not in regular Turkish.
+
+As an exercise in doing ridiculous things with technology, I want to
+ask you to program a text field (an `<input type="text">` tag) in such
+a way that these letters can not be typed into it.
+
+(Do not worry about copy-paste and other such loopholes.)
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<input type="text">
+<script>
+  var field = document.querySelector("input");
+  // Your code here...
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+The solution to this exercise involves preventing the default behavior
+of key events. You can handle either `"keypress"` (the most obvious)
+or `"keydown"`, if either of them has `preventDefault` called on it,
+the letter typed will not appear.
+
+Identifying the letter typed requires looking at the `keyCode` or
+`charCode` property, and comparing that with the codes for the letters
+we want to filter. In `"keydown"`, you do not have to worry about
+lower- and upper-case letters, since it only identifies the key
+pressed. In `"keypress"`, which identifies actual characters typed,
+you have to make sure you test both for both cases. One way to do that
+would be this:
+
+----
+/[qwx]/i.test(String.fromCharCode(event.charCode))
+----
+
+!!solution!!
+
+=== Mouse trail ===
+
+In JavaScript's early days, which was the high time of gaudy
+homepages with lots of animated images, people came up with some truly
+garish ways to use it.
+
+One of these was the “mouse trail”—a series of images following the
+mouse as you moved it across the page.
+
+In this exercise, I want you to implement a mouse trail. Use
+absolutely positioned `<div>` elements with a fixed size and
+background color (refer back to the link:#c_nplPzKchTA[code] in the
+section on mouse click events for an example). Create twelve such
+elements, and when the mouse moves, display them in the wake of the
+mouse pointer, somehow.
+
+There are various possible approaches here. You can make your solution
+as complex as you want. To start with, a simple solution is to keep a
+counter variable to cycle through your trail elements. Listen to
+`"mousemove"` events, and every time one is fired, move the next
+element to the point where the cursor currently is.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<style>
+  .trail { /* className for the trail elements */
+    position: absolute;
+    height: 6px; width: 6px;
+    border-radius: 3px;
+    background: teal;
+  }
+  body {
+    height: 300px;
+  }
+</style>
+<script>
+  // Your code here...
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+Creating the elements is best done in a loop. Append them to the
+document to make them show up. In order to be able to access them
+later, to change their position, store the trail elements in an array.
+
+Cycling through them can be done by keeping a counter variable, and
+adding one to it every time the `"mousemove"` event fires. The
+remainder operator (`% 10`) can then be used to get a valid array
+index, to pick the element we want to position in this event.
+
+Another interesting effect can be gotten by modeling a simple physics
+system. The `"mousemove"` event is then used only to update a pair of
+variables that track the mouse position. The animation is created by
+using `requestAnimationFrame` to simulate the trailing elements being
+attracted by the position of the mouse pointer. Every animation step,
+their position is updated based on their relative position to the
+pointer (and optionally, a speed that is stored for each element).
+Figuring out a good way to do this is up to you.
+
+!!solution!!
+
+=== Tabs ===
+
+A tabbed interface is a commonly used pattern. It allows you to select
+from a number of views by selecting little clips “sticking out” above
+an element.
+
+In this exercise we implement a crude tab interface. Write a function
+`asTabs` that, given a DOM node, creates a tabbed interface showing
+the children of that node. It should insert a list of `<button>`
+elements at the top of the node, one for each child node, containing
+text retrieved from the `data-tabname` attributes of the child node.
+All but one of the original children should be hidden (given a
+`display` style of `none`), and the currently visible node can be
+selected by clicking the buttons.
+
+When it works, extend it to also style the currently active button
+differently.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<div id="wrapper">
+  <div data-tabname="one">Tab one</div>
+  <div data-tabname="two">Tab two</div>
+  <div data-tabname="three">Tab three</div>
+</div>
+<script>
+  function asTabs(node) {
+    // Your code here...
+  }
+  asTabs(document.querySelector("#wrapper"));
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+One pitfall you'll probably run into is that you can't directly use
+the node's `childNodes` property as a collection of tab nodes. For one
+thing, when you add the buttons, they will also become a child node,
+and end up in this pseudo-array. For another, the text nodes created
+for the whitespace between the nodes is also in there, and should not
+get its own tab.
+
+To work around this, start by building up a real array of all the
+`nodeType` 1 children in the wrapper.
+
+When registering event handlers on the buttons, you will probably need
+to have your handler functions close over something that tells them
+which tab node is associated with this button. A regular loop index
+can be closed over, but all the handlers will be closing over the same
+variable, which ends up with the value that it has at the end of the
+loop.
+
+A simple workaround is to use the `forEach` method and create the
+handler function from inside the method's argument function, where it
+can close over the function's arguments.
+
+!!solution!!

@@ -257,8 +257,8 @@ variable. We will find out exactly what this means in Chapter 4.
 
 (((side effect)))(((return value)))(((max function)))Showing a dialog
 box or writing text to the screen is a _side effect_. A lot of functions
-are useful because of the side effects they produce. Fuctions can also
-produce a values, and in that case, they don't
+are useful because of the side effects they produce. Functions can also
+produce values, and in that case, they don't
 need to have a side effect to be useful. For example, the
 function `Math.max` takes two numbers and gives back the
 greatest of the two:

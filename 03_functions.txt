@@ -483,7 +483,7 @@ console.log(twice(5));
 // → 10
 ----
 
-The explicit local variable from the `wrapNumber` example isn't
+The explicit local variable from the `wrapValue` example isn't
 needed, since a parameter is itself a local variable.
 
 Thinking about programs like this takes some exercise. A good mental

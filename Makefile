@@ -19,4 +19,5 @@ tex/%.tex: tex/%.db
 
 test:
 	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
+	@! grep '[a-zA-Z]_[—“”‘’]\|[—“”‘’]_[a-zA-Z]' *.txt
 	@echo Done.

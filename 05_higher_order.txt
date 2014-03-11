@@ -615,7 +615,7 @@ horizon.
 == The cost ==
 
 In the happy land of elegant code and pretty rainbows, there lives a
-mean spoil-sport monster called “_inefficiency_”.
+mean spoil-sport monster called “__inefficiency__”.
 
 Reducing the processing of an array into a sequence of cleanly
 separated steps that each do something with the array and produce a

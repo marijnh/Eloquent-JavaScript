@@ -259,7 +259,7 @@ character is written like "\n"`” can be written:
 
 (((+ operator)))(((concatenation)))Strings cannot be divided,
 multiplied, or subtracted, but the ‘+’ operator _can_ be used on them.
-It does not add, but it _concatenates_—it glues two strings together.
+It does not add, but it __concatenates__—it glues two strings together.
 The following line will produce the string `"concatenate"`:
 
 [source,javascript]

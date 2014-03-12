@@ -81,8 +81,8 @@ usually are:
 13
 ----
 
-(((binary)))Put that into a program, and it will cause the bit pattern
-for the number 13 to come into existence inside the computer.
+(((binary)))Use that in a program, and it will cause the bit pattern
+for the number 13 to come into existence inside the computer's memory.
 
 JavaScript uses a fixed number of bits, namely 64 of them, to store a
 single number value. There are only so many patterns you can make with 
@@ -477,11 +477,12 @@ console.log(false == 0)
 
 When an operator is applied to the “wrong” type of value, it will
 quietly convert that value to the type it wants, using a set of rules
-that often aren't what you want or expect. So the `null` in the first
-expression becomes `0` and the `"5"` in the second expression becomes `5`
-(from string to number). Yet in the third expression, `+` tries
-string concatenation before numeric addition, and so the `1` is
-converted to `"1"` (from number to string).
+that often aren't what you want or expect. This is called _type
+coercion_. So the `null` in the first expression becomes `0` and the
+`"5"` in the second expression becomes `5` (from string to number).
+Yet in the third expression, `+` tries string concatenation before
+numeric addition, and so the `1` is converted to `"1"` (from number to
+string).
 
 When something that doesn't map to a number in an obvious way (such as
 `"five"` or `undefined`) is converted to a number, the value `NaN` is

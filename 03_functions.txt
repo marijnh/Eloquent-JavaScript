@@ -529,7 +529,7 @@ different arguments to achieve the repeated multiplication.
 
 (((stack overflow)))There is one important problem: In typical
 JavaScript implementations, this second version is about ten times
-slower than the first one. Running running through a simple loop is a
+slower than the first one. Running through a simple loop is a
 lot cheaper than calling a function multiple times. On top of that,
 using a sufficiently large exponent to this function might cause the
 stack to overflow.

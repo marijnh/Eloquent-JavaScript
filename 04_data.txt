@@ -628,7 +628,7 @@ object.
 ----
 function gatherCorrelations(journal) {
   var phis = {};
-  for (var entry = 0; entry < journal.length; ++entry) {
+  for (var entry = 0; entry < journal.length; entry++) {
     var events = journal[entry].events;
     for (var i = 0; i < events.length; i++) {
       var event = events[i];

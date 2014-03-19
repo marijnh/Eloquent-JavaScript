@@ -18,7 +18,6 @@
   var SandBox = window.SandBox = function(options, callback) {
     this.callbacks = {};
     var sandbox = this, frame = this.frame = document.createElement("iframe");
-    frame.src = "about:blank";
     if (options.place) {
       options.place(frame);
     } else {
@@ -27,6 +26,9 @@
     }
 
     var win = this.win = frame.contentWindow;
+    win.document.open();
+    win.document.write("<!doctype html>");
+    win.document.close();
     var self = win.__sandbox = this;
 
     win.onerror = function(e, _file, line) {

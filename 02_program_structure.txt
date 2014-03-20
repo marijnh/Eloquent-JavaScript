@@ -738,7 +738,7 @@ Often, raw code does not convey all the information you want a program
 to convey to human readers, or it conveys it in such a cryptic way
 that people might not understand it. At other times,
 you might just feel poetic or want to mark down some thoughts as part
-of your program. This is what _((comment))s_ are is for.
+of your program. This is what _((comment))s_ are for.
 
 A comment is a piece of text that is part of a program but is completely
 ignored by the computer. JavaScript has two ways of writing comments.

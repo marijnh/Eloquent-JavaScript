@@ -5,15 +5,15 @@
 .lava          { background: #ff6363; }
 .wall          { background: white; }
 
-.actors { position: relative; }
 .actor  { position: absolute; }
 .coin   { background: #f1e559; }
 .player { background: #404040; }
 
 .game {
   overflow: hidden;
-  max-width: 700px;
-  max-height: 600px;
+  max-width: 450px;
+  max-height: 450px;
+  position: relative;
 }
 
 .lost .player {

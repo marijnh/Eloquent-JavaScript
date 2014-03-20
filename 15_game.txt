@@ -96,7 +96,9 @@ This, for example, could specify a simple level:
 ----
 var simpleLevelPlan = [
   "                      ",
-  "  x         o o  = x  ",
+  "                      ",
+  "  x              = x  ",
+  "  x         o o    x  ",
   "  x @      xxxxx   x  ",
   "  xxxxx            x  ",
   "      x!!!!!!!!!!!!x  ",
@@ -160,7 +162,7 @@ function Level(plan) {
   this.player = this.actors.filter(function(actor) {
     return actor.type == "player";
   })[0];
-  this.finished = this.finishDelay = null;
+  this.status = this.finishDelay = null;
 }
 ----
 
@@ -180,9 +182,19 @@ of its top left corner), a `size` property giving its size, and a
 
 After building up the grid, we use the `filter` method to find the
 player actor object, and store it in a property of the level. The
-`finished` and `finishDelay` properties will be used when the player
+`status` and `finishDelay` properties will be used when the player
 dies or wins, to show a simple animation rather than immediately
-resetting or advancing the level (which would look silly).
+resetting or advancing the level (which would look silly). This method
+can be used to determine whether a level is finished:
+
+// include_code
+
+[source,javascript]
+----
+Level.prototype.isFinished = function() {
+  return this.status != null && this.finishDelay < 0;
+};
+----
 
 For brevity, this code assumes that level plans are well-formed—that
 each line has the same length and only contains allowed characters,
@@ -290,8 +302,8 @@ position.
 [source,javascript]
 ----
 function Coin(pos) {
-  this.basePos = this.pos = pos.plus(new Vector(.2, .1));
-  this.size = new Vector(.6, .6);
+  this.basePos = this.pos = pos.plus(new Vector(.2, 0.1));
+  this.size = new Vector(0.6, 0.6);
   this.wobble = Math.random() * Math.PI * 2;
 }
 Coin.prototype.type = "coin";
@@ -465,7 +477,7 @@ Drawing the actors is quite straightforward:
 [source,javascript]
 ----
 DOMDisplay.prototype.drawActors = function() {
-  var wrap = element("div", "actors");
+  var wrap = element("div");
   this.level.actors.forEach(function(actor) {
     var elt = wrap.appendChild(element("div", "actor " + actor.type));
     elt.style.width = actor.size.x * scale + "px";
@@ -479,16 +491,16 @@ DOMDisplay.prototype.drawActors = function() {
 
 Each actor gets an element, and we set the element's position and size
 based on the actor's properties, multiplying each value by the display
-`scale`. We ensure that the wrapping `<div>` element has a relative
-position style, so that the actors can be positioned relative to its
-top left corner.
+`scale`.
 
-This is the relevant CSS code (lava actors will use the same CSS class
-as lava grid squares):
+Giving an element multiple classes is done by separating the class
+names with spaces. This is the relevant CSS code. The `actor` class
+gives the actors their absolute position, and their type name is used
+to give them a color (lava actors use the same type as lava grid
+squares, which we defined earlier):
 
 [source,text/css]
 ----
-.actors { position: relative; }
 .actor  { position: absolute; }
 .coin   { background: #f1e559; }
 .player { background: #404040; }
@@ -511,6 +523,7 @@ DOMDisplay.prototype.drawFrame = function() {
     this.wrap.removeChild(this.actorNode);
   this.actorNode = this.wrap.appendChild(this.drawActors());
   this.scrollPlayerIntoView();
+  this.wrap.className = "game " + this.level.status;
 };
 ----
 
@@ -519,7 +532,9 @@ We don't assume that levels fit into the viewport. That is why the
 sticking out outside of the viewport, we scroll that viewport to make
 sure the player is near its center. The following CSS gives the game's
 wrapping DOM node a maximum size, and ensures that anything that
-sticks out is not displayed:
+sticks out is not displayed. We also give it a relative position, so
+that the absolutely positioned actors are positioned relative to its
+top left corner.
 
 [source,text/css]
 ----
@@ -527,6 +542,7 @@ sticks out is not displayed:
   overflow: hidden;
   max-width:  600px;
   max-height: 600px;
+  position: relative;
 }
 ----
 
@@ -554,7 +570,7 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
   if (center.x < left + margin)
     this.wrap.scrollLeft = center.x - margin;
   else if (center.x > right - margin)
-    this.wrap.scrollLeft = center.x + margin - height;
+    this.wrap.scrollLeft = center.x + margin - width;
   if (center.y < top + margin)
     this.wrap.scrollTop = center.y - margin;
   else if (center.y > bottom - margin)
@@ -581,6 +597,18 @@ effect. As you are jumping, the view will constantly shift up and
 down. Having it move up as you jump close to the edge, and then stay
 there, is more pleasant.
 
+Finally, we'll need a way to clear a displayed level, for when we
+want to move to another level.
+
+// include_code
+
+[source,javascript]
+----
+DOMDisplay.prototype.clear = function() {
+  this.wrap.parentNode.removeChild(this.wrap);
+};
+----
+
 We should now be able to display our tiny level:
 
 [source,text/html]
@@ -593,44 +621,67 @@ We should now be able to display our tiny level:
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/game_simpleLevel.png[alt="Our level rendered"]
+
+endif::tex_target[]
+
 The `<link>` tag, when used with `rel="stylesheet"`, is a way to load
 a CSS file into a page. In this case, `game.css` contains the styles
 necessary for our game.
 
+== Motion and collision ==
+
+Now we get to the point where we can start adding motion—the most
+interesting aspect of this game. The basic approach, which most games
+like this take, is to split time into small steps, and for each step,
+move the actors by a distance corresponding to their speed (distance
+moved per second) multiplied by the size of the time step (in
+seconds).
+
+That is easy. The difficult part is to deal with the interactions
+between the elements. When the player hits a wall or floor, they
+should not simply move through it. The game must notice when the
+planned motion causes an object to hit another object, and respond
+accordingly—for walls, the motion must be stopped, for coins, the coin
+collected, and so on.
+
+Solving this in the general case is quite a big undertaking. You can
+find libraries, usually called _physics engines_, that simulate
+interaction between physical objects, in two or three dimensions.
+We'll take a more modest approach in this chapter, and only handle a
+very narrow set of collisions between boxes, in a rather simplistic
+way.
+
+That is, before moving the player or a block of lava, we test whether
+the motion would take it inside of a non-empty part of the background.
+If it does, we simply cancel the motion altogether. The response to
+such a collision depends on the type of actor—the player will stop,
+whereas a lava block will bounce back.
+
+This approach requires our time steps to be rather small, since it
+will cause motion to stop before the objects actually touch. If the
+time steps, and thus the motion steps, are too big, the player would
+end up hovering a noticeable distance above the ground. Another
+approach, arguably better but more complicated, would be to find the
+exact collision spot, and move there. Since this introduces quite a
+bit of complexity, we will stick to the simple approach and hide its
+problems by ensuring the animation proceeds in small steps.
+
+This method tells us whether a rectangle (specified by a position and
+a size) overlaps with any non-empty space from the background grid:
+
 // include_code
 
 [source,javascript]
 ----
-DOMDisplay.prototype.cleanup = function() {
-  this.wrap.parentNode.removeChild(this.wrap);
-};
-----
-
-
-
-
-// include_code
-
-[source,javascript]
-----
-var maxStep = .05;
-Level.prototype.process = function(dt, keys) {
-  if (this.finished) {
-    this.finishDelay -= dt;
-    if (this.finishDelay <= 0)
-      return this.finished;
-    keys = Object.create(null);
-  }
-  while (dt > 0) {
-    for (var i = 0; i < this.actors.length; i++)
-      this.actors[i].act(Math.min(dt, maxStep), this, keys);
-    dt -= maxStep;
-  }
-};
-
 Level.prototype.obstacleAt = function(pos, size) {
-  var yStart = Math.floor(pos.y), yEnd = Math.ceil(pos.y + size.y);
-  var xStart = Math.floor(pos.x), xEnd = Math.ceil(pos.x + size.x);
+  var yStart = Math.floor(pos.y);
+  var yEnd = Math.ceil(pos.y + size.y);
+  var xStart = Math.floor(pos.x);
+  var xEnd = Math.ceil(pos.x + size.x);
+
   if (xStart < 0 || xEnd > this.width || yStart < 0)
     return "wall";
   if (yEnd > this.height)
@@ -642,7 +693,29 @@ Level.prototype.obstacleAt = function(pos, size) {
     }
   }
 };
+----
 
+It computes the set of grid squares that the body overlaps with by
+using `Math.floor` and `Math.ceil` on its coordinates. Remember that
+grid squares are one by one unit in size. If the body sticks out of
+the level, we return a predetermined obstacle type—`"wall"` for the
+sides and top, `"lava"` for the bottom. Otherwise, we loop over the
+block of grid squares, and return the first non-empty content type we
+find.
+
+Collisions between the player and other dynamic actors (coins, moving
+lava) are handled _after_ the player moved. When the motion would take
+them into the other actor, the appropriate effect (collecting the
+coin, or dying) is activated.
+
+This method scans through the array of actors, looking for an actor
+that overlaps the one given as an argument, without actually being the
+same actor.
+
+// include_code
+
+[source,javascript]
+----
 Level.prototype.actorAt = function(actor) {
   for (var i = 0; i < this.actors.length; i++) {
     var other = this.actors[i];
@@ -654,73 +727,54 @@ Level.prototype.actorAt = function(actor) {
       return other;
   }
 };
+----
 
-Level.prototype.playerHit = function(type, actor) {
-  if (type == "lava" && !this.finished) {
-    this.finished = "lost";
-    this.finishDelay = 1;
-  } else if (type == "coin") {
-    this.actors.splice(this.actors.indexOf(actor), 1);
-    if (!this.actors.some(function(actor) {
-      return actor.type == "coin";
-    })) {
-      this.finished = "won";
-      this.finishDelay = 1;
-    }
+== Actors and actions ==
+
+The `animate` method, which we add to the `Level` type below, is
+responsible for giving the actors in the level a chance to move.
+
+// include_code
+
+[source,javascript]
+----
+var maxStep = 0.05;
+
+Level.prototype.animate = function(step, keys) {
+  if (this.status != null)
+    this.finishDelay -= step;
+
+  while (step > 0) {
+    var thisStep = Math.min(step, maxStep);
+    for (var i = 0; i < this.actors.length; i++)
+      this.actors[i].act(thisStep, this, keys);
+    step -= thisStep;
   }
 };
+----
 
-// Actors
+When the level's `status` property has a non-null value (which is the
+case when the player has won or lost), we must count down the
+`finishDelay` property, which tracks the time between the point where
+winning or losing happens, and the point where we actually want to
+stop showing the level.
 
+The `while` loop is responsible for cutting the time step we are
+animating into suitably small pieces. It ensures that no step larger
+than `maxStep` is taken. For example, a `step` of 0.12 second would be
+cut into two steps of 0.05 second, and one of 0.02.
 
+Actor objects are supposed to implement an `act` method, which is
+given as arguments the time step, the level object, and an object with
+information about the keys the player is holding down. Here is a
+simple one, for the `Lava` actor type:
 
-Player.prototype.act = function(dt, level, keys) {
-  this.moveH(level, dt, keys);
-  this.moveV(level, dt, keys);
+// include_code
 
-  var other = level.actorAt(this);
-  if (other) level.playerHit(other.type, other);
-
-  if (level.finished == "won") {
-    this.type = "player won";
-  } else if (level.finished == "lost") {
-    this.type = "player lost";
-    this.pos.y += dt;
-    this.size.y -= dt;
-  }
-};
-
-Player.prototype.moveH = function(level, dt, keys) {
-  var speed = 0;
-  if (keys.left) speed -= 7;
-  if (keys.right) speed += 7;
-
-  var newPos = this.pos.plus(new Vector(speed * dt, 0));
-  var obstacle = level.obstacleAt(newPos, this.size);
-  if (obstacle)
-    level.playerHit(obstacle);
-  else
-    this.pos = newPos;
-};
-
-Player.prototype.moveV = function(level, dt, keys) {
-  this.ySpeed += dt * 30;
-  var newPos = this.pos.plus(new Vector(0, this.ySpeed * dt));
-  var obstacle = level.obstacleAt(newPos, this.size);
-  if (obstacle) {
-    level.playerHit(obstacle);
-    if (keys.up && this.ySpeed > 0)
-      this.ySpeed = -17;
-    else
-      this.ySpeed = 0;
-  } else {
-    this.pos = newPos;
-  }
-};
-
-
-Lava.prototype.act = function(dt, level) {
-  var newPos = this.pos.plus(this.speed.times(dt));
+[source,javascript]
+----
+Lava.prototype.act = function(step, level) {
+  var newPos = this.pos.plus(this.speed.times(step));
   if (!level.obstacleAt(newPos, this.size))
     this.pos = newPos;
   else if (this.repeatPos)
@@ -728,80 +782,263 @@ Lava.prototype.act = function(dt, level) {
   else
     this.speed = this.speed.times(-1);
 };
+----
 
+It computes a new position by adding the product of the time step and
+its current speed to its old position. If no obstacle blocks that new
+position, it moves there. If there is an obstacle, the behavior
+depends on the type of moving lava this is—dripping lava has a
+`repeatPos` property, to which it skips back when it hits something.
+Bouncing lava simply inverts its speed (multiplies it by -1) in order
+to start moving in the other direction.
 
-Coin.prototype.act = function(dt) {
-  this.wobble += dt * 8;
-  this.pos = this.basePos.plus(new Vector(0, Math.sin(this.wobble) * .07));
+Coins need to update their wobble in their `act` method:
+
+// include_code
+
+[source,javascript]
+----
+var wobbleSpeed = 8, wobbleDist = 0.07;
+
+Coin.prototype.act = function(step) {
+  this.wobble += step * wobbleSpeed;
+  var wobblePos = Math.sin(this.wobble) * wobbleDist;
+  this.pos = this.basePos.plus(new Vector(0, wobblePos));
 };
+----
 
-// Game management
+The `wobble` property is updated to track time, and then used as
+argument to `Math.sin` to create a wave, which is used to compute a
+new position. Coins don't detect collisions. Their motion is defined
+in such a way that it stays within their starting square, and
+collision with the player is handled by the player's `act` method.
 
-function trackKeys(targetNode, codes) {
-  var data = Object.create(null);
-  for (var code in codes) data[codes[code]] = false;
+Which is the next things we get to. Player motion is separated per
+axis, because hitting the floor should not prevent horizontal motion,
+and hitting a wall should not stop falling or jumping motion. The
+method below implements the horizontal part.
+
+// include_code
+
+[source,javascript]
+----
+var playerXSpeed = 7;
+
+Player.prototype.moveX = function(step, level, keys) {
+  var speed = 0;
+  if (keys.left) speed -= playerXSpeed;
+  if (keys.right) speed += playerXSpeed;
+
+  var newPos = this.pos.plus(new Vector(speed * step, 0));
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle)
+    level.playerTouched(obstacle);
+  else
+    this.pos = newPos;
+};
+----
+
+The motion is computed based on the state of the left and right arrow
+keys. When it would cause the player to hit something, the
+`playerTouched` method for the level, which handles things like dying
+in lava and collecting coins, is called. Otherwise, the object updates
+its position.
+
+The vertical motion works in a comparable way, but has to take jumping
+and gravity into account.
+
+// include_code
+
+[source,javascript]
+----
+var gravity = 30;
+var jumpSpeed = 17;
+
+Player.prototype.moveY = function(step, level, keys) {
+  this.ySpeed += step * gravity;
+  var newPos = this.pos.plus(new Vector(0, this.ySpeed * step));
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle) {
+    level.playerTouched(obstacle);
+    if (keys.up && this.ySpeed > 0)
+      this.ySpeed = -jumpSpeed;
+    else
+      this.ySpeed = 0;
+  } else {
+    this.pos = newPos;
+  }
+};
+----
+
+At the start of the method, the player's vertical speed is updated for
+gravity. Next, we check for obstacles again. If we are hitting an
+obstacle, there are two possible outcomes. When the up arrow is
+pressed, _and_ we are moving down (meaning the thing we hit is below
+us), the speed is set to a relatively large, negative value. This
+causes the player to jump. If that is not the case, we simply hit
+something, and the speed is reset to zero.
+
+The actual `act` method looks like this:
+
+// include_code
+
+[source,javascript]
+----
+Player.prototype.act = function(step, level, keys) {
+  this.moveX(step, level, keys);
+  this.moveY(step, level, keys);
+
+  var otherActor = level.actorAt(this);
+  if (otherActor)
+    level.playerTouched(otherActor.type, otherActor);
+
+  // Losing animation
+  if (level.status == "lost") {
+    this.pos.y += step;
+    this.size.y -= step;
+  }
+};
+----
+
+After moving, it checks for other actors that it is colliding with,
+and again calls `playerTouched` when it finds one. This time, it
+passes the actor object as second argument, because if the other actor
+is a coin, `playerTouched` needs to know which one is being collected.
+
+Finally, when the player died (touched lava) we set up a little
+animation that causes them to “shrink” or “sink” down, by reducing the
+height of the player object.
+
+And here is the method that handles collisions between the player and
+other objects:
+
+// include_code
+
+[source,javascript]
+----
+Level.prototype.playerTouched = function(type, actor) {
+  if (type == "lava" && this.status == null) {
+    this.status = "lost";
+    this.finishDelay = 1;
+  } else if (type == "coin") {
+    this.actors.splice(this.actors.indexOf(actor), 1);
+    if (!this.actors.some(function(actor) {
+      return actor.type == "coin";
+    })) {
+      this.status = "won";
+      this.finishDelay = 1;
+    }
+  }
+};
+----
+
+When lava is touched, the game's status is set to `"lost"`. When a
+coin is touched, that coin is removed from the array of actors, and if
+it was the last one, the game's status is set to `"won"`.
+
+The `splice` method is used to cut a piece out of an array. It is
+given an index and a number of elements, and removes that many
+elements starting at the given index. In this case, we remove a single
+element, our coin actor, whose index we found by calling `indexOf`.
+Additional arguments can be given to `splice`, and they will be
+inserted into the array at the given position, replacing the removed
+elements.
+
+That gives us a level that can actually be animated. All that's
+missing now is the code that “drives” the animation.
+
+== Tracking keys ==
+
+For a game like this, we do not want keys to take effect once per
+press. Rather, we want their effect (moving the player figure) to
+continue happening as long as they are pressed.
+
+We need to set up a key handler that stores the current state of the
+left, right, and up keys. We will also want to call `preventDefault`
+on events for those keys, so that they don't end up scrolling the
+page.
+
+The function below, when given an object with key codes as property
+names and key names as value, will return an object that tracks the
+current position of those keys. It registers event handlers for
+`"keydown"` and `"keyup"` events, and when the key code in the event
+is present in the set of codes that it is tracking, update the object.
+
+// include_code
+
+[source,javascript]
+----
+var arrowCodes = {37: "left", 38: "up", 39: "right"};
+
+function trackKeys(codes) {
+  var pressed = Object.create(null);
   function handler(event) {
     if (codes.hasOwnProperty(event.keyCode)) {
-      data[codes[event.keyCode]] = event.type == "keydown";
+      var state = event.type == "keydown";
+      pressed[codes[event.keyCode]] = state;
       event.preventDefault();
     }
   }
-  targetNode.addEventListener("keydown", handler);
-  targetNode.addEventListener("keyup", handler);
-  return data;
+  addEventListener("keydown", handler);
+  addEventListener("keyup", handler);
+  return pressed;
 }
+----
 
-function Game(node, levelData) {
-  this.levelNumber = 0;
-  this.levelData = levelData;
-  this.node = node;
+Note how the same handler function is used for both event types. It
+looks at the event object's `type` property to determine whether the
+key state should be updated to true (`"keydown"`) or false
+(`"keyup"`).
 
-  this.keys = trackKeys(node, {37: "left", 38: "up", 39: "right"});
-  this.stopped = true;
-  node.addEventListener("keydown", function(e) {
-    if (e.keyCode == 27) {
-      if (this.stopped) this.start();
-      else this.stop();
-    }
-  }.bind(this));
-  this.loadLevel(this.levelNumber);
-}
+== Running the game ==
 
-Game.prototype.loadLevel = function(n) {
-  this.level = new Level(this.levelData[n]);
-  if (this.display) this.display.cleanup();
-  this.display = new DOMDisplay(this.node, this.level);
-};
+FIXME explain, maybe split up
 
-Game.prototype.stop = function() {
-  this.stopped = true;
-};
-Game.prototype.start = function() {
+// include_code
+
+[source,javascript]
+----
+function runGame(levels, Display) {
+  var arrows = trackKeys(arrowCodes);
+  var levelNumber, level, display;
+
+  function loadLevel(n) {
+    if (display) display.clear();
+    level = new Level(levels[n]);
+    display = new Display(document.body, level);
+    levelNumber = n;
+  }
+  loadLevel(1);
+
   var lastTime = null;
-  var frame = function(time) {
+  function frame(time) {
     if (lastTime != null) {
-      var status = this.level.process(Math.min(time - lastTime, 100) / 1000, this.keys);
-      if (status == "lost") {
-        this.loadLevel(this.levelNumber);
-      } else if (status == "won") {
-        if (this.levelNumber == this.levelData.length) {
-          this.stop();
-        } else {
-          ++this.levelNumber;
-          this.loadLevel(this.levelNumber);
-        }
-      }
+      var step = Math.min(time - lastTime, 100) / 1000;
+      level.animate(step, arrows);
+      display.drawFrame(level);
     }
     lastTime = time;
-    this.display.drawFrame(this.level);
-    if (!this.stopped) requestAnimationFrame(frame);
-  }.bind(this);
 
-  this.stopped = false;
+    if (level.isFinished()) {
+      if (level.status == "lost")
+        loadLevel(levelNumber);
+      else if (levelNumber == levels.length - 1)
+        return;
+      else
+        loadLevel(levelNumber + 1);
+    }
+    requestAnimationFrame(frame);
+  }
   requestAnimationFrame(frame);
-};
+}
+----
 
-// Drawing
+[source,text/html]
+----
+<link rel="stylesheet" href="css/game.css">
 
-
+<script>
+  runGame(GAME_LEVELS, DOMDisplay);
+  window.focus();
+</script>
 ----

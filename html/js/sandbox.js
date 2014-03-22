@@ -119,7 +119,10 @@
       }
     },
     resizeFrame: function() {
-      this.frame.style.height = Math.max(80, Math.min(this.frame.contentWindow.document.body.scrollHeight + 10, 500)) + "px";
+      this.frame.style.height = Math.max(80, Math.min(this.win.document.body.scrollHeight + 10, 500)) + "px";
+      var box = this.frame.getBoundingClientRect();
+      if (box.bottom > box.top && box.top >= 0 && box.top < window.innerHeight && box.bottom > window.innerHeight)
+        window.scrollBy(0, Math.min(box.top, box.bottom - window.innerHeight));
     },
     tick: function() {
       var now = Date.now();

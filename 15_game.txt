@@ -487,7 +487,7 @@ DOMDisplay.prototype.drawActors = function() {
     elt.style.top = actor.pos.y * scale + "px";
   });
   return wrap;
-}
+};
 ----
 
 Each actor gets an element, and we set the element's position and size

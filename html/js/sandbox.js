@@ -17,6 +17,10 @@
 
   var SandBox = window.SandBox = function(options, callback) {
     this.callbacks = {};
+
+    // Used to cancel existing events when new code is loaded
+    this.timeouts = []; this.intervals = []; this.frames = []; this.framePos = 0;
+
     var sandbox = this, frame = this.frame = document.createElement("iframe");
     if (options.place) {
       options.place(frame);
@@ -42,13 +46,39 @@
       warn: function() { self.out("warn", arguments); },
       info: function() { self.out("log", arguments); }
     };
+
     win.__setTimeout = win.setTimeout;
     win.__setInterval = win.setInterval;
     win.setTimeout = function(code, time) {
-      return win.__setTimeout(function() { self.run(code); }, time);
+      var val = win.__setTimeout(function() { self.run(code); }, time);
+      self.timeouts.push(val);
+      return val;
     };
     win.setInterval = function(code, time) {
-      return win.__setInterval(function() { self.run(code); }, time);
+      var val = win.__setInterval(function() { self.run(code); }, time);
+      self.intervals.push(val);
+      return val;
+    };
+    var prefixes = ["webkit", "moz", "ms", "o"];
+    var reqAnimFrame = win.requestAnimationFrame;
+    if (!reqAnimFrame) ["webkit", "moz", "ms", "o"].forEach(function(prefix) {
+      var val = win[prefix + "RequestAnimationFrame"];
+      if (val) {
+        reqAnimFrame = val;
+        win.cancelAnimationFrame = prefix + "CancelAnimationFrame";
+      }
+    });
+    if (!reqAnimFrame) {
+      reqAnimFrame = function(f) { return self.__setTimeout(f, 50); };
+      win.cancelAnimationFrame = win.clearTimeout;
+    }
+    win.requestAnimationFrame = function(f) {
+      var val = reqAnimFrame.call(win, f);
+      if (self.frames.length > 50)
+        self.frames[self.framePos++ % 50] = val;
+      else
+        self.frames.push(val);
+      return val;
     };
 
     this.startedAt = 0;
@@ -72,13 +102,17 @@
 
   SandBox.prototype = {
     run: function(code, output) {
-      if (output) this.output = output;
+      if (output) {
+        this.output = output;
+        this.clearEvents();
+      }
       this.startedAt = Date.now();
       this.extraSecs = 1;
       this.win.__c = 0;
       timeout(this.win, preprocess(code, this), 0);
     },
     setHTML: function(code, output, callback) {
+      this.clearEvents();
       var scriptTags = [], sandbox = this, doc = this.win.document;
       this.frame.style.display = "block";
       doc.documentElement.innerHTML = code.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/g, function(m, src, content) {
@@ -151,6 +185,12 @@
           mark.innerHTML = "\n called from " + stack.slice(1).map(frameString).join("\n called from ");
         });
       }
+    },
+    clearEvents: function() {
+      while (this.timeouts.length) this.win.clearTimeout(this.timeouts.pop());
+      while (this.intervals.length) this.win.clearInterval(this.intervals.pop());
+      while (this.frames.length) this.win.cancelAnimationFrame(this.frames.pop());
+      this.timeouts.length = this.intervals.length = this.frames.length = this.framePos = 0;
     }
   };
 

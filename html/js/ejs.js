@@ -124,7 +124,10 @@ window.addEventListener("load", function() {
     var val = data.editor.getValue();
     getSandbox(data.sandbox, data.isHTML, function(box) {
       if (data.isHTML)
-        box.setHTML(withDoctype(val), data.output, Math.min);
+        box.setHTML(withDoctype(val), data.output, function() {
+          if (data.orig.getAttribute("data-focus"))
+            box.win.focus();
+        });
       else
         box.run(val, data.output);
     });

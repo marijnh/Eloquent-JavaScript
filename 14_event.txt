@@ -248,6 +248,7 @@ enabling the effect on `"keydown"`, and turning it off again on
 `"keyup"`.
 
 [source,text/html]
+[focus="yes"]
 ----
 <p>This page turns violet when you hold the V key.</p>
 <script>
@@ -261,13 +262,6 @@ enabling the effect on `"keydown"`, and turning it off again on
   });
 </script>
 ----
-
-ifdef::html_target[]
-
-To make the browser actually deliver key events to the example page,
-you have to click it first to focus it.
-
-endif::html_target[]
 
 Despite its name, `"keydown"` is not only fired when the key is
 physically pushed down. When a key is pressed and held, the event is
@@ -308,6 +302,7 @@ looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey`
 properties of key (and mouse) events.
 
 [source,text/html]
+[focus="yes"]
 ----
 <p>Press control-space to continue.</p>
 <script>
@@ -329,6 +324,7 @@ The `String.fromCharCode` function can be used to turn this code into
 an actual (single-character) string.
 
 [source,text/html]
+[focus="yes"]
 ----
 <p>Focus this page and type something.</p>
 <script>

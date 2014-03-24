@@ -981,11 +981,11 @@ ifdef::html_target[]
 ----
 // Your code here.
 
-console.log(Point(1, 2).plus(Point(2, 3)));
+console.log(new Point(1, 2).plus(new Point(2, 3)));
 // → Point{x: 3, y: 5}
-console.log(Point(1, 2).minus(Point(2, 3)));
+console.log(new Point(1, 2).minus(new Point(2, 3)));
 // → Point{x: -1, y: -1}
-console.log(Point(3, 4).distance);
+console.log(new Point(3, 4).distance);
 // → 5
 ----
 endif::html_target[]

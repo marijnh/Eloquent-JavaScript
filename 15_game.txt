@@ -302,7 +302,7 @@ position.
 [source,javascript]
 ----
 function Coin(pos) {
-  this.basePos = this.pos = pos.plus(new Vector(.2, 0.1));
+  this.basePos = this.pos = pos.plus(new Vector(0.2, 0.1));
   this.size = new Vector(0.6, 0.6);
   this.wobble = Math.random() * Math.PI * 2;
 }
@@ -324,6 +324,7 @@ We now have all the parts needed to initialize a level.
 ----
 var simpleLevel = new Level(simpleLevelPlan);
 console.log(simpleLevel.width, "by", simpleLevel.height);
+// → 22 by 9
 ----
 
 == Encapsulation as a burden ==
@@ -522,10 +523,31 @@ DOMDisplay.prototype.drawFrame = function() {
   if (this.actorNode)
     this.wrap.removeChild(this.actorNode);
   this.actorNode = this.wrap.appendChild(this.drawActors());
+  this.wrap.className = "game " + (this.level.status || "");
   this.scrollPlayerIntoView();
-  this.wrap.className = "game " + this.level.status;
 };
 ----
+
+By adding the level's current status as a class name to the wrapper,
+we can style the player actor slightly differently when the game is
+won or lost. (We could also style other elements, like the background,
+differently based on a class in one of their ancestor nodes. CSS is
+convenient like that.)
+
+[source,text/css]
+----
+.lost .player {
+  background: #a04040;
+}
+.won .player {
+  box-shadow: -4px -7px 8px white, 4px -7px 8px white;
+}
+----
+
+After touching fire, the player's color turns dark red, hopefully
+suggesting scorching. When the last coin has been collected, we use a
+two white box shadows, one to the top left and one to the top right,
+to create a white halo effect.
 
 We don't assume that levels fit into the viewport. That is why the
 `scrollPlayerIntoView` call is needed—it ensures that, if the level is
@@ -540,8 +562,8 @@ top left corner.
 ----
 .game {
   overflow: hidden;
-  max-width:  600px;
-  max-height: 600px;
+  max-width: 600px;
+  max-height: 450px;
   position: relative;
 }
 ----
@@ -871,12 +893,16 @@ Player.prototype.moveY = function(step, level, keys) {
 ----
 
 At the start of the method, the player's vertical speed is updated for
-gravity. Next, we check for obstacles again. If we are hitting an
-obstacle, there are two possible outcomes. When the up arrow is
-pressed, _and_ we are moving down (meaning the thing we hit is below
-us), the speed is set to a relatively large, negative value. This
-causes the player to jump. If that is not the case, we simply hit
-something, and the speed is reset to zero.
+gravity. The gravity, jumping speed, and pretty much all other
+constants in this game, have been set by trial-and-error. I tried out
+various values to see how they felt.
+
+We then check for obstacles again. If we are hitting an obstacle,
+there are two possible outcomes. When the up arrow is pressed, _and_
+we are moving down (meaning the thing we hit is below us), the speed
+is set to a relatively large, negative value. This causes the player
+to jump. If that is not the case, we simply hit something, and the
+speed is reset to zero.
 
 The actual `act` method looks like this:
 
@@ -992,53 +1018,279 @@ key state should be updated to true (`"keydown"`) or false
 
 == Running the game ==
 
-FIXME explain, maybe split up
+The `requestAnimationFrame` function, which we saw in Chapter 13,
+works well for animating a game. But its interface is quite
+primitive—using it requires us to track the last time we saw
+ourselves, and re-call the `requestAnimationFrame` function after
+every frame.
+
+Here is a helper function that wraps those boring parts, and allows us
+to simply call `runAnimation`, giving it a function that expects a
+time difference as argument and draws a single frame. When the frame
+function returns (the exact value) `false`, the animation stops.
 
 // include_code
 
 [source,javascript]
 ----
-function runGame(levels, Display) {
-  var arrows = trackKeys(arrowCodes);
-  var levelNumber, level, display;
-
-  function loadLevel(n) {
-    if (display) display.clear();
-    level = new Level(levels[n]);
-    display = new Display(document.body, level);
-    levelNumber = n;
-  }
-  loadLevel(1);
-
+function runAnimation(frameFunc) {
   var lastTime = null;
   function frame(time) {
+    var stop = false;
     if (lastTime != null) {
-      var step = Math.min(time - lastTime, 100) / 1000;
-      level.animate(step, arrows);
-      display.drawFrame(level);
+      var timeStep = Math.min(time - lastTime, 100) / 1000;
+      stop = frameFunc(timeStep) === false;
     }
     lastTime = time;
-
-    if (level.isFinished()) {
-      if (level.status == "lost")
-        loadLevel(levelNumber);
-      else if (levelNumber == levels.length - 1)
-        return;
-      else
-        loadLevel(levelNumber + 1);
-    }
-    requestAnimationFrame(frame);
+    if (!stop)
+      requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 }
 ----
 
+I have set a maximum frame step of 100 milliseconds (one tenth of a
+second). When the browser tab or window with our page is hidden,
+`requestAnimationFrame` calls will be suspended until it is shown
+again. In this case, the difference between `lastTime` and `time` will
+be the entire time in which the page was hidden. Advancing the game by
+that much in a single step will look silly, and might be a lot of work
+(remember the time-splitting in the `animate` method).
+
+The function also converts the time steps to seconds, which are an
+easier quantity to think about than milliseconds.
+
+The `runLevel` function takes a `Level` object, a constructor for a
+display, and optionally a function. It display the level (in
+`document.body`), and lets the user play through it. When the level is
+finished (lost or won) it clears the display, stops the animation, and
+if an `andThen` function was given, calls it with the level's status.
+
+// include_code
+
+[source,javascript]
+----
+var arrows = trackKeys(arrowCodes);
+
+function runLevel(level, Display, andThen) {
+  var display = new Display(document.body, level);
+  runAnimation(function(step) {
+    level.animate(step, arrows);
+    display.drawFrame(level);
+    if (level.isFinished()) {
+      display.clear();
+      if (andThen)
+        andThen(level.status);
+      return false;
+    }
+  });
+}
+----
+
+A game is a sequence of levels. Whenever the player dies, the current
+level is restarted. When a level is completed, we move on to the next
+level. This can be expressed by the following function, which takes an
+array of level plans (arrays of strings) and a display constructor:
+
+// include_code
+
+[source,javascript]
+----
+function runGame(plans, Display) {
+  function startLevel(n) {
+    runLevel(new Level(plans[n]), Display, function(status) {
+      if (status == "lost")
+        startLevel(n);
+      else if (n < plans.length - 1)
+        startLevel(n + 1);
+      else
+        console.log("You win!");
+    });
+  }
+  startLevel(0);
+}
+----
+
+These function show a peculiar style of programming. Both
+`runAnimation` and `runLevel` are higher-order functions, but not in
+the style we saw in Chapter 5. The function argument is used to
+arrange things to happen at some time in the future, and neither of
+the functions returns anything useful. Their task is, in a way, to
+schedule actions. Wrapping these actions in functions is used to be
+able to store them, so that they can be called at the right moment.
+
+This programming style is usually called _asynchronous_ programming.
+Event handling is also an instance of it, and we will see much more of
+it when working with tasks that can take an arbitrary amount of time,
+such as network requests in Chapter 17 (FIXME), and in- and output in
+general in Chapter 21 (FIXME).
+
+There is a set of level plans available in the `GAME_LEVELS` variable
+!!tex (downloadable from `eloquentjavascript.net/code`)!!. This 
+
+[sandbox="null"]
+[focus="yes"]
 [source,text/html]
 ----
 <link rel="stylesheet" href="css/game.css">
 
 <script>
   runGame(GAME_LEVELS, DOMDisplay);
-  window.focus();
 </script>
 ----
+
+ifdef::html_target[]
+
+See if you can beat those. I had a lot of fun building them.
+
+endif::html_target[]
+
+== Exercises ==
+
+=== Game over ===
+
+The tradition of platform games also demands that a player starts with
+a limited number of “lives”, and each time they die, one life is
+subtraced. When out of lives, the game restarts from the beginning.
+
+Adjust `runGame` to implement lives (have the player start with 3).
+
+ifdef::html_target[]
+
+// test: no
+
+[focus="yes"]
+[source,text/html]
+----
+<link rel="stylesheet" href="css/game.css">
+
+<script>
+  // The old runGame function. Modify it...
+  function runGame(plans, Display) {
+    function startLevel(n) {
+      runLevel(new Level(plans[n]), Display, function(status) {
+        if (status == "lost")
+          startLevel(n);
+        else if (n < plans.length - 1)
+          startLevel(n + 1);
+        else
+          console.log("You win!");
+      });
+    }
+    startLevel(0);
+  }
+  runGame(GAME_LEVELS, DOMDisplay);
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+The most obvious solution would be to make `lives` a variable that
+lives in `runGame`, and is thus visible by the `startLevel` closure.
+
+Another approach, which fits nicely with spirit of the rest of the
+function, would be to add a second argument to `startLevel` that gives
+the amount of lives. Having the “state” of a system stored in the
+arguments to a function, and calling that function anew whenever a new
+state is entered, can be an elegant way to express some systems.
+
+In any case, when a level is lost, there should now be two possible
+state transitions: If that was the last life, we go back to level zero
+with the starting amount of lives. If not, we repeat the current level
+with one less life remaining.
+
+!!solution!!
+
+=== Pausing the game ===
+
+Make it possible to pause (suspend) and unpause the game by pressing
+the escape key.
+
+Most exercises in this book only involve editing small, isolated
+pieces of code. That is not what real programming is usually like. In
+the link:#_encapsulation_as_a_burden[section on encapsulation], I
+already touched on the fact that changing assumptions often require
+interfaces to be changed or broken open again. That applies here as
+well: The `runAnimation` function, though nice and obvious, does not
+provide a clean way to pause the animation.
+
+The event handler that notices the key is best set up in
+`runLevel`—setting it up in `runAnimation` would be cheating. That is
+supposed to be an general helper function for all kinds of animations,
+so it shouldn't handle a feature specific to this game.
+
+Replace `runAnimation` with something else, and change `runLevel` to
+use this new interface, and add a pausing feature.
+
+ifdef::html_target[]
+
+// test: no
+
+[focus="yes"]
+[source,text/html]
+----
+<link rel="stylesheet" href="css/game.css">
+
+<script>
+  // The old runAnimation function. Replace this...
+  function runAnimation(frameFunc) {
+    var lastTime = null;
+    function frame(time) {
+      var stop = false;
+      if (lastTime != null) {
+        var timeStep = Math.min(time - lastTime, 100) / 1000;
+        stop = frameFunc(timeStep) === false;
+      }
+      lastTime = time;
+      if (!stop)
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // The old runLevel function. Modify this...
+  function runLevel(level, Display, andThen) {
+    var display = new Display(document.body, level);
+    runAnimation(function(step) {
+      level.animate(step, arrows);
+      display.drawFrame(level);
+      if (level.isFinished()) {
+        display.clear();
+        if (andThen)
+          andThen(level.status);
+        return false;
+      }
+    });
+  }
+  runGame(GAME_LEVELS, DOMDisplay);
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+The new requirements (being able to pause and continue the animation)
+require us to have some way to talk about a specific animation, after
+it has been started.
+
+Returning a special value from the frame function could work for
+pausing the animation, but since, with the animation paused, the frame
+function won't be called again, that trick can not be used for
+unpausing.
+
+A better approach is to have our animation-creating function return an
+object that provides a handle to the animation, and add `stop()` and
+`start()` method to that object. Knowing that, we may as well replace
+`runAnimation` with an `Animation` constructor, and add those methods
+to its prototype.
+
+Stopping a running `requestAnimationFrame`-based animation can be done
+with `cancelAnimationFrame` (you must save the return value when
+requesting the frame), or by setting a property (say `stopping`) in
+the object, and having the function that handles the frame do nothing
+when that property has a non-false value.
+
+!!solution!!

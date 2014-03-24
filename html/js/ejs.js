@@ -124,18 +124,13 @@ window.addEventListener("load", function() {
     var val = data.editor.getValue();
     getSandbox(data.sandbox, data.isHTML, function(box) {
       if (data.isHTML)
-        box.setHTML(withDoctype(val), data.output, function() {
+        box.setHTML(val, data.output, function() {
           if (data.orig.getAttribute("data-focus"))
             box.win.focus();
         });
       else
         box.run(val, data.output);
     });
-  }
-
-  function withDoctype(html) {
-    if (/<!doctype /.test(html)) return html;
-    return "<!doctype html>\n" + html;
   }
 
   function closeCode(data) {
@@ -148,25 +143,31 @@ window.addEventListener("load", function() {
     data.editor.setValue(data.orig.textContent);
   }
 
+  var sandboxSnippets = function() {
+    var result = {};
+    var snippets = document.getElementsByClassName("snippet");
+    for (var i = 0; i < snippets.length; i++) {
+      var snippet = snippets[i];
+      if (snippet.getAttribute("data-language") == "text/html" &&
+          snippet.getAttribute("data-sandbox"))
+        result[snippet.getAttribute("data-sandbox")] = snippet;
+    }
+    return result;
+  }();
+
   var sandboxes = {};
   function getSandbox(name, forHTML, callback) {
     name = name || "null";
     if (sandboxes.hasOwnProperty(name)) return callback(sandboxes[name]);
     var options = {loadFiles: window.sandboxLoadFiles}, html;
-    if (name != "null") {
-      var snippets = document.getElementsByClassName("snippet");
-      for (var i = 0; i < snippets.length; i++) {
-        var snippet = snippets[i];
-        if (snippet.getAttribute("data-language") == "text/html" &&
-            snippet.getAttribute("data-sandbox") == name) {
-          options.place = function(node) { placeFrame(node, snippet); };
-          if (!forHTML) html = snippet.textContent;
-          break;
-        }
-      }
+    if (sandboxSnippets.hasOwnProperty(name)) {
+      var snippet = sandboxSnippets[name];
+      options.place = function(node) { placeFrame(node, snippet); };
+      if (!forHTML) html = snippet.textContent;
     }
     new SandBox(options, function(box) {
-      if (html != null) box.win.document.documentElement.innerHTML = withDocType(html);
+      if (html != null)
+        box.win.document.documentElement.innerHTML = html;
       sandboxes[name] = box;
       callback(box);
     });

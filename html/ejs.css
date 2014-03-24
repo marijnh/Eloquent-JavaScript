@@ -19,15 +19,15 @@ html, body {
 
 body {
   font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
-  font-size: 22px;
-  line-height: 1.5;
+  font-size: 20px;
+  line-height: 1.45;
   color: black;
   background: white;
 }
 
 article {
   margin: 0 auto;
-  max-width: 31em;
+  max-width: 35em;
   padding: 2em 0 5em 0;
   position: relative;
 }
@@ -69,12 +69,12 @@ p:hover a.p_ident:after, pre:hover a.c_ident:after {
 
 
 code, pre, .CodeMirror {
-  font-size: 85%;
+  font-size: 18px;
   font-family: 'PT Mono', monospace;
 }
 
 code {
-  padding: 0 4px;
+  padding: 0 2px;
 }
 
 h1, h2, h3 {
@@ -134,10 +134,6 @@ ol li p {
   font-size: 60%;
   color: #aaa;
   margin-top: -.7em;
-}
-
-h1 + blockquote + blockquote + p, h1 + blockquote + p, h1 + p {
-  font-size: 110%;
 }
 
 blockquote {

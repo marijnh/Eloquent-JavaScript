@@ -11,31 +11,31 @@ actual reality is the opposite, just many people doing things that
 build on each other, like a wall of mini stones.
 ____
 
-(((function)))You've seen function values, and how to call them.
-Functions are the bread and butter of JavaScript programming. The
-concept of wrapping a piece of program in a value has many uses. It is
-a tool to structure larger programs, to reduce repetition, to
-associate names with sub-programs, and to isolate these sub-programs
-from each other.
+(((function)))You've seen function values, such as `alert`, and how
+to call them. Functions are the bread and butter of JavaScript
+programming. The concept of wrapping a piece of program in a value
+has many uses. It is a tool to structure larger programs, to reduce
+repetition, to associate names with sub-programs, and to isolate
+these sub-programs from each other.
 
 The most obvious application of functions is defining new vocabulary.
-Creating new words left and right in regular, human-language prose is
-usually bad style. In programming, it is indispensable.
+Creating new words in regular, human-language prose is usually bad
+style. But in programming, it is indispensable.
 
 Typical adult English speakers have some twenty thousand words in
 their vocabulary. Very few programming languages come with twenty
-thousand concepts built in. And the vocabulary that _is_ available
+thousand commands built in. And the vocabulary that _is_ available
 tends to be more precisely defined, and thus less flexible, than
-spoken language words. Thus, we usually _have_ to add some of our own
-vocabulary to avoid repeating ourselves all too much.
+in human language. Thus, we usually _have_ to add some of our own
+vocabulary to avoid repeating ourselves too much.
 
 == Defining a function ==
 
-(((function,definition)))A function definition is
-just a regular variable definition where the value given to the
-variable happens to be a function. For example, this defines the
-variable `square` to refer to a function that produces the square of a
-given number:
+(((function,definition)))A function definition is just a regular
+variable definition where the value given to the variable happens to
+be a function. For example, the following code defines the variable
+`square` to refer to a function that produces the square of a given
+number:
 
 [source,javascript]
 ----
@@ -47,14 +47,16 @@ console.log(square(12));
 // → 144
 ----
 
-(((function, keyword)))(((function,body)))A function is created by an
+(((function,keyword)))(((function,body)))A function is created by an
 expression that starts with the keyword `function`. Functions have a
-set of parameters (in this case, only `x`), and a “body”, containing
-the statements that are to be executed when the function is called.
-These must always be wrapped in braces, even when the body consists of
-only a single statement (as in the example).
+set of _parameters_ (in this case, only `x`), and a _body_, which
+contains the statements that are to be executed when the function is
+called. The function body must always be wrapped in braces, even when
+it consists of only a single statement (as in the example above).
 
-A function can have multiple parameters, or no parameters at all.
+A function can have multiple parameters, or no parameters at all. For
+example, `makeNoise` below does not list any parameter names, whereas
+`power` lists two.
 
 [source,javascript]
 ----
@@ -77,8 +79,8 @@ console.log(power(2, 10));
 ----
 
 (((return keyword)))Some functions produce a value, such as `power`
-and `square`, and some don't, such as `makeNoise` (which only has a
-side effect). A `return` statement is used to determine the value the
+and `square`, and some don't, such as `makeNoise`, which only
+produces a side effect. A `return` statement determines the value the
 function returns. When control comes across such a statement, it
 immediately jumps out of the current function and gives the returned
 value to the code that called the function. The `return` keyword
@@ -87,15 +89,15 @@ without an expression after it will cause the function to return
 
 == Parameters and scopes ==
 
-(((variable)))The parameters to a function behave like variables—but
-ones that are given an initial value by the _caller_ of the function,
-not the code in the function itself.
+(((variable)))The parameters to a function behave like regular
+variables, but their initial values are given by the _caller_ of the
+function, not the code in the function itself.
 
 (((variable,scope)))(((local variable)))A very important property of
 functions is that the variables created inside of them, including
 their parameters, are _local_ to the function. This means, for
 example, that the `result` variable in the `power` example will be
-newly created every time the function is called, and its separate
+newly created every time the function is called, and these separate
 incarnations do not interfere with each other.
 
 indexsee:[top-level variable,global variable]
@@ -106,12 +108,12 @@ keyword inside the function body. It is possible to access _global_
 (non-local) variables from inside a function, as long as you haven't
 declared a local variable with the same name.
 
-The following code demonstrates this. It defines (and calls) two
+The following code demonstrates this. It defines and calls two
 functions that both assign a value to the variable `x`. The first one
 declares the variable as local and thus changes only the local
-variable. The second does not declare `x` locally, and thus references
-to `x` inside of it refer to the global variable `x` defined at the
-top of the example.
+variable. The second does not declare `x` locally, so references to
+`x` inside of it refer to the global variable `x` defined at the top
+of the example.
 
 [source,javascript]
 ----
@@ -132,23 +134,21 @@ console.log(x);
 // → inside f2
 ----
 
-This behavior helps prevent accidental interference between functions.
-If all variables were shared by the whole program, it'd take a lot of
-effort, in all but the tiniest programs, to make sure no name is used
-twice. And if you _did_ reuse a variable name, you would see strange
-effects, as unrelated code messes with the value of your variable. By
-treating function-local variables as existing only within the
-function, the language makes it easier to read and understand
-functions as small universes, without too much action-at-a-distance to
-complicate things.
+This behavior helps prevent accidental interference between
+functions. If all variables were shared by the whole program, it'd
+take a lot of effort to make sure no name is ever used for two different purposes. And if
+you _did_ reuse a variable name, you might see strange effects from
+unrelated code messing with the value of your variable. By treating
+function-local variables as existing only within the function, the
+language makes it possible to read and understand functions as small
+universes, without having to worry about all the code at once.
 
 == Nested scope ==
 
 (((variable,scope)))(((inner function)))(((nested functions)))
-(((lexical scoping)))In JavaScript, the distinction is not just
-between _global_ and _local_ variables. In fact, there are degrees of
-locality. Functions can be created anywhere in the program, including
-inside other functions.
+(((lexical scoping)))JavaScript does not just distinguish between
+_global_ and _local_ variables. Functions can be created inside other
+functions, producing several degrees of locality.
 
 For example, this rather nonsensical function has two functions inside
 of it:
@@ -180,26 +180,26 @@ console.log(landscape());
 // → ___/''''\______/'\_
 ----
 
-The `flat` and `mountain` function can “see” the variable called
+The `flat` and `mountain` functions can “see” the variable called
 `result`, since they are inside of the function that defines it. But
-they can not see each other's `count` variables, only their own, since
-they are outside of each other. The environment outside of the
-function doesn't see any of the variables defined inside of
+they can not see each other's `count` variables, since
+they are outside each other's scope. The environment outside of the
+`landscape` function doesn't see any of the variables defined inside of
 `landscape`.
 
-In short, each local scope can also see all the local scopes that it
-is inside of. The set of variables visible inside a function is
+In short, each local scope can also see all the local scopes that
+contain it. The set of variables visible inside a function is
 determined by the place of that function in the program text. All
-variables from blocks “around” a function's definition are visible,
-which means both those in function bodies that enclose it and those at
-the top level of the program. This approach to variable visibility is
-called _lexical scoping_.
+variables from blocks “around” a function's definition are
+visible—meaning both those in function bodies that enclose it and
+those at the top level of the program. This approach to variable
+visibility is called _lexical scoping_.
 
 ((({} (block))))People who have experience with other programming
-languages might expect that any block of code (between braces)
-produces a new local environment. But in JavaScript, functions are the
-only things that create a new scope. You are allowed to use
-free-standing blocks:
+languages might expect that any block of code between braces produces
+a new local environment. But in JavaScript, functions are the only
+things that create a new scope. You are allowed to use free-standing
+blocks:
 
 [source,javascript]
 ----
@@ -223,17 +223,17 @@ _function_.
 
 == Functions as values ==
 
-(((function,as value)))Usually, function variables simply act as names
-for a specific piece of the program. They are defined once, and never
-change. This makes it easy to start confusing the function and its
-name.
+(((function,as value)))Usually, function variables simply act as
+names for a specific piece of the program. The variables are defined
+once, and never change. This makes it easy to start confusing the
+function and its name.
 
 But the two are different. A function value can do all the things that
 other values can do—you can use it in all kinds of expressions, not
-just call it. It is possible to store such a value in a new place, or
+just call it. It is possible to store a function value in a new place, or
 pass it as an argument to a function, and so on. Similarly, a variable
 that holds a function is still just a regular variable, and can be
-assigned a new value.
+assigned a new value, like so:
 
 // test: no
 
@@ -252,8 +252,7 @@ passing around function values to other functions.
 == Declaration notation ==
 
 There is a slightly shorter way to say “`var x = function…`”. The
-`function` keyword can also be used at the start of a statement, to
-produce a function declaration statement.
+`function` keyword can also be used at the start of a statement, as in the following:
 
 [source,javascript]
 ----
@@ -262,9 +261,9 @@ function square(x) {
 }
 ----
 
-This defines the variable `square` and points it at the given
-function. So far so good. There is one subtlety with this form of
-function definition:
+This is a function _declaration_. The statement defines the variable
+`square` and points it at the given function. So far so good. There
+is one subtlety with this form of function definition, however:
 
 [source,javascript]
 ----
@@ -275,19 +274,21 @@ function future() {
 }
 ----
 
-Such definitions are not part of the regular top-to-bottom flow of
-control. They are conceptually moved to the top, and can be used by
-all the code in the same scope. This is sometimes useful—it allows you
-to put the interesting code at the top, and still use functions
-defined further down.
+This code works, even though the function is defined _below_ the
+code that first uses it. This is because function
+declarations are not part of the regular top-to-bottom flow of
+control. They are conceptually moved to the top of their scope, and can be used by
+all the code in that scope. This is sometimes useful, as it gives us the freedom
+to order code in a way that seems meaningful, without worrying about having to
+define all functions above their first use.
 
 What happens when you put such a function definition inside of a
 conditional (`if`) block, or a loop? Well, don't do that. Different
-JavaScript platforms (in browsers) have traditionally done different
-things in that situation, and the latest standard actually forbids it.
-So if you want your programs to behave consistently, only use this
-form of function-defining statements in the outermost block of a
-function or program.
+JavaScript platforms in different browsers have traditionally done
+different things in that situation, and the latest standard actually
+forbids it. If you want your programs to behave consistently, only
+use this form of function-defining statements in the outermost block
+of a function or program.
 
 [source,javascript]
 ----
@@ -305,7 +306,7 @@ indexsee:[stack,call stack]
 
 (((call stack)))(((function,application)))I believe it will be helpful
 to take a closer look at the way control flows through functions. Here
-is a simple program making a few function calls:
+is a simple program that makes a few function calls:
 
 [source,javascript]
 ----
@@ -316,13 +317,14 @@ greet("Harry");
 console.log("Bye");
 ----
 
-A run through this program goes roughly like this: The call to `greet`
-causes control to jump to the start of that function (line 2), which
-calls `console.log` (a built-in browser function), allowing that to take
-control. It eventually finishes, causing control to return to line 2.
-We reach the end of the `greet` function, so we return back to the place
-that called it, at line 4. The line after that calls `console.log`
-again. We could show the flow of control schematically like this:
+A run through this program goes roughly like this: The call to
+`greet` causes control to jump to the start of that function (line
+2). It calls `console.log` (a built-in browser function), which takes
+control, does its job, then returns control to line 2. Then it
+reaches the end of the `greet` function, so it returns to the place that
+called it, at line 4. The line after that calls `console.log` again.
+
+We could show the flow of control schematically like this:
 
 ....
 top
@@ -334,25 +336,25 @@ top
 top
 ....
 
-Since a function, when returning, has to jump back to the place of the
-call, the computer must remember the context from which the function
-was called. In one case, `console.log` had to jump back to the
-`greet` function. In the other case, it jumps back to the end of the
-program.
+Because a function has to jump back to the place of the call when it
+returns, the computer must remember the context from which the
+function was called. In one case, `console.log` had to jump back to
+the `greet` function. In the other case, it jumps back to the end of
+the program.
 
-The place where this context is stored is the _call stack_. Every time
-a function is called, the current context is put on top of this
-“stack” of contexts. When the function returns, it takes the top
-context from the stack, and uses it to continue execution.
+The place where the computer stores this context is the _call stack_.
+Every time a function is called, the current context is put on top of
+this “stack”. When the function returns, it takes the top context
+from the stack, and uses it to continue execution.
 
-(((stack overflow)))(((recursion)))This stack requires space in the
-computer's memory to be stored. When the stack grows too big, the
-computer will give up with a message like “out of stack space” or “too
-much recursion”. The following code illustrates that—it asks the
+(((stack overflow)))(((recursion)))Storing this stack requires space
+in the computer's memory. When the stack grows too big, the computer
+will fail with a message like “out of stack space” or “too much
+recursion”. The following code illustrates this by asking the
 computer a really hard question, which causes an infinite
-back-and-forth between two functions. Or rather, it would be infinite,
-if we had an infinite stack. As it is, it will run out of space, or
-“blow the stack”.
+back-and-forth between two functions. Rather, it _would_ be infinite,
+if the computer had an infinite stack. As it is, we will run out of
+space, or “blow the stack”.
 
 // test: no
 
@@ -371,7 +373,7 @@ console.log(chicken() + " came first.");
 == Optional Arguments ==
 
 (((argument)))(((function,application)))The following code is allowed
-and executes without problem:
+and executes without any problem:
 
 [source,javascript]
 ----
@@ -379,25 +381,25 @@ alert("Hello", "Good Evening", "How do you do?");
 ----
 
 (((alert function)))The function `alert` officially accepts only one
-argument. Yet when you call it like this, it does not complain. It
+argument. Yet when you call it like this, it doesn't complain. It
 simply ignores the other arguments and shows you “Hello”.
 
 (((undefined value)))JavaScript is extremely broad-minded about the
-amount of arguments you pass to a function. If you pass too many, the
-extra ones are ignored. If you pass too few, the variables for the
-missing parameters simply get the value `undefined`.
+number of arguments you pass to a function. If you pass too many, the
+extra ones are ignored. If you pass too few, the missing parameters
+simply get assigned the value `undefined`.
 
 The downside of this is that it is possible—likely, even—that you'll
-accidentally pass the wrong number of arguments to functions... and no
+accidentally pass the wrong number of arguments to functions, and no
 one will tell you about it.
 
 indexsee:[optional argument,argument optional]
 
-(((argument,optional)))The upside is that this behavior can be used to
-have a function take “optional” arguments. For example, this version
-of `power` can be called either with two arguments or with a single
-argument, in which case the exponent is assumed to be two, and it
-behaves like `square`.
+(((argument,optional)))The upside is that this behavior can be used
+to have a function take “optional” arguments. For example, the
+following version of `power` can be called either with two arguments
+or with a single argument, in which case the exponent is assumed to
+be two, and the function behaves like `square`.
 
 // test: wrap
 
@@ -436,7 +438,12 @@ console.log("R", 2, "D", 2);
 values, combined with the fact that local variables are “recreated”
 every time a function is called, brings up an interesting question.
 What happens to local variables when the function call that created
-them is no longer active? The following code illustrates this:
+them is no longer active?
+
+
+The following code shows an example of this. It defines a function,
+`wrapValue`, that creates a local variable. It then returns a function
+that accesses this local variable, returning its value when it is called.
 
 [source,javascript]
 ----
@@ -453,21 +460,19 @@ console.log(wrap2());
 // → 2
 ----
 
-When `wrapValue` is called, it creates a local variable that stores
-its parameter, and then returns a function that returns this local
-variable. This is allowed, and works as you'd expect—the variable
-survives. In fact, multiple instances of the variable can be alive at
+This is allowed, and works as you'd hope—the variable
+can still be accessed. In fact, multiple instances of the variable can be alive at
 the same time, which is another good illustration of the concept that
 local variables really are recreated for every call—different calls
-can not trample on each other's local variables.
+can't trample on one another's local variables.
 
-This feature, being able to reference a specific instance of local
-variables in an enclosing function, is called _closure_. A function
-that “closes over” some local variables is called _a closure_. This
+This feature—being able to reference a specific instance of local
+variables in an enclosing function—is called _closure_. A function
+that “closes over” some local variables is called _a_ closure. This
 behavior not only frees you from having to worry about lifetimes of
 variables, but also allows for some creative use of function values.
 
-With a slight change, we can turn the example function into a way to
+With a slight change, we can turn the previous example into a way to
 create functions that multiply by an arbitrary amount:
 
 [source,javascript]
@@ -483,29 +488,28 @@ console.log(twice(5));
 // → 10
 ----
 
-The explicit local variable from the `wrapValue` example isn't
+The explicit `localVariable` from the `wrapValue` example isn't
 needed, since a parameter is itself a local variable.
 
 Thinking about programs like this takes some exercise. A good mental
 model is to think of the `function` keyword as “freezing” the code in
-its body, and wrapping it into a package (value). So when you read
-`return function(…) {…};`, there is a piece of computation being
-frozen for later use, and a handle to that computation being returned.
+its body, and wrapping it into a package (the function value). So when you read
+`return function(...) {...}`, think of it as returning a handle to a piece of
+computation being frozen for later use.
 
-This frozen computation is returned from `multiplier` and stored in
-the `twice` variable. The last line of the example then calls the
-value in this variable, causing the wrapped code (`return number *
-factor;`) to finally be activated. It still has access to the `factor`
-variable from the `multiplier` call that created it, and in addition
-it gets access to the argument we pass it, 5, through its `number`
-parameter.
+In the example, `multiplier` returns a frozen computation that gets
+stored in the `twice` variable. The last line then calls the value in
+this variable, causing the frozen code (`return number * factor;`) to
+be activated. It still has access to the `factor` variable from the
+`multiplier` call that created it, and in addition it gets access to
+the argument passed when unfreezing it, 5, through its `number` parameter.
 
 == Recursion ==
 
 (((recursion)))(((function,application)))It is perfectly okay for a
 function to call itself. A function that calls itself is called
 _recursive_. Recursion allows some functions to be written in a funny
-way. For example this alternative implementation of `power`:
+way. Take, for example, this alternative implementation of `power`:
 
 // test: wrap
 
@@ -527,68 +531,68 @@ and arguably describes the concept in a more elegant way than the
 looping variant does. The function calls itself multiple times with
 different arguments to achieve the repeated multiplication.
 
-(((stack overflow)))There is one important problem: In typical
-JavaScript implementations, this second version is about ten times
-slower than the first one. Running through a simple loop is a
+(((stack overflow)))But this implementation has one important
+problem: In typical JavaScript implementations, it's about ten times
+slower than the looping version. Running through a simple loop is a
 lot cheaper than calling a function multiple times. On top of that,
 using a sufficiently large exponent to this function might cause the
 stack to overflow.
 
-(((efficiency)))The dilemma of speed versus (((elegance)))elegance is
-an interesting one. Almost any program can be made faster by making it
-bigger and more convoluted. You can see this as a kind of continuum
-between human-friendliness and machine-friendliness.
+(((efficiency)))The dilemma of speed versus ((elegance)) is
+an interesting one. You can see it as a kind of continuum
+between human-friendliness and machine-friendliness. Almost
+any program can be made faster by making it
+bigger and more convoluted. The programmer may decide on an appropriate balance.
 
 In the case of the earlier `power` function, the inelegant (looping)
-version is still sufficiently simple and easy to read. It does not
-make much sense to replace it with the recursive version. Often,
-though, the concepts a program is dealing with get so complex that
-giving up some efficiency in order to make the program more
-straightforward becomes an attractive choice.
+version is still fairly simple and easy to read. It doesn't make much
+sense to replace it with the recursive version. Often, though, a
+program deals with such complex concepts that giving up some
+efficiency in order to make the program more straightforward becomes
+an attractive choice.
 
 The basic rule, which has been repeated by many programmers and with
 which I wholeheartedly agree, is to not worry about efficiency until
-you know for sure that the program is too slow. When it is, find out
-which parts are taking up the most time, and start exchanging elegance
-for efficiency in those parts.
+you know for sure that the program is too slow. If it is, find out
+which parts are taking up the most time, and start exchanging
+elegance for efficiency in those parts.
 
-Of course, the previous rule doesn't mean one should start ignoring
-performance altogether. In many cases, like the `power` function,
-not much simplicity is gained by the “elegant” approach. In other
-cases, an experienced programmer can see right away that a simple
-approach is never going to be fast enough.
+Of course, this rule doesn't mean one should start ignoring
+performance altogether. In many cases, like the `power` function, not
+much simplicity is gained from the “elegant” approach. And sometimes
+an experienced programmer can see right away that a simple approach
+is never going to be fast enough.
 
-(((premature optimization)))The reason I am stressing this is that
+(((premature optimization)))The reason I'm stressing this is that
 surprisingly many beginning programmers focus fanatically on
 efficiency, even in the smallest details. The result is bigger, more
 complicated, and often less correct programs, which take longer to
-write than their more straightforward equivalents and run only
+write than their more straightforward equivalents, and which run only
 marginally faster.
 
-Regardless, recursion is not always just a less-efficient alternative
-to looping. Some problems are much easier to solve with recursion than
+But recursion is not always just a less-efficient alternative to
+looping. Some problems are much easier to solve with recursion than
 with loops. Most often these are problems that require exploring or
 processing several “branches”, each of which might branch out again
 into more branches.
 
 Consider this puzzle: By starting from the number 1 and repeatedly
-either adding 5 or multiplying by 3, an infinite amount of new numbers
-can be produced. How would you write a function that, given a number,
-tries to find a sequence of additions and multiplications that produce
-that number?
-
-For example, the number 13 could be reached by first multiplying by 3
-and then adding 5 twice. The number 15 cannot be reached at all.
+either adding 5 or multiplying by 3, an infinite amount of new
+numbers can be produced. How would you write a function that, given a
+number, tries to find a sequence of such additions and
+multiplications that produce that number? For example, the number 13
+could be reached by first multiplying by 3 and then adding 5
+twice, whereas the number 15 cannot be reached at all.
 
 Here is a recursive solution:
 
 [source,javascript]
 ----
-function findSolution(goal) {
+function findSolution(target) {
   function find(start, history) {
-    if (start == goal)
+    if (start == target)
       return history;
-    else if (start > goal)
+    else if (start > target)
       return null;
     else
       return find(start + 5, "(" + history + " + 5)") ||
@@ -601,33 +605,35 @@ console.log(findSolution(24));
 // → (((1 * 3) + 5) * 3)
 ----
 
-Note that it doesn't necessarily find the _shortest_ sequence of
-operations—it is satisfied when it finds any sequence at all.
+Note that this program doesn't necessarily find the _shortest_
+sequence of operations. It is satisfied when it finds any sequence at
+all.
 
-I don't necessarily expect you to see how it works right away. But let
-us work through it, since it makes for a great exercise in recursive
-thinking.
+I don't necessarily expect you to see how it works right away. But
+let's work through it, since it makes for a great exercise in
+recursive thinking.
 
 The inner function `find` does the actual recursing. It takes two
-arguments, the current number and a string that records how we reached
-this number, and returns either a string that shows how to get to the
-goal number, or `null`.
+arguments—the current number and a string that records how we reached
+this number—and returns either a string that shows how to get to the
+target, or `null`.
 
-(((|| operator)))(((shortcut evaluation)))In order to do this, it
-performs one of three actions. If the current number is the goal
-number, the current history is a way to reach the goal, so it is
-simply returned. If the current number is greater than the goal, there
-is no sense in further exploring this history, since both of the
-possible steps will only make the number bigger. And finally, if we're
-still below the goal, the function tries all possible paths that start
-from the current number, by calling itself twice, once for both of the
-allowed next steps. If the first call returns something that is not
-`null`, it is returned. Otherwise, the second call is returned
-(regardless of whether it produces a string or `null`).
+(((|| operator)))(((shortcut evaluation)))In order to do this, the
+function performs one of three actions. If the current number is the
+target number, the current history is a way to reach that target, so
+it is simply returned. If the current number is greater than the
+target, there's no sense in further exploring this history, since
+both adding and multiplying will only make the number bigger. And
+finally, if we're still below the target, the function tries both
+possible paths that start from the current number, by calling itself
+twice, once for each of the allowed next steps. If the first call
+returns something that is not `null`, it is returned. Otherwise, the
+second call is returned—regardless of whether it produces a string
+or `null`.
 
-How does this simple function produce the effect we are looking for?
-Let us look at a the calls to `find` that are made when searching for
-a solution for the number 13:
+To better understand how this function produces the effect we're
+looking for, let's look at all the calls to `find` that are made when
+searching for a solution for the number 13:
 
 ....
 find(1, "1")
@@ -646,16 +652,17 @@ find(1, "1")
 ....
 
 The indentation suggests the depth of the call stack. The first call
-to `find` itself calls `find` twice, to explore the solutions that
-start with `(1 + 5)` and `(1 * 3)`. The first call fails to find a
-solution that starts with `(1 + 5)`—using recursion, it explores
-_all_ such solutions that yield a number smaller than the goal number.
-Thus, it returns `null`, and the “||” operator causes the call that
-explores `(1 * 3)` to happen. This one has more luck, its first
-recursive call, through _another_ recursive call, hits upon our goal
-number 13. Thus, a string is returned, and each of the “||” operators
-in the intermediate calls ends up letting through that string, which
-is our solution.
+to `find` calls itself twice, to explore the solutions that start
+with `(1 + 5)` and `(1 * 3)`. The first call tries to find a solution
+that starts with `(1 + 5)`, and, using recursion, explores _every_
+solution that yields a number smaller or equal to than the target
+number. Since it doesn't find a solution that hits the target, it
+returns `null` back to the first call. There the “||” operator causes
+the call that explores `(1 * 3)` to happen. This search has more
+luck, as its first recursive call, through yet _another_ recursive
+call, hits upon the target number, 13. This innermost recursive call
+returns a string, and each of the “||” operators in the intermediate
+calls pass that string along, ultimately returning our solution.
 
 == Growing functions ==
 
@@ -663,16 +670,16 @@ There are two more or less natural ways for functions to be introduced
 into programs.
 
 The first is that you find yourself writing very similar code multiple
-times. We want to avoid doing that—having more code means more space
+times. We want to avoid doing that, since having more code means more space
 for mistakes to hide, and more material to read for people trying to
 understand the program. So we take the repeated functionality, find a
 good name for it, and put it into a function.
 
 The second way is that you find you need some functionality that you
-haven't written yet, and that sounds like it deserves its own
+haven't written yet, and which sounds like it deserves its own
 function. You'll start by naming the function, and then write its
-body. You might even first write another piece of code that already
-uses the function, before you create the function itself.
+body. You might even start writing code that uses the function before
+you actually define the function itself.
 
 How difficult it is to find a good name for a function is a good
 indication of how clear a concept it is that you're trying to wrap.
@@ -688,7 +695,7 @@ always three digits long.
 011 Chickens
 ....
 
-Well, that clearly is a function of two arguments. Let's get coding.
+That clearly asks for a function of two arguments. Let's get coding.
 
 [source,javascript]
 ----
@@ -706,13 +713,13 @@ printFarmInventory(7, 11);
 ----
 
 Adding `.length` after a string value will give us the length of that
-string. Thus, the `while` loops keep putting zeroes in front of the
+string. Thus, the `while` loops keep adding zeroes in front of the
 number strings until they are at least three characters long.
 
-Mission accomplished! But just as we want to send him the code (along
-with a hefty invoice of course), the farmer calls and tells us he's
+Mission accomplished! But just as we are about to send the farmer the code (along
+with a hefty invoice, of course), he calls and tells us he's
 also started keeping pigs, and couldn't we please extend the software
-to also print pigs.
+to also print pigs?
 
 We sure can. But just as we're in the process of copy-pasting those
 four lines one more time, we stop and reconsider. There has to be a
@@ -738,10 +745,10 @@ printFarmInventory(7, 11, 3);
 
 It works! But that name, `printZeroPaddedWithLabel`, is a little
 awkward. It conflates three things—printing, zero-padding, and adding
-a label—in a single function.
+a label—into a single function.
 
-If, instead of lifting out the repeated part of our program wholesale,
-we try to pick out a _concept_, we can do better:
+Instead of lifting out the repeated part of our program wholesale,
+let us try to pick out a single _concept_:
 
 [source,javascript]
 ----
@@ -763,74 +770,74 @@ printFarmInventory(7, 16, 3);
 
 `zeroPad` has a nice, obvious name, which makes it easier for someone
 who reads the code to figure out what it does. And it is useful in
-more situations that just this specific program. For example, you
-could use it to print nicely aligned tables of numbers.
+more situations than just this specific program. For example, you
+could use it to help print nicely aligned tables of numbers.
 
 How smart and versatile should our function be? We could write
 anything from a terribly simple function that simply pads a number so
 that it's three characters wide, to a complicated generalized
 number-formatting system that handles fractional numbers, negative
-numbers, aligning of dots, padding with different characters, and so
+numbers, alignment of dots, padding with different characters, and so
 on.
 
-A useful principle is to not add cleverness unless you are absolutely
-sure you are going to need it. It can be tempting to write general
+A useful principle is not to add cleverness unless you are absolutely
+sure you're going to need it. It can be tempting to write general
 “frameworks” for every little bit of functionality you come across.
 Resist that urge. You won't get any real work done, and you'll end up
 writing a lot of code that no one will ever use.
 
 == Functions and side effects ==
 
-(((side effect)))(((pure function)))(((function,purity)))Functions can
-roughly be divided into those that are called for their side effects,
-and those that are called for their return value. (Though it is
-definitely also possible to have both side effects and return a
+(((side effect)))(((pure function)))(((function,purity)))Functions
+can be roughly divided into those that are called for their side
+effects, and those that are called for their return value. (Though
+it's definitely also possible to have both side effects and return a
 value.)
 
 The first helper function in the farm example,
-`printZeroPaddedWithLabel`, is called for its side effect (it prints a
-line). The second, `zeroPad`, is called for its return value. It is no
-coincidence that the second is useful in more situations than the
-first. Functions that create values are easier to combine in new ways
-than functions that directly perform a side effect.
+`printZeroPaddedWithLabel`, is called for its side effect: It prints
+a line. The second version, `zeroPad`, is called for its return
+value. It is no coincidence that the second is useful in more
+situations than the first. Functions that create values are easier to
+combine in new ways than functions that directly perform side effects.
 
 A _pure_ function is a specific kind of value-producing function that
 not only has no side effects, but also doesn't rely on side effects
-from other code—for example, it doesn't read variables that are
+from other code—for example, it doesn't read global variables that are
 occasionally changed by other code. A pure function has the pleasant
 property that, when called with the same arguments, it always produces
 the same value (and doesn't do anything else). This makes it easy to
-think about—a call to it can be mentally substituted by its result
-without changing the meaning of the code. When you are not sure that
-such a function is working correctly, you can test it by simply
+reason about. A call to such a function can be mentally substituted by its result,
+without changing the meaning of the code. When you are not sure that a
+pure function is working correctly, you can test it by simply
 calling it and know that if it works in that context, it will work in
 any context. Non-pure functions might return different values based on
 all kinds of factors and have side effects that might be hard to test
 and think about.
 
-Still, there is no need to feel bad when writing functions that are
-not pure, no need to start a holy war and purge all code of
-impurities. Side effects are often useful. There'd be no way to write
-a pure `console.log`, for example, and `console.log` is certainly
-useful. Some operations also become more expensive when done without
-side effect, since all data involved must be copied, rather than
-modified.
+Still, there's no need to feel bad when writing functions that are
+not pure, or to wage a holy war to purge them from your code. Side
+effects are often useful. There'd be no way to write a pure version
+of `console.log`, for example, and `console.log` is certainly useful.
+Some operations are  also easer to express in an efficient way when
+we use side effects, so computing speed can be a reason to avoid purity.
 
 == Summary ==
 
-This chapter taught you how to write our own functions. The `function`
+This chapter taught you how to write your own functions. The `function`
 keyword, when used as an expression, can create a function value. When
 used as a statement, it can be used to declare a variable and give it
 a function as its value.
 
 [source,javascript]
 ----
-// Create a function and immediately call it
-(function (a) { console.log(a + 2); })(4);
-// → 6
+// Create a function value f
+var f = function(a) {
+  console.log(a + 2);
+};
 
-// Declare f to be a function
-function f(a, b) {
+// Declare g to be a function
+function g(a, b) {
   return a * b * 3.5;
 }
 ----
@@ -843,17 +850,17 @@ access to the outer function's local scope.
 
 Separating the different tasks your program performs into different
 functions is helpful. You won't have to repeat yourself so much, and
-when someone is trying to read the program, they can play the same
-role that chapters and sections play in regular text.
+they can help someone trying to read your program by grouping the
+code into conceptual chunks, in the same way that chapters and
+sections help organize regular text.
 
 == Exercises ==
 
 === Minimum ===
 
 The previous chapter introduced the standard function `Math.min` that
-returns the least of its arguments. We can do that ourselves now.
-Write a function `min` that takes two arguments and returns their
-minimum.
+returns its smallest argument. We can do that ourselves now. Write a
+function `min` that takes two arguments and returns their minimum.
 
 ifdef::html_target[]
 
@@ -873,7 +880,7 @@ endif::html_target[]
 !!solution!!
 
 If you have trouble putting braces and parentheses in the right place
-to get a valid function definition, simply start by copying one of the
+to get a valid function definition, start by copying one of the
 examples in this chapter and modifying it.
 
 A function may contain multiple `return` statements.
@@ -882,20 +889,20 @@ A function may contain multiple `return` statements.
 
 === Recursion ===
 
-We've seen that `% 2` (the remainder operator) can be used to test
-whether a number is divisible by 2, i.e. whether it is even or odd.
-Here's another way to define whether a (positive, whole) number is
-even or odd:
+We've seen that `%` (the remainder operator) can be used to test
+whether a number is even or odd by using `% 2` to check if it's
+divisible by two. Here's another way to define whether a (positive,
+whole) number is even or odd:
 
 - Zero is even.
 
 - One is odd.
 
-- For any other number N, the evenness is the same as N - 2.
+- For any other number N, its evenness is the same as N - 2.
 
 Define a recursive function `isEven` corresponding to this
-description. The function accepts a number parameter and returns a
-boolean.
+description. The function should accept a `number` parameter and
+return a boolean.
 
 Test it out on 50 and 75. See how it behaves on -1. Why? Can you think
 of a way to fix this?
@@ -919,34 +926,38 @@ endif::html_target[]
 
 !!solution!!
 
-Your function will somewhat similar to the inner `find` function in
-the recursive `findSolution` example in this chapter. It has an
+Your function will likely look somewhat similar to the inner `find` function in
+the recursive `findSolution` example in this chapter, with an
 `if`/`else if`/`else` chain that tests which of the three cases
-applies, with the final `else` making a recursive call. Each of the
+applies. The final `else`, corresponding to the third case, makes the
+recursive call. Each of the
 branches should contain a `return` statement, or in some other way
 arrange for a specific value to be returned.
 
 When given a negative number, the function will recurse again and
-again, giving itself an ever more negative number, and thus only
-getting further and further away from the input that allows it to
-return a result. It will eventually run out of stack space and abort.
+again, passing itself an ever more negative number, thus getting
+further and further away from returning a result. It will eventually
+run out of stack space and abort.
 
 !!solution!!
 
 === Bean counting ===
 
-You can get the Nth character (letter) from a string by writing
-`"string".charAt(N)` (similar to how you get it's length with
-`"s".length`). The returned value will be a string containing only one
-character (for example `"b"`).
+You can get the Nth character, or letter, from a string by writing
+`"string".charAt(N)`, similar to how you get its length with
+`"s".length`. The returned value will be a string containing only
+one character (for example, `"b"`). The first character has position zero,
+which causes the last one to be found at position `string.length - 1`. I.e.
+a two-character string has length 2, and its characters have positions 0 and 1.
 
 Write a function `countBs` that takes a string as its only argument
-and returns a number that indicates the amount of uppercase “B”
-characters in the string.
+and returns a number that indicates how many uppercase “B” characters
+are in the string.
 
-Next, change your function to be called `countChar`, and take a second
-argument that indicates the character that is to be counted. Rewrite
-`countBs` to make use of this new function.
+Next, write a function called `countChar` that behaves like
+`countBs`, except it takes a second argument that indicates the
+character that is to be counted (rather than only counting uppercase
+"B" characters). Rewrite `countBs` to make use of this new function.
 
 ifdef::html_target[]
 
@@ -965,13 +976,13 @@ endif::html_target[]
 
 !!solution!!
 
-A loop in your function will have to take a look at all characters in
+A loop in your function will have to look at every characters in
 the string by running an index from zero to one below its length (`<
-string.length`). When the character at the current position is the
-same as the one it is looking for, it adds one to a counter variable.
+string.length`). If the character at the current position is the
+same as the one the function is looking for, it adds 1 to a counter variable.
 Once the loop has finished, the counter can be returned.
 
 Take care to make all the variables used in the function _local_ to
-the function (by using the `var` keyword).
+the function by using the `var` keyword.
 
 !!solution!!

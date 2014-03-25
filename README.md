@@ -1,5 +1,7 @@
 # Eloquent JavaScript
 
+![Book Cover](https://github.com/obeid/Eloquent-JavaScript/img/cover.svg)
+
 These are the sources used to build the second edition of Eloquent
 JavaScript.
 

@@ -361,8 +361,7 @@ if (!isNaN(theNumber))
         theNumber * theNumber);
 ----
 
-With this modification, if you enter “cheese”—or nothing at all—no
-output will be shown.
+With this modification, if you enter “cheese”, no output will be shown.
 
 (((if keyword)))The keyword `if` executes or skips a
 statement depending on the value of a boolean expression. The deciding

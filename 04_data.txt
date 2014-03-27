@@ -1201,7 +1201,7 @@ place where the mirror image used to be.
 === A list ===
 
 (((list (data structure))))(((linked list)))Objects, by being generic
-blobs of values, can be used to build all sorts of data structures. An
+blobs of values, can be used to build all sorts of data structures. A
 common data structure is the _list_ (not to be confused with the
 array). A list is a set of objects, with the first object holding a
 reference (in a property) to the second, the second to the third, and
@@ -1226,7 +1226,7 @@ var list = {
 A nice thing about lists is that they can share parts of their
 structure. For example, if I create two new values `{value: 0, rest:
 list}` and `{value: -1, rest: list}` (with `list` referring to the
-variable defined above), they are both independant lists, but they
+variable defined above), they are both independent lists, but they
 share the structure that makes up their last three elements. In
 addition, the original list is also still a valid three-element list.
 
@@ -1239,7 +1239,7 @@ new list that adds the element to the front of the input list, and
 given position in the list, or `undefined` when there is no such
 element.
 
-If you hadn't already, also write a recursive version of `nth`.
+If you haven't already, also write a recursive version of `nth`.
 
 ifdef::html_target[]
 

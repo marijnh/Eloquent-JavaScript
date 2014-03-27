@@ -79,12 +79,12 @@ that only clicks on the button cause the handler to run.
 
 An `onclick` attribute put directly on a node has a similar effect.
 But a node only has one `onclick` attribute, so you can only register
-one handler per node that way. The `addEventHandler` method allow any
+one handler per node that way. The `addEventListener` method allow any
 number of handlers to be added, which makes it harder to accidentally
 replace a handler left by some other code.
 
-The `removeEventHandler` method, called with the same type of
-arguments as `addEventHandler` removes a handler again.
+The `removeEventListener` method, called with the same type of
+arguments as `addEventListener` removes a handler again.
 
 [source,text/html]
 ----

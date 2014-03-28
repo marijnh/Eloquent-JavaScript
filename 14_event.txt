@@ -712,10 +712,10 @@ if (Math.random() < .5) { // 50% chance
 }
 ----
 
-The `clearAnimationFrame` work in the same way as
+The `cancelAnimationFrame` function works in the same way as
 `clearTimeout`—calling it on a value returned by
-`requestAnimationFrame` will cancel that frame (assuming it wasn't
-already called).
+`requestAnimationFrame` will cancel that frame (assuming it hasn't
+already been called).
 
 A similar set of functions, `setInterval` and `clearInterval` are used
 to set timers that should repeat every X milliseconds.

@@ -1059,7 +1059,7 @@ and `undefined`). Properties are accessed using `value.propName` or
 `value["propName"]`. Objects tend to use names for their properties,
 and store a more or less fixed set of them. Arrays, on the other hand,
 usually contain varying amounts of conceptually identical values, and
-use numbers (staring from 0) as the names of their properties.
+use numbers (starting from 0) as the names of their properties.
 
 There _are_ some named properties in arrays, such as `length` and a
 number of methods. Methods are functions that live in properties and

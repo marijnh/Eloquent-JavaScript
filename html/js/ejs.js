@@ -81,6 +81,7 @@ window.addEventListener("load", function() {
     if (lang == "text/html" && !sandbox) {
       sandbox = "html" + nextID++;
       node.setAttribute("data-sandbox", sandbox);
+      sandboxSnippets[sandbox] = node;
     }
     node.style.display = "none";
 
@@ -122,6 +123,7 @@ window.addEventListener("load", function() {
   function runCode(data) {
     data.output.clear();
     var val = data.editor.getValue();
+    var sb = data.sandbox;
     getSandbox(data.sandbox, data.isHTML, function(box) {
       if (data.isHTML)
         box.setHTML(val, data.output, function() {

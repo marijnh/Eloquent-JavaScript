@@ -629,12 +629,16 @@ operator)))(((*= operator)))(((state)))Especially when
 looping, a program often needs to “update” a variable with a value based
 on that variable's previous value.
 
+// test: no
+
 [source,javascript]
 ----
 counter = counter + 1;
 ----
 
 JavaScript provides a shortcut for this:
+
+// test: no
 
 [source,javascript]
 ----

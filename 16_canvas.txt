@@ -1,0 +1,472 @@
+:chap_num: 16
+:prev_link: 15_game
+:next_link: 17_FIXME
+:load_files: ["js/15_game.js", "js/code/game_levels.js"]
+
+= Drawing on a Canvas =
+
+[quote,M.C. Escher]
+____
+Drawing is deception
+____
+
+Browsers provide several ways to create graphics. The simplest
+approach is to use regular DOM elements, and make them look the way we
+want by applying styles. This can get us quite far, as the previous
+chapter showed. By adding partially transparent background images to
+the nodes, we can make then look exactly the way we want to. It is
+even possible to rotate or skew nodes by using the `transform` style.
+
+But we'd still be using the DOM in a way not originally intended. Some
+things, like drawing a line between arbitrary points, are extremely
+awkward to do using regular HTML elements.
+
+There are two alternatives. The first is DOM-based, but utilizing
+_SVG_, rather than HTML elements, which you can think of as a
+different dialect for describing documents, one that focuses on shapes
+rather than text. An SVG document can be embedded inside an HTML
+document, but also included through an `<img>` tag.
+
+The second alternative is called a _canvas_. A canvas is a single DOM
+node that encapsulates a whole picture. It provides a programming
+interface for drawing shapes onto the space taken up by the node. The
+main difference between a canvas and an SVG picture is that in SVG,
+the original description of the shapes is preserved, so that they can
+be moved or resized at any time. Canvas, on the other hand, converts
+the shapes to pixels (colored dots on a raster) as soon as they are
+drawn, and does not remember what these pixels represent. The only way
+to move a shape on a canvas is to clear the canvas (or the area around
+the shape) and redraw it with the shape in its new position.
+
+== SVG ==
+
+This book will not go into SVG in detail, but I will briefly try to
+give you a general idea of the way it works. At the end of the
+chapter, I'll come back to the trade-offs that must be considered when
+deciding which mechanism is the most appropriate for a given
+application.
+
+This is an HTML document with a simple SVG picture inside of it:
+
+[sandbox="svg"]
+[source,text/html]
+----
+<p>Normal HTML here.</p>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <circle r="50" cx="50" cy="50" fill="red"/>
+  <rect x="120" y="5" width="90" height="90"
+        stroke="blue" fill="none"/>
+</svg>
+----
+
+The `xmlns` attribute changes a node (and its children) to a different
+_XML namespace_. This namespace, identified by a URL, is what
+specifies the dialect that we are currently speaking. The `<circle>`
+and `<rect>` tags, which do not exist in HTML, do have a meaning in
+SVG—they draw shapes, using the style and position specified by their
+attributes.
+
+These tags create DOM elements, just like HTML tags. This changes the
+`<circle>` element to be colored cyan instead:
+
+[sandbox="svg"]
+[source,javascript]
+----
+var circle = document.querySelector("circle");
+circle.setAttribute("fill", "cyan");
+----
+
+== The canvas node ==
+
+A canvas element is created with the `<canvas>` tag. You can give it
+`width` and `height` attributes to determine its size, in pixels.
+
+[sandbox="element"]
+[source,text/html]
+----
+<p>Before canvas.</p>
+<canvas width="200" height="100"></canvas>
+<p>After canvas.</p>
+----
+
+A new canvas is empty, meaning it is entirely transparent, and thus
+shows up simply as empty space in the document.
+
+The canvas tag is intended to support different styles of drawing. To
+get access to an actual drawing interface, we first need to create a
+_context_, which is an object whose methods provide the drawing
+interface. There are currently two widely supported drawing styles,
+`"2d"` for two-dimensional graphics, and `"webgl"` for
+three-dimensional graphics through the widely used OpenGL interface.
+
+This book won't discuss WebGL. We will stick to two dimensions here.
+But if you are interested in three-dimensional graphics, do look into
+WebGL. It provides a very direct interface to modern graphics
+hardware, and thus allows you to render complicated scenes very
+efficiently, from JavaScript.
+
+A context is created through the `getContext` method on the `<canvas>`
+element.
+
+[sandbox="element"]
+[source,javascript]
+----
+var canvas = document.querySelector("canvas");
+var context = canvas.getContext("2d");
+context.fillStyle = "red";
+context.fillRect(10, 10, 180, 80);
+----
+
+After creating the context object, the example draws a red rectangle
+of 180 by 80 pixels, with its top left corner at coordinates 10,10.
+
+Just like in HTML (and SVG), the coordinate system that the canvas
+puts (0,0) at the top left corner, and the positive y axis goes down
+from there, so (10,10) is ten pixels below and to the right of at
+corner.
+
+== Filling and stroking ==
+
+In the terminology used by the canvas interface (as well as by SVG),
+there are two things that can be done with a shape. It can be either
+_filled_, meaning its area is given a certain color (or pattern), or
+it can be _stroked_, which means a line is drawn along its edge.
+
+The `fillRect` method fills a rectangle. It takes first the x and y
+coordinates of the rectangle's top left corner, then its width, and
+then its height. A similar method, `strokeRect`, draws the outline of
+a rectangle.
+
+Neither of these methods take any parameters beyond the dimensions of
+the rectangle. The way in which the filling or stroking happens is not
+determined by an argument to the method (as you might justly expect),
+but rather by properties of the drawing context object.
+
+Setting `fillStyle` changes the way shapes are filled. It can be set
+to a string that specifies a color (any color understood by CSS can
+also be used here), or to a gradient (a progression between different
+colors) or pattern object, which we will come back to later.
+
+The `strokeStyle` property work similarly, but determines the color
+used for a stroked line. The width of that line is determined by the
+`lineWidth` property, which may contain any positive number.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.strokeStyle = "blue";
+  cx.strokeRect(5, 5, 50, 50);
+  cx.lineWidth = 5;
+  cx.strokeRect(35, 5, 50, 50);
+</script>
+----
+
+When no `width` or `height` attributes are specified, the canvas will
+get a default width of 300 and height of 150 pixels.
+
+== Paths ==
+
+A path is a sequence of lines. The 2d canvas interface's approach to
+specifying such a path is rather peculiar. It is done entirely through
+side effects.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  for (var y = 10; y < 100; y += 10) {
+    cx.moveTo(10, y);
+    cx.lineTo(90, y);
+  }
+  cx.stroke();
+</script>
+----
+
+The example creates a path with a number of horizontal line segments,
+and then strokes it using the `stroke` method. Each segment created
+with `lineTo` starts at the path's _current_ position, which is the
+end of the last segment, unless that position was moved using
+`moveTo`.
+
+When filling a path (using the `fill` method), each shape is filled
+separately. A path can contain multiple shapes—each `moveTo` motion
+starts a new one. If the path is not already _closed_ (its start and
+end are in different positions), a line is added from its end to its
+start, and the shape enclosed by the resulting line is filled.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  cx.moveTo(50, 10);
+  cx.lineTo(10, 70);
+  cx.lineTo(90, 70);
+  cx.fill();
+</script>
+----
+
+This draws a filled triangle. Note that only two of the triangle's
+sides are explicitly drawn. The third, from the bottom right corner
+back to the top, is implied, and won't be there when we stroke the
+path.
+
+The `closePath` method explicitly closes a path by adding an actual
+line segment back to its start. This segment _is_ drawn when stroking
+the path.
+
+== Curves ==
+
+A path may also contain curved lines. These are, unfortunately, a bit
+more involved to draw than straight lines.
+
+The `quadraticCurveTo` method draws a curve to a given point. To
+determine the curvature of the line, it is given a control point as
+well as a destination point. You can imagine this control point as
+“attracting” the line, giving it its curve. The line won't go through
+the control point. Rather, the direction of the line at its start and
+end point will be such that it aligns with the line from there to the
+control point. The following picture illustrates this:
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  cx.moveTo(10, 90);
+  // control=(60,10) goal=(90,90)
+  cx.quadraticCurveTo(60, 10, 90, 90);
+  cx.lineTo(60, 10);
+  cx.closePath();
+  cx.stroke();
+</script>
+----
+
+We draw a quadratic curve from the left to the right, with (60,10) as
+control point, and then draw two line segments, going through that
+control point and back to the start of the line. The result somewhat
+resembles a Star Trek insigna. You can see that the lines leaving the
+lower corners start off in the same direction.
+
+A similar kind of curve is drawn with `bezierCurve`. Instead of a
+single control point, this one has two—one for each end of the line.
+Here is a similar sketch to illustrates the behavior of such a curve:
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  cx.moveTo(10, 90);
+  // control1=(10,10) control2=(90,10) goal=(50,90)
+  cx.bezierCurveTo(10, 10, 90, 10, 50, 90);
+  cx.lineTo(50, 10);
+  cx.lineTo(10, 10);
+  cx.closePath();
+  cx.stroke();
+</script>
+----
+
+The two control points specify the direction at both ends of the curve.
+The further they are away from their corresponding point, the more the
+curve will “bulge” in that direction.
+
+Such curves are unfortunately not very easy to work with—finding the
+control points that provide the shape you are looking for can
+sometimes be done manually, by trial and error, and sometimes be
+computed.
+
+Easier to reason about are arcs—fragments of a circle. The `arcTo`
+method method takes five arguments. The first four act somewhat like
+the arguments to `quadraticCurve`—the first two are a sort of control
+point, and the second two are the line's destination. The fifth
+argument provides the radius of the arc. The method will conceptually
+draw a corner, to the control point and then the destination point,
+but then round the edge of this corner so that it forms part of a
+circle with the given radius.
+
+So far, that's quite easy to think about. Oddly, though, the method
+will omit the part of the line going from the end of the curved part
+to the actual goal coordinates. So the new position (the start of the
+next line segment) will not, as the word “to” in the method name
+suggests, be the coordinates given. If you need this part of the
+corner to be drawn, you can follow up with a call to `lineTo` with the
+same goal coordinates.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  cx.moveTo(10, 10);
+  // control=(90,10) goal=(90,90) radius=20
+  cx.arcTo(90, 10, 90, 90, 20);
+  cx.moveTo(10, 10);
+  // control=(90,10) goal=(90,90) radius=80
+  cx.arcTo(90, 10, 90, 90, 80);
+  cx.stroke();
+</script>
+----
+
+To draw a circle, you could use four calls to `arcTo` (each turning 90
+degrees). But the `arc` method provides a simpler way. It takes a pair
+of coordinates for the arc's center, a radius, and then a start and
+end angle.
+
+Those last two parameters allow us to draw parts of a circle, but do
+make drawing a whole circle slightly more involved. The angles are
+measured in radians, not degrees. This means that a full circle has an
+angle of 2π (`2 * Math.PI`, about 6.28). The angle starts counting at
+the point to the right of the circle's center, and goes clockwise from
+there. You can use a start of zero and an end bigger than 2π (say, 7)
+to draw a full circle.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  // center=(50,50) radius=40 angle=0 to 7
+  cx.arc(50, 50, 40, 0, 7);
+  // center=(150,50) radius=40 angle=0 to ½π
+  cx.arc(150, 50, 40, 0, 0.5 * Math.PI);
+  cx.stroke();
+</script>
+----
+
+The resulting picture contains a line from the left of the full circle
+(first call to `arc`) to the left of the quarter-circle (second call).
+Like other path drawing methods, a line drawn with `arc` is connected
+to the previous path segment by default, and you have to use `moveTo`
+(or start a new path) if you want to avoid this.
+
+== Text ==
+
+A 2d canvas drawing context provides the methods `fillText` and
+`strokeText`. The latter can be used for outlining letters, but
+usually `fillText` is what you want. It will fill the given text with
+the current `fillColor`.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.font = "28px Georgia";
+  cx.fillStyle = "fuchsia";
+  cx.fillText("I can draw text, too!", 10, 50);
+</script>
+----
+
+The size, style, and font in which to draw can be specified using the
+`font` property. The example gives just a font size and family name.
+You can add `italic` or `bold` to the start of the string to select a
+style.
+
+The last to arguments to `fillText` (and `strokeText`) provide the
+position at which the font is drawn. By default, they indicate the
+position of the start of the text's alphabetic baseline (the line on
+which the letters “stand”, not counting hanging parts in letters like
+“j” or “p”). The horizontal position is can be changed by setting the
+`textAlign` property to `"end"` or `"center"`. The vertical position
+by setting `textBaseLine` to `"top"`, `"middle"`, or `"bottom"`.
+
+== Images ==
+
+In computer graphics, a distinction is often made between _vector_
+graphics and _bitmap_ graphics. The first is what we have been doing
+so far in this chapter—specifying a picture by giving a logical
+description of shapes. Bitmap graphics, on the other hand, don't
+specify actual shapes but rather work with pixel data (rasters of
+colored dots).
+
+The `drawImage` method allows us to draw pixel data onto a canvas.
+This pixel data can originate from an `<img>` element or from another
+canvas (neither have to be visible in the actual document). The
+example below creates a detached `<img>` element and loads an image
+file into it. But it can not immediately start drawing from this
+picture, because the browser may not have fetched it yet. To deal with
+this, we register a `"load"` event handler, and do the drawing after
+the image has loaded.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  var img = document.createElement("img");
+  img.src = "img/hat.png";
+  img.addEventListener("load", function() {
+    for (var x = 10; x < 200; x += 30)
+      cx.drawImage(img, x, 10);
+  });
+</script>
+----
+
+By default, `drawImage` will draw the image at its original size. You
+can give it two additional arguments to determine the width and height
+with which it is drawn.
+
+When `drawImage` is given _nine_ arguments, it can be used to draw
+only a fragment of an image. The second to fifth argument indicate the
+rectangle (x, y, width, and height) in the source image that should be
+copied, and the sixth to ninth argument give the rectangle (on the
+canvas) into which it should be copied.
+
+This can be used to pack multiple _sprites_ (image elements) into a
+single image file, and then copy out the part you need. For example,
+we have this picture containing a game character in multiple poses.
+
+image::img/ninja.png[alt="Various poses of a game character"]
+
+If we alternate which pose we draw, we can show an animation that
+looks like a walking character. To animate the picture on a canvas,
+the `clearRect` method is useful. It resembles `fillRect`, but instead
+of coloring the rectangle, it resets it back to transparent.
+
+We know that each “sprite”, each sub-picture, is 50 pixels wide and 77
+pixels high. The code below loads the image, and then sets up an
+interval (repeated timer) to draw the next frame.
+
+[source,text/html]
+----
+<canvas width="50" height="77"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  var img = document.createElement("img");
+  img.src = "img/ninja.png";
+  var spriteW = 50, spriteH = 77;
+  img.addEventListener("load", function() {
+    var cycle = 0;
+    setInterval(function() {
+      cx.clearRect(0, 0, spriteW, spriteH);
+      cx.drawImage(img,
+                   // source rectangle
+                   cycle * spriteW, 0, spriteW, spriteH,
+                   // destination rectangle
+                   0,               0, spriteW, spriteH);
+      cycle = (cycle + 1) % 8;
+    }, 120);
+  });
+</script>
+----
+
+The `cycle` variable tracks our position in the animation. Each frame,
+it is incremented and then clipped back to the 0 to 7 range by using
+the remainder operator. This variable is then used to compute the x
+coordinate that the sprite for the current posture has in the picture.
+
+== Transformation ==
+
+But what if we want our character to walk to the left instead of to
+the right? We could add another set of sprites, of course. But we can
+also instruct the canvas to draw him the other way round.

@@ -1,9 +1,9 @@
 :chap_num: 15
 :prev_link: 14_event
-:next_link: 16_FIXME
+:next_link: 16_canvas
 :load_files: ["js/15_game.js", "js/code/game_levels.js"]
 
-= Practical: A Game =
+= Practical: A Platform Game =
 
 My initial fascination with computers, like that of many kids,
 originated with computer games. I was drawn in by the tiny

@@ -1251,6 +1251,10 @@ var list = {
 };
 ----
 
+The resulting object form a chain, like this:
+
+image::img/linked-list.svg[alt="A linked list"]
+
 A nice thing about lists is that they can share parts of their
 structure. For example, if I create two new values `{value: 0, rest:
 list}` and `{value: -1, rest: list}` (with `list` referring to the

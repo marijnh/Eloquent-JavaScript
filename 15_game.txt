@@ -719,11 +719,16 @@ Level.prototype.obstacleAt = function(pos, size) {
 
 It computes the set of grid squares that the body overlaps with by
 using `Math.floor` and `Math.ceil` on its coordinates. Remember that
-grid squares are one by one unit in size. If the body sticks out of
-the level, we return a predetermined obstacle type—`"wall"` for the
-sides and top, `"lava"` for the bottom. Otherwise, we loop over the
-block of grid squares, and return the first non-empty content type we
-find.
+grid squares are one by one unit in size. By rounding the sides of a
+box up and down, we get the range of background squares that the box
+touches.
+
+image::img/game-grid.svg[alt="Finding collisions on a grid"]
+
+If the body sticks out of the level, we return a predetermined
+obstacle type—`"wall"` for the sides and top, `"lava"` for the bottom.
+Otherwise, we loop over the block of grid squares, and return the
+first non-empty content type we find.
 
 Collisions between the player and other dynamic actors (coins, moving
 lava) are handled _after_ the player moved. When the motion would take

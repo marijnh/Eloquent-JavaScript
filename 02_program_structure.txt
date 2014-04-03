@@ -462,11 +462,19 @@ then a statement, much like `if`. The loop executes that statement as
 long as the expression produces a value that
 is `true` when converted to boolean type.
 
-((({} block)))(((statement)))(((block (of statements))))In this loop, we
-want to both print out the current number and add two to our variable.
-Whenever we want to execute multiple statements inside a loop, we wrap them in braces
-(`{` and `}`). Braces do for statements what parentheses do for expressions, they
-group them together, making them count as a single statement.
+((({} block)))(((statement)))(((block (of statements))))In this loop,
+we want to both print out the current number and add two to our
+variable. Whenever we want to execute multiple statements inside a
+loop, we wrap them in braces (`{` and `}`). Braces do for statements
+what parentheses do for expressions, they group them together, making
+them count as a single statement.
+
+Many JavaScript programmers wrap every single loop or `if` body in
+braces. They do this both for the sake of consistency and to avoid
+having to add or remove braces when changing the number of statements
+in the body later on. In this book, I will write most single-statement
+bodies without braces, since I value brevity. You are free to go with
+whichever style you prefer.
 
 (((variable)))(((state)))The variable `number` demonstrates
 the way a variable can track the progress of a program. Every time the

@@ -579,7 +579,7 @@ should we store these correlations once we compute them?
 
 == Objects as maps ==
 
-ne possible way is to
+One possible way is to
 store all the correlations in an array, using objects with `name` and
 `value` properties. But that makes looking up the correlation for a given
 event somewhat cumbersome: You'd have to loop over the whole array
@@ -1251,7 +1251,7 @@ var list = {
 };
 ----
 
-The resulting object form a chain, like this:
+The resulting objects form a chain, like this:
 
 image::img/linked-list.svg[alt="A linked list"]
 

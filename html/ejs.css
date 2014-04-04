@@ -316,8 +316,8 @@ blockquote footer:before {
 
 
 div.image img {
-  max-width: 28em;
-  margin-left: 1em;
+  max-width: 640px;
+  margin-left: 30px;
 }
 
 div.solution:before {

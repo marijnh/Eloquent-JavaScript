@@ -246,9 +246,8 @@ the `Lava` constructor uses to determine its behavior (bouncing
 horizontally or vertically, or dripping).
 
 The player type is built with this simple constructor. It has a
-property `ySpeed` containing its current vertical speed, which we will
-use to simulate momentum and gravity (the horizontal speed will be
-entirely based on the arrow keys, without any momentum).
+property `speed` containing its current speed, which we will
+use to simulate momentum and gravity.
 
 // include_code
 
@@ -257,7 +256,7 @@ entirely based on the arrow keys, without any momentum).
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.5));
   this.size = new Vector(0.8, 1.5);
-  this.ySpeed = 0;
+  this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
 ----
@@ -699,10 +698,10 @@ a size) overlaps with any non-empty space from the background grid:
 [source,javascript]
 ----
 Level.prototype.obstacleAt = function(pos, size) {
-  var yStart = Math.floor(pos.y);
-  var yEnd = Math.ceil(pos.y + size.y);
   var xStart = Math.floor(pos.x);
   var xEnd = Math.ceil(pos.x + size.x);
+  var yStart = Math.floor(pos.y);
+  var yEnd = Math.ceil(pos.y + size.y);
 
   if (xStart < 0 || xEnd > this.width || yStart < 0)
     return "wall";
@@ -852,11 +851,12 @@ method below implements the horizontal part.
 var playerXSpeed = 7;
 
 Player.prototype.moveX = function(step, level, keys) {
-  var speed = 0;
-  if (keys.left) speed -= playerXSpeed;
-  if (keys.right) speed += playerXSpeed;
+  this.speed.x = 0;
+  if (keys.left) this.speed.x -= playerXSpeed;
+  if (keys.right) this.speed.x += playerXSpeed;
 
-  var newPos = this.pos.plus(new Vector(speed * step, 0));
+  var motion = new Vector(this.speed.x * step, 0);
+  var newPos = this.pos.plus(motion);
   var obstacle = level.obstacleAt(newPos, this.size);
   if (obstacle)
     level.playerTouched(obstacle);
@@ -882,15 +882,16 @@ var gravity = 30;
 var jumpSpeed = 17;
 
 Player.prototype.moveY = function(step, level, keys) {
-  this.ySpeed += step * gravity;
-  var newPos = this.pos.plus(new Vector(0, this.ySpeed * step));
+  this.speed.y += step * gravity;
+  var motion = new Vector(0, this.speed.y * step);
+  var newPos = this.pos.plus(motion);
   var obstacle = level.obstacleAt(newPos, this.size);
   if (obstacle) {
     level.playerTouched(obstacle);
-    if (keys.up && this.ySpeed > 0)
-      this.ySpeed = -jumpSpeed;
+    if (keys.up && this.speed.y > 0)
+      this.speed.y = -jumpSpeed;
     else
-      this.ySpeed = 0;
+      this.speed.y = 0;
   } else {
     this.pos = newPos;
   }
@@ -1081,7 +1082,7 @@ function runLevel(level, Display, andThen) {
   var display = new Display(document.body, level);
   runAnimation(function(step) {
     level.animate(step, arrows);
-    display.drawFrame(level);
+    display.drawFrame(step);
     if (level.isFinished()) {
       display.clear();
       if (andThen)
@@ -1260,7 +1261,7 @@ ifdef::html_target[]
     var display = new Display(document.body, level);
     runAnimation(function(step) {
       level.animate(step, arrows);
-      display.drawFrame(level);
+      display.drawFrame(step);
       if (level.isFinished()) {
         display.clear();
         if (andThen)

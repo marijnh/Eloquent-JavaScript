@@ -1,9 +1,9 @@
 :chap_num: 16
 :prev_link: 15_game
 :next_link: 17_FIXME
-:load_files: ["js/15_game.js", "js/code/game_levels.js"]
+:load_files: ["js/15_game.js", "js/code/game_levels.js", "js/16_canvas.js"]
 
-= Drawing on a Canvas =
+= Drawing on Canvas =
 
 [quote,M.C. Escher]
 ____
@@ -144,8 +144,7 @@ but rather by properties of the drawing context object.
 
 Setting `fillStyle` changes the way shapes are filled. It can be set
 to a string that specifies a color (any color understood by CSS can
-also be used here), or to a gradient (a progression between different
-colors) or pattern object, which we will come back to later.
+also be used here).
 
 The `strokeStyle` property work similarly, but determines the color
 used for a stroked line. The width of that line is determined by the
@@ -288,17 +287,14 @@ method method takes five arguments. The first four act somewhat like
 the arguments to `quadraticCurve`—the first two are a sort of control
 point, and the second two are the line's destination. The fifth
 argument provides the radius of the arc. The method will conceptually
-draw a corner, to the control point and then the destination point,
-but then round the edge of this corner so that it forms part of a
-circle with the given radius.
-
-So far, that's quite easy to think about. Oddly, though, the method
-will omit the part of the line going from the end of the curved part
-to the actual goal coordinates. So the new position (the start of the
-next line segment) will not, as the word “to” in the method name
-suggests, be the coordinates given. If you need this part of the
-corner to be drawn, you can follow up with a call to `lineTo` with the
-same goal coordinates.
+take a corner, a line going to the control point and then the
+destination point, and round its point so that it forms part of a
+circle with the given radius. It then draws this rounded part, as well
+as a line from the starting position to the start of the rounded part.
+It will not draw the line from the end of the rounded part to the goal
+position, though the word “to” in its same would suggest it does. You
+can follow up with a call to `lineTo` with the same goal coordinates
+to add that part of the line.
 
 [source,text/html]
 ----
@@ -426,25 +422,25 @@ This can be used to pack multiple _sprites_ (image elements) into a
 single image file, and then copy out the part you need. For example,
 we have this picture containing a game character in multiple poses.
 
-image::img/ninja.png[alt="Various poses of a game character"]
+image::img/player.png[alt="Various poses of a game character"]
 
 If we alternate which pose we draw, we can show an animation that
 looks like a walking character. To animate the picture on a canvas,
 the `clearRect` method is useful. It resembles `fillRect`, but instead
 of coloring the rectangle, it resets it back to transparent.
 
-We know that each “sprite”, each sub-picture, is 50 pixels wide and 77
+We know that each “sprite”, each sub-picture, is 16 pixels wide and 30
 pixels high. The code below loads the image, and then sets up an
 interval (repeated timer) to draw the next frame.
 
 [source,text/html]
 ----
-<canvas width="50" height="77"></canvas>
+<canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
   var img = document.createElement("img");
-  img.src = "img/ninja.png";
-  var spriteW = 50, spriteH = 77;
+  img.src = "img/player.png";
+  var spriteW = 16, spriteH = 30;
   img.addEventListener("load", function() {
     var cycle = 0;
     setInterval(function() {
@@ -470,3 +466,464 @@ coordinate that the sprite for the current posture has in the picture.
 But what if we want our character to walk to the left instead of to
 the right? We could add another set of sprites, of course. But we can
 also instruct the canvas to draw him the other way round.
+
+Calling the `scale` method will cause anything drawn after it to be
+scaled. It takes two parameters, one to set a horizontal scale and one
+to set a vertical scale.
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  cx.scale(3, .5);
+  cx.beginPath();
+  cx.arc(50, 50, 40, 0, 7);
+  cx.lineWidth = 3;
+  cx.stroke();
+</script>
+----
+
+Scaling will cause everything about the drawn image, including the
+line width, to be stretched out or squeezed together as specified.
+Scaling by a negative amount will flip the picture around. The
+flipping happens around point (0,0), which means that it will also
+flip the direction of the coordinate system. When a horizontal scaling
+of -1 is applied, a shape drawn at x position 100 will end up at what
+used to be position -100.
+
+So to turn a picture around, we can not simply add `cx.scale(-1, 1)`
+before the call to `drawImage`, since that would move our picture to
+the left of the canvas (where it won't be visible).
+
+One way to fix this is by adjusting the coordinates given to
+`drawImage` to compensate for this (by drawing it at x position -50
+instead of 0). Another way, which requires less changes to other code,
+is to adjust the axis around which the scaling happens.
+
+There are several other methods, besides `scale` that influence the
+coordinate system for a canvas. It can be rotated with the `rotate`
+method, and moved with the `translate` method. The interesting— and
+confusing—thing is that these transformations “stack”, meaning that
+each one happens relative to the previous transformations.
+
+So if we translate (move) by 10 horizontal pixels twice, everything
+will be drawn 20 pixels to the right. If we first move the origin to
+(50,50) and then rotate by 20 degrees (0.1π in radians), that rotation
+will happen around point (50,50).
+
+image::img/transform.svg[alt="Stacking transformations"]
+
+But if, instead, we first rotated by 20 degrees, and then translated
+by (50,50), the translation will happen in the rotated coordinate
+system, and thus produce a different orientation. The order in which
+transformations are applied matters.
+
+To flip a picture around the vertical line at a given x position, we
+can do the following:
+
+// include_code
+
+[source,javascript]
+----
+function flipHorizontally(context, around) {
+  context.translate(around, 0);
+  context.scale(-1, 1);
+  context.translate(-around, 0);
+}
+----
+
+We first move the y axis to where we want our mirror to be, then apply
+the mirroring, and finally move the y axis back to its proper place in
+the mirrored universe. The picture below tries to explain why this
+works.
+
+image::img/mirror.svg[alt="Mirroring around a vertical line"]
+
+This shows the coordinate systems, before and after mirroring in the
+central line. If we draw a triangle at a positive x position, it
+would, by default, be in the place where the green triangle (1) is. A
+call to `flipHorizontally` first does a translation to the right,
+which gets us to triangle 2. It then scales, flipping the triangle
+back to position 3. This is not where it should be, if it were
+mirrored in the given line. The second `translate` call fixes this—it
+“cancels” the initial translation, and makes triangle 4 appear exactly
+where it should.
+
+We can now draw a mirrored character at position (100,0) by flipping
+the world around the character's vertical center:
+
+[source,text/html]
+----
+<canvas></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  var img = document.createElement("img");
+  img.src = "img/player.png";
+  var spriteW = 16, spriteH = 30;
+  img.addEventListener("load", function() {
+    flipHorizontally(cx, 100 + spriteW / 2);
+    cx.drawImage(img, 0, 0, spriteW, spriteH,
+                 100, 0, spriteW, spriteH);
+  });
+</script>
+----
+
+== Storing and clearing transformations ==
+
+Transformations stick around. Everything else we draw after drawing
+that mirrored character would also be mirrored. That might be a bit of
+a problem.
+
+The `resetTransform` method (which takes no arguments) clears the
+canvas' transformations entirely. It is also possible to save the
+current transformation, do some drawing and transforming, and then
+restore the old transformation. This is usually the proper thing to do
+for a function that needs to temporarily transform the coordinate
+system: First save whatever the code that called the function was
+using, then do its thing (on top of the existing transformation), and
+then revert to what it started with.
+
+The `save` and `restore` methods on the 2d canvas context perform this
+kind of transformation tracking. They conceptually maintain a stack of
+transformation states. When you call `save`, the current state is
+pushed onto the stack, and when you call `restore`, the state on top
+of the stack is taken off, and applied to the context.
+
+The example below illustrates what you can do with a function that
+changes the transformation and then calls another function (in this
+case itself) that continues drawing with the given transformation.
+
+The `branch` function draws a tree-like shape by first drawing a line,
+and then moving the coordinate system to the end of the line and
+calling itself twice, first rotated to the left, and then rotated to
+the right. Every call reduces the length of the branch drawn, and the
+recursion stops when the length drops below 8.
+
+[source,text/html]
+----
+<canvas width="600" height="300"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  function branch(length, angle, scale) {
+    cx.fillRect(0, 0, 1, length);
+    if (length < 8) return;
+    cx.save();
+    cx.translate(0, length);
+    cx.rotate(-angle);
+    branch(length * scale, angle, scale);
+    cx.rotate(2 * angle);
+    branch(length * scale, angle, scale);
+    cx.restore();
+  }
+  cx.translate(300, 0);
+  branch(60, 0.5, 0.8);
+</script>
+----
+
+If the calls to `save` and `restore` were not there, the second
+recursive call to `branch` would end up with the position and rotation
+created by the first call—it would not be connected to the current
+branch, but rather to the outmost, rightmost branch drawn by the first
+call. The resulting shape might also be interesting, but it is
+definitly not a tree.
+
+== Back to the game ==
+
+We now know enough about canvas drawing to start working on the
+canvas-based display system for the game from the last chapter. The
+new display will no longer be showing just colored boxes. Instead,
+we'll use `drawImage` to draw the game's elements.
+
+We must define an object type `CanvasDisplay`, supporting the same
+interface (`drawFrame` and `clear` methods) as `DOMDisplay` from
+Chapter 15.
+
+This object tracks a little more information that `DOMDisplay`. Rather
+than using the scroll position of its DOM node, it tracks its own
+viewport, which tells us what part of the level we are currently
+looking at. It also tracks time, and uses that to decide which
+animation frame to use. And finally, it keeps a `flipPlayer` property,
+so that even when the player is standing still, they keep facing the
+direction they last moved in.
+
+// include_code
+
+[sandbox="game"]
+[source,javascript]
+----
+function CanvasDisplay(parent, level) {
+  this.canvas = document.createElement("canvas");
+  this.canvas.width = 600;
+  this.canvas.height = 450;
+  parent.appendChild(this.canvas);
+  this.cx = this.canvas.getContext("2d");
+
+  this.level = level;
+  this.animationTime = 0;
+  this.flipPlayer = false;
+
+  this.viewport = {
+    left: 0,
+    top: 0,
+    width: this.canvas.width / scale,
+    height: this.canvas.height / scale
+  };
+
+  this.drawFrame(0);
+}
+
+CanvasDisplay.prototype.clear = function() {
+  this.canvas.parentNode.removeChild(this.canvas);
+};
+----
+
+The `animationTime` counter is the reason we passed the step size to
+`drawFrame` in Chapter 15, even though `DOMDisplay` does not use it.
+Our new `drawFrame` function uses it to keep track of the time the
+game has been running (in seconds).
+
+// include_code
+
+[sandbox="game"]
+[source,javascript]
+----
+CanvasDisplay.prototype.drawFrame = function(step) {
+  this.animationTime += step;
+
+  this.updateViewport();
+  this.clearDisplay();
+  this.drawBackground();
+  this.drawActors();
+};
+----
+
+Other than that, the method updates the viewport for the current
+player position, clears the whole canvas, and draws the background and
+actors onto that. Note that this is different from the approach in
+Chapter 15, where we drew the background once and scrolled the
+wrapping DOM node to move it.
+
+Because shapes on a canvas are just pixels, after we draw them, there
+is no way to move them (or remove them). In most cases, the only way
+to update a canvas display is to clear it and redraw the scene.
+
+The `updateViewport` method is very similar to `DOMDisplay`'s
+`scrollPlayerIntoView` method. It checks whether the player is too
+close to the edge of the screen, and moves the viewport when this is
+the case.
+
+// include_code
+
+[sandbox="game"]
+[source,javascript]
+----
+CanvasDisplay.prototype.updateViewport = function() {
+  var view = this.viewport, margin = view.width / 3;
+  var player = this.level.player;
+  var center = player.pos.plus(player.size.times(0.5));
+
+  if (center.x < view.left + margin)
+    view.left = Math.max(center.x - margin, 0);
+  else if (center.x > view.left + view.width - margin)
+    view.left = Math.min(center.x + margin - view.width,
+                         this.level.width - view.width);
+  if (center.y < view.top + margin)
+    view.top = Math.max(center.y - margin, 0);
+  else if (center.y > view.top + view.height - margin)
+    view.top = Math.min(center.y + margin - view.height,
+                        this.level.height - view.height);
+};
+----
+
+The calls to `Math.max` and `Math.min` are used to ensure that the
+viewport does not end up showing space outside of the level.
+`Math.max(x, 0)` has the effect of ensuring the resulting number is
+not less than zero. `Math.min`, similarly, ensures a value stays below
+a given bound.
+
+When clearing the display, we'll use a slightly different color
+depending on whether the game is won (brighter) or lost (darker).
+
+// include_code
+
+[sandbox="game"]
+[source,javascript]
+----
+CanvasDisplay.prototype.clearDisplay = function() {
+  if (this.level.status == "won")
+    this.cx.fillStyle = "#44bfff";
+  else if (this.level.status == "lost")
+    this.cx.fillStyle = "#2c88d6";
+  else
+    this.cx.fillStyle = "#34a6fb";
+  this.cx.fillRect(0, 0,
+                   this.canvas.width, this.canvas.height);
+};
+----
+
+To draw the background, we run through the tiles that are visible in
+the current viewport, using the same trick used in `obstacleAt` in the
+previous chapter.
+
+// include_code
+
+[sandbox="game"]
+[source,javascript]
+----
+var otherSprites = document.createElement("img");
+otherSprites.src = "img/sprites.png";
+
+CanvasDisplay.prototype.drawBackground = function() {
+  var view = this.viewport;
+  var xStart = Math.floor(view.left);
+  var xEnd = Math.ceil(view.left + view.width);
+  var yStart = Math.floor(view.top);
+  var yEnd = Math.ceil(view.top + view.height);
+
+  for (var y = yStart; y < yEnd; y++) {
+    for (var x = xStart; x < xEnd; x++) {
+      var tile = this.level.grid[y][x];
+      if (tile == null) continue;
+      var screenX = (x - view.left) * scale;
+      var screenY = (y - view.top) * scale;
+      var tilePos = tile == "lava" ? scale : 0;
+      this.cx.drawImage(otherSprites,
+                        tilePos,       0, scale, scale,
+                        screenX, screenY, scale, scale);
+    }
+  }
+};
+----
+
+Tiles that are not empty (null) are drawn with `drawImage`. The
+`otherSprites` image contains the pictures used for the elements that
+are not the player. It contains, from left to right, the wall tile,
+the laval tile, and then the sprite for a coin. Background tiles are
+20 by 20 pixels, since we will use the same scale that we used in
+`DOMDisplay`. Thus, the offset for lava tiles is 20 (the value of the
+`scale` variable), and the offset for walls is zero.
+
+We do not bother waiting for the sprite image to load in this program.
+Calling `drawImage` with an image that hasn't been loaded yet will
+simply do nothing. Thus, we might fail to draw the game properly for
+the first few frames, while the image is still loading, but that is
+not much of a problem. Since we keep updating the screen, the correct
+scene will appear as soon as the loading finishes.
+
+ifdef::html_target[]
+
+// FIXME this looks awful, needs a black background, ×2 scale
+
+image::img/sprites.png[alt="Sprites for our game"]
+
+endif::html_target[]
+
+The walking character we used before will be used to represent the
+player. The code that draws it needs to pick the right sprite and
+direction based on the player's current motion. When the player is
+standing still, we draw the leftmost sprite. During jumps (when the
+vertical speed is not zero), we use the rightmost sprite. When
+walking, we cycle through the first 8 sprites based on the display's
+`animationTime` property. This is measured in seconds, and we want to
+switch frames ofter than once a second, so the time is multiplied by
+12 first.
+
+// include_code
+
+[sandbox="game"]
+[source,javascript]
+----
+var playerSprites = document.createElement("img");
+playerSprites.src = "img/player.png";
+
+CanvasDisplay.prototype.drawPlayer = function(x, y, width,
+                                              height) {
+  var sprite = 0, player = this.level.player;
+  if (player.speed.x)
+    this.flipPlayer = player.speed.x < 0;
+
+  if (player.speed.y)
+    sprite = 8;
+  else if (player.speed.x)
+    sprite = Math.floor(this.animationTime * 12) % 8;
+
+  if (this.flipPlayer)
+    flipHorizontally(this.cx, x + width / 2);
+
+  this.cx.drawImage(playerSprites,
+                    sprite * width, 0, width, height,
+                    x,              y, width, height);
+
+  if (this.flipPlayer)
+    this.cx.resetTransform();
+};
+----
+
+We use `resetTransform` instead of `save` and `restore`, because our
+drawing system will not use transformations in any other places, and
+thus there is no transformation to save.
+
+The function above is called by `drawActors`, which is responsible for
+drawing the all the actors in the game.
+
+// include_code
+
+[sandbox="game"]
+[source,javascript]
+----
+CanvasDisplay.prototype.drawActors = function() {
+  this.level.actors.forEach(function(actor) {
+    var width = actor.size.x * scale;
+    var height = actor.size.y * scale;
+    var x = (actor.pos.x - this.viewport.left) * scale;
+    var y = (actor.pos.y - this.viewport.top) * scale;
+    if (actor.type == "player") {
+      this.drawPlayer(x, y, width, height);
+    } else {
+      var tile = (actor.type == "coin" ? 2 : 1) * scale;
+      this.cx.drawImage(otherSprites,
+                        tile, 0, width, height,
+                        x,    y, width, height);
+    }
+  }, this);
+};
+----
+
+When drawing something that is not the player, we look at its type to
+find the offset of the correct sprite. The lava tile is found at
+offset 20, and the coin sprite at 40 (two times `scale`).
+
+We have to subtract the viewport's position when computing the actor's
+position, since (0,0) on our canvas corresponds to the top left of the
+viewport, not the top left of the level. We could also have used
+`translate` for this. Either way works.
+
+And to plug the new display into `runGame`:
+
+[sandbox="game"]
+[focus="yes"]
+[source,text/html]
+----
+<body>
+  <script>
+    runGame(GAME_LEVELS, CanvasDisplay);
+  </script>
+</body>
+----
+
+== Summary ==
+
+FIXME
+
+== Exercises ==
+
+=== Precomputed mirroring ===
+
+FIXME One unfortunate thing about transformations is that they considerably
+slow down drawing of bitmaps. For vector graphics, the effect is less
+serious, since there only a few points (for example the center of a
+circle) need to be transformed, and then drawing continues as normal.
+For a bitmap image, the position of each pixel has to be transformed,
+and though it is possible that browsers will get more clever about
+this in the future, that currently 

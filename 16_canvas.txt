@@ -250,7 +250,7 @@ control point. The following picture illustrates this:
 We draw a quadratic curve from the left to the right, with (60,10) as
 control point, and then draw two line segments, going through that
 control point and back to the start of the line. The result somewhat
-resembles a Star Trek insigna. You can see that the lines leaving the
+resembles a Star Trek insignia. You can see that the lines leaving the
 lower corners start off in the same direction.
 
 A similar kind of curve is drawn with `bezierCurve`. Instead of a
@@ -344,6 +344,8 @@ The resulting picture contains a line from the left of the full circle
 Like other path drawing methods, a line drawn with `arc` is connected
 to the previous path segment by default, and you have to use `moveTo`
 (or start a new path) if you want to avoid this.
+
+// FIXME some kind of practical example with curves
 
 == Text ==
 
@@ -624,9 +626,9 @@ recursion stops when the length drops below 8.
 If the calls to `save` and `restore` were not there, the second
 recursive call to `branch` would end up with the position and rotation
 created by the first call—it would not be connected to the current
-branch, but rather to the outmost, rightmost branch drawn by the first
+branch, but rather to the outermost, rightmost branch drawn by the first
 call. The resulting shape might also be interesting, but it is
-definitly not a tree.
+definitely not a tree.
 
 == Back to the game ==
 
@@ -641,7 +643,7 @@ Chapter 15.
 
 This object tracks a little more information that `DOMDisplay`. Rather
 than using the scroll position of its DOM node, it tracks its own
-viewport, which tells us what part of the level we are currently
+view port, which tells us what part of the level we are currently
 looking at. It also tracks time, and uses that to decide which
 animation frame to use. And finally, it keeps a `flipPlayer` property,
 so that even when the player is standing still, they keep facing the
@@ -799,7 +801,7 @@ CanvasDisplay.prototype.drawBackground = function() {
 Tiles that are not empty (null) are drawn with `drawImage`. The
 `otherSprites` image contains the pictures used for the elements that
 are not the player. It contains, from left to right, the wall tile,
-the laval tile, and then the sprite for a coin. Background tiles are
+the lava tile, and then the sprite for a coin. Background tiles are
 20 by 20 pixels, since we will use the same scale that we used in
 `DOMDisplay`. Thus, the offset for lava tiles is 20 (the value of the
 `scale` variable), and the offset for walls is zero.
@@ -826,7 +828,7 @@ standing still, we draw the leftmost sprite. During jumps (when the
 vertical speed is not zero), we use the rightmost sprite. When
 walking, we cycle through the first 8 sprites based on the display's
 `animationTime` property. This is measured in seconds, and we want to
-switch frames ofter than once a second, so the time is multiplied by
+switch frames more often than once a second, so the time is multiplied by
 12 first.
 
 // include_code
@@ -894,7 +896,7 @@ When drawing something that is not the player, we look at its type to
 find the offset of the correct sprite. The lava tile is found at
 offset 20, and the coin sprite at 40 (two times `scale`).
 
-We have to subtract the viewport's position when computing the actor's
+We have to subtract the view port's position when computing the actor's
 position, since (0,0) on our canvas corresponds to the top left of the
 viewport, not the top left of the level. We could also have used
 `translate` for this. Either way works.
@@ -912,18 +914,265 @@ And to plug the new display into `runGame`:
 </body>
 ----
 
+== Choosing a graphics interface ==
+
+So any time you want to generate graphics in the browser, you must
+choose between plain HTML, SVG, and canvas. There is no single “best”
+approach that works in all situations. Each approach has strengths and
+weaknesses.
+
+Plain HTML has the advantage of being simple. It also integrates well
+with text. Both SVG and canvas allow you to draw text, but won't help
+with positioning that text, or wrapping it when it takes up more than
+line. In an HTML-based picture, it is very easy to include blocks of
+text.
+
+SVG can be used to produce crisp graphics that look good at any zoom
+level. It is more difficult to us than plain HTML, but also much more
+powerful.
+
+Both SVG and HTML build up a data structure (the DOM) that represents
+the picture. This makes it possible to modify elements they are drawn.
+If you need to repeatedly change a small part of a big picture, in
+response to what the user is doing or as part of an animation, doing
+it in canvas can be needlessly expensive. The DOM also allows us to
+register mouse event handlers on every element in the picture (even on
+shapes drawn with SVG). This can not be done with canvas.
+
+But canvas' pixel-oriented approach can be an advantage when drawing a
+huge amount of tiny elements. The fact that it does not build up a
+data structure, but only repeatedly draws onto the same pixel surface,
+saves it some work.
+
+There are also effects, such as rendering a scene one pixel at a time
+(for example with a ray tracer), or post-processing an image with
+JavaScript (blurring or distorting it) that can only be realistically
+handled by a pixel-based technique.
+
+In some cases, it is worthwhile to combine several of these
+techniques. For example, drawing a graph with SVG or canvas, but
+showing textual information, when the user clicks or hovers over an
+element, by positioning an HTML element on top of the picture.
+
+Often, it really does not matter much which interface you choose. The
+second display we built for our game in this chapter could have been
+implemented using any of these thee graphics technologies. It does not
+need to draw text, handle mouse interaction, or work with an
+extraordinarily large amount of elements.
+
 == Summary ==
 
-FIXME
+In this chapter, we discussed techniques for drawing graphics in the
+browser, focusing on the `<canvas>` element.
+
+A canvas node represents an area in a document that our program may
+draw on. This drawing is done through a drawing context object,
+created with the `getContext` method.
+
+The 2d drawing interface allows us to fill and stroke various shapes.
+The way shapes are filled is determined by the context's `fillStyle`
+property. The way lines are drawn is controlled by the `strokeStyle`
+and `lineWidth` properties.
+
+Rectangles and pieces of text can be drawn with a single method call
+(`fillRect`, and `strokeRect`, or `fillText` and `strokeText` for
+text). To create more complicated shapes, we must first build up a
+path.
+
+Calling `beginPath` starts a new path. A number of other methods add
+lines and curves to the current path, for example `lineTo` can be used
+to add a straight line. When a path is finished, it can be filled with
+the `fill` method or stroked with the `stroke` method.
+
+Moving pixels from an image or another canvas onto our canvas is done
+with the `drawImage` method. By default, this method draws the whole
+source image, but by giving it more parameters it scan be made to copy
+out a specific area. We used this for our game, by copying individual
+postures of the game character out of an image that contained many
+such postures.
+
+To draw a shape in multiple orientations, transformations can be used.
+A 2d drawing context has a current transformation that can be changed
+with the `translate`, `scale`, and `rotate` methods. These will affect
+all subsequent drawing operations, until the transformation is reset
+with `resetTransform`.
+
+When drawing an animation onto a canvas, it the `clearRect` method can
+be used to clear a part of the canvas, before redrawing it.
 
 == Exercises ==
 
+=== Shapes ===
+
+Write a program that draws shapes resembling the following, next to
+each other on a canvas:
+
+1. A parallelogram (a rectangle that is wider on one side).
+
+2. A red diamond (a rectangle rotated 45 degrees or ¼π radians).
+
+3. A zigzagging line.
+
+4. A spiral made up of 100 straight line segments.
+
+5. A yellow star.
+
+image::img/exercise_shapes.png[alt="The shapes to draw"]
+
+When drawing the latter two, it is useful to know that `Math.cos` and
+`Math.sin` can be used to find coordinates on a circle around (0,0)
+with radius 1. They interpret their argument as the position on this
+circle, with zero denoting the point on the far right of the circle,
+going clockwise until 2π (about 6.28) has taken us around the whole
+circle. `Math.cos` tells you the x coordinate of the point that
+corresponds to the given angle, `Math.sin` yields the y coordinate.
+Positions (angles) higher than 2π or below 0 are valid—the rotation
+repeats, so that X+2π refers to the same angle as X.
+
+image::img/cos_sin.svg[alt="Using cosine and sine to compute coordinates"]
+
+To go from a circle with radius 1 at point (0,0) to an arbitrary
+circle, you must multiply the coordinates these functions give you by
+the circle's radius, and then add the coordinates of the circle's
+center to them.
+
+I recommend creating a function for each shape, and passing the
+position, and optionally other things, such as the size or the number
+of points, as parameters. The alternative, which is to “hard-code”
+numbers all over your code, tends to make the code hard to read and
+modify.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<canvas width="600" height="200"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+
+  // Your code here.
+</script>
+----
+
+!!solution!!
+
+1. The parallelogram is easy to draw using a path. Pick suitable
+   center coordinates, and add each of the four corners around that.
+
+2. The diamond can be drawn the easy way, with a path, or the
+   interesting way, with a `rotate` transformation. To use rotation,
+   you will have to apply a trick similar to what we did in the
+   `flipHorizontally` function. Because you want to rotate around the
+   center of your rectangle, and not around the point (0,0), you must
+   first `translate` to there, then rotate, and then translate back.
+
+3. For the zigzag it becomes unpractical to write a new call to
+   `lineTo` for each line segment. Instead you should use a loop. You
+   can either have each iteration draw two line segments (right and
+   then left again), or one, in which case you must use the evenness
+   (`% 2`) of the loop index to determine whether to go left or right.
+
+4. You'll also need a loop for the spiral. If you draw a series of
+   points, with each point moving further along a circle around the
+   spiral's center, you get a circle. If, during the loop, you vary
+   the radius of the circle on which you are putting the current
+   point, and go around more than once, the result is a spiral.
+
+5. The star depicted is built out of `quadraticCurveTo` lines. You
+   could also draw one with straight lines. Divide a circle into 8 (or
+   however many points you want your star to have) pieces. Draw lines
+   between these points, making them curve towards the center of the
+   star (with `quadraticCurveTo`, you can use the center as control
+   point).
+
+!!solution!!
+
+=== A bouncing ball ===
+
+Use the `requestAnimationFrame` technique that we saw in Chapter 14
+and Chapter 15 to draw a box with a bouncing ball inside of it. The
+ball moves at a constant speed, and bounces off the box's sides when
+it hits them.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<canvas width="400" height="400"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+
+  var lastTime = null;
+  function frame(time) {
+    if (lastTime != null)
+      updateAnimation(Math.min(100, time - lastTime) / 1000);
+    lastTime = time;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  function updateAnimation(step) {
+    // Your code here.
+  }
+</script>
+----
+
+!!solution!!
+
+A box is easy to draw with `strokeRect`. Define a variable that holds
+its size (or two variables, if your box's width and height differ). To
+create a round ball, start a path, call `arc(x, y, radius, 0, 7)` (an
+arc going from zero to more than a whole circle) and fill it.
+
+To model the ball's position and speed, you can use the `Vector` type
+from Chapter 15!!html (which is available on this page)!!. Give it a
+starting speed, preferably one that is not purely vertical or
+horizontal, and every frame, multiply that speed with the amount of
+time that elapsed. When the ball gets too close to a vertical wall,
+invert the x component in its speed. Likewise, invert the y component
+when it hits a horizontal wall.
+
+After finding the ball's new position and speed, use `clearRect` to
+delete the scene, and redraw it using the new position.
+
+!!solution!!
+
 === Precomputed mirroring ===
 
-FIXME One unfortunate thing about transformations is that they considerably
-slow down drawing of bitmaps. For vector graphics, the effect is less
-serious, since there only a few points (for example the center of a
-circle) need to be transformed, and then drawing continues as normal.
-For a bitmap image, the position of each pixel has to be transformed,
-and though it is possible that browsers will get more clever about
-this in the future, that currently 
+One unfortunate thing about transformations is that they slow down
+drawing of bitmaps. For vector graphics, the effect is less serious,
+since there only a few points (for example the center of a circle)
+need to be transformed, and then drawing continues as normal. For a
+bitmap image, the position of each pixel has to be transformed, and
+though it is possible that browsers will get more clever about this in
+the future, this currently causes a measurable increase in the time it
+takes to draw a bitmap.
+
+In a game like ours, where we are only drawing a single transformed
+sprite, this is a non-issue. But imagine that we need to draw hundreds
+of characters, or thousands of rotating particles from an explosion.
+
+Think of a way to allow us to draw an inverted character, without
+drawing and loading additional image files, and without having to make
+transformed `drawImage` calls every frame.
+
+!!solution!!
+
+The key to the solution is the fact that we can use a canvas element
+as a source image when using `drawImage`. It is possible to create an
+extra `<canvas>` element, without adding it to the document, and draw
+our inverted sprites to it, once. When drawing an actual frame, we
+just copy the already inverted sprites to the main canvas.
+
+Some care would be required because images do not load instantly. The
+extra canvas can be used as a drawing source immediately (it'll simply
+be blank until we draw the character onto it). If we register a load
+event handler on the image, we can draw the inverted images as soon as
+it finishes loading, and the next frame of the animation will start
+drawing actual character sprites.
+
+!!solution!!

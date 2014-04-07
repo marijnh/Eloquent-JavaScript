@@ -680,8 +680,8 @@ properties and counting how many we need to reach Pauwels. There are
 several cases in the family tree where people married their second
 cousins (tiny villages and all that). This causes the branches of the
 family tree to re-join in a few places, which means I share more than
-1/2^G^ with this person (using G for the number of generations, each generation
-splitting the gene pool in two).
+1/2^G^ of my genes with this person (using G for the number of
+generations, each generation splitting the gene pool in two).
 
 A reasonable way to think about this problem is to put it in similar
 terms as the `reduce` algorithm. A family tree has a more interesting

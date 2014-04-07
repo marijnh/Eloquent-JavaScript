@@ -102,10 +102,8 @@
 
   SandBox.prototype = {
     run: function(code, output) {
-      if (output) {
+      if (output)
         this.output = output;
-        this.clearEvents();
-      }
       this.startedAt = Date.now();
       this.extraSecs = 1;
       this.win.__c = 0;

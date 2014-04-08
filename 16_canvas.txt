@@ -1,11 +1,11 @@
 :chap_num: 16
 :prev_link: 15_game
-:next_link: 17_FIXME
+:next_link: 17_http
 :load_files: ["js/15_game.js", "js/code/game_levels.js", "js/16_canvas.js"]
 
 = Drawing on Canvas =
 
-[quote,M.C. Escher]
+[quote,M.C. Escher,cited by Bruno Ernst in The Magic Mirror of M.C. Escher]
 ____
 Drawing is deception
 ____

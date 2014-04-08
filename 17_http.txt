@@ -1,0 +1,15 @@
+:chap_num: 17
+:prev_link: 16_canvas
+:next_link: 18_FIXME
+
+= HTTP =
+
+[quote,Tim Berners-Lee,The Original HTTP as defined in 1991]
+____
+Requests are idempotent. The server need not store any information
+about the request after disconnection.
+____
+
+The _Hyper-Text Transfer Protocol_, already mentioned in Chapter 12,
+is the mechanism through which data is requested and provided on the
+World Wide Web.

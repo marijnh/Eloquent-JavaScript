@@ -276,7 +276,7 @@ program to pause every time the line with the breakpoint is reached,
 and allowing you to inspect the values of variables at that point. I
 won't go into the interface to this debugger, since it differs per
 browser and browser version, but look around in the developer tools,
-and search the web. An alternative way to set a breakpoint is by
+and search the Web. An alternative way to set a breakpoint is by
 including a `debugger` statement (consisting of simply that keyword)
 in your program. Whenever that is reached, if the developer tools of
 the browser are active, the program will pause, and you will be able

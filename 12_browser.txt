@@ -32,7 +32,7 @@ developed means that the resulting system is not exactly a shining
 example of internal consistency. In fact, some parts of it are
 downright messy and confusing.
 
-== Networks and the internet ==
+== Networks and the Internet ==
 
 Computer networks have been known since the 1950s. If you put cables
 between two or more computers, and allow them to send data back and
@@ -71,7 +71,7 @@ technical problem.
 
 TCP (_Transmission Control Protocol_) is a protocol that solves this
 problem. All internet-connected devices “speak” it, and it is used as
-infrastructure for most communication on the internet.
+infrastructure for most communication on the Internet.
 
 A TCP connection works as follows: one computer must be waiting,
 “listening”, for other computers to start talking to it. To be able to
@@ -94,16 +94,16 @@ successfully transmitted, be read out again by the machine on the
 other side. This is a very convenient model. You could say that TCP
 provides an abstraction of the network.
 
-== The web ==
+== The Web ==
 
-The _World Wide Web_ (not to be confused with the internet as a whole)
+The _World Wide Web_ (not to be confused with the Internet as a whole)
 is a set of protocols and formats that allow us to open web pages in a
-browser. The “web” part in the name refers to the fact that such pages
+browser. The “Web” part in the name refers to the fact that such pages
 can easily link to each other, thus forming one huge, interconnected
 system that users can effortlessly move through.
 
-To add content to this web, all that is needed is to connect a machine
-to the internet, and have it listen on port 80, using HTTP (the
+To add content to this Web, all that is needed is to connect a machine
+to the Internet, and have it listen on port 80, using HTTP (the
 _Hyper-Text Transfer Protocol_). This protocol allows other computers
 to request documents over the network.
 
@@ -122,7 +122,7 @@ opposed to for example, secure, encrypted HTTP, which would be
 should have the document. And finally, after that, a string that
 identifies the actual document we are interested in.
 
-Each machine connected to the internet gets a unique address (its _IP
+Each machine connected to the Internet gets a unique address (its _IP
 address_), which will look something like `37.187.37.82`. You can use
 those directly as the server part of a URL, but lists of more or less
 random numbers are hard to remember and awkward to type, so it is
@@ -292,13 +292,13 @@ program harder to read.
 
 == In the sandbox ==
 
-Running programs downloaded off the internet is potentially dangerous.
+Running programs downloaded off the Internet is potentially dangerous.
 You do not know much about the people behind most sites you visit, so
 you can not necessarily know that they mean well. Running programs by
 people who do not mean well is how you get your computer infected by
 viruses, your data stolen, and your accounts hacked.
 
-Yet the attraction of the web is that you can “surf” it without
+Yet the attraction of the Web is that you can “surf” it without
 trusting all the pages you visit. This is why browsers severely limit
 the things a JavaScript program may do. It is not allowed to look at
 the files on your computer or to modify anything not related to the
@@ -328,12 +328,12 @@ government or mafia).
 
 == Compatibility and the browser wars ==
 
-In the very early stages of the web, a browser called Mosaic dominated
+In the very early stages of the Web, a browser called Mosaic dominated
 the market. After a few years, the balance had shifted to Netscape,
 which was then, in turn, largely superseded by Microsoft's Internet
 Explorer. At any point where a single browser was dominant, that
 browser's vendor would feel entitled to unilaterally invent new
-features for the web. Since most users used the same browser, web
+features for the Web. Since most users used the same browser, web
 sites would simply start using those features, never mind the other
 browsers.
 
@@ -359,7 +359,7 @@ latest versions of the major browsers behave quite uniformly, and have
 relatively little bugs.
 
 Which is not to say that the situation is perfect just yet. Some of
-the people using the web are, for reasons of inertia or corporate
+the people using the Web are, for reasons of inertia or corporate
 policy, stuck with very old browsers. Until those die out entirely,
 writing web sites that work for them will require a lot of arcane
 knowledge about their shortcomings and quirks.

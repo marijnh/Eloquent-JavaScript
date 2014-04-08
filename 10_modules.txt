@@ -298,13 +298,13 @@ about those dependencies, making it harder to accidentally use some
 module without stating that you need it.
 
 Our goal is a function `require` which, when given a module name, will
-load that file (from disk or the web, depending on the platform
+load that file (from disk or the Web, depending on the platform
 we are running on), and return the appropriate interface value.
 
 For this we need at least two things. Firstly, we will imagine that we
 have a function `readFile` (which is not present in standard
 JavaScript), which returns the content of the file with the given
-name. There are ways to access the web from JavaScript in the browser,
+name. There are ways to access the Web from JavaScript in the browser,
 and to access the hard disk from other JavaScript platforms, but they
 are more involved. For now, we just pretend we have this simple
 function.
@@ -458,7 +458,7 @@ and “globally” registered module names.
 
 Though it is possible to use the style above in JavaScript written for
 the browser, it is somewhat involved. The reason for this is that
-reading a file (module) from the web is a lot slower than reading it
+reading a file (module) from the Web is a lot slower than reading it
 from your hard disk. Browser JavaScript is required to behave in such
 a way that, while a script is running, nothing else can happen to the
 web site in which it runs. This means that if every require call would

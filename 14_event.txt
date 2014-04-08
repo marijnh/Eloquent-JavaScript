@@ -640,7 +640,7 @@ order of magnitude harder.
 The fact that JavaScript programs only do one thing at a time thus
 makes our life quite a bit easier. For when you really do want to do
 some time-consuming thing in the background, without freezing the
-document, browsers provide something called “web workers”. A worker is
+document, browsers provide something called _Web Workers_. A worker is
 an isolated JavaScript environment, which runs alongside the main
 program for a document, and can only communicate with it by sending
 and receiving messages.

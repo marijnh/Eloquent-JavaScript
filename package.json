@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "acorn": "0.3",
-    "codemirror": "git+https://github.com/marijnh/CodeMirror.git#v4",
+    "codemirror": "4",
     "contextify": "kkoopa/contextify",
     "jsdom": "0.10"
   }

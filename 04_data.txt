@@ -133,7 +133,7 @@ null.length;
 
 ((([] (subscript))))The two most common ways to access properties in Javascript are with a dot and with square brackets.
 Both `value.x` and
-`value[x]` access a property on `value`—but not necessarily the same property. The difference is in how
+`value[x]` access a property on ++value++—but not necessarily the same property. The difference is in how
 `x` is interpreted. When using a dot, the part after the dot
 must be a valid variable name, and it directly names the property.
 When using square brackets, the expression between the brackets

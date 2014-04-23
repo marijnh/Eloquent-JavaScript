@@ -213,6 +213,7 @@
       return code;
     }
 
+    var strict = /^(\s|\/\/.*)*["']use strict['"]/.test(code);
     try { var ast = acorn.parse(code); }
     catch(e) { return code; }
     var patches = [];
@@ -231,6 +232,14 @@
       WhileStatement: loop,
       DoWhileStatement: loop
     });
+    for (var i = strict ? 1 : 0, tryPos = 0; i < ast.body.length; i++) {
+      var stat = ast.body[i];
+      if (stat.type != "FunctionDeclaration") {
+        tryPos = stat.start;
+        break;
+      }
+    }
+    patches.push({from: tryPos, text: "try{"});
     patches.sort(function(a, b) { return a.from - b.from; });
     var out = "";
     for (var i = 0, pos = 0; i < patches.length; ++i) {
@@ -239,7 +248,7 @@
       pos = patch.to || patch.from;
     }
     out += code.slice(pos, code.length);
-    return "try{" + out + "\n}catch(e){__sandbox.error(e);}";
+    return (strict ? '"use strict";' : "") + out + "\n}catch(e){__sandbox.error(e);}";
   }
 
   var Output = SandBox.Output = function(div) {

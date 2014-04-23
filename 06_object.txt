@@ -338,16 +338,16 @@ example from Chapter 4:
 
 [source,javascript]
 ----
-var ages = {};
-function storeAge(name, age) {
-  ages[name] = age;
+var map = {};
+function storePhi(event, phi) {
+  map[event] = phi;
 }
 
-storeAge("Larry", 58);
-storeAge("Simon", 55);
+storePhi("pizza", 0.069);
+storePhi("touched tree", -0.081);
 ----
 
-(((for/in loop)))(((in operator)))We can iterate over all persons in
+(((for/in loop)))(((in operator)))We can iterate over all phi values in
 the object using a `for`/`in` loop, and test whether a name is in
 there using the regular `in` operator. But unfortunately, the object's
 prototype gets in the way.
@@ -355,20 +355,20 @@ prototype gets in the way.
 [source,javascript]
 ----
 Object.prototype.nonsense = "hi";
-for (var name in ages)
+for (var name in map)
   console.log(name);
-// → Larry
-// → Simon
+// → pizza
+// → touched tree
 // → nonsense
-console.log("nonsense" in ages);
+console.log("nonsense" in map);
 // → true
-console.log("toString" in ages);
+console.log("toString" in map);
 // → true
 delete Object.prototype.nonsense;
 ----
 
-That's all wrong. There is no person called “nonsense” in our data
-set. And there _definitely_ is no person called “toString”.
+That's all wrong. There is no event called “nonsense” in our data
+set. And there _definitely_ is no event called “toString”.
 
 (((enumerability)))Oddly, `toString` did not show up in the `for`/`in`
 loop, but the `in` operator did return true for it. JavaScript
@@ -388,11 +388,11 @@ creating.
 ----
 Object.defineProperty(Object.prototype, "hiddenNonsense",
                       {enumerable: false, value: "hi"});
-for (var name in ages)
+for (var name in map)
   console.log(name);
-// → Larry
-// → Simon
-console.log(ages.hiddenNonsense);
+// → pizza
+// → touched tree
+console.log(map.hiddenNonsense);
 // → hi
 ----
 
@@ -404,7 +404,7 @@ properties exists in our object. For that, we can use the object's
 
 [source,javascript]
 ----
-console.log(ages.hasOwnProperty("toString"));
+console.log(map.hasOwnProperty("toString"));
 // → false
 ----
 
@@ -418,8 +418,8 @@ recommended to write your `for`/`in` loops like this:
 
 [source,javascript]
 ----
-for (var name in ages) {
-  if (ages.hasOwnProperty(name)) {
+for (var name in map) {
+  if (map.hasOwnProperty(name)) {
     // ... this is a real property
   }
 }
@@ -428,24 +428,24 @@ for (var name in ages) {
 == Prototype-less objects ==
 
 But the rabbit hole doesn't end there. What if someone registered the
-name `hasOwnProperty` in our `ages` object? Now the call to
-`ages.hasOwnProperty` will try to call the local property, which will
+name `hasOwnProperty` in our `map` object? Now the call to
+`map.hasOwnProperty` will try to call the local property, which will
 hold a number, not a function.
 
 Often, prototypes just get in the way, and we actually want nothing to
 do with them. We saw the `Object.create` function, which allows us to
 create an object with a specific prototype. You are allowed to pass
 `null` as the prototype to create a fresh object with no prototype.
-For objects like `ages`, where the properties could be anything, this
+For objects like `map`, where the properties could be anything, this
 is exactly what we want.
 
 [source,javascript]
 ----
-var ages = Object.create(null);
-ages.Brendan = 52;
-console.log("toString" in ages);
+var map = Object.create(null);
+map["pizza"] = 0.069;
+console.log("toString" in map);
 // → false
-console.log("Brendan" in ages);
+console.log("pizza" in map);
 // → true
 ----
 

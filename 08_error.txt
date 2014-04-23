@@ -637,7 +637,7 @@ In some cases, where you only need one instance of your error (it
 always has the same message) and stack traces are not important, you
 can simplify things a little by simply defining a single error object,
 not a constructor, and checking whether an exception is that object
-with the ‘==’ operator.
+with the “==” operator.
 
 == Assertions ==
 

@@ -58,8 +58,8 @@ var plan =
    "############################"];
 ----
 
-The ‘#’ characters in this plan represent walls (and rocks), and the
-‘o’ characters represent critters. The spaces, as you might have
+The “#” characters in this plan represent walls (and rocks), and the
+“o” characters represent critters. The spaces, as you might have
 guessed, are empty space.
 
 (((toString method)))A plan array can be used to create a world

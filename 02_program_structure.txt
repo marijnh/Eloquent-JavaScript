@@ -89,7 +89,7 @@ var caught = 5 * 5;
 (((var keyword)))And that gives us our second kind of statement. The
 special word (_keyword_) `var` indicates that this sentence is going
 to define a variable. It is followed by the name of the variable and,
-if we want to immediately give it a value, by an ‘=’ operator and an
+if we want to immediately give it a value, by an “=” operator and an
 expression.
 
 The previous statement creates a variable called `caught` and uses it
@@ -111,10 +111,10 @@ isn't reserved as a keyword (such as `var`). They may not
 include spaces. Digits can also be part of variable names—`catch22` is
 a valid name, for example—but the name must not start with a digit. A
 variable name can not include punctuation, except for the characters
-‘$’ and ‘_’.
+“$” and “_”.
 
 When a variable points at a value, that does not mean it is tied to
-that value forever. The ‘=’ operator can be used at any time on
+that value forever. The “=” operator can be used at any time on
 existing variables to disconnect them from their current value and
 have them point to a new one:
 
@@ -608,7 +608,7 @@ console.log(current);
 ----
 
 (((remainder operation)))(((% operator)))The trick with the remainder
-(‘%’) operator is an easy way to test whether a number is divisible by
+(“%”) operator is an easy way to test whether a number is divisible by
 another number. If it is, the remainder of their division is zero.
 
 The `for` construct in the example does not have a part that checks
@@ -883,7 +883,7 @@ endif::html_target[]
 
 Going over the numbers is clearly a looping job, and selecting what to
 print is a matter of conditional execution. Remember the trick of
-using the remainder (‘%’) operator for checking whether a number is
+using the remainder (“%”) operator for checking whether a number is
 divisible by another number (has a remainder of zero).
 
 In the first version, there are three possible outcomes for
@@ -902,7 +902,7 @@ operator.
 
 Write a program that creates a string that represents an 8×8 grid,
 using newline characters to separate lines. At each position of the
-grid there, is either a space or a ‘#’ character. The characters
+grid there, is either a space or a “#” character. The characters
 should form a chess board.
 
 Passing this string to `console.log` should look like this:

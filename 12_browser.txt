@@ -164,7 +164,7 @@ A simple HTML document looks like this:
 </html>
 ----
 
-The parts wrapped in angular brackets (‘++<++’ and ‘++>++’) provide
+The parts wrapped in angular brackets (“++<++” and “++>++”) provide
 information about the structure of the document, and the text outside
 of that is just plain text.
 
@@ -198,10 +198,10 @@ Whenever some characters get a special meaning, a notation is needed
 to “escape” them, to include them in the actual text without
 triggering their special meaning, similar to the way backslashes are
 used in JavaScript strings. HTML's approach to this is a bit more
-heavyweight, it uses an ampersand (‘&’) character, followed by a word
-and a semicolon (‘;’). The sequence `&lt;` stands for ‘<’ (“less
-than”), and `&gt;` stands for ‘>’ (“greater than”). Since this
-notation also gives ‘&’ itself a special meaning, it can be escaped
+heavyweight, it uses an ampersand (“&”) character, followed by a word
+and a semicolon (“;”). The sequence `&lt;` stands for “<” (“less
+than”), and `&gt;` stands for “>” (“greater than”). Since this
+notation also gives “&” itself a special meaning, it can be escaped
 with `&amp;`. Finally, to write a double quote inside an attribute
 value, `&quot;` can be used.
 

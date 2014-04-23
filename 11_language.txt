@@ -59,7 +59,7 @@ do(define(x, 10),
 ----
 
 The uniformity of the language means that what would be an operator in
-JavaScript (such as ‘>’) is a normal variable, applied just like other
+JavaScript (such as “>”) is a normal variable, applied just like other
 functions, in this language. Since there is also no concept of a
 “block”, doing multiple things in sequence is also written as an
 application, using the `do` construct.
@@ -353,7 +353,7 @@ To be able to create variables (and give them new values), we also
 create a form called `define`, which expects a word as first argument,
 and an expression producing the value to assign to that word as second
 argument. Since it, like everything, is an expression, we make it
-return the value that was assigned (just like JavaScripts ‘=’
+return the value that was assigned (just like JavaScripts “=”
 operator).
 
 // include_code
@@ -702,7 +702,7 @@ is actually efficient, you'd need to do some more work).
 
 It would be nice if we could write comments in our language. For
 example, whenever a hash sign is found, we could treat the rest of the
-line as a comment (similar to ‘`//`’ in JavaScript), ignoring it.
+line as a comment (similar to “`//`” in JavaScript), ignoring it.
 
 We do not have to make any big changes to the parser to support this.
 We can simply change `skipSpace` to skip comments as if they are

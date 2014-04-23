@@ -37,7 +37,7 @@ programming interface JavaScript provides for them is clumsy.
 
 A regular expression is an object. It can either be constructed with
 the `RegExp` constructor or written as a literal value by enclosing
-the pattern in slash (‘/’) characters.
+the pattern in slash (“/”) characters.
 
 [source,javascript]
 ----
@@ -151,7 +151,7 @@ These category markers can also be used inside of square brackets, so
 `[\d\.]` means any digit or a dot.
 
 To “invert” a set of characters, to express that you want to match any
-character _except_ the ones in the set, a caret (‘^’) character is
+character _except_ the ones in the set, a caret (“^”) character is
 written after the opening bracket.
 
 [source,javascript]
@@ -169,7 +169,7 @@ We now know how to match a single digit. What if we want to match a
 whole number—a sequence of one or more digits?
 
 (((repetition (regexp))))(((\* operator)))(((+ operator)))When you put
-a plus sign (‘+’) after something in a regular expression, that
+a plus sign (“+”) after something in a regular expression, that
 indicates that it may be repeated more than once. Thus, `/\d+/`
 matches one or more digit characters.
 
@@ -185,7 +185,7 @@ console.log(/'\d*'/.test("''"));
 // → true
 ----
 
-The star (‘*’) has a similar meaning, but also allows the pattern to
+The star (“*”) has a similar meaning, but also allows the pattern to
 match zero times. So something with a star after it never prevents a
 pattern from matching—it'll just match zero instances if it can't find
 any suitable text to match.
@@ -226,7 +226,7 @@ more times.
 
 == Grouping sub-expressions ==
 
-(((grouping (regexp))))To use an operator like ‘*’ or ‘+’ on more than
+(((grouping (regexp))))To use an operator like “*” or “+” on more than
 one character at a time, need to use parentheses. A piece of a regular
 expression that is surrounded in parentheses counts as a single unit
 as far as the operators following it are concerned.
@@ -238,7 +238,7 @@ console.log(cartoonCrying.test("Boohoooohoohooo"));
 // → true
 ----
 
-The third ‘+’ applies to the whole group `(hoo+)`, matching one or
+The third “+” applies to the whole group `(hoo+)`, matching one or
 more sequences like that.
 
 (((case-sensitivity (regexp))))The “i” at the end of the expression in
@@ -387,7 +387,7 @@ in this case it'll just start at the second character and end at the
 one-but-last.
 
 (((boundary (regexp))))If we want to enforce that the match must span
-the whole string, we can add the markers ‘^’ and ‘$’. The first
+the whole string, we can add the markers “^” and “$”. The first
 matches the start of the input string, and the second the end. So
 `/^\d+$/` matches a string consisting entirely of one or more digits,
 `/^!/` matches any string that starts with an exclamation sign, and
@@ -678,7 +678,7 @@ comment, not to go all the way to the end of the code and find the end
 of the last block comment.
 
 There are two variants of the repetition operators in regular
-expressions (‘+’, ‘*’, ‘?’, and ‘{}’). By default, they are _greedy_,
+expressions (“+”, “*”, “?”, and “{}”). By default, they are _greedy_,
 meaning they match as much as they can and backtrack back from there.
 If you put a question mark after them, they become non-greedy, and
 start by matching as little as possible, and only matching more when
@@ -842,7 +842,7 @@ while (match = number.exec(input))
 ----
 
 This makes use of the fact that the value of an assignment expression
-(‘=’) is the assigned value. So by using `match = re.exec(input)` as
+(“=”) is the assigned value. So by using `match = re.exec(input)` as
 the condition in the `while` statement, we both perform the match at
 the start of each iteration, save its result in a variable, and stop
 looping when no more matches are found.
@@ -1189,7 +1189,7 @@ or nothing).
 
 The more complicated part of the exercise is probably the problem of
 matching both `"5."` and `".5"` without also matching `"."`. For this,
-a good solution is to use the ‘|’ operator to separate the two cases
+a good solution is to use the “|” operator to separate the two cases
 out—either one or more digits optionally followed by a dot and zero or
 more digits, _or_ a dot followed by one or more digits.
 

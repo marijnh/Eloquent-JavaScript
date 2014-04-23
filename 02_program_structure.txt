@@ -228,7 +228,7 @@ output values. Most JavaScript systems (including all modern Web
 browsers and node.js) provide a `console.log` function that writes out
 its arguments to _some_ text output device. In browsers, the output
 lands in the JavaScript console. This part of the browser interface
-is hidden by default, but most browsers open it when you press F12.
+is hidden by default, but most browsers open it when you press F12. (FIXME not so on mac)
 If that does not work, search through the menus for an item named
 “Web console” or “developer tools”.
 

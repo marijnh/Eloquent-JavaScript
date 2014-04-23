@@ -1223,7 +1223,7 @@ well: The `runAnimation` function, though nice and obvious, does not
 provide a clean way to pause the animation.
 
 The event handler that notices the key is best set up in
-`runLevel`—setting it up in `runAnimation` would be cheating. That is
+++runLevel++—setting it up in `runAnimation` would be cheating. That is
 supposed to be an general helper function for all kinds of animations,
 so it shouldn't handle a feature specific to this game.
 

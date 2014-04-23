@@ -822,7 +822,7 @@ console.log("Banana".match(/an/g));
 
 So be cautious with global regular expressions. The cases where they
 are necessary—calls to `replace` and places where you want to
-explicitly use `lastIndex`—are typically the only places where you
+explicitly use ++lastIndex++—are typically the only places where you
 want to use them.
 
 A common pattern is to scan through all occurrences of a pattern in a

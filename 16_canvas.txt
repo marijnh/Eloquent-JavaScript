@@ -284,7 +284,7 @@ computed.
 
 Easier to reason about are arcs—fragments of a circle. The `arcTo`
 method method takes five arguments. The first four act somewhat like
-the arguments to `quadraticCurve`—the first two are a sort of control
+the arguments to ++quadraticCurveTo++—the first two are a sort of control
 point, and the second two are the line's destination. The fifth
 argument provides the radius of the arc. The method will conceptually
 take a corner, a line going to the control point and then the

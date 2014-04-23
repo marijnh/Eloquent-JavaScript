@@ -599,7 +599,7 @@ together that they make a significant difference.
 Calling `then` produces a new promise, whose result (the value passed
 to success handlers) depends on the return value of the first function
 we passed to `then`. If this function returns another promise, that
-promise is “connected” to the one returned by `then`—its success or
+promise is “connected” to the one returned by ++then++—its success or
 failure is passed on to the `then` promise. If the handler returns a
 normal, non-promise value, the output promise immediately succeeds,
 with that value as its result.

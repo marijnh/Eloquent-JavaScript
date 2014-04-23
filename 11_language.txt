@@ -310,7 +310,7 @@ will evaluate the second. Otherwise, the third gets evaluated. Because
 result of the second or third argument.
 
 Our language differs from JavaScript in its handling of the condition
-value to `if`—it will not treat 0 or the empty string as false.
+value to ++if++—it will not treat 0 or the empty string as false.
 
 The `while` form is similar;
 

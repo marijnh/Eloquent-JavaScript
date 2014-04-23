@@ -713,7 +713,7 @@ if (Math.random() < .5) { // 50% chance
 ----
 
 The `cancelAnimationFrame` function works in the same way as
-`clearTimeout`—calling it on a value returned by
+++clearTimeout++—calling it on a value returned by
 `requestAnimationFrame` will cancel that frame (assuming it hasn't
 already been called).
 

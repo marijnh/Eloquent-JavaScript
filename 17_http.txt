@@ -229,6 +229,8 @@ today `XMLHttpRequest` is a de facto standard interface.
 To make a simple request, we create a request object with the
 `XMLHttpRequest` constructor, and call its `open` and `send` methods.
 
+// test: trim
+
 [source,javascript]
 ----
 var req = new XMLHttpRequest();
@@ -259,6 +261,8 @@ property, and the status text through `statusText`. Headers can be
 read with `getResponseHeader` (which expects a header name as
 argument, and returns the header's value) and `getAllResponseHeaders`
 (which returns a string containing all headers).
+
+// test: no
 
 [source,javascript]
 ----
@@ -342,6 +346,8 @@ would be the `<fruits>` tag.
 ----
 
 We can retrieve it like this:
+
+// test: no
 
 [source,javascript]
 ----
@@ -453,6 +459,8 @@ block becomes meaningless. In the code below, the exception will _not_
 be caught, because the call to `backgroundReadFile` returns
 immediately. Control then leaves the `try` block, and the function it
 was given won't be called until later.
+
+// test: no
 
 [source,javascript]
 ----

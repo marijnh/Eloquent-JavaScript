@@ -187,7 +187,8 @@ var accum = "", _console = {
     if (err.toString() != string)
       console.log("wrong error raised at " + this.pos + ": " + err.toString());
   },
-  pos: null
+  pos: null,
+  console: console
 };
 
 function report(err) {
@@ -195,6 +196,8 @@ function report(err) {
   if (/^\[object/.test(msg) && err.message) msg = err.message;
   console.log("error raised (" + _console.pos + "): " + msg, err.stack);
 }
+
+require("canvas/lib/context2d").prototype.drawImage = function() {};
 
 var i = 0, boxes = Object.keys(sandboxes).map(function(k) { return sandboxes[k]; });;
 function nextSandbox() {
@@ -210,7 +213,7 @@ function nextSandbox() {
     }
   } else {
     require("jsdom").env({
-      url: file + "/" + i,
+      url: "http://eloquentjavascript.net/" + file + "#" + i,
       html: sandbox.html || "<!doctype html><body></body>",
       src: [baseCode],
       done: function(err, window) {
@@ -218,7 +221,7 @@ function nextSandbox() {
         window.console = _console;
         window.Element.prototype.innerText = "abc";
         try {
-          window.run(sandbox.code, file + "/" + i);
+          window.run(sandbox.code, file + "#" + i);
         } catch (e) {
           report(e);
         }

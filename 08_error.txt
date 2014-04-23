@@ -5,15 +5,6 @@
 
 = Bugs and Error Handling =
 
-[quote, Master Yuan-Ma, The Book of Programming]
-____
-Yuan-Ma had written a small program that used much global variables
-and tricky shortcuts. Reading it, a student asked ‘You warned us
-against these techniques, yet I find them in your program. How can
-this be?’ The master said, ‘There is no need to fetch a water hose
-when the house is not on fire.’
-____
-
 [quote, Brian Kernighan and P.J. Plauger, The Elements of Programming Style]
 ____
 Debugging is twice as hard as writing the code in the first place.
@@ -21,8 +12,17 @@ Therefore, if you write the code as cleverly as possible, you are, by
 definition, not smart enough to debug it.
 ____
 
+[quote, Master Yuan-Ma, The Book of Programming]
+____
+Yuan-Ma had written a small program that used much global variables
+and shoddy shortcuts. Reading it, a student asked ‘You warned us
+against these techniques, yet I find them in your program. How can
+this be?’ The master said, ‘There is no need to fetch a water hose
+when the house is not on fire.’
+____
+
 (((error handling)))A program is a building of thought. Sometimes that
-thought is confused. And sometimes, mistakes are introduced when
+thought is confused. Other times, mistakes are introduced when
 setting down thought in code. The result is that we end up with a
 flawed program.
 
@@ -31,8 +31,8 @@ errors, or sometimes problems in other systems that the program
 interacts with. Some are immediately apparent, others are subtle, and
 might remain hidden in a system for years.
 
-Many of these problems only surface when the program encounters a
-situation that wasn't originally considered. Sometimes, such
+It is common for problems to only surface when the program encounters
+a situation that wasn't originally considered. Sometimes, such
 situations are unavoidable. When the user is asked to input their age,
 and types “orange”, that is a situation that puts our program in a
 difficult position, but can not be prevented by fixing a programmer
@@ -40,42 +40,45 @@ error. It has to be anticipated and handled somehow.
 
 == Programmer mistakes ==
 
-The thing to do with programmer mistakes is to find them and fix them.
-They can range from a simply typo that causes the computer to complain
-as soon as it lays eyes on our program, to a subtle mistake in our
-thinking about the way the program will operate, which slightly
-changes the outcome of the program in very specific situations.
+When it comes to programmer mistakes, our aim is simple. We want to
+find them and fix them. Such mistakes can range from a simple typo
+that causes the computer to complain as soon as it lays eyes on our
+program, which is easy to notice, to a subtle mistake in our thinking
+about the way the program will operate which slightly changes the
+outcome of the program in very specific situations. Bugs of the latter
+type can take weeks to diagnose.
 
 The degree in which languages help you find such mistakes varies.
 Unsurprisingly, JavaScript is at the “hardly helps at all” end of that
 scale. Some languages want to know, before even running a program,
 what the types of all variables and expressions in the program are,
 and will tell you right away when a type is used in an inconsistent
-way. JavaScript only thinks about types when actually running the
+way. JavaScript only considers types when actually running the
 program, and even then, it allows you to do some clearly nonsensical
-things, and won't complain (such as `x = true * "monkey"`).
+things without complaint, such as `x = true * "monkey"`.
 
 There are some things that the language complains about, though.
 Writing a program that is not syntactically valid will immediately
-trigger an error. Doing things like calling something that's not a
-function, or looking up a property on an undefined value, will cause
-an error to be reported when the program is running and actually tries
-to perform the nonsensical action.
+trigger an error. Other things, like calling something that's not a
+function or looking up a property on an undefined value, will cause an
+error to be reported when the program is running and encounters the
+nonsensical action.
 
 (((NaN value)))But often, your nonsense computation will simply
-produce a `NaN` (not a number) or undefined value, and happily
-continue, convinced that it's doing something meaningful. The mistake
-will only manifest itself later, after the bogus value traveled though
-several functions, or even simply cause the program's output to be
-wrong. Finding the source of such problems can be difficult.
+produce a `NaN` (not a number) or undefined value. And the program
+happily continues, convinced that it's doing something meaningful. The
+mistake will only manifest itself later, after the bogus value
+traveled though several functions, or even simply cause the program's
+output to be wrong. Finding the source of such problems can be
+difficult.
 
 (((debugging)))The process of finding mistakes—bugs—in programs is
-called “debugging”.
+called _debugging_.
 
 == Strict mode ==
 
 (((strict mode)))JavaScript can be made a _little_ more strict by
-enabling “strict mode”. This is done by putting the string `"use
+enabling _strict mode_. This is done by putting the string `"use
 strict"` at the top of a file or a function body. Like this:
 
 // test: error "ReferenceError: counter is not defined"
@@ -95,17 +98,17 @@ canYouSpotTheProblem();
 Normally, when you forget to put `var` in front of your variable, as
 with `counter` in the example, JavaScript quietly creates a global
 variable and uses that. In strict mode, however, an error is reported
-instead. This is very helpful, though it should be noted that it
+instead. This is very helpful. It should be noted, though, that it
 doesn't work when the variable in question already exists as a global
-variable, only when assigning to it would have created it.
+variable, but only when assigning to it would have created it.
 
 Another change is that, in strict mode, the `this` binding in
 functions, when they are not called as a method, holds the value
-`undefined`. Normally, it'd hold the global scope object. This means
+`undefined`. Normally, it holds the global scope object. This means
 that if you accidentally call a method or constructor incorrectly, it
 will produce an error as soon as it tries to read something from
-`this`, rather than possibly accidentally creating and reading global
-variables.
+`this`, rather than happily working with the global object, creating
+and reading global variables.
 
 [source,javascript]
 ----
@@ -166,7 +169,7 @@ Point.prototype.plus = function(other) {
 };
 ----
 
-We will write a program to verify that our implementation of `Point`
+We will write a program to check that our implementation of `Point`
 works as indended. Then, every time we change it, we follow up by
 running the test program, so that we can be reasonably confident that
 we did not break anything. When we add extra functionality (for
@@ -248,7 +251,8 @@ This is where you resist the urge to start making random changes to
 the code for a moment and _think_. Analyze what is happening and come
 up with a theory of why it might be happening. Then, make additional
 observations to try and test this theory—or, if you don't yet have a
-theory, additional observations might help you arrive at one.
+theory, make additional observations that might help you come up with
+one.
 
 Putting a few strategic `console.log` calls into the program is a good
 way to get additional information about what the program is doing. In
@@ -336,17 +340,17 @@ a special value that can be distinguished from a valid result.
 
 The second issue with returning special values is that it can lead to
 some very cluttered code. If a piece of code calls `promptNumber` 10
-times, it has to check 10 times whether `null` was returned. And if
+times, it has to check 10 times whether `null` was returned. If
 its response to finding `null` is to simply return `null` itself, and
-caller will in turn have to check for it.
+caller will in turn have to check for it, and so on.
 
 == Exceptions ==
 
 (((exception handling)))(((error handling,exceptions)))When a
-function, for any reason, cannot proceed normally, what we _actually_
-want is to just stop doing what we are doing and immediately jump back
-to a place that knows how to handle the problem. That is what
-_exception handling_ does.
+function, for any reason, cannot proceed normally, what we would
+_like_ to do is to just stop doing what we are doing and immediately
+jump back to a place that knows how to handle the problem. That is
+what _exception handling_ does.
 
 (((control flow)))(((raise (exception))))(((throw keyword)))(((call
 stack)))Exceptions are a mechanism that works like this: It is
@@ -405,8 +409,8 @@ without problems) control proceeds below the statement as usual.
 create our exception value. This is a standard JavaScript constructor
 that creates an object with a `message` property. In modern JavaScript
 environments, instances of this constructor also gather information,
-in their `stack` property, on the part of the stack that was unwound
-by the exception. This can be very helpful when trying to debug a
+in their `stack` property, on call stack that existed when the
+exception was created. This can be very helpful when trying to debug a
 problem, as it tells us precisely in which function the problem
 occurred, and which other functions led up to the call that failed.
 
@@ -517,12 +521,12 @@ caught just like your own exceptions.
 
 (((catch keyword)))When a `catch` body is entered, all we know is that
 _something_ in our `try` body caused an exception. What we don't know
-is _what_ exactly did, and _which_ exception it caused.
+is _what_ did, and _which_ exception it caused.
 
 JavaScript doesn't provide direct support for selectively catching
 exceptions (which is a rather glaring omission)... you can catch them
-all, or you don't catch. This makes it very easy, accidentally or out
-of laziness, to _assume_ that the exception you get is the one you
+all, or you don't catch any. This makes it very easy, accidentally or
+out of laziness, to _assume_ that the exception you get is the one you
 happened to be thinking about when you wrote the `catch` block.
 
 But it might not be. Some other assumption might be violated, or you
@@ -636,8 +640,8 @@ properly reported.
 In some cases, where you only need one instance of your error (it
 always has the same message) and stack traces are not important, you
 can simplify things a little by simply defining a single error object,
-not a constructor, and checking whether an exception is that object
-with the “==” operator.
+not a constructor, and comparing exceptions to it with the “==”
+operator.
 
 == Assertions ==
 
@@ -686,7 +690,7 @@ Otherwise, exceptions are preferable.
 
 Throwing an exception causes the call stack to be unwound until the
 next enclosing `try`/`catch` block, or until the bottom of the stack.
-The exception value will be given to the `catch` block that catches,
+The exception value will be given to the `catch` block that catches it,
 which should verify that it is actually the kind of exception it is
 trying to handle, and then do something with it. To deal with the
 unpredictable control flow caused by exceptions (implicit jumps out of
@@ -699,7 +703,7 @@ is _always_ run when a block finishes.
 
 If you had a function `primitiveMultiply`, that, in 50% of cases, multiplied
 two numbers, and in the other 50% raised an exception of type
-`MultiplicatorUnitOffline`, could you write a function that wraps this
+`MultiplicatorUnitFailure`, could you write a function that wraps this
 clunky function and just keeps trying until a call succeeds, returning
 the result?
 
@@ -712,13 +716,13 @@ ifdef::html_target[]
 
 [source,javascript]
 ----
-function MultiplicatorUnitOffline() {}
+function MultiplicatorUnitFailure() {}
 
 function primitiveMultiply(a, b) {
   if (Math.random() < 0.5)
     return a * b;
   else
-    throw new MultiplicatorUnitOffline();
+    throw new MultiplicatorUnitFailure();
 }
 
 function reliableMultiply(a, b) {
@@ -734,7 +738,7 @@ endif::html_target[]
 
 The call to `primitiveMultiply` should obviously happen in a `try`
 block. The corresponding `catch` block should re-throw the exception
-when it is not an instance of `MultiplicatorUnitOffline`, and ensure
+when it is not an instance of `MultiplicatorUnitFailure`, and ensure
 the call is retried when it is.
 
 To do the retrying, you can either use a loop that you only break (or
@@ -771,8 +775,8 @@ unlocked.
 
 Write a function `withBoxUnlocked` that takes a function value as
 argument, unlocks the box, runs the function, and then ensures that
-the box is locked again, whether that function returned normally or
-threw an exception.
+the box is locked again, regardless of whether that function returned
+normally or threw an exception.
 
 ifdef::html_target[]
 

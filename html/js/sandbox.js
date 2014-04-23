@@ -111,6 +111,17 @@
     },
     setHTML: function(code, output, callback) {
       this.clearEvents();
+      var loc = String(this.win.document.location), self = this;
+      if (loc != String(document.location) && !/\/empty\.html$/.test(loc)) {
+        this.frame.src = "empty.html";
+        var loaded = function() {
+          self.frame.removeEventListener("load", loaded);
+          self.setHTML(code, output, callback);
+        };
+        this.frame.addEventListener("load", loaded);
+        return;
+      }
+
       var scriptTags = [], sandbox = this, doc = this.win.document;
       this.frame.style.display = "block";
       doc.documentElement.innerHTML = code.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/g, function(m, src, content) {

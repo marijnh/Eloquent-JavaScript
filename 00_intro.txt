@@ -386,7 +386,7 @@ browser's developer console (typically found somewhere under a “tools”
 or “developer” menu) and play around in there. In chapter (FIXME), the
 way in which JavaScript programs are embedded in web pages (HTML
 files) is explained. In the meantime, you could head over to
-`http://jsbin.com` for another friendly interface for running
+_http://jsbin.com_ for another friendly interface for running
 JavaScript code in a browser.
 
 == Typographic conventions ==

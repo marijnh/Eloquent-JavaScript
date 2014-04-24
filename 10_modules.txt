@@ -121,7 +121,7 @@ and distributes hundreds of thousands of such modules, allowing you to
 search for the functionality you need, and, once you find it, set up
 your project to automatically download it.
 
-(((NPM)))This service exists. It is called _NPM_ (http://npmjs.org[`npmjs.org`]).
+(((NPM)))This service exists. It is called _NPM_ (http://npmjs.org[_npmjs.org_]).
 NPM consists of an online database of modules, and a tool for
 downloading and upgrading the modules your program depends on. It grew
 out of node.js, the browser-less JavaScript environment discussed in

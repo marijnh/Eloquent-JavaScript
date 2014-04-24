@@ -21,7 +21,7 @@ and explains the way browser JavaScript has access to it.
 == The protocol ==
 
 As an example, imagine you type
-http://eloquentjavascript.net/index.html into your browser's address
+_http://eloquentjavascript.net/index.html_ into your browser's address
 bar. First, the browser looks up the address of the server associated
 with `eloquentjavascript.net`, and tries to open a TCP connection to
 it on port 80, the default port for HTTP traffic. If the server
@@ -71,7 +71,7 @@ applies to. In the simplest case, a resource is simply a file on the
 server. But the protocol doesn't require it to be: It may be anything
 that can be transferred _as if_ it is a file. Many servers generate
 the responses they produce on the fly. For example, if you open
-http://twitter.com/marijnjh, the server looks in its database for a
+_http://twitter.com/marijnjh_, the server looks in its database for a
 user named “marijnjh”, and if it finds one, it will generate a profile
 page for that user.
 
@@ -242,8 +242,8 @@ console.log(req.responseText);
 ----
 
 The `open` method configures the request. In this case, we choose to
-make a `GET` request for the `example/data.txt` file. URLs that don't
-start with “http://” are called relative, which means that they are
+make a `GET` request for the _example/data.txt_ file. URLs that don't
+start with _http://_ are called relative, which means that they are
 interpreted relative to the current document. When they start with a
 slash (“/”), they replace the current path (the part after the server
 name). When they do not, the part of the current path up to and
@@ -334,7 +334,7 @@ the DOM discussed in Chapter 13, except that it doesn't have
 HTML-specific functionality like the `style` property. The object that
 `responseXML` holds corresponds to the `document` object. Its
 `documentElement` property refers to the outer tag of the XML
-document. In the document below (`example/fruit.xml`), that would
+document. In the document below (_example/fruit.xml_), that would
 would be the `<fruits>` tag.
 
 [source,application/xml]
@@ -545,7 +545,7 @@ JavaScript language, but can already be used as a library.
 The interface for promises is somewhat non-obvious, but very powerful.
 This chapter will only roughly describe it. A more thorough treatment
 can be found at
-http://www.html5rocks.com/en/tutorials/es6/promises[www.html5rocks.com/en/tutorials/es6/promises].
+http://www.html5rocks.com/en/tutorials/es6/promises[_www.html5rocks.com/en/tutorials/es6/promises_].
 
 To create a promise object, we call the `Promise` constructor, giving
 it a function that will initialize the asynchronous action. The
@@ -630,7 +630,7 @@ information about people, with links to files that represent other
 people in properties like `father`, `mother`, or `spouse`.
 
 We want to get the name of the mother of the spouse of
-`example/bert.json`. And if something goes wrong, we want to remove
+_example/bert.json_. And if something goes wrong, we want to remove
 the “loading” text and show an error message instead. Here is how that
 might be done with promises:
 
@@ -882,7 +882,7 @@ stored in the correct position of a result array, and we must check
 whether this was the last pending promise, and finish our own promise
 when it was.
 
-The latter is best done with a counter, which is initialized to the
+The latter can be done with a counter, which is initialized to the
 length of the input array, and which we subtract one for every time a
 promise succeeds. When it reaches zero, we are done. Make sure you
 take the situation where the input array is empty (and thus no promise

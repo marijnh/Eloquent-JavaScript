@@ -27,7 +27,7 @@ and jumping onto and over things.
 == The game ==
 
 Our game will be roughly based on “http://www.lessmilk.com/10[Dark
-Blue]”!!tex (http://www.lessmilk.com/10)!! by Thomas Palef. I chose
+Blue]”!!tex (_www.lessmilk.com/10_)!! by Thomas Palef. I chose
 this game because it is extremely minimal (and thus implementable
 without _too_ much code), yet entertaining. It looks like this:
 

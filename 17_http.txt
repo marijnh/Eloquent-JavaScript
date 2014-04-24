@@ -195,12 +195,13 @@ can script them with JavaScript.
 == Historical accident ==
 
 The interface through which browser JavaScript can make HTTP requests
-is called `XMLHttpRequest`. It was designed by Microsoft, for their
-Internet Explorer browser, in the late 1990s. During this time, in the
-world of business software (a world which Microsoft has always been at
-home in) the XML file format was _very_ popular. So popular that the
-word “XML” was tacked onto the front of the name of an interface for
-HTTP, which is in no way tied to XML.
+is called `XMLHttpRequest` (note the inconsisten capitalization). It
+was designed by Microsoft, for their Internet Explorer browser, in the
+late 1990s. During this time, in the world of business software (a
+world which Microsoft has always been at home in) the XML file format
+was _very_ popular. So popular that the word “XML” was tacked onto the
+front of the name of an interface for HTTP, which is in no way tied to
+XML.
 
 The name isn't completely nonsensical. There is functionality for
 parsing a response as an XML file built into the interface. Confusing
@@ -732,3 +733,164 @@ to forged or stolen certificates and broken software. Still, plain
 HTTP is trivial to mess with, whereas breaking HTTPS requires the kind
 of effort that only states or sophisticated criminal organizations can
 hope to make.
+
+== Summary ==
+
+In this chapter, we saw that HTTP is a protocol for accessing
+resources over the Internet. A _client_ sends a request, which
+contains a method (usually `GET`) and a path that identifies a
+resource. The _server_ then decides what to do with the request, and
+responds with a status code and a response body. Both requests and
+responses may contain headers, providing additional information.
+
+Browsers make `GET` requests to fetch the resources needed to display
+a web page. A web page may also contain forms, which allow information
+entered by the user to be sent along in the request made when the form
+is submitted. More on that in the next chapter.
+
+The interface through which browser JavaScript can make HTTP requests
+is called `XMLHttpRequest`. You can usually ignore the “XML” part of
+that name (but you still have to type it). There are two ways in which
+it can be used—synchronous, which blocks everything until the request
+finishes, and asynchronous, which requires an event handler to notice
+that the response came in. In almost all cases, asynchronous is
+preferable. Making a request looks like this:
+
+[source,javascript]
+----
+var req = new XMLHttpRequest();
+req.open("GET", "example/data.txt", true);
+req.addEventListener("load", function() {
+  console.log(req.statusCode);
+});
+req.send(null);
+----
+
+Asynchronous programming is tricky. _Promises_ are an interface that
+makes it slightly easier, by helping route error conditions and
+exceptions to the right handler, and abstracting away some of the more
+repetetive and error-prone elements in this style of programming.
+
+== Exercises ==
+
+=== Content negotiation ===
+
+One of the things that HTTP can do, but which we have not discussed in
+this chapter yet, is called _content negotiation_. The `Accept` header
+in a request can be used to tell the server what type of document the
+client would like to get. Many servers ignore this header, but when a
+server knows of various way to encode a resource, it can look at this
+header and send the one that the client prefers.
+
+The URL _http://eloquentjavascript.net/author_ is configured to
+respond with either plain text, HTML, or JSON, depending on what the
+client asks for. These formats are identified by the standardized
+_media types_ `text/plain`, `text/html`, and `application/json`.
+
+Send requests to fetch all three formats of this resource. Use the
+`setRequestHeader` method of your `XMLHttpRequest` object set the
+header named `Accept` to one of the media types given above. Make sure
+you set the header _after_ calling `open`, but before calling `send`.
+
+Finally, try asking for the media type `application/rainbows+unicorns`
+and see what happens.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+----
+
+endif::html_target[]
+
+!!solution!!
+
+See the various examples of using an `XMLHttpRequest` in this chapter
+for an example of the method calls involved in making a request. You
+can use a synchronous request (by setting the third parameter to
+`open` to `false`) if you want.
+
+Asking for a bogus media type will return a response with code 406
+“Not acceptable”, which is the code a server should return when it can
+not fulfill the `Accept` header.
+
+!!solution!!
+
+=== Waiting for multiple promises ===
+
+The `Promise` constructor has an `all` method which, given an array of
+promises, returns a promise that waits for all of them to finish, and
+then succeeds itself, yielding an array of result values. If any of
+the promises in the array fail, the promise returned by `all` fails
+too (with the failure value from the failing promise).
+
+Try to implement something like this yourself, as a regular function
+called `all`.
+
+Note that after a promise has succeeded or failed, it can not succeed
+or fail again, and further calls to the functions that resolve it are
+ignored. This can simplify the way you handle failure of your promise.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+function all(promises) {
+  return new Promise(function(success, fail) {
+    // Your code here.
+  });
+}
+
+// Test code.
+all([], function(array) {
+  console.log("This should be []:", array);
+});
+function soon(val) {
+  return new Promise(function(success) {
+    setTimeout(function() { success(val); },
+               Math.random() * 500);
+  });
+}
+all([soon(1), soon(2), soon(3)]).then(function(array) {
+  console.log("This should be [1, 2, 3]:", array);
+});
+function fail() {
+  return new Promise(function(success, fail) {
+    fail(new Error("boom"));
+  });
+}
+all([soon(1), fail(), soon(3)]).then(function(array) {
+  console.log("We should not get here");
+}, function(error) {
+  console.log("Failed with:", error);
+});
+----
+
+endif::html_target[]
+
+!!solution!!
+
+The function passed to the `Promise` constructor will have to call
+`then` on each of the promises in the given array. When one of them
+succeeds, two things need to happen—the resulting value needs to be
+stored in the correct position of a result array, and we must check
+whether this was the last pending promise, and finish our own promise
+when it was.
+
+The latter is best done with a counter, which is initialized to the
+length of the input array, and which we subtract one for every time a
+promise succeeds. When it reaches zero, we are done. Make sure you
+take the situation where the input array is empty (and thus no promise
+will ever resolve) into account.
+
+Handling failure requires some though, but turns out to be extremely
+simple. Just pass the failure function of the wrapping promise to each
+of the promises in the array, so that a failure in one of them
+triggers failure of the whole wrapper.
+
+!!solution!!

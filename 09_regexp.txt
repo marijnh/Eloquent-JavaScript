@@ -30,8 +30,9 @@ JavaScript (as well as various other programming languages and tools).
 
 Regular expressions are both extremely useful and terribly awkward.
 Learning them properly will make it much easier to inspect and process
-strings. Yes the syntax used for these expressions is cryptic, and the
-programming interface JavaScript provides for them is clumsy.
+strings. Unfortunately, the syntax used for these expressions is
+cryptic, and the programming interface JavaScript provides for them is
+clumsy.
 
 == Notation ==
 
@@ -64,25 +65,25 @@ var onePlusOne = /1 \+ 1/;
 Knowing precisely what characters to backslash-escape when writing
 regular expressions requires you to know about all the special meaning
 assigned to characters by this syntax. For the time being, this may
-not be realistic. When in doubt, it is safe to just put a backslash
-before any character that is not a letter, number, or whitespace.
+not be realistic, so when in doubt, just put a backslash before any
+character that is not a letter, number, or whitespace.
 
 == Testing for matches ==
 
 (((test method)))Regular expression objects have a number of methods.
-The simplest one is `test`, which you pass a string, and which will
-return a boolean that tells you whether the pattern contained in the
-expression matches the string.
+The simplest one is `test`. If you pass it a string, it will tell you
+whether the pattern contained in the expression matches the string,
+returning a boolean.
 
 [source,javascript]
 ----
 console.log(/abc/.test("abcde"));
 // → true
-console.log(/abc/.test("12345"));
+console.log(/abc/.test("abxde"));
 // → false
 ----
 
-A regular expression consisting of only normal characters simply
+A regular expression consisting of only non-special characters simply
 represents that sequence of characters. If “abc” occurs anywhere (not
 just at the start) in the string we are testing against, the result
 will be true.
@@ -90,14 +91,14 @@ will be true.
 == Matching a set of characters ==
 
 (((indexOf method)))Finding out whether a string contains “abc” could
-just as well be done with a call to `indexOf`. Regular expressions are
-able to express more complicated patterns.
+just as well be done with a call to `indexOf`. Regular expressions
+allow us to go beyond that, and express more complicated patterns.
 
 Say we want to match any number. In a regular expression, putting a
 set of characters between square brackets makes that part of the
 expression match any of the characters between the brackets.
 
-The expressions below matche all strings that contains a digit.
+The expressions below matches all strings that contains a digit.
 
 [source,javascript]
 ----
@@ -108,14 +109,16 @@ console.log(/[0-9]/.test("in 1992"));
 ----
 
 (((digit (regexp))))Between square brackets, a dash (“-”) between two
-characters can be used to indicate a range of characters. Since the
-Unicode character codes for “0” to “9” sit right next to each other
-(codes 48 to 57), `[0-9]` covers all of them, and matches any digit.
+characters can be used to indicate a range of characters, where the
+ordering is determined by the character's Unicode code points.
+Characters “0” to “9” sit right next to each other in this ordering
+(codes 48 to 57), so `[0-9]` covers all of them, and matches any
+digit.
 
 (((whitespace (regexp))))(((alphanumeric character (regexp))))(((dot
 (regexp)))) There are a number of commonly use character groups that
-have their own built-in shortcuts. Digits are one of them—you can
-write backslash-d (`\d`) to mean the same thing as `[0-9]`.
+have their own built-in shortcuts. Digits are one of them—backslash-d
+(`\d`) means the same thing as `[0-9]`.
 
 [cols="1,5"]
 |====
@@ -131,26 +134,27 @@ write backslash-d (`\d`) to mean the same thing as `[0-9]`.
 For each of the backslash-prefixed categories, there is an uppercase
 variant that means the exact opposite.
 
-So you could express a date and time format like “30/01/2003 15:20” with
+So you could express a date and time format like “30-01-2003 15:20” with
 the following expression:
 
 [source,javascript]
 ----
-var dateTime = /\d\d\/\d\d\/\d\d\d\d \d\d:\d\d/;
-console.log(dateTime.test("30/01/2003 15:20"));
+var dateTime = /\d\d-\d\d-\d\d\d\d \d\d:\d\d/;
+console.log(dateTime.test("30-01-2003 15:20"));
 // → true
-console.log(dateTime.test("30/jan/2003 15:20"));
+console.log(dateTime.test("30-jan-2003 15:20"));
 // → false
 ----
 
 (((backslash)))Looks completely awful, doesn't it? Way too many
 backslashes, producing a background noise that makes it hard to spot
-the actual pattern expressed. Such is life with regular expressions.
+the actual pattern expressed. We'll see a slightly improved version of
+this expression later on.
 
 These category markers can also be used inside of square brackets, so
 `[\d\.]` means any digit or a dot.
 
-To “invert” a set of characters, to express that you want to match any
+To _invert_ a set of characters, i.e. to express that you want to match any
 character _except_ the ones in the set, a caret (“^”) character is
 written after the opening bracket.
 
@@ -186,7 +190,7 @@ console.log(/'\d*'/.test("''"));
 ----
 
 The star (“*”) has a similar meaning, but also allows the pattern to
-match zero times. So something with a star after it never prevents a
+match zero times. Something with a star after it never prevents a
 pattern from matching—it'll just match zero instances if it can't find
 any suitable text to match.
 
@@ -214,8 +218,8 @@ readable:
 
 [source,javascript]
 ----
-var dateTime = /\d{1,2}\/\d{1,2}\/\d{4} \d{1,2}:\d{2}/;
-console.log(dateTime.test("30/1/2003 8:45"));
+var dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
+console.log(dateTime.test("30-1-2003 8:45"));
 // → true
 ----
 
@@ -227,9 +231,9 @@ more times.
 == Grouping sub-expressions ==
 
 (((grouping (regexp))))To use an operator like “*” or “+” on more than
-one character at a time, need to use parentheses. A piece of a regular
-expression that is surrounded in parentheses counts as a single unit
-as far as the operators following it are concerned.
+one element at a time, we need to use parentheses. A piece of a
+regular expression that is surrounded in parentheses counts as a
+single element as far as the operators following it are concerned.
 
 [source,javascript]
 ----
@@ -274,12 +278,12 @@ console.log("one two 100".match(/\d+/));
 
 (((index property)))An object returned from `exec` or `match` has an
 `index` property that tells us _where_ in the string the successful
-match started. Otherwise, the object looks like (and in fact is) an
-array of strings, whose first element is the string that was
+match started. Other than that, the object looks like (and in fact is)
+an array of strings, whose first element is the string that was
 matched—in the example above, that is the sequence of digits that we
 were looking for.
 
-When the regular expression contains expressions grouped with
+When the regular expression contains sub-expressions grouped with
 parentheses, the text that matched those groups will also show up in
 the array. The first element is always the whole match, after that
 follows the part matched by the first group (the one whose opening
@@ -370,19 +374,20 @@ are interested in, we can easily extract a date from a string.
 [source,javascript]
 ----
 function findDate(string) {
-  var dateTime = /(\d{1,2})\/(\d{1,2})\/(\d{4})/;
+  var dateTime = /(\d{1,2})-(\d{1,2})-(\d{4})/;
   var match = dateTime.exec(string);
-  return new Date(Number(match[3]), Number(match[2]),
+  return new Date(Number(match[3]),
+                  Number(match[2]),
                   Number(match[1]));
 }
-console.log(findDate("30/1/2003"));
+console.log(findDate("30-1-2003"));
 // → Sun Mar 02 2003 00:00:00 GMT+0100 (CET)
 ----
 
 == Word and string boundaries ==
 
 The `findDate` function will also happily extract a date from the
-string `"100/1/30000"`—a match may happen anywhere in the string, so
+string `"100-1-30000"`—a match may happen anywhere in the string, so
 in this case it'll just start at the second character and end at the
 one-but-last.
 
@@ -390,14 +395,15 @@ one-but-last.
 the whole string, we can add the markers “^” and “$”. The first
 matches the start of the input string, and the second the end. So
 `/^\d+$/` matches a string consisting entirely of one or more digits,
-`/^!/` matches any string that starts with an exclamation sign, and
-`/x^/` does not match anything (the start of a string can not be after
-a character).
+`/^!/` matches any string that starts with an exclamation mark, and
+`/x^/` does not match any string (there can not be an “x” _before_ the
+start of the string).
 
 (((word boundary (regexp))))If, on the other hand, we just want to
 make sure the date starts and ends on a word boundary, we can use the
-marker `\b`. A word boundary is a point that has a word character on
-one side, and a non-word character on the other.
+marker `\b`. A word boundary can be the start or end of the string, or
+any point in the string that has a word character (as in `\w`) on one
+side, and a non-word character on the other.
 
 [source,javascript]
 ----
@@ -407,7 +413,7 @@ console.log(/\bcat\b/.test("concatenate"));
 // → false
 ----
 
-Note that these boundary markers don't “cover” any actual characters,
+Note that these boundary markers don't _cover_ any actual characters,
 they just enforce that the pattern only matches when a certain
 condition holds at the place where they appear.
 
@@ -418,7 +424,7 @@ number, but a number followed by one of the words “pig”, “cow”, or
 “chicken”, or their plural forms.
 
 We could write three regular expressions, and test them in turn, but
-there is a nicer way. The pipe character (`|`) denotes a choice
+there is a nicer way. The pipe character (“++|++”) denotes a choice
 between the pattern to its left and the pattern to its right. So I can
 say this:
 
@@ -477,14 +483,13 @@ So if we match `"the 3 pigs"` there is a match between positions 4
    boundary. The end of a string counts as a word boundary, so we go
    through the last box and have successfully matched this string.
 
-The way the regular expression engine present in a JavaScript system
-will conceptually look for a match in a string is simple. It starts at
-the start of the string and tries a match there. In this case, there
-_is_ a word boundary there, so it'd get past the first box, but there
-is no digit, so it'd fail at the second box. Then it moves on to the
-second character in the string, and tries there. And so on, until it
-finds a match, or reaches the end of the string and decides that there
-really is no match.
+Conceptually, a regular expression engine looks for a match in a
+string as follows: It starts at the start of the string and tries a
+match there. In this case, there _is_ a word boundary there, so it'd
+get past the first box, but there is no digit, so it'd fail at the
+second box. Then it moves on to the second character in the string,
+and tries there. And so on, until it finds a match, or reaches the end
+of the string and decides that there really is no match.
 
 == Backtracking ==
 
@@ -512,16 +517,17 @@ branch if the current one does not work out. So for the string
 the decimal (second) branch. This one matches, so a match is reported
 after all.
 
-When more than one branch matches, the first one (in the order in
-which the branches appear in the expression) will be taken.
+When a full match is found, the matcher is done. That means that if
+multiple branches would match a string, the first one (in the order in
+which they appear in the regular expression) is the one that is used.
 
-Backtracking also happens, in slightly different forms, when matching
-repeat operators. If you match `/^.*x/` against `"abcxe"`, the `.*`
-part will first try to match the whole string. It'll then realize that
-it can only match when it is followed by an “x”, and there is no “x”
-past the end of the string. So it tries to match one character less.
-And then another character less. And _now_ it finds an “x” where it
-needs it, and reports a successful match from position 0 to 4.
+Backtracking also happens, in slightly different forms, for repeat
+operators. If you match `/^.*x/` against `"abcxe"`, the `.*` part will
+first try to match the whole string. It'll then realize that it can
+only match when it is followed by an “x”. Since there is no “x” past
+the end of the string, it tries to match one character less. And then
+another character less. And _now_ it finds an “x” where it needs it,
+and reports a successful match from position 0 to 4.
 
 It is possible to write regular expressions that will do a _lot_ of
 backtracking. This problem occurs when a pattern can match a piece of
@@ -535,7 +541,7 @@ If that tries to match some long series of zeroes and ones _without_ a
 “b” character after them, it will first go through the inner loop
 until it runs out of digits. Then it notices there is no “b”, so it
 backtracks one position, goes through the _outer_ loop once, and give
-up again, backtracking out of the inner loop once more. It will
+up again, trying to backtrack out of the inner loop once more. It will
 continue to try every possible route through these two loops, which
 means the amount of work it needs to do doubles with each additional
 character. For a few dozen characters, the resulting match will
@@ -544,7 +550,7 @@ already take practically forever.
 == The replace method ==
 
 (((replace method)))(((regular expression!replacing)))String values
-have a `replace` method, which can be used to replace parts of the
+have a `replace` method, which can be used to replace a part of the
 string with another string.
 
 [source,javascript]
@@ -569,9 +575,9 @@ _all_ matches in the string will be replaced, not just the first.
 
 It would have been sensible if the choice between replacing one match
 or all matches was made through an addition argument to `replace`, or
-by providing a different method `replaceAll`. But for some reason, the
-choice was made to rely on a property of the regular expression
-instead.
+by providing a different method `replaceAll`. But for some unfortunate
+reason, the choice was made to rely on a property of the regular
+expression instead.
 
 The real power of using regular expressions with `replace` comes from
 the fact that we can refer back to the matched groups in the
@@ -591,9 +597,9 @@ console.log(
 ----
 
 The `$1` and `$2` in the replacement string refer to the parenthesized
-parts in the pattern. `$1` is replaced by the text that matched
-against the first pair of parentheses, `$2` by the second, and so on,
-up to `$9`.
+groups in the pattern. `$1` is replaced by the text that matched
+against the first group, `$2` by the second, and so on, up to `$9`.
+The whole match can be referred to with `$&`.
 
 It is also possible to pass a function, rather than a string, as the
 second argument to `replace`. For each replacement, the function will
@@ -658,7 +664,7 @@ console.log(stripComments("1 /* a */+/* b */ 1"));
 // → 1  1
 ----
 
-The part before the “or” operator simply matches two slash characters
+The part before the _or_ operator simply matches two slash characters
 followed by any number of non-newline characters. The part for
 multi-line comments is more involved. We use `[\w\W]` as a way to
 match any character. Block comments can continue on a new line, so we
@@ -727,8 +733,8 @@ case-insensitive) for the regular expression can be given as a second
 argument to the `RegExp` constructor.
 
 But what if the name is `"dea+hl[]rd"` because our user is a nerdy
-teenager? That would cause us to produce a bogus regular expression,
-which will cause unexpected results.
+teenager? That would resulint in a nonsensical regular expression,
+which won't actually match the user's name.
 
 To work around this, we can add backslashes before any character that
 we don't trust. Adding backslashes before alphabetic characters is a
@@ -744,9 +750,6 @@ var regexp = new RegExp("\\b(" + escaped + ")\\b", "gi");
 console.log(text.replace(regexp, "_$1_"));
 // → This _dea+hl[]rd_ guy is super annoying.
 ----
-
-The `$&` placeholder in the replacement string acts similar to `$1`,
-but will be replaced by the whole match, rather than a matched group.
 
 == The search method ==
 
@@ -798,9 +801,9 @@ console.log(pattern.lastIndex);
 ----
 
 The `lastIndex` property is updated by the call to `exec` to point
-after the match, when the match was successful. When no match was
-found, `lastIndex` is set back to zero, which is also the value it
-has in a newly constructed regular expression object.
+after the match when the match was successful. When no match was
+found, `lastIndex` is set back to zero, which is also the value it has
+in a newly constructed regular expression object.
 
 When using a global regular expressions value for multiple `exec`
 calls, this changing of the `lastIndex` property can cause
@@ -849,11 +852,12 @@ looping when no more matches are found.
 
 == Parsing an INI file ==
 
-(((ini file)))Now let's look at a real problem that calls for regular
-expressions. Imagine we are writing a program to automatically harvest
-information about our enemies from the Internet. (We will not actually
-write that program here, just the part that reads the configuration
-file. Sorry to disappoint.) This configuration file looks like this:
+(((ini file)))To conclude the chapter, we'll look at a real problem
+that calls for regular expressions. Imagine we are writing a program
+to automatically harvest information about our enemies from the
+Internet. (We will not actually write that program here, just the part
+that reads the configuration file. Sorry to disappoint.) The
+configuration file looks like this:
 
 [source,text/plain]
 ----
@@ -947,20 +951,20 @@ where I used an assignment as the condition for `while`. You usually
 aren't sure that your expression will match. But you only want to do
 something with the resulting match array if it not null, so you need
 to test for that first. To not break the pleasant chain of `if` forms,
-we can assign this result to a variable as the test for `if` and do
-the matching and the testing in a single line.
+we assign the result of the match to a variable as, and immediately
+use that assignment as the test in the `if` statement.
 
 == International characters ==
 
-Due to an initial simplistic implementation and the fact that this
+Due to an initial simplistic implementation, and the fact that this
 simplistic approach was later set in stone as standard behavior,
 JavaScript's regular expressions are rather dumb about characters that
-do not appear in the English language. For example “word” characters,
-in this context, actually means the 26 characters in the Latin
-alphabet, their upper-case variants, and, for some reason, the
-underscore character. Things like “é” or “β”, which most definitely
-are word characters, will not match `\w` (and _will_ match upper-case
-`\W`, the non-word category).
+do not appear in the English language. For example a “word” character,
+as far as JavaScript's regular expressions are concerned, actually
+means the 26 characters in the Latin alphabet, their upper-case
+variants, and, for some reason, the underscore character. Things like
+“é” or “β”, which most definitely are word characters, will not match
+`\w` (and _will_ match upper-case `\W`, the non-word category).
 
 Through strange historical accident, `\s` (whitespace) is different,
 and will match all characters that the Unicode standard considers
@@ -1014,7 +1018,7 @@ based on the match text and matched groups.
 
 Regular expressions can have options (flags), which are written after
 the closing slash. The “i” option makes the match case-insensitive,
-and the “g” flag makes the expression global which, among other
+and the “g” option makes the expression _global_ which, among other
 things, causes the `replace` method to replace all instances instead
 of just the first.
 
@@ -1031,9 +1035,9 @@ approach.
 
 It is almost unavoidable that, in the course of working on these
 exercises, you will be confused and frustrated by some regular
-expression's inexplicable behavior. What sometimes helps is entering
-your expression into an online tool like
-https://www.debuggex.com/[debuggex.com], to see whether its
+expression's inexplicable behavior. Sometimes it helps to enter your
+expression into an online tool like
+https://www.debuggex.com/[_debuggex.com_], to see whether its
 visualization corresponds to what you intended, and to experiment with
 the way it responds to various input strings.
 
@@ -1154,8 +1158,10 @@ Series of digits can be matched by the simple regular expression
 
 Write an expression that matches (only) JavaScript-style numbers. That
 means it must support an optional minus _or_ plus sign in front of the
-number, the decimal dot, and exponent notation—`5e-3` or `1E10`—with again an
-optional sign in front of the exponent.
+number, the decimal dot, and exponent notation—`5e-3` or `1E10`—with
+again an optional sign in front of the exponent. Also note that it is
+not necessary for there to be digits in front of or after the dot—`.5`
+and `5.` are valid JavaScript numbers, but a lone dot _isn't_.
 
 ifdef::html_target[]
 // test: no

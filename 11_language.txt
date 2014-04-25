@@ -35,8 +35,8 @@ and produces a data structure that explicitly shows the structure
 of the program contained in the text. If the text does not form a
 valid program, the parser should complain about that.
 
-Our language will have a very simple and uniform syntax. In it,
-everything is an expression. An expression can be a variable, a
+Our language will have a very simple and uniform syntax. Everything in
+the language will be an expression. An expression can be a variable, a
 number, a string, or an application. Applications are used for
 function calls, but also for constructs like `if` or `while`.
 
@@ -61,8 +61,8 @@ do(define(x, 10),
 The uniformity of the language means that what would be an operator in
 JavaScript (such as “>”) is a normal variable, applied just like other
 functions, in this language. Since there is also no concept of a
-“block”, doing multiple things in sequence is also written as an
-application, using the `do` construct.
+block, doing multiple things in sequence is written as an application
+of the `do` construct.
 
 The data structure the parser will use to describe such a program
 consists of objects, each of which has a `type` property indicating
@@ -81,21 +81,21 @@ program above would be represented like this:
 }
 ----
 
-Such a data structure is called a _syntax tree_, because it has a
-tree-like shape—the fact that expressions contain other expressions,
-which in turn might contain more expression, is similar to the way
-branches split and split again.
+Such a data structure is called a _syntax tree_. When viewing the
+objects as points, and the links between them as lines between those
+points, it has a tree-like shape. The fact that expressions contain
+other expressions, which in turn might contain more expression, is
+similar to the way branches split and split again.
 
 The parser we wrote for the configuration file format in Chapter 9 had
-a very simple structure—it could split the input into lines, and then
-handle one line at a time, where each line had one of a few simple
-forms.
+a very simple structure—it split the input into lines, and handled one
+line at a time, where each line had one of a few simple forms.
 
 This time, we must find a different approach. Expressions are not
-separated by lines, and they have a recursive structure—expression
-may contain other expressions.
+separated by lines, and they have a recursive structure. Application
+expressions themselves contain other expressions.
 
-Fortunately, this problem can be solved pleasantly by using a parsing
+Fortunately, this problem can be solved elegantly by using a parsing
 function that is recursive in a way that reflects the recursive nature
 of the language.
 
@@ -179,8 +179,8 @@ function parseApply(left, program) {
 ----
 
 If the next character in the program is not an opening parenthesis,
-this is not an application, and `parseApply` returns the expression to
-the left.
+this is not an application, and `parseApply` simply returns the
+expression it was given.
 
 Otherwise, it skips the opening parenthesis, and creates the syntax
 node for this application expression. It then recusively calls
@@ -267,9 +267,10 @@ environment, and if it is, fetch the variable's value.
 Applications are more involved. If they are a special form, like `if`,
 we do not evaluate anything, and simply pass the argument expressions,
 along with the environment, to the function that handles this form. If
-it is a normal call, we evaluate the operator, and verify that it is a
-function—we will use plain JavaScript functions to represent functions
-in this language.
+it is a normal call, we evaluate the operator, verify that it is a
+function, and call it with the result of evaluating the arguments. We
+will use plain JavaScript functions to represent function values in
+the language.
 
 The the recursive structure of `evaluate` resembles the similar
 structure of the parser. Both of them mirror the structure of the
@@ -284,7 +285,7 @@ language yet.
 
 == Special forms ==
 
-The `specialForms` object lets us look up the syntactic constructs in
+The `specialForms` object lets us look up the special constructs in
 our language by name. It holds functions that interpret the construct.
 It is currently empty. Let us add a few forms.
 
@@ -310,7 +311,14 @@ will evaluate the second. Otherwise, the third gets evaluated. Because
 result of the second or third argument.
 
 Our language differs from JavaScript in its handling of the condition
-value to ++if++—it will not treat 0 or the empty string as false.
+value to ++if++—it will not treat 0 or the empty string as false, only
+the precise value `false`.
+
+The reason we need to represent `if` as a special form, rather than a
+regular function, is that functions receive their arguments in
+evaluated form, but `if` must not evaluate all of its arguments.
+Depending on the first argument, either the second or the third
+remains unevaluated.
 
 The `while` form is similar;
 
@@ -379,11 +387,10 @@ Since there are only two boolean values, we do not need special syntax
 for them. We simply bind two variables to the values true and false,
 and use those.
 
-The environment accepted by `evaluate` is simply an object with
-properties whose names correspond to variable names, and whose values
-correspond to the values those variables are bound to. Let us define
-an object to represent the global scope, and add bindings for the
-boolean values.
+The environment accepted by `evaluate` is an object with properties
+whose names correspond to variable names, and whose values correspond
+to the values those variables are bound to. Let us define an object to
+represent the global scope, and add bindings for the boolean values.
 
 // include_code
 
@@ -404,9 +411,9 @@ console.log(evaluate(prog, topEnv));
 // → false
 ----
 
-To implement “primitive” functionality, such as arithmetic and
-comparison operators, we will also add some functions to the
-environment. To keep things short, we'll use `new Function` to
+To supply “primitive” functionality, such as arithmetic and comparison
+operators, we will also add some functions to the environment. In the
+interest of keeping the code short, we'll use `new Function` to
 synthesize a bunch of operator functions in a loop, rather than
 defining them all individually.
 
@@ -429,7 +436,7 @@ and call it `print`.
 ----
 topEnv["print"] = function(value) {
   console.log(value);
-  return false;
+  return value;
 };
 ----
 
@@ -571,10 +578,10 @@ cred, this project is not very impressive.
 
 Regardless, I hope it illustrated the concepts involved. Many other
 interesting concepts would come up when taking this project further,
-but this is not a compiler writer's book (do pick one up sometime,
-they are fascinating).
+but this is not a compiler writer's book. If the topic interests you,
+pick up such a book sometime, they are fascinating.
 
-And when it comes to getting something done, cheating is more
+But when it comes to getting something done, cheating is more
 effective than doing everything yourself. Though the toy language in
 this chapter doesn't do anything that couldn't be done better in
 JavaScript, there _are_ situations where writing small languages helps
@@ -582,13 +589,12 @@ get real work done.
 
 Such a language does not have to resemble a typical programming
 language. If JavaScript would not come equipped with regular
-expressions, you would write your own parser and evaluator for such a
+expressions, you could write your own parser and evaluator for such a
 sublanguage.
 
-Or, imagine you happen to be building a giant robotic dinosaur, and
-need to program it. JavaScript might not be the most effective way to
-do this, and you might instead opt for a language that looks like
-this:
+Or, imagine you are building a giant robotic dinosaur, and need to
+program it. JavaScript might not be the most effective way to do this,
+and you might instead opt for a language that looks like this:
 
 ----
 behavior walk
@@ -602,7 +608,7 @@ behavior attack
   perform when
     Godzilla in-view
   actions
-    fire eye-laser
+    fire laser-eyes
     launch arm-rockets
 ----
 
@@ -685,10 +691,11 @@ mechanism causes this to work.
 
 Again, we are riding along on a JavaScript mechanism to get the
 equivalent feature in our own language. Special forms are passed the
-local environment when they are evaluated, so that they can evaluate
-their sub-forms in that environment. The function returned by `fun`
-closes over the `env` argument given to its enclosing function, and
-uses that to create the function's local environment when it is called.
+local environment in which they are evaluated, so that they can
+evaluate their sub-forms in that environment. The function returned by
+`fun` closes over the `env` argument given to its enclosing function,
+and uses that to create the function's local environment when it is
+called.
 
 This means that the prototype of the local environment will be the
 environment in which the function was created, which makes it possible
@@ -701,7 +708,7 @@ is actually efficient, you'd need to do some more work).
 === Comments ===
 
 It would be nice if we could write comments in our language. For
-example, whenever a hash sign is found, we could treat the rest of the
+example, whenever a hash sign (“#”) is found, we could treat the rest of the
 line as a comment (similar to “`//`” in JavaScript), ignoring it.
 
 We do not have to make any big changes to the parser to support this.
@@ -740,8 +747,8 @@ potentially whitespace between or after them.
 A regular expression is probably the easiest way to solve this. Match
 against something that matches “whitespace or a comment, zero or more
 times” using the `exec` or `match` method, and then look at the length
-of the first element in the returned array to find out how many
-characters to slice off.
+of the first element in the returned array (the whole match) to find
+out how many characters to slice off.
 
 !!solution!!
 
@@ -766,8 +773,17 @@ things very convenient so far, will get in your way a little at this
 point. You might want to use the `Object.getPrototypeOf` function,
 which allows you to get the prototype of an object. Also remember that
 scopes do not derive from `Object.prototype`, so if you want to call
-`hasOwnProperty` on them, you have to use the clumsy way:
-`Object.prototype.hasOwnProperty.call(scope, name)`.
+`hasOwnProperty` on them, you have to use this clumsy expression:
+
+// test: no
+
+[source,javascript]
+----
+Object.prototype.hasOwnProperty.call(scope, name);
+----
+
+This fetches the `hasOwnProperty` method from the `Object` prototype,
+and then calls it on a scope object.
 
 ifdef::html_target[]
 

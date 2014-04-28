@@ -12,13 +12,14 @@ short [...] DOM names tend to be long and descriptive in order to be
 unique across all environments.
 ____
 
-The browser with which you view a web page reads the page's HTML text,
-builds up a model its structure, and uses that to draw the page to the
-screen.
+When you open a web page in your browser, it will retrieve the page's
+HTML text, parse it in a way similar to the parser we wrote in Chapter
+11, building up a model of its structure, and then it uses this model
+to draw the page to the screen.
 
 One of the toys that a JavaScript program has available in its sandbox
 is this representation of the document. We can read from it, but also
-change it. It acts as a “live” data structure—when it is modified, the
+change it. It acts as a _live_ data structure—when it is modified, the
 page on the screen is updated to reflect the changes.
 
 == Document structure ==
@@ -63,10 +64,10 @@ the objects for those elements.
 
 Think back to the syntax trees from Chapter 11 for a moment. Their
 structure is strikingly similar to the structure of a browser's
-document. Each “node” may refer to sub-nodes, children, which are
-themselves nodes, and may have their own children. This shape is
-typical of nested structures where elements can contain sub-elements
-that are similar to themselves.
+document. Each _node_ may refer to other nodes, _children_, which may
+have their own children. This shape is typical of nested structures
+where elements can contain sub-elements that are similar to
+themselves.
 
 We call a data structure a _tree_ when it has a branching structure,
 contains no cycles (a node may not contain itself, directly or
@@ -92,9 +93,9 @@ in HTML).
 Each DOM node object has a `nodeType` property, which contains a
 number code that identifies the type of node. Regular nodes have the
 value 1 (which is also defined as the constant property
-`document.ELEMENT_NODE`). Text nodes, representing a section of plain
-(non-tag) text in the document, get type 3 (`document.TEXT_NODE`).
-Comments get type 8 (`document.COMMENT_NODE`).
+`document.ELEMENT_NODE`). Text nodes, representing a section of text
+in the document, get type 3 (`document.TEXT_NODE`). Comments get type
+8 (`document.COMMENT_NODE`).
 
 So another way to visualize our document tree is:
 
@@ -110,8 +111,8 @@ JavaScript-like thing to do. Further on in this chapter, we'll see
 that other parts of the DOM interface also feel cumbersome and alien.
 The reason for this is that the DOM wasn't designed for just
 JavaScript, but rather tries to define a language-neutral interface
-that can be used in other systems as well, and not just for HTML, but
-also for XML, which is a generic data format with an HTML-like syntax.
+that can be used in other systems as well, not just for HTML, but also
+for XML, which is a generic data format with an HTML-like syntax.
 
 This is unfortunate. Standards are often useful. But in this case, the
 advantage (cross-language consistency) isn't all that compelling. And
@@ -132,10 +133,11 @@ then add the children one by one, and set the attributes one by one.
 Code that interacts heavily with the DOM tends to get very long,
 repetitive, and ugly.
 
-But of course, JavaScript allows us to create our own abstractions. It
-is easy to write some helper functions that allow you to express the
-operations you are performing in a clearer and shorter way. In fact,
-many libraries intended for browser programming come with such tools.
+But none of these are fatal, since JavaScript allows us to create our
+own abstractions. It is easy to write some helper functions that allow
+you to express the operations you are performing in a clearer and
+shorter way. In fact, many libraries intended for browser programming
+come with such tools.
 
 == Moving through the tree ==
 
@@ -190,14 +192,14 @@ that it represents.
 Navigating these links to parents, children, and siblings is often
 useful, as in the function above, which blindly runs through the whole
 document. But if we want to find a specific node in the document,
-reaching by following links from `document.body` is a bad idea. It
-ties assumptions about the precise structure of the document into our
-program, and we might want to change that structure later. Another
-complicating factor is that text nodes are created even for the
-whitespace (newlines and spaces) between nodes. The example document's
-body tag does not have just three children (`<h1>` and two `<p>`’s),
-but actually has 7 (those three, plus the space before, after, and
-between them).
+reaching it by starting at `document.body` and following the various
+kinds of links is a bad idea. It ties assumptions about the precise
+structure of the document into our program, and we might want to
+change that structure later. Another complicating factor is that text
+nodes are created even for the whitespace (newlines and spaces)
+between nodes. The example document's body tag does not have just
+three children (`<h1>` and two `<p>`’s), but actually has 7 (those
+three, plus the space before, after, and between them).
 
 So if we want to get the `href` attribute of the link in that
 document, we don't want to say something like “get the second child of
@@ -211,10 +213,10 @@ var link = document.body.getElementsByTagName("a")[0];
 console.log(link.href);
 ----
 
-All element nodes have a `getElementsByTagName` method that retrieves
-a pseudo array containing all elements with the given tag name that
-exist inside of that element (even if they are wrapped in other
-nodes).
+All element nodes have a `getElementsByTagName` method, which collects
+all elements with the given tag name that are descendants (direct or
+indirect children) of the given node, and returns them as an
+array-like object.
 
 To find a specific _single_ node, you can give it an `id` attribute,
 and use `document.getElementById` instead.
@@ -238,11 +240,12 @@ node, and retrieves all elements that have the given string in their
 == Changing the document ==
 
 Almost everything about the DOM data structure can be changed. Element
-nodes have a number of methods for changing their content. The
-`removeChild` method removes the given child node from the document.
-To add a child, we can use `appendChild`, which puts it at the end of
-the list of children, or `insertBefore`, which inserts the node given
-as first argument before the node given as second argument.
+nodes have a number of methods that can be used to change their
+content. The `removeChild` method removes the given child node from
+the document. To add a child, we can use `appendChild`, which puts it
+at the end of the list of children, or `insertBefore`, which inserts
+the node given as first argument before the node given as second
+argument.
 
 [source,text/html]
 ----
@@ -267,16 +270,14 @@ The `replaceChild` method is used to replace a child node with another
 one. It takes as arguments two nodes, a new node, and the node that
 must be replaced (which must be a child of the element the method is
 called on). Note that both `replaceChild` and `insertBefore` expect
-the _new_ node as their first argument, which can be confusing if you
-are trying to read the call as a sentence (“replace _this_ with
-__that__” has the old element first, then the new one).
+the _new_ node as their first argument.
 
 == Creating nodes ==
 
 In the next example, we want to write a script that replaces all
 images (`<img>` tags) in the document with the text held in their
-`alt` attribute (which should hold an alternative textual
-representation of the image).
+`alt` attribute (which is intended for specifying an alternative
+textual representation of the image).
 
 This involves not only removing the images, but adding a new text node
 to replace them. For this, we use the `document.createTextNode`
@@ -309,13 +310,13 @@ can insert into the document to make it show up on the screen.
 The loop that goes over the images starts at the end of the
 pseudo array. This is necessary because a node list returned by a
 method like `getElementsByTagName` (or a property like `childNodes`)
-is “live”—it is updated as the document changes. If we started from
+is __live__—it is updated as the document changes. If we started from
 the front, removing the first image would cause the list to lose its
 first element, so that the second time the loop repeats, where `i` is
 one, it would stop, because the length of the collection is now also
 one.
 
-If you want a “solid” collection of nodes, that doesn't unexpectedly
+If you want a _solid_ collection of nodes, that doesn't unexpectedly
 change, you can convert them to a real array by calling the array
 `slice` method on it.
 
@@ -328,7 +329,7 @@ real.forEach(function(elt) { console.log(elt); });
 //   two
 ----
 
-Element nodes (type 1) can be created with the
+To create regular element nodes (type 1), we must use the
 `document.createElement` method. This method takes a tag name, and
 returns a new empty node of the given type.
 
@@ -362,15 +363,17 @@ node. It then adds a simple footer to the document.
 
 == Attributes ==
 
-Some element attributes, such as `href` for links, can be read and
-written to by simply reading or setting the property by that name.
-This is the case for a fixed set of commonly used standard attributes.
+Some element attributes, such as `href` for links, can be accessed
+simply through a property of the same name, on the element's DOM
+object. This is the case for a limited set of commonly used standard
+attributes.
 
 But HTML allows you to set any attribute you want on nodes. This can
-be useful, it allows you to store extra information for your scripts
-in your page. If you make up your own attribute name, it will not be
-present as a property on the element's node. Instead, you'll have to
-use the `getAttribute` and `setAttribute` methods to work with them.
+be useful, as it allows you to store extra information for your
+scripts in a document. If you make up your own attribute name, though,
+it will not be present as a property on the element's node. Instead,
+you'll have to use the `getAttribute` and `setAttribute` methods to
+work with them.
 
 [source,text/html]
 ----
@@ -395,25 +398,6 @@ As a simple example, we'll write a “syntax highlighter” that looks for
 with a `data-language` attribute, and crudely tries to highlight the
 keywords for that language.
 
-[sandbox="highlight"]
-[source,text/html]
-----
-<p>Here it is, the identity function:</p>
-<pre data-language="javascript">
-function id(x) { return x; }
-</pre>
-----
-
-The function `highlightCode` takes a `<pre>` node and a regular
-expression (with the “global” option turned on) that matches the
-keywords of the programming language that the element contains.
-
-The `innerText` property is used to get all the text in the node, and
-is then set to an empty string, which has the effect of emptying the
-node. We loop over all matches of the keyword expression, appending
-the text _between_ them as regular text nodes, and the text matched as
-text nodes wrapping in `<strong>` (bold) elements.
-
 // include_code
 
 [sandbox="highlight"]
@@ -437,10 +421,22 @@ function highlightCode(node, keywords) {
 }
 ----
 
+The function `highlightCode` takes a `<pre>` node and a regular
+expression (with the “global” option turned on) that matches the
+keywords of the programming language that the element contains.
+
+The `innerText` property is used to get all the text in the node, and
+is then set to an empty string, which has the effect of emptying the
+node. We loop over all matches of the keyword expression, appending
+the text _between_ them as regular text nodes, and the text matched as
+text nodes wrapping in `<strong>` (bold) elements.
+
 We can automatically highlight all programs on the page by looping
 over the `<pre>` elements that have a `data-language` attribute, and
 calling `highlightCode` on them with the correct regular expression
 for the language.
+
+// include_code
 
 [sandbox="highlight"]
 [source,javascript]
@@ -449,28 +445,36 @@ var languages = {
   javascript: /\b(function|return|var)\b/g /* … etc */
 };
 
-var pres = document.body.getElementsByTagName("pre");
-for (var i = 0; i < pres.length; i++) {
-  var pre = pres[i];
-  var lang = pre.getAttribute("data-language");
-  if (languages.hasOwnProperty(lang))
-    highlightCode(pre, languages[lang]);
+function highlightAllCode() {
+  var pres = document.body.getElementsByTagName("pre");
+  for (var i = 0; i < pres.length; i++) {
+    var pre = pres[i];
+    var lang = pre.getAttribute("data-language");
+    if (languages.hasOwnProperty(lang))
+      highlightCode(pre, languages[lang]);
+  }
 }
 ----
 
-ifdef::html_target[]
+For example:
 
-(After running this, scroll back up to see the change to the example
-page.)
+[sandbox="highlight"]
+[source,text/html]
+----
+<p>Here it is, the identity function:</p>
+<pre data-language="javascript">
+function id(x) { return x; }
+</pre>
 
-endif::html_target[]
+<script>highlightAllCode();</script>
+----
 
-One commonly used attribute, `class`, is a reserved word in the
-JavaScript language. For historical reasons (some old JavaScript
-implementation could not handle property names that matched keywords
-or reserved words), the element node property used to access this
-attribute is `className`. You can, of course, also access it with
-the `getAttribute` and `setAttribute` methods.
+There is one commonly used attribute, `class`, which is a reserved
+word in the JavaScript language. For historical reasons (some old
+JavaScript implementation could not handle property names that matched
+keywords or reserved words), the property used to access this
+attribute is `className`. You can, of course, also access it with the
+`getAttribute` and `setAttribute` methods.
 
 == Layout ==
 
@@ -481,10 +485,9 @@ These are called _block_ elements. Others, such as links (`<a>`) or
 the `<strong>` element used in the example above, are treated as part
 of the surrounding text. Such elements are called _inline_ elements.
 
-Browsers contain a component that, given a document, builds up a
-layout. It computes a size and position for each element based on its
-type and content. This layout is then used to actually draw the
-document.
+Browsers contain a component that, given a document, computes a
+layout, which gives each element a size and position based on its type
+and content. This layout is then used to actually draw the document.
 
 The size and position of an element can be accessed from JavaScript.
 The `offsetWidth` and `offsetHeight` properties give us the space the
@@ -496,7 +499,7 @@ size of the _inside_ of the element, ignoring border width.
 [source,text/html]
 ----
 <p style="border: 3px solid red">
-  Not crossing the border.
+  Do not cross the border.
 </p>
 
 <script>
@@ -511,8 +514,8 @@ the screen is the `getBoundingClientRect` method. It returns an object
 with `top`, `bottom`, `left`, and `right` properties indicating the
 pixel positions of the sides of the element, relative to the top left
 of the _screen_. If you want them relative to the whole document, you
-must add the scroll position, found under the `pageXOffset` and
-`pageYOffset` variables.
+must add the current scroll position, found under the global
+`pageXOffset` and `pageYOffset` variables.
 
 Laying out a document can be quite a lot of work. In the interest of
 speed, browser engines do not immediately re-layout a document every
@@ -539,7 +542,7 @@ difference. It contains two different programs that build up a line of
 
 <script>
   function time(name, action) {
-    var start = Date.now(); // Current time milliseconds
+    var start = Date.now(); // Current time in milliseconds
     action();
     console.log(name, "took", Date.now() - start, "ms");
   }
@@ -564,9 +567,10 @@ difference. It contains two different programs that build up a line of
 
 == Styling ==
 
-We have seen a number of elements with different behaviors. Some are
-displayed as blocks, others inline. Some add styling, like `<strong>`
-making its content bold, and `<a>` making it blue and underlining it.
+We have seen a number of different elements displaying different
+behavior. Some are displayed as blocks, others inline. Some add
+styling, like `<strong>` making its content bold, and `<a>` making it
+blue and underlining it.
 
 Some of this behavior is strongly tied to the element type. For
 example the way an `<img>` tag shows an image or an `<a>` tag causes
@@ -586,9 +590,9 @@ property (such as `color`) followed by a colon and a value (such as
 `green`). When there are more than one declaration, they must be
 separated by semicolons. For example “`color: red; border: none`”.
 
-There are a lot properties that can be styled. For example, whether an
-element is displayed as a block or inline is controlled by the
-`display` property.
+There are a lot apects that can be influenced with styling. For
+example, whether an element is displayed as a block or inline is
+controlled by the `display` property.
 
 [source,text/html]
 ----
@@ -601,8 +605,8 @@ The “block” tag will end up on its own line, since block elements are
 not displayed inline with the text around them. The “hidden” tag is
 not displayed at all—`display: none` prevents an element from showing
 up on the screen. This allows us to hide elements, in a way that is
-often preferable to removing them from the document entirely. It
-makes it easier to reveal them again later.
+often preferable to removing them from the document entirely, since it
+makes it much easier to reveal them again later.
 
 The style of an element can be manipulated directly by a JavaScript
 program through the node's `style` property. This property holds an
@@ -623,16 +627,16 @@ to change a particular aspect of the element's style.
 </script>
 ----
 
-Some style properties' names contain dashes, for example
-`font-family`. Because such property names are awkward to work with in
-JavaScript (you'd have to say `style["font-family"]`), the
-corresponding property names in the `style` object remove the dashes
-and capitalize the letter that follows them (`style.fontFamily`).
+Some style property names contain dashes, for example `font-family`.
+Because such property names are awkward to work with in JavaScript
+(you'd have to say `style["font-family"]`), the corresponding property
+names in the `style` object remove the dashes and capitalize the
+letter that follows them (`style.fontFamily`).
 
 == Cascading styles ==
 
 The styling system for HTML is called CSS, for _Cascading Style
-Sheets_. A style “sheet” is a set of rules for how to style elements
+Sheets_. A style _sheet_ is a set of rules for how to style elements
 in the document. It can be given inside a `<style>` tag.
 
 [source,text/html]
@@ -647,22 +651,22 @@ in the document. It can be given inside a `<style>` tag.
 ----
 
 The _cascading_ in the name refers to the fact that multiple such
-rules are combined, “overlaid” so to say, to produce the actual style
-for an element. In the example above, the default styling for
-`<strong>` tags, which gives them `font-weight: bold`, is overlaid by
-the rule in the `<style>` tag, which adds `font-style` and `color`.
+rules are combined to produce the actual style for an element. In the
+example above, the default styling for `<strong>` tags, which gives
+them `font-weight: bold`, is overlaid by the rule in the `<style>`
+tag, which adds `font-style` and `color`.
 
-When multiple rules give a value to the same property (for example if
-the rule in the `<style>` tag included `font-weight: normal`,
+When multiple rules define a value for the same property (for example
+if the rule in the `<style>` tag included `font-weight: normal`,
 disagreeing with the default `font-weight` rule), the most recently
-read rule wins out (so in this case, the text would not be bold).
-Styles in a `style` attribute applied directly to the node have the
-highest precedence, and always win.
+read rule gets a higher precedence and wins out (so in this case, the
+text would not be bold). Styles in a `style` attribute applied
+directly to the node have the highest precedence, and always win.
 
 It is possible to target things other than tag names in CSS rules. A
-rule for `.abc` applies to all elements with “abc” in their class
+rule for `.abc` applies to all elements with `abc` in their class
 attribute. A rule for `#xyz` applies to the element with an `id`
-attribute of “xyz”.
+attribute of `xyz`.
 
 [source,text/css]
 ----
@@ -698,14 +702,14 @@ Understanding them is crucial to programming in the browser, but
 properly explaining all properties they support, and the interaction
 between those, would take three or four books itself.
 
-The main reason I introduced “selector” syntax—the notation used in
+The main reason I introduced _selector_ syntax—the notation used in
 style sheets to determine which elements a set of styles apply to—is
 that we can use this same mini-language as a more effective way to
 find DOM elements.
 
 The `querySelectorAll` method (defined both on the `document` object
 and on element nodes) takes a selector string, and returns a pseudo
-array containing all the elements that match.
+array containing all the elements that it matches.
 
 [source,text/html]
 ----
@@ -720,20 +724,21 @@ array containing all the elements that match.
   function count(selector) {
     return document.querySelectorAll(selector).length;
   }
-  console.log(count("p"));           // All p elements
+  console.log(count("p"));           // All <p> elements
   // → 4
   console.log(count(".animal"));     // Class animal
   // → 2
-  console.log(count("p .animal"));   // Animal inside p
+  console.log(count("p .animal"));   // Animal inside of <p>
   // → 2
-  console.log(count("p > .animal")); // Direct child of p
+  console.log(count("p > .animal")); // Direct child of <p>
   // → 1
 </script>
 ----
 
-A similar method is `querySelector` (without the `All` part). This one
-is useful if you want a specific, single element. It will return the
-first matching element, or null if no elements match.
+The `querySelector` (without the `All` part) method works in a similar
+way. This one is useful if you want a specific, single element. It
+will return only the first matching element, or null if no elements
+match.
 
 == Positioning and animating ==
 
@@ -775,9 +780,12 @@ spinning picture of a cat.
 
 First, the picture is centered on the page, and given a `position` of
 `relative`. The script defines a counter (`angle`) to control the
-animation, and every time `animate` is called, compares the last time
-it ran to the current time, and moves the angle, which is measured in
-radians, clockwise 0.001 unit for every millisecond elapsed.
+animation, and every time `animate` is called, it increments this
+counter 0.001 unit for every millisecond elapsed. To determine how
+much time is elapsed, the time for the previous call is stored, and
+compared to the current time. The `angle` is measured in radians
+rather than degrees, which means that a full circle is indicated by
+2π, not 360.
 
 It then computes a `top` and `left` style based on the sine and cosine
 of the current angle, multiplying the first by 20 and the second by
@@ -797,21 +805,41 @@ If we just did this in a loop, the page would freeze and nothing would
 show up on the display. Browsers do not update their display (nor do
 they allow any interaction with the page) while a JavaScript program
 is running. This means we need to somehow arrange for our function to
-be run repeatedly, while still giving the browser room to do other
+be run repeatedly, while still giving the browser time to do other
 things.
 
 The `requestAnimationFrame` function schedules the function it is
 given as argument to be called whenever the browser is ready to
 repaint the screen. Our animation function is passed the current time
-as argument, which it uses to make the animation smooth (if it just
-incremented the angle a fixed amount, it would look jumpy when, for
-example, some other heavy task running on the same computer prevented
-the function from running for a fraction of a second).
+as argument, which it uses to make the animation smooth. If it would
+just increment the angle a fixed amount each step, it would look
+stuttery when, for example, some other heavy task running on the same
+computer prevented the function from running for a fraction of a
+second.
 
 The `animate` function itself again calls `requestAnimationFrame` to
 schedule the next update. When the browser window (or tab) is active,
 this will cause updates to happen at a rate of about 60 per second,
 which tends to produce a nicely smooth animation.
+
+== Summary ==
+
+JavaScript programs may inspect and interfere with the current
+document that a browser is displaying through a data structure called
+the DOM. This data structure represents the browser's model of the
+document, and a JavaScript program may modify it to change the
+document.
+
+The DOM is shaped like a tree, in which elements are arranged
+hierarchically according to the structure of the document. The objects
+representing elements have properties like `parentNode` and
+`childNodes`, which can be used to navigate through this tree.
+
+The way a document is displayed can be influenced by _styling_, both
+by attaching styles to nodes directly, and by defining rules that
+match certain nodes. There are many different properties, such as
+`color` or `display`, that can be set. JavaScript can manipulate an
+element's style directly through its `style` property.
 
 == Exercises ==
 
@@ -865,9 +893,10 @@ ifdef::html_target[]
 [source,text/html]
 ----
 <style>
-  table { border-collapse: collapse; }
+  /* Defines a cleaner look for tables */
+  table  { border-collapse: collapse; }
   td, th { border: 1px solid black; padding: 3px 8px; }
-  th { text-align: left; }
+  th     { text-align: left; }
 </style>
 
 <script>
@@ -939,11 +968,11 @@ This is most easily expressed with a recursive function, similar to
 the `talksAbout` function defined earlier in this chapter.
 
 You could call `byTagname` itself recursively, concatenating the
-resulting arrays to produce the output. More efficient would be to
-define an inner function, which calls itself recursively, and which
+resulting arrays to produce the output. For a more efficient approach,
+define an inner function which calls itself recursively, and which
 has access to an array defined in the outer function to which it can
 add the matching elements it finds. Do not forget to call the inner
-function from the outer function.
+function once from the outer function.
 
 The recursive function must check the node type. In this case, we are
 only interested in node type 1 (`document.ELEMENT_NODE`). For such

@@ -45,7 +45,7 @@ even better. The technology to start implementing this vision was
 developed in the 1980s, and the resulting network is called the
 _Internet_. It has lived up to its promise.
 
-A computer can use this network to spew bits at another computers. For
+A computer can use this network to spew bits at another computer. For
 any effective communication to arise out of this bit-spewing, the
 computers at both ends must know what the bits are supposed to
 represent. The meaning of any given sequence of bits depends entirely

@@ -33,56 +33,13 @@
     win.document.open();
     win.document.write("<!doctype html>");
     win.document.close();
-    var self = win.__sandbox = this;
+
+    var self = this;
+    this.setupEnv();
+
     this.frame.addEventListener("load", function() {
       if (self.frame.style.display != "none") self.resizeFrame();
     });
-
-    win.onerror = function(e, _file, line) {
-      if (!self.output) return;
-      self.output.out("error", [e + (line != null ? " (line " + line + ")" : "")]);
-      return true;
-    };
-    win.console = {
-      log: function() { self.out("log", arguments); },
-      error: function() { self.out("error", arguments); },
-      warn: function() { self.out("warn", arguments); },
-      info: function() { self.out("log", arguments); }
-    };
-
-    win.__setTimeout = win.setTimeout;
-    win.__setInterval = win.setInterval;
-    win.setTimeout = function(code, time) {
-      var val = win.__setTimeout(function() { self.run(code); }, time);
-      self.timeouts.push(val);
-      return val;
-    };
-    win.setInterval = function(code, time) {
-      var val = win.__setInterval(function() { self.run(code); }, time);
-      self.intervals.push(val);
-      return val;
-    };
-    var prefixes = ["webkit", "moz", "ms", "o"];
-    var reqAnimFrame = win.requestAnimationFrame;
-    if (!reqAnimFrame) ["webkit", "moz", "ms", "o"].forEach(function(prefix) {
-      var val = win[prefix + "RequestAnimationFrame"];
-      if (val) {
-        reqAnimFrame = val;
-        win.cancelAnimationFrame = prefix + "CancelAnimationFrame";
-      }
-    });
-    if (!reqAnimFrame) {
-      reqAnimFrame = function(f) { return self.__setTimeout(f, 50); };
-      win.cancelAnimationFrame = win.clearTimeout;
-    }
-    win.requestAnimationFrame = function(f) {
-      var val = reqAnimFrame.call(win, f);
-      if (self.frames.length > 50)
-        self.frames[self.framePos++ % 50] = val;
-      else
-        self.frames.push(val);
-      return val;
-    };
 
     this.startedAt = 0;
     this.extraSecs = 1;
@@ -119,6 +76,7 @@
         this.frame.src = "empty.html";
         var loaded = function() {
           self.frame.removeEventListener("load", loaded);
+          self.setupEnv();
           self.setHTML(code, output, callback);
         };
         this.frame.addEventListener("load", loaded);
@@ -163,6 +121,56 @@
       } else {
         callback();
       }
+    },
+    setupEnv: function() {
+      var win = this.win, self = this;
+      win.__sandbox = this;
+
+      win.onerror = function(e, _file, line) {
+        if (!self.output) return;
+        self.output.out("error", [e + (line != null ? " (line " + line + ")" : "")]);
+        return true;
+      };
+      win.console = {
+        log: function() { self.out("log", arguments); },
+        error: function() { self.out("error", arguments); },
+        warn: function() { self.out("warn", arguments); },
+        info: function() { self.out("log", arguments); }
+      };
+
+      win.__setTimeout = win.setTimeout;
+      win.__setInterval = win.setInterval;
+      win.setTimeout = function(code, time) {
+        var val = win.__setTimeout(function() { self.run(code); }, time);
+        self.timeouts.push(val);
+        return val;
+      };
+      win.setInterval = function(code, time) {
+        var val = win.__setInterval(function() { self.run(code); }, time);
+        self.intervals.push(val);
+        return val;
+      };
+      var prefixes = ["webkit", "moz", "ms", "o"];
+      var reqAnimFrame = win.requestAnimationFrame;
+      if (!reqAnimFrame) ["webkit", "moz", "ms", "o"].forEach(function(prefix) {
+        var val = win[prefix + "RequestAnimationFrame"];
+        if (val) {
+          reqAnimFrame = val;
+          win.cancelAnimationFrame = prefix + "CancelAnimationFrame";
+        }
+      });
+      if (!reqAnimFrame) {
+        reqAnimFrame = function(f) { return self.__setTimeout(f, 50); };
+        win.cancelAnimationFrame = win.clearTimeout;
+      }
+      win.requestAnimationFrame = function(f) {
+        var val = reqAnimFrame.call(win, f);
+        if (self.frames.length > 50)
+          self.frames[self.framePos++ % 50] = val;
+        else
+          self.frames.push(val);
+        return val;
+      };
     },
     resizeFrame: function() {
       this.frame.style.height = Math.max(80, Math.min(this.win.document.body.scrollHeight + 10, 500)) + "px";

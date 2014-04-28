@@ -1,0 +1,452 @@
+:chap_num: 18
+:prev_link: 17_http
+:next_link: 19_FIXME
+:load_files: []
+
+= Forms and Form Fields =
+
+Forms were introduced briefly in the previous chapter as a way to
+_submit_ information entered by the user over HTTP. They were designed
+for a pre-JavaScript Web, and assume that interaction with the server
+always happens by navigating to a new page.
+
+But their elements are part of the DOM like the rest of the page, and
+their DOM elements have a number of extra properties and events, which
+make it possible to inspect and control them through JavaScript
+programs.
+
+== Fields ==
+
+A web form consists of any number of input fields, grouped by a
+`<form>` tag. HTML allows a number of different styles of fields,
+ranging from simple on/off checkboxes to drop-down menus and fields
+for text input. This book won't try to comprehensively discuss all of
+them, but we will start with a rough overview.
+
+The `<input>` tag is used for a lot of field types. Its `type`
+attribute is used to select the field's style. These are some commonly
+used types:
+
+[cols="1,5"]
+|====
+|`text`    |A single-line text field
+|`password`|Same as above, but hides the text that is typed
+|`checkbox`|An on/off switch
+|`radio`   |(Part of) a multiple choice field
+|`file`    |Allows the user to choose a file from their computer
+|====
+
+Form fields do not necessarily have to appear in a `<form>` tag. You
+can put them anywhere in a page. Such fields can not be submitted
+(only a form as a whole can), but when responding to input with
+JavaScript, that is often not what we want anyway.
+
+[source,text/html]
+----
+<p><input type="text" value="abc"> (text)</p>
+<p><input type="password" value="abc"> (password)</p>
+<p><input type="checkbox" checked> (checkbox)</p>
+<p><input type="radio" value="A" name="choice">
+   <input type="radio" value="B" name="choice" checked>
+   <input type="radio" value="C" name="choice"> (radio)</p>
+<p><input type="file" checked> (file)</p>
+----
+
+ifdef::tex_target[]
+
+image::img/form_fields.jpg[alt="Various types of input tags"]
+
+endif::tex_target[]
+
+The JavaScript interface for such elements differs with the type of
+the element. We'll go over each of them later on in the chapter.
+
+Multi-line text fields have their own tag, `<textarea>`, mostly
+because using an attribute to specify a multi-line starting value
+would be awkward. The `<textarea>` requires a matching `</textarea>`
+closing tag, and uses the text between those two, instead of using its
+`value` attribute, as starting text.
+
+[source,text/html]
+----
+<textarea>
+one
+two
+three
+</textarea>
+----
+
+Finally, the `<select>` tag is used to create a field that allows the
+user to select from a number of pre-defined options.
+
+[source,text/html]
+----
+<select>
+  <option>Pancakes</option>
+  <option>Pudding</option>
+  <option>Ice cream</option>
+</select>
+----
+
+ifdef::tex_target[]
+
+image::img/form_select.jpg[alt="A select field"]
+
+endif::tex_target[]
+
+Whenever the value of a form field changes, it fires a `"change"`
+event.
+
+== Focus ==
+
+Unlike most elements in an HTML document, form fields can get
+_keyboard focus_. When clicked—or activated in some other way—they
+become the currently active element, the main recipient of keyboard
+input.
+
+If a document has a text field, text typed will only end up in there
+when it is focused. Other fields respond differently to keyboard
+events, for example a `<select>` menu will try to move to the option
+that contains the text the user typed, and respond to the arrow keys
+by moving its selection up and down.
+
+We can influence focusing from JavaScript with the `focus` and `blur`
+methods. The first moves focus to the DOM element it is called on, the
+second removes focus. The value in `document.activeElement`
+corresponds to the currently focused element.
+
+[source,text/html]
+----
+<input type="text">
+<script>
+  document.querySelector("input").focus();
+  console.log(document.activeElement.tagName);
+  // → INPUT
+  document.querySelector("input").blur();
+  console.log(document.activeElement.tagName);
+  // → BODY
+</script>
+----
+
+For some pages, it is expected that the user will want to start
+interacting with a form field immediately. JavaScript can be used to
+focus this field when the document is loaded, but HTML also provides
+the `autofocus` attribute, which produces the same effect, but lets
+the browser know what we are trying to achieve, and disable the
+behavior when it is not appropriate, such as when the user has focused
+something else.
+
+[source,text/html]
+[focus="yes"]
+----
+<input type="text" autofocus>
+----
+
+Browsers traditionally also allow the user to move the focus through
+the document by pressing the Tab key. We can influence the order in
+which elements receive focus with the `tabindex` attribute. The
+example document below will let focus jump from the text input to the
+“OK” button, rather than going through the help link first.
+
+[source,text/html]
+[focus="yes"]
+----
+<input type="text" tabindex=1> <a href=".">(help)</a>
+<button onclick="console.log('ok')" tabindex=2>OK</button>
+----
+
+By default, most types of HTML elements can not be focused. But you
+can add a `tabindex` property to any element, which will make it
+focusable.
+
+Elements fire a `"focus"` event when they gain focus, and a `"blur"`
+event when they lose it. You can not prevent such a focus change from
+happening by calling `preventDefault` on the event object.
+
+== Disabled fields ==
+
+All form fields can be _disabled_ through their `disabled` attribute,
+which also exists as a property on the element's DOM object. Disabled
+fields can not be focused or changed. They also have a different
+appearance, usually they look grey and faded.
+
+[source,text/html]
+----
+<button>I'm all right</button>
+<button disabled>I'm out</button>
+----
+
+ifdef::tex_target[]
+
+image::img/button_disabled.jpg[alt="A disabled button"]
+
+endif::tex_target[]
+
+When the program is busy processing the action caused by some button
+or other control, for examply making requests to a server, it is often
+a good idea to disable the control until the action finishes, so that
+when the user gets impatient and clicks it again, they don't
+accidentally repeat their action.
+
+== A forms as a whole ==
+
+When a field is contained in a `<form>` element, its DOM element will
+have a property `form` linking back to the form's DOM element. The
+`<form>` element, in turn, has a property `elements` containing an
+array-like collection of the fields inside of it.
+
+The `name` attribute of a form field determines the way its value will
+be identified when the form is submitted. It can also be used as a
+property name when accessing the form's `elements` property, which
+acts both as a pseudo-array (accessable by number) and a map
+(accessable by name).
+
+[source,text/html]
+----
+<form action="example/submit.html">
+  Name: <input type="text" name="name"><br>
+  Password: <input type="password" name="password"><br>
+  <button type="submit">Log in</button>
+</form>
+<script>
+  var form = document.querySelector("form");
+  console.log(form.elements[1].type);
+  // → password
+  console.log(form.elements.password.type);
+  // → password
+  console.log(form.elements.name.form == form);
+  // → true
+</script>
+----
+
+A button with a `type` attribute of `submit` will, when pressed, cause
+the form to be submitted. Pressing Enter in when a form field is
+focused has the same effect.
+
+When this happens, it generates a `"submit"` event. This event can be
+handled by JavaScript, and the handler can even prevent the default
+behavior, which is to navigate to the page indicated by the form's
+`action` attribute, by calling `preventDefault` on the event object.
+
+[source,text/html]
+----
+<form action="example/submit.html">
+  Value: <input type="text" name="value">
+  <button type="submit">Save</button>
+</form>
+<script>
+  var form = document.querySelector("form");
+  form.addEventListener("submit", function(event) {
+    console.log("Saving value", form.elements.value.value);
+    event.preventDefault();
+  });
+</script>
+----
+
+Intercepting `"submit"` events in JavaScript has various uses. We can
+write code to verify that the values the user entered make sense, and
+immediately show an error message instead of submitting the form when
+they don't. Or we can disable the regular way of submitting the form
+entirely, as in the example above, and have out program handle the
+input, possibly using `XMLHttpRequest` to send it over to a server
+without reloading the page.
+
+== Text fields ==
+
+Fields created by `<input>` tags with a type of `text` or `password`,
+as well as `textarea` tags, share a common interface. Their DOM
+elements have a `value` property which holds their current content, as
+a string. To change the field's content, you can set this property to
+a different string.
+
+Their `selectionStart` and `selectionEnd` give us information about
+the cursor and selection in the text. When nothing is selected, these
+two properties hold the same number, indicating the position of the
+cursor, for example 0 to indicate the start of the text, or 10 when it
+is after the 10^th^ character. When part of the field is selected,
+they will differ, giving us the start and end of the selected text.
+Like `value`, these properties may also be written to.
+
+As an example, imagine you are writing an article about Srinivasa
+Ramanujan, but have some trouble spelling his name. The code below
+wires up a `<textarea>` tag with an event handler that, when you press
+F1, inserts the string “Srinivasa Ramanujan” for you.
+
+[source,text/html]
+----
+<textarea style="width: 100%; height: 50px"></textarea>
+<script>
+  var text = document.querySelector("textarea");
+  text.addEventListener("keydown", function(event) {
+    // The key code for F1 happens to 112
+    if (event.keyCode == 112) {
+      replaceSelection(text, "Srinivasa Ramanujan");
+      event.preventDefault();
+    }
+  });
+  function replaceSelection(field, word) {
+    var from = field.selectionStart, to = field.selectionEnd;
+    field.value = field.value.slice(0, from) + word +
+                  field.value.slice(to);
+    // Put the cursor after the word
+    field.selectionStart = field.selectionEnd = 
+      from + word.length;
+  };
+</script>
+----
+
+The `replaceSelection` function replaces the currently selected part
+of a text field's content with the given word, and then moves the
+cursor after that word, so that the user can continue typing.
+
+The `"change"` event for a text field does not fire every time
+something is typed. Rather, it happens when the event loses focus
+after its content was changed. To respond immediately to changes in a
+text field, you should register a handler for the `"input"` event
+instead, which fires for every character typed (or deleted, or
+otherwise manipulated by the user).
+
+The example below shows a text field and a counter showing the current
+length of the text entered.
+
+[source,text/html]
+----
+<input type="text"> length: <span id="length">0</span>
+<script>
+  var text = document.querySelector("input");
+  var output = document.querySelector("#length");
+  text.addEventListener("input", function() {
+    output.innerText = text.value.length;
+  });
+</script>
+----
+
+== Checkboxes and radio buttons ==
+
+A checkbox field is a simple binary toggle. Its value can be extraced
+or changed through its `checked` property, which holds a boolean
+value.
+
+[source,text/html]
+----
+<input type="checkbox" id="purple">
+<label for="purple">Make this page purple</label>
+<script>
+  var checkbox = document.querySelector("#purple");
+  checkbox.addEventListener("change", function() {
+    document.body.style.background =
+      checkbox.checked ? "mediumpurple" : "";
+  });
+</script>
+----
+
+The `<label>` tag is used to associate a piece of text with an input
+field. Its `for` attribute should refer to the `id` of the field.
+Clicking the label will activate the field (focus it, or change it in
+case of a checkbox).
+
+A radio button is similar to a checkbox, but implicitly linked to
+other radio buttons with the same `name` attribute, so that only one
+of them can be active at any time.
+
+[source,text/html]
+----
+Color:
+<input type="radio" name="color" value="mediumpurple"> Purple
+<input type="radio" name="color" value="lightgreen"> Green
+<input type="radio" name="color" value="lightblue"> Blue
+<script>
+  var buttons = document.getElementsByName("color");
+  function setColor(event) {
+    document.body.style.background = event.target.value;
+  }
+  for (var i = 0; i < buttons.length; i++)
+    buttons[i].addEventListener("change", setColor);
+</script>
+----
+
+The `document.getElementsByName` method gives us all elements with a
+given `name` attribute. The example loops over those (with a regular
+`for` loop, not `forEach`, because the returned collection is not a
+real array), and registers an event handler for each element. Remember
+that event objects have a `target` property referring to the element
+that triggered the event. This is often useful in event handlers like
+this one, which will be called on different elements and need some way
+to access the current target.
+
+== Select fields ==
+
+Select fields are conceptually similar to radio buttons—they also
+allow the user to choose from a set of options. But where a radio
+button puts the layout of the options under our control, the
+appearance of a `<select>` tag is determined by the browser.
+
+Select fields also have a variant that is more akin to a list of
+checkboxes, rather than radio boxes. When given the `multiple`
+attribute, a `<select>` tag will allow the user to select any number
+of options, rather than just a single option.
+
+[source,text/html]
+----
+<select multiple>
+  <option>Pancakes</option>
+  <option>Pudding</option>
+  <option>Ice cream</option>
+</select>
+----
+
+ifdef::tex_target[]
+
+image::img/form_multi_select.jpg[alt="A multiple select field"]
+
+endif::tex_target[]
+
+This will, in most browsers, show up differently than a non-`multiple`
+select field, which is commonly drawn as a _drop-down_ control that
+only shows the options when you _open_ it. The `size` attribute to the
+`<select>` tag allows explicit control over this—it is used to set the
+amount of options that are visible at the same time. For example
+setting it to `"3"` will make the field show three lines, whether it
+has the `multiple` option enabled or not.
+
+Each `<option>` tag has a value. This value can be defined with a
+`value` attribute, but when that is not given, the text inside the
+option will count as the option's value. The `value` property of a
+`<select>` element reflects the currently selected option. For a
+`multiple` field, though, this property doesn't mean much, since it
+will only give the value of _one_ of the currently selected options.
+
+The `<option>` tags for a `<select>` field can be accessed as an
+array-like object through its `options` property. Each option has a
+property `selected`, which indicates whether that option is currently
+selected. It can also be written to.
+
+The example below extracts the selected values from a `multiple`
+select field, and uses them to compose a binary number from individual
+bits. Hold control (or command on OS X) to select multiple options.
+
+[source,text/html]
+----
+<select multiple>
+  <option value="1">0001</option>
+  <option value="2">0010</option>
+  <option value="4">0100</option>
+  <option value="8">1000</option>
+</select> = <span id="output">0</span>
+<script>
+  var select = document.querySelector("select");
+  var output = document.querySelector("#output");
+  select.addEventListener("change", function() {
+    var number = 0;
+    for (var i = 0; i < select.options.length; i++) {
+      var option = select.options[i];
+      if (option.selected)
+        number += Number(option.value);
+    }
+    output.innerText = number;
+  });
+</script>
+----
+
+== File fields ==
+

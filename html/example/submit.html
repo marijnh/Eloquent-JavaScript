@@ -1,0 +1,25 @@
+<!doctype html>
+<title>Example form target</title>
+
+<body style="font-family: arial">
+
+<p>You submitted:</p>
+
+<dl></dl>
+
+<script>
+  function dec(str) {
+    return decodeURIComponent(str.replace(/\+/g, " "));
+  }
+
+  var dl = document.querySelector("dl");
+  var params = document.location.search.slice(1).split("&");
+  for (var i = 0; i < params.length; i++) {
+    var param = params[i].split("=");
+    var name = dec(param[0]), val = dec(param[1]);
+    dl.appendChild(document.createElement("dt")).innerText = name;
+    dl.appendChild(document.createElement("dd")).innerText = val || "(nothing)";
+  }
+</script>
+
+</body>

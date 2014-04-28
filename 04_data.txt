@@ -563,7 +563,7 @@ whether an entry contains a given event. Arrays have an `indexOf`
 method that tries to find a given value (in this case, the event
 name) in the array and returns the index at which it was found, or -1
 if it wasn't found. So if the call to `indexOf` doesn't return
--1, then we know the event waas found in the
+-1, then we know the event was found in the
 entry.
 
 The body of the loop in `tableFor` figures out which

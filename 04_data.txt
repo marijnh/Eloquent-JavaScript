@@ -616,7 +616,7 @@ about those.
 
 (((for/in loop)))What if we want to find all the events for which we 
 have stored a coefficient? The properties don't form a predictable series, like they
-would in an array. JavaScript provides a loop construct specifically
+would do in an array. JavaScript provides a loop construct specifically
 for going over the properties of an object. It looks a little like a
 normal `for` loop, but distinguishes itself by the use of the word
 `in`.
@@ -735,7 +735,7 @@ circus, where he performs as _The Incredible Squirrelman_ by stuffing his
 mouth with peanut butter before every show. One day, fed up with this
 pitiful existence, Jaques fails to change back into his
 human form, hops through a crack in the circus tent, and vanishes
-into the forest. He is never seen again.
+into the forest. He has never seen again.
 
 == Further arrayology ==
 

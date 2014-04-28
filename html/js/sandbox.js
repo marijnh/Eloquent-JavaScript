@@ -34,6 +34,9 @@
     win.document.write("<!doctype html>");
     win.document.close();
     var self = win.__sandbox = this;
+    this.frame.addEventListener("load", function() {
+      if (self.frame.style.display != "none") self.resizeFrame();
+    });
 
     win.onerror = function(e, _file, line) {
       if (!self.output) return;

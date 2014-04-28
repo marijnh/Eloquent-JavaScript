@@ -311,7 +311,7 @@ with all their arms in a neat row, labeled with numbers.
 
 image::img/octopus-array.jpg[alt="Artist's representation of an array"]
 
-So we can represent Jacques’ journal as an array of
+So we can represent Jaques’ journal as an array of
 objects:
 
 [source,javascript]
@@ -494,7 +494,7 @@ to the squirrel variable and the second digit
 refers to event variable. 
 For example, the binary number `10`
 refers to the case where the event (say, "pizza") is true, but
-Jacques didn't turn into a squirrel.
+Jaques didn't turn into a squirrel.
 And since binary `10` is 2 in decimal notation, we will store this 
 value in the array at index 2.
 
@@ -926,7 +926,7 @@ argumentCounter("Straw man", "Tautology", "Ad hominem");
 take any number of arguments, like `console.log`. These typically
 loop over the values in their `arguments` object. They can be used to
 create very pleasant interfaces. For example, remember how we created 
-the entries to Jaques”s journal:
+the entries to Jaques’ journal:
 
 [source,javascript]
 ----

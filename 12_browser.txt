@@ -45,7 +45,7 @@ even better. The technology to start implementing this vision was
 developed in the 1980s, and the resulting network is called the
 _Internet_. It has lived up to its promise.
 
-A computer can use this network to spew bits at another computers. For
+A computer can use this network to spew bits at another computer. For
 any effective communication to arise out of this bit-spewing, the
 computers at both ends must know what the bits are supposed to
 represent. The meaning of any given sequence of bits depends entirely
@@ -176,7 +176,7 @@ were in use in the past.
 HTML documents have a head and a body. The head contains information
 _about_ the document, and the body contains the document itself. So in
 this case, we first declare that the title of this document is “My
-home page”, and then give a document containing of a heading (`<h1>`,
+home page”, and then give a document containing a heading (`<h1>`,
 “heading 1”, as opposed to more minor headings, denoted `<h2>` to
 `<h6>`) and two paragraphs (`<p>`).
 
@@ -359,7 +359,7 @@ and more solid engineering practices. Microsoft, seeing its market
 share crumble, came around and adopted these attitudes. If you are
 starting to learn web development today, consider yourself lucky. The
 latest versions of the major browsers behave quite uniformly, and have
-relatively little bugs.
+relatively few bugs.
 
 Which is not to say that the situation is perfect just yet. Some of
 the people using the Web are, for reasons of inertia or corporate

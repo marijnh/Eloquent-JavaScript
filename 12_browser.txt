@@ -176,7 +176,7 @@ were in use in the past.
 HTML documents have a head and a body. The head contains information
 _about_ the document, and the body contains the document itself. So in
 this case, we first declare that the title of this document is “My
-home page”, and then give a document containing of a heading (`<h1>`,
+home page”, and then give a document consisting of a heading (`<h1>`,
 “heading 1”, as opposed to more minor headings, denoted `<h2>` to
 `<h6>`) and two paragraphs (`<p>`).
 

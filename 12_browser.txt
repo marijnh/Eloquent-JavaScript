@@ -138,7 +138,7 @@ to retrieve and display it. First, it has to find out what address
 make a connection to the server at that address, and ask it for the
 file _/12_browser.html_.
 
-We will take a closer look at the HTTP protocol in Chapter 18.
+We will take a closer look at the HTTP protocol in Chapter 17.
 
 == HTML ==
 

@@ -138,8 +138,8 @@
 
       this.frame.style.height = "80px";
       this.resizeFrame();
+      if (output) this.output = output;
       if (scriptTags.length) {
-        if (output) this.output = output;
         this.startedAt = Date.now();
         this.extraSecs = 1;
         this.win.__c = 0;

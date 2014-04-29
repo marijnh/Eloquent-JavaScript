@@ -159,10 +159,6 @@ By default, most types of HTML elements can not be focused. But you
 can add a `tabindex` property to any element, which will make it
 focusable.
 
-Elements fire a `"focus"` event when they gain focus, and a `"blur"`
-event when they lose it. You can not prevent such a focus change from
-happening by calling `preventDefault` on the event object.
-
 == Disabled fields ==
 
 All form fields can be _disabled_ through their `disabled` attribute,
@@ -423,7 +419,7 @@ selected. It can also be written to.
 
 The example below extracts the selected values from a `multiple`
 select field, and uses them to compose a binary number from individual
-bits. Hold control (or command on OS X) to select multiple options.
+bits. Hold control (or command on Mac) to select multiple options.
 
 [source,text/html]
 ----

@@ -15,7 +15,7 @@ offered.
 I wouldn't wish a career in game programming on anyone—much like in
 the music industry, the discrepancy between the many eager young
 people wanting to work in it and the actual demand for such people
-creates a rather unhealthy atmosphere. But writing games for fun can
+creates a rather exploitative atmosphere. But writing games for fun can
 be very rewarding. A game world, even when simple, is still a world.
 Who doesn't like creating worlds?
 
@@ -26,8 +26,8 @@ and jumping onto and over things.
 
 == The game ==
 
-Our game will be roughly based on “http://www.lessmilk.com/10[Dark
-Blue]”!!tex (_www.lessmilk.com/10_)!! by Thomas Palef. I chose
+Our game will be roughly based on “http://www.lessmilk.com/games/10[Dark
+Blue]”!!tex (_www.lessmilk.com/games/10_)!! by Thomas Palef. I chose
 this game because it is extremely minimal (and thus implementable
 without _too_ much code), yet entertaining. It looks like this:
 
@@ -40,21 +40,19 @@ yellow boxes (coins) while avoiding the red stuff (lava?). A level is
 completed when all coins have been collected.
 
 The player can walk around with the left and right arrow keys, and
-jump with the up arrow. And jumping is something these game
-protagonists know how to do, reaching many times their own height,
-with ease. They are also able to change direction in mid-air. Though
-this may not be entirely realistic, it helps give the player a feeling
-of being in direct control of the on-screen avator.
+jump with the up arrow. Jumping is the main occupation of this game
+character. It can reach many times their own height, and is able to
+change direction in mid-air. Though this may not be entirely
+realistic, it helps give the player a feeling of being in direct
+control of the on-screen avator.
 
-The game's elements consist of a fixed background, laid out like a
-grid. Each field on this grid is either empty, solid, or lava.
-
-Overlaid on this background are the moving and changeable elements,
-the player, coins, pieces of lava that move. Unlike the artificial
+The game's consist of a fixed background, laid out like a grid, with
+the moving elements overlaid on that. Each field on the background
+grid is either empty, solid, or lava. The moving elements are the
+player, coins, and pieces of lava that move. Unlike the artificial
 life simulation from Chapter 7, the positions of these elements are
 not constrained to the grid—their coordinates may be fractional,
-allowing smooth motion (as opposed to jumpy “one field at a time”
-motion).
+allowing smooth motion.
 
 == The technology ==
 
@@ -75,12 +73,13 @@ without noticeable delay, efficiency is an important concern. Though
 the DOM was not originally designed for high-performance graphics, it
 is surprisingly effective in that area. We saw some simple animations
 in Chapter 13. On a modern machine, drawing a simple game like this
-one will not require us to worry about performance.
+one will not require us to do anything special to get acceptable
+performance.
 
-In the next chapte, we will explore another browser technology, the
+In the next chapter, we will explore another browser technology, the
 `<canvas>` tag, which provides a way to draw graphics that is more
 similar to traditional graphics interfaces—working in terms of shapes
-and pixels, rather than DOM nodes.
+and pixels, rather than DOM elements.
 
 == Levels ==
 
@@ -118,15 +117,15 @@ that the grid for these positions will be set to contain empty space,
 and an additional data structure will be used to track the position of
 these non-fixed elements.
 
-We will also support “|” for vertically moving lava, and “v” for
-“dripping” lava—vertically moving blocks of lava that don't bounce
-back and forth, but move down and jump back to their start position
-when they hit the floor.
+We will also support a pipe character (“|”) for vertically moving
+lava, and “v” for _dripping_ lava—vertically moving blocks of lava
+that don't bounce back and forth, but move down and jump back to their
+start position when they hit the floor.
 
 A whole game will be represented by an array of level arrays, though
 which the player must progress one after the other, by collecting all
 the coins in each. When the player touches lava, the current level is
-simple restored to its starting position, and they can try again.
+simply restored to its starting position, and they can try again.
 
 == Reading a level ==
 
@@ -167,24 +166,24 @@ function Level(plan) {
 ----
 
 A level stores its width and height, along with two arrays—one for the
-grid, and one for the “actors”, the dynamic elements. The grid is
+grid, and one for the _actors_, the dynamic elements. The grid is
 represented as an array of arrays, where each of the inner arrays
-represents a horizontal line of the grid, and holds either null, for
-empty squares, or a string indicating the type of the square—either
-`"wall"` or `"lava"`.
+represents a horizontal line of the grid, and each square contains
+either null, for empty squares, or a string indicating the type of the
+square—`"wall"` or `"lava"`.
 
 The actors array holds a number of objects that track the current
-position of the dynamic elements in the level. Each of these is
-expected to have a `pos` property giving its position (the coordinates
-of its top left corner), a `size` property giving its size, and a
-`type` property that holds a string that identifies the element
-(“lava”, “coin”, or “player”).
+position and state of the dynamic elements in the level. Each of these
+is expected to have a `pos` property giving its position (the
+coordinates of its top left corner), a `size` property giving its
+size, and a `type` property that holds a string that identifies the
+element (`"lava"`, `"coin"`, or `"player"`).
 
 After building up the grid, we use the `filter` method to find the
 player actor object, and store it in a property of the level. The
 `status` and `finishDelay` properties will be used when the player
 dies or wins, to show a simple animation rather than immediately
-resetting or advancing the level (which would look silly). This method
+resetting or advancing the level (which would look cheap). This method
 can be used to determine whether a level is finished:
 
 // include_code
@@ -226,8 +225,8 @@ Vector.prototype.times = function(factor) {
 The `times` method scales a vector by a given factor, and will be
 useful when we need to multiply a speed vector by a time interval.
 
-The `actorChars` was used by the `Level` constructor to associate
-characters with constructor functions. It looks like this:
+The `actorChars` object was used by the `Level` constructor to
+associate characters with constructor functions. It looks like this:
 
 // include_code
 
@@ -266,9 +265,9 @@ state based on the character it was based on. Moving lava will simply
 move along at its given speed until it hits an obstacle. At that
 point, if it has a `repeatPos` property, it will jump back to its
 start position (dripping). If it does not, it will invert its speed
-and continue merrily on (bouncing). The constructor only sets up the
-necessary properties—the method that does the actual moving will be
-written later on.
+and continue in the other direction (bouncing). The constructor only
+sets up the necessary properties—the method that does the actual
+moving will be written later on.
 
 // include_code
 
@@ -293,8 +292,8 @@ Lava.prototype.type = "lava";
 place. But to liven up the game a little, they are given a “wobble”, a
 slight vertical motion back and forth. To track this, a coin object
 stores both a current position and a base position (around which the
-wobble happens), and has a `wobble` property that tracks its current
-position.
+wobble happens), as well as a `wobble` property that tracks the phase
+of the bouncing motion.
 
 // include_code
 
@@ -308,12 +307,12 @@ function Coin(pos) {
 Coin.prototype.type = "coin";
 ----
 
-To prevent all coins moving up and down synchronously, the starting
-phase of each coin is randomized. We will be using `Math.sin` (a sine
-wave) to model the motion, so we multiply the value returned by
-`Math.random` by 2π, which causes it to take a random position on that
-wave. If none of this makes sense to you, don't worry, it is not
-necessary to understand it to follow the chapter.
+To avoid a situation where all coins move up and down synchronously,
+the starting phase of each coin is randomized. We will be using
+`Math.sin` (a sine wave) to model the motion, so we multiply the value
+returned by `Math.random` by 2π, which causes it to take a random
+position on that wave. If none of this makes sense to you, don't
+worry, it is not necessary to understand it to follow the chapter.
 
 We now have all the parts needed to initialize a level.
 
@@ -344,13 +343,13 @@ you make a change to one part of the system, you still have to worry
 about the way it impacts the other parts, because their interfaces
 wouldn't cover the new situation.
 
-Some “cutting points” in a system lend themselves very well to
+Some _cutting points_ in a system lend themselves very well to
 separation through rigorous interfaces , others don't. Trying to
 encapsulate something that isn't a suitable boundary is a sure way to
 waste a lot of energy. When you are making this mistake, you'll
 usually notice that your interfaces are getting awkwardly large and
-detailed, and that they need to be updated a lot to cover new
-situations.
+detailed, and that they need to be modified often, as new requirements
+come up.
 
 There is one thing that we _will_ encapsulate in this chapter, and
 that is the drawing subsystem. The reason for this is that we will
@@ -360,15 +359,15 @@ game program there, but plug in a new display module.
 
 == Drawing ==
 
-The encapsulation of the drawing code is done by defining a “display”
+The encapsulation of the drawing code is done by defining a _display_
 object, which displays a given level. The display type we define in
-this chapter is called `DOMDisplay`, because is uses simple DOM nodes
-to show the level.
+this chapter is called `DOMDisplay`, because it uses simple DOM
+elements to show the level.
 
-We will be using a sheet to set the actual colors and other fixed
-properties of the nodes that make up the game. It would also be
-possible to directly assign to the nodes' `style` property when we
-create them, but that would produce rather ugly programs.
+We will be using a style sheet to set the actual colors and other
+fixed properties of the elements that make up the game. It would also
+be possible to directly assign to the elements' `style` property when
+we create them, but that would produce rather verbose programs.
 
 The following helper function provides a short way to create an
 element and give it a class.
@@ -384,7 +383,7 @@ function element(name, className) {
 }
 ----
 
-A display is created by giving it a parent node to which it should
+A display is created by giving it a parent element to which it should
 append itself, and a level object.
 
 // include_code
@@ -396,17 +395,19 @@ function DOMDisplay(parent, level) {
   this.level = level;
 
   this.wrap.appendChild(this.drawBackground());
-  this.actorNode = null;
+  this.actorLayer = null;
   this.drawFrame();
 }
 ----
 
-We used the fact that `appendChild` returns the appended node to put the 
+We used the fact that `appendChild` returns the appended element to
+create the wrapper element and store it in the `wrap` property in a
+single statement.
 
 The level's background, which never changes, is drawn once. The actors
-are redrawn every time the display is updated. The `actorNode`
-property will be used by `drawFrame` to track the node that holds the
-actors, so that they can be easily removed and replaced.
+are redrawn every time the display is updated. The `actorLayer`
+property will be used by `drawFrame` to track the element that holds
+the actors, so that they can be easily removed and replaced.
 
 Our coordinates and sizes are tracked in units relative to the grid
 size, where a size or distance of one means one grid unit. When
@@ -446,29 +447,29 @@ table look like the background we want:
 ----
 .background    { background: #34a6fb;
                  table-layout: fixed;
-                 border-spacing: 0; }
-.background td { padding: 0; }
+                 border-spacing: 0;   }
+.background td { padding: 0;          }
 .lava          { background: #ff6363; }
-.wall          { background: white; }
+.wall          { background: white;   }
 ----
 
 Some of these (`table-layout`, `border-spacing`, and `padding`) are
 simply used to suppress unwanted default behavior. We don't want space
 between the table cells, or padding inside them, and we set the
 table's algorithm for computing the width of its columns to a simple,
-predictable variant (the way tables are laid out, in HTML, is a very
+predictable variant (the way tables are laid out in HTML is a very
 complicated thing).
 
 The `background` rules set background colors. CSS allows colors to be
 specified both as words (`white`) and with a rather cryptic `#RRGGBB`
-format, where the hash is followed by pairs of hexadecimal (base-16)
-digits giving first the red, then the green, and then the blue
-components of the color, given as numbers between zero and `ff` (255).
+format, where the hash sign is followed by pairs of hexadecimal
+(base-16) digits giving first the red, then the green, and then the
+blue components of the color, as numbers between zero and `ff` (255).
 So in `#34a6fb` the the red component is hexadecimal `34` (3 × 16 + 4
-equals decimal 52), green is `a6` (10 × 16 + 6 = 166), and blue `fb`
-(15 × 16 + 11 = 251). Since the blue component is the largest, the
-resulting color will be blueish. You can see that in the `.lava` rule,
-the first part of the number (red) is the largest.
+equals decimal 52), green is `a6` (166), and blue `fb` (251). Since
+the blue component is the largest, the resulting color will be
+blueish. You can see that in the `.lava` rule, the first part of the
+number (red) is the largest.
 
 Drawing the actors is quite straightforward:
 
@@ -494,34 +495,35 @@ based on the actor's properties, multiplying each value by the display
 `scale`.
 
 Giving an element multiple classes is done by separating the class
-names with spaces. This is the relevant CSS code. The `actor` class
-gives the actors their absolute position, and their type name is used
-to give them a color (lava actors use the same type as lava grid
+names with spaces. Below the relevant CSS code is shown. The `actor`
+class gives the actors their absolute position, and their type name is
+used to give them a color (lava actors use the same class as lava grid
 squares, which we defined earlier):
 
 [source,text/css]
 ----
-.actor  { position: absolute; }
+.actor  { position: absolute;  }
 .coin   { background: #f1e559; }
 .player { background: #404040; }
 ----
 
 To update the display when the world changes, the `drawFrame` method
 removes the old actor graphics, if any, and redraws them in their new
-positions. It may be tempting to try and reuse the DOM nodes, but that
-would cause unneccesary interdependency between the level code and the
-drawing code—we'd need to have a way to associate actors with nodes,
-and the drawing code must know when to remove nodes when their actors
-vanish. For a simple game like this, redrawing is fast enough.
+positions. It may be tempting to try and reuse the DOM elements for
+actors, but that would seriously increase the way in which the display
+code and the simulation code are tangled up. We'd need to have a way
+to associate actors with elements, and the drawing code must know when
+to remove elements when their actors vanish. For a simple game like
+this, redrawing is fast enough.
 
 // include_code
 
 [source,javascript]
 ----
 DOMDisplay.prototype.drawFrame = function() {
-  if (this.actorNode)
-    this.wrap.removeChild(this.actorNode);
-  this.actorNode = this.wrap.appendChild(this.drawActors());
+  if (this.actorLayer)
+    this.wrap.removeChild(this.actorLayer);
+  this.actorLayer = this.wrap.appendChild(this.drawActors());
   this.wrap.className = "game " + (this.level.status || "");
   this.scrollPlayerIntoView();
 };
@@ -530,7 +532,7 @@ DOMDisplay.prototype.drawFrame = function() {
 By adding the level's current status as a class name to the wrapper,
 we can style the player actor slightly differently when the game is
 won or lost. (We could also style other elements, like the background,
-differently based on a class in one of their ancestor nodes. CSS is
+differently based on a class in one of their ancestor elements. CSS is
 convenient like that.)
 
 [source,text/css]
@@ -543,7 +545,7 @@ convenient like that.)
 }
 ----
 
-After touching fire, the player's color turns dark red, hopefully
+After touching lava, the player's color turns dark red, hopefully
 suggesting scorching. When the last coin has been collected, we use a
 two white box shadows, one to the top left and one to the top right,
 to create a white halo effect.
@@ -552,10 +554,10 @@ We don't assume that levels fit into the viewport. That is why the
 `scrollPlayerIntoView` call is needed—it ensures that, if the level is
 sticking out outside of the viewport, we scroll that viewport to make
 sure the player is near its center. The following CSS gives the game's
-wrapping DOM node a maximum size, and ensures that anything that
+wrapping DOM element a maximum size, and ensures that anything that
 sticks out is not displayed. We also give it a relative position, so
-that the absolutely positioned actors are positioned relative to its
-top left corner.
+that the actors inside of it are positioned relative to its top left
+corner.
 
 [source,text/css]
 ----
@@ -568,7 +570,7 @@ top left corner.
 ----
 
 In the `scrollPlayerIntoView` method, we find the player's position,
-and update the wrapping node's scroll position, by manipulating it's
+and update the wrapping element's scroll position, by manipulating it's
 `scrollLeft` and `scrollTop` properties, when the player is too close
 to the edge.
 
@@ -585,8 +587,9 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
   var left = this.wrap.scrollLeft, right = left + width;
   var top = this.wrap.scrollTop, bottom = top + height;
 
-  var p = this.level.player;
-  var center = p.pos.plus(p.size.times(0.5)).times(scale);
+  var player = this.level.player;
+  var center = player.pos.plus(player.size.times(0.5))
+                 .times(scale);
 
   if (center.x < left + margin)
     this.wrap.scrollLeft = center.x - margin;
@@ -601,10 +604,10 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
 
 The way the player's center is found shows how the methods on our
 `Vector` type allow rather natural-looking computations to be done
-with objects. To find the center, we add the player's position (its
-top left corner) and half its size. That is the center in level
-coordinates, but we need it in pixel coordinates, so we then multiply
-the resulting vector by our display scale.
+with objects. To find the actor's center, we add its position (its top
+left corner) half its size. That is the center in level coordinates,
+but we need it in pixel coordinates, so we then multiply the resulting
+vector by our display scale.
 
 Next, a series of checks verify that the player position isn't outside
 of the allowed range. Note that sometimes this will set nonsense
@@ -618,8 +621,8 @@ effect. As you are jumping, the view will constantly shift up and
 down. Having it move up as you jump close to the edge, and then stay
 there, is more pleasant.
 
-Finally, we'll need a way to clear a displayed level, for when we
-want to move to another level.
+Finally, we'll need a way to clear a displayed level, to be used when
+the game moves on to the next level or resets a level.
 
 // include_code
 
@@ -649,7 +652,7 @@ image::img/game_simpleLevel.png[alt="Our level rendered"]
 endif::tex_target[]
 
 The `<link>` tag, when used with `rel="stylesheet"`, is a way to load
-a CSS file into a page. In this case, `game.css` contains the styles
+a CSS file into a page. The file `game.css` contains the styles
 necessary for our game.
 
 == Motion and collision ==
@@ -663,35 +666,34 @@ seconds).
 
 That is easy. The difficult part is to deal with the interactions
 between the elements. When the player hits a wall or floor, they
-should not simply move through it. The game must notice when the
-planned motion causes an object to hit another object, and respond
+should not simply move through it. The game must notice when a given
+motion causes an object to hit another object, and respond
 accordingly—for walls, the motion must be stopped, for coins, the coin
 collected, and so on.
 
 Solving this in the general case is quite a big undertaking. You can
 find libraries, usually called _physics engines_, that simulate
-interaction between physical objects, in two or three dimensions.
-We'll take a more modest approach in this chapter, and only handle a
-very narrow set of collisions between boxes, in a rather simplistic
-way.
+interaction between physical objects in two or three dimensions. We'll
+take a more modest approach in this chapter, handling only collisions
+between boxes, and handling them in a rather simplistic way.
 
-That is, before moving the player or a block of lava, we test whether
-the motion would take it inside of a non-empty part of the background.
-If it does, we simply cancel the motion altogether. The response to
-such a collision depends on the type of actor—the player will stop,
-whereas a lava block will bounce back.
+Before moving the player or a block of lava, we test whether the
+motion would take it inside of a non-empty part of the background. If
+it does, we simply cancel the motion altogether. The response to such
+a collision depends on the type of actor—the player will stop, whereas
+a lava block will bounce back.
 
 This approach requires our time steps to be rather small, since it
 will cause motion to stop before the objects actually touch. If the
 time steps, and thus the motion steps, are too big, the player would
 end up hovering a noticeable distance above the ground. Another
 approach, arguably better but more complicated, would be to find the
-exact collision spot, and move there. Since this introduces quite a
-bit of complexity, we will stick to the simple approach and hide its
-problems by ensuring the animation proceeds in small steps.
+exact collision spot, and move there. We will take the simple
+approach, and hide its problems by ensuring the animation proceeds in
+small steps.
 
 This method tells us whether a rectangle (specified by a position and
-a size) overlaps with any non-empty space from the background grid:
+a size) overlaps with any non-empty space on the background grid:
 
 // include_code
 
@@ -726,13 +728,14 @@ image::img/game-grid.svg[alt="Finding collisions on a grid"]
 
 If the body sticks out of the level, we return a predetermined
 obstacle type—`"wall"` for the sides and top, `"lava"` for the bottom.
-Otherwise, we loop over the block of grid squares, and return the
-first non-empty content type we find.
+When it is fully inside of the grid, we loop over the block of grid
+squares found by rounding the coordinates, and return the content of
+the first non-empty square we find.
 
 Collisions between the player and other dynamic actors (coins, moving
-lava) are handled _after_ the player moved. When the motion would take
-them into the other actor, the appropriate effect (collecting the
-coin, or dying) is activated.
+lava) are handled _after_ the player moved. When the motion has taken
+it into another other actor, the appropriate effect—collecting a
+coin or dying—is activated.
 
 This method scans through the array of actors, looking for an actor
 that overlaps the one given as an argument, without actually being the
@@ -814,11 +817,11 @@ It computes a new position by adding the product of the time step and
 its current speed to its old position. If no obstacle blocks that new
 position, it moves there. If there is an obstacle, the behavior
 depends on the type of moving lava this is—dripping lava has a
-`repeatPos` property, to which it skips back when it hits something.
+`repeatPos` property, to which it jumps back when it hits something.
 Bouncing lava simply inverts its speed (multiplies it by -1) in order
 to start moving in the other direction.
 
-Coins need to update their wobble in their `act` method:
+Coins need to update their wobble phase in their `act` method:
 
 // include_code
 
@@ -907,8 +910,8 @@ We then check for obstacles again. If we are hitting an obstacle,
 there are two possible outcomes. When the up arrow is pressed, _and_
 we are moving down (meaning the thing we hit is below us), the speed
 is set to a relatively large, negative value. This causes the player
-to jump. If that is not the case, we simply hit something, and the
-speed is reset to zero.
+to jump. If that is not the case, we simply bumped into something, and
+the speed is reset to zero.
 
 The actual `act` method looks like this:
 
@@ -977,7 +980,7 @@ inserted into the array at the given position, replacing the removed
 elements.
 
 That gives us a level that can actually be animated. All that's
-missing now is the code that “drives” the animation.
+missing now is the code that _drives_ the animation.
 
 == Tracking keys ==
 
@@ -987,8 +990,7 @@ continue happening as long as they are pressed.
 
 We need to set up a key handler that stores the current state of the
 left, right, and up keys. We will also want to call `preventDefault`
-on events for those keys, so that they don't end up scrolling the
-page.
+for those keys, so that they don't end up scrolling the page.
 
 The function below, when given an object with key codes as property
 names and key names as value, will return an object that tracks the
@@ -1025,15 +1027,15 @@ key state should be updated to true (`"keydown"`) or false
 == Running the game ==
 
 The `requestAnimationFrame` function, which we saw in Chapter 13,
-works well for animating a game. But its interface is quite
-primitive—using it requires us to track the last time we saw
-ourselves, and re-call the `requestAnimationFrame` function after
-every frame.
+provides a good way to animate a game. But its interface is quite
+primitive—using it requires us to track the last time value we saw,
+and re-call the `requestAnimationFrame` function after every frame.
 
-Here is a helper function that wraps those boring parts, and allows us
-to simply call `runAnimation`, giving it a function that expects a
-time difference as argument and draws a single frame. When the frame
-function returns (the exact value) `false`, the animation stops.
+Here is a helper function that wraps those boring parts in a
+convenient interface, and allows us to simply call `runAnimation`,
+giving it a function that expects a time difference as argument and
+draws a single frame. When the frame function returns the value
+`false`, the animation stops.
 
 // include_code
 
@@ -1117,22 +1119,24 @@ function runGame(plans, Display) {
 }
 ----
 
-These function show a peculiar style of programming. Both
+These functions show a peculiar style of programming. Both
 `runAnimation` and `runLevel` are higher-order functions, but not in
 the style we saw in Chapter 5. The function argument is used to
 arrange things to happen at some time in the future, and neither of
 the functions returns anything useful. Their task is, in a way, to
-schedule actions. Wrapping these actions in functions is used to be
-able to store them, so that they can be called at the right moment.
+schedule actions. Wrapping these actions in functions gives us a way
+to store them as a value, so that they can be called at the right
+moment.
 
 This programming style is usually called _asynchronous_ programming.
 Event handling is also an instance of it, and we will see much more of
 it when working with tasks that can take an arbitrary amount of time,
-such as network requests in Chapter 17 (FIXME), and in- and output in
-general in Chapter 21 (FIXME).
+such as network requests in Chapter 17, and in- and output in general
+in Chapter 21 (FIXME).
 
 There is a set of level plans available in the `GAME_LEVELS` variable
-!!tex (downloadable from `eloquentjavascript.net/code`)!!. This 
+!!tex (downloadable from `eloquentjavascript.net/code`)!!. This page
+feeds them to `runGame`, starting an actual game:
 
 [sandbox="null"]
 [focus="yes"]
@@ -1147,7 +1151,7 @@ There is a set of level plans available in the `GAME_LEVELS` variable
 
 ifdef::html_target[]
 
-See if you can beat those. I had a lot of fun building them.
+See if you can beat those. I had quite a lot of fun building them.
 
 endif::html_target[]
 
@@ -1155,9 +1159,9 @@ endif::html_target[]
 
 === Game over ===
 
-The tradition of platform games also demands that a player starts with
-a limited number of “lives”, and each time they die, one life is
-subtraced. When out of lives, the game restarts from the beginning.
+It is tradition for platform games to have the player start with a
+limited number of _lives_, and subtract one life each time they die.
+When out of lives, the game restarts from the beginning.
 
 Adjust `runGame` to implement lives (have the player start with 3).
 
@@ -1198,9 +1202,9 @@ lives in `runGame`, and is thus visible by the `startLevel` closure.
 
 Another approach, which fits nicely with spirit of the rest of the
 function, would be to add a second argument to `startLevel` that gives
-the amount of lives. Having the “state” of a system stored in the
-arguments to a function, and calling that function anew whenever a new
-state is entered, can be an elegant way to express some systems.
+the amount of lives. When the whole state of a system stored in the
+arguments to a function, calling that function provides an elegant way
+to transition to a new state.
 
 In any case, when a level is lost, there should now be two possible
 state transitions: If that was the last life, we go back to level zero
@@ -1212,23 +1216,24 @@ with one less life remaining.
 === Pausing the game ===
 
 Make it possible to pause (suspend) and unpause the game by pressing
-the escape key.
+the Escape key.
 
-Most exercises in this book only involve editing small, isolated
-pieces of code. That is not what real programming is usually like. In
-the link:#_encapsulation_as_a_burden[section on encapsulation], I
-already touched on the fact that changing assumptions often require
-interfaces to be changed or broken open again. That applies here as
-well: The `runAnimation` function, though nice and obvious, does not
-provide a clean way to pause the animation.
+This can be done by changing the `runLevel` function to use another
+keyboard event handler, and interrupting or resuming the animation
+whenever the Escape key is hit.
 
-The event handler that notices the key is best set up in
-++runLevel++—setting it up in `runAnimation` would be cheating. That is
-supposed to be an general helper function for all kinds of animations,
-so it shouldn't handle a feature specific to this game.
+The `runAnimation` interface may not look like it is suitable for
+this, at first glance, but it is, if you rearrange the way `runLevel`
+calls it.
 
-Replace `runAnimation` with something else, and change `runLevel` to
-use this new interface, and add a pausing feature.
+When you have that working, there is something else you could try. The
+way we have been registering keyboard event handlers is somewhat
+problematic. The `arrows` object is currently a global variable, and
+its event handlers are kept around even when no game is running. They
+_leak_ out of our system, you could say. Extend `trackKeys` to provide
+a way to unregister its handlers, and then change `runLevel` to
+register its handlers when it starts, and unregister them again when
+it is finished.
 
 ifdef::html_target[]
 
@@ -1240,22 +1245,6 @@ ifdef::html_target[]
 <link rel="stylesheet" href="css/game.css">
 
 <script>
-  // The old runAnimation function. Replace this...
-  function runAnimation(frameFunc) {
-    var lastTime = null;
-    function frame(time) {
-      var stop = false;
-      if (lastTime != null) {
-        var timeStep = Math.min(time - lastTime, 100) / 1000;
-        stop = frameFunc(timeStep) === false;
-      }
-      lastTime = time;
-      if (!stop)
-        requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-
   // The old runLevel function. Modify this...
   function runLevel(level, Display, andThen) {
     var display = new Display(document.body, level);
@@ -1278,25 +1267,23 @@ endif::html_target[]
 
 !!solution!!
 
-The new requirements (being able to pause and continue the animation)
-require us to have some way to talk about a specific animation, after
-it has been started.
+An animation can be interrupted by returning `false` from the function
+given to `runAnimation`. It can be continued by simply calling
+`runAnimation` again.
 
-Returning a special value from the frame function could work for
-pausing the animation, but since, with the animation paused, the frame
-function won't be called again, that trick can not be used for
-unpausing.
+To communicate the fact that the animation should be intterupted to
+the animation function, you can use a variable that both the event
+handler and that function have access to.
 
-A better approach is to have our animation-creating function return an
-object that provides a handle to the animation, and add `stop()` and
-`start()` method to that object. Knowing that, we may as well replace
-`runAnimation` with an `Animation` constructor, and add those methods
-to its prototype.
+When finding a way to unregister the handlers registered by
+`trackKeys`, remember that the _exact_ same function value that was
+passed to `addEventListener` must be passed to `removeEventListener`
+to successfully remove a handler. Thus, the `handler` function value
+created in `trackKeys` must be available to the code that unregisters
+the handlers.
 
-Stopping a running `requestAnimationFrame`-based animation can be done
-with `cancelAnimationFrame` (you must save the return value when
-requesting the frame), or by setting a property (say `stopping`) in
-the object, and having the function that handles the frame do nothing
-when that property has a non-false value.
+You can add a property to the object returned by `trackKeys`,
+containing either that function value, or a method that handles the
+unregistering directly.
 
 !!solution!!

@@ -855,7 +855,7 @@ ifdef::html_target[]
 <input type="text">
 <script>
   var field = document.querySelector("input");
-  // Your code here...
+  // Your code here.
 </script>
 ----
 
@@ -922,7 +922,7 @@ ifdef::html_target[]
   }
 </style>
 <script>
-  // Your code here...
+  // Your code here.
 </script>
 ----
 
@@ -981,7 +981,7 @@ ifdef::html_target[]
 </div>
 <script>
   function asTabs(node) {
-    // Your code here...
+    // Your code here.
   }
   asTabs(document.querySelector("#wrapper"));
 </script>

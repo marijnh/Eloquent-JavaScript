@@ -9,7 +9,7 @@
 ____
 Tzu-li and Tzu-ssu were boasting about the size of their latest
 programs. 'Two-hundred thousand lines,' said Tzu-li, 'not counting
-comments!' Tzu-ssu responded, 'Psah, mine is almost a *million* lines
+comments!' Tzu-ssu responded, 'Pssh, mine is almost a *million* lines
 already.' Master Yuan-Ma said, 'My best program has five hundred
 lines.' Hearing this, Tzu-li and Tzu-ssu were enlightened.
 ____
@@ -17,15 +17,15 @@ ____
 [quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
 ____
 There are two ways of constructing a software design: One way is to
-make it so simple that there are obviously no deficiencies and the
+make it so simple that there are obviously no deficiencies, and the
 other way is to make it so complicated that there are no obvious
 deficiencies.
 ____
 
-(((bug)))A large program is a costly program. Not necessarily because
+(((bug)))A large program is a costly program, and not just because
 of the time it takes to build. Size almost always involves complexity,
-and complexity confuses programmers. Confused programmers have a
-negative effect on a program—they tend to introduce mistakes (bugs). A
+and complexity confuses programmers. Confused programmers, in turn,
+tend to introduce mistakes (_bugs_) into programs. A
 large program also provides a lot of space for these bugs to hide,
 making them hard to find.
 
@@ -55,51 +55,43 @@ If we count the size of the definitions of `sum` and `range`, the
 second program is also big—even bigger than the first. But still, I'd
 argue that it is more likely to be correct.
 
-The reason it is more likely to be correct is that, by first building
-up a language in which to express the problem, and then solving the
-problem in the terms of the problem's own domain, the solution gains
-clarity. Summing a range of numbers isn't about loops and counters, it
+The reason it is more likely to be correct is that the solution is expressed
+in a vocabulary that corresponds to the problem it is solving, and is thus
+much more direct. Summing a range of numbers isn't about loops and counters, it
 is about ranges and sums.
 
-The definitions of the vocabulary itself (the functions `sum` and
-`range`) will still have to concern themselves with loops, counters, and
-other silly details. But because they are expressing simpler concepts
-(the building blocks are simpler than the building), they are easier
-to get right.
-
-Of course, getting a sum over a range of numbers right is trivial with
-or without vocabulary. Consider that example a miniature model of
-other, actually difficult problems.
+The definitions of this vocabulary (the functions `sum` and
+`range`) will still involve loops, counters, and
+other silly details. But because these building blocks are expressing simpler concepts
+than the program as a whole, they are easier to get right.
 
 == Abstraction ==
 
-(((abstraction)))In the context of programming, the usual term used
-for these kinds vocabularies is _abstractions_. Abstractions hide
-details, and give us the ability to talk on a higher (more abstract)
+(((abstraction)))In the context of programming,
+these kinds of vocabularies are usually called _abstractions_. Abstractions hide
+details, and give us the ability to talk about problems at a higher (or more abstract)
 level.
 
-(((recipe)))An analogy is this recipe for pea soup.
+(((recipe)))As an analogy, compare these two recipes for pea soup:
 
 ____
-Put 1 cup of dried peas per person in a container. Add water until
-they are well covered. Leave peas in the water for at least 12 hours.
-Take the peas out of the water, and put them in a cooking pan. Add 4
-cups of water per person. Cover the pan and keep the peas barely
-cooking for two hours. Take half an onion per person. Cut it into
+Put 1 cup of dried peas per person into a container. Add water until
+the peas are well covered. Leave the peas in water for at least 12 hours.
+Take the peas out of the water and put them in a cooking pan. Add 4
+cups of water per person. Cover the pan and keep the peas
+simmering for two hours. Take half an onion per person. Cut it into
 pieces with a knife. Add it to the peas. Take a stalk of celery per
 person. Cut it into pieces with a knife. Add it to the peas. Take a
 carrot per person. Cut it into pieces. With a knife! Add it to the
 peas. Cook for 10 more minutes.
 ____
 
-Compared to this one.
-
+And the second recipe:
 ____
-
 Per person: 1 cup dried split peas, half a chopped onion, a stalk of
 celery, and a carrot.
 
-Soak peas for 12 hours. Simmer them for 2 hours in 4 cups of water
+Soak peas for 12 hours. Simmer for 2 hours in 4 cups of water
 (per person). Chop and add vegetables. Cook for 10 more minutes.
 ____
 
@@ -107,13 +99,13 @@ The second is shorter, and easier to interpret. It does rely on you
 understanding a few more cooking-related words—“soak”, “simmer”,
 “chop”, and, I guess, “vegetables”.
 
-When programming, since we can't rely on all the words we need already
-having been created by previous generations, waiting for us in the
-dictionary, it is easy to fall into the pattern of the first
+When programming, we can't rely on all the words we need to be
+waiting for us in the
+dictionary, so it's easy to fall into the pattern of the first
 recipe—work out the precise steps the computer has to perform, one by
 one, blind to the higher-level concepts that they express.
 
-It has to become a second nature, when programming, to notice when a
+It has to become second nature, for a programmer, to notice when a
 concept is begging to be abstracted into a new word.
 
 == Abstracting array traversal ==
@@ -129,24 +121,22 @@ several appearances:
 var array = [1, 2, 3];
 for (var i = 0; i < array.length; i++) {
   var current = array[i];
-  // do something with current
+  console.log(current);
 }
 ----
 
-What it tries to say is “for each element in the array, do this”. But
-it uses a very roundabout way that involves a counter variable, a
+It's trying to say: “For each element in the array, log it to the console”. But
+it uses a very roundabout way that involves a counter variable `i`, a
 check against the array's length, and an extra variable declaration to
 pick out the current element. Apart from being a bit of an eyesore,
-this also gives us a lot of space for potential mistakes—accidentally
-reuse the `i` variable, misspell `lenght`, confuse the `i` and
+this provides a lot of space for potential mistakes. We might accidentally
+reuse the `i` variable, or misspell `lenght`, or confuse the `i` and
 `current` variables, and so on.
 
-Well then, let us try to abstract this into a function. Can you think
+So let's try to abstract this into a function. Can you think
 of a way?
 
-The problem is that, whereas most functions just take some values,
-combine them, and maybe return something, these `for` loops contain a
-piece of code that they must execute. It is easy to write a function
+Well, it's easy to write a function
 that goes over an array and calls `console.log` on every element:
 
 [source,javascript]
@@ -158,9 +148,9 @@ function logEach(array) {
 ----
 
 (((array,traversal)))(((function,as value)))(((forEach method)))But
-what if we want to do something else than logging the elements? Since
+what if we want to do something other than logging the elements? Since
 “doing something” can be represented as a function, and functions are
-also values, we can pass our action as a function value:
+just values, we can pass our action as a function value:
 
 [source,javascript]
 ----
@@ -191,19 +181,20 @@ console.log(sum);
 This looks quite a lot like the classical `for` loop, with its body
 written as a block below it. Except that now the body is inside of the
 function value, as well as inside of the parentheses of the call to
-`forEach` and inside a regular statement. This is why it has to be
-closed with the closing brace, closing parenthesis, _and_ semicolon.
+`forEach`. This is why it has to be
+closed with the closing brace _and_ closing parenthesis.
 
-In this pattern, we can simply specify a variable name (`number`) for
-the current element as the function's argument, rather than having to
+In this pattern, we simply specify a variable name for
+the current element (`number`), rather than having to
 pick it out of the array manually.
 
-We do not need to write `forEach` ourselves. It is available as a
-standard method on arrays (taking the function as first argument,
-since the array is already provided as the thing the method acts on).
+In fact, we don't need to write `forEach` ourselves. It is available as a
+standard method on arrays.
+Since the array is already provided as the thing the method acts on,
+`forEach` only takes one required argument: the function to be executed for each element.
 
-To illustrate how helpful this is, remember this function from the
-previous chapter that contains two array-traversing loops.
+To illustrate how helpful this is, remember this function
+from the previous chapter that contains two array-traversing loops:
 
 [source,javascript]
 ----
@@ -221,8 +212,7 @@ function gatherCorrelations(journal) {
 }
 ----
 
-Working with `forEach` makes it slightly shorter and quite a bit less
-noisy:
+Working with `forEach` makes it slightly shorter and quite a bit cleaner:
 
 [source,javascript]
 ----
@@ -240,17 +230,17 @@ function gatherCorrelations(journal) {
 
 == Higher-order functions ==
 
-(((function,higher-order)))The term for functions that operate on
-functions (by taking them as arguments, or returning them) is
-_higher-order functions_. For JavaScript programmers, who are used to
-functions being regular values, there is actually nothing remarkable
+(((function,higher-order)))Functions that operate on other
+functions, either by taking them as arguments or returning them, are called
+_higher-order functions_. For JavaScript programmers used to the fact that
+functions are regular values, there is nothing particularly remarkable
 about the fact that such functions exist. The term comes from
 mathematics, where the distinction between functions and other values
 is taken a little more seriously.
 
 Higher-order functions allow us to abstract over _actions_, not just
-values. They come in several forms. You can have functions that create
-a new function.
+values. They come in several forms. For example, you can have functions that create
+new functions:
 
 [source,javascript]
 ----
@@ -262,7 +252,7 @@ console.log(greaterThan10(11));
 // → true
 ----
 
-Or functions that change another function.
+Or functions that change other functions:
 
 [source,javascript]
 ----
@@ -279,8 +269,8 @@ noisy(Boolean)(0);
 // → called with 0 - got false
 ----
 
-Or even create functions that implement your own types of control
-flow.
+Or functions that implement custom types of control
+flow:
 
 [source,javascript]
 ----
@@ -300,18 +290,18 @@ repeat(3, function(n) {
 // → 2 is even
 ----
 
-(((lexical scoping)))(((closure)))The “lexical scoping” rules that we
-discussed in Chapter 3 greatly work to our advantage when using
+(((lexical scoping)))(((closure)))The lexical scoping rules that we
+discussed in Chapter 3 work to our advantage when using
 functions in this way. In the example above, the `n` variable is a
 parameter to the outer function. Because the inner function lives
-inside the environment of the outer one, it can use it. Thus, the
-bodies of such functions can freely use the variables around them, and
-play a role similar to the regular `{}` blocks used in regular loops
+inside the environment of the outer one, it can use `n`. The
+bodies of such inner functions can access the variables around them, and
+play a role similar to the `{}` blocks used in regular loops
 and conditional statements. An important difference is that variables
-declared inside of them do not end up in the environment of the outer
+declared inside inner functions do not end up in the environment of the outer
 function. And that is usually a good thing.
 
-== Passing on arguments ==
+== Passing along arguments ==
 
 The `noisy` function above, which wraps its argument in another
 function, has a rather serious deficit.
@@ -330,14 +320,16 @@ function noisy(f) {
 
 If `f` takes more than one parameter, only the first one is passed
 through to it. We could add a bunch of arguments to the inner function
-(`arg1`, `arg2`, and so on), and pass them to `f`, but it is unclear
-how many would be necessary. It would also deprive `f` of the
+(`arg1`, `arg2`, and so on) and pass all of them to `f`, but it is unclear
+how many would be necessary,
+since different `f`s might take different numbers of arguments.
+This solution would also deprive `f` of the
 information in `arguments.length`. Since we'd always pass the same
-amount of arguments to it, it wouldn't know how many argument were
-_really_ given.
+number of arguments, it wouldn't know how many argument were
+originally given.
 
 For these kinds of situations, JavaScript functions have an `apply`
-method. The `apply` method gets passed an array (or pseudo array) of
+method. The `apply` method gets passed an array (or array-like object) of
 arguments, and will call the function with those arguments.
 
 [source,javascript]
@@ -356,23 +348,20 @@ its own `arguments` object to `apply`. The first argument to `apply`,
 for which we are passing `null` here, can be used to simulate a method
 call. More on that in the next chapter.
 
-== Example data ==
+== JSON ==
 
 (((array)))Higher-order functions that somehow apply a function to the
 elements of an array are widely used in JavaScript. The `forEach`
 method is the most primitive such function. There are a number of
 other variants available as methods on arrays. In order to familiarize
-ourselves with them, let us play around with another data set.
+ourselves with them, let's play around with another data set.
 
 A few years ago, someone crawled through a lot of archives in order to
 put together a book on the history of my family name
-(“Haverbeke”—literally “Oatbrook”). I was hoping to find knights,
-pirates, and alchemists... but the book turns out to be mostly full of
+(“Haverbeke”—literally “Oatbrook”). I opened it hoping to find knights,
+pirates, and alchemists ... but the book turns out to be mostly full of
 Flemish farmers. For my amusement, I extracted the information on my
-direct ancestors, and put it into a computer-readable format. Let us
-play with this data.
-
-== JSON ==
+direct ancestors, and put it into a computer-readable format.
 
 (((JSON)))The file I created looks something like this:
 
@@ -391,18 +380,20 @@ play with this data.
 ]
 ----
 
-This notation is very similar to JavaScript's way of writing arrays
-and objects, with a few restrictions. All property names are
-surrounded by quotes, and only simple data expressions (no function
-calls, or variables, or anything that involves actual computation) are
-allowed.
-
-This format is called JSON, pronounced “Jason”, which stands for
+This format is called JSON (pronounced “Jason”), which stands for
 JavaScript Object Notation. It is widely used as a data storage and
 communication format on the Web.
 
+JSON is very similar to JavaScript's way of writing arrays
+and objects, with a few restrictions. All property names are
+surrounded by quotes, and only simple data expressions—no function
+calls, or variables, or anything that involves actual computation—are
+allowed.
+
 JavaScript provides two functions, `JSON.stringify` and `JSON.parse`,
-that convert data from and to this format.
+that convert data from and to this format. The first takes a JavaScript value,
+and returns a JSON-encoded string. The second takes such a string, and converts
+it to the value it encodes.
 
 [source,javascript]
 ----
@@ -417,7 +408,7 @@ The variable `ANCESTRY_FILE`, available in the sandbox for this
 chapter as well as in
 http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
 the website!!tex  (`eloquentjavascript.net/code`)!!,
-contains the content of my JSON file as a string. Let us decode it and
+contains the content of my JSON file as a string. Let's decode it and
 see how many people it contains:
 
 // include_code strip_log
@@ -430,10 +421,6 @@ console.log(ancestry.length);
 ----
 
 == Filtering an array ==
-
-A function passed as an argument to a higher-order function doesn't
-just represent an action that can be run. It also returns a value, and
-we could use it to, for example, make a decision.
 
 To find the people in the ancestry data set that were young in
 1924, the following function might be helpful. It filters out the
@@ -456,16 +443,32 @@ console.log(filter(ancestry, function(person) {
 // → [{name: "Philibert Haverbeke", …}, …]
 ----
 
-Three people in the file were alive and young in 1924: My grandfather,
+This uses the function value (`test`) not just as code to execute, but
+as a pluggable way to make a decision. The return value of the function argument
+is used to decide whether a given element will be included in the output.
+
+Three people in the file were alive and young in 1924: my grandfather,
 grandmother, and great-aunt.
+
+Note how the `filter` function, rather than delete elements from the existing 
+array, builds up a new array with only the elements that pass the test. This
+function is _pure_, it does not modify the array it is given.
 
 Like `forEach`, `filter` is also a standard method on arrays. The
 example defined the function only in order to show what it does
-internally. From now on, we'll use `ancestry.filter(…)` instead.
+internally. From now on, we'll use it like this instead:
+
+[source,javascript]
+----
+console.log(ancestry.filter(function(person) {
+  return person.father == "Carel Haverbeke";
+}));
+// → [{name: "Carolus Haverbeke", …}]
+----
 
 == Transforming with map ==
 
-Say we have an array of person objects, produced by filtering the
+Say we have an array of objects representing people, produced by filtering the
 `ancestry` array somehow. But we want an array of names, which is
 easier to read through.
 
@@ -496,8 +499,8 @@ console.log(map(overNinety, function(person) {
 ----
 
 Interestingly, the people that lived to over 90 years of age are the
-same three people that we saw before—the people were young in the
-1920s, which happens to be the youngest generation in my data set. I
+same three people that we saw before—the people who were young in the
+1920s, which happens to be the most recent generation in my data set. I
 guess medicine has really come a long way.
 
 Like `forEach` and `filter`, `map` is also a standard method on
@@ -506,19 +509,18 @@ arrays.
 == Summarizing with reduce ==
 
 Another common pattern of computation on arrays is computing a single
-value from them. Our recurring example, the summing of a range of
-numbers, is an instance of this. If we wanted to find the person with
-the earliest year of birth in the data set, that would also follow
-this pattern.
-
-The steps are to first take a start value. Then, for each element in
-the array, you combine the element and the current value to create a
-new value. The value that comes out after the last element in the
-array has been handled is the result we want.
+value from them. Our recurring example, summing a collection of
+numbers, is an instance of this. Another example would be finding the person with
+the earliest year of birth in the data set.
 
 The higher-order operation that represents this pattern is called
-_reduce_ (or sometimes _fold_). It is a little less straightforward
-than the previous examples, but still not hard to follow.
+_reduce_ (or sometimes _fold_). You can think of it as folding up the array, one
+element at a time. When summing numbers, you'd start with the number zero, and
+for each element, combine it with the current sum by adding the two.
+
+The parameters to the `reduce` function are, apart from the array, a combining function
+and a start value. The function is a little less straightforward than `filter` and `map`,
+so pay careful attention.
 
 [source,javascript]
 ----
@@ -538,10 +540,10 @@ console.log(reduce([1, 2, 3, 4], function(a, b) {
 The standard array method `reduce`, which of course corresponds to
 this function, has an additional convenience. If your array contains
 at least one element, you are allowed to leave off the `start`
-argument, and the method will take the first element of the array as
+argument. The method will take the first element of the array as
 its start value, and start reducing at the second element.
 
-To use this to find my most ancient known ancestor, we can write
+To use `reduce` to find my most ancient known ancestor, we can write
 something like this:
 
 // test: no
@@ -557,7 +559,7 @@ console.log(ancestry.reduce(function(min, cur) {
 
 == Composability ==
 
-Let us back up for a moment and consider how we would have written the
+Let's back up for a moment and consider how we would have written the
 previous example (finding the person with the earliest year of birth)
 without higher-order functions. The code is not that much worse:
 
@@ -575,11 +577,11 @@ console.log(min);
 // → {name: "Pauwels van Haverbeke", born: 1535, …}
 ----
 
-There are a few more variables being created and assigned to, and the
+There are a few more variables, and the
 program is two lines longer, but still quite easy to understand.
 
 The higher-order function approach really starts to shine when you
-need to compose several concepts. As an example, let us write code
+start _composing_ functions, or chaining them together. As an example, let us write code
 that finds the average age for men and for women in the data set.
 
 // test: clip
@@ -600,36 +602,35 @@ console.log(average(ancestry.filter(female).map(age)));
 // → 54.56
 ----
 
-(It is a bit silly that we have to define `plus` as a function.
-Operators in JavaScript, unlike functions, are not values, so we can't
+(It's a bit silly that we have to define `plus` as a function, but
+operators in JavaScript, unlike functions, are not values, so we can't
 pass them as arguments.)
 
-Instead of tangling all of the logic required into a big loop, we can
-neatly decompose it into the concepts we are interested in (deciding
-on sex, computing age, averaging numbers), and apply those one by one
+Instead of tangling all of the logic into a big loop, we can
+neatly decompose it into the concepts we are interested in—determining
+sex, computing age, averaging numbers—and apply them one by one
 to get the result we were looking for.
 
-This is _fabulous_ for writing clear code. But there is a cloud on the
-horizon.
+This is _fabulous_ for writing clear code. Unfortunately, this clarity comes at a cost.
 
 == The cost ==
 
 In the happy land of elegant code and pretty rainbows, there lives a
-mean spoil-sport monster called “__inefficiency__”.
+spoil-sport monster called “__inefficiency__”.
 
-Reducing the processing of an array into a sequence of cleanly
+It's easy to think about processing an array as a sequence of cleanly
 separated steps that each do something with the array and produce a
-new array is easy to think about. But building up all those
+new array. But building up all those
 intermediate arrays is somewhat expensive.
 
-Passing a function to `forEach` and letting that method handle the
+Likewise, passing a function to `forEach` and letting that method handle the
 array iteration for us is convenient and elegant. But function calls
-in JavaScript are costly, compared to simple loop bodies.
+in JavaScript are costly compared to simple loop bodies.
 
 And so it goes with a lot of techniques that help improve the clarity
-of a program. They add additional layers between the raw things the
+of a program. Abstractions add layers between the raw things the
 computer is doing and the concepts we are working with, and thus cause
-the machine to perform more work. This is not an inescapable, iron
+the machine to perform more work. This is not an iron
 law—there are programming languages that have better support for
 building abstractions without adding inefficiencies, and even in
 JavaScript, an experienced programmer can find ways to write
@@ -638,26 +639,28 @@ comes up a lot.
 
 Fortunately, most computers are insanely fast, and if you are
 processing a modest set of data, or doing something that only has to
-happen on a human time scale (say, only once, or once every time the
-user clicks a button), then it _does not matter_ whether you wrote the
-pretty solution that takes half a millisecond, or the super-optimized
+happen on a human time scale (say, every time the
+user clicks a button), then it _does not matter_ whether you wrote a
+pretty solution that takes half a millisecond, or a super-optimized
 solution that takes a tenth of a millisecond.
 
 It is helpful to roughly keep track of how often a piece of your
-program is going to run. If you have a loop inside a loop (directly,
+program is going to run. If you have a loop inside a loop (either directly,
 or through the outer loop calling a function that ends up performing
 the inner loop), the code inside the inner loop will end up running
-N×M times, where N is the number of times the outer loop repeats, and
-M the number of times the inner loop repeats. If that inner loop
-contains another loop that makes P rounds, its body will run M×N×P
-times, and so on. This adds up.
+__N__×__M__ times, where _N_ is the number of times the outer loop repeats, and
+_M_ the number of times the inner loop repeats within each iteration of the outer loop. If that inner loop
+contains another loop that makes _P_ rounds, its body will run __M__×__N__×__P__
+times, and so on. This can add up to large numbers quite quickly, and when a program is
+slow, the problem can often be traced to only a small part of the code, which
+sits in such an inner loop.
 
 == Great-great-great-great-... ==
 
-My grandfather, Philibert Haverbeke, is included in the data file. As
-a final example problem, I want to know whether the most ancient
-person in the data (Pauwels van Haverbeke) is my direct ancestor, and
-if so, how much DNA I theoretically share with him.
+My grandfather, Philibert Haverbeke, is included in the data file. By starting
+with him, I can trace my lineage to find out whether the most ancient
+person in the data, Pauwels van Haverbeke, is my direct ancestor.
+And if he is, I would like to know how much DNA I theoretically share with him.
 
 First, I build up an object that makes it possible to easily find
 people by name.
@@ -680,8 +683,9 @@ properties and counting how many we need to reach Pauwels. There are
 several cases in the family tree where people married their second
 cousins (tiny villages and all that). This causes the branches of the
 family tree to re-join in a few places, which means I share more than
-1/2^G^ of my genes with this person (using G for the number of
-generations, each generation splitting the gene pool in two).
+1/2^_G_^ of my genes with this person, where _G_ for the number of
+generations between Pauwels and me. This formula comes from the idea that
+each generation splits the gene pool in two.
 
 A reasonable way to think about this problem is to put it in similar
 terms as the `reduce` algorithm. A family tree has a more interesting
@@ -755,12 +759,12 @@ that was introduced in the exercises to the last chapter.
 
 == Binding ==
 
-(((bind method)))(((partial application)))Often, you'll find yourself
-writing function expressions that just call through to another
-function, adding a fixed argument.
+(((bind method)))(((partial application)))The `bind` method, which all functions have, creates a new function
+that will call the original function, but with some of the arguments
+already fixed.
 
-The code below uses an array of strings as a set of names, and defines
-a function `isInSet` that tells us whether a person is in a given set.
+The code below shows an example of `bind` in use. First it defines
+a function `isInSet` that tells us whether a person is in a given set of strings.
 To call `filter` in order to collect those person objects whose name
 is in a specific set, we can either write a function expression that
 makes a call to `isInSet` with our set as its first argument, or
@@ -783,38 +787,26 @@ console.log(ancestry.filter(isInSet.bind(null, theSet)));
 // → … same result
 ----
 
-The `bind` method, which all functions have, creates a new function
-that will call the original function, but with some of the arguments
-already fixed. Calling the result of the above `bind` call will call
+The above `bind` call returns a function that will call
 `isInSet` with `theSet` as first argument, followed by any remaining
 arguments given to the bound function.
 
 The first argument, where the example passes `null`, is used for
-method calls, similar to the first argument to `apply`. We could bind
-an array's `push` method to get a function that adds an argument to
-that specific array:
-
-[source,javascript]
-----
-var array = [];
-var addElement = array.push.bind(array);
-addElement(1);
-console.log(array);
-// → [1]
-----
+method calls, similar to the first argument to `apply`.
+We'll describe this in more detail in the next chapter.
 
 == Summary ==
 
-Being able to pass function values to other functions is not a random
+Being able to pass function values to other functions is not just a
 gimmick, but a deeply useful aspect of JavaScript. It allows us to
-describe computations with “gaps” in them as functions, and allow the
-code that calls these functions to fill in the gaps by providing
-function values that describe the missing computations.
+write computations with “gaps” in them as functions, and have the
+code that calls these functions to fill in those gaps by providing
+function values to describe the missing computations.
 
 Arrays provide a number of very useful higher-order methods—`forEach`
-to do something with each element in an array, `map` to build a new
+to do something with each element in an array, `filter` to build a new array with some elements filtered out, `map` to build a new
 array where each element has been put through a function, and `reduce`
-to combine all the elements in the array into a single value.
+to combine all an array's elements into a single value.
 
 Functions have an `apply` method that can be used to call them with an
 array specifying their arguments. They also have a `bind` method,
@@ -844,7 +836,7 @@ endif::html_target[]
 
 Using the example data set from this chapter, compute the average age
 difference between mothers and children. You can use the `average`
-function defined above.
+function defined earlier in this chapter.
 
 Note that not all the mothers mentioned in the data are themselves
 present in the array. The `byName` object, which makes it easy to find
@@ -940,15 +932,13 @@ the individual centuries.
 !!solution!!
 
 For bonus points, write a function `groupBy` that abstracts the
-grouping algorithm. It accepts as arguments an array and a function
+grouping algorithm. It should accept as arguments an array and a function
 that computes the group for an element in the array, and returns the
 object containing the groups.
 
 === Every and then some ===
 
-Arrays also come with the standard methods `every` and `some`, which
-are analogous to the `&&` and `||` operators.
-
+Arrays also come with the standard methods `every` and `some`. 
 Both take a predicate function that, when called with an array element
 as argument, returns true or false. Just like `&&` only returns a true
 value when the expressions on both sides are true, `every` only

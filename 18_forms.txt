@@ -1,7 +1,7 @@
 :chap_num: 18
 :prev_link: 17_http
 :next_link: 19_FIXME
-:load_files: []
+:load_files: ["js/promise.js"]
 
 = Forms and Form Fields =
 
@@ -11,9 +11,12 @@ for a pre-JavaScript Web, and assume that interaction with the server
 always happens by navigating to a new page.
 
 But their elements are part of the DOM like the rest of the page, and
-their DOM elements have a number of extra properties and events, which
+the DOM elements that represent form fields supports a number of
+properties and events that are not present on other elements. These
 make it possible to inspect and control them through JavaScript
-programs.
+programs, either to add additional functionality to a traditional
+form, or by using such fields as building blocks in a JavaScript
+application.
 
 == Fields ==
 
@@ -179,7 +182,7 @@ image::img/button_disabled.jpg[alt="A disabled button"]
 endif::tex_target[]
 
 When the program is busy processing the action caused by some button
-or other control, for examply making requests to a server, it is often
+or other control, for example making requests to a server, it is often
 a good idea to disable the control until the action finishes, so that
 when the user gets impatient and clicks it again, they don't
 accidentally repeat their action.
@@ -194,8 +197,8 @@ array-like collection of the fields inside of it.
 The `name` attribute of a form field determines the way its value will
 be identified when the form is submitted. It can also be used as a
 property name when accessing the form's `elements` property, which
-acts both as a pseudo-array (accessable by number) and a map
-(accessable by name).
+acts both as a pseudo-array (accessible by number) and a map
+(access-able by name).
 
 [source,text/html]
 ----
@@ -285,7 +288,7 @@ F1, inserts the string “Srinivasa Ramanujan” for you.
     field.value = field.value.slice(0, from) + word +
                   field.value.slice(to);
     // Put the cursor after the word
-    field.selectionStart = field.selectionEnd = 
+    field.selectionStart = field.selectionEnd =
       from + word.length;
   };
 </script>
@@ -312,14 +315,14 @@ length of the text entered.
   var text = document.querySelector("input");
   var output = document.querySelector("#length");
   text.addEventListener("input", function() {
-    output.innerText = text.value.length;
+    output.textContent = text.value.length;
   });
 </script>
 ----
 
 == Checkboxes and radio buttons ==
 
-A checkbox field is a simple binary toggle. Its value can be extraced
+A checkbox field is a simple binary toggle. Its value can be extracted
 or changed through its `checked` property, which holds a boolean
 value.
 
@@ -439,10 +442,302 @@ bits. Hold control (or command on Mac) to select multiple options.
       if (option.selected)
         number += Number(option.value);
     }
-    output.innerText = number;
+    output.textContent = number;
   });
 </script>
 ----
 
 == File fields ==
 
+File fields were originally designed as a way to upload files from the
+browser's machine through a form. In modern browsers, they also
+provide a way to read such files from JavaScript programs. The field
+acts as a manner of gatekeeper—the script can not simply start reading
+private files from the user's computer, but when a file has been
+selected in such a field, that is understood to mean that the script
+may read it.
+
+A file field usually looks like a button labeled something like
+“choose file” or “browse”, with information about the chosen file next
+to it.
+
+[source,text/html]
+----
+<input type="file">
+<script>
+  var input = document.querySelector("input");
+  input.addEventListener("change", function() {
+    if (input.files.length > 0) {
+      var file = input.files[0];
+      console.log("You chose", file.name);
+      if (file.type)
+        console.log("It has type", file.type);
+    }
+  });
+</script>
+----
+
+The `files` property of a file field element is an array-like object
+(again, not a real array) containing the files chosen in the field. It
+is initially empty. The reason there isn't simply a `file` property is
+that file fields also support a `multiple` attribute, which makes it
+possible to select multiple files at the same time.
+
+For a singular file field, there will be either zero or one file
+objects in the `files` object. Such an object has properties like
+`name` (the file name), `size` (the file's size in bytes), and `type`
+(the media type of the file, like `text/plain` or `image/jpeg`).
+
+What it does not have is a property that contains the content of the
+file. Getting at that is a little more involved. Since reading a file
+from disk can take time, the interface will have to be asynchronous to
+avoid freezing the document. You can think of the `FileReader`
+constructor as being similar to `XMLHttpRequest`, but for files.
+
+[source,text/html]
+----
+<input type="file" multiple>
+<script>
+  var input = document.querySelector("input");
+  input.addEventListener("change", function() {
+    Array.prototype.forEach.call(input.files, function(file) {
+      var reader = new FileReader();
+      reader.addEventListener("load", function() {
+        console.log("File", file.name, "starts with",
+                    reader.result.slice(0, 20));
+      });
+      reader.readAsText(file);
+    });
+  });
+</script>
+----
+
+Reading a file is done by creating a `FileReader` object, registering
+a `"load"` event handler for it, and calling its `readAsText` method,
+giving it the file we want to read. Once loading finishes, the
+reader's `result` property contains the file's content.
+
+The example uses `Array.prototype.forEach` to iterate over the array,
+since in a normal loop it would be awkward to get the correct `file`
+and `reader` objects from the event handler—the variables would be
+shared by all iterations of the loop.
+
+`FileReader`s also fire an `"error"` event when reading the file
+failed for any reason. The error object itself will end up in the
+reader's `error` property. You could wrap it in a `Promise` (see
+Chapter 17) like this:
+
+[source,javascript]
+----
+function readFile(file) {
+  return new Promise(function(succeed, fail) {
+    var reader = new FileReader();
+    reader.addEventListener("load", function() {
+      succeed(reader.result);
+    });
+    reader.addEventListener("error", function() {
+      fail(reader.error);
+    });
+    reader.readAsString(file);
+  });
+}
+----
+
+It is possible to read only part of a file by calling `slice` on it,
+and passing the result of that (a so-called _blob_ object) to the file
+reader.
+
+== FIXME a bigger example ==
+
+== Summary ==
+
+Form fields can be inspected and manipulated with JavaScript. They
+fire events like `"change"`, when changed, `"input"`, when text is
+typed, as well as the various keyboard events. These allow us to
+notice when the user is interacting with them. Properties like `value`
+(for text and select fields) or `checked` (for checkboxes and radio
+buttons) are used to read or set the field's content.
+
+When a form is submitted, its `"submit"` event fires. A JavaScript
+handler can `preventDefault` that event to prevent the submission from
+happening. Form fields elements do not have to be wrapped in `<form>`
+tag, if they are only going to be used by a script.
+
+== Exercises ==
+
+=== A JavaScript workbench ===
+
+Build an interface that allows people to type and run pieces of
+JavaScript.
+
+Put a button next to a `<textarea>` field, which, when pressed, uses
+the `Function` constructor we saw in Chapter 10 to wrap the text in
+the field in a function, and call it. Convert the return value of the
+function, or any error it raised, to a string and display it below the
+text field.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<textarea id="code">return "hi";</textarea>
+<button id="button">Run</button>
+<pre id="output"></pre>
+
+<script>
+  // Your code here.
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+Use `document.querySelector` or `document.getElementById`, to get
+access to the elements defined in your HTML. An event handler for
+`"click"` or `"mousedown"` events on the button can get the `value`
+property of the text field, and call `new Function` on it.
+
+Make sure you wrap both the call to `new Function` and the call to its
+result in a `try` block, so that you can catch exceptions that it
+produces. In this case, we really don't know what type of exception we
+are looking for, so catch everything.
+
+The `textContent` property of the output element can be used to fill
+it with a string message. Or, if you want to keep the old content
+around, create a new text node using `document.createTextNode`, and
+append it to the element. Remember to add a newline character to the
+end, so that not all output appears on a single line.
+
+!!solution!!
+
+=== Autocompletion ===
+
+Extend a text field so that when the user types, a list of suggested
+values is shown below the field. You have an array of known common
+values, and should show those that start with the text that was typed.
+When a suggestion is clicked, replace the text field's current value
+with it.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<input type="text" id="field">
+<div id="suggestions"></div>
+
+<script>
+  // Builds up an array with global variable names, like
+  // 'alert', 'document', and 'scrollTo'
+  var terms = [];
+  for (var name in window)
+    terms.push(name);
+
+  // Your code here.
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+The best event for updating the suggestion list is `"input"`, since
+that will fire immediately when the content of the field is changed.
+
+Then loop over the array of terms and see if they start with the given
+string, for example by calling `indexOf` and seeing if the result is
+zero. For each matching string, add an element to the suggestions
+`<div>`. You should probably also empty that each time you start
+updating the suggestions, for example by setting its `textContent` to
+the empty string.
+
+You could either add a `"click"` event handler to every suggestion
+element, or add a single one to the outer `<div>` that holds them, and
+look at the `target` property of the event to find out which
+suggestion was clicked.
+
+To get the suggestion text out of a DOM node, you could look at its
+`textContent`, or set an attribute to explicitly store the text when
+you create the element.
+
+!!solution!!
+
+=== Conway's Game of Life ===
+
+Conway's Game of Life is a simple simulation that creates artificial
+“life” on a grid, each cell of which is either live or not. Each
+generation (turn), the following rules are applied:
+
+1. Any live cell with fewer than two or more than three live
+   neighbors dies.
+
+2. Any live cell with two or three live neighbors lives on to the
+   next generation.
+
+3. Any dead cell with exactly three live neighbors becomes a live
+   cell.
+
+Where a neighbor is defined as any adjacent cell, including diagonally
+adjacent ones.
+
+Note that these rules are applied to the whole grid at once, not one
+square at a time. That means that the counting of neighbors is based
+on the situation at the start of the generation, and changes happening
+to neighbor cells this generation should not influence the new state
+of a given cell.
+
+Implement this game, taking the grid size as parameters, using
+whichever data structure you find appropriate. Use `Math.random` to
+populate the grid with a random pattern initially. Display it as a
+grid of checkbox fields, with a button next to it to advance to the
+next generation. When the user checks or unchecks the checkboxes,
+their changes should be included when computing the next generation.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<div id="grid"></div>
+<br> <!-- <br> inserts a line break -->
+<button id="next">Next generation</button>
+
+<script>
+  // Your code here.
+</script>
+----
+
+endif::html_target[]
+
+!!solution!!
+
+To solve the problem of having the changes conceptually happen at the
+same time, try to see the computation of a turn as a pure function,
+which takes one grid, and produces a new grid that represents the next
+turn.
+
+Representing the grid can be done in any of the way seen in Chapters 7
+and 15. Counting live neighbors can be done with two nested loops,
+looping over adjacent coordinates. Take care not to count cells
+outside of the field, and to ignore the cell in the center, for which
+we are counting.
+
+Making changes to checkboxes take affect on the next generation can be
+done in two ways. An event handler could notice these changes and
+update the current grid to reflect them, or you could generate a fresh
+grid from the values in the checkboxes before computing the next turn.
+
+If you choose to go with event handlers, you might want to attach
+attributes that identify the position that each checkbox corresponds
+to, so that it is easy to find out which cell to change.
+
+To draw the grid of checkboxes, you can use either a `<table>` element
+(see Chapter 13) or simply put them all in the same element, and
+put `<br>` (line break) elements between the rows.
+
+!!solution!!

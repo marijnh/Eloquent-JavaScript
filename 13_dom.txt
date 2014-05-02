@@ -404,8 +404,8 @@ keywords for that language.
 [source,javascript]
 ----
 function highlightCode(node, keywords) {
-  var text = node.innerText;
-  node.innerText = ""; // Clear the node
+  var text = node.textContent;
+  node.textContent = ""; // Clear the node
 
   var match, pos = 0;
   while (match = keywords.exec(text)) {
@@ -425,7 +425,7 @@ The function `highlightCode` takes a `<pre>` node and a regular
 expression (with the “global” option turned on) that matches the
 keywords of the programming language that the element contains.
 
-The `innerText` property is used to get all the text in the node, and
+The `textContent` property is used to get all the text in the node, and
 is then set to an empty string, which has the effect of emptying the
 node. We loop over all matches of the keyword expression, appending
 the text _between_ them as regular text nodes, and the text matched as

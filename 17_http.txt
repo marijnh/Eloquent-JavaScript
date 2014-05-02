@@ -639,7 +639,7 @@ might be done with promises:
 <script>
   function showMessage(msg) {
     var elt = document.createElement("div");
-    elt.innerText = msg;
+    elt.textContent = msg;
     return document.body.appendChild(elt);
   }
 

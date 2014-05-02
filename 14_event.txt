@@ -194,7 +194,7 @@ the buttons.
 <script>
   document.body.addEventListener("click", function(event) {
     if (event.target.nodeName == "BUTTON")
-      console.log("Clicked", event.target.innerText);
+      console.log("Clicked", event.target.textContent);
   });
 </script>
 ----
@@ -580,10 +580,10 @@ currently focused.
   for (var i = 0; i < fields.length; i++) {
     fields[i].addEventListener("focus", function(event) {
       var text = event.target.getAttribute("data-help");
-      help.innerText = text;
+      help.textContent = text;
     });
     fields[i].addEventListener("blur", function(event) {
-      help.innerText = "";
+      help.textContent = "";
     });
   }
 </script>
@@ -794,7 +794,7 @@ coordinates of the mouse, but only every 250 milliseconds.
       pending = true;
       setTimeout(function() {
         pending = false;
-        document.body.innerText =
+        document.body.textContent =
           "Mouse at " + event.pageX + ", " + event.pageY;
       }, 250);
     }

@@ -374,9 +374,9 @@ The last to arguments to `fillText` (and `strokeText`) provide the
 position at which the font is drawn. By default, they indicate the
 position of the start of the text's alphabetic baseline (the line on
 which the letters “stand”, not counting hanging parts in letters like
-“j” or “p”). The horizontal position is can be changed by setting the
-`textAlign` property to `"end"` or `"center"`. The vertical position
-by setting `textBaseLine` to `"top"`, `"middle"`, or `"bottom"`.
+“j” or “p”). The horizontal position can be changed by setting the
+`textAlign` property to `"end"` or `"center"`, the vertical position
+by setting `textBaseline` to `"top"`, `"middle"`, or `"bottom"`.
 
 == Images ==
 

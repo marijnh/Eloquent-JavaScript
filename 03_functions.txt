@@ -497,7 +497,7 @@ its body, and wrapping it into a package (the function value). So when you read
 `return function(...) {...}`, think of it as returning a handle to a piece of
 computation being frozen for later use.
 
-In the example, `multiplier` returns a frozen computation that gets
+In the example, `multiplier` returns a frozen chunk of code that gets
 stored in the `twice` variable. The last line then calls the value in
 this variable, causing the frozen code (`return number * factor;`) to
 be activated. It still has access to the `factor` variable from the

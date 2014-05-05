@@ -11,15 +11,15 @@ Drawing is deception
 ____
 
 Browsers provide several ways to create graphics. The simplest
-approach is to use regular DOM elements, and make them look the way we
-want by applying styles. This can get us quite far, as the previous
-chapter showed. By adding partially transparent background images to
-the nodes, we can make then look exactly the way we want to. It is
-even possible to rotate or skew nodes by using the `transform` style.
+approach is to use regular DOM elements, and use styles to position
+and color them. This can get us quite far, as the previous chapter
+showed. By adding partially transparent background images to the
+nodes, we can make then look exactly the way we want to. It is even
+possible to rotate or skew nodes by using the `transform` style.
 
-But we'd still be using the DOM in a way not originally intended. Some
-things, like drawing a line between arbitrary points, are extremely
-awkward to do using regular HTML elements.
+But we'd be using the DOM for something that it wasn't originally
+designed for. There are things, like drawing a line between arbitrary
+points, that are extremely awkward to do with regular HTML elements.
 
 There are two alternatives. The first is DOM-based, but utilizing
 _SVG_, rather than HTML elements, which you can think of as a
@@ -40,11 +40,10 @@ the shape) and redraw it with the shape in its new position.
 
 == SVG ==
 
-This book will not go into SVG in detail, but I will briefly try to
-give you a general idea of the way it works. At the end of the
-chapter, I'll come back to the trade-offs that must be considered when
-deciding which mechanism is the most appropriate for a given
-application.
+This book not go into SVG in detail, but I will briefly try to explain
+how it works. At the end of the chapter, I'll come back to the
+trade-offs that must be considered when deciding which drawing
+mechanism is the most appropriate for a given application.
 
 This is an HTML document with a simple SVG picture inside of it:
 
@@ -60,14 +59,13 @@ This is an HTML document with a simple SVG picture inside of it:
 ----
 
 The `xmlns` attribute changes a node (and its children) to a different
-_XML namespace_. This namespace, identified by a URL, is what
-specifies the dialect that we are currently speaking. The `<circle>`
-and `<rect>` tags, which do not exist in HTML, do have a meaning in
-SVG—they draw shapes, using the style and position specified by their
-attributes.
+_XML namespace_. This namespace, identified by a URL, specifies the
+dialect that we are currently speaking. The `<circle>` and `<rect>`
+tags, which do not exist in HTML, do have a meaning in SVG—they draw
+shapes, using the style and position specified by their attributes.
 
-These tags create DOM elements, just like HTML tags. This changes the
-`<circle>` element to be colored cyan instead:
+These tags create DOM elements, just like HTML tags. For example, this
+changes the `<circle>` element to be colored cyan instead:
 
 [sandbox="svg"]
 [source,javascript]
@@ -76,18 +74,13 @@ var circle = document.querySelector("circle");
 circle.setAttribute("fill", "cyan");
 ----
 
-== The canvas node ==
+You can even register mouse event handler on such elements.
 
-A canvas element is created with the `<canvas>` tag. You can give it
-`width` and `height` attributes to determine its size, in pixels.
+== The canvas element ==
 
-[sandbox="element"]
-[source,text/html]
-----
-<p>Before canvas.</p>
-<canvas width="200" height="100"></canvas>
-<p>After canvas.</p>
-----
+Canvas graphics can be drawn onto a `<canvas>` tag. You can give such
+an element `width` and `height` attributes to determine its size, in
+pixels.
 
 A new canvas is empty, meaning it is entirely transparent, and thus
 shows up simply as empty space in the document.
@@ -99,31 +92,42 @@ interface. There are currently two widely supported drawing styles,
 `"2d"` for two-dimensional graphics, and `"webgl"` for
 three-dimensional graphics through the widely used OpenGL interface.
 
-This book won't discuss WebGL. We will stick to two dimensions here.
-But if you are interested in three-dimensional graphics, do look into
-WebGL. It provides a very direct interface to modern graphics
-hardware, and thus allows you to render complicated scenes very
-efficiently, from JavaScript.
+This book won't discuss WebGL. We stick to two dimensions. But if you
+are interested in three-dimensional graphics, do look into WebGL. It
+provides a very direct interface to modern graphics hardware, and thus
+allows you to render even complicated scenes very efficiently—from
+JavaScript.
 
 A context is created through the `getContext` method on the `<canvas>`
 element.
 
-[sandbox="element"]
-[source,javascript]
+[source,text/html]
 ----
-var canvas = document.querySelector("canvas");
-var context = canvas.getContext("2d");
-context.fillStyle = "red";
-context.fillRect(10, 10, 180, 80);
+<p>Before canvas.</p>
+<canvas width="120" height="60"></canvas>
+<p>After canvas.</p>
+<script>
+  var canvas = document.querySelector("canvas");
+  var context = canvas.getContext("2d");
+  context.fillStyle = "red";
+  context.fillRect(10, 10, 100, 50);
+</script>
 ----
+
+ifdef::tex_target[]
+
+image::img/canvas_fill.png[alt="A canvas with a rectangle"]
+
+endif::tex_target[]
 
 After creating the context object, the example draws a red rectangle
-of 180 by 80 pixels, with its top left corner at coordinates 10,10.
+100 pixels wide and 50 pixels high, with its top left corner at
+coordinates _10,10_.
 
 Just like in HTML (and SVG), the coordinate system that the canvas
-puts (0,0) at the top left corner, and the positive y axis goes down
-from there, so (10,10) is ten pixels below and to the right of at
-corner.
+uses puts _0,0_ at the top left corner, and the positive y axis goes
+down from there, so _10,10_ is ten pixels below and to the right of
+at corner.
 
 == Filling and stroking ==
 
@@ -158,9 +162,15 @@ used for a stroked line. The width of that line is determined by the
   cx.strokeStyle = "blue";
   cx.strokeRect(5, 5, 50, 50);
   cx.lineWidth = 5;
-  cx.strokeRect(35, 5, 50, 50);
+  cx.strokeRect(135, 5, 50, 50);
 </script>
 ----
+
+ifdef::tex_target[]
+
+image::img/canvas_stroke.png[alt="Two stroked squares"]
+
+endif::tex_target[]
 
 When no `width` or `height` attributes are specified, the canvas will
 get a default width of 300 and height of 150 pixels.
@@ -168,7 +178,7 @@ get a default width of 300 and height of 150 pixels.
 == Paths ==
 
 A path is a sequence of lines. The 2d canvas interface's approach to
-specifying such a path is rather peculiar. It is done entirely through
+describing such a path is rather peculiar. It is done entirely through
 side effects.
 
 [source,text/html]
@@ -184,6 +194,12 @@ side effects.
   cx.stroke();
 </script>
 ----
+
+ifdef::tex_target[]
+
+image::img/canvas_path.png[alt="Stroking a number of lines"]
+
+endif::tex_target[]
 
 The example creates a path with a number of horizontal line segments,
 and then strokes it using the `stroke` method. Each segment created
@@ -210,6 +226,12 @@ start, and the shape enclosed by the resulting line is filled.
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/canvas_triangle.png[alt="Filling a path"]
+
+endif::tex_target[]
+
 This draws a filled triangle. Note that only two of the triangle's
 sides are explicitly drawn. The third, from the bottom right corner
 back to the top, is implied, and won't be there when we stroke the
@@ -227,7 +249,7 @@ more involved to draw than straight lines.
 The `quadraticCurveTo` method draws a curve to a given point. To
 determine the curvature of the line, it is given a control point as
 well as a destination point. You can imagine this control point as
-“attracting” the line, giving it its curve. The line won't go through
+_attracting_ the line, giving it its curve. The line won't go through
 the control point. Rather, the direction of the line at its start and
 end point will be such that it aligns with the line from there to the
 control point. The following picture illustrates this:
@@ -247,11 +269,18 @@ control point. The following picture illustrates this:
 </script>
 ----
 
-We draw a quadratic curve from the left to the right, with (60,10) as
+ifdef::tex_target[]
+
+image::img/canvas_quadraticcurve.png[alt="A quadratic curve"]
+
+endif::tex_target[]
+
+We draw a quadratic curve from the left to the right, with _60,10_ as
 control point, and then draw two line segments, going through that
 control point and back to the start of the line. The result somewhat
-resembles a Star Trek insignia. You can see that the lines leaving the
-lower corners start off in the same direction.
+resembles a Star Trek insignia. You can see the effect of the control
+point: the lines leaving the lower corners start off in the direction
+of the control point, and then curve towards their target.
 
 A similar kind of curve is drawn with `bezierCurve`. Instead of a
 single control point, this one has two—one for each end of the line.
@@ -266,35 +295,38 @@ Here is a similar sketch to illustrates the behavior of such a curve:
   cx.moveTo(10, 90);
   // control1=(10,10) control2=(90,10) goal=(50,90)
   cx.bezierCurveTo(10, 10, 90, 10, 50, 90);
-  cx.lineTo(50, 10);
+  cx.lineTo(90, 10);
   cx.lineTo(10, 10);
   cx.closePath();
   cx.stroke();
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/canvas_beziercurve.png[alt="A bezier curve"]
+
+endif::tex_target[]
+
 The two control points specify the direction at both ends of the curve.
 The further they are away from their corresponding point, the more the
 curve will “bulge” in that direction.
 
 Such curves are unfortunately not very easy to work with—finding the
-control points that provide the shape you are looking for can
-sometimes be done manually, by trial and error, and sometimes be
-computed.
+control points that provide the shape you are looking for can be
+difficult. Sometimes you can find a way to compute them, and sometimes
+you'll just have to find a suitable value by trial and error.
 
-Easier to reason about are arcs—fragments of a circle. The `arcTo`
-method method takes five arguments. The first four act somewhat like
-the arguments to ++quadraticCurveTo++—the first two are a sort of control
-point, and the second two are the line's destination. The fifth
-argument provides the radius of the arc. The method will conceptually
-take a corner, a line going to the control point and then the
-destination point, and round its point so that it forms part of a
-circle with the given radius. It then draws this rounded part, as well
-as a line from the starting position to the start of the rounded part.
-It will not draw the line from the end of the rounded part to the goal
-position, though the word “to” in its same would suggest it does. You
-can follow up with a call to `lineTo` with the same goal coordinates
-to add that part of the line.
+Easier to reason about are __arcs__—fragments of a circle. The `arcTo`
+method method takes no less than five arguments. The first four act
+somewhat like the arguments to ++quadraticCurveTo++—the first two are
+a sort of control point, and the second two are the line's
+destination. The fifth argument provides the radius of the arc. The
+method will conceptually take a corner, a line going to the control
+point and then the destination point, and round its point so that it
+forms part of a circle with the given radius. It then draws this
+rounded part, as well as a line from the starting position to the
+start of the rounded part.
 
 [source,text/html]
 ----
@@ -312,18 +344,28 @@ to add that part of the line.
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/canvas_arc.png[alt="Two arcs with different radii"]
+
+endif::tex_target[]
+
+The `arcTo` method will not draw the line from the end of the rounded
+part to the goal position, though the word “to” in its name would
+suggest it does. You can follow up with a call to `lineTo` with the
+same goal coordinates to add that part of the line.
+
 To draw a circle, you could use four calls to `arcTo` (each turning 90
 degrees). But the `arc` method provides a simpler way. It takes a pair
 of coordinates for the arc's center, a radius, and then a start and
 end angle.
 
-Those last two parameters allow us to draw parts of a circle, but do
-make drawing a whole circle slightly more involved. The angles are
-measured in radians, not degrees. This means that a full circle has an
-angle of 2π (`2 * Math.PI`, about 6.28). The angle starts counting at
-the point to the right of the circle's center, and goes clockwise from
-there. You can use a start of zero and an end bigger than 2π (say, 7)
-to draw a full circle.
+Those last two parameters make it possible to draw only a part of
+circle. The angles are measured in radians, not degrees. This means
+that a full circle has an angle of 2π (`2 * Math.PI`, about 6.28). The
+angle starts counting at the point to the right of the circle's
+center, and goes clockwise from there. You can use a start of zero and
+an end bigger than 2π (say, 7) to draw a full circle.
 
 [source,text/html]
 ----
@@ -339,10 +381,16 @@ to draw a full circle.
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/canvas_circle.png[alt="Drawing a circle"]
+
+endif::tex_target[]
+
 The resulting picture contains a line from the left of the full circle
 (first call to `arc`) to the left of the quarter-circle (second call).
 Like other path drawing methods, a line drawn with `arc` is connected
-to the previous path segment by default, and you have to use `moveTo`
+to the previous path segment by default. You'd have to call `moveTo`
 (or start a new path) if you want to avoid this.
 
 // FIXME some kind of practical example with curves
@@ -365,12 +413,12 @@ the current `fillColor`.
 </script>
 ----
 
-The size, style, and font in which to draw can be specified using the
+The size, style, and font of the text can be specified using the
 `font` property. The example gives just a font size and family name.
 You can add `italic` or `bold` to the start of the string to select a
 style.
 
-The last to arguments to `fillText` (and `strokeText`) provide the
+The last two arguments to `fillText` (and `strokeText`) provide the
 position at which the font is drawn. By default, they indicate the
 position of the start of the text's alphabetic baseline (the line on
 which the letters “stand”, not counting hanging parts in letters like
@@ -424,14 +472,18 @@ This can be used to pack multiple _sprites_ (image elements) into a
 single image file, and then copy out the part you need. For example,
 we have this picture containing a game character in multiple poses.
 
+// FIXME update with new art
+
 image::img/player.png[alt="Various poses of a game character"]
 
 If we alternate which pose we draw, we can show an animation that
-looks like a walking character. To animate the picture on a canvas,
-the `clearRect` method is useful. It resembles `fillRect`, but instead
-of coloring the rectangle, it resets it back to transparent.
+looks like a walking character.
 
-We know that each “sprite”, each sub-picture, is 16 pixels wide and 30
+To animate the picture on a canvas, the `clearRect` method is useful.
+It resembles `fillRect`, but instead of coloring the rectangle, it
+resets it back to transparent.
+
+We know that each _sprite_, each sub-picture, is 16 pixels wide and 30
 pixels high. The code below loads the image, and then sets up an
 interval (repeated timer) to draw the next frame.
 
@@ -467,7 +519,7 @@ coordinate that the sprite for the current posture has in the picture.
 
 But what if we want our character to walk to the left instead of to
 the right? We could add another set of sprites, of course. But we can
-also instruct the canvas to draw him the other way round.
+also instruct the canvas to draw the picture the other way round.
 
 Calling the `scale` method will cause anything drawn after it to be
 scaled. It takes two parameters, one to set a horizontal scale and one
@@ -486,17 +538,23 @@ to set a vertical scale.
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/canvas_scale.png[alt="A scaled circle"]
+
+endif::tex_target[]
+
 Scaling will cause everything about the drawn image, including the
 line width, to be stretched out or squeezed together as specified.
 Scaling by a negative amount will flip the picture around. The
-flipping happens around point (0,0), which means that it will also
+flipping happens around point _0,0_, which means that it will also
 flip the direction of the coordinate system. When a horizontal scaling
 of -1 is applied, a shape drawn at x position 100 will end up at what
 used to be position -100.
 
 So to turn a picture around, we can not simply add `cx.scale(-1, 1)`
-before the call to `drawImage`, since that would move our picture to
-the left of the canvas (where it won't be visible).
+before the call to `drawImage`, since that would move our picture
+outside of the canvas, where it won't be visible.
 
 One way to fix this is by adjusting the coordinates given to
 `drawImage` to compensate for this (by drawing it at x position -50
@@ -506,18 +564,18 @@ is to adjust the axis around which the scaling happens.
 There are several other methods, besides `scale` that influence the
 coordinate system for a canvas. It can be rotated with the `rotate`
 method, and moved with the `translate` method. The interesting— and
-confusing—thing is that these transformations “stack”, meaning that
+confusing—thing is that these transformations _stack_, meaning that
 each one happens relative to the previous transformations.
 
 So if we translate (move) by 10 horizontal pixels twice, everything
-will be drawn 20 pixels to the right. If we first move the origin to
-(50,50) and then rotate by 20 degrees (0.1π in radians), that rotation
-will happen around point (50,50).
+will be drawn 20 pixels to the right. If we first move the center of
+the coordinate system to _50,50_ and then rotate by 20 degrees (0.1π
+in radians), that rotation will happen around point _50,50_.
 
 image::img/transform.svg[alt="Stacking transformations"]
 
 But if, instead, we first rotated by 20 degrees, and then translated
-by (50,50), the translation will happen in the rotated coordinate
+by _50,50_, the translation will happen in the rotated coordinate
 system, and thus produce a different orientation. The order in which
 transformations are applied matters.
 
@@ -544,15 +602,15 @@ image::img/mirror.svg[alt="Mirroring around a vertical line"]
 
 This shows the coordinate systems, before and after mirroring in the
 central line. If we draw a triangle at a positive x position, it
-would, by default, be in the place where the green triangle (1) is. A
-call to `flipHorizontally` first does a translation to the right,
-which gets us to triangle 2. It then scales, flipping the triangle
-back to position 3. This is not where it should be, if it were
-mirrored in the given line. The second `translate` call fixes this—it
-“cancels” the initial translation, and makes triangle 4 appear exactly
-where it should.
+would, by default, be in the place where triangle 1 is. A call to
+`flipHorizontally` first does a translation to the right, which gets
+us to triangle 2. It then scales, flipping the triangle back to
+position 3. This is not where it should be, if it were mirrored in the
+given line. The second `translate` call fixes this—it “cancels” the
+initial translation, and makes triangle 4 appear exactly where it
+should.
 
-We can now draw a mirrored character at position (100,0) by flipping
+We can now draw a mirrored character at position _100,0_ by flipping
 the world around the character's vertical center:
 
 [source,text/html]
@@ -574,11 +632,11 @@ the world around the character's vertical center:
 == Storing and clearing transformations ==
 
 Transformations stick around. Everything else we draw after drawing
-that mirrored character would also be mirrored. That might be a bit of
-a problem.
+that mirrored character would also be mirrored. That might be a
+problem.
 
 The `resetTransform` method (which takes no arguments) clears the
-canvas' transformations entirely. It is also possible to save the
+canvas’ transformations entirely. It is also possible to save the
 current transformation, do some drawing and transforming, and then
 restore the old transformation. This is usually the proper thing to do
 for a function that needs to temporarily transform the coordinate
@@ -590,11 +648,12 @@ The `save` and `restore` methods on the 2d canvas context perform this
 kind of transformation tracking. They conceptually maintain a stack of
 transformation states. When you call `save`, the current state is
 pushed onto the stack, and when you call `restore`, the state on top
-of the stack is taken off, and applied to the context.
+of the stack is taken off, and used as the context's current
+transformation.
 
 The example below illustrates what you can do with a function that
 changes the transformation and then calls another function (in this
-case itself) that continues drawing with the given transformation.
+case itself), which continues drawing with the given transformation.
 
 The `branch` function draws a tree-like shape by first drawing a line,
 and then moving the coordinate system to the end of the line and
@@ -623,10 +682,16 @@ recursion stops when the length drops below 8.
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/canvas_tree.png[alt="A recursive picture"]
+
+endif::tex_target[]
+
 If the calls to `save` and `restore` were not there, the second
 recursive call to `branch` would end up with the position and rotation
 created by the first call—it would not be connected to the current
-branch, but rather to the outermost, rightmost branch drawn by the first
+branch, but rather to the innermost, rightmost branch drawn by the first
 call. The resulting shape might also be interesting, but it is
 definitely not a tree.
 
@@ -638,16 +703,16 @@ new display will no longer be showing just colored boxes. Instead,
 we'll use `drawImage` to draw the game's elements.
 
 We must define an object type `CanvasDisplay`, supporting the same
-interface (`drawFrame` and `clear` methods) as `DOMDisplay` from
-Chapter 15.
+interface as `DOMDisplay` from Chapter 15 (methods `drawFrame` and
+`clear`).
 
-This object tracks a little more information that `DOMDisplay`. Rather
-than using the scroll position of its DOM node, it tracks its own
-view port, which tells us what part of the level we are currently
-looking at. It also tracks time, and uses that to decide which
-animation frame to use. And finally, it keeps a `flipPlayer` property,
-so that even when the player is standing still, they keep facing the
-direction they last moved in.
+This object keeps a little more information that `DOMDisplay`. Rather
+than using the scroll position of its DOM element, it tracks its own view
+port, which tells us what part of the level we are currently looking
+at. It also tracks time, and uses that to decide which animation frame
+to use. And finally, it keeps a `flipPlayer` property, so that even
+when the player is standing still, they keep facing the direction they
+last moved in.
 
 // include_code
 
@@ -704,7 +769,7 @@ Other than that, the method updates the viewport for the current
 player position, clears the whole canvas, and draws the background and
 actors onto that. Note that this is different from the approach in
 Chapter 15, where we drew the background once and scrolled the
-wrapping DOM node to move it.
+wrapping DOM element to move it.
 
 Because shapes on a canvas are just pixels, after we draw them, there
 is no way to move them (or remove them). In most cases, the only way
@@ -801,25 +866,20 @@ CanvasDisplay.prototype.drawBackground = function() {
 Tiles that are not empty (null) are drawn with `drawImage`. The
 `otherSprites` image contains the pictures used for the elements that
 are not the player. It contains, from left to right, the wall tile,
-the lava tile, and then the sprite for a coin. Background tiles are
-20 by 20 pixels, since we will use the same scale that we used in
-`DOMDisplay`. Thus, the offset for lava tiles is 20 (the value of the
-`scale` variable), and the offset for walls is zero.
+the lava tile, and then the sprite for a coin. 
+
+image::img/sprites_background.png[alt="Sprites for our game"]
+
+Background tiles are 20 by 20 pixels, since we will use the same scale
+that we used in `DOMDisplay`. Thus, the offset for lava tiles is 20
+(the value of the `scale` variable), and the offset for walls is zero.
 
 We do not bother waiting for the sprite image to load in this program.
 Calling `drawImage` with an image that hasn't been loaded yet will
 simply do nothing. Thus, we might fail to draw the game properly for
 the first few frames, while the image is still loading, but that is
-not much of a problem. Since we keep updating the screen, the correct
+not a serious problem. Since we keep updating the screen, the correct
 scene will appear as soon as the loading finishes.
-
-ifdef::html_target[]
-
-// FIXME this looks awful, needs a black background, ×2 scale
-
-image::img/sprites.png[alt="Sprites for our game"]
-
-endif::html_target[]
 
 The walking character we used before will be used to represent the
 player. The code that draws it needs to pick the right sprite and
@@ -828,8 +888,8 @@ standing still, we draw the leftmost sprite. During jumps (when the
 vertical speed is not zero), we use the rightmost sprite. When
 walking, we cycle through the first 8 sprites based on the display's
 `animationTime` property. This is measured in seconds, and we want to
-switch frames more often than once a second, so the time is multiplied by
-12 first.
+switch frames twelve times per second, so the time is multiplied by 12
+first.
 
 // include_code
 
@@ -896,12 +956,14 @@ When drawing something that is not the player, we look at its type to
 find the offset of the correct sprite. The lava tile is found at
 offset 20, and the coin sprite at 40 (two times `scale`).
 
-We have to subtract the view port's position when computing the actor's
-position, since (0,0) on our canvas corresponds to the top left of the
+We have to subtract the viewport's position when computing the actor's
+position, since _0,0_ on our canvas corresponds to the top left of the
 viewport, not the top left of the level. We could also have used
 `translate` for this. Either way works.
 
-And to plug the new display into `runGame`:
+ifdef::html_target[]
+
+The tiny document below plugs the new display into `runGame`:
 
 [sandbox="game"]
 [focus="yes"]
@@ -914,21 +976,34 @@ And to plug the new display into `runGame`:
 </body>
 ----
 
+endif::html_target[]
+
+ifdef::tex_target[]
+
+That concludes the new display system. The resulting game looks
+something like this:
+
+// FIXME update with new art
+
+image::img/canvas_game.png[alt="The game as shown on canvas"]
+
+endif::tex_target[]
+
 == Choosing a graphics interface ==
 
-So any time you want to generate graphics in the browser, you must
-choose between plain HTML, SVG, and canvas. There is no single “best”
-approach that works in all situations. Each approach has strengths and
+Any time you want to generate graphics in the browser, you must choose
+between plain HTML, SVG, and canvas. There is no single _best_
+approach that works in all situations. Each option has strengths and
 weaknesses.
 
 Plain HTML has the advantage of being simple. It also integrates well
 with text. Both SVG and canvas allow you to draw text, but won't help
 with positioning that text, or wrapping it when it takes up more than
-line. In an HTML-based picture, it is very easy to include blocks of
-text.
+one line. In an HTML-based picture, it is very easy to include blocks
+of text.
 
 SVG can be used to produce crisp graphics that look good at any zoom
-level. It is more difficult to us than plain HTML, but also much more
+level. It is more difficult to use than plain HTML, but also much more
 powerful.
 
 Both SVG and HTML build up a data structure (the DOM) that represents
@@ -939,10 +1014,10 @@ it in canvas can be needlessly expensive. The DOM also allows us to
 register mouse event handlers on every element in the picture (even on
 shapes drawn with SVG). This can not be done with canvas.
 
-But canvas' pixel-oriented approach can be an advantage when drawing a
+But canvas’ pixel-oriented approach can be an advantage when drawing a
 huge amount of tiny elements. The fact that it does not build up a
 data structure, but only repeatedly draws onto the same pixel surface,
-saves it some work.
+can make it faster in situations like that.
 
 There are also effects, such as rendering a scene one pixel at a time
 (for example with a ray tracer), or post-processing an image with
@@ -954,11 +1029,11 @@ techniques. For example, drawing a graph with SVG or canvas, but
 showing textual information, when the user clicks or hovers over an
 element, by positioning an HTML element on top of the picture.
 
-Often, it really does not matter much which interface you choose. The
-second display we built for our game in this chapter could have been
-implemented using any of these thee graphics technologies. It does not
-need to draw text, handle mouse interaction, or work with an
-extraordinarily large amount of elements.
+For non-demanding applications, it really does not matter much which
+interface you choose. The second display we built for our game in this
+chapter could have been implemented using any of these thee graphics
+technologies. It does not need to draw text, handle mouse interaction,
+or work with an extraordinarily large amount of elements.
 
 == Summary ==
 
@@ -1027,11 +1102,11 @@ going clockwise until 2π (about 6.28) has taken us around the whole
 circle. `Math.cos` tells you the x coordinate of the point that
 corresponds to the given angle, `Math.sin` yields the y coordinate.
 Positions (angles) higher than 2π or below 0 are valid—the rotation
-repeats, so that X+2π refers to the same angle as X.
+repeats, so that _X_+2π refers to the same angle as _X_.
 
 image::img/cos_sin.svg[alt="Using cosine and sine to compute coordinates"]
 
-To go from a circle with radius 1 at point (0,0) to an arbitrary
+To go from a circle with radius 1 at point _0,0_ to an arbitrary
 circle, you must multiply the coordinates these functions give you by
 the circle's radius, and then add the coordinates of the circle's
 center to them.
@@ -1065,7 +1140,7 @@ ifdef::html_target[]
    interesting way, with a `rotate` transformation. To use rotation,
    you will have to apply a trick similar to what we did in the
    `flipHorizontally` function. Because you want to rotate around the
-   center of your rectangle, and not around the point (0,0), you must
+   center of your rectangle, and not around the point _0,0_, you must
    first `translate` to there, then rotate, and then translate back.
 
 3. For the zigzag it becomes unpractical to write a new call to
@@ -1125,11 +1200,11 @@ ifdef::html_target[]
 
 A box is easy to draw with `strokeRect`. Define a variable that holds
 its size (or two variables, if your box's width and height differ). To
-create a round ball, start a path, call `arc(x, y, radius, 0, 7)` (an
-arc going from zero to more than a whole circle) and fill it.
+create a round ball, start a path, call ++arc(x, y, radius, 0, 7)++—an
+arc going from zero to more than a whole circle—and fill it.
 
 To model the ball's position and speed, you can use the `Vector` type
-from Chapter 15!!html (which is available on this page)!!. Give it a
+from Chapter 15!!html  (which is available on this page)!!. Give it a
 starting speed, preferably one that is not purely vertical or
 horizontal, and every frame, multiply that speed with the amount of
 time that elapsed. When the ball gets too close to a vertical wall,
@@ -1168,11 +1243,11 @@ extra `<canvas>` element, without adding it to the document, and draw
 our inverted sprites to it, once. When drawing an actual frame, we
 just copy the already inverted sprites to the main canvas.
 
-Some care would be required because images do not load instantly. The
-extra canvas can be used as a drawing source immediately (it'll simply
-be blank until we draw the character onto it). If we register a load
-event handler on the image, we can draw the inverted images as soon as
-it finishes loading, and the next frame of the animation will start
-drawing actual character sprites.
+Some care would be required because images do not load instantly. We
+only do the inverted drawing once, and if we do it before the image
+loads, it won't draw anything. A `"load"` handler on the image can be
+used to draw the inverted images to the extra canvas. This canvas can
+be used as a drawing source immediately (it'll simply be blank until
+we draw the character onto it).
 
 !!solution!!

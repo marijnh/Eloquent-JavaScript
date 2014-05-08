@@ -662,8 +662,9 @@ with him, I can trace my lineage to find out whether the most ancient
 person in the data, Pauwels van Haverbeke, is my direct ancestor.
 And if he is, I would like to know how much DNA I theoretically share with him.
 
-First, I build up an object that makes it possible to easily find
-people by name.
+To be able to go from a parent's name to the actual object that
+represents this person, we first build up an object that associates
+names with people.
 
 // include_code strip_log
 
@@ -678,7 +679,7 @@ console.log(byName["Philibert Haverbeke"]);
 // → {name: "Philibert Haverbeke", …}
 ----
 
-Now, the problem is not entirely as simple as following the `parent`
+Now, the problem is not entirely as simple as following the `father`
 properties and counting how many we need to reach Pauwels. There are
 several cases in the family tree where people married their second
 cousins (tiny villages and all that). This causes the branches of the
@@ -687,39 +688,50 @@ family tree to re-join in a few places, which means I share more than
 generations between Pauwels and me. This formula comes from the idea that
 each generation splits the gene pool in two.
 
-A reasonable way to think about this problem is to put it in similar
-terms as the `reduce` algorithm. A family tree has a more interesting
-structure than a flat array—a structure that in fact already suggests
-a way of computing values from it.
+A reasonable way to think about this problem is to look at is as being
+analogous to `reduce`. That function condenses an array down to a
+single value by repeatedly combining values, from left to right. In
+this case, we also want to condense our data structure down to a
+single value, but in a way that follows family lines. The _shape_ of
+the data is that of a family tree, rather than a flat list.
+
+The way we want to reduce this shape is by computing a value for a
+given person by combining values from their ancestors. This can be
+done recursively—if we are interested in person _A_, that involves
+computing the values for _A_’s parents, which in turn requires us to
+compute the value for _A_’s grandparents, and so on. In principle,
+that'd require us to look at an infinite number of people, but since
+our data set is finite, we have to stop somewhere. We'll allow a
+default value to be given to our reduction function, which will be
+used for people that are not in the data. When computing shared DNA,
+that value is simply zero, on the assumption that people not in the
+list don't share DNA with the ancestor we are looking at.
 
 Given a person, a function to combine values from the two parents of a
-given person, and a zero value that is to be used for unknown persons,
-the `reduceAncestors` function computes a value from a family tree.
+given person, and a default value, `reduceAncestors` condenses a value
+from a family tree.
 
 // include_code
 
 [source,javascript]
 ----
-function reduceAncestors(person, f, zero) {
-  function reduce(person) {
-    if (person == null) return zero;
-    var father = byName[person.father];
-    var mother = byName[person.mother];
-    return f(person, reduce(father), reduce(mother));
+function reduceAncestors(person, f, defaultValue) {
+  function valueFor(person) {
+    if (person == null)
+      return defaultValue;
+    else
+      return f(person, valueFor(byName[person.mother]),
+                       valueFor(byName[person.father]));
   }
-  return reduce(person);
+  return valueFor(person);
 }
 ----
 
-The inner function (`reduce`) handles a single person. Through the
+The inner function (`valueFor`) handles a single person. Through the
 magic of recursion, it can simply call itself to handle the father and
 the mother of this person. The results, along with the person object
-itself, are passed to `f`.
-
-Some people's father and mother are not in the data set (obviously, or
-it would include an awful lot of people). So when looking up a parent
-doesn't yield a value, `reduce` simply returns the `zero` value that
-was passed to `reduceAncestors`.
+itself, are passed to `f`, which returns the actual value for this
+person.
 
 We can then use this to compute the amount of DNA my grandfather
 shared with Pauwels van Haverbeke, and divide that by four.
@@ -728,11 +740,11 @@ shared with Pauwels van Haverbeke, and divide that by four.
 
 [source,javascript]
 ----
-function sharedDNA(person, fromFather, fromMother) {
+function sharedDNA(person, fromMother, fromFather) {
   if (person.name == "Pauwels van Haverbeke")
     return 1;
   else
-    return (fromFather + fromMother) / 2;
+    return (fromMother + fromFather) / 2;
 }
 var ph = byName["Philibert Haverbeke"];
 console.log(reduceAncestors(ph, sharedDNA, 0) / 4);
@@ -741,27 +753,58 @@ console.log(reduceAncestors(ph, sharedDNA, 0) / 4);
 
 The person with the name Pauwels van Haverbeke obviously shared 100%
 of his DNA with Pauwels van Haverbeke (there are no people who share
-names in the data set). All other people share the average of the
-amount that their parents share.
+names in the data set), so the function returns 1 for him. All other
+people share the average of the amounts that their parents share.
 
 So, statistically speaking, I share about 0.05% of my DNA with this
-16th-century person. The chances of one of my 44 non-XY chromosomes
-coming from him are thus rather small. However, assuming no extramarital
-children in the family history, I do have his Y chromosome.
+16th-century person. It should be noted that this is only a
+statistical approximation, not an exact amount. It is a rather small
+number, but given how much genetic material we carry (about 3 billion
+base pairs), there's still probably some aspect, in the biological
+machine that is me, that originates with this person.
 
-Data structures (such as this family tree) can often be made easier to
-use (as well as easier to think about) by finding analogues to
-`forEach` (iterate), `map` (transform), and `reduce` that apply to
-them. A `forEachAncestor` function would simply call a function for
-each ancestor. A mapping function probably isn't of much use for this
-data structure, but would, for example, be useful for the list type
-that was introduced in the exercises to the last chapter.
+We could also have computed this number without relying on
+`reduceAncestors`. But separating the general approach (condensing a
+family tree) from the specific case (computing shared DNA) can help
+the clarity of the code, and allows us to reuse the abstract part of
+the program for other cases. For example, this finds the number of
+known ancestors, for a given person, that lived over 70:
+
+// test: clip
+
+[source,javascript]
+----
+function countAncestors(person, test) {
+  function combine(person, fromMother, fromFather) {
+    var thisOneCounts = test(person);
+    return fromMother + fromFather + (thisOneCounts ? 1 : 0);
+  }
+  return reduceAncestors(person, combine, 0);
+}
+function longLivingPercentage(person) {
+  var all = countAncestors(person, function(person) {
+    return true;
+  });
+  var longLiving = countAncestors(person, function(person) {
+    return (person.died - person.born) >= 70;
+  });
+  return longLiving / all;
+}
+console.log(longLivingPercentage(byName["Emile Haverbeke"]));
+// → 0.145
+----
+
+Such numbers are not to be taken too seriously, given the fact that
+our data set contains a rather arbitrary collection of people. But the
+code illustrates the fact that `reduceAncestors` gives us a useful
+piece of vocabulary for working with the family tree data
+structure.
 
 == Binding ==
 
-(((bind method)))(((partial application)))The `bind` method, which all functions have, creates a new function
-that will call the original function, but with some of the arguments
-already fixed.
+(((bind method)))(((partial application)))The `bind` method, which all
+functions have, creates a new function that will call the original
+function, but with some of the arguments already fixed.
 
 The code below shows an example of `bind` in use. First it defines
 a function `isInSet` that tells us whether a person is in a given set of strings.

@@ -393,7 +393,68 @@ Like other path drawing methods, a line drawn with `arc` is connected
 to the previous path segment by default. You'd have to call `moveTo`
 (or start a new path) if you want to avoid this.
 
-// FIXME some kind of practical example with curves
+== Drawing a smooth line ==
+
+Imagine you've just taken a job at EconomiCorp Inc., and your first
+assignment is to draw a pie chart of their customer satisfaction
+survey results.
+
+The `results` variable contains an array of objects that represent the
+survey responses:
+
+// include_code
+
+[sandbox="pie"]
+[source,javascript]
+----
+var results = [
+  {name: "Satisfied", count: 1043, color: "lightblue"},
+  {name: "Neutral", count: 563, color: "lightgreen"},
+  {name: "Unsatisfied", count: 510, color: "pink"},
+  {name: "No comment", count: 175, color: "silver"}
+];
+----
+
+To draw a pie chart, we draw a number of pie slices, made up of an
+arc, and a pair of lines to the center of that arc. We can compute the
+angle taken up by each arc by dividing a full circle (2π) by the total
+number of responses, and then multiplying that number (the angle per
+response) by the amount of people that picked a given choice.
+
+[sandbox="pie"]
+[source,text/html]
+----
+<canvas width="200" height="200"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  var total = results.reduce(function(sum, choice) {
+    return sum + choice.count;
+  }, 0);
+  // Start at the top
+  var currentAngle = -0.5 * Math.PI;
+  results.forEach(function(result) {
+    var sliceAngle = (result.count / total) * 2 * Math.PI;
+    cx.beginPath();
+    // center=100,100, radius=100
+    cx.arc(100, 100, 100,
+    // from current angle, clockwise by slice's angle
+           currentAngle, currentAngle + sliceAngle);
+    currentAngle += sliceAngle;
+    cx.lineTo(100, 100);
+    cx.fillStyle = result.color;
+    cx.fill();
+  });
+</script>
+----
+
+ifdef::tex_target[]
+
+image::img/canvas_pie_chart.png[alt="A pie chart"]
+
+endif::tex_target[]
+
+A pie chart that doesn't tell us what the slices mean is not very
+helpful. We would like to have a way to draw text to the canvas.
 
 == Text ==
 
@@ -425,6 +486,9 @@ which the letters “stand”, not counting hanging parts in letters like
 “j” or “p”). The horizontal position can be changed by setting the
 `textAlign` property to `"end"` or `"center"`, the vertical position
 by setting `textBaseline` to `"top"`, `"middle"`, or `"bottom"`.
+
+We will come back to our pie chart, and the problem of labeling the
+slices, in the exercises at the end of the chapter.
 
 == Images ==
 
@@ -1161,6 +1225,85 @@ ifdef::html_target[]
    between these points, making them curve towards the center of the
    star (with `quadraticCurveTo`, you can use the center as control
    point).
+
+!!solution!!
+
+=== The pie chart ===
+
+Earlier in the chapter, we saw an example program that drew a simple
+pie chart. Modify this program so that the name of each category is
+shown next to the slice that represents it. Try to find a way to
+automatically position this text that looks pleasing, and would work
+for other data sets as well. You may assume that categories are no
+smaller than 5% (i.e. there won't be a bunch of tiny ones next to each
+other).
+
+You might again need `Math.sin` and `Math.cos`, as described in the
+previous exercise.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,text/html]
+----
+<canvas width="600" height="300"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+  var total = results.reduce(function(sum, choice) {
+    return sum + choice.count;
+  }, 0);
+
+  var currentAngle = -0.5 * Math.PI;
+  var centerX = 300, centerY = 150;
+  // Add code to draw the slice labels in this loop.
+  results.forEach(function(result) {
+    var sliceAngle = (result.count / total) * 2 * Math.PI;
+    cx.beginPath();
+    cx.arc(centerX, centerY, 100,
+           currentAngle, currentAngle + sliceAngle);
+    currentAngle += sliceAngle;
+    cx.lineTo(centerX, centerY);
+    cx.fillStyle = result.color;
+    cx.fill();
+  });
+</script>
+----
+
+!!solution!!
+
+You will need to call `drawText`, and set the context's `textAlign`
+and `textBaseline` properties in such a way that the text ends up where
+you want it.
+
+A sensible way to position the labels would be to put the text on the
+line going from the center of the pie through the middle of the slice.
+You don't want to put the text directly against the side of the pie,
+but rather move it outside of it a given amount of pixels.
+
+The angle of this line is `currentAngle + 0.5 * sliceAngle`. The code
+below finds a position on this line, 120 pixels from the center:
+
+// test: no
+
+[source,javascript]
+----
+var middleAngle = currentAngle + 0.5 * sliceAngle;
+var textX = Math.cos(middleAngle) * 120 + centerX;
+var textY = Math.sin(middleAngle) * 120 + centerY;
+----
+
+For `textBaseline`, the value `"middle"` is probably appropriate when
+using this approach. What to use for `textAlign` depends on the side
+of the circle we are on—on the left, it should be `"right"`, and on
+the right, it should be `"left"`, so that the text is positioned away
+from the pie.
+
+If you are not sure how to find out which side of the circle a given
+angle is on, look back to the explanation of `Math.cos` in the
+previous exercise. The cosine of an angle tells us which x coordinate
+it corresponds to, which in turn tells us exactly which side of the
+circle we are on.
 
 !!solution!!
 

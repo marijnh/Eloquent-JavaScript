@@ -443,9 +443,10 @@ console.log(filter(ancestry, function(person) {
 // → [{name: "Philibert Haverbeke", …}, …]
 ----
 
-This uses the function value (`test`) not just as code to execute, but
-as a pluggable way to make a decision. The return value of the function argument
-is used to decide whether a given element will be included in the output.
+This uses the argument named `test`, a function value, to fill in a
+“gap” in the computation. The test function is called for each
+element, and its return value determines whether an element is
+included in the returned array or not.
 
 Three people in the file were alive and young in 1924: my grandfather,
 grandmother, and great-aunt.

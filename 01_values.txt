@@ -558,7 +558,7 @@ it's an expression that does something __terrible__—the result will be
 true, and `X` is never evaluated. The same goes for `false && X`,
 which is false, and will ignore `X`. This is called _short-circuit evaluation_.
 
-The conditional operator work in a similar way. The first expression
+The conditional operator works in a similar way. The first expression
 is always evaluated, but the second or third value, the one that is
 not picked, is also not evaluated.
 

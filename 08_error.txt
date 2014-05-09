@@ -154,33 +154,33 @@ Doing this by hand, again and again, is a sure way to drive yourself
 insane. Fortunately, it is often possible to write a second program
 that automates testing your actual program.
 
-As an example, we once again use the `Point` type.
+As an example, we once again use the `Vector` type.
 
 // include_code
 
 [source,javascript]
 ----
-function Point(x, y) {
+function Vector(x, y) {
   this.x = x;
   this.y = y;
 }
-Point.prototype.plus = function(other) {
-  return new Point(this.x + other.x, this.y + other.y);
+Vector.prototype.plus = function(other) {
+  return new Vector(this.x + other.x, this.y + other.y);
 };
 ----
 
-We will write a program to check that our implementation of `Point`
+We will write a program to check that our implementation of `Vector`
 works as indended. Then, every time we change it, we follow up by
 running the test program, so that we can be reasonably confident that
 we did not break anything. When we add extra functionality (for
-example a new method) to the `Point` type, we also add code that tests
+example a new method) to the `Vector` type, we also add code that tests
 the new feature to the tester.
 
 [source,javascript]
 ----
-function testPoint() {
-  var p1 = new Point(10, 20);
-  var p2 = new Point(-10, 5);
+function testVector() {
+  var p1 = new Vector(10, 20);
+  var p2 = new Vector(-10, 5);
   var p3 = p1.plus(p2);
 
   if (p1.x !== 10) return "fail: x property";
@@ -190,7 +190,7 @@ function testPoint() {
   if (p3.y !== 25) return "fail: y from plus";
   return "everything ok";
 }
-console.log(testPoint());
+console.log(testVector());
 // → everything ok
 ----
 

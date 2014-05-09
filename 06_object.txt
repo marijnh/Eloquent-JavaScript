@@ -487,7 +487,7 @@ this case, a `toString` method—any kind of object that happens to
 support this interface can be plugged into the code, and it will just
 work.
 
-This technique is called _polymorphism_—though no actual
+This technique is called __polymorphism__—though no actual
 shape-shifting is involved. Polymorphic code can work with values of
 different shapes, as long as they support the interface it expects.
 

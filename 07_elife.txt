@@ -75,19 +75,19 @@ turn, and updates the world to reflect their actions.
 The grid that models the world has a fixed width and height
 (corresponding to the size of the map that the world is based on).
 Squares are identified by their x- and y-coordinates. We use a very
-simple type, `Point` (as seen in the exercises for the previous
+simple type, `Vector` (as seen in the exercises for the previous
 chapter) to represent such coordinate pairs.
 
 // include_code
 
 [source,javascript]
 ----
-function Point(x, y) {
+function Vector(x, y) {
   this.x = x;
   this.y = y;
 }
-Point.prototype.plus = function(other) {
-  return new Point(this.x + other.x, this.y + other.y);
+Vector.prototype.plus = function(other) {
+  return new Vector(this.x + other.x, this.y + other.y);
 };
 ----
 
@@ -99,7 +99,7 @@ grid with grid-related things.
 
 (((array)))(((data structure)))To store the values on the grid, there
 are several options. We can use an array of row arrays and use two
-property accesses to get to a specific point, like this:
+property accesses to get to a specific square, like this:
 
 [source,javascript]
 ----
@@ -139,15 +139,15 @@ function Grid(width, height) {
   this.width = width;
   this.height = height;
 }
-Grid.prototype.isInside = function(point) {
-  return point.x >= 0 && point.x < this.width &&
-         point.y >= 0 && point.y < this.height;
+Grid.prototype.isInside = function(vector) {
+  return vector.x >= 0 && vector.x < this.width &&
+         vector.y >= 0 && vector.y < this.height;
 };
-Grid.prototype.get = function(point) {
-  return this.space[point.x + this.width * point.y];
+Grid.prototype.get = function(vector) {
+  return this.space[vector.x + this.width * vector.y];
 };
-Grid.prototype.set = function(point, value) {
-  this.space[point.x + this.width * point.y] = value;
+Grid.prototype.set = function(vector, value) {
+  this.space[vector.x + this.width * vector.y] = value;
 };
 ----
 
@@ -156,10 +156,10 @@ And a trivial test:
 [source,javascript]
 ----
 var grid = new Grid(5, 5);
-console.log(grid.get(new Point(1, 1)));
+console.log(grid.get(new Vector(1, 1)));
 // → undefined
-grid.set(new Point(1, 1), "X");
-console.log(grid.get(new Point(1, 1)));
+grid.set(new Vector(1, 1), "X");
+console.log(grid.get(new Vector(1, 1)));
 // → X
 ----
 
@@ -189,14 +189,14 @@ names to coordinate offsets:
 [source,javascript]
 ----
 var directions = {
-  "n":  new Point( 0, -1),
-  "ne": new Point( 1, -1),
-  "e":  new Point( 1,  0),
-  "se": new Point( 1,  1),
-  "s":  new Point( 0,  1),
-  "sw": new Point(-1,  1),
-  "w":  new Point(-1,  0),
-  "nw": new Point(-1, -1)
+  "n":  new Vector( 0, -1),
+  "ne": new Vector( 1, -1),
+  "e":  new Vector( 1,  0),
+  "se": new Vector( 1,  1),
+  "s":  new Vector( 0,  1),
+  "sw": new Vector(-1,  1),
+  "w":  new Vector(-1,  0),
+  "nw": new Vector(-1, -1)
 };
 ----
 
@@ -271,7 +271,7 @@ function World(map, legend) {
 
   map.forEach(function(line, y) {
     for (var x = 0; x < line.length; x++)
-      grid.set(new Point(x, y),
+      grid.set(new Vector(x, y),
                elementFromChar(legend, line[x]));
   });
 }
@@ -304,7 +304,7 @@ World.prototype.toString = function() {
   var output = "";
   for (var y = 0; y < this.grid.height; y++) {
     for (var x = 0; x < this.grid.width; x++) {
-      var element = this.grid.get(new Point(x, y));
+      var element = this.grid.get(new Vector(x, y));
       output += charFromElement(element);
     }
     output += "\n";
@@ -427,7 +427,7 @@ Grid.prototype.forEach = function(f, context) {
     for (var x = 0; x < this.width; x++) {
       var value = this.space[x + y * this.width];
       if (value != null)
-        f.call(context, value, new Point(x, y));
+        f.call(context, value, new Vector(x, y));
     }
   }
 };
@@ -455,10 +455,10 @@ that already had their turn, and ignore those when we see them again.
 ----
 World.prototype.turn = function() {
   var acted = [];
-  this.grid.forEach(function(critter, point) {
+  this.grid.forEach(function(critter, vector) {
     if (critter.act && acted.indexOf(critter) == -1) {
       acted.push(critter);
-      this.letAct(critter, point);
+      this.letAct(critter, vector);
     }
   }, this);
 };
@@ -473,20 +473,20 @@ critters to move.
 
 [source,javascript]
 ----
-World.prototype.letAct = function(critter, point) {
-  var action = critter.act(new View(this, point));
+World.prototype.letAct = function(critter, vector) {
+  var action = critter.act(new View(this, vector));
   if (action && action.type == "move") {
-    var dest = this.checkDestination(action, point);
+    var dest = this.checkDestination(action, vector);
     if (dest && this.grid.get(dest) == null) {
-      this.grid.set(point, null);
+      this.grid.set(vector, null);
       this.grid.set(dest, critter);
     }
   }
 };
 
-World.prototype.checkDestination = function(action, point) {
+World.prototype.checkDestination = function(action, vector) {
   if (directions.hasOwnProperty(action.direction)) {
-    var dest = point.plus(directions[action.direction]);
+    var dest = vector.plus(directions[action.direction]);
     if (this.grid.isInside(dest))
       return dest;
   }
@@ -533,12 +533,12 @@ The one missing part, the `View` type, looks like this:
 
 [source,javascript]
 ----
-function View(world, point) {
+function View(world, vector) {
   this.world = world;
-  this.point = point;
+  this.vector = vector;
 }
 View.prototype.look = function(dir) {
-  var target = this.point.plus(directions[dir]);
+  var target = this.vector.plus(directions[dir]);
   if (this.world.grid.isInside(target))
     return charFromElement(this.world.grid.get(target));
   else
@@ -765,16 +765,16 @@ LifeLikeWorld.prototype = Object.create(World.prototype);
 
 var actionTypes = Object.create(null);
 
-LifeLikeWorld.prototype.letAct = function(critter, point) {
-  var action = critter.act(new View(this, point));
+LifeLikeWorld.prototype.letAct = function(critter, vector) {
+  var action = critter.act(new View(this, vector));
   var handled = action &&
     action.type in actionTypes &&
     actionTypes[action.type].call(this, critter,
-                                  point, action);
+                                  vector, action);
   if (!handled) {
     critter.energy -= 0.2;
     if (critter.energy <= 0)
-      this.grid.set(point, null);
+      this.grid.set(vector, null);
   }
 };
 ----
@@ -820,14 +820,14 @@ Moving is more involved:
 
 [source,javascript]
 ----
-actionTypes.move = function(critter, point, action) {
-  var dest = this.checkDestination(action, point);
+actionTypes.move = function(critter, vector, action) {
+  var dest = this.checkDestination(action, vector);
   if (dest == null ||
       critter.energy <= 1 ||
       this.grid.get(dest) != null)
     return false;
   critter.energy -= 1;
-  this.grid.set(point, null);
+  this.grid.set(vector, null);
   this.grid.set(dest, critter);
   return true;
 };
@@ -844,8 +844,8 @@ Otherwise, it moves the critter, and subtracts the energy cost.
 
 [source,javascript]
 ----
-actionTypes.eat = function(critter, point, action) {
-  var dest = this.checkDestination(action, point);
+actionTypes.eat = function(critter, vector, action) {
+  var dest = this.checkDestination(action, vector);
   var atDest = dest != null && this.grid.get(dest);
   if (atDest == null || atDest.energy == null)
     return false;
@@ -865,10 +865,10 @@ and the victim is removed from the grid.
 
 [source,javascript]
 ----
-actionTypes.reproduce = function(critter, point, action) {
+actionTypes.reproduce = function(critter, vector, action) {
   var baby = elementFromChar(this.legend,
                              critter.originChar);
-  var dest = this.checkDestination(action, point);
+  var dest = this.checkDestination(action, vector);
   if (dest == null ||
       critter.energy <= 2 * baby.energy ||
       this.grid.get(dest) != null)

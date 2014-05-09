@@ -202,10 +202,8 @@ and that there is a single player start position in it.
 == Actors ==
 
 To represent the position and size of an actor, we will return to our
-trusty `Point` type, which groups an x and y coordinate into an
-object. Only, because sizes are not really points, and we will also
-use this to represent speeds, we will call it `Vector` instead (in the
-mathematical sense).
+trusty `Vector` type, which groups an x and y coordinate into an
+object.
 
 // include_code
 

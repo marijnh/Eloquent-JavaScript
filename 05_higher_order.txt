@@ -689,22 +689,22 @@ family tree to re-join in a few places, which means I share more than
 generations between Pauwels and me. This formula comes from the idea that
 each generation splits the gene pool in two.
 
-A reasonable way to think about this problem is to look at is as being
-analogous to `reduce`. That function condenses an array down to a
-single value by repeatedly combining values, from left to right. In
+A reasonable way to think about this problem is to look at it as being
+analogous to `reduce`, which condenses an array down to a
+single value by repeatedly combining values, left to right. In
 this case, we also want to condense our data structure down to a
 single value, but in a way that follows family lines. The _shape_ of
 the data is that of a family tree, rather than a flat list.
 
 The way we want to reduce this shape is by computing a value for a
 given person by combining values from their ancestors. This can be
-done recursively—if we are interested in person _A_, that involves
-computing the values for _A_’s parents, which in turn requires us to
+done recursively: If we are interested in person _A_, we have to
+compute the values for _A_’s parents, which in turn requires us to
 compute the value for _A_’s grandparents, and so on. In principle,
 that'd require us to look at an infinite number of people, but since
 our data set is finite, we have to stop somewhere. We'll allow a
 default value to be given to our reduction function, which will be
-used for people that are not in the data. When computing shared DNA,
+used for people that are not in the data. In our case,
 that value is simply zero, on the assumption that people not in the
 list don't share DNA with the ancestor we are looking at.
 
@@ -762,14 +762,14 @@ So, statistically speaking, I share about 0.05% of my DNA with this
 statistical approximation, not an exact amount. It is a rather small
 number, but given how much genetic material we carry (about 3 billion
 base pairs), there's still probably some aspect, in the biological
-machine that is me, that originates with this person.
+machine that is me, that originates with Pauwels.
 
 We could also have computed this number without relying on
 `reduceAncestors`. But separating the general approach (condensing a
-family tree) from the specific case (computing shared DNA) can help
+family tree) from the specific case (computing shared DNA) can improve
 the clarity of the code, and allows us to reuse the abstract part of
-the program for other cases. For example, this finds the number of
-known ancestors, for a given person, that lived over 70:
+the program for other cases. For example, the following code finds the number of
+known ancestors, for a given person, that lived past 70:
 
 // test: clip
 

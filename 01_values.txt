@@ -458,7 +458,7 @@ recommend treating them as interchangeable (more on that in a moment).
 
 (((type conversion)))In the introduction, I mentioned that JavaScript
 goes out of its way to accept almost any program you give it, even
-if programs that do odd things. This is nicely demonstrated by these
+programs that do odd things. This is nicely demonstrated by these
 expressions:
 
 [source,javascript]

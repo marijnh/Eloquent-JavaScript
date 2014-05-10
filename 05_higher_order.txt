@@ -698,7 +698,7 @@ the data is that of a family tree, rather than a flat list.
 
 The way we want to reduce this shape is by computing a value for a
 given person by combining values from their ancestors. This can be
-done recursively: If we are interested in person _A_, we have to
+done recursively: if we are interested in person _A_, we have to
 compute the values for __A__’s parents, which in turn requires us to
 compute the value for __A__’s grandparents, and so on. In principle,
 that'd require us to look at an infinite number of people, but since

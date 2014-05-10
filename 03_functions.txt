@@ -317,7 +317,7 @@ greet("Harry");
 console.log("Bye");
 ----
 
-A run through this program goes roughly like this: The call to
+A run through this program goes roughly like this: the call to
 `greet` causes control to jump to the start of that function (line
 2). It calls `console.log` (a built-in browser function), which takes
 control, does its job, then returns control to line 2. Then it
@@ -532,7 +532,7 @@ looping variant does. The function calls itself multiple times with
 different arguments to achieve the repeated multiplication.
 
 (((stack overflow)))But this implementation has one important
-problem: In typical JavaScript implementations, it's about ten times
+problem: in typical JavaScript implementations, it's about ten times
 slower than the looping version. Running through a simple loop is a
 lot cheaper than calling a function multiple times. On top of that,
 using a sufficiently large exponent to this function might cause the
@@ -576,7 +576,7 @@ with loops. Most often these are problems that require exploring or
 processing several “branches”, each of which might branch out again
 into more branches.
 
-Consider this puzzle: By starting from the number 1 and repeatedly
+Consider this puzzle: by starting from the number 1 and repeatedly
 either adding 5 or multiplying by 3, an infinite amount of new
 numbers can be produced. How would you write a function that, given a
 number, tries to find a sequence of such additions and
@@ -795,7 +795,7 @@ it's definitely also possible to have both side effects and return a
 value.)
 
 The first helper function in the farm example,
-`printZeroPaddedWithLabel`, is called for its side effect: It prints
+`printZeroPaddedWithLabel`, is called for its side effect: it prints
 a line. The second version, `zeroPad`, is called for its return
 value. It is no coincidence that the second is useful in more
 situations than the first. Functions that create values are easier to

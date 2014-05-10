@@ -207,7 +207,7 @@ console.log(mack);
 
 (((Array type)))(((array,methods)))(((push method)))(((pop
 method)))(((join method)))The `push` method can be used to add values
-to the end of an array. The `pop` method does the opposite: It removes
+to the end of an array. The `pop` method does the opposite: it removes
 the value at the end of the array and returns it. An array of strings
 can be flattened to a single string with the `join` method. The
 argument given to `join` determines the text that is glued between the
@@ -582,7 +582,7 @@ should we store these correlations once we compute them?
 One possible way is to
 store all the correlations in an array, using objects with `name` and
 `value` properties. But that makes looking up the correlation for a given
-event somewhat cumbersome: You'd have to loop over the whole array
+event somewhat cumbersome: you'd have to loop over the whole array
 to find the object with the right `name`. We could wrap this lookup process
 in a function, but we would still be writing more code, and the
 computer would be doing more work, than necessary.
@@ -1175,7 +1175,7 @@ this exercise, write two functions, `reverseArray` and
 `reverseArrayInPlace`. The first, `reverseArray`, takes an array as
 argument and produces a _new_ array that has the same elements in the
 inverse order. The second, `reverseArrayInPlace` does what the
-`reverse` method does: It modifies the array given as argument in order
+`reverse` method does: it modifies the array given as argument in order
 to reverse its elements.
 
 Thinking back to the notes about side effects and pure functions in
@@ -1335,7 +1335,7 @@ whose values are also equal when compared with a recursive call to
 To find out whether to compare two things by identity (use the “===”
 operator for that) or by looking at their properties, you can use the `typeof` operator.
 If it produces `"object"` for both values, you should do a deep comparison. But
-you have to take one silly exception into account: By a
+you have to take one silly exception into account: by a
 historical accident, `typeof null` also produces `"object"`.
 
 ifdef::html_target[]

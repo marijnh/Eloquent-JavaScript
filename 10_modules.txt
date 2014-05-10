@@ -775,7 +775,7 @@ into modules of the code. To refresh your memory, these are the
 functions and types defined in that chapter, in order of appearance.
 
 ----
-Point
+Vector
 Grid
 directions
 randomElement
@@ -814,7 +814,7 @@ functions.
 
 ----
 Module "grid"
-  Point
+  Vector
   Grid
   directions
 

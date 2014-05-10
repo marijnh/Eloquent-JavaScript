@@ -68,7 +68,7 @@ to `DELETE` its main page, it'll probably refuse.
 
 The part after the method name is the path of the resource the request
 applies to. In the simplest case, a resource is simply a file on the
-server. But the protocol doesn't require it to be: It may be anything
+server. But the protocol doesn't require it to be: it may be anything
 that can be transferred _as if_ it is a file. Many servers generate
 the responses they produce on the fly. For example, if you open
 _http://twitter.com/marijnjh_, the server looks in its database for a

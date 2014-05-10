@@ -353,7 +353,7 @@ jump back to a place that knows how to handle the problem. That is
 what _exception handling_ does.
 
 (((control flow)))(((raise (exception))))(((throw keyword)))(((call
-stack)))Exceptions are a mechanism that works like this: It is
+stack)))Exceptions are a mechanism that works like this: it is
 possible for code to _raise_ (or _throw_) an exception, which is
 simply a value. Raising an exception somewhat resembles a
 super-charged return from a function—it does not just jump out of the
@@ -424,7 +424,7 @@ Well, almost...
 
 == Cleaning up after exceptions ==
 
-(((cleaning up)))Consider the following situation: A function
+(((cleaning up)))Consider the following situation: a function
 `withContext`, wants to make sure that, during its execution, the
 top-level variable `context` holds a specific context value. After it
 finishes, it restores this variable to its old value.

@@ -704,7 +704,7 @@ canvas’ transformations entirely. It is also possible to save the
 current transformation, do some drawing and transforming, and then
 restore the old transformation. This is usually the proper thing to do
 for a function that needs to temporarily transform the coordinate
-system: First save whatever the code that called the function was
+system: first save whatever the code that called the function was
 using, then do its thing (on top of the existing transformation), and
 then revert to what it started with.
 

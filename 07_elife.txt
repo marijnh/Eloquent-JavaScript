@@ -168,7 +168,7 @@ console.log(grid.get(new Vector(1, 1)));
 (((interface)))Before we can start on the `World` constructor, we must
 get more specific about the critter objects that will be living inside
 of it. I mentioned that the world will ask the critters what action
-they want to take. This works as follows: Each critter object has an
+they want to take. This works as follows: each critter object has an
 `act` method that, when called, returns an _action_. An action is an
 object with a `type` property, which names the type of action the
 critter wants to take, for example `"move"`. The action may also
@@ -682,7 +682,7 @@ given a negative number on the left hand side, will return a negative
 result. So we add another eight to make sure the sum is positive,
 assuming that the `n` argument is never less than -8.
 
-The `act` method, in the simple case, only has to do the following: It
+The `act` method, in the simple case, only has to do the following: it
 starts “scanning” the critter's surroundings starting from its
 left-hand side, and going clockwise (towards the right) until it finds
 an empty square. It then moves in the direction of that empty square.

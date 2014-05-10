@@ -227,7 +227,7 @@ press `enter`) also can't be put between quotes. The string has to
 stay on a single line.
 
 (((backslash)))To be able to have such characters in a string, the
-following notation is used: Whenever a backslash (“\”) is found
+following notation is used: whenever a backslash (“\”) is found
 inside quoted text, it indicates that the character after it has a
 special meaning. A quote that is preceded by a backslash will not end
 the string, but be part of it. When an “n” character occurs after a
@@ -336,7 +336,7 @@ console.log("Aardvark" < "Zoroaster")
 // → true
 ----
 
-The way strings are ordered is more or less alphabetic: Uppercase
+The way strings are ordered is more or less alphabetic: uppercase
 letters are always “less” than lowercase ones, so `"Z" < "a"` is
 true, and nonalphabetic characters (“!”, “-”, and so on) are also
 included in the ordering. The actual comparison is

@@ -484,7 +484,7 @@ So if we match `"the 3 pigs"` there is a match between positions 4
    through the last box and have successfully matched this string.
 
 Conceptually, a regular expression engine looks for a match in a
-string as follows: It starts at the start of the string and tries a
+string as follows: it starts at the start of the string and tries a
 match there. In this case, there _is_ a word boundary there, so it'd
 get past the first box, but there is no digit, so it'd fail at the
 second box. Then it moves on to the second character in the string,

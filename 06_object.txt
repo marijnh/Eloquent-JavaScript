@@ -496,7 +496,7 @@ different shapes, as long as they support the interface it expects.
 I am going to work through a slightly more involved example in an
 attempt to give you a better idea what polymorphism, as well as
 object-oriented programming in general, looks like. The project is
-this: We will write a program that, given an array of arrays of table
+this: we will write a program that, given an array of arrays of table
 cells, builds up a string that contains a nicely laid out
 table—meaning that the columns are straight and the rows are aligned.
 Something like this:

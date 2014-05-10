@@ -38,7 +38,7 @@ sub-sentences, and so on. This allows us to combine expressions
 together to express arbitrarily complex computations.
 
 (((statement)))(((semicolon)))(((program)))If an expression
-corresponds to a sentence fragment, a _statement_, in JavaScript,
+corresponds to a sentence fragment, a JavaScript _statement_
 corresponds to a full sentence in a human language. A program is
 simply a list of statements.
 
@@ -110,7 +110,7 @@ console.log(ten * ten);
 isn't reserved as a keyword (such as `var`). They may not
 include spaces. Digits can also be part of variable names—`catch22` is
 a valid name, for example—but the name must not start with a digit. A
-variable name can not include punctuation, except for the characters
+variable name cannot include punctuation, except for the characters
 “$” and “_”.
 
 When a variable points at a value, that does not mean it is tied to
@@ -261,8 +261,8 @@ box or writing text to the screen is a _side effect_. A lot of functions
 are useful because of the side effects they produce. Functions can also
 produce values, and in that case, they don't
 need to have a side effect to be useful. For example, the
-function `Math.max` takes two numbers and gives back the
-greatest of the two:
+function `Math.max` takes any number of number values and gives back the
+greatest:
 
 [source,javascript]
 ----
@@ -297,10 +297,11 @@ confirm("Shall we, then?");
 
 image::img/confirm.png[alt="An confirm dialog"]
 
-(((prompt function)))(((text input)))`prompt` can be used to ask an
-“open” question. The first argument is the question; the second one is
-the text that the user starts with. A line of text can be typed into
-the dialog window, and the function will return this as a string.
+(((prompt function)))(((text input)))The `prompt` function can be used
+to ask an “open” question. The first argument is the question; the
+second one is the text that the user starts with. A line of text can
+be typed into the dialog window, and the function will return this as
+a string.
 
 [source,javascript]
 ----
@@ -592,8 +593,8 @@ that it “belongs” to the line before it.
 
 (((looping,termination)))(((break keyword)))Having its condition
 produce `false` is not the only way a loop can finish. There is a
-special statement called `break` has the effect of immediately jumping
-out of the enclosing loop.
+special statement called `break` which has the effect of immediately
+jumping out of the enclosing loop.
 
 This program illustrates the `break` statement. It finds the first number
 that is both greater than or equal to 20 and divisible by 7:

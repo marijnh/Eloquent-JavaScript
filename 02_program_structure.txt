@@ -138,7 +138,6 @@ tentacles to it.
 
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
-
 An example. To remember the amount of dollars that Luigi still owes
 you, you create a variable. And then when he pays back 35 dollars, you
 give this variable a new value.
@@ -154,6 +153,16 @@ console.log(luigisDebt);
 When you define a variable without giving it a value, the tentacle
 has nothing to grasp, so it ends in thin air. If you ask
 for the value of an empty variable, you'll get the value `undefined`.
+
+A single `var` statement may define multiple variables. The
+definitions must be separated by commas.
+
+[source,javascript]
+----
+var one = 1, two = 2;
+console.log(one + two);
+// → 3
+----
 
 == Keywords and reserved words ==
 

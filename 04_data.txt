@@ -1,7 +1,7 @@
 :chap_num: 4
 :prev_link: 03_functions
 :next_link: 05_higher_order
-:load_files: ["js/code/jaques_journal.js", "js/04_data.js"]
+:load_files: ["js/code/jacques_journal.js", "js/04_data.js"]
 
 = Data Structures: Objects and Arrays =
 
@@ -42,10 +42,10 @@ endif::tex_target[]
 == The weresquirrel ==
 
 Every now and then, usually between eight and ten in the evening,
-Jaques finds himself transforming into a small furry rodent with a
+Jacques finds himself transforming into a small furry rodent with a
 bushy tail.
 
-On the one hand, Jaques is quite glad that he doesn't have classic
+On the one hand, Jacques is quite glad that he doesn't have classic
 lycanthropy. Turning into a squirrel tends to cause fewer problems than
 turning into a wolf. Instead of having to worry about accidentally
 eating the neighbor (_that_ would be awkward), he worries about being
@@ -56,14 +56,14 @@ at night, and putting a few walnuts on the floor to keep himself busy.
 
 image::img/weresquirrel.svg[alt="The weresquirrel"]
 
-That takes care of the cat and oak problems. But Jaques still suffers
+That takes care of the cat and oak problems. But Jacques still suffers
 from his condition. The irregular occurrences of the transformation
 make him suspect that they might be triggered by something.
 For a while, he believed that it only happened on days when he
 had touched trees. So he stopped touching trees entirely, and even
 avoided going near them. But the problem persisted anyway.
 
-Switching to a more scientific approach, Jaques intends to start
+Switching to a more scientific approach, Jacques intends to start
 keeping a daily log of everything he did that day, and whether he
 changed form. With this data he hopes to
 narrow down the conditions that trigger the transformations.
@@ -218,7 +218,7 @@ array's elements.
 Back to the weresquirrel. A set of daily log entries can be
 represented as an array. But the entries do not consist of just a
 number or a string—each entry needs to store a list of activities, and
-a boolean value that indicates whether Jaques turned into a squirrel.
+a boolean value that indicates whether Jacques turned into a squirrel.
 Ideally, we would like to group these values together into a
 single value, and then put these grouped values into an array of log
 entries.
@@ -311,7 +311,7 @@ with all their arms in a neat row, labeled with numbers.
 
 image::img/octopus-array.jpg[alt="Artist's representation of an array"]
 
-So we can represent Jaques’ journal as an array of
+So we can represent Jacques’ journal as an array of
 objects:
 
 [source,javascript]
@@ -380,7 +380,7 @@ a different object, which initially contains the same properties as
 `object1` but lives a separate life.
 
 (((== operator)))JavaScript's `==` operator, when comparing objects,
-will return `true` only if both values are precisely the
+will return `true` only if both objects are precisely the
 same value. Comparing different objects will
 return `false`, even if they have identical contents.
 There is no “deep” comparison operation built into
@@ -389,7 +389,7 @@ JavaScript, but it is possible to write it yourself.
 
 == The lycanthrope's log ==
 
-So Jaques starts up his JavaScript interpreter, and sets up the
+So Jacques starts up his JavaScript interpreter, and sets up the
 environment he needs to keep his journal.
 
 // include_code
@@ -483,20 +483,18 @@ transformations.
 
 == Computing correlation ==
 
-We can represent a two-by-two table in JavaScript with a four-element array (`[76,
-9, 4, 1]`). We could also use other representations, such as an array
-containing two two-element arrays (`[[76, 9], [4, 1]]`), or an object
-with property names like `"11"` and `"01"`, but the flat array is
-simple and makes the expressions that access the
-table pleasantly short. We'll interpret the indices to the array as
-two-bit binary numbers, where the first digit refers
-to the squirrel variable and the second digit
-refers to event variable. 
-For example, the binary number `10`
-refers to the case where the event (say, "pizza") is true, but
-Jaques didn't turn into a squirrel.
-And since binary `10` is 2 in decimal notation, we will store this 
-value in the array at index 2.
+We can represent a two-by-two table in JavaScript with a four-element
+array (`[76, 9, 4, 1]`). We could also use other representations, such
+as an array containing two two-element arrays (`[[76, 9], [4, 1]]`),
+or an object with property names like `"11"` and `"01"`, but the flat
+array is simple and makes the expressions that access the table
+pleasantly short. We'll interpret the indices to the array as two-bit
+binary numbers, where the rightmost digit refers to the squirrel
+variable and the leftmost digit refers to event variable. For example,
+the binary number `10` refers to the case where the event (say,
+"pizza") is true, but Jacques didn't turn into a squirrel. And since
+binary `10` is 2 in decimal notation, we will store this value in the
+array at index 2.
 
 (((phi coefficient)))This is the function that computes the _ϕ_
 coefficient from such an array:
@@ -525,11 +523,11 @@ We have to sum two fields from the table to get fields like n~1•~,
 because the sums of rows or columns are not stored directly in our
 data structure.
 
-Jaques kept his journal for three months. The resulting data set is
+Jacques kept his journal for three months. The resulting data set is
 available in the coding sandbox for this chapter!!tex  (`eloquentjavascript.net/code`)!!,
 where it is stored
 in the `JOURNAL` variable, and in a downloadable
-http://eloquentjavascript.net/code/jaques_journal.js[file].
+http://eloquentjavascript.net/code/jacques_journal.js[file].
 
 To extract a two-by-two table for a specific event from this journal,
 we must loop over all the entries and tally up how many times
@@ -721,19 +719,19 @@ console.log(phi(tableFor("peanut teeth", JOURNAL)));
 ----
 
 Well, that's unmistakable! The phenomenon occurs precisely when
-Jaques eats peanuts and fails to brush his teeth. If only he weren't
+Jacques eats peanuts and fails to brush his teeth. If only he weren't
 such a slob about dental hygiene, he'd have never even noticed his
 affliction.
 
-Knowing this, Jaques simply stops eating peanuts
+Knowing this, Jacques simply stops eating peanuts
 altogether, and finds that this completely puts an end to his
 transformations.
 
-All is well with Jaques for a while. But a few years later, he loses his job
+All is well with Jacques for a while. But a few years later, he loses his job
 and is eventually forced to take employment with a
 circus, where he performs as _The Incredible Squirrelman_ by stuffing his
 mouth with peanut butter before every show. One day, fed up with this
-pitiful existence, Jaques fails to change back into his
+pitiful existence, Jacques fails to change back into his
 human form, hops through a crack in the circus tent, and vanishes
 into the forest. He is never seen again.
 
@@ -746,7 +744,7 @@ start by introducing some generally useful array methods.
 (((push method)))(((pop method)))(((shift method)))(((unshift
 method)))We saw `push` and `pop`, which add and remove elements at the
 end of an array, earlier in this chapter. The corresponding methods
-for adding and removing things to the start of an array are called
+for adding and removing things at the start of an array are called
 `unshift` and `shift`.
 
 [source,javascript]
@@ -926,7 +924,7 @@ argumentCounter("Straw man", "Tautology", "Ad hominem");
 take any number of arguments, like `console.log`. These typically
 loop over the values in their `arguments` object. They can be used to
 create very pleasant interfaces. For example, remember how we created 
-the entries to Jaques’ journal:
+the entries to Jacques’ journal:
 
 [source,javascript]
 ----
@@ -1075,7 +1073,7 @@ Objects and arrays (which are a specific kind of object) provide ways to group s
 value. Conceptually, this allows us to put a bunch of related things
 in a bag and run around with the bag, instead of trying to wrap our
 arms around all of the individual things and trying to hold on to
-them seperately.
+them separately.
 
 Most values in JavaScript have properties, the exceptions being `null`
 and `undefined`. Properties are accessed using `value.propName` or
@@ -1281,14 +1279,14 @@ ifdef::html_target[]
 ----
 // Your code here.
 
-console.log(arrayToList([1, 2]));
-// → {value: 1, rest: {value: 2, rest: null}}
-console.log(listToArray(arrayToList([1, 2, 3])));
-// → [1, 2, 3]
-console.log(prepend(1, prepend(2, null)));
-// → {value: 1, rest: {value: 2, rest: null}}
-console.log(nth(arrayToList([1, 2, 3]), 1));
-// → 2
+console.log(arrayToList([10, 20]));
+// → {value: 10, rest: {value: 20, rest: null}}
+console.log(listToArray(arrayToList([10, 20, 30])));
+// → [10, 20, 30]
+console.log(prepend(10, prepend(20, null)));
+// → {value: 10, rest: {value: 20, rest: null}}
+console.log(nth(arrayToList([10, 20, 30]), 1));
+// → 20
 ----
 endif::html_target[]
 

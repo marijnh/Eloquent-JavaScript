@@ -149,7 +149,7 @@ if you want to access a property named “0” or “John Doe”,
 you must use square brackets: `value[0]` or
 `value["John Doe"]`. 
 This is the case even though you know the precise name of the
-property in advance, because netiher "0" nor "John Doe" is a valid
+property in advance, because neither "0" nor "John Doe" is a valid
 variable name, and so cannot be accessed through dot notation.
 
 The elements in an array are stored in properties. Because the names of these

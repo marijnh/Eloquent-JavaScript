@@ -268,7 +268,7 @@ associated with a constuctor (through its `prototype` property), and
 the way objects _have_ a prototype (which can be retrieved with
 `Object.getPrototypeOf`). The actual prototype of a constructor is
 `Function.prototype`, since constructors are functions. Its
-`prototype` _property_, will be the prototype of instances created
+`prototype` _property_ will be the prototype of instances created
 though it, but is not its _own_ prototype.
 
 == Overriding derived properties ==
@@ -523,7 +523,8 @@ single string.
 
 The layout program will communicate with the cell objects through a
 well-defined interface. That way, the types of cells that the program
-supports is not fixed in advance—we can add new cell styles later, and
+supports is not fixed in advance. We can add new cell styles later—
+for example, underlined cells for table headers—and
 if they support our interface, they will just work, without requiring
 changes to the layout program.
 
@@ -581,7 +582,7 @@ is an array of rows, not of columns. I have failed to mention so far
 that `map` (as well as `forEach`, `filter`, and similar array methods)
 passes a second argument to the function it is given: the index of the
 current element. By mapping over the elements of the first row and
-only using its second argument, `colWidths` builds up an array with
+only using the mapping function's second argument, `colWidths` builds up an array with
 one element for every column index. The call to `reduce` runs over the
 outer `rows` array for each index, and picks out the width of the
 widest cell at that index.
@@ -621,7 +622,7 @@ newline characters.
 
 The `drawRow` function itself first converts the cell objects in the
 row to _blocks_, which are arrays of strings representing the content
-of the cells, split by line. A single-cell containing simply the number
+of the cells, split by line. A single cell containing simply the number
 3776 might be represented by a single-element array like `["3776"]`,
 whereas an underlined cell might take up two lines, and be represented by
 the array `["name", "----"]`.

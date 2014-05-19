@@ -14,6 +14,8 @@ computer, a straightforward manipulator of meaningless data with none
 of our biases and instincts. Fortunately, there has been great
 progress in bridging this gap in the past sixty years.
 
+image::img/computer.svg[alt="Communicating with a computer"]
+
 The history of human-computer interaction has been one of moving away
 from the cold, reductionist world view of the computer by layering
 more human-friendly analogies on top of it. The two most important

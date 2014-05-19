@@ -322,7 +322,7 @@ If `f` takes more than one parameter, only the first one is passed
 through to it. We could add a bunch of arguments to the inner function
 (`arg1`, `arg2`, and so on) and pass all of them to `f`, but it is unclear
 how many would be necessary,
-since different `f`s might take different numbers of arguments.
+since different ++f++s might take different numbers of arguments.
 This solution would also deprive `f` of the
 information in `arguments.length`. Since we'd always pass the same
 number of arguments, it wouldn't know how many argument were
@@ -768,7 +768,7 @@ We could also have computed this number without relying on
 `reduceAncestors`. But separating the general approach (condensing a
 family tree) from the specific case (computing shared DNA) can improve
 the clarity of the code, and allows us to reuse the abstract part of
-the program for other cases. For example, the following code finds the number of
+the program for other cases. For example, the following code finds the percentage of
 known ancestors, for a given person, that lived past 70:
 
 // test: clip

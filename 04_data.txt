@@ -149,15 +149,16 @@ if you want to access a property named “0” or “John Doe”,
 you must use square brackets: `value[0]` or
 `value["John Doe"]`. 
 This is the case even though you know the precise name of the
-property in advance, because netiher "0" nor "John Doe" is a valid
+property in advance, because neither "0" nor "John Doe" is a valid
 variable name, and so cannot be accessed through dot notation.
 
-The elements in an array are stored in properties. Because the names of these
-properties are numbers, and we often need to get their name from a variable,
-we have to use the bracket syntax to access them. The `length` property of an
-array tells us its length. This property name is a valid variable name, and
-we know its name in advance, so to find the length of an array, you typically
-write `array.length`, because it is easier to write than `array["length"]`.
+The elements in an array are stored in properties. Because the names
+of these properties are numbers, and we often need to get their name
+from a variable, we have to use the bracket syntax to access them. The
+`length` property of an array tells us how many elements it contains.
+This property name is a valid variable name, and we know its name in
+advance, so to find the length of an array, you typically write
+`array.length`, because it is easier to write than `array["length"]`.
 
 == Methods ==
 
@@ -940,7 +941,7 @@ slightly nicer alternative:
 function addEntry(squirrel) {
   var entry = {events: [], squirrel: squirrel};
   for (var i = 1; i < arguments.length; i++)
-    entry.events.push[arguments[i]];
+    entry.events.push(arguments[i]);
   journal.push(entry);
 }
 addEntry(true, "work", "touched tree", "pizza",

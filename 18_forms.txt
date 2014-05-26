@@ -522,7 +522,7 @@ since in a normal loop it would be awkward to get the correct `file`
 and `reader` objects from the event handler—the variables would be
 shared by all iterations of the loop.
 
-`FileReader`s also fire an `"error"` event when reading the file
+++FileReader++s also fire an `"error"` event when reading the file
 failed for any reason. The error object itself will end up in the
 reader's `error` property. You could wrap it in a `Promise` (see
 Chapter 17) like this:

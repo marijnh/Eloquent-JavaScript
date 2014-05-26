@@ -47,7 +47,7 @@ var re2 = /abc/;
 ----
 
 Such an object represents a pattern. In this case, the pattern is an
-“a” character followed by “b” and “c”.
+“a” character followed by a “b” followed by a “c”.
 
 When using the `RegExp` constructor, the pattern is written as a
 normal string, so the usual rules apply for backslashes. In the second
@@ -84,9 +84,9 @@ console.log(/abc/.test("abxde"));
 ----
 
 A regular expression consisting of only non-special characters simply
-represents that sequence of characters. If “abc” occurs anywhere (not
-just at the start) in the string we are testing against, the result
-will be true.
+represents that sequence of characters. If “abc” occurs anywhere in
+the string we are testing against (not just at the start), `test` will
+return `true`.
 
 == Matching a set of characters ==
 
@@ -151,8 +151,8 @@ backslashes, producing a background noise that makes it hard to spot
 the actual pattern expressed. We'll see a slightly improved version of
 this expression later on.
 
-These category markers can also be used inside of square brackets, so
-`[\d\.]` means any digit or a dot.
+These category markers can also be used inside of square brackets, for
+example `[\d\.]` means any digit or a dot.
 
 To _invert_ a set of characters, i.e. to express that you want to match any
 character _except_ the ones in the set, a caret (“^”) character is
@@ -161,9 +161,9 @@ written after the opening bracket.
 [source,javascript]
 ----
 var notBinary = /[^01]/;
-console.log(notBinary.test("01101"));
+console.log(notBinary.test("1100100010100110"));
 // → false
-console.log(notBinary.test("01201"));
+console.log(notBinary.test("1100100010200110"));
 // → true
 ----
 
@@ -189,14 +189,14 @@ console.log(/'\d*'/.test("''"));
 // → true
 ----
 
-The star (“*”) has a similar meaning, but also allows the pattern to
+The star (“`*`”) has a similar meaning, but also allows the pattern to
 match zero times. Something with a star after it never prevents a
 pattern from matching—it'll just match zero instances if it can't find
 any suitable text to match.
 
 A question mark makes a part of a pattern “optional”, meaning it may
-occur zero or one times. In this example, the “u” character is allowed
-to occur, but the pattern also matches when it is missing.
+occur zero or one times. In the following example, the “u” character
+is allowed to occur, but the pattern also matches when it is missing.
 
 [source,javascript]
 ----
@@ -230,8 +230,8 @@ more times.
 
 == Grouping sub-expressions ==
 
-(((grouping (regexp))))To use an operator like “*” or “+” on more than
-one element at a time, we need to use parentheses. A piece of a
+(((grouping (regexp))))To use an operator like “`*`” or “+” on more
+than one element at a time, we can use parentheses. A part of a
 regular expression that is surrounded in parentheses counts as a
 single element as far as the operators following it are concerned.
 
@@ -285,8 +285,8 @@ were looking for.
 
 When the regular expression contains sub-expressions grouped with
 parentheses, the text that matched those groups will also show up in
-the array. The first element is always the whole match, after that
-follows the part matched by the first group (the one whose opening
+the array. The whole match is always the first element. The next
+element is the part matched by the first group (the one whose opening
 parenthesis comes first in the expression), then the second, and so
 on.
 
@@ -316,7 +316,7 @@ extract it and construct an object that represents it, we can wrap
 parentheses around the digit patterns, and directly pick them out of
 the result of `exec`.
 
-But first, a short detour.
+But first, a brief detour.
 
 == The date type ==
 
@@ -364,9 +364,10 @@ console.log(new Date(1387407600000));
 When giving the `Date` constructor a single argument, that argument is
 treated as such a millisecond number.
 
-Date objects provide methods like `getFullYear` (`getYear` gets you
-the useless two-digit version), `getMonth`, `getDate`, `getHours`,
-`getMinutes`, and `getSeconds` to extract their components.
+Date objects provide methods like `getFullYear`, `getMonth`,
+`getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their
+components. There's also `getYear`, which gives you a rather useless
+two-digit year value (such as `93` or `14`).
 
 So now, putting parentheses around the parts of the expression that we
 are interested in, we can easily extract a date from a string.
@@ -521,13 +522,13 @@ When a full match is found, the matcher is done. That means that if
 multiple branches would match a string, the first one (in the order in
 which they appear in the regular expression) is the one that is used.
 
-Backtracking also happens, in slightly different forms, for repeat
+Backtracking also happens, in a slightly different form, for repeat
 operators. If you match `/^.*x/` against `"abcxe"`, the `.*` part will
-first try to match the whole string. It'll then realize that it can
-only match when it is followed by an “x”. Since there is no “x” past
-the end of the string, it tries to match one character less. And then
-another character less. And _now_ it finds an “x” where it needs it,
-and reports a successful match from position 0 to 4.
+first try to consume the whole string. The engine will then realize
+that it needs an “x” to match the pattern. Since there is no “x” past
+the end of the string, the star operator tries to match one character
+less. And then another character less. And _now_ it finds an “x” where
+it needs it, and reports a successful match from position 0 to 4.
 
 It is possible to write regular expressions that will do a _lot_ of
 backtracking. This problem occurs when a pattern can match a piece of
@@ -618,7 +619,7 @@ console.log(s.replace(/\b(fbi|cia)\b/g, function(str) {
 // → the CIA and FBI
 ----
 
-And here's another one:
+And here's a more interesting one:
 
 [source,javascript]
 ----
@@ -654,7 +655,7 @@ comments from a piece of JavaScript code. Here is the first attempt:
 [source,javascript]
 ----
 function stripComments(code) {
-  return code.replace(/\/\/.*|\/\*[\w\W]*\*\//g, "");
+  return code.replace(/\/\/.*|\/\*[^]*\*\//g, "");
 }
 console.log(stripComments("1 + /* 2 */3"));
 // → 1 + 3
@@ -666,10 +667,10 @@ console.log(stripComments("1 /* a */+/* b */ 1"));
 
 The part before the _or_ operator simply matches two slash characters
 followed by any number of non-newline characters. The part for
-multi-line comments is more involved. We use `[\w\W]` as a way to
-match any character. Block comments can continue on a new line, so we
-can't use a dot here. Matching something that is either a word
-character or not a word character will match all possible characters.
+multi-line comments is more involved. We use `[^]` (any character that
+is not in this empty set of characters) as a way to match any
+character. Block comments can continue on a new line, so we can't use
+a dot here.
 
 But the output of the last example appears to have gone wrong. Why?
 
@@ -683,12 +684,12 @@ that. This is not what we wanted—the intention was to match a single
 comment, not to go all the way to the end of the code and find the end
 of the last block comment.
 
-There are two variants of the repetition operators in regular
-expressions (“+”, “*”, “?”, and “{}”). By default, they are _greedy_,
-meaning they match as much as they can and backtrack back from there.
-If you put a question mark after them, they become non-greedy, and
-start by matching as little as possible, and only matching more when
-the remaining pattern does not fit with the smaller match.
+There are two variants of the repetition operators (“+”, “`*`”, “?”,
+and “{}”). By default, they are _greedy_, meaning they match as much
+as they can and backtrack from there. If you put a question mark after
+them, they become non-greedy, and start by matching as little as
+possible, only matching more when the remaining pattern does not fit
+with the smaller match.
 
 And that is exactly what we want in this case. By having the star
 match the smallest stretch of characters that brings us to a “++*/++”
@@ -699,7 +700,7 @@ closing marker, we consume one block comment, and nothing more.
 [source,javascript]
 ----
 function stripComments(code) {
-  return code.replace(/\/\/.*|\/\*[\w\W]*?\*\//g, "");
+  return code.replace(/\/\/.*|\/\*[^]*?\*\//g, "");
 }
 console.log(stripComments("1 /* a */+/* b */ 1"));
 // → 1 + 1
@@ -757,7 +758,7 @@ console.log(text.replace(regexp, "_$1_"));
 can not be called with a regular expression. But there is another
 method, `search`, which does expect a regular expression. Like
 `indexOf`, it returns the first index on which the expression was
-found or -1 when it wasn't found.
+found, or -1 when it wasn't found.
 
 [source,javascript]
 ----
@@ -846,9 +847,9 @@ while (match = number.exec(input))
 
 This makes use of the fact that the value of an assignment expression
 (“=”) is the assigned value. So by using `match = re.exec(input)` as
-the condition in the `while` statement, we both perform the match at
-the start of each iteration, save its result in a variable, and stop
-looping when no more matches are found.
+the condition in the `while` statement, we perform the match at the
+start of each iteration, save its result in a variable, and stop
+looping when it returns null because no more matches are found.
 
 == Parsing an INI file ==
 
@@ -1013,8 +1014,9 @@ that indicates where the match started.
 Strings have a `match` method to match them against a regular
 expression, and a `search` method to search for one. Their `replace`
 method can replace matches of a pattern with a replacement string.
-Alternatively, a function can be passed that builds up a replacement
-based on the match text and matched groups.
+Alternatively, you can pass a function to `replace`, which will be
+used to build up a replacement string based on the match text and
+matched groups.
 
 Regular expressions can have options (flags), which are written after
 the closing slash. The “i” option makes the match case-insensitive,
@@ -1119,7 +1121,7 @@ endif::html_target[]
 Imagine you have written a text, and used single quotation marks
 throughout. Now you want to replace all those that actually quote a
 piece of text with double quotes, but *not* the ones used in
-contractions like `"aren't"`.
+contractions like “aren't”.
 
 Think of a pattern that distinguishes these two kind of quote usage
 and craft a call to the `replace` method that does the proper
@@ -1158,7 +1160,7 @@ Series of digits can be matched by the simple regular expression
 
 Write an expression that matches (only) JavaScript-style numbers. That
 means it must support an optional minus _or_ plus sign in front of the
-number, the decimal dot, and exponent notation—`5e-3` or `1E10`—with
+number, the decimal dot, and exponent notation—`5e-3` or ++1E10++—with
 again an optional sign in front of the exponent. Also note that it is
 not necessary for there to be digits in front of or after the dot—`.5`
 and `5.` are valid JavaScript numbers, but a lone dot _isn't_.
@@ -1195,8 +1197,7 @@ or nothing).
 
 The more complicated part of the exercise is probably the problem of
 matching both `"5."` and `".5"` without also matching `"."`. For this,
-a good solution is to use the “|” operator to separate the two cases
-out—either one or more digits optionally followed by a dot and zero or
+a good solution is to use the “|” operator to separate the two cases—either one or more digits optionally followed by a dot and zero or
 more digits, _or_ a dot followed by one or more digits.
 
 Finally, to make the “e” case-insensitive, either add an “i” option to

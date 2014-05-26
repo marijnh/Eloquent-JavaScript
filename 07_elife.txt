@@ -3,7 +3,7 @@
 :next_link: 08_error
 :load_files: ["js/07_elife.js", "js/animateworld.js"]
 
-= Practical: Electronic Life =
+= Project: Electronic Life =
 
 [quote, Edsger Dijkstra, The Threats to Computing Science]
 ____

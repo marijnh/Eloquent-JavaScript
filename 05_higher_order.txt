@@ -809,8 +809,8 @@ function, but with some of the arguments already fixed.
 
 The code below shows an example of `bind` in use. First it defines
 a function `isInSet` that tells us whether a person is in a given set of strings.
-To call `filter` in order to collect those person objects whose name
-is in a specific set, we can either write a function expression that
+To call `filter` in order to collect those person objects whose names
+are in a specific set, we can either write a function expression that
 makes a call to `isInSet` with our set as its first argument, or
 _partially apply_ the `isInSet` function.
 

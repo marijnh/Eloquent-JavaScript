@@ -449,8 +449,8 @@ ifdef::html_target[]
 ++++
 <style>sub { font-size: 60%; }</style>
 <table style="border-collapse: collapse; margin-left: 1em;"><tr>
-  <td>ϕ =&nbsp;</td>
-  <td>
+  <td style="vertical-align: middle"><em>ϕ</em> =</td>
+  <td style="padding-left: .5em">
     <div style="border-bottom: 1px solid black; padding: 0 7px;">n<sub>11</sub>n<sub>00</sub> - n<sub>10</sub>n<sub>01</sub></div>
     <div style="padding: 0 7px;">√<span style="border-top: 1px solid black; position: relative; top: 2px;">
       <span style="position: relative; top: -4px">n<sub>1•</sub>n<sub>0•</sub>n<sub>•1</sub>n<sub>•0</sub></span>
@@ -469,7 +469,7 @@ endif::tex_target[]
 
 The notation _n_~01~ indicates the number of measurements where the first
 measurement (pizza) is false (0) and the second measurement (squirrelness) is
-true (1). In this example, _n_~01 is 4.
+true (1). In this example, _n_~01~ is 4.
 
 The value _n_~1•~ refers to the sum of all
 measurements where the first variable is true, which is 10 in the

@@ -227,7 +227,7 @@ something else, this new object will be returned from the call.
 An object created with `new` is said to be an _((instance))_ of its
 constructor.
 
-Here is a simple constructor for rabbits. It is convention to
+Here is a simple constructor for rabbits. It is a convention to
 capitalize the names of constructors, so that they are easily
 distinguished from other functions.
 
@@ -639,8 +639,10 @@ to each other from an array of blocks, and joins them with a space
 character, to create a one-character gap between the table's columns.
 
 Now let's write a constructor for cells that contain text. The
-constructor splits a string into an array of lines, and the `minWidth`
-method finds the maximum line width in this array.
+constructor splits a string into an array of lines, using the string
+method `split`, which cuts up a string at every occurrence of its
+argument, and returns an array of the pieces. The `minWidth` method
+finds the maximum line width in this array.
 
 // include_code
 
@@ -674,11 +676,13 @@ TextCell.prototype.draw = function(width, height) {
 };
 ----
 
-The `repeat` helper function builds a string whose value is `string` repeated
-`times` number of times. The `draw` method uses it to add
-“padding” to lines, so that they all have the required length.
+The code uses a helper function called `repeat`, which builds a string
+whose value is the `string` argument repeated `times` number of times.
+The `draw` method uses it to add “padding” to lines, so that they all
+have the required length.
 
-Let's try out everything we've written so far by building up a 5 × 5 checkerboard.
+Let's try out everything we've written so far by building up a 5 × 5
+checkerboard.
 
 [source,javascript]
 ----
@@ -732,7 +736,7 @@ UnderlinedCell.prototype.draw = function(width, height) {
 };
 ----
 
-An underlined cell _contains_ another cell. It report its minimum size
+An underlined cell _contains_ another cell. It reports its minimum size
 as being the same as that of its inner cell (by calling through to
 that cell's `minWidth` and `minHeight` methods), but adds one to the
 height, to account for the space taken up by the underline.

@@ -353,7 +353,7 @@ console.log(world.toString());
 
 (((this variable)))(((variable,scope)))(((self variable))) The `World`
 constructor contains a call to `forEach`. One interesting thing to
-note is that inside the function passed to `forEach` there, we no
+note is that inside the function passed to `forEach` by that constructor, we no
 longer have access to the `this` from the outer function. When a function
 is called normally (not
 as a method), `this` is bound to the global scope object. Thus, saying

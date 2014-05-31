@@ -976,7 +976,7 @@ endif::html_target[]
 
 !!solution!!
 
-A loop in your function will have to look at every characters in
+A loop in your function will have to look at every character in
 the string by running an index from zero to one below its length (`<
 string.length`). If the character at the current position is the
 same as the one the function is looking for, it adds 1 to a counter variable.

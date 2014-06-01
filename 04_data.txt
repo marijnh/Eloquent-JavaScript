@@ -339,6 +339,8 @@ there's one last piece of theory to understand.
 (((mutability)))(((side effect)))We've seen that object values can be
 modified. The types of values discussed in earlier chapters are all
 __immutable__—it is impossible to change an existing value of those
+// Readers might have forgotten what types you're referring to. A
+// short list of what types you're talking about could be helpful here.
 types. You can combine them and derive new values from them, but when
 you take a specific string value, that value will always remain the
 same. The text inside it cannot be changed. If you have reference to a
@@ -586,7 +588,7 @@ to find the object with the right `name`. We could wrap this lookup process
 in a function, but we would still be writing more code, and the
 computer would be doing more work, than necessary.
 
-A better is to use object properties named after the
+A better way is to use object properties named after the
 event types. We can use the square bracket access notation to
 create and read the properties, and the `in` operator to test whether
 a given property exists.
@@ -817,6 +819,11 @@ console.log(remove([1, 2, 3, 4, 5], 2));
 // → [1, 2, 4, 5]
 ----
 
+// Since array indices already consist of sequential numbers, I have noticed
+// that using sequential numbers as the elements of this array seems to confuse
+// learners. This example could be made clearer if the elements in the array
+// were something different, like letters.
+
 == Strings and their properties ==
 
 We can read properties like `length` and `toUpperCase` from string
@@ -829,6 +836,9 @@ myString.myProperty = "value";
 console.log(myString.myProperty);
 // → undefined
 ----
+
+// You could tie in the word "immutable" again here, if you feel
+// that's a helpful correlation.
 
 Types like strings, numbers, and booleans are not objects, and though
 the language doesn't complain if you try to set new properties on them, it

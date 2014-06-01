@@ -498,6 +498,7 @@ not explain them precisely, but in most cases, it just tries to convert
 one of the values to the other value's type. However, when `null`
 or `undefined` occurs on either side of the operator, it produces
 true only if both sides are `null` or `undefined`.
+// for consistency, you may want to say "`true`" instead of "true"
 
 That last piece of behavior is often very useful. When you want to
 test whether a value has a real value instead of `null`

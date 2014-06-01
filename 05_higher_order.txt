@@ -1026,3 +1026,5 @@ the loop, so that the function also returns the correct value when it
 reaches the end of the array.
 
 !!solution!!
+
+// Very well done, no suggestions at all!

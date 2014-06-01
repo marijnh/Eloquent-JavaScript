@@ -380,6 +380,7 @@ expression is written after the keywords, between parentheses, followed
 by the statement to execute.
 
 The `isNaN` function is a standard JavaScript function that return `true` if the
+// return -> returns
 argument it is given is `NaN`. The `Number` function happens to return
 `NaN` when you give it a string that doesn't represent a valid number.
 Thus, the condition translates to “unless `theNumber` is not-a-number, do
@@ -542,6 +543,8 @@ statements. In JavaScript, these are not required—the computer will accept the
 program just fine without them. In fact, even the line breaks in
 programs are optional. You could write a program as a single long line if
 you felt like it. The role of the ((indentation)) inside blocks is to
+// note, this is the first use of the word "block", which quite possibly
+// lacks a definition for many of your readers at this point
 make the structure of the code stand out. In complex code, where new blocks
 are opened inside other blocks, it can become hard to see
 where one block ends and another begins. With proper indentation, the

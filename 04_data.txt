@@ -246,6 +246,12 @@ console.log(day1.wolf);
 ----
 
 Inside of the curly braces we can give a list of properties separated by commas. Each property is written
+// This is the first appearance of curly brace notation. In my experience, learners
+// are very tempted to confuse this use of curly braces with the curly braces
+// around blocks--particularly functions. Their mixing of statement notation ("var x = 3";)
+// and property notation ("x: 3,") is related to how similar the two ideas are and
+// how ambiguous the use of curly braces looks to beginners. You might want to take a moment
+// to call out the differences between the two formations.
 as a name, followed by a colon, followed by an expression that provides a value
 for the property. Spaces and line breaks are not significant.
 When an object spans multiple lines, indenting it like in the example above
@@ -1121,6 +1127,10 @@ As a bonus assignment, modify your `range` function to take an
 optional third argument that indicates the “step” value used to
 build up the array. If no step is given, the array elements go up by increments of one,
 corresponding to the old behavior. The call `range(1, 10, 2)` should
+// I tripped a little reading this, since I first thought it was talking
+// about a "call range", and I was trying to figure out what that would be.
+// An alternate wording that would avoid this is "Calling `range(1, 10, 2)` should..."
+// or "The call to `range(1, 10, 2)` should..."
 return `[1, 3, 5, 7, 9]`. Make sure it also works with negative step
 values, so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
 
@@ -1215,6 +1225,9 @@ copy an array) works, but is cheating.
 
 The trick is to _swap_ the first and the last element, and then the
 one-but-first and one-but-last, and so on. You can do this by looping
+// FWIW, I haven't heard the expressions "one-but-first" or
+// "one-but-last" before. I've only heard this called "second" and
+// "second-to-last".
 over half the length of the array (use `Math.floor` to round down—you
 don't need to touch the middle element in an array with an odd
 length), and swapping the element at position `i` with the one at

@@ -199,6 +199,9 @@ will quickly lead to our next special number: `NaN`.
 
 `NaN` stands for “not a number”, even though it is a
 value of the number type. You'll get this result when you say try to
+// The word "say" tripped me up here, since I didn't realize it was an interjection as I was reading it.
+// Instead, I first read it to mean "speak".
+// You might consider adding commas around it, or rephrasing to avoid the ", say," construct.
 calculate `0 / 0` (zero divided by zero), `Infinity - Infinity`, or 
 any number of other numeric operations that don't yield a precise, 
 meaningful result.
@@ -327,6 +330,10 @@ than)))(((comparing)))The “>” and “<” signs are the traditional symbols
 for “is greater than” and “is less than”, respectively. They are binary operators,
 applying them results in a boolean value that indicates
 whether they hold true in this case.
+// The two clauses of this sentence are independent enough to be separate sentences,
+// so the comma between them threw me off.
+// You could use a semicolon, or another word that makes one of them a dependent
+// clause, such as "They are binary operators, AND applying them..."
 
 Strings can be compared in the same way:
 
@@ -453,6 +460,19 @@ The difference in meaning between `undefined` and `null` is an accident
 of JavaScript's design, and it doesn't matter most of the time. In the cases
 where you actually have to concern yourself with these values, I
 recommend treating them as interchangeable (more on that in a moment).
+
+// I think you've made a great choice by steering clear of the differences
+// here--they are always one of the most confusing things for new
+// JavaScripters. In case it is useful though, I'll share one distinciton
+// I've always found useful when I do try to make the difference clear:
+//
+// A result of 'undefined' is one that is _unspecified_, whereas a result of
+// null is _known to be nothing_. For example, asking a a phoneBook() function
+// to supply the number of an unlisted person might result in undefined, since
+// the phone book is assumed incomplete. But asking the root node of a tree
+// about its parent would yield null, because the parent is known to be
+// non-existent. In this way, null actually represents a bit more information
+// about the result than undefined would have.
 
 == Automatic type conversion ==
 

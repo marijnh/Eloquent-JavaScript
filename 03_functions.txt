@@ -859,6 +859,8 @@ sections help organize regular text.
 === Minimum ===
 
 The previous chapter introduced the standard function `Math.min` that
+// In case it's important to you, the previous chapter actually only
+// explained Math.max explicitly, and used Math.min in one of the examples.
 returns its smallest argument. We can do that ourselves now. Write a
 function `min` that takes two arguments and returns their minimum.
 

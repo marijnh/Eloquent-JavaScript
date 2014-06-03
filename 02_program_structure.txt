@@ -61,6 +61,8 @@ it. These changes are called _((side effect))s_. The statements in the
 previous example just produce the values `1` and `true` and then
 immediately throw them away again. This leaves no impression on the
 world at all. When executing the program, nothing happens.
+// Consider phrasing this as "nothing observable happens", since people
+// might assume the current wording means "no computation occurs at all".
 
 == Semicolons ==
 
@@ -107,6 +109,8 @@ console.log(ten * ten);
 ----
 
 (((variable,naming)))Variable names can contain any word that
+// a variable such as "valid_var_name" technically _contains_ the
+// word "var" (a keyword). You might want to say "be" instead of "contain".
 isn't reserved as a keyword (such as `var`). They may not
 include spaces. Digits can also be part of variable names—`catch22` is
 a valid name, for example—but the name must not start with a digit. A

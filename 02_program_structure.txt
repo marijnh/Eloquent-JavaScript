@@ -379,7 +379,7 @@ statement depending on the value of a boolean expression. The deciding
 expression is written after the keywords, between parentheses, followed
 by the statement to execute.
 
-The `isNaN` function is a standard JavaScript function that return `true` if the
+The `isNaN` function is a standard JavaScript function that returns `true` if the
 argument it is given is `NaN`. The `Number` function happens to return
 `NaN` when you give it a string that doesn't represent a valid number.
 Thus, the condition translates to “unless `theNumber` is not-a-number, do
@@ -478,7 +478,8 @@ we want to both print out the current number and add two to our
 variable. Whenever we want to execute multiple statements inside a
 loop, we wrap them in braces (`{` and `}`). Braces do for statements
 what parentheses do for expressions, they group them together, making
-them count as a single statement.
+them count as a single statement. A sequence of statements wrapped in
+braces is called a _block_.
 
 Many JavaScript programmers wrap every single loop or `if` body in
 braces. They do this both for the sake of consistency and to avoid

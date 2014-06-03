@@ -60,7 +60,7 @@ the machine in a way that will affect the statements that come after
 it. These changes are called _((side effect))s_. The statements in the
 previous example just produce the values `1` and `true` and then
 immediately throw them away again. This leaves no impression on the
-world at all. When executing the program, nothing happens.
+world at all. When executing the program, nothing observable happens.
 
 == Semicolons ==
 
@@ -106,7 +106,7 @@ console.log(ten * ten);
 // → 100
 ----
 
-(((variable,naming)))Variable names can contain any word that
+(((variable,naming)))Variable names can be any word that
 isn't reserved as a keyword (such as `var`). They may not
 include spaces. Digits can also be part of variable names—`catch22` is
 a valid name, for example—but the name must not start with a digit. A
@@ -282,7 +282,8 @@ console.log(Math.max(2, 4));
 (((min function)))When a function produces a value, it is said to
 _return_ that value. Anything that produces a value is an expression
 in JavaScript, which means function calls can be used within larger
-expressions:
+expressions. Here a call to `Math.min`, which is the opposite of
+`Math.max`, is used as an input to the plus operator:
 
 [source,javascript]
 ----

@@ -198,7 +198,7 @@ computation. It isn't mathematically solid, and it
 will quickly lead to our next special number: `NaN`.
 
 `NaN` stands for “not a number”, even though it is a
-value of the number type. You'll get this result when you say try to
+value of the number type. You'll get this result when you, for example, try to
 calculate `0 / 0` (zero divided by zero), `Infinity - Infinity`, or 
 any number of other numeric operations that don't yield a precise, 
 meaningful result.
@@ -323,10 +323,10 @@ console.log(3 < 2)
 ----
 
 (((> operator)))(((< operator)))(((greater than)))(((less
-than)))(((comparing)))The “>” and “<” signs are the traditional symbols
-for “is greater than” and “is less than”, respectively. They are binary operators,
-applying them results in a boolean value that indicates
-whether they hold true in this case.
+than)))(((comparing)))The “>” and “<” signs are the traditional
+symbols for “is greater than” and “is less than”, respectively. They
+are binary operators. Applying them results in a boolean value that
+indicates whether they hold true in this case.
 
 Strings can be compared in the same way:
 

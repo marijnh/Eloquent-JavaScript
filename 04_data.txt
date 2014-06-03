@@ -252,6 +252,11 @@ When an object spans multiple lines, indenting it like in the example above
 improves readability. Properties whose names are
 not valid variable names or valid numbers have to be quoted.
 
+This means that curly braces have _two_ meanings in JavaScript. At the
+start of a statement, they start a block of statements. In any other
+position, they describe an object. Fortunately, it is almost never
+useful to start a statement with a curly-brace object, and in typical
+programs, there is no ambiguity between these two uses.
 
 (((undefined value)))Reading a property that doesn't exist will produce the value `undefined`,
 as happens the first time we try to read the `wolf` property in the above example.
@@ -1122,7 +1127,7 @@ whether it does indeed return 55.
 As a bonus assignment, modify your `range` function to take an
 optional third argument that indicates the “step” value used to
 build up the array. If no step is given, the array elements go up by increments of one,
-corresponding to the old behavior. The call `range(1, 10, 2)` should
+corresponding to the old behavior. The function call `range(1, 10, 2)` should
 return `[1, 3, 5, 7, 9]`. Make sure it also works with negative step
 values, so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
 
@@ -1216,7 +1221,7 @@ otherwise copying the whole array (`array.slice(0)` is a good way to
 copy an array) works, but is cheating.
 
 The trick is to _swap_ the first and the last element, and then the
-one-but-first and one-but-last, and so on. You can do this by looping
+second and second-to-last, and so on. You can do this by looping
 over half the length of the array (use `Math.floor` to round down—you
 don't need to touch the middle element in an array with an odd
 length), and swapping the element at position `i` with the one at

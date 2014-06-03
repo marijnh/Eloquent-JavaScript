@@ -497,7 +497,15 @@ complicated and confusing set of rules to determine what to do. I will
 not explain them precisely, but in most cases, it just tries to convert
 one of the values to the other value's type. However, when `null`
 or `undefined` occurs on either side of the operator, it produces
-true only if both sides are `null` or `undefined`.
+true only if both sides are one of `null` or `undefined`.
+
+[source,javascript]
+----
+console.log(null == undefined);
+// → true
+console.log(null == 0);
+// → false
+----
 
 That last piece of behavior is often very useful. When you want to
 test whether a value has a real value instead of `null`

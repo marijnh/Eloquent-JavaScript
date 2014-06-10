@@ -17,23 +17,23 @@ When a student asked the master about the nature of the cycle of Data
 and Control, Yuan-Ma replied ‘Think of a compiler, compiling itself.’
 ____
 
-Building your own programming language, though not necessary a very
-useful pursuit, is surprisingly easy—as long as you do not take it
-too seriously—and very enlightening.
+Building your own programming language is surprisingly easy—as long as
+you do not aim too high—and very enlightening.
 
 The main thing I want to show in this chapter is that there is no
 magic involved. I've often felt that some human invention was so
 immensely clever and complicated that I'd never be able to understand
-it. But with a little reading and tinkering, such things, again and
-again, show themselves to be quite mundane.
+it. But with a little reading and tinkering, such things again and
+again show themselves to be quite mundane.
 
 == Parsing ==
 
 The most immediately visible part of a programming language is its
 syntax—its notation. A parser is a program that reads a piece of text,
-and produces a data structure that explicitly shows the structure
-of the program contained in the text. If the text does not form a
-valid program, the parser should complain about that.
+and produces a data structure that reflects the structure of the
+program contained in that text. If the text does not form a valid
+program, the parser should complain about that and point out the
+error.
 
 Our language will have a very simple and uniform syntax. Everything in
 the language will be an expression. An expression can be a variable, a
@@ -58,11 +58,11 @@ do(define(x, 10),
       print("small"))
 ----
 
-The uniformity of the language means that what would be an operator in
-JavaScript (such as “>”) is a normal variable, applied just like other
-functions, in this language. Since there is also no concept of a
-block, doing multiple things in sequence is written as an application
-of the `do` construct.
+The uniformity of the language means that things which are operators
+in JavaScript (such as “>”) are normal variables in this language,
+applied just like other functions. Since there is no concept of a
+block built into the syntax, doing multiple things in sequence is
+written as an application of the `do` construct.
 
 The data structure the parser will use to describe such a program
 consists of objects, each of which has a `type` property indicating
@@ -70,6 +70,7 @@ the kind of expression it is (`"word"`, `"value"`, or `"apply"`), and
 other properties to describe its content. The `>(x, 5)` part of the
 program above would be represented like this:
 
+[source,application/json]
 ----
 {
   type: "apply",
@@ -81,21 +82,24 @@ program above would be represented like this:
 }
 ----
 
-Such a data structure is called a _syntax tree_. When viewing the
-objects as points, and the links between them as lines between those
-points, it has a tree-like shape. The fact that expressions contain
+Such a data structure is called a _syntax tree_. If you imagine the
+objects as dots, and the links between them as lines between those
+dots, it has a tree-like shape. The fact that expressions contain
 other expressions, which in turn might contain more expression, is
 similar to the way branches split and split again.
 
+image::img/syntax_tree.svg[alt="The structure of a syntax tree"]
+
 The parser we wrote for the configuration file format in Chapter 9 had
-a very simple structure—it split the input into lines, and handled one
-line at a time, where each line had one of a few simple forms.
+a very simple structure—it split the input into lines, and handled
+those lines one at a time. There were only a few simple forms that a
+line was allowed to have.
 
 This time, we must find a different approach. Expressions are not
-separated by lines, and they have a recursive structure. Application
-expressions themselves contain other expressions.
+separated into lines, and they have a recursive structure. Application
+expressions _contain_ other expressions.
 
-Fortunately, this problem can be solved elegantly by using a parsing
+Fortunately, this problem can be solved elegantly by writing a parser
 function that is recursive in a way that reflects the recursive nature
 of the language.
 
@@ -145,26 +149,25 @@ expressions to spot the three simple (atomic) elements that the
 language supports—strings, numbers, and words. Depending on which one
 matches, it constructs a different kind of data structure. If none
 matches, the input is not a valid expression, and it throws an error.
-`SyntaxError` is a standard error object type, which is also used when
+`SyntaxError` is a standard error object type, which is also raised when
 an attempt is made to run an invalid JavaScript program.
 
 We can then cut off the part that we matched from the program string
-(skipping whitespace again), and pass that, along with the object for
-the expression, to `parseApply`, which checks whether this is an
-application, and if so, handles the parsing of a parenthesized list of
-arguments.
+and pass that, along with the object for the expression, to
+`parseApply`, which checks whether this is an application, and if so,
+handles the parsing of a parenthesized list of arguments.
 
 // include_code
 
 [source,javascript]
 ----
-function parseApply(left, program) {
+function parseApply(expr, program) {
   program = skipSpace(program);
   if (program[0] != "(")
-    return {expr: left, rest: program};
+    return {expr: expr, rest: program};
 
   program = skipSpace(program.slice(1));
-  var expr = {type: "apply", operator: left, args: []};
+  expr = {type: "apply", operator: expr, args: []};
   while (program[0] != ")") {
     var arg = parseExpression(program);
     expr.args.push(arg.expr);
@@ -191,9 +194,9 @@ is found. The recursion is indirect, through `parseApply` and
 Finally, `parseApply` is called again, to see if this application is
 followed by another set of parentheses (such as `multiplier(2)(1)`).
 
-This is almost all we need to parse our language. We wrap it in a
-convenient `parse` function that verifies that no text remains after
-the program, and gives us the program's data structure.
+This is all we need to parse our language. We wrap it in a convenient
+`parse` function that verifies that no text remains after the program,
+and gives us the program's data structure.
 
 // include_code strip_log
 // test: join
@@ -215,15 +218,15 @@ console.log(parse("+(a, 10)"));
 ----
 
 It works! It doesn't give us very helpful information when it fails,
-and doesn't store the line and column on which the expressions
-started, which might be helpful when reporting errors later on, but it
+and doesn't store the line and column on which each expression
+starts, which might be helpful when reporting errors later on, but it
 is good enough for our purpose.
 
 == The evaluator ==
 
 What can we do with the syntax tree for a program? Run it, of course!
 And that is what the evaluator does. You give it a syntax tree and an
-environment—an object containing variable bindings—and it will
+environment object that associates names with values, and it will
 evaluate the expression that the tree represents and return the value
 that this produces.
 
@@ -261,7 +264,7 @@ var specialForms = Object.create(null);
 
 The evaluator has code for each of the expression types. A literal
 value expression simply produces its value. When running into a
-variable, we must check that it is actually defined in the
+variable, we must check whether it is actually defined in the
 environment, and if it is, fetch the variable's value.
 
 Applications are more involved. If they are a special form, like `if`,
@@ -269,25 +272,25 @@ we do not evaluate anything, and simply pass the argument expressions,
 along with the environment, to the function that handles this form. If
 it is a normal call, we evaluate the operator, verify that it is a
 function, and call it with the result of evaluating the arguments. We
-will use plain JavaScript functions to represent function values in
-the language.
+will use plain JavaScript functions to represent the language's
+function values.
 
 The the recursive structure of `evaluate` resembles the similar
 structure of the parser. Both of them mirror the structure of the
 language itself. It would also be possible to not separate the parser
 from the evaluator, and evaluate during parsing, but splitting them up
-makes the program easier to think about.
+makes the program more readable.
 
 This is really all that is needed to interpret a language. It is that
 simple. Of course, without defining a few special forms, and adding
-some useful values to the environment, you can't do anything with the
+some useful values to the environment, you can't do anything with this
 language yet.
 
 == Special forms ==
 
-The `specialForms` object lets us look up the special constructs in
-our language by name. It holds functions that interpret the construct.
-It is currently empty. Let us add a few forms.
+The `specialForms` object is used to define special syntax in our
+language. It associates words with functions that evaluate such
+special forms. It is currently empty. Let us add some forms.
 
 // include_code
 
@@ -307,11 +310,12 @@ specialForms["if"] = function(args, env) {
 The `if` in this language expects exactly three arguments. It will
 evaluate the first, and when the result isn't the value `false`, it
 will evaluate the second. Otherwise, the third gets evaluated. Because
-`if` is an expression, not a statement, it has a value—namely the
-result of the second or third argument.
+this `if` form is an expression, not a statement as it is in
+JavaScript, it has a value—namely the result of the second or third
+argument.
 
 Our language differs from JavaScript in its handling of the condition
-value to ++if++—it will not treat 0 or the empty string as false, only
+value to ++if++—it will not treat things like zero or the empty string as false, only
 the precise value `false`.
 
 The reason we need to represent `if` as a special form, rather than a
@@ -320,7 +324,7 @@ evaluated form, but `if` must not evaluate all of its arguments.
 Depending on the first argument, either the second or the third
 remains unevaluated.
 
-The `while` form is similar;
+The `while` form is similar:
 
 // include_code
 
@@ -361,7 +365,7 @@ To be able to create variables (and give them new values), we also
 create a form called `define`, which expects a word as first argument,
 and an expression producing the value to assign to that word as second
 argument. Since it, like everything, is an expression, we make it
-return the value that was assigned (just like JavaScripts “=”
+return the value that was assigned (just like JavaScript's “`=`”
 operator).
 
 // include_code
@@ -474,16 +478,16 @@ run("do(define(total, 0),",
 ----
 
 This is the program that computes the total of the numbers 1 to 10,
-expressed in our own language. It is clearly uglier than JavaScript,
-but still not bad for a language implemented in less than 150 lines of
-code.
+expressed in our own language. It is clearly uglier than the
+equivalent JavaScript program, but not bad for a language implemented
+in less than 150 lines of code.
 
 == Functions ==
 
 A programming language without functions is a poor programming
 language indeed.
 
-Fortunately, we can easily add a `fun` construct, which treats its
+Fortunately, it is not hard to add a `fun` construct, which treats its
 last argument as the function's body, and all arguments before that as
 the names of the function's arguments.
 
@@ -513,11 +517,10 @@ specialForms["fun"] = function(args, env) {
 };
 ----
 
-Functions, in our language, have their own local environment, just
-like in JavaScript. We simply use `Object.create` to make a new object
-that has access to the variables in the outer environment (its
-prototype), but can also contain new variables without changing that
-outer scope.
+Functions in our language have their own local environment, just like
+in JavaScript. We use `Object.create` to make a new object that has
+access to the variables in the outer environment (its prototype), but
+can also contain new variables without changing that outer scope.
 
 The function created by the `fun` form creates this local environment,
 and adds the argument variables to it. It then evaluates the function
@@ -526,8 +529,8 @@ body in this environment, and returns the result.
 [source,javascript]
 ----
 run("do(define(plusOne, fun(a, +(a, 1))),",
-    "   print(+(plusOne(1), 2)))");
-// → 4
+    "   print(plusOne(10)))");
+// → 11
 
 run("do(define(pow, fun(base, exp,",
     "     if(==(exp, 0),",
@@ -543,14 +546,14 @@ What we have built is an interpreter. During evaluating, it acts
 directly on the simple representation of the program that the parser
 produced.
 
-Compilation is the process of adding another step in between, which
-transforms the program into something that can be evaluated more
-efficiently, by doing as much of the work as possible in advance. For
-example, in well-designed languages it is obvious, for each use of a
-variable, where the variable is defined, without actually running the
-program. This can be used to avoid looking up the variable by name
-every time it is accessed, and directly fetch it from its
-predetermined memory location instead.
+Compilation is the process of adding another step between the parsing
+and the running of a program, which transforms the program into
+something that can be evaluated more efficiently by doing as much work
+as possible in advance. For example, in well-designed languages it is
+obvious, for each use of a variable, where the variable is defined,
+without actually running the program. This can be used to avoid
+looking up the variable by name every time it is accessed, and
+directly fetch it from its predetermined memory location instead.
 
 Traditionally, compilation involves converting the program to machine
 code, the raw format that a computer's processor can execute. But any
@@ -560,28 +563,27 @@ thought of as compilation.
 It would be possible to write an alternative evaluation strategy for
 our language, one that first converts the program to a JavaScript
 program, uses `new Function` to invoke the JavaScript compiler on it,
-and then runs that. When done right, this would make our language very
-fast, while still being quite simple to implement.
+and then runs the result. When done right, this would make our
+language very fast, while still being quite simple to implement.
+
+If you are interested in this topic and willing to spend some time on
+it, I encourage you to try to implement such a compiler as an
+exercise.
 
 == Cheating ==
 
 When we defined `if` and `while`, you probably noticed that they were
 more or less trivial wrappers around JavaScript's own `if` and
-`while`. The values in our language are not wrapped at all, they are
-regular old JavaScript values.
+`while`. Similarly, the values in our language are just regular old
+JavaScript values.
 
 If you compare the implementation of this language, built on top of
 JavaScript, with the amount of work and complexity required to build a
 programming language directly on the raw functionality provided by a
-machine, the difference is huge. If the goal is programmer street
-cred, this project is not very impressive.
+machine, the difference is huge. Regardless, this example hopefully
+gave an impression of the way programming languages work.
 
-Regardless, I hope it illustrated the concepts involved. Many other
-interesting concepts would come up when taking this project further,
-but this is not a compiler writer's book. If the topic interests you,
-pick up such a book sometime, they are fascinating.
-
-But when it comes to getting something done, cheating is more
+And when it comes to getting something done, cheating is more
 effective than doing everything yourself. Though the toy language in
 this chapter doesn't do anything that couldn't be done better in
 JavaScript, there _are_ situations where writing small languages helps
@@ -593,8 +595,8 @@ expressions, you could write your own parser and evaluator for such a
 sublanguage.
 
 Or, imagine you are building a giant robotic dinosaur, and need to
-program it. JavaScript might not be the most effective way to do this,
-and you might instead opt for a language that looks like this:
+program its behavior. JavaScript might not be the most effective way
+to do this. You might instead opt for a language that looks like this:
 
 ----
 behavior walk
@@ -622,11 +624,11 @@ its domain, and nothing else.
 
 === Arrays ===
 
-Add support for arrays to our language, by adding the following three
-functions to the top scope. Firstly `array(...)`, which constructs an
-array containing the argument values. Secondly `length(array)`, to get
-an array's length. And finally, `element(array, n)` to fetch the n^th^
-element from an array.
+Add support for arrays to our language by adding the following three
+functions to the top scope: `array(...)` which constructs an array
+containing the argument values, `length(array)` to get an array's
+length, and finally `element(array, n)` to fetch the n^th^ element
+from an array.
 
 ifdef::html_target[]
 
@@ -670,8 +672,9 @@ pseudo-array into a regular array.
 === Closure ===
 
 The way we have defined `fun` allows functions in our language to
-“close over” the surrounding environment, just like JavaScript
-functions.
+“close over” the surrounding environment, allowing the function's body
+to use local values that were visible at the time the function was
+defined, just like JavaScript functions do.
 
 The program below illustrates this—function `f` returns a function
 that adds its argument to `f`'s argument, meaning that it needs access
@@ -709,7 +712,7 @@ is actually efficient, you'd need to do some more work).
 
 It would be nice if we could write comments in our language. For
 example, whenever a hash sign (“#”) is found, we could treat the rest of the
-line as a comment (similar to “`//`” in JavaScript), ignoring it.
+line as a comment, ignoring it (similar to “`//`” in JavaScript).
 
 We do not have to make any big changes to the parser to support this.
 We can simply change `skipSpace` to skip comments as if they are

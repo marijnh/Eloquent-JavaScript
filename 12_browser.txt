@@ -27,8 +27,8 @@ finally set down as a standard.
 This is both a blessing and a curse. On the one hand, it is empowering
 to not have a central party control a system, but have it be improved
 by various parties working in loose collaboration (or, occasionally,
-open hostility). On the other hand, the haphazard way in which it was
-developed means that the resulting system is not exactly a shining
+open hostility). On the other hand, the haphazard way in which the Web
+was developed means that the resulting system is not exactly a shining
 example of internal consistency. In fact, some parts of it are
 downright messy and confusing.
 
@@ -98,7 +98,7 @@ provides an abstraction of the network.
 == The Web ==
 
 The _World Wide Web_ (not to be confused with the Internet as a whole)
-is a set of protocols and formats that allow us to open web pages in a
+is a set of protocols and formats that allow us to visit web pages in a
 browser. The “Web” part in the name refers to the fact that such pages
 can easily link to each other, thus connecting into a huge mesh that
 users can move through.
@@ -119,7 +119,7 @@ looks something like this:
 
 The first part tells us that this URL uses the HTTP protocol (as
 opposed to for example, secure, encrypted HTTP, which would be
-`https://`). Then comes the part that identifies the machine which we
+_https://_). Then comes the part that identifies the machine which we
 should ask for the document. And finally, after that, a string that
 identifies the actual document (or _resource_) we are interested in.
 
@@ -129,12 +129,12 @@ those directly as the server part of a URL. But lists of more or less
 random numbers are hard to remember and awkward to type, so it is
 possible to globally register _hostnames_ as pointing towards a
 specific machine (or set of machines). I registered
-`eloquentjavascript.net` to point at the IP address of a machine I
+_eloquentjavascript.net_ to point at the IP address of a machine I
 control, and can thus use it to serve web pages.
 
 If you type the URL above into your browser's address bar, it will try
 to retrieve and display it. First, it has to find out what address
-`eloquentjavascript.net` refers to, and then, using the HTTP protocol,
+_eloquentjavascript.net_ refers to, and then, using the HTTP protocol,
 make a connection to the server at that address, and ask it for the
 file _/12_browser.html_.
 
@@ -166,24 +166,24 @@ A simple HTML document looks like this:
 ----
 
 The parts wrapped in angular brackets (“++<++” and “++>++”) provide
-information about the structure of the document. The text outside of
-that is just plain text.
+information about the structure of the document. The other text is
+just plain text.
 
 The document starts with `<!doctype html>`, which tells the browser to
-interpret it as _modern_ HTML, as opposed to the various dialects that
+interpret it as _modern_ HTML, as opposed to various dialects that
 were in use in the past.
 
 HTML documents have a head and a body. The head contains information
 _about_ the document, and the body contains the document itself. So in
 this case, we first declare that the title of this document is “My
 home page”, and then give a document containing a heading (`<h1>`,
-“heading 1”, as opposed to more minor headings, denoted `<h2>` to
-`<h6>`) and two paragraphs (`<p>`).
+meaning “heading 1”—++<h2>++ to `<h6>` produce more minor headings)
+and two paragraphs (`<p>`).
 
 _Tags_, which is what the angular-bracket-enclosed parts of an HTML
 document are called, come in several forms. An element, such as the
 body, a paragraph, or a link, is started by an _opening tag_ like
-`<p>`, and ended by a _closing tag_, which looks like `</p>`. Some
+`<p>`, and ended by a _closing tag_ like `</p>`. Some
 opening tags, such as the one for the link (`<a>`) contain extra
 information, in the form of `name="value"` pairs. These are called
 _attributes_. In this case, the destination of the link is indicated
@@ -199,7 +199,7 @@ Whenever some characters get a special meaning, a notation is needed
 to “escape” them, to include them in the actual text without
 triggering their special meaning, similar to the way backslashes are
 used in JavaScript strings. HTML's approach to this is a bit more
-heavyweight, it uses an ampersand (“&”) character, followed by a word
+heavyweight: it uses an ampersand (“&”) character, followed by a word
 and a semicolon (“;”). The sequence `&lt;` stands for “<” (“less
 than”), and `&gt;` stands for “>” (“greater than”). Since this
 notation also gives “&” itself a special meaning, it can be escaped
@@ -207,7 +207,7 @@ with `&amp;`. Finally, to write a double quote inside an attribute
 value, `&quot;` can be used.
 
 HTML is parsed in a remarkably error-tolerant way. When tags that
-should be there are missing, the browser reconstruct them. The way in
+should be there are missing, the browser reconstructs them. The way in
 which this is done has been standardized, and you can rely on modern
 browsers all doing it in the same way.
 
@@ -279,7 +279,7 @@ to a script file and doesn't contain any code. If you forget this, the
 rest of the page will be interpreted as part of the script.
 
 Some attributes can also contain a JavaScript program. The `<button>`
-tag (which shows up as a button) below is given an `onclick`
+tag below (which shows up as a button) is given an `onclick`
 attribute, whose content will be run whenever the button is pressed.
 
 [source,text/html]
@@ -294,7 +294,7 @@ program harder to read.
 
 == In the sandbox ==
 
-Running programs downloaded off the Internet is potentially dangerous.
+Running programs downloaded from the Internet is potentially dangerous.
 You do not know much about the people behind most sites you visit, and
 they do not necessarily mean well. Running programs by people who do
 not mean well is how you get your computer infected by viruses, your
@@ -314,8 +314,8 @@ from your typical playground sandbox.
 
 The hard part of sandboxing is allowing the programs enough room to be
 useful, yet at the same time restricting them from doing anything
-dangerous. Many things that are needed to create certain kinds of
-applications, such as communicating to other servers, or reading the
+dangerous. Many things that are needed to create various kinds of
+applications, such as communicating with other servers, or reading the
 content of the copy-paste clipboard, can also be used to do
 problematic, privacy-invading things.
 
@@ -324,9 +324,8 @@ limitations of a browser and do something harmful, ranging from
 leaking minor private information to taking over the whole machine
 that the browser runs on. The people responsible for the browsers
 respond by modifying their programs to make this trick impossible, and
-all is well again—until the next problem is discovered (and,
-hopefully, publicized instead of being secretly used by some
-government or mafia).
+all is well again—until the next problem is discovered (and hopefully
+publicized, rather than secretly used by some government or mafia).
 
 == Compatibility and the browser wars ==
 
@@ -342,7 +341,7 @@ browsers.
 This was the dark age of compatibility, often called the “browser
 wars”. Web developers were left with not one Web, but two or three
 incompatible platforms. To make things worse, the browsers in use
-around 2003 were all full of bugs, and of course, the bugs were
+around 2003 were all full of bugs, and of course the bugs were
 different for each browser. Life was hard for people writing web
 pages.
 
@@ -354,12 +353,12 @@ Google introduced its Chrome browser, and Apple's Safari browser
 gained popularity, leading to a situation where there were four major
 players, rather than one.
 
-The new players showed both a more serious attitude towards standards,
-and more solid engineering practices. Microsoft, seeing its market
-share crumble, came around and adopted these attitudes. If you are
-starting to learn web development today, consider yourself lucky. The
-latest versions of the major browsers behave quite uniformly, and have
-relatively few bugs.
+The new players showed both a more serious attitude towards standards
+and more solid engineering practices, leading to less incompatibility
+and fewer bugs. Microsoft, seeing its market share crumble, came
+around and adopted these attitudes. If you are starting to learn web
+development today, consider yourself lucky. The latest versions of the
+major browsers behave quite uniformly, and have relatively few bugs.
 
 Which is not to say that the situation is perfect just yet. Some of
 the people using the Web are, for reasons of inertia or corporate

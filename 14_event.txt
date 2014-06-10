@@ -994,9 +994,9 @@ endif::html_target[]
 One pitfall you'll probably run into is that you can't directly use
 the node's `childNodes` property as a collection of tab nodes. For one
 thing, when you add the buttons, they will also become a child node,
-and end up in this pseudo-array. For another, the text nodes created
-for the whitespace between the nodes are also in there, and should not
-get their own tabs.
+and end up in this object, because it is live. For another, the text
+nodes created for the whitespace between the nodes are also in there,
+and should not get their own tabs.
 
 To work around this, start by building up a real array of all the
 `nodeType` 1 children in the wrapper.

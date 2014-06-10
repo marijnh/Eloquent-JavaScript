@@ -197,8 +197,8 @@ array-like collection of the fields inside of it.
 The `name` attribute of a form field determines the way its value will
 be identified when the form is submitted. It can also be used as a
 property name when accessing the form's `elements` property, which
-acts both as a pseudo-array (accessible by number) and a map
-(access-able by name).
+acts both as an array-like object (accessible by number) and a map
+(accessable by name).
 
 [source,text/html]
 ----

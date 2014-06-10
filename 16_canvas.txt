@@ -1158,22 +1158,9 @@ each other on a canvas:
 
 image::img/exercise_shapes.png[alt="The shapes to draw"]
 
-When drawing the latter two, it is useful to know that `Math.cos` and
-`Math.sin` can be used to find coordinates on a circle around (0,0)
-with radius 1. They interpret their argument as the position on this
-circle, with zero denoting the point on the far right of the circle,
-going clockwise until 2π (about 6.28) has taken us around the whole
-circle. `Math.cos` tells you the x coordinate of the point that
-corresponds to the given angle, `Math.sin` yields the y coordinate.
-Positions (angles) higher than 2π or below 0 are valid—the rotation
-repeats, so that _X_+2π refers to the same angle as _X_.
-
-image::img/cos_sin.svg[alt="Using cosine and sine to compute coordinates"]
-
-To go from a circle with radius 1 at point _0,0_ to an arbitrary
-circle, you must multiply the coordinates these functions give you by
-the circle's radius, and then add the coordinates of the circle's
-center to them.
+When drawing the latter two, you may want to refer back to the
+explanation of using `Math.cos` and `Math.sin` to get coordinates on a
+circle, from Chapter 13.
 
 I recommend creating a function for each shape, and passing the
 position, and optionally other things, such as the size or the number

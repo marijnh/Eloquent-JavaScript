@@ -665,7 +665,7 @@ The values added to the top environment must be functions. They take
 the arguments that they are specified to take, and return values that
 can be straightforwardly derived from their arguments.
 `Array.prototype.slice` can be used to convert an `arguments`
-pseudo-array into a regular array.
+array-like object into a regular array.
 
 !!solution!!
 

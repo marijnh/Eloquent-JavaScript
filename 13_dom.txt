@@ -13,9 +13,9 @@ unique across all environments.
 ____
 
 When you open a web page in your browser, it will retrieve the page's
-HTML text, parse it in a way similar to the parser we wrote in Chapter
-11, building up a model of its structure, and then it uses this model
-to draw the page to the screen.
+HTML text, and parse it much like our parser from Chapter 11 parses
+programs, building up a model of its structure. It will then use this
+model to draw the page onto the screen.
 
 One of the toys that a JavaScript program has available in its sandbox
 is this representation of the document. We can read from it, but also
@@ -74,16 +74,16 @@ contains no cycles (a node may not contain itself, directly or
 indirectly), and has a single, well-defined “root”.
 
 Trees come up a lot in computer science. Apart from representing
-recursive structures like HTML documents or programs from Chapter 11,
-they are also often used to maintain sorted sets of data, because
-elements can often be found or inserted more efficiently in a sorted
-tree than in a sorted flat array.
+recursive structures like HTML documents or programs, they are also
+often used to maintain sorted sets of data, because elements can
+typically be found or inserted more efficiently in a sorted tree than
+in a sorted flat array.
 
 A typical tree has different kinds of nodes. The syntax tree had
 variables, values, and application nodes. Application nodes always had
 children, variables and values were _leaves_, nodes without children.
 
-The same goes for the DOM. Nodes for regular elements (the
+The same goes for the DOM. Nodes for regular _elements_ (the
 representation of a tag in the document) determine the structure of
 the document. These can have child nodes. An example of such a node is
 `document.body`. Some of these children can be leaf nodes, such as
@@ -148,13 +148,13 @@ image::img/html-links.svg[alt="Links between DOM nodes"]
 
 Every node has a `parentNode` property, pointing to the node it is
 part of. The diagram only shows one of each link type. Every element
-node (node type 1) has a `childNodes` property that points at a pseudo
-array holding its children. Those represent the fundamental structure
-of the tree.
+node (node type 1) has a `childNodes` property that points to an
+array-like object holding its children. Those represent the
+fundamental structure of the tree.
 
 In addition, there are a number of convenience links. The `firstChild`
 and `lastChild` properties point to the first and last child element,
-or have the value null for nodes without children. Similarly,
+or have the value `null` for nodes without children. Similarly,
 `previousSibling` and `nextSibling` point to adjacent nodes, nodes
 with the same parent that appear immediately before or after the node
 itself. For a first child, `previousSibling` will be null, and for a
@@ -267,10 +267,10 @@ somewhere will, as a side effect, cause it to be removed from its
 current position (if it has one).
 
 The `replaceChild` method is used to replace a child node with another
-one. It takes as arguments two nodes, a new node, and the node that
-must be replaced (which must be a child of the element the method is
-called on). Note that both `replaceChild` and `insertBefore` expect
-the _new_ node as their first argument.
+one. It takes as arguments two nodes—a new node, and the node that
+must be replaced, which must be a child of the element the method is
+called on. Note that both `replaceChild` and `insertBefore` expect the
+_new_ node as their first argument.
 
 == Creating nodes ==
 
@@ -307,14 +307,13 @@ method.
 Given a string, `createTextNode` gives us a type 3 DOM node, which we
 can insert into the document to make it show up on the screen.
 
-The loop that goes over the images starts at the end of the
-pseudo array. This is necessary because a node list returned by a
-method like `getElementsByTagName` (or a property like `childNodes`)
-is __live__—it is updated as the document changes. If we started from
-the front, removing the first image would cause the list to lose its
-first element, so that the second time the loop repeats, where `i` is
-one, it would stop, because the length of the collection is now also
-one.
+The loop that goes over the images starts at the end of the list
+of nodes. This is necessary because a node list returned by a method
+like `getElementsByTagName` (or a property like `childNodes`) is
+__live__—it is updated as the document changes. If we started from the
+front, removing the first image would cause the list to lose its first
+element, so that the second time the loop repeats, where `i` is one,
+it would stop, because the length of the collection is now also one.
 
 If you want a _solid_ collection of nodes, that doesn't unexpectedly
 change, you can convert them to a real array by calling the array
@@ -322,25 +321,29 @@ change, you can convert them to a real array by calling the array
 
 [source,javascript]
 ----
-var pseudo = {0: "one", 1: "two", length: 2};
-var real = Array.prototype.slice.call(pseudo, 0);
+var arrayish = {0: "one", 1: "two", length: 2};
+var real = Array.prototype.slice.call(arrayish, 0);
 real.forEach(function(elt) { console.log(elt); });
 // → one
 //   two
 ----
 
-To create regular element nodes (type 1), we must use the
-`document.createElement` method. This method takes a tag name, and
+To create regular element nodes (type 1), you can use the
+`document.createElement` method. This method takes a tag name and
 returns a new empty node of the given type.
 
 The following example defines a utility `elt`, which creates an
 element node, and treats the rest of its arguments as children to that
-node. It then adds a simple footer to the document.
+node. This function is then used to add a simple attribution to a
+quote.
 
 [source,text/html]
 ----
-<h1>Page</h1>
-<p>This is a document</p>
+<blockquote id="quote">
+  No book can ever be finished. While working on it we learn
+  just enough to find it immature the moment we turn away
+  from it.
+</blockquote>
 
 <script>
   function elt(type) {
@@ -354,30 +357,32 @@ node. It then adds a simple footer to the document.
     return node;
   }
 
-  document.body.appendChild(
-    elt("footer", "Written by ",
-        elt("strong", "Sidonie Coene"),
-        ", February 1914"));
+  document.getElementById("quote").appendChild(
+    elt("footer", "—",
+        elt("strong", "Karl Popper"),
+        ", preface to the second editon of ",
+        elt("em", "The Open Society and Its Enemies"),
+        ", 1950"));
 </script>
 ----
 
 == Attributes ==
 
 Some element attributes, such as `href` for links, can be accessed
-simply through a property of the same name, on the element's DOM
+simply through a property of the same name on the element's DOM
 object. This is the case for a limited set of commonly used standard
 attributes.
 
 But HTML allows you to set any attribute you want on nodes. This can
 be useful, as it allows you to store extra information for your
-scripts in a document. If you make up your own attribute name, though,
-it will not be present as a property on the element's node. Instead,
-you'll have to use the `getAttribute` and `setAttribute` methods to
-work with them.
+scripts in a document. If you make up your own attribute names,
+though, such attributes will not be present as a property on the
+element's node. Instead, you'll have to use the `getAttribute` and
+`setAttribute` methods to work with them.
 
 [source,text/html]
 ----
-<p data-classified="secret">The code is 0000.</p>
+<p data-classified="secret">The launch code is 00000000.</p>
 <p data-classified="unclassified">I have two feet.</p>
 
 <script>
@@ -429,7 +434,7 @@ The `textContent` property is used to get all the text in the node, and
 is then set to an empty string, which has the effect of emptying the
 node. We loop over all matches of the keyword expression, appending
 the text _between_ them as regular text nodes, and the text matched as
-text nodes wrapping in `<strong>` (bold) elements.
+text nodes wrapped in `<strong>` (bold) elements.
 
 We can automatically highlight all programs on the page by looping
 over the `<pre>` elements that have a `data-language` attribute, and
@@ -470,10 +475,10 @@ function id(x) { return x; }
 ----
 
 There is one commonly used attribute, `class`, which is a reserved
-word in the JavaScript language. For historical reasons (some old
+word in the JavaScript language. For historical reasons—some old
 JavaScript implementation could not handle property names that matched
-keywords or reserved words), the property used to access this
-attribute is `className`. You can, of course, also access it with the
+keywords or reserved words—the property used to access this attribute
+is called `className`. You can, of course, also access it with the
 `getAttribute` and `setAttribute` methods.
 
 == Layout ==
@@ -499,7 +504,7 @@ size of the _inside_ of the element, ignoring border width.
 [source,text/html]
 ----
 <p style="border: 3px solid red">
-  Do not cross the border.
+  I'm boxed in
 </p>
 
 <script>
@@ -590,23 +595,23 @@ property (such as `color`) followed by a colon and a value (such as
 `green`). When there are more than one declaration, they must be
 separated by semicolons. For example “`color: red; border: none`”.
 
-There are a lot apects that can be influenced with styling. For
+There are a lot aspects that can be influenced with styling. For
 example, whether an element is displayed as a block or inline is
 controlled by the `display` property.
 
 [source,text/html]
 ----
-This is text with an <strong>inline</strong>,
-<strong style="display: block">block</strong>, and
-<strong style="display: none">hidden</strong> tag.
+This text is displayed <strong>inline</strong>,
+<strong style="display: block">as a block</strong>, and
+<strong style="display: none">not at all</strong>.
 ----
 
-The “block” tag will end up on its own line, since block elements are
-not displayed inline with the text around them. The “hidden” tag is
-not displayed at all—`display: none` prevents an element from showing
-up on the screen. This allows us to hide elements, in a way that is
-often preferable to removing them from the document entirely, since it
-makes it much easier to reveal them again later.
+The `block` tag will end up on its own line, since block elements are
+not displayed inline with the text around them. The last tag is not
+displayed at all—`display: none` prevents an element from showing up
+on the screen. This is a way to hide elements, and it is often
+preferable to removing them from the document entirely—it makes
+it easy to reveal them again at a later time.
 
 The style of an element can be manipulated directly by a JavaScript
 program through the node's `style` property. This property holds an
@@ -629,9 +634,9 @@ to change a particular aspect of the element's style.
 
 Some style property names contain dashes, for example `font-family`.
 Because such property names are awkward to work with in JavaScript
-(you'd have to say `style["font-family"]`), the corresponding property
-names in the `style` object remove the dashes and capitalize the
-letter that follows them (`style.fontFamily`).
+(you'd have to say `style["font-family"]`), the property names in the
+`style` object for such properties have their dashes removed, and the
+letter that follows them capitalized (`style.fontFamily`).
 
 == Cascading styles ==
 
@@ -664,9 +669,9 @@ text would not be bold). Styles in a `style` attribute applied
 directly to the node have the highest precedence, and always win.
 
 It is possible to target things other than tag names in CSS rules. A
-rule for `.abc` applies to all elements with `abc` in their class
+rule for `.abc` applies to all elements with `"abc"` in their class
 attribute. A rule for `#xyz` applies to the element with an `id`
-attribute of `xyz`.
+attribute of `"xyz"`.
 
 [source,text/css]
 ----
@@ -708,8 +713,8 @@ that we can use this same mini-language as a more effective way to
 find DOM elements.
 
 The `querySelectorAll` method (defined both on the `document` object
-and on element nodes) takes a selector string, and returns a pseudo
-array containing all the elements that it matches.
+and on element nodes) takes a selector string, and returns an
+array-like object containing all the elements that it matches.
 
 [source,text/html]
 ----
@@ -735,25 +740,26 @@ array containing all the elements that it matches.
 </script>
 ----
 
-The `querySelector` (without the `All` part) method works in a similar
+The `querySelector` method (without the `All` part) works in a similar
 way. This one is useful if you want a specific, single element. It
 will return only the first matching element, or null if no elements
 match.
 
 == Positioning and animating ==
 
-The `position` style property influences layout in an interesting way.
-By default it has a value of `static`, meaning the element sits in its
-normal place in the document.
+The style property called `position` influences layout in a powerful
+way.
 
-When it is set to `relative`, the element still takes up space in the
-document, but the `top` and `left` style properties can be used to
-move it relative to its normal place. When `position` is set to
-`absolute` the element is removed from the normal document flow (it no
-longer takes up space), and its `top` and `left` properties can be
-used to absolutely position it (relative to the top left of the
-document, or the nearest enclosing element whose `position` property
-isn't `static`).
+By default it has a value of `static`, meaning the element sits in its
+normal place in the document. When it is set to `relative`, the
+element still takes up space in the document, but the `top` and `left`
+style properties can be used to move it relative to its normal place.
+When `position` is set to `absolute` the element is removed from the
+normal document flow (it no longer takes up space, but will overlap
+with other elements), and its `top` and `left` properties can be used to
+absolutely position it (relative to the top left of the document, or
+the nearest enclosing element whose `position` property isn't
+`static`).
 
 We can use this to create an animation. The document below displays a
 spinning picture of a cat.
@@ -779,20 +785,57 @@ spinning picture of a cat.
 ----
 
 First, the picture is centered on the page, and given a `position` of
-`relative`. The script defines a counter (`angle`) to control the
-animation, and every time `animate` is called, it increments this
-counter 0.001 unit for every millisecond elapsed. To determine how
-much time is elapsed, the time for the previous call is stored, and
-compared to the current time. The `angle` is measured in radians
-rather than degrees, which means that a full circle is indicated by
-2π, not 360.
+`relative`. We'll repeatedly update that picture's `top` and `left`
+styles in order to move it.
 
-It then computes a `top` and `left` style based on the sine and cosine
-of the current angle, multiplying the first by 20 and the second by
-200 to get an elliptical motion. If you are not familiar with
-trigonometry, don't worry too much about this part, just believe me
-when I say that those calls to `Math.sin` and `Math.cos` compute a
-position on a circle.
+The script uses `requestAnimationFrame` to schedule a function
+`animate` to run whenever the browser is ready to repaint the screen.
+The `animate` function itself again calls `requestAnimationFrame` to
+schedule the next update. When the browser window (or tab) is active,
+this will cause updates to happen at a rate of about 60 per second,
+which tends to produce a good-looking animation.
+
+If we just updated the DOM in a loop, the page would freeze and
+nothing would show up on the screen. Browsers do not update their
+display (nor do they allow any interaction with the page) while a
+JavaScript program is running. This is why we need
+++requestAnimationFrame++—it lets the browser know that we are done
+for now, and it can go ahead and do the things that browsers do, such
+as updating the screen and responding to user actions.
+
+Our animation function is passed the current time as argument, which
+it compares to the time it saw before (the `lastTime` variable) to
+ensure the motion of the cat per millisecond is stable, resulting in a
+smooth animation. If it would just move a fixed amount each step, the
+motion would look stuttery when, for example, some other heavy task
+running on the same computer prevented the function from running for a
+fraction of a second.
+
+Moving in circles is done using the trigonometry functions `Math.cos`
+and `Math.sin`. If you are not familiar with those, I'll try to
+briefly introduce them, since we will occasionally need them in this
+book.
+
+`Math.cos` and `Math.sin` are useful for finding points that lie on a
+circle around point (0,0), with each point being exactly one unit away
+from (0,0). They interpret their argument as the position on this
+circle, with zero denoting the point on the far right of the circle,
+going clockwise until 2π (about 6.28) has taken us around the whole
+circle. `Math.cos` tells you the x coordinate of the point that
+corresponds to the given angle, `Math.sin` yields the y coordinate.
+Positions (angles) higher than 2π or below 0 are valid—the rotation
+repeats, so that _a_+2π refers to the same angle as _a_.
+
+image::img/cos_sin.svg[alt="Using cosine and sine to compute coordinates"]
+
+The example keeps a counter (`angle`) for the current angle of the
+animation, and increments this counter in proportion to the elapsed
+time every time our animation function is called. It can then use this
+angle to compute the current position of the image element. The `top`
+style is computed with `Math.sin`, and multipled by 20, which is the
+vertical radius of our circle. The `left` style is based on
+`Math.cos`, and multipled by 200, so that the circle is much wider
+than it is high, resulting in an elliptic motion.
 
 Note that styles usually need _units_. In this case, we have to append
 `"px"` to the number to tell the browser we are counting in pixels (as
@@ -801,33 +844,12 @@ forgotten. Using numbers without unit will result in your style being
 ignored (unless the number is 0, which means the same regardless of
 its unit).
 
-If we just did this in a loop, the page would freeze and nothing would
-show up on the display. Browsers do not update their display (nor do
-they allow any interaction with the page) while a JavaScript program
-is running. This means we need to somehow arrange for our function to
-be run repeatedly, while still giving the browser time to do other
-things.
-
-The `requestAnimationFrame` function schedules the function it is
-given as argument to be called whenever the browser is ready to
-repaint the screen. Our animation function is passed the current time
-as argument, which it uses to make the animation smooth. If it would
-just increment the angle a fixed amount each step, it would look
-stuttery when, for example, some other heavy task running on the same
-computer prevented the function from running for a fraction of a
-second.
-
-The `animate` function itself again calls `requestAnimationFrame` to
-schedule the next update. When the browser window (or tab) is active,
-this will cause updates to happen at a rate of about 60 per second,
-which tends to produce a nicely smooth animation.
-
 == Summary ==
 
 JavaScript programs may inspect and interfere with the current
 document that a browser is displaying through a data structure called
 the DOM. This data structure represents the browser's model of the
-document, and a JavaScript program may modify it to change the
+document, and a JavaScript program can modify it to change the visible
 document.
 
 The DOM is shaped like a tree, in which elements are arranged
@@ -969,10 +991,10 @@ the `talksAbout` function defined earlier in this chapter.
 
 You could call `byTagname` itself recursively, concatenating the
 resulting arrays to produce the output. For a more efficient approach,
-define an inner function which calls itself recursively, and which
-has access to an array defined in the outer function to which it can
-add the matching elements it finds. Do not forget to call the inner
-function once from the outer function.
+define an inner function which calls itself recursively, and which has
+access to an array variable defined in the outer function to which it
+can add the matching elements it finds. Do not forget to call the
+inner function once from the outer function.
 
 The recursive function must check the node type. In this case, we are
 only interested in node type 1 (`document.ELEMENT_NODE`). For such

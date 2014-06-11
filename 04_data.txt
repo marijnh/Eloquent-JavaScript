@@ -963,7 +963,7 @@ skipping the first) to gather them into an array.
 
 (((Math object)))(((min function)))(((max function)))(((sqrt
 function)))As we've seen, `Math` is a grab-bag of number-related
-utility functions, such `Math.max` (maximum), `Math.min` (minimum),
+utility functions, such as `Math.max` (maximum), `Math.min` (minimum),
 and `Math.sqrt` (square root).
 
 (((namespace)))(((namespace pollution)))The `Math`

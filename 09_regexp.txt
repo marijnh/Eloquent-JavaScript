@@ -38,7 +38,7 @@ regular expressions will make you a more effective programmer.
 
 A regular expression is an object. It can either be constructed with
 the `RegExp` constructor or written as a literal value by enclosing
-the pattern in slash (“/”) characters.
+the pattern in slash (`/`) characters.
 
 [source,javascript]
 ----
@@ -111,7 +111,7 @@ console.log(/[0-9]/.test("in 1992"));
 // → true
 ----
 
-(((digit (regexp))))Within square brackets, a dash (“-”) between two
+(((digit (regexp))))Within square brackets, a dash (`-`) between two
 characters can be used to indicate a range of characters, where the
 ordering is determined by the character's Unicode code points.
 Characters “0” to “9” sit right next to each other in this ordering
@@ -155,7 +155,7 @@ These backslash codes can also be used inside of square brackets. For
 example `[\d.]` means any digit or a dot.
 
 To _invert_ a set of characters—that is, to express that you want to match any
-character _except_ the ones in the set—you can write a caret (“^”) character
+character _except_ the ones in the set—you can write a caret (`^`) character
 after the opening bracket.
 
 [source,javascript]
@@ -173,7 +173,7 @@ We now know how to match a single digit. What if we want to match a
 whole number—a sequence of one or more digits?
 
 (((repetition (regexp))))(((\* operator)))(((+ operator)))When you put
-a plus sign (“+”) after something in a regular expression, it
+a plus sign (`+`) after something in a regular expression, it
 indicates that the element may be repeated more than once. Thus, `/\d+/`
 matches one or more digit characters.
 
@@ -189,7 +189,7 @@ console.log(/'\d*'/.test("''"));
 // → true
 ----
 
-The star (“`*`”) has a similar meaning, but also allows the pattern to
+The star (`*`) has a similar meaning, but also allows the pattern to
 match zero times. Something with a star after it never prevents a
 pattern from matching—it'll just match zero instances if it can't find
 any suitable text to match.
@@ -230,7 +230,7 @@ more times.
 
 == Grouping sub-expressions ==
 
-(((grouping (regexp))))To use an operator like “`*`” or “+” on more
+(((grouping (regexp))))To use an operator like `*` or `+` on more
 than one element at a time, you can use parentheses. A part of a
 regular expression that is surrounded in parentheses counts as a
 single element as far as the operators following it are concerned.
@@ -242,9 +242,9 @@ console.log(cartoonCrying.test("Boohoooohoohooo"));
 // → true
 ----
 
-The first and second “+” characters apply only to the second “o” in
+The first and second `+` characters apply only to the second “o” in
 “boo” and “hoo”, respectively.
-The third “+” applies to the whole group `(hoo+)`, matching one or
+The third `+` applies to the whole group `(hoo+)`, matching one or
 more sequences like that.
 
 (((case-sensitivity (regexp))))The “i” at the end of the expression in
@@ -399,7 +399,7 @@ in this case it'll just start at the second character and end at the
 second-to-last.
 
 (((boundary (regexp))))If we want to enforce that the match must span
-the whole string, we can add the markers “^” and “$”. The carat
+the whole string, we can add the markers `^` and `$`. The carat
 matches the start of the input string, while the dollar sign matches the end. So
 `/^\d+$/` matches a string consisting entirely of one or more digits,
 `/^!/` matches any string that starts with an exclamation mark, and
@@ -687,10 +687,10 @@ that. This is not what we wanted—the intention was to match a single
 comment, not to go all the way to the end of the code and find the end
 of the last block comment.
 
-Because of this behavior, we say the repetition operators (“+”, “`*`”, “?”,
-and “{}”) are _greedy_, meaning they match as much
+Because of this behavior, we say the repetition operators (`+`, `*`, `?`,
+and `{}`) are _greedy_, meaning they match as much
 as they can and backtrack from there. If you put a question mark after
-them (“+?”, “`*`?”, “??”, “{}?”) they become non-greedy, and start by matching as little as
+them (`+?`, `*?`, `??`, `{}?`) they become non-greedy, and start by matching as little as
 possible, only matching more when the remaining pattern does not fit
 the smaller match.
 
@@ -861,7 +861,7 @@ while (match = number.exec(input))
 ----
 
 This makes use of the fact that the value of an assignment expression
-(“=”) is the assigned value. So by using `match = re.exec(input)` as
+(`=`) is the assigned value. So by using `match = re.exec(input)` as
 the condition in the `while` statement, we perform the match at the
 start of each iteration, save its result in a variable, and stop
 looping when no more matches are found.
@@ -1219,7 +1219,7 @@ or nothing).
 
 The more complicated part of the exercise is the problem of
 matching both `"5."` and `".5"` without also matching `"."`. For this,
-a good solution is to use the “|” operator to separate the two cases—either
+a good solution is to use the `|` operator to separate the two cases—either
 one or more digits optionally followed by a dot and zero or
 more digits, _or_ a dot followed by one or more digits.
 

@@ -659,11 +659,11 @@ with `(1 + 5)` and `(1 * 3)`. The first call tries to find a solution
 that starts with `(1 + 5)`, and, using recursion, explores _every_
 solution that yields a number smaller than or equal to the target
 number. Since it doesn't find a solution that hits the target, it
-returns `null` back to the first call. There the “||” operator causes
+returns `null` back to the first call. There the `||` operator causes
 the call that explores `(1 * 3)` to happen. This search has more
 luck, as its first recursive call, through yet _another_ recursive
 call, hits upon the target number, 13. This innermost recursive call
-returns a string, and each of the “||” operators in the intermediate
+returns a string, and each of the `||` operators in the intermediate
 calls pass that string along, ultimately returning our solution.
 
 == Growing functions ==

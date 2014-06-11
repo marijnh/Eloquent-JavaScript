@@ -89,7 +89,7 @@ var caught = 5 * 5;
 (((var keyword)))And that gives us our second kind of statement. The
 special word (_keyword_) `var` indicates that this sentence is going
 to define a variable. It is followed by the name of the variable and,
-if we want to immediately give it a value, by an “=” operator and an
+if we want to immediately give it a value, by an `=` operator and an
 expression.
 
 The previous statement creates a variable called `caught` and uses it
@@ -114,7 +114,7 @@ variable name cannot include punctuation, except for the characters
 “$” and “_”.
 
 When a variable points at a value, that does not mean it is tied to
-that value forever. The “=” operator can be used at any time on
+that value forever. The `=` operator can be used at any time on
 existing variables to disconnect them from their current value and
 have them point to a new one:
 
@@ -621,7 +621,7 @@ console.log(current);
 ----
 
 (((remainder operation)))(((% operator)))The trick with the remainder
-(“%”) operator is an easy way to test whether a number is divisible by
+(`%`) operator is an easy way to test whether a number is divisible by
 another number. If it is, the remainder of their division is zero.
 
 The `for` construct in the example does not have a part that checks
@@ -896,7 +896,7 @@ endif::html_target[]
 
 Going over the numbers is clearly a looping job, and selecting what to
 print is a matter of conditional execution. Remember the trick of
-using the remainder (“%”) operator for checking whether a number is
+using the remainder (`%`) operator for checking whether a number is
 divisible by another number (has a remainder of zero).
 
 In the first version, there are three possible outcomes for
@@ -906,7 +906,7 @@ The second version of the program has a straightforward solution and a
 clever one. The simple way is to add another “branch” to precisely test
 the given condition. For the clever method, build up a string containing
 the word or words to output, and print either this word or the number
-if there is no word, potentially by making elegant use of the “||”
+if there is no word, potentially by making elegant use of the `||`
 operator.
 
 !!solution!!

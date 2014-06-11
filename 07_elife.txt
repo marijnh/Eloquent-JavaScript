@@ -933,7 +933,7 @@ PlantEater.prototype.act = function(context) {
 };
 ----
 
-We'll use the “*” character for plants, so that's what this creature
+We'll use the `*` character for plants, so that's what this creature
 will look for when it searches for food.
 
 == Bringing it to life ==

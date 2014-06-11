@@ -641,7 +641,7 @@ properly reported.
 In cases where you only need one instance of your error (it
 always has the same message) and stack traces are not important, you
 can simplify things a little by defining a single error object
-rather than a constructor, and comparing exceptions to it with the “==”
+rather than a constructor, and comparing exceptions to it with the `==`
 operator.
 
 == Assertions ==

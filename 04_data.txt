@@ -271,7 +271,7 @@ var descriptions = {
 
 (((property,assignment)))(((mutability)))(((= operator)))It is possible to
 assign a value to a property expression
-with the “=” operator. This will replace the property's value if it
+with the `=` operator. This will replace the property's value if it
 already existed, or create a new property on the object if it didn't.
 
 To briefly come back to our tentacle model of variable
@@ -807,7 +807,7 @@ after the start index. Strings also have a `slice`
 method, which has a similar effect.
 
 (((concat method)))The `concat` method can be used
-to glue arrays together, similar to what the “+”
+to glue arrays together, similar to what the `+`
 operator does for strings. The following
 example shows both `concat` and `slice` in action. It
 takes an array and an index, and returns a new array
@@ -1154,7 +1154,7 @@ method to add a value. Don't forget to return the array at the end of the
 function.
 
 Since the end boundary is inclusive, you'll need to use the “\<=”
-operator rather than simply “<” to check for the end of your loop.
+operator rather than simply `<` to check for the end of your loop.
 
 To check whether the optional step argument was given, either check
 `arguments.length` or compare the value of the argument to
@@ -1164,7 +1164,7 @@ To check whether the optional step argument was given, either check
 Having `range` understand negative step values is probably best done
 by writing two separate loops—one for counting up, one for
 counting down—because the comparison that checks whether the loop is
-finished needs to be “>=” rather than “\<=” when counting downwards.
+finished needs to be `>=` rather than “\<=” when counting downwards.
 
 It might also be worthwhile to use a different default step, namely
 -1, when the end of the range is smaller than the start. That way,
@@ -1332,7 +1332,7 @@ that's in this list's `rest` property.
 
 === Deep comparison ===
 
-The “==” operator compares objects by identity. But sometimes, you would
+The `==` operator compares objects by identity. But sometimes, you would
 prefer to compare the values of their actual properties.
 
 Write a function, `deepEqual`, that takes two values and returns true
@@ -1340,7 +1340,7 @@ only if they are the same value, or are objects with the same properties
 whose values are also equal when compared with a recursive call to
 `deepEqual`.
 
-To find out whether to compare two things by identity (use the “===”
+To find out whether to compare two things by identity (use the `===`
 operator for that) or by looking at their properties, you can use the `typeof` operator.
 If it produces `"object"` for both values, you should do a deep comparison. But
 you have to take one silly exception into account: by a
@@ -1370,7 +1370,7 @@ endif::html_target[]
 Your test for whether you are dealing with a real object will look
 something like `typeof x == "object" && x != null`. Be careful to only
 compare properties when _both_ arguments are objects. In all other
-cases you can just immediately return the result of applying “===”.
+cases you can just immediately return the result of applying `===`.
 
 Use a `for`/`in` loop to go over the properties. You need to test
 whether both objects have the same set of property names, and whether

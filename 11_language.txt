@@ -59,7 +59,7 @@ do(define(x, 10),
 ----
 
 The uniformity of the language means that things which are operators
-in JavaScript (such as “>”) are normal variables in this language,
+in JavaScript (such as `>`) are normal variables in this language,
 applied just like other functions. Since there is no concept of a
 block built into the syntax, doing multiple things in sequence is
 written as an application of the `do` construct.

@@ -821,7 +821,7 @@ Still, there's no need to feel bad when writing functions that are
 not pure, or to wage a holy war to purge them from your code. Side
 effects are often useful. There'd be no way to write a pure version
 of `console.log`, for example, and `console.log` is certainly useful.
-Some operations are  also easer to express in an efficient way when
+Some operations are  also easier to express in an efficient way when
 we use side effects, so computing speed can be a reason to avoid purity.
 
 == Summary ==

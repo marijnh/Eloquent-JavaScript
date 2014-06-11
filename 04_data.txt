@@ -283,7 +283,7 @@ tentacles, each of which has a name inscribed on it.
 image::img/octopus-object.jpg[alt="Artist's representation of an object"]
 
 (((delete operator)))(((property,deletion)))The `delete` operator
-cuts off a leg from an such an octopus. It is a unary operator that,
+cuts off a leg from such an octopus. It is a unary operator that,
 when applied to a property access
 expression, will remove the named property from the object. (This is
 not a very common thing to do in practice, but it is allowed.)

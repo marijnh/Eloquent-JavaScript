@@ -2,14 +2,14 @@
   font-family: 'Cinzel';
   font-style: normal;
   font-weight: 700;
-  src: local('Cinzel-Bold'), url(http://themes.googleusercontent.com/static/fonts/cinzel/v1/L74890HNVnUypqWjqGUt1T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+  src: local('Cinzel-Bold'), url(font/cinzel_bold.woff) format('woff');
 }
 
 @font-face {
   font-family: 'PT Mono';
   font-style: normal;
   font-weight: 400;
-  src: local('PT Mono'), local('PTMono-Regular'), url(http://themes.googleusercontent.com/static/fonts/ptmono/v1/jmle3kzCPnW8O7_gZGRDlQ.woff) format('woff');
+  src: local('PT Mono'), local('PTMono-Regular'), url(font/pt_mono.woff) format('woff');
 }
 
 html, body { 

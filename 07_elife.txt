@@ -679,7 +679,7 @@ an empty square. It then moves in the direction of that empty square.
 What complicates things is that a critter may end up in the
 middle of empty space, either as its start
 position or as a result of walking around another critter.
-If we apply the algorithm I just described in
+If we apply the approach I just described in
 empty space, the poor thing will just keep on turning left at every
 step, running in circles.
 

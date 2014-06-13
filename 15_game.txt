@@ -454,7 +454,7 @@ table look like the background we want:
 Some of these (`table-layout`, `border-spacing`, and `padding`) are
 simply used to suppress unwanted default behavior. We don't want space
 between the table cells, or padding inside them, and we set the
-table's algorithm for computing the width of its columns to a simple,
+table's approach for computing the width of its columns to a simple,
 predictable variant (the way tables are laid out in HTML is a very
 complicated thing).
 

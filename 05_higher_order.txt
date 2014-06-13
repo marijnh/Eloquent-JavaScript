@@ -976,7 +976,7 @@ the individual centuries.
 !!solution!!
 
 For bonus points, write a function `groupBy` that abstracts the
-grouping algorithm. It should accept as arguments an array and a function
+grouping operation. It should accept as arguments an array and a function
 that computes the group for an element in the array, and returns the
 object containing the groups.
 

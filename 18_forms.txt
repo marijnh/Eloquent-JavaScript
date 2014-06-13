@@ -1,6 +1,6 @@
 :chap_num: 18
 :prev_link: 17_http
-:next_link: 19_FIXME
+:next_link: 19_paint
 :load_files: ["js/promise.js"]
 
 = Forms and Form Fields =
@@ -538,7 +538,7 @@ function readFile(file) {
     reader.addEventListener("error", function() {
       fail(reader.error);
     });
-    reader.readAsString(file);
+    reader.readAsText(file);
   });
 }
 ----

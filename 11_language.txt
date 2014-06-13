@@ -17,8 +17,8 @@ When a student asked the master about the nature of the cycle of Data
 and Control, Yuan-Ma replied ‘Think of a compiler, compiling itself.’
 ____
 
-Building your own programming language is surprisingly easy—as long as
-you do not aim too high—and very enlightening.
+Building your own programming language is surprisingly easy (as long as
+you do not aim too high) and very enlightening.
 
 The main thing I want to show in this chapter is that there is no
 magic involved. I've often felt that some human invention was so

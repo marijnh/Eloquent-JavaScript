@@ -41,8 +41,8 @@
       if (self.frame.style.display != "none") self.resizeFrame();
     });
 
-    this.startedAt = 0;
-    this.extraSecs = 1;
+    this.startedAt = null;
+    this.extraSecs = 2;
     this.output = null;
 
     if (options.loadFiles) setTimeout(function() {
@@ -65,7 +65,7 @@
       if (output)
         this.output = output;
       this.startedAt = Date.now();
-      this.extraSecs = 1;
+      this.extraSecs = 2;
       this.win.__c = 0;
       timeout(this.win, preprocess(code, this), 0);
     },
@@ -102,7 +102,7 @@
       if (output) this.output = output;
       if (scriptTags.length) {
         this.startedAt = Date.now();
-        this.extraSecs = 1;
+        this.extraSecs = 2;
         this.win.__c = 0;
         var last = scriptTags[scriptTags.length - 1];
         var finish = function() {
@@ -137,6 +137,9 @@
         warn: function() { self.out("warn", arguments); },
         info: function() { self.out("log", arguments); }
       };
+      win.setInterval(function() {
+        self.startedAt = null;
+      }, 1000);
 
       win.__setTimeout = win.setTimeout;
       win.__setInterval = win.setInterval;
@@ -180,6 +183,7 @@
     },
     tick: function() {
       var now = Date.now();
+      if (this.startedAt == null) this.startedAt = now;
       if (now < this.startedAt + this.extraSecs * 1000) return;
       var bail = confirm("This code has been running for " + this.extraSecs +
                          " seconds. Abort it?");

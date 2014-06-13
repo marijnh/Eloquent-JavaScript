@@ -883,11 +883,11 @@ depending on whether the game is won (brighter) or lost (darker).
 ----
 CanvasDisplay.prototype.clearDisplay = function() {
   if (this.level.status == "won")
-    this.cx.fillStyle = "#44bfff";
+    this.cx.fillStyle = "rgb(68, 191, 255)";
   else if (this.level.status == "lost")
-    this.cx.fillStyle = "#2c88d6";
+    this.cx.fillStyle = "rgb(44, 136, 214)";
   else
-    this.cx.fillStyle = "#34a6fb";
+    this.cx.fillStyle = "rgb(52, 166, 251)";
   this.cx.fillRect(0, 0,
                    this.canvas.width, this.canvas.height);
 };

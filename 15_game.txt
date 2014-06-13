@@ -443,11 +443,11 @@ table look like the background we want:
 
 [source,text/css]
 ----
-.background    { background: #34a6fb;
+.background    { background: rgb(52, 166, 251);
                  table-layout: fixed;
                  border-spacing: 0;   }
 .background td { padding: 0;          }
-.lava          { background: #ff6363; }
+.lava          { background: rgb(255, 100, 100); }
 .wall          { background: white;   }
 ----
 
@@ -459,15 +459,12 @@ predictable variant (the way tables are laid out in HTML is a very
 complicated thing).
 
 The `background` rules set background colors. CSS allows colors to be
-specified both as words (`white`) and with a rather cryptic `#RRGGBB`
-format, where the hash sign is followed by pairs of hexadecimal
-(base-16) digits giving first the red, then the green, and then the
-blue components of the color, as numbers between zero and `ff` (255).
-So in `#34a6fb` the the red component is hexadecimal `34` (3 × 16 + 4
-equals decimal 52), green is `a6` (166), and blue `fb` (251). Since
-the blue component is the largest, the resulting color will be
-blueish. You can see that in the `.lava` rule, the first part of the
-number (red) is the largest.
+specified both as words (`white`) and with a rather cryptic `rgb(R, G,
+B)` format, where the red, green, and blue components of the color are
+separated into three numbers from 0 to 255. So in `rgb(52, 166, 251)`
+the red component is 52, green is 166, and blue is 251. Since the blue
+component is the largest, the resulting color will be blueish. You can
+see that in the `.lava` rule, the first number (red) is the largest.
 
 Drawing the actors is quite straightforward:
 
@@ -501,8 +498,8 @@ squares, which we defined earlier):
 [source,text/css]
 ----
 .actor  { position: absolute;  }
-.coin   { background: #f1e559; }
-.player { background: #404040; }
+.coin   { background: rgb(241, 229, 89); }
+.player { background: rgb(64, 64, 64); }
 ----
 
 To update the display when the world changes, the `drawFrame` method
@@ -536,7 +533,7 @@ convenient like that.)
 [source,text/css]
 ----
 .lost .player {
-  background: #a04040;
+  background: rgb(160, 64, 64);
 }
 .won .player {
   box-shadow: -4px -7px 8px white, 4px -7px 8px white;

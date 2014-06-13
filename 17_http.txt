@@ -23,7 +23,7 @@ and explains the way browser JavaScript has access to it.
 As an example, imagine you type
 _http://eloquentjavascript.net/index.html_ into your browser's address
 bar. First, the browser looks up the address of the server associated
-with `eloquentjavascript.net`, and tries to open a TCP connection to
+with _eloquentjavascript.net_, and tries to open a TCP connection to
 it on port 80, the default port for HTTP traffic. If the server
 exists, and accepts the connection, the browser sends something like
 this:
@@ -380,15 +380,15 @@ console.log(JSON.parse(req.responseText));
 Making HTTP requests in web page scripts once again raises concerns
 about security. The person who controls the script might not have the
 same interests as the person on whose computer it is running. More
-specifically, if I visit themafia.org, I do not want its scripts to be
-able to make a request to mybank.com, using identifying information
+specifically, if I visit _themafia.org_, I do not want its scripts to be
+able to make a request to _mybank.com_, using identifying information
 from my browser, with instructions to transfer all my money to some
 random mafia account.
 
 It is not too hard for websites to protect themselves against such
 events, but it requires effort, and many websites fail to do it. For
 this reason, browsers protect us by disallowing scripts to make HTTP
-requests to other domains (names like themafia.org and mybank.com).
+requests to other domains (names like _themafia.org_ and _mybank.com_).
 
 This can be an annoying problem when building systems that want to
 access other domains for legitimate reasons. It is possible for

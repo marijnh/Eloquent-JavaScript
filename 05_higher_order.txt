@@ -844,8 +844,8 @@ We'll describe this in more detail in the next chapter.
 Being able to pass function values to other functions is not just a
 gimmick, but a deeply useful aspect of JavaScript. It allows us to
 write computations with “gaps” in them as functions, and have the
-code that calls these functions to fill in those gaps by providing
-function values to describe the missing computations.
+code that calls these functions fill in those gaps by providing
+function values that describe the missing computations.
 
 Arrays provide a number of very useful higher-order methods—`forEach`
 to do something with each element in an array, `filter` to build a new array with some elements filtered out, `map` to build a new

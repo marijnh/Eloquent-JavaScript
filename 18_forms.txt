@@ -547,11 +547,135 @@ It is possible to read only part of a file by calling `slice` on it,
 and passing the result of that (a so-called _blob_ object) to the file
 reader.
 
-== FIXME a bigger example ==
+== Storing data client-side ==
+
+Simple HTML pages with a bit of JavaScript can be a great medium for
+“mini application”—small helper programs that automate everyday
+things. By connecting a few form fields with event handlers you can do
+anything from converting between degrees Celsius and Fahrenheit to
+computing passwords from a master password and a website name.
+
+When such an application needs to remember something between sessions,
+you could set up some server where it can save data. But that
+introduces extra work and complexity. Sometimes, it is enough to just
+keep the data in the browser. But since the JavaScript environment is
+reset every time a page is loaded, you can not use regular variables
+to remember data across sessions.
+
+What you _can_ use is the `localStorage` object. This object allows
+you to store any number of string values, labeled by strings, and have
+them still be around the next time the page loads. For example:
+
+[source,javascript]
+----
+localStorage.setItem("username", "marijn");
+console.log(localStorage.getItem("username"));
+// → marijn
+localStorage.removeItem("username");
+----
+
+A value in `localStorage` sticks around until it is overwritten,
+removed with `removeItem`, or the user clears out their local data.
+
+Sites from different domains get different storage compartments. That
+means that data stored there by a given website can in principle only
+be read (and overwritten) by scripts on that same site.
+
+Browsers also enforce a limit on the size of the data a site can store
+in `localStorage`, typically in the order of a few megabytes. This
+restriction, along with the fact that filling up people's hard drives
+with junk is not very profitable, prevents this feature from eating up
+too much space.
+
+The code below implements a simple note-taking application. It keeps
+the user's notes as an object associating note titles with content
+strings. This object is stored in `localStorage`, encoded as JSON
+because only strings can be stored there. The user can select a note
+from a `<select>` field, and change that note's text in a
+`<textarea>`. A note can be added by pressing a button.
+
+[source,text/html]
+----
+Notes: <select id="list"></select>
+<button onclick="addNote()">new</button><br>
+<textarea id="currentnote" style="width: 100%; height: 10em">
+</textarea>
+
+<script>
+  var notes = JSON.parse(localStorage.getItem("notes")) ||
+              {"shopping list": ""};
+  function saveToStorage() {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }
+
+  var list = document.querySelector("#list");
+  function addToList(name) {
+    var option = document.createElement("option");
+    option.textContent = name;
+    list.appendChild(option);
+  }
+  for (var name in notes)
+    if (notes.hasOwnProperty(name))
+      addToList(name);
+
+  var current = document.querySelector("#currentnote");
+  current.value = notes[list.value];
+
+  list.addEventListener("change", function() {
+    current.value = notes[list.value];
+  });
+  current.addEventListener("change", function() {
+    notes[list.value] = current.value;
+    saveToStorage();
+  });
+
+  function addNote() {
+    var name = prompt("Note name", "");
+    if (!name) return;
+    if (!notes.hasOwnProperty(name)) {
+      notes[name] = "";
+      addToList(name);
+      saveToStorage();
+    }
+    list.value = name;
+    current.value = notes[name];
+  }
+</script>
+----
+
+The start of the script initializes the `notes` variable to the value
+stored in `localStorage`, or if that is missing, to a simple object
+with only an empty `"shopping list"` note in it.
+
+Reading a field that does not exist from `localStorage` will yield
+`null`. And passing `null` to `JSON.parse` will make it parse the
+string `"null"`, and return `null`. Thus, the `||` operator can be
+used to provide a default value in a situation like this.
+
+Whenever the note data changes (when a new note is added or an
+existing note changed), the `saveToStorage` function is called to
+update the storage field. If this application was intended to handle
+thousands of notes, rather than a handful, this would be too
+expensive, and we'd have to come up with a more complicated way to
+store them, such as giving each note its own storage field.
+
+When adding a note, after selecting the new note, the code updates the
+text field explicitly, even though the `<select>` field has a
+`"change"` handler that does the same thing. This is necessary because
+`"change"` events only fire when the _user_ changes the field's value,
+not when a script does it.
+
+There exists an object similar to `localStorage` called
+`sessionStorage`. The difference between the two is that the content
+of `sessionStorage` is forgotten at the end of a _session_, which for
+most browsers means whenever the browser is closed.
 
 == Summary ==
 
-Form fields can be inspected and manipulated with JavaScript. They
+HTML can express various types of form fields, such as text fields,
+checkboxes, multiple-choice fields, and file pickers.
+
+Such fields can be inspected and manipulated with JavaScript. They
 fire events like `"change"`, when changed, `"input"`, when text is
 typed, as well as the various keyboard events. These allow us to
 notice when the user is interacting with them. Properties like `value`
@@ -562,6 +686,15 @@ When a form is submitted, its `"submit"` event fires. A JavaScript
 handler can `preventDefault` that event to prevent the submission from
 happening. Form fields elements do not have to be wrapped in `<form>`
 tag, if they are only going to be used by a script.
+
+When the user has selected a field from a local drive in a file picker
+field, the `FileReader` interface can be used to access the content of
+this file from a JavaScript program.
+
+The `localStorage` and `sessionStorage` objects can be used to save
+information in a way that survives page reloads. The first saves the
+data forever (or until the user decides to clear it), the second saves
+it until the browser is closed.
 
 == Exercises ==
 

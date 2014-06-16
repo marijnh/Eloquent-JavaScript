@@ -88,7 +88,7 @@ the material that came before.
 [quote, Joseph Weizenbaum, Computer Power and Human Reason]
 ____
 (((Weizenbaum, Joseph)))The computer programmer is a creator of
-universes for which he alone is responsible. Universes of virtually
+universes for which he [sic] alone is responsible. Universes of virtually
 unlimited complexity can be created in the form of computer programs.
 ____
 
@@ -385,7 +385,7 @@ book's sandbox is also possible. You can opt to install node.js, and
 read enough of its documentation to figure out how to use it to
 evaluate text files that contain programs. Or you can use your
 browser's developer console (typically found somewhere under a “tools”
-or “developer” menu) and play around in there. In chapter (FIXME), the
+or “developer” menu) and play around in there. In Chapter 12, the
 way in which JavaScript programs are embedded in web pages (HTML
 files) is explained. In the meantime, you could head over to
 _http://jsbin.com_ for another friendly interface for running

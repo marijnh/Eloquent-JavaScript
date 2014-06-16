@@ -349,7 +349,7 @@ codes of the characters one by one.
 
 (((>= operator)))(((<= operator)))(((== operator)))(((!=
 operator)))Other similar operators are `>=` (greater than or equal
-to), `\<=` (less than or equal to), `==` (equal to), and
+to), `<=` (less than or equal to), `==` (equal to), and
 `!=` (not equal to).
 
 [source,javascript]
@@ -578,7 +578,7 @@ Such values are created by typing in their name (`true`, `null`) or
 value (`13`, `"abc"`). You can combine and transform values with operators. We saw binary
 operators for arithmetic (`+`, `-`, `*`, `/`,
 and `%`), string concatenation (`+`), comparison (`==`, `!=`,
-`===`, `!==`, `<`, `>`, `\<=`, `>=`), and logic (`&&`, `||`), as well
+`===`, `!==`, `<`, `>`, `<=`, `>=`), and logic (`&&`, `||`), as well
 as several unary operators (`-` to negate a number, `!` to negate
 logically, and `typeof` to find a value's type).
 

@@ -1,7 +1,7 @@
 :chap_num: 19
 :prev_link: 18_forms
 :next_link: 20_FIXME
-:load_files: ["js/19_paint.js"]
+:load_files: ["code/chapter/19_paint.js"]
 
 = Project: A Paint Program =
 

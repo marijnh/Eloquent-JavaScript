@@ -1,7 +1,7 @@
 :chap_num: 13
 :prev_link: 12_browser
 :next_link: 14_event
-:load_files: ["js/code/mountains.js", "js/13_dom.js"]
+:load_files: ["code/mountains.js", "code/chapter/13_dom.js"]
 
 = The Document Object Model =
 

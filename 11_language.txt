@@ -1,7 +1,7 @@
 :chap_num: 11
 :prev_link: 10_modules
 :next_link: 12_browser
-:load_files: ["js/11_language.js"]
+:load_files: ["code/chapter/11_language.js"]
 
 = Project: A Programming Language =
 

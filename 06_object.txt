@@ -1,7 +1,7 @@
 :chap_num: 6
 :prev_link: 05_higher_order
 :next_link: 07_elife
-:load_files: ["js/code/mountains.js", "js/06_object.js"]
+:load_files: ["code/mountains.js", "code/chapter/06_object.js"]
 
 = The Secret Life of Objects =
 

@@ -266,10 +266,10 @@ the JavaScript program) to be fetched from a URL.
 [source,text/html]
 ----
 <h1>Testing alert</h1>
-<script src="js/hello.js"></script>
+<script src="code/hello.js"></script>
 ----
 
-The _js/hello.js_ file included here contains the same simple program,
+The _code/hello.js_ file included here contains the same simple program,
 `alert("hello!")`. When an HTML page references other URLs as part of
 itself, for example an image file or a script, web browsers will
 retrieve those immediately, and include them in the page.

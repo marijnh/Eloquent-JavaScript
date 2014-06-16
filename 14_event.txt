@@ -650,7 +650,7 @@ isolated JavaScript environment, which runs alongside the main program
 for a document, and can only communicate with it by sending and
 receiving messages.
 
-Assume we have this code in `js/squareworker.js`, which is a program
+Assume we have this code in `code/squareworker.js`, which is a program
 that computes squares, which we will run inside of an isolated worker
 process.
 
@@ -669,7 +669,7 @@ worker, sends it a few messages, and outputs the responses.
 
 [source,javascript]
 ----
-var squareWorker = new Worker("js/squareworker.js");
+var squareWorker = new Worker("code/squareworker.js");
 squareWorker.addEventListener("message", function(event) {
   console.log("The worker responded:", event.data);
 });

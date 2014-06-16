@@ -1,7 +1,7 @@
 :chap_num: 16
 :prev_link: 15_game
 :next_link: 17_http
-:load_files: ["js/15_game.js", "js/code/game_levels.js", "js/16_canvas.js"]
+:load_files: ["code/chapter/15_game.js", "code/game_levels.js", "code/chapter/16_canvas.js"]
 
 = Drawing on Canvas =
 

@@ -15,6 +15,6 @@ while (m = included.exec(input)) {
 }
 
 if (code.length) {
-  var out = "html/js/" + file.replace(".txt", ".js");
+  var out = "code/chapter/" + file.replace(".txt", ".js");
   fs.writeFileSync(out, code.join("\n"), "utf8");
 }

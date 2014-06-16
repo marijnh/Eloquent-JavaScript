@@ -1,7 +1,7 @@
 :chap_num: 17
 :prev_link: 16_canvas
 :next_link: 18_forms
-:load_files: ["js/17_http.js", "js/promise.js"]
+:load_files: ["code/chapter/17_http.js", "js/promise.js"]
 
 = HTTP =
 

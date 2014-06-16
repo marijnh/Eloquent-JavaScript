@@ -1,6 +1,7 @@
 /tex/*
 /html/*.html
-/html/js/0*.js
-/html/js/1*.js
+/code/chapter/*
 /node_modules
 .tern-port
+toc.txt
+img/cover.xcf

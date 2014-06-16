@@ -1,7 +1,7 @@
 :chap_num: 8
 :prev_link: 07_elife
 :next_link: 09_regexp
-:load_files: ["js/08_error.js"]
+:load_files: ["code/chapter/08_error.js"]
 
 = Bugs and Error Handling =
 

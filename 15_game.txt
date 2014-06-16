@@ -1,7 +1,7 @@
 :chap_num: 15
 :prev_link: 14_event
 :next_link: 16_canvas
-:load_files: ["js/15_game.js", "js/code/game_levels.js"]
+:load_files: ["code/chapter/15_game.js", "code/game_levels.js"]
 
 = Project: A Platform Game =
 

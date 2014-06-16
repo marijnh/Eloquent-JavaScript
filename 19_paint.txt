@@ -236,7 +236,7 @@ tools.Line = function(event, cx, onEnd) {
     cx.lineTo(pos.x, pos.y);
     cx.stroke();
   }, onEnd);
-}
+};
 ----
 
 It starts by setting the drawing context's `lineCap` property to
@@ -757,7 +757,7 @@ Remember that these properties accept any color that CSS understand,
 which includes the `rgb(R, G, B)` style we saw in Chapter 15.
 
 The `getImageData` method is subject to the same restrictions as
-`toDataURL`—it will raise an error when the canvas contains pixels
+++toDataURL++—it will raise an error when the canvas contains pixels
 that originate from another domain. Use a `try`/`catch` statement to
 report such errors with an `alert` dialog.
 

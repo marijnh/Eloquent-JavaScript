@@ -9,7 +9,7 @@ var file = process.argv[2];
 var chapNum = Number(file.match(/^\d*/)[0]);
 var input = fs.readFileSync(file, "utf8");
 
-var baseCode = "var alert = function() {}, prompt = function() { return 'x'; }, confirm = function() { return true; }; window = this; requestAnimationFrame = setTimeout = clearTimeout = setInterval = clearInterval = Math.min;\n";
+var baseCode = "var alert = function() {}, prompt = function() { return 'x'; }, confirm = function() { return true; }; window = this; requestAnimationFrame = setTimeout = clearTimeout = setInterval = clearInterval = Math.min; var localStorage = {setItem: function(a, b) { this[a] = b;}, getItem: function(a) { return this[a] || null; }, removeItem: function(a) { delete this[a]; }};\n";
 
 var include = /\n:load_files: (\[[^\]]+\])/.exec(input);
 if (include) JSON.parse(include[1]).forEach(function(fileName) {

@@ -1,5 +1,5 @@
 :next_link: 01_values
-:load_files: ["code/chapter/00_intro.js"]
+:load_files: ["js/intro.js"]
 
 = Introduction =
 

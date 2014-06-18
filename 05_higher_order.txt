@@ -1,7 +1,7 @@
 :chap_num: 5
 :prev_link: 04_data
 :next_link: 06_object
-:load_files: ["code/ancestry.js", "code/chapter/00_intro.js", "code/chapter/05_higher_order.js"]
+:load_files: ["code/ancestry.js", "code/chapter/05_higher_order.js", "js/intro.js"]
 
 = Higher-Order Functions =
 

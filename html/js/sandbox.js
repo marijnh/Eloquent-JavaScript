@@ -255,6 +255,14 @@
       }
     }
     patches.push({from: tryPos, text: "try{"});
+    for (var i = ast.body.length - 1, catchPos = ast.end; i >= 0; i--) {
+      var stat = ast.body[i];
+      if (stat.type != "FunctionDeclaration") {
+        catchPos = stat.end;
+        break;
+      }
+    }
+    patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"});
     patches.sort(function(a, b) { return a.from - b.from; });
     var out = "";
     for (var i = 0, pos = 0; i < patches.length; ++i) {
@@ -263,7 +271,7 @@
       pos = patch.to || patch.from;
     }
     out += code.slice(pos, code.length);
-    return (strict ? '"use strict";' : "") + out + "\n}catch(e){__sandbox.error(e);}";
+    return (strict ? '"use strict";' : "") + out;
   }
 
   var Output = SandBox.Output = function(div) {

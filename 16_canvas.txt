@@ -533,12 +533,10 @@ copied, and the sixth to ninth argument give the rectangle (on the
 canvas) into which it should be copied.
 
 This can be used to pack multiple _sprites_ (image elements) into a
-single image file, and then copy out the part you need. For example,
+single image file, and then only draw the part you need. For example,
 we have this picture containing a game character in multiple poses.
 
-// FIXME update with new art
-
-image::img/player.png[alt="Various poses of a game character"]
+image::img/player_big.png[alt="Various poses of a game character"]
 
 If we alternate which pose we draw, we can show an animation that
 looks like a walking character.
@@ -547,7 +545,7 @@ To animate the picture on a canvas, the `clearRect` method is useful.
 It resembles `fillRect`, but instead of coloring the rectangle, it
 resets it back to transparent.
 
-We know that each _sprite_, each sub-picture, is 16 pixels wide and 30
+We know that each _sprite_, each sub-picture, is 24 pixels wide and 30
 pixels high. The code below loads the image, and then sets up an
 interval (repeated timer) to draw the next frame.
 
@@ -558,7 +556,7 @@ interval (repeated timer) to draw the next frame.
   var cx = document.querySelector("canvas").getContext("2d");
   var img = document.createElement("img");
   img.src = "img/player.png";
-  var spriteW = 16, spriteH = 30;
+  var spriteW = 24, spriteH = 30;
   img.addEventListener("load", function() {
     var cycle = 0;
     setInterval(function() {
@@ -684,7 +682,7 @@ the world around the character's vertical center:
   var cx = document.querySelector("canvas").getContext("2d");
   var img = document.createElement("img");
   img.src = "img/player.png";
-  var spriteW = 16, spriteH = 30;
+  var spriteW = 24, spriteH = 30;
   img.addEventListener("load", function() {
     flipHorizontally(cx, 100 + spriteW / 2);
     cx.drawImage(img, 0, 0, spriteW, spriteH,
@@ -932,7 +930,7 @@ Tiles that are not empty (null) are drawn with `drawImage`. The
 are not the player. It contains, from left to right, the wall tile,
 the lava tile, and then the sprite for a coin. 
 
-image::img/sprites_background.png[alt="Sprites for our game"]
+image::img/sprites_big.png[alt="Sprites for our game"]
 
 Background tiles are 20 by 20 pixels, since we will use the same scale
 that we used in `DOMDisplay`. Thus, the offset for lava tiles is 20
@@ -947,13 +945,18 @@ scene will appear as soon as the loading finishes.
 
 The walking character we used before will be used to represent the
 player. The code that draws it needs to pick the right sprite and
-direction based on the player's current motion. When the player is
-standing still, we draw the leftmost sprite. During jumps (when the
-vertical speed is not zero), we use the rightmost sprite. When
-walking, we cycle through the first 8 sprites based on the display's
-`animationTime` property. This is measured in seconds, and we want to
-switch frames twelve times per second, so the time is multiplied by 12
-first.
+direction based on the player's current motion. The first 8 sprites
+contain a walking animation. When the player is moving along a floor,
+we cycle through them based on the display's `animationTime` property.
+This is measured in seconds, and we want to switch frames twelve times
+per second, so the time is multiplied by 12 first. When the player is
+standing still, we draw the ninth sprite. During jumps (when the
+vertical speed is not zero), we use the tenth, rightmost sprite.
+
+Because the sprites are slightly wider than the player object—24
+instead of 16 pixels, to allow some space for feet and arms—the method
+has to adjust the x coordinate and width by a given amount
+(`playerXOverlap`).
 
 // include_code
 
@@ -962,15 +965,18 @@ first.
 ----
 var playerSprites = document.createElement("img");
 playerSprites.src = "img/player.png";
+var playerXOverlap = 4;
 
 CanvasDisplay.prototype.drawPlayer = function(x, y, width,
                                               height) {
-  var sprite = 0, player = this.level.player;
+  var sprite = 8, player = this.level.player;
+  width += playerXOverlap * 2;
+  x -= playerXOverlap;
   if (player.speed.x)
     this.flipPlayer = player.speed.x < 0;
 
   if (player.speed.y)
-    sprite = 8;
+    sprite = 9;
   else if (player.speed.x)
     sprite = Math.floor(this.animationTime * 12) % 8;
 

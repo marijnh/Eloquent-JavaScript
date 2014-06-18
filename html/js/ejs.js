@@ -58,6 +58,7 @@ window.addEventListener("load", function() {
   };
 
   var nextID = 0;
+  var article = document.getElementsByTagName("article")[0];
 
   function activateCode(node, e, lang) {
     var code = node.textContent;
@@ -69,7 +70,7 @@ window.addEventListener("load", function() {
       matchBrackets: true,
       lineNumbers: true
     });
-    wrap.style.margin = "1rem -5em";
+    wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px";
     setTimeout(function() { editor.refresh(); }, 600);
     if (e) {
       editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));

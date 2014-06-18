@@ -1214,7 +1214,7 @@ endif::html_target[]
 First, do not forget the backslash in front of the dot.
 
 Matching the optional sign in front of the number, as well as in front
-of the exponent, can be done with `[+\-]?` or `(+|-|)` (plus, minus,
+of the exponent, can be done with `[+\-]?` or `(\+|-|)` (plus, minus,
 or nothing).
 
 The more complicated part of the exercise is the problem of

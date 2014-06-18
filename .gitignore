@@ -1,5 +1,6 @@
 /tex/*
-/html/*.html
+/html/[01]*.html
+/html/js/exercise_data.js
 /code/chapter/*
 /node_modules
 .tern-port

@@ -107,7 +107,7 @@
         var last = scriptTags[scriptTags.length - 1];
         var finish = function() {
           setTimeout(function() {sandbox.resizeFrame();}, 50);
-          callback();
+          callback && callback();
         };
         if (last.src) {
           last.addEventListener("load", finish);
@@ -119,7 +119,7 @@
         }
         scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
       } else {
-        callback();
+        callback && callback();
       }
     },
     setupEnv: function() {

@@ -867,7 +867,8 @@ function fail() {
 all([soon(1), fail(), soon(3)]).then(function(array) {
   console.log("We should not get here");
 }, function(error) {
-  console.log("Failed with:", error);
+  if (error.message != "boom")
+    console.log("Unexpected failure:", error);
 });
 ----
 

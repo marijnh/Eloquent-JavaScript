@@ -946,7 +946,7 @@ the function.
 
 !!solution!!
 
-== Elements by tag name ==
+=== Elements by tag name ===
 
 The `getElementsByTagName` method returns all child elements with a
 given tag name. Implement your own version of it, as a regular
@@ -1004,7 +1004,7 @@ own children.
 
 !!solution!!
 
-== The cat's hat ==
+=== The cat's hat ===
 
 Extend the spinning cat animation we defined earlier to have both the
 cat and his hat (`<img src="img/hat.png">`) spin around, at opposite
@@ -1024,7 +1024,7 @@ ifdef::html_target[]
 // test: no
 
 [source,text/html]
------
+----
 <img src="img/cat.png" id="cat" style="position: absolute">
 <img src="img/hat.png" id="hat" style="position: absolute">
 

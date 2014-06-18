@@ -761,7 +761,7 @@ ifdef::html_target[]
 [source,text/html]
 ----
 <input type="text" id="field">
-<div id="suggestions"></div>
+<div id="suggestions" style="cursor: pointer"></div>
 
 <script>
   // Builds up an array with global variable names, like
@@ -823,12 +823,12 @@ on the situation at the start of the generation, and changes happening
 to neighbor cells this generation should not influence the new state
 of a given cell.
 
-Implement this game, taking the grid size as parameters, using
-whichever data structure you find appropriate. Use `Math.random` to
-populate the grid with a random pattern initially. Display it as a
-grid of checkbox fields, with a button next to it to advance to the
-next generation. When the user checks or unchecks the checkboxes,
-their changes should be included when computing the next generation.
+Implement this game, using whichever data structure you find
+appropriate. Use `Math.random` to populate the grid with a random
+pattern initially. Display it as a grid of checkbox fields, with a
+button next to it to advance to the next generation. When the user
+checks or unchecks the checkboxes, their changes should be included
+when computing the next generation.
 
 ifdef::html_target[]
 
@@ -837,7 +837,6 @@ ifdef::html_target[]
 [source,text/html]
 ----
 <div id="grid"></div>
-<br> <!-- <br> inserts a line break -->
 <button id="next">Next generation</button>
 
 <script>

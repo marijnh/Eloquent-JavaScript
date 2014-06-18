@@ -831,7 +831,7 @@ Only one piece of JavaScript program can run at a time. Thus, event
 handlers and other scheduled scripts have to wait until other scripts
 finish, before they get their turn.
 
-== Excercises ==
+== Exercises ==
 
 === Censored keyboard ===
 

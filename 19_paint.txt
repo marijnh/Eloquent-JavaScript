@@ -189,8 +189,8 @@ of the canvas from them to get a position relative to that corner.
 ----
 function relativePos(event, element) {
   var rect = element.getBoundingClientRect();
-  return {x: Math.round(event.clientX - rect.left),
-          y: Math.round(event.clientY - rect.top)};
+  return {x: Math.floor(event.clientX - rect.left),
+          y: Math.floor(event.clientY - rect.top)};
 }
 ----
 
@@ -783,14 +783,10 @@ endif::html_target[]
 
 !!solution!!
 
-You'll again need to use `relativePos` to find out which pixel. Make
-sure you round the resulting values down with `Math.floor`, so that
-you pass the precise coordinates of the pixel you are interested in to
-`getImageData`.
-
-The `pixelAt` function in the example demonstrates how to get the
-values for a given pixel. Putting those into an `rgb` string merely
-requires some string concatenation.
+You'll again need to use `relativePos` to find out which pixel. The
+`pixelAt` function in the example demonstrates how to get the values
+for a given pixel. Putting those into an `rgb` string merely requires
+some string concatenation.
 
 Make sure you verify that the exception you catch is an instance of
 `SecurityError`, so that you don't accidentally handle the wrong kind
@@ -897,10 +893,6 @@ canvas, this approach should work:
     as the starting pixel's original color to the work list.
 
  8. Return to 3.
-
-You will probably want to represent pairs of coordinates as objects.
-Maybe by using the `Vector` constructor seen in previous chapters.
-Make sure you round the starting coordinates with `Math.floor`.
 
 The work list can simply be an array of vector objects. The data
 structure that tracks colored pixels will be consulted _very_ often.

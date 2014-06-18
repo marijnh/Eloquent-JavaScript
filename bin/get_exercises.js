@@ -36,10 +36,12 @@ fs.readdirSync(".").forEach(function(file) {
       var type = sourceBlock[1].indexOf("html") > -1 ? "html" : "js";
       var file = chapNum + "_" + num + "_" + match[1].toLowerCase().replace(/[^\-\s\w]/g, "").replace(/\s/g, "_") + "." + type;
       try {
-        var solution = fs.readFileSync("code/solutions/" + file, "utf8").trim();
+        var solution = fs.readFileSync("code/solutions/" + file, "utf8");
+        var extra = /^\s*<!doctype html>\s*(<base .*\n(<script src=.*\n)*)?/.exec(solution);
+        if (extra) solution = solution.slice(extra[0].length);
         allSolutions.splice(allSolutions.indexOf(file), 1);
       } catch(e) {
-        console.error("File ", file, " does not exist.");
+        console.error("File ", file, " does not exist.", e);
         failed = true;
       }
       if (sourceBlock) {
@@ -49,7 +51,7 @@ fs.readdirSync(".").forEach(function(file) {
           number: num,
           type: type,
           code: sourceBlock[2],
-          solution: solution
+          solution: solution.trim()
         });
         break;
       }

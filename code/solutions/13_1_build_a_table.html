@@ -1,5 +1,8 @@
 <!doctype html>
 
+<base href="http://eloquentjavascript.net/">
+<script src="code/mountains.js"></script>
+
 <style>
   /* Defines a cleaner look for tables */
   table  { border-collapse: collapse; }
@@ -7,6 +10,7 @@
   th     { text-align: left; }
 </style>
 
+<body>
 <script>
   function buildTable(data) {
     var table = document.createElement("table");
@@ -37,3 +41,4 @@
 
   document.body.appendChild(buildTable(MOUNTAINS));
 </script>
+</body>

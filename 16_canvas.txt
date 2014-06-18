@@ -1053,8 +1053,6 @@ ifdef::tex_target[]
 That concludes the new display system. The resulting game looks
 something like this:
 
-// FIXME update with new art
-
 image::img/canvas_game.png[alt="The game as shown on canvas"]
 
 endif::tex_target[]

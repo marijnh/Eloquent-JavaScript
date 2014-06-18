@@ -829,7 +829,7 @@ back to the end of the introduction.
 Each exercise starts with a problem description. Read that, and try to
 solve the exercise. If you run into problems, consider reading
 the hints below the exercise. Full solutions to the exercises are not
-included in this book, but you can find them online at (FIXME). If
+included in this book, but you can find them online at _http://eloquentjavascript.net/exercises.html_. If
 you want to learn, I recommend only looking at these after
 you've solved the exercise, or at least after you've attacked it long and hard
 enough to have a slight headache.

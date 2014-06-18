@@ -35,6 +35,7 @@ addEventListener("load", function() {
     }
   }
 
+  var downloadLink = document.querySelector("#download");
   var currentExercise = null;
   function selectExercise(id) {
     var exercise = findExercise(id);
@@ -44,6 +45,8 @@ addEventListener("load", function() {
       editor.setValue(exercise.code);
       editor.setOption("mode", exercise.type == "js" ? "javascript" : "text/html");
     });
+    downloadLink.href = exercise.file;    
+    downloadLink.download = "download";    
   }
 
   var outnode = document.querySelector(".sandbox-output");

@@ -183,6 +183,16 @@ protected public return static switch throw true
 try typeof var void while with yield this
 ----
 
+Beyond this list, our code lives in an environment which has certain 
+variables already defined. When we define a variable, remember that 
+someone, or something, may have got there first. 
+
+While they do not form part of the official language, and so are 
+different to the “reserved for use” list above, you should be aware
+that you are not working in an empty field. We call these kind of 
+variables “globals”, and we will talk more about how this happens in
+the next chapter.
+
 Don't worry about memorizing these, but remember that this might be
 the problem when something does not work as expected.
 

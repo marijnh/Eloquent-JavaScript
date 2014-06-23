@@ -1186,6 +1186,8 @@ ifdef::html_target[]
 </script>
 ----
 
+endif::html_target[]
+
 !!solution!!
 
 1. The parallelogram is easy to draw using a path. Pick suitable
@@ -1261,6 +1263,8 @@ ifdef::html_target[]
 </script>
 ----
 
+endif::html_target[]
+
 !!solution!!
 
 You will need to call `drawText`, and set the context's `textAlign`
@@ -1329,6 +1333,8 @@ ifdef::html_target[]
   }
 </script>
 ----
+
+endif::html_target[]
 
 !!solution!!
 

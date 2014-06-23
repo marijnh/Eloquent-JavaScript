@@ -13,8 +13,8 @@ beyond that yet.
     npm install
     apt-get install asciidoc
     make html
-    # and optionally (currently partly broken)
-    apt-get install dblatex
+    # and optionally
+    apt-get install dblatex inkscape
     make tex
 
-For OSX, you can use port or brew to install asciidoc package.
+For OSX, you can use port or brew to install the asciidoc package.

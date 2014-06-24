@@ -42,7 +42,7 @@ their language, they tend to be more expressive, by making it easy to
 compose the functionality provided by the system in new ways, and even
 to create your own building blocks.
 
-(((programming language))) With the Commodore 64, almost every task in
+(((programming language)))With the Commodore 64, almost every task in
 the system was accomplished by giving commands in the machine's
 built-in language (a dialect of the ((BASIC)) programming language).
 This allowed users to gradually progress from simply using the
@@ -52,7 +52,7 @@ having to actively look for one.
 
 indexsee:[web browser,browser]
 
-(((JavaScript,availability of)))(((browser))) This has been mostly
+(((JavaScript,availability of)))(((browser)))This has been mostly
 lost with the shift towards graphical user interfaces. But the
 language-based interfaces, in the form of programming languages, are
 still there, on every machine, largely hidden from the casual user.
@@ -92,7 +92,7 @@ universes for which he [sic] alone is responsible. Universes of virtually
 unlimited complexity can be created in the form of computer programs.
 ____
 
-(((program,nature of)))(((data))) A program is many things. It is a
+(((program,nature of)))(((data)))A program is many things. It is a
 piece of text typed by a programmer, it is the directing force that
 makes the computer do what it does, it is data in the computer's
 memory, yet it controls the actions performed on this same memory.

@@ -128,7 +128,7 @@ console.log(mood);
 // → dark
 ----
 
-(((variable!model of)))(((tentacle (variable analogy)))) You should
+(((variable!model of)))(((tentacle (variable analogy))))You should
 imagine variables as tentacles, rather than boxes. They do not
 _contain_ values; they _grasp_ them—two variables can refer to the
 same value. A program can access only the values that it still has a hold on. 
@@ -386,7 +386,7 @@ argument it is given is `NaN`. The `Number` function happens to return
 Thus, the condition translates to “unless `theNumber` is not-a-number, do
 this”.
 
-(((else keyword))) You won't always just have code that executes
+(((else keyword)))You won't always just have code that executes
 when a condition holds true. Often, you'll also need code that handles the
 other case, when the condition doesn't hold. This alternate path is represented by the
 second arrow in the previous diagram. The `else` keyword can be used,

@@ -549,7 +549,7 @@ for (;;) {
 }
 ----
 
-(((infinite loop)))(((for loop))) The `for (;;)` construct is a way to
+(((infinite loop)))(((for loop)))The `for (;;)` construct is a way to
 intentionally create a loop that doesn't terminate on its own. We only
 break out of the loop when a valid direction is given. _But_, we
 misspelled `promptDirection`, which will result in an “undefined

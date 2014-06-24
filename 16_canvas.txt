@@ -697,14 +697,12 @@ Transformations stick around. Everything else we draw after drawing
 that mirrored character would also be mirrored. That might be a
 problem.
 
-The `resetTransform` method (which takes no arguments) clears the
-canvas’ transformations entirely. It is also possible to save the
-current transformation, do some drawing and transforming, and then
-restore the old transformation. This is usually the proper thing to do
-for a function that needs to temporarily transform the coordinate
-system: first save whatever the code that called the function was
-using, then do its thing (on top of the existing transformation), and
-then revert to what it started with.
+It is possible to save the current transformation, do some drawing and
+transforming, and then restore the old transformation. This is usually
+the proper thing to do for a function that needs to temporarily
+transform the coordinate system: first save whatever the code that
+called the function was using, then do its thing (on top of the
+existing transformation), and then revert to what it started with.
 
 The `save` and `restore` methods on the 2d canvas context perform this
 kind of transformation tracking. They conceptually maintain a stack of
@@ -980,21 +978,19 @@ CanvasDisplay.prototype.drawPlayer = function(x, y, width,
   else if (player.speed.x)
     sprite = Math.floor(this.animationTime * 12) % 8;
 
-  if (this.flipPlayer)
+  if (this.flipPlayer) {
+    this.cx.save();
     flipHorizontally(this.cx, x + width / 2);
+  }
 
   this.cx.drawImage(playerSprites,
                     sprite * width, 0, width, height,
                     x,              y, width, height);
 
   if (this.flipPlayer)
-    this.cx.resetTransform();
+    this.cx.restore();
 };
 ----
-
-We use `resetTransform` instead of `save` and `restore`, because our
-drawing system will not use transformations in any other places, and
-thus there is no transformation to save.
 
 The function above is called by `drawActors`, which is responsible for
 drawing the all the actors in the game.
@@ -1137,8 +1133,8 @@ such postures.
 To draw a shape in multiple orientations, transformations can be used.
 A 2d drawing context has a current transformation that can be changed
 with the `translate`, `scale`, and `rotate` methods. These will affect
-all subsequent drawing operations, until the transformation is reset
-with `resetTransform`.
+all subsequent drawing operations. A transformation can be saved with
+the `save` method, and restored with the `restore` method.
 
 When drawing an animation onto a canvas, it the `clearRect` method can
 be used to clear a part of the canvas, before redrawing it.

@@ -23,13 +23,13 @@ malleable.
 ____
 
 Every program has a shape. On a small scale, this shape is determined
-by the division into functions, and the blocks inside those functions.
+by its division into functions, and the blocks inside those functions.
 Programmers have a lot of freedom in the shape they give their
-programs. Shape follows more from the good or bad taste of the
+programs. Shape follows more from the taste of the
 programmer than from the program's intended functionality.
 
 When looking at a larger program in its entirety, individual functions
-start to blend into the background, and it would be good to have a
+start to blend into the background. It would be good to have a
 larger unit of organization.
 
 _Modules_ divide programs into clusters of code that, by _some_
@@ -40,13 +40,13 @@ building modules in JavaScript.
 == Organization ==
 
 There are number of reasons why authors divide their books into
-chapters and sections. Such a division makes it easier for a reader to
+chapters and sections. These divisions make it easier for a reader to
 see how the book is built up, and to find specific parts that they are
 interested in. They also help the _author_, by providing a clear focus
 for every section.
 
 The benefits of organizing a program into several files or modules are
-analogous. Structure helps people who aren't yet familiar with the
+similar. Structure helps people who aren't yet familiar with the
 code find what they are looking for, and makes it easier for the
 programmer to keep things that are closely related close together.
 
@@ -55,18 +55,17 @@ text, with a well-defined order in which the reader is encouraged to
 go through the program, and lots of prose (comments) providing a
 coherent description of the code. This make reading the program a lot
 less intimidating—reading unknown code is usually intimidating—but has
-the downside of being more work to set up, and making it more
-difficult to change the program, because prose tends to be more
+the downside of being more work to set up. It also makes the program more
+difficult to change, because prose tends to be more
 tightly interconnected than code. This style is called _literate
-programming_. The “project” chapters of this book can be considered to
-be literate programs.
+programming_. The “project” chapters of this book can be considered
+literate programs.
 
-As a general rule, structuring things costs energy, and in the early
+As a general rule, structuring things costs energy. In the early
 stages of a project, when you are not quite sure yet what goes where
 or what kind of modules the program needs at all, I endorse a
-minimalist, structure-less attitude. Just put everything wherever it
+minimalist, structureless attitude. Just put everything wherever it
 is convenient to put it until the code stabilizes. That way, you won't
-be over-thinking the organization with insufficient information, won't
 be wasting time moving pieces of the program back and forth, and won't
 accidentally lock yourself into a structure that does not actually fit
 your program.
@@ -76,7 +75,7 @@ your program.
 Most modern programming languages have a scope level between _global_
 (everyone can see it) and _local_ (only this function can see it).
 JavaScript does not. Thus, by default, everything that needs to be
-visible outside of the small scope of the current function is visible
+visible outside of the scope of the current function is visible
 _everywhere_.
 
 Namespace pollution, the problem of a lot of unrelated code having to
@@ -87,37 +86,38 @@ acts like a module by grouping math-related functionality.
 Though JavaScript provides no actual module construct yet, objects can
 be used to create publicly accessible sub-namespaces, and functions
 can be used to create an isolated, private namespace inside of a
-module. Later on in this chapter, I will discuss techniques that allow
-us to build reasonably convenient, namespace-isolating modules on top
-of the primitive concepts that JavaScript gives us.
+module. Later in this chapter, I will discuss way to build reasonably
+convenient, namespace-isolating modules on top of the primitive
+concepts that JavaScript gives us.
 
 == Reuse ==
 
-In a “flat” project, it is not apparent which parts of the code are
-needed to use a particular function. If, in my program for spying on
-my enemies, I wrote a function for reading configuration files, and
-now I want to use that function again in another project, I must go
+In a “flat” project, which isn't structured as a set of modules,
+it is not apparent which parts of the code are
+needed to use a particular function. In my program for spying on
+my enemies (see Chapter 9), I wrote a function for reading configuration files.
+If I want to use that function in another project, I must go
 and copy out the part of the old program that look like they are
 relevant to the functionality that I need, and paste them into my new
-program. Then, if I find a mistake in that code, I will fix it in the
-program that I was working with at the time, and forget to also fix it
+program. Then, if I find a mistake in that code, I'll only fix it in whichever
+program that I'm working with at the time, and forget to also fix it
 in the other program.
 
 Once you have lots of such shared, duplicated pieces of code, you will
 find yourself wasting a lot of time and energy on moving them around
 and keeping them up to date.
 
-When pieces of functionality that stand on their own are put into
-separate files and modules, they can be easily kept track of, updated
-when a new version is created, or even shared, by having the various
-pieces of code that want to use them load the same actual file.
+Putting pieces of functionality that stand on their own into
+separate files and modules makes them easier to track, update,
+and share, because all the various
+pieces of code that want to use the module load it from the same actual file.
 
 This idea gets even more powerful when the relations between
 modules—which other modules each module depends on—are explicitly
 stated. You can then automate the process of installing and upgrading
 external modules.
 
-And, taking this even further, imagine an online service that tracks
+Taking this idea even further, imagine an online service that tracks
 and distributes hundreds of thousands of such modules, allowing you to
 search for the functionality you need, and, once you find it, set up
 your project to automatically download it.
@@ -133,24 +133,24 @@ Chapter FIXME, but can also be useful when programming for the browser.
 Another important role of modules is isolating pieces of code from
 each other, in the same way that the object interfaces from Chapter 6
 do. A well-designed module will provide an interface for external code
-to use, and as the module is further worked on (bugs are fixed,
-functionality is added) the existing interface stays stable, so that
-other modules can use a new, improved version without any changes to
+to use. As the module gets updated with bug-fixes and new
+functionality, the existing interface stays stable, so that
+other modules can use the new, improved version without any changes to
 themselves.
 
-Note that a stable interface does not mean no new elements are added.
-It just means that the existing elements aren't removed and their
+Note that a stable interface does not mean no new functions, methods, or variables are added.
+It just means that existing functionality isn't removed and its
 meaning is not changed.
 
-Building a module interface that allows the module to grow without
-breaking the old interface means finding a good trade-off between
-exposing as little internal concepts as possible to the outside world,
-and yet making the “language” that the interface exposes powerful and
+A good module interface should allow the module to grow without
+breaking the old interface. This means
+exposing as few of the module's internal concepts as possible,
+while also making the “language” that the interface exposes powerful and
 flexible enough to be applicable in a wide range of situations.
 
 For interfaces that expose a single, focused concept, like a
-configuration file reader, this comes naturally. For others, like a
-text editor component, which has many different aspects that external
+configuration file reader, this design comes naturally. For others, like a
+text editor, which has many different aspects that external
 code might need to access (content, styling, user actions, and so on),
 it requires careful design.
 
@@ -176,7 +176,7 @@ console.log(dayName(1));
 // → Monday
 ----
 
-The `dayName` function is part of its interface, but the `names`
+The `dayName` function is part of the module's interface, but the `names`
 variable is not. We would prefer _not_ to spill it into the global
 scope.
 
@@ -199,12 +199,12 @@ console.log(dayName(3));
 Now `names` is a local variable in an (unnamed) function. This
 function is created and immediately called, and its return value (the
 actual `dayName` function) is stored in a variable. We could have
-pages and pages of code in this function, creating a hundred local
-variables. They would all be internal to our module, visible to the
+pages and pages of code in this function, with a hundred local
+variables, and they would all be internal to our module—visible to the
 module itself, but not to outside code.
 
-A similar pattern is used to isolate code from the outside world
-entirely. The module below just has some effect, but does not actually
+We can use a similar pattern to isolate code from the outside world
+entirely. The module below logs a value to the console, but does not actually
 provide any values for other modules to use.
 
 [source,javascript]
@@ -218,26 +218,26 @@ provide any values for other modules to use.
 // → 10000
 ----
 
-This code simply outputs the square of one hundred (in the real world,
+This code simply outputs the square of one hundred, but in the real world
 it could be a module that adds a method to some prototype, or sets up
-some widget on a web page). It wraps its code in a function to prevent
+a widget on a web page. It is wrapped in a function to prevent
 the variables it uses internally from polluting the global scope.
 
-Why is the namespace function wrapped in a pair of parentheses? This
+Why did we wrap the namespace function in a pair of parentheses? This
 has to do with a quirk in JavaScript's syntax. If an _expression_
 starts with the keyword `function`, it is a function expression.
 However, if a _statement_ starts with that keyword, it is a function
 declaration, which requires a name and cannot be immediately called.
 Even though a statement may start with an expression, the second rule
-takes precedence, and if the extra parentheses were left out in the
-example above, it would produce a syntax error. You can think of them
+takes precedence, and if we had left out the extra parentheses in the
+example above, it would produce a syntax error. You can think of the parentheses
 as a trick to force the language to see that we are writing an
 expression.
 
 == Objects as interfaces ==
 
-Now imagine that the day-of-the-week module needs to provide not one,
-but two functions, because we add a `dayNumber` function that goes
+Now imagine that
+we want to add a `dayNumber` function to our day-of-the-week module that goes
 from a name to a number. We can't simply return the function anymore,
 but must wrap the two functions in an object.
 
@@ -257,13 +257,15 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 ----
 
 For bigger modules, gathering all the _exported_ values into an object
-at the end of the function becomes awkward, and often requires us to
-repeat ourselves. This can be improved by declaring an object, usually
-named `exports`, and adding properties to that whenever we are
+at the end of the function becomes awkward, since many of the exported
+functions are likely to be big, and you'd prefer to write them somewhere
+else, near related internal code. A convenient alternative is to declare
+an object (usually
+named `exports`) and add properties to that whenever we are
 defining something that needs to be exported. In the example below,
 the module function takes its interface object as argument, allowing
-code outside of the function to create it and store it in a variable
-(`this`, outside of a function, refers to the global scope object).
+code outside of the function to create it and store it in a variable.
+(Outside of a funcion, `this` refers to the global scope object).
 
 [source,javascript]
 ----
@@ -286,46 +288,44 @@ console.log(weekDay.name(weekDay.number("Saturday")));
 == Detaching from the global scope ==
 
 The above pattern is commonly used by JavaScript modules intended for
-the browser. They will claim a single, known global name, and wrap
-their code in a function in order to have their own private namespace.
-
-There is still a problem when multiple modules happen to claim the
-same name, or when you want, for whatever reason, to load two versions
+the browser. The module will claim a single global name, and wrap
+its code in a function in order to have its own private namespace.
+But this pattern still breaks if multiple modules happen to claim the
+same name, or if you want to load two versions
 of a module alongside each other.
 
-With a little plumbing, we can create a system that allows modules to
-directly ask for the interface objects of other modules they need
-access to, without going through the global scope. This solves the
-problems mentioned above, and has the added benefit of being explicit
-about those dependencies, making it harder to accidentally make use of
-some module without stating that you need it.
-
-Our goal is a function `require` which, when given a module name, will
-load that file (from disk or the Web, depending on the platform
+With a little plumbing, we can create a system that allows one module to
+directly ask for the interface object of another module,
+without going through the global scope.
+Our goal is a `require` function which, when given a module name, will
+load that module's file (from disk or the Web, depending on the platform
 we are running on), and return the appropriate interface value.
 
-For this we need at least two things. Firstly, we will imagine that we
-have a function `readFile` (which is not present in standard
-JavaScript), which returns the content of the file with the given
-name. There are ways to access the Web from JavaScript in the browser,
-and to access the hard disk from other JavaScript platforms, but they
-are more involved. For now, we just pretend we have this simple
-function.
+This approach solves the
+problems mentioned above, and has the added benefit of making you program's
+dependencies explicit, making it harder to accidentally make use of
+some module without stating that you need it.
 
-Secondly, we need to be able, when we have a string containing code
-(as read from the file), to actually execute this code as a JavaScript
-program.
+For `require` we need two things. First, we want
+a function `readFile`,
+which returns the content of a given file as a string.
+(A single such function is not present in standard JavaScript,
+but different JavaScript environments, such as the browser and node.js,
+provide their own ways of accessing files.
+For now, let's just pretend we have this simple function.)
+Secondly, we need to be able
+to actually execute this string as JavaScript
+code.
 
 == Evaluating data as code ==
 
 There are several ways to take data (a string of code) and run it as
 part of the current program.
 
-The most obvious way is the special standard operator `eval`, which
-will execute a string of code in the _current_ scope. That is usually
+The most obvious way is the special operator `eval`, which
+will execute a string of code in the _current_ scope. This is usually
 a rather bad idea, because it breaks some of the sane properties that
-scopes normally have (being isolated from the outside world, most
-notably).
+scopes normally have, such as being isolated from the outside world.
 
 [source,javascript]
 ----
@@ -338,9 +338,9 @@ console.log(evalAndReturnX("var x = 2"));
 // → 2
 ----
 
-A better way of converting data into program is to use the `Function`
-constructor. This takes as arguments first a string containing a
-comma-separated list of argument names, and then a string containing
+A better way of interpreting data as code is to use the `Function`
+constructor. This takes two arguments: a string containing a
+comma-separated list of argument names, and a string containing
 the function's body.
 
 [source,javascript]
@@ -350,30 +350,10 @@ console.log(plusOne(4));
 // → 5
 ----
 
-This is precisely what we need—we can wrap the code for a module in a
+This is precisely what we need for our modules. We can wrap a module's code in a
 function, with that function's scope becoming our module scope.
 
 == Require ==
-
-If the `new Function` constructor, used by our module loader, wraps
-the code in a function anyway, we can omit the actual wrapping
-namespace function from the files itself. We will also make `exports`
-an argument to the module function, so that the module does not have
-to declare it. That removes a lot of the superfluous noise from our
-example module:
-
-[source,javascript]
-----
-var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-             "Thursday", "Friday", "Saturday"];
-
-exports.name = function(number) {
-  return names[number];
-};
-exports.number = function(name) {
-  return names.indexOf(name);
-};
-----
 
 The following is a very minimal implementation of `require`:
 
@@ -392,7 +372,27 @@ console.log(require("weekDay").name(1));
 // → Monday
 ----
 
-When using this system, a module typically starts with a few variable
+Since the `new Function` constructor wraps
+the module code in a function, we don't have write a wrapping
+namespace function in the module file itself. And since we make `exports`
+an argument to the module function, the module does not have
+to declare it. This removes a lot of clutter from our
+example module:
+
+[source,javascript]
+----
+var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+             "Thursday", "Friday", "Saturday"];
+
+exports.name = function(number) {
+  return names[number];
+};
+exports.number = function(name) {
+  return names.indexOf(name);
+};
+----
+
+When using this pattern, a module typically starts with a few variable
 declarations that load the modules it depends on.
 
 // test: no
@@ -412,16 +412,17 @@ problems. For one, it will load and run a module every time it is
 multiple times, time and energy will be wasted.
 
 This can be solved by storing the modules that have already been
-loaded in an object, and simply returning the existing value if they
-are loaded again.
+loaded in an object, and simply returning the existing value when one
+is loaded multiple times.
 
 The second problem is that it is not possible for a module to directly
-export a single value. For example, a module might want to only export
+export value other than the `exports` object, such as a function. For
+example, a module might want to only export
 the constructor of the object type it defines. Right now, it can not
 do that, because `require` always uses the `exports` object it creates
 as the exported value.
 
-The traditional solution for this is to provide another variable,
+The traditional solution for this is to provide modules with another variable,
 `module`, which is an object that has a property `exports`. This
 property initially points at the empty object created by `require`,
 but can be overwritten with another value in order to export something
@@ -455,24 +456,26 @@ pseudo-standard that first specified it. It is built into the node.js
 system. Real implementations do a lot more than the example I showed.
 Most importantly, they have a much more intelligent way of going from
 a module name to an actual piece of code, allowing both pathnames
-relative to the current file, and module names that are registered
-system-wide.
+relative to the current file, and module names that point directly to
+locally installed modules.
 
 == Slow-loading modules ==
 
-Though it is possible to use the style above in JavaScript written for
+Though it is possible to use the style above when writing JavaScript for
 the browser, it is somewhat involved. The reason for this is that
 reading a file (module) from the Web is a lot slower than reading it
-from your hard disk. Browser JavaScript is required to behave in such
-a way that, while a script is running, nothing else can happen to the
-web site in which it runs. This means that if every require call would
-go and load something from some far-away web server, the page would
+from the hard disk.
+While a script is running in the browser, nothing else can happen to the
+web site on which it runs, for reasons that will become clear in Chapter 14. This means that if every `require` call
+went and loaded something from some far-away web server, the page would
 freeze for a painfully long time while loading its scripts.
 
-There are ways to work around this, for example by running another
-program (such as _http://browserify.org[Browserify]_) on your program
-in advance, which would gather all the dependencies by looking for
-calls to `require`, and put everything together in a big file.
+One way to work around this problem is to run a
+program like _http://browserify.org[Browserify]_) on your code
+before you serve it on a web page. This will look for calls to `require`
+and gather the dependencies it finds
+together into a big file. When you actually serve the code, you
+only have to call `require` once with this big file.
 
 Another solution is to wrap your module in a function, load the
 modules it depends on in the background, and only run this function
@@ -490,7 +493,7 @@ define(["weekDay", "today"], function(weekDay, today) {
 });
 ----
 
-The `define` function is the central concept of this approach. It
+The `define` function is central to this approach. It
 takes first an array of module names, and then a function that takes
 one argument for each dependency. It will load the dependencies (if
 they haven't already been loaded) in the background, allowing the page
@@ -521,29 +524,66 @@ name and a function, and will call the function with the content of
 the file as soon as it has finished loading it. (Chapter 17 will
 explain how to write that function.)
 
+For the purpose of keeping track of modules while they are being
+loaded, the implementation of `define` will use objects that describe
+the state of modules, telling us whether they are available yet, and
+providing their interface when they are.
+
+The `getModule` function, when given a name, will return such an
+object, and ensure that the module is scheduled to be loaded. It uses
+a cache object to avoid loading the same module twice.
+
+// include_code
+
+[source,javascript]
+----
+var defineCache = Object.create(null);
+var currentMod = null;
+
+function getModule(name) {
+  if (name in defineCache)
+    return defineCache[name];
+
+  var mod = {exports: null,
+             loaded: false,
+             onLoad: []};
+  defineCache[name] = mod;
+  backgroundReadFile(name, function(code) {
+    currentMod = mod;
+    new Function("", code)();
+  });
+  return mod;
+}
+----
+
+We assume the loaded file also contains a (single) call to `define`.
+The `currentMod` variable is used to tell this call about the module
+object that is currently being loaded, so that it can update this
+object when it finishes loading. We will come back to this mechanism
+in a moment.
+
+The `define` function itself uses `getModule` to fetch or create the
+module objects for the current module's dependencies. Its task is to
+schedule the `moduleFunction` (the function that contains the module's
+actual code) to be run whenever those dependencies are loaded. For
+this purpose, it defines a function `whenDepsLoaded`, that is added to
+the `onLoad` array of all dependencies that are not yet loaded. This
+function immediately returns if there are still unloaded dependencies,
+so it will only do actual work once, when the last dependency has
+finished loading. It is also called immediately, from `define` itself,
+in case there are no dependencies that need to be loaded.
+
 // include_code
 
 [source,javascript]
 ----
 function define(depNames, moduleFunction) {
-  var deps = [], myMod = define.currentModule;
+  var myMod = currentMod;
+  var deps = depNames.map(getModule);
 
-  depNames.forEach(function(name) {
-    if (name in define.cache) {
-      var depMod = define.cache[name];
-    } else {
-      var depMod = {exports: null,
-                    loaded: false,
-                    onLoad: []};
-      define.cache[name] = depMod;
-      backgroundReadFile(name, function(code) {
-        define.currentModule = depMod;
-        new Function("", code)();
-      });
-    }
-    deps.push(depMod);
-    if (!depMod.loaded)
-      depMod.onLoad.push(whenDepsLoaded);
+  deps.forEach(function(mod) {
+    if (!mod.loaded)
+      mod.onLoad.push(whenDepsLoaded);
   });
 
   function whenDepsLoaded() {
@@ -560,50 +600,29 @@ function define(depNames, moduleFunction) {
   }
   whenDepsLoaded();
 }
-define.cache = Object.create(null);
 ----
 
-This is a lot harder to follow than the `require` function. Its
+When all dependencies are available, `whenDepsLoaded` calls the
+function that holds the module, giving it the dependencies' interfaces
+as arguments.
+
+The first thing `define` does is store the value that `currentMod` had
+when it was called in a variable `myMod`. Remember that `getModule`,
+just before evaluating the code for a module, stored the corresponding
+module object in `currentMod`. This allows `whenDepsLoaded` to store
+the return value of the module function in that module's `exports`
+property, set the module's `loaded` property to true, and call all the
+functions that are waiting for the module to load.
+
+This code is a lot harder to follow than the `require` function. Its
 execution does not follow a simple, predictable path. Instead,
 multiple operations are set up to happen at some unspecified time in
-the future (when modules finish loading), which obscures the way the
-code executes.
-
-The main problem this code deals with is gathering the interface
-values for the module's dependencies. To track modules, and their
-state, an object is created for each module that is loaded by
-`define`. This object stores the module's exported value, a boolean
-indicating whether the module has finished loading, and an array
-of functions to call when the module does finish loading.
-
-A cache is used to prevent loading modules multiple times, just like we
-did for `require`. When `define` is called, we first build up an
-array of module objects that represent the dependencies of this
-module. If the name of a dependency corresponds to a cached module, we
-use the existing object. Otherwise, we create a new object (with
-`loaded` set to `false`) and store that in the cache. We also start
-loading the module, using the `backgroundReadFile` function. Once the
-file has loaded, its content is run using the `Function` constructor.
-
-It is assumed that the loaded file also contains a (single) call to
-`define`. The `define.currentModule` property is used to tell this
-call about the module object that is currently being loaded, so that
-we can update it once it finishes loading.
-
-This is handled in the `whenDepsLoaded` function, which is called
-once immediately (in case no dependencies need to be loaded) and once
-for every dependency that finishes loading. When all dependencies are
-there, we call the `moduleFunction`, passing it the appropriate
-exported values. If there is a current module object, the return value
-from the function is stored in there, the object is marked as loaded,
-and the functions in its `onLoad` array are called. This will notify
-any modules that are waiting for this one that their dependency has
-finished loading.
+the future, which obscures the way the code executes.
 
 A real AMD implementation is, again, quite a lot more clever about
-resolving module names to actual URLs, and generally more robust. The
-_RequireJS_ (_requirejs.org_) project provides a popular
-implementation of this style of module loader.
+resolving module names to actual URLs, and generally more robust than
+the one above. The _RequireJS_ (_requirejs.org_) project provides a
+popular implementation of this style of module loader.
 
 == Interface design ==
 
@@ -630,11 +649,11 @@ That way, it'll feel familiar to people who know the existing
 interface.
 
 Another area where predictability is important is the actual
-_behavior_ of your code. It can be tempting to pile on cleverness with
-the justification that it makes the interface convenient to use. For
+_behavior_ of your code. It can be tempting to make an unnecessarily clever interface with
+the justification that it's more convenient to use. For
 example, you could accept all kinds of different types and
-combinations of arguments, and do the “right thing” for all of them,
-or provide dozens of specialized convenience functions that provide
+combinations of arguments, and do the “right thing” for all of them.
+Or you could provide dozens of specialized convenience functions that provide
 slightly different flavors of your module's functionality. These might
 make code that builds on your interface slightly shorter, but they
 will also make it much harder for people to build a clear mental model
@@ -643,8 +662,8 @@ of the module's behavior.
 === Composability ===
 
 (((composability)))In your interfaces, try to use the simplest data
-structures that work and make functions do a single, clear
-thing—whenever practical, make them pure functions (see Chapter 3).
+structures possible, and make functions do a single, clear
+thing. Whenever practical, make them pure functions (see Chapter 3).
 
 For example, it is not uncommon for modules to provide their own
 array-like collection objects, with their own interface for counting
@@ -665,18 +684,17 @@ spell-checking interface so that you can pass it a simple string and
 it will return the position in the string where it found a possible
 misspelling, along with an array of suggested corrections, then we
 have an interface that could also be composed with other systems,
-because strings and arrays are always available.
+because strings and arrays are always available in JavaScript.
 
 === Layered interfaces ===
 
 (((layering (of an interface))))When designing an interface for a
-complex piece of functionality—for example sending email—you often run
+complex piece of functionality—sending email, for example—you often run
 into a dilemma. On the one hand, you do not want to overload the user
 of your interface with details. They shouldn't have to study your
 interface for 20 minutes before they can send an email. On the other
-hand, you do not want to hide the details either—when people need
-to do complicated things with your module, that should also be
-possible.
+hand, you do not want to hide all the details either—when people need
+to do complicated things with your module, they should be able to.
 
 Often the solution is to provide two interfaces: a detailed
 _low-level_ one for complex situations and a simple _high-level_ one
@@ -691,8 +709,8 @@ sending HTML mail, and so on.
 
 Modules provide structure to bigger programs by separating the code
 into different files and namespaces. Giving these modules well-defined
-interfaces makes them easier to use, easier to reuse in different
-contexts, and makes it possible to continue using them as the module
+interfaces makes them easier to use and reuse,
+and makes it possible to continue using them as the module
 itself evolves.
 
 Though the JavaScript language itself is characteristically unhelpful
@@ -715,7 +733,7 @@ function with their interfaces as arguments.
 Write a simple module similar to the `weekDay` module, which can
 convert month numbers (zero-based, as in the `Date` type) to names,
 and names back to numbers. Give it its own namespace, since it will
-need an internal array of month names, but use plain JavaScript,
+need an internal array of month names, and use plain JavaScript,
 without any module loader system.
 
 ifdef::html_target[]
@@ -746,8 +764,8 @@ interface object is stored in the `month` variable.
 === A return to electronic life ===
 
 Hoping that Chapter 7 is still somewhat fresh in your mind, think back
-to the system designed in that chapter and come up with a separation
-into modules of the code. To refresh your memory, these are the
+to the system designed in that chapter and come up with a way to separate
+the code into modules. To refresh your memory, these are the
 functions and types defined in that chapter, in order of appearance.
 
 ----
@@ -771,7 +789,7 @@ SmartPlantEater
 Tiger
 ----
 
-Do not exaggerate and create too many modules. A book that starts a
+Don't exaggerate and create too many modules. A book that starts a
 new chapter for every page would probably get on your nerves, if only
 because of all the space wasted on titles. Similarly, having to open
 ten files to read a tiny project isn't helpful. Aim for three to five
@@ -833,8 +851,8 @@ contexts, and do not belong in the interfaces for these modules.
 
 A tricky subject in dependency management is circular dependencies,
 where module A depends on B, and B also depends on A. Many module
-systems simply forbid this. CommonJS allows a limited form of this,
-where it works as long as the modules do not replace their default
+systems simply forbid this. CommonJS allows a limited form:
+it works as long as the modules do not replace their default
 `exports` object with another value, and only start accessing each
 other's interface after they finish loading.
 

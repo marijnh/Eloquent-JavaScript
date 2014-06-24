@@ -32,10 +32,10 @@ binary operator applied to two expressions or a unary operator
 applied to one.
 
 This shows part of the beauty of a language-based interface.
-Expressions can nest in a way very similar to the way sub-sentences in
-human languages are nested—a sub-sentence can contain its own
-sub-sentences, and so on. This allows us to combine expressions
-together to express arbitrarily complex computations.
+Expressions can nest in a way very similar to the way subsentences in
+human languages are nested—a subsentence can contain its own
+subsentences, and so on. This allows us to combine expressions to
+express arbitrarily complex computations.
 
 (((statement)))(((semicolon)))(((program)))If an expression
 corresponds to a sentence fragment, a JavaScript _statement_
@@ -59,7 +59,7 @@ counts as changing the world—or it could change the internal state of
 the machine in a way that will affect the statements that come after
 it. These changes are called _((side effect))s_. The statements in the
 previous example just produce the values `1` and `true` and then
-immediately throw them away again. This leaves no impression on the
+immediately throw them away. This leaves no impression on the
 world at all. When executing the program, nothing observable happens.
 
 == Semicolons ==
@@ -116,7 +116,7 @@ variable name cannot include punctuation, except for the characters
 When a variable points at a value, that does not mean it is tied to
 that value forever. The `=` operator can be used at any time on
 existing variables to disconnect them from their current value and
-have them point to a new one:
+have them point to a new one.
 
 [source,javascript]
 ----
@@ -131,15 +131,15 @@ console.log(mood);
 (((variable!model of)))(((tentacle (variable analogy)))) You should
 imagine variables as tentacles, rather than boxes. They do not
 _contain_ values; they _grasp_ them—two variables can refer to the
-same value. A program can only access the values that it still has a hold on. 
+same value. A program can access only the values that it still has a hold on. 
 When you need to remember something, you grow a
 tentacle to hold on to it or you reattach one of your existing
 tentacles to it.
 
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
-An example. To remember the amount of dollars that Luigi still owes
-you, you create a variable. And then when he pays back 35 dollars, you
+Let's look at an example. To remember the number of dollars that Luigi still owes
+you, you create a variable. And then when he pays back $35, you
 give this variable a new value.
 
 [source,javascript]
@@ -172,7 +172,7 @@ be used as variable names. There are also a number of (((reserved
 words)))words that are “reserved for use” in future versions of
 JavaScript. These are also officially not allowed to be used as
 variable names, though some JavaScript environments do allow them. The
-full list of keywords and reserved words is rather long:
+full list of keywords and reserved words is rather long.
 
 [source,text/plain]
 ----
@@ -196,7 +196,7 @@ the language standard, and most of the time, it has
 variables that provide ways to interact with the
 surrounding system. For example, in a browser, there are variables
 and functions to inspect and influence
-the currently loaded website, and to read mouse and keyboard input.
+the currently loaded website and to read mouse and keyboard input.
 
 == Functions ==
 
@@ -233,19 +233,19 @@ number or different types of arguments.
 The `alert` function can be useful as an output device when
 experimenting, but clicking away all those little windows will get on
 your nerves. In past examples, we've used `console.log` to output
-values. Most JavaScript systems (including all modern Web browsers and
+values. Most JavaScript systems (including all modern web browsers and
 node.js) provide a `console.log` function that writes out its
 arguments to _some_ text output device. In browsers, the output lands
 in the JavaScript console. This part of the browser interface is
-hidden by default, but most browsers open it when you press F12, or,
+hidden by default, but most browsers open it when you press F12 or,
 on Mac, when you press Command-Option-I. If that does not work,
-search through the menus for an item named “Web console” or “developer
+search through the menus for an item named “web console” or “developer
 tools”.
 
 ifdef::html_target[]
 
 When running the examples, or your own code, on the pages of this
-book, `console.log` output will be shown below the example, instead of
+book, `console.log` output will be shown after the example, instead of
 in the browser's JavaScript console.
 
 endif::html_target[]
@@ -257,7 +257,7 @@ console.log("the value of x is", x);
 // → the value of x is 30
 ----
 
-Though variable names can not contain dots, 
+Though variable names cannot contain dots, 
 `console.log` clearly has one. This is because `console.log` isn't 
 a simple variable. It is actually an expression that
 retrieves the `log` field from the value held by the `console`
@@ -271,7 +271,7 @@ are useful because of the side effects they produce. Functions can also
 produce values, and in that case, they don't
 need to have a side effect to be useful. For example, the
 function `Math.max` takes any number of number values and gives back the
-greatest:
+greatest.
 
 [source,javascript]
 ----
@@ -305,7 +305,7 @@ if the user clicks OK and `false` if the user clicks Cancel.
 confirm("Shall we, then?");
 ----
 
-image::img/confirm.png[alt="An confirm dialog"]
+image::img/confirm.png[alt="A confirm dialog"]
 
 (((prompt function)))(((text input)))The `prompt` function can be used
 to ask an “open” question. The first argument is the question; the
@@ -320,9 +320,9 @@ prompt("Tell me everything you know.", "...");
 
 image::img/prompt.png[alt="An prompt dialog"]
 
-These two functions aren't used much in modern Web programming, mostly
+These two functions aren't used much in modern web programming, mostly
 because you have no control over the way the resulting windows look,
-but they are very useful for toy programs and experiments.
+but they are useful for toy programs and experiments.
 
 == Control flow ==
 
@@ -330,7 +330,7 @@ but they are very useful for toy programs and experiments.
 one statement, the statements are executed, predictably, from top to
 bottom. As a basic example, this program has two statements. The first
 one asks the user for a number, and the second, which is executed
-afterwards, shows the square of that number:
+afterward, shows the square of that number. 
 
 [source,javascript]
 ----
@@ -389,8 +389,8 @@ this”.
 (((else keyword))) You won't always just have code that executes
 when a condition holds true. Often, you'll also need code that handles the
 other case, when the condition doesn't hold. This alternate path is represented by the
-second arrow in the diagram above. The `else` keyword can be used,
-together with `if`, to create two separate, parallel execution paths:
+second arrow in the previous diagram. The `else` keyword can be used,
+together with `if`, to create two separate, parallel execution paths.
 
 [source,javascript]
 ----
@@ -421,7 +421,7 @@ The program will first check whether `num` is less than 10. If it is,
 it chooses that branch, shows `"Small"`, and is done. If it isn't, it
 takes the `else` branch, which itself contains a second `if`. If the
 second condition (`< 100`) holds, that means the number is between 10
-and 100, and `"Medium"` is shown. If it doesn't, the second and last
+and 100, and `"Medium"` is shown. If it doesn't, the second, and last,
 `else` branch is chosen.
 
 The flow chart for this program looks something like this:
@@ -430,7 +430,7 @@ image::img/controlflow-nested-if.svg[alt="Nested if control flow"]
 
 == while and do loops ==
 
-(((looping)))Consider a program that prints out all even numbers from
+(((looping)))Consider a program that prints all even numbers from
 0 to 12. One way to write this is as follows:
 
 [source,javascript]
@@ -475,17 +475,17 @@ long as the expression produces a value that
 is `true` when converted to boolean type.
 
 ((({} block)))(((statement)))(((block (of statements))))In this loop,
-we want to both print out the current number and add two to our
+we want to both print the current number and add two to our
 variable. Whenever we want to execute multiple statements inside a
 loop, we wrap them in braces (`{` and `}`). Braces do for statements
-what parentheses do for expressions, they group them together, making
+what parentheses do for expressions: they group them together, making
 them count as a single statement. A sequence of statements wrapped in
 braces is called a _block_.
 
 Many JavaScript programmers wrap every single loop or `if` body in
 braces. They do this both for the sake of consistency and to avoid
 having to add or remove braces when changing the number of statements
-in the body later on. In this book, I will write most single-statement
+in the body later. In this book, I will write most single-statement
 bodies without braces, since I value brevity. You are free to go with
 whichever style you prefer.
 
@@ -518,11 +518,11 @@ The counter could also start at `1` and check for `<= 10`, but, for
 reasons that will become apparent later, it is a good idea to get used
 to counting from 0.
 
-(((do loop)))(((control flow))) The `do` loop is a control structure 
+(((do loop)))(((control flow)))The `do` loop is a control structure 
 similar to the `while` loop. It differs only on one point: a `do` loop
-always executes its body at least once, and it only starts testing whether
-it should stop after that first execution. To reflect this, the test appears 
-below the body of the loop:
+always executes its body at least once, and it starts testing whether
+it should stop only after that first execution. To reflect this, the test appears 
+after the body of the loop:
 
 [source,javascript]
 ----
@@ -554,15 +554,15 @@ characters.
 
 == for loops ==
 
-Many loops follow the pattern seen in the `while` examples
-above. First, a “counter” variable is created to track
-the progress of the loop. Then, comes a `while` loop, whose test
+Many loops follow the pattern seen in the previous `while` examples.
+First, a “counter” variable is created to track
+the progress of the loop. Then comes a `while` loop, whose test
 expression usually checks whether the counter has reached some
 boundary yet. At the end of the loop body, the counter is updated to
 track progress.
 
 Because this pattern is so common, JavaScript and similar languages
-provide a slightly shorter and more comprehensive form, the `for` loop:
+provide a slightly shorter and more comprehensive form, the `for` loop.
 
 [source,javascript]
 ----
@@ -604,11 +604,11 @@ that it “belongs” to the line before it.
 
 (((looping,termination)))(((break keyword)))Having its condition
 produce `false` is not the only way a loop can finish. There is a
-special statement called `break` which has the effect of immediately
+special statement called `break` that has the effect of immediately
 jumping out of the enclosing loop.
 
 This program illustrates the `break` statement. It finds the first number
-that is both greater than or equal to 20 and divisible by 7:
+that is both greater than or equal to 20 and divisible by 7.
 
 [source,javascript]
 ----
@@ -667,9 +667,9 @@ counter += 1;
 ----
 
 Similar shortcuts work for many other operators, such as `result *= 2` to
-double `result`, or `counter -= 1` to count downward.
+double `result` or `counter -= 1` to count downward.
 
-This allows us to shorten our counting example a little more:
+This allows us to shorten our counting example a little more.
 
 [source,javascript]
 ----
@@ -697,7 +697,7 @@ else defaultAction();
 (((dispatch)))(((switch keyword)))There is a construct called `switch`
 that is intended to solve such a “dispatch” in a more direct way.
 Unfortunately, the syntax JavaScript uses for this (which it inherited
-from the C and Java line of programming languages) is somewhat
+from the C/Java line of programming languages) is somewhat
 awkward—a chain of `if` statements often looks better. Here
 is an example:
 
@@ -721,12 +721,12 @@ switch (prompt("What is the weather like?")) {
 (((case keyword)))(((default keyword)))You may put any number of `case`
 labels inside the block opened by `switch`. The program will
 jump to the label that corresponds to the value that `switch` was
-given, or to `default` if no matching value is found. It starts
+given or to `default` if no matching value is found. It starts
 executing statements there, even if they're under another label, until
 it reaches a `break` statement. In some cases, such as the `"sunny"`
 case in the example, this can be used to share some code between cases
 (it recommends going outside for both sunny and cloudy weather). But
-beware: it is very easy to forget such a `break`, which will cause the
+beware: it is easy to forget such a `break`, which will cause the
 program to execute code you do not want executed.
 
 == Capitalization ==
@@ -761,12 +761,12 @@ thing is not to be bothered by this apparent lack of consistency.
 Often, raw code does not convey all the information you want a program
 to convey to human readers, or it conveys it in such a cryptic way
 that people might not understand it. At other times,
-you might just feel poetic or want to mark down some thoughts as part
+you might just feel poetic or want to include some thoughts as part
 of your program. This is what _((comment))s_ are for.
 
 A comment is a piece of text that is part of a program but is completely
 ignored by the computer. JavaScript has two ways of writing comments.
-To write a single line comment, you can use two slash characters
+To write a single-line comment, you can use two slash characters
 (`//`) and then the comment text after it.
 
 // test: no
@@ -783,7 +783,7 @@ addToReport(accountBalance, report);
 // It's a little valley, foaming like light in a glass.
 ----
 
-A `//` comment only goes to the end of the line. A section of text
+A `//` comment goes only to the end of the line. A section of text
 between `/*` and `*/` will be ignored, regardless of whether it
 contains line breaks. This is often useful for adding blocks of
 information about a file or a chunk of program.
@@ -807,8 +807,8 @@ themselves sometimes contain more statements. Statements tend to
 contain expressions, which themselves can be built out of smaller
 expressions.
 
-Putting statements below each other gives you a program that is
-executed top-to-bottom. You can introduce disturbances in the flow of
+Putting statements after one another gives you a program that is
+executed from top to bottom. You can introduce disturbances in the flow of
 control by using conditional (`if`, `else`, and `switch`) and looping
 (`while`, `do`, and `for`) statements.
 
@@ -823,14 +823,14 @@ is an expression that may produce a value.
 
 == Exercises ==
 
-If you are unsure how to try out your solutions to exercises, refer
-back to the end of the introduction.
+If you are unsure how to try your solutions to exercises, refer
+ to the end of the introduction.
 
-Each exercise starts with a problem description. Read that, and try to
+Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading
-the hints below the exercise. Full solutions to the exercises are not
+the hints after the exercise. Full solutions to the exercises are not
 included in this book, but you can find them online at _http://eloquentjavascript.net/exercises.html_. If
-you want to learn, I recommend only looking at these after
+you want to learn, I recommend looking at these only after
 you've solved the exercise, or at least after you've attacked it long and hard
 enough to have a slight headache.
 
@@ -915,7 +915,7 @@ operator.
 
 Write a program that creates a string that represents an 8×8 grid,
 using newline characters to separate lines. At each position of the
-grid there, is either a space or a “#” character. The characters
+grid there is either a space or a “#” character. The characters
 should form a chess board.
 
 Passing this string to `console.log` should look like this:
@@ -931,7 +931,7 @@ Passing this string to `console.log` should look like this:
  # # # #
 ....
 
-When you have a program that generates this pattern, define a variable `size = 8`, 
+When you have a program that generates this pattern, define a variable `size = 8` 
 and change the program so that it works for any `size`, outputting a grid of the 
 given width and height.
 

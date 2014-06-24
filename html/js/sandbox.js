@@ -114,10 +114,11 @@
         if (last.src) {
           last.addEventListener("load", finish);
         } else {
-          var id = Math.floor(Math.random() * 0xffffff), fin;
+          var id = Math.floor(Math.random() * 0xffffff);
           this.callbacks[id] = function() { delete sandbox.callbacks[id]; finish(); };
-          scriptTags.push(fin = document.createElement("script"));
-          fin.innerText = "__sandbox.callbacks[" + id + "]();";
+          var fin = doc.createElement("script");
+          fin.text = "__sandbox.callbacks[" + id + "]();";
+          scriptTags.push(fin);
         }
         scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
       } else {
@@ -178,7 +179,7 @@
       };
     },
     resizeFrame: function() {
-      this.frame.style.height = Math.max(80, Math.min(this.win.document.body.scrollHeight + 10, 500)) + "px";
+      this.frame.style.height = Math.max(80, Math.min(this.win.document.body.scrollHeight + 20, 500)) + "px";
       var box = this.frame.getBoundingClientRect();
       if (box.bottom > box.top && box.top >= 0 && box.top < window.innerHeight && box.bottom > window.innerHeight)
         window.scrollBy(0, Math.min(box.top, box.bottom - window.innerHeight));

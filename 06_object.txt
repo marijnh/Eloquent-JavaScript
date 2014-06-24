@@ -147,8 +147,25 @@ withholding information about the way JavaScript objects work. In
 addition to their set of properties, almost all objects also have a
 _prototype_. A prototype is another object that is used as a fallback
 source of properties. When a property is requested that an object does
+// Consider: "When an object gets a request for a property that it does not
+// have,...", since it might not be totally obvious to the reader where this
+// property request would be going.
+// The reader could have a fuzzier mental model of property requests as
+// being something that can happen generally, or out to the world, rather
+// than being directed at a particular object.
 not have, its prototype will be searched for the property, and then
 the prototype's prototype, and so on.
+// Consider adding something to the effect of "If any of the objects
+// up that prototype chain have the property, then the first object
+// passes it off as it's own." (Though less wordy of course. You tend
+// to be more succenct, which I quite like)
+// I say this because I know that you're speaking of how the interpreter
+// will behave in the process of
+// satisfying a property request, but the reader could have some muddled
+// idea of the scenario in the first place. For example, they might think
+// that you're prescribing how their code should read (as in, the programmer
+// is supposed to write out a lookup on the object itself, then on it's
+// prototype, and on up the chain).
 
 (((Object.prototype)))So who is the prototype of that empty object? It
 is the great ancestral prototype, the entity behind almost all
@@ -174,7 +191,12 @@ It provides a few methods that show up in all objects, such as
 
 Many objects don't directly have `Object.prototype` as their
 prototype, but instead have another object, which provides its own
-default properties. This prototype object will itself have a prototype,
+default properties.
+// I'd move this next sentence down to below the code sample, since the code
+// sample is about the previous sentence. I suspect the reader would to become
+// curious what the next link in the chain will be, but not until after
+// they've grokked the previous.
+This prototype object will itself have a prototype,
 often `Object.prototype` so
 that it still indirectly provides methods like `toString`.
 
@@ -210,6 +232,21 @@ killerRabbit.speak("SKREEEE!");
 ----
 
 The “proto” rabbit contains the properties that are shared by all
+// I have noticed that people learning JavaScript ascribe a lot of
+// magical ideas to prototypes, probably because of all the misleading
+// documentation they will have read before finally reading your book.
+// For this reason, I tend to worry that people assume prototype objects
+// have something more special going on than the simple rules you've
+// described--even though you didn't tell them to think that!
+// My suggestion here would be to talk about the prototype object as
+// an instrument you'll be using to achieve the effect of centralizing
+// properties, rather than letting the reader potentially continue
+// with the misguided idea that a "prototype object" is some special,
+// magical thing. For example:
+//
+// Example: "We will use the "proto" rabbit as a container for properties we
+// want shared by all rabbits. An individual rabbit, like the killer one,
+// contains properties that..."
 rabbits. The killer rabbit contains properties that apply
 only to itself—in this case its type—and derives shared
 properties from its prototype.
@@ -246,6 +283,19 @@ console.log(blackRabbit.type);
 ----
 
 Constructors (in fact, all functions) automatically get a property `prototype`, which
+// People could get thrown off when reading the previous line. Although you've used
+// code font for `prototype`, it's not totally obvious that you mean "a property
+// with the key "prototoype". You could also mean "a property-prototype, meaning a
+// prototype for properties which could be a thing that the function delegates is
+// failed lookups to". In fact, this is the
+// most common mistake I see in students and experienced developers. They imagine
+// that an object's `.prototype` property _is the thing to which it delegates_!
+// (And your next paragraph reveals you've had the same experience). For this reason,
+// I always take great care with the word "prototype", and try to avoid any potentially
+// misleading or ambiguous constructs.
+//
+// To address this, You could say something like: "...automatically get a property
+// stored at the key "prototype"..."
 by default holds a plain, empty object that derives from `Object.prototype`.
 Every instance created with this constructor will have this object as
 its prototype. So to add a `speak` method to rabbits created with
@@ -266,6 +316,26 @@ blackRabbit.speak("Doom...");
 It is important to note the distinction between the way a prototype is
 associated with a constuctor (through its `prototype` property), and
 the way objects _have_ a prototype (which can be retrieved with
+// It's so awesome you included this paragraph. You might even want to
+// elaborate it out a bunch. The word "prototype" is really confusing
+// since people have these two different ways they use it. The sentence
+// "x is the prototype of y" is commonly used to mean both things.
+// Folks will certainly say "oh, that's the function's prototype" when
+// they're talking about `alert.__proto__`. But they'll also say "oh, that's
+// the Function prototype" when they're talking about `Function.prototype`.
+// It's a short leap to say "that's Function's prototype" to talk about
+// `Function.prototype`, but these similar sentences discuss two different relationships.
+// As a result, folks I meet in my talks and workshops have typically never
+// noticed there was a difference, and many of them write JavaScript for
+// a living despite this conflation. So they just keep getting into confusing
+// situations where they assume all objects delegate to the thing stored at .prototype, or
+// some such.
+//
+// Your call of course if you want to invest even more words in it--it's just
+// one of the big hot spots I've experienced when teaching this material,
+// and phrases like "not its _own_ prototype" could let that confusion go
+// unchecked, since the "own" aspect of that statement doesn't have a strict
+// definition in a lot of people's minds.
 `Object.getPrototypeOf`). The actual prototype of a constructor is
 `Function.prototype`, since constructors are functions. Its
 `prototype` _property_ will be the prototype of instances created
@@ -381,6 +451,8 @@ console.log("nonsense" in map);
 // → true
 console.log("toString" in map);
 // → true
+// What's this delete command for? I don't see what part of your claim
+// it's illustrating
 delete Object.prototype.nonsense;
 ----
 
@@ -417,6 +489,8 @@ console.log(map.hiddenNonsense);
 show up in a loop. That's good. But we still have the problem with
 the regular `in` operator claiming that the `Object.prototype`
 properties exist in our object. For that, we can use the object's
+// I believe it's more accurate to call it the hasOwnProperty "method",
+// since operators generally have some shortcut syntax for executing
 `hasOwnProperty` operator.
 
 [source,javascript]

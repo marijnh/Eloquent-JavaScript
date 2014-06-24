@@ -21,7 +21,9 @@
     // Used to cancel existing events when new code is loaded
     this.timeouts = []; this.intervals = []; this.frames = []; this.framePos = 0;
 
-    var sandbox = this, frame = this.frame = document.createElement("iframe");
+    var frame = this.frame = document.createElement("iframe");
+    frame.addEventListener("load", loaded);
+    frame.src = "empty.html";
     if (options.place) {
       options.place(frame);
     } else {
@@ -29,35 +31,35 @@
       document.body.appendChild(frame);
     }
 
-    var win = this.win = frame.contentWindow;
-    win.document.open();
-    win.document.write("<!doctype html>");
-    win.document.close();
-
-    var self = this;
-    this.setupEnv();
-
-    this.frame.addEventListener("load", function() {
-      if (self.frame.style.display != "none") self.resizeFrame();
-    });
-
     this.startedAt = null;
     this.extraSecs = 2;
     this.output = null;
 
-    if (options.loadFiles) setTimeout(function() {
-      var i = 0;
-      function loadNext() {
-        if (i == options.loadFiles.length) return callback(sandbox);
-        var script = win.document.createElement("script");
-        script.src = options.loadFiles[i];
-        win.document.body.appendChild(script);
-        ++i;
-        script.addEventListener("load", loadNext);
+    var self = this;
+    function loaded() {
+      frame.removeEventListener("load", loaded);
+      self.win = frame.contentWindow;
+      self.setupEnv();
+
+      self.frame.addEventListener("load", function() {
+        if (self.frame.style.display != "none") self.resizeFrame();
+      });
+
+      if (options.loadFiles) {
+        var i = 0;
+        var loadNext = function() {
+          if (i == options.loadFiles.length) return callback(self);
+          var script = self.win.document.createElement("script");
+          script.src = options.loadFiles[i];
+          self.win.document.body.appendChild(script);
+          ++i;
+          script.addEventListener("load", loadNext);
+        };
+        loadNext();
+      } else {
+        callback(self);
       }
-      loadNext();
-    }, 50);
-    else callback(sandbox);
+    }
   };
 
   SandBox.prototype = {

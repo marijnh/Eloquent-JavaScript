@@ -1,6 +1,6 @@
 :chap_num: 19
 :prev_link: 18_forms
-:next_link: 20_FIXME
+:next_link: 20_node
 :load_files: ["code/chapter/19_paint.js"]
 
 = Project: A Paint Program =
@@ -265,7 +265,7 @@ very little additional code.
 [source,javascript]
 ----
 tools.Erase = function(event, cx) {
-  cx.globalCompositeOperation = "clear";
+  cx.globalCompositeOperation = "destination-out";
   tools.Line(event, cx, function() {
     cx.globalCompositeOperation = "source-over";
   });
@@ -279,8 +279,9 @@ overlaid on the existing color at that spot. If it is an opaque color,
 it will simply replace the old color, but if it is partially
 transparent, the two will be mixed.
 
-The “erase” tool sets `globalCompositeOperation` to `"clear"`, which
-has the effect of making the pixels we touch transparent again.
+The “erase” tool sets `globalCompositeOperation` to
+`"destination-out"`, which has the effect of erasing the pixels we
+touch, making them transparent again.
 
 That gives us two tools. The program so far is a working paint
 program, allows us to draw black lines a single pixel wide (the

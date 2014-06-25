@@ -146,9 +146,9 @@ I just pulled a property out of an empty object. Magic!
 withholding information about the way JavaScript objects work. In
 addition to their set of properties, almost all objects also have a
 _prototype_. A prototype is another object that is used as a fallback
-source of properties. When a property is requested that an object does
-not have, its prototype will be searched for the property, and then
-the prototype's prototype, and so on.
+source of properties. When an object gets a request for a property
+that it does not have, its prototype will be searched for the
+property, and then the prototype's prototype, and so on.
 
 (((Object.prototype)))So who is the prototype of that empty object? It
 is the great ancestral prototype, the entity behind almost all
@@ -174,12 +174,8 @@ It provides a few methods that show up in all objects, such as
 
 Many objects don't directly have `Object.prototype` as their
 prototype, but instead have another object, which provides its own
-default properties. This prototype object will itself have a prototype,
-often `Object.prototype` so
-that it still indirectly provides methods like `toString`.
-
-Functions derive from `Function.prototype`, arrays from
-`Array.prototype`.
+default properties. Functions derive from `Function.prototype`, arrays
+from `Array.prototype`.
 
 [source,javascript]
 ----
@@ -190,6 +186,10 @@ console.log(Object.getPrototypeOf([]) ==
             Array.prototype);
 // → true
 ----
+
+Such a prototype object will itself have a prototype, often
+`Object.prototype` so that it still indirectly provides methods like
+`toString`.
 
 The `Object.getPrototypeOf` function obviously returns the prototype
 of an object. You can use `Object.create` to create an object with a
@@ -209,10 +209,10 @@ killerRabbit.speak("SKREEEE!");
 // → The killer rabbit says 'SKREEEE!'
 ----
 
-The “proto” rabbit contains the properties that are shared by all
-rabbits. The killer rabbit contains properties that apply
-only to itself—in this case its type—and derives shared
-properties from its prototype.
+The “proto” rabbit acts as a container for the properties that are
+shared by all rabbits. An individual rabbit object, like the killer
+rabbit, contains properties that apply only to itself—in this case its
+type—and derives shared properties from its prototype.
 
 == Constructors ==
 
@@ -245,7 +245,7 @@ console.log(blackRabbit.type);
 // → black
 ----
 
-Constructors (in fact, all functions) automatically get a property `prototype`, which
+Constructors (in fact, all functions) automatically get a property named `prototype`, which
 by default holds a plain, empty object that derives from `Object.prototype`.
 Every instance created with this constructor will have this object as
 its prototype. So to add a `speak` method to rabbits created with
@@ -381,6 +381,8 @@ console.log("nonsense" in map);
 // → true
 console.log("toString" in map);
 // → true
+
+// Delete the problematic property again
 delete Object.prototype.nonsense;
 ----
 
@@ -417,7 +419,7 @@ console.log(map.hiddenNonsense);
 show up in a loop. That's good. But we still have the problem with
 the regular `in` operator claiming that the `Object.prototype`
 properties exist in our object. For that, we can use the object's
-`hasOwnProperty` operator.
+`hasOwnProperty` method.
 
 [source,javascript]
 ----

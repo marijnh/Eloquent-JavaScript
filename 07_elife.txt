@@ -102,6 +102,15 @@ property accesses to get to a specific square, like this:
 ----
 var grid = [["0,0", "1,0", "2,0"],
             ["0,1", "1,1", "2,1"]];
+// The strings in this grid confuse me a bit. I'm not sure what they are
+// meant to represent. In addition to the fact that they're numerals with
+// commas in them, the numerals themselves represent their location, which
+// could appear to a reader like an operative part of what they're reading.
+// In reflecting on it, I sense that you were using these values to communicate
+// the structure of the data, making the coordinates represented by the string
+// correspond with that string's coordinates within the array.
+// You might use either nonsense values, like random numbers or nouns, or you could
+// use clearly code-free strings like "upper left", "upper middle", etc.
 console.log(grid[1][2]);
 // → 2,1
 ----
@@ -355,10 +364,32 @@ console.log(world.toString());
 constructor contains a call to `forEach`. One interesting thing to
 note is that inside the function passed to `forEach` by that constructor, we no
 longer have access to the `this` from the outer function. When a function
+// There are a lot of different functions in play here (the passed function, forEach,
+// the constructor), and I know you're talking about the passed function, but it
+// would be easy to get lost here.
 is called normally (not
+// The passed function will be "called normally", but the call time of that function
+// is opaque to the reader. Might deserve more clarification, as to the specifics of
+// how we expect the iterator to get called, and how that corresponds with the rules
+// you're describing here
 as a method), `this` is bound to the global scope object. Thus, saying
-`this.grid` in the loop function won't work. Instead, we must create a local `grid`
+`this.grid` in the loop function won't work.
+// This is the section that first inspired me to go looking around for what was going
+// on, since it had lost me a bit. I went scanning through the text looking for "the
+// loop function" but couldn't find a clear definition. The above comments stemmed from
+// that investigation. I'd suggest finding another word besides "loop function", or
+// give that a more explicit definition.
+//
+// It could also easily be missed why we would _want_ to use `this.grid` in the first place
+// Also obvious to you and me, but the reader would likely benefit from an exploration of
+// the premise of what problem you're aiming to solve with use of the keyword 'this', and
+// and a reminder of why it would be tempting to solve it by putting `this.grid` in the
+// iterator function.
+Instead, we must create a local `grid`
 variable in the constructor through which the loop function can access the grid.
+// This is a very subtle solution to the already subtle problem. In addition to making
+// sure the premise was really clearly defined, I'd suggest meditating on this proposal
+// carefully, what it would look like, maybe a code sample, and then why it is working.
 
 This is a bit of a
 design blunder in JavaScript. Forutnately, the next version of the
@@ -412,6 +443,9 @@ When they don't, you'll need to use one of the other approaches.
 
 In our own higher-order functions, we can support such a context
 parameter by using the `call` method to call our argument function.
+// Once I hit the word "argument function" I was kind of out of room
+// for new nouns here, prior to having each one situated in place for me.
+// Could be elaborated on if you see fit.
 For example, here is a `forEach` method for our `Grid` type, which calls a
 given function for each element in the grid that isn't null or
 undefined:
@@ -523,6 +557,12 @@ part of an object's interface. Sometimes it can help to use a naming
 scheme to distinguish between external and internal properties, for
 example by prefixing all internal ones with an underscore character
 (“_”). This will make accidental uses of properties that are not part
+// Would be nice to have a short code sample here, if you think there's
+// room. Something like:
+// var Car = function() {
+//   this.speed = 35;
+//   this._gasTankFullness = 0.5;
+// };
 of an object's interface easier to spot.
 
 The one missing part, the `View` type, looks like this:
@@ -821,6 +861,7 @@ actionTypes.move = function(critter, vector, action) {
   return true;
 };
 ----
+// Loving this example problem. Really compelling and illustrative of OO principles
 
 This action first checks, using the `checkDestination` method defined earlier,
 whether the action provides a valid destination. If not, or when the
@@ -1165,7 +1206,7 @@ endif::html_target[]
 
 !!solution!!
 
-Many of the same tricks that worked for in the previous exercise also
+Many of the same tricks that worked for the previous exercise also
 apply here. Making the predators big (lots of energy), and having them
 reproduce slowly is recommended. That'll make them less vulnerable to
 periods of starvation when the herbivores are scarce.

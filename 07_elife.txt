@@ -100,10 +100,10 @@ property accesses to get to a specific square, like this:
 
 [source,javascript]
 ----
-var grid = [["0,0", "1,0", "2,0"],
-            ["0,1", "1,1", "2,1"]];
+var grid = [["top left",    "top middle",    "top right"],
+            ["bottom left", "bottom middle", "bottom right"]];
 console.log(grid[1][2]);
-// → 2,1
+// → bottom right
 ----
 
 Or, we can use a single array, with size width×height, and decide
@@ -112,10 +112,10 @@ array.
 
 [source,javascript]
 ----
-var grid = ["0,0", "1,0", "2,0",
-            "0,1", "1,1", "2,1"];
+var grid = ["top left",    "top middle",    "top right",
+            "bottom left", "bottom middle", "bottom right"];
 console.log(grid[2 + (1 * 3)]);
-// → 2,1
+// → bottom right
 ----
 
 (((Array type)))Since the actual access to this array will be wrapped in
@@ -353,18 +353,22 @@ console.log(world.toString());
 
 (((this variable)))(((variable,scope)))(((self variable)))The `World`
 constructor contains a call to `forEach`. One interesting thing to
-note is that inside the function passed to `forEach` by that constructor, we no
-longer have access to the `this` from the outer function. When a function
-is called normally (not
-as a method), `this` is bound to the global scope object. Thus, saying
-`this.grid` in the loop function won't work. Instead, we must create a local `grid`
-variable in the constructor through which the loop function can access the grid.
+note is that inside the function passed to `forEach`, we are no longer
+directly in the function scope of the constructor. Each function call
+gets its own `this` binding, so the `this` inside of the inner
+function does _not_ refer to the newly constructed object that the
+outer `this` refers to. In fact, when a function isn't called as a
+method, `this` will refer to the global object.
 
-This is a bit of a
-design blunder in JavaScript. Forutnately, the next version of the
-language provides a solution for this problem.
-Meanwhile, there are workarounds. A common pattern is to say `var self =
-this` and from then on refer to `self`, which is a normal variable
+This means that we can't write `this.grid` to access the grid from
+inside the loop. Instead, the outer function creates a normal local
+variable, `grid`, through which the inner function gets access to the
+grid.
+
+This is a bit of a design blunder in JavaScript. Fortunately, the next
+version of the language provides a solution for this problem.
+Meanwhile, there are workarounds. A common pattern is to say `var self
+= this` and from then on refer to `self`, which is a normal variable
 and thus visible to inner functions.
 
 Another solution is to use the `bind` method, which allows us to
@@ -411,10 +415,10 @@ This only works for higher-order functions that support such a _context_ paramet
 When they don't, you'll need to use one of the other approaches.
 
 In our own higher-order functions, we can support such a context
-parameter by using the `call` method to call our argument function.
-For example, here is a `forEach` method for our `Grid` type, which calls a
-given function for each element in the grid that isn't null or
-undefined:
+parameter by using the `call` method to call the function given as
+argument. For example, here is a `forEach` method for our `Grid` type,
+which calls a given function for each element in the grid that isn't
+null or undefined:
 
 // include_code
 
@@ -1165,7 +1169,7 @@ endif::html_target[]
 
 !!solution!!
 
-Many of the same tricks that worked for in the previous exercise also
+Many of the same tricks that worked for the previous exercise also
 apply here. Making the predators big (lots of energy), and having them
 reproduce slowly is recommended. That'll make them less vulnerable to
 periods of starvation when the herbivores are scarce.

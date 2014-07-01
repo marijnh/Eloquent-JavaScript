@@ -544,8 +544,7 @@ JavaScript language, but can already be used as a library.
 
 The interface for promises is somewhat non-obvious, but very powerful.
 This chapter will only roughly describe it. A more thorough treatment
-can be found at
-http://www.html5rocks.com/en/tutorials/es6/promises[_www.html5rocks.com/en/tutorials/es6/promises_].
+can be found at https://www.promisejs.org/[_www.promisejs.org_].
 
 To create a promise object, we call the `Promise` constructor, giving
 it a function that will initialize the asynchronous action. The
@@ -579,7 +578,7 @@ function get(url) {
 ----
 
 Note that the interface to the function itself is now a lot simpler.
-You give it a URL, and it returns a promise. That promise is a
+You give it a URL, and it returns a promise. That promise acts as a
 _handle_ to the request's outcome. It has a `then` method that you can
 call with two functions, one to handle success, and one to handle
 failure.
@@ -595,7 +594,9 @@ get("example/data.txt").then(function(text) {
 
 So far, this is just a different way to express the same thing we
 already expressed before. It is only when you need to chain actions
-together that they make a significant difference.
+together that promises make a significant difference.
+
+// FIXME clarify/rewrite
 
 Calling `then` produces a new promise, whose result (the value passed
 to success handlers) depends on the return value of the first function

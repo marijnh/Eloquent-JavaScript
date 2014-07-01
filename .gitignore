@@ -1,5 +1,5 @@
 /tex/*
-/html/[01]*.html
+/html/[012]*.html
 /html/js/exercise_data.js
 /code/chapter/*
 /node_modules

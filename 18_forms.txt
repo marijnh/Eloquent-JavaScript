@@ -5,6 +5,14 @@
 
 = Forms and Form Fields =
 
+[quote,Mephistopheles,in Goethe's Faust]
+____
+I shall this very day, at Doctor's feast, + 
+My bounden service duly pay thee. + 
+But one thing!—For insurance' sake, I pray thee, + 
+Grant me a line or two, at least.
+____
+
 Forms were introduced briefly in the previous chapter as a way to
 _submit_ information entered by the user over HTTP. They were designed
 for a pre-JavaScript Web, and assume that interaction with the server

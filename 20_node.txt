@@ -1,0 +1,602 @@
+:chap_num: 20
+:prev_link: 19_paint
+:next_link: 21_FIXME
+
+= Node.js =
+
+[quote, Master Yuan-Ma, The Book of Programming]
+____
+A student asked ‘The programmers of old used only simple machines and
+no programming languages, yet they made beautiful programs. Why do we
+use complicated machines and programming languages?’. Fu-Tzu replied
+‘The builders of old used only sticks and clay, yet they made
+beautiful huts.’
+____
+
+This chapter provides a quick introduction to node, aiming to teach
+you the important ideas that the system builds on and give you enough
+information to write simple node programs. It does not aim to be a
+complete, or even a thorough, treatment of node.
+
+If you want to follow along and run the code in this chapter, start by
+going to http://nodejs.org[_nodejs.org_], and following the
+installation instructions for your operating system. Also refer to
+that website for further documentation on node and its built-in
+modules.
+
+ifdef::html_target[]
+
+// FIXME note about inaccuracy of running these in browser
+
+endif::html_target[]
+
+== Background ==
+
+One of the more difficult problems in writing systems that communicate
+over the network is managing in- and output—that is, the reading and
+writing of data to and from the network, the hard disk, and other such
+devices. Such transfers tend to take time, and scheduling them
+cleverly can make a huge difference in how quickly a system can
+respond to requests.
+
+The traditional way to do in- and output is to have a function, for
+example `readFile`, start reading the file and return only when the
+file has been fully read. This is called _synchronous I/O_ (I/O stands
+for input/output).
+
+Node was initially conceived for the purpose of making _asynchronous_
+I/O easy and convenient. We have seen that a browser's
+`XMLHttpRequest` interface, discussed in Chapter 17, supported both a
+synchronous mode, where the script would stop until the result came
+in, and an asynchronous mode, where the script continued running while
+the request was in progress, and a function was called later, when the
+request finished.
+
+That latter model, in which the program can continue to do other
+things while the operation is in progress, is the way node does all
+its I/O. The interfaces it provides for this are based around callback
+functions, just like `XMLHttpRequest`.
+
+JavaScript lends itself well for a system like node. It is one of the
+few programming languages that does not have a built-in way to do I/O,
+which made it easy to integrate it with node's rather odd approach. In
+2009, when node was being designed, people were already doing
+callback-based I/O in the browser, so the community around the
+language was already used to that programming style.
+
+== Asynchronicity ==
+
+I'll try to illustrate synchronous versus asynchronous I/O with a
+small example, where a program needs to fetch two resources from the
+Internet, and then do some simple processing with the result.
+
+In a synchronous environment, the obvious way to do this is to make
+the requests one after the other. This has the drawback that the
+second request will only be initiated when the first has finished,
+meaning that the total time taken is at least the sum of the two
+response times. This is not a very effective use of the machine, which
+will be mostly idle when it is transmitting and receiving data over
+the network.
+
+In a synchronous system, the solution to this problem is to start
+additional threads of control (refer back to Chapter 14 for a previous
+discussion of threads). A second thread could start the second
+request, and then both threads wait for their results to come back,
+after which they somehow re-synchronize to combine their results.
+
+In the following diagram, the thick lines represents time the program
+spends running normally, whereas the thin lines represent time spent
+waiting for I/O. In the synchronous model, the time taken by I/O is
+_part_ of the timeline for a given thread of control. In the
+asynchronous model, initiating an I/O action conceptually causes a
+_split_ in the timeline. The thread that initiated the I/O continues
+running, and the I/O itself is done alongside it, finally calling a
+callback function when it is finished.
+
+image::img/control-io.svg[alt="Control flow for synchronous and asynchronous I/O"]
+
+Another way to express this difference is that waiting for I/O to
+finish is _implicit_ in the synchronous model, whereas is it is
+_explicit_, directly under our control, in the asynchronous one. This
+cuts both ways. Asynchronicity makes it easier to express programs
+that do not fit the straight-line model of control, but it also makes
+it more awkward to express the programs that do.
+
+In Chapter 17, I already touched on the fact that all those callbacks
+do add quite a lot of noise and indirection to a program. Whether this
+style of asynchronicity is a good idea in general is debatable. In any
+case, it will look bizarre at first, and takes some getting used to.
+
+But for a JavaScript-based system, I would argue that callback-style
+asynchronicity is a sensible choice. One of the strengths of
+JavaScript is its simplicity, and trying to add multiple threads of
+control to it would add a lot of complexity. Though they don't tend to
+lead to simple _code_, callbacks as a _concept_ are pleasantly simple,
+but powerful enough to write high-performance Web servers.
+
+== The node command ==
+
+When node.js is installed on a system, it provides a program called
+`node`, which is used to run JavaScript files. Say you have a file
+`hello.js`, containing this code:
+
+[source,javascript]
+----
+var message = "Hello world";
+console.log(message);
+----
+
+You can then run `node` from the command line like this to execute the
+program:
+
+----
+# node hello.js
+Hello world
+----
+
+The `console.log` method in node does something similar to what it
+does in the browser. It prints out a piece of text. But in node, the
+text will go to the process' standard output stream, rather than to a
+browser's JavaScript console.
+
+If you run `node` without giving it a file, it provides you with a
+prompt at which you can type JavaScript code, and immediately see the
+result.
+
+----
+# node
+> 1 + 1
+2
+> [-1, -2, -3].map(Math.abs)
+[1, 2, 3]
+> process.exit(0)
+#
+----
+
+The `process` variable, just like the `console` variable, is available
+globally in node. It provides various ways to inspect and manipulate
+the current program. The `exit` method ends the process, and can be
+given an exit status code, which tells the program that started `node`
+(in this case, the command line shell) whether the program completed
+successfully (code zero) or encountered an error (any other code).
+
+To find the command line arguments given to your script, you can read
+`process.argv`, which is an array of strings. Note that it also
+includes the name of the `node` commands and your script name, so the
+actual arguments start at index 2. If `showargv.js` simply contains
+the statement `console.log(process.argv)`, you could run it like this:
+
+----
+# node showargv.js one --and two
+["node", "/home/marijn/showargv.js", "one", "--and", "two"]
+----
+
+All the standard JavaScript global variables, like `Array`, `Math`,
+and `JSON`, are also present in node's environment. Browser-related
+functionality, like `document` and `alert`, is absent.
+
+The global scope object, which is called `window` in the browser, has
+the more sensible name `global` in node.
+
+== Modules ==
+
+Beyond the few variables I mentioned, such as `console` and `process`,
+node puts very little functionality in the global scope. If you want
+to access other built-in functionality, you have to ask the module
+system for it.
+
+The CommonJS module system, based on the `require` function, was
+described in Chapter 10. This system is built into node, and is used
+to load anything from built-in modules to downloaded libraries to
+files that are part of your own program.
+
+When `require` is called, node has to resolve the given string to an
+actual file to load. Path names that start with `"/"`, `"./"`, or
+`"../"` are resolved relative to the current module's path, where
+`"./"` stands for the current directory, `"../"` for one directory up,
+and `"/"` for the root of the file system. So if you ask for
+`"./world/world"` from the file `/home/marijn/elife/run.js`, node will
+try to load the file `/home/marijn/elife/world/world.js`. The `.js`
+extension may be omitted.
+
+When a string that does not look like a relative or absolute path is
+given to `require`, it is assumed to refer to either a built-in
+module, or a module installed in a `node_modules` directory. For
+example, `require("fs")` will give you node's built-in filesystem
+module, and `require("elife")` will try to load the library found in
+`node_modules/elife/`. A common way to install such libraries is by
+using NMP, which I will discuss in a moment.
+
+To illustrate the use of `require`, let us set up a simple project
+consisting of two files. The first one is called `main.js`, which
+defines a script that can be called from the command line to garble a
+string.
+
+[source,javascript]
+----
+var garble = require("./garble");
+
+// Index 2 holds the first actual command line argument
+var argument = process.argv[2];
+
+console.log(garble(argument));
+----
+
+The file `garble.js` defines a library for gabling strings, which can
+be used both by the command line tool defined above, and by other
+scripts that need direct access to a garbling function.
+
+[source,javascript]
+----
+module.exports = function(string) {
+  return string.split("").map(function(ch) {
+    return String.fromCharCode(ch.charCodeAt(0) + 5);
+  }).join("");
+};
+----
+
+Remember that replacing `module.exports`, rather than adding
+properties to it, allows us to export a specific value from a module.
+In this case, we make the result of requiring our `garble` file the
+garbling function itself.
+
+The function splits the string it is given into single characters by
+splitting on the empty string, and then replaces each character with
+the character whose code is five points higher. Finally, it joins the
+result together again into a string.
+
+We can now call our tool like this:
+
+----
+# node main.js JavaScript
+Of{fXhwnuy
+----
+
+== Installing with NPM ==
+
+NPM, which was briefly discussed in chapter 10, is an online
+repository of JavaScript modules, many of which are specifically
+written for node. When you install node on your computer, you also get
+a program called `npm`, which provides a convenient interface to this
+repository.
+
+For example, one module you will find on NPM is `figlet`, which can
+convert text into “ASCII art”, drawings made out of text characters.
+The transcript below shows how to install and use it:
+
+----
+# npm install figlet
+npm GET https://registry.npmjs.org/figlet
+npm 200 https://registry.npmjs.org/figlet
+npm GET https://registry.npmjs.org/figlet/-/figlet-1.0.9.tgz
+npm 200 https://registry.npmjs.org/figlet/-/figlet-1.0.9.tgz
+figlet@1.0.9 node_modules/figlet
+# node
+> var figlet = require("figlet");
+> figlet.text("Hello world!", function(error, data) {
+    if (error) {
+      console.error(error);
+      process.exit(1);
+    }
+    console.log(data);
+  });
+  _   _      _ _                            _     _ _ 
+ | | | | ___| | | ___   __      _____  _ __| | __| | |
+ | |_| |/ _ \ | |/ _ \  \ \ /\ / / _ \| '__| |/ _` | |
+ |  _  |  __/ | | (_) |  \ V  V / (_) | |  | | (_| |_|
+ |_| |_|\___|_|_|\___/    \_/\_/ \___/|_|  |_|\__,_(_)
+----
+
+After running `npm install`, NPM will have created a directory
+`node_modules`, and put a `figlet` directory inside of that which
+contains the library itself. When we run `node` and call
+`require("figlet")`, this library is loaded, and we can call its
+`text` method to draw some big letters.
+
+Somewhat unexpectedly perhaps, instead of simply returning the string
+that makes up the big letters, `figlet.text` takes a callback function
+that it passes its result to, along with another argument, `error`,
+which will hold an error object when something went wrong, or null
+when everything went well.
+
+This is a common pattern in node code. Rendering something with
+`figlet` requires the library to read a file from disk that defines
+the way the letters look. Since reading from disk is an asynchronous
+operation in node, that means that `figlet.text` can't immediately
+return its result. Asynchronicity is “infectuous”, in a way—every
+function that calls an asynchronous function must itself become
+asynchronous.
+
+There is much more to NPM than `npm install`. It reads `package.json`
+files, which contain JSON-encoded information about a program or
+library, such as which other libraries it depends on. Doing `npm
+install` in a directory that contains such a file will automatically
+install all dependencies, as well as _their_ dependencies. The `npm`
+tool is also used to publish libraries to the online repository, so
+that other people can find, download, and use them.
+
+This book won't delve further into the details of NPM usage. Refer to
+http://npmjs.org[_npmjs.org_] for further documentation, and for an
+easy way to search for libraries.
+
+== The file system module ==
+
+One of the most commonly used built-in modules that come with node is
+the `"fs"` module, which stands for “file system”. This module
+provides a number of functions for working with files and directories.
+
+A useful function from this module is `readFile`, which reads a file
+and calls a callback with the file's contents when it is done.
+
+[source,javascript]
+----
+var fs = require("fs");
+fs.readFile("file.txt", "utf8", function(error, text) {
+  if (error)
+    throw error;
+  console.log("The file contained:", text);
+});
+----
+
+The second argument to `readFile` indicates the _character encoding_
+used to decode the file into a string. There are several ways in which
+text can be encoded to binary data, but most modern systems use UTF-8
+to encode text, so unless you have reasons to believe another encoding
+is used, passing `"utf8"` when reading a text file is a safe bet. If
+you do not pass an encoding, node will assume you are interested in
+the binary data itself, and will give you a `Buffer` object instead of
+a string. This is an array-like object that contains numbers
+representing the bytes in the files.
+
+[source,javascript]
+----
+var fs = require("fs");
+fs.readFile("file.txt", function(error, buffer) {
+  if (error)
+    throw error;
+  console.log("The file contained", buffer.length, "bytes.",
+              "The first byte is:", buffer[0]);
+});
+----
+
+A similar function, `writeFile` is used to write a file to disk.
+
+[source,javascript]
+----
+var fs = require("fs");
+fs.writeFile("graffiti.txt", "Node was here", function(err) {
+  if (err)
+    console.log("Failed to write file:", err);
+  else
+    console.log("File written.");
+});
+----
+
+Here it was not necessary to specify the encoding, since `writeFile`
+will assume that if it is given a string to write, rather than a
+`Buffer` object, it should write it out as text using its default text
+encoding, which is UTF-8.
+
+The `"fs"` module contains many other useful functions, such as
+`readdir`, which will return the files in a directory as an array of
+strings, `exists`, which checks whether a file exists, `rename` to
+rename a file, `unlink` to remove one, and so on. See the
+documentation at http://nodejs.org[_nodejs.org_] for specifics.
+
+Many of the functions in `"fs"` come in two variants, a synchronous
+one and an asynchronous one. For example, there is a synchronous
+version of `readFile` which is called `readFileSync`.
+
+[source,javascript]
+----
+var fs = require("fs");
+console.log(fs.readFileSync("file.txt", "utf8"));
+----
+
+These require less ceremony to use, and can be useful in simple
+scripts, where the extra speed provided by asynchronous I/O is not
+important. But note that, while such a synchronous operation is being
+performed, your program will be stopped entirely. If it should be
+responding to the user or to other machines on the network, being
+stuck on synchronous I/O might cause undesirable delays.
+
+== The HTTP module ==
+
+Another central module is called `"http"`, which provides
+functionality for running HTTP servers and making HTTP requests.
+
+This is all it takes to start a simple HTTP server:
+
+[source,javascript]
+----
+var http = require("http");
+var server = http.createServer(function(request, response) {
+  response.writeHead(200, {"Content-Type": "text/html"});
+  response.write("<h1>Hello!</h1><p>You asked for <code>" +
+                 request.url + "</code></p>");
+  response.end();
+});
+server.listen(8000);
+----
+
+If you run this script on your own machine, you can point your web
+browser at http://localhost:8000/hello[_http://localhost:8000/hello_]
+to make a request to your server. It will respond with a very small
+HTML page.
+
+The function passed as argument to `createServer` is called every time
+a client tries to connect to the server. The `request` and `response`
+variables are objects representing the incoming and outgoing data. The
+first contains information about the request that came in, for example
+its `url` property tells us to what URL the request was made.
+
+To send something back, you call methods on the `response` object. The
+first, `writeHead`, will write out the response headers (see Chapter
+17). You give it the status code (200 for “OK” in this case), and an
+object that contains header values. Here we tell the client that we
+will be sending back an HTML document.
+
+Next, the actual response body, the document itself, is sent with
+`response.write`. You are allowed to call this method multiple times,
+if you want to send the response piece by piece (possibly streaming
+data to the client as it becomes available). Finally, `response.end`
+signals the end of the response.
+
+The call to `server.listen` causes the server to start waiting for
+connections on port 8000. This is the reason you have to connect to
+_localhost:8000_, rather than just _localhost_ (which would use the
+default port, 80), to speak to this server.
+
+A real webserver would probably need to do a lot of other things, such
+as analyze the URL to figure out which resource the request is
+interested in, and actually looking at the request's method (the
+`method` property) to see what action the client is trying to perform.
+
+To act as an HTTP _client_, we can use the `request` function in the
+`"http"` module.
+
+[source,javascript]
+----
+var http = require("http");
+var request = http.request({
+  hostname: "eloquentjavascript.net",
+  path: "/20_node.html",
+  method: "GET",
+  headers: {Accept: "text/html"}
+}, function(response) {
+  console.log("Server responded with status code",
+              response.statusCode);
+});
+request.end();
+----
+
+The first argument to `request` configures the request, telling node
+what server to talk to, what path to request from that server, which
+method to use, and so on. The second argument is the function that
+should be called when a response comes in. It is given an object that
+allows us to inspect the response, for example to find out its status
+code.
+
+The object returned by `request`, just like the `response` object we
+saw in the server, allows us to stream data into the request with the
+`write` method, and finish the request with the `end` method. The
+example does not use `write`, because requests using the GET method
+should not contain data in their request body.
+
+To make requests to HTTPS (secure HTTP) URLs, node provides a package
+`https`, which contains its own `request` function, which behaves in a
+similar way.
+
+== Streams ==
+
+We have seen two examples of writable streams in the HTTP
+examples—namely the response object that the server could write to,
+and the request object that was returned from `http.request`. These
+are a widely used concept in node interfaces. All writable streams
+have a `write` method, which can be passed a string or a `Buffer`
+object, and an `end` method, which can also optionally be passed a
+piece of data, which it will write out before closing the stream.
+
+Both of these methods can also be given a callback, as an additional
+argument, which they will call when the writing to or closing of the
+stream has finished.
+
+It is possible to create a writable stream that points at a file with
+the `fs.createWriteStream` function, and then use the `write` method
+on the resulting object to write the file one piece at a time, rather
+than in one shot, as with `fs.writeFile`.
+
+Readable streams are a little more involved. Both the `request`
+variable that was passed to the HTTP server's callback function and
+the `response` variable passed to the HTTP client are readable streams
+(a server reads requests and then writes responses, whereas a client
+first writes a request and then reads a response). Reading from a
+stream is done using event handlers, rather than simple methods.
+
+Object that emit events in node have a method called `on` that is very
+similar to the `addEventListener` method in the browser. You give it
+an event name and then a function, and it will register that function
+to be called whenever the given event occurs.
+
+Readable streams have `"data"` and `"end"` events. The first is fired
+every time some data comes in, and the second is called whenever the
+stream is at its end. This model is most suited for “streaming” data,
+which can be immediately processed, even when the whole document isn't
+available yet. In the case where you want to see the whole document
+before you start to do something with it, you have to listen for
+`"data"` events and collect their content, and then use the built-up
+document when the `"end"` event occurs.
+
+A file can be read as a readable stream by using the
+`fs.createReadStream` function.
+
+Let us set up a server that reads request bodies, and streams them
+back to the client as all-uppercase text.
+
+[source,javascript]
+----
+var http = require("http");
+http.createServer(function(request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  request.on("data", function(chunk) {
+    response.write(chunk.toString().toUpperCase());
+  });
+  request.on("end", function() {
+    response.end();
+  });
+}).listen(8000);
+----
+
+The `chunk` variable passed to the data handler will be a binary
+`Buffer`, which we can convert to a string by calling `toString` on
+it, which will decode it using the default encoding (UTF-8).
+
+The following piece of code, if run while the upcasing server is
+running, will send a request to it and write out the response it gets.
+
+[source,javascript]
+----
+var http = require("http");
+var request = http.request({
+  hostname: "localhost",
+  port: 8000,
+  method: "POST"
+}, function(response) {
+  response.on("data", function(chunk) {
+    process.stdout.write(chunk.toString());
+  });
+});
+request.end("Hello server");
+----
+
+The example writes to `process.stdout` (the process's standard output,
+as a writable stream) instead of using `console.log` because the
+latter terminates the line after each call, adding a newline
+character, and in this case, if the response happens to arrive as more
+than one chunk and thus cause multiple calls to the `"data"` handler,
+using `console.log` would cause undesirable line breaks in the output.
+
+== FIXME an example ==
+
+== Error handling ==
+
+FIXME callbacks vs exceptions, crash on exception, stack trace,
+promises not widely used, promise on NPM
+
+== The event loop ==
+
+Just like in the browser, actions in node are scheduled by an event
+loop. No two pieces of the program ever run at the same time—it is
+only when one piece finishes that the next piece, for example a
+callback set by `readFile`, is allowed to run.
+
+At any time, `node` is either running a script, or waiting for I/O to
+complete, so that it can run the associated callback functions. 
+
+== Summary ==
+
+== Exercises ==
+
+=== Content negotiation, again ===
+
+Repeat 17.1, with node

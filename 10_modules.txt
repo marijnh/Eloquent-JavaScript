@@ -115,10 +115,10 @@ pieces of code that want to use the module load it from the same actual file.
 This idea gets even more powerful when the relations between
 modules—which other modules each module depends on—are explicitly
 stated. You can then automate the process of installing and upgrading
-external modules.
+external modules (_libraries_).
 
 Taking this idea even further, imagine an online service that tracks
-and distributes hundreds of thousands of such modules, allowing you to
+and distributes hundreds of thousands of such libraries, allowing you to
 search for the functionality you need, and, once you find it, set up
 your project to automatically download it.
 
@@ -126,7 +126,7 @@ your project to automatically download it.
 NPM consists of an online database of modules, and a tool for
 downloading and upgrading the modules your program depends on. It grew
 out of node.js, the browser-less JavaScript environment we will discuss in
-Chapter FIXME, but can also be useful when programming for the browser.
+Chapter 20, but can also be useful when programming for the browser.
 
 == Decoupling ==
 

@@ -1127,7 +1127,7 @@ This programming style is usually called _asynchronous_ programming.
 Event handling is also an instance of it, and we will see much more of
 it when working with tasks that can take an arbitrary amount of time,
 such as network requests in Chapter 17, and in- and output in general
-in Chapter 21 (FIXME).
+in Chapter 20.
 
 There is a set of level plans available in the `GAME_LEVELS` variable
 !!tex (downloadable from `eloquentjavascript.net/code`)!!. This page

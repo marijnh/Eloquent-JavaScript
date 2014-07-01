@@ -344,7 +344,7 @@ to press)
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
 use JavaScript as their scripting and query language. Several
 platforms for desktop and server programming, most notably the
-_((node.js))_ project, the subject of chapter (FIXME), are providing a
+_((node.js))_ project, the subject of Chapter 20, are providing a
 powerful environment for programming JavaScript outside of the
 browser.
 

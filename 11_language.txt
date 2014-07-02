@@ -39,16 +39,16 @@ program, the parser should complain and point out the
 error.
 
 Our language will have a very simple and uniform syntax. Everything in
-the language will be an expression. An expression can be a variable, a
+Egg is an expression. An expression can be a variable, a
 number, a string, or an _application_. Applications are used for
 function calls, but also for constructs like `if` or `while`.
 
-To keep the parser simple, strings in this language do not support
+To keep the parser simple, strings in Egg do not support
 anything like backslash escapes. A string is simply a sequence of
 characters that are not double quotes, wrapped in double quotes.
 A number is a sequence of digits. Variable names can consist of
 any character that is not whitespace and does not have a special
-meaning in the language.
+meaning in the syntax.
 
 Applications are written the way they are in JavaScript, by putting
 parentheses after an expression, and having any number of arguments
@@ -151,18 +151,17 @@ function skipSpace(string) {
 }
 ----
 
-Because the language allows any amount of whitespace between its
+Because Egg allows any amount of whitespace between its
 elements, we have to repeatedly cut the whitespace off the start of
 the program string. This is what the `skipSpace` function helps with.
 
 After skipping any leading space, `parseExpression` uses three regular
-expressions to spot the three simple (atomic) elements that the
-language supports: strings, numbers, and words.
-The parser constructs a different kind of data structure depending on
-which one matches. If none
-match, the input is not a valid expression, and it throws an error.
-`SyntaxError` is a standard error object type, which is raised when
-an attempt is made to run an invalid JavaScript program.
+expressions to spot the three simple (atomic) elements that Egg
+supports: strings, numbers, and words. The parser constructs a
+different kind of data structure depending on which one matches. If
+none match, the input is not a valid expression, and it throws an
+error. `SyntaxError` is a standard error object type, which is raised
+when an attempt is made to run an invalid JavaScript program.
 
 We can then cut off the part that we matched from the program string
 and pass that, along with the object for the expression, to
@@ -207,7 +206,7 @@ Because an application expression can itself be applied (such as in
 `multiplier(2)(1)`), `parseApply` must, after it has parsed an application,
 call itself again to check whether another pair of parentheses follow.
 
-This is all we need to parse our language. We wrap it in a convenient
+This is all we need to parse Egg. We wrap it in a convenient
 `parse` function which verifies that it has reached the end of the input string
 after parsing the program, and which gives us the program's data structure.
 
@@ -304,8 +303,8 @@ language yet.
 
 == Special forms ==
 
-The `specialForms` object is used to define special syntax in our
-language. It associates words with functions that evaluate such
+The `specialForms` object is used to define special syntax in Egg.
+It associates words with functions that evaluate such
 special forms. It is currently empty. Let us add some forms.
 
 // include_code
@@ -352,8 +351,8 @@ specialForms["while"] = function(args, env) {
   while (evaluate(args[0], env) !== false)
     evaluate(args[1], env);
 
-  // Since undefined does not exist in our language, we
-  // we return false, for lack of a meaningful result.
+  // Since undefined does not exist in Egg, we return false,
+  // for lack of a meaningful result.
   return false;
 };
 ----
@@ -530,7 +529,7 @@ specialForms["fun"] = function(args, env) {
 };
 ----
 
-Functions in our language have their own local environment, just like
+Functions in Egg have their own local environment, just like
 in JavaScript. We use `Object.create` to make a new object that has
 access to the variables in the outer environment (its prototype), but
 can also contain new variables without modifying that outer scope.
@@ -573,10 +572,10 @@ process that converts a program to a different representation can be
 thought of as compilation.
 
 It would be possible to write an alternative evaluation strategy for
-our language, one that first converts the program to a JavaScript
-program, uses `new Function` to invoke the JavaScript compiler on it,
-and then runs the result. When done right, this would make our
-language very fast, while still being quite simple to implement.
+Egg, one that first converts the program to a JavaScript program, uses
+`new Function` to invoke the JavaScript compiler on it, and then runs
+the result. When done right, this would make Egg run very fast, while
+still being quite simple to implement.
 
 If you are interested in this topic and willing to spend some time on
 it, I encourage you to try to implement such a compiler as an
@@ -586,7 +585,7 @@ exercise.
 
 When we defined `if` and `while`, you probably noticed that they were
 more or less trivial wrappers around JavaScript's own `if` and
-`while`. Similarly, the values in our language are just regular old
+`while`. Similarly, the values in Egg are just regular old
 JavaScript values.
 
 If you compare the implementation of Egg, built on top of
@@ -636,7 +635,7 @@ its domain, and nothing else.
 
 === Arrays ===
 
-Add support for arrays to our language by adding the following three
+Add support for arrays to Egg by adding the following three
 functions to the top scope: `array(...)` which constructs an array
 containing the argument values, `length(array)` to get an array's
 length, and `element(array, n)` to fetch the n^th^ element
@@ -670,7 +669,7 @@ endif::html_target[]
 
 !!solution!!
 
-The easiest way to do this is to represent the arrays in the language
+The easiest way to do this is to represent Egg arrays
 with JavaScript arrays.
 
 The values added to the top environment must be functions.
@@ -681,7 +680,7 @@ array-like object into a regular array.
 
 === Closure ===
 
-The way we have defined `fun` allows functions in our language to
+The way we have defined `fun` allows functions in Egg to
 “close over” the surrounding environment, allowing the function's body
 to use local values that were visible at the time the function was
 defined, just like JavaScript functions do.
@@ -703,7 +702,7 @@ mechanism causes this to work.
 !!solution!!
 
 Again, we are riding along on a JavaScript mechanism to get the
-equivalent feature in our own language. Special forms are passed the
+equivalent feature in Egg. Special forms are passed the
 local environment in which they are evaluated, so that they can
 evaluate their sub-forms in that environment. The function returned by
 `fun` closes over the `env` argument given to its enclosing function,
@@ -720,7 +719,7 @@ is actually efficient, you'd need to do some more work).
 
 === Comments ===
 
-It would be nice if we could write comments in our language. For
+It would be nice if we could write comments in Egg. For
 example, whenever we find a hash sign (“#”), we could treat the rest of the
 line as a comment and ignore it, similar to “`//`” in JavaScript.
 

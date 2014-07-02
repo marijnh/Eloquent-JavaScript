@@ -155,7 +155,7 @@ controls.tool = function(cx) {
     select.appendChild(elt("option", null, name));
 
   cx.canvas.addEventListener("mousedown", function(event) {
-    if (event.button == 0) {
+    if (event.which == 1) {
       tools[select.value](event, cx);
       event.preventDefault();
     }

@@ -1,8 +1,5 @@
-function min(a, b) {
-  if (a < b)
-    return a;
-  else
-    return b;
+function min(x,y){
+    return x <= y ? x : y;
 }
 
 console.log(min(0, 10));

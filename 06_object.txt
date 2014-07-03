@@ -222,7 +222,7 @@ that derive from some shared prototype is to use a _constructor_. In
 JavaScript, calling a function with the `new` keyword in front of it
 causes it to be treated as a constructor. The constructor will have its `this`
 variable bound to a fresh object, and, unless it explicitly returns
-something else, this new object will be returned from the call.
+another object value, this new object will be returned from the call.
 
 An object created with `new` is said to be an _((instance))_ of its
 constructor.
@@ -274,8 +274,9 @@ though it, but is not its _own_ prototype.
 == Overriding derived properties ==
 
 (((property)))When you add a property to an object, whether it is
-present in the prototype or not, that property is added to the object
-itself. If there _is_ a property by the same name in the prototype, it
+present in the prototype or not, the property is added to the object _itself_,
+which will henceforth have it as its own property.
+If there _is_ a property by the same name in the prototype, this property
 will no longer affect the object. The prototype itself is not changed.
 
 [source,javascript]
@@ -287,6 +288,8 @@ killerRabbit.teeth = "long, sharp, and bloody";
 console.log(killerRabbit.teeth);
 // → long, sharp, and bloody
 console.log(blackRabbit.teeth);
+// → small
+console.log(Rabbit.prototype.teeth);
 // → small
 ----
 
@@ -303,7 +306,7 @@ express exceptional properties in instances of a more generic class of
 objects, while letting the non-exceptional objects simply take a
 standard value from their prototype.
 
-It is also used to give the standard function and array prototypes a
+It can also be used to give the standard function and array prototypes a
 different `toString` method than the basic object prototype.
 
 [source,javascript]
@@ -439,7 +442,7 @@ recommend to write your `for`/`in` loops like this:
 ----
 for (var name in map) {
   if (map.hasOwnProperty(name)) {
-    // ... this is a real property
+    // ... this is an own property
   }
 }
 ----
@@ -827,8 +830,8 @@ pile.height = 100;
 // → Ignoring attempt to set height to 100
 ----
 
-(((defineProperty function)))In object expressions, putting `get` or
-`set` in front of a property name allows you to specify a function to
+(((defineProperty function)))In object literal, the `get` or
+`set` notation for properties allows you to specify a function to
 be run when the property is read or written. You can also add such a
 property to an existing object, for example a prototype, using the
 `Object.defineProperty` function (which we previously used to create
@@ -1102,14 +1105,15 @@ the inner cell.
 
 === Sequence interface ===
 
-Design an interface that abstracts iteration over a collection of
+Design an _interface_ that abstracts iteration over a collection of
 values. An object that provides this interface represents a sequence,
 and the interface must somehow make it possible for code that uses such
 an object to iterate over the sequence, looking at the element values it
 is made up of, and having some way to find out when the end of the
 sequence is reached.
 
-Start by writing a `logFive` function that takes a sequence
+When you have specified your interface, try to write a function `logFive`
+that takes a sequence
 object and calls `console.log` on its first five elements—or less, if
 the sequence has less than five elements.
 

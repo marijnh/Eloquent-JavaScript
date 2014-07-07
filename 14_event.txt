@@ -182,7 +182,7 @@ accidentally handling something that propagated up from a node you do not
 want to handle. It is also possible to use the `target` property to
 cast a wide net for a specific type of event. For example, if you
 have a node containing a long list of buttons and you want to handle
-clicks on these buttons, it may be more inconvenient to register a
+clicks on these buttons, it may be more convenient to register a
 single click handler on the outer node, and have it figure out whether
 a button was clicked, than to register individual handlers on all of
 the buttons.

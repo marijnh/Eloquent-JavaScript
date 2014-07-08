@@ -101,21 +101,22 @@ instead. This is very helpful. It should be noted, though, that this
 doesn't work when the variable in question already exists as a global
 variable, but only when assigning to it would have created it.
 
-Another change in strict mode is that the `this` binding holds the value
-`undefined` in functions that are not called as methods.
-When making such a call outside of strict mode, `this` refers the global scope object. So
-if you accidentally call a method or constructor incorrectly in strict mode, JavaScript
-will produce an error as soon as it tries to read something from
-`this`, rather than happily working with the global object, creating
-and reading global variables.
+Another change in strict mode is that the `this` binding holds the
+value `undefined` in functions that are not called as methods. When
+making such a call outside of strict mode, `this` refers the global
+scope object. So if you accidentally call a method or constructor
+incorrectly in strict mode, JavaScript will produce an error as soon
+as it tries to read something from `this`, rather than happily working
+with the global object, creating and reading global variables.
 
-For instance, consider the following:
+For instance, consider the following code, which calls a constructor
+without the `new` keyword, so that its `this` will _not_ refer to a
+newly constructed object.
 
 [source,javascript]
 ----
 function Person(name) { this.name = name; }
-// Oops, forgot 'new'
-var ferdinand = Person("Ferdinand");
+var ferdinand = Person("Ferdinand"); // oops
 console.log(name);
 // → Ferdinand
 ----
@@ -207,7 +208,7 @@ test fails. These are called _testing frameworks_.
 
 Once you notice that there is something wrong with your program
 because it misbehaves or produces errors, the next step is to figure
-out _what_.
+out _what_ the problem is.
 
 Sometimes, it is obvious. The error message will point at a specific
 line of your program, and if you look at the error description and
@@ -248,12 +249,11 @@ Even if you see the problem already, pretend for a moment that you
 don't. We know that our program is malfunctioning, and we want to find
 out why.
 
-This is where you must resist the urge to start making random changes to
-the code and _think_. Analyze what is happening and come
-up with a theory of why it might be happening. Then, make additional
-observations to test this theory—or, if you don't yet have a
-theory, make additional observations that might help you come up with
-one.
+This is where you must resist the urge to start making random changes
+to the code. Instead, _think_. Analyze what is happening and come up
+with a theory of why it might be happening. Then, make additional
+observations to test this theory—or, if you don't yet have a theory,
+make additional observations that might help you come up with one.
 
 Putting a few strategic `console.log` calls into the program is a good
 way to get additional information about what the program is doing. In
@@ -399,11 +399,11 @@ try {
 (((throw keyword)))(((try keyword)))(((catch keyword)))The `throw`
 keyword is used to raise an exception. Catching one is done by
 wrapping a piece of code in a `try` block, followed by the keyword
-`catch`. When the code in the block that follows `try`
-causes an exception to be raised, the `catch` block is evaluated. The variable name
-(in parentheses) after `catch` will be bound to the exception value.
-After the `catch` block finishes—or if the `try` block finishes
-without problems—control proceeds beneath the entire try-catch statement.
+`catch`. When the code in the `try` block causes an exception to be
+raised, the `catch` block is evaluated. The variable name (in
+parentheses) after `catch` will be bound to the exception value. After
+the `catch` block finishes—or if the `try` block finishes without
+problems—control proceeds beneath the entire try-catch statement.
 
 (((Error type)))In this case, we used the `Error` constructor to
 create our exception value. This is a standard JavaScript constructor
@@ -494,6 +494,9 @@ console.log(context);
 // → null
 ----
 
+Even though the function called from `withContext` exploded,
+`withContext` itself still properly cleaned up the `context` variable.
+
 == Selective catching ==
 
 (((unhandled exception)))(((JavaScript,console)))When an exception
@@ -531,7 +534,7 @@ were thinking about when you wrote the `catch` block.
 
 But it might not be. Some other assumption might be violated, or you
 might have introduced a bug somewhere that is causing an exception.
-Here is an example, which _tries_ to keep on calling `promptDirection`
+Here is an example, which _attempts_ to keep on calling `promptDirection`
 until it gets a valid answer.
 
 // test: no
@@ -635,14 +638,8 @@ for (;;) {
 ----
 
 This will only catch instances of `InputError` and let unrelated
-exceptions through. If you reintroduce the typo, the undefined variable error will be
-properly reported.
-
-In cases where you only need one instance of your error (it
-always has the same message) and stack traces are not important, you
-can simplify things a little by defining a single error object
-rather than a constructor, and comparing exceptions to it with the `==`
-operator.
+exceptions through. If you reintroduce the typo, the undefined
+variable error will be properly reported.
 
 == Assertions ==
 

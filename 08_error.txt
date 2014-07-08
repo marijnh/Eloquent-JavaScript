@@ -120,6 +120,12 @@ console.log(name);
 // → Ferdinand
 ----
 
+// Could use a reminder of how the issue works here, since people
+// forget the exact behavior of what happens when you leave new off
+// a constructor invocation. If you choose to elaborate, you could
+// preceed this sentence with something like "Running the `Person`
+// constructor without the keyword new means it will run in the context
+// of the global object."
 So the bogus call to `Person` succeeded, but returned an undefined
 value and created the global variable `name`. In strict mode, the
 result is different.
@@ -207,7 +213,7 @@ test fails. These are called _testing frameworks_.
 
 Once you notice that there is something wrong with your program
 because it misbehaves or produces errors, the next step is to figure
-out _what_.
+out _what_ is wrong.
 
 Sometimes, it is obvious. The error message will point at a specific
 line of your program, and if you look at the error description and
@@ -249,7 +255,7 @@ don't. We know that our program is malfunctioning, and we want to find
 out why.
 
 This is where you must resist the urge to start making random changes to
-the code and _think_. Analyze what is happening and come
+the code and instead _think_. Analyze what is happening and come
 up with a theory of why it might be happening. Then, make additional
 observations to test this theory—or, if you don't yet have a
 theory, make additional observations that might help you come up with
@@ -400,6 +406,7 @@ try {
 keyword is used to raise an exception. Catching one is done by
 wrapping a piece of code in a `try` block, followed by the keyword
 `catch`. When the code in the block that follows `try`
+// maybe make the two formulations consistent, like "When the code in the `try` block..."
 causes an exception to be raised, the `catch` block is evaluated. The variable name
 (in parentheses) after `catch` will be bound to the exception value.
 After the `catch` block finishes—or if the `try` block finishes
@@ -494,6 +501,13 @@ console.log(context);
 // → null
 ----
 
+// I'd love a little wrap-up sentence here telling me what I just saw
+// demonstrated. Though I imagine you're showing the way you would use
+// the finally feature mentioned above, I got hung up thinking about
+// the special return situation that you mentioned thereafter, and could
+// use a brief hand-holding on what I should have concluded, and how
+// the code had supported that conclusion
+
 == Selective catching ==
 
 (((unhandled exception)))(((JavaScript,console)))When an exception
@@ -531,7 +545,8 @@ were thinking about when you wrote the `catch` block.
 
 But it might not be. Some other assumption might be violated, or you
 might have introduced a bug somewhere that is causing an exception.
-Here is an example, which _tries_ to keep on calling `promptDirection`
+Here is an example, which _attempts_ to keep on calling `promptDirection`
+// could be confused with the technical word
 until it gets a valid answer.
 
 // test: no
@@ -638,6 +653,11 @@ This will only catch instances of `InputError` and let unrelated
 exceptions through. If you reintroduce the typo, the undefined variable error will be
 properly reported.
 
+// The previous information was so richly pertinent to day-to-day coding that I almost
+// worry this paragraph could throw someone off. It's true, and it's interesting,
+// but it's a corner case that people could get away with never knowing.
+// I'd just skip making this point, but if you'd like to keep it you might consider
+// prefacing it with some aside like "It's interesting to note that...".
 In cases where you only need one instance of your error (it
 always has the same message) and stack traces are not important, you
 can simplify things a little by defining a single error object

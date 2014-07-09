@@ -327,7 +327,7 @@ called it, at line 4. The line after that calls `console.log` again.
 
 We could show the flow of control schematically like this:
 
-....
+----
 top
    greet
         console.log
@@ -335,7 +335,7 @@ top
 top
    console.log
 top
-....
+----
 
 Because a function has to jump back to the place of the call when it
 returns, the computer must remember the context from which the
@@ -636,7 +636,7 @@ To better understand how this function produces the effect we're
 looking for, let's look at all the calls to `find` that are made when
 searching for a solution for the number 13.
 
-....
+----
 find(1, "1")
   find(6, "(1 + 5)")
     find(11, "((1 + 5) + 5)")
@@ -650,7 +650,7 @@ find(1, "1")
     find(8, "((1 * 3) + 5)")
       find(13, "(((1 * 3) + 5) + 5)")
         found!
-....
+----
 
 The indentation suggests the depth of the call stack. The first call
 to `find` calls itself twice to explore the solutions that start
@@ -691,10 +691,10 @@ cows and chickens on a farm, with the words `Cows` and `Chickens`
 after them, and zeroes padded before both numbers so that they are
 always three digits long.
 
-....
+----
 007 Cows
 011 Chickens
-....
+----
 
 That clearly asks for a function of two arguments. Let's get coding.
 

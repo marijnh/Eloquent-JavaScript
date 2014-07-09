@@ -4,7 +4,7 @@
 
 = Program Structure =
 
-[quote, _why, Why's (Poignant) Guide to Ruby]
+[quote, \_why, Why's (Poignant) Guide to Ruby]
 ____
 And my heart glows bright red under my filmy, translucent skin and
 they have to administer 10cc of JavaScript to get me to come back. (I
@@ -839,7 +839,7 @@ enough to have a slight headache.
 Write a program that makes seven calls to `console.log` to output the
 following triangle:
 
-....
+----
 #
 ##
 ###
@@ -847,7 +847,7 @@ following triangle:
 #####
 ######
 #######
-....
+----
 
 ifdef::html_target[]
 [source,javascript]
@@ -920,7 +920,7 @@ should form a chess board.
 
 Passing this string to `console.log` should look like this:
 
-....
+----
 # # # # 
  # # # #
 # # # # 
@@ -929,7 +929,7 @@ Passing this string to `console.log` should look like this:
  # # # #
 # # # # 
  # # # #
-....
+----
 
 When you have a program that generates this pattern, define a variable `size = 8` 
 and change the program so that it works for any `size`, outputting a grid of the 

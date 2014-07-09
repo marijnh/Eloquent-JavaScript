@@ -17,12 +17,8 @@ html/js/exercise_data.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) code/solutions
 
 tex: $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
 
-tex/%.db: %.txt asciidoc_db.conf
-	cat $< | node bin/pre_latex.js | asciidoc -f asciidoc_db.conf --backend=docbook -o $@ -
-
-tex/%.tex: tex/%.db
-	dblatex $< -o $@ -t tex -P doc.collab.show=0 -P latex.output.revhistory=0
-	node bin/clean_latex.js $@
+tex/%.tex: %.txt asciidoc_latex.conf
+	cat $< | node bin/pre_latex.js | asciidoc -f asciidoc_latex.conf --backend=latex -o - - | node bin/clean_latex.js > $@
 
 test: html
 	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
@@ -30,6 +26,6 @@ test: html
 	@echo Done.
 
 book.pdf: tex
-	cd tex/book && pdflatex book.tex
-	cd tex/book && pdflatex book.tex
+	cd tex/book && xelatex book.tex
+	cd tex/book && xelatex book.tex
 	mv tex/book/book.pdf .

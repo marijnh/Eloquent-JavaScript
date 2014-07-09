@@ -1,13 +1,13 @@
-var fs = require("fs");
-
-function cleanFile(tex) {
-  var start = tex.indexOf("\\section");
-  var end = tex.indexOf("\\end{document}");
-  return tex.slice(start, end).replace(/\\(sub)?(sub)?section{/g, function(match, s1, s2) {
-    if (s1 && s2) return "\\subsection{";
-    if (s1) return "\\section{";
-    return "\\chapter{";
-  });
-}
-
-fs.writeFileSync(process.argv[2], cleanFile(fs.readFileSync(process.argv[2], "utf8"), "utf8"));
+var input = "";
+process.stdin.on("data", function(chunk) {
+  input += chunk;
+});
+process.stdin.on("end", function() {
+  process.stdout.write(input.replace(/(\n\n\\end{Code})|(\n{3,})/g, function(all, codeSpace, manyBlanks) {
+    if (codeSpace)
+      return codeSpace.slice(1);
+    if (manyBlanks)
+      return "\n\n";
+  }));
+});
+process.stdin.resume();

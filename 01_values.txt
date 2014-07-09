@@ -145,7 +145,7 @@ a new number from them. Here is what they look like in JavaScript:
 100 + 4 * 11
 ----
 
-(((\* operator)))(((+ operator)))The `+` and `*` symbols are called
+(((pass:[*] operator)))(((+ operator)))The `+` and `*` symbols are called
 _operators_. The first stands for addition, and the second stands for
 multiplication. Putting an operator between two values will
 (((application,of operators)))apply it to those values and produce a

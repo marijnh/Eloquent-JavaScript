@@ -13,7 +13,7 @@ use complicated machines and programming languages?’. Fu-Tzu replied
 beautiful huts.’
 ____
 
-This chapter provides a quick introduction to node, aiming to teach
+This chapter provides a brief introduction to node.js, aiming to teach
 you the important ideas that the system builds on and give you enough
 information to write simple node programs. It does not aim to be a
 complete, or even a thorough, treatment of node.
@@ -26,7 +26,10 @@ modules.
 
 ifdef::html_target[]
 
-// FIXME note about inaccuracy of running these in browser
+Whereas you could run the code in previous chapters directly on these
+pages, since it was either raw JavaScript or written for the browser,
+the code samples in this chapter are written for node, and won't run
+in the browser.
 
 endif::html_target[]
 
@@ -447,6 +450,10 @@ connections on port 8000. This is the reason you have to connect to
 _localhost:8000_, rather than just _localhost_ (which would use the
 default port, 80), to speak to this server.
 
+To stop running a node script like this, which doesn't finish
+automatically because it is waiting for further events (in this case,
+network connections), press Control-C.
+
 A real webserver would probably need to do a lot of other things, such
 as analyze the URL to figure out which resource the request is
 interested in, and actually looking at the request's method (the
@@ -576,27 +583,393 @@ character, and in this case, if the response happens to arrive as more
 than one chunk and thus cause multiple calls to the `"data"` handler,
 using `console.log` would cause undesirable line breaks in the output.
 
-== FIXME an example ==
+== A simple file server ==
+
+Let us combine our newfound knowledge about HTTP servers and talking
+to the file system, and create a bridge between them: an HTTP server
+that allows remote access to a file system. Such a server has many
+uses—it could be used by a web application to store data, or even to
+provide direct access to some shared files, for example to allow users
+to edit their web site remotely.
+
+HTTP resources can cleanly be represented as files. The HTTP verbs
+`GET`, `PUT`, and `DELETE` can be used to read, write, and delete
+files, respectively. We will interpret the path from the request URL
+as the path of the file that the request refers to.
+
+Because we probably don't want to share our whole file system, we'll
+interpret these paths as starting in the server's working directory,
+which is the directory in which it was started. If I ran the server
+from `/home/marijn/public/` (or `c:\Users\marijn\public\` on Windows),
+then a request for `/file.txt` should refer to
+`/home/marijn/public/file.txt` (or `c:\Users\marijn\public\file.txt`).
+
+We'll build the program in small pieces again, using an object
+(`methods`) to store the functions that handle the various HTTP
+methods.
+
+[source,javascript]
+----
+var http = require("http"), fs = require("fs");
+
+var methods = Object.create(null);
+
+http.createServer(function(request, response) {
+  function respond(code, body, type) {
+    if (!type) type = "text/plain";
+    response.writeHead(code, {"Content-Type": type});
+    if (body && body.pipe)
+      body.pipe(response);
+    else
+      response.end(body);
+  }
+  if (request.method in methods)
+    methods[request.method](urlToPath(request.url),
+                            respond, request);
+  else
+    respond(405, "Method " + request.method +
+            " not allowed.");
+}).listen(8000);
+
+function urlToPath(url) {
+  return "." + require("url").parse(url).pathname;
+}
+----
+
+This starts a server that just returns 405 error responses (which is
+the code used to indicate that a given method isn't understood by the
+server).
+
+The `respond` function is passed to the functions that handle the
+various methods, and acts as a callback to finish the request. It
+takes an HTTP status code, a body, and optionally a content type. If
+the value passed as the body is a readable stream, it will have a
+`pipe` method, which is used to forward a readable stream to a
+writeable stream. If not, it is assumed to be either `null` (no body)
+or a string, and is passed directly to the response's `end` method.
+
+To get a path from the URL in the request, the `urlToPath` function
+uses node's built-in `"url"` module to parse the URL. It takes its
+pathname, which will be something like `/file.txt`, and prefixes a
+single dot to produce a path relative to the current directory.
+
+(If you are worried about the security of the `urlToPath` function,
+you are right. We will come back to it in the exercises.)
+
+We will set up the `GET` method to return a list of files when reading
+a directory, and the file's content when reading a regular file.
+
+One tricky question is what kind of `Content-Type` header we should
+add when returning a file's content. Since these files could be
+anything, our server can't simply return the same type for all of
+them. But NPM comes to the rescue. The `mime` package (content type
+indicators like `text/plain` are also called _MIME types_) knows the
+correct type for a huge amount of file extensions.
+
+If you do this in the directory where the server script lives, you'll
+be able to `require("mime")` to get access to the library.
+
+----
+# npm install mime
+npm http GET https://registry.npmjs.org/mime
+npm http 304 https://registry.npmjs.org/mime
+mime@1.2.11 node_modules/mime
+----
+
+When a requested file does not exist, the correct HTTP error code to
+return is 404. We will use `fs.stat`, which looks up information on a
+file, to find out both whether the file exists and whether it is a
+directory.
+
+[source,javascript]
+----
+methods.GET = function(path, respond) {
+  fs.stat(path, function(error, stats) {
+    if (error && error.code == "ENOENT")
+      respond(404, "File not found");
+    else if (error)
+      respond(500, error.toString());
+    else if (stats.isDirectory())
+      fs.readdir(path, function(error, files) {
+        if (error)
+          respond(500, error.toString());
+        else
+          respond(200, files.join("\n"));
+      })
+    else
+      respond(200, fs.createReadStream(path),
+              require("mime").lookup(path));
+  });
+};
+----
+
+Because it has to touch the disk, and thus might take a while,
+`fs.stat` is asynchronous. When the file does not exist, `fs.stat`
+will pass an error object with a `code` property of `"ENOENT"` to its
+callback. It would have been nice if node defined different sub-types
+of `Error` for different types of error, but it doesn't, and instead
+just puts obscure, Unix-inspired codes in there.
+
+We are going to report any errors we didn't expect with status code
+500, which indicates that the problem exists in the server, as opposed
+to codes starting with 4 (such as 404) which refer to bad requests.
+There are some situations in which this is not entirely accurate, but
+for a small example program like this, it will have to be good enough.
+
+The `stats` object returned by `fs.stat` tells us a number of things
+about a file, such as its size (`size` property) and its modification
+date (`mtime` property). Here we are interested in the question of
+whether it is a directory or a regular file, which the `isDirectory`
+method tells us.
+
+We use `fs.readdir` to read the list of files in a directory, and, in
+yet another callback, return it to the user. For normal files, we
+create a readable stream with `fs.createReadStream`, and pass it to
+`respond`, along with the content type that the `"mime"` module gives
+us for the file's name.
+
+The code to handle `DELETE` requests is slightly simpler.
+
+[source,javascript]
+----
+methods.DELETE = function(path, respond) {
+  fs.stat(path, function(error, stats) {
+    if (error && error.code == "ENOENT")
+      respond(204);
+    else if (error)
+      respond(500, error.toString());
+    else if (stats.isDirectory())
+      fs.rmdir(path, respondErrorOrNothing(respond));
+    else
+      fs.unlink(path, respondErrorOrNothing(respond));
+  });
+};
+
+function respondErrorOrNothing(respond) {
+  return function(error) {
+    if (error)
+      respond(500, error.toString());
+    else
+      respond(204);
+  };
+}
+----
+
+When an HTTP response does not contain any data, the status code 204
+(“no content”) can be used to indicate this. Since we need to provide
+callbacks that either report an error or return a 204 response in a
+few different situations, I wrote a `respondErrorOrNothing` function
+that creates such a callback.
+
+You may be wondering why trying to delete a non-existent file returns
+a 204 status, rather than an error. When the file that is being
+deleted is not there, you could say that the request's objective is
+already fulfilled. The HTTP standard encourages people to make
+requests _idempotent_, which means that applying them multiple times
+does not produce a different result.
+
+And finally, here is the handler for `PUT` requests:
+
+[source,javascript]
+----
+methods.PUT = function(path, respond, request) {
+  var outStream = fs.createWriteStream(path);
+  outStream.on("error", function(error) {
+    respond(500, error.toString());
+  });
+  outStream.on("finish", function() {
+    respond(204);
+  });
+  request.pipe(outStream);
+};
+----
+
+Here we don't need to check whether the file exists—if it does, we'll
+just overwrite it. We again use `pipe` to move data from a readable
+stream to a writable one, in this case form the request to the file.
+If creating the stream fails, an `"error"` event is raised on it,
+which we report in our response. When the data is transferred
+successfully, `pipe` will close both streams, which will cause a
+`"finish"` event to be fired on the writable stream. When that
+happens, we can report success to the client with a 204 response.
+
+The full script for the server
+http://eloquentjavascript.net/code/file_server.js[eloquentjavascript.net/code/file_server.js].
+You can download that and run it with node to run your own file
+server. And of course, you can modify and extend it, to solve this
+chapter's exercises or to experiment.
+
+The command-line tool `curl`, widely available on Unix-like systems,
+can be used to make HTTP requests. The following session briefly tests
+our server. Note that `-X` is used to set the request's method, and
+`-d` to include a request body.
+
+----
+# curl http://localhost:8000/file.txt
+File not found
+# curl -X PUT -d hello http://localhost:8000/file.txt
+# curl http://localhost:8000/file.txt
+hello
+# curl -X DELETE http://localhost:8000/file.txt
+# curl http://localhost:8000/file.txt
+File not found
+----
+
+The first request for `file.txt` fails, since the file does not exist
+yet. The `PUT` request creates the file, and behold, the next request
+successfully retrieves it. After deleting it with a `DELETE` request
+it can no longer be found, as you would expect.
 
 == Error handling ==
 
-FIXME callbacks vs exceptions, crash on exception, stack trace,
-promises not widely used, promise on NPM
+In the code for the file server, there are _six_ places where we are
+explicitly routing exceptions that we don't know how to handle to
+error responses. Because exceptions aren't automatically propagated to
+callbacks, but rather passed to them as arguments, they have to be
+handled explicitly every time. This completely defeats the advantage
+of exception handling, namely the ability to centralize the handling
+of exceptions.
 
-== The event loop ==
+What happens when something actually `throws` an exception in this
+system? Since we are not using any `try` blocks, the exception will
+propagate to the top of the call stack. In node, that causes the
+program to be aborted, and information about the exception (including
+a stack trace) is written to the program's standard error stream.
 
-Just like in the browser, actions in node are scheduled by an event
-loop. No two pieces of the program ever run at the same time—it is
-only when one piece finishes that the next piece, for example a
-callback set by `readFile`, is allowed to run.
+This means that our server will crash whenever a problem is
+encountered in the server's code itself, as opposed to asynchronous
+problems which will be passed as arguments to the callbacks. If we
+wanted to handle all exceptions raised during the handling of a
+request, to make sure we send back a response, we would have to add
+`try`/`catch` blocks to _every_ callback.
 
-At any time, `node` is either running a script, or waiting for I/O to
-complete, so that it can run the associated callback functions. 
+This is hardly workable. Many node programs are written to make as
+little use of exceptions as possible, with the assumption that if an
+exception is raised, it is not something the program can handle, and
+crashing is the right response.
+
+Another approach is to use promises, which were introduced in Chapter
+17. Those catch exceptions raised by the callback functions they call,
+and propagate exceptions raised as failures. It is possible to load a
+promise library in node, and use that to manage your asynchronous
+control. Very few node libraries integrate promises, but it is often
+trivial to wrap them. The excellent `"promise"` module from NPM
+contains a function `denodeify`, which takes an asynchronous function
+like `fs.readFile`, and converts it to a promise-returning function.
+
+[source,javascript]
+----
+var Promise = require("promise");
+var fs = require("fs");
+
+var readFile = Promise.denodeify(fs.readFile);
+readFile("file.txt", "utf8").then(function(content) {
+  console.log("The file contained: " + content);
+}, function(error) {
+  console.log("Failed to read file: " + error);
+});
+----
+
+For comparison, I've written another version of the file server based
+on promises, which you can find at
+http://eloquentjavascript.net/code/file_server_promises.js[eloquentjavascript.net/code/file_server_promises.js].
+It is slightly cleaner, because functions can now _return_ their
+results, rather than having to call callbacks, and the routing of
+exceptions is implicit, rather than explicit.
+
+I'll list a few lines from promise-based file server, to illustrate
+the difference in the style of programming.
+
+The `fsp` object contains promise-style variants of a number of `fs`
+functions, wrapped by `Promise.denodeify`. The object returned from
+the callback, with `code` and `body` properties, will become the final
+result of the chain of promises, and be used to determine what kind of
+response to send to the client.
+
+// test: no
+
+[source,javascript]
+----
+methods.GET = function(path) {
+  return inspectPath(path).then(function(stats) {
+    if (!stats) // Does not exist
+      return {code: 404, body: "File not found"};
+    else if (stats.isDirectory())
+      return fsp.readdir(path).then(function(files) {
+        return {code: 200, body: files.join("\n")};
+      });
+    else
+      return {code: 200,
+              type: require("mime").lookup(path),
+              body: fs.createReadStream(path)};
+  });
+};
+
+function inspectPath(path) {
+  return fsp.stat(path).then(null, function(error) {
+    if (error.code == "ENOENT") return null;
+    else throw error;
+  });
+}
+----
+
+The `inspectPath` function is a simple wrapper around `fs.stat`, which
+handles the case where the file is not found, replacing the failure
+with a success that yields `null` in that case. All other errors are
+allowed to propagate implicitly. When the promise that is returned
+from these handlers fails, the HTTP server responds with a 500 status
+code.
 
 == Summary ==
 
+Node is a nice, straightforward system that lets us run JavaScript in
+a non-browser context. It was originally designed for network tasks,
+to play the role of a “node” in a network. But it lends itself to all
+kinds of scripting tasks, and if writing JavaScript is something you
+enjoy, automating everyday tasks with node is an attractive option.
+
+That option is made more attractive by the fact that NPM provides
+libraries for everything you can think of (and quite a few things
+you'd probably never think of) at the tip of your fingertips. The
+`npm` command can be used to install modules.
+
+Node also comes with a number of built-in modules, among which the
+`"fs"` module, which contains functionality related to the file
+system, and the `"http"` module, which gives you tools for running
+HTTP servers and making HTTP requests.
+
+All I/O in node is done asynchronously, unless you explicitly use a
+synchronous variant of a function, such as `fs.readFileSync`. You pass
+callback functions, and node will call them at the appropriate time,
+when the I/O you asked for is completed.
+
 == Exercises ==
+
+FIXME
 
 === Content negotiation, again ===
 
 Repeat 17.1, with node
+
+=== Fixing a leak ===
+
+=== Creating directories ===
+
+[source,javascript]
+----
+methods.MKCOL = function(path, request, response) {
+  fs.stat(path, function(error, stats) {
+    if (error && error.code == "ENOENT")
+      fs.mkdir(path, respondErrorOrNothing(response));
+    else if (error)
+      respond(500, error.toString(), response);
+    else if (stats.isDirectory())
+      respond(204, null, response);
+    else
+      respond(400, "File exists", response);
+  });
+};
+----
+
+=== A file manager ===
+

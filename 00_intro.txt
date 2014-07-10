@@ -287,7 +287,7 @@ indexsee:[Web,World Wide Web]
 JavaScript was introduced in 1995, as a way to add programs to Web
 pages in the Netscape Navigator browser. The language has since been
 adapted by all other major graphical web browsers. It has made the
-current generation of Web applications possible—browser-based email
+current generation of web applications possible—browser-based email
 clients, maps, and social networks—and is also used in more
 traditional sites to provide various forms of interactivity and
 cleverness.

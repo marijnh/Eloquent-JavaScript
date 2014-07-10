@@ -405,14 +405,16 @@ parentheses) after `catch` will be bound to the exception value. After
 the `catch` block finishes—or if the `try` block finishes without
 problems—control proceeds beneath the entire try-catch statement.
 
-(((Error type)))In this case, we used the `Error` constructor to
-create our exception value. This is a standard JavaScript constructor
-that creates an object with a `message` property. In modern JavaScript
-environments, instances of this constructor also gather information
-about the call stack that existed when the
-exception was created. This information is stored in the `stack` property, and can be very helpful when trying to debug a
-problem: it tells us the precise function where the problem
-occurred, and which other functions led up to the call that failed.
+(((Error type)))(((stack trace)))In this case, we used the `Error`
+constructor to create our exception value. This is a standard
+JavaScript constructor that creates an object with a `message`
+property. In modern JavaScript environments, instances of this
+constructor also gather information about the call stack that existed
+when the exception was created, a so-called _stack trace_. This
+information is stored in the `stack` property, and can be very helpful
+when trying to debug a problem: it tells us the precise function where
+the problem occurred, and which other functions led up to the call
+that failed.
 
 Note that the function `look` completely ignores the possibility that
 `promptDirection` might go wrong. This is the big advantage of

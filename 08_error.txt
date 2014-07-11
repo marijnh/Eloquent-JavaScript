@@ -172,7 +172,7 @@ Vector.prototype.plus = function(other) {
 ----
 
 We will write a program to check that our implementation of `Vector`
-works as indended. Then, every time we change the implementation, we follow up by
+works as intended. Then, every time we change the implementation, we follow up by
 running the test program, so that we can be reasonably confident that
 we didn't break anything. When we add extra functionality (for
 example a new method) to the `Vector` type, we also add tests for

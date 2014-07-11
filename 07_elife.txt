@@ -34,7 +34,7 @@ course, this is a somewhat crude and inaccurate approximation. But our
 simulation is intended to be amusing, not accurate, so we can freely
 cut such corners.
 
-We can define a world with a _plan_, which is an array of strings
+We can define a world with a “plan”, an array of strings
 that lays out the world's grid using one character per square.
 
 // include_code

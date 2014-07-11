@@ -306,7 +306,7 @@ console.log(- (10 - 2))
 
 (((Boolean type)))(((operator)))(((true)))(((false)))Often, you will
 need a value that simply distinguishes between two possibilities, like “yes”
-and “no”, or “on” and “off”. For this, JavaScript has a _boolean_ type,
+and “no”, or “on” and “off”. For this, JavaScript has a _Boolean_ type,
 which has just two values: true and false (which are written
 simply as those words).
 
@@ -325,7 +325,7 @@ console.log(3 < 2)
 (((> operator)))(((< operator)))(((greater than)))(((less
 than)))(((comparing)))The `>` and `<` signs are the traditional symbols
 for “is greater than” and “is less than”, respectively. They are binary operators.
-Applying them results in a boolean value that indicates
+Applying them results in a Boolean value that indicates
 whether they hold true in this case.
 
 Strings can be compared in the same way.
@@ -533,13 +533,13 @@ using the shorter operators.
 (((|| operator)))(((&& operator)))(((?: operator)))(((operator)))The
 logical operators `&&` and `||` handle values of different types in a
 peculiar way. They _will_ convert the value on their left side to
-boolean type in order to decide what to do, but depending on the
+Boolean type in order to decide what to do, but depending on the
 operator and the result of that conversion, they return either the
 _original_ left-hand value or the right-hand value.
 
 The `||` operator, for example, will return the value to its left when that can be
 converted to true and will return the value on its right otherwise. This conversion works as 
-you'd expect for boolean values and should do something analogous for
+you'd expect for Boolean values and should do something analogous for
 values of other types.
 
 [source,javascript]

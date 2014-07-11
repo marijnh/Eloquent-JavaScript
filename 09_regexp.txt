@@ -75,7 +75,7 @@ character that is not a letter, number, or whitespace.
 == Testing for matches ==
 
 (((test method)))Regular expression objects have a number of methods.
-The simplest one is `test`. If you pass it a string, it will return a boolean telling you
+The simplest one is `test`. If you pass it a string, it will return a Boolean telling you
 whether the pattern in the expression matches the string.
 
 [source,javascript]

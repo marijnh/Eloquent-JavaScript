@@ -331,7 +331,7 @@ length of the text entered.
 == Checkboxes and radio buttons ==
 
 A checkbox field is a simple binary toggle. Its value can be extracted
-or changed through its `checked` property, which holds a boolean
+or changed through its `checked` property, which holds a Boolean
 value.
 
 [source,text/html]

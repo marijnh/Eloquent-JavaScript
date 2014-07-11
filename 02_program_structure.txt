@@ -297,7 +297,7 @@ The next chapter explains how we can write our own functions.
 
 (((confirm function)))Browser environments contain other functions 
 besides `alert` for popping up windows. You can ask the user an
-“OK”/“Cancel” question using `confirm`. This returns a boolean: `true`
+“OK”/“Cancel” question using `confirm`. This returns a Boolean: `true`
 if the user clicks OK and `false` if the user clicks Cancel.
 
 [source,javascript]
@@ -340,7 +340,7 @@ alert("Your number is the square root of " +
 ----
 
 (((Number function)))(((String function)))(((Boolean
-function))))(((boolean conversion)))The function `Number` converts a
+function))))(((Boolean conversion)))The function `Number` converts a
 value to a number. We need that conversion because the result of `prompt` is a
 string value, and we want a number. There are similar functions called
 `String` and `Boolean` that convert values to those types.
@@ -355,7 +355,7 @@ image::img/controlflow-straight.svg[alt="Trivial control flow"]
 (((control flow)))(((conditional execution)))Executing statements in
 straight-line order isn't the only option we have. An alternative is
 _conditional execution_, where we choose between two
-different routes based on a boolean value.
+different routes based on a Boolean value.
 
 image::img/controlflow-if.svg[alt="Conditional control flow"]
 
@@ -376,7 +376,7 @@ if (!isNaN(theNumber))
 With this modification, if you enter “cheese”, no output will be shown.
 
 (((if keyword)))The keyword `if` executes or skips a
-statement depending on the value of a boolean expression. The deciding
+statement depending on the value of a Boolean expression. The deciding
 expression is written after the keywords, between parentheses, followed
 by the statement to execute.
 
@@ -472,7 +472,7 @@ while (number <= 12) {
 loop. The word `while` is followed by an expression in parentheses and
 then a statement, much like `if`. The loop executes that statement as 
 long as the expression produces a value that
-is `true` when converted to boolean type.
+is `true` when converted to Boolean type.
 
 ((({} block)))(((statement)))(((block (of statements))))In this loop,
 we want to both print the current number and add two to our
@@ -534,7 +534,7 @@ console.log(name);
 
 This program will force you to enter a name. It will ask again and again until
 it gets something that is not an empty string. (Applying the `!`
-operator will convert a value to boolean type before negating it, and
+operator will convert a value to Boolean type before negating it, and
 all strings except `""` convert to `true`.)
 
 == Indenting Code ==

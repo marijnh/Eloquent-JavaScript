@@ -403,7 +403,7 @@ to the values those variables are bound to. Let's define an environment object t
 represent the global scope.
 
 To be able to use the `if` construct we just defined, let's add support for
-boolean values in this global scope. Since there are only two boolean values,
+Boolean values in this global scope. Since there are only two boolean values,
 we do not need special syntax for them. We simply bind two variables to the
 values `true` and `false`, and use those.
 
@@ -417,7 +417,7 @@ topEnv["true"] = true;
 topEnv["false"] = false;
 ----
 
-We can now evaluate a simple expression that inverts a boolean value.
+We can now evaluate a simple expression that inverts a Boolean value.
 
 [source,javascript]
 ----

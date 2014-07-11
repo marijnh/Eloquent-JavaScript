@@ -9,18 +9,13 @@ ____
 The browser is a really hostile programming environment.
 ____
 
-Traditionally, JavaScript's strongest point has been that it is one of
-the few languages that can be embedded in a web page, and of those
-languages, it provides the most convenient, well-integrated style of
-embedding.
-
 The next part of this book will talk about web browsers. Without web
-browsers, there would be no JavaScript. (And even if there would be, no
-one would ever have paid any attention to it.)
+browsers, there would be no JavaScript. And even if there were, no
+one would ever have paid any attention to it.
 
 Web technology has, from the very start, been decentralized, not just
-technically, but also in the way in which it evolved. Various parties
-have added new functionality in ad-hoc (and often poorly thought out)
+technically, but also in the way it has evolved. Various browser vendors
+have added new functionality in ad-hoc and sometimes poorly thought out
 ways, which then sometimes ended up being adopted by others, and
 finally set down as a standard.
 
@@ -34,7 +29,7 @@ downright messy and confusing.
 
 == Networks and the Internet ==
 
-Computer networks have been known since the 1950s. If you put cables
+Computer networks have been around since the 1950s. If you put cables
 between two or more computers, and allow them to send data back and
 forth through these cables, you can do all kinds of wonderful
 things.
@@ -52,7 +47,7 @@ represent. The meaning of any given sequence of bits depends entirely
 on the kind of thing that it is trying to express, and the encoding
 mechanism used.
 
-A _network protocol_ is a description of a style of communication over
+A _network protocol_ describes a style of communication over
 a network. There are protocols for sending email, fetching email,
 sharing files, or even for controlling computers that happen to be
 infected by malicious software.
@@ -64,9 +59,9 @@ understands the protocol. They can then proceed to send each other
 strings of text, read the text sent by the other from the network,
 and display whatever they receive on their screens.
 
-Most protocols are built on top of other protocols. Our example
-protocol treats the network as a stream-like device, into which you
-can put bits, and have them arrive at the correct destination, in the
+Most protocols are built on top of other protocols. Our example chat
+protocol treats the network as a stream-like device into which you
+can put bits, and have them arrive at the correct destination in the
 correct order. Ensuring those things is already a rather difficult
 technical problem.
 
@@ -74,24 +69,24 @@ TCP (_Transmission Control Protocol_) is a protocol that solves this
 problem. All internet-connected devices “speak” it, and most
 communication on the Internet is built on top of it.
 
-A TCP connection works as follows: one computer must be waiting,
-“listening”, for other computers to start talking to it. To be able to
+A TCP connection works as follows: one computer must be waiting, or
+_listening_, for other computers to start talking to it. To be able to
 listen for different kinds of communication at the same time on a
-single machine, each listener has a number (called _port_) associated
+single machine, each listener has a number (called a _port_) associated
 with it. Most protocols specify which port should be used by default.
 For example, when we want to send an email using the SMTP protocol,
 the machine through which we send it is expected to be listening on
 port 25.
 
-Another computer can then establish a connection by connecting to our
+Another computer can then establish a connection by connecting to the target
 machine using the correct port number. If the target machine can be
 reached, and is listening on that port, the connection is successfully
 created. The listening computer is called the _server_, and the
 connecting computer the _client_.
 
 Such a connection acts as a two-way pipe through which bits can
-flow—the machines on both ends can put data into it, which can, once
-successfully transmitted, be read out again by the machine on the
+flow—the machines on both ends can put data into it. Once the bits
+are successfully transmitted, they can be read out again by the machine on the
 other side. This is a very convenient model. You could say that TCP
 provides an abstraction of the network.
 
@@ -103,12 +98,12 @@ browser. The “Web” part in the name refers to the fact that such pages
 can easily link to each other, thus connecting into a huge mesh that
 users can move through.
 
-To add content to this Web, all that is needed is to connect a machine
+To add content to the Web, all you need to do is connect a machine
 to the Internet, and have it listen on port 80, using HTTP (the
 _Hyper-Text Transfer Protocol_). This protocol allows other computers
 to request documents over the network.
 
-Each document is named by a URL (_Universal Resource Locator_), which
+Each document on the Web is named by a URL (_Universal Resource Locator_), which
 looks something like this:
 
 ----
@@ -118,24 +113,24 @@ looks something like this:
 ----
 
 The first part tells us that this URL uses the HTTP protocol (as
-opposed to for example, secure, encrypted HTTP, which would be
-_https://_). Then comes the part that identifies the machine which we
-should ask for the document. And finally, after that, a string that
-identifies the actual document (or _resource_) we are interested in.
+opposed to, for example, encrypted HTTP, which would be
+_https://_). Then comes the part that identifies which server we are
+requesting the document from. Last is a path string that
+identifies the specific document (or _resource_) we are interested in.
 
-Each machine connected to the Internet gets a unique address (its _IP
-address_), which will look something like `37.187.37.82`. You can use
-those directly as the server part of a URL. But lists of more or less
-random numbers are hard to remember and awkward to type, so it is
-possible to globally register _hostnames_ as pointing towards a
-specific machine (or set of machines). I registered
+Each machine connected to the Internet gets a unique _IP
+address_, which looks something like `37.187.37.82`. You can use
+these directly as the server part of a URL. But lists of more or less
+random numbers are hard to remember and awkward to type, so
+you can instead register a _hostname_ to point towards a
+specific machine or set of machines. I registered
 _eloquentjavascript.net_ to point at the IP address of a machine I
-control, and can thus use it to serve web pages.
+control, and can thus use that hostname to serve web pages.
 
 If you type the URL above into your browser's address bar, it will try
-to retrieve and display it. First, it has to find out what address
-_eloquentjavascript.net_ refers to, and then, using the HTTP protocol,
-make a connection to the server at that address, and ask it for the
+to retrieve and display the document at that URL. First, your browser has to find out what address
+_eloquentjavascript.net_ refers to. Then, using the HTTP protocol, it
+makes a connection to the server at that address, and asks for the
 file _/12_browser.html_.
 
 We will take a closer look at the HTTP protocol in Chapter 17.
@@ -144,7 +139,7 @@ We will take a closer look at the HTTP protocol in Chapter 17.
 
 HTML, which stands for _Hyper-Text Markup Language_, is the document
 format used for web pages. An HTML document contains text, as well as
-extra information that gives structure to the text, describing things
+_tags_ that gives structure to the text, describing things
 like links, paragraphs, and headings.
 
 A simple HTML document looks like this:
@@ -165,7 +160,7 @@ A simple HTML document looks like this:
 </html>
 ----
 
-The parts wrapped in angular brackets (“++<++” and “++>++”) provide
+The tags, wrapped in angular brackets (“++<++” and “++>++”), provide
 information about the structure of the document. The other text is
 just plain text.
 
@@ -174,14 +169,13 @@ interpret it as _modern_ HTML, as opposed to various dialects that
 were in use in the past.
 
 HTML documents have a head and a body. The head contains information
-_about_ the document, and the body contains the document itself. So in
-this case, we first declare that the title of this document is “My
-home page”, and then give a document containing a heading (`<h1>`,
+_about_ the document, and the body contains the document itself. In
+this case, we first declared that the title of this document is “My
+home page”, and then gave a document containing a heading (`<h1>`,
 meaning “heading 1”—++<h2>++ to `<h6>` produce more minor headings)
 and two paragraphs (`<p>`).
 
-_Tags_, which is what the angular-bracket-enclosed parts of an HTML
-document are called, come in several forms. An element, such as the
+Tags come in several forms. An element, such as the
 body, a paragraph, or a link, is started by an _opening tag_ like
 `<p>`, and ended by a _closing tag_ like `</p>`. Some
 opening tags, such as the one for the link (`<a>`) contain extra
@@ -190,26 +184,26 @@ _attributes_. In this case, the destination of the link is indicated
 with `href="http://eloquentjavascript.net"`, where `href` stands for
 “hypertext reference”.
 
-Finally, some kinds of tags do not enclose anything, and thus do not
+Some kinds of tags do not enclose anything, and thus do not
 need to be closed. An example of this would be `<img
 src="http://example.com/image.jpg">`, which will display the image
 found at the given source URL.
 
-Whenever some characters get a special meaning, a notation is needed
-to “escape” them, to include them in the actual text without
-triggering their special meaning, similar to the way backslashes are
-used in JavaScript strings. HTML's approach to this is a bit more
-heavyweight: it uses an ampersand (“&”) character, followed by a word
-and a semicolon (“;”). The sequence `&lt;` stands for “<” (“less
-than”), and `&gt;` stands for “>” (“greater than”). Since this
-notation also gives “&” itself a special meaning, it can be escaped
-with `&amp;`. Finally, to write a double quote inside an attribute
-value, `&quot;` can be used.
+To be able to include angular brackets in the text of a document, even though
+they have a special meaning in HTML, yet another form of special notation has
+to be introduced. A plain opening angular bracket is written as `&lt;` (“less than”),
+and a closing bracket as `&gt;` (“greater than”). In HTML, an ampersand (“&”) character
+followed by a word and a semicolon (“;”) denotes an escaped character.
+
+This is analogous to the way backslashes are used in JavaScript strings.
+Since this mechanism gives ampersand characters a special meaning too,
+those need to be escaped as `&amp;`. Inside of an attribute, which is wrapped
+in double quotes, `&quot;` can be used to insert an actual quote character.
 
 HTML is parsed in a remarkably error-tolerant way. When tags that
 should be there are missing, the browser reconstructs them. The way in
-which this is done has been standardized, and you can rely on modern
-browsers all doing it in the same way.
+which this is done has been standardized, and you can rely on all modern
+browsers to do it in the same way.
 
 The following document will be treated just like the one above:
 
@@ -228,18 +222,18 @@ The following document will be treated just like the one above:
 The `<html>`, `<head>` and `<body>` tags are gone completely. The
 browser knows that `<title>` belongs in a head, and `<h1>` in a body.
 Furthermore, I am no longer explicitly closing the paragraphs, since
-the opening of another paragraph, or the end of the document, will
+opening a new paragraph or ending the document will
 close them implicitly. The quotes around the link target are also
 gone.
 
 This book will usually omit the `<html>`, `<head>`, and `<body>` tags
-from examples, to keep them short and free of noise. Tags will be
-closed normally, though, and quotes included.
+from examples, to keep them short and free of clutter. But I _will_
+close tags and include quotes around attributes.
 
-We will also usually omit the doctype. This is not to be taken as an
+I will also usually omit the doctype. This is not to be taken as an
 encouragement to omit doctype declarations. Browsers will often do
-ridiculous things when you forget them. A doctype should be considered
-to be implicitly present in the examples, even when not actually
+ridiculous things when you forget them. You should consider doctypes
+implicitly present in examples, even when they are not actually
 shown in the text.
 
 == HTML and JavaScript ==
@@ -254,14 +248,14 @@ document.
 <script>alert("hello!");</script>
 ----
 
-Such a script will run as soon as its `<script>` tag is encountered,
-during the reading of the HTML. The page above will pop up an `alert`
+Such a script will run as soon as its `<script>` tag is encountered
+as the browser reads the HTML. The page above will pop up an `alert`
 dialog when opened.
 
-Putting bigger programs into the HTML document in their entirety is
-often impractical. The `<script>` tag can also be given an `src`
-attribute in order to cause the script file (a text file containing
-the JavaScript program) to be fetched from a URL.
+Including large programs directly in HTML documents is
+often impractical. The `<script>` tag can be given an `src`
+attribute in order to fetch a script file (a text file containing
+a JavaScript program) from a URL.
 
 [source,text/html]
 ----
@@ -272,14 +266,14 @@ the JavaScript program) to be fetched from a URL.
 The _code/hello.js_ file included here contains the same simple program,
 `alert("hello!")`. When an HTML page references other URLs as part of
 itself, for example an image file or a script, web browsers will
-retrieve those immediately, and include them in the page.
+retrieve them immediately, and include them in the page.
 
 A script tag must always be closed with `</script>`, even if it refers
 to a script file and doesn't contain any code. If you forget this, the
 rest of the page will be interpreted as part of the script.
 
 Some attributes can also contain a JavaScript program. The `<button>`
-tag below (which shows up as a button) is given an `onclick`
+tag below (which shows up as a button) has an `onclick`
 attribute, whose content will be run whenever the button is pressed.
 
 [source,text/html]
@@ -289,7 +283,7 @@ attribute, whose content will be run whenever the button is pressed.
 
 Note that I had to use single quotes for the string in the `onclick`
 attribute, because double quotes are already used to quote the whole
-attribute. We could also have used `&quot;`, but that'd make the
+attribute. I could also have used `&quot;`, but that'd make the
 program harder to read.
 
 == In the sandbox ==
@@ -300,61 +294,60 @@ they do not necessarily mean well. Running programs by people who do
 not mean well is how you get your computer infected by viruses, your
 data stolen, and your accounts hacked.
 
-Yet the attraction of the Web is that you can “surf” it without
+Yet the attraction of the Web is that you can surf it without necessarily
 trusting all the pages you visit. This is why browsers severely limit
-the things a JavaScript program may do. It is not allowed to look at
-the files on your computer or to modify anything not related to the
+the things a JavaScript program may do: it can't look at
+the files on your computer, or modify anything not related to the
 web page it was embedded in.
 
-Isolating a programming environment like this is called _sandboxing_,
-implying that the program will be harmlessly playing in a sandbox.
-This particular kind of sandbox should be imagined with a cage of
-thick steel bars over it though, which makes it somewhat different
+Isolating a programming environment in this way is called _sandboxing_,
+the idea being that the program is harmlessly playing in a sandbox. But
+you should imagine this particular kind of sandbox as having a cage of
+thick steel bars over it, which makes it somewhat different
 from your typical playground sandbox.
 
 The hard part of sandboxing is allowing the programs enough room to be
 useful, yet at the same time restricting them from doing anything
-dangerous. Many things that are needed to create various kinds of
-applications, such as communicating with other servers, or reading the
+dangerous. Lots of useful functionality,
+such as communicating with other servers, or reading the
 content of the copy-paste clipboard, can also be used to do
 problematic, privacy-invading things.
 
 Every now and then, someone comes up with a new way to circumvent the
 limitations of a browser and do something harmful, ranging from
 leaking minor private information to taking over the whole machine
-that the browser runs on. The people responsible for the browsers
-respond by modifying their programs to make this trick impossible, and
-all is well again—until the next problem is discovered (and hopefully
-publicized, rather than secretly used by some government or mafia).
+that the browser runs on. The browser developers respond by fixing the loophole, and
+all is well again. That is, until the next problem is discovered—and hopefully
+publicized, rather than secretly exploited by some government or mafia.
 
 == Compatibility and the browser wars ==
 
 In the very early stages of the Web, a browser called Mosaic dominated
 the market. After a few years, the balance had shifted to Netscape,
-which was then, in turn, largely superseded by Microsoft's Internet
+which was then, in turn, largely supplanted by Microsoft's Internet
 Explorer. At any point where a single browser was dominant, that
 browser's vendor would feel entitled to unilaterally invent new
 features for the Web. Since most users used the same browser, web
-sites would simply start using those features, never mind the other
+sites would simply start using those features—never mind the other
 browsers.
 
 This was the dark age of compatibility, often called the “browser
-wars”. Web developers were left with not one Web, but two or three
+wars”. Web developers were left with not one unified Web, but two or three
 incompatible platforms. To make things worse, the browsers in use
 around 2003 were all full of bugs, and of course the bugs were
 different for each browser. Life was hard for people writing web
 pages.
 
 Mozilla Firefox, a not-for-profit offshoot of Netscape, challenged
-Internet Explorer's hegemony in the late 2000s, and because Microsoft
-was, at the time, not particularly interested in staying competitive,
-took quite a chunk of market share away from it. Around the same time,
+Internet Explorer's hegemony in the late 2000s. Because Microsoft
+was not particularly interested in staying competitive at the time,
+Firefox took quite a chunk of market share away from them. Around the same time,
 Google introduced its Chrome browser, and Apple's Safari browser
 gained popularity, leading to a situation where there were four major
 players, rather than one.
 
-The new players showed both a more serious attitude towards standards
-and more solid engineering practices, leading to less incompatibility
+The new players had a more serious attitude towards standards
+and better engineering practices, leading to less incompatibility
 and fewer bugs. Microsoft, seeing its market share crumble, came
 around and adopted these attitudes. If you are starting to learn web
 development today, consider yourself lucky. The latest versions of the
@@ -362,6 +355,8 @@ major browsers behave quite uniformly, and have relatively few bugs.
 
 Which is not to say that the situation is perfect just yet. Some of
 the people using the Web are, for reasons of inertia or corporate
-policy, stuck with very old browsers. Until those die out entirely,
+policy, stuck with very old browsers. Until those browsers die out entirely,
 writing web sites that work for them will require a lot of arcane
-knowledge about their shortcomings and quirks.
+knowledge about their shortcomings and quirks. This book is not about
+those quirks. Rather, it aims to present the modern, sane style of
+web programming.

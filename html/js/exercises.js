@@ -46,7 +46,6 @@ addEventListener("load", function() {
       editor.setOption("mode", exercise.type == "js" ? "javascript" : "text/html");
     });
     downloadLink.href = exercise.file;    
-    downloadLink.download = "download";    
   }
 
   var outnode = document.querySelector(".sandbox-output");

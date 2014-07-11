@@ -173,7 +173,16 @@ every format needs its own different way of escaping characters. This
 one, called “URL encoding”, uses a percent sign followed by two
 hexadecimal digits which encode the character code. In this case 3F,
 which is 63 in decimal notation, is the code of a question mark
-character.
+character. JavaScript provides the `encodeURIComponent` and
+`decodeURIComponent` functions to en- and decode this format.
+
+[source,javascript]
+----
+console.log(encodeURIComponent("Hello & goodbye"));
+// → Hello%20%26%20goodbye
+console.log(decodeURIComponent("Hello%20%26%20goodbye"));
+// → Hello & goodbye
+----
 
 If we change the `method` attribute of the form above to `POST`, the
 HTTP request made to submit the form will use the `POST` method, and

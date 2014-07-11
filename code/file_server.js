@@ -20,7 +20,9 @@ http.createServer(function(request, response) {
 }).listen(8000);
 
 function urlToPath(url) {
-  return "." + require("url").parse(url).pathname;
+  var path = require("url").parse(url).pathname;
+  var decoded = decodeURIComponent(path);
+  return "." + decoded.replace(/(\/|\\)\.\.(\/|\\|$)/g, "/");
 }
 
 methods.GET = function(path, respond) {

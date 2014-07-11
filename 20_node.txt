@@ -632,7 +632,8 @@ http.createServer(function(request, response) {
 }).listen(8000);
 
 function urlToPath(url) {
-  return "." + require("url").parse(url).pathname;
+  var path = require("url").parse(url).pathname;
+  return "." + decodeURIComponent(path);
 }
 ----
 
@@ -650,8 +651,9 @@ or a string, and is passed directly to the response's `end` method.
 
 To get a path from the URL in the request, the `urlToPath` function
 uses node's built-in `"url"` module to parse the URL. It takes its
-pathname, which will be something like `/file.txt`, and prefixes a
-single dot to produce a path relative to the current directory.
+pathname, which will be something like `/file.txt`, decodes that to
+get rid of the `%20`-style escape codes, and prefixes a single dot to
+produce a path relative to the current directory.
 
 (If you are worried about the security of the `urlToPath` function,
 you are right. We will come back to it in the exercises.)
@@ -945,31 +947,193 @@ when the I/O you asked for is completed.
 
 == Exercises ==
 
-FIXME
-
 === Content negotiation, again ===
 
-Repeat 17.1, with node
+In Chapter 17, the first exercise was to make several requests to
+_http://eloquentjavascript.net/author_, asking for different types of
+content by passing different `Accept` headers.
+
+Do this again, using node's `http.request` function. Ask for at least
+the media types `text/plain`, `text/html`, and `application/json`.
+Remember that headers to a request can be given as an object, in the
+`headers` property of `http.request`’s first argument.
+
+Write out the content of the responses to each request.
+
+!!solution!!
+
+Don't forget to call the `end` method on the object returned by
+`http.request`, in order to actually fire off the request.
+
+The response object passed to `http.request`’s callback is a readable
+stream. This means that it is not entirely trivial to get the whole
+response body out of it. The following utility function reads a whole
+stream and calls a callback function with the result, using the usual
+pattern of passing any errors it encounters as first argument to the
+callback.
+
+[source,text/javascript]
+----
+function readStreamAsString(stream, callback) {
+  var data = "";
+  stream.on("data", function(chunk) {
+    data += chunk;
+  });
+  stream.on("end", function() {
+    callback(null, data);
+  });
+  stream.on("error", function(error) {
+    callback(error);
+  });
+}
+----
+
+!!solution!!
 
 === Fixing a leak ===
 
-=== Creating directories ===
+For easy remote access to some files, I might get into the habit of
+having the file server defined in this chapter running on my machine,
+in the `/home/marijn/public` directory. Then, one day, I find that
+someone has gained access to all the passwords I stored in my browser.
+
+What happened?
+
+If it isn't clear to you yet, think back to the `urlToPath` function,
+defined like this:
 
 [source,javascript]
 ----
-methods.MKCOL = function(path, request, response) {
-  fs.stat(path, function(error, stats) {
-    if (error && error.code == "ENOENT")
-      fs.mkdir(path, respondErrorOrNothing(response));
-    else if (error)
-      respond(500, error.toString(), response);
-    else if (stats.isDirectory())
-      respond(204, null, response);
-    else
-      respond(400, "File exists", response);
-  });
-};
+function urlToPath(url) {
+  var path = require("url").parse(url).pathname;
+  return "." + decodeURIComponent(path);
+}
 ----
 
-=== A file manager ===
+Now consider the fact that paths passed to the `"fs"` functions can be
+relative—they may contain `"../"` to go up a directory. What happens
+when a client sends requests to URLs like the ones below?
 
+----
+http://myhostname:8000/../.config/config/google-chrome/Default/Web%20Data
+http://myhostname:8000/../.ssh/id_dsa
+http://myhostname:8000/../../../etc/passwd
+----
+
+Change `urlToPath` to fix this problem. Take into account the fact
+that node on Windows allows both forward slashes and backslashes to
+separate directories.
+
+Also, meditate on the fact that as soon as you expose some half-baked
+system on the Internet, the bugs in that system can often be used to
+do bad things to the machine the it is running on.
+
+!!solution!!
+
+It is enough to strip out all occurrences of two dots which have a one
+of a slash, backslash, or the end of the string on both sided. Using
+the `replace` method with a regular expression is the easiest way to
+do this. Do not forget the `g` flag on the expression, or `replace`
+will only replace a single instance, and people could still get around
+this safety measure by including additional double dots in their
+paths! Also make sure you do the replace *after* decoding the string,
+or it would be possible to foil the check by encoding a dot or a
+slash.
+
+Another potentially worrying case is paths starting with a slash,
+which interpreted as absolute paths. But because `urlToPath` puts a
+dot character in front of the path, it is impossible to create
+requests that result in such a path. Multiple slashes in a row, inside
+of the path, are odd, but will be treated as a single slash by the
+file system.
+
+!!solution!!
+
+=== Creating directories ===
+
+Though the `DELETE` method is wired up to delete directories (using
+`fs.rmdir`) when applied to one, the file server currently does not
+provide any way to _create_ a directory.
+
+Add support for a method `MKCOL`, which should create a directory by
+calling `fs.mkdir`. `MKCOL` is not one of the basic HTTP methods, but
+it does exist, for this same purpose, in the _WebDAV_ standard, which
+specifies a set of extensions to HTTP that make it suitable for
+writing resources, not just reading them.
+
+!!solution!!
+
+You can use the function that implements the `DELETE` method as a
+blueprint for methods.`MKCOL`. When no file is found, try to create a
+directory with `fs.mkdir`. When a directory exists at that path, you
+can return a 204 response, so that directory creation requests are
+idempotent. If a non-directory file exists here, return an error code.
+400 (“bad request”) would be appropriate here.
+
+!!solution!!
+
+=== A public space on the web ===
+
+Since the file server serves up any kind of files, and even includes
+the right `Content-Type` header, you can use it to serve a web site.
+Since it allows everybody to delete and replace files, it would be an
+interesting kind of web site: one that can be modified, vandalized,
+and destroyed by everybody who takes the time to create the right HTTP
+request. Still, it would be a web site.
+
+Write a simple HTML page, which includes a simple JavaScript file, put
+them in a directory served by the file server, and open them in your
+browser.
+
+Next, as an advanced exercise, or even a weekend project, combine all
+the knowledge you gained from this book to build a more user-friendly
+interface for modifying the website, *inside* of the website itself.
+
+Include HTML forms (Chapter 18) to edit the content of the files that
+make up the website, allowing the user to update them on the server
+(using HTTP request as described in Chapter 17).
+
+Start by making only a single file editable. Then try to extend the
+code to allow the user to select a file to edit, using the fact that
+our file server returns lists of files when reading a directory.
+
+Don't work directly in the code on the file server, since if you make
+a mistake, you are likely to damage the files there. Instead, keep you
+work _outside_ of the publicly accessible directory, and copy it in to
+test it.
+
+If your computer is directly connected to the internet, without a
+firewall, router, or other interfering device in between, you might be
+able to invite a friend to use your web site. To check, go to
+http://www.whatismyip.com/[_whatismyip.com_], copy the IP address it
+gives you into the address bar of your browser, and add `:8000` after
+it to select the right port. If that brings you to your site, it is
+online for everybody to see.
+
+!!solution!!
+
+You can create a `<textarea>` element to hold the content of the file
+that is being edited. A `GET` request, using `XMLHttpRequest`, can be
+used to get the current content of the file. You can use relative URLs
+like _index.html_, instead of _http://localhost:8000/index.html_, to
+refer to files on the same server as the running script.
+
+Then, when the user clicks a button (you can use a `<form>` element
+and `"submit"` event, or simply a `"click"` handler), make a `PUT`
+request to the same URL, with the content of the `<textarea>` as
+request body, to save the file.
+
+You can then add a `<select>` element that contains all the files in
+the server's root directory, by adding `<option>` elements containing
+the lines returned by a `GET` request to the URL `/`. When the user
+selects another file (a `"change"` event on the field), the script
+must fetch and display that file. Also make sure that when saving a
+file, you use the currently selected file name.
+
+Unfortunately, the server is too simplistic to be able to reliably
+read files from subdirectories, since it does not tell us whether the
+thing we fetched with a `GET` request is a regular file or a
+directory. Can you think of a way to extend the server to address
+this?
+
+!!solution!!

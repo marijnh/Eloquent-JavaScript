@@ -6,7 +6,7 @@ var fs = require("fs");
 
 var output = [], failed = false;
 
-var allSolutions = fs.readdirSync("code/solutions/");
+var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { return !/^20/.test(file); });
 
 fs.readdirSync(".").forEach(function(file) {
   var match = /^(\d+).*\.txt$/.exec(file), chapNum = match && match[1];
@@ -61,6 +61,37 @@ fs.readdirSync(".").forEach(function(file) {
 
   if (chapter.exercises.length) output.push(chapter);
 });
+
+output.push({number: 20, title: "Node.js", exercises: [
+  {name: "Content negotiation, again",
+   file: "code/solutions/20_1_content_negotiation_again.js",
+   number: 1,
+   type: "js",
+   code: "// Node exercises can not be ran in the browser",
+   solution: fs.readFileSync("code/solutions/20_1_content_negotiation_again.js", "utf8")
+  },
+  {name: "Fixing a leak",
+   file: "code/solutions/20_2_fixing_a_leak.js",
+   number: 2,
+   type: "js",
+   code: "// Node exercises can not be ran in the browser",
+   solution: fs.readFileSync("code/solutions/20_2_fixing_a_leak.js", "utf8")
+  },
+  {name: "Creating directories",
+   file: "code/solutions/20_3_creating_directories.js",
+   number: 3,
+   type: "js",
+   code: "// Node exercises can not be ran in the browser",
+   solution: fs.readFileSync("code/solutions/20_3_creating_directories.js", "utf8")
+  },
+  {name: "A public space on the web",
+   file: "code/solutions/20_4_a_public_space_on_the_web",
+   number: 4,
+   type: "js",
+   code: "// Node exercises can not be ran in the browser\n\n// The solution for this exercise consists of several files:\n//\n// * http://eloquentjavascript.net/code/solutions/20_4_a_public_space_on_the_web/index.html\n// * http://eloquentjavascript.net/code/solutions/20_4_a_public_space_on_the_web/public_space.js\n// * http://eloquentjavascript.net/code/solutions/20_4_a_public_space_on_the_web/other.html\n",
+   solution: "// Node exercises can not be ran in the browser"
+  }
+]});
 
 if (allSolutions.length) {
   console.error("Solution files " + allSolutions + " were not used.");

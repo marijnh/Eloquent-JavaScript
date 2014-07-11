@@ -738,7 +738,7 @@ for the regular expression—in this case `"gi"` for global and
 case-insensitive.
 
 But what if the name is `"dea+hl[]rd"` because our user is a nerdy
-teenager? That would resulint in a nonsensical regular expression,
+teenager? That would result in a nonsensical regular expression,
 which won't actually match the user's name.
 
 To work around this, we can add backslashes before any character that

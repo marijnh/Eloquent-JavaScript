@@ -265,7 +265,7 @@ named `exports`) and add properties to that whenever we are
 defining something that needs to be exported. In the example below,
 the module function takes its interface object as argument, allowing
 code outside of the function to create it and store it in a variable.
-(Outside of a funcion, `this` refers to the global scope object).
+(Outside of a function, `this` refers to the global scope object).
 
 [source,javascript]
 ----

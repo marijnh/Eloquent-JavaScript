@@ -482,7 +482,7 @@ modules it depends on in the background, and only run this function
 when all its dependencies have been loaded. That is what the
 _Asynchronous Module Definition_ (_AMD_) module system does.
 
-Our trivial program with dependencies, in AMD, would looks like this:
+Our trivial program with dependencies, in AMD, would look like this:
 
 // test: no
 

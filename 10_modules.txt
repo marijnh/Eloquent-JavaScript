@@ -373,7 +373,7 @@ console.log(require("weekDay").name(1));
 ----
 
 Since the `new Function` constructor wraps
-the module code in a function, we don't have write a wrapping
+the module code in a function, we don't have to write a wrapping
 namespace function in the module file itself. And since we make `exports`
 an argument to the module function, the module does not have
 to declare it. This removes a lot of clutter from our

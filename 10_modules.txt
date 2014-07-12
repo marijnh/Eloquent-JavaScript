@@ -265,7 +265,7 @@ named `exports`) and add properties to that whenever we are
 defining something that needs to be exported. In the example below,
 the module function takes its interface object as argument, allowing
 code outside of the function to create it and store it in a variable.
-(Outside of a funcion, `this` refers to the global scope object).
+(Outside of a function, `this` refers to the global scope object).
 
 [source,javascript]
 ----
@@ -373,7 +373,7 @@ console.log(require("weekDay").name(1));
 ----
 
 Since the `new Function` constructor wraps
-the module code in a function, we don't have write a wrapping
+the module code in a function, we don't have to write a wrapping
 namespace function in the module file itself. And since we make `exports`
 an argument to the module function, the module does not have
 to declare it. This removes a lot of clutter from our
@@ -482,7 +482,7 @@ modules it depends on in the background, and only run this function
 when all its dependencies have been loaded. That is what the
 _Asynchronous Module Definition_ (_AMD_) module system does.
 
-Our trivial program with dependencies, in AMD, would looks like this:
+Our trivial program with dependencies, in AMD, would look like this:
 
 // test: no
 
@@ -518,7 +518,7 @@ define([], function() {
 });
 ----
 
-In order to be able show a minimal implementation of `define`, we will
+In order to be able to show a minimal implementation of `define`, we will
 pretend we have a `backgroundReadFile` function, which takes a file
 name and a function, and will call the function with the content of
 the file as soon as it has finished loading it. (Chapter 17 will

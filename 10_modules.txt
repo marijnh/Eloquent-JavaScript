@@ -125,7 +125,7 @@ your project to automatically download it.
 (((NPM)))This service exists. It is called _NPM_ (http://npmjs.org[_npmjs.org_]).
 NPM consists of an online database of modules, and a tool for
 downloading and upgrading the modules your program depends on. It grew
-out of node.js, the browser-less JavaScript environment we will discuss in
+out of Node.js, the browser-less JavaScript environment we will discuss in
 Chapter 20, but can also be useful when programming for the browser.
 
 == Decoupling ==
@@ -310,7 +310,7 @@ For `require` we need two things. First, we want
 a function `readFile`,
 which returns the content of a given file as a string.
 (A single such function is not present in standard JavaScript,
-but different JavaScript environments, such as the browser and node.js,
+but different JavaScript environments, such as the browser and Node.js,
 provide their own ways of accessing files.
 For now, let's just pretend we have this simple function.)
 Secondly, we need to be able
@@ -452,7 +452,7 @@ We now have a module system that uses a single global variable
 through the global scope.
 
 This style of module system is called _CommonJS modules_, after the
-pseudo-standard that first specified it. It is built into the node.js
+pseudo-standard that first specified it. It is built into the Node.js
 system. Real implementations do a lot more than the example I showed.
 Most importantly, they have a much more intelligent way of going from
 a module name to an actual piece of code, allowing both pathnames

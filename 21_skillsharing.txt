@@ -854,40 +854,37 @@ the HTML page.
 [source,javascript]
 ----
 function instantiateTemplate(name, values) {
-  var template = document.querySelector("#template ." + name);
-  var node = template.cloneNode(true);
-  function fillIn(node) {
+  function instantiateText(text) {
+    return text.replace(/\{\{(\w+)\}\}/g, function(_, name) {
+      return values[name];
+    });
+  }
+  function instantiate(node) {
     if (node.nodeType == document.ELEMENT_NODE) {
+      var copy = node.cloneNode();
       for (var i = 0; i < node.childNodes.length; i++)
-        fillIn(node.childNodes[i]);
+        copy.appendChild(instantiate(node.childNodes[i]));
+      return copy;
     } else if (node.nodeType == document.TEXT_NODE) {
-      node.nodeValue = node.nodeValue
-        .replace(/\{\{(\w+)\}\}/g, function(match, name) {
-          return values[name];
-        });
+      return document.createTextNode(
+               instantiateText(node.nodeValue));
     }
   }
-  fillIn(node);
-  return node;
+
+  var template = document.querySelector("#template ." + name);
+  return instantiate(template);
 }
 ----
 
 The `cloneNode` method, which all DOM nodes have, creates a copy of
-the node. When given `true` as argument, the child nodes of the node
-are also cloned, and included in the copy. So we start with an exact
-copy of the template, which still has placeholders like `{{title}}` in
-it.
+the node. It won't copy the node's child nodes, unless `true` is given
+as a first argument. The `instantiate` function recursively builds up
+a copy of the template, filling it in as it goes.
 
 The second argument to `instantiateTemplate` should be an object,
 whose properties hold the strings that are to be filled into the
 template. A placeholder like `{{title}}` will be replaced with the
 value of `values`'s `title` property.
-
-To find and patch up all these placeholders, a recursive function runs
-over the whole DOM structure of the newly cloned node. When it finds
-an element node, it calls itself on its children. And when it finds a
-text node, it uses the `replace` method to replace all placeholders in
-the node with properties from the `values` object.
 
 This is a very crude approach to templating, but it is enough to
 implement `drawTalk`.
@@ -1136,12 +1133,11 @@ It could look like this:
 The idea being that whenever a node with a `template-repeat` attribute
 is found when instantiating a template, the instantiating code loops
 over the array held in the property indicated by the attribute, and
-duplicates the node once for each element, removing the original node.
-The template's context (the `values` variable in
-`instantiateTemplate`) would, during this loop, point at the current
-element of the array, so that `{{author}}`, rather than being looked
-up in the original context (the talk), would be looked up in the
-comment object.
+adds an instance of the node for each element in the array. The
+template's context (the `values` variable in `instantiateTemplate`)
+would, during this loop, point at the current element of the array, so
+that `{{author}}`, rather than being looked up in the original context
+(the talk), would be looked up in the comment object.
 
 Rewrite `instantiateTemplate` to implement this, and then change the
 templates to use this feature and remove the explicit rendering of
@@ -1153,24 +1149,18 @@ false?
 
 !!solution!!
 
-One way to do this is to change `instantiateTemplate` so that, when it
-gets a DOM node as its first argument instead of a string, it uses
-that node as template, rather than trying to look up the template with
-`querySelector`.
-
-You can then, in the recursive inner function `fillIn`, check whether
-the current node has a `template-repeat` attribute. If it does, don't
-recursively call `fillIn` on its children as usual, but instead remove
-it from its parent, and loop over the array indicated by the
-attribute's value. For each element in the array, call
-`instantiateTemplate`, with the node as first argument and the array
-element as second argument, and add the resulting nodes to the node
-that used to be the current node's parent node.
+One way to do this is to change `instantiateTemplate` so that its
+inner function takes not just a node, but also a current context as
+argument. You can then, when looping over a node's child nodes, check
+whether the child has a `template-repeat` attribute. If it does, don't
+instantiate it once, but instead loop over the array indicated by the
+attribute's value, and instantiate it once for every element in the
+array, passing the current array element as context.
 
 Conditionals can be implemented in a similar way, with attributes
 called, for example, `template-when` and `template-unless`, which
-cause a node to be removed from the result when a given property is
-false or true.
+cause a node to be instantiated only when a given property is true (or
+false).
 
 !!solution!!
 

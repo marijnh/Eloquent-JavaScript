@@ -1,7 +1,7 @@
 :chap_num: 21
 :prev_link: 20_node
 
-= Project: Meetup Organizer =
+= Project: Organizing a Meetup =
 
 A _skill-sharing_ meeting is an event where people with a shared
 interest come together and give small, informal presentations about

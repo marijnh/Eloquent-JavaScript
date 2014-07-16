@@ -969,7 +969,7 @@ var valley = new LifelikeWorld(
 );
 ----
 
-Let us see what happens if we run this. !!tex These snapshots
+Let's see what happens if we run this. !!tex These snapshots
 illustrate a typical run of this world.!!
 
 ifdef::html_target[]

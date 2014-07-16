@@ -581,7 +581,7 @@ that's a shaky way to write code—we'd be using information that's intended
 for human consumption (the message) to make a programmatic decision. As soon as
 someone changes (or translates) the message, the code will stop working.
 
-Rather, let us define a new type of error, and use `instanceof` to
+Rather, let's define a new type of error, and use `instanceof` to
 identify it.
 
 // include_code

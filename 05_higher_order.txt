@@ -927,7 +927,7 @@ array to `average`.
 
 When we looked up all the people in our data set that lived more than
 ninety years, only the very latest generation in the data came out.
-Let us take a closer look at that phenomenon.
+Let's take a closer look at that phenomenon.
 
 Compute and output the average age of the people in the ancestry data
 set per century. A person is assigned to a century by taking their

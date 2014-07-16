@@ -305,7 +305,7 @@ language yet.
 
 The `specialForms` object is used to define special syntax in Egg.
 It associates words with functions that evaluate such
-special forms. It is currently empty. Let us add some forms.
+special forms. It is currently empty. Let's add some forms.
 
 // include_code
 

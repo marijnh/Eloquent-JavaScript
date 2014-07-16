@@ -210,7 +210,7 @@ module, and `require("elife")` will try to load the library found in
 `node_modules/elife/`. A common way to install such libraries is by
 using NMP, which I will discuss in a moment.
 
-To illustrate the use of `require`, let us set up a simple project
+To illustrate the use of `require`, let's set up a simple project
 consisting of two files. The first one is called `main.js`, which
 defines a script that can be called from the command line to garble a
 string.
@@ -537,7 +537,7 @@ document when the `"end"` event occurs.
 A file can be read as a readable stream by using the
 `fs.createReadStream` function.
 
-Let us set up a server that reads request bodies, and streams them
+Let's set up a server that reads request bodies, and streams them
 back to the client as all-uppercase text.
 
 [source,javascript]
@@ -585,7 +585,7 @@ using `console.log` would cause undesirable line breaks in the output.
 
 == A simple file server ==
 
-Let us combine our newfound knowledge about HTTP servers and talking
+Let's combine our newfound knowledge about HTTP servers and talking
 to the file system, and create a bridge between them: an HTTP server
 that allows remote access to a file system. Such a server has many
 uses—it could be used by a web application to store data, or even to

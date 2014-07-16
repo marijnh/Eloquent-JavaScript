@@ -17,7 +17,7 @@ When a programmer says “object”, this is a loaded term. In my profession, ob
 are a way of life, the subject of holy wars, and a
 beloved buzzword that still hasn't quite lost its power.
 
-To an outsider, this is probably a little confusing. Let us start with
+To an outsider, this is probably a little confusing. Let's start with
 a brief history of objects as a programming construct.
 
 == History ==

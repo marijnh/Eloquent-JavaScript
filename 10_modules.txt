@@ -466,7 +466,7 @@ the browser, it is somewhat involved. The reason for this is that
 reading a file (module) from the Web is a lot slower than reading it
 from the hard disk.
 While a script is running in the browser, nothing else can happen to the
-web site on which it runs, for reasons that will become clear in Chapter 14. This means that if every `require` call
+website on which it runs, for reasons that will become clear in Chapter 14. This means that if every `require` call
 went and loaded something from some far-away web server, the page would
 freeze for a painfully long time while loading its scripts.
 

@@ -590,7 +590,7 @@ to the file system, and create a bridge between them: an HTTP server
 that allows remote access to a file system. Such a server has many
 uses—it could be used by a web application to store data, or even to
 provide direct access to some shared files, for example to allow users
-to edit their web site remotely.
+to edit their website remotely.
 
 HTTP resources can cleanly be represented as files. The HTTP verbs
 `GET`, `PUT`, and `DELETE` can be used to read, write, and delete
@@ -1075,11 +1075,11 @@ idempotent. If a non-directory file exists here, return an error code.
 === A public space on the web ===
 
 Since the file server serves up any kind of files, and even includes
-the right `Content-Type` header, you can use it to serve a web site.
+the right `Content-Type` header, you can use it to serve a website.
 Since it allows everybody to delete and replace files, it would be an
-interesting kind of web site: one that can be modified, vandalized,
+interesting kind of website: one that can be modified, vandalized,
 and destroyed by everybody who takes the time to create the right HTTP
-request. Still, it would be a web site.
+request. Still, it would be a website.
 
 Write a simple HTML page, which includes a simple JavaScript file, put
 them in a directory served by the file server, and open them in your
@@ -1104,7 +1104,7 @@ test it.
 
 If your computer is directly connected to the internet, without a
 firewall, router, or other interfering device in between, you might be
-able to invite a friend to use your web site. To check, go to
+able to invite a friend to use your website. To check, go to
 http://www.whatismyip.com/[_whatismyip.com_], copy the IP address it
 gives you into the address bar of your browser, and add `:8000` after
 it to select the right port. If that brings you to your site, it is

@@ -356,7 +356,7 @@ major browsers behave quite uniformly, and have relatively few bugs.
 Which is not to say that the situation is perfect just yet. Some of
 the people using the Web are, for reasons of inertia or corporate
 policy, stuck with very old browsers. Until those browsers die out entirely,
-writing web sites that work for them will require a lot of arcane
+writing websites that work for them will require a lot of arcane
 knowledge about their shortcomings and quirks. This book is not about
 those quirks. Rather, it aims to present the modern, sane style of
 web programming.

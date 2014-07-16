@@ -1,11 +1,11 @@
 :chap_num: 21
 :prev_link: 20_node
 
-= Project: Organizing a Meetup =
+= Project: Skill-Sharing Website =
 
 A _skill-sharing_ meeting is an event where people with a shared
 interest come together and give small, informal presentations about
-things they know. For example, at a gardering skill-sharing meeting,
+things they know. For example, at a gardening skill-sharing meeting,
 someone might explain how to cultivate celery. Or in a
 programming-oriented skill-sharing group, you could drop by and tell
 everybody about Node.js.
@@ -16,7 +16,7 @@ developments, or simply meet people with similar interests. Many large
 cities have a JavaScript meetup. They are typically friendly, and free
 to attend.
 
-In this final project chapter, our project is to set up a web site for
+In this final project chapter, our project is to set up a website for
 managing talks given at a skill-sharing meeting. Imagine a small group
 of people, meeting up regularly in one of the member's office to talk
 about unicycling. Problem is: when the previous organizer of the
@@ -52,7 +52,7 @@ submits a new talk or adds a comment, all people who have the page
 open in their browsers should immediately see the change. This poses a
 bit of a challenge, since there is no way for a web server to open up
 a connection to a client, nor is there a way to know which clients
-currently are looking at a given web site.
+currently are looking at a given website.
 
 A common solution to this problem is called _long polling_, and
 happens to be one of the motivations for Node's design.
@@ -127,7 +127,7 @@ this:
             "comment": []}]}
 ----
 
-The `serverTime` field will be used to allo reliable long polling. I
+The `serverTime` field will be used to allow reliable long polling. I
 will come back to it later.
 
 Creating a new talk is done by making a `PUT` request to a URL like
@@ -232,7 +232,7 @@ protection is likely to end in disaster.
 One solution would be to put it behind a _reverse proxy_, which is a
 system that accepts HTTP connections from outside the system, and
 forwards them to HTTP servers that are running locally. Such a proxy
-can be configured to require a username and password, and you could
+can be configured to require a user name and password, and you could
 make sure only the participants in the skill sharing group have this
 password.
 
@@ -241,7 +241,7 @@ functionality for identifying users directly in our server, possibly
 using a system like Mozilla Persona
 (https://www.mozilla.org/persona[_www.mozilla.org/persona_]), which
 allows people to use a single password for multiple sites, and makes
-it unneccesary for each separate system to store passwords (which is
+it unnecessary for each separate system to store passwords (which is
 always risky). But all that is outside of the scope of this chapter.
 
 == The server ==
@@ -631,7 +631,7 @@ the `/talks` URL.
 
 == The client ==
 
-The client-side part of the talk-managing web site consists of three
+The client-side part of the talk-managing website consists of three
 files: an HTML page, a style sheet, and a JavaScript file.
 
 === HTML ===
@@ -718,7 +718,7 @@ helper functions like the `elt` function from Chapter 19, but the
 result will still look worse than HTML, which can be thought of as a
 domain-specific language for expressing DOM structures.
 
-To create DOM structures for the talks, our system will define a very
+To create DOM structures for the talks, our program will define a very
 simple _templating_ system, which uses these hidden DOM structures
 included in the document to instantiate new DOM structures, replacing
 the placeholders between double braces with the values of a specific
@@ -780,7 +780,7 @@ request({pathname: "talks"}, function(error, response) {
 The `lastServerTime` variable is used to track the time of the last
 update that was received from the server. After the initial request,
 the client's view of the talks corresponds to the view that the server
-had when it responsed to that request. Thus, the `serverTime` property
+had when it responded to that request. Thus, the `serverTime` property
 included in the response provides an appropriate initial value for
 `lastServerTime`.
 
@@ -963,7 +963,7 @@ function addComment(title, comment) {
 ----
 
 The `nameField` variable used to set the comment's `author` property
-is a reference to the `<input>` field at the top of the pae, that
+is a reference to the `<input>` field at the top of the page, that
 allows the user to specify their name. We also wire that field up to
 `localStorage`, so that it does not have to be filled in again every
 time the page is reloaded.
@@ -1043,14 +1043,178 @@ When the request succeeds, the new data is put onto the screen, and
 that reflects the situation at this new `serverTime`. The request is
 immediately restarted to wait the next update.
 
+If you run the server, and open two browser windows for
+http://localhost:8000/hello[_localhost:8000/hello_] next to each
+other, you can see that the actions you perform in one window are
+immediately visible in the other.
+
 == Exercises ==
 
-=== Editing talks ===
+The following exercises will involve modifying the system defined in
+this chapter. To work on them, make sure you download the code first
+(http://eloquentjavascript.net/code/skillshare.zip[_eloquentjavascript.net/code/skillshare.zip_]),
+and have Node installed (http://nodejs.org[_nodejs.org_]).
 
 === Disk persistence ===
 
-=== Graceful degradation ===
+The skill sharing server keeps its data purely in memory. This means
+that when it crashes or is restarted for any reason, all talks and
+comments are lost.
+
+Extend the server so that it stores the talk data to disk, and
+automatically reloads it when it is restarted. Do not worry about
+efficiency—do the simplest thing that works.
+
+!!solution!!
+
+The simplest solution I can come up with is to simply encode the whole
+`talks` object as JSON and dump it to a file with `fs.writeFile`.
+There is already a function (`registerChange`) which is called every
+time the server's data changes. It can be extended to write the new
+data to disk.
+
+Pick a file name, for example `./talks.json`. When the server starts
+up, it can try to read that file with `fs.readFile`, and if that
+succeeds, use its contents as our starting data.
+
+Beware though, the `talks` object started out as a prototype-less
+object, so that the `in` operator could be sanely used. `JSON.parse`
+will return regular objects with `Object.prototype` as their
+prototype. If you use JSON as your file format, you'll have to copy
+the properties of the object returned by `JSON.parse` into a new,
+prototype-less object.
+
+!!solution!!
 
 === Comment field resets ===
 
+The wholesale redrawing of talks works pretty well because usually you
+can't tell the difference between a DOM node and another identical DOM
+node that replaces it. But there are exceptions. If you start typing
+something in the comment field for a talk in one browser window, and
+then, in another, add a comment to that talk, the field in the first
+window will be redrawn, removing both its content and its focus.
+
+In a heated discussion, where multiple people are adding comments to a
+single talk, this would be very annoying. Can you come up with a way
+to avoid it?
+
+!!solution!!
+
+The ad-hoc approach is to simply store the state a talk's comment
+field (its content and whether it is focused) before redrawing the
+talk, and then reset the field to its old state afterwards.
+
+FIXME more
+
+!!solution!!
+
 === Better templates ===
+
+Most templating systems do more than just fill in a bunch of fields.
+At the very least, they also allow conditional inclusion of parts of
+the template, analogous to `if` statements, and repeating parts of a
+template.
+
+If we had the second feature, being able to repeat a piece of template
+for each element in an array, we would not need the second template
+(`"comment"`), but rather could specify the `"talk"` template to loop
+over the array held in a talk's `comments` property, and render the
+nodes that make up a comment for every element in the array.
+
+It could look like this:
+
+[source,text/html]
+----
+<div class="comments">
+  <div class="comment" template-repeat="comments">
+    <span class="name">{{author}}</span>: {{message}}
+  </div>
+</div>
+----
+
+The idea being that whenever a node with a `template-repeat` attribute
+is found when instantiating a template, the instantiating code loops
+over the array held in the property indicated by the attribute, and
+duplicates the node once for each element, removing the original node.
+The template's context (the `values` variable in
+`instantiateTemplate`) would, during this loop, point at the current
+element of the array, so that `{{author}}`, rather than being looked
+up in the original context (the talk), would be looked up in the
+comment object.
+
+Rewrite `instantiateTemplate` to implement this, and then change the
+templates to use this feature and remove the explicit rendering of
+comments from the `drawTalk` function.
+
+How would you add conditional instantiation of nodes, where it is
+possible to omit parts of the template when a given value is true or
+false?
+
+!!solution!!
+
+One way to do this is to change `instantiateTemplate` so that, when it
+gets a DOM node as its first argument instead of a string, it uses
+that node as template, rather than trying to look up the template with
+`querySelector`.
+
+You can then, in the recursive inner function `fillIn`, check whether
+the current node has a `template-repeat` attribute. If it does, don't
+recursively call `fillIn` on its children as usual, but instead remove
+it from its parent, and loop over the array indicated by the
+attribute's value. For each element in the array, call
+`instantiateTemplate`, with the node as first argument and the array
+element as second argument, and add the resulting nodes to the node
+that used to be the current node's parent node.
+
+Conditionals can be implemented in a similar way, with attributes
+called, for example, `template-when` and `template-unless`, which
+cause a node to be removed from the result when a given property is
+false or true.
+
+!!solution!!
+
+=== The unscriptables ===
+
+When someone visits our website with a browser that has JavaScript
+disabled, or is simply not capable of displaying JavaScript, they will
+get a completely broken, inoperable page. This is unfortunate.
+
+Some types of web applications really can't be done without
+JavaScript. For others, you just don't have the budget or patience to
+bother about clients that can't run scripts. But for pages with a wide
+audience, it really is polite to support script-less users.
+
+Try to think of a way the skill sharing website could be set up to
+preserve basic functionality when ran without JavaScript. The
+automatic updates will have to go, and people will have to refresh
+their page the old-fashioned way. But being able to see existing
+talks, create new ones, and submit comments would be nice.
+
+Don't feel obliged to actually implement this. Outlining a solution is
+enough. Does the revised approach strike you as more, or less elegant
+than what we did initially?
+
+!!solution!!
+
+Two central aspects of the approach taken in this chapter—a clean HTTP
+interface, and client-side template rendering—don't work without
+JavaScript. Normal HTML forms can send `GET` and `POST` requests, but
+no `PUT` or `DELETE` requests, and can only send their data to a fixed
+URL.
+
+Thus, the server would have to be revised to accept comments, new
+talks, and deleted talks through `POST` requests, whose bodies aren't
+JSON, but rather use the URL-encoded format that HTML forms use (see
+Chapter 17). These requests would have to return the full new page, so
+that users see the new state of the site after they make a change.
+This would not be too hard to engineer, and could be implemented
+alongside the “clean” HTTP interface.
+
+The code for rendering talks would have to be duplicated on the
+server. The `index.html` file, rather than being a static file, would
+have to be generated dynamically (by adding a handler for it to the
+router), so that it already includes the current talks when it gets
+served.
+
+!!solution!!

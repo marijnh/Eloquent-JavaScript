@@ -98,7 +98,7 @@ dots, it has a tree-like shape. The fact that expressions contain
 other expressions, which in turn might contain more expression, is
 similar to the way branches split and split again.
 
-image::img/syntax_tree.svg[alt="The structure of a syntax tree"]
+image::img/syntax_tree.svg[alt="The structure of a syntax tree",width="5cm"]
 
 Contrast this to
 the parser we wrote for the configuration file format in Chapter 9, which had

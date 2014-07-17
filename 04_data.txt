@@ -446,7 +446,7 @@ number of times the various combinations of the two variables were
 observed. For example, we could take the event of eating pizza and
 put that in a table like this:
 
-image::img/pizza-squirrel.svg[alt="Eating pizza versus turning into a squirrel"]
+image::img/pizza-squirrel.svg[alt="Eating pizza versus turning into a squirrel",width="8cm"]
 
 _ϕ_ can be computed using the following formula, where n refers to the table:
 
@@ -1260,7 +1260,7 @@ var list = {
 
 The resulting objects form a chain, like this:
 
-image::img/linked-list.svg[alt="A linked list"]
+image::img/linked-list.svg[alt="A linked list",width="6cm"]
 
 A nice thing about lists is that they can share parts of their
 structure. For example, if I create two new values `{value: 0, rest:

@@ -35,7 +35,7 @@ _interface_ through which the object is to be used. The idea is that
 the interface is relatively simple, and all the complex things going
 on _inside_ of the object can be ignored when working with it.
 
-image::img/object.jpg[alt="A simple interface can hide a lot of complexity"]
+image::img/object.jpg[alt="A simple interface can hide a lot of complexity",width="6cm"]
 
 As an example, you can imagine an object that provides an interface to
 an area on your screen. It provides a way to draw shapes or text onto
@@ -298,7 +298,7 @@ The `Rabbit` and `Object` prototypes lie behind `killerRabbit` as a
 kind of backdrop, where properties that are not found in the object
 itself can be looked up.
 
-image::img/rabbits.svg[alt="Rabbit object prototype schema"]
+image::img/rabbits.svg[alt="Rabbit object prototype schema",width="8cm"]
 
 Overriding properties that exist in a prototype is often a useful
 thing to do. As the rabbit teeth example shows, it can be used to

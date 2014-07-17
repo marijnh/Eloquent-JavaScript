@@ -647,7 +647,7 @@ We should now be able to display our tiny level:
 
 ifdef::tex_target[]
 
-image::img/game_simpleLevel.png[alt="Our level rendered"]
+image::img/game_simpleLevel.png[alt="Our level rendered",width="7cm"]
 
 endif::tex_target[]
 
@@ -724,7 +724,7 @@ grid squares are one by one unit in size. By rounding the sides of a
 box up and down, we get the range of background squares that the box
 touches.
 
-image::img/game-grid.svg[alt="Finding collisions on a grid"]
+image::img/game-grid.svg[alt="Finding collisions on a grid",width="3cm"]
 
 If the body sticks out of the level, we return a predetermined
 obstacle type—`"wall"` for the sides and top, and `"lava"` for the

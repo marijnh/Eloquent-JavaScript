@@ -8,5 +8,6 @@
 /code/skillsharing/*
 /node_modules
 .tern-port
-toc.txt
-img/cover.xcf
+/toc.txt
+/img/cover.xcf
+/book.pdf

@@ -44,7 +44,7 @@ users to propose a new talk (add a talk to the list), delete talks,
 and to comment on existing talks. Whenever the user makes such a
 change, the client makes an HTTP request to tell the server about it.
 
-image::img/skillsharing.png[alt="Screenshot of the skill-sharing website"]
+image::img/skillsharing.png[alt="Screenshot of the skill-sharing website",width="10cm"]
 
 The application will be set up to show a _live_ view of the current
 proposed talks and their comments. Whenever someone, somewhere,
@@ -54,7 +54,7 @@ bit of a challenge, since there is no way for a web server to open up
 a connection to a client, nor is there a way to know which clients
 currently are looking at a given website.
 
-A common solution to this problem is called _long polling_, and
+A common solution to this problem is called _long polling_, which
 happens to be one of the motivations for Node's design.
 
 == Long polling ==

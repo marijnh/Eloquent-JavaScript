@@ -65,7 +65,7 @@ JavaScript, that is often not what we want anyway.
 
 ifdef::tex_target[]
 
-image::img/form_fields.png[alt="Various types of input tags"]
+image::img/form_fields.png[alt="Various types of input tags",width="4cm"]
 
 endif::tex_target[]
 
@@ -101,7 +101,7 @@ user to select from a number of pre-defined options.
 
 ifdef::tex_target[]
 
-image::img/form_select.png[alt="A select field"]
+image::img/form_select.png[alt="A select field",width="4cm"]
 
 endif::tex_target[]
 
@@ -185,7 +185,7 @@ appearance, usually they look grey and faded.
 
 ifdef::tex_target[]
 
-image::img/button_disabled.png[alt="A disabled button"]
+image::img/button_disabled.png[alt="A disabled button",width="3cm"]
 
 endif::tex_target[]
 
@@ -404,7 +404,7 @@ of options, rather than just a single option.
 
 ifdef::tex_target[]
 
-image::img/form_multi_select.png[alt="A multiple select field"]
+image::img/form_multi_select.png[alt="A multiple select field",width="5cm"]
 
 endif::tex_target[]
 

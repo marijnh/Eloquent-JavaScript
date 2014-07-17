@@ -114,7 +114,7 @@ element.
 
 ifdef::tex_target[]
 
-image::img/canvas_fill.png[alt="A canvas with a rectangle"]
+image::img/canvas_fill.png[alt="A canvas with a rectangle",width="3cm"]
 
 endif::tex_target[]
 
@@ -166,7 +166,7 @@ used for a stroked line. The width of that line is determined by the
 
 ifdef::tex_target[]
 
-image::img/canvas_stroke.png[alt="Two stroked squares"]
+image::img/canvas_stroke.png[alt="Two stroked squares",width="5cm"]
 
 endif::tex_target[]
 
@@ -196,7 +196,7 @@ side effects.
 
 ifdef::tex_target[]
 
-image::img/canvas_path.png[alt="Stroking a number of lines"]
+image::img/canvas_path.png[alt="Stroking a number of lines",width="2.1cm"]
 
 endif::tex_target[]
 
@@ -227,7 +227,7 @@ start, and the shape enclosed by the resulting line is filled.
 
 ifdef::tex_target[]
 
-image::img/canvas_triangle.png[alt="Filling a path"]
+image::img/canvas_triangle.png[alt="Filling a path",width="2.2cm"]
 
 endif::tex_target[]
 
@@ -270,7 +270,7 @@ control point. The following picture illustrates this:
 
 ifdef::tex_target[]
 
-image::img/canvas_quadraticcurve.png[alt="A quadratic curve"]
+image::img/canvas_quadraticcurve.png[alt="A quadratic curve",width="2.3cm"]
 
 endif::tex_target[]
 
@@ -303,7 +303,7 @@ Here is a similar sketch to illustrates the behavior of such a curve:
 
 ifdef::tex_target[]
 
-image::img/canvas_beziercurve.png[alt="A bezier curve"]
+image::img/canvas_beziercurve.png[alt="A bezier curve",width="2.2cm"]
 
 endif::tex_target[]
 
@@ -345,7 +345,7 @@ start of the rounded part.
 
 ifdef::tex_target[]
 
-image::img/canvas_arc.png[alt="Two arcs with different radii"]
+image::img/canvas_arc.png[alt="Two arcs with different radii",width="2.3cm"]
 
 endif::tex_target[]
 
@@ -382,7 +382,7 @@ an end bigger than 2π (say, 7) to draw a full circle.
 
 ifdef::tex_target[]
 
-image::img/canvas_circle.png[alt="Drawing a circle"]
+image::img/canvas_circle.png[alt="Drawing a circle",width="4.9cm"]
 
 endif::tex_target[]
 
@@ -448,7 +448,7 @@ response) by the amount of people that picked a given choice.
 
 ifdef::tex_target[]
 
-image::img/canvas_pie_chart.png[alt="A pie chart"]
+image::img/canvas_pie_chart.png[alt="A pie chart",width="5cm"]
 
 endif::tex_target[]
 
@@ -535,7 +535,7 @@ This can be used to pack multiple _sprites_ (image elements) into a
 single image file, and then only draw the part you need. For example,
 we have this picture containing a game character in multiple poses.
 
-image::img/player_big.png[alt="Various poses of a game character"]
+image::img/player_big.png[alt="Various poses of a game character",width="6cm"]
 
 If we alternate which pose we draw, we can show an animation that
 looks like a walking character.
@@ -601,7 +601,7 @@ to set a vertical scale.
 
 ifdef::tex_target[]
 
-image::img/canvas_scale.png[alt="A scaled circle"]
+image::img/canvas_scale.png[alt="A scaled circle",width="6.6cm"]
 
 endif::tex_target[]
 
@@ -635,7 +635,7 @@ will be drawn 20 pixels to the right. If we first move the center of
 the coordinate system to _50,50_ and then rotate by 20 degrees (0.1π
 in radians), that rotation will happen _around_ point _50,50_.
 
-image::img/transform.svg[alt="Stacking transformations"]
+image::img/transform.svg[alt="Stacking transformations",width="6cm"]
 
 But if we _first_ rotated by 20 degrees, and _then_ translated
 by _50,50_, the translation will happen in the rotated coordinate
@@ -661,7 +661,7 @@ the mirroring, and finally move the y axis back to its proper place in
 the mirrored universe. The picture below tries to explain why this
 works.
 
-image::img/mirror.svg[alt="Mirroring around a vertical line"]
+image::img/mirror.svg[alt="Mirroring around a vertical line",width="6cm"]
 
 This shows the coordinate systems before and after mirroring in the
 central line. If we draw a triangle at a positive x position, it
@@ -746,7 +746,7 @@ recursion stops when the length drops below 8.
 
 ifdef::tex_target[]
 
-image::img/canvas_tree.png[alt="A recursive picture"]
+image::img/canvas_tree.png[alt="A recursive picture",width="5cm"]
 
 endif::tex_target[]
 
@@ -931,7 +931,7 @@ Tiles that are not empty (null) are drawn with `drawImage`. The
 than the player. It contains, from left to right, the wall tile, the
 lava tile, and then the sprite for a coin.
 
-image::img/sprites_big.png[alt="Sprites for our game"]
+image::img/sprites_big.png[alt="Sprites for our game",width="1.4cm"]
 
 Background tiles are 20 by 20 pixels, since we will use the same scale
 that we used in `DOMDisplay`. Thus, the offset for lava tiles is 20
@@ -1050,7 +1050,7 @@ ifdef::tex_target[]
 That concludes the new display system. The resulting game looks
 something like this:
 
-image::img/canvas_game.png[alt="The game as shown on canvas"]
+image::img/canvas_game.png[alt="The game as shown on canvas",width="8cm"]
 
 endif::tex_target[]
 
@@ -1155,7 +1155,7 @@ Write a program that draws the followin shapes on a canvas:
 
 5. A yellow star.
 
-image::img/exercise_shapes.png[alt="The shapes to draw"]
+image::img/exercise_shapes.png[alt="The shapes to draw",width="8cm"]
 
 When drawing the latter two, you may want to refer back to the
 explanation of `Math.cos` and `Math.sin` in Chapter 13, which

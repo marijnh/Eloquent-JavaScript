@@ -3,25 +3,26 @@
 
 = Introduction =
 
-This book is about talking to computers, one of
-the fundamental tools of our time. Being able to harness them
-effectively is an immensely useful skill. With the right mindset, it
-can also be very entertaining.
+This book is about talking to one of the fundamental tools of our
+time: computers. Being able to make these tools work for you is an
+immensely useful skill.
+
+With the right mindset, it can also be very entertaining.
 
 There is something of an inherent gap between us, squishy biological
 organisms with a talent for social and spatial reasoning, and the
 computer, a straightforward manipulator of meaningless data with none
-of our biases and instincts. Fortunately, there has been great
-progress in bridging this gap in the past sixty years.
+of our biases and instincts.
 
 image::img/computer.svg[alt="Communicating with a computer"]
 
-The history of human-computer interaction has been one of moving away
-from the cold, reductionist world view of the computer by layering
-more human-friendly analogies on top of it. The two most important
-ideas in this process have been the use of computer languages, which
-map well to our brain because they resemble the languages we use to
-talk to each other, and graphical point-and-click (or tap) interfaces,
+Fortunately, there has been great progress in bridging this gap in the
+past sixty years. The history of human-computer interaction has been
+one of moving away from the cold, reductionist world view of the
+computer by layering more human-friendly analogies on top of it. The
+two most important ideas in this process have been the use of computer
+languages, which map well to our brain because they resemble the
+languages we use to talk to each other, and graphical interfaces,
 which we understand easily because they imitate the tangible world
 outside of the machine.
 

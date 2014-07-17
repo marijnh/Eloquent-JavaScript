@@ -308,7 +308,7 @@ convenient widget.!!tex  This is what it may look like:!!
 
 ifdef::tex_target[]
 
-image::img/form_multi_select.png[alt="A multiple select field"]
+image::img/form_multi_select.png[alt="A multiple select field",width="5cm"]
 
 endif::tex_target[]
 
@@ -812,7 +812,7 @@ pixel that has a color different form the starting pixel.
 The picture below illustrates the set of pixels colored when the flood
 fill tool is used at the marked pixel:
 
-image::img/flood-grid.svg[alt="Flood fill example"]
+image::img/flood-grid.svg[alt="Flood fill example",width="6cm"]
 
 The flood fill does not leak through diagonal gaps, and does not touch
 pixels that are not reachable, even if they have the same color as the

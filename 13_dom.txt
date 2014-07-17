@@ -47,7 +47,7 @@ tags (or text). Here's the example document one more time:
 
 This page has the following structure:
 
-image::img/html-boxes.svg[alt="HTML document as nested boxes"]
+image::img/html-boxes.svg[alt="HTML document as nested boxes",width="7cm"]
 
 The data structure the browser uses to represent the document follows
 this shape. For each box, there is an object, which we can interact
@@ -99,7 +99,7 @@ in the document, get type 3 (`document.TEXT_NODE`). Comments get type
 
 So another way to visualize our document tree is:
 
-image::img/html-tree.svg[alt="HTML document as a tree"]
+image::img/html-tree.svg[alt="HTML document as a tree",width="8cm"]
 
 The leaves are text nodes, and the arrows indicate
 parent-child relationships between nodes.
@@ -144,7 +144,7 @@ come with such tools.
 DOM nodes contain a wealth of links to other, nearby nodes. The
 following diagram tries to illustrate these.
 
-image::img/html-links.svg[alt="Links between DOM nodes"]
+image::img/html-links.svg[alt="Links between DOM nodes",width="6cm"]
 
 Every node has a `parentNode` property, pointing to the node it is
 part of. The diagram only shows one of each link type. Every element
@@ -826,7 +826,7 @@ corresponds to the given angle, `Math.sin` yields the y coordinate.
 Positions (angles) higher than 2π or below 0 are valid—the rotation
 repeats, so that _a_+2π refers to the same angle as _a_.
 
-image::img/cos_sin.svg[alt="Using cosine and sine to compute coordinates"]
+image::img/cos_sin.svg[alt="Using cosine and sine to compute coordinates",width="6cm"]
 
 The example keeps a counter (`angle`) for the current angle of the
 animation, and increments this counter in proportion to the elapsed

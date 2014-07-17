@@ -96,7 +96,7 @@ _split_ in the timeline. The thread that initiated the I/O continues
 running, and the I/O itself is done alongside it, finally calling a
 callback function when it is finished.
 
-image::img/control-io.svg[alt="Control flow for synchronous and asynchronous I/O"]
+image::img/control-io.svg[alt="Control flow for synchronous and asynchronous I/O",width="7cm"]
 
 Another way to express this difference is that waiting for I/O to
 finish is _implicit_ in the synchronous model, whereas is it is

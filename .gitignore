@@ -2,6 +2,8 @@
 /html/[012]*.html
 /html/js/exercise_data.js
 /code/chapter/*
+/code/file_server.js
+/code/skillsharing/*
 /node_modules
 .tern-port
 toc.txt

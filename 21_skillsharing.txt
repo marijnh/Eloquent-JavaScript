@@ -271,9 +271,11 @@ write one ourselves, to illustrate the principle.
 This is `router.js`, which we will later `require` from our server
 module:
 
+// include_code >code/skillsharing/router.js
+
 [source,javascript]
 ----
-var Router = this.exports = function() {
+var Router = module.exports = function() {
   this.routes = [];
 };
 
@@ -293,7 +295,7 @@ Router.prototype.resolve = function(request, response) {
 
     var urlParts = match.slice(1).map(decodeURIComponent);
     route.handler.apply(null, [request, response]
-                                .concat(urlParts)));
+                                .concat(urlParts));
     return true;
   });
 };
@@ -333,6 +335,8 @@ create a server that _only_ server files. We want to first check for
 requests that we handle specially though, so we wrap it in another
 function.
 
+// include_code >code/skillsharing/skillsharing_server.js
+
 [source,javascript]
 ----
 var http = require("http");
@@ -351,6 +355,8 @@ http.createServer(function(request, response) {
 The following helper functions are used throughout the server code to
 be able to send off responses with a single function call.
 
+// include_code >code/skillsharing/skillsharing_server.js
+
 [source,javascript]
 ----
 function respond(response, status, data, type) {
@@ -362,7 +368,7 @@ function respond(response, status, data, type) {
 
 function respondJSON(response, status, data) {
   respond(response, status, JSON.stringify(data),
-          "application/json);
+          "application/json");
 }
 ----
 
@@ -375,6 +381,8 @@ handlers to our router that implement the various methods that clients
 can use to work with them.
 
 The handler for requests that `GET` a single talk is very simple.
+
+// include_code >code/skillsharing/skillsharing_server.js
 
 [source,javascript]
 ----
@@ -390,6 +398,8 @@ router.add("GET", /^\/talks\/([^\/]+)$/,
 ----
 
 Deleting a talk is also not hard.
+
+// include_code >code/skillsharing/skillsharing_server.js
 
 [source,javascript]
 ----
@@ -409,6 +419,8 @@ waiting long polling requests about the change.
 To be able to easily get the content of JSON-encoded request bodies,
 we define a function `readStreamAsJSON`, which reads all content from
 a stream, parses it as JSON, and then calls a callback function.
+
+// include_code >code/skillsharing/skillsharing_server.js
 
 [source,javascript]
 ----
@@ -440,6 +452,8 @@ If the data looks valid, the handler stores an object that represents
 the new talk in the `talks` object, possibly overwriting an existing
 talk with this title, and again calls `registerChange`.
 
+// include_code >code/skillsharing/skillsharing_server.js
+
 [source,javascript]
 ----
 router.add("PUT", /^\/talks\/([^\/]+)$/,
@@ -453,8 +467,8 @@ router.add("PUT", /^\/talks\/([^\/]+)$/,
       respond(response, 400, "Bad talk data");
     } else {
       talks[title] = {title: title,
-                      presenter: data.presenter,
-                      summary: data.summary,
+                      presenter: talk.presenter,
+                      summary: talk.summary,
                       comments: []};
       registerChange(title);
       respond(response, 204, null);
@@ -466,6 +480,8 @@ router.add("PUT", /^\/talks\/([^\/]+)$/,
 Adding a comment to a talk is done in a very similar way. We again use
 `readStreamAsJSON` to get the content of the request, validate the
 resulting data, and store it as a comment when it looks valid.
+
+// include_code >code/skillsharing/skillsharing_server.js
 
 [source,javascript]
 ----
@@ -503,6 +519,8 @@ There'll be various situations in which we have to send a list of
 talks to the client, so we first define a small helper function that
 attaches the `serverTime` field to such responses.
 
+// include_code >code/skillsharing/skillsharing_server.js
+
 [source,javascript]
 ----
 function sendTalks(talks, response) {
@@ -519,6 +537,8 @@ cause it to also parse the query part of the URL—the part after the
 question mark, in for example ++/talks?changesSince=…++—and give the
 resulting object a property `query` that associates parameter names
 (such as `changesSince`) with their value.
+
+// include_code >code/skillsharing/skillsharing_server.js
 
 [source,javascript]
 ----
@@ -555,6 +575,8 @@ empty array, the server does not yet have anything to send back to the
 client, so it stores the response object (using `waitForChanges`) to
 be responded to at a later time.
 
+// include_code >code/skillsharing/skillsharing_server.js
+
 [source,javascript]
 ----
 var waiting = [];
@@ -583,6 +605,8 @@ This is what the `changes` array is used for. Registering a change
 will add it to this array, and then send the changed talk to all
 waiting requests.
 
+// include_code >code/skillsharing/skillsharing_server.js
+
 [source,javascript]
 ----
 var changes = [];
@@ -601,6 +625,8 @@ array of changed talks, including object with a `deleted` property for
 talks that no longer exist. In doing this, it has to ensure that it
 doesn't add the same talk twice, since there might have been multiple
 changes to a talk since the given time.
+
+// include_code >code/skillsharing/skillsharing_server.js
 
 [source,javascript]
 ----
@@ -647,6 +673,8 @@ Thus, if we want a page to show up when a browser is pointed at our
 server, we should put it in `public/index.html`. This is how our
 `index.html` starts:
 
+// include_code >code/skillsharing/public/index.html
+
 [source,text/html]
 ----
 <!doctype html>
@@ -673,6 +701,8 @@ server.
 
 Next comes the form that is used to create a new talk:
 
+// include_code >code/skillsharing/public/index.html
+
 [source,text/html]
 ----
 <form id="newtalk">
@@ -691,6 +721,8 @@ talk.
 Next comes a rather mysterious block, which has its `display` style
 set to `none`, preventing it from actually showing up on the page. Can
 you guess what it is for?
+
+// include_code >code/skillsharing/public/index.html
 
 [source,text/html]
 ----
@@ -727,6 +759,8 @@ talk.
 Finally, the HTML document includes the script file that contains the
 client-side code.
 
+// include_code >code/skillsharing/public/index.html
+
 [source,text/html]
 ----
 <script src="skillsharing_client.js"></script>
@@ -739,6 +773,8 @@ the server for the current set of talks. Since we are going to make a
 lot of HTTP requests, we will again start with a simple wrapper around
 `XMLHttpRequest`, which accepts an object to configure the request as
 well as a callback to call when the request finishes.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----
@@ -760,6 +796,8 @@ function request(options, callback) {
 
 The initial request displays the talks it gets back on the screen and
 starts the long-polling process by calling `waitForChanges`.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----
@@ -789,6 +827,8 @@ doing nothing without explanation. So we define a simple function
 `reportError`, which at least shows the user a dialog that tells them
 something went wrong.
 
+// include_code >code/skillsharing/public/skillsharing_client.js
+
 [source,javascript]
 ----
 function reportError(error) {
@@ -815,6 +855,8 @@ The function `displayTalks` is used both to build up the initial
 display, and to update it when something changes. It will use the
 `shownTalks` object, which associates talk titles with DOM nodes, to
 remember the talks it currently has on the screen.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----
@@ -850,6 +892,8 @@ looked up by using `querySelector` to find a node with a class name
 that matches the given name, which exists under the element with ID
 `"template"`. There were templates named `"talk"` and `"comment"` in
 the HTML page.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----
@@ -889,6 +933,8 @@ value of `values`'s `title` property.
 This is a very crude approach to templating, but it is enough to
 implement `drawTalk`.
 
+// include_code >code/skillsharing/public/skillsharing_client.js
+
 [source,javascript]
 ----
 function drawTalk(talk) {
@@ -927,6 +973,8 @@ to delete a talk or add a comment. These will need to build up URLs
 that refer to talks with a given title, for which we define the
 following helper function:
 
+// include_code >code/skillsharing/public/skillsharing_client.js
+
 [source,javascript]
 ----
 function talkURL(title) {
@@ -936,6 +984,8 @@ function talkURL(title) {
 
 The `deleteTalk` function is straightforward. It fires off a `DELETE`
 request, and reports the error when that fails.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----
@@ -947,6 +997,8 @@ function deleteTalk(title) {
 
 Adding a comment requires building up a JSON representation of the
 commend, and submitting it as part of a `POST` request.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----
@@ -965,13 +1017,17 @@ allows the user to specify their name. We also wire that field up to
 `localStorage`, so that it does not have to be filled in again every
 time the page is reloaded.
 
+// include_code >code/skillsharing/public/skillsharing_client.js
+
 [source,javascript]
 ----
 var nameField = document.querySelector("#name");
-if (localStorage.name)
-  nameField.value = localStorage.name;
+
+if (localStorage.getItem("name"))
+  nameField.value = localStorage.getItem("name");
+
 nameField.addEventListener("change", function() {
-  localStorage.name = nameField.value;
+  localStorage.setItem("name", nameField.value);
 });
 ----
 
@@ -979,6 +1035,8 @@ The form at the bottom of the page, for proposing a new talk, is also
 wired up to a `"submit"` event handler. This handler prevents the
 event's default effect (which would cause a page reload), clears the
 form, and fires off the `PUT` request that creates the talk.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----
@@ -992,7 +1050,7 @@ talkForm.addEventListener("submit", function(event) {
              presenter: nameField.value,
              summary: talkForm.elements.summary.value
            })}, reportError);
-  form.reset();
+  talkForm.reset();
 });
 ----
 
@@ -1009,6 +1067,8 @@ trigger the appropriate updates to the page.
 Given the mechanism that we implemented in our server, and the way we
 defined `displayTalks` to handle updates of talks that are already on
 the page, the actual long polling is surprisingly simple.
+
+// include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
 ----

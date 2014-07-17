@@ -608,6 +608,8 @@ We'll build the program in small pieces again, using an object
 (`methods`) to store the functions that handle the various HTTP
 methods.
 
+// include_code >code/file_server.js
+
 [source,javascript]
 ----
 var http = require("http"), fs = require("fs");
@@ -683,6 +685,8 @@ return is 404. We will use `fs.stat`, which looks up information on a
 file, to find out both whether the file exists and whether it is a
 directory.
 
+// include_code >code/file_server.js
+
 [source,javascript]
 ----
 methods.GET = function(path, respond) {
@@ -732,6 +736,8 @@ us for the file's name.
 
 The code to handle `DELETE` requests is slightly simpler.
 
+// include_code >code/file_server.js
+
 [source,javascript]
 ----
 methods.DELETE = function(path, respond) {
@@ -771,6 +777,8 @@ requests _idempotent_, which means that applying them multiple times
 does not produce a different result.
 
 And finally, here is the handler for `PUT` requests:
+
+// include_code >code/file_server.js
 
 [source,javascript]
 ----

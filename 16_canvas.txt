@@ -10,9 +10,9 @@ ____
 Drawing is deception
 ____
 
-Browsers provide several ways to create graphics. The simplest
+Browsers give us several ways to display graphics. The simplest
 approach is to use regular DOM elements, and use styles to position
-and color them. This can get us quite far, as the previous chapter
+and color them. This can get you quite far, as the previous chapter
 showed. By adding partially transparent background images to the
 nodes, we can make then look exactly the way we want to. It is even
 possible to rotate or skew nodes by using the `transform` style.
@@ -28,22 +28,22 @@ rather than text. An SVG document can be embedded inside an HTML
 document, but also included through an `<img>` tag.
 
 The second alternative is called a _canvas_. A canvas is a single DOM
-node that encapsulates a whole picture. It provides a programming
-interface for drawing shapes onto the space taken up by the node. The
-main difference between a canvas and an SVG picture is that in SVG,
-the original description of the shapes is preserved, so that they can
-be moved or resized at any time. Canvas, on the other hand, converts
-the shapes to pixels (colored dots on a raster) as soon as they are
-drawn, and does not remember what these pixels represent. The only way
-to move a shape on a canvas is to clear the canvas (or the area around
+node that encapsulates a picture. It provides a programming interface
+for drawing shapes onto the space taken up by the node. The main
+difference between a canvas and an SVG picture is that in SVG, the
+original description of the shapes is preserved, so that they can be
+moved or resized at any time. Canvas, on the other hand, converts the
+shapes to pixels (colored dots on a raster) as soon as they are drawn,
+and does not remember what these pixels represent. The only way to
+move a shape on a canvas is to clear the canvas (or the area around
 the shape) and redraw it with the shape in its new position.
 
 == SVG ==
 
-This book not go into SVG in detail, but I will briefly try to explain
-how it works. At the end of the chapter, I'll come back to the
+This book will not go into SVG in detail, but I will briefly try to
+explain how it works. At the end of the chapter, I'll come back to the
 trade-offs that must be considered when deciding which drawing
-mechanism is the most appropriate for a given application.
+mechanism is appropriate for a given application.
 
 This is an HTML document with a simple SVG picture inside of it:
 

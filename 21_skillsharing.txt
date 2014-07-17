@@ -44,7 +44,7 @@ users to propose a new talk (add a talk to the list), delete talks,
 and to comment on existing talks. Whenever the user makes such a
 change, the client makes an HTTP request to tell the server about it.
 
-// FIXME screenshot
+image::img/skillsharing.png[alt="Screenshot of the skill-sharing website"]
 
 The application will be set up to show a _live_ view of the current
 proposed talks and their comments. Whenever someone, somewhere,
@@ -155,8 +155,7 @@ PUT /talks/How%20to%20Idle HTTP/1.1
 Content-Type: application/json
 Content-Length: 92
 
-{"title": "How to Idle",
- "presenter": "Dana",
+{"presenter": "Dana",
  "summary": "Standing still on a unicycle"}
 ----
 
@@ -246,15 +245,15 @@ always risky). But all that is outside of the scope of this chapter.
 
 == The server ==
 
-FIXME some kind of intro
+Let's start by writing the server-side part of the program.
 
 === Routing ===
 
-Let's start by writing the server. It will use `http.createServer` to
-start an HTTP server. In the function that handles a new request, we
-must distinguish between the various kinds of requests (as determined
-by the method and the path) that we support. This can be done with a
-long chain of `if` statements, but there is a nicer way.
+Our server will use `http.createServer` to start an HTTP server. In
+the function that handles a new request, we must distinguish between
+the various kinds of requests (as determined by the method and the
+path) that we support. This can be done with a long chain of `if`
+statements, but there is a nicer way.
 
 A _router_ is a component that helps dispatch a request to the
 function that can handle it. You can tell it, for example, that `PUT`
@@ -1167,7 +1166,11 @@ The ad-hoc approach is to simply store the state a talk's comment
 field (its content and whether it is focused) before redrawing the
 talk, and then reset the field to its old state afterwards.
 
-FIXME more
+Another solution would be to not simply replace the old DOM structure
+with the new one, but recursively compare them, node by node, and only
+update the parts that actually changed. This is more general (it
+continues working even if we add another text field), but also a lot
+harder to implement.
 
 !!solution!!
 

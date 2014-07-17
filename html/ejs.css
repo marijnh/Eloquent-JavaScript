@@ -46,7 +46,7 @@ nav a {
 
 pre {
   padding: 5px 0 5px 15px;
-  line-height: 1.3;
+  line-height: 1.35;
   margin: 1rem 0;
 }
 
@@ -294,7 +294,7 @@ blockquote footer:before {
 
 .CodeMirror {
   height: auto;
-  line-height: 1.3;
+  line-height: 1.35;
   border-top: 1px solid #4ab;
 }
 .CodeMirror-scroll {

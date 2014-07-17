@@ -561,6 +561,8 @@ it, which will decode it using the default encoding (UTF-8).
 The following piece of code, if run while the upcasing server is
 running, will send a request to it and write out the response it gets.
 
+// test: no
+
 [source,javascript]
 ----
 var http = require("http");
@@ -701,7 +703,7 @@ methods.GET = function(path, respond) {
           respond(500, error.toString());
         else
           respond(200, files.join("\n"));
-      })
+      });
     else
       respond(200, fs.createReadStream(path),
               require("mime").lookup(path));

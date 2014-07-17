@@ -759,6 +759,7 @@ talk.
 Finally, the HTML document includes the script file that contains the
 client-side code.
 
+// test: never
 // include_code >code/skillsharing/public/index.html
 
 [source,text/html]
@@ -797,6 +798,7 @@ function request(options, callback) {
 The initial request displays the talks it gets back on the screen and
 starts the long-polling process by calling `waitForChanges`.
 
+// test: no
 // include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
@@ -856,6 +858,7 @@ display, and to update it when something changes. It will use the
 `shownTalks` object, which associates talk titles with DOM nodes, to
 remember the talks it currently has on the screen.
 
+// test: no
 // include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
@@ -1017,6 +1020,7 @@ allows the user to specify their name. We also wire that field up to
 `localStorage`, so that it does not have to be filled in again every
 time the page is reloaded.
 
+// test: no
 // include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]
@@ -1036,6 +1040,7 @@ wired up to a `"submit"` event handler. This handler prevents the
 event's default effect (which would cause a page reload), clears the
 form, and fires off the `PUT` request that creates the talk.
 
+// test: no
 // include_code >code/skillsharing/public/skillsharing_client.js
 
 [source,javascript]

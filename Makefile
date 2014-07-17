@@ -6,7 +6,7 @@ CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_high
 
 .SECONDARY: $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).db)
 
-html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/exercise_data.js code/skillsharing.zip
+html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/exercise_data.js code/skillsharing.zip code/solutions/20_4_a_public_space_on_the_web.zip
 
 html/%.html: %.txt asciidoc_html.conf
 	PATH=node_modules/codemirror/bin:$(PATH) asciidoc -f asciidoc_html.conf --backend=html5 -o $@ $<
@@ -16,7 +16,12 @@ html/js/exercise_data.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) code/solutions
 	node bin/get_exercises.js > html/js/exercise_data.js
 
 code/skillsharing.zip: html/21_skillsharing.html
+	rm -f $@
 	cd code; zip skillsharing.zip skillsharing/*.js* skillsharing/public/*.*
+
+code/solutions/20_4_a_public_space_on_the_web.zip: $(wildcard code/solutions/20_4_a_public_space_on_the_web/*)
+	rm -f $@
+	cd code/solutions; zip 20_4_a_public_space_on_the_web.zip 20_4_a_public_space_on_the_web/*
 
 tex: $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
 

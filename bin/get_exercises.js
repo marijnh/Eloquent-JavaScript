@@ -88,7 +88,7 @@ output.push({number: 20, title: "Node.js", exercises: [
    file: "code/solutions/20_4_a_public_space_on_the_web",
    number: 4,
    type: "js",
-   code: "// Node exercises can not be ran in the browser\n\n// The solution for this exercise consists of several files:\n//\n// * http://eloquentjavascript.net/code/solutions/20_4_a_public_space_on_the_web/index.html\n// * http://eloquentjavascript.net/code/solutions/20_4_a_public_space_on_the_web/public_space.js\n// * http://eloquentjavascript.net/code/solutions/20_4_a_public_space_on_the_web/other.html\n",
+   code: "// Node exercises can not be ran in the browser\n\n// The solution for this exercise can be downloaded from:\n//\n// http://eloquentjavascript.net/code/solutions/20_4_a_public_space_on_the_web.zip",
    solution: "// Node exercises can not be ran in the browser"
   }
 ]});

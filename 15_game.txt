@@ -6,23 +6,23 @@
 = Project: A Platform Game =
 
 My initial fascination with computers, like that of many kids,
-originated with computer games. I was drawn in by the tiny
-computer-simulated worlds which I could manipulate and impact (sort
-of). More, I suppose, because of the way I could project my
-imagination into them, than because of the possibilities they actually
-offered.
+originated with computer games. I was drawn into the tiny
+computer-simulated worlds which I could manipulate and in which
+stories (sort of) unfolded. More, I suppose, because of the way I
+could project my imagination into them, than because of the
+possibilities they actually offered.
 
 I wouldn't wish a career in game programming on anyone—much like in
 the music industry, the discrepancy between the many eager young
 people wanting to work in it and the actual demand for such people
-creates a rather exploitative atmosphere. But writing games for fun can
-be very rewarding. A game world, even when simple, is still a world.
-Who doesn't like creating worlds?
+creates a rather unhealthy environment. But writing games for fun can
+be very rewarding. A game world, even when simple, is still a world. A
+world you can create.
 
 This chapter will walk through the implementation of a simple platform
 game. Platform games (or “jump and run” games) are games that involve
-moving a figure through an (often two-dimensional, side-view) world,
-and jumping onto and over things.
+moving a figure through an world, which is often two dimensional and
+viewed from the side, jumping onto and over things.
 
 == The game ==
 
@@ -46,13 +46,13 @@ change direction in mid-air. Though this may not be entirely
 realistic, it helps give the player a feeling of being in direct
 control of the on-screen avator.
 
-The game's consist of a fixed background, laid out like a grid, with
-the moving elements overlaid on that. Each field on the background
-grid is either empty, solid, or lava. The moving elements are the
-player, coins, and pieces of lava that move. Unlike the artificial
-life simulation from Chapter 7, the positions of these elements are
-not constrained to the grid—their coordinates may be fractional,
-allowing smooth motion.
+The game consist of a fixed background, laid out like a grid, with the
+moving elements overlaid on that. Each field on the background grid is
+either empty, solid, or lava. The moving elements are the player,
+coins, and pieces of lava that move. Unlike the artificial life
+simulation from Chapter 7, the positions of these elements are not
+constrained to the grid—their coordinates may be fractional, allowing
+smooth motion.
 
 == The technology ==
 
@@ -64,22 +64,22 @@ work we need to do to implement this game. Since everything looks like
 single-color boxes, drawing is uncomplicated: we create DOM elements,
 and use styling to give them a background color, size, and position.
 
-We can represent the background, which is a static grid, as a table of
-colored cells. The free-moving elements can be overlaid on top of that
-using absolutely positioned elements.
+We can represent the background, which is an unchanging grid of
+colored squares, as a table. The free-moving elements can be overlaid
+on top of that using absolutely positioned elements.
 
-In games (and similar programs) that have to respond and animate
-without noticeable delay, efficiency is an important concern. Though
-the DOM was not originally designed for high-performance graphics, it
-is surprisingly effective in that area. We saw some simple animations
-in Chapter 13. On a modern machine, drawing a simple game like this
-one will not require us to do anything special to get acceptable
-performance.
+In games and similar programs which have to animate and respond to
+user input without noticeable delay, efficiency is an important
+concern. Though the DOM was not originally designed for
+high-performance graphics, it is surprisingly effective in that area.
+We saw some simple animations in Chapter 13. On a modern machine,
+drawing a simple game like this one will not require us to do anything
+special to get acceptable performance.
 
 In the next chapter, we will explore another browser technology, the
-`<canvas>` tag, which provides a way to draw graphics that is more
-similar to traditional graphics interfaces—working in terms of shapes
-and pixels, rather than DOM elements.
+`<canvas>` tag, which provides a more traditional way to draw
+graphics, working in terms of shapes and pixels, rather than DOM
+elements.
 
 == Levels ==
 
@@ -111,21 +111,21 @@ strings. We use “x” characters for walls, spaces for empty space, and
 exclamation marks for fixed, non-moving lava tiles.
 
 The initial player position is indicated by an “@” character. Coins
-will be put wherever there is an “o”, and the equals sign (“=”)
-indicates a block of lava that moves back and forth horizontally. Note
-that the grid for these positions will be set to contain empty space,
-and an additional data structure will be used to track the position of
-these non-fixed elements.
+are put wherever there is an “o”, and the equals sign (“=”) indicates
+a block of lava that moves back and forth horizontally. Note that the
+grid for these positions will be set to contain empty space, and an
+additional data structure is used to track the position of such moving
+elements.
 
-We will also support a pipe character (“|”) for vertically moving
-lava, and “v” for _dripping_ lava—vertically moving blocks of lava
-that don't bounce back and forth, but move down and jump back to their
-start position when they hit the floor.
+We also support a pipe character (“|”) for vertically moving lava, and
+“v” for _dripping_ lava—vertically moving blocks of lava that don't
+bounce back and forth, but move down and jump back to their start
+position when they hit the floor.
 
-A whole game will be represented by an array of level arrays, though
+A whole game is be represented by an array of level arrays, though
 which the player must progress one after the other, by collecting all
 the coins in each. When the player touches lava, the current level is
-simply restored to its starting position, and they can try again.
+simply restored to its starting position, and they may try again.
 
 == Reading a level ==
 
@@ -165,6 +165,9 @@ function Level(plan) {
 }
 ----
 
+For brevity, the constructor assumes that level plans are well-formed,
+and does not do any error checking.
+
 A level stores its width and height, along with two arrays—one for the
 grid, and one for the _actors_, the dynamic elements. The grid is
 represented as an array of arrays, where each of the inner arrays
@@ -181,10 +184,12 @@ element (`"lava"`, `"coin"`, or `"player"`).
 
 After building up the grid, we use the `filter` method to find the
 player actor object, and store it in a property of the level. The
-`status` and `finishDelay` properties will be used when the player
-dies or wins, to show a simple animation rather than immediately
-resetting or advancing the level (which would look cheap). This method
-can be used to determine whether a level is finished:
+`status` property tracks whether the player has won or lost. When this
+happens `finishDelay` is used to keep the level active for a short
+period after this happens, so that a simple animation can be shown,
+rather than immediately resetting or advancing the level (which would
+look cheap). This method can be used to determine whether a level is
+finished:
 
 // include_code
 
@@ -194,10 +199,6 @@ Level.prototype.isFinished = function() {
   return this.status != null && this.finishDelay < 0;
 };
 ----
-
-For brevity, this code assumes that level plans are well-formed—that
-each line has the same length and only contains allowed characters,
-and that there is a single player start position in it.
 
 == Actors ==
 
@@ -238,9 +239,9 @@ var actorChars = {
 ----
 
 There are three characters mapping to `Lava`. The `Level` constructor
-passes the actor the character it was based on as an argument, which
-the `Lava` constructor uses to determine its behavior (bouncing
-horizontally or vertically, or dripping).
+passes the actor's source character as an argument to the constructor,
+which the `Lava` constructor uses to determine its behavior (bouncing
+horizontally, bouncing vertically, or dripping).
 
 The player type is built with this simple constructor. It has a
 property `speed` containing its current speed, which we will
@@ -258,8 +259,12 @@ function Player(pos) {
 Player.prototype.type = "player";
 ----
 
+Because a player is one and a half square high, its initial position
+is set to be half a square above the position where the “@” character
+appeared, so that its bottom will be aligned with the square below it.
+
 When constructing a dynamic `Lava` object, we need to set up some
-state based on the character it was based on. Moving lava will simply
+state based on the character it was based on. Dynamic lava will simply
 move along at its given speed until it hits an obstacle. At that
 point, if it has a `repeatPos` property, it will jump back to its
 start position (dripping). If it does not, it will invert its speed
@@ -353,7 +358,7 @@ There is one thing that we _will_ encapsulate in this chapter, and
 that is the drawing subsystem. The reason for this is that we will
 display the same game in a different way in the next chapter. By
 putting the drawing behind an interface, we can simply load the same
-game program there, but plug in a new display module.
+game program there, and plug in a new display module.
 
 == Drawing ==
 
@@ -365,7 +370,7 @@ elements to show the level.
 We will be using a style sheet to set the actual colors and other
 fixed properties of the elements that make up the game. It would also
 be possible to directly assign to the elements' `style` property when
-we create them, but that would produce rather verbose programs.
+we create them, but that would produce more verbose programs.
 
 The following helper function provides a short way to create an
 element and give it a class.
@@ -445,10 +450,10 @@ table look like the background we want:
 ----
 .background    { background: rgb(52, 166, 251);
                  table-layout: fixed;
-                 border-spacing: 0;   }
-.background td { padding: 0;          }
+                 border-spacing: 0;              }
+.background td { padding: 0;                     }
 .lava          { background: rgb(255, 100, 100); }
-.wall          { background: white;   }
+.wall          { background: white;              }
 ----
 
 Some of these (`table-layout`, `border-spacing`, and `padding`) are
@@ -458,9 +463,9 @@ table's approach for computing the width of its columns to a simple,
 predictable variant (the way tables are laid out in HTML is a very
 complicated thing).
 
-The `background` rules set background colors. CSS allows colors to be
-specified both as words (`white`) and with a rather cryptic `rgb(R, G,
-B)` format, where the red, green, and blue components of the color are
+The `background` rule sets the background color. CSS allows colors to
+be specified both as words (`white`) and with a format like `rgb(R, G,
+B)`, where the red, green, and blue components of the color are
 separated into three numbers from 0 to 255. So in `rgb(52, 166, 251)`
 the red component is 52, green is 166, and blue is 251. Since the blue
 component is the largest, the resulting color will be blueish. You can
@@ -490,26 +495,27 @@ based on the actor's properties, multiplying each value by the display
 `scale`.
 
 Giving an element multiple classes is done by separating the class
-names with spaces. Below the relevant CSS code is shown. The `actor`
-class gives the actors their absolute position, and their type name is
-used to give them a color (lava actors use the same class as lava grid
-squares, which we defined earlier):
+names with spaces. In the CSS code shown next, the `actor` class gives
+the actors their absolute position. Their type name is used as an
+additional class to give them a color (lava actors use the same class
+as lava grid squares, which we defined earlier):
 
 [source,text/css]
 ----
-.actor  { position: absolute;  }
+.actor  { position: absolute;            }
 .coin   { background: rgb(241, 229, 89); }
-.player { background: rgb(64, 64, 64); }
+.player { background: rgb(64, 64, 64);   }
 ----
 
 To update the display when the world changes, the `drawFrame` method
 removes the old actor graphics, if any, and redraws them in their new
 positions. It may be tempting to try and reuse the DOM elements for
-actors, but that would seriously increase the way in which the display
-code and the simulation code are tangled up. We'd need to have a way
-to associate actors with elements, and the drawing code must know when
-to remove elements when their actors vanish. For a simple game like
-this, redrawing is fast enough.
+actors, but that would add a lot of additional entanglement between
+the display code and the simulation code. We'd need to have a way to
+associate actors with elements, and the drawing code must know when to
+remove elements when their actors vanish. Since there will typically
+only be a handful of actors in the game, redrawing all of them is is
+not expensive.
 
 // include_code
 
@@ -526,9 +532,8 @@ DOMDisplay.prototype.drawFrame = function() {
 
 By adding the level's current status as a class name to the wrapper,
 we can style the player actor slightly differently when the game is
-won or lost. (We could also style other elements, like the background,
-differently based on a class in one of their ancestor elements. CSS is
-convenient like that.)
+won or lost, by adding a CSS rule that only takes effect when the
+player has an ancestor element with a given class.
 
 [source,text/css]
 ----
@@ -540,10 +545,10 @@ convenient like that.)
 }
 ----
 
-After touching lava, the player's color turns dark red, hopefully
-suggesting scorching. When the last coin has been collected, we use a
-two white box shadows, one to the top left and one to the top right,
-to create a white halo effect.
+After touching lava, the player's color turns dark red, suggesting
+scorching. When the last coin has been collected, we use two white box
+shadows, one to the top left and one to the top right, to create a
+white halo effect.
 
 We don't assume that levels fit into the viewport. That is why the
 `scrollPlayerIntoView` call is needed—it ensures that, if the level is
@@ -551,8 +556,8 @@ sticking out outside of the viewport, we scroll that viewport to make
 sure the player is near its center. The following CSS gives the game's
 wrapping DOM element a maximum size, and ensures that anything that
 sticks out is not displayed. We also give it a relative position, so
-that the actors inside of it are positioned relative to its top left
-corner.
+that the actors inside of it are positioned relative to its own top
+left corner.
 
 [source,text/css]
 ----
@@ -600,9 +605,9 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
 The way the player's center is found shows how the methods on our
 `Vector` type allow rather natural-looking computations to be done
 with objects. To find the actor's center, we add its position (its top
-left corner) half its size. That is the center in level coordinates,
-but we need it in pixel coordinates, so we then multiply the resulting
-vector by our display scale.
+left corner) and half its size. That is the center in level
+coordinates, but we need it in pixel coordinates, so we then multiply
+the resulting vector by our display scale.
 
 Next, a series of checks verify that the player position isn't outside
 of the allowed range. Note that sometimes this will set nonsense
@@ -613,8 +618,8 @@ area. This is okay—the DOM will constrain them to sane values. Setting
 It would have been slightly simpler to always try to scroll the player
 to the center of the viewport. But this creates a rather jarring
 effect. As you are jumping, the view will constantly shift up and
-down. Having it move up as you jump close to the edge, and then stay
-there, is more pleasant.
+down. It is more pleasant to have a “neutral” area in the middle of
+the screen, where you can move around without causing any scrolling.
 
 Finally, we'll need a way to clear a displayed level, to be used when
 the game moves on to the next level or resets a level.
@@ -653,8 +658,8 @@ necessary for our game.
 == Motion and collision ==
 
 Now we get to the point where we can start adding motion—the most
-interesting aspect of this game. The basic approach, which most games
-like this take, is to split time into small steps, and for each step,
+interesting aspect of the game. The basic approach, taken by most
+games like this, is to split time into small steps, and for each step,
 move the actors by a distance corresponding to their speed (distance
 moved per second) multiplied by the size of the time step (in
 seconds).
@@ -666,11 +671,11 @@ motion causes an object to hit another object, and respond
 accordingly—for walls, the motion must be stopped, for coins, the coin
 collected, and so on.
 
-Solving this in the general case is quite a big undertaking. You can
-find libraries, usually called _physics engines_, that simulate
-interaction between physical objects in two or three dimensions. We'll
-take a more modest approach in this chapter, handling only collisions
-between boxes, and handling them in a rather simplistic way.
+Solving this for the general case is a big task. You can find
+libraries, usually called _physics engines_, that simulate interaction
+between physical objects in two or three dimensions. We'll take a more
+modest approach in this chapter, handling only collisions between
+boxes, and handling them in a rather simplistic way.
 
 Before moving the player or a block of lava, we test whether the
 motion would take it inside of a non-empty part of the background. If
@@ -722,15 +727,16 @@ touches.
 image::img/game-grid.svg[alt="Finding collisions on a grid"]
 
 If the body sticks out of the level, we return a predetermined
-obstacle type—`"wall"` for the sides and top, `"lava"` for the bottom.
-When it is fully inside of the grid, we loop over the block of grid
-squares found by rounding the coordinates, and return the content of
-the first non-empty square we find.
+obstacle type—`"wall"` for the sides and top, and `"lava"` for the
+bottom, so that the player dies when falling out of the world. When it
+is fully inside of the grid, we loop over the block of grid squares
+found by rounding the coordinates, and return the content of the first
+non-empty square we find.
 
 Collisions between the player and other dynamic actors (coins, moving
 lava) are handled _after_ the player moved. When the motion has taken
-it into another other actor, the appropriate effect—collecting a
-coin or dying—is activated.
+the player into another other actor, the appropriate effect—collecting
+a coin or dying—is activated.
 
 This method scans through the array of actors, looking for an actor
 that overlaps the one given as an argument, without actually being the
@@ -755,8 +761,10 @@ Level.prototype.actorAt = function(actor) {
 
 == Actors and actions ==
 
-The `animate` method, which we add to the `Level` type below, is
-responsible for giving the actors in the level a chance to move.
+The `animate` method on the `Level` type gives all actors in the level
+a chance to move. Its `step` argument is the time step in seconds,
+`keys` is an object with information about the current position of the
+arrow keys.
 
 // include_code
 
@@ -788,10 +796,9 @@ animating into suitably small pieces. It ensures that no step larger
 than `maxStep` is taken. For example, a `step` of 0.12 second would be
 cut into two steps of 0.05 second, and one of 0.02.
 
-Actor objects are supposed to implement an `act` method, which is
-given as arguments the time step, the level object, and an object with
-information about the keys the player is holding down. Here is a
-simple one, for the `Lava` actor type:
+Actor objects have an `act` method, which gets as arguments the time
+step, the level object, and the `keys` object. Here is a simple one,
+for the `Lava` actor type, which ignores the key object:
 
 // include_code
 
@@ -811,12 +818,15 @@ Lava.prototype.act = function(step, level) {
 It computes a new position by adding the product of the time step and
 its current speed to its old position. If no obstacle blocks that new
 position, it moves there. If there is an obstacle, the behavior
-depends on the type of moving lava this is—dripping lava has a
-`repeatPos` property, to which it jumps back when it hits something.
-Bouncing lava simply inverts its speed (multiplies it by -1) in order
-to start moving in the other direction.
+depends on the type of the lava block—dripping lava has a `repeatPos`
+property, to which it jumps back when it hits something. Bouncing lava
+simply inverts its speed (multiplies it by -1) in order to start
+moving in the other direction.
 
-Coins need to update their wobble phase in their `act` method:
+Coins use their `act` method to wobble. They ignore collisions, since
+they are simply wobbling around inside of their own square, and
+collisions with the player will be handled by the _player_'s `act`
+method.
 
 // include_code
 
@@ -833,14 +843,12 @@ Coin.prototype.act = function(step) {
 
 The `wobble` property is updated to track time, and then used as
 argument to `Math.sin` to create a wave, which is used to compute a
-new position. Coins don't detect collisions. Their motion is defined
-in such a way that it stays within their starting square, and
-collision with the player is handled by the player's `act` method.
+new position.
 
-Which is the next things we get to. Player motion is separated per
+That leaves the player itself. Player motion is handles separately per
 axis, because hitting the floor should not prevent horizontal motion,
-and hitting a wall should not stop falling or jumping motion. The
-method below implements the horizontal part.
+and hitting a wall should not stop falling or jumping motion. This
+method implements the horizontal part:
 
 // include_code
 
@@ -865,12 +873,12 @@ Player.prototype.moveX = function(step, level, keys) {
 
 The motion is computed based on the state of the left and right arrow
 keys. When it would cause the player to hit something, the
-`playerTouched` method for the level, which handles things like dying
+`playerTouched` method on the level, which handles things like dying
 in lava and collecting coins, is called. Otherwise, the object updates
 its position.
 
-The vertical motion works in a comparable way, but has to take jumping
-and gravity into account.
+Vertical motion works in a comparable way, but has to take jumping and
+gravity into account.
 
 // include_code
 
@@ -896,17 +904,17 @@ Player.prototype.moveY = function(step, level, keys) {
 };
 ----
 
-At the start of the method, the player's vertical speed is updated for
-gravity. The gravity, jumping speed, and pretty much all other
-constants in this game, have been set by trial-and-error. I tried out
-various values to see how they felt.
+At the start of the method, the player is accelerated vertically to
+account for gravity. The gravity, jumping speed, and pretty much all
+other constants in this game, have been set by trial-and-error. I
+tried out various values to see how they felt.
 
-We then check for obstacles again. If we are hitting an obstacle,
-there are two possible outcomes. When the up arrow is pressed, _and_
-we are moving down (meaning the thing we hit is below us), the speed
-is set to a relatively large, negative value. This causes the player
-to jump. If that is not the case, we simply bumped into something, and
-the speed is reset to zero.
+Next we check for obstacles again. If we hit an obstacle, there are
+two possible outcomes. When the up arrow is pressed, _and_ we are
+moving down (meaning the thing we hit is below us), the speed is set
+to a relatively large, negative value. This causes the player to jump.
+If that is not the case, we simply bumped into something, and the
+speed is reset to zero.
 
 The actual `act` method looks like this:
 
@@ -930,10 +938,11 @@ Player.prototype.act = function(step, level, keys) {
 };
 ----
 
-After moving, it checks for other actors that it is colliding with,
-and again calls `playerTouched` when it finds one. This time, it
-passes the actor object as second argument, because if the other actor
-is a coin, `playerTouched` needs to know which one is being collected.
+After moving, the method checks for other actors that the player is
+colliding with, and again calls `playerTouched` when it finds one.
+This time, it passes the actor object as second argument, because if
+the other actor is a coin, `playerTouched` needs to know _which_ coin
+is being collected.
 
 Finally, when the player died (touched lava) we set up a little
 animation that causes them to “shrink” or “sink” down, by reducing the
@@ -966,15 +975,15 @@ When lava is touched, the game's status is set to `"lost"`. When a
 coin is touched, that coin is removed from the array of actors, and if
 it was the last one, the game's status is set to `"won"`.
 
-The `splice` method is used to cut a piece out of an array. It is
-given an index and a number of elements, and removes that many
-elements starting at the given index. In this case, we remove a single
-element, our coin actor, whose index we found by calling `indexOf`.
-Additional arguments can be given to `splice`, and they will be
-inserted into the array at the given position, replacing the removed
-elements.
+The `splice` method is used to cut a piece out of an array. You give
+it an index and a number of elements, and _mutates_ the array,
+removing that many elements after the given index. In this case, we
+remove a single element, our coin actor, whose index we found by
+calling `indexOf`. If you pass additional arguments to `splice` their
+values will be inserted into the array at the given position,
+replacing the removed elements.
 
-That gives us a level that can actually be animated. All that's
+This gives us a level that can actually be animated. All that's
 missing now is the code that _drives_ the animation.
 
 == Tracking keys ==
@@ -1003,8 +1012,8 @@ function trackKeys(codes) {
   var pressed = Object.create(null);
   function handler(event) {
     if (codes.hasOwnProperty(event.keyCode)) {
-      var state = event.type == "keydown";
-      pressed[codes[event.keyCode]] = state;
+      var down = event.type == "keydown";
+      pressed[codes[event.keyCode]] = down;
       event.preventDefault();
     }
   }
@@ -1023,10 +1032,11 @@ key state should be updated to true (`"keydown"`) or false
 
 The `requestAnimationFrame` function, which we saw in Chapter 13,
 provides a good way to animate a game. But its interface is quite
-primitive—using it requires us to track the last time value we saw,
-and re-call the `requestAnimationFrame` function after every frame.
+primitive—using it requires us to track the time at which our function
+was called the last time around, and call `requestAnimationFrame`
+again after every frame.
 
-Here is a helper function that wraps those boring parts in a
+Let's define a helper function that wraps those boring parts in a
 convenient interface, and allows us to simply call `runAnimation`,
 giving it a function that expects a time difference as argument and
 draws a single frame. When the frame function returns the value
@@ -1195,7 +1205,7 @@ endif::html_target[]
 The most obvious solution would be to make `lives` a variable that
 lives in `runGame`, and is thus visible by the `startLevel` closure.
 
-Another approach, which fits nicely with spirit of the rest of the
+Another approach, which fits nicely with the spirit of the rest of the
 function, would be to add a second argument to `startLevel` that gives
 the amount of lives. When the whole state of a system stored in the
 arguments to a function, calling that function provides an elegant way
@@ -1263,12 +1273,13 @@ endif::html_target[]
 !!solution!!
 
 An animation can be interrupted by returning `false` from the function
-given to `runAnimation`. It can be continued by simply calling
-`runAnimation` again.
+given to `runAnimation`. It can be continued by calling `runAnimation`
+again.
 
-To communicate the fact that the animation should be intterupted to
-the animation function, you can use a variable that both the event
-handler and that function have access to.
+To communicate the fact that the animation should be interrupted to
+the function passed to `runAnimation`, so that it can return `false`,
+you can use a variable that both the event handler and that function
+have access to.
 
 When finding a way to unregister the handlers registered by
 `trackKeys`, remember that the _exact_ same function value that was

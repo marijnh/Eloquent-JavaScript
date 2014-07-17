@@ -2,14 +2,14 @@
   font-family: 'Cinzel';
   font-style: normal;
   font-weight: 700;
-  src: local('Cinzel-Bold'), url(font/cinzel_bold.woff) format('woff');
+  src: local('Cinzel-Bold'), url(../font/cinzel_bold.woff) format('woff');
 }
 
 @font-face {
   font-family: 'PT Mono';
   font-style: normal;
   font-weight: 400;
-  src: local('PT Mono'), local('PTMono-Regular'), url(font/pt_mono.woff) format('woff');
+  src: local('PT Mono'), local('PTMono-Regular'), url(../font/pt_mono.woff) format('woff');
 }
 
 html, body { 

@@ -28,7 +28,7 @@ discuss talks among themselves, without a central organizer.
 written for Node.js, and running it directly in the HTML page that you
 are looking at is unlikely to work. !!The full code for the project
 can be downloaded from
-http://eloquentjavascript.net/code/skillshare.zip[_eloquentjavascript.net/code/skillshare.zip_].
+http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code/skillsharing.zip_].
 
 == Design ==
 

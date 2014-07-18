@@ -5,13 +5,6 @@
 
 = The Document Object Model =
 
-[quote,Le Hors et al,Document Object Model Core]
-____
-While it would be nice to have attribute and method names that are
-short [...] DOM names tend to be long and descriptive in order to be
-unique across all environments.
-____
-
 When you open a web page in your browser, it will retrieve the page's
 HTML text, and parse it much like our parser from Chapter 11 parses
 programs, building up a model of its structure. It will then use this
@@ -894,7 +887,7 @@ regular cells (`<td>`).
 The same source data that was used in Chapter 6 is again available in
 the `MOUNTAINS` variable in the sandbox, and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
-list of data sets on the website!!tex (`eloquentjavascript.net/code`)!!.
+list of data sets on the website(!tex (`eloquentjavascript.net/code`)!).
 
 Write a function `buildTable` that, given an array of objects (which
 all have the same set of properties), builds up a DOM structure

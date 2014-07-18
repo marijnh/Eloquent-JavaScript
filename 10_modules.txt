@@ -5,6 +5,9 @@
 
 = Modules =
 
+ifdef::html_target[]
+
+[chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
 A beginning programmer writes her programs like an ant builds her
@@ -21,6 +24,8 @@ The master programmer knows when to apply structure and when to leave
 things in their simple form. Her programs are like clay, solid yet
 malleable.
 ____
+
+endif::html_target[]
 
 Every program has a shape. On a small scale, this shape is determined
 by its division into functions, and the blocks inside those functions.

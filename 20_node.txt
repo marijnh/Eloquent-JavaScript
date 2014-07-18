@@ -4,6 +4,7 @@
 
 = Node.js =
 
+[chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
 A student asked ‘The programmers of old used only simple machines and

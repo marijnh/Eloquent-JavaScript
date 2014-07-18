@@ -5,6 +5,7 @@
 
 = Project: Electronic Life =
 
+[chapterquote="true"]
 [quote, Edsger Dijkstra, The Threats to Computing Science]
 ____
 [...] the question of whether Machines Can Think [...] is about as
@@ -969,8 +970,8 @@ var valley = new LifelikeWorld(
 );
 ----
 
-Let's see what happens if we run this. !!tex These snapshots
-illustrate a typical run of this world.!!
+Let's see what happens if we run this. (!tex These snapshots
+illustrate a typical run of this world.!)
 
 ifdef::html_target[]
 

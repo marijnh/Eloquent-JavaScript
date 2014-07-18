@@ -4,6 +4,7 @@
 
 = Functions =
 
+[chapterquote="true"]
 [quote, Donald Knuth]
 ____
 People think that computer science is the art of geniuses but the

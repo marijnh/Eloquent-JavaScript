@@ -27,7 +27,7 @@ viewed from the side, jumping onto and over things.
 == The game ==
 
 Our game will be roughly based on “http://www.lessmilk.com/games/10[Dark
-Blue]”!!tex (_www.lessmilk.com/games/10_)!! by Thomas Palef. I chose
+Blue]”(!tex (_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose
 this game because it is extremely minimal (and thus implementable
 without _too_ much code), yet entertaining. It looks like this:
 
@@ -1140,7 +1140,7 @@ such as network requests in Chapter 17, and in- and output in general
 in Chapter 20.
 
 There is a set of level plans available in the `GAME_LEVELS` variable
-!!tex (downloadable from `eloquentjavascript.net/code`)!!. This page
+(!tex (downloadable from `eloquentjavascript.net/code`)!). This page
 feeds them to `runGame`, starting an actual game:
 
 [sandbox="null"]

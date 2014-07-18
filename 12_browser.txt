@@ -4,6 +4,7 @@
 
 = JavaScript and the Browser =
 
+[chapterquote="true"]
 [quote,Douglas Crockford,The JavaScript Programming Language (video lecture)]
 ____
 The browser is a really hostile programming environment.

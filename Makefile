@@ -33,7 +33,11 @@ test: html
 	@! grep '[a-zA-Z0-9]_[—“”‘’]\|[—“”‘’]_[a-zA-Z0-9]\|[a-zA-Z0-9]`—\|[a-zA-Z0-9]`[a-zA-Z0-9]' *.txt
 	@echo Done.
 
-book.pdf: $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
+book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
 	cd tex/book && xelatex book.tex
+	cd tex/book && xelatex book.tex
+	mv tex/book/book.pdf .
+
+pdfonce:
 	cd tex/book && xelatex book.tex
 	mv tex/book/book.pdf .

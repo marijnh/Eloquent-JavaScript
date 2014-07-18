@@ -5,17 +5,23 @@
 
 = Project: A Programming Language =
 
+[chapterquote="true"]
 [quote, Hal Abelson and Gerald Sussman, Structure and Interpretation of Computer Programs]
 ____
 The evaluator, which determines the meaning of expressions in a
 programming language, is just another program.
 ____
 
+ifdef::html_target[]
+
+[chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
 When a student asked the master about the nature of the cycle of Data
 and Control, Yuan-Ma replied ‘Think of a compiler, compiling itself.’
 ____
+
+endif::html_target[]
 
 Building your own programming language is surprisingly easy (as long as
 you do not aim too high) and very enlightening.

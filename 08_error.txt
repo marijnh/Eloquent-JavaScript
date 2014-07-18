@@ -5,6 +5,7 @@
 
 = Bugs and Error Handling =
 
+[chapterquote="true"]
 [quote, Brian Kernighan and P.J. Plauger, The Elements of Programming Style]
 ____
 Debugging is twice as hard as writing the code in the first place.
@@ -12,6 +13,9 @@ Therefore, if you write the code as cleverly as possible, you are, by
 definition, not smart enough to debug it.
 ____
 
+ifdef::html_target[]
+
+[chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
 Yuan-Ma had written a small program that used many global variables
@@ -20,6 +24,8 @@ against these techniques, yet I find them in your program. How can
 this be?’ The master said, ‘There is no need to fetch a water hose
 when the house is not on fire.’
 ____
+
+endif::html_target[]
 
 (((error handling)))A program is crystallized thought. Sometimes those
 thoughts are confused. Other times, mistakes are introduced when

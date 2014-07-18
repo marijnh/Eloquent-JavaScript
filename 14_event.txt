@@ -4,6 +4,7 @@
 
 = Handling Events =
 
+[chapterquote="true"]
 [quote,Marcus Aurelius,Meditations]
 ____
 You have power over your mind—not outside events. Realize this, and

@@ -5,6 +5,9 @@
 
 = Higher-Order Functions =
 
+ifdef::html_target[]
+
+[chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
 Tzu-li and Tzu-ssu were boasting about the size of their latest
@@ -14,6 +17,9 @@ already.' Master Yuan-Ma said, 'My best program has five hundred
 lines.' Hearing this, Tzu-li and Tzu-ssu were enlightened.
 ____
 
+endif::html_target[]
+
+[chapterquote="true"]
 [quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
 ____
 There are two ways of constructing a software design: One way is to
@@ -407,7 +413,7 @@ console.log(JSON.parse(string).born);
 The variable `ANCESTRY_FILE`, available in the sandbox for this
 chapter as well as in
 http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
-the website!!tex  (`eloquentjavascript.net/code`)!!,
+the website(!tex  (`eloquentjavascript.net/code`)!),
 contains the content of my JSON file as a string. Let's decode it and
 see how many people it contains:
 

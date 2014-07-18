@@ -2,6 +2,31 @@
 \usepackage{lipsum}
 \usepackage{natbib}
 \usepackage{nshyper}
+
+% There has to be a better way do to this, but after wasting a full
+% day, I wasn't able to find it (using the fontspec package kills the
+% nostarch style)
+\usepackage{newunicodechar}
+\newunicodechar{→}{$\rightarrow$}
+\newunicodechar{←}{$\leftarrow$}
+\newunicodechar{“}{``}
+\newunicodechar{”}{''}
+\newunicodechar{π}{$\pi$}
+\newunicodechar{½}{$\frac{1}{2}$}
+\newunicodechar{⅓}{$\frac{1}{3}$}
+\newunicodechar{¼}{$\frac{1}{4}$}
+\newunicodechar{…}{...}
+\newunicodechar{×}{$\times$}
+\newunicodechar{β}{\ss}
+\newunicodechar{ϕ}{$\varphi$}
+\newunicodechar{≈}{$\approx$}
+\newunicodechar{—}{---}
+
+% epigraph is used to style chapter quotes
+\usepackage{epigraph}
+\setlength{\epigraphwidth}{.8\textwidth}
+\setlength{\epigraphrule}{0pt}
+
 \graphicspath{ {../../} }
 \makeindex
 

@@ -4,6 +4,7 @@
 
 = Program Structure =
 
+[chapterquote="true"]
 [quote, _why, Why's (Poignant) Guide to Ruby]
 ____
 And my heart glows bright red under my filmy, translucent skin and

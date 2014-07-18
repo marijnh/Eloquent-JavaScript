@@ -5,6 +5,7 @@
 
 = HTTP =
 
+[chapterquote="true"]
 [quote,Tim Berners-Lee,The World Wide Web: A very short personal history]
 ____
 The dream behind the Web is of a common information space in which we

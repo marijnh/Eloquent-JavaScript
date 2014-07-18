@@ -304,7 +304,7 @@ default type of an `<input>` tag is `"text"`, and when an unsupported
 type is found, browsers will treat it as a text field. That means that
 Internet Explorer users running our paint program will have to type in
 the name of the color they want, rather than select it from a
-convenient widget.!!tex  This is what it may look like:!!
+convenient widget.(!tex  This is what it may look like:!)
 
 ifdef::tex_target[]
 
@@ -615,8 +615,8 @@ point, the dots are not distributed uniformly, but more likely to
 appear near the center of the circle. There are ways around this, but
 they are more complicated than the loop above.
 
-We now have a functioning paint program.!!html  Run the code below to
-try it out.!!
+We now have a functioning paint program.(!html  Run the code below to
+try it out.!)
 
 ifdef::html_target[]
 

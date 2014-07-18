@@ -4,18 +4,24 @@
 
 = Regular Expressions =
 
+[chapterquote="true"]
 [quote,Jamie Zawinski]
 ____
 Some people, when confronted with a problem, think ‘I know, I'll use
 regular expressions.’ Now they have two problems.
 ____
 
+ifdef::html_target[]
+
+[chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
 Yuan-Ma said, ‘When you cut against the grain of the wood, much
 strength is needed. When you program against the grain of a problem,
 much code is needed.’
 ____
+
+endif::html_target[]
 
 Programming tools and techniques survive and spread
 in a chaotic, evolutionary way. It's not always the pretty or

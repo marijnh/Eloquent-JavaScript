@@ -42,3 +42,6 @@ book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
 pdfonce:
 	cd tex/book && xelatex book.tex
 	mv tex/book/book.pdf .
+
+texclean:
+	rm -f tex/book/book.aux tex/book/book.idx tex/book/book.log tex/book/book.out tex/book/book.tbc tex/book/book.toc

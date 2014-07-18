@@ -11,6 +11,8 @@ process.stdin.on("data", function(chunk) {
   input += chunk;
 });
 process.stdin.on("end", function() {
+  var docid = /($|\n)\[\[(.*?)\]\]\n= /.exec(input);
+  if (docid) input = ":docid: " + docid[2] + "\n" + input;
   process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[/g, function(match, title, quoted, imgName, imgType, link) {
     if (title) { // Section title, must be converted to title case
       var kind = /^\n(=*)/.exec(match)[1];

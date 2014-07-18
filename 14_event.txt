@@ -904,7 +904,7 @@ mouse as you moved it across the page.
 
 In this exercise, I want you to implement a mouse trail. Use
 absolutely positioned `<div>` elements with a fixed size and
-background color (refer back to the link:#mouse_drawing[code] in the
+background color (refer back to the link:14_event.html#mouse_drawing[code] in the
 section on mouse click events for an example). Create twelve such
 elements, and when the mouse moves, display them in the wake of the
 mouse pointer, somehow.

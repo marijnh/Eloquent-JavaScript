@@ -786,7 +786,8 @@ console.log(drawTable(dataTable(MOUNTAINS)));
 //   … etcetera
 ----
 
-[[keys]]The standard `Object.keys` function returns an array of
+[[keys]]
+The standard `Object.keys` function returns an array of
 property names in an object. The top row of the table must contain
 underlined cells that give the names of the columns. Below that, the
 values of all the objects in the data set appear as normal cells—we

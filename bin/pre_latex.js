@@ -11,7 +11,7 @@ process.stdin.on("data", function(chunk) {
   input += chunk;
 });
 process.stdin.on("end", function() {
-  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)/g, function(match, title, quoted, imgName, imgType) {
+  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[/g, function(match, title, quoted, imgName, imgType, link) {
     if (title) { // Section title, must be converted to title case
       var kind = /^\n(=*)/.exec(match)[1];
       return "\n" + kind + " " + title.split(" ").map(function(word) {
@@ -24,6 +24,8 @@ process.stdin.on("end", function() {
       return quoted + "”";
     } else if (imgName) { // Image file
       return "\nimage::" + convertImage(imgName, imgType);
+    } else if (link) {
+      return "link:" + link + "[";
     }
   }));
 });

@@ -975,7 +975,8 @@ function)))As we've seen, `Math` is a grab-bag of number-related
 utility functions, such as `Math.max` (maximum), `Math.min` (minimum),
 and `Math.sqrt` (square root).
 
-[[namespace_pollution]](((namespace)))(((namespace pollution)))The
+[[namespace_pollution]]
+(((namespace)))(((namespace pollution)))The
 `Math` object is used simply as a container to group a bunch of
 related functionality. There is only one `Math` object, and it is
 almost never useful as a value. Rather, it provides a _namespace_ so

@@ -18,7 +18,7 @@ process.stdin.on("data", function(chunk) {
 });
 process.stdin.on("end", function() {
   checkUnicode(input);
-  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|(\\chapter\{Introduction\})/g, function(all, codeSpace, manyBlanks, why, intro) {
+  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|(\\chapter\{Introduction\})|\\hyperlink\{((?:[^{]|\\_\{\})+)\}/g, function(all, codeSpace, manyBlanks, why, intro, link) {
     if (codeSpace)
       return codeSpace.slice(1);
     if (manyBlanks)
@@ -27,6 +27,8 @@ process.stdin.on("end", function() {
       return "\\_why,";
     if (intro)
       return "\\chapter*{Introduction}";
+    if (link)
+      return "\\hyperlink{" + link.replace(/\\_\{\}/g, "_") + "}";
   });
   input = input.replace(/({\\hspace\*\{.+?\}\\itshape``)\s*([^]+?)\s*('')/g, "$1$2$3");
 

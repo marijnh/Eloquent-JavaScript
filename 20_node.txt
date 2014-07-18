@@ -2,6 +2,7 @@
 :prev_link: 19_paint
 :next_link: 21_echo_chamber
 
+[[node]]
 = Node.js =
 
 [chapterquote="true"]
@@ -50,7 +51,8 @@ for input/output).
 
 Node was initially conceived for the purpose of making _asynchronous_
 I/O easy and convenient. We have seen that a browser's
-`XMLHttpRequest` interface, discussed in Chapter 17, supported both a
+`XMLHttpRequest` interface, discussed in
+link:17_http.html#xmlhttprequest[Chapter 17], supported both a
 synchronous mode, where the script would stop until the result came
 in, and an asynchronous mode, where the script continued running while
 the request was in progress, and a function was called later, when the
@@ -83,10 +85,11 @@ will be mostly idle when it is transmitting and receiving data over
 the network.
 
 In a synchronous system, the solution to this problem is to start
-additional threads of control (refer back to Chapter 14 for a previous
-discussion of threads). A second thread could start the second
-request, and then both threads wait for their results to come back,
-after which they somehow re-synchronize to combine their results.
+additional threads of control (refer back to
+link:14_event.html#timeline[Chapter 14] for a previous discussion of
+threads). A second thread could start the second request, and then
+both threads wait for their results to come back, after which they
+somehow re-synchronize to combine their results.
 
 In the following diagram, the thick lines represents time the program
 spends running normally, whereas the thin lines represent time spent
@@ -106,10 +109,11 @@ cuts both ways. Asynchronicity makes it easier to express programs
 that do not fit the straight-line model of control, but it also makes
 it more awkward to express the programs that do.
 
-In Chapter 17, I already touched on the fact that all those callbacks
-do add quite a lot of noise and indirection to a program. Whether this
-style of asynchronicity is a good idea in general is debatable. In any
-case, it will look bizarre at first, and takes some getting used to.
+In link:17_http.html#promises[Chapter 17], I already touched on the
+fact that all those callbacks do add quite a lot of noise and
+indirection to a program. Whether this style of asynchronicity is a
+good idea in general is debatable. In any case, it will look bizarre
+at first, and takes some getting used to.
 
 But for a JavaScript-based system, I would argue that callback-style
 asynchronicity is a sensible choice. One of the strengths of
@@ -190,9 +194,9 @@ to access other built-in functionality, you have to ask the module
 system for it.
 
 The CommonJS module system, based on the `require` function, was
-described in Chapter 10. This system is built into Node, and is used
-to load anything from built-in modules to downloaded libraries to
-files that are part of your own program.
+described in link:10_modules.html#commonjs[Chapter 10]. This system is
+built into Node, and is used to load anything from built-in modules to
+downloaded libraries to files that are part of your own program.
 
 When `require` is called, Node has to resolve the given string to an
 actual file to load. Path names that start with `"/"`, `"./"`, or
@@ -258,10 +262,11 @@ Of{fXhwnuy
 
 == Installing with NPM ==
 
-NPM, which was briefly discussed in chapter 10, is an online
-repository of JavaScript modules, many of which are specifically
-written for Node. When you install Node on your computer, you also get
-a program called `npm`, which provides a convenient interface to this
+NPM, which was briefly discussed in
+link:10_modules.html#modules_npm[Chapter 10], is an online repository
+of JavaScript modules, many of which are specifically written for
+Node. When you install Node on your computer, you also get a program
+called `npm`, which provides a convenient interface to this
 repository.
 
 For example, one module you will find on NPM is `figlet`, which can
@@ -435,10 +440,11 @@ first contains information about the request that came in, for example
 its `url` property tells us to what URL the request was made.
 
 To send something back, you call methods on the `response` object. The
-first, `writeHead`, will write out the response headers (see Chapter
-17). You give it the status code (200 for “OK” in this case), and an
-object that contains header values. Here we tell the client that we
-will be sending back an HTML document.
+first, `writeHead`, will write out the response headers (see
+link:17_http.html#headers[Chapter 17]). You give it the status code
+(200 for “OK” in this case), and an object that contains header
+values. Here we tell the client that we will be sending back an HTML
+document.
 
 Next, the actual response body, the document itself, is sent with
 `response.write`. You are allowed to call this method multiple times,
@@ -586,6 +592,7 @@ character, and in this case, if the response happens to arrive as more
 than one chunk and thus cause multiple calls to the `"data"` handler,
 using `console.log` would cause undesirable line breaks in the output.
 
+[[file_server]]
 == A simple file server ==
 
 Let's combine our newfound knowledge about HTTP servers and talking
@@ -861,14 +868,15 @@ little use of exceptions as possible, with the assumption that if an
 exception is raised, it is not something the program can handle, and
 crashing is the right response.
 
-Another approach is to use promises, which were introduced in Chapter
-17. Those catch exceptions raised by the callback functions they call,
-and propagate exceptions raised as failures. It is possible to load a
-promise library in Node, and use that to manage your asynchronous
-control. Very few Node libraries integrate promises, but it is often
-trivial to wrap them. The excellent `"promise"` module from NPM
-contains a function `denodeify`, which takes an asynchronous function
-like `fs.readFile`, and converts it to a promise-returning function.
+Another approach is to use promises, which were introduced in
+link:17_http.html#promises[Chapter 17]. Those catch exceptions raised
+by the callback functions they call, and propagate exceptions raised
+as failures. It is possible to load a promise library in Node, and use
+that to manage your asynchronous control. Very few Node libraries
+integrate promises, but it is often trivial to wrap them. The
+excellent `"promise"` module from NPM contains a function `denodeify`,
+which takes an asynchronous function like `fs.readFile`, and converts
+it to a promise-returning function.
 
 [source,javascript]
 ----
@@ -960,7 +968,8 @@ when the I/O you asked for is completed.
 
 === Content negotiation, again ===
 
-In Chapter 17, the first exercise was to make several requests to
+In link:17_http.html#exercise_accept[Chapter 17], the first exercise
+was to make several requests to
 _http://eloquentjavascript.net/author_, asking for different types of
 content by passing different `Accept` headers.
 
@@ -1004,9 +1013,10 @@ function readStreamAsString(stream, callback) {
 === Fixing a leak ===
 
 For easy remote access to some files, I might get into the habit of
-having the file server defined in this chapter running on my machine,
-in the `/home/marijn/public` directory. Then, one day, I find that
-someone has gained access to all the passwords I stored in my browser.
+having the link:20_node.html#file_server[file server] defined in this
+chapter running on my machine, in the `/home/marijn/public` directory.
+Then, one day, I find that someone has gained access to all the
+passwords I stored in my browser.
 
 What happened?
 
@@ -1100,9 +1110,10 @@ Next, as an advanced exercise, or even a weekend project, combine all
 the knowledge you gained from this book to build a more user-friendly
 interface for modifying the website, *inside* of the website itself.
 
-Include HTML forms (Chapter 18) to edit the content of the files that
-make up the website, allowing the user to update them on the server
-(using HTTP request as described in Chapter 17).
+Include HTML forms (link:18_forms.html#forms[Chapter 18]) to edit the
+content of the files that make up the website, allowing the user to
+update them on the server (using HTTP request as described in
+link:17_http.html#http[Chapter 17]).
 
 Start by making only a single file editable. Then try to extend the
 code to allow the user to select a file to edit, using the fact that

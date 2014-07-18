@@ -84,9 +84,10 @@ visible outside of the scope of the current function is visible
 _everywhere_.
 
 Namespace pollution, the problem of a lot of unrelated code having to
-share a single set of global variable names, was mentioned in chapter
-4, where the `Math` object was given as an example of an object that
-acts like a module by grouping math-related functionality.
+share a single set of global variable names, was mentioned in
+link:04_data.html#namespace_pollution[Chapter 4], where the `Math`
+object was given as an example of an object that acts like a module by
+grouping math-related functionality.
 
 Though JavaScript provides no actual module construct yet, objects can
 be used to create publicly accessible sub-namespaces, and functions
@@ -100,7 +101,7 @@ concepts that JavaScript gives us.
 In a “flat” project, which isn't structured as a set of modules,
 it is not apparent which parts of the code are
 needed to use a particular function. In my program for spying on
-my enemies (see Chapter 9), I wrote a function for reading configuration files.
+my enemies (see link:09_regexp.html#ini[Chapter 9]), I wrote a function for reading configuration files.
 If I want to use that function in another project, I must go
 and copy out the part of the old program that look like they are
 relevant to the functionality that I need, and paste them into my new
@@ -127,16 +128,16 @@ and distributes hundreds of thousands of such libraries, allowing you to
 search for the functionality you need, and, once you find it, set up
 your project to automatically download it.
 
-(((NPM)))This service exists. It is called _NPM_ (http://npmjs.org[_npmjs.org_]).
+[[modules_npm]](((NPM)))This service exists. It is called _NPM_ (http://npmjs.org[_npmjs.org_]).
 NPM consists of an online database of modules, and a tool for
 downloading and upgrading the modules your program depends on. It grew
 out of Node.js, the browser-less JavaScript environment we will discuss in
-Chapter 20, but can also be useful when programming for the browser.
+link:20_node.html#node[Chapter 20], but can also be useful when programming for the browser.
 
 == Decoupling ==
 
 Another important role of modules is isolating pieces of code from
-each other, in the same way that the object interfaces from Chapter 6
+each other, in the same way that the object interfaces from link:06_object.html#interface[Chapter 6]
 do. A well-designed module will provide an interface for external code
 to use. As the module gets updated with bug-fixes and new
 functionality, the existing interface stays stable, so that
@@ -322,6 +323,7 @@ Secondly, we need to be able
 to actually execute this string as JavaScript
 code.
 
+[[eval]]
 == Evaluating data as code ==
 
 There are several ways to take data (a string of code) and run it as
@@ -358,6 +360,7 @@ console.log(plusOne(4));
 This is precisely what we need for our modules. We can wrap a module's code in a
 function, with that function's scope becoming our module scope.
 
+[[commonjs]]
 == Require ==
 
 The following is a very minimal implementation of `require`:
@@ -464,16 +467,18 @@ a module name to an actual piece of code, allowing both pathnames
 relative to the current file, and module names that point directly to
 locally installed modules.
 
+[[amd]]
 == Slow-loading modules ==
 
-Though it is possible to use the style above when writing JavaScript for
-the browser, it is somewhat involved. The reason for this is that
+Though it is possible to use the style above when writing JavaScript
+for the browser, it is somewhat involved. The reason for this is that
 reading a file (module) from the Web is a lot slower than reading it
-from the hard disk.
-While a script is running in the browser, nothing else can happen to the
-website on which it runs, for reasons that will become clear in Chapter 14. This means that if every `require` call
-went and loaded something from some far-away web server, the page would
-freeze for a painfully long time while loading its scripts.
+from the hard disk. While a script is running in the browser, nothing
+else can happen to the website on which it runs, for reasons that will
+become clear in link:14_event.html#timeline[Chapter 14]. This means
+that if every `require` call went and loaded something from some
+far-away web server, the page would freeze for a painfully long time
+while loading its scripts.
 
 One way to work around this problem is to run a
 program like _http://browserify.org[Browserify]_) on your code
@@ -526,7 +531,7 @@ define([], function() {
 In order to be able to show a minimal implementation of `define`, we will
 pretend we have a `backgroundReadFile` function, which takes a file
 name and a function, and will call the function with the content of
-the file as soon as it has finished loading it. (Chapter 17 will
+the file as soon as it has finished loading it. (link:17_http.html#getURL[Chapter 17] will
 explain how to write that function.)
 
 For the purpose of keeping track of modules while they are being
@@ -668,7 +673,7 @@ of the module's behavior.
 
 (((composability)))In your interfaces, try to use the simplest data
 structures possible, and make functions do a single, clear
-thing. Whenever practical, make them pure functions (see Chapter 3).
+thing. Whenever practical, make them pure functions (see link:03_functions.html#pure[Chapter 3]).
 
 For example, it is not uncommon for modules to provide their own
 array-like collection objects, with their own interface for counting
@@ -768,7 +773,7 @@ interface object is stored in the `month` variable.
 
 === A return to electronic life ===
 
-Hoping that Chapter 7 is still somewhat fresh in your mind, think back
+Hoping that link:07_elife.html#elife[Chapter 7] is still somewhat fresh in your mind, think back
 to the system designed in that chapter and come up with a way to separate
 the code into modules. To refresh your memory, these are the
 functions and types defined in that chapter, in order of appearance.

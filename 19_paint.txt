@@ -3,6 +3,7 @@
 :next_link: 20_node
 :load_files: ["code/chapter/19_paint.js"]
 
+[[paint]]
 = Project: A Paint Program =
 
 The material from the previous chapters gives you all the elements you
@@ -63,11 +64,12 @@ calls in order to find the DOM elements that it needs to act on.
 It would be nice if the DOM structure for each part of our interface
 is defined close to the JavaScript code that drives it. Thus, I've
 opted to do all creation of DOM nodes in JavaScript. As we saw in
-Chapter 13, the built-in interface for building up a DOM structure is
-horrendously verbose. Thus, if we are going to do a lot of DOM
-construction, we need some kind of helper function.
+link:13_dom.html#standard[Chapter 13], the built-in interface for
+building up a DOM structure is horrendously verbose. Thus, if we are
+going to do a lot of DOM construction, we need some kind of helper
+function.
 
-This is an extended version of the `elt` function from Chapter 13. It
+This is an extended version of the `elt` function from link:13_dom.html#elt[Chapter 13]. It
 creates an element with the given name and attributes, and appends all
 further arguments it gets as child nodes, automatically converting
 strings to text nodes.
@@ -176,7 +178,7 @@ The most basic tool is the line tool, which allows the user to draw
 lines with the mouse. To be able to put the line ends in the right
 place, we need to be able to find the canvas-relative coordinates that
 a given mouse event corresponds to. The `getBoundingClientRect`
-method, briefly mentioned in Chapter 13, can help us here. It tells us
+method, briefly mentioned in link:13_dom.html#boundingRect[Chapter 13], can help us here. It tells us
 where an element is shown, relative to the top left corner of the
 screen. The `clientX` and `clientY` properties on mouse events are
 also relative to this corner, so we can subtract the top left corner
@@ -293,7 +295,7 @@ again.
 Assuming that users will want to draw in colors other than black, and
 use different brush sizes, let's add controls for those two settings.
 
-In Chapter 18, I discussed a number of different form fields. Color
+In link:18_forms.html#forms[Chapter 18], I discussed a number of different form fields. Color
 fields were not among those. Traditionally, browsers do not have
 built-in support for color pickers, but in the past years, a number of
 new form field types have been standardized. One of those is `<input
@@ -414,13 +416,14 @@ well.
 Here we may once again run into the subtleties of a browser's
 sandboxing. When an image is loaded from a URL on another domain, and
 the server's response did not include a header that tells the browser
-that this resource may be used from other domains (see Chapter 17),
-the canvas now contains information that the _user_ may look at, but
-that the _script_ may not. The reason for this is that we may have
-requested a picture that contains private information (for example, a
-graph showing the user's bank account balance), using the user's
-session. If scripts could get information out of that picture, they
-could snoop on the user in undesirable ways.
+that this resource may be used from other domains (see
+link:17_http.html#http_sandbox[Chapter 17]), the canvas now contains
+information that the _user_ may look at, but that the _script_ may
+not. The reason for this is that we may have requested a picture that
+contains private information (for example, a graph showing the user's
+bank account balance), using the user's session. If scripts could get
+information out of that picture, they could snoop on the user in
+undesirable ways.
 
 To prevent these kinds of information leaks, browsers will marks a
 canvas as _tainted_ when an image that the script may not see is drawn
@@ -470,10 +473,11 @@ context to forget configuration properties like `fillStyle` and
 after it has updated the size.
 
 The control for loading a local file uses the `FileReader` technique
-from Chapter 18. Apart from the `readAsText` method we used there,
-such reader objects also have a method `readAsDataURL`, which is
-exactly what we need here. We load the file that the user chose as a
-data URL, and pass it to `loadImageURL` to put it into the canvas.
+from link:18_forms.html#filereader[Chapter 18]. Apart from the
+`readAsText` method we used there, such reader objects also have a
+method `readAsDataURL`, which is exactly what we need here. We load
+the file that the user chose as a data URL, and pass it to
+`loadImageURL` to put it into the canvas.
 
 // include_code
 
@@ -640,7 +644,7 @@ pieces of functionality as exercises.
 === Rectangles ===
 
 Define a tool called `Rectangle` that fills a rectangle (see the
-`fillRect` method from Chapter 16) with the current color. The
+`fillRect` method from link:16_canvas.html#fill_stroke[Chapter 16]) with the current color. The
 rectangle should span from the point where the user pressed the mouse
 button to the point where they released it. Note that the latter might
 be above or to the left of the former.
@@ -652,7 +656,7 @@ dragging, without actually drawing to the canvas until the mouse
 button is released?
 
 If nothing comes to mind, think back to the `position: absolute` style
-which was discussed in Chapter 13, which can be used to overlay a node
+which was discussed in link:13_dom.html#animation[Chapter 13], which can be used to overlay a node
 on the rest of the document. The `pageX` and `pageY` properties of a
 mouse event can be used to position an element precisely under the
 mouse, by setting the `left`, `top`, `width`, and `height` styles to
@@ -755,7 +759,7 @@ drawing context's `fillStyle` and `strokeStyle` get set to the color
 under the mouse cursor.
 
 Remember that these properties accept any color that CSS understand,
-which includes the `rgb(R, G, B)` style we saw in Chapter 15.
+which includes the `rgb(R, G, B)` style we saw in link:15_game.html#game_css[Chapter 15].
 
 The `getImageData` method is subject to the same restrictions as
 ++toDataURL++—it will raise an error when the canvas contains pixels
@@ -822,7 +826,7 @@ You will once again need `getImageData` to find out the color for each
 pixel. It is probably a good idea to fetch the whole image in one go,
 and then pick out pixel data from the resulting array. The pixels are
 organized in this array in a similar way to the grid elements in
-Chapter 7, one row at a time, except that each pixel is represented by
+link:07_elife.html#grid[Chapter 7], one row at a time, except that each pixel is represented by
 four values. The first value for the pixel at (x,y) is at position (x
 + y × width) × 4.
 
@@ -833,11 +837,11 @@ Finding all adjacent pixels with the same color requires you to “walk”
 over the pixel surface, one pixel up, down, left, or right, as long as
 new same-colored pixels can be found. But you won't find all pixels in
 a group on the first walk. Rather, you have to do something similar to
-the backtracking described in Chapter 9, as done by the regular
-expression matcher. Whenever more than one possible direction to
-proceed is seen, you must store all the directions you do not take
-immediately, and look at them later, when it finishes its current
-walk.
+the backtracking described in link:09_regexp.html#backtracking[Chapter
+9], as done by the regular expression matcher. Whenever more than one
+possible direction to proceed is seen, you must store all the
+directions you do not take immediately, and look at them later, when
+it finishes its current walk.
 
 In a normal-sized picture there are a _lot_ of pixels. Thus, you must
 take care to do the minimal amount of work required, or your program

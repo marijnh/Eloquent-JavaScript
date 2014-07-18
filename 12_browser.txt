@@ -91,6 +91,7 @@ are successfully transmitted, they can be read out again by the machine on the
 other side. This is a very convenient model. You could say that TCP
 provides an abstraction of the network.
 
+[[web]]
 == The Web ==
 
 The _World Wide Web_ (not to be confused with the Internet as a whole)
@@ -134,7 +135,7 @@ _eloquentjavascript.net_ refers to. Then, using the HTTP protocol, it
 makes a connection to the server at that address, and asks for the
 file _/12_browser.html_.
 
-We will take a closer look at the HTTP protocol in Chapter 17.
+We will take a closer look at the HTTP protocol in link:17_http.html#http[Chapter 17].
 
 == HTML ==
 
@@ -237,6 +238,7 @@ ridiculous things when you forget them. You should consider doctypes
 implicitly present in examples, even when they are not actually
 shown in the text.
 
+[[script_tag]]
 == HTML and JavaScript ==
 
 In the context of this book, the most important HTML tag is

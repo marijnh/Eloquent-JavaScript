@@ -3,12 +3,14 @@
 :next_link: 14_event
 :load_files: ["code/mountains.js", "code/chapter/13_dom.js"]
 
+[[dom]]
 = The Document Object Model =
 
 When you open a web page in your browser, it will retrieve the page's
-HTML text, and parse it much like our parser from Chapter 11 parses
-programs, building up a model of its structure. It will then use this
-model to draw the page onto the screen.
+HTML text, and parse it much like our parser from
+link:11_language.html#parsing[Chapter 11] parses programs, building up a
+model of its structure. It will then use this model to draw the page
+onto the screen.
 
 One of the toys that a JavaScript program has available in its sandbox
 is this representation of the document. We can read from it, but also
@@ -55,7 +57,7 @@ the objects for those elements.
 
 == Trees ==
 
-Think back to the syntax trees from Chapter 11 for a moment. Their
+Think back to the syntax trees from link:11_language.html#parsing[Chapter 11] for a moment. Their
 structure is strikingly similar to the structure of a browser's
 document. Each _node_ may refer to other nodes, _children_, which may
 have their own children. This shape is typical of nested structures
@@ -97,6 +99,7 @@ image::img/html-tree.svg[alt="HTML document as a tree",width="8cm"]
 The leaves are text nodes, and the arrows indicate
 parent-child relationships between nodes.
 
+[[standard]]
 == The standard ==
 
 Using cryptic number codes to represent node types is not a very
@@ -158,6 +161,7 @@ itself as we go deeper, recursive functions are often useful. The one
 below scans a document for text nodes containing a given string, and
 returns true when it has found one.
 
+[[talksAbout]]
 [sandbox="homepage"]
 [source,javascript]
 ----
@@ -325,6 +329,7 @@ To create regular element nodes (type 1), you can use the
 `document.createElement` method. This method takes a tag name and
 returns a new empty node of the given type.
 
+[[elt]]
 The following example defines a utility `elt`, which creates an
 element node, and treats the rest of its arguments as children to that
 node. This function is then used to add a simple attribution to a
@@ -507,6 +512,7 @@ size of the _inside_ of the element, ignoring border width.
 </script>
 ----
 
+[[boundingRect]]
 The most effective way to find the precise position of an element on
 the screen is the `getBoundingClientRect` method. It returns an object
 with `top`, `bottom`, `left`, and `right` properties indicating the
@@ -738,6 +744,7 @@ way. This one is useful if you want a specific, single element. It
 will return only the first matching element, or null if no elements
 match.
 
+[[animation]]
 == Positioning and animating ==
 
 The style property called `position` influences layout in a powerful
@@ -781,6 +788,7 @@ First, the picture is centered on the page, and given a `position` of
 `relative`. We'll repeatedly update that picture's `top` and `left`
 styles in order to move it.
 
+[[animationFrame]]
 The script uses `requestAnimationFrame` to schedule a function
 `animate` to run whenever the browser is ready to repaint the screen.
 The `animate` function itself again calls `requestAnimationFrame` to
@@ -804,6 +812,7 @@ motion would look stuttery when, for example, some other heavy task
 running on the same computer prevented the function from running for a
 fraction of a second.
 
+[[sin_cos]]
 Moving in circles is done using the trigonometry functions `Math.cos`
 and `Math.sin`. If you are not familiar with those, I'll try to
 briefly introduce them, since we will occasionally need them in this
@@ -858,11 +867,12 @@ element's style directly through its `style` property.
 
 == Exercises ==
 
+[[exercise_table]]
 === Build a table ===
 
-We built plain-text tables in Chapter 6. HTML makes laying out tables
-quite a bit easier. An HTML table is built with the following tag
-structure:
+We built plain-text tables in link:06_object.html#tables[Chapter 6].
+HTML makes laying out tables quite a bit easier. An HTML table is
+built with the following tag structure:
 
 [source,text/html]
 ----
@@ -884,10 +894,12 @@ For each _row_, the `<table>` tag contains a `<tr>` tag. Inside of
 these, we can put cell elements, either heading cells (`<th>`) or
 regular cells (`<td>`).
 
-The same source data that was used in Chapter 6 is again available in
-the `MOUNTAINS` variable in the sandbox, and also
+The same source data that was used in
+link:06_object.html#mountains[Chapter 6] is again available in the
+`MOUNTAINS` variable in the sandbox, and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
-list of data sets on the website(!tex (`eloquentjavascript.net/code`)!).
+list of data sets on the website(!tex
+(http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 
 Write a function `buildTable` that, given an array of objects (which
 all have the same set of properties), builds up a DOM structure
@@ -980,7 +992,8 @@ endif::html_target[]
 !!solution!!
 
 This is most easily expressed with a recursive function, similar to
-the `talksAbout` function defined earlier in this chapter.
+the link:13_dom.html#talksAbout[`talksAbout` function] defined earlier
+in this chapter.
 
 You could call `byTagname` itself recursively, concatenating the
 resulting arrays to produce the output. For a more efficient approach,
@@ -999,7 +1012,7 @@ own children.
 
 === The cat's hat ===
 
-Extend the spinning cat animation we defined earlier to have both the
+Extend the spinning cat animation we defined link:13_dom.html#animation[earlier] to have both the
 cat and his hat (`<img src="img/hat.png">`) spin around, at opposite
 sides of the circle.
 

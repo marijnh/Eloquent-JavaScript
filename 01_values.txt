@@ -2,6 +2,7 @@
 :prev_link: 00_intro
 :next_link: 02_program_structure
 
+[[values]]
 = Values, Types, and Operators =
 
 [quote, Master Yuan-Ma, The Book of Programming]
@@ -268,7 +269,7 @@ The following line will produce the string `"concatenate"`:
 ----
 
 There are more ways of manipulating strings, which we will discuss
-when we get to methods in Chapter 4.
+when we get to methods in link:04_data.html#methods[Chapter 4].
 
 == Unary operators ==
 
@@ -285,6 +286,7 @@ console.log(typeof "x")
 // → string
 ----
 
+[[console.log]]
 We will use `console.log` in example code to indicate that we want to
 see the result of evaluating something. When you run such code, the
 value produced should be shown on the screen, though how it appears will
@@ -446,7 +448,7 @@ value. They are themselves values, but they carry no
 information.
 
 Many operations in the language that don't produce a meaningful value
-(you'll see some in the next chapter) will yield `undefined` simply
+(you'll see some link:01_values.html#console.log[later]) will yield `undefined` simply
 because they have to yield _some_ value.
 
 The difference in meaning between `undefined` and `null` is an accident
@@ -584,5 +586,5 @@ as several unary operators (`-` to negate a number, `!` to negate
 logically, and `typeof` to find a value's type).
 
 This gives you enough information to use JavaScript as a pocket
-calculator, but not much more. The next chapter will start tying these
+calculator, but not much more. The link:02_program_structure.html#program_structure[next chapter] will start tying these
 basic expressions together into basic programs.

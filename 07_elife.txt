@@ -3,6 +3,7 @@
 :next_link: 08_error
 :load_files: ["code/chapter/07_elife.js", "js/animateworld.js"]
 
+[[elife]]
 = Project: Electronic Life =
 
 [chapterquote="true"]
@@ -35,6 +36,7 @@ course, this is a somewhat crude and inaccurate approximation. But our
 simulation is intended to be amusing, not accurate, so we can freely
 cut such corners.
 
+[[plan]]
 We can define a world with a “plan”, an array of strings
 that lays out the world's grid using one character per square.
 
@@ -69,12 +71,14 @@ based on), so that we can see what's going on inside. The world object also
 has a `turn` method, which allows all the critters in it take one
 turn, and updates the world to reflect their actions.
 
+[[grid]]
 == Representing space ==
 
-The grid that models the world has a fixed width and height.
-Squares are identified by their x- and y-coordinates. We use a very
-simple type, `Vector` (as seen in the exercises for the previous
-chapter) to represent these coordinate pairs.
+The grid that models the world has a fixed width and height. Squares
+are identified by their x- and y-coordinates. We use a very simple
+type, `Vector` (as seen in the exercises for the
+link:06_object.html#exercise_vector[previous chapter]) to represent
+these coordinate pairs.
 
 // include_code
 
@@ -173,6 +177,7 @@ critter wants to take, for example `"move"`. The action may also
 contain extra information, such as the direction the critter wants to
 move in.
 
+[[directions]]
 Critters are terribly myopic, and can only see the squares
 directly around them on the grid. But even this limited vision can be useful
 when deciding which action to take. When the `act` method is called,
@@ -237,9 +242,11 @@ The `randomElement` helper function simply picks a random element from an
 array, using `Math.random` plus some arithmetic to get a random index.
 We'll use this again later, as randomness can be useful in simulations.
 
-The `BouncingCritter` constructor calls `Object.keys`. We saw this function in the previous chapter: it returns an array
-containing all the property names in the given object. Here,
-it gets all the direction names from the `directions` object we defined earlier.
+The `BouncingCritter` constructor calls `Object.keys`. We saw this
+function in the link:06_object.html#keys[previous chapter]: it returns
+an array containing all the property names in the given object. Here,
+it gets all the direction names from the `directions` object we
+defined link:07_elife.html#directions[earlier].
 
 The “++|| "s"++” in the `act` method is there to prevent `this.direction` from getting
 the value `null` if the critter is somehow trapped with no empty space
@@ -247,12 +254,13 @@ around it (for example when crowded into a corner by other critters).
 
 == The world object ==
 
-Now we can start on the `World` object type. The constructor
-takes a plan (the array of strings representing the world's grid, described earlier) and a _legend_ as arguments.
-A legend is an object that tells us what each character in the map means.
-It contains a constructor for every character—
-except for the space character, which always refers to `null`, the value
-we'll use to represent empty space.
+Now we can start on the `World` object type. The constructor takes a
+plan (the array of strings representing the world's grid, described
+link:07_elife.html#grid[earlier]) and a _legend_ as arguments. A
+legend is an object that tells us what each character in the map
+means. It contains a constructor for every character— except for the
+space character, which always refers to `null`, the value we'll use to
+represent empty space.
 
 // include_code
 
@@ -324,8 +332,9 @@ function Wall() {}
 ----
 
 When we try out the `World` object by creating an instance based on
-the plan from earlier in the chapter, and then calling `toString` on it, we get a
-string very similar to the plan we put in.
+the plan from link:07_elife.html#plan[earlier in the chapter], and
+then calling `toString` on it, we get a string very similar to the
+plan we put in.
 
 // include_code strip_log
 // test: trim
@@ -474,6 +483,7 @@ critters to move.
 
 // include_code
 
+[[checkDestination]]
 [source,javascript]
 ----
 World.prototype.letAct = function(critter, vector) {
@@ -604,7 +614,8 @@ The first two maps that are displayed will look something like this
 
 They move! To get a more interactive view of these critters crawling
 around and bouncing off the walls, open this chapter in the online
-version of the book at `eloquentjavascript.net`.
+version of the book at
+http://eloquentjavascript.net[_eloquentjavascript.net_].
 
 endif::tex_target[]
 
@@ -624,10 +635,10 @@ animateWorld(world);
 // → … life!
 ----
 
-The implementation of `animateWorld` will remain a mystery for
-now, but after you've read the later chapters of this book, which
-discuss JavaScript integration in web browsers, it won't look so
-magical anymore.
+The implementation of `animateWorld` will remain a mystery for now,
+but after you've read the link:13_dom.html#dom[later chapters] of this
+book, which discuss JavaScript integration in web browsers, it won't
+look so magical anymore.
 
 endif::html_target[]
 
@@ -827,11 +838,12 @@ actionTypes.move = function(critter, vector, action) {
 };
 ----
 
-This action first checks, using the `checkDestination` method defined earlier,
-whether the action provides a valid destination. If not, or when the
-destination isn't empty, or if the critter lacks the required
-energy, `move` returns false to indicate no action was taken.
-Otherwise, it moves the critter, and subtracts the energy cost.
+This action first checks, using the `checkDestination` method defined
+link:07_elife.html#checkDestination[earlier], whether the action
+provides a valid destination. If not, or when the destination isn't
+empty, or if the critter lacks the required energy, `move` returns
+false to indicate no action was taken. Otherwise, it moves the
+critter, and subtracts the energy cost.
 
 In addition to moving, critters can also eat:
 

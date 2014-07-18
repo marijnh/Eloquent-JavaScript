@@ -24,10 +24,10 @@ meetings moved to another town, nobody stepped forward to take over
 this task. We want a system that will let the participants propose and
 discuss talks among themselves, without a central organizer.
 
-(!html Just like in the previous chapter, the code in this chapter is
-written for Node.js, and running it directly in the HTML page that you
-are looking at is unlikely to work. !)The full code for the project
-can be downloaded from
+(!html Just like in the link:20_node.html#node[previous chapter], the
+code in this chapter is written for Node.js, and running it directly
+in the HTML page that you are looking at is unlikely to work. !)The
+full code for the project can be downloaded from
 http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code/skillsharing.zip_].
 
 == Design ==
@@ -111,10 +111,10 @@ define the point where they touch: the HTTP interface over which they
 communicate.
 
 We will base our interface on JSON, and, like in the file server from
-Chapter 20, try to make good use of HTTP verbs. The interface is
-centered around the path `/talks`, and leaves other paths for serving
-normal files, such as the HTML and JavaScript files that implement the
-client-side system.
+link:20_node.html#file_server[Chapter 20], try to make good use of
+HTTP verbs. The interface is centered around the path `/talks`, and
+leaves other paths for serving normal files, such as the HTML and
+JavaScript files that implement the client-side system.
 
 A normal `GET` request to `/talks` will return a JSON document like
 this:
@@ -128,7 +128,7 @@ this:
 ----
 
 The `serverTime` field will be used to allow reliable long polling. I
-will come back to it later.
+will come back to it link:21_skillsharing.html#poll_time[later].
 
 Creating a new talk is done by making a `PUT` request to a URL like
 `/talks/Unituning`, where the part after the second slash is the title
@@ -183,6 +183,7 @@ time. When there are such changes, they are immediately returned. When
 not, the response is delayed until something happens, or a given time
 (we will use 90 seconds) has elapsed.
 
+[[poll_time]]
 The time must be indicated as the number of milliseconds elapsed since
 the start of 1970, the same format that is returned by `Date.now()`.
 In order to ensure that it receives all updates, and doesn't receive
@@ -319,10 +320,11 @@ groups, these are URL-decoded (since the raw URL will contain
 When a request matches none of the request types defined in our
 router, the server must interpret it as being a request for a file in
 the `public` directory. It would be possible to use the file server
-defined in Chapter 20 to serve such files, but since we neither need
-nor want to support `PUT` and `DELETE` requests, and we would like to
-have advanced features like caching support, let's use a solid,
-well-tested static file server from NPM instead.
+defined in link:20_node.html#file_server[Chapter 20] to serve such
+files, but since we neither need nor want to support `PUT` and
+`DELETE` requests, and we would like to have advanced features like
+caching support, let's use a solid, well-tested static file server
+from NPM instead.
 
 I opted for `ecstatic`, which isn't the only such server on NPM, but
 which works well and fits our purposes. The `ecstatic` module exports
@@ -412,8 +414,9 @@ router.add("DELETE", /^\/talks\/([^\/]+)$/,
 });
 ----
 
-The `registerChange` function, which we will define later, notifies
-waiting long polling requests about the change.
+The `registerChange` function, which we will define
+link:21_skillsharing.html#registerChange[later], notifies waiting long
+polling requests about the change.
 
 To be able to easily get the content of JSON-encoded request bodies,
 we define a function `readStreamAsJSON`, which reads all content from
@@ -598,6 +601,7 @@ immediately set. After 90 seconds, this timeout sees if the response
 is still pending, and if it is, sends an empty response and removes it
 from the `waiting` array.
 
+[[registerChange]]
 To be able to find exactly those talks that have been changed since a
 given point in time, we need to keep track of the history of changes.
 This is what the `changes` array is used for. Registering a change
@@ -745,9 +749,10 @@ you guess what it is for?
 
 Creating complicated DOM structures with JavaScript code makes for
 some really ugly code. You can make it slightly better by introducing
-helper functions like the `elt` function from Chapter 19, but the
-result will still look worse than HTML, which can be thought of as a
-domain-specific language for expressing DOM structures.
+helper functions like the `elt` function from
+link:13_dom.html#elt[Chapter 13], but the result will still look worse
+than HTML, which can be thought of as a domain-specific language for
+expressing DOM structures.
 
 To create DOM structures for the talks, our program will define a very
 simple _templating_ system, which uses these hidden DOM structures
@@ -1264,10 +1269,10 @@ URL.
 Thus, the server would have to be revised to accept comments, new
 talks, and deleted talks through `POST` requests, whose bodies aren't
 JSON, but rather use the URL-encoded format that HTML forms use (see
-Chapter 17). These requests would have to return the full new page, so
-that users see the new state of the site after they make a change.
-This would not be too hard to engineer, and could be implemented
-alongside the “clean” HTTP interface.
+link:18_forms.html#forms[Chapter 17]). These requests would have to
+return the full new page, so that users see the new state of the site
+after they make a change. This would not be too hard to engineer, and
+could be implemented alongside the “clean” HTTP interface.
 
 The code for rendering talks would have to be duplicated on the
 server. The `index.html` file, rather than being a static file, would

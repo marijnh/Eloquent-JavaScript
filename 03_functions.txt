@@ -2,6 +2,7 @@
 :prev_link: 02_program_structure
 :next_link: 04_data
 
+[[functions]]
 = Functions =
 
 [chapterquote="true"]
@@ -145,6 +146,7 @@ function-local variables as existing only within the function, the
 language makes it possible to read and understand functions as small
 universes, without having to worry about all the code at once.
 
+[[scoping]]
 == Nested scope ==
 
 (((variable,scope)))(((inner function)))(((nested functions)))
@@ -248,7 +250,7 @@ if (safeMode)
   launchMissiles = function(value) {/* do nothing */};
 ----
 
-In Chapter 5, we will discuss the wonderful things that can be done by
+In link:05_higher_order.html#higher_order[Chapter 5], we will discuss the wonderful things that can be done by
 passing around function values to other functions.
 
 == Declaration notation ==
@@ -302,6 +304,7 @@ function example() {
 }
 ----
 
+[[stack]]
 == The call stack ==
 
 indexsee:[stack,call stack]
@@ -397,6 +400,7 @@ one will tell you about it.
 
 indexsee:[optional argument,argument optional]
 
+[[power]]
 (((argument,optional)))The upside is that this behavior can be used
 to have a function take “optional” arguments. For example, the
 following version of `power` can be called either with two arguments
@@ -422,7 +426,7 @@ console.log(power(4, 3));
 // → 64
 ----
 
-In the next chapter, we will see a way in which a function body can
+In the link:04_data.html#arguments_object[next chapter], we will see a way in which a function body can
 get at the exact list of arguments that were passed. This is helpful
 because it makes it possible for a function to accept any number of
 arguments. `console.log` makes use of this—it outputs all of the
@@ -546,12 +550,12 @@ between human-friendliness and machine-friendliness. Almost
 any program can be made faster by making it
 bigger and more convoluted. The programmer may decide on an appropriate balance.
 
-In the case of the earlier `power` function, the inelegant (looping)
-version is still fairly simple and easy to read. It doesn't make much
-sense to replace it with the recursive version. Often, though, a
-program deals with such complex concepts that giving up some
-efficiency in order to make the program more straightforward becomes
-an attractive choice.
+In the case of the link:03_functions.html#power[earlier] `power`
+function, the inelegant (looping) version is still fairly simple and
+easy to read. It doesn't make much sense to replace it with the
+recursive version. Often, though, a program deals with such complex
+concepts that giving up some efficiency in order to make the program
+more straightforward becomes an attractive choice.
 
 The basic rule, which has been repeated by many programmers and with
 which I wholeheartedly agree, is to not worry about efficiency until
@@ -578,6 +582,7 @@ with loops. Most often these are problems that require exploring or
 processing several “branches”, each of which might branch out again
 into more branches.
 
+[[recursive_puzzle]]
 Consider this puzzle: by starting from the number 1 and repeatedly
 either adding 5 or multiplying by 3, an infinite amount of new
 numbers can be produced. How would you write a function that, given a
@@ -788,6 +793,7 @@ sure you're going to need it. It can be tempting to write general
 Resist that urge. You won't get any real work done, and you'll end up
 writing a lot of code that no one will ever use.
 
+[[pure]]
 == Functions and side effects ==
 
 (((side effect)))(((pure function)))(((function,purity)))Functions
@@ -860,9 +866,10 @@ sections help organize regular text.
 
 === Minimum ===
 
-The previous chapter introduced the standard function `Math.min` that
-returns its smallest argument. We can do that ourselves now. Write a
-function `min` that takes two arguments and returns their minimum.
+The link:02_program_structure.html#return_values[previous chapter]
+introduced the standard function `Math.min` that returns its smallest
+argument. We can do that ourselves now. Write a function `min` that
+takes two arguments and returns their minimum.
 
 ifdef::html_target[]
 
@@ -928,13 +935,13 @@ endif::html_target[]
 
 !!solution!!
 
-Your function will likely look somewhat similar to the inner `find` function in
-the recursive `findSolution` example in this chapter, with an
-`if`/`else if`/`else` chain that tests which of the three cases
+Your function will likely look somewhat similar to the inner `find`
+function in the recursive `findSolution` link:03_functions.html#recursive_puzzle[example] in this chapter, with
+an `if`/`else if`/`else` chain that tests which of the three cases
 applies. The final `else`, corresponding to the third case, makes the
-recursive call. Each of the
-branches should contain a `return` statement or in some other way
-arrange for a specific value to be returned.
+recursive call. Each of the branches should contain a `return`
+statement or in some other way arrange for a specific value to be
+returned.
 
 When given a negative number, the function will recurse again and
 again, passing itself an ever more negative number, thus getting

@@ -3,6 +3,7 @@
 :next_link: 18_forms
 :load_files: ["code/chapter/17_http.js", "js/promise.js"]
 
+[[http]]
 = HTTP =
 
 [chapterquote="true"]
@@ -14,7 +15,7 @@ fact that a hypertext link can point to anything, be it personal,
 local or global, be it draft or highly polished.
 ____
 
-The _Hyper-Text Transfer Protocol_, already mentioned in Chapter 12,
+The _Hyper-Text Transfer Protocol_, already mentioned in link:12_browser.html#web[Chapter 12],
 is the mechanism through which data is requested and provided on the
 World Wide Web. This chapter describes this protocol in more detail,
 and explains the way browser JavaScript has access to it.
@@ -95,6 +96,7 @@ resource that was requested could not be found. Codes that start with
 5 mean an error occurred that the server, rather than the request, is
 to blame for.
 
+[[headers]]
 The first line of a request or response may be followed by any number
 of _headers_. These are lines in the form “name: value” that specify
 extra information about the request or response. These headers were
@@ -137,6 +139,7 @@ responses one at a time.
 
 Fetching such documents is always done using `GET` requests.
 
+[[http_forms]]
 Generating `POST` requests in a browser is also a common thing to do.
 HTML pages may include _forms_, which allow the user to fill out
 information and send it to the server. This is an example of a form:
@@ -199,9 +202,10 @@ Content-type: application/x-www-form-urlencoded
 name=Jean&message=Yes%3F
 ----
 
-The next chapter will come back to forms, and talk about the way we
-can script them with JavaScript.
+The link:18_forms.html#forms[next chapter] will come back to forms,
+and talk about the way we can script them with JavaScript.
 
+[[xmlhttprequest]]
 == Historical accident ==
 
 The interface through which browser JavaScript can make HTTP requests
@@ -333,14 +337,14 @@ req.send(null);
 This again forces us to use an asynchronous style of programming,
 wrapping the things that have to be done after the request in a
 function, and arranging for that to be called at the appropriate time.
-We will come back to this later.
+We will come back to this link:17_http.html#promises[later].
 
 == Fetching XML Data ==
 
 When the file retrieved by an `XMLHttpRequest` object is an XML
 document, the object's `responseXML` property will hold a parsed
 representation of this document. This representation works much like
-the DOM discussed in Chapter 13, except that it doesn't have
+the DOM discussed in link:13_dom.html#dom[Chapter 13], except that it doesn't have
 HTML-specific functionality like the `style` property. The object that
 `responseXML` holds corresponds to the `document` object. Its
 `documentElement` property refers to the outer tag of the XML
@@ -385,6 +389,7 @@ console.log(JSON.parse(req.responseText));
 // → {banana: "yellow", lemon: "yellow", cherry: "red"}
 ----
 
+[[http_sandbox]]
 == HTTP sandboxing ==
 
 Making HTTP requests in web page scripts once again raises concerns
@@ -412,11 +417,11 @@ Access-Control-Allow-Origin: *
 
 == Abstracting requests ==
 
-In Chapter 10, in our implementation of the AMD module system, we used
-a hypothetical function called `backgroundReadFile`. It took a
-file name and a function, and called that function with the contents of
-the file when it had finished fetching it. Here's a simple
-implementation of that function:
+In link:10_modules.html#amd[Chapter 10], in our implementation of the
+AMD module system, we used a hypothetical function called
+`backgroundReadFile`. It took a file name and a function, and called
+that function with the contents of the file when it had finished
+fetching it. Here's a simple implementation of that function:
 
 // include_code
 
@@ -485,6 +490,7 @@ try {
 }
 ----
 
+[[getURL]]
 To handle failing requests, we have to allow an additional function to
 be passed to our wrapper, and call that when a request goes wrong. Or
 alternatively, we can use the convention that if the request fails, an
@@ -536,6 +542,7 @@ will still, unless you wrap each handling function in its own
 `try`/`catch` block, land at the top level and abort your chain of
 actions.
 
+[[promises]]
 == Promises ==
 
 For complicated projects, writing asynchronous code in plain callback
@@ -757,7 +764,7 @@ responses may contain headers, providing additional information.
 Browsers make `GET` requests to fetch the resources needed to display
 a web page. A web page may also contain forms, which allow information
 entered by the user to be sent along in the request made when the form
-is submitted. More on that in the next chapter.
+is submitted. More on that in the link:18_forms.html#forms[next chapter].
 
 The interface through which browser JavaScript can make HTTP requests
 is called `XMLHttpRequest`. You can usually ignore the “XML” part of
@@ -784,6 +791,7 @@ repetetive and error-prone elements in this style of programming.
 
 == Exercises ==
 
+[[exercise_accept]]
 === Content negotiation ===
 
 One of the things that HTTP can do, but which we have not discussed in

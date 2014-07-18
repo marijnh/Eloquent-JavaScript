@@ -155,7 +155,7 @@ console.log(dateTime.test("30-jan-2003 15:20"));
 (((backslash)))Looks completely awful, doesn't it? Way too many
 backslashes, producing a background noise that makes it hard to spot
 the actual pattern expressed. We'll see a slightly improved version of
-this expression later on.
+this expression link:09_regexp.html#date_regexp_counted[later on].
 
 These backslash codes can also be used inside of square brackets. For
 example `[\d.]` means any digit or a dot.
@@ -218,6 +218,7 @@ braces. Putting `{4}` after an element, for example, requires it to occur
 exactly four times. It is also possible to specify a range this way: `{2,4}` means the element must
 occur at least twice, and at most four times.
 
+[[date_regexp_counted]]
 Here is another version of the date and time pattern that allows both
 single- and double-digit days, months, and hours. It is also slightly more
 readable:
@@ -501,6 +502,7 @@ second box. Then it moves on to the second character in the string,
 and tries to begin a new match there. And so on, until it finds a match, or reaches the end
 of the string and decides that there really is no match.
 
+[[backtracking]]
 == Backtracking ==
 
 (((backtracking)))The regular expression `/\b([01]+b|\d+|[\da-f]h)\b/`
@@ -872,6 +874,7 @@ the condition in the `while` statement, we perform the match at the
 start of each iteration, save its result in a variable, and stop
 looping when no more matches are found.
 
+[[ini]]
 == Parsing an INI file ==
 
 (((ini file)))To conclude the chapter, we'll look at a problem
@@ -918,7 +921,7 @@ global settings at the top.
 
 Since the format has to be processed line by line, splitting the file
 up into separate lines is a good start. We used `string.split("\n")`
-to do this in Chapter 6. Some operating systems,
+to do this in link:06_object.html#split[Chapter 6]. Some operating systems,
 however, use not just a newline character to separate lines but a
 carriage return character followed by a newline (`"\r\n"`).
 Given that the `split` method also allows a regular expression as its
@@ -1004,6 +1007,7 @@ There are plans to add support for such categories JavaScript, but
 they unfortunately look like they won't be realized in the near
 future.
 
+[[summary_regexp]]
 == Summary ==
 
 Regular expressions are objects that represent patterns in strings.
@@ -1091,7 +1095,8 @@ works, see if you can make it any smaller.
  6. A word longer than 6 letters
  7. A word without the letter “e”
 
-Refer back to the table in the chapter summary to quickly look
+Refer back to the table in the
+link:09_regexp.html#summary_regexp[chapter summary] to quickly look
 something up. Test each solution out with a few test strings.
 
 ifdef::html_target[]

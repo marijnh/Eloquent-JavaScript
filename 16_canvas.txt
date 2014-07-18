@@ -3,6 +3,7 @@
 :next_link: 17_http
 :load_files: ["code/chapter/15_game.js", "code/game_levels.js", "code/chapter/16_canvas.js"]
 
+[[canvas]]
 = Drawing on Canvas =
 
 [chapterquote="true"]
@@ -13,10 +14,11 @@ ____
 
 Browsers give us several ways to display graphics. The simplest
 approach is to use regular DOM elements, and use styles to position
-and color them. This can get you quite far, as the previous chapter
-showed. By adding partially transparent background images to the
-nodes, we can make then look exactly the way we want to. It is even
-possible to rotate or skew nodes by using the `transform` style.
+and color them. This can get you quite far, as the
+link:15_game.html#game[previous chapter] showed. By adding partially
+transparent background images to the nodes, we can make then look
+exactly the way we want to. It is even possible to rotate or skew
+nodes by using the `transform` style.
 
 But we'd be using the DOM for something that it wasn't originally
 designed for. There are things, like drawing a line between arbitrary
@@ -42,9 +44,10 @@ the shape) and redraw it with the shape in its new position.
 == SVG ==
 
 This book will not go into SVG in detail, but I will briefly try to
-explain how it works. At the end of the chapter, I'll come back to the
-trade-offs that must be considered when deciding which drawing
-mechanism is appropriate for a given application.
+explain how it works. At the
+link:16_canvas.html#graphics_tradeoffs[end of the chapter], I'll come
+back to the trade-offs that must be considered when deciding which
+drawing mechanism is appropriate for a given application.
 
 This is an HTML document with a simple SVG picture inside of it:
 
@@ -128,6 +131,7 @@ uses puts _0,0_ at the top left corner, and the positive y axis goes
 down from there, so _10,10_ is ten pixels below and to the right of
 at corner.
 
+[[fill_stroke]]
 == Filling and stroking ==
 
 In the terminology used by the canvas interface (as well as by SVG),
@@ -393,6 +397,7 @@ Like other path drawing methods, a line drawn with `arc` is connected
 to the previous path segment by default. You'd have to call `moveTo`
 (or start a new path) if you want to avoid this.
 
+[[pie_chart]]
 == Drawing a pie chart ==
 
 Imagine you've just taken a job at EconomiCorp Inc., and your first
@@ -488,7 +493,8 @@ which the letters “stand”, not counting hanging parts in letters like
 by setting `textBaseline` to `"top"`, `"middle"`, or `"bottom"`.
 
 We will come back to our pie chart, and the problem of labeling the
-slices, in the exercises at the end of the chapter.
+slices, in the link:16_canvas.html#exercise_pie_chart[exercises] at
+the end of the chapter.
 
 == Images ==
 
@@ -758,17 +764,18 @@ branch, but rather to the innermost, rightmost branch drawn by the first
 call. The resulting shape might also be interesting, but it is
 definitely not a tree.
 
+[[canvasdisplay]]
 == Back to the game ==
 
 We now know enough about canvas drawing to start working on the
-canvas-based display system for the game from the last chapter. The
-new display will no longer be showing just colored boxes. Instead,
-we'll use `drawImage` to draw pictures that represent the game's
-elements.
+canvas-based display system for the game from the
+link:15_game.html#game[previous chapter]. The new display will no
+longer be showing just colored boxes. Instead, we'll use `drawImage`
+to draw pictures that represent the game's elements.
 
 We will define an object type `CanvasDisplay`, supporting the same
-interface as `DOMDisplay` from Chapter 15—namely the methods
-`drawFrame` and `clear`.
+interface as `DOMDisplay` from link:15_game.html#domdisplay[Chapter
+15]—namely the methods `drawFrame` and `clear`.
 
 This object keeps a little more information that `DOMDisplay`. Rather
 than using the scroll position of its DOM element, it tracks its own
@@ -810,9 +817,10 @@ CanvasDisplay.prototype.clear = function() {
 ----
 
 The `animationTime` counter is the reason we passed the step size to
-`drawFrame` in Chapter 15, even though `DOMDisplay` does not use it.
-Our new `drawFrame` function uses it to track time, so that it can
-switch between animation frames based on the current time.
+`drawFrame` in link:15_game.html#domdisplay[Chapter 15], even though
+`DOMDisplay` does not use it. Our new `drawFrame` function uses it to
+track time, so that it can switch between animation frames based on
+the current time.
 
 // include_code
 
@@ -832,8 +840,9 @@ CanvasDisplay.prototype.drawFrame = function(step) {
 Other than trackin time, the method updates the viewport for the
 current player position, fills the whole canvas with a background
 color, and draws the background and actors onto that. Note that this
-is different from the approach in Chapter 15, where we drew the
-background once and scrolled the wrapping DOM element to move it.
+is different from the approach in link:15_game.html#domdisplay[Chapter
+15], where we drew the background once and scrolled the wrapping DOM
+element to move it.
 
 Because shapes on a canvas are just pixels, after we draw them, there
 is no way to move them (or remove them). The only way to update the
@@ -895,7 +904,7 @@ CanvasDisplay.prototype.clearDisplay = function() {
 
 To draw the background, we run through the tiles that are visible in
 the current viewport, using the same trick used in `obstacleAt` in the
-previous chapter.
+link:15_game.html#viewport[previous chapter].
 
 // include_code
 
@@ -1055,6 +1064,7 @@ image::img/canvas_game.png[alt="The game as shown on canvas",width="8cm"]
 
 endif::tex_target[]
 
+[[graphics_tradeoffs]]
 == Choosing a graphics interface ==
 
 Whenever you need to generate graphics in the browser, you can choose
@@ -1096,10 +1106,11 @@ showing textual information, when the user clicks or hovers over an
 element, by positioning an HTML element on top of the picture.
 
 For non-demanding applications, it really does not matter much which
-interface you choose. The second display we built for our game in this
-chapter could have been implemented using any of these thee graphics
-technologies, since it does not need to draw text, handle mouse
-interaction, or work with an extraordinarily large amount of elements.
+interface you choose. The link:16_canvas.html#canvasdisplay[second
+display] we built for our game in this chapter could have been
+implemented using any of these thee graphics technologies, since it
+does not need to draw text, handle mouse interaction, or work with an
+extraordinarily large amount of elements.
 
 == Summary ==
 
@@ -1159,8 +1170,9 @@ Write a program that draws the followin shapes on a canvas:
 image::img/exercise_shapes.png[alt="The shapes to draw",width="8cm"]
 
 When drawing the latter two, you may want to refer back to the
-explanation of `Math.cos` and `Math.sin` in Chapter 13, which
-describes how to get coordinates on a circle using these functions.
+explanation of `Math.cos` and `Math.sin` in
+link:13_dom.html#sin_cos[Chapter 13], which describes how to get
+coordinates on a circle using these functions.
 
 I recommend creating a function for each shape, and passing the
 position, and optionally other things, such as the size or the number
@@ -1216,9 +1228,10 @@ between these points, making them curve towards the center of the star
 
 !!solution!!
 
+[[exercise_pie_chart]]
 === The pie chart ===
 
-Earlier in the chapter, we saw an example program that drew a pie
+link:16_canvas.html#pie_chart[Earlier] in the chapter, we saw an example program that drew a pie
 chart. Modify this program so that the name of each category is shown
 next to the slice that represents it. Try to find a pleasing-looking
 way to automatically position this text, which would work for other
@@ -1298,8 +1311,8 @@ circle we are on.
 
 === A bouncing ball ===
 
-Use the `requestAnimationFrame` technique that we saw in Chapter 14
-and Chapter 15 to draw a box with a bouncing ball inside of it. The
+Use the `requestAnimationFrame` technique that we saw in link:13_dom.html#animationFrame[Chapter 13]
+and link:15_game.html#runAnimation[Chapter 15] to draw a box with a bouncing ball inside of it. The
 ball moves at a constant speed, and bounces off the box's sides when
 it hits them.
 
@@ -1338,7 +1351,7 @@ create a round ball, start a path, call ++arc(x, y, radius, 0, 7)++—an
 arc going from zero to more than a whole circle—and fill it.
 
 To model the ball's position and speed, you can use the `Vector` type
-from Chapter 15(!html  (which is available on this page)!). Give it a
+from link:15_game.html#vector[Chapter 15](!html  (which is available on this page)!). Give it a
 starting speed, preferably one that is not purely vertical or
 horizontal, and every frame, multiply that speed with the amount of
 time that elapsed. When the ball gets too close to a vertical wall,

@@ -3,6 +3,7 @@
 :next_link: 05_higher_order
 :load_files: ["code/jacques_journal.js", "code/chapter/04_data.js"]
 
+[[data]]
 = Data Structures: Objects and Arrays =
 
 [chapterquote="true"]
@@ -32,11 +33,12 @@ introduced earlier in the text.
 
 ifdef::tex_target[]
 
-The online coding sandbox for the book (`eloquentjavascript.net/code`)
+The online coding sandbox for the book (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_)
 will automatically load the needed code when you are running a
 specific example. If you decide to work through the examples in
 another environment, be sure to start from the full code for this
-chapter (`04_data.js`, available from the website).
+chapter (`04_data.js`, available from the
+http://eloquentjavascript.net/code/chapter/04_data.js[website]).
 
 endif::tex_target[]
 
@@ -110,6 +112,7 @@ tradition in technology, and as long as this convention is
 followed consistently (which it is, in JavaScript), it works 
 well.
 
+[[properties]]
 == Properties ==
 
 (((property)))(((length property)))(((object,property)))We've seen a
@@ -161,6 +164,7 @@ This property name is a valid variable name, and we know its name in
 advance, so to find the length of an array, you typically write
 `array.length` because it is easier to write than `array["length"]`.
 
+[[methods]]
 == Methods ==
 
 (((method)))(((String type)))Both string and array objects contain, in
@@ -184,12 +188,13 @@ is also `toLowerCase`. You can guess what that does.
 Interestingly, even though the call to `toUpperCase` does not pass any
 arguments, the function somehow has access to the string
 `"Doh"`, the value whose property we called. How this works
-is described in Chapter 6.
+is described in link:06_object.html#methods[Chapter 6].
 
 Properties that contain functions are generally called _methods_ of
 the value they belong to. As in, “`toUpperCase` is a method of a
 string”.
 
+[[array_methods]]
 This example demonstrates some methods that array objects have:
 
 [source,javascript]
@@ -388,12 +393,12 @@ a different object, which initially contains the same properties as
 `object1` but lives a separate life.
 
 (((== operator)))JavaScript's `==` operator, when comparing objects,
-will return `true` only if both objects are precisely the
-same value. Comparing different objects will
-return `false`, even if they have identical contents.
-There is no “deep” comparison operation built into
-JavaScript, but it is possible to write it yourself
-(which will be one of the exercises at the end of this chapter).
+will return `true` only if both objects are precisely the same value.
+Comparing different objects will return `false`, even if they have
+identical contents. There is no “deep” comparison operation built into
+JavaScript, but it is possible to write it yourself (which will be one
+of the link:04_data.html#exercise_deep_compare[exercises] at the end of
+this chapter).
 
 == The lycanthrope's log ==
 
@@ -532,7 +537,7 @@ because the sums of rows or columns are not stored directly in our
 data structure.
 
 Jacques kept his journal for three months. The resulting data set is
-available in the coding sandbox for this chapter(!tex  (`eloquentjavascript.net/code`)!),
+available in the coding sandbox for this chapter(!tex  (http://eloquentjavascript.net/exercises.html[_eloquentjavascript.net/exercises.html_])!),
 where it is stored
 in the `JOURNAL` variable, and in a downloadable
 http://eloquentjavascript.net/code/jacques_journal.js[file].
@@ -593,6 +598,7 @@ to find the object with the right `name`. We could wrap this lookup process
 in a function, but we would still be writing more code, and the
 computer would be doing more work than necessary.
 
+[[object_map]]
 A better way is to use object properties named after the
 event types. We can use the square bracket access notation to
 create and read the properties and can use the `in` operator to test whether
@@ -617,7 +623,7 @@ A _map_ is a way to go from values in one domain (in this case, event names)
 to corresponding values in another domain (in this case, _ϕ_ coefficients).
 
 There are a few potential problems with using objects like this, which
-we will discuss in Chapter 6, but for the time being, we won't worry
+we will discuss in link:06_object.html#prototypes[Chapter 6], but for the time being, we won't worry
 about those.
 
 (((for/in loop)))What if we want to find all the events for which we 
@@ -635,6 +641,7 @@ for (var event in map)
 // → The correlation for 'touched tree' is -0.081
 ----
 
+[[analysis]]
 == The final analysis ==
 
 To find all the types of events that are present in the data set, we
@@ -751,9 +758,9 @@ start by introducing some generally useful array methods.
 
 (((push method)))(((pop method)))(((shift method)))(((unshift
 method)))We saw `push` and `pop`, which add and remove elements at the
-end of an array, earlier in this chapter. The corresponding methods
-for adding and removing things at the start of an array are called
-`unshift` and `shift`.
+end of an array, link:04_data.html#array_methods[earlier] in this
+chapter. The corresponding methods for adding and removing things at
+the start of an array are called `unshift` and `shift`.
 
 [source,javascript]
 ----
@@ -892,6 +899,7 @@ console.log(string[1]);
 // → b
 ----
 
+[[arguments_object]]
 == The arguments object ==
 
 (((arguments object)))(((length property)))Whenever a function is
@@ -967,11 +975,12 @@ function)))As we've seen, `Math` is a grab-bag of number-related
 utility functions, such as `Math.max` (maximum), `Math.min` (minimum),
 and `Math.sqrt` (square root).
 
-(((namespace)))(((namespace pollution)))The `Math`
-object is used simply as a container to group a bunch of related
-functionality. There is only one `Math` object, and it is almost never
-useful as a value. Rather, it provides a _namespace_ so that all
-these functions and values do not have to be global variables.
+[[namespace_pollution]](((namespace)))(((namespace pollution)))The
+`Math` object is used simply as a container to group a bunch of
+related functionality. There is only one `Math` object, and it is
+almost never useful as a value. Rather, it provides a _namespace_ so
+that all these functions and values do not have to be global
+variables.
 
 Having too many global variables “pollutes” the namespace. The more
 names that have been taken, the more likely you are to accidentally
@@ -1009,8 +1018,8 @@ console.log(randomPointOnCircle(2));
 ----
 
 If sines and cosines are not something you are very familiar with,
-don't worry. When they are used in this book, in Chapter 13, I'll
-start by explaining them.
+don't worry. When they are used in this book, in
+link:13_dom.html#sin_cos[Chapter 13], I'll explain them.
 
 (((random function)))The previous example uses `Math.random`. This is a
 function that returns a new pseudo-random number between zero
@@ -1187,8 +1196,9 @@ inverse order. The second, `reverseArrayInPlace`, does what the
 to reverse its elements.
 
 Thinking back to the notes about side effects and pure functions in
-the previous chapter, which variant do you expect to be useful in more
-situations? Which one is more efficient?
+the link:03_functions.html#pure[previous chapter], which variant do
+you expect to be useful in more situations? Which one is more
+efficient?
 
 ifdef::html_target[]
 
@@ -1332,6 +1342,7 @@ that's in this list's `rest` property.
 
 !!solution!!
 
+[[exercise_deep_compare]]
 === Deep comparison ===
 
 The `==` operator compares objects by identity. But sometimes, you would

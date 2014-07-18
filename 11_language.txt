@@ -35,6 +35,7 @@ We will build a programming language called Egg. It will be a tiny, simple langu
 that is powerful enough to express any computation you can think of. It will also allow
 simple abstraction based on functions.
 
+[[parsing]]
 == Parsing ==
 
 The most immediately visible part of a programming language is its
@@ -106,11 +107,11 @@ similar to the way branches split and split again.
 
 image::img/syntax_tree.svg[alt="The structure of a syntax tree",width="5cm"]
 
-Contrast this to
-the parser we wrote for the configuration file format in Chapter 9, which had
-a very simple structure: it split the input into lines, and handled
-those lines one at a time. There were only a few simple forms that a
-line was allowed to have.
+Contrast this to the parser we wrote for the configuration file format
+in link:09_regexp.html#ini[Chapter 9], which had a very simple
+structure: it split the input into lines, and handled those lines one
+at a time. There were only a few simple forms that a line was allowed
+to have.
 
 Here we must find a different approach. Expressions are not
 separated into lines, and they have a recursive structure. Application
@@ -293,8 +294,9 @@ it is a normal call, we evaluate the operator, verify that it is a
 function, and call it with the result of evaluating the arguments.
 
 We will use plain JavaScript function values to represent Egg's
-function values. We will come back to this later, when the special form
-called `fun` is defined.
+function values. We will come back to this
+link:11_language.html#egg_fun[later], when the special form called `fun`
+is defined.
 
 The recursive structure of `evaluate` resembles the similar
 structure of the parser. Both mirror the structure of the
@@ -500,6 +502,7 @@ expressed in Egg. It is clearly uglier than the
 equivalent JavaScript program, but not bad for a language implemented
 in less than 150 lines of code.
 
+[[egg_fun]]
 == Functions ==
 
 A programming language without functions is a poor programming

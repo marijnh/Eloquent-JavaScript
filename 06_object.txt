@@ -29,6 +29,7 @@ philosophy is that complexity can be made manageable by
 separating it into small compartments that are isolated from each
 other. These compartments have ended up with the name “objects”.
 
+[[interface]]
 (((encapsulation)))(((method)))(((interface)))An object is a hard
 shell that hides the gooey complexity inside of it, and instead
 offers us a few knobs and connectors (like methods) that present an
@@ -64,6 +65,7 @@ has popularized. These are worth studying.
 This chapter describes JavaScript's rather eccentric take on objects,
 and the way they relate to some classical object-oriented techniques.
 
+[[methods]]
 == Methods ==
 
 (((rabbit example)))(((method)))(((property)))Methods are simply
@@ -115,6 +117,7 @@ and `bind` methods both take a first argument that can be used to
 simulate method calls. This first argument is in fact used to give a value to
 `this`.
 
+[[call_method]]
 There is a method similar to `apply`, called `call`. It also calls
 the function it is a method of, but takes its arguments normally, rather than as an
 array. Like `apply` and `bind`, `call` can be passed a specific `this`
@@ -128,6 +131,7 @@ speak.call({type: "old"}, "Oh my.");
 // → The old rabbit says 'Oh my.'
 ----
 
+[[prototypes]]
 == Prototypes ==
 
 (((toString method)))Watch closely.
@@ -215,6 +219,7 @@ shared by all rabbits. An individual rabbit object, like the killer
 rabbit, contains properties that apply only to itself—in this case its
 type—and derives shared properties from its prototype.
 
+[[constructors]]
 == Constructors ==
 
 (((new operator)))(((this variable)))(((return
@@ -350,10 +355,10 @@ killerRabbit.dance();
 ----
 
 That's very convenient. But there are situations where it causes
-problems. In the previous chapter, we used an object as a way to
+problems. In previous chapters, we used an object as a way to
 associate values with names by creating properties for the names and
 giving them the corresponding value as their value. Here's an
-example from Chapter 4:
+example from link:04_data.html#object_map[Chapter 4]:
 
 // include_code
 
@@ -497,6 +502,7 @@ This technique is called __polymorphism__—though no actual
 shape-shifting is involved. Polymorphic code can work with values of
 different shapes, as long as they support the interface it expects.
 
+[[tables]]
 == Laying out a table ==
 
 I am going to work through a slightly more involved example in an
@@ -527,6 +533,7 @@ height of the rows. The builder function will then ask the cells to
 draw themselves at the correct size, and assemble the results into a
 single string.
 
+[[table_interface]]
 The layout program will communicate with the cell objects through a
 well-defined interface. That way, the types of cells that the program
 supports is not fixed in advance. We can add new cell styles later—
@@ -644,6 +651,7 @@ The function `drawLine` extracts lines that should appear next
 to each other from an array of blocks, and joins them with a space
 character, to create a one-character gap between the table's columns.
 
+[[split]]
 Now let's write a constructor for cells that contain text. The
 constructor splits a string into an array of lines, using the string
 method `split`, which cuts up a string at every occurrence of its
@@ -714,10 +722,11 @@ console.log(drawTable(rows));
 It works! But since all cells have the same size, the table-layout code doesn't really do
 anything interesting.
 
+[[mountains]]
 The source data for the table of mountains that we are trying to build
 is available in the `MOUNTAINS` variable in the sandbox, and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
-list of data sets on the website(!tex  (`eloquentjavascript.net/code`)!).
+list of data sets on the website(!tex  (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 
 We will want to highlight the top row, which contains the column
 names, by underlining the cells with a series of dash characters. No
@@ -777,13 +786,12 @@ console.log(drawTable(dataTable(MOUNTAINS)));
 //   … etcetera
 ----
 
-The standard
-`Object.keys` function returns an array of property names in an
-object. The top row of the table must contain underlined cells that
-give the names of the columns. Below that, the values of all the
-objects in the data set appear as normal cells—we extract them by
-mapping over the `keys` array, so that we are sure that the order of
-the cells is the same in every row.
+[[keys]]The standard `Object.keys` function returns an array of
+property names in an object. The top row of the table must contain
+underlined cells that give the names of the columns. Below that, the
+values of all the objects in the data set appear as normal cells—we
+extract them by mapping over the `keys` array, so that we are sure
+that the order of the cells is the same in every row.
 
 The resulting table resembles the example shown before, except that
 it does not right-align the numbers in the `height` colomn. We will get
@@ -1018,6 +1026,7 @@ properties as you see fit.
 
 == Exercises ==
 
+[[exercise_vector]]
 === A vector type ===
 
 Write a constructor `Vector` that represents a vector in two-dimensional
@@ -1067,11 +1076,12 @@ you compute a square root in JavaScript.
 
 === Another cell ===
 
-Implement a cell type named `StretchCell(inner, width, height)` that conforms
-to the table cell interface described earlier in the chapter.
-It should wrap another cell (like `UnderlinedCell` does), and ensure that
-the resulting cell has at least the given `width` and `height`, even
-if the inner cell would naturally be smaller.
+Implement a cell type named `StretchCell(inner, width, height)` that
+conforms to the link:06_object.html#table_interface[table cell
+interface] described earlier in the chapter. It should wrap another
+cell (like `UnderlinedCell` does), and ensure that the resulting cell
+has at least the given `width` and `height`, even if the inner cell
+would naturally be smaller.
 
 ifdef::html_target[]
 

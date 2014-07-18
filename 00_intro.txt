@@ -268,9 +268,9 @@ console.log(sum(range(1, 10)));
 The moral of this story, then, is that the same program can be
 expressed in long and short, unreadable and readable ways. The first
 version of the program was extremely obscure, while this last one is
-almost English: `log` the `sum` of the `range` of numbers from 1
-to 10. (We will see in later chapters how to build things like `sum`
-and `range`.)
+almost English: `log` the `sum` of the `range` of numbers from 1 to
+10. (We will see in link:04_data.html#data[later chapters] how to
+build things like `sum` and `range`.)
 
 (((programming language,power of)))A good programming language helps
 the programmer by allowing them to talk about the actions that the
@@ -345,7 +345,7 @@ to press)
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
 use JavaScript as their scripting and query language. Several
 platforms for desktop and server programming, most notably the
-_((Node.js))_ project, the subject of Chapter 20, are providing a
+_((Node.js))_ project, the subject of link:20_node.html#node[Chapter 20], are providing a
 powerful environment for programming JavaScript outside of the
 browser.
 
@@ -375,9 +375,10 @@ endif::html_target[]
 ifdef::tex_target[]
 
 Most of the example code in this book can be found on the book's
-website, at `eloquentjavascript.net/code`, which also provides
-an easy way to run the programs and experiment with writing your own
-code.
+website, at
+http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
+which also provides an easy way to run the programs and experiment
+with writing your own code.
 
 endif::tex_target[]
 
@@ -386,7 +387,7 @@ book's sandbox is also possible. You can opt to install Node.js, and
 read enough of its documentation to figure out how to use it to
 evaluate text files that contain programs. Or you can use your
 browser's developer console (typically found somewhere under a “tools”
-or “developer” menu) and play around in there. In Chapter 12, the
+or “developer” menu) and play around in there. In link:12_browser.html#script_tag[Chapter 12], the
 way in which JavaScript programs are embedded in web pages (HTML
 files) is explained. In the meantime, you could head over to
 _http://jsbin.com_ for another friendly interface for running

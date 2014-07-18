@@ -335,9 +335,9 @@ function can be used to turn this code into an actual
 The DOM node where key events originate depends on the element that is
 currently focused. Normal nodes can not be focused (unless you give
 them a `tabindex` attribute), but things like links, buttons, and form
-fields can. We'll come back to form fields in Chapter 18. When nothing
-in particular is focused, `document.body` acts as the target node of
-key events.
+fields can. We'll come back to form fields in
+link:18_forms.html#forms[Chapter 18]. When nothing in particular is
+focused, `document.body` acts as the target node of key events.
 
 == Mouse clicks ==
 
@@ -362,9 +362,10 @@ happened, you can look at its `pageX` and `pageY` properties, which
 contain the event's coordinates (in pixels) relative to the top left
 corner of the document.
 
+[[mouse_drawing]]
 The following implements a primitive drawing program. Every time you
 click on the document, it adds a dot under your mouse pointer. See
-Chapter 19 for a less primitive drawing program.
+link:19_paint.html#paint[Chapter 19] for a less primitive drawing program.
 
 [source,text/html]
 ----
@@ -624,11 +625,12 @@ it. This mechanism ensures that a user is able to leave the page, even
 if it running a malicious script that would prefer to keep them there
 forever, in order to force them to look at dodgy weight loss ads.
 
+[[timeline]]
 == Script execution timeline ==
 
 There are various things that can cause a script to start executing.
 Reading a `<script>` tag is obviously one such thing. An event firing
-is another. Chapter 13 discussed the `requestAnimationFrame` function,
+is another. link:13_dom.html#animationFrame[Chapter 13] discussed the `requestAnimationFrame` function,
 which schedules a function to be called before the next page redraw.
 That is yet another way in which a script can start running.
 
@@ -902,7 +904,7 @@ mouse as you moved it across the page.
 
 In this exercise, I want you to implement a mouse trail. Use
 absolutely positioned `<div>` elements with a fixed size and
-background color (refer back to the link:#c_nplPzKchTA[code] in the
+background color (refer back to the link:#mouse_drawing[code] in the
 section on mouse click events for an example). Create twelve such
 elements, and when the mouse moves, display them in the wake of the
 mouse pointer, somehow.

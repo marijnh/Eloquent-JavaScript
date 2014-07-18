@@ -3,6 +3,7 @@
 :next_link: 06_object
 :load_files: ["code/ancestry.js", "code/chapter/05_higher_order.js", "js/intro.js"]
 
+[[higher_order]]
 = Higher-Order Functions =
 
 ifdef::html_target[]
@@ -119,8 +120,8 @@ concept is begging to be abstracted into a new word.
 Plain functions, as we've seen them so far, are a good way to build
 abstractions. But sometimes they fall short.
 
-(((for loop)))In the previous chapter, this type of `for` loop made
-several appearances:
+(((for loop)))In the link:04_data.html#data[previous chapter], this
+type of `for` loop made several appearances:
 
 [source,javascript]
 ----
@@ -153,6 +154,7 @@ function logEach(array) {
 }
 ----
 
+[[forEach]]
 (((array,traversal)))(((function,as value)))(((forEach method)))But
 what if we want to do something other than logging the elements? Since
 “doing something” can be represented as a function, and functions are
@@ -199,8 +201,9 @@ standard method on arrays.
 Since the array is already provided as the thing the method acts on,
 `forEach` only takes one required argument: the function to be executed for each element.
 
-To illustrate how helpful this is, remember this function
-from the previous chapter that contains two array-traversing loops:
+To illustrate how helpful this is, remember this function from
+link:04_data.html#analysis[the previous chapter] that
+contains two array-traversing loops:
 
 [source,javascript]
 ----
@@ -297,7 +300,7 @@ repeat(3, function(n) {
 ----
 
 (((lexical scoping)))(((closure)))The lexical scoping rules that we
-discussed in Chapter 3 work to our advantage when using
+discussed in link:03_functions.html#scoping[Chapter 3] work to our advantage when using
 functions in this way. In the example above, the `n` variable is a
 parameter to the outer function. Because the inner function lives
 inside the environment of the outer one, it can use `n`. The
@@ -352,7 +355,7 @@ are interested in—the resulting function will pass all of the given
 arguments, and only those arguments, to `f`. It does this by passing
 its own `arguments` object to `apply`. The first argument to `apply`,
 for which we are passing `null` here, can be used to simulate a method
-call. More on that in the next chapter.
+call. More on that in the link:06_object.html#call_method[next chapter].
 
 == JSON ==
 
@@ -413,7 +416,7 @@ console.log(JSON.parse(string).born);
 The variable `ANCESTRY_FILE`, available in the sandbox for this
 chapter as well as in
 http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
-the website(!tex  (`eloquentjavascript.net/code`)!),
+the website(!tex  (_eloquentjavascript.net/code_)!),
 contains the content of my JSON file as a string. Let's decode it and
 see how many people it contains:
 
@@ -587,6 +590,7 @@ console.log(min);
 There are a few more variables, and the
 program is two lines longer, but still quite easy to understand.
 
+[[average_function]]
 The higher-order function approach really starts to shine when you
 start _composing_ functions, or chaining them together. As an example, let us write code
 that finds the average age for men and for women in the data set.
@@ -842,8 +846,9 @@ The above `bind` call returns a function that will call
 arguments given to the bound function.
 
 The first argument, where the example passes `null`, is used for
-method calls, similar to the first argument to `apply`.
-We'll describe this in more detail in the next chapter.
+method calls, similar to the first argument to `apply`. We'll describe
+this in more detail in the link:06_object.html#call_method[next
+chapter].
 
 == Summary ==
 
@@ -886,7 +891,7 @@ endif::html_target[]
 
 Using the example data set from this chapter, compute the average age
 difference between mothers and children. You can use the `average`
-function defined earlier in this chapter.
+function defined link:05_higher_order.html#average_function[earlier] in this chapter.
 
 Note that not all the mothers mentioned in the data are themselves
 present in the array. The `byName` object, which makes it easy to find
@@ -1024,11 +1029,12 @@ endif::html_target[]
 
 !!solution!!
 
-The functions can follow a similar pattern to the definition of
-`forEach` at the start of the chapter, except that they must return
-immediately (with the right value) when the predicate function returns
-false—or true. Don't forget to put another `return` statement after
-the loop, so that the function also returns the correct value when it
-reaches the end of the array.
+The functions can follow a similar pattern to the
+link:05_higher_order.html#forEach[definition] of `forEach` at the
+start of the chapter, except that they must return immediately (with
+the right value) when the predicate function returns false—or true.
+Don't forget to put another `return` statement after the loop, so that
+the function also returns the correct value when it reaches the end of
+the array.
 
 !!solution!!

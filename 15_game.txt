@@ -3,6 +3,7 @@
 :next_link: 16_canvas
 :load_files: ["code/chapter/15_game.js", "code/game_levels.js"]
 
+[[game]]
 = Project: A Platform Game =
 
 My initial fascination with computers, like that of many kids,
@@ -50,7 +51,7 @@ The game consist of a fixed background, laid out like a grid, with the
 moving elements overlaid on that. Each field on the background grid is
 either empty, solid, or lava. The moving elements are the player,
 coins, and pieces of lava that move. Unlike the artificial life
-simulation from Chapter 7, the positions of these elements are not
+simulation from link:07_elife.html#elife[Chapter 7], the positions of these elements are not
 constrained to the grid—their coordinates may be fractional, allowing
 smooth motion.
 
@@ -72,18 +73,18 @@ In games and similar programs which have to animate and respond to
 user input without noticeable delay, efficiency is an important
 concern. Though the DOM was not originally designed for
 high-performance graphics, it is surprisingly effective in that area.
-We saw some simple animations in Chapter 13. On a modern machine,
+We saw some simple animations in link:13_dom.html#animation[Chapter 13]. On a modern machine,
 drawing a simple game like this one will not require us to do anything
 special to get acceptable performance.
 
-In the next chapter, we will explore another browser technology, the
-`<canvas>` tag, which provides a more traditional way to draw
-graphics, working in terms of shapes and pixels, rather than DOM
-elements.
+In the link:16_canvas.html#canvas[next chapter], we will explore
+another browser technology, the `<canvas>` tag, which provides a more
+traditional way to draw graphics, working in terms of shapes and
+pixels, rather than DOM elements.
 
 == Levels ==
 
-In Chapter 7 we used arrays of strings to describe a two-dimensional
+In link:07_elife.html#plan[Chapter 7] we used arrays of strings to describe a two-dimensional
 grid. That approach is useful here as well. It will allow us to easily
 design levels without first building a level editor.
 
@@ -122,11 +123,12 @@ We also support a pipe character (“|”) for vertically moving lava, and
 bounce back and forth, but move down and jump back to their start
 position when they hit the floor.
 
-A whole game is be represented by an array of level arrays, though
+A whole game is represented by an array of level arrays, though
 which the player must progress one after the other, by collecting all
 the coins in each. When the player touches lava, the current level is
 simply restored to its starting position, and they may try again.
 
+[[level]]
 == Reading a level ==
 
 The following constructor, given an array of strings as seen above,
@@ -202,6 +204,7 @@ Level.prototype.isFinished = function() {
 
 == Actors ==
 
+[[vector]]
 To represent the position and size of an actor, we will return to our
 trusty `Vector` type, which groups an x and y coordinate into an
 object.
@@ -270,7 +273,7 @@ point, if it has a `repeatPos` property, it will jump back to its
 start position (dripping). If it does not, it will invert its speed
 and continue in the other direction (bouncing). The constructor only
 sets up the necessary properties—the method that does the actual
-moving will be written later on.
+moving will be written link:15_game.html#actors[later on].
 
 // include_code
 
@@ -356,10 +359,12 @@ come up.
 
 There is one thing that we _will_ encapsulate in this chapter, and
 that is the drawing subsystem. The reason for this is that we will
-display the same game in a different way in the next chapter. By
-putting the drawing behind an interface, we can simply load the same
-game program there, and plug in a new display module.
+display the same game in a different way in the
+link:16_canvas.html#canvasdisplay[next chapter]. By putting the
+drawing behind an interface, we can simply load the same game program
+there, and plug in a new display module.
 
+[[domdisplay]]
 == Drawing ==
 
 The encapsulation of the drawing code is done by defining a _display_
@@ -439,6 +444,7 @@ DOMDisplay.prototype.drawBackground = function() {
 };
 ----
 
+[[game_css]]
 As mentioned earlier, the background is drawn as a `<table>` element.
 This nicely corresponds to the structure of the `grid` property in the
 level—each row of the grid is turned into a table row (`<tr>`
@@ -550,6 +556,7 @@ scorching. When the last coin has been collected, we use two white box
 shadows, one to the top left and one to the top right, to create a
 white halo effect.
 
+[[viewport]]
 We don't assume that levels fit into the viewport. That is why the
 `scrollPlayerIntoView` call is needed—it ensures that, if the level is
 sticking out outside of the viewport, we scroll that viewport to make
@@ -759,6 +766,7 @@ Level.prototype.actorAt = function(actor) {
 };
 ----
 
+[[actors]]
 == Actors and actions ==
 
 The `animate` method on the `Level` type gives all actors in the level
@@ -1028,9 +1036,10 @@ looks at the event object's `type` property to determine whether the
 key state should be updated to true (`"keydown"`) or false
 (`"keyup"`).
 
+[[runAnimation]]
 == Running the game ==
 
-The `requestAnimationFrame` function, which we saw in Chapter 13,
+The `requestAnimationFrame` function, which we saw in link:13_dom.html#animationFrame[Chapter 13],
 provides a good way to animate a game. But its interface is quite
 primitive—using it requires us to track the time at which our function
 was called the last time around, and call `requestAnimationFrame`
@@ -1068,7 +1077,7 @@ second). When the browser tab or window with our page is hidden,
 again. In this case, the difference between `lastTime` and `time` will
 be the entire time in which the page was hidden. Advancing the game by
 that much in a single step will look silly, and might be a lot of work
-(remember the time-splitting in the `animate` method).
+(remember the time-splitting in the link:15_game.html#actors[`animate` method]).
 
 The function also converts the time steps to seconds, which are an
 easier quantity to think about than milliseconds.
@@ -1126,22 +1135,23 @@ function runGame(plans, Display) {
 
 These functions show a peculiar style of programming. Both
 `runAnimation` and `runLevel` are higher-order functions, but not in
-the style we saw in Chapter 5. The function argument is used to
-arrange things to happen at some time in the future, and neither of
-the functions returns anything useful. Their task is, in a way, to
-schedule actions. Wrapping these actions in functions gives us a way
-to store them as a value, so that they can be called at the right
-moment.
+the style we saw in link:05_higher_order.html#higher_order[Chapter 5].
+The function argument is used to arrange things to happen at some time
+in the future, and neither of the functions returns anything useful.
+Their task is, in a way, to schedule actions. Wrapping these actions
+in functions gives us a way to store them as a value, so that they can
+be called at the right moment.
 
 This programming style is usually called _asynchronous_ programming.
 Event handling is also an instance of it, and we will see much more of
 it when working with tasks that can take an arbitrary amount of time,
-such as network requests in Chapter 17, and in- and output in general
-in Chapter 20.
+such as network requests in link:17_http.html#http[Chapter 17], and in- and output in general
+in link:20_node.html#node[Chapter 20].
 
 There is a set of level plans available in the `GAME_LEVELS` variable
-(!tex (downloadable from `eloquentjavascript.net/code`)!). This page
-feeds them to `runGame`, starting an actual game:
+(!tex (downloadable from
+http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
+This page feeds them to `runGame`, starting an actual game:
 
 [sandbox="null"]
 [focus="yes"]

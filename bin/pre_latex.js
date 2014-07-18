@@ -4,7 +4,7 @@
 
 var fs = require("fs"), child = require("child_process");
 
-var titleCaseSmallWords = "a an the at by for in of on to up and as but it or nor if".split(" ");
+var titleCaseSmallWords = "a an the at by for in of on to up and as but it or nor if console.log".split(" ");
 
 var input = "";
 process.stdin.on("data", function(chunk) {

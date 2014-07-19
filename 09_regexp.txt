@@ -178,7 +178,7 @@ console.log(notBinary.test("1100100010200110"));
 We now know how to match a single digit. What if we want to match a
 whole number—a sequence of one or more digits?
 
-(((repetition (regexp))))(((* operator)))(((+ operator)))When you put
+(((repetition (regexp))))(((pass:[*] operator)))(((+ operator)))When you put
 a plus sign (`+`) after something in a regular expression, it
 indicates that the element may be repeated more than once. Thus, `/\d+/`
 matches one or more digit characters.

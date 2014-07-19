@@ -37,6 +37,11 @@ test: html
 book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
 	cd tex/book && xelatex book.tex
 	cd tex/book && xelatex book.tex
+	makeindex -s tex/book/nostarch.ist -o tex/book/book.ind tex/book/book.idx
+	makeindex -s tex/book/nostarch.ist -o tex/book/book.ind tex/book/book.idx
+	cd tex/book && xelatex book.tex
+	while ( grep -q '^LaTeX Warning: Label(s) may have changed' tex/book/book.log) \
+	do cd tex/book && xelatex book.tex; done
 	mv tex/book/book.pdf .
 
 pdfonce:

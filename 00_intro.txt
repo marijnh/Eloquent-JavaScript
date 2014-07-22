@@ -25,10 +25,10 @@ interfaces, such as instructing the computer to perform arbitrary
 tasks, we've had more luck with an approach that makes use of our
 talent for language: teaching the machine a language.
 
-Human languages allow words and sub-sentences to be combined in many,
-many ways, allowing us to say many, many different things. Computer
-languages, though typically less grammatically flexible, follow a
-similar principle.
+(((human language)))Human languages allow words and subsentences to be
+combined in many, many ways, allowing us to say many, many different
+things. Computer languages, though typically less grammatically
+flexible, follow a similar principle.
 
 (((JavaScript,availability of)))(((browser)))Casual computing has
 become become much more widespread in the past twenty years, and
@@ -385,11 +385,11 @@ browser.
 
 == Typographic conventions ==
 
-In this book, text written in a `monospaced` font should be understood
-to represent elements of programs—sometimes they are self-sufficient
-fragments, and sometimes they just refer to part of a nearby program.
-Programs (of which you have already seen a few), are written as
-follows:
+(((factorial function)))In this book, text written in a `monospaced`
+font should be understood to represent elements of programs—sometimes
+they are self-sufficient fragments, and sometimes they just refer to
+part of a nearby program. Programs (of which you have already seen a
+few), are written as follows:
 
 [source,javascript]
 ----
@@ -401,9 +401,9 @@ function fac(n) {
 }
 ----
 
-Sometimes, in order to show the output that a program produces, the
-expected output is written below it, with two slashes and an arrow in
-front:
+(((console.log)))Sometimes, in order to show the output that a program
+produces, the expected output is written below it, with two slashes
+and an arrow in front:
 
 [source,javascript]
 ----

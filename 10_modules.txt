@@ -28,11 +28,11 @@ ____
 
 endif::html_target[]
 
-Every program has a shape. On a small scale, this shape is determined
-by its division into functions, and the blocks inside those functions.
-Programmers have a lot of freedom in the shape they give their
-programs. Shape follows more from the taste of the
-programmer than from the program's intended functionality.
+(((code,structure of)))Every program has a shape. On a small scale,
+this shape is determined by its division into functions, and the
+blocks inside those functions. Programmers have a lot of freedom in
+the shape they give their programs. Shape follows more from the taste
+of the programmer than from the program's intended functionality.
 
 When looking at a larger program in its entirety, individual functions
 start to blend into the background. It would be good to have a

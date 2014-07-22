@@ -77,12 +77,12 @@ subtleties involved in leaving out semicolons.
 
 == Variables ==
 
-(((side effect)))(((memory)))How does a program keep an internal
-((state))? How does it remember things? We have seen how to produce
-new values from old values, but this does not change the old values,
-and the new value has to be immediately used or it will dissipate
-again. To catch and hold values, JavaScript provides a thing called a
-_((variable))_.
+((variable,definition))(((side effect)))(((memory)))How does a program
+keep an internal ((state))? How does it remember things? We have seen
+how to produce new values from old values, but this does not change
+the old values, and the new value has to be immediately used or it
+will dissipate again. To catch and hold values, JavaScript provides a
+thing called a _variable_.
 
 [source,javascript]
 ----
@@ -116,10 +116,11 @@ Digits can also be part of variable names—`catch22` is a valid name,
 for example—but the name must not start with a digit. A variable name
 cannot include punctuation, except for the characters “$” and “_”.
 
-(((= operator)))(((assignment)))When a variable points at a value,
-that does not mean it is tied to that value forever. The `=` operator
-can be used at any time on existing variables to disconnect them from
-their current value and have them point to a new one.
+(((= operator)))(((assignment)))(((variable,assignment)))When a
+variable points at a value, that does not mean it is tied to that
+value forever. The `=` operator can be used at any time on existing
+variables to disconnect them from their current value and have them
+point to a new one.
 
 [source,javascript]
 ----

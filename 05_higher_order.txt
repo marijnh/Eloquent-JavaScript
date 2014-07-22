@@ -155,10 +155,12 @@ function logEach(array) {
 ----
 
 [[forEach]]
-(((array,traversal)))(((function,as value)))(((forEach method)))But
-what if we want to do something other than logging the elements? Since
-“doing something” can be represented as a function, and functions are
-just values, we can pass our action as a function value:
+
+(((function,higher-order)))(((loop)))(((array,traversal)))(((function,as
+value)))(((forEach method)))But what if we want to do something other
+than logging the elements? Since “doing something” can be represented
+as a function, and functions are just values, we can pass our action
+as a function value:
 
 [source,javascript]
 ----

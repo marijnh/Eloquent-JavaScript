@@ -317,19 +317,19 @@ can be used to overcome some of JavaScript's shortcomings. After
 learning the language properly and working with it for a while, I have
 learned to actually _like_ JavaScript.
 
-(((JavaScript,versions of)))(((ECMAScript)))There have been several
-_versions_ of JavaScript. ECMAScript version 3 was the dominant,
-widely supported version in the time of JavaScript's ascent to
-dominance, roughly between 2000 and 2010. During this time, work was
-underway on an ambitious version 4, which planned a number of radical
-improvements and extensions to the language. Changing a living, widely
-used language in such a radical way turned out to be politically
-difficult, and work on the 4th edition was abandoned in 2008, leading
-to the much less ambitious 5th edition coming out in 2009. We're now
-at the point where all major browsers support this 5th edition, which
-is the language version that this book will be focusing on. A 6th
-edition is in the process of being finalized, and some browsers are
-starting to support new features from this edition.
+(((JavaScript,versions of)))(((ECMAScript)))(((ECMAScript 6)))There
+have been several _versions_ of JavaScript. ECMAScript version 3 was
+the dominant, widely supported version in the time of JavaScript's
+ascent to dominance, roughly between 2000 and 2010. During this time,
+work was underway on an ambitious version 4, which planned a number of
+radical improvements and extensions to the language. Changing a
+living, widely used language in such a radical way turned out to be
+politically difficult, and work on the 4th edition was abandoned in
+2008, leading to the much less ambitious 5th edition coming out in
+2009. We're now at the point where all major browsers support this 5th
+edition, which is the language version that this book will be focusing
+on. A 6th edition is in the process of being finalized, and some
+browsers are starting to support new features from this edition.
 
 (((JavaScript,uses of)))Web browsers are not the only platforms on
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,

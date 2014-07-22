@@ -14,7 +14,7 @@ beyond that yet.
     apt-get install asciidoc
     make html
     # and optionally
-    apt-get install dblatex inkscape
+    apt-get install texlive inkscape
     make tex
 
 For OSX, you can use port or brew to install the asciidoc package.

@@ -18,7 +18,7 @@ process.stdin.on("data", function(chunk) {
 });
 process.stdin.on("end", function() {
   checkUnicode(input);
-  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|(\\chapter\{Introduction\})|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+)\\textbar\{\}see\{([^}]+)}}/g,
+  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|(\\chapter\{Introduction\})|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}/g,
                         function(all, codeSpace, manyBlanks, why, intro, link, seeFrom, seeTo) {
     if (codeSpace)
       return codeSpace.slice(1);

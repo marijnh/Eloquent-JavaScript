@@ -76,7 +76,7 @@ easier.
 
 [quote, Joseph Weizenbaum, Computer Power and Human Reason]
 ____
-(((Weizenbaum, Joseph)))The computer programmer is a creator of
+(((Weizenbaum+++,+++ Joseph)))The computer programmer is a creator of
 universes for which he [sic] alone is responsible. Universes of virtually
 unlimited complexity can be created in the form of computer programs.
 ____

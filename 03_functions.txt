@@ -2,7 +2,6 @@
 :prev_link: 02_program_structure
 :next_link: 04_data
 
-[[functions]]
 = Functions =
 
 [chapterquote="true"]
@@ -415,7 +414,6 @@ one will tell you about it.
 indexsee:[optional argument,argument optional]
 
 [[power]]
-
 (((power example)))(((argument,optional)))(((optional arguments)))The
 upside is that this behavior can be used to have a function take
 “optional” arguments. For example, the following version of `power`

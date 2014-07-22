@@ -3,7 +3,6 @@
 :next_link: 17_http
 :load_files: ["code/chapter/15_game.js", "code/game_levels.js", "code/chapter/16_canvas.js"]
 
-[[canvas]]
 = Drawing on Canvas =
 
 [chapterquote="true"]

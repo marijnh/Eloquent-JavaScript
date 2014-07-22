@@ -3,7 +3,6 @@
 :next_link: 08_error
 :load_files: ["code/chapter/07_elife.js", "js/animateworld.js"]
 
-[[elife]]
 = Project: Electronic Life =
 
 [chapterquote="true"]

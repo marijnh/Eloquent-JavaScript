@@ -18,16 +18,16 @@ process.stdin.on("data", function(chunk) {
 });
 process.stdin.on("end", function() {
   checkUnicode(input);
-  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|(\\chapter\{Introduction\})|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}/g,
-                        function(all, codeSpace, manyBlanks, why, intro, link, seeFrom, seeTo) {
+  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Solutions to the Exercises)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}/g,
+                        function(all, codeSpace, manyBlanks, why, simplechapter, link, seeFrom, seeTo) {
     if (codeSpace)
       return codeSpace.slice(1);
     if (manyBlanks)
       return "\n\n";
     if (why)
       return "\\_why,";
-    if (intro)
-      return "\\chapter*{Introduction}";
+    if (simplechapter)
+      return "\\chapter*{" + simplechapter + "}";
     if (link)
       return "\\hyperref[" + link.replace(/\\_\{\}/g, "_") + "]";
     if (seeFrom)

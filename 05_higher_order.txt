@@ -3,7 +3,6 @@
 :next_link: 06_object
 :load_files: ["code/ancestry.js", "code/chapter/05_higher_order.js", "js/intro.js"]
 
-[[higher_order]]
 = Higher-Order Functions =
 
 ifdef::html_target[]

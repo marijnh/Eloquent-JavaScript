@@ -1,8 +1,8 @@
 :chap_num: 1
 :prev_link: 00_intro
 :next_link: 02_program_structure
+:docid: values
 
-[[values]]
 = Values, Types, and Operators =
 
 [quote, Master Yuan-Ma, The Book of Programming]

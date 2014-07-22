@@ -3,7 +3,6 @@
 :next_link: 16_canvas
 :load_files: ["code/chapter/15_game.js", "code/game_levels.js"]
 
-[[game]]
 = Project: A Platform Game =
 
 My initial fascination with computers, like that of many kids,

@@ -3,7 +3,6 @@
 :next_link: 05_higher_order
 :load_files: ["code/jacques_journal.js", "code/chapter/04_data.js"]
 
-[[data]]
 = Data Structures: Objects and Arrays =
 
 [chapterquote="true"]
@@ -106,7 +105,6 @@ the element in the left-hand expression that corresponds to the _index_
 given by the expression in the brackets.
 
 [[array_indexing]]
-
 The first index of an array is zero, not one. So the first element can be read
 with `listOfNumbers[0]`. If you don't have a programming background,
 this convention might take some getting used to. But zero-based counting has a long
@@ -190,7 +188,7 @@ is also `toLowerCase`. You can guess what that does.
 Interestingly, even though the call to `toUpperCase` does not pass any
 arguments, the function somehow has access to the string
 `"Doh"`, the value whose property we called. How this works
-is described in link:06_object.html#methods[Chapter 6].
+is described in link:06_object.html#obj_methods[Chapter 6].
 
 Properties that contain functions are generally called _methods_ of
 the value they belong to. As in, “`toUpperCase` is a method of a

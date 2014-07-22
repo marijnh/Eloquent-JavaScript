@@ -65,7 +65,7 @@ has popularized. These are worth studying.
 This chapter describes JavaScript's rather eccentric take on objects,
 and the way they relate to some classical object-oriented techniques.
 
-[[methods]]
+[[obj_methods]]
 == Methods ==
 
 (((rabbit example)))(((method)))(((property)))Methods are simply

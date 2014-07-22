@@ -3,7 +3,6 @@
 :next_link: 11_language
 :load_files: ["code/chapter/10_modules.js", "js/loadfile.js"]
 
-[[modules]]
 = Modules =
 
 ifdef::html_target[]

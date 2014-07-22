@@ -2,7 +2,6 @@
 :prev_link: 01_values
 :next_link: 03_functions
 
-[[program_structure]]
 = Program Structure =
 
 [chapterquote="true"]
@@ -864,8 +863,9 @@ end of the introduction.
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the
-hints after the exercise. Full solutions to the exercises are not
-included in this book, but you can find them online at
+hints (!html after the exercise!)(!tex at the link:solutions[end of the book]!).
+Full solutions to the exercises are not included in this
+book, but you can find them online at
 http://eloquentjavascript.net/exercises.html[_eloquentjavascript.net/exercises.html_].
 If you want to learn something from the exercises, I recommend looking
 at the solutions only after you've solved the exercise, or at least

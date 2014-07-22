@@ -4,16 +4,25 @@
 
 var fs = require("fs"), child = require("child_process");
 
+var infile = process.argv[2], instream;
+if (infile == "-") {
+  instream = process.stdin;
+  instream.resume();
+} else {
+  instream = fs.createReadStream(infile);
+}
+
 var titleCaseSmallWords = "a an the at by for in of on to up and as but it or nor if console.log".split(" ");
 
 var input = "";
-process.stdin.on("data", function(chunk) {
+instream.on("data", function(chunk) {
   input += chunk;
 });
-process.stdin.on("end", function() {
-  var docid = /($|\n)\[\[(.*?)\]\]\n= /.exec(input);
-  if (docid) input = ":docid: " + docid[2] + "\n" + input;
-  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[/g, function(match, title, quoted, imgName, imgType, link) {
+instream.on("end", function() {
+  if (infile != "-")
+    input = ":docid: " + infile.match(/^\d{2}_(.*?)\.txt/)[1] + "\n" + input;
+  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[|!!(solution)!![^]+?!!solution!!(?:\n|$)/g,
+                                     function(match, title, quoted, imgName, imgType, link, solution) {
     if (title) { // Section title, must be converted to title case
       var kind = /^\n(=*)/.exec(match)[1];
       return "\n" + kind + " " + title.split(" ").map(function(word) {
@@ -28,10 +37,11 @@ process.stdin.on("end", function() {
       return "\nimage::" + convertImage(imgName, imgType);
     } else if (link) {
       return "link:" + link + "[";
+    } else if (solution) {
+      return "";
     }
   }));
 });
-process.stdin.resume();
 
 function convertImage(name, type) {
   if (type == "svg") {

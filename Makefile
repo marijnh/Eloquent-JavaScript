@@ -23,10 +23,13 @@ code/solutions/20_4_a_public_space_on_the_web.zip: $(wildcard code/solutions/20_
 	rm -f $@
 	cd code/solutions; zip 20_4_a_public_space_on_the_web.zip 20_4_a_public_space_on_the_web/*
 
-tex: $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
+tex: $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex) tex/solutions.tex
 
-tex/%.tex: %.txt asciidoc_latex.conf
-	cat $< | node bin/pre_latex.js | asciidoc -f asciidoc_latex.conf --backend=latex -o - - | node bin/clean_latex.js > $@
+tex/solutions.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) bin/extract_solutions.js
+	node bin/extract_solutions.js | node bin/pre_latex.js - | asciidoc -f asciidoc_latex.conf --backend=latex -o - - | node bin/clean_latex.js > $@
+
+tex/%.tex: %.txt asciidoc_latex.conf bin/pre_latex.js bin/clean_latex.js
+	node bin/pre_latex.js $< | asciidoc -f asciidoc_latex.conf --backend=latex -o - - | node bin/clean_latex.js > $@
 
 test: html
 	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
@@ -34,7 +37,7 @@ test: html
 	@node bin/check_links.js
 	@echo Done.
 
-book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex)
+book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex) tex/solutions.tex
 	cd tex/book && xelatex book.tex
 	cd tex/book && xelatex book.tex
 	makeindex -s tex/book/nostarch.ist -o tex/book/book.ind tex/book/book.idx

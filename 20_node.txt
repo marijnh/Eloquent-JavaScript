@@ -2,7 +2,6 @@
 :prev_link: 19_paint
 :next_link: 21_echo_chamber
 
-[[node]]
 = Node.js =
 
 [chapterquote="true"]

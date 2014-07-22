@@ -3,7 +3,6 @@
 :next_link: 20_node
 :load_files: ["code/chapter/19_paint.js"]
 
-[[paint]]
 = Project: A Paint Program =
 
 The material from the previous chapters gives you all the elements you

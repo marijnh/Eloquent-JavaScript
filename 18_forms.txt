@@ -3,7 +3,6 @@
 :next_link: 19_paint
 :load_files: ["js/promise.js"]
 
-[[forms]]
 = Forms and Form Fields =
 
 [chapterquote="true"]

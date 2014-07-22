@@ -3,7 +3,6 @@
 :next_link: 14_event
 :load_files: ["code/mountains.js", "code/chapter/13_dom.js"]
 
-[[dom]]
 = The Document Object Model =
 
 When you open a web page in your browser, it will retrieve the page's

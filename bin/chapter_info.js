@@ -8,7 +8,9 @@ var output = [], failed = false;
 
 var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { return !/^20/.test(file); });
 
-fs.readdirSync(".").forEach(function(file) {
+var dir = fs.readdirSync(".");
+dir.sort();
+dir.forEach(function(file) {
   var match = /^(\d+).*\.txt$/.exec(file), chapNum = match && match[1];
   if (!match) return;
   var text = fs.readFileSync(file, "utf8");

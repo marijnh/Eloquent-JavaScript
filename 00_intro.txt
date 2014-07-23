@@ -271,7 +271,8 @@ blocks.
 == What is JavaScript? ==
 
 indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web]
-(((Netscape Navigator)))(((browser)))(((web
+
+(((history)))(((Netscape Navigator)))(((browser)))(((web
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995, as a way to add programs to
 Web pages in the Netscape Navigator browser. The language has since

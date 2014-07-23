@@ -404,9 +404,9 @@ controls.save = function(cx) {
 };
 ----
 
-Thus, the link just quietly sits there, pointing at the wrong thing,
-but when the use approaches it, it magically updates itself to point
-at the current picture.
+(((magic)))Thus, the link just quietly sits there, pointing at the
+wrong thing, but when the use approaches it, it magically updates
+itself to point at the current picture.
 
 If you load a very big image, some browsers will choke on the giant
 data URLs that this produces. But for small pictures, this should work

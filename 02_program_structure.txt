@@ -20,7 +20,7 @@ to the point where we can actually express some meaningful prose.
 
 == Expressions and statements ==
 
-(((grammar)))(((JavaScript,syntax)))In
+(((code,structure of)))(((grammar)))(((JavaScript,syntax)))In
 link:01_values.html#values[Chapter 1], we made some values and then
 applied operators to them to get new values. Creating values like this
 is an essential part of every JavaScript program, but it is still only

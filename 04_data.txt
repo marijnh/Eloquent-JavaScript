@@ -106,8 +106,8 @@ console.log(listOfNumbers[1 - 1]);
 at the elements inside an array also uses ((square brackets)). A pair
 of square brackets immediately after an expression, with another
 expression inside of them, will look up the element in the left-hand
-expression that corresponds to the _index_ given by the expression in
-the brackets.
+expression that corresponds to the _((index))_ given by the expression
+in the brackets.
 
 [[array_indexing]]
 (((zero-based counting)))The first index of an array is zero, not one.

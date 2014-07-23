@@ -358,12 +358,12 @@ function transparentWrapping(f) {
 }
 ----
 
-That's a particularly useless function, but it shows the pattern we
-are interested in—the resulting function will pass all of the given
-arguments, and only those arguments, to `f`. It does this by passing
-its own `arguments` object to `apply`. The first argument to `apply`,
-for which we are passing `null` here, can be used to simulate a
-((method)) call. More on that in the
+(((null)))That's a particularly useless function, but it shows the
+pattern we are interested in—the resulting function will pass all of
+the given arguments, and only those arguments, to `f`. It does this by
+passing its own `arguments` object to `apply`. The first argument to
+`apply`, for which we are passing `null` here, can be used to simulate
+a ((method)) call. More on that in the
 link:06_object.html#call_method[next chapter].
 
 == JSON ==
@@ -779,7 +779,7 @@ function reduceAncestors(person, f, defaultValue) {
 ----
 
 (((function,higher-order)))The inner function (`valueFor`) handles a
-single person. Through the magic of recursion, it can simply call
+single person. Through the ((magic)) of recursion, it can simply call
 itself to handle the father and the mother of this person. The
 results, along with the person object itself, are passed to `f`, which
 returns the actual value for this person.
@@ -891,7 +891,7 @@ The above `bind` call returns a function that will call `isInSet` with
 to the bound function.
 
 (((null)))The first argument, where the example passes `null`, is used
-for ((method)) calls, similar to the first argument to `apply`. We'll
+for ((method call))s, similar to the first argument to `apply`. We'll
 describe this in more detail in the
 link:06_object.html#call_method[next chapter].
 

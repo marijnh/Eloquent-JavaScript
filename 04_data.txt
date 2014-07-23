@@ -564,8 +564,9 @@ get fields like (!html n~1•~!)(!tex pass:[$n_{1\bullet}$]!) because
 the sums of rows or columns are not stored directly in our data
 structure.
 
-Jacques kept his journal for three months. The resulting data set is
-available in the coding sandbox for this chapter(!tex
+(((JOURNAL data set)))Jacques kept his journal for three months. The
+resulting ((data set)) is available in the coding sandbox for this
+chapter(!tex
 (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!),
 where it is stored in the `JOURNAL` variable, and in a downloadable
 http://eloquentjavascript.net/code/jacques_journal.js[file].
@@ -1016,10 +1017,10 @@ them into an array.
 == The Math object ==
 
 (((Math object)))(((Math.min function)))(((Math.max
-function)))(((Math.sqrt function)))(((min function)))(((max
-function)))(((sqrt function)))As we've seen, `Math` is a grab-bag of
-number-related utility functions, such as `Math.max` (maximum),
-`Math.min` (minimum), and `Math.sqrt` (square root).
+function)))(((Math.sqrt function)))(((minimum)))(((maximum)))(((square
+root)))As we've seen, `Math` is a grab-bag of number-related utility
+functions, such as `Math.max` (maximum), `Math.min` (minimum), and
+`Math.sqrt` (square root).
 
 [[namespace_pollution]]
 (((namespace)))(((namespace pollution)))(((Object type)))The
@@ -1043,12 +1044,11 @@ neither, so be careful.
 
 (((trigonometry)))(((Math.cos function)))(((Math.sin
 function)))(((Math.tan function)))(((Math.acos function)))(((Math.asin
-function)))(((Math.atan function)))(((Math.PI constant)))(((cos
-function)))(((sin function)))(((tan function)))(((acos
-function)))(((asin function)))(((atan function)))(((PI constant)))Back
-to the `Math` object. If you need to do trigonometry, `Math` can help.
-It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well
-as their inverse functions, `acos`, `asin`, and `atan`. The number π
+function)))(((Math.atan function)))(((Math.PI
+constant)))(((cosine)))(((sine)))(((tangent)))(((PI constant)))Back to
+the `Math` object. If you need to do trigonometry, `Math` can help. It
+contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as
+their inverse functions, `acos`, `asin`, and `atan`. The number π
 (pi)—or at least the closest approximation that fits in a JavaScript
 number—is available as `Math.PI`. (There is an old programming
 tradition of writing the names of constant values in all caps.)
@@ -1070,7 +1070,7 @@ If sines and cosines are not something you are very familiar with,
 don't worry. When they are used in this book, in
 link:13_dom.html#sin_cos[Chapter 13], I'll explain them.
 
-(((Math.random function)))(((random function)))The previous example
+(((Math.random function)))(((random numbers)))The previous example
 uses `Math.random`. This is a function that returns a new
 pseudo-random number between zero (inclusive) and one (exclusive)
 every time you call it.
@@ -1097,10 +1097,10 @@ internal state and returns part of the result of those computations.
 The machine also uses the outcome to change its own internal state so
 that the next "random" number produced will be different.
 
-(((rounding)))(((Math.floor function)))(((floor function)))If we want
-a whole random number instead of a fractional one, we can use
-`Math.floor` (which rounds down to the nearest whole number) on the
-result of `Math.random`.
+(((rounding)))(((Math.floor function)))If we want a whole random
+number instead of a fractional one, we can use `Math.floor` (which
+rounds down to the nearest whole number) on the result of
+`Math.random`.
 
 // test: no
 
@@ -1115,10 +1115,9 @@ equal to zero, and below ten. Since `Math.floor` rounds down, this
 expression will produce, with equal chance, any number from 0 through
 9.
 
-(((Math.ceil function)))(((Math.round function)))(((ceil
-function)))(((round function))))There are also the functions
-`Math.ceil` (for "ceiling", which rounds up to a whole number) and
-`Math.round` (to the nearest whole number).
+(((Math.ceil function)))(((Math.round function)))There are also the
+functions `Math.ceil` (for "ceiling", which rounds up to a whole
+number) and `Math.round` (to the nearest whole number).
 
 == The global object ==
 

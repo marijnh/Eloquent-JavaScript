@@ -891,11 +891,12 @@ organize regular text.
 
 === Minimum ===
 
-(((Math object)))(((minimum (exercise))))(((Math.min function)))(((min
-function)))The link:02_program_structure.html#return_values[previous
-chapter] introduced the standard function `Math.min` that returns its
-smallest argument. We can do that ourselves now. Write a function
-`min` that takes two arguments and returns their minimum.
+(((Math object)))(((minimum (exercise))))(((Math.min
+function)))(((minimum)))The
+link:02_program_structure.html#return_values[previous chapter]
+introduced the standard function `Math.min` that returns its smallest
+argument. We can do that ourselves now. Write a function `min` that
+takes two arguments and returns their minimum.
 
 ifdef::html_target[]
 

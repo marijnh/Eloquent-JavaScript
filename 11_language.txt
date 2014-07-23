@@ -5,6 +5,9 @@
 
 = Project: A Programming Language =
 
+// I don't have any big edits to this chapter, it seems super solid to me.
+// It's very self-contained and well organized. Great job!
+
 [chapterquote="true"]
 [quote, Hal Abelson and Gerald Sussman, Structure and Interpretation of Computer Programs]
 ____
@@ -27,9 +30,9 @@ Building your own programming language is surprisingly easy (as long as
 you do not aim too high) and very enlightening.
 
 The main thing I want to show in this chapter is that there is no
-magic involved in building your own language. I've often felt that some human invention was so
+magic involved in building your own language. I've often felt that some human inventions were so
 immensely clever and complicated that I'd never be able to understand
-it. But with a little reading and tinkering, such things often turn out to be quite mundane.
+them. But with a little reading and tinkering, such things often turn out to be quite mundane.
 
 We will build a programming language called Egg. It will be a tiny, simple language, but one
 that is powerful enough to express any computation you can think of. It will also allow
@@ -82,6 +85,7 @@ Expresions of type `"value"` represent literal strings or numbers. Their `value`
 property contains the string or number value that they represent. Expressions of type
 `"word"` are used for identifiers (names). Their `name` property holds their content
 as a string. Finally, `"apply"` expressions represent applications. They have an `operator` property
+// "content as a string" -> "string content"
 that refers to the expression that is being applied, and an `args` property that refers
 to an array of argument expressions.
 
@@ -591,6 +595,7 @@ it, I encourage you to try to implement such a compiler as an
 exercise.
 
 == Cheating ==
+// Heh, maybe "Good Artists Borrow, Great Artists Steal" ?
 
 When we defined `if` and `while`, you probably noticed that they were
 more or less trivial wrappers around JavaScript's own `if` and

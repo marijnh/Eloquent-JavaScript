@@ -7,3 +7,6 @@ var MOUNTAINS = [
   {name: "Denali", height: 6168, country: "United States"},
   {name: "Popocatepetl", height: 5465, country: "Mexico"}
 ];
+
+if (typeof module != "undefined" && module.exports)
+  module.exports = MOUNTAINS;

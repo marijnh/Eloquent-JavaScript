@@ -1,6 +1,6 @@
 /tex/*
 /html/[012]*.html
-/html/js/exercise_data.js
+/html/js/chapter_info.js
 /code/chapter/*
 /code/file_server.js
 /code/skillsharing.zip

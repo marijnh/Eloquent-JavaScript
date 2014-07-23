@@ -537,7 +537,7 @@ because the sums of rows or columns are not stored directly in our
 data structure.
 
 Jacques kept his journal for three months. The resulting data set is
-available in the coding sandbox for this chapter(!tex  (http://eloquentjavascript.net/exercises.html[_eloquentjavascript.net/exercises.html_])!),
+available in the coding sandbox for this chapter(!tex  (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!),
 where it is stored
 in the `JOURNAL` variable, and in a downloadable
 http://eloquentjavascript.net/code/jacques_journal.js[file].
@@ -720,6 +720,8 @@ of turning into a squirrel, whereas brushing his teeth has a
 significant negative effect.
 
 Interesting. Let's try something.
+
+// include_code strip_log
 
 [source,javascript]
 ----
@@ -937,7 +939,7 @@ argumentCounter("Straw man", "Tautology", "Ad hominem");
 // → You gave me 3 arguments.
 ----
 
-(((console.log function)))(((variadic function)))Some functions can
+(((console.log)))(((variadic function)))Some functions can
 take any number of arguments, like `console.log`. These typically
 loop over the values in their `arguments` object. They can be used to
 create very pleasant interfaces. For example, remember how we created 

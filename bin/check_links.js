@@ -20,7 +20,7 @@ for (var file in files) {
     var target = files[m[1]];
     if (!target)
       error(file, "Unknown target file: " + m[0]);
-    else if (target.indexOf("[[" + m[3] + "]]") == -1)
+    else if (m[3] != m[1].slice(3) && target.indexOf("[[" + m[3] + "]]") == -1)
       error(file, "Non-existing anchor: " + m[0]);
   }
 }

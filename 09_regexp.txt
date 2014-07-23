@@ -30,9 +30,13 @@ well enough within the right niche—for example by being
 integrated with another successful piece of technology.
 
 In this chapter I will discuss one such technology, _regular
+// For consistency with the first paragraph, "technology" -> "tool"
 expressions_. Regular expressions are a way to describe patterns in
 string data. They form a small, separate language that is part of
 JavaScript (as well as various other programming languages and tools).
+// Use of parenthetical feels unnecessary.
+// What about "They form a terse little language that comes with
+// JavaScript and many other languages and tools."
 
 Regular expressions are both terribly awkward and extremely useful.
 Their syntax is cryptic, and the programming
@@ -41,10 +45,19 @@ very powerful tool for inspecting and processing strings. Properly understanding
 regular expressions will make you a more effective programmer.
 
 == Notation ==
+// The title of this section could be more specific:
+// Perhaps, "Creating a Regular Expression Object"
 
 A regular expression is an object. It can either be constructed with
+// perhaps "is a type of object", to avoid the confusion that the two are
+// actually the same thing in fact
 the `RegExp` constructor or written as a literal value by enclosing
 the pattern in slash (`/`) characters.
+// The notion of "literal values" are never formally introduced in earlier
+// chapters. Consider adding a note in ch. 1, or a footnote here, or
+// doing without the phrase "literal value".
+// An alternative might be: "...or written out as the regular expression pattern
+// itself, enclosed in forward slashes."
 
 [source,javascript]
 ----
@@ -59,9 +72,14 @@ When using the `RegExp` constructor, the pattern is written as a
 normal string, so the usual rules apply for backslashes.
 
 The second notation, where the pattern appears between slash characters,
+// perhaps the more-specific "forward slash" rather than "slash character",
+// or even "forward slash character"
 treats backslashes somewhat differently. Firstly, since a slash ends the pattern,
+// The mixed discussion of forward and backward slashes makes it potentially important
+// to specify which type every time. I'll point out where the word "slash" appears alone, unspecified
 we need to put a backslash before any slash that we want to be _part_ of the pattern.
-In addition, backslashes that aren't part of special character codes (like `\n`),
+// "slash"
+In addition, backslashes that aren't part of special character codes (like `\n`, the newline character),
 will be _preserved_, rather than ignored as they are in strings, and change the
 meaning of the pattern. Some characters, such as question marks and plus signs, have special
 meanings in regular expressions, and must be preceded by a
@@ -71,18 +89,32 @@ backslash if they are meant to represent the character itself.
 ----
 var onePlusOne = /1 \+ 1/;
 ----
+// This example seems problematic, since the pattern itself looks deceptively
+// similar to JavaScript code. I'd pick something more far flung than trying to
+// represent anything that could itself look like an expression. In a way,
+// you might expect some readers to imagine this is just regular code with lot of
+// slashes appearing in it for some reasn.
 
+// Alternatively you could explain "A regex that describes the string '1 + 1'.
+// Escaping the '+' character with '\' is necessary because it has a special
+// meaning in regular expressions."
 Knowing precisely what characters to backslash-escape when writing
 regular expressions requires you to know every character with a special meaning.
 For the time being, this may
 not be realistic, so when in doubt, just put a backslash before any
 character that is not a letter, number, or whitespace.
+// These last two paragraphs seem to expect the reader to appreciate
+// the need for character escaping before they have been exposed to the idea
+// that regex is comprised of literal and meaningful characters. might be worth
+// resequencing a little to avoid it, but up to you of course
+
+
 
 == Testing for matches ==
 
 (((test method)))Regular expression objects have a number of methods.
 The simplest one is `test`. If you pass it a string, it will return a Boolean telling you
-whether the pattern in the expression matches the string.
+whether the string contains a match for the pattern in the expression.
 
 [source,javascript]
 ----
@@ -120,13 +152,14 @@ console.log(/[0-9]/.test("in 1992"));
 (((digit (regexp))))Within square brackets, a dash (`-`) between two
 characters can be used to indicate a range of characters, where the
 ordering is determined by the character's Unicode code points.
+// "code points" is mentioned here for the first time
 Characters “0” to “9” sit right next to each other in this ordering
 (codes 48 to 57), so `[0-9]` covers all of them, and matches any
 digit.
 
 (((whitespace (regexp))))(((alphanumeric character (regexp))))(((dot
 (regexp))))There are a number of common character groups that
-have their own built-in shortcuts. Digits are one of them: 
+have their own built-in shortcuts. Digits are one of them:
 `\d` means the same thing as `[0-9]`.
 
 [cols="1,5"]
@@ -139,6 +172,10 @@ have their own built-in shortcuts. Digits are one of them:
 |`\S`      |Non-whitespace characters
 |`.`       |A period matches all characters except newlines
 |====
+// In this section, you refer to things plurally, but the character class
+// matchers only match one character within the collection. If it isn't
+// overkill, you could avoid this by saying "Any digit character" and
+// "Any whitespace character", etc
 
 So you could match a date and time format like “30-01-2003 15:20” with
 the following expression:
@@ -159,6 +196,9 @@ this expression link:09_regexp.html#date_regexp_counted[later on].
 
 These backslash codes can also be used inside of square brackets. For
 example `[\d.]` means any digit or a dot.
+// Worth considering an aside here to avoid confusing the reader about the nature
+// of the '.' character: "(Periods and most other special regex characters, when used
+// inside `[]` character sets, lose their special meaing.)"
 
 To _invert_ a set of characters—that is, to express that you want to match any
 character _except_ the ones in the set—you can write a caret (`^`) character
@@ -194,6 +234,14 @@ console.log(/'\d*'/.test("'123'"));
 console.log(/'\d*'/.test("''"));
 // → true
 ----
+// Why wrap these expressions and strings in single quotes? I missed
+// them in the regex pattern and then found myself confused when I
+// noticed them in the test string. Could be unncessary. I believe
+// you're trying to use a potentially familiar construct of JSON parsing
+// but if anything, the reader seems more likely to be confused by the
+// meta nature of seeing the javascript-in-javascript that is required by it
+// and there may be other digit examples that could be simpler or at least
+// could avoid so many quotes.
 
 The star (`*`) has a similar meaning, but also allows the pattern to
 match zero times. Something with a star after it never prevents a
@@ -248,6 +296,7 @@ var cartoonCrying = /boo+(hoo+)+/i;
 console.log(cartoonCrying.test("Boohoooohoohooo"));
 // → true
 ----
+// great example!
 
 The first and second `+` characters apply only to the second “o” in
 “boo” and “hoo”, respectively.
@@ -272,12 +321,19 @@ about the match otherwise.
 var match = /\d+/.exec("one two 100");
 console.log(match);
 // → ["100"]
+// Perhaps add a code comment calling out the fact that this is a
+// "match object" even though the interpreter prints it like an array.
+// I realize that the following lines are intended to serve that purpose
+// as well, but it's easy to miss and then feel a little blind-sided by the
+// paragraph below that explains the match object in more detail.
 console.log(match.index);
 // → 8
 ----
 
 (((match method)))String values have a `match` method that behaves
 very similarly.
+// Consider being  more explicit: "Strings have a `match` method
+// that accepts a regular expression and returns a match object.
 
 [source,javascript]
 ----
@@ -408,6 +464,7 @@ second-to-last.
 (((boundary (regexp))))If we want to enforce that the match must span
 the whole string, we can add the markers `^` and `$`. The carat
 matches the start of the input string, while the dollar sign matches the end. So
+// So, (added a comma)
 `/^\d+$/` matches a string consisting entirely of one or more digits,
 `/^!/` matches any string that starts with an exclamation mark, and
 `/x^/` does not match any string (there can not be an “x” _before_ the
@@ -561,6 +618,8 @@ character. For even just a few dozen characters, the resulting match will
 take practically forever.
 
 == The replace method ==
+// Might be crazy, but if you wanted to be more specific about what the
+// significance of this section: "Manipulating text with the replace method"
 
 (((replace method)))(((regular expression!replacing)))String values
 have a `replace` method, which can be used to replace a part of the
@@ -952,6 +1011,18 @@ function parseINI(string) {
   return categories;
 }
 ----
+// At first glance, this function appeared to unnecessarily initialize
+// `currentCategory` and `categories`. It would have saved me re-reading the
+// ini file if `currentCategory` had been initialized thusly:
+// `var currentCategory = { name:'ini-settings', fields: []}`
+//
+// What about getting rid of the abstraction of "categories" entirely by
+// removing the global settings in the ini and the logic for parsing them
+// in the algorithm? It doesn't seem to add much to the regex content you seek
+// to deliver, and makes the example less obvious. Doing so
+// would allow you to use clearer variable names (`enemies` instead of `categories`),
+// and also resolve the confusion noted above. I feel like I may be missing
+// the intent here somehow, but that seemed to me to be a tradeoff worth making.
 
 This code goes over every line in the file, updating the “current
 category” object as it goes along. First it checks whether the line
@@ -963,10 +1034,11 @@ matches lines containing only whitespace.
 If the line is not a comment, the code then checks whether
 the line starts a new category. If so, it
 creates a new current category object, to which subsequent
-settings will get added. 
+settings will get added.
 
 The last meaningful possibility is that the line is a normal
 setting, which the code adds to the current category object.
+// This sentence would get removed if you make the simplification suggested above.
 
 If a line matches none of these forms, the function throws an error.
 
@@ -1025,6 +1097,7 @@ They use their own syntax to express these patterns.
 |`/x?/`      |Zero or one occurrence
 |`/x{2,4}/`  |Between two and four occurrences
 |`/(abc)+/`  |A group
+// Perhaps "A group occurring one or more times"
 |++/a{brvbar}b{brvbar}c/++ |Any one of several patterns
 |`/\d/`      |Digit characters
 |`/\w/`      |Alphanumeric characters (“word characters”)

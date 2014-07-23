@@ -36,6 +36,10 @@ of the programmer than from the program's intended functionality.
 When looking at a larger program in its entirety, individual functions
 start to blend into the background. It would be good to have a
 larger unit of organization.
+// "It would be good" may leave the reader wondering why, and it's
+// easy enough to save them from wondering without getting windy:
+// Perhaps "Having a larger unit of organization makes programs easier
+// to think about."
 
 _Modules_ divide programs into clusters of code that, by _some_
 criterion, belong together. This chapter explores some of the
@@ -79,9 +83,22 @@ your program.
 
 Most modern programming languages have a scope level between _global_
 (everyone can see it) and _local_ (only this function can see it).
+// -> "only this function and contained functions can see it"
 JavaScript does not. Thus, by default, everything that needs to be
 visible outside of the scope of the current function is visible
 _everywhere_.
+// I can see the (correct) concept you want to deliver in this last sentence,
+// but consider this counterexample attempting to disprove the accuracy of it,
+// at least as it's currently stated: a function can contain an even tighter function,
+// outside of which variables are still contained within the first closure, yet those
+// variables are not "visible everywhere" (which you mention later). To avoid giving
+// the user the wrong idea, I might remove the sentence starting "Thus", and rewrite
+// the sentence preceding it like this: "JavaScript does not, and thus we have
+// to get clever with our use of other language features to avoid polluting the
+// global namespace."
+
+
+
 
 Namespace pollution, the problem of a lot of unrelated code having to
 share a single set of global variable names, was mentioned in
@@ -142,6 +159,9 @@ each other, in the same way that the object interfaces from link:06_object.html#
 do. A well-designed module will provide an interface for external code
 to use. As the module gets updated with bug-fixes and new
 functionality, the existing interface stays stable, so that
+// Would the notion of "stability" be unintuitive to the reader?
+// perhaps "the existing interface stays stable" -> "the existing interface
+// stays the same, (or as we say in the industry, 'stable'),"
 other modules can use the new, improved version without any changes to
 themselves.
 
@@ -162,6 +182,11 @@ code might need to access (content, styling, user actions, and so on),
 it requires careful design.
 
 == Functions as namespaces ==
+// This is where I find this chapter getting a little unpredictable--would have expected
+// this section to follow the namespaces section. Perhaps there's a more intiuitive order
+// these sections could be in? Let me know if you'd like me to think about how to re-sequence
+// them at all, but I assume you've got all you need just knowing that the order felt a little
+// disorienting to me.
 
 Functions are the only things in JavaScript that create a new
 scope. So if we want our modules to have their own scope, we will have
@@ -240,12 +265,24 @@ takes precedence, and if we had left out the extra parentheses in the
 example above, it would produce a syntax error. You can think of the parentheses
 as a trick to force the language to see that we are writing an
 expression.
+// I had to read this paragraph a few times to make it through without stumbling,
+// even though the rule it describes is a familiar one to me. Can I suggest something like:
+// "Wrapping the function in parens is necessary, according to the rules of
+// JavaScript's syntax. Without them, the function would be syntactically considered
+// a _statement_, which is not immediately callable. The enclosing parentheses
+// create an _expression_, which is callable."
 
 == Objects as interfaces ==
 
 Now imagine that
 we want to add a `dayNumber` function to our day-of-the-week module that goes
 from a name to a number. We can't simply return the function anymore,
+// I might be alone in this mistake, but as a reader, i misread the first
+// sentence to mean that the previous day-of-the-week module
+// takes a name and returns a number, not that you want the new function to do so.
+// Maybe something like "Now imagine we want to create a new function `dayNumber`
+// that takes a day name and returns its index in the week array, and we want to
+// bundle that function with our previous number-to-day module."
 but must wrap the two functions in an object.
 
 [source,javascript]
@@ -268,6 +305,7 @@ at the end of the function becomes awkward, since many of the exported
 functions are likely to be big, and you'd prefer to write them somewhere
 else, near related internal code. A convenient alternative is to declare
 an object (usually
+// "usually" -> "conventionally" ?
 named `exports`) and add properties to that whenever we are
 defining something that needs to be exported. In the example below,
 the module function takes its interface object as argument, allowing
@@ -480,9 +518,19 @@ become clear in link:14_event.html#timeline[Chapter 14]. This means
 that if every `require` call went and loaded something from some
 far-away web server, the page would freeze for a painfully long time
 while loading its scripts.
+// This claim appears incorrect to me. If I'm understanding it correctly,
+// it's saying that if one were to call an analog to the require function
+// that was implemented in the browser for fetching scripts from remote
+// pages and then evaluating them, these sequential calls would block one
+// another. But there isn't a way that I know of in the browser for JavaScript
+// to kick off a request for a file that _isn't_ asynchronous and non-blocking.
+// if you were to use AJAX (one technique) or append a script tag (another technique),
+// in either case the interpreter would be allowed to move on from the request
+// to start queueing the other requests while the first one was being fetched in
+// the background. Am I misreading your point perhaps?
 
 One way to work around this problem is to run a
-program like _http://browserify.org[Browserify]_) on your code
+program like _http://browserify.org[Browserify]_ on your code
 before you serve it on a web page. This will look for calls to `require`
 and gather the dependencies it finds
 together into a big file. When you actually serve the code, you
@@ -508,6 +556,21 @@ The `define` function is central to this approach. It
 takes first an array of module names, and then a function that takes
 one argument for each dependency. It will load the dependencies (if
 they haven't already been loaded) in the background, allowing the page
+// It has just become clear to me what I was misreading above. There were
+// a couple characteristics about that earlier paragraph that lead me to
+// think it was saying something different than what you really meant.
+// Firstly, you said "if every...call...loaded something". The word "loaded"
+// triggered the idea of fetching, rather than interpreting. I now
+// understand your example to relate to the cost of running the code, which
+// would certainly block the running of any other code. Second, you mentioned
+// a "far-away" web server, but the latency experienced seems to be a spurious
+// aspect. The cost of latency is inevitable on the web, and if reading the hard
+// drive were as latent as the web (hypothetically), then the time savings of
+// AMD (which relate to defering interpretation til later)  would be dwarfed
+// by the time it takes to wait for all the latent script fetches.
+// More importantly though, the time savings of latency (i.e. "far-away") and
+// non-blocking work (having many such requests) are not related to the time
+// savings of execution sequencing, which is mainly a percieved speed increase.
 to continue working while the files are being fetched. Once all
 dependencies are loaded, `define` will call the function it was given,
 with the interfaces of those dependencies as arguments.
@@ -636,7 +699,13 @@ the one above. The _RequireJS_ (_requirejs.org_) project provides a
 popular implementation of this style of module loader.
 
 == Interface design ==
-
+// I'm not sure what we're getting out of this section that wasn't covered
+// in the Reuse section above, which at the time felt a little out of order.
+// Decoupling also had that feeling, because both address how to write good
+// modules before modules have been fully explored.
+// My gut says that Namespaces -> Functions as namespaces -> Objects as Interfaces
+// would go well all at once (in that order), and before any discussion of how to design _good_
+// interfaces.
 (((interface design)))Designing interfaces for modules and object
 types is one of the subtler aspects of programming. Any non-trivial
 piece functionality can be modeled in various ways. Finding a way that

@@ -104,9 +104,9 @@ means, for example, that the `result` variable in the `power` example
 will be newly created every time the function is called, and these
 separate incarnations do not interfere with each other.
 
-indexsee:[top-level variable,global variable]
+indexsee:[top-level scope,global scope]
 
-(((var keyword)))(((global variable)))(((variable,global)))This
+(((var keyword)))(((global scope)))(((variable,global)))This
 “localness” of variables applies only to the parameters and variables
 declared with the `var` keyword inside the function body. Variables
 declared outside of any function are called _global_, because they are
@@ -141,15 +141,15 @@ console.log(x);
 ----
 
 (((variable,naming)))(((variable,scope)))(((global
-variable)))(((code,structure of)))This behavior helps prevent
-accidental interference between functions. If all variables were
-shared by the whole program, it'd take a lot of effort to make sure no
-name is ever used for two different purposes. And if you _did_ reuse a
-variable name, you might see strange effects from unrelated code
-messing with the value of your variable. By treating function-local
-variables as existing only within the function, the language makes it
-possible to read and understand functions as small universes, without
-having to worry about all the code at once.
+scope)))(((code,structure of)))This behavior helps prevent accidental
+interference between functions. If all variables were shared by the
+whole program, it'd take a lot of effort to make sure no name is ever
+used for two different purposes. And if you _did_ reuse a variable
+name, you might see strange effects from unrelated code messing with
+the value of your variable. By treating function-local variables as
+existing only within the function, the language makes it possible to
+read and understand functions as small universes, without having to
+worry about all the code at once.
 
 [[scoping]]
 == Nested scope ==
@@ -411,10 +411,8 @@ The downside of this is that it is possible—likely, even—that you'll
 accidentally pass the wrong number of arguments to functions and no
 one will tell you about it.
 
-indexsee:[optional argument,argument optional]
-
 [[power]]
-(((power example)))(((argument,optional)))(((optional arguments)))The
+(((power example)))(((optional argument)))(((optional arguments)))The
 upside is that this behavior can be used to have a function take
 “optional” arguments. For example, the following version of `power`
 can be called either with two arguments or with a single argument, in
@@ -893,11 +891,11 @@ organize regular text.
 
 === Minimum ===
 
-(((minimum (exercise))))(((Math.min function)))(((min function)))The
-link:02_program_structure.html#return_values[previous chapter]
-introduced the standard function `Math.min` that returns its smallest
-argument. We can do that ourselves now. Write a function `min` that
-takes two arguments and returns their minimum.
+(((Math object)))(((minimum (exercise))))(((Math.min function)))(((min
+function)))The link:02_program_structure.html#return_values[previous
+chapter] introduced the standard function `Math.min` that returns its
+smallest argument. We can do that ourselves now. Write a function
+`min` that takes two arguments and returns their minimum.
 
 ifdef::html_target[]
 
@@ -916,9 +914,9 @@ endif::html_target[]
 
 !!solution!!
 
-If you have trouble putting braces and parentheses in the right place
-to get a valid function definition, start by copying one of the
-examples in this chapter and modifying it.
+(((minimum (exercise))))If you have trouble putting braces and
+parentheses in the right place to get a valid function definition,
+start by copying one of the examples in this chapter and modifying it.
 
 (((return keyword)))A function may contain multiple `return`
 statements.
@@ -965,14 +963,15 @@ endif::html_target[]
 
 !!solution!!
 
-(((if keyword,chaining)))(((recursion)))Your function will likely look
-somewhat similar to the inner `find` function in the recursive
-`findSolution` link:03_functions.html#recursive_puzzle[example] in
-this chapter, with an `if`/`else if`/`else` chain that tests which of
-the three cases applies. The final `else`, corresponding to the third
-case, makes the recursive call. Each of the branches should contain a
-`return` statement or in some other way arrange for a specific value
-to be returned.
+(((isEven (exercise))))(((if keyword,chaining)))(((recursion)))Your
+function will likely look somewhat similar to the inner `find`
+function in the recursive `findSolution`
+link:03_functions.html#recursive_puzzle[example] in this chapter, with
+an `if`/`else if`/`else` chain that tests which of the three cases
+applies. The final `else`, corresponding to the third case, makes the
+recursive call. Each of the branches should contain a `return`
+statement or in some other way arrange for a specific value to be
+returned.
 
 (((stack overflow)))When given a negative number, the function will
 recurse again and again, passing itself an ever more negative number,
@@ -984,13 +983,14 @@ eventually run out of stack space and abort.
 === Bean counting ===
 
 (((bean counting (exercise))))(((charAt method)))(((String
-type,indexing)))You can get the Nth character, or letter, from a
-string by writing `"string".charAt(N)`, similar to how you get its
-length with `"s".length`. The returned value will be a string
-containing only one character (for example, `"b"`). The first
-character has position zero, which causes the last one to be found at
-position `string.length - 1`. In other words, a two-character string
-has length 2, and its characters have positions 0 and 1.
+type,indexing)))(((zero-based counting)))You can get the Nth
+character, or letter, from a string by writing `"string".charAt(N)`,
+similar to how you get its length with `"s".length`. The returned
+value will be a string containing only one character (for example,
+`"b"`). The first character has position zero, which causes the last
+one to be found at position `string.length - 1`. In other words, a
+two-character string has length 2, and its characters have positions 0
+and 1.
 
 Write a function `countBs` that takes a string as its only argument
 and returns a number that indicates how many uppercase “B” characters
@@ -1018,12 +1018,13 @@ endif::html_target[]
 
 !!solution!!
 
-(((length property,for strings)))(((counter variable)))A ((loop)) in
-your function will have to look at every character in the string by
-running an index from zero to one below its length (`<
-string.length`). If the character at the current position is the same
-as the one the function is looking for, it adds 1 to a counter
-variable. Once the loop has finished, the counter can be returned.
+(((bean counting (exercise))))(((length property,for
+strings)))(((counter variable)))A ((loop)) in your function will have
+to look at every character in the string by running an index from zero
+to one below its length (`< string.length`). If the character at the
+current position is the same as the one the function is looking for,
+it adds 1 to a counter variable. Once the loop has finished, the
+counter can be returned.
 
 (((variable,local)))Take care to make all the variables used in the
 function _local_ to the function by using the `var` keyword.

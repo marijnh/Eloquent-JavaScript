@@ -131,7 +131,7 @@ console.log(mood);
 // → dark
 ----
 
-(((variable,model of)))(((tentacle (variable analogy))))You should
+(((variable,model of)))(((tentacle (analogy))))You should
 imagine variables as tentacles, rather than boxes. They do not
 _contain_ values; they _grasp_ them—two variables can refer to the
 same value. A program can access only the values that it still has a
@@ -266,7 +266,7 @@ console.log("the value of x is", x);
 
 indexsee:[field,property]
 
-(((object)))Though ((variable)) names cannot contain ((period
+(((Object type)))Though ((variable)) names cannot contain ((period
 character))s, `console.log` clearly has one. This is because
 `console.log` isn't a simple variable. It is actually an expression
 that retrieves the `log` ((property)) from the value held by the
@@ -722,12 +722,12 @@ else if (variable == "value3") action3();
 else defaultAction();
 ----
 
-(((switch keyword)))There is a construct called `switch`
-that is intended to solve such a “dispatch” in a more direct way.
-Unfortunately, the syntax JavaScript uses for this (which it inherited
-from the C/Java line of programming languages) is somewhat
-awkward—a chain of `if` statements often looks better. Here
-is an example:
+(((colon character)))(((switch keyword)))There is a construct called
+`switch` that is intended to solve such a “dispatch” in a more direct
+way. Unfortunately, the syntax JavaScript uses for this (which it
+inherited from the C/Java line of programming languages) is somewhat
+awkward—a chain of `if` statements often looks better. Here is an
+example:
 
 [source,javascript]
 ----
@@ -897,8 +897,9 @@ endif::html_target[]
 
 !!solution!!
 
-You can start with a program that simply prints out the numbers 1 to
-7, which you can derive by making a few modifications to the
+(((triangle (exercise))))You can start with a program that simply
+prints out the numbers 1 to 7, which you can derive by making a few
+modifications to the
 link:02_program_structure.html#loops[even-number-printing example]
 given earlier in the chapter, where the `for` loop was introduced.
 
@@ -933,11 +934,11 @@ endif::html_target[]
 
 !!solution!!
 
-(((remainder operator)))(((% operator)))Going over the numbers is
-clearly a looping job, and selecting what to print is a matter of
-conditional execution. Remember the trick of using the remainder (`%`)
-operator for checking whether a number is divisible by another number
-(has a remainder of zero).
+(((FizzBuzz (exercise))))(((remainder operator)))(((% operator)))Going
+over the numbers is clearly a looping job, and selecting what to print
+is a matter of conditional execution. Remember the trick of using the
+remainder (`%`) operator for checking whether a number is divisible by
+another number (has a remainder of zero).
 
 In the first version, there are three possible outcomes for every
 number, so you'll have to create an `if`/`else if`/`else` chain.
@@ -985,8 +986,9 @@ endif::html_target[]
 
 !!solution!!
 
-The string can be built by starting with an empty one (`""`) and
-repeatedly adding characters. A newline character is written `"\n"`.
+(((chess board (exercise))))The string can be built by starting with
+an empty one (`""`) and repeatedly adding characters. A newline
+character is written `"\n"`.
 
 Use `console.log` to inspect the output of your program.
 

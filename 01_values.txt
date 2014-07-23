@@ -439,10 +439,11 @@ necessary:
 1 + 1 == 2 && 10 * 10 > 50
 ----
 
-(((ternary operator)))(((?: operator)))(((conditional operator)))The
-last logical operator I will discuss is not unary, not binary, but
-_ternary_, operating on three values. It is written with a question
-mark and a colon, like this:
+(((ternary operator)))(((?: operator)))(((conditional
+operator)))(((colon character)))(((question mark)))The last logical
+operator I will discuss is not unary, not binary, but _ternary_,
+operating on three values. It is written with a question mark and a
+colon, like this:
 
 [source,javascript]
 ----

@@ -3,7 +3,7 @@ var fs = require("fs");
 var file = process.argv[2];
 var input = fs.readFileSync(file, "utf8");
 
-var included = /\/\/ include_code(.*)\n(?:\/\/.*\n)*\s*(?:\[sandbox=.*\n)?\[source,.*?\]\n----\n([\s\S]*?\n)----/g, m;
+var included = /\/\/ include_code(.*)\n(?:\/\/.*\n)*\s*(?:\[sandbox=.*\n|\[\[.*\n)*\[source,.*?\]\n----\n([\s\S]*?\n)----/g, m;
 var files = Object.create(null);
 var defaultFile = "code/chapter/" + file.replace(".txt", ".js");
 

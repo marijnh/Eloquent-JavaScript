@@ -63,7 +63,7 @@ addEventListener("load", function() {
   var fileList = document.querySelector("#files");
   var fileInfo = document.querySelector("#fileInfo");
 
-  function selectChapter(number) {
+  function selectChapter(number, context) {
     per.textContent = "";
     var chapter = getChapter(number);
     if (chapter.exercises.length) {
@@ -83,6 +83,7 @@ addEventListener("load", function() {
       a.href = file;
       a.textContent = file.replace(/^code\//, "");
     });
+    selectContext(context || "box");
   }
 
   function findExercise(id, chapter) {
@@ -167,7 +168,6 @@ addEventListener("load", function() {
   });
   chapters.addEventListener("change", function() {
     selectChapter(chapters.value);
-    selectContext(per.value);
     document.location.hash = "#" + chapters.value;
   });
 
@@ -180,19 +180,20 @@ addEventListener("load", function() {
       if (!chapter || valid[2] && !exercise) valid = null;
     }
     if (valid) {
+      var perValue = exercise ? hash : "box", setPer = false;
       if (chapters.value != valid[1]) {
         chapters.value = valid[1];
-        selectChapter(Number(valid[1]));
+        selectChapter(Number(valid[1]), perValue);
+        setPer = true;
       }
-      var perValue = exercise ? hash : "box";
       if (per.value != perValue) {
         per.value = perValue;
-        selectContext(perValue);
+        if (!setPer) selectContext(perValue);
       }
       return true;
     }
   }
 
-  parseFragment() || (selectChapter(0) && selectContext(per.value));
+  parseFragment() || selectChapter(0, "box");
   addEventListener("hashchange", parseFragment);
 });

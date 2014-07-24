@@ -1084,12 +1084,12 @@ level. It is more difficult to use than plain HTML, but also much more
 powerful.
 
 Both SVG and HTML build up a data structure (the DOM) that represents
-the picture. This makes it possible to modify elements they are drawn.
-If you need to repeatedly change a small part of a big picture, in
-response to what the user is doing or as part of an animation, doing
-it in canvas can be needlessly expensive. The DOM also allows us to
-register mouse event handlers on every element in the picture (even on
-shapes drawn with SVG). This can not be done with canvas.
+the picture. This makes it possible to modify elements after they are
+drawn. If you need to repeatedly change a small part of a big picture,
+in response to what the user is doing or as part of an animation,
+doing it in canvas can be needlessly expensive. The DOM also allows us
+to register mouse event handlers on every element in the picture (even
+on shapes drawn with SVG). This can not be done with canvas.
 
 But canvas’ pixel-oriented approach can be an advantage when drawing a
 huge amount of tiny elements. The fact that it does not build up a

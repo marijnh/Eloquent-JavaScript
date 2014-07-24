@@ -199,11 +199,13 @@ need to be closed. An example of this would be `<img
 src="http://example.com/image.jpg">`, which will display the image
 found at the given source URL.
 
-To be able to include angular brackets in the text of a document, even though
-they have a special meaning in HTML, yet another form of special notation has
-to be introduced. A plain opening angular bracket is written as `&lt;` (“less than”),
-and a closing bracket as `&gt;` (“greater than”). In HTML, an ampersand (“&”) character
-followed by a word and a semicolon (“;”) denotes an escaped character.
+To be able to include angular brackets in the text of a document, even
+though they have a special meaning in HTML, yet another form of
+special notation has to be introduced. A plain opening angular bracket
+is written as `&lt;` (“less than”), and a closing bracket as `&gt;`
+(“greater than”). In HTML, an ampersand (“&”) character followed by a
+word and a semicolon (“;”) is called an _entity_, and will be replaced
+by the character it encodes.
 
 This is analogous to the way backslashes are used in JavaScript strings.
 Since this mechanism gives ampersand characters a special meaning too,

@@ -64,8 +64,9 @@ where elements can contain sub-elements that are similar to
 themselves.
 
 We call a data structure a _tree_ when it has a branching structure,
-no cycles (a node may not contain itself, directly or
-indirectly), and has a single, well-defined “root”.
+no cycles (a node may not contain itself, directly or indirectly), and
+has a single, well-defined “root”. In the case of the DOM,
+`document.documentElement` serves as the root.
 
 Trees come up a lot in computer science. Apart from representing
 recursive structures like HTML documents or programs, they are also
@@ -142,11 +143,10 @@ following diagram tries to illustrate these.
 
 image::img/html-links.svg[alt="Links between DOM nodes",width="6cm"]
 
-Although the diagram only shows one link of each type,
-every node has a `parentNode` property
-that points to its containing node. Likewise, every element
-node (node type 1) has a `childNodes` property that points to an
-array-like object holding its children.
+Although the diagram only shows one link of each type, every node has
+a `parentNode` property that points to its containing node. Likewise,
+every element node (node type 1) has a `childNodes` property that
+points to an array-like object holding its children.
 
 In theory, you could move anywhere in the tree using just these
 parent and child links. But JavaScript also gives you access to
@@ -495,12 +495,13 @@ is called `className`. You can also access it with the
 
 == Layout ==
 
-You might have noticed that different types of elements are laid out differently.
-Some, such as paragraphs (`<p>`) or headings (`<h1>`), take up the
-whole width of the document, and are placed below each other.
-These are called _block_ elements. Others, such as links (`<a>`) or
-the `<strong>` element used in the example above, are treated as part
-of the surrounding text. Such elements are called _inline_ elements.
+You might have noticed that different types of elements are laid out
+differently. Some, such as paragraphs (`<p>`) or headings (`<h1>`),
+take up the whole width of the document, and are rendered on separate
+lines. These are called _block_ elements. Others, such as links
+(`<a>`) or the `<strong>` element used in the example above, are
+rendered on the same line with their surrounding text. Such elements
+are called _inline_ elements.
 
 For any given document, browser are able to compute a
 layout, which gives each element a size and position based on its type
@@ -722,10 +723,11 @@ p.a.b#main {
 ----
 
 The precedence rule favoring the most recently defined rule only holds
-when the rules have the same _specificity_. Specificity depends on the
-amount of aspects of the tag that the rule matches. For example, `p.a`
-is more specific than just `p` or just `.a`, so a rule defined as such would take
-precedence to them.
+when the rules have the same _specificity_. A rule's specificity is a
+measure of how precisely it describes matching elements, determined by
+the number and kind (tag, class, or id) of element aspects it
+requires. For example, `p.a` is more specific than just `p` or just
+`.a`, so a rule defined as such would take precedence to them.
 
 The notation `p > a {…}` applies the given styles to all `<a>` tags
 that are direct children of `<p>` tags. Similarly, `p a {…}` applies

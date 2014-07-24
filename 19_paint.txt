@@ -122,13 +122,14 @@ function createPaint(parent) {
 
   var panel = elt("div", {class: "picturepanel"}, canvas);
   parent.appendChild(elt("div", null, panel, toolbar));
-}                         
+}
 ----
 
 Each control has access to the canvas drawing context (and, through
 that context's `canvas` property, to the `<canvas>` element itself).
 Most of the program's state lives in this canvas—it contains the
-current picture as well as the selected color and brush size.
+current picture as well as the selected color (in its `fillColor`
+property) and brush size (in its `lineWidth` property).
 
 We wrap the canvas and the controls in `<div>` elements with classes
 to be able to add some styling, for example the grey border around the
@@ -137,11 +138,11 @@ picture.
 == Tool selection ==
 
 The first control we add is the the `<select>` element that allows the
-user to pick a drawing tool. Again, we will use an object to collect
-the various tools, so that we do not have to hard-code them all in one
-place, and so that we can add more tools later. This object associates
-the names of the tools with the function that should be called when
-they are selected and the canvas is clicked.
+user to pick a drawing tool. As with `controls`, we will use an object
+to collect the various tools, so that we do not have to hard-code them
+all in one place, and so that we can add more tools later. This object
+associates the names of the tools with the function that should be
+called when they are selected and the canvas is clicked.
 
 // include_code
 

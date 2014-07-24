@@ -14,10 +14,16 @@ use complicated machines and programming languages?’. Fu-Tzu replied
 beautiful huts.’
 ____
 
-This chapter provides a brief introduction to Node.js, aiming to teach
-you the important ideas that the system builds on and give you enough
-information to write simple Node programs. It does not aim to be a
-complete, or even a thorough, treatment of Node.
+So far, we have learned the JavaScript language, and used it within a
+single environment, the browser. The following two chapters will
+briefly introduce you to Node.js, which allows you to apply your
+JavaScript skills outside of the browser, allowing you to build
+anything from simple command-line tools to dynamic HTTP servers.
+
+These chapters aim to teach you the important ideas that Node.js
+builds on and give you enough information to write some useful
+programs for it. They do not try to be a complete, or even a thorough,
+treatment of Node.
 
 If you want to follow along and run the code in this chapter, start by
 going to http://nodejs.org[_nodejs.org_], and following the

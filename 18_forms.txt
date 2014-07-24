@@ -197,7 +197,7 @@ a good idea to disable the control until the action finishes, so that
 when the user gets impatient and clicks it again, they don't
 accidentally repeat their action.
 
-== A forms as a whole ==
+== A form as a whole ==
 
 When a field is contained in a `<form>` element, its DOM element will
 have a property `form` linking back to the form's DOM element. The
@@ -283,13 +283,13 @@ F1, inserts the string “Srinivasa Ramanujan” for you.
 
 [source,text/html]
 ----
-<textarea style="width: 100%; height: 50px"></textarea>
+<textarea></textarea>
 <script>
-  var text = document.querySelector("textarea");
-  text.addEventListener("keydown", function(event) {
-    // The key code for F1 happens to 112
+  var textarea = document.querySelector("textarea");
+  textarea.addEventListener("keydown", function(event) {
+    // The key code for F1 happens to be 112
     if (event.keyCode == 112) {
-      replaceSelection(text, "Srinivasa Ramanujan");
+      replaceSelection(textarea, "Srinivasa Ramanujan");
       event.preventDefault();
     }
   });
@@ -309,7 +309,7 @@ of a text field's content with the given word, and then moves the
 cursor after that word, so that the user can continue typing.
 
 The `"change"` event for a text field does not fire every time
-something is typed. Rather, it happens when the event loses focus
+something is typed. Rather, it happens when the field loses focus
 after its content was changed. To respond immediately to changes in a
 text field, you should register a handler for the `"input"` event
 instead, which fires for every character typed (or deleted, or
@@ -493,10 +493,9 @@ is initially empty. The reason there isn't simply a `file` property is
 that file fields also support a `multiple` attribute, which makes it
 possible to select multiple files at the same time.
 
-For a singular file field, there will be either zero or one file
-objects in the `files` object. Such an object has properties like
-`name` (the file name), `size` (the file's size in bytes), and `type`
-(the media type of the file, like `text/plain` or `image/jpeg`).
+Objects in the `files` object have properties like `name` (the file
+name), `size` (the file's size in bytes), and `type` (the media type
+of the file, like `text/plain` or `image/jpeg`).
 
 [[filereader]]
 What it does not have is a property that contains the content of the
@@ -615,21 +614,23 @@ Notes: <select id="list"></select>
 </textarea>
 
 <script>
-  var notes = JSON.parse(localStorage.getItem("notes")) ||
-              {"shopping list": ""};
-  function saveToStorage() {
-    localStorage.setItem("notes", JSON.stringify(notes));
-  }
-
   var list = document.querySelector("#list");
   function addToList(name) {
     var option = document.createElement("option");
     option.textContent = name;
     list.appendChild(option);
   }
+
+  // Initialize the list from localStorage
+  var notes = JSON.parse(localStorage.getItem("notes")) ||
+              {"shopping list": ""};
   for (var name in notes)
     if (notes.hasOwnProperty(name))
       addToList(name);
+
+  function saveToStorage() {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }
 
   var current = document.querySelector("#currentnote");
   current.value = notes[list.value];

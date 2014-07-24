@@ -26,6 +26,10 @@
   <script src="js/sandbox.js"></script>
   <script src="js/chapter_info.js"></script>
   <script src="js/code.js"></script>
+
+  <style>
+    .control { font-size: 15px }
+  </style>
 </head>
 
 <article style="max-width: 50em;">
@@ -37,9 +41,9 @@
   to to simply play around.</p>
 
   <p>
-    Chapter: <select id="chapters"></select>
-    <select id="per_chapter"></select>
-    <button id="run">run code</button>
+    Chapter: <select id="chapters" class=control></select>
+    <select id="per_chapter" class=control></select>
+    <button id="run" class=control>run code</button>
   </p>
 
   <div class="editor-wrap">
@@ -54,7 +58,7 @@
 
   <p id="exercise_info">If you've solved the exercise and want to compare your code with
   mine, or you <em>really</em> tried, but can't get your code to work,
-  you can <button id="solution" style="color: #c22; font-size: 16px">look at the
+  you can <button id="solution" style="color: #c22;" class=control>look at the
   solution</button> (or <a id="download">download it</a>).</p>
 
   <p id="box_info">

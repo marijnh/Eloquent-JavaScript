@@ -763,6 +763,8 @@ created by the first call—it would not be connected to the current
 branch, but rather to the innermost, rightmost branch drawn by the first
 call. The resulting shape might also be interesting, but it is
 definitely not a tree.
+// If you were to render the tree and its mutant twin side by side,
+// you could cut this paragraph.
 
 [[canvasdisplay]]
 == Back to the game ==
@@ -1083,7 +1085,7 @@ level. It is more difficult to use than plain HTML, but also much more
 powerful.
 
 Both SVG and HTML build up a data structure (the DOM) that represents
-the picture. This makes it possible to modify elements they are drawn.
+the picture. This makes it possible to modify elements after they are drawn.
 If you need to repeatedly change a small part of a big picture, in
 response to what the user is doing or as part of an animation, doing
 it in canvas can be needlessly expensive. The DOM also allows us to

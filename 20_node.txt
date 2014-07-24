@@ -16,6 +16,11 @@ beautiful huts.’
 ____
 
 This chapter provides a brief introduction to Node.js, aiming to teach
+// I think it's worth recapping to remind readers how node relates to what they've been learning:
+// "Up to this point, we've dealt with JavaScript as it
+// exists in the browser, or the 'client'. Now, we'll look at JavaScript
+// on the server. Though brief, this chapter will teach you enough
+// to build a dynamic backend to go with your new frontend skills."
 you the important ideas that the system builds on and give you enough
 information to write simple Node programs. It does not aim to be a
 complete, or even a thorough, treatment of Node.

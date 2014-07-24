@@ -56,7 +56,10 @@ addEventListener("load", function() {
   }
 
   var per = document.querySelector("#per_chapter");
-  per.addEventListener("change", function() { selectContext(per.value); });
+  per.addEventListener("change", function() {
+    selectContext(per.value);
+    document.location.hash = "#" + (per.value == "box" ? chapters.value : per.value);
+  });
   var fileList = document.querySelector("#files");
   var fileInfo = document.querySelector("#fileInfo");
 
@@ -80,12 +83,11 @@ addEventListener("load", function() {
       a.href = file;
       a.textContent = file.replace(/^code\//, "");
     });
-    selectContext(per.value);
   }
 
-  function findExercise(id) {
+  function findExercise(id, chapter) {
     var parts = id.split(".");
-    var chapter = getChapter(parts[0]);
+    if (!chapter) chapter = getChapter(parts[0]);
     for (var i = 0; i < chapter.exercises.length; i++)
       if (chapter.exercises[i].number == +parts[1])
         return chapter.exercises[i];
@@ -109,11 +111,11 @@ addEventListener("load", function() {
       setEditorCode(code, guessed);
       visible = "box";
     } else {
-      var exercise = findExercise(value);
+      var exercise = findExercise(value, chapter);
       context = {include: chapter.include,
                  solution: exercise.solution,
                  type: exercise.type};
-      setEditorCode(code, exercise.type);
+      setEditorCode(exercise.code, exercise.type);
       visible = "exercise";
       document.querySelector("#download").href = exercise.file;
     }
@@ -163,6 +165,34 @@ addEventListener("load", function() {
       exercise.chapter = chapter;
     });
   });
-  chapters.addEventListener("change", function() { selectChapter(chapters.value); });
-  selectChapter(chapters.value);
+  chapters.addEventListener("change", function() {
+    selectChapter(chapters.value);
+    selectContext(per.value);
+    document.location.hash = "#" + chapters.value;
+  });
+
+  function parseFragment() {
+    var hash = document.location.hash.slice(1);
+    var valid = /^(\d)+(?:\.(\d+))?$/.exec(hash);
+    if (valid) {
+      var chapter = getChapter(Number(valid[1]));
+      var exercise = chapter && valid[2] && findExercise(hash, chapter);
+      if (!chapter || valid[2] && !exercise) valid = null;
+    }
+    if (valid) {
+      if (chapters.value != valid[1]) {
+        chapters.value = valid[1];
+        selectChapter(Number(valid[1]));
+      }
+      var perValue = exercise ? hash : "box";
+      if (per.value != perValue) {
+        per.value = perValue;
+        selectContext(perValue);
+      }
+      return true;
+    }
+  }
+
+  parseFragment() || (selectChapter(0) && selectContext(per.value));
+  addEventListener("hashchange", parseFragment);
 });

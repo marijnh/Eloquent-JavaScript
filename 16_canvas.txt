@@ -641,7 +641,7 @@ will be drawn 20 pixels to the right. If we first move the center of
 the coordinate system to _50,50_ and then rotate by 20 degrees (0.1π
 in radians), that rotation will happen _around_ point _50,50_.
 
-image::img/transform.svg[alt="Stacking transformations",width="6cm"]
+image::img/transform.svg[alt="Stacking transformations",width="9cm"]
 
 But if we _first_ rotated by 20 degrees, and _then_ translated
 by _50,50_, the translation will happen in the rotated coordinate
@@ -667,7 +667,7 @@ the mirroring, and finally move the y axis back to its proper place in
 the mirrored universe. The picture below tries to explain why this
 works.
 
-image::img/mirror.svg[alt="Mirroring around a vertical line",width="6cm"]
+image::img/mirror.svg[alt="Mirroring around a vertical line",width="8cm"]
 
 This shows the coordinate systems before and after mirroring in the
 central line. If we draw a triangle at a positive x position, it

@@ -166,7 +166,7 @@ ifdef::tex_target[]
 
 This is what such a document would look like in the browser:
 
-image::img/home-page.png[alt="My home page",width="8cm"]
+image::img/home-page.png[alt="My home page",width="6.3cm"]
 
 endif::tex_target[]
 

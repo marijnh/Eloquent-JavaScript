@@ -354,7 +354,7 @@ controls.brushSize = function(cx) {
 ----
 
 It generates options from an array of brush sizes, and again ensures
-that the canvas' `lineWidth` corresponds to the selected size.
+that the canvas’ `lineWidth` corresponds to the selected size.
 
 == Saving ==
 

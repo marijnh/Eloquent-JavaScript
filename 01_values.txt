@@ -28,7 +28,7 @@ represented in bits.
 
 (((binary numbers)))(((radix)))(((decimal numbers)))For example, think
 about how you might show the number 13 in bits. It works the same way
-you write decimal numbers, but instead of 10 different digits, you
+you write decimal numbers, but instead of 10 different ((digit))s, you
 have only 2, and the weight of each increases by a factor of 2 from
 right to left. Here are the bits that make up the number 13, with the
 weights of the digits shown after them:
@@ -75,9 +75,9 @@ values.
 
 == Numbers ==
 
-(((Number type)))(((Number type,notation)))Values of the _number_ type
-are, unsurprisingly, numeric values. In a JavaScript program, they are
-written as follows:
+(((syntax)))(((Number type)))(((Number type,notation)))Values of the
+_number_ type are, unsurprisingly, numeric values. In a JavaScript
+program, they are written as follows:
 
 [source,javascript]
 ----
@@ -92,7 +92,7 @@ memory.
 number of bits, namely 64 of them, to store a single number value.
 There are only so many patterns you can make with 64 bits, which means
 that the amount of different numbers that can be represented is
-limited. For N decimal digits, the amount of numbers that can be
+limited. For N decimal ((digit))s, the amount of numbers that can be
 represented is 10^N^. Similarly, given 64 binary digits, you can
 represent 2^64^ different numbers, which is about 18 quintillion (an
 18 with 18 zeroes after it). This is a lot.
@@ -146,7 +146,7 @@ not as precise values.
 
 === Arithmetic ===
 
-(((operator)))(((binary
+(((syntax)))(((operator)))(((binary
 operator)))(((arithmetic)))(((addition)))(((multiplication))) The main
 thing to do with numbers is arithmetic. Arithmetic operations such as
 addition or multiplication take two number values and produce a new
@@ -157,9 +157,9 @@ number from them. Here is what they look like in JavaScript:
 100 + 4 * 11
 ----
 
-(((pass:[*] operator)))(((+ operator)))The `+` and `*` symbols are called
-_operators_. The first stands for addition, and the second stands for
-multiplication. Putting an operator between two values will
+(((pass:[*] operator)))(((+ operator)))The `+` and `*` symbols are
+called _operators_. The first stands for addition, and the second
+stands for multiplication. Putting an operator between two values will
 (((application,of operators)))apply it to those values and produce a
 new value.
 
@@ -218,10 +218,10 @@ numeric operations that don't yield a precise, meaningful result.
 
 == Strings ==
 
-(((String type)))(((textual data)))(((character)))(((String
-type,notation)))(((quote)))The next basic data type is the _string_.
-Strings are used to represent text. They are written by enclosing
-their content in quotes.
+(((syntax)))(((String type)))(((textual
+data)))(((character)))(((String type,notation)))(((quote)))The next
+basic data type is the _string_. Strings are used to represent text.
+They are written by enclosing their content in quotes.
 
 [source,javascript]
 ----

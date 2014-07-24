@@ -20,7 +20,8 @@ to the point where we can actually express some meaningful prose.
 
 == Expressions and statements ==
 
-(((code,structure of)))(((grammar)))(((JavaScript,syntax)))In
+(((grammar)))(((syntax)))(((code,structure
+of)))(((grammar)))(((JavaScript,syntax)))In
 link:01_values.html#values[Chapter 1], we made some values and then
 applied operators to them to get new values. Creating values like this
 is an essential part of every JavaScript program, but it is still only
@@ -43,8 +44,8 @@ corresponds to a sentence fragment, a JavaScript _statement_
 corresponds to a full sentence in a human language. A program is
 simply a list of statements.
 
-The simplest kind of statement is an expression with a semicolon after
-it. This is a program:
+(((syntax)))The simplest kind of statement is an expression with a
+semicolon after it. This is a program:
 
 [source,javascript]
 ----
@@ -76,12 +77,12 @@ subtleties involved in leaving out semicolons.
 
 == Variables ==
 
-((variable,definition))(((side effect)))(((memory)))How does a program
-keep an internal ((state))? How does it remember things? We have seen
-how to produce new values from old values, but this does not change
-the old values, and the new value has to be immediately used or it
-will dissipate again. To catch and hold values, JavaScript provides a
-thing called a _variable_.
+(((syntax)))(((variable,definition)))(((side effect)))(((memory)))How
+does a program keep an internal ((state))? How does it remember
+things? We have seen how to produce new values from old values, but
+this does not change the old values, and the new value has to be
+immediately used or it will dissipate again. To catch and hold values,
+JavaScript provides a thing called a _variable_.
 
 [source,javascript]
 ----
@@ -168,9 +169,9 @@ console.log(one + two);
 
 == Keywords and reserved words ==
 
-(((implements (reserved word))))(((interface (reserved word))))(((let
-reserved word)))(((package (reserved word))))(((private reserved
-word)))(((protected (reserved word))))(((public reserved
+(((syntax)))(((implements (reserved word))))(((interface (reserved
+word))))(((let reserved word)))(((package (reserved word))))(((private
+reserved word)))(((protected (reserved word))))(((public reserved
 words)))(((static (reserved word))))(((void operator)))(((yield
 (reserved word))))(((reserved words)))(((variable,naming)))Words with
 a special meaning, such as `var`, are _((keyword))s_, and they may not
@@ -237,11 +238,12 @@ different number or different types of arguments.
 
 == The console.log function ==
 
-(((Node.js)))(((console.log)))(((output)))The `alert` function can be
-useful as an output device when experimenting, but clicking away all
-those little windows will get on your nerves. In past examples, we've
-used `console.log` to output values. Most JavaScript systems
-(including all modern web ((browser))s and Node.js) provide a
+(((JavaScript console)))(((developer
+tools)))(((Node.js)))(((console.log)))(((output)))The `alert` function
+can be useful as an output device when experimenting, but clicking
+away all those little windows will get on your nerves. In past
+examples, we've used `console.log` to output values. Most JavaScript
+systems (including all modern web ((browser))s and Node.js) provide a
 `console.log` function that writes out its arguments to _some_ text
 output device. In browsers, the output lands in the ((JavaScript
 console)). This part of the browser interface is hidden by default,
@@ -375,11 +377,12 @@ routes based on a Boolean value.
 
 image::img/controlflow-if.svg[alt="Conditional control flow",width="4cm"]
 
-(((Number function)))(((if keyword)))Conditional execution is written
-with the `if` keyword in JavaScript. In the simple case, we just want
-some code to be executed if, and only if, a certain condition holds.
-For example, in the previous program, we might want to show the square
-of the input only if the input is actually a number.
+(((syntax)))(((Number function)))(((if keyword)))Conditional execution
+is written with the `if` keyword in JavaScript. In the simple case, we
+just want some code to be executed if, and only if, a certain
+condition holds. For example, in the previous program, we might want
+to show the square of the input only if the input is actually a
+number.
 
 [source,javascript]
 ----
@@ -468,10 +471,10 @@ way to repeat some code—a _((loop))_.
 
 image::img/controlflow-loop.svg[alt="Loop control flow",width="4cm"]
 
-(((counter variable)))Looping control flow allows us to go back to
-some point in the program where we were before and repeat it with our
-current program state. If we combine this with a variable that counts,
-we can do something like this:
+(((syntax)))(((counter variable)))Looping control flow allows us to go
+back to some point in the program where we were before and repeat it
+with our current program state. If we combine this with a variable
+that counts, we can do something like this:
 
 [source,javascript]
 ----
@@ -491,7 +494,7 @@ keyword `while` creates a loop. The word `while` is followed by an
 The loop executes that statement as long as the expression produces a
 value that is `true` when converted to Boolean type.
 
-((({} block)))(((block (of statements))))In this loop, we want to both
+((({} (block))))(((block)))In this loop, we want to both
 print the current number and add two to our variable. Whenever we need
 to execute multiple ((statement))s inside a loop, we wrap them in
 ((braces)) (`{` and `}`). Braces do for statements what
@@ -558,28 +561,28 @@ except `""` convert to `true`.
 
 == Indenting Code ==
 
-(((block (of statements))))(((code,structure
-of)))(((whitespace)))(((programming style)))You've probably noticed
-the spaces I put in front of some statements. In JavaScript, these are
-not required—the computer will accept the program just fine without
-them. In fact, even the line breaks in programs are optional. You
-could write a program as a single long line if you felt like it. The
-role of the ((indentation)) inside blocks is to make the structure of
-the code stand out. In complex code, where new blocks are opened
-inside other blocks, it can become hard to see where one block ends
-and another begins. With proper indentation, the visual shape of a
-program corresponds to the shape of the blocks inside it. I like to
-use two spaces for every open block, but tastes differ—some people use
-four spaces, and some people use ((tab character))s.
+(((block)))(((code,structure of)))(((whitespace)))(((programming
+style)))You've probably noticed the spaces I put in front of some
+statements. In JavaScript, these are not required—the computer will
+accept the program just fine without them. In fact, even the line
+breaks in programs are optional. You could write a program as a single
+long line if you felt like it. The role of the ((indentation)) inside
+blocks is to make the structure of the code stand out. In complex
+code, where new blocks are opened inside other blocks, it can become
+hard to see where one block ends and another begins. With proper
+indentation, the visual shape of a program corresponds to the shape of
+the blocks inside it. I like to use two spaces for every open block,
+but tastes differ—some people use four spaces, and some people use
+((tab character))s.
 
 == for loops ==
 
-(((while loop)))(((counter variable)))Many loops follow the pattern
-seen in the previous `while` examples. First, a “counter” variable is
-created to track the progress of the loop. Then comes a `while` loop,
-whose test expression usually checks whether the counter has reached
-some boundary yet. At the end of the loop body, the counter is updated
-to track progress.
+(((syntax)))(((while loop)))(((counter variable)))Many loops follow
+the pattern seen in the previous `while` examples. First, a “counter”
+variable is created to track the progress of the loop. Then comes a
+`while` loop, whose test expression usually checks whether the counter
+has reached some boundary yet. At the end of the loop body, the
+counter is updated to track progress.
 
 (((for loop)))(((loop)))Because this pattern is so common, JavaScript and
 similar languages provide a slightly shorter and more comprehensive
@@ -709,8 +712,8 @@ for (var number = 0; number <= 12; number += 2)
 
 == Dispatching on a value with switch ==
 
-(((conditional execution)))(((dispatch)))(((if keyword,chaining)))It
-is common for code to look like this:
+(((syntax)))(((conditional execution)))(((dispatch)))(((if
+keyword,chaining)))It is common for code to look like this:
 
 // test: no
 
@@ -858,8 +861,8 @@ a function call is an expression, and may produce a value.
 
 == Exercises ==
 
-If you are unsure how to try your solutions to exercises, refer to the
-end of the introduction.
+(((exercises)))If you are unsure how to try your solutions to
+exercises, refer to the end of the introduction.
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the

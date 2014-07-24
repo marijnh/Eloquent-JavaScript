@@ -8,9 +8,10 @@
 [chapterquote="true"]
 [quote, Brian Kernighan and P.J. Plauger, The Elements of Programming Style]
 ____
-Debugging is twice as hard as writing the code in the first place.
-Therefore, if you write the code as cleverly as possible, you are, by
-definition, not smart enough to debug it.
+(((Kernighan+++,+++ Brian)))(((Plaugher+++,+++ P.J.)))Debugging is
+twice as hard as writing the code in the first place. Therefore, if
+you write the code as cleverly as possible, you are, by definition,
+not smart enough to debug it.
 ____
 
 ifdef::html_target[]
@@ -27,64 +28,68 @@ ____
 
 endif::html_target[]
 
-(((error handling)))A program is crystallized thought. Sometimes those
-thoughts are confused. Other times, mistakes are introduced when
-setting thought into code. Either way, the result is a
-flawed program.
+(((debugging)))(((error handling)))A program is crystallized thought.
+Sometimes those thoughts are confused. Other times, mistakes are
+introduced when converting thought into code. Either way, the result
+is a flawed program.
 
-Flaws in a program are usually called bugs. Bugs can be programmer
-errors, or problems in other systems that the program
-interacts with. Some bugs are immediately apparent, while others are subtle and
-might remain hidden in a system for years.
+(((input)))(((output)))Flaws in a program are usually called ((bug))s.
+Bugs can be programmer errors, or problems in other systems that the
+program interacts with. Some bugs are immediately apparent, while
+others are subtle and might remain hidden in a system for years.
 
-Often, problems only surface when a program encounters
-a situation that the programmer didn't originally consider. Sometimes, such
+Often, problems only surface when a program encounters a situation
+that the programmer didn't originally consider. Sometimes, such
 situations are unavoidable. When the user is asked to input their age,
-and types “orange”, this puts our program in a
-difficult position. The situation has to be anticipated and handled somehow.
+and types “orange”, this puts our program in a difficult position. The
+situation has to be anticipated and handled somehow.
 
 == Programmer mistakes ==
 
-When it comes to programmer mistakes, our aim is simple. We want to
-find them and fix them. Such mistakes can range from simple typos
-that cause the computer to complain as soon as it lays eyes on our
-program, to subtle mistakes in our understanding of
-the way the program operates, causing incorrect outcomes only in
-very specific situations. Bugs of the latter
-type can take weeks to diagnose.
+(((parser)))(((analysis)))When it comes to programmer mistakes, our
+aim is simple. We want to find them and fix them. Such mistakes can
+range from simple ((typo))s that cause the computer to complain as
+soon as it lays eyes on our program, to subtle mistakes in our
+understanding of the way the program operates, causing incorrect
+outcomes only in very specific situations. Bugs of the latter type can
+take weeks to diagnose.
 
-The degree in which languages help you find such mistakes varies.
-Unsurprisingly, JavaScript is at the “hardly helps at all” end of that
-scale. Some languages want to know the types of all your variables
-and expressions before even running a program,
-and will tell you right away when a type is used in an inconsistent
-way. JavaScript only considers types when actually running the
-program, and even then, it allows you to do some clearly nonsensical
-things without complaint, such as `x = true * "monkey"`.
+(((programming language)))(((type)))(((static typing)))(((dynamic
+typing)))(((run-time error)))(((error)))The degree in which languages
+help you find such mistakes varies. Unsurprisingly, JavaScript is at
+the “hardly helps at all” end of that scale. Some languages want to
+know the types of all your variables and expressions before even
+running a program, and will tell you right away when a type is used in
+an inconsistent way. JavaScript only considers types when actually
+running the program, and even then, it allows you to do some clearly
+nonsensical things without complaint, such as `x = true * "monkey"`.
 
-There are some things that JavaScript does complain about, though.
-Writing a program that is not syntactically valid will immediately
-trigger an error. Other things, like calling something that's not a
-function or looking up a property on an undefined value, will cause an
-error to be reported when the program is running and encounters the
-nonsensical action.
+(((syntax)))There are some things that JavaScript does complain about,
+though. Writing a program that is not syntactically valid will
+immediately trigger an error. Other things, like calling something
+that's not a function or looking up a ((property)) on an ((undefined))
+value, will cause an error to be reported when the program is running
+and encounters the nonsensical action.
 
-(((NaN value)))But often, your nonsense computation will simply
+(((NaN)))(((error)))But often, your nonsense computation will simply
 produce a `NaN` (not a number) or undefined value. And the program
 happily continues, convinced that it's doing something meaningful. The
 mistake will only manifest itself later, after the bogus value has
-traveled though several functions. It might not trigger an error at all, but silently cause the program's
-output to be wrong. Finding the source of such problems can be
-difficult.
+traveled though several functions. It might not trigger an error at
+all, but silently cause the program's output to be wrong. Finding the
+source of such problems can be difficult.
 
 (((debugging)))The process of finding mistakes—bugs—in programs is
 called _debugging_.
 
 == Strict mode ==
 
-(((strict mode)))JavaScript can be made a _little_ more strict by
-enabling _strict mode_. This is done by putting the string `"use
-strict"` at the top of a file or a function body. Like this:
+indexsee:[use strict,strict mode]
+
+(((strict mode)))(((syntax)))(((function)))JavaScript can be made a
+_little_ more strict by enabling _strict mode_. This is done by
+putting the string `"use strict"` at the top of a file or a function
+body. Like this:
 
 // test: error "ReferenceError: counter is not defined"
 
@@ -100,24 +105,26 @@ canYouSpotTheProblem();
 // → ReferenceError: counter is not defined
 ----
 
-Normally, when you forget to put `var` in front of your variable, as
-with `counter` in the example, JavaScript quietly creates a global
-variable and uses that. In strict mode, however, an error is reported
-instead. This is very helpful. It should be noted, though, that this
-doesn't work when the variable in question already exists as a global
-variable, but only when assigning to it would have created it.
+(((var keyword)))(((variable,global)))Normally, when you forget to put
+`var` in front of your variable, as with `counter` in the example,
+JavaScript quietly creates a global variable and uses that. In strict
+mode, however, an ((error)) is reported instead. This is very helpful.
+It should be noted, though, that this doesn't work when the variable
+in question already exists as a global variable, but only when
+assigning to it would have created it.
 
-Another change in strict mode is that the `this` binding holds the
-value `undefined` in functions that are not called as methods. When
+(((this)))(((global object)))(((undefined)))(((strict mode)))Another
+change in strict mode is that the `this` binding holds the value
+`undefined` in functions that are not called as ((method))s. When
 making such a call outside of strict mode, `this` refers the global
 scope object. So if you accidentally call a method or constructor
 incorrectly in strict mode, JavaScript will produce an error as soon
 as it tries to read something from `this`, rather than happily working
 with the global object, creating and reading global variables.
 
-For instance, consider the following code, which calls a constructor
-without the `new` keyword, so that its `this` will _not_ refer to a
-newly constructed object.
+For example, consider the following code, which calls a
+((constructor)) without the `new` keyword, so that its `this` will
+_not_ refer to a newly constructed object.
 
 [source,javascript]
 ----
@@ -127,9 +134,9 @@ console.log(name);
 // → Ferdinand
 ----
 
-So the bogus call to `Person` succeeded, but returned an undefined
-value and created the global variable `name`. In strict mode, the
-result is different.
+(((error)))So the bogus call to `Person` succeeded, but returned an
+undefined value and created the global variable `name`. In strict
+mode, the result is different.
 
 // test: error "TypeError: Cannot set property 'name' of undefined"
 
@@ -144,25 +151,26 @@ var ferdinand = Person("Ferdinand");
 
 We are immediately told that something is wrong. This is helpful.
 
-Strict mode does a few more things. It disallows giving a function
-multiple parameters with the same name, and removes certain problematic
+(((parameter)))(((variable,naming)))(((with statement)))Strict mode
+does a few more things. It disallows giving a function multiple
+parameters with the same name, and removes certain problematic
 language features entirely (such as the `with` statement, which is so
 misguided it is not further discussed in this book).
 
-In short, putting a `"use strict"` at the top of your program rarely
-hurts, and might help you spot a problem.
+(((debugging)))In short, putting a `"use strict"` at the top of your
+program rarely hurts, and might help you spot a problem.
 
 == Testing ==
 
-If the language is not going to do much to help us find mistakes,
-we'll have to find them the hard way: by running the program and seeing
-if it does the right thing.
+(((test suite)))(((run-time error)))If the language is not going to do
+much to help us find mistakes, we'll have to find them the hard way:
+by running the program and seeing if it does the right thing.
 
 Doing this by hand, again and again, is a sure way to drive yourself
 insane. Fortunately, it is often possible to write a second program
 that automates testing your actual program.
 
-As an example, we once again use the `Vector` type.
+(((Vector type)))As an example, we once again use the `Vector` type.
 
 // include_code
 
@@ -178,11 +186,11 @@ Vector.prototype.plus = function(other) {
 ----
 
 We will write a program to check that our implementation of `Vector`
-works as intended. Then, every time we change the implementation, we follow up by
-running the test program, so that we can be reasonably confident that
-we didn't break anything. When we add extra functionality (for
-example a new method) to the `Vector` type, we also add tests for
-the new feature.
+works as intended. Then, every time we change the implementation, we
+follow up by running the test program, so that we can be reasonably
+confident that we didn't break anything. When we add extra
+functionality (for example a new method) to the `Vector` type, we also
+add tests for the new feature.
 
 [source,javascript]
 ----
@@ -202,36 +210,36 @@ console.log(testVector());
 // → everything ok
 ----
 
-(((test suite)))(((testing frameworks)))(((domain-specific
+(((test suite)))(((testing framework)))(((domain-specific
 language)))Writing tests like this tends to produce rather repetetive,
 awkward code. Fortunately, there exist pieces of software that help
 you build and run collections of tests (“test suites”) by providing a
-language (in the form of functions and methods) suited to
-expressing tests, and outputting informative information when a
-test fails. These are called _testing frameworks_.
+language (in the form of functions and methods) suited to expressing
+tests, and outputting informative information when a test fails. These
+are called _testing frameworks_.
 
 == Debugging ==
 
-Once you notice that there is something wrong with your program
-because it misbehaves or produces errors, the next step is to figure
-out _what_ the problem is.
+(((debugging)))Once you notice that there is something wrong with your
+program because it misbehaves or produces errors, the next step is to
+figure out _what_ the problem is.
 
-Sometimes, it is obvious. The error message will point at a specific
-line of your program, and if you look at the error description and
-that line of code, you can often see the problem.
+Sometimes, it is obvious. The ((error)) message will point at a
+specific line of your program, and if you look at the error
+description and that line of code, you can often see the problem.
 
-But not always. Sometimes the line that triggered the problem
-is simply the first place where a
-bogus value produced elsewhere gets used in an invalid way. And
-sometimes there is no error message at all—just an invalid result. If
-you have been solving the exercises in the earlier chapters, you will
-probably have already experienced such situations.
+(((run-time error)))But not always. Sometimes the line that triggered
+the problem is simply the first place where a bogus value produced
+elsewhere gets used in an invalid way. And sometimes there is no error
+message at all—just an invalid result. If you have been solving the
+((exercises)) in the earlier chapters, you will probably have already
+experienced such situations.
 
-The following example program tries to convert a whole number to a string in
-any base (decimal, binary, etc.) by repeatedly picking out the
-last digit, and then dividing the number to get rid of this digit. But
-the insane output that it currently produces suggests that it has a
-bug.
+(((decimal number)))(((binary number)))The following example program
+tries to convert a whole number to a string in any base (decimal,
+binary, etc.) by repeatedly picking out the last ((digit)), and then
+dividing the number to get rid of this digit. But the insane output
+that it currently produces suggests that it has a ((bug)).
 
 [source,javascript]
 ----
@@ -251,20 +259,21 @@ console.log(numberToString(13, 10));
 // → 1.5e-3231.3e-3221.3e-3211.3e-3201.3e-3191.3e-3181.3…
 ----
 
-Even if you see the problem already, pretend for a moment that you
-don't. We know that our program is malfunctioning, and we want to find
-out why.
+(((analysis)))Even if you see the problem already, pretend for a
+moment that you don't. We know that our program is malfunctioning, and
+we want to find out why.
 
 This is where you must resist the urge to start making random changes
 to the code. Instead, _think_. Analyze what is happening and come up
-with a theory of why it might be happening. Then, make additional
+with a ((theory)) of why it might be happening. Then, make additional
 observations to test this theory—or, if you don't yet have a theory,
 make additional observations that might help you come up with one.
 
-Putting a few strategic `console.log` calls into the program is a good
-way to get additional information about what the program is doing. In
-this case, we want `n` to take the values `13`, `1`, and then `0`.
-Let's write out its value at the start of the loop.
+(((console.log)))(((output)))(((debugging)))(((logging)))Putting a few
+strategic `console.log` calls into the program is a good way to get
+additional information about what the program is doing. In this case,
+we want `n` to take the values `13`, `1`, and then `0`. Let's write
+out its value at the start of the loop.
 
 ----
 13
@@ -275,47 +284,49 @@ Let's write out its value at the start of the loop.
 1.5e-323
 ----
 
-_Right_. Dividing 13 by 10 does not produce a whole number. 
-Instead of `n /= base`, what we
-actually want is `n = Math.floor(n / base)`, so that the number
-is properly “shifted” to the right.
+(((rounding)))_Right_. Dividing 13 by 10 does not produce a whole
+number. Instead of `n /= base`, what we actually want is `n =
+Math.floor(n / base)`, so that the number is properly “shifted” to the
+right.
 
-(((breakpoint)))(((debugger)))(((debugger statement)))An alternative
-to using `console.log` is to use the _debugger_ capabilities of your
-browser. Modern browsers come with the ability to set a _breakpoint_
-on a specific line of your code. This will cause the execution of the
-program to pause every time the line with the breakpoint is reached,
-and allow you to inspect the values of variables at that point. I
-won't go into details here since debuggers differ from browser to
-browser, but look in your browser's developer tools
-and search the Web for more information. Another way to set a breakpoint is to
-include a `debugger` statement (consisting of simply that keyword)
-in your program. If the developer tools of your browser are active,
-the program will pause whenever it reaches that statement, and you will be able
-to inspect its state.
+(((JavaScript console)))(((breakpoint)))(((debugger)))(((debugger
+statement)))An alternative to using `console.log` is to use the
+_debugger_ capabilities of your browser. Modern browsers come with the
+ability to set a _breakpoint_ on a specific line of your code. This
+will cause the execution of the program to pause every time the line
+with the breakpoint is reached, and allow you to inspect the values of
+variables at that point. I won't go into details here since debuggers
+differ from browser to browser, but look in your browser's developer
+tools and search the Web for more information. Another way to set a
+breakpoint is to include a `debugger` statement (consisting of simply
+that keyword) in your program. If the ((developer tools)) of your
+browser are active, the program will pause whenever it reaches that
+statement, and you will be able to inspect its state.
 
 == Error propagation ==
 
-Not all problems can be prevented by the programmer, unfortunately. If
-your program communicates with the outside world in any way, there is a chance that
-the input it gets will be invalid, or that other systems that it tries to
-talk to are broken or unreachable.
+(((input)))(((output)))(((run-time
+error)))(((error)))(((validation)))Not all problems can be prevented
+by the programmer, unfortunately. If your program communicates with
+the outside world in any way, there is a chance that the input it gets
+will be invalid, or that other systems that it tries to talk to are
+broken or unreachable.
 
-Simple programs, or programs that only run under your supervision, can
-afford to just give up when such a problem occurs.
-You'll look into the problem, and try again. “Real”
+(((error recovery)))Simple programs, or programs that only run under
+your supervision, can afford to just give up when such a problem
+occurs. You'll look into the problem, and try again. “Real”
 applications, on the other hand, are expected to not simply crash.
 Sometimes the right thing to do is take the bad input in stride and
 continue running. In other cases, it is better to report to the user
 what went wrong and then give up. But in either situation, the program
 has to actively do something in response to the problem.
 
-Say you have a function `promptInteger` that
-asks the user for a whole number and returns it. What should it return
-if the user inputs “orange”?
+(((promptInteger function)))(((validation)))Say you have a function
+`promptInteger` that asks the user for a whole number and returns it.
+What should it return if the user inputs “orange”?
 
-(((error handling,return value)))(((special return value)))(((return
-keyword)))One option is to make it return a special value. Common
+(((null)))(((undefined)))(((return value)))(((special return
+value)))One option is to make it return a special value. Common
 choices for such values are `null` and `undefined`.
 
 // test: no
@@ -331,34 +342,35 @@ function promptNumber(question) {
 console.log(promptNumber("How many trees do you see?"));
 ----
 
-This is a sound strategy. Now any code that calls `promptNumber` must check
-whether an actual number was read, and failing that, must somehow
-recover—maybe by asking again, or by filling in a default value. Or it
-could again return a special value to _its_ caller, to indicate
-that it failed to do what it was asked.
+This is a sound strategy. Now any code that calls `promptNumber` must
+check whether an actual number was read, and failing that, must
+somehow recover—maybe by asking again, or by filling in a default
+value. Or it could again return a special value to _its_ caller, to
+indicate that it failed to do what it was asked.
 
-In many situations, mostly when errors are common and the caller
-should be explicitly taking them into account, returning a special
-value is a perfectly fine way to indicate an error. It does, however,
-have its downsides. First, what if the function can already return
-every possible kind of value? For such a function, it is hard to find
-a special value that can be distinguished from a valid result.
+(((error handling)))In many situations, mostly when ((error))s are
+common and the caller should be explicitly taking them into account,
+returning a special value is a perfectly fine way to indicate an
+error. It does, however, have its downsides. First, what if the
+function can already return every possible kind of value? For such a
+function, it is hard to find a special value that can be distinguished
+from a valid result.
 
-The second issue with returning special values is that it can lead to
-some very cluttered code. If a piece of code calls `promptNumber` 10
-times, it has to check 10 times whether `null` was returned. And if
-its response to finding `null` is to simply return `null` itself, the
-caller will in turn have to check for it, and so on.
+(((special return value)))(((readability)))The second issue with
+returning special values is that it can lead to some very cluttered
+code. If a piece of code calls `promptNumber` 10 times, it has to
+check 10 times whether `null` was returned. And if its response to
+finding `null` is to simply return `null` itself, the caller will in
+turn have to check for it, and so on.
 
 == Exceptions ==
 
-(((exception handling)))(((error handling,exceptions)))When a
-function cannot proceed normally, what we would
-_like_ to do is just stop what we are doing and immediately
-jump back to a place that knows how to handle the problem. This is
-what _exception handling_ does.
+(((error handling)))When a function cannot proceed normally, what we
+would _like_ to do is just stop what we are doing and immediately jump
+back to a place that knows how to handle the problem. This is what
+_((exception handling))_ does.
 
-(((control flow)))(((raise (exception))))(((throw keyword)))(((call
+(((control flow)))(((raising (exception))))(((throw keyword)))(((call
 stack)))Exceptions are a mechanism that make it possible for code that
 runs into a problem to _raise_ (or _throw_) an exception, which is
 simply a value. Raising an exception somewhat resembles a
@@ -370,13 +382,13 @@ calls that was mentioned in link:03_functions.html#stack[Chapter 3].
 An exception zooms down this stack, throwing away all the call
 contexts it encounters.
 
-(((catch keyword)))If exceptions always zoomed right down to the bottom of
-the stack, they would not be of much use. They would just
-provide a novel way to blow up your program. Their power lies in the
-fact that you can set “obstacles” along the stack
-to _catch_ the exception as it is zooming down. Then you can do something
-with it, after which the program continues running at the point where
-the exception was caught.
+(((error handling)))(((syntax)))(((catch keyword)))If exceptions
+always zoomed right down to the bottom of the stack, they would not be
+of much use. They would just provide a novel way to blow up your
+program. Their power lies in the fact that you can set “obstacles”
+along the stack to _catch_ the exception as it is zooming down. Then
+you can do something with it, after which the program continues
+running at the point where the exception was caught.
 
 Here's an example:
 
@@ -404,40 +416,42 @@ try {
 }
 ----
 
-(((throw keyword)))(((try keyword)))(((catch keyword)))The `throw`
-keyword is used to raise an exception. Catching one is done by
-wrapping a piece of code in a `try` block, followed by the keyword
-`catch`. When the code in the `try` block causes an exception to be
-raised, the `catch` block is evaluated. The variable name (in
-parentheses) after `catch` will be bound to the exception value. After
-the `catch` block finishes—or if the `try` block finishes without
-problems—control proceeds beneath the entire try-catch statement.
+(((exception handling)))(((block)))(((throw keyword)))(((try
+keyword)))(((catch keyword)))The `throw` keyword is used to raise an
+exception. Catching one is done by wrapping a piece of code in a `try`
+block, followed by the keyword `catch`. When the code in the `try`
+block causes an exception to be raised, the `catch` block is
+evaluated. The variable name (in parentheses) after `catch` will be
+bound to the exception value. After the `catch` block finishes—or if
+the `try` block finishes without problems—control proceeds beneath the
+entire try-catch statement.
 
-(((Error type)))(((stack trace)))In this case, we used the `Error`
-constructor to create our exception value. This is a standard
-JavaScript constructor that creates an object with a `message`
-property. In modern JavaScript environments, instances of this
-constructor also gather information about the call stack that existed
-when the exception was created, a so-called _stack trace_. This
-information is stored in the `stack` property, and can be very helpful
-when trying to debug a problem: it tells us the precise function where
-the problem occurred, and which other functions led up to the call
-that failed.
+(((debugging)))(((call stack)))(((Error type)))(((stack
+trace)))In this case, we used the `Error` ((constructor)) to create
+our exception value. This is a ((standard)) JavaScript constructor
+that creates an object with a `message` property. In modern JavaScript
+environments, instances of this constructor also gather information
+about the call stack that existed when the exception was created, a
+so-called _stack trace_. This information is stored in the `stack`
+property, and can be very helpful when trying to debug a problem: it
+tells us the precise function where the problem occurred, and which
+other functions led up to the call that failed.
 
-Note that the function `look` completely ignores the possibility that
-`promptDirection` might go wrong. This is the big advantage of
-exceptions—error-handling code is necessary only at the point where
-the error occurs and at the point where it is handled. The functions
-in between can forget all about it.
+(((exception handling)))Note that the function `look` completely
+ignores the possibility that `promptDirection` might go wrong. This is
+the big advantage of exceptions—error-handling code is necessary only
+at the point where the error occurs and at the point where it is
+handled. The functions in between can forget all about it.
 
 Well, almost...
 
 == Cleaning up after exceptions ==
 
-(((cleaning up)))Consider the following situation: a function,
-`withContext`, wants to make sure that, during its execution, the
-top-level variable `context` holds a specific context value. After it
-finishes, it restores this variable to its old value.
+(((exception handling)))(((cleaning up)))(((withContext
+function)))(((dynamic scope)))Consider the following situation: a
+function, `withContext`, wants to make sure that, during its
+execution, the top-level variable `context` holds a specific context
+value. After it finishes, it restores this variable to its old value.
 
 // include_code
 
@@ -458,13 +472,13 @@ What if `body` raises an exception? In that case, the call to
 `withContext` will be thrown off the stack by the exception, and
 `context` will never be set back to its old value.
 
-(((try keyword)))(((finally keyword)))There is one more feature that
-`try` statements have. They may be followed by a `finally` block,
-either instead of, or in addition to, a `catch` block.
-A `finally` block means “No
-matter _what_ happens, run this code after trying to run the code in
-the `try` block”. If a function has to clean something up, the cleanup
-code should usually be put into a `finally` block:
+(((block)))(((try keyword)))(((finally keyword)))There is one more
+feature that `try` statements have. They may be followed by a
+`finally` block, either instead of, or in addition to, a `catch`
+block. A `finally` block means “No matter _what_ happens, run this
+code after trying to run the code in the `try` block”. If a function
+has to clean something up, the cleanup code should usually be put into
+a `finally` block.
 
 // include_code
 
@@ -481,10 +495,10 @@ function withContext(newContext, body) {
 }
 ----
 
-Note that we no longer have to store the result of `body` (which we
-want to return) in a variable. Even if we return directly from the
-`try` block, the `finally` block will be run. Now we can do this, and
-be safe:
+(((withContext function)))Note that we no longer have to store the
+result of `body` (which we want to return) in a variable. Even if we
+return directly from the `try` block, the `finally` block will be run.
+Now we can do this, and be safe:
 
 // test: no
 
@@ -509,43 +523,46 @@ Even though the function called from `withContext` exploded,
 
 == Selective catching ==
 
-(((unhandled exception)))(((JavaScript,console)))When an exception
-makes it all the way to the bottom of the stack without being caught,
-it gets handled by the environment. What this means differs between
-environments. In browsers, a description of the error typically gets
-written to the JavaScript console (reachable through the browser's
-“tools” or “developer” menu).
+(((unhandled exception)))(((exception handling)))(((JavaScript
+console)))(((developer tools)))(((call stack)))(((error)))When an
+exception makes it all the way to the bottom of the stack without
+being caught, it gets handled by the environment. What this means
+differs between environments. In browsers, a description of the error
+typically gets written to the JavaScript console (reachable through
+the browser's “tools” or “developer” menu).
 
-For programmer mistakes or problems that the program cannot possibly
-handle, just letting the error go through is often okay. An unhandled
-exception is a reasonable way to signal a broken program, and the
-JavaScript console will, on modern browsers, provide you with some
-information about which function calls were on the stack when the
-problem occurred.
+(((crash)))(((error handling)))For programmer mistakes or problems
+that the program cannot possibly handle, just letting the error go
+through is often okay. An unhandled exception is a reasonable way to
+signal a broken program, and the JavaScript console will, on modern
+browsers, provide you with some information about which function calls
+were on the stack when the problem occurred.
 
-For problems that are _expected_ to happen during routine use,
-crashing with an unhandled exception is not a very friendly
-response.
+(((user interface)))For problems that are _expected_ to happen during
+routine use, crashing with an unhandled exception is not a very
+friendly response.
 
-Invalid uses of the language, like referencing a nonexistent variable,
-looking up a property on `null`, or calling something that's not a
-function, will also result in exceptions being raised. Such exceptions can be
-caught just like your own exceptions.
+(((syntax)))(((function,application)))(((exception handling)))(((Error
+type)))Invalid uses of the language, like referencing a nonexistent
+((variable)), looking up a property on `null`, or calling something
+that's not a function, will also result in exceptions being raised.
+Such exceptions can be caught just like your own exceptions.
 
 (((catch keyword)))When a `catch` body is entered, all we know is that
 _something_ in our `try` body caused an exception. But we don't know
 _what_, nor _which_ exception it caused.
 
-JavaScript (in a rather glaring omission) doesn't provide direct support for selectively catching
-exceptions: you either catch them
-all, or you don't catch any. This makes it very easy
-to _assume_ that the exception you get is the one you
-were thinking about when you wrote the `catch` block.
+(((exception handling)))JavaScript (in a rather glaring omission)
+doesn't provide direct support for selectively catching exceptions:
+you either catch them all, or you don't catch any. This makes it very
+easy to _assume_ that the exception you get is the one you were
+thinking about when you wrote the `catch` block.
 
-But it might not be. Some other assumption might be violated, or you
-might have introduced a bug somewhere that is causing an exception.
-Here is an example, which _attempts_ to keep on calling `promptDirection`
-until it gets a valid answer.
+(((promptDirection function)))But it might not be. Some other
+((assumption)) might be violated, or you might have introduced a bug
+somewhere that is causing an exception. Here is an example, which
+_attempts_ to keep on calling `promptDirection` until it gets a valid
+answer.
 
 // test: no
 
@@ -562,35 +579,35 @@ for (;;) {
 }
 ----
 
-(((infinite loop)))(((for loop)))The `for (;;)` construct is a way to
-intentionally create a loop that doesn't terminate on its own. We only
-break out of the loop when a valid direction is given. _But_, we
-misspelled `promptDirection`, which will result in an “undefined
-variable” error. Because the `catch` block completely ignores its
-exception value (`e`), assuming it knows what the
-problem is, it wrongly treats the variable error as indicating bad
-input. Not only does this cause an infinite loop, but it also “buries” the
-(very useful) error message about the misspelled variable.
+(((infinite loop)))(((for loop)))(((catch keyword)))(((debugging)))The
+`for (;;)` construct is a way to intentionally create a loop that
+doesn't terminate on its own. We only break out of the loop when a
+valid direction is given. _But_, we misspelled `promptDirection`,
+which will result in an “undefined variable” error. Because the
+`catch` block completely ignores its exception value (`e`), assuming
+it knows what the problem is, it wrongly treats the variable error as
+indicating bad input. Not only does this cause an infinite loop, but
+it also “buries” the (very useful) error message about the misspelled
+variable.
 
 As a general rule, don't blanket-catch exceptions unless it is for the
-purpose of “routing” them somewhere—for example, over the network, to tell
-another system that our program crashed.
-And even then, think carefully about how you might
-be hiding information.
+purpose of “routing” them somewhere—for example, over the network, to
+tell another system that our program crashed. And even then, think
+carefully about how you might be hiding information.
 
-So we want to catch a _specific_ kind of exception. We can do this by
-checking in the `catch` block whether the exception we got is the one
-we are interested in, and re-throwing it otherwise. But how do we
-recognize an exception?
+(((exception handling)))So we want to catch a _specific_ kind of
+exception. We can do this by checking in the `catch` block whether the
+exception we got is the one we are interested in, and re-throwing it
+otherwise. But how do we recognize an exception?
 
-Of course, we could match its `message` property against the error
-message we happen to expect. But
-that's a shaky way to write code—we'd be using information that's intended
-for human consumption (the message) to make a programmatic decision. As soon as
-someone changes (or translates) the message, the code will stop working.
+Of course, we could match its `message` property against the ((error))
+message we happen to expect. But that's a shaky way to write code—we'd
+be using information that's intended for human consumption (the
+message) to make a programmatic decision. As soon as someone changes
+(or translates) the message, the code will stop working.
 
-Rather, let's define a new type of error, and use `instanceof` to
-identify it.
+(((Error type)))(((instanceof operator)))Rather, let's define a new
+type of error, and use `instanceof` to identify it.
 
 // include_code
 
@@ -604,16 +621,19 @@ InputError.prototype = Object.create(Error.prototype);
 InputError.prototype.name = "InputError";
 ----
 
-The prototype is made to derive from `Error.prototype`, so that
-`instanceof Error` will also return true for `InputError` objects. It's also
-given a `name` property, since the standard error types (`Error`,
-`SyntaxError`, `ReferenceError`, and so on) also have such a property.
+(((throw keyword)))(((inheritance)))The prototype is made to derive
+from `Error.prototype`, so that `instanceof Error` will also return
+true for `InputError` objects. It's also given a `name` property,
+since the standard error types (`Error`, `SyntaxError`,
+`ReferenceError`, and so on) also have such a property.
 
-The assignment to the `stack` property tries to give this object a
-somewhat useful stack trace, on platforms that support it, by creating
-a regular error object, and then using that object's `stack` property as its own.
+(((call stack)))The assignment to the `stack` property tries to give
+this object a somewhat useful ((stack trace)), on platforms that
+support it, by creating a regular error object, and then using that
+object's `stack` property as its own.
 
-Now `promptDirection` can throw such an error.
+(((promptDirection function)))Now `promptDirection` can throw such an
+error.
 
 // include_code
 
@@ -627,7 +647,7 @@ function promptDirection(question) {
 }
 ----
 
-And the loop can catch it more carefully.
+(((exception handling)))And the loop can catch it more carefully.
 
 // test: no
 
@@ -647,14 +667,15 @@ for (;;) {
 }
 ----
 
-This will only catch instances of `InputError` and let unrelated
-exceptions through. If you reintroduce the typo, the undefined
-variable error will be properly reported.
+(((debugging)))This will only catch instances of `InputError` and let
+unrelated exceptions through. If you reintroduce the typo, the
+undefined variable error will be properly reported.
 
 == Assertions ==
 
-_Assertions_ are a tool to do basic sanity checking for
-programmer errors. Consider this helper function, `assert`:
+(((assert function)))(((assertion)))(((debugging)))_Assertions_ are a
+tool to do basic sanity checking for programmer errors. Consider this
+helper function, `assert`:
 
 [source,javascript]
 ----
@@ -674,17 +695,19 @@ function lastElement(array) {
 }
 ----
 
-This provides a compact way to enforce expectations,
-helpfully blowing up the program if the stated condition does not hold.
-For instance, the `lastElement` function, which fetches the last element from
-an array, would return `undefined` on empty arrays if the assertion was omitted.
-Fetching the last element from an empty array does not
-make much sense, so it is almost certainly a programmer error to
-do so.
+(((validation)))(((run-time
+error)))(((crash)))(((assumption)))(((Array type)))This provides a
+compact way to enforce expectations, helpfully blowing up the program
+if the stated condition does not hold. For instance, the `lastElement`
+function, which fetches the last element from an array, would return
+`undefined` on empty arrays if the assertion was omitted. Fetching the
+last element from an empty array does not make much sense, so it is
+almost certainly a programmer error to do so.
 
-Assertions are a way to make sure mistakes cause failures at the point
-of the mistake, rather than silently producing nonsense values that
-may go on to cause trouble in an unrelated part of the system.
+(((assertion)))(((debugging)))Assertions are a way to make sure
+mistakes cause failures at the point of the mistake, rather than
+silently producing nonsense values that may go on to cause trouble in
+an unrelated part of the system.
 
 == Summary ==
 
@@ -692,32 +715,33 @@ Mistakes and bad input are facts of life. Bugs in programs need to be
 found and fixed. They can become easier to notice by having automated
 test suites and adding assertions to your programs.
 
-Problems caused by factors outside the program's control should usually
-be handled gracefully. Sometimes, when the problem can be handled
-locally, special return values are a sane way to track them.
+Problems caused by factors outside the program's control should
+usually be handled gracefully. Sometimes, when the problem can be
+handled locally, special return values are a sane way to track them.
 Otherwise, exceptions are preferable.
 
 Throwing an exception causes the call stack to be unwound until the
 next enclosing `try`/`catch` block, or until the bottom of the stack.
-The exception value will be given to the `catch` block that catches it,
-which should verify that it is actually the expected kind of exception,
-and then do something with it. To deal with the
-unpredictable control flow caused by exceptions,
-`finally` blocks can be used to ensure a piece of code
-is _always_ run when a block finishes.
+The exception value will be given to the `catch` block that catches
+it, which should verify that it is actually the expected kind of
+exception, and then do something with it. To deal with the
+unpredictable control flow caused by exceptions, `finally` blocks can
+be used to ensure a piece of code is _always_ run when a block
+finishes.
 
 == Exercises ==
 
 === Retry ===
 
-Say you have a function `primitiveMultiply` that, in 50% of cases, multiplies
-two numbers, and in the other 50% raises an exception of type
-`MultiplicatorUnitFailure`. Write a function that wraps this
-clunky function and just keeps trying until a call succeeds, returning
-the result.
+(((primitiveMultiply (exercise))))(((exception handling)))(((throw
+keyword)))Say you have a function `primitiveMultiply` that, in 50% of
+cases, multiplies two numbers, and in the other 50% raises an
+exception of type `MultiplicatorUnitFailure`. Write a function that
+wraps this clunky function and just keeps trying until a call
+succeeds, returning the result.
 
-Make sure that you only handle the exceptions you are trying to
-handle.
+(((catch keyword)))Make sure that you only handle the exceptions you
+are trying to handle.
 
 ifdef::html_target[]
 
@@ -745,14 +769,15 @@ endif::html_target[]
 
 !!solution!!
 
-The call to `primitiveMultiply` should obviously happen in a `try`
-block. The corresponding `catch` block should re-throw the exception
-when it is not an instance of `MultiplicatorUnitFailure`, and ensure
-the call is retried when it is.
+(((primitiveMultiply (exercise))))(((try keyword)))(((catch
+keyword)))(((throw keyword)))The call to `primitiveMultiply` should
+obviously happen in a `try` block. The corresponding `catch` block
+should re-throw the exception when it is not an instance of
+`MultiplicatorUnitFailure`, and ensure the call is retried when it is.
 
 To do the retrying, you can either use a loop that breaks only when a
 call succeeds—as in the link:08_error.html#look[`look` example]
-earlier in this chapter—or use recursion, and hope you don't get a
+earlier in this chapter—or use ((recursion)), and hope you don't get a
 string of failures so long that it overflows the stack (which is a
 pretty safe bet).
 
@@ -760,7 +785,8 @@ pretty safe bet).
 
 === The locked box ===
 
-Consider the following (rather contrived) object:
+(((locked box (exercise))))Consider the following (rather contrived)
+object:
 
 // include_code
 
@@ -778,13 +804,14 @@ var box = {
 };
 ----
 
-It is a box, with a lock. Inside is an array, but you can only
-get at it when the box is unlocked. Directly accessing the
-`_content` property is not allowed.
+(((private property)))(((access control)))It is a box, with a lock.
+Inside is an array, but you can only get at it when the box is
+unlocked. Directly accessing the `_content` property is not allowed.
 
-Write a function called `withBoxUnlocked` that takes a function value as
-argument, unlocks the box, runs the function, and then ensures that
-the box is locked again before returning, regardless of whether the argument function returned
+(((finally keyword)))(((exception handling)))Write a function called
+`withBoxUnlocked` that takes a function value as argument, unlocks the
+box, runs the function, and then ensures that the box is locked again
+before returning, regardless of whether the argument function returned
 normally or threw an exception.
 
 ifdef::html_target[]
@@ -817,10 +844,11 @@ endif::html_target[]
 
 !!solution!!
 
-This exercise calls for a `finally` block, as you probably guessed.
-Your function should first unlock the box, then call the argument
-function from inside a `try` body. The `finally` block after it should lock
-the box again.
+(((locked box (exercise))))(((finally keyword)))(((try keyword)))This
+exercise calls for a `finally` block, as you probably guessed. Your
+function should first unlock the box, then call the argument function
+from inside a `try` body. The `finally` block after it should lock the
+box again.
 
 To make sure we don't lock the box when it wasn't already locked,
 check its lock at the start of the function, and only unlock and lock

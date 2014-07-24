@@ -70,7 +70,7 @@ It is up to you to make the effort necessary. When you are struggling
 to follow the book, do not jump to any conclusions about your own
 capabilities. You are fine—you just need to keep at it. Take a break,
 re-read some material, and _always_ make sure you read and understand
-the example programs and exercises. Learning is hard work, but
+the example programs and ((exercises)). Learning is hard work, but
 everything you learn is yours, and will make subsequent learning
 easier.
 
@@ -344,14 +344,14 @@ outside of the browser.
 
 == Code, and what to do with it ==
 
-(((code)))(((exercises)))(((reading code)))(((writing code)))Code is
-the text that makes up programs. Most chapters in this book contain
-quite a lot of it. In my experience, reading and writing code is an
-indispensable part of learning to program. Try to not just glance over
-the examples, read them attentively and understand them. This will be
-slow and confusing at first, but I promise that you will quickly get
-the hang of it. The same goes for the exercises. Don't assume you
-understand them until you've actually written a working solution.
+(((reading code)))(((writing code)))Code is the text that makes up
+programs. Most chapters in this book contain quite a lot of it. In my
+experience, reading and writing ((code)) is an indispensable part of
+learning to program. Try to not just glance over the examples, read
+them attentively and understand them. This will be slow and confusing
+at first, but I promise that you will quickly get the hang of it. The
+same goes for the ((exercises)). Don't assume you understand them
+until you've actually written a working solution.
 
 I recommend to try out your solutions to exercises in an actual
 JavaScript interpreter, to get immediate feedback on whether what you
@@ -375,13 +375,13 @@ with writing your own code.
 
 endif::tex_target[]
 
-(((JavaScript,console)))Running JavaScript programs outside of this
-book's sandbox is also possible. You can opt to install Node.js, and
-use it run text files that contain programs. Or you can use your
-browser's developer console (typically found somewhere under a “tools”
-or “developer” menu) and play around in there. In
-link:12_browser.html#script_tag[Chapter 12], the way in which
-JavaScript programs are embedded in web pages (HTML files) is
+(((developer tools)))(((JavaScript console)))Running JavaScript
+programs outside of this book's sandbox is also possible. You can opt
+to install Node.js, and use it run text files that contain programs.
+Or you can use your browser's developer console (typically found
+somewhere under a “tools” or “developer” menu) and play around in
+there. In link:12_browser.html#script_tag[Chapter 12], the way in
+which JavaScript programs are embedded in web pages (HTML files) is
 explained. There are also websites like http://jsbin.com[_jsbin.com_]
 which provide a friendly interface for running JavaScript code in a
 browser.

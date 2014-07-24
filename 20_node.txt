@@ -149,7 +149,7 @@ Hello world
 
 The `console.log` method in Node does something similar to what it
 does in the browser. It prints out a piece of text. But in Node, the
-text will go to the process' standard output stream, rather than to a
+text will go to the process’ standard output stream, rather than to a
 browser's JavaScript console.
 
 If you run `node` without giving it a file, it provides you with a

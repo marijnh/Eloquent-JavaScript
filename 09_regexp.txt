@@ -110,7 +110,7 @@ Say we want to match any number. In a regular expression, putting a
 set of characters between square brackets makes that part of the
 expression match any of the characters between the brackets.
 
-Both expressions below match all strings that contain a digit.
+Both expressions below match all strings that contain a ((digit)).
 
 [source,javascript]
 ----
@@ -120,11 +120,11 @@ console.log(/[0-9]/.test("in 1992"));
 // → true
 ----
 
-(((digit (regexp))))Within square brackets, a dash (`-`) between two
-characters can be used to indicate a range of characters, where the
-ordering is determined by the character's Unicode number. Characters
-“0” to “9” sit right next to each other in this ordering (codes 48 to
-57), so `[0-9]` covers all of them, and matches any digit.
+Within square brackets, a dash (`-`) between two characters can be
+used to indicate a range of characters, where the ordering is
+determined by the character's Unicode number. Characters “0” to “9”
+sit right next to each other in this ordering (codes 48 to 57), so
+`[0-9]` covers all of them, and matches any digit.
 
 (((whitespace (regexp))))(((alphanumeric character (regexp))))(((dot
 (regexp))))There are a number of common character groups that
@@ -133,7 +133,7 @@ have their own built-in shortcuts. Digits are one of them:
 
 [cols="1,5"]
 |====
-|`\d`      |Any digit character
+|`\d`      |Any ((digit)) character
 |`\w`      |An alphanumeric character (“word character”)
 |`\s`      |Any whitespace character (space, tab, newline, and similar)
 |`\D`      |A characters that is _not_ a digit

@@ -290,14 +290,14 @@ was being heavily marketed and was gaining in popularity. Someone
 thought it a good idea to try to ride along on this success. Now we
 are stuck with the name.
 
-(((ECMAScript)))(((compatibility)))(((standard)))After its adoption
-outside of Netscape, a standard document was written to describe the
-way the JavaScript language should work, to make sure the various
-pieces of software that claimed to support JavaScript were actually
-talking about the same language. This is called the ECMAScript
-standard, after the ECMA organization, which did the standardization.
-In practice, the terms ECMAScript and JavaScript can be used
-interchangeably—they are two names for the same language.
+(((ECMAScript)))(((compatibility)))After its adoption outside of
+Netscape, a ((standard)) document was written to describe the way the
+JavaScript language should work, to make sure the various pieces of
+software that claimed to support JavaScript were actually talking
+about the same language. This is called the ECMAScript standard, after
+the ECMA organization, which did the standardization. In practice, the
+terms ECMAScript and JavaScript can be used interchangeably—they are
+two names for the same language.
 
 (((JavaScript,weaknesses of)))(((debugging)))There are those who will
 say _terrible_ things about the JavaScript language. Many of these
@@ -344,14 +344,14 @@ outside of the browser.
 
 == Code, and what to do with it ==
 
-(((code)))(((exercises)))Code is the text that makes up programs. Most
-chapters in this book contain quite a lot of it. In my experience,
-reading and writing code is an indispensable part of learning to
-program. Try to not just glance over the examples, read them
-attentively and understand them. This will be slow and confusing at
-first, but I promise that you will quickly get the hang of it. The
-same goes for the exercises. Don't assume you understand them until
-you've actually written a working solution.
+(((code)))(((exercises)))(((reading code)))(((writing code)))Code is
+the text that makes up programs. Most chapters in this book contain
+quite a lot of it. In my experience, reading and writing code is an
+indispensable part of learning to program. Try to not just glance over
+the examples, read them attentively and understand them. This will be
+slow and confusing at first, but I promise that you will quickly get
+the hang of it. The same goes for the exercises. Don't assume you
+understand them until you've actually written a working solution.
 
 I recommend to try out your solutions to exercises in an actual
 JavaScript interpreter, to get immediate feedback on whether what you

@@ -23,8 +23,9 @@ ____
 
 endif::html_target[]
 
-Building your own programming language is surprisingly easy (as long as
-you do not aim too high) and very enlightening.
+(((project chapter)))Building your own programming language is
+surprisingly easy (as long as you do not aim too high) and very
+enlightening.
 
 The main thing I want to show in this chapter is that there is no
 ((magic)) involved in building your own language. I've often felt that

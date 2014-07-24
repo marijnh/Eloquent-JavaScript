@@ -5,9 +5,9 @@
 
 = Project: A Platform Game =
 
-My initial fascination with computers, like that of many kids,
-originated with computer games. I was drawn into the tiny
-computer-simulated worlds which I could manipulate and in which
+(((project chapter)))My initial fascination with computers, like that
+of many kids, originated with computer games. I was drawn into the
+tiny computer-simulated worlds which I could manipulate and in which
 stories (sort of) unfolded. More, I suppose, because of the way I
 could project my imagination into them, than because of the
 possibilities they actually offered.

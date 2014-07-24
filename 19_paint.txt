@@ -5,9 +5,9 @@
 
 = Project: A Paint Program =
 
-The material from the previous chapters gives you all the elements you
-need to build simple web applications. In this chapter, we will do
-just that, and create a simple drawing program.
+(((project chapter)))The material from the previous chapters gives you
+all the elements you need to build simple web applications. In this
+chapter, we will do just that, and create a simple drawing program.
 
 We will take some of our inspiration from _Paint_, the drawing program
 that comes bundled with Microsoft Windows. This is a program that

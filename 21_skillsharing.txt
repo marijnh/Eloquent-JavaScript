@@ -3,7 +3,7 @@
 
 = Project: Skill-Sharing Website =
 
-A _skill-sharing_ meeting is an event where people with a shared
+(((project chapter)))A _skill-sharing_ meeting is an event where people with a shared
 interest come together and give small, informal presentations about
 things they know. For example, at a gardening skill-sharing meeting,
 someone might explain how to cultivate celery. Or in a

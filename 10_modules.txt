@@ -33,9 +33,10 @@ blocks inside those functions. Programmers have a lot of freedom in
 the shape they give their programs. Shape follows more from the taste
 of the programmer than from the program's intended functionality.
 
-When looking at a larger program in its entirety, individual functions
-start to blend into the background. It would be good to have a
-larger unit of organization.
+(((readibility)))When looking at a larger program in its entirety,
+individual functions start to blend into the background. Such a
+program can be made more readable if we have larger unit of
+organization.
 
 _Modules_ divide programs into clusters of code that, by _some_
 criterion, belong together. This chapter explores some of the
@@ -75,12 +76,12 @@ be wasting time moving pieces of the program back and forth, and won't
 accidentally lock yourself into a structure that does not actually fit
 your program.
 
-== Namespaces ==
+== Namespacing ==
 
 Most modern programming languages have a scope level between _global_
 (everyone can see it) and _local_ (only this function can see it).
 JavaScript does not. Thus, by default, everything that needs to be
-visible outside of the scope of the current function is visible
+visible outside of the scope of a top-level function is visible
 _everywhere_.
 
 Namespace pollution, the problem of a lot of unrelated code having to
@@ -141,7 +142,7 @@ Another important role of modules is isolating pieces of code from
 each other, in the same way that the object interfaces from link:06_object.html#interface[Chapter 6]
 do. A well-designed module will provide an interface for external code
 to use. As the module gets updated with bug-fixes and new
-functionality, the existing interface stays stable, so that
+functionality, the existing interface stays the same (it is _stable_), so that
 other modules can use the new, improved version without any changes to
 themselves.
 
@@ -161,7 +162,7 @@ text editor, which has many different aspects that external
 code might need to access (content, styling, user actions, and so on),
 it requires careful design.
 
-== Functions as namespaces ==
+== Using functions as namespaces ==
 
 Functions are the only things in JavaScript that create a new
 scope. So if we want our modules to have their own scope, we will have
@@ -230,23 +231,21 @@ it could be a module that adds a method to some prototype, or sets up
 a widget on a web page. It is wrapped in a function to prevent
 the variables it uses internally from polluting the global scope.
 
-Why did we wrap the namespace function in a pair of parentheses? This
-has to do with a quirk in JavaScript's syntax. If an _expression_
+Why did we wrap the namespace function in a pair of ((parentheses))?
+This has to do with a quirk in JavaScript's syntax. If an _expression_
 starts with the keyword `function`, it is a function expression.
-However, if a _statement_ starts with that keyword, it is a function
-declaration, which requires a name and cannot be immediately called.
-Even though a statement may start with an expression, the second rule
-takes precedence, and if we had left out the extra parentheses in the
-example above, it would produce a syntax error. You can think of the parentheses
-as a trick to force the language to see that we are writing an
-expression.
+However, if a _statement_ starts with `function`, it is a function
+_declaration_, which requires a name, not being an expression, and
+cannot be called by writing parentheses after it. You can think of the
+extra wrapping parentheses as a trick to force the function to be
+interpreted as an expression.
 
 == Objects as interfaces ==
 
-Now imagine that
-we want to add a `dayNumber` function to our day-of-the-week module that goes
-from a name to a number. We can't simply return the function anymore,
-but must wrap the two functions in an object.
+Now imagine that we want to add another function to our
+day-of-the-week module, one that that goes from a day name to a
+number. We can't simply return the function anymore, but must wrap the
+two functions in an object.
 
 [source,javascript]
 ----
@@ -265,14 +264,14 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 
 For bigger modules, gathering all the _exported_ values into an object
 at the end of the function becomes awkward, since many of the exported
-functions are likely to be big, and you'd prefer to write them somewhere
-else, near related internal code. A convenient alternative is to declare
-an object (usually
-named `exports`) and add properties to that whenever we are
-defining something that needs to be exported. In the example below,
-the module function takes its interface object as argument, allowing
-code outside of the function to create it and store it in a variable.
-(Outside of a function, `this` refers to the global scope object).
+functions are likely to be big, and you'd prefer to write them
+somewhere else, near related internal code. A convenient alternative
+is to declare an object (conventionally named `exports`) and add
+properties to that whenever we are defining something that needs to be
+exported. In the example below, the module function takes its
+interface object as argument, allowing code outside of the function to
+create it and store it in a variable. (Outside of a function, `this`
+refers to the global scope object).
 
 [source,javascript]
 ----
@@ -477,16 +476,16 @@ reading a file (module) from the Web is a lot slower than reading it
 from the hard disk. While a script is running in the browser, nothing
 else can happen to the website on which it runs, for reasons that will
 become clear in link:14_event.html#timeline[Chapter 14]. This means
-that if every `require` call went and loaded something from some
+that if every `require` call went and fetched something from some
 far-away web server, the page would freeze for a painfully long time
 while loading its scripts.
 
-One way to work around this problem is to run a
-program like _http://browserify.org[Browserify]_) on your code
-before you serve it on a web page. This will look for calls to `require`
-and gather the dependencies it finds
-together into a big file. When you actually serve the code, you
-only have to call `require` once with this big file.
+One way to work around this problem is to run a program like
+_http://browserify.org[Browserify]_ on your code before you serve it
+on a web page. This will look for calls to `require` and gather the
+dependencies it finds together into a big file. When you actually
+serve the code, you only have to call `require` once with this big
+file.
 
 Another solution is to wrap your module in a function, load the
 modules it depends on in the background, and only run this function

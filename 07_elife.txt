@@ -1020,6 +1020,7 @@ var valley = new LifelikeWorld(
 
 ifdef::html_target[]
 
+// start_code
 // test: no
 
 [source,javascript]

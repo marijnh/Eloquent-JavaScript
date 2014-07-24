@@ -1152,6 +1152,8 @@ There is a set of level plans available in the `GAME_LEVELS` variable
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 This page feeds them to `runGame`, starting an actual game:
 
+// start_code
+
 [sandbox="null"]
 [focus="yes"]
 [source,text/html]

@@ -956,6 +956,7 @@ them to our new prototype.
 function to use `RTextCell`'s for cells whose value is a number, we
 get the table we were aiming for:
 
+// start_code bottom_lines: 1
 // include_code strip_log
 
 [source,javascript]

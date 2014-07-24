@@ -730,6 +730,7 @@ squirrel-lycanthropy. It _does_ seem to occur somewhat more often on
 weekends, however. Let's filter the results to show only correlations
 greater than 0.1 or less than -0.1.
 
+// start_code
 // test: no
 
 [source,javascript]

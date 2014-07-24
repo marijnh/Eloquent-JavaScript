@@ -14,14 +14,15 @@ dir.forEach(function(file) {
   var match = /^(\d+).*\.txt$/.exec(file), chapNum = match && match[1];
   if (!match) return;
   var text = fs.readFileSync(file, "utf8");
-  var exerciseSection = text.indexOf("\n== Exercises ==\n");
 
   var chapter = {number: +chapNum,
                  title: text.match(/\n= (.*?) =\n/)[1],
+                 start_code: getStartCode(text),
                  exercises: []};
   var includes = text.match(/\n:load_files: (.*)/);
   if (includes) chapter.include = JSON.parse(includes[1]);
 
+  var exerciseSection = text.indexOf("\n== Exercises ==\n");
   var exerciseBlock = exerciseSection ? text.slice(exerciseSection) : "";
   var header = /\n=== (.*?) ===\n/g;
   var num = 1;
@@ -104,3 +105,18 @@ if (!failed)
   console.log("var chapterData = " + JSON.stringify(output, null, 2) + ";");
 else
   process.exit(1);
+
+function getStartCode(text) {
+  var found = /\/\/ start_code(.*)\n(?:\/\/.*\n)*\s*(?:\[.*\n)*\[source,.*?\]\n----\n([\s\S]*?\n)----/.exec(text);
+  if (!found) return "";
+
+  var snippet = found[2].replace(/(\n|^)\s*\/\/ →.*\n/g, "$1");
+  var directive = found[1], m;
+  if (m = directive.match(/top_lines:\s*(\d+)/))
+    snippet = snippet.split("\n").slice(0, Number(m[1])).join("\n") + "\n";
+  if (m = directive.match(/bottom_lines:\s*(\d+)/)) {
+    var lines = snippet.trimRight().split("\n");
+    snippet = lines.slice(lines.length - Number(m[1])).join("\n") + "\n";
+  }
+  return snippet;
+}

@@ -605,6 +605,8 @@ because only strings can be stored there. The user can select a note
 from a `<select>` field, and change that note's text in a
 `<textarea>`. A note can be added by pressing a button.
 
+// start_code
+
 [source,text/html]
 ----
 Notes: <select id="list"></select>

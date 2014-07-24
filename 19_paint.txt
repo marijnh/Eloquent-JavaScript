@@ -623,6 +623,8 @@ try it out.!)
 
 ifdef::html_target[]
 
+// start_code
+
 [sandbox="paint"]
 [source,text/html]
 ----

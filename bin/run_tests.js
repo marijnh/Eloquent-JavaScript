@@ -39,7 +39,7 @@ function pos(index) {
 
 var sandboxes = {}, anonId = 0;
 
-var re = /((?:\/\/.*\n|\s)*)(?:\[sandbox="([^"]*)"\]\n|\[\[.*\n)*\[source,([^\]]+)\]\n----\n([\s\S]*?\n)----/g, m;
+var re = /((?:\/\/.*\n|\s)*)(?:\[sandbox="([^"]*)"\]\n|\[.*\n)*\[source,([^\]]+)\]\n----\n([\s\S]*?\n)----/g, m;
 while (m = re.exec(input)) {
   var snippet = m[4], hasConf = m[1].match(/\/\/ test: (.*)/);
   var sandbox = m[2] || "null", type = m[3], config = hasConf ? hasConf[1] : "";

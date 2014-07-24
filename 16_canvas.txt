@@ -1041,6 +1041,8 @@ ifdef::html_target[]
 
 The tiny document below plugs the new display into `runGame`:
 
+// start_code
+
 [sandbox="game"]
 [focus="yes"]
 [source,text/html]

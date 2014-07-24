@@ -7,20 +7,25 @@ addEventListener("load", function() {
     matchBrackets: true,
     lineNumbers: true
   });
-  function guessType() {
-    return /^[\s\w]*</.test(editor.getValue()) ? "html" : "js";
+  function guessType(code) {
+    return /^[\s\w]*</.test(code) ? "html" : "js";
   }
   var reGuess;
   editor.on("change", function() {
     clearTimeout(reGuess);
     reGuess = setTimeout(function() {
       if (context.type == null) {
-        var mode = guessType() == "html" ? "text/html" : "javascript";
+        var mode = guessType(editor.getValue()) == "html" ? "text/html" : "javascript";
         if (mode != editor.getOption("mode"))
           editor.setOption("mode", mode);
       }
     }, 500);
   });
+
+  function setEditorCode(code, type) {
+    editor.setValue(code);
+    editor.setOption("mode", (type || guessType(code)) == "html" ? "text/html" : "javascript");
+  }
 
   function opt(value, label) {
     var node = document.createElement("option");
@@ -89,16 +94,26 @@ addEventListener("load", function() {
   var context = {include: []};
 
   function selectContext(value) {
-    var chp = getChapter(chapters.value), visible;
+    output.clear();
+    clearSandbox();
+    var chapter = getChapter(chapters.value), visible;
     if (value == "box") {
-      context = {include: chp.include};
-      editor.setValue("// Run code here in the context of Chapter " + chapters.value);
+      var code = "Run code here in the context of Chapter " + chapter.number;
+      var guessed = guessType(chapter.start_code);
+      if (guessed == "js")
+        code = "// " + code;
+      else
+        code = "<!-- " + code + "-->";
+      if (chapter.start_code) code += "\n\n" + chapter.start_code;
+      context = {include: chapter.include};
+      setEditorCode(code, guessed);
       visible = "box";
     } else {
       var exercise = findExercise(value);
-      context = {include: chp.include,
-                 solution: exercise.solution};
-      editor.setValue(exercise.code);
+      context = {include: chapter.include,
+                 solution: exercise.solution,
+                 type: exercise.type};
+      setEditorCode(code, exercise.type);
       visible = "exercise";
       document.querySelector("#download").href = exercise.file;
     }
@@ -114,11 +129,16 @@ addEventListener("load", function() {
   document.querySelector("#run").addEventListener("click", runCode);
 
   var sandbox;
-  function runCode() {
-    if (sandbox)
+  function clearSandbox() {
+    if (sandbox) {
       sandbox.frame.parentNode.removeChild(sandbox.frame);
-    
-    var type = context.type || guessType();
+      sandbox = null;
+    }
+  }
+
+  function runCode() {
+    clearSandbox();
+    var type = context.type || guessType(editor.getValue());
     sandbox = new SandBox({
       loadFiles: context.include,
       place: type == "html" &&
@@ -133,7 +153,7 @@ addEventListener("load", function() {
   }
 
   document.querySelector("#solution").addEventListener("click", function() {
-    editor.setValue(context.solution);
+    setEditorCode(context.solution, context.type);
   });
 
   var chapters = document.querySelector("#chapters");

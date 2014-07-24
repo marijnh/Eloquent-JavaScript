@@ -551,6 +551,8 @@ The function created by the `fun` form creates this local environment,
 and adds the argument variables to it. It then evaluates the function
 body in this environment, and returns the result.
 
+// start_code
+
 [source,javascript]
 ----
 run("do(define(plusOne, fun(a, +(a, 1))),",

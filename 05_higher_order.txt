@@ -788,7 +788,9 @@ We can then use this to compute the amount of ((DNA)) my
 ((grandfather)) shared with Pauwels van Haverbeke, and divide that by
 four.
 
+// start_code bottom_lines: 2
 // test: clip
+// include_code top_lines: 6
 
 [source,javascript]
 ----

@@ -278,7 +278,7 @@ image::img/canvas_quadraticcurve.png[alt="A quadratic curve",width="2.3cm"]
 
 endif::tex_target[]
 
-We draw a quadratic curve from the left to the right, with _60,10_ as
+We draw a quadratic curve from the left to the right, with (60,10) as
 control point, and then draw two line segments, going through that
 control point and back to the start of the line. The result somewhat
 resembles a Star Trek insignia. You can see the effect of the control
@@ -614,7 +614,7 @@ endif::tex_target[]
 Scaling will cause everything about the drawn image, including the
 line width, to be stretched out or squeezed together as specified.
 Scaling by a negative amount will flip the picture around. The
-flipping happens around point _0,0_, which means that it will also
+flipping happens around point (0,0), which means that it will also
 flip the direction of the coordinate system. When a horizontal scaling
 of -1 is applied, a shape drawn at x position 100 will end up at what
 used to be position -100.
@@ -638,13 +638,13 @@ previous transformations.
 
 So if we translate (move) by 10 horizontal pixels twice, everything
 will be drawn 20 pixels to the right. If we first move the center of
-the coordinate system to _50,50_ and then rotate by 20 degrees (0.1π
-in radians), that rotation will happen _around_ point _50,50_.
+the coordinate system to (50,50) and then rotate by 20 degrees (0.1π
+in radians), that rotation will happen _around_ point (50,50).
 
 image::img/transform.svg[alt="Stacking transformations",width="9cm"]
 
 But if we _first_ rotated by 20 degrees, and _then_ translated
-by _50,50_, the translation will happen in the rotated coordinate
+by (50,50), the translation will happen in the rotated coordinate
 system, and thus produce a different orientation. The order in which
 transformations are applied matters.
 
@@ -679,7 +679,7 @@ given line. The second `translate` call fixes this—it “cancels” the
 initial translation, and makes triangle 4 appear exactly where it
 should.
 
-We can now draw a mirrored character at position _100,0_ by flipping
+We can now draw a mirrored character at position (100,0) by flipping
 the world around the character's vertical center:
 
 [source,text/html]
@@ -1033,7 +1033,7 @@ find the offset of the correct sprite. The lava tile is found at
 offset 20, and the coin sprite at 40 (two times `scale`).
 
 We have to subtract the viewport's position when computing the actor's
-position, since _0,0_ on our canvas corresponds to the top left of the
+position, since (0,0) on our canvas corresponds to the top left of the
 viewport, not the top left of the level. We could also have used
 `translate` for this. Either way works.
 
@@ -1204,7 +1204,7 @@ The diamond (2) can be drawn the easy way, with a path, or the
 interesting way, with a `rotate` transformation. To use rotation, you
 will have to apply a trick similar to what we did in the
 `flipHorizontally` function. Because you want to rotate around the
-center of your rectangle, and not around the point _0,0_, you must
+center of your rectangle, and not around the point (0,0), you must
 first `translate` to there, then rotate, and then translate back.
 
 For the zigzag (3) it becomes unpractical to write a new call to

@@ -147,6 +147,8 @@ _propagates_ outwards, from the node where it happened, to that node's
 parent node, and on to the root of the document. Finally, after all
 handlers registered on a specific node have had their turn, handlers
 registered on the whole window get a chance to respond to the event.
+// Might be worth an aside here to mention the capturing phase of the event
+// cycle and the third parameter to addEventListener `useCapture`.
 
 At any point, an event handler can call the `stopPropagation` method
 on the event object to prevent handlers “further up” from receiving

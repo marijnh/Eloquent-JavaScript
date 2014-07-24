@@ -1245,6 +1245,11 @@ way we have been registering keyboard event handlers is somewhat
 problematic. The `arrows` object is currently a global variable, and
 its event handlers are kept around even when no game is running. They
 _leak_ out of our system, you could say. Extend `trackKeys` to provide
+// Would be useful to see it specifically  mentioned and called out
+// why leaks are bad, e.g., because when they happen often enough a
+// small web page can consume a disproportionate
+// amount of system memory and either cause the tab to crash or the
+// system to respond slowly.
 a way to unregister its handlers, and then change `runLevel` to
 register its handlers when it starts, and unregister them again when
 it is finished.

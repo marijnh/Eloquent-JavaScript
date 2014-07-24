@@ -122,13 +122,22 @@ function createPaint(parent) {
 
   var panel = elt("div", {class: "picturepanel"}, canvas);
   parent.appendChild(elt("div", null, panel, toolbar));
-}                         
+}
 ----
 
 Each control has access to the canvas drawing context (and, through
 that context's `canvas` property, to the `<canvas>` element itself).
 Most of the program's state lives in this canvas—it contains the
 current picture as well as the selected color and brush size.
+// Making the claim that the canvas element stores the brush and color
+// state without showing the responsible code made me curious to understand
+// how that's happening, and I had to jump ahead a few sections to find
+// out. I think going into this much detail here is likely to lead to
+// the same confusion for other readers, so I might suggest a simpler
+// note to justify the presence of the `var controls = ...` line:
+// "Later, we'll see how we use the `controls` object to keep track of
+// each different control element and how it interacts with the canvas
+// and the drawing context."
 
 We wrap the canvas and the controls in `<div>` elements with classes
 to be able to add some styling, for example the grey border around the
@@ -138,6 +147,8 @@ picture.
 
 The first control we add is the the `<select>` element that allows the
 user to pick a drawing tool. Again, we will use an object to collect
+// Being explicit is awesome. Instead of "again", consider:
+// "As with `controls`, we will use an object..."
 the various tools, so that we do not have to hard-code them all in one
 place, and so that we can add more tools later. This object associates
 the names of the tools with the function that should be called when

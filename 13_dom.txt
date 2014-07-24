@@ -66,6 +66,13 @@ themselves.
 We call a data structure a _tree_ when it has a branching structure,
 contains no cycles (a node may not contain itself, directly or
 indirectly), and has a single, well-defined “root”.
+// You may want more specificity on what a "branching structure" and "root" are. Here's an
+// example, though I'm sure you could make this less verbose: "We call a data structure a _tree_ when
+// it has a structure that branches out from the root. The items in the tree (known as "nodes") may have
+// either "parent" or "child" relationships with other nodes. Each path out from the root
+// terminates in some "leaf node", which is means a node with no children. A tree must have no cycles,
+// meaning it should not be possible to find any node anywhere among its own decendents, at any level of depth."
+
 
 Trees come up a lot in computer science. Apart from representing
 recursive structures like HTML documents or programs, they are also
@@ -109,10 +116,11 @@ JavaScript, but rather tries to define a language-neutral interface
 that can be used in other systems as well, not just for HTML, but also
 for XML, which is a generic data format with an HTML-like syntax.
 
-This is unfortunate. Standards are often useful. But in this case, the
-advantage (cross-language consistency) isn't all that compelling. And
-the downside, having an interface that's not well integrated with the
-language, is costly.
+This is unfortunate. Standards are often useful, but in this case the
+advantage (cross-language consistency) isn't all that compelling, and
+the downside of having an interface that's poorly integrated with the
+language is a costly one.
+// If you dig it
 
 As an example of such poor integration, consider the `childNodes`
 property that element nodes in the DOM have. This property holds an
@@ -142,6 +150,7 @@ following diagram tries to illustrate these.
 image::img/html-links.svg[alt="Links between DOM nodes",width="6cm"]
 
 Every node has a `parentNode` property, pointing to the node it is
+// -> "pointing to its closest ancestor."
 part of. The diagram only shows one of each link type. Every element
 node (node type 1) has a `childNodes` property that points to an
 array-like object holding its children. Those represent the
@@ -481,11 +490,16 @@ is called `className`. You can, of course, also access it with the
 == Layout ==
 
 You will have noticed that different types of elements behave
+// "behave differently" -> "are rendered differently"
 differently. Some, such as paragraphs (`<p>`) or headings (`<h1>`), are
 placed below each other, taking up the whole width of the document.
+// "placed" -> "rendered", "below each other" -> "on separate lines"
 These are called _block_ elements. Others, such as links (`<a>`) or
+// quite optional: "block" -> "block level"
 the `<strong>` element used in the example above, are treated as part
 of the surrounding text. Such elements are called _inline_ elements.
+// "are treated..." -> "are rendered on the same line with the their
+// surrounding text, and as such are called _inline_ elements."
 
 Browsers contain a component that, given a document, computes a
 layout, which gives each element a size and position based on its type
@@ -689,7 +703,13 @@ p.a.b#main {
 
 The precedence rule favoring the most recently defined rule only holds
 when the rules have the same _specificity_. Specificity depends on the
+// The phrase "specificity depends on" threw me, and I began thinking about how this
+// sentence could be made to speak more to the heart of what specificity is and how it works.
+// "Specificity is a measure of how precisely a rule describes matching elements,
+// where precision is determined by the number and kind (tag, class, or id) of
+// rule components."
 amount of aspects of the tag that the rule matches. Simply said, `p.a`
+// The idiom is more often written "Simply put"
 is more specific than just `p` or just `.a`, and thus would take
 precedence to them.
 
@@ -703,7 +723,7 @@ indirect children.
 We won't be using style sheets all that much in this book.
 Understanding them is crucial to programming in the browser, but
 properly explaining all properties they support, and the interaction
-between those, would take three or four books itself.
+between, them would take three or four more books.
 
 The main reason I introduced _selector_ syntax—the notation used in
 style sheets to determine which elements a set of styles apply to—is
@@ -848,6 +868,7 @@ its unit).
 == Summary ==
 
 JavaScript programs may inspect and interfere with the current
+// "interfere with" -> "modify"
 document that a browser is displaying through a data structure called
 the DOM. This data structure represents the browser's model of the
 document, and a JavaScript program can modify it to change the visible

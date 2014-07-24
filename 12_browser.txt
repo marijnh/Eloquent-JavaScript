@@ -196,6 +196,26 @@ they have a special meaning in HTML, yet another form of special notation has
 to be introduced. A plain opening angular bracket is written as `&lt;` (“less than”),
 and a closing bracket as `&gt;` (“greater than”). In HTML, an ampersand (“&”) character
 followed by a word and a semicolon (“;”) denotes an escaped character.
+// Truly trivial nitpick, but it doesn't technically seem to "denote an escaped character".
+// If my understanding is correct, the "escaped" sequence of characters is the sequence
+// that follows an "escape character", which in this case is the "&" symbol. In html, this
+// escaped sequence does generate an output "character" that the user sees on their screen,
+// but I don't believe this can be referred to as an "escaped character". I have dug around
+// on the internet for a while and am having trouble finding one that clearly refutes the
+// usage you had here, but the ones I did find seem generally to support my understanding,
+// and the colleagues I've quizzed reported the same intuitions.
+
+// Also, potentially add "denotes an escaped character. This pattern is known as an
+// HTML character entity." ?
+
+// I have a minor concern that the word "escaped" is taking on a slightly more general
+// meaning than it had in chapter 9. Back then, it was discussed mainly in terms of its
+// appearance--a '\' character before some other meaningful character. Now here, the
+// concept is generalized to mean "a way to express syntax as data" though that hasn't
+// been explicitly stated, outright. Folks could get confused if they were previously only
+// thinking in terms of the visual appearence of escaping within code. The solution might
+// actually be to add a stricter definition for "escaping" back in chapter 9, shortly after
+// it becomes clear how the concept is being used in those examples.
 
 This is analogous to the way backslashes are used in JavaScript strings.
 Since this mechanism gives ampersand characters a special meaning too,

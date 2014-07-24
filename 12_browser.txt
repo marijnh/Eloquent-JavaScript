@@ -162,6 +162,14 @@ A simple HTML document looks like this:
 </html>
 ----
 
+ifdef::tex_target[]
+
+This is what such a document would look like in the browser:
+
+image::img/home-page.png[alt="My home page",width="8cm"]
+
+endif::tex_target[]
+
 The tags, wrapped in angular brackets (“++<++” and “++>++”), provide
 information about the structure of the document. The other text is
 just plain text.

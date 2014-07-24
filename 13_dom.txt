@@ -366,6 +366,12 @@ quote.
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/blockquote.png[alt="A blockquote with attribution",width="8cm"]
+
+endif::tex_target[]
+
 == Attributes ==
 
 Some element attributes, such as `href` for links, can be accessed
@@ -474,6 +480,12 @@ function id(x) { return x; }
 <script>highlightAllCode();</script>
 ----
 
+ifdef::tex_target[]
+
+image::img/highlighted.png[alt="A highlighted piece of code",width="4.8cm"]
+
+endif::tex_target[]
+
 There is one commonly used attribute, `class`, which is a reserved
 word in the JavaScript language. For historical reasons—some old
 JavaScript implementations could not handle property names that matched
@@ -513,6 +525,13 @@ size of the space _inside_ the element, ignoring border width.
   console.log("offsetHeight:", para.offsetHeight);
 </script>
 ----
+
+ifdef::tex_target[]
+
+image::img/boxed-in.png[alt="A paragraph with a border",width="8cm"]
+
+endif::tex_target[]
+
 
 [[boundingRect]]
 The most effective way to find the precise position of an element on
@@ -590,6 +609,12 @@ or underline, can be changed by us. For example by using the `style` property.
 <p><a href="." style="color: green">Green link</a></p>
 ----
 
+ifdef::tex_target[]
+
+image::img/colored-links.png[alt="A normal and a green link",width="2.2cm"]
+
+endif::tex_target[]
+
 (((colon character)))A style attribute may contain one or more _declarations_, which are a
 property (such as `color`) followed by a colon and a value (such as
 `green`). When there are more than one declaration, they must be
@@ -605,6 +630,12 @@ This text is displayed <strong>inline</strong>,
 <strong style="display: block">as a block</strong>, and
 <strong style="display: none">not at all</strong>.
 ----
+
+ifdef::tex_target[]
+
+image::img/display.png[alt="Different display styles",width="4cm"]
+
+endif::tex_target[]
 
 The `block` tag will end up on its own line, since block elements are
 not displayed inline with the text around them. The last tag is not
@@ -785,6 +816,12 @@ picture of a cat that floats around in an ellipse.
   requestAnimationFrame(animate);
 </script>
 ----
+
+ifdef::tex_target[]
+
+image::img/cat-animation.png[alt="A moving cat head",width="8cm"]
+
+endif::tex_target[]
 
 First, the picture is centered on the page, and given a `position` of
 `relative`. We'll repeatedly update that picture's `top` and `left`

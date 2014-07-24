@@ -438,6 +438,12 @@ makes it narrower or wider.
 </script>
 ----
 
+ifdef::tex_target[]
+
+image::img/drag-bar.png[alt="A draggable bar",width="5.3cm"]
+
+endif::tex_target[]
+
 Note that the `"mousemove"` handler is registered on the whole window.
 Even if the mouse goes outside of the bar during resizing, we still
 want to update its size and stop dragging when the mouse is released.
@@ -595,6 +601,12 @@ currently focused.
   }
 </script>
 ----
+
+ifdef::tex_target[]
+
+image::img/help-field.png[alt="Providing help when a field is focused",width="4.4cm"]
+
+endif::tex_target[]
 
 The window object will receive `"focus"` and `"blur"` events when the
 user moves from or to the tab or window in which the document is

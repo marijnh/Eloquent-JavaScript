@@ -29,10 +29,10 @@ brilliant ones that win, but rather the ones that function
 well enough within the right niche—for example by being
 integrated with another successful piece of technology.
 
-In this chapter I will discuss one such technology, _regular
-expressions_. Regular expressions are a way to describe patterns in
-string data. They form a small, separate language that is part of
-JavaScript (as well as various other programming languages and tools).
+In this chapter I will discuss one such tool, _regular expressions_.
+Regular expressions are a way to describe patterns in string data.
+They form a small, separate language that is part of JavaScript and
+many other languages and tools.
 
 Regular expressions are both terribly awkward and extremely useful.
 Their syntax is cryptic, and the programming
@@ -40,11 +40,11 @@ interface JavaScript provides for them is clumsy. But they are a
 very powerful tool for inspecting and processing strings. Properly understanding
 regular expressions will make you a more effective programmer.
 
-== Notation ==
+== Creating a regular expression ==
 
-A regular expression is an object. It can either be constructed with
-the `RegExp` constructor or written as a literal value by enclosing
-the pattern in slash (`/`) characters.
+A regular expression is a type of object. It can either be constructed
+with the `RegExp` constructor or written as a literal value by
+enclosing the pattern in forward slash (`/`) characters.
 
 [source,javascript]
 ----
@@ -58,31 +58,34 @@ Both of these regular expression objects represent the same pattern: an
 When using the `RegExp` constructor, the pattern is written as a
 normal string, so the usual rules apply for backslashes.
 
-The second notation, where the pattern appears between slash characters,
-treats backslashes somewhat differently. Firstly, since a slash ends the pattern,
-we need to put a backslash before any slash that we want to be _part_ of the pattern.
-In addition, backslashes that aren't part of special character codes (like `\n`),
-will be _preserved_, rather than ignored as they are in strings, and change the
-meaning of the pattern. Some characters, such as question marks and plus signs, have special
-meanings in regular expressions, and must be preceded by a
-backslash if they are meant to represent the character itself.
+The second notation, where the pattern appears between slash
+characters, treats backslashes somewhat differently. Firstly, since a
+forward slash ends the pattern, we need to put a backslash before any
+forward slash that we want to be _part_ of the pattern. In addition,
+backslashes that aren't part of special character codes (like `\n`),
+will be _preserved_, rather than ignored as they are in strings, and
+change the meaning of the pattern. Some characters, such as question
+marks and plus signs, have special meanings in regular expressions,
+and must be preceded by a backslash if they are meant to represent the
+character itself.
 
 [source,javascript]
 ----
-var onePlusOne = /1 \+ 1/;
+var eighteenPlus = /eighteen\+/;
 ----
 
 Knowing precisely what characters to backslash-escape when writing
-regular expressions requires you to know every character with a special meaning.
-For the time being, this may
-not be realistic, so when in doubt, just put a backslash before any
-character that is not a letter, number, or whitespace.
+regular expressions requires you to know every character with a
+special meaning. For the time being, this may not be realistic, so
+when in doubt, just put a backslash before any character that is not a
+letter, number, or whitespace.
 
 == Testing for matches ==
 
 (((test method)))Regular expression objects have a number of methods.
-The simplest one is `test`. If you pass it a string, it will return a Boolean telling you
-whether the pattern in the expression matches the string.
+The simplest one is `test`. If you pass it a string, it will return a
+Boolean telling you whether the string contains a match of the pattern
+in the expression.
 
 [source,javascript]
 ----
@@ -119,25 +122,24 @@ console.log(/[0-9]/.test("in 1992"));
 
 (((digit (regexp))))Within square brackets, a dash (`-`) between two
 characters can be used to indicate a range of characters, where the
-ordering is determined by the character's Unicode code points.
-Characters “0” to “9” sit right next to each other in this ordering
-(codes 48 to 57), so `[0-9]` covers all of them, and matches any
-digit.
+ordering is determined by the character's Unicode number. Characters
+“0” to “9” sit right next to each other in this ordering (codes 48 to
+57), so `[0-9]` covers all of them, and matches any digit.
 
 (((whitespace (regexp))))(((alphanumeric character (regexp))))(((dot
 (regexp))))There are a number of common character groups that
-have their own built-in shortcuts. Digits are one of them: 
+have their own built-in shortcuts. Digits are one of them:
 `\d` means the same thing as `[0-9]`.
 
 [cols="1,5"]
 |====
-|`\d`      |Digit characters
-|`\w`      |Alphanumeric characters (“word characters”)
-|`\s`      |Whitespace characters (space, tab, newline, and similar)
-|`\D`      |Characters that are _not_ digits
-|`\W`      |Non-alphanumeric characters
-|`\S`      |Non-whitespace characters
-|`.`       |A period matches all characters except newlines
+|`\d`      |Any digit character
+|`\w`      |An alphanumeric character (“word character”)
+|`\s`      |Any whitespace character (space, tab, newline, and similar)
+|`\D`      |A characters that is _not_ a digit
+|`\W`      |A non-alphanumeric character
+|`\S`      |A non-whitespace character
+|`.`       |Any character except for newline
 |====
 
 So you could match a date and time format like “30-01-2003 15:20” with
@@ -157,8 +159,11 @@ backslashes, producing a background noise that makes it hard to spot
 the actual pattern expressed. We'll see a slightly improved version of
 this expression link:09_regexp.html#date_regexp_counted[later on].
 
-These backslash codes can also be used inside of square brackets. For
-example `[\d.]` means any digit or a dot.
+These backslash codes can also be used inside of ((square brackets)).
+For example `[\d.]` means any digit or a period character. But note
+that the period itself, when used between square brackets, loses its
+special meaning. The same goes for other special characters, such as
+`+`.
 
 To _invert_ a set of characters—that is, to express that you want to match any
 character _except_ the ones in the set—you can write a caret (`^`) character
@@ -276,6 +281,13 @@ console.log(match.index);
 // → 8
 ----
 
+(((index property)))An object returned from `exec` has an `index`
+property that tells us _where_ in the string the successful match
+begins. Other than that, the object looks like (and in fact is) an
+array of strings, whose first element is the string that was
+matched—in the example above, this is the sequence of digits that we
+were looking for.
+
 (((match method)))String values have a `match` method that behaves
 very similarly.
 
@@ -284,13 +296,6 @@ very similarly.
 console.log("one two 100".match(/\d+/));
 // → ["100"]
 ----
-
-(((index property)))An object returned from `exec` or `match` has an
-`index` property that tells us _where_ in the string the successful
-match begins. Other than that, the object looks like (and in fact is)
-an array of strings, whose first element is the string that was
-matched—in the example above, this is the sequence of digits that we
-were looking for.
 
 When the regular expression contains sub-expressions grouped with
 parentheses, the text that matched those groups will also show up in
@@ -407,11 +412,11 @@ second-to-last.
 
 (((boundary (regexp))))If we want to enforce that the match must span
 the whole string, we can add the markers `^` and `$`. The carat
-matches the start of the input string, while the dollar sign matches the end. So
-`/^\d+$/` matches a string consisting entirely of one or more digits,
-`/^!/` matches any string that starts with an exclamation mark, and
-`/x^/` does not match any string (there can not be an “x” _before_ the
-start of the string).
+matches the start of the input string, while the dollar sign matches
+the end. So, `/^\d+$/` matches a string consisting entirely of one or
+more digits, `/^!/` matches any string that starts with an exclamation
+mark, and `/x^/` does not match any string (there can not be an “x”
+_before_ the start of the string).
 
 (((word boundary (regexp))))If, on the other hand, we just want to
 make sure the date starts and ends on a word boundary, we can use the
@@ -931,6 +936,7 @@ in a way that allows both `"\n"` and `"\r\n"` between lines.
 [source,javascript]
 ----
 function parseINI(string) {
+  // Start with an object to hold the top-level fields
   var currentCategory = {name: null, fields: []};
   var categories = [currentCategory];
 
@@ -960,10 +966,9 @@ Do you see how it works? The part between the parentheses
 will match comments, and the `?` will make sure it also
 matches lines containing only whitespace.
 
-If the line is not a comment, the code then checks whether
-the line starts a new category. If so, it
-creates a new current category object, to which subsequent
-settings will get added. 
+If the line is not a comment, the code then checks whether the line
+starts a new category. If so, it creates a new current category
+object, to which subsequent settings will be added.
 
 The last meaningful possibility is that the line is a normal
 setting, which the code adds to the current category object.
@@ -1024,12 +1029,12 @@ They use their own syntax to express these patterns.
 |`/x*/`      |Zero or more occurrences
 |`/x?/`      |Zero or one occurrence
 |`/x{2,4}/`  |Between two and four occurrences
-|`/(abc)+/`  |A group
+|`/(abc)/`   |A group
 |++/a{brvbar}b{brvbar}c/++ |Any one of several patterns
-|`/\d/`      |Digit characters
-|`/\w/`      |Alphanumeric characters (“word characters”)
-|`/\s/`      |Whitespace characters
-|`/./`       |All characters except newlines
+|`/\d/`      |Any digit character
+|`/\w/`      |An alphanumeric character (“word character”)
+|`/\s/`      |Any whitespace character
+|`/./`       |Any character except newlines
 |`/\b/`      |A word boundary
 |`/^/`       |Start of input
 |`/$/`       |End of input

@@ -28,8 +28,8 @@ you do not aim too high) and very enlightening.
 
 The main thing I want to show in this chapter is that there is no
 ((magic)) involved in building your own language. I've often felt that
-some human invention was so immensely clever and complicated that I'd
-never be able to understand it. But with a little reading and
+some human inventions were so immensely clever and complicated that I'd
+never be able to understand them. But with a little reading and
 tinkering, such things often turn out to be quite mundane.
 
 We will build a programming language called Egg. It will be a tiny, simple language, but one
@@ -79,12 +79,14 @@ The data structure the parser will use to describe a program will
 consist of expression objects, each of which has a `type` property indicating
 the kind of expression it is and other properties to describe its content.
 
-Expresions of type `"value"` represent literal strings or numbers. Their `value`
-property contains the string or number value that they represent. Expressions of type
-`"word"` are used for identifiers (names). Their `name` property holds their content
-as a string. Finally, `"apply"` expressions represent applications. They have an `operator` property
-that refers to the expression that is being applied, and an `args` property that refers
-to an array of argument expressions.
+Expresions of type `"value"` represent literal strings or numbers.
+Their `value` property contains the string or number value that they
+represent. Expressions of type `"word"` are used for identifiers
+(names). Such objects have a `name` property that holds the
+identifier's name, as a string. Finally, `"apply"` expressions
+represent applications. They have an `operator` property that refers
+to the expression that is being applied, and an `args` property that
+refers to an array of argument expressions.
 
 The `>(x, 5)` part of the program above would be represented like this:
 

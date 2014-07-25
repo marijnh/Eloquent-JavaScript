@@ -75,7 +75,7 @@ values.
 
 == Numbers ==
 
-(((syntax)))(((Number type)))(((Number type,notation)))Values of the
+(((syntax)))(((number)))(((number,notation)))Values of the
 _number_ type are, unsurprisingly, numeric values. In a JavaScript
 program, they are written as follows:
 
@@ -88,7 +88,7 @@ program, they are written as follows:
 pattern for the number 13 to come into existence inside the computer's
 memory.
 
-(((Number type,representation)))(((bit)))JavaScript uses a fixed
+(((number,representation)))(((bit)))JavaScript uses a fixed
 number of bits, namely 64 of them, to store a single number value.
 There are only so many patterns you can make with 64 bits, which means
 that the amount of different numbers that can be represented is
@@ -114,7 +114,7 @@ the position of the decimal point. The actual maximum whole number
 that can be stored is more in the range of 9 quadrillion (15 zeroes),
 which is still pleasantly huge.
 
-(((Number type,notation)))Fractional numbers are written by using a
+(((number,notation)))Fractional numbers are written by using a
 dot.
 
 [source,javascript]
@@ -122,7 +122,7 @@ dot.
 9.81
 ----
 
-(((exponent)))(((scientific notation)))(((Number type,notation)))For
+(((exponent)))(((scientific notation)))(((number,notation)))For
 very big or very small numbers, you can also use scientific notation
 by adding an “e” (for “exponent”), followed by the exponent of the
 number:
@@ -134,7 +134,7 @@ number:
 
 That is 2.998 × 10^8^ = 299800000.
 
-(((pi)))(((Number type,precision of)))(((floating-point
+(((pi)))(((number,precision of)))(((floating-point
 numbers)))Calculations with whole numbers (also called _((integer))s_)
 smaller than the aforementioned 9 quadrillion are guaranteed to always
 be precise. Unfortunately, calculations with fractional numbers are
@@ -202,7 +202,7 @@ though technically _remainder_ is more accurate.
 
 === Special numbers ===
 
-(((Number type,special values)))There are three special values in
+(((number,special values)))There are three special values in
 JavaScript that are considered numbers but don't behave like normal
 numbers.
 
@@ -220,11 +220,11 @@ numeric operations that don't yield a precise, meaningful result.
 
 == Strings ==
 
-(((syntax)))(((String type)))(((textual
-data)))(((character)))(((String type,notation)))(((single-quote
+(((syntax)))(((textual
+data)))(((character)))(((string,notation)))(((single-quote
 character)))(((double-quote character)))(((quotation mark)))The next
-basic data type is the _string_. Strings are used to represent text.
-They are written by enclosing their content in quotes.
+basic data type is the _((string))_. Strings are used to represent
+text. They are written by enclosing their content in quotes.
 
 [source,javascript]
 ----
@@ -325,7 +325,7 @@ console.log(- (10 - 2))
 
 == Boolean values ==
 
-(((Boolean type)))(((operator)))(((true)))(((false)))(((bit)))Often,
+(((Boolean)))(((operator)))(((true)))(((false)))(((bit)))Often,
 you will need a value that simply distinguishes between two
 possibilities, like “yes” and “no”, or “on” and “off”. For this,
 JavaScript has a _Boolean_ type, which has just two values: true and
@@ -537,7 +537,7 @@ That last piece of behavior is often useful. When you want to test
 whether a value has a real value instead of `null` or `undefined`, you
 can simply compare it to `null` with the `==` (or `!=`) operator.
 
-(((Boolean type,conversion to)))(((=== operator)))(((!==
+(((Boolean,conversion to)))(((=== operator)))(((!==
 operator)))(((comparison)))But what if you want to test whether
 something refers to the precise value `false`? The rules for
 converting strings and numbers to Boolean values state that `0`,

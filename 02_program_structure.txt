@@ -211,7 +211,7 @@ indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 indexsee:[calling (of functions),function application]
 
-(((output)))(((Function type)))(((function,application)))(((Function
+(((output)))(((function)))(((function,application)))(((Function
 type)))(((alert function)))(((message box)))A lot of the values
 provided in the default environment have the type _((function))_. A
 function is a piece of program wrapped in a value. Such values can be
@@ -269,7 +269,7 @@ console.log("the value of x is", x);
 
 indexsee:[field,property]
 
-(((Object type)))Though ((variable)) names cannot contain ((period
+(((object)))Though ((variable)) names cannot contain ((period
 character))s, `console.log` clearly has one. This is because
 `console.log` isn't a simple variable. It is actually an expression
 that retrieves the `log` ((property)) from the value held by the
@@ -371,10 +371,10 @@ image::img/controlflow-straight.svg[alt="Trivial control flow",width="4cm"]
 
 == Conditional execution ==
 
-(((Boolean type)))(((control flow)))Executing statements in
-straight-line order isn't the only option we have. An alternative is
-_((conditional execution))_, where we choose between two different
-routes based on a Boolean value.
+(((Boolean)))(((control flow)))Executing statements in straight-line
+order isn't the only option we have. An alternative is _((conditional
+execution))_, where we choose between two different routes based on a
+Boolean value.
 
 image::img/controlflow-if.svg[alt="Conditional control flow",width="4cm"]
 
@@ -489,7 +489,7 @@ while (number <= 12) {
 //   … etcetera
 ----
 
-(((while loop)))(((Boolean type)))A ((statement)) starting with the
+(((while loop)))(((Boolean)))A ((statement)) starting with the
 keyword `while` creates a loop. The word `while` is followed by an
 ((expression)) in ((parentheses)) and then a statement, much like `if`.
 The loop executes that statement as long as the expression produces a
@@ -554,7 +554,7 @@ do {
 console.log(name);
 ----
 
-(((Boolean type,conversion to)))(((! operator)))This program will
+(((Boolean,conversion to)))(((! operator)))This program will
 force you to enter a name. It will ask again and again until it gets
 something that is not an empty string. Applying the `!` operator will
 convert a value to Boolean type before negating it, and all strings

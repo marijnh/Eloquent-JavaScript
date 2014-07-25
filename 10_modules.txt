@@ -345,10 +345,10 @@ console.log(evalAndReturnX("var x = 2"));
 // → 2
 ----
 
-(((Function type,constructor)))A better way of interpreting data as
-code is to use the `Function` constructor. This takes two arguments: a
-string containing a comma-separated list of argument names, and a
-string containing the function's body.
+(((Function constructor)))A better way of interpreting data as code is
+to use the `Function` constructor. This takes two arguments: a string
+containing a comma-separated list of argument names, and a string
+containing the function's body.
 
 [source,javascript]
 ----

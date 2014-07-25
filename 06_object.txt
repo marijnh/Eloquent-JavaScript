@@ -14,7 +14,7 @@ with them. You wanted a banana but what you got was a gorilla holding
 the banana and the entire jungle.
 ____
 
-(((Object type)))(((holy war)))When a programmer says “object”, this
+(((object)))(((holy war)))When a programmer says “object”, this
 is a loaded term. In my profession, objects are a way of life, the
 subject of holy wars, and a beloved buzzword that still hasn't quite
 lost its power.
@@ -24,8 +24,7 @@ a brief ((history)) of objects as a programming construct.
 
 == History ==
 
-(((isolation)))(((history)))(((object-oriented programming)))(((Object
-type)))This story, like most programming stories, starts with the
+(((isolation)))(((history)))(((object-oriented programming)))(((object)))This story, like most programming stories, starts with the
 problem of ((complexity)). One philosophy is that complexity can be
 made manageable by separating it into small compartments that are
 isolated from each other. These compartments have ended up with the
@@ -151,7 +150,7 @@ console.log(empty.toString());
 
 (((magic)))I just pulled a property out of an empty object. Magic!
 
-(((property)))(((Object type)))Well, not really. I have simply been
+(((property)))(((object)))Well, not really. I have simply been
 withholding information about the way JavaScript objects work. In
 addition to their set of properties, almost all objects also have a
 _prototype_. A ((prototype)) is another object that is used as a
@@ -159,7 +158,7 @@ fallback source of properties. When an object gets a request for a
 property that it does not have, its prototype will be searched for the
 property, and then the prototype's prototype, and so on.
 
-(((Object type,prototype)))So who is the ((prototype)) of that empty
+(((Object prototype)))So who is the ((prototype)) of that empty
 object? It is the great ancestral prototype, the entity behind almost
 all objects, `Object.prototype`.
 
@@ -181,11 +180,11 @@ sits `Object.prototype`. It provides a few ((method))s that show up in
 all objects, such as `toString`, which converts an object to a string
 representation.
 
-(((inheritance)))(((Function type,prototype)))(((Array
-type,prototype)))(((Object type,prototype)))Many objects don't
-directly have `Object.prototype` as their ((prototype)), but instead
-have another object, which provides its own default properties.
-Functions derive from `Function.prototype`, arrays from
+(((inheritance)))(((Function
+prototype)))(((array,prototype)))(((Object prototype)))Many objects
+don't directly have `Object.prototype` as their ((prototype)), but
+instead have another object, which provides its own default
+properties. Functions derive from `Function.prototype`, arrays from
 `Array.prototype`.
 
 [source,javascript]
@@ -198,7 +197,7 @@ console.log(Object.getPrototypeOf([]) ==
 // → true
 ----
 
-(((Object type,prototype)))Such a prototype object will itself have a
+(((Object prototype)))Such a prototype object will itself have a
 prototype, often `Object.prototype` so that it still indirectly
 provides methods like `toString`.
 
@@ -230,8 +229,7 @@ prototype.
 [[constructors]]
 == Constructors ==
 
-(((new operator)))(((this variable)))(((return keyword)))(((Object
-type,creation)))A more convenient way to create objects that derive
+(((new operator)))(((this variable)))(((return keyword)))(((object,creation)))A more convenient way to create objects that derive
 from some shared prototype is to use a _((constructor))_. In
 JavaScript, calling a function with the `new` keyword in front of it
 causes it to be treated as a constructor. The constructor will have
@@ -325,10 +323,9 @@ can be used to express exceptional properties in instances of a more
 generic class of objects, while letting the non-exceptional objects
 simply take a standard value from their prototype.
 
-(((toString method)))(((Array type,prototype)))(((Function
-type,prototype)))It is also used to give the standard function and
-array prototypes a different `toString` method than the basic object
-prototype.
+(((toString method)))(((Array prototype)))(((Function prototype)))It
+is also used to give the standard function and array prototypes a
+different `toString` method than the basic object prototype.
 
 [source,javascript]
 ----
@@ -370,7 +367,7 @@ killerRabbit.dance();
 // → The killer rabbit dances a jig.
 ----
 
-(((map)))(((Object type,as map)))That's very convenient. But there are
+(((map)))(((object,as map)))That's very convenient. But there are
 situations where it causes problems. In previous chapters, we used an
 object as a way to associate values with names by creating properties
 for the names and giving them the corresponding value as their value.
@@ -420,7 +417,7 @@ did not show up in the `for`/`in` loop, but the `in` operator did
 return true for it. This is because JavaScript distinguishes between
 _enumerable_ and _non-enumerable_ properties.
 
-(((Object type,prototype)))All properties that we create by simply
+(((Object prototype)))All properties that we create by simply
 assigning to them are enumerable. The standard properties in
 `Object.prototype` are all non-enumerable, which is why they do not
 show up in such a `for`/`in` loop.
@@ -442,7 +439,7 @@ console.log(map.hiddenNonsense);
 // → hi
 ----
 
-(((in operator)))(((map)))(((Object type,as map)))(((hasOwnProperty
+(((in operator)))(((map)))(((object,as map)))(((hasOwnProperty
 method)))So now the property is there, but it won't show up in a loop.
 That's good. But we still have the problem with the regular `in`
 operator claiming that the `Object.prototype` properties exist in our
@@ -474,7 +471,7 @@ for (var name in map) {
 
 == Prototype-less objects ==
 
-(((map)))(((Object type,as map)))(((hasOwnProperty method)))But the
+(((map)))(((object,as map)))(((hasOwnProperty method)))But the
 rabbit hole doesn't end there. What if someone registered the name
 `hasOwnProperty` in our `map` object and set it to the value 42? Now
 the call to `map.hasOwnProperty` will try to call the local property,
@@ -498,7 +495,7 @@ console.log("pizza" in map);
 // → true
 ----
 
-(((in operator)))(((for/in loop)))(((Object type,prototype)))Much
+(((in operator)))(((for/in loop)))(((Object prototype)))Much
 better! We no longer need the `hasOwnProperty` kludge, because all the
 properties the object has are its own properties. Now we can safely
 use `for`/`in` loops, no matter what people have been doing to
@@ -616,17 +613,17 @@ The `rowHeights` function shouldn't be too hard to follow. It uses
 `reduce` to compute the maximum height of an array of cells, and wraps
 that in `map` in order to do it for all rows in the `rows` array.
 
-(((map method)))(((filter method)))(((forEach method)))(((Array
-type,indexing)))(((reduce method)))Things are slightly harder for the
-`colWidths` function, because the outer array is an array of rows, not
-of columns. I have failed to mention so far that `map` (as well as
-`forEach`, `filter`, and similar array methods) passes a second
-argument to the function it is given: the ((index)) of the current
-element. By mapping over the elements of the first row and only using
-the mapping function's second argument, `colWidths` builds up an array
-with one element for every column index. The call to `reduce` runs
-over the outer `rows` array for each index, and picks out the width of
-the widest cell at that index.
+(((map method)))(((filter method)))(((forEach
+method)))(((array,indexing)))(((reduce method)))Things are slightly
+harder for the `colWidths` function, because the outer array is an
+array of rows, not of columns. I have failed to mention so far that
+`map` (as well as `forEach`, `filter`, and similar array methods)
+passes a second argument to the function it is given: the ((index)) of
+the current element. By mapping over the elements of the first row and
+only using the mapping function's second argument, `colWidths` builds
+up an array with one element for every column index. The call to
+`reduce` runs over the outer `rows` array for each index, and picks
+out the width of the widest cell at that index.
 
 (((table example)))(((drawTable function)))Here's the code to draw a
 table:
@@ -682,7 +679,7 @@ to each other from an array of blocks, and joins them with a space
 character, to create a one-character gap between the table's columns.
 
 [[split]]
-(((split method)))(((String type,methods)))(((table example)))Now
+(((split method)))(((string,methods)))(((table example)))Now
 let's write a constructor for cells that contain text, which
 implements the ((interface)) for table cells. The constructor splits a
 string into an array of lines, using the string method `split`, which
@@ -1007,8 +1004,7 @@ to it in its own ((method))s.
 
 == The instanceof operator ==
 
-(((type)))(((instanceof operator)))(((constructor)))(((Object
-type)))It is occasionally useful to know whether an object was derived
+(((type)))(((instanceof operator)))(((constructor)))(((object)))It is occasionally useful to know whether an object was derived
 from a specific constructor. For this, JavaScript provides a binary
 operator called `instanceof`:
 

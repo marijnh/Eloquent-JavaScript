@@ -39,7 +39,7 @@ our simulation is intended to be amusing, not accurate, so we can
 freely cut such corners.
 
 [[plan]]
-(((Array type)))We can define a world with a “plan”, an array of
+(((array)))We can define a world with a “plan”, an array of
 strings that lays out the world's grid using one character per square.
 
 // include_code
@@ -65,7 +65,7 @@ The “#” characters in this plan represent ((wall))s and rocks, and the
 “o” characters represent critters. The spaces, as you might have
 guessed, are empty space.
 
-(((Object type)))(((toString method)))(((turn)))A plan array can be
+(((object)))(((toString method)))(((turn)))A plan array can be
 used to create a ((world)) object. Such an object keeps track of the
 size and content of the world. It has a `toString` method, which
 converts the world back to a printable string (similar to the plan it
@@ -76,7 +76,7 @@ take one turn, and updates the world to reflect their actions.
 [[grid]]
 == Representing space ==
 
-(((Array type,as grid)))(((Vector type)))(((coordinates)))The ((grid))
+(((array,as grid)))(((Vector type)))(((coordinates)))The ((grid))
 that models the world has a fixed width and height. Squares are
 identified by their x- and y-coordinates. We use a very simple type,
 `Vector` (as seen in the exercises for the
@@ -96,13 +96,13 @@ Vector.prototype.plus = function(other) {
 };
 ----
 
-(((Object type)))(((encapsulation)))Next, we need an object type that
+(((object)))(((encapsulation)))Next, we need an object type that
 models the grid itself. A grid is part of a world, but we are making
 it a separate object (which will be a property of a ((world)) object)
 to keep the world object itself simple. The world should concern
 itself with world-related things, the grid with grid-related things.
 
-(((Array type)))(((data structure)))To store a grid of values, we have
+(((array)))(((data structure)))To store a grid of values, we have
 several options. We can use an array of row arrays and use two
 property accesses to get to a specific square, like this:
 
@@ -114,7 +114,7 @@ console.log(grid[1][2]);
 // → bottom right
 ----
 
-(((Array type,indexing)))(((coordinates)))(((grid)))Or, we can use a
+(((array,indexing)))(((coordinates)))(((grid)))Or, we can use a
 single array, with size width×height, and decide that the element at
 (x,y) is found at position x + (y × width) in the array.
 
@@ -126,8 +126,7 @@ console.log(grid[2 + (1 * 3)]);
 // → bottom right
 ----
 
-(((encapsulation)))(((abstraction)))(((Array
-type,constructor)))(((Array type,creation)))(((Array type,length
+(((encapsulation)))(((abstraction)))(((Array constructor)))(((array,creation)))(((array,length
 of)))Since the actual access to this array will be wrapped in methods
 on the grid object type, it doesn't matter to outside code which
 approach we take. I chose the second representation, because it makes
@@ -184,8 +183,7 @@ take, for example `"move"`. The action may also contain extra
 information, such as the direction the critter wants to move in.
 
 [[directions]]
-(((Vector type)))(((View type)))(((directions object)))(((Object
-type,as map)))Critters are terribly myopic, and can only see the
+(((Vector type)))(((View type)))(((directions object)))(((object,as map)))Critters are terribly myopic, and can only see the
 squares directly around them on the grid. But even this limited vision
 can be useful when deciding which action to take. When the `act`
 method is called, it is given a _view_ object that allows the critter
@@ -245,7 +243,7 @@ BouncingCritter.prototype.act = function(view) {
 ----
 
 (((random numbers)))(((Math.random function)))(((randomElement
-function)))(((Array type,indexing)))The `randomElement` helper
+function)))(((array,indexing)))The `randomElement` helper
 function simply picks a random element from an array, using
 `Math.random` plus some arithmetic to get a random index. We'll use
 this again later, as randomness can be useful in ((simulation))s.
@@ -298,11 +296,11 @@ function World(map, legend) {
 }
 ----
 
-(((elementFromChar function)))(((Object type,as map)))In
-`elementFromChar`, first we create an instance of the right type by
-looking up the character's constructor and applying `new` to it. Then
-we add an `originChar` ((property)) to it to make it easy to find out
-what character the element was originally created from.
+(((elementFromChar function)))(((object,as map)))In `elementFromChar`,
+first we create an instance of the right type by looking up the
+character's constructor and applying `new` to it. Then we add an
+`originChar` ((property)) to it to make it easy to find out what
+character the element was originally created from.
 
 (((toString method)))(((nesting,of loops)))(((for
 loop)))(((coordinates)))We need this `originChar` property when

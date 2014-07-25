@@ -697,7 +697,7 @@ function lastElement(array) {
 ----
 
 (((validation)))(((run-time
-error)))(((crash)))(((assumption)))(((Array type)))This provides a
+error)))(((crash)))(((assumption)))(((array)))This provides a
 compact way to enforce expectations, helpfully blowing up the program
 if the stated condition does not hold. For instance, the `lastElement`
 function, which fetches the last element from an array, would return

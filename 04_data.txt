@@ -82,13 +82,13 @@ have to find a way to represent it in our machine's ((memory)). Say,
 as a simple example, that we want to represent a ((collection)) of
 numbers: 2, 3, 5, 7, and 11.
 
-(((String type)))We could get creative with strings—after all, strings
+(((string)))We could get creative with strings—after all, strings
 can be any length, so we can put a lot of data into them—and use `"2 3
 5 7 11"` as our representation. But this is awkward. You'd have to
 somehow extract the digits and convert them back to numbers to access
 them.
 
-(((Array type,creation)))((([] (array))))Fortunately, JavaScript
+(((array,creation)))((([] (array))))Fortunately, JavaScript
 provides a data type specifically for storing sequences of values. It
 is called an _array_ and is written as a list of values between
 ((square brackets)), separated by commas.
@@ -102,7 +102,7 @@ console.log(listOfNumbers[1 - 1]);
 // → 2
 ----
 
-((([] (subscript))))(((Array type,indexing)))The notation for getting
+((([] (subscript))))(((array,indexing)))The notation for getting
 at the elements inside an array also uses ((square brackets)). A pair
 of square brackets immediately after an expression, with another
 expression inside of them, will look up the element in the left-hand
@@ -166,7 +166,7 @@ know the precise name of the property in advance, because neither "0"
 nor "John Doe" is a valid variable name and so cannot be accessed
 through dot notation.
 
-(((Array type)))(((lenth property,for arrays)))(((Array type,length
+(((array)))(((lenth property,for arrays)))(((array,length
 of)))The elements in an array are stored in properties. Because the
 names of these properties are numbers and we often need to get their
 name from a variable, we have to use the bracket syntax to access
@@ -179,7 +179,7 @@ write `array.length` because it is easier to write than
 [[methods]]
 == Methods ==
 
-(((function,as property)))(((method)))(((String type)))Both string and
+(((function,as property)))(((method)))(((string)))Both string and
 array objects contain, in addition to the `length` property, a number
 of properties that refer to function values.
 
@@ -208,7 +208,7 @@ the value they belong to. As in, “`toUpperCase` is a method of a
 string”.
 
 [[array_methods]]
-(((collection)))(((Array type)))(((String type)))(((push
+(((collection)))(((array)))(((string)))(((push
 method)))(((pop method)))(((join method)))This example demonstrates
 some methods that array objects have:
 
@@ -235,8 +235,7 @@ determines the text that is glued between the array's elements.
 
 == Objects ==
 
-(((journal)))(((weresquirrel project)))(((Array
-type)))(((record)))Back to the weresquirrel. A set of daily log
+(((journal)))(((weresquirrel project)))(((array)))(((record)))Back to the weresquirrel. A set of daily log
 entries can be represented as an array. But the entries do not consist
 of just a number or a string—each entry needs to store a list of
 activities and a Boolean value that indicates whether Jacques turned
@@ -244,7 +243,7 @@ into a squirrel. Ideally, we would like to group these values together
 into a single value and then put these grouped values into an array of
 log entries.
 
-(((syntax)))(((Object type)))(((property)))(((curly braces)))((({}
+(((syntax)))(((object)))(((property)))(((curly braces)))((({}
 (object))))Values of the type _object_ are arbitrary collections of
 properties, and we can add or remove these properties as we please.
 One way to create an object is by using a curly brace notation.
@@ -326,7 +325,7 @@ console.log("right" in anObject);
 // → true
 ----
 
-(((in operator)))(((property,testing for)))(((Object type)))The binary
+(((in operator)))(((property,testing for)))(((object)))The binary
 `in` operator, when applied to a string and an object, returns a
 Boolean value that indicates whether that object has that property.
 The difference between setting a property to `undefined` and actually
@@ -335,7 +334,7 @@ property (it just doesn't have a very interesting value), whereas in
 the second case the property is no longer present and `in` will return
 `false`.
 
-(((Array type)))(((collection)))Arrays, then, are just a kind of
+(((array)))(((collection)))Arrays, then, are just a kind of
 object specialized for storing sequences of things. If you evaluate
 `typeof [1, 2]`, this produces `"object"`. You can see them as long,
 flat octopuses with all their arms in a neat row, labeled with
@@ -367,8 +366,7 @@ var journal = [
 We will get to actual programming _real_ soon now. But first, there's
 one last piece of theory to understand.
 
-(((mutability)))(((side effect)))(((Number type)))(((String
-type)))(((Boolean type)))(((Object type)))We've seen that object
+(((mutability)))(((side effect)))(((number)))(((string)))(((Boolean)))(((object)))We've seen that object
 values can be modified. The types of values discussed in earlier
 chapters, such as numbers, strings, and Booleans, are all
 __immutable__—it is impossible to change an existing value of those
@@ -381,7 +379,7 @@ change a character in _that_ string to make it spell `"rat"`.
 With objects, on the other hand, the content of a value _can_ be
 modified by changing its properties.
 
-(((Object type,identity)))(((identitiy)))(((memory)))When we have two
+(((object,identity)))(((identitiy)))(((memory)))When we have two
 numbers, 120 and 120, we can consider them precisely the same number,
 whether or not they refer to the same physical bits. But with objects,
 there is a difference between having two references to the same object
@@ -521,7 +519,7 @@ appear to have influence on the transformations.
 
 == Computing correlation ==
 
-(((Array type,as table)))(((nesting,of arrays)))We can represent a
+(((array,as table)))(((nesting,of arrays)))We can represent a
 two-by-two ((table)) in JavaScript with a four-element array (`[76, 9,
 4, 1]`). We could also use other representations, such as an array
 containing two two-element arrays (`[[76, 9], [4, 1]]`) or an object
@@ -597,14 +595,14 @@ console.log(tableFor("pizza", JOURNAL));
 // → [76, 9, 4, 1]
 ----
 
-(((Array type,searching)))(((indexOf method)))(((Array type)))The
-`hasEvent` function tests whether an entry contains a given event.
-Arrays have an `indexOf` method that tries to find a given value (in
-this case, the event name) in the array and returns the index at which
-it was found or -1 if it wasn't found. So if the call to `indexOf`
-doesn't return -1, then we know the event was found in the entry.
+(((array,searching)))(((indexOf method)))The `hasEvent` function tests
+whether an entry contains a given event. Arrays have an `indexOf`
+method that tries to find a given value (in this case, the event name)
+in the array and returns the index at which it was found or -1 if it
+wasn't found. So if the call to `indexOf` doesn't return -1, then we
+know the event was found in the entry.
 
-(((Array type,indexing)))The body of the loop in `tableFor` figures
+(((array,indexing)))The body of the loop in `tableFor` figures
 out which box in the table each journal entry falls into by checking
 whether the entry contains the specific event it's interested in and
 whether the event happens alongside a squirrel incident. The loop then
@@ -618,7 +616,7 @@ should we store these correlations once we compute them?
 
 == Objects as maps ==
 
-(((weresquirrel project)))(((Array type)))One possible way is to store
+(((weresquirrel project)))(((array)))One possible way is to store
 all the ((correlation))s in an array, using objects with `name` and
 `value` properties. But that makes looking up the correlation for a
 given event somewhat cumbersome: you'd have to loop over the whole
@@ -627,7 +625,7 @@ lookup process in a function, but we would still be writing more code,
 and the computer would be doing more work than necessary.
 
 [[object_map]]
-(((Object type)))(((square brackets)))(((Object type,as map)))(((in
+(((object)))(((square brackets)))(((object,as map)))(((in
 operator)))A better way is to use object properties named after the
 event types. We can use the square bracket access notation to create
 and read the properties and can use the `in` operator to test whether
@@ -656,7 +654,7 @@ There are a few potential problems with using objects like this, which
 we will discuss in link:06_object.html#prototypes[Chapter 6], but for
 the time being, we won't worry about those.
 
-(((for/in loop)))(((for loop)))(((Object type,looping over)))What if
+(((for/in loop)))(((for loop)))(((object,looping over)))What if
 we want to find all the events for which we have stored a coefficient?
 The properties don't form a predictable series, like they would in an
 array, so we can not use a normal `for` loop. JavaScript provides a
@@ -786,7 +784,7 @@ tent, and vanishes into the forest. He is never seen again.
 
 == Further arrayology ==
 
-(((Array type,methods)))(((method)))Before finishing up this chapter,
+(((array,methods)))(((method)))Before finishing up this chapter,
 I want to introduce you to a few more object-related concepts. We'll
 start by introducing some generally useful array methods.
 
@@ -817,7 +815,7 @@ tasks. You add tasks to the end of the list by calling
 `urgentlyRememberTo` function also adds a task but adds it to the
 front instead of the back of the list.
 
-(((Array type,searching)))(((indexOf method)))(((lastIndexOf
+(((array,searching)))(((indexOf method)))(((lastIndexOf
 method)))The `indexOf` method has a sibling called `lastIndexof`,
 which starts searching for the given element at the end of the array
 instead of the front.
@@ -833,7 +831,7 @@ console.log([1, 2, 3, 2, 1].lastIndexOf(2));
 Both `indexOf` and `lastIndexOf` take an optional second argument that
 indicates where to start searching from.
 
-(((slice method)))(((Array type,indexing)))Another fundamental method
+(((slice method)))(((array,indexing)))Another fundamental method
 is `slice`, which takes a start index and an end index and returns an
 array that has only the elements between those indices. The start
 index is inclusive, the end index exclusive.
@@ -846,7 +844,7 @@ console.log([0, 1, 2, 3, 4].slice(2));
 // → [2, 3, 4]
 ----
 
-(((String type,indexing)))When the end index is not given, `slice`
+(((string,indexing)))When the end index is not given, `slice`
 will take all of the elements after the start index. Strings also have
 a `slice` method, which has a similar effect.
 
@@ -869,7 +867,7 @@ console.log(remove(["a", "b", "c", "d", "e"], 2));
 
 == Strings and their properties ==
 
-(((String type,properties)))We can read properties like `length` and
+(((string,properties)))We can read properties like `length` and
 `toUpperCase` from string values. But if you try to add a new
 property, it doesn't stick.
 
@@ -886,8 +884,8 @@ the language doesn't complain if you try to set new properties on
 them, it doesn't actually store those properties. The values are
 immutable and cannot be changed.
 
-(((String type,methods)))(((slice method)))(((indexOf
-method)))(((String,searching)))But these types do have some built-in
+(((string,methods)))(((slice method)))(((indexOf
+method)))(((string,searching)))But these types do have some built-in
 properties. Every string value has a number of methods. The most
 useful ones are probably `slice` and `indexOf`, which resemble the
 array methods of the same name.
@@ -923,10 +921,10 @@ console.log("|" + " a ".trimLeft() + "|");
 // → |a |
 ----
 
-(((length property,for strings)))(((charAt method)))(((String
-type,indexing)))We have already seen the string type's `length`
-property. Accessing the individual characters in a string can be done
-with the `charAt` method but also by simply reading numeric
+(((length property,for strings)))(((charAt
+method)))(((string,indexing)))We have already seen the string type's
+`length` property. Accessing the individual characters in a string can
+be done with the `charAt` method but also by simply reading numeric
 properties, like you'd do for an array.
 
 [source,javascript]
@@ -967,7 +965,7 @@ so on.
 
 indexsee:[pseudo array,array-like object]
 
-(((Array type,methods)))If that sounds a lot like an array to you,
+(((array,methods)))If that sounds a lot like an array to you,
 you're right, it _is_ a lot like an array. But this object,
 unfortunately, does not have any array methods (like `slice` or
 `indexOf`), so it is a little harder to use than a real array.
@@ -1022,7 +1020,7 @@ functions, such as `Math.max` (maximum), `Math.min` (minimum), and
 `Math.sqrt` (square root).
 
 [[namespace_pollution]]
-(((namespace)))(((namespace pollution)))(((Object type)))The
+(((namespace)))(((namespace pollution)))(((object)))The
 `Math` object is used simply as a container to group a bunch of
 related functionality. There is only one `Math` object, and it is
 almost never useful as a value. Rather, it provides a _namespace_ so
@@ -1120,8 +1118,7 @@ number) and `Math.round` (to the nearest whole number).
 
 == The global object ==
 
-(((global object)))(((window variable)))(((global scope)))(((variable,scope)))(((Object
-type)))The global scope, the space in which global variables live, can
+(((global object)))(((window variable)))(((global scope)))(((variable,scope)))(((object)))The global scope, the space in which global variables live, can
 also be approached as an object in JavaScript. Each global variable is
 present as a ((property)) of this object. In ((browser))s, the global
 scope object is stored in the `window` variable.
@@ -1208,13 +1205,13 @@ endif::html_target[]
 
 !!solution!!
 
-(((summing,exercise)))(((Array type,creation)))(((square
+(((summing,exercise)))(((array,creation)))(((square
 brackets)))Building up an array is most easily done by first
 initializing a variable to `[]` (a fresh, empty array) and repeatedly
 calling its `push` method to add a value. Don't forget to return the
 array at the end of the function.
 
-(((Array type,indexing)))(((comparison)))Since the end boundary is
+(((array,indexing)))(((comparison)))Since the end boundary is
 inclusive, you'll need to use the `<=` operator rather than simply `<`
 to check for the end of your loop.
 
@@ -1238,8 +1235,7 @@ in an ((infinite loop)).
 
 === Reversing an array ===
 
-(((reversing (exercise))))(((reverse method)))(((Array
-type,methods)))Arrays have a method `reverse`, which changes the array
+(((reversing (exercise))))(((reverse method)))(((array,methods)))Arrays have a method `reverse`, which changes the array
 by inverting the order in which its elements appear. For this
 exercise, write two functions, `reverseArray` and
 `reverseArrayInPlace`. The first, `reverseArray`, takes an array as
@@ -1300,8 +1296,7 @@ place where the mirror image used to be.
 === A list ===
 
 (((data structure)))(((list (exercise))))(((list (data
-structure))))(((linked list)))(((Object type)))(((Array
-type)))(((collection)))Objects, as generic blobs of values, can be
+structure))))(((linked list)))(((object)))(((array)))(((collection)))Objects, as generic blobs of values, can be
 used to build all sorts of data structures. A common data structure is
 the _list_ (not to be confused with the array). A list is a nested set
 of objects, with the first object holding a reference to the second,
@@ -1439,8 +1434,7 @@ endif::html_target[]
 
 !!solution!!
 
-(((deep comparison (exercise))))(((typeof operator)))(((Object
-type)))(((=== operator)))Your test for whether you are dealing with a
+(((deep comparison (exercise))))(((typeof operator)))(((object)))(((=== operator)))Your test for whether you are dealing with a
 real object will look something like `typeof x == "object" && x !=
 null`. Be careful to compare properties only when _both_ arguments are
 objects. In all other cases you can just immediately return the result

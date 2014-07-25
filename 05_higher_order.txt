@@ -117,7 +117,7 @@ notice when a concept is begging to be abstracted into a new word.
 
 == Abstracting array traversal ==
 
-(((Array type)))Plain functions, as we've seen them so far, are a good
+(((array)))Plain functions, as we've seen them so far, are a good
 way to build abstractions. But sometimes they fall short.
 
 (((for loop)))In the link:04_data.html#data[previous chapter], this
@@ -132,8 +132,7 @@ for (var i = 0; i < array.length; i++) {
 }
 ----
 
-(((length propery,for array)))(((Array
-type,indexing)))(((readability)))It's trying to say: “For each element
+(((length propery,for array)))(((array,indexing)))(((readability)))It's trying to say: “For each element
 in the array, log it to the console”. But it uses a very roundabout
 way that involves a counter variable `i`, a check against the array's
 length, and an extra variable declaration to pick out the current
@@ -158,8 +157,7 @@ function logEach(array) {
 indexsee:[higher-order function,function+++,+++ higher-order]
 
 [[forEach]]
-(((function,higher-order)))(((loop)))(((Array
-type,traversal)))(((function,as value)))(((forEach method)))But what
+(((function,higher-order)))(((loop)))(((array,traversal)))(((function,as value)))(((forEach method)))But what
 if we want to do something other than logging the elements? Since
 “doing something” can be represented as a function, and functions are
 just values, we can pass our action as a function value:
@@ -200,8 +198,8 @@ closed with the closing brace _and_ closing parenthesis.
 specify a variable name for the current element (`number`), rather
 than having to pick it out of the array manually.
 
-(((Array type,methods)))(((function,higher order)))(((forEach
-method)))(((Array type)))In fact, we don't need to write `forEach`
+(((array,methods)))(((function,higher order)))(((forEach
+method)))(((array)))In fact, we don't need to write `forEach`
 ourselves. It is available as a standard method on arrays. Since the
 array is already provided as the thing the method acts on, `forEach`
 only takes one required argument: the function to be executed for each
@@ -368,7 +366,7 @@ link:06_object.html#call_method[next chapter].
 
 == JSON ==
 
-(((Array type)))(((function,higher-order)))(((forEach method)))(((data
+(((array)))(((function,higher-order)))(((forEach method)))(((data
 set)))Higher-order functions that somehow apply a function to the
 elements of an array are widely used in JavaScript. The `forEach`
 method is the most primitive such function. There are a number of
@@ -406,7 +404,7 @@ indexsee:[JavaScript Object Notation,JSON]
 which stands for JavaScript Object Notation. It is widely used as a
 data storage and communication format on the Web.
 
-(((Array type)))(((Object type)))(((quoting,in JSON)))JSON is very
+(((array)))(((object)))(((quoting,in JSON)))JSON is very
 similar to JavaScript's way of writing arrays and objects, with a few
 restrictions. All property names are surrounded by quotes, and only
 simple data expressions—no function calls, or variables, or anything
@@ -446,7 +444,7 @@ console.log(ancestry.length);
 
 == Filtering an array ==
 
-(((Array type,methods)))(((Array type,filtering)))(((filter
+(((array,methods)))(((array,filtering)))(((filter
 method)))(((function,higher-order)))(((predicate function)))To find
 the people in the ancestry data set that were young in 1924, the
 following function might be helpful. It filters out the elements in an
@@ -498,7 +496,7 @@ console.log(ancestry.filter(function(person) {
 
 == Transforming with map ==
 
-(((Array type,methods)))(((map method)))(((ancestry example)))Say we
+(((array,methods)))(((map method)))(((ancestry example)))Say we
 have an array of objects representing people, produced by filtering
 the `ancestry` array somehow. But we want an array of names, which is
 easier to read through.
@@ -540,7 +538,7 @@ arrays.
 
 == Summarizing with reduce ==
 
-(((Array type,methods)))(((summing)))(((reduce method)))(((ancestry
+(((array,methods)))(((summing)))(((reduce method)))(((ancestry
 example)))Another common pattern of computation on arrays is computing
 a single value from them. Our recurring example, summing a collection
 of numbers, is an instance of this. Another example would be finding
@@ -661,7 +659,7 @@ comes at a cost.
 and pretty rainbows, there lives a spoil-sport monster called
 “__inefficiency__”.
 
-(((Array type,creation)))(((pure function)))(((composition)))It's easy
+(((array,creation)))(((pure function)))(((composition)))It's easy
 to think about processing an array as a sequence of cleanly separated
 steps that each do something with the array and produce a new array.
 But building up all those intermediate arrays is somewhat expensive.
@@ -710,7 +708,7 @@ lineage to find out whether the most ancient person in the data,
 Pauwels van Haverbeke, is my direct ancestor. And if he is, I would
 like to know how much ((DNA)) I theoretically share with him.
 
-(((byName object)))(((map)))(((data structure)))(((Object type,as
+(((byName object)))(((map)))(((data structure)))(((object,as
 map)))To be able to go from a parent's name to the actual object that
 represents this person, we first build up an object that associates
 names with people.
@@ -920,7 +918,7 @@ which is used to create a partially applied version of the function.
 === Flattening ===
 
 (((flattening (exercise))))(((reduce method)))(((concat
-method)))(((Array type)))Use the `reduce` method in combination with
+method)))(((array)))Use the `reduce` method in combination with
 the `concat` method to “flatten” an array of arrays into a single
 array that has all the elements of the input arrays.
 
@@ -1028,7 +1026,7 @@ endif::html_target[]
 theirs—splitting the array of ancestors into smaller arrays with the
 ancestors for each century.
 
-(((Array type)))(((map)))(((Object type,as map)))During the grouping
+(((array)))(((map)))(((object,as map)))During the grouping
 process, keep an object that associates ((century)) names (numbers)
 with arrays of either person objects or ages. Since we do not know in
 advance what categories we will find, we'll have to create them on the
@@ -1041,7 +1039,7 @@ be used to print the average ages for the individual centuries.
 
 !!solution!!
 
-(((map)))(((Object type,as map)))(((groupBy function)))For bonus
+(((map)))(((object,as map)))(((groupBy function)))For bonus
 points, write a function `groupBy` that abstracts the grouping
 operation. It should accept as arguments an array and a function that
 computes the group for an element in the array, and returns the object
@@ -1050,7 +1048,7 @@ containing the groups.
 === Every and then some ===
 
 (((every and some (exercise))))(((every method)))(((some
-method)))(((Array type,methods)))(((&& operator)))(((||
+method)))(((array,methods)))(((&& operator)))(((||
 operator)))Arrays also come with the standard methods `every` and
 `some`. Both take a ((predicate)) function that, when called with an
 array element as argument, returns true or false. Just like `&&` only

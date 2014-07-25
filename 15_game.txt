@@ -179,7 +179,7 @@ function Level(plan) {
 input, such as a ((level)) plan without a player start position. It
 assumes that it is given a proper level plan.
 
-(((Array type)))A level stores its width and height, along with two
+(((array)))A level stores its width and height, along with two
 arrays—one for the ((grid)), and one for the _((actor))s_, the dynamic
 elements. The grid is represented as an array of arrays, where each of
 the inner arrays represents a horizontal line, and each square
@@ -238,7 +238,7 @@ vector by a given amount. It will be useful when we need to multiply a
 speed vector by a time interval, to get the distance traveled during
 that time.
 
-(((map)))(((Object type,as map)))The `actorChars` object was used by
+(((map)))(((object,as map)))The `actorChars` object was used by
 the `Level` constructor to associate characters with constructor
 functions. It looks like this:
 
@@ -1020,14 +1020,14 @@ When ((lava)) is touched, the game's status is set to `"lost"`. When a
 coin is touched, that ((coin)) is removed from the array of actors,
 and if it was the last one, the game's status is set to `"won"`.
 
-(((splice method)))(((Array type,methods)))(((Array
-type,indexing)))(((indexOf method)))The `splice` method is used to cut
-a piece out of an array. You give it an index and a number of
-elements, and _mutates_ the array, removing that many elements after
-the given index. In this case, we remove a single element, our coin
-actor, whose index we found by calling `indexOf`. If you pass
-additional arguments to `splice` their values will be inserted into
-the array at the given position, replacing the removed elements.
+(((splice method)))(((array,methods)))(((array,indexing)))(((indexOf
+method)))The `splice` method is used to cut a piece out of an array.
+You give it an index and a number of elements, and _mutates_ the
+array, removing that many elements after the given index. In this
+case, we remove a single element, our coin actor, whose index we found
+by calling `indexOf`. If you pass additional arguments to `splice`
+their values will be inserted into the array at the given position,
+replacing the removed elements.
 
 This gives us a level that can actually be animated. All that's
 missing now is the code that _drives_ the animation.

@@ -995,7 +995,7 @@ character is written `"\n"`.
 
 Use `console.log` to inspect the output of your program.
 
-(((nesting,of loops)))To work with two dimensions, you will need a
+(((nesting,of loops)))To work with two ((dimensions)), you will need a
 ((loop)) inside of a loop. Put ((braces)) around the bodies of both
 loops to make it easy to see where they start and end. Try to properly
 indent these bodies. The order of the loops must follow the order in

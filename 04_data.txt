@@ -1050,7 +1050,7 @@ contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as
 their inverse functions, `acos`, `asin`, and `atan`. The number π
 (pi)—or at least the closest approximation that fits in a JavaScript
 number—is available as `Math.PI`. (There is an old programming
-tradition of writing the names of constant values in all caps.)
+tradition of writing the names of ((constant)) values in all caps.)
 
 // test: no
 

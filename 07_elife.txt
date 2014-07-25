@@ -19,17 +19,18 @@ and instead work through a program with you. Theory is indispensable
 when learning to program, but it should be accompanied by reading and
 understanding non-trivial programs.
 
-(((electronic life project)))(((ecosystem)))Our project in this
-chapter is to build a virtual ecosystem, a little world populated with
-((critter))s that move around and struggle for survival.
+(((artificial life)))(((electronic life)))(((ecosystem)))Our
+project in this chapter is to build a virtual ecosystem, a little
+world populated with ((critter))s that move around and struggle for
+survival.
 
 == Definition ==
 
-(((electronic life project)))In order to make this task manageable, we
-will radically simplify the concept of a _((world))_. Namely, a world
-will be a two-dimensional ((grid)) where each entity takes up one full
-square of the grid. On every _((turn))_, the critters all get a chance
-to take some action.
+(((dimensions)))(((electronic life)))In order to make this
+task manageable, we will radically simplify the concept of a
+_((world))_. Namely, a world will be a two-dimensional ((grid)) where
+each entity takes up one full square of the grid. On every _((turn))_,
+the critters all get a chance to take some action.
 
 (((discretization)))(((simulation)))Thus, we chop both time and space
 into units with a fixed size: squares for space and turns for time. Of
@@ -60,7 +61,7 @@ var plan =
    "############################"];
 ----
 
-The “#” characters in this plan represent walls and rocks, and the
+The “#” characters in this plan represent ((wall))s and rocks, and the
 “o” characters represent critters. The spaces, as you might have
 guessed, are empty space.
 
@@ -172,7 +173,7 @@ console.log(grid.get(new Vector(1, 1)));
 
 == A critter's programming interface ==
 
-(((record)))(((electronic life project)))(((interface)))Before we can
+(((record)))(((electronic life)))(((interface)))Before we can
 start on the `World` ((constructor)), we must get more specific about
 the ((critter)) objects that will be living inside it. I mentioned
 that the world will ask the critters what actions they want to take.
@@ -263,7 +264,7 @@ when crowded into a corner by other critters).
 
 == The world object ==
 
-(((World type)))(((electronic life project)))Now we can start on the
+(((World type)))(((electronic life)))Now we can start on the
 `World` object type. The ((constructor)) takes a plan (the array of
 strings representing the world's grid, described
 link:07_elife.html#grid[earlier]) and a _((legend))_ as arguments. A
@@ -333,7 +334,7 @@ World.prototype.toString = function() {
 };
 ----
 
-(((electronic life project)))(((constructor)))(((Wall type)))A wall is
+(((electronic life)))(((constructor)))(((Wall type)))A ((wall)) is
 a very simple object—it is only used for taking up space, and has no
 `act` method.
 
@@ -468,7 +469,7 @@ Grid.prototype.forEach = function(f, context) {
 
 == Animating life ==
 
-(((simulation)))(((electronic life project)))(((World type)))The next
+(((simulation)))(((electronic life)))(((World type)))The next
 step is to write a `turn` method for the world object that gives the
 ((critter))s a chance to act. It will go over the grid using the
 `forEach` method we just defined, looking for objects with an `act`
@@ -528,7 +529,7 @@ World.prototype.checkDestination = function(action, vector) {
 };
 ----
 
-(((View type)))(((electronic life project)))First, we simply ask the
+(((View type)))(((electronic life)))First, we simply ask the
 critter to act, passing it a view object that knows about the world
 and the critter's current position in that world (we'll define `View`
 in a link:07_elife.html#view[moment]). The `act` method returns an
@@ -607,7 +608,7 @@ in, the critters still won't be tempted to try and walk off the edges.
 
 == It moves ==
 
-(((electronic life project)))(((simulation)))We instantiated a world
+(((electronic life)))(((simulation)))We instantiated a world
 object before. Now that we've added all the necessary methods, it
 should be possible to actually make it move.
 
@@ -763,7 +764,7 @@ endif::html_target[]
 
 == A more lifelike simulation ==
 
-(((simulation)))(((electronic life project)))To make life in our world
+(((simulation)))(((electronic life)))To make life in our world
 more interesting, we will add the concepts of ((food)) and
 ((reproduction)). Each living thing in the world gets a new property,
 `energy`, which is reduced by performing actions and increased by
@@ -816,7 +817,7 @@ LifelikeWorld.prototype.letAct = function(critter, vector) {
 };
 ----
 
-(((electronic life project)))(((function,as value)))(((call
+(((electronic life)))(((function,as value)))(((call
 method)))(((this)))The new `letAct` method first checks whether an
 action was returned at all, then whether a handler function for this
 type of action exists, and finally, whether that handler returned
@@ -917,7 +918,7 @@ actionTypes.reproduce = function(critter, vector, action) {
 };
 ----
 
-(((electronic life project)))Reproducing costs twice the ((energy))
+(((electronic life)))Reproducing costs twice the ((energy))
 level of the newborn critter. So we first create a (hypothetical) baby
 using `elementFromChar` on the critter's own origin character. Once we
 have a baby, we can find its energy level and test whether the parent
@@ -929,7 +930,7 @@ require a valid (and empty) destination.
 
 == Populating the new world ==
 
-(((Plant type)))(((electronic life project)))We now have a
+(((Plant type)))(((electronic life)))We now have a
 ((framework)) to simulate these more lifelike creatures. We could put
 the critters from the old world into it, but they would just die,
 since they don't have an ((energy)) property. So let us make new ones.
@@ -987,7 +988,7 @@ creature will look for when it searches for ((food)).
 
 == Bringing it to life ==
 
-(((electronic life project)))And that gives us enough elements to try
+(((electronic life)))And that gives us enough elements to try
 our new world. Imagine the map below as a grassy valley with a herd of
 ((herbivore))s in it, some boulders, and lush ((plant)) life
 everywhere.

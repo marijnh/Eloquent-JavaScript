@@ -263,11 +263,12 @@ console.log(numberToString(13, 10));
 moment that you don't. We know that our program is malfunctioning, and
 we want to find out why.
 
-This is where you must resist the urge to start making random changes
-to the code. Instead, _think_. Analyze what is happening and come up
-with a ((theory)) of why it might be happening. Then, make additional
-observations to test this theory—or, if you don't yet have a theory,
-make additional observations that might help you come up with one.
+(((trial-and-error)))This is where you must resist the urge to start
+making random changes to the code. Instead, _think_. Analyze what is
+happening and come up with a ((theory)) of why it might be happening.
+Then, make additional observations to test this theory—or, if you
+don't yet have a theory, make additional observations that might help
+you come up with one.
 
 (((console.log)))(((output)))(((debugging)))(((logging)))Putting a few
 strategic `console.log` calls into the program is a good way to get
@@ -804,8 +805,8 @@ var box = {
 };
 ----
 
-(((private property)))(((access control)))It is a box, with a lock.
-Inside is an array, but you can only get at it when the box is
+(((private property)))(((access control)))It is a ((box)), with a
+lock. Inside is an array, but you can only get at it when the box is
 unlocked. Directly accessing the `_content` property is not allowed.
 
 (((finally keyword)))(((exception handling)))Write a function called

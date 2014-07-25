@@ -133,16 +133,16 @@ very small numbers, you can also use scientific notation by adding an
 
 That is 2.998 × 10^8^ = 299800000.
 
-(((Number type,precision of)))(((floating-point numbers)))Calculations
-with whole numbers (also called _((integer))s_) smaller than the
-aforementioned 9 quadrillion are guaranteed to always be precise.
-Unfortunately, calculations with fractional numbers are generally not.
-Just as π (pi) cannot be precisely expressed by a finite number of
-decimal digits, many numbers lose some precision when only 64 bits are
-available to store them. This is a shame, but it causes practical
-problems only in specific situations. The important thing is to be
-aware of it and treat fractional digital numbers as approximations,
-not as precise values.
+(((pi)))(((Number type,precision of)))(((floating-point
+numbers)))Calculations with whole numbers (also called _((integer))s_)
+smaller than the aforementioned 9 quadrillion are guaranteed to always
+be precise. Unfortunately, calculations with fractional numbers are
+generally not. Just as π (pi) cannot be precisely expressed by a
+finite number of decimal digits, many numbers lose some precision when
+only 64 bits are available to store them. This is a shame, but it
+causes practical problems only in specific situations. The important
+thing is to be aware of it and treat fractional digital numbers as
+approximations, not as precise values.
 
 === Arithmetic ===
 

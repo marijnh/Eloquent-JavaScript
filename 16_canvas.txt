@@ -86,11 +86,11 @@ in pixels.
 A new canvas is empty, meaning it is entirely transparent, and thus
 shows up simply as empty space in the document.
 
-The canvas tag is intended to support different styles of drawing. To
-get access to an actual drawing interface, we first need to create a
-_context_, which is an object whose methods provide the drawing
-interface. There are currently two widely supported drawing styles,
-`"2d"` for two-dimensional graphics, and `"webgl"` for
+(((dimensions)))The canvas tag is intended to support different styles
+of drawing. To get access to an actual drawing interface, we first
+need to create a _context_, which is an object whose methods provide
+the drawing interface. There are currently two widely supported
+drawing styles, `"2d"` for two-dimensional graphics, and `"webgl"` for
 three-dimensional graphics through the OpenGL interface.
 
 This book won't discuss WebGL. We stick to two dimensions. But if you
@@ -1312,7 +1312,7 @@ circle we are on.
 
 === A bouncing ball ===
 
-Use the `requestAnimationFrame` technique that we saw in link:13_dom.html#animationFrame[Chapter 13]
+(((bouncing)))Use the `requestAnimationFrame` technique that we saw in link:13_dom.html#animationFrame[Chapter 13]
 and link:15_game.html#runAnimation[Chapter 15] to draw a box with a bouncing ball inside of it. The
 ball moves at a constant speed, and bounces off the box's sides when
 it hits them.

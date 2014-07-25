@@ -7,8 +7,9 @@
 [chapterquote="true"]
 [quote,Jamie Zawinski]
 ____
-Some people, when confronted with a problem, think ‘I know, I'll use
-regular expressions.’ Now they have two problems.
+(((Zawinski+++,+++ Jamie)))Some people, when confronted with a
+problem, think ‘I know, I'll use regular expressions.’ Now they have
+two problems.
 ____
 
 ifdef::html_target[]
@@ -23,11 +24,11 @@ ____
 
 endif::html_target[]
 
-Programming tools and techniques survive and spread
-in a chaotic, evolutionary way. It's not always the pretty or
-brilliant ones that win, but rather the ones that function
-well enough within the right niche—for example by being
-integrated with another successful piece of technology.
+(((evolution)))Programming ((tool))s and techniques survive and spread in a chaotic,
+evolutionary way. It's not always the pretty or brilliant ones that
+win, but rather the ones that function well enough within the right
+niche—for example by being integrated with another successful piece of
+technology.
 
 In this chapter I will discuss one such tool, _regular expressions_.
 Regular expressions are a way to describe patterns in string data.

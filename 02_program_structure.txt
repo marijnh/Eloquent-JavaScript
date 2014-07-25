@@ -27,11 +27,12 @@ applied operators to them to get new values. Creating values like this
 is an essential part of every JavaScript program, but it is still only
 a part.
 
-A fragment of code that produces a value is called an
-_((expression))_. Every value that is written literally (such as `22`
-or `"psychoanalysis"`) is an expression. An expression between
-((parentheses)) is also an expression, as is a ((binary operator))
-applied to two expressions or a unary operator applied to one.
+(((literal expression)))A fragment of code that produces a value is
+called an _((expression))_. Every value that is written literally
+(such as `22` or `"psychoanalysis"`) is an expression. An expression
+between ((parentheses)) is also an expression, as is a ((binary
+operator)) applied to two expressions or a unary operator applied to
+one.
 
 (((nesting,of expressions)))(((human language)))This shows part of the
 beauty of a language-based interface. Expressions can nest in a way
@@ -68,7 +69,7 @@ happens.
 (((programming style)))(((automatic semicolon
 insertion)))(((semicolon)))In some cases, JavaScript allows you to
 omit the semicolon at the end of a statement. In other cases, it has
-to be there, the next line will be treated as part of the same
+to be there, the next ((line)) will be treated as part of the same
 statement. The rules for when it can be safely omitted are somewhat
 complex and error-prone. In this book, every statement that needs a
 semicolon will always be terminated by one. I recommend you do the
@@ -176,7 +177,7 @@ words)))(((static (reserved word))))(((void operator)))(((yield
 (reserved word))))(((reserved words)))(((variable,naming)))Words with
 a special meaning, such as `var`, are _((keyword))s_, and they may not
 be used as variable names. There are also a number of words that are
-“reserved for use” in future versions of JavaScript. These are also
+“reserved for use” in ((future)) versions of JavaScript. These are also
 officially not allowed to be used as variable names, though some
 JavaScript environments do allow them. The full list of keywords and
 reserved words is rather long.
@@ -494,10 +495,10 @@ keyword `while` creates a loop. The word `while` is followed by an
 The loop executes that statement as long as the expression produces a
 value that is `true` when converted to Boolean type.
 
-((({} (block))))(((block)))In this loop, we want to both
+(((grouping)))((({} (block))))(((block)))In this loop, we want to both
 print the current number and add two to our variable. Whenever we need
 to execute multiple ((statement))s inside a loop, we wrap them in
-((braces)) (`{` and `}`). Braces do for statements what
+((curly braces)) (`{` and `}`). Braces do for statements what
 ((parentheses)) do for expressions: they group them together, making
 them count as a single statement. A sequence of statements wrapped in
 braces is called a _block_.
@@ -564,7 +565,7 @@ except `""` convert to `true`.
 (((block)))(((code,structure of)))(((whitespace)))(((programming
 style)))You've probably noticed the spaces I put in front of some
 statements. In JavaScript, these are not required—the computer will
-accept the program just fine without them. In fact, even the line
+accept the program just fine without them. In fact, even the ((line))
 breaks in programs are optional. You could write a program as a single
 long line if you felt like it. The role of the ((indentation)) inside
 blocks is to make the structure of the code stand out. In complex
@@ -996,11 +997,11 @@ character is written `"\n"`.
 Use `console.log` to inspect the output of your program.
 
 (((nesting,of loops)))To work with two ((dimensions)), you will need a
-((loop)) inside of a loop. Put ((braces)) around the bodies of both
-loops to make it easy to see where they start and end. Try to properly
-indent these bodies. The order of the loops must follow the order in
-which we build up the string (line by line, left to right, top to
-bottom). So the outer loop handles the lines and the inner loop
+((loop)) inside of a loop. Put ((curly braces)) around the bodies of
+both loops to make it easy to see where they start and end. Try to
+properly indent these bodies. The order of the loops must follow the
+order in which we build up the string (line by line, left to right,
+top to bottom). So the outer loop handles the lines and the inner loop
 handles the characters on a line.
 
 (((counter variable)))(((remainder operation)))(((% operator)))You'll

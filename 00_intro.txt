@@ -18,25 +18,27 @@ appeal to our sense of the physical world, and build interfaces that
 mimic that world, and allow us to manipulate shapes on a screen with
 our fingers. This works very well for casual machine interaction.
 
-(((programming language)))But we have not yet found a good way to use
-the point-and-click approach to communicate things to the computer
-that the designer of the interface did not anticipate. For open-ended
-interfaces, such as instructing the computer to perform arbitrary
-tasks, we've had more luck with an approach that makes use of our
-talent for language: teaching the machine a language.
+(((programming language)))(((machine language)))But we have not yet
+found a good way to use the point-and-click approach to communicate
+things to the computer that the designer of the interface did not
+anticipate. For open-ended interfaces, such as instructing the
+computer to perform arbitrary tasks, we've had more luck with an
+approach that makes use of our talent for language: teaching the
+machine a language.
 
-(((human language)))Human languages allow words and subsentences to be
-combined in many, many ways, allowing us to say many, many different
-things. Computer languages, though typically less grammatically
-flexible, follow a similar principle.
+(((human language)))(((expressivity)))Human languages allow words and
+subsentences to be combined in many, many ways, allowing us to say
+many, many different things. Computer languages, though typically less
+grammatically flexible, follow a similar principle.
 
-(((JavaScript,availability of)))(((browser)))Casual computing has
-become become much more widespread in the past twenty years, and
+(((JavaScript,availability of)))(((casual computing)))Casual computing
+has become become much more widespread in the past twenty years, and
 language-based interfaces, which once were the default way in which
 people interacted with computers, have largely been replaced with
 graphical interfaces. But they are still there, if you know where to
 look. One such language, _JavaScript_, is built into just about every
-web browser, and thus available on just about every consumer device.
+web ((browser)), and thus available on just about every consumer
+device.
 
 indexsee:[web browser,browser]
 
@@ -61,7 +63,7 @@ clear. But programs, built on top of these basic rules, tend to become
 complex enough to introduce their own rules and complexity. You're
 building your own maze, in a way, and might just get lost in it.
 
-There will be times at which reading this book feels terribly
+(((learning)))There will be times at which reading this book feels terribly
 frustrating. If you are new to programming, there will be a lot of new
 material to digest. Much of this material will then be _combine_ in
 ways that require you to make additional connections.
@@ -117,16 +119,17 @@ strict rules (_“best practices”_) prescribing the form programs should
 have, and the more zealous among them will consider those that go
 outside of this little safe zone to be _bad_ programmers.
 
-What hostility to the richness of programming—to try to reduce it to
-something straightforward and predictable, to place a taboo on all the
-weird and beautiful programs! The landscape of programming techniques
-is enormous, fascinating in its diversity, and still largely
-unexplored. It is certainly dangerous going, luring the inexperienced
-programmer into all kinds of confusion, but that only means you should
-proceed with caution and keep your wits about you. As you learn, there
-will always be new challenges and new territory to explore.
-Programmers who refuse to keep exploring will stagnate, forget their
-joy, and get bored with their craft.
+(((experiment)))(((learning)))What hostility to the richness of
+programming—to try to reduce it to something straightforward and
+predictable, to place a taboo on all the weird and beautiful programs!
+The landscape of programming techniques is enormous, fascinating in
+its diversity, and still largely unexplored. It is certainly dangerous
+going, luring the inexperienced programmer into all kinds of
+confusion, but that only means you should proceed with caution and
+keep your wits about you. As you learn, there will always be new
+challenges and new territory to explore. Programmers who refuse to
+keep exploring will stagnate, forget their joy, and get bored with
+their craft.
 
 == Why language matters ==
 
@@ -317,22 +320,23 @@ has its advantages, though. It leaves space for a lot of techniques
 that are impossible in more rigid languages, and, as we will see, for
 example, in the link:10_modules.html#modules[chapter on modules], it
 can be used to overcome some of JavaScript's shortcomings. After
-learning the language properly and working with it for a while, I have
+((learning)) the language properly and working with it for a while, I have
 learned to actually _like_ JavaScript.
 
-(((JavaScript,versions of)))(((ECMAScript)))(((ECMAScript 6)))There
-have been several _versions_ of JavaScript. ECMAScript version 3 was
-the dominant, widely supported version in the time of JavaScript's
-ascent to dominance, roughly between 2000 and 2010. During this time,
-work was underway on an ambitious version 4, which planned a number of
-radical improvements and extensions to the language. Changing a
-living, widely used language in such a radical way turned out to be
-politically difficult, and work on the 4th edition was abandoned in
-2008, leading to the much less ambitious 5th edition coming out in
-2009. We're now at the point where all major browsers support this 5th
-edition, which is the language version that this book will be focusing
-on. A 6th edition is in the process of being finalized, and some
-browsers are starting to support new features from this edition.
+(((future)))(((JavaScript,versions of)))(((ECMAScript)))(((ECMAScript
+6)))There have been several _versions_ of JavaScript. ECMAScript
+version 3 was the dominant, widely supported version in the time of
+JavaScript's ascent to dominance, roughly between 2000 and 2010.
+During this time, work was underway on an ambitious version 4, which
+planned a number of radical improvements and extensions to the
+language. Changing a living, widely used language in such a radical
+way turned out to be politically difficult, and work on the 4th
+edition was abandoned in 2008, leading to the much less ambitious 5th
+edition coming out in 2009. We're now at the point where all major
+browsers support this 5th edition, which is the language version that
+this book will be focusing on. A 6th edition is in the process of
+being finalized, and some browsers are starting to support new
+features from this edition.
 
 (((JavaScript,uses of)))Web browsers are not the only platforms on
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
@@ -347,7 +351,7 @@ outside of the browser.
 (((reading code)))(((writing code)))Code is the text that makes up
 programs. Most chapters in this book contain quite a lot of it. In my
 experience, reading and writing ((code)) is an indispensable part of
-learning to program. Try to not just glance over the examples, read
+((learning)) to program. Try to not just glance over the examples, read
 them attentively and understand them. This will be slow and confusing
 at first, but I promise that you will quickly get the hang of it. The
 same goes for the ((exercises)). Don't assume you understand them

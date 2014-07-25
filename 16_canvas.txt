@@ -1372,8 +1372,8 @@ since there only a few points (for example the center of a circle)
 need to be transformed, after which drawing can happen as normal. For
 a bitmap image, the position of each pixel has to be transformed, and
 though it is possible that browsers will get more clever about this in
-the future, this currently causes a measurable increase in the time it
-takes to draw a bitmap.
+the ((future)), this currently causes a measurable increase in the
+time it takes to draw a bitmap.
 
 In a game like ours, where we are only drawing a single transformed
 sprite, this is a non-issue. But imagine that we need to draw hundreds

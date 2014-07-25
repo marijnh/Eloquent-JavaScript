@@ -110,12 +110,12 @@ expression that corresponds to the _((index))_ given by the expression
 in the brackets.
 
 [[array_indexing]]
-(((zero-based counting)))The first index of an array is zero, not one.
-So the first element can be read with `listOfNumbers[0]`. If you don't
-have a programming background, this convention might take some getting
-used to. But zero-based counting has a long tradition in technology,
-and as long as this convention is followed consistently (which it is,
-in JavaScript), it works well.
+The first index of an array is zero, not one. So the first element can
+be read with `listOfNumbers[0]`. If you don't have a programming
+background, this convention might take some getting used to. But
+((zero-based counting)) has a long tradition in technology, and as
+long as this convention is followed consistently (which it is, in
+JavaScript), it works well.
 
 [[properties]]
 == Properties ==

@@ -391,12 +391,12 @@ inside the ((loop)). Instead, the outer function creates a normal
 local variable, `grid`, through which the inner function gets access
 to the grid.
 
-(((ECMAScript 6)))(((arrow function)))(((self variable)))This is a bit
-of a design blunder in JavaScript. Fortunately, the next version of
-the language provides a solution for this problem. Meanwhile, there
-are workarounds. A common pattern is to say `var self = this` and from
-then on refer to `self`, which is a normal variable and thus visible
-to inner functions.
+(((future)))(((ECMAScript 6)))(((arrow function)))(((self
+variable)))This is a bit of a design blunder in JavaScript.
+Fortunately, the next version of the language provides a solution for
+this problem. Meanwhile, there are workarounds. A common pattern is to
+say `var self = this` and from then on refer to `self`, which is a
+normal variable and thus visible to inner functions.
 
 (((bind method)))(((this)))Another solution is to use the `bind`
 method, which allows us to provide an explicit `this` object to bind

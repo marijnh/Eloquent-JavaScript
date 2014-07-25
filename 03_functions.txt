@@ -277,10 +277,10 @@ function square(x) {
 }
 ----
 
-(((execution order)))This is a function _declaration_. The statement
-defines the variable `square` and points it at the given function. So
-far so good. There is one subtlety with this form of function
-definition, however.
+(((future)))(((execution order)))This is a function _declaration_. The
+statement defines the variable `square` and points it at the given
+function. So far so good. There is one subtlety with this form of
+function definition, however.
 
 [source,javascript]
 ----

@@ -627,7 +627,7 @@ functions that are waiting for the module to load.
 This code is a lot harder to follow than the `require` function. Its
 execution does not follow a simple, predictable path. Instead,
 multiple operations are set up to happen at some unspecified time in
-the future, which obscures the way the code executes.
+the ((future)), which obscures the way the code executes.
 
 A real AMD implementation is, again, quite a lot more clever about
 resolving module names to actual URLs, and generally more robust than
@@ -636,7 +636,7 @@ popular implementation of this style of module loader.
 
 == Interface design ==
 
-(((interface design)))Designing interfaces for modules and object
+(((interface,design)))Designing interfaces for modules and object
 types is one of the subtler aspects of programming. Any non-trivial
 piece functionality can be modeled in various ways. Finding a way that
 works well requires insight and foresight.

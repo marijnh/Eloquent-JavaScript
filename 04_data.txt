@@ -852,7 +852,7 @@ a `slice` method, which has a similar effect.
 to glue arrays together, similar to what the `+` operator does for
 strings. The following example shows both `concat` and `slice` in
 action. It takes an array and an index, and it returns a new array
-with is a copy of the original array with the element at the given
+which is a copy of the original array with the element at the given
 index removed.
 
 [source,javascript]

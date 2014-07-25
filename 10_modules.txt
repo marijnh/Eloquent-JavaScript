@@ -43,7 +43,7 @@ criterion, belong together. This chapter explores some of the
 benefits that such clustering provides, and shows techniques for
 building modules in JavaScript.
 
-== Organization ==
+== Why modules help ==
 
 There are number of reasons why authors divide their books into
 chapters and sections. These divisions make it easier for a reader to
@@ -76,7 +76,7 @@ be wasting time moving pieces of the program back and forth, and won't
 accidentally lock yourself into a structure that does not actually fit
 your program.
 
-== Namespacing ==
+=== Namespacing ===
 
 Most modern programming languages have a scope level between _global_
 (everyone can see it) and _local_ (only this function can see it).
@@ -97,7 +97,7 @@ module. Later in this chapter, I will discuss way to build reasonably
 convenient, namespace-isolating modules on top of the primitive
 concepts that JavaScript gives us.
 
-== Reuse ==
+=== Reuse ===
 
 In a “flat” project, which isn't structured as a set of modules,
 it is not apparent which parts of the code are
@@ -136,7 +136,7 @@ downloading and upgrading the modules your program depends on. It grew
 out of Node.js, the browser-less JavaScript environment we will discuss in
 link:20_node.html#node[Chapter 20], but can also be useful when programming for the browser.
 
-== Decoupling ==
+=== Decoupling ===
 
 Another important role of modules is isolating pieces of code from
 each other, in the same way that the object interfaces from link:06_object.html#interface[Chapter 6]

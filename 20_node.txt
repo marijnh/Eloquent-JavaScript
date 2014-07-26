@@ -218,7 +218,7 @@ module, or a module installed in a `node_modules` directory. For
 example, `require("fs")` will give you Node's built-in filesystem
 module, and `require("elife")` will try to load the library found in
 `node_modules/elife/`. A common way to install such libraries is by
-using NMP, which I will discuss in a moment.
+using NPM, which I will discuss in a moment.
 
 To illustrate the use of `require`, let's set up a simple project
 consisting of two files. The first one is called `main.js`, which

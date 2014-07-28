@@ -311,7 +311,7 @@ convenient widget.(!tex  This is what it may look like:!)
 
 ifdef::tex_target[]
 
-image::img/form_multi_select.png[alt="A multiple select field",width="5cm"]
+image::img/color-field.png[alt="A color field",width="6cm"]
 
 endif::tex_target[]
 

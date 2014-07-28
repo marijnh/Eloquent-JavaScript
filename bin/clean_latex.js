@@ -18,8 +18,8 @@ process.stdin.on("data", function(chunk) {
 });
 process.stdin.on("end", function() {
   checkUnicode(input);
-  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Solutions to the Exercises)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}/g,
-                        function(all, codeSpace, manyBlanks, why, simplechapter, link, seeFrom, seeTo) {
+  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Solutions to the Exercises)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}|\\textasciicircum\{\}\{([^\}]+?)\}/g,
+                        function(all, codeSpace, manyBlanks, why, simplechapter, link, seeFrom, seeTo, superscript) {
     if (codeSpace)
       return codeSpace.slice(1);
     if (manyBlanks)
@@ -32,6 +32,8 @@ process.stdin.on("end", function() {
       return "\\hyperref[" + link.replace(/\\_\{\}/g, "_") + "]";
     if (seeFrom)
       return "\\index{" + seeFrom + "|see{" + seeTo + "}}";
+    if (superscript)
+      return "\\textsuperscript{" + superscript + "}";
   });
   input = input.replace(/({\\hspace\*\{.+?\}\\itshape``)\s*([^]+?)\s*('')/g, "$1$2$3");
 

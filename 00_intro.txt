@@ -65,7 +65,7 @@ building your own maze, in a way, and might just get lost in it.
 
 (((learning)))There will be times at which reading this book feels terribly
 frustrating. If you are new to programming, there will be a lot of new
-material to digest. Much of this material will then be _combine_ in
+material to digest. Much of this material will then be _combined_ in
 ways that require you to make additional connections.
 
 It is up to you to make the effort necessary. When you are struggling

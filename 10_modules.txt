@@ -481,7 +481,7 @@ far-away web server, the page would freeze for a painfully long time
 while loading its scripts.
 
 One way to work around this problem is to run a program like
-_http://browserify.org[Browserify]_ on your code before you serve it
+http://browserify.org[_Browserify_] on your code before you serve it
 on a web page. This will look for calls to `require` and gather the
 dependencies it finds together into a big file. When you actually
 serve the code, you only have to call `require` once with this big

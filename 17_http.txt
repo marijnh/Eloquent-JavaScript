@@ -14,24 +14,24 @@ fact that a hypertext link can point to anything, be it personal,
 local or global, be it draft or highly polished.
 ____
 
-The _Hyper-Text Transfer Protocol_, already mentioned in link:12_browser.html#web[Chapter 12],
-is the mechanism through which data is requested and provided on the
-World Wide Web. This chapter describes this protocol in more detail,
-and explains the way browser JavaScript has access to it.
+The _Hyper-Text Transfer Protocol_, already mentioned in
+link:12_browser.html#web[Chapter 12], is the mechanism through which
+data is requested and provided on the World Wide Web. This chapter
+describes the protocol in detail, and explains the way browser
+JavaScript has access to it.
 
 == The protocol ==
 
-As an example, imagine you type
-_http://eloquentjavascript.net/index.html_ into your browser's address
-bar. First, the browser looks up the address of the server associated
-with _eloquentjavascript.net_, and tries to open a TCP connection to
-it on port 80, the default port for HTTP traffic. If the server
-exists, and accepts the connection, the browser sends something like
-this:
+As an example, imagine you type _eloquentjavascript.net/17_http.html_
+into your browser's address bar. First, the browser looks up the
+address of the server associated with _eloquentjavascript.net_, and
+tries to open a TCP connection to it on port 80, the default port for
+HTTP traffic. If the server exists and accepts the connection, the
+browser sends something like this:
 
 [source,http]
 ----
-GET /index.html HTTP/1.1
+GET /17_http.html HTTP/1.1
 Host: eloquentjavascript.net
 User-Agent: Your browser's name
 ----
@@ -57,7 +57,7 @@ with this line:
 
 [source,http]
 ----
-GET /index.html HTTP/1.1
+GET /17_http.html HTTP/1.1
 ----
 
 The first word is the _method_ of the request. `GET` means that we
@@ -72,9 +72,9 @@ applies to. In the simplest case, a resource is simply a file on the
 server. But the protocol doesn't require it to be: it may be anything
 that can be transferred _as if_ it is a file. Many servers generate
 the responses they produce on the fly. For example, if you open
-_http://twitter.com/marijnjh_, the server looks in its database for a
-user named “marijnjh”, and if it finds one, it will generate a profile
-page for that user.
+http://twitter.com/marijnjh[_twitter.com/marijnjh_], the server looks
+in its database for a user named “marijnjh”, and if it finds one, it
+will generate a profile page for that user.
 
 After the resource path, the first line of the request mentions
 `HTTP/1.1`, to indicate the version of the HTTP protocol it is using.
@@ -92,8 +92,8 @@ Codes starting with a 2 indicate that the request succeeded. Codes
 starting with a 4 mean there was something wrong with the request. 404
 is probably the most famous HTTP status code—it means that the
 resource that was requested could not be found. Codes that start with
-5 mean an error occurred that the server, rather than the request, is
-to blame for.
+5 mean an error happened on the the server, and the request is not to
+blame.
 
 [[headers]]
 The first line of a request or response may be followed by any number
@@ -102,14 +102,14 @@ extra information about the request or response. These headers were
 part of the example response:
 
 ----
-Content-Length: 3122
+Content-Length: 65585
 Content-Type: text/html
 Last-Modified: Wed, 09 Apr 2014 10:48:09 GMT
 ----
 
-This tells us the size and type of the document that is being
-returned. In this case, an HTML document of 3122 bytes. It also tells
-us when that document was last modified.
+This tells us the size and type of the response document. In this
+case, an HTML document of 65,585 bytes. It also tells us when that
+document was last modified.
 
 Which headers to include in a request or a response is mostly up to
 the client or server sending it, though a few are required. For
@@ -128,12 +128,12 @@ error responses, do not require a body.
 
 As we saw in the example, a browser will make a request when we enter
 a URL in its address bar. When the resulting HTML page references
-other files, such as images and JavaScript files those are also
+other files, such as images and JavaScript files, those are also
 fetched.
 
 A moderately complicated website can easily include anywhere from ten
 to two hundred resources. To be able to fetch those quickly, browsers
-will open several requests simultaneously, rather than waiting for the
+will make several requests simultaneously, rather than waiting for the
 responses one at a time.
 
 Fetching such documents is always done using `GET` requests.
@@ -205,10 +205,10 @@ The link:18_forms.html#forms[next chapter] will come back to forms,
 and talk about the way we can script them with JavaScript.
 
 [[xmlhttprequest]]
-== Historical accident ==
+== XMLHttpRequest ==
 
 The interface through which browser JavaScript can make HTTP requests
-is called `XMLHttpRequest` (note the inconsisten capitalization). It
+is called `XMLHttpRequest` (note the inconsistent capitalization). It
 was designed by Microsoft, for their Internet Explorer browser, in the
 late 1990s. During this time, in the world of business software (a
 world which Microsoft has always been at home in) the XML file format
@@ -216,24 +216,24 @@ was _very_ popular. So popular that the word “XML” was tacked onto the
 front of the name of an interface for HTTP, which is in no way tied to
 XML.
 
-The name isn't completely nonsensical. There is functionality for
-parsing a response as an XML file built into the interface. Confusing
-two distinct concepts (making a request and parsing the response) into
-a single thing is terrible design, of course, but so it goes.
+The name isn't completely nonsensical. The interface allows you to
+parse response documents as XML, if you want to. Confusing two
+distinct concepts (making a request and parsing the response) into a
+single thing is terrible design, of course, but so it goes.
 
 When the `XMLHttpRequest` interface was added to Internet Explorer, it
 allowed people to do things with JavaScript that had been very hard
-before. One thing that made ripples at the time was the ability to
-show suggestions when the user is typing something into a text field.
-The script would send the text typed to the server over HTTP, and the
-server, which had some database of things that the user might mean,
-would match those against the partial input, and send back possible
-completions. These were then shown to the user. This was mind-blowing,
-at a time where people were used to every interaction with a website
-requiring a full page reload.
+before. For example, websites started showing lists suggestions when
+the user was typing something into a text field. The script would send
+the text typed to the server over HTTP, and the server, which had some
+database of things that the user might mean, would match those against
+the partial input, and send back possible completions, which were then
+shown to the user. This was considered very spectacular—people were
+used to the fact that every interaction with a website required a full
+page reload.
 
-The other significant browser of the time, Mozilla (later Firefox) did
-not want to be left behind. To allow people to do similarly neat
+The other significant browser at that time, Mozilla (later Firefox)
+did not want to be left behind. To allow people to do similarly neat
 things in _their_ browser, they copied the interface, including the
 bogus name. The next generation of browsers followed this example, and
 today `XMLHttpRequest` is a de facto standard interface.
@@ -256,12 +256,12 @@ console.log(req.responseText);
 
 The `open` method configures the request. In this case, we choose to
 make a `GET` request for the _example/data.txt_ file. URLs that don't
-start with _http://_ are called relative, which means that they are
-interpreted relative to the current document. When they start with a
-slash (“/”), they replace the current path (the part after the server
-name). When they do not, the part of the current path up to and
-including its last slash character is put in front of the relative
-URL.
+start with a protocol (like _http://_) are called relative, which
+means that they are interpreted relative to the current document. When
+they start with a slash (“/”), they replace the current path (the part
+after the server name). When they do not, the part of the current path
+up to and including its last slash character is put in front of the
+relative URL.
 
 After opening the request, we can send it with the `send` method. The
 argument to send is the request body. For `GET` requests, we can pass
@@ -271,10 +271,8 @@ request object's `responseText` property to get the response body.
 
 The other information included in the response can also be extracted
 from this object. The status code is accessible through the `status`
-property, and the status text through `statusText`. Headers can be
-read with `getResponseHeader` (which expects a header name as
-argument, and returns the header's value) and `getAllResponseHeaders`
-(which returns a string containing all headers).
+property, and the human-readable status text through `statusText`.
+Headers can be read with `getResponseHeader`.
 
 // test: no
 
@@ -309,7 +307,7 @@ our program is suspended as long as the browser and server are
 communicating. When the connection is bad, the server is slow, or the
 file is big, that might take quite a while. Worse, because no event
 handlers can fire while our program is suspended, the whole document
-will become unresponsive. This is bad.
+will become unresponsive.
 
 If we pass `true` as the third argument to `open`, the request is
 _asynchronous_. That means that when we call `send`, the only thing
@@ -333,10 +331,12 @@ req.addEventListener("load", function() {
 req.send(null);
 ----
 
-This again forces us to use an asynchronous style of programming,
-wrapping the things that have to be done after the request in a
-function, and arranging for that to be called at the appropriate time.
-We will come back to this link:17_http.html#promises[later].
+Just like the use of `requestAnimationFrame` in
+link:15_game.html#game[Chapter 15], this forces us to use an
+asynchronous style of programming, wrapping the things that have to be
+done after the request in a function, and arranging for that to be
+called at the appropriate time. We will come back to this
+link:17_http.html#promises[later].
 
 == Fetching XML Data ==
 
@@ -402,10 +402,11 @@ random mafia account.
 It is not too hard for websites to protect themselves against such
 events, but it requires effort, and many websites fail to do it. For
 this reason, browsers protect us by disallowing scripts to make HTTP
-requests to other domains (names like _themafia.org_ and _mybank.com_).
+requests to other _domains_ (names like _themafia.org_ and
+_mybank.com_).
 
 This can be an annoying problem when building systems that want to
-access other domains for legitimate reasons. It is possible for
+access several domains for legitimate reasons. It is possible for
 servers to include a header like this in their response to explicitly
 indicate to browsers that it is okay for the request to come from a
 different domain:
@@ -440,7 +441,8 @@ function backgroundReadFile(url, callback) {
 This simple abstraction makes it easier to use `XMLHttpRequest` for
 simple `GET` requests. If you are writing a program that has to make
 HTTP requests, it is a good idea to use a helper function, so that you
-don't end up repeating the same pattern over and over.
+don't end up repeating the ugly `XMLHttpRequest` pattern all through
+your code.
 
 The function argument's name, `callback`, is a term that is often used
 to describe functions like this. A callback function is given to other
@@ -455,13 +457,13 @@ wrappers for `XMLHttpRequest`.
 
 The main problem with the wrapper above is its handling of failure.
 When the request returns a status code that indicates an error (400
-and up), it just logs something to the console and bails out.
-Sometimes, this is okay, but imagine, for example, we put a “loading”
-indicator on the page to indicate that we are fetching information. If
-the request fails, because the server crashed or the connection is
-briefly interrupted, the page will just sit there, misleadingly
-looking like it is doing something. The user will wait for a while,
-get impatient, and hate us.
+and up), it does nothing. This might be okay, in some circumstances,
+but imagine we put a “loading” indicator on the page to indicate that
+we are fetching information. If the request fails, because the server
+crashed or the connection is briefly interrupted, the page will just
+sit there, misleadingly looking like it is doing something. The user
+will wait for a while, get impatient, and consider the site uselessly
+flaky.
 
 We should also have an option to be notified when the request fails,
 so that we can take appropriate action—for example, remove the
@@ -545,18 +547,18 @@ actions.
 == Promises ==
 
 For complicated projects, writing asynchronous code in plain callback
-back is hard to do correctly. It is easy to forget to check for an
+style is hard to do correctly. It is easy to forget to check for an
 error, or to allow an unexpected exception to cut the program short in
 a crude way. Additionally, arranging for correct error handling when
 the error has to flow through multiple callback functions and `catch`
 blocks is tedious.
 
-There have been a lot of attempts to solve this with extra
-abstractions. One of the most successful ones is called _promises_.
-Promises wrap an asynchronous action in an object, which can be passed
-around and told to do certain things when the action finishes or
-fails. They are set to become a part of the next version of the
-JavaScript language, but can already be used as a library.
+(((ECMAScript 6)))There have been a lot of attempts to solve this with
+extra abstractions. One of the more successful ones is called
+_promises_. Promises wrap an asynchronous action in an object, which
+can be passed around and told to do certain things when the action
+finishes or fails. They are set to become a part of the next version
+of the JavaScript language, but can already be used as a library.
 
 The interface for promises is somewhat non-obvious, but very powerful.
 This chapter will only roughly describe it. A more thorough treatment
@@ -640,7 +642,7 @@ allowed. The error will be passed on to the promise returned by
 `then`, which is exactly what we want—`getJSON` does not know what to
 do when something goes wrong, but its caller hopefully does.
 
-As an example of a suitable use of promises, we will build a program
+As an example that shows the use of promises, we will build a program
 that fetches a number of JSON files from the server, and, while it is
 doing that, shows the word “loading”. The JSON files contain
 information about people, with links to files that represent other
@@ -684,7 +686,7 @@ the final `then`, which removes the loading message, is always
 executed, even if something went wrong.
 
 You can think of the promise interface as implementing its own
-language for asynchronous control flow. All the method calls and
+language for asynchronous control flow. The extra method calls and
 function expressions needed to achieve this make the code look
 somewhat awkward, but not remotely as awkward as it would look if we
 took care of all the error handing ourselves.
@@ -725,22 +727,22 @@ since resources are easier to reason about than a jumble of functions.
 
 Data traveling over the internet tends to follow a long, dangerous
 road. In order to get to its destination it must hop through anything
-from open coffee shop wireless networks, to networks controlled by
-various companies and states. At any point, it may be inspected, or
-even modified.
+from coffee shop wifi networks to networks controlled by various
+companies and states. At any point along its routed, it may be
+inspected, or even modified.
 
 If it is important that something remain secret, such as the password
 to your email account, or that it arrive at its destination
 unmodified, such as the account number you transfer money to from your
 bank's website, plain HTTP is not good enough.
 
-The secure HTTP protocol, whose URLs start with `https:`, wraps HTTP
+The secure HTTP protocol, whose URLs start with _https://_, wraps HTTP
 traffic in a way that makes it harder to read and tamper with. First,
 the client verifies that the server is who it claims to be, by
 requiring it to prove that is has a cryptographic certificate issued
-by one of the certificate authorities that the browser recognizes.
-Next, all data going over the connection is encrypted in a way that
-should prevent eavesdropping and tampering.
+by a certificate authority that the browser recognizes. Next, all data
+going over the connection is encrypted in a way that should prevent
+eavesdropping and tampering.
 
 Thus, when it works right, HTTPS prevents both the situation where
 someone impersonates the website you were trying to talk to, and the
@@ -795,15 +797,17 @@ repetetive and error-prone elements in this style of programming.
 
 One of the things that HTTP can do, but which we have not discussed in
 this chapter yet, is called _content negotiation_. The `Accept` header
-in a request can be used to tell the server what type of document the
+for a request can be used to tell the server what type of document the
 client would like to get. Many servers ignore this header, but when a
-server knows of various way to encode a resource, it can look at this
+server knows of various ways to encode a resource, it can look at this
 header and send the one that the client prefers.
 
-The URL _http://eloquentjavascript.net/author_ is configured to
-respond with either plain text, HTML, or JSON, depending on what the
-client asks for. These formats are identified by the standardized
-_media types_ `text/plain`, `text/html`, and `application/json`.
+The URL
+http://eloquentjavascript.net/author[_eloquentjavascript.net/author_]
+is configured to respond with either plain text, HTML, or JSON,
+depending on what the client asks for. These formats are identified by
+the standardized _media types_ `text/plain`, `text/html`, and
+`application/json`.
 
 Send requests to fetch all three formats of this resource. Use the
 `setRequestHeader` method of your `XMLHttpRequest` object set the

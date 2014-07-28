@@ -975,8 +975,9 @@ when the I/O you asked for is completed.
 
 In link:17_http.html#exercise_accept[Chapter 17], the first exercise
 was to make several requests to
-_http://eloquentjavascript.net/author_, asking for different types of
-content by passing different `Accept` headers.
+http://eloquentjavascript.net/author[_eloquentjavascript.net/author_],
+asking for different types of content by passing different `Accept`
+headers.
 
 Do this again, using Node's `http.request` function. Ask for at least
 the media types `text/plain`, `text/html`, and `application/json`.
@@ -1142,8 +1143,9 @@ online for everybody to see.
 You can create a `<textarea>` element to hold the content of the file
 that is being edited. A `GET` request, using `XMLHttpRequest`, can be
 used to get the current content of the file. You can use relative URLs
-like _index.html_, instead of _http://localhost:8000/index.html_, to
-refer to files on the same server as the running script.
+like _index.html_, instead of
+http://localhost:8000/index.html[_http://localhost:8000/index.html_],
+to refer to files on the same server as the running script.
 
 Then, when the user clicks a button (you can use a `<form>` element
 and `"submit"` event, or simply a `"click"` handler), make a `PUT`

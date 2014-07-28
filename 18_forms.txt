@@ -16,21 +16,20 @@ ____
 
 Forms were introduced briefly in the
 link:17_http.html#http_forms[previous chapter] as a way to _submit_
-information entered by the user over HTTP. They were designed for a
-pre-JavaScript Web, and assume that interaction with the server always
+information provided by the user over HTTP. They were designed for a
+pre-JavaScript Web, assuming that interaction with the server always
 happens by navigating to a new page.
 
 But their elements are part of the DOM like the rest of the page, and
 the DOM elements that represent form fields supports a number of
 properties and events that are not present on other elements. These
 make it possible to inspect and control them through JavaScript
-programs, either to add additional functionality to a traditional
-form, or by using such fields as building blocks in a JavaScript
-application.
+programs, to add additional functionality to a traditional form, or by
+using forms and fields as building blocks in a JavaScript application.
 
 == Fields ==
 
-A web form consists of any number of input fields, grouped by a
+A web form consists of any number of input fields, grouped in a
 `<form>` tag. HTML allows a number of different styles of fields,
 ranging from simple on/off checkboxes to drop-down menus and fields
 for text input. This book won't try to comprehensively discuss all of
@@ -123,7 +122,7 @@ events, for example a `<select>` menu will try to move to the option
 that contains the text the user typed, and respond to the arrow keys
 by moving its selection up and down.
 
-We can influence focusing from JavaScript with the `focus` and `blur`
+We can control focus from JavaScript with the `focus` and `blur`
 methods. The first moves focus to the DOM element it is called on, the
 second removes focus. The value in `document.activeElement`
 corresponds to the currently focused element.
@@ -145,9 +144,9 @@ For some pages, it is expected that the user will want to start
 interacting with a form field immediately. JavaScript can be used to
 focus this field when the document is loaded, but HTML also provides
 the `autofocus` attribute, which produces the same effect, but lets
-the browser know what we are trying to achieve, and disable the
-behavior when it is not appropriate, such as when the user has focused
-something else.
+the browser know what we are trying to achieve. This makes it possible
+for the browser to disable the behavior when it is not appropriate,
+such as when the user has focused something else.
 
 [source,text/html]
 [focus="yes"]
@@ -192,12 +191,12 @@ image::img/button_disabled.png[alt="A disabled button",width="3cm"]
 endif::tex_target[]
 
 When the program is busy processing the action caused by some button
-or other control, for example making requests to a server, it is often
-a good idea to disable the control until the action finishes, so that
+or other control, for example making requests to a server, it can be a
+good idea to disable the control until the action finishes, so that
 when the user gets impatient and clicks it again, they don't
 accidentally repeat their action.
 
-== A form as a whole ==
+== The form as a whole ==
 
 When a field is contained in a `<form>` element, its DOM element will
 have a property `form` linking back to the form's DOM element. The
@@ -232,10 +231,12 @@ A button with a `type` attribute of `submit` will, when pressed, cause
 the form to be submitted. Pressing Enter in when a form field is
 focused has the same effect.
 
-When this happens, it generates a `"submit"` event. This event can be
-handled by JavaScript, and the handler can even prevent the default
-behavior, which is to navigate to the page indicated by the form's
-`action` attribute, by calling `preventDefault` on the event object.
+When this happens, the form is submitted. This normally means that the
+browser navigates to the page indicated by the form's `action`
+attribute, using either a `GET` or a `POST` request. But before that
+happens, a `"submit"` event is fired. This event can be handled by
+JavaScript, and the handler can prevent the default behavior by
+calling `preventDefault` on the event object.
 
 [source,text/html]
 ----
@@ -265,16 +266,17 @@ without reloading the page.
 Fields created by `<input>` tags with a type of `text` or `password`,
 as well as `textarea` tags, share a common interface. Their DOM
 elements have a `value` property which holds their current content, as
-a string. To change the field's content, you can set this property to
-a different string.
+a string. Setting this property to another string changes the field's
+content.
 
-Their `selectionStart` and `selectionEnd` give us information about
-the cursor and selection in the text. When nothing is selected, these
-two properties hold the same number, indicating the position of the
-cursor, for example 0 to indicate the start of the text, or 10 when it
-is after the 10^th^ character. When part of the field is selected,
-they will differ, giving us the start and end of the selected text.
-Like `value`, these properties may also be written to.
+The `selectionStart` and `selectionEnd` properties of text fields give
+us information about the cursor and selection in the text. When
+nothing is selected, these two properties hold the same number,
+indicating the position of the cursor, for example 0 to indicate the
+start of the text, or 10 when it is after the 10^th^ character. When
+part of the field is selected, they will differ, giving us the start
+and end of the selected text. Like `value`, these properties may also
+be written to.
 
 As an example, imagine you are writing an article about Srinivasa
 Ramanujan, but have some trouble spelling his name. The code below
@@ -588,21 +590,21 @@ A value in `localStorage` sticks around until it is overwritten,
 removed with `removeItem`, or the user clears out their local data.
 
 Sites from different domains get different storage compartments. That
-means that data stored there by a given website can in principle only
-be read (and overwritten) by scripts on that same site.
+means that data stored in `localStorage` by a given website can in
+principle only be read (and overwritten) by scripts on that same site.
 
 Browsers also enforce a limit on the size of the data a site can store
 in `localStorage`, typically in the order of a few megabytes. This
 restriction, along with the fact that filling up people's hard drives
-with junk is not very profitable, prevents this feature from eating up
-too much space.
+with junk is not really profitable, prevents this feature from eating
+up too much space.
 
 The code below implements a simple note-taking application. It keeps
 the user's notes as an object associating note titles with content
-strings. This object is stored in `localStorage`, encoded as JSON
-because only strings can be stored there. The user can select a note
-from a `<select>` field, and change that note's text in a
-`<textarea>`. A note can be added by pressing a button.
+strings. This object is encoded as JSON and stored in `localStorage`.
+The user can select a note from a `<select>` field, and change that
+note's text in a `<textarea>`. A note can be added by pressing a
+button.
 
 // start_code
 
@@ -657,14 +659,13 @@ Notes: <select id="list"></select>
 </script>
 ----
 
-The start of the script initializes the `notes` variable to the value
-stored in `localStorage`, or if that is missing, to a simple object
-with only an empty `"shopping list"` note in it.
-
-Reading a field that does not exist from `localStorage` will yield
-`null`. And passing `null` to `JSON.parse` will make it parse the
-string `"null"`, and return `null`. Thus, the `||` operator can be
-used to provide a default value in a situation like this.
+The script initializes the `notes` variable to the value stored in
+`localStorage`, or if that is missing, to a simple object with only an
+empty `"shopping list"` note in it. Reading a field that does not
+exist from `localStorage` will yield `null`. And passing `null` to
+`JSON.parse` will make it parse the string `"null"`, and return
+`null`. Thus, the `||` operator can be used to provide a default value
+in a situation like this.
 
 Whenever the note data changes (when a new note is added or an
 existing note changed), the `saveToStorage` function is called to
@@ -673,16 +674,16 @@ thousands of notes, rather than a handful, this would be too
 expensive, and we'd have to come up with a more complicated way to
 store them, such as giving each note its own storage field.
 
-When adding a note, after selecting the new note, the code updates the
-text field explicitly, even though the `<select>` field has a
-`"change"` handler that does the same thing. This is necessary because
-`"change"` events only fire when the _user_ changes the field's value,
-not when a script does it.
+When the user adds a new note, the code must update the text field
+explicitly, even though the `<select>` field has a `"change"` handler
+that does the same thing. This is necessary because `"change"` events
+only fire when the _user_ changes the field's value, not when a script
+does it.
 
-There exists an object similar to `localStorage` called
+There is another object similar to `localStorage` called
 `sessionStorage`. The difference between the two is that the content
-of `sessionStorage` is forgotten at the end of a _session_, which for
-most browsers means whenever the browser is closed.
+of `sessionStorage` is forgotten at the end of each _session_, which
+for most browsers means whenever the browser is closed.
 
 == Summary ==
 
@@ -690,7 +691,7 @@ HTML can express various types of form fields, such as text fields,
 checkboxes, multiple-choice fields, and file pickers.
 
 Such fields can be inspected and manipulated with JavaScript. They
-fire events like `"change"`, when changed, `"input"`, when text is
+fire the events `"change"` when changed and `"input"` when text is
 typed, as well as the various keyboard events. These allow us to
 notice when the user is interacting with them. Properties like `value`
 (for text and select fields) or `checked` (for checkboxes and radio
@@ -699,11 +700,11 @@ buttons) are used to read or set the field's content.
 When a form is submitted, its `"submit"` event fires. A JavaScript
 handler can `preventDefault` that event to prevent the submission from
 happening. Form fields elements do not have to be wrapped in `<form>`
-tag, if they are only going to be used by a script.
+tag.
 
-When the user has selected a field from a local drive in a file picker
-field, the `FileReader` interface can be used to access the content of
-this file from a JavaScript program.
+When the user has selected a field from their local file system in a
+file picker field, the `FileReader` interface can be used to access
+the content of this file from a JavaScript program.
 
 The `localStorage` and `sessionStorage` objects can be used to save
 information in a way that survives page reloads. The first saves the
@@ -715,13 +716,13 @@ it until the browser is closed.
 === A JavaScript workbench ===
 
 Build an interface that allows people to type and run pieces of
-JavaScript.
+JavaScript code.
 
 Put a button next to a `<textarea>` field, which, when pressed, uses
 the `Function` constructor we saw in link:10_modules.html#eval[Chapter
-10] to wrap the text in the field in a function, and call it. Convert
-the return value of the function, or any error it raised, to a string
-and display it below the text field.
+10] to wrap the text in a function and call it. Convert the return
+value of the function, or any error it raised, to a string and display
+it below the text field.
 
 ifdef::html_target[]
 
@@ -763,10 +764,9 @@ end, so that not all output appears on a single line.
 === Autocompletion ===
 
 Extend a text field so that when the user types, a list of suggested
-values is shown below the field. You have an array of known common
-values, and should show those that start with the text that was typed.
-When a suggestion is clicked, replace the text field's current value
-with it.
+values is shown below the field. You have an array of possible values,
+and should show those that start with the text that was typed. When a
+suggestion is clicked, replace the text field's current value with it.
 
 ifdef::html_target[]
 

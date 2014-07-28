@@ -43,6 +43,8 @@ This page has the following structure:
 
 image::img/html-boxes.svg[alt="HTML document as nested boxes",width="7cm"]
 
+indexsee::[Document Object Model,DOM]
+
 The data structure the browser uses to represent the document follows
 this shape. For each box, there is an object, which we can interact
 with to find out things like what HTML tag it represents, and which

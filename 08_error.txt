@@ -524,7 +524,7 @@ Even though the function called from `withContext` exploded,
 
 == Selective catching ==
 
-(((unhandled exception)))(((exception handling)))(((JavaScript
+(((uncaught exception)))(((exception handling)))(((JavaScript
 console)))(((developer tools)))(((call stack)))(((error)))When an
 exception makes it all the way to the bottom of the stack without
 being caught, it gets handled by the environment. What this means

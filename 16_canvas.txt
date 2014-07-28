@@ -1128,7 +1128,7 @@ draw text, but won't help with positioning that text, or wrapping it
 when it takes up more than one line. In an HTML-based picture, it is
 very easy to include blocks of text.
 
-(((zooming)))((SVG)) can be used to produce ((crisp)) ((graphics))
+(((zooming)))(((SVG)))SVG can be used to produce ((crisp)) ((graphics))
 that look good at any zoom level. It is more difficult to use than
 plain HTML, but also much more powerful.
 

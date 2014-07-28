@@ -312,16 +312,13 @@ problems mentioned above, and has the added benefit of making you program's
 dependencies explicit, making it harder to accidentally make use of
 some module without stating that you need it.
 
-For `require` we need two things. First, we want
-a function `readFile`,
-which returns the content of a given file as a string.
-(A single such function is not present in standard JavaScript,
-but different JavaScript environments, such as the browser and Node.js,
-provide their own ways of accessing files.
-For now, let's just pretend we have this simple function.)
-Secondly, we need to be able
-to actually execute this string as JavaScript
-code.
+(((readFile function)))For `require` we need two things. First, we
+want a function `readFile`, which returns the content of a given file
+as a string. (A single such function is not present in standard
+JavaScript, but different JavaScript environments, such as the browser
+and Node.js, provide their own ways of accessing files. For now, let's
+just pretend we have this simple function.) Secondly, we need to be
+able to actually execute this string as JavaScript code.
 
 [[eval]]
 == Evaluating data as code ==
@@ -528,10 +525,11 @@ define([], function() {
 });
 ----
 
-In order to be able to show a minimal implementation of `define`, we will
-pretend we have a `backgroundReadFile` function, which takes a file
-name and a function, and will call the function with the content of
-the file as soon as it has finished loading it. (link:17_http.html#getURL[Chapter 17] will
+(((backgroundReadFile function)))In order to be able to show a minimal
+implementation of `define`, we will pretend we have a
+`backgroundReadFile` function, which takes a file name and a function,
+and will call the function with the content of the file as soon as it
+has finished loading it. (link:17_http.html#getURL[Chapter 17] will
 explain how to write that function.)
 
 For the purpose of keeping track of modules while they are being

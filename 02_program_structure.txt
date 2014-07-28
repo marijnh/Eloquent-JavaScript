@@ -358,7 +358,7 @@ alert("Your number is the square root of " +
 ----
 
 (((type conversion)))(((Number function)))(((String
-function)))(((Boolean function))))(((Boolean type,conversion to)))The
+function)))(((Boolean function)))(((Boolean type,conversion to)))The
 function `Number` converts a value to a number. We need that
 conversion because the result of `prompt` is a string value, and we
 want a number. There are similar functions called `String` and

@@ -973,8 +973,9 @@ when the I/O you asked for is completed.
 
 === Content negotiation, again ===
 
-In link:17_http.html#exercise_accept[Chapter 17], the first exercise
-was to make several requests to
+(((content negotiation (exercise))))In
+link:17_http.html#exercise_accept[Chapter 17], the first exercise was
+to make several requests to
 http://eloquentjavascript.net/author[_eloquentjavascript.net/author_],
 asking for different types of content by passing different `Accept`
 headers.
@@ -988,8 +989,9 @@ Write out the content of the responses to each request.
 
 !!solution!!
 
-Don't forget to call the `end` method on the object returned by
-`http.request`, in order to actually fire off the request.
+(((content negotiation (exercise))))Don't forget to call the `end`
+method on the object returned by `http.request`, in order to actually
+fire off the request.
 
 The response object passed to `http.request`’s callback is a readable
 stream. This means that it is not entirely trivial to get the whole

@@ -15,7 +15,7 @@ function error(file, msg) {
 var link = /link:([^\.\s]+)\.(\w{2,5})#([^\s\[]+)\[/g, m;
 for (var file in files) {
   // Haha, good luck making sense of this one
-  var bad = /\n\n(\(\(\([^()]*?(\([^()]+\))?\)\)\))*(\(\([^(]|[^(\n]\(\(\()|\n\n\[\[[^\]]+?\]\].|[^(]\(\([^()]+?(\([^()]+?\))?\)\)/.exec(files[file]);
+  var bad = /\n\n(\(\(\([^()]*?(\([^()]+\))?\)\)\))*(\(\([^(]|[^(\n]\(\(\()|\n\n\[\[[^\]]+?\]\].|[^(]\(\([^()]+?(\([^()]+?\))?\)\)\)/.exec(files[file]);
   if (bad) error(file, "Suspicious notation: " + bad[0]);
 
   while (m = link.exec(files[file])) {

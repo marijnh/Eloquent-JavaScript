@@ -64,13 +64,14 @@ allowing smooth ((motion)).
 (((event handling)))(((keyboard)))We will use the ((browser)) ((DOM))
 to display the game, and read user input by handling key events.
 
-(((background (css))))(((position (css))))(((graphics)))The screen-
-and keyboard-related code is only a tiny part of the work we need to
-do to build this ((game)). Since everything looks like colored
-((box))es, drawing is uncomplicated: we create DOM elements, and use
-styling to give them a background color, size, and position.
+(((rectangle)))(((background (css))))(((position
+(css))))(((graphics)))The screen- and keyboard-related code is only a
+tiny part of the work we need to do to build this ((game)). Since
+everything looks like colored ((box))es, drawing is uncomplicated: we
+create DOM elements, and use styling to give them a background color,
+size, and position.
 
-(((table (html))))We can represent the background as a table, since it
+(((table (HTML))))We can represent the background as a table, since it
 is an unchanging ((grid)) of squares. The free-moving elements can be
 overlaid on top of that, using absolutely positioned elements.
 
@@ -437,12 +438,12 @@ once. The actors are redrawn every time the display is updated. The
 that holds the actors, so that they can be easily removed and
 replaced.
 
-(((DOMDisplay type)))Our ((coordinates)) and sizes are tracked in
-((unit))s relative to the ((grid)) size, where a size or distance of
-one means one grid unit. When setting ((pixel)) sizes, we will have to
-((scale)) these coordinates up—things would be ridiculously small at a
-single pixel per square. The `scale` variable gives the amount of
-pixels a single unit takes up on the screen.
+(((scaling)))(((DOMDisplay type)))Our ((coordinates)) and sizes are
+tracked in ((unit))s relative to the ((grid)) size, where a size or
+distance of one means one grid unit. When setting ((pixel)) sizes, we
+will have to scale these coordinates up—things would be ridiculously
+small at a single pixel per square. The `scale` variable gives the
+amount of pixels a single unit takes up on the screen.
 
 // include_code
 
@@ -465,7 +466,7 @@ DOMDisplay.prototype.drawBackground = function() {
 ----
 
 [[game_css]]
-(((style sheet)))(((CSS)))(((table (html))))As mentioned earlier, the
+(((style sheet)))(((CSS)))(((table (HTML))))As mentioned earlier, the
 background is drawn as a `<table>` element. This nicely corresponds to
 the structure of the `grid` property in the level—each row of the grid
 is turned into a table row (`<tr>` element). The strings in the grid
@@ -669,7 +670,7 @@ DOMDisplay.prototype.clear = function() {
 };
 ----
 
-We are now able to display our tiny level:
+(((game,screenshot)))We are now able to display our tiny level:
 
 [source,text/html]
 ----
@@ -687,7 +688,7 @@ image::img/game_simpleLevel.png[alt="Our level rendered",width="7cm"]
 
 endif::tex_target[]
 
-(((link (html))))(((style sheet)))(((css)))The `<link>` tag, when used
+(((link (HTML))))(((style sheet)))(((css)))The `<link>` tag, when used
 with `rel="stylesheet"`, is a way to load a CSS file into a page. The
 file `game.css` contains the styles necessary for our game.
 
@@ -731,7 +732,7 @@ simple approach, and hide its problems by ensuring the animation
 proceeds in small steps.
 
 (((obstacleAt method)))(((collision detection)))This method tells us
-whether a rectangle (specified by a position and a size) overlaps with
+whether a ((rectangle)) (specified by a position and a size) overlaps with
 any non-empty space on the background grid:
 
 // include_code
@@ -1196,8 +1197,10 @@ with tasks that can take an arbitrary amount of ((time)), such as
 ((network)) requests in link:17_http.html#http[Chapter 17], and in-
 and output in general in link:20_node.html#node[Chapter 20].
 
-(((GAME_LEVELS data set)))There is a set of ((level)) plans available in
-the `GAME_LEVELS` variable (!tex (downloadable from http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
+(((game,with DOM)))(((GAME_LEVELS data set)))There is a set of
+((level)) plans available in the `GAME_LEVELS` variable (!tex
+(downloadable from
+http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 This page feeds them to `runGame`, starting an actual game:
 
 // start_code

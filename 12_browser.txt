@@ -140,9 +140,9 @@ We will take a closer look at the HTTP protocol in link:17_http.html#http[Chapte
 == HTML ==
 
 HTML, which stands for _Hyper-Text Markup Language_, is the document
-format used for web pages. An HTML document contains text, as well as
-_tags_ that gives structure to the text, describing things
-like links, paragraphs, and headings.
+format used for web pages. An HTML document contains ((text)), as well
+as _tags_ that gives structure to the text, describing things like
+links, paragraphs, and headings.
 
 A simple HTML document looks like this:
 
@@ -171,7 +171,7 @@ image::img/home-page.png[alt="My home page",width="6.3cm"]
 endif::tex_target[]
 
 The tags, wrapped in angular brackets (“++<++” and “++>++”), provide
-information about the structure of the document. The other text is
+information about the structure of the document. The other ((text)) is
 just plain text.
 
 The document starts with `<!doctype html>`, which tells the browser to

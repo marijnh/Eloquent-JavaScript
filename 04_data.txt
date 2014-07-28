@@ -775,7 +775,7 @@ Knowing this, Jacques simply stops eating peanuts altogether and finds
 that this completely puts an end to his transformations.
 
 (((weresquirrel project)))All is well with Jacques for a while. But a
-few years later, he loses his job and is eventually forced to take
+few years later, he loses his ((job)) and is eventually forced to take
 employment with a ((circus)), where he performs as _The Incredible
 Squirrelman_ by stuffing his mouth with peanut butter before every
 show. One day, fed up with this pitiful existence, Jacques fails to

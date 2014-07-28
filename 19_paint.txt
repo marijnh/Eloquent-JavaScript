@@ -137,12 +137,13 @@ picture.
 
 == Tool selection ==
 
-The first control we add is the the `<select>` element that allows the
-user to pick a drawing tool. As with `controls`, we will use an object
-to collect the various tools, so that we do not have to hard-code them
-all in one place, and so that we can add more tools later. This object
-associates the names of the tools with the function that should be
-called when they are selected and the canvas is clicked.
+(((hard-coding)))The first control we add is the the `<select>`
+element that allows the user to pick a drawing tool. As with
+`controls`, we will use an object to collect the various tools, so
+that we do not have to hard-code them all in one place, and so that we
+can add more tools later. This object associates the names of the
+tools with the function that should be called when they are selected
+and the canvas is clicked.
 
 // include_code
 

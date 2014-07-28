@@ -188,17 +188,17 @@ that it represents.
 
 == Finding elements ==
 
-Navigating these links among parents, children, and siblings is often
-useful, as in the function above, which runs through the whole
-document. But if we want to find a specific node in the document,
-reaching it by starting at `document.body` and blindly following a hard-coded
-path of links is a bad idea. Doing so bakes assumptions into our program
-about the precise structure of the document—a structure we might want to
-change later. Another complicating factor is that text
-nodes are created even for the whitespace
-between nodes. The example document's body tag does not have just
-three children (`<h1>` and two `<p>`’s), but actually has seven: those
-three, plus the spaces before, after, and between them).
+(((hard-coding)))Navigating these links among parents, children, and
+siblings is often useful, as in the function above, which runs through
+the whole document. But if we want to find a specific node in the
+document, reaching it by starting at `document.body` and blindly
+following a hard-coded path of links is a bad idea. Doing so bakes
+assumptions into our program about the precise structure of the
+document—a structure we might want to change later. Another
+complicating factor is that text nodes are created even for the
+whitespace between nodes. The example document's body tag does not
+have just three children (`<h1>` and two `<p>`’s), but actually has
+seven: those three, plus the spaces before, after, and between them).
 
 So if we want to get the `href` attribute of the link in that
 document, we don't want to say something like “get the second child of
@@ -839,11 +839,11 @@ which tends to produce a good-looking animation.
 
 If we just updated the DOM in a loop, the page would freeze and
 nothing would show up on the screen. Browsers do not update their
-display while a
-JavaScript program is running, nor do they allow any interaction with the page. This is why we need
+display while a JavaScript program is running, nor do they allow any
+interaction with the page. This is why we need
 ++requestAnimationFrame++—it lets the browser know that we are done
-for now, and it can go ahead and do the things that browsers do,
-such as updating the screen and responding to user actions.
+for now, and it can go ahead and do the things that browsers do, such
+as updating the screen and responding to user actions.
 
 Our animation function is passed the current time as argument, which
 it compares to the time it saw before (the `lastTime` variable) to

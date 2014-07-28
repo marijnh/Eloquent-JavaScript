@@ -614,7 +614,8 @@ console.log(min);
 There are a few more ((variable))s, and the program is two lines
 longer, but still quite easy to understand.
 
-[[average_function]] (((average
+[[average_function]]
+(((average
 function)))(((composition)))(((function,higher-order)))Higher-order
 functions start to shine when you need to _compose_ functions. As an
 example, let us write code that finds the average age for men and for

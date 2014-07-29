@@ -67,7 +67,7 @@ Node does all its I/O.
 (((programming language)))(((Node.js)))(((standard)))JavaScript lends
 itself well for a system like Node. It is one of the few programming
 languages that does not have a built-in way to do I/O. Thus, it could
-be fit onto Node's rather excentric approach to I/O without ending up
+be fit onto Node's rather eccentric approach to I/O without ending up
 with two inconsistent I/O interfaces. In 2009, when Node was being
 designed, people were already doing callback-based I/O in the browser,
 so the ((community)) around the language was used to an ((asynchronous

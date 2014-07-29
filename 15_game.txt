@@ -589,7 +589,7 @@ left and one to the top right, to create a white halo effect.
 [[viewport]]
 
 (((position (CSS))))(((max-width (CSS))))(((overflow
-(CSS))))(((max-height (css))))(((viewport)))We can't assume that
+(CSS))))(((max-height (CSS))))(((viewport)))We can't assume that
 levels always fit in the viewport. That is why the
 `scrollPlayerIntoView` call is needed—it ensures that, if the level is
 sticking out outside of the viewport, we scroll that viewport to make

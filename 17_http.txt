@@ -126,7 +126,7 @@ because a ((server)) might be serving multiple host names on a single
 client is trying to talk to.
 
 (((GET method)))(((DELETE method)))(((PUT method)))(((POST
-method)))(((body (http))))After the headers, both requests and
+method)))(((body (HTTP))))After the headers, both requests and
 responses may include a blank line followed by a _body_, which
 contains the data being sent. `GET` or `DELETE` request don't send
 along any data, but `PUT` or `POST` requests are expected to.
@@ -859,7 +859,7 @@ servers ignore this header, but when a server knows of various ways to
 encode a resource, it can look at this header and send the one that
 the client prefers.
 
-(((MIME type)))The URL
+(((media type)))(((MIME type)))The URL
 http://eloquentjavascript.net/author[_eloquentjavascript.net/author_]
 is configured to respond with either plain text, HTML, or JSON,
 depending on what the client asks for. These formats are identified by

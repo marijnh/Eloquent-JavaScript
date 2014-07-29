@@ -14,10 +14,10 @@ monitor are but ripples on the water. The essence stays invisibly
 below.
 ____
 
-(((data)))(((bit)))(((memory)))Inside the computer's world, there is
-only data. You can read data, modify data, create new data—but
-anything that isn't data simply does not exist. All this data is
-stored as long sequences of bits and is thus fundamentally alike.
+(((binary data)))(((data)))(((bit)))(((memory)))Inside the computer's
+world, there is only data. You can read data, modify data, create new
+data—but anything that isn't data simply does not exist. All this data
+is stored as long sequences of bits and is thus fundamentally alike.
 
 (((CD)))(((signal)))Bits are any kind of two-valued things, usually
 described as zeroes and ones. Inside the computer, they take forms

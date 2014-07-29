@@ -24,6 +24,8 @@ meetings moved to another town, nobody stepped forward to take over
 this task. We want a system that will let the participants propose and
 discuss talks among themselves, without a central organizer.
 
+image::img/unicycle.svg[alt="The unicycling meetup"]
+
 (!html Just like in the link:20_node.html#node[previous chapter], the
 code in this chapter is written for Node.js, and running it directly
 in the HTML page that you are looking at is unlikely to work. !)The

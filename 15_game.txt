@@ -33,8 +33,7 @@ from the side, and involve lots jumping onto and over things.
 
 (((minimalism)))(((Palef+++,+++ Thomas)))(((Dark Blue (game))))Our
 ((game)) will be roughly based on
-“http://www.lessmilk.com/games/10[Dark Blue]”(!tex
-(_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose this game
+“http://www.lessmilk.com/games/10[Dark Blue]”(!tex (_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose this game
 because it is both entertaining and minimalist, and can be built
 without too much ((code)). It looks like this:
 
@@ -69,8 +68,8 @@ allowing smooth ((motion)).
 (((event handling)))(((keyboard)))We will use the ((browser)) ((DOM))
 to display the game, and read user input by handling key events.
 
-(((rectangle)))(((background (css))))(((position
-(css))))(((graphics)))The screen- and keyboard-related code is only a
+(((rectangle)))(((background (CSS))))(((position
+(CSS))))(((graphics)))The screen- and keyboard-related code is only a
 tiny part of the work we need to do to build this ((game)). Since
 everything looks like colored ((box))es, drawing is uncomplicated: we
 create DOM elements, and use styling to give them a background color,
@@ -402,7 +401,7 @@ the game. It would also be possible to directly assign to the
 elements’ `style` property when we create them, but that would produce
 more verbose programs.
 
-(((class (css))))The following helper function provides a short way to
+(((class (CSS))))The following helper function provides a short way to
 create an element and give it a class.
 
 // include_code
@@ -489,14 +488,14 @@ want:
 .wall          { background: white;              }
 ----
 
-(((padding (css))))Some of these (`table-layout`, `border-spacing`,
+(((padding (CSS))))Some of these (`table-layout`, `border-spacing`,
 and `padding`) are simply used to suppress unwanted default behavior.
 We don't want space between the ((table)) cells, or padding inside
 them, and we set the table's approach for computing the width of its
 columns to a simple, predictable variant (the way tables are laid out
 in HTML is a complicated thing).
 
-(((background (css))))(((rgb (css))))(((CSS)))The `background` rule
+(((background (CSS))))(((rgb (CSS))))(((CSS)))The `background` rule
 sets the background color. CSS allows colors to be specified both as
 words (`white`) and with a format like `rgb(R, G, B)`, where the red,
 green, and blue components of the color are separated into three
@@ -528,7 +527,7 @@ DOMDisplay.prototype.drawActors = function() {
 };
 ----
 
-(((position (css))))(((class (css))))Giving an element more than one
+(((position (CSS))))(((class (CSS))))Giving an element more than one
 class is done by separating the class names with spaces. In the
 ((CSS)) code shown next, the `actor` class gives the actors their
 absolute position. Their type name is used as an extra class to give
@@ -566,7 +565,7 @@ DOMDisplay.prototype.drawFrame = function() {
 };
 ----
 
-(((level)))(((class (css))))(((style sheet)))By adding the level's
+(((level)))(((class (CSS))))(((style sheet)))By adding the level's
 current status as a class name to the wrapper, we can style the player
 actor slightly differently when the game is won or lost, by adding a
 ((CSS)) rule that only takes effect when the player has an ((ancestor
@@ -582,15 +581,15 @@ element)) with a given class.
 }
 ----
 
-(((player)))(((box shadow (css))))After touching ((lava)), the
+(((player)))(((box shadow (CSS))))After touching ((lava)), the
 player's color turns dark red, suggesting scorching. When the last
 coin has been collected, we use two white box shadows, one to the top
 left and one to the top right, to create a white halo effect.
 
 [[viewport]]
 
-(((position (css))))(((max-width (css))))(((overflow
-(css))))(((max-height (css))))(((viewport)))We can't assume that
+(((position (CSS))))(((max-width (CSS))))(((overflow
+(CSS))))(((max-height (css))))(((viewport)))We can't assume that
 levels always fit in the viewport. That is why the
 `scrollPlayerIntoView` call is needed—it ensures that, if the level is
 sticking out outside of the viewport, we scroll that viewport to make
@@ -693,7 +692,7 @@ image::img/game_simpleLevel.png[alt="Our level rendered",width="7cm"]
 
 endif::tex_target[]
 
-(((link (HTML))))(((style sheet)))(((css)))The `<link>` tag, when used
+(((link (HTML))))(((style sheet)))(((CSS)))The `<link>` tag, when used
 with `rel="stylesheet"`, is a way to load a CSS file into a page. The
 file `game.css` contains the styles necessary for our game.
 
@@ -1203,8 +1202,7 @@ with tasks that can take an arbitrary amount of ((time)), such as
 and output in general in link:20_node.html#node[Chapter 20].
 
 (((game,with DOM)))(((GAME_LEVELS data set)))There is a set of
-((level)) plans available in the `GAME_LEVELS` variable (!tex
-(downloadable from
+((level)) plans available in the `GAME_LEVELS` variable (!tex (downloadable from
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 This page feeds them to `runGame`, starting an actual game:
 

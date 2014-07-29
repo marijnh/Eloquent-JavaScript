@@ -11,7 +11,7 @@ ____
 (((Escher+++,+++ M.C.)))Drawing is deception
 ____
 
-(((CSS)))(((transform (css))))Browsers give us several ways to display
+(((CSS)))(((transform (CSS))))Browsers give us several ways to display
 ((graphics)). The simplest is to use regular ((DOM)) elements, and use
 styles to position and color them. This can get you quite far, as the
 link:15_game.html#game[previous chapter] showed. By adding partially

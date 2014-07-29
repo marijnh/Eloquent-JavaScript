@@ -242,7 +242,7 @@ BouncingCritter.prototype.act = function(view) {
 };
 ----
 
-(((random numbers)))(((Math.random function)))(((randomElement
+(((random number)))(((Math.random function)))(((randomElement
 function)))(((array,indexing)))The `randomElement` helper
 function simply picks a random element from an array, using
 `Math.random` plus some arithmetic to get a random index. We'll use
@@ -953,7 +953,7 @@ Plant.prototype.act = function(context) {
 ----
 
 (((reproduction)))(((photosynthesis)))(((random
-numbers)))(((Math.random function)))Plants start with an energy level
+number)))(((Math.random function)))Plants start with an energy level
 between 3 and 7, randomized so that they don't all reproduce in the
 same turn. When a plant reaches 15 energy points and there is empty
 space nearby, it reproduces into that empty space. If a plant can't

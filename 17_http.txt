@@ -181,7 +181,7 @@ After that follow pairs of names and values, corresponding to the
 `name` attribute on the form field elements, and the content of those
 elements. The ((ampersand)) (“&”) is used to separate the pairs.
 
-(((escaping,in URLs)))(((hexadecimal numbers)))(((percent
+(((escaping,in URLs)))(((hexadecimal number)))(((percent
 sign)))(((URL encoding)))(((encodeURIComponent
 function)))(((decodeURIComponent function)))The actual message encoded
 in the URL above is “Yes?”. Some characters in query strings must be

@@ -927,7 +927,7 @@ statements.
 
 === Recursion ===
 
-(((recursion)))(((isEven (exercise))))(((even numbers)))We've seen
+(((recursion)))(((isEven (exercise))))(((even number)))We've seen
 that `%` (the remainder operator) can be used to test whether a number
 is even or odd by using `% 2` to check whether it's divisible by two.
 Here's another way to define whether a positive whole number is even

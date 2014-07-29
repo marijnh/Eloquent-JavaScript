@@ -541,8 +541,8 @@ of the string and decides that there really is no match.
 [[backtracking]]
 == Backtracking ==
 
-(((regular expression,backtracking)))(((binary numbers)))(((decimal
-numbers)))(((hexadecimal numbers)))(((flow
+(((regular expression,backtracking)))(((binary number)))(((decimal
+number)))(((hexadecimal number)))(((flow
 diagram)))(((matching,algorithm)))(((backtracking)))The regular
 expression `/\b([01]+b|\d+|[\da-f]h)\b/` matches either a binary
 number followed by a “b”, a regular decimal number with no suffix
@@ -1263,7 +1263,7 @@ replaced by nothing.
 (((number)))A series of ((digit))s can be matched by the simple
 regular expression `/\d+/`.
 
-(((sign)))(((fractional numbers)))(((syntax)))(((minus)))(((plus
+(((sign)))(((fractional number)))(((syntax)))(((minus)))(((plus
 character)))(((exponent)))(((scientific notation)))(((period
 character)))Write an expression that matches only JavaScript-style
 numbers. It must support an optional minus _or_ plus sign in front of

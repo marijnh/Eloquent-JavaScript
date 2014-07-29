@@ -49,7 +49,7 @@ height, and is able to change direction in mid-air. This may not be
 entirely realistic, but it helps give the player the feeling of being
 in direct control of the on-screen ((avator)).
 
-(((fractional numbers)))(((discretization)))(((artificial
+(((fractional number)))(((discretization)))(((artificial
 life)))(((electronic life)))The ((game)) consist of a fixed
 ((background)), laid out like a ((grid)), with the moving elements
 overlaid on that. Each field on the background grid is either empty,
@@ -329,7 +329,7 @@ function Coin(pos) {
 Coin.prototype.type = "coin";
 ----
 
-(((Math.random function)))(((random numbers)))(((Math.sin
+(((Math.random function)))(((random number)))(((Math.sin
 function)))(((sine)))(((wave)))(((pi)))To avoid a situation where all
 coins move up and down synchronously, the starting phase of each coin
 is randomized. We will be using `Math.sin` (a sine wave) to model the

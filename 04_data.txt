@@ -526,7 +526,7 @@ containing two two-element arrays (`[[76, 9], [4, 1]]`) or an object
 with property names like `"11"` and `"01"`, but the flat array is
 simple and makes the expressions that access the table pleasantly
 short. We'll interpret the indices to the array as two-((bit))
-((binary numbers)), where the rightmost digit refers to the squirrel
+((binary number)), where the rightmost digit refers to the squirrel
 variable and the leftmost digit refers to event variable. For example,
 the binary number `10` refers to the case where the event (say,
 "pizza") is true, but Jacques didn't turn into a squirrel. And since
@@ -1067,7 +1067,7 @@ If sines and cosines are not something you are very familiar with,
 don't worry. When they are used in this book, in
 link:13_dom.html#sin_cos[Chapter 13], I'll explain them.
 
-(((Math.random function)))(((random numbers)))The previous example
+(((Math.random function)))(((random number)))The previous example
 uses `Math.random`. This is a function that returns a new
 pseudo-random number between zero (inclusive) and one (exclusive)
 every time you call it.
@@ -1084,7 +1084,7 @@ console.log(Math.random());
 // → 0.40180766698904335
 ----
 
-(((pseudo-random numbers)))(((random numbers)))Though computers are
+(((pseudo-random number)))(((random number)))Though computers are
 deterministic machines—they always react the same way if given the
 same input— it is possible to have them produce numbers that appear
 random. To do this, the machine keeps a number (or a bunch of numbers)

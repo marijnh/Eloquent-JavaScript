@@ -26,7 +26,7 @@ shiny or dull spot on the surface of a CD. Any piece of discrete
 information can be reduced to a sequence of zeros and ones and thus
 represented in bits.
 
-(((binary numbers)))(((radix)))(((decimal numbers)))For example, think
+(((binary number)))(((radix)))(((decimal number)))For example, think
 about how you might show the number 13 in bits. It works the same way
 you write decimal numbers, but instead of 10 different ((digit))s, you
 have only 2, and the weight of each increases by a factor of 2 from
@@ -84,7 +84,7 @@ program, they are written as follows:
 13
 ----
 
-(((binary numbers)))Use that in a program, and it will cause the bit
+(((binary number)))Use that in a program, and it will cause the bit
 pattern for the number 13 to come into existence inside the computer's
 memory.
 
@@ -105,7 +105,7 @@ computers have plenty of memory, so you are free to use 64-bit chunks,
 which means you need to worry about overflow only when dealing with
 truly astronomical numbers.
 
-(((floating-point numbers)))(((fractional numbers)))(((sign bit)))Not
+(((floating-point number)))(((fractional numbers)))(((sign bit)))Not
 all whole numbers below 18 quintillion fit in a JavaScript number,
 though. Those bits also store negative numbers, so one bit indicates
 the sign of the number. A bigger issue is that nonwhole numbers must
@@ -135,7 +135,7 @@ number:
 That is 2.998 × 10^8^ = 299800000.
 
 (((pi)))(((number,precision of)))(((floating-point
-numbers)))Calculations with whole numbers (also called _((integer))s_)
+number)))Calculations with whole numbers (also called _((integer))s_)
 smaller than the aforementioned 9 quadrillion are guaranteed to always
 be precise. Unfortunately, calculations with fractional numbers are
 generally not. Just as π (pi) cannot be precisely expressed by a

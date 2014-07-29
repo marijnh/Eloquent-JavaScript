@@ -13,69 +13,78 @@ poems, like notes that shape music.
 ____
 
 (((project chapter)))The material from the previous chapters gives you
-all the elements you need to build a simple web application. In this
+all the elements you need to build a simple ((web application)). In this
 chapter, we will do just that.
 
-Our application will be a small web-based drawing program, along the
-lines of Microsoft Paint. You can use it to open image files, scribble
-on them with your mouse, and save them again. This is what it will
-look like:
+Our application will be a small web-based ((drawing)) program, along
+the lines of ((Microsoft Paint)). You can use it to open image
+((file))s, scribble on them with your mouse, and save them again. This
+is what it will look like:
 
 image::img/paint.png[alt="A simple paint program"]
 
 Painting on a computer is great. You don't need to worry about
-materials, skill, or talent. You just start smearing.
+materials, ((skill)), or talent. You just start smearing.
 
 == Implementation ==
 
-The interface for the paint program shows a big `<canvas>` element on
-top, with a number of form fields below it. The user draws on the
-picture by selecting a tool from a `<select>` field, and then clicking
-or dragging across the canvas. There are tools for drawing lines,
-erasing parts of the picture, adding text, and so on.
+(((drawing)))(((select (HTML tag))))(((canvas (HTML tag))))The
+interface for the paint program shows a big `<canvas>` element on top,
+with a number of form ((field))s below it. The user draws on the
+((picture)) by selecting a tool from a `<select>` field, and then
+clicking or dragging across the canvas. There are ((tool))s for
+drawing lines, erasing parts of the picture, adding text, and so on.
 
-Clicking on the canvas will hand off the `"mousedown"` event to the
-currently selected tool, which can handle it in whichever way it
-chooses. The line drawing tool, for example, will listen for
-`"mousemove"` events until the mouse button is released, and draw
-lines along the mouse's path using the current color and brush size.
+(((line tool)))(((mouse)))(((mousedown event)))(((mousemove
+event)))(((mouseup event)))Clicking on the canvas will hand off the
+`"mousedown"` event to the currently selected tool, which can handle
+it in whichever way it chooses. The line ((drawing)) tool, for
+example, will listen for `"mousemove"` events until the mouse button
+is released, and draw lines along the mouse's path using the current
+((color)) and ((brush)) size.
 
-Color and brush size are selected with additional form fields. These
-are hooked up to update the canvas drawing context's `fillStyle`,
-`strokeStyle`, and `lineWidth` whenever they are changed.
+(((fillStyle property)))(((strokeStyle property)))(((lineWidth
+property)))(((change event)))Color and brush size are selected with
+additional form fields. These are hooked up to update the canvas
+drawing context's `fillStyle`, `strokeStyle`, and `lineWidth` whenever
+they are changed.
 
-Loading an image into the program can be done in two ways. The first
-uses a file field, where the user can select a file on their own file
-system. The second asks for a URL, and will fetch an image from the
-web.
+Loading an ((image)) into the program can be done in two ways. The
+first uses a file field, where the user can select a file on their own
+((file system)). The second asks for a ((URL)), and will fetch an
+image from the web.
 
-Saving an image is done in a somewhat atypical way. The “save” link at
-the right-hand side points at the current image. It can be followed,
-shared, or saved. I will explain how this is achieved in a moment.
+(((saving)))Saving an image is done in a somewhat atypical way. The
+“save” ((link)) at the right-hand side points at the current image. It
+can be followed, shared, or saved. I will explain how this is achieved
+in a moment.
 
 == Building up the DOM ==
 
-Our program's interface is built out of over 30 DOM elements. We need
-to construct these somehow.
+Our program's interface is built out of over 30 ((DOM)) elements. We
+need to construct these somehow.
 
-HTML is the most obvious format for defining complex DOM structures.
-But separating the program into a piece of HTML and a script is made
+(((HTML)))(((querySelector method)))(((event handling)))HTML is the
+most obvious format for defining complex DOM structures. But
+separating the program into a piece of HTML and a script is made
 difficult by the fact that many of the DOM elements need event
 handlers, or have to be touched by the script in some other way. Thus,
 our script would have to make lots of `querySelector` (or similar)
 calls in order to find the DOM elements that it needs to act on.
 
-It would be nice if the DOM structure for each part of our interface
-is defined close to the JavaScript code that drives it. Thus, I've
-opted to do all creation of DOM nodes in JavaScript. As we saw in
+(((readability)))(((verbosity)))(((createElement method)))It would be
+nice if the DOM structure for each part of our interface is defined
+close to the JavaScript code that drives it. Thus, I've chosen to do
+all creation of DOM nodes in JavaScript. As we saw in
 link:13_dom.html#standard[Chapter 13], the built-in interface for
 building up a DOM structure is horrendously verbose. If we are going
 to do a lot of DOM construction, we need a helper function.
 
-This function below is an extended version of the `elt` function from
-link:13_dom.html#elt[Chapter 13]. It creates an element with the given
-name and attributes, and appends all further arguments it gets as
-child nodes, automatically converting strings to text nodes.
+(((elt function)))This function below is an extended version of the
+`elt` function from link:13_dom.html#elt[Chapter 13]. It creates an
+element with the given name and ((attribute))s, and appends all
+further arguments it gets as child nodes, automatically converting
+strings to ((text node))s.
 
 // include_code
 
@@ -104,11 +113,11 @@ code as long and dull as a corporate end-user agreement.
 
 == The foundation ==
 
-The core of our program is the `createPaint` function, which appends
-the paint interface to the DOM element it is given as argument.
-Because we want to build our program piece by piece, we define an
-object `controls`, which will hold functions to initialize the various
-controls below the image.
+(((createPaint function)))(((controls object)))The core of our program
+is the `createPaint` function, which appends the paint interface to
+the DOM element it is given as argument. Because we want to build our
+program piece by piece, we define an object `controls`, which will
+hold functions to initialize the various controls below the image.
 
 // include_code
 
@@ -129,25 +138,27 @@ function createPaint(parent) {
 }
 ----
 
-Each control has access to the canvas drawing context (and, through
-that context's `canvas` property, to the `<canvas>` element itself).
-Most of the program's state lives in this canvas—it contains the
-current picture as well as the selected color (in its `fillStyle`
-property) and brush size (in its `lineWidth` property).
+(((fillStyle property)))(((lineWidth property)))(((canvas
+property)))(((context)))Each control has access to the ((canvas))
+drawing context (and, through that context's `canvas` property, to the
+`<canvas>` element itself). Most of the program's state lives in this
+canvas—it contains the current picture as well as the selected color
+(in its `fillStyle` property) and brush size (in its `lineWidth`
+property).
 
-We wrap the canvas and the controls in `<div>` elements with classes
-to be able to add some styling—for example the grey border around the
-picture.
+(((class (CSS))))(((CSS)))We wrap the canvas and the controls in
+`<div>` elements with classes to be able to add some styling—for
+example the grey border around the picture.
 
 == Tool selection ==
 
-(((hard-coding)))The first control we add is the the `<select>`
-element that allows the user to pick a drawing tool. As with
-`controls`, we will use an object to collect the various tools, so
-that we do not have to hard-code them all in one place, and can add
-more tools later. This object associates the names of the tools with
-the function that should be called when they are selected and the
-canvas is clicked.
+(((mouse)))(((tools object)))(((hard-coding)))(((select (HTML
+tag))))The first control we add is the the `<select>` element that
+allows the user to pick a drawing ((tool)). As with `controls`, we
+will use an object to collect the various tools, so that we do not
+have to hard-code them all in one place, and can add more tools later.
+This object associates the names of the tools with the function that
+should be called when they are selected and the canvas is clicked.
 
 // include_code
 
@@ -172,22 +183,27 @@ controls.tool = function(cx) {
 };
 ----
 
-The tool field is populated with `<option>` elements for all tools
-that have been defined, and a `"mousedown"` handler on the canvas
-element takes care of calling the function for the current tool,
-passing it both the event object and the drawing context as arguments.
-It also calls `preventDefault`, so that holding the mouse button and
-dragging does not cause the browser to select parts of the page.
+(((preventDefault method)))(((selection)))(((option (HTML
+tag))))(((mousedown event)))The tool field is populated with
+`<option>` elements for all tools that have been defined, and a
+`"mousedown"` handler on the canvas element takes care of calling the
+function for the current tool, passing it both the ((event object))
+and the drawing ((context)) as arguments. It also calls
+`preventDefault`, so that holding the mouse button and dragging does
+not cause the browser to select parts of the page.
 
-The most basic tool is the line tool, which allows the user to draw
-lines with the mouse. To be able to put the line ends in the right
-place, we need to be able to find the canvas-relative coordinates that
-a given mouse event corresponds to. The `getBoundingClientRect`
-method, briefly mentioned in link:13_dom.html#boundingRect[Chapter 13], can help us here. It tells us
-where an element is shown, relative to the top left corner of the
-screen. The `clientX` and `clientY` properties on mouse events are
-also relative to this corner, so we can subtract the top left corner
-of the canvas from them to get a position relative to that corner.
+(((relativePos function)))(((event object)))(((getBoundingClientRect
+method)))(((clientX property)))(((clientY property)))The most basic
+tool is the ((line tool)), which allows the user to draw lines with
+the ((mouse)). To be able to put the line ends in the right place, we
+need to be able to find the canvas-relative ((coordinates)) that a
+given mouse event corresponds to. The `getBoundingClientRect` method,
+briefly mentioned in link:13_dom.html#boundingRect[Chapter 13], can
+help us here. It tells us where an element is shown, relative to the
+top left corner of the screen. The `clientX` and `clientY` properties
+on mouse events are also relative to this corner, so we can subtract
+the top left corner of the canvas from them to get a position relative
+to that corner.
 
 // include_code
 
@@ -201,12 +217,14 @@ function relativePos(event, element) {
 }
 ----
 
-Several of the drawing tools need to listen for `"mousemove"` events
-as long as the mouse button is held down. The `trackDrag` function
-takes care of the event registration and unregistration for such
-situations. It takes two arguments, a function to call for each
-`"mousemove"` event and a function to call when the mouse button is
-released again. Either argument can be omitted when it is not needed.
+(((mouseup event)))(((mousemove event)))(((trackDrag
+function)))Several of the drawing tools need to listen for
+`"mousemove"` events as long as the mouse button is held down. The
+`trackDrag` function takes care of the event registration and
+unregistration for such situations. It takes two arguments, a function
+to call for each `"mousemove"` event and a function to call when the
+mouse button is released again. Either argument can be omitted when it
+is not needed.
 
 // include_code
 
@@ -225,7 +243,8 @@ function trackDrag(onMove, onEnd) {
 }
 ----
 
-The “line” tool uses these two helpers to do actual drawing.
+(((line tool)))The “line” tool uses these two helpers to do actual
+drawing.
 
 // include_code
 
@@ -246,25 +265,26 @@ tools.Line = function(event, cx, onEnd) {
 };
 ----
 
-It starts by setting the drawing context's `lineCap` property to
-`"round"`, which has the effect that both ends of a stroked path will
-be round, rather than the square form that is the default behavior.
-This is a trick to make sure that multiple separate lines, drawn in
-response to separate events, do look like a single, coherent line.
-With bigger line widths, you will see gaps at corners if you don't set
-this property.
+(((lineCap property)))(((line)))It starts by setting the drawing
+context's `lineCap` property to `"round"`, which has the effect that
+both ends of a stroked ((path)) will be round, rather than the square
+form that is the default behavior. This is a trick to make sure that
+multiple separate lines, drawn in response to separate events, do look
+like a single, coherent line. With bigger line widths, you will see
+gaps at corners if you don't set this property.
 
-Then, for every `"mousemove"` event that occurs as long as the mouse
-button is down, a simple line segment is drawn between the mouse's old
-and new position, using whatever `strokeStyle` and `lineWidth` happen
-to be currently defined.
+(((mousemove event)))(((strokeStyle property)))(((lineWidth
+property)))Then, for every `"mousemove"` event that occurs as long as
+the mouse button is down, a simple line segment is drawn between the
+mouse's old and new position, using whatever `strokeStyle` and
+`lineWidth` happen to be currently defined.
 
-The `onEnd` argument to `tools.Line` is simply passed through to
-`trackDrag`. The normal way to run tools won't pass a third argument,
-so when using the line tool, that argument will hold `undefined`, and
-nothing happens at the end of the mouse drag. The argument is there to
-allow us to implement the “erase” tool on top of the “line” tool with
-very little additional code.
+(((erase tool)))The `onEnd` argument to `tools.Line` is simply passed
+through to `trackDrag`. The normal way to run tools won't pass a third
+argument, so when using the line tool, that argument will hold
+`undefined`, and nothing happens at the end of the mouse drag. The
+argument is there to allow us to implement the “erase” tool on top of
+the “line” tool with very little additional code.
 
 // include_code
 
@@ -279,39 +299,44 @@ tools.Erase = function(event, cx) {
 };
 ----
 
-The `globalCompositeOperation` property influences the way drawing
-operations on a canvas influence the color of the pixels they touch.
-By default it is `"source-over"`, which means that the drawn color is
-overlaid on the existing color at that spot. If it is an opaque color,
-it will simply replace the old color, but if it is partially
-transparent, the two will be mixed.
+(((globalCompositeOperation property)))(((compositing)))(((erase
+tool)))The `globalCompositeOperation` property influences the way
+drawing operations on a canvas influence the color of the pixels they
+touch. By default it is `"source-over"`, which means that the drawn
+color is overlaid on the existing color at that spot. If it is an
+opaque ((color)), it will simply replace the old color, but if it is
+partially transparent, the two will be mixed.
 
 The “erase” tool sets `globalCompositeOperation` to
 `"destination-out"`, which has the effect of erasing the pixels we
 touch, making them transparent again.
 
-That gives us two tools. The program so far is a working paint
-program, allows us to draw black lines a single pixel wide (the
+(((drawing)))That gives us two tools. The program so far is a working
+paint program, allows us to draw black lines a single pixel wide (the
 default `strokeStyle` and `lineWidth` for a canvas), and erase them
 again.
 
 == Color and brush size ==
 
-Assuming that users will want to draw in colors other than black, and
-use different brush sizes, let's add controls for those two settings.
+(((controls object)))Assuming that users will want to draw in
+((color))s other than black, and use different ((brush)) sizes, let's
+add controls for those two settings.
 
-In link:18_forms.html#forms[Chapter 18], I discussed a number of different form fields. Color
-fields were not among those. Traditionally, browsers do not have
-built-in support for color pickers, but in the past years, a number of
-new form field types have been standardized. One of those is `<input
-type="color">`. Others include `"date"`, `"email"`, `"url"`, and
-`"number"`. Not all browsers support them yet—at the time of writing,
-no version of Internet Explorer version supports color fields. The
-default type of an `<input>` tag is `"text"`, and when an unsupported
-type is used, browsers will treat it as a text field. That means that
-Internet Explorer users running our paint program will have to type in
-the name of the color they want, rather than select it from a
-convenient widget.(!tex  This is what a color picker may look like:!)
+(((color picker)))(((HTML5 form fields)))(((date field)))(((time
+field)))(((email field)))(((number field)))(((compatibility)))In
+link:18_forms.html#forms[Chapter 18], I discussed a number of
+different form ((field))s. Color fields were not among those.
+Traditionally, browsers do not have built-in support for color
+pickers, but in the past years, a number of new form field types have
+been ((standard))ized. One of those is `<input type="color">`. Others
+include `"date"`, `"email"`, `"url"`, and `"number"`. Not all
+((browser))s support them yet—at the time of writing, no version of
+Internet Explorer version supports color fields. The default type of
+an `<input>` tag is `"text"`, and when an unsupported type is used,
+browsers will treat it as a text field. That means that Internet
+Explorer users running our paint program will have to type in the name
+of the color they want, rather than select it from a convenient
+widget.(!tex This is what a color picker may look like:!)
 
 ifdef::tex_target[]
 
@@ -334,10 +359,12 @@ controls.color = function(cx) {
 };
 ----
 
-Whenever the value of the color field changes, the drawing context's
-`fillStyle` and `strokeStyle` are updated to hold the new value.
+(((fillStyle property)))(((strokeStyle property)))(((change
+event)))Whenever the value of the color field changes, the drawing
+context's `fillStyle` and `strokeStyle` are updated to hold the new
+value.
 
-The field for configuring the brush size works similarly.
+The field for configuring the ((brush)) size works similarly.
 
 // include_code
 
@@ -358,33 +385,36 @@ controls.brushSize = function(cx) {
 };
 ----
 
-It generates options from an array of brush sizes, and again ensures
-that the canvas’ `lineWidth` is updated when a brush size is chosen.
+(((lineWidth property)))It generates options from an array of brush
+sizes, and again ensures that the canvas’ `lineWidth` is updated when
+a brush size is chosen.
 
 == Saving ==
 
-To explain the implementation of the “save” link, I must first tell
-you about _data URLs_. A data URL is a URL whose protocol is _data:_.
-Unlike regular _http:_ and _https:_ URLs, data URLs do not point at a
-resource, but contain the entire resource inside of them. This is a
-data URL containing a very simple HTML document:
+(((save link)))To explain the implementation of the “save” link, I
+must first tell you about _((data URL))s_. A data ((URL)) is a URL
+whose ((protocol)) is _data:_. Unlike regular _http:_ and _https:_
+URLs, data URLs do not point at a resource, but contain the entire
+((resource)) inside of them. This is a data URL containing a very
+simple HTML document:
 
 ----
 data:text/html,<h1 style="color:red">Hello!</h1>
 ----
 
 Such URLs are useful for various things, such as including small
-images directly in a style sheet file. They also allow us to link to
-things that we created on the client side, in the browser, without
+images directly in a ((style sheet)) file. They also allow us to link
+to things that we created on the client side, in the browser, without
 first moving them to some server.
 
-Canvas elements have a convenient method `toDataURL`, which will
-return a data URL that contains the picture on the canvas as an image
-file. We don't want to update our “save” link every time the picture
-is changed, since for big pictures this involves moving quite a lot of
-data into a link, and would be noticeably slow. Instead, we rig the
-link to update its `href` attribute whenever it is focused (with the
-keyboard) or the mouse is moved over it.
+(((canvas)))(((toDataURL method)))(((optimization)))(((href
+attribute)))Canvas elements have a convenient method `toDataURL`,
+which will return a data URL that contains the picture on the canvas
+as an image file. We don't want to update our “save” link every time
+the picture is changed, since for big pictures this involves moving
+quite a lot of data into a link, and would be noticeably slow.
+Instead, we rig the link to update its `href` attribute whenever it is
+focused (with the keyboard) or the mouse is moved over it.
 
 // include_code
 
@@ -410,45 +440,50 @@ controls.save = function(cx) {
 };
 ----
 
-(((magic)))Thus, the link just quietly sits there, pointing at the
-wrong thing, but when the use approaches it, it magically updates
-itself to point at the current picture.
+(((mouseover event)))(((focus event)))(((magic)))Thus, the link just
+quietly sits there, pointing at the wrong thing, but when the use
+approaches it, it magically updates itself to point at the current
+picture.
 
-If you load a very big image, some browsers will choke on the giant
-data URLs that this produces. But for small pictures, this should work
-well.
+If you load a very big image, some ((browser))s will choke on the
+giant data URLs that this produces. But for small pictures, this
+should work well.
 
-But here we once again run into the subtleties of browser sandboxing.
-When an image is loaded from a URL on another domain, and the server's
+(((security)))(((privacy)))(((cross-domain request)))But here we once
+again run into the subtleties of browser ((sandbox))ing. When an
+((image)) is loaded from a URL on another ((domain)), and the server's
 response did not include a header that tells the browser that this
 resource may be used from other domains (see
-link:17_http.html#http_sandbox[Chapter 17]), the canvas now contains
-information that the _user_ may look at, but that the _script_ may
-not. We may have requested a picture that contains private information
-(for example, a graph showing the user's bank account balance), using
-the user's session. If scripts could get information out of that
-picture, they could snoop on the user in undesirable ways.
+link:17_http.html#http_sandbox[Chapter 17]), the ((canvas)) now
+contains information that the _user_ may look at, but that the
+_script_ may not. We may have requested a picture that contains
+private information (for example, a graph showing the user's bank
+account balance), using the user's ((session)). If scripts could get
+information out of that picture, they could snoop on the user in
+undesirable ways.
 
-To prevent these kinds of information leaks, browsers will marks a
-canvas as _tainted_ when an image that the script may not see is drawn
-onto it. Pixel data, including data URLs, may not be extracted from a
-tainted canvas. You can write to it, but you can no longer read it.
+(((tainting)))(((pixel)))To prevent these kinds of information
+((leak))s, ((browser))s will marks a canvas as _tainted_ when an image
+that the script may not see is drawn onto it. Pixel data, including
+data URLs, may not be extracted from a tainted canvas. You can write
+to it, but you can no longer read it.
 
-This is why we need the `try`/`catch` statement in the `update`
-function for the “save” link. When the canvas has become tainted,
-calling `toDataURL` will raise an exception that is an instance of
-`SecurityError`. When that happens we set the link to point at yet
-another kind of URL, using the _javascript:_ protocol. Such links
-simply execute the script given after the colon when they are
-followed, so that the link will show an `alert` window informing the
-user of the problem when it is clicked.
+(((try keyword)))(((toDataURL method)))(((exception
+handling)))(((SecurityError type)))This is why we need the
+`try`/`catch` statement in the `update` function for the “save” link.
+When the canvas has become tainted, calling `toDataURL` will raise an
+exception that is an instance of `SecurityError`. When that happens we
+set the link to point at yet another kind of URL, using the
+_javascript:_ protocol. Such links simply execute the script given
+after the colon when they are followed, so that the link will show an
+`alert` window informing the user of the problem when it is clicked.
 
 == Loading image files ==
 
-The final two controls are used to load images, from local files and
-from URLs. We'll need the following helper function, which tries to
-load an image file from a URL and replace the contents of the canvas
-with it.
+(((img (HTML tag))))(((load event)))(((file system)))The final two
+controls are used to load images, from local files and from URLs.
+We'll need the following helper function, which tries to load an image
+file from a ((URL)) and replace the contents of the canvas with it.
 
 // include_code
 
@@ -470,17 +505,19 @@ function loadImageURL(cx, url) {
 }
 ----
 
-We want to change the size of the canvas to precisely fit the image.
-For some reason, changing the size of a canvas will cause its drawing
-context to forget configuration properties like `fillStyle` and
-`lineWidth`, so the function first saves those, and restores them
-after it has updated the size.
+(((resize)))(((context)))(((canvas,context)))We want to change the
+size of the canvas to precisely fit the image. For some reason,
+changing the size of a canvas will cause its drawing context to forget
+configuration properties like `fillStyle` and `lineWidth`, so the
+function first saves those, and restores them after it has updated the
+size.
 
-The control for loading a local file uses the `FileReader` technique
-from link:18_forms.html#filereader[Chapter 18]. Apart from the
-`readAsText` method we used there, such reader objects also have a
-method `readAsDataURL`, which is exactly what we need here. We load
-the file that the user chose as a data URL, and pass it to
+(((FileReader type)))(((readAsDataURL method)))The control for loading
+a local file uses the `FileReader` technique from
+link:18_forms.html#filereader[Chapter 18]. Apart from the `readAsText`
+method we used there, such reader objects also have a method
+`readAsDataURL`, which is exactly what we need here. We load the
+((file)) that the user chose as a data URL, and pass it to
 `loadImageURL` to put it into the canvas.
 
 // include_code
@@ -502,11 +539,13 @@ controls.openFile = function(cx) {
 };
 ----
 
-Loading a file from a URL is even simpler. But with a text field, it
-is less clear when the user has finished writing the URL, so we can't
-simply listen for `"change"` events. Instead, we will wrap the field
-in a form, and respond when the form is submitted, either because the
-user pressed Enter or because they pressed the “load” button.
+(((change event)))(((form (HTML tag))))(((submit event)))(((enter
+key)))Loading a file from a URL is even simpler. But with a ((text
+field)), it is less clear when the user has finished writing the URL,
+so we can't simply listen for `"change"` events. Instead, we will wrap
+the field in a form, and respond when the form is submitted, either
+because the user pressed Enter or because they pressed the “load”
+((button)).
 
 // include_code
 
@@ -531,8 +570,8 @@ needs. But it could use a few more tools.
 
 == Finishing up ==
 
-It is very easy to add a text tool, which uses `prompt` to ask the
-user which string it should draw.
+(((prompt function)))It is very easy to add a ((text)) ((tool)), which
+uses `prompt` to ask the user which string it should draw.
 
 // include_code
 
@@ -549,15 +588,16 @@ tools.Text = function(event, cx) {
 };
 ----
 
-It would be possible to add extra fields for the font size and the
+It would be possible to add extra fields for the ((font)) size and the
 font, but for simplicity's sake we always use a sans-serif font, and
 base the font size on the current brush size, with a minimum size of 7
 pixels, because text smaller than that is unreadable.
 
-Another indispensable tool for drawing amateurish computer graphics is
-the “spray paint” tool. This one draws dots in random locations under
-the brush as long as the mouse is held down, allowing denser or less
-dense speckling to be created by moving the mouse faster or slower.
+(((spray paint tool)))(((random number)))Another indispensable tool
+for drawing amateurish computer graphics is the “spray paint” tool.
+This one draws dots in random locations under the ((brush)) as long as
+the mouse is held down, allowing denser or less dense speckling to be
+created by moving the mouse faster or slower.
 
 // include_code
 
@@ -585,16 +625,16 @@ tools.Spray = function(event, cx) {
 };
 ----
 
-The tool uses `setInterval` to spit out colored dots every 25
-milliseconds as long as the mouse button is held down. The
-`trackDrag` function is used to keep `currentPos` pointing at the
-current mouse position, and to turn off the interval when the mouse
-button is released.
+(((setInterval function)))(((trackDrag function)))The tool uses
+`setInterval` to spit out colored dots every 25 milliseconds as long
+as the mouse button is held down. The `trackDrag` function is used to
+keep `currentPos` pointing at the current mouse position, and to turn
+off the interval when the mouse button is released.
 
 To determine how many dots to draw every time the interval fires, the
-function computes the area of the current brush, and divides that by
-30. To find a random position under the brush, the following function
-is used:
+function computes the ((area)) of the current brush, and divides that
+by 30. To find a random position under the brush, the following
+function is used:
 
 // include_code
 
@@ -611,17 +651,18 @@ function randomPointInRadius(radius) {
 }
 ----
 
-This generates points in the square between (-1,-1) and (1,1), and as
-soon as it finds one that lies within a circle with radius 1 (using
-the Pythagorean theorem), it returns it, multiplied by the `radius`
-argument.
+(((Pythagoras)))This generates points in the square between (-1,-1)
+and (1,1), and as soon as it finds one that lies within a ((circle))
+with ((radius)) 1 (using the Pythagorean theorem), it returns it,
+multiplied by the `radius` argument.
 
-The loop is necessary because the straightforward way of generating a
-random point within a circle, by using a random angle and distance,
-and calling `Math.sin` and `Math.cos` to create the corresponding
-point, the dots are not distributed uniformly, but more likely to
-appear near the center of the circle. There are ways around this, but
-they are more complicated than the loop above.
+(((uniformity)))(((Math.sin function)))(((Math.cos function)))The loop
+is necessary because the straightforward way of generating a random
+point within a circle, by using a random ((angle)) and distance, and
+calling `Math.sin` and `Math.cos` to create the corresponding point,
+the dots are not distributed uniformly, but more likely to appear near
+the center of the circle. There are ways around this, but they are
+more complicated than the loop above.
 
 We now have a functioning paint program.(!html  Run the code below to
 try it out.!)
@@ -649,24 +690,28 @@ add a few more features as exercises.
 
 === Rectangles ===
 
-Define a tool called `Rectangle` that fills a rectangle (see the
-`fillRect` method from link:16_canvas.html#fill_stroke[Chapter 16]) with the current color. The
-rectangle should span from the point where the user pressed the mouse
-button to the point where they released it. Note that the latter might
-be above or to the left of the former.
+(((fillRect method)))(((rectangle tool (exercise))))Define a ((tool))
+called `Rectangle` that fills a rectangle (see the `fillRect` method
+from link:16_canvas.html#fill_stroke[Chapter 16]) with the current
+color. The rectangle should span from the point where the user pressed
+the ((mouse)) button to the point where they released it. Note that
+the latter might be above or to the left of the former.
 
-Once it works, you'll notice that it is somewhat jarring to not see
-the the rectangle as you are dragging the mouse to select its size.
-Can you come up with a way to show some kind of rectangle during the
-dragging, without actually drawing to the canvas until the mouse
-button is released?
+(((user experience)))Once it works, you'll notice that it is somewhat
+jarring to not see the the rectangle as you are dragging the mouse to
+select its size. Can you come up with a way to show some kind of
+rectangle during the dragging, without actually drawing to the canvas
+until the mouse button is released?
 
-If nothing comes to mind, think back to the `position: absolute` style
-which was discussed in link:13_dom.html#animation[Chapter 13], which can be used to overlay a node
-on the rest of the document. The `pageX` and `pageY` properties of a
-mouse event can be used to position an element precisely under the
-mouse, by setting the `left`, `top`, `width`, and `height` styles to
-the correct pixel values.
+(((position (CSS))))(((event object)))(((pageX property)))(((pageY
+property)))(((left (CSS))))(((height (CSS))))(((top (CSS))))(((width
+(CSS))))If nothing comes to mind, think back to the `position:
+absolute` style which was discussed in
+link:13_dom.html#animation[Chapter 13], which can be used to overlay a
+node on the rest of the document. The `pageX` and `pageY` properties
+of a mouse event can be used to position an element precisely under
+the mouse, by setting the `left`, `top`, `width`, and `height` styles
+to the correct pixel values.
 
 ifdef::html_target[]
 
@@ -690,41 +735,48 @@ endif::html_target[]
 
 !!solution!!
 
-You can use `relativePos` to find the corner corresponding to the
-start of the mouse drag. Figuring out where the drag ends can be done
-with `trackDrag`, or by registering your own event handler.
+(((relativePos function)))(((trackDrag function)))(((rectangle tool
+(exercise))))You can use `relativePos` to find the corner
+corresponding to the start of the mouse drag. Figuring out where the
+drag ends can be done with `trackDrag`, or by registering your own
+event handler.
 
-When you have two corners of the rectangle, you must somehow translate
-these into the arguments that `fillRect` expects: the top left corner,
-width, and height of the rectangle. `Math.min` can be used to find the
-leftmost x coordinate and topmost y coordinate. To get the width or
-height, you can call `Math.abs` (the absolute value) on the difference
-between two sides.
+(((fillRect method)))(((Math.min function)))(((Math.abs
+function)))When you have two corners of the rectangle, you must
+somehow translate these into the arguments that `fillRect` expects:
+the top left corner, width, and height of the rectangle. `Math.min`
+can be used to find the leftmost x coordinate and topmost y
+coordinate. To get the width or height, you can call `Math.abs` (the
+absolute value) on the difference between two sides.
 
-Showing the rectangle during the mouse drag requires a similar set
-numbers, but in the context of the whole page, rather than relative to
-the canvas. Consider writing a function `findRect`, which converts two
-points into an object with `top`, `left`, `width`, and `height`
-properties, so that you don't have to write the same logic twice.
+(((coordinates)))Showing the rectangle during the mouse drag requires
+a similar set of numbers, but in the context of the whole page, rather
+than relative to the canvas. Consider writing a function `findRect`,
+which converts two points into an object with `top`, `left`, `width`,
+and `height` properties, so that you don't have to write the same
+logic twice.
 
-You can then create a `<div>` node, and set its `style.position` to
-`absolute`. When setting positioning styles, do not forget to append
-`"px"` to the numbers. The node must be added to the document (you can
-append it to `document.body`), and also removed again when the drag
-ends and the actual rectangle gets drawn onto the canvas.
+(((position (CSS))))You can then create a `<div>` node, and set its
+`style.position` to `absolute`. When setting positioning styles, do
+not forget to append `"px"` to the numbers. The node must be added to
+the document (you can append it to `document.body`), and also removed
+again when the drag ends and the actual rectangle gets drawn onto the
+canvas.
 
 !!solution!!
 
 === Color picker ===
 
-Another tool that is commonly found in graphics programs is a color
-picker, which allows the user to click on the picture, and selects the
-color under the mouse pointer. Build this.
+(((color picker (exercise))))Another tool that is commonly found in
+graphics programs is a ((color)) picker, which allows the user to
+click on the picture, and selects the color under the mouse pointer.
+Build this.
 
-In order to build this, we need a way to access the content of the
-canvas. The `toDataURL` method more or less did this, but getting
-pixel information out of such a data URL is hard. Instead, we'll use
-the `getImageData` method on the drawing context, which returns a
+(((getImageData method)))(((toDataURL function)))In order to build
+this, we need a way to access the content of the ((canvas)). The
+`toDataURL` method more or less did this, but getting ((pixel))
+information out of such a data URL is hard. Instead, we'll use the
+`getImageData` method on the drawing context, which returns a
 rectangular piece of the image as an object with `width`, `height`,
 and `data` properties. The `data` property holds an array of numbers
 from 0 to 255, using four numbers to represent each pixel's red,
@@ -758,16 +810,18 @@ The arguments to `getImageData` indicate the starting x and y
 coordinates of the rectangle we want to retrieve, followed by its
 width and height.
 
-Ignore transparency during this exercise, and look only at the first
-three values for a given pixel. Also do not worry about updating the
-color field when the user picks a color. Just make sure that the
-drawing context's `fillStyle` and `strokeStyle` get set to the color
-under the mouse cursor.
+(((transparent)))Ignore transparency during this exercise, and look
+only at the first three values for a given pixel. Also do not worry
+about updating the color field when the user picks a color. Just make
+sure that the drawing context's `fillStyle` and `strokeStyle` get set
+to the color under the mouse cursor.
 
-Remember that these properties accept any color that CSS understand,
-which includes the `rgb(R, G, B)` style we saw in link:15_game.html#game_css[Chapter 15].
+(((rgb (CSS))))Remember that these properties accept any color that
+CSS understand, which includes the `rgb(R, G, B)` style we saw in
+link:15_game.html#game_css[Chapter 15].
 
-The `getImageData` method is subject to the same restrictions as
+(((cross-domain request)))(((sandbox)))(((getImageData method)))The
+`getImageData` method is subject to the same restrictions as
 ++toDataURL++—it will raise an error when the canvas contains pixels
 that originate from another domain. Use a `try`/`catch` statement to
 report such errors with an `alert` dialog.
@@ -794,30 +848,33 @@ endif::html_target[]
 
 !!solution!!
 
-You'll again need to use `relativePos` to find out which pixel. The
-`pixelAt` function in the example demonstrates how to get the values
-for a given pixel. Putting those into an `rgb` string merely requires
-some string concatenation.
+(((color picker (exercise))))(((relativePos function)))(((rgb
+(CSS))))You'll again need to use `relativePos` to find out which
+pixel. The `pixelAt` function in the example demonstrates how to get
+the values for a given pixel. Putting those into an `rgb` string
+merely requires some string ((concatenation)).
 
-Make sure you verify that the exception you catch is an instance of
-`SecurityError`, so that you don't accidentally handle the wrong kind
-of exception.
+(((SecurityError type)))(((exception handling)))Make sure you verify
+that the exception you catch is an instance of `SecurityError`, so
+that you don't accidentally handle the wrong kind of exception.
 
 !!solution!!
 
 === Flood fill ===
 
-This is a more advanced exercise than the preceding two, and will
-require you to design a non-trivial solution to a tricky problem. Make
-sure you have plenty of time and patience before starting to work on
-this exercise, and do not get discouraged by initial failures.
+(((flood fill (exercise))))This is a more advanced exercise than the
+preceding two, and will require you to design a non-trivial solution
+to a tricky problem. Make sure you have plenty of time and
+((patience)) before starting to work on this exercise, and do not get
+discouraged by initial failures.
 
-A “flood fill” tool colors the pixel under the mouse, and the whole
-group of pixels around it that have the same color. For the purpose of
-this exercise, we will consider such a group to include all pixels
-that can be reached from our starting pixel by moving in single-pixel
-horizontal and vertical steps (not diagonal), without ever touching a
-pixel that has a color different form the starting pixel.
+(((bucket fill)))A “flood fill” tool colors the pixel under the mouse,
+and the whole group of pixels around it that have the same color. For
+the purpose of this exercise, we will consider such a group to include
+all pixels that can be reached from our starting pixel by moving in
+single-pixel horizontal and vertical steps (not diagonal), without
+ever touching a pixel that has a color different form the starting
+pixel.
 
 The picture below illustrates the set of pixels colored when the flood
 fill tool is used at the marked pixel:
@@ -828,36 +885,40 @@ The flood fill does not leak through diagonal gaps, and does not touch
 pixels that are not reachable, even if they have the same color as the
 target pixel.
 
-You will once again need `getImageData` to find out the color for each
-pixel. It is probably a good idea to fetch the whole image in one go,
-and then pick out pixel data from the resulting array. The pixels are
-organized in this array in a similar way to the grid elements in
-link:07_elife.html#grid[Chapter 7], one row at a time, except that each pixel is represented by
-four values. The first value for the pixel at (x,y) is at position (x
-+ y × width) × 4.
+(((array,as grid)))(((getImageData method)))You will once again need
+`getImageData` to find out the color for each ((pixel)). It is
+probably a good idea to fetch the whole image in one go, and then pick
+out pixel data from the resulting array. The pixels are organized in
+this array in a similar way to the ((grid)) elements in
+link:07_elife.html#grid[Chapter 7], one row at a time, except that
+each pixel is represented by four values. The first value for the
+pixel at (x,y) is at position (x + y × width) × 4.
 
-Do include the fourth (alpha) value this time, since we want to be
-able to tell the difference between empty and black pixels.
+(((alpha)))(((transparent)))Do include the fourth (alpha) value this
+time, since we want to be able to tell the difference between empty
+and black pixels.
 
-Finding all adjacent pixels with the same color requires you to “walk”
-over the pixel surface, one pixel up, down, left, or right, as long as
-new same-colored pixels can be found. But you won't find all pixels in
-a group on the first walk. Rather, you have to do something similar to
-the backtracking done by the regular expression matcher, described in
+(((searching)))Finding all adjacent pixels with the same color
+requires you to “((walk))” over the pixel surface, one pixel up, down,
+left, or right, as long as new same-colored pixels can be found. But
+you won't find all pixels in a group on the first walk. Rather, you
+have to do something similar to the backtracking done by the regular
+expression matcher, described in
 link:09_regexp.html#backtracking[Chapter 9]. Whenever more than one
 possible direction to proceed is seen, you must store all the
 directions you do not take immediately, and look at them later, when
-you finishe your current walk.
+you finish your current walk.
 
-In a normal-sized picture there are a _lot_ of pixels. Thus, you must
-take care to do the minimal amount of work required, or your program
-will take a very long to run. For example, every walk must ignore
-pixels seen by previous walks, so that it does not redo work that has
-already been done.
+(((performance)))(((optimization)))In a normal-sized picture there are
+a _lot_ of pixels. Thus, you must take care to do the minimal amount
+of work required, or your program will take a very long to run. For
+example, every walk must ignore pixels seen by previous walks, so that
+it does not redo work that has already been done.
 
-I recommend calling `fillRect` for individual pixels when a pixel that
-should be colored is found, and keeping some data structure that tells
-you about all the pixels that have already been looked at.
+(((fillRect method)))I recommend calling `fillRect` for individual
+pixels when a pixel that should be colored is found, and keeping some
+data structure that tells you about all the pixels that have already
+been looked at.
 
 ifdef::html_target[]
 
@@ -881,13 +942,14 @@ endif::html_target[]
 
 !!solution!!
 
-Given a pair of starting coordinates and the image data for the whole
+(((algorithm)))(((bucket fill)))(((flood fill (exercise))))Given a
+pair of starting ((coordinates)) and the image data for the whole
 canvas, this approach should work:
 
  1. Create an array to hold information about already colored
     coordinates.
 
- 2. Create a work list array to hold coordinates that must be looked
+ 2. Create a ((work list)) array to hold coordinates that must be looked
     at. Put the start position in it.
 
  3. When the work list is empty, we are done.
@@ -897,8 +959,8 @@ canvas, this approach should work:
  5. If those coordinates are already in our array of colored pixels, go
     back to 3.
 
- 6. Color the pixel at the current coordinates, and add them to the
-    array of colored pixels.
+ 6. Color the pixel at the current coordinates, and add the
+    coordinates to the array of colored pixels.
 
  7. Add the coordinates of each adjacent pixel whose color is the same
     as the starting pixel's original color to the work list.
@@ -914,12 +976,12 @@ associating positions with pixels, and when checking if a pixel has
 been colored already, directly access the field corresponding to the
 current pixel.
 
-Comparing colors can be done by running over the relevant part of the
-data array, comparing one field at a time. Or you can “condense” a
-color down to a single number or string, and compare those. When doing
-this, ensure that every color produces a unique value. For example,
-simply adding the color's components is not safe, since multiple
-colors will have the same sum.
+(((comparison,of colors)))Comparing colors can be done by running over
+the relevant part of the data array, comparing one field at a time. Or
+you can “condense” a color down to a single number or string, and
+compare those. When doing this, ensure that every color produces a
+unique value. For example, simply adding the color's components is not
+safe, since multiple colors will have the same sum.
 
 When enumerating the neighbors of a given point, take care to exclude
 neighbors that are not inside of the canvas, or your program might run

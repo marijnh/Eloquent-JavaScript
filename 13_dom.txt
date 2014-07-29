@@ -334,7 +334,7 @@ To create regular element nodes (type 1), you can use the
 returns a new empty node of the given type.
 
 [[elt]]
-The following example defines a utility `elt`, which creates an
+(((elt function)))The following example defines a utility `elt`, which creates an
 element node, and treats the rest of its arguments as children to that
 node. This function is then used to add a simple attribution to a
 quote.

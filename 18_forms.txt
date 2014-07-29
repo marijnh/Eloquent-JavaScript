@@ -494,14 +494,14 @@ on Mac) to select multiple options.
 
 == File fields ==
 
-(((hard drive)))(((file system)))(((security)))(((file field)))(((input
-(HTML tag))))File fields were originally designed as a way to
-((upload)) files from the browser's machine through a form. In modern
-browsers, they also provide a way to read such files from JavaScript
-programs. The field acts as a manner of gatekeeper—the script can not
-simply start reading private files from the user's computer, but when
-a file has been selected in such a field, that is understood to mean
-that the script may read it.
+(((file)))(((hard drive)))(((file system)))(((security)))(((file
+field)))(((input (HTML tag))))File fields were originally designed as
+a way to ((upload)) files from the browser's machine through a form.
+In modern browsers, they also provide a way to read such files from
+JavaScript programs. The field acts as a manner of gatekeeper—the
+script can not simply start reading private files from the user's
+computer, but when a file has been selected in such a field, that is
+understood to mean that the script may read it.
 
 A file field usually looks like a button labeled something like
 “choose file” or “browse”, with information about the chosen file next
@@ -601,12 +601,12 @@ so-called _blob_ object) to the file reader.
 
 == Storing data client-side ==
 
-Simple ((HTML)) pages with a bit of JavaScript can be a great medium
-for “((mini application))”—small helper programs that automate
-everyday things. By connecting a few form ((field))s with event
-handlers you can do anything from converting between degrees Celsius
-and Fahrenheit to computing passwords from a master password and a
-website name.
+(((web application)))Simple ((HTML)) pages with a bit of JavaScript
+can be a great medium for “((mini application))”—small helper programs
+that automate everyday things. By connecting a few form ((field))s
+with event handlers you can do anything from converting between
+degrees Celsius and Fahrenheit to computing passwords from a master
+password and a website name.
 
 (((persistence)))(((memory)))When such an application needs to
 remember something between sessions, you can not use JavaScript

@@ -5,6 +5,11 @@
 
 = Project: A Platform Game =
 
+[quote,Iain Banks,The Player of Games]
+____
+All reality is a game.
+____
+
 (((project chapter)))(((simulation)))My initial fascination with
 computers, like that of many kids, originated with computer ((game))s.
 I was drawn into the tiny computer-simulated ((world))s which I could

@@ -516,12 +516,12 @@ pixels.
 DOMDisplay.prototype.drawActors = function() {
   var wrap = elt("div");
   this.level.actors.forEach(function(actor) {
-    var elt = wrap.appendChild(elt("div", "actor " +
-                                          actor.type));
-    elt.style.width = actor.size.x * scale + "px";
-    elt.style.height = actor.size.y * scale + "px";
-    elt.style.left = actor.pos.x * scale + "px";
-    elt.style.top = actor.pos.y * scale + "px";
+    var rect = wrap.appendChild(elt("div", "actor " +
+                                           actor.type));
+    rect.style.width = actor.size.x * scale + "px";
+    rect.style.height = actor.size.y * scale + "px";
+    rect.style.left = actor.pos.x * scale + "px";
+    rect.style.top = actor.pos.y * scale + "px";
   });
   return wrap;
 };

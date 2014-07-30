@@ -244,7 +244,7 @@ var argument = process.argv[2];
 console.log(garble(argument));
 ----
 
-(((reuse)))The file `garble.js` defines a library for gabling strings,
+(((reuse)))The file `garble.js` defines a library for garbling strings,
 which can be used both by the command line tool defined above and by
 other scripts that need direct access to a garbling function.
 

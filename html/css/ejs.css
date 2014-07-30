@@ -48,6 +48,7 @@ pre {
   padding: 5px 0 5px 15px;
   line-height: 1.35;
   margin: 1rem 0;
+  position: relative;
 }
 
 pre[data-language=javascript] {
@@ -312,6 +313,29 @@ blockquote footer:before {
   min-width: 12px;
   color: #4ab;
   font-size: 60%;
+}
+
+.sandboxhint {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  font-family: tahoma, arial, sans-serif;
+  font-size: 70%;
+  padding: 4px 8px;
+  background: rgb(220, 220, 220);
+  color: white;
+  border-radius: 5px;
+}
+
+.sandboxhint:before {
+  position: absolute;
+  width: 0; height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 12px solid rgb(220, 220, 220);
+  top: 6px;
+  left: -11px;
+  content: '';
 }
 
 

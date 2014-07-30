@@ -10,6 +10,20 @@ window.addEventListener("load", function() {
   // If there's no ecmascript 5 support, don't try to initialize
   if (!Object.create || !window.JSON) return;
 
+  var sandboxHint = null;
+  if (window.chapNum && window.chapNum < 20 && window.localStorage && !localStorage.getItem("usedSandbox")) {
+    var pres = document.getElementsByTagName("pre");
+    for (var i = 0; i < pres.length; i++) {
+      var pre = pres[i];
+      if (!/^(text\/)?(javascript|html)$/.test(pre.getAttribute("data-language")) ||
+          chapNum == 1 && !/console\.log/.test(pre.textContent)) continue;
+      sandboxHint = elt("div", {"class": "sandboxhint"},
+                        "edit & run code by clicking it");
+      pre.appendChild(sandboxHint);
+      break;
+    }
+  }
+
   document.body.addEventListener("click", function(e) {
     for (var n = e.target; n; n = n.parentNode) {
       if (n.className == "c_ident") return;
@@ -69,6 +83,12 @@ window.addEventListener("load", function() {
   var article = document.getElementsByTagName("article")[0];
 
   function activateCode(node, e, lang) {
+    if (sandboxHint) {
+      sandboxHint.parentNode.removeChild(sandboxHint);
+      sandboxHint = null;
+      localStorage.setItem("usedSandbox", "true");
+    }
+
     var code = node.textContent;
     var wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node);
     var editor = CodeMirror(function(div) {wrap.insertBefore(div, wrap.firstChild)}, {

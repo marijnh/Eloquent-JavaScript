@@ -46,9 +46,9 @@ endif::html_target[]
 (((input)))One of the more difficult problems in writing systems that
 communicate over the ((network)) is managing in- and ((output))—that
 is, the reading and writing of data to and from the network, the
-((hard disk)), and other such devices. Moving data around takes, and
-((scheduling)) it cleverly can make a big difference in how quickly a
-system responds to the user or to network requests.
+((hard disk)), and other such devices. Moving data around takes time,
+and ((scheduling)) it cleverly can make a big difference in how
+quickly a system responds to the user or to network requests.
 
 The traditional way to do in- and output is to have a function, for
 example `readFile`, start reading the file and return only when the

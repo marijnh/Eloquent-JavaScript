@@ -51,9 +51,6 @@ function convertImage(name, type) {
     } catch (e) {
       newAge = 0;
     }
-    var oldAge = fs.statSync(oldName).atime;
-    if (newAge < oldAge)
-      child.spawn("inkscape", ["--export-pdf=" + newName, oldName]);
     return newName;
   } else {
     return oldName;

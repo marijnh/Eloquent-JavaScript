@@ -4,9 +4,13 @@ CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_high
   07_elife 08_error 09_regexp 10_modules 11_language 12_browser 13_dom 14_event 15_game 16_canvas \
   17_http 18_forms 19_paint 20_node 21_skillsharing
 
+SVGS := $(wildcard img/*.svg)
+
 .SECONDARY: $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).db)
 
-html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/chapter_info.js code/skillsharing.zip code/solutions/20_4_a_public_space_on_the_web.zip
+html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/chapter_info.js \
+      code/skillsharing.zip code/solutions/20_4_a_public_space_on_the_web.zip \
+      $(patsubst img/%.svg,img/generated/%.png,$(SVGS))
 
 html/%.html: %.txt asciidoc_html.conf
 	PATH=node_modules/codemirror/bin:$(PATH) asciidoc -f asciidoc_html.conf --backend=html5 -o $@ $<
@@ -14,6 +18,12 @@ html/%.html: %.txt asciidoc_html.conf
 
 html/js/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) code/solutions/* bin/chapter_info.js
 	node bin/chapter_info.js > html/js/chapter_info.js
+
+img/generated/%.png: img/%.svg
+	inkscape --export-png=$@ $<
+
+img/generated/%.pdf: img/%.svg
+	inkscape --export-pdf=$@ $<
 
 code/skillsharing.zip: html/21_skillsharing.html
 	rm -f $@
@@ -38,7 +48,8 @@ test: html
 	@node bin/check_links.js
 	@echo Done.
 
-book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex) tex/solutions.tex
+book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex) tex/solutions.tex \
+          $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
 	cd tex/book && xelatex book.tex
 	cd tex/book && xelatex book.tex
 	makeindex -s tex/book/nostarch.ist -o tex/book/book.ind tex/book/book.idx

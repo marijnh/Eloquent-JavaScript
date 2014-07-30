@@ -173,7 +173,7 @@ addEventListener("load", function() {
 
   function parseFragment() {
     var hash = document.location.hash.slice(1);
-    var valid = /^(\d)+(?:\.(\d+))?$/.exec(hash);
+    var valid = /^(\d+)(?:\.(\d+))?$/.exec(hash);
     if (valid) {
       var chapter = getChapter(Number(valid[1]));
       var exercise = chapter && valid[2] && findExercise(hash, chapter);

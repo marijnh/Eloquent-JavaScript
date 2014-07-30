@@ -9,5 +9,6 @@
 /node_modules
 .tern-port
 /toc.txt
+/img/generated/*
 /img/cover.xcf
 /book.pdf

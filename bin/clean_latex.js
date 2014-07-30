@@ -1,7 +1,7 @@
 // Check that no unicode characters that we aren't explicitly handling
 // with \newunicodechar snuck into the output.
 function checkUnicode(str) {
-  var allowedUnicode = /[→←“”π½⅓¼…×βϕ≈é—]/;
+  var allowedUnicode = /[→←“”’π½⅓¼…×βϕ≈é—]/;
   var unicode = /[\x7f-\uffff]/g;
   var match;
   while (match = unicode.exec(str)) {

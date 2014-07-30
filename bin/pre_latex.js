@@ -45,7 +45,7 @@ instream.on("end", function() {
 
 function convertImage(name, type) {
   if (type == "svg") {
-    var oldName = "img/" + name + "." + type, newName = "tex/pdf/" + name + ".pdf";
+    var oldName = "img/" + name + "." + type, newName = "img/generated/" + name + ".pdf";
     try {
       var newAge = fs.statSync(newName).atime;
     } catch (e) {
@@ -54,8 +54,8 @@ function convertImage(name, type) {
     var oldAge = fs.statSync(oldName).atime;
     if (newAge < oldAge)
       child.spawn("inkscape", ["--export-pdf=" + newName, oldName]);
-    return ".." + newName.slice(3);
+    return newName;
   } else {
-    return "../../img/" + name + "." + type;
+    return oldName;
   }
 }

@@ -11,10 +11,11 @@ link:11_language.html#parsing[Chapter 11] parsed programs. The browser builds up
 model of the document's structure, and then uses this model to draw the page
 on the screen.
 
-One of the toys that a JavaScript program has available in its sandbox
-is this representation of the document. You can read from it, and also
-change it. It acts as a _live_ data structure: when it is modified, the
-page on the screen is updated to reflect the changes.
+(((live data structure)))One of the toys that a JavaScript program has
+available in its sandbox is this representation of the document. You
+can read from it, and also change it. It acts as a _live_ data
+structure: when it is modified, the page on the screen is updated to
+reflect the changes.
 
 == Document structure ==
 

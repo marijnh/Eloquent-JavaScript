@@ -371,9 +371,9 @@ endif::html_target[]
 
 ifdef::tex_target[]
 
-(((sandbox)))(((code sandbox)))(((running code)))Most of the example
-code in this book can be found on the book's ((website)), at
-http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
+(((download)))(((sandbox)))(((code sandbox)))(((running code)))Most of
+the example code in this book can be found on the book's ((website)),
+at http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
 which also provides an easy way to run the programs and experiment
 with writing your own code.
 

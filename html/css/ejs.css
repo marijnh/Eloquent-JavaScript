@@ -44,6 +44,11 @@ nav a {
   text-decoration: none !important;
 }
 
+a.subtlelink {
+  color: black !important;
+  text-decoration: none !important;
+}
+
 pre {
   padding: 5px 0 5px 15px;
   line-height: 1.35;

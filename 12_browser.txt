@@ -100,7 +100,7 @@ browser. The “Web” part in the name refers to the fact that such pages
 can easily link to each other, thus connecting into a huge mesh that
 users can move through.
 
-indexsee::[Hyper-Text Transfer Prototol,HTTP]
+indexsee:[Hyper-Text Transfer Prototol,HTTP]
 
 To add content to the Web, all you need to do is connect a machine
 to the Internet, and have it listen on port 80, using ((HTTP)) (the

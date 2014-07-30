@@ -3,22 +3,22 @@
 
 = Project: Skill-Sharing Website =
 
-(((project chapter)))A _skill-sharing_ meeting is an event where people with a shared
-interest come together and give small, informal presentations about
-things they know. For example, at a gardening skill-sharing meeting,
-someone might explain how to cultivate celery. Or in a
+(((project chapter)))A _skill-sharing_ meeting is an event where
+people with a shared interest come together and give small, informal
+presentations about things they know. At a gardening skill-sharing
+meeting, someone might explain how to cultivate celery. Or in a
 programming-oriented skill-sharing group, you could drop by and tell
 everybody about Node.js.
 
 Such meetups, also often called _users’ groups_ when they are about
 computers, are a great way to broaden your horizon, learn about new
 developments, or simply meet people with similar interests. Many large
-cities have a JavaScript meetup. They are typically friendly, and free
-to attend.
+cities have a JavaScript meetup. They are typically free to attend,
+and I've found the ones I've visited to be friendly and welcoming.
 
 In this final project chapter, our project is to set up a website for
 managing talks given at a skill-sharing meeting. Imagine a small group
-of people, meeting up regularly in one of the member's office to talk
+of people, meeting up regularly in one of the members’ office to talk
 about unicycling. Problem is: when the previous organizer of the
 meetings moved to another town, nobody stepped forward to take over
 this task. We want a system that will let the participants propose and
@@ -42,7 +42,7 @@ JavaScript files that implement the client-side system.
 The server keeps a list of talks proposed for the next meeting, and
 the client shows this list. Each talk has a presenter name, a title, a
 summary, and a list of comments associated with it. The client allows
-users to propose a new talk (add a talk to the list), delete talks,
+users to propose new talks (adding them to the list), delete talks,
 and to comment on existing talks. Whenever the user makes such a
 change, the client makes an HTTP request to tell the server about it.
 
@@ -53,8 +53,8 @@ proposed talks and their comments. Whenever someone, somewhere,
 submits a new talk or adds a comment, all people who have the page
 open in their browsers should immediately see the change. This poses a
 bit of a challenge, since there is no way for a web server to open up
-a connection to a client, nor is there a way to know which clients
-currently are looking at a given website.
+a connection to a client, nor is there a good way to know which
+clients currently are looking at a given website.
 
 A common solution to this problem is called _long polling_, which
 happens to be one of the motivations for Node's design.
@@ -102,25 +102,26 @@ robust, allowing clients to recover from temporary connection failures
 or server problems.
 
 A busy server that is using long polling may have thousands of waiting
-request, and thus TCP connects, open. Node, which makes it easy to
+request, and thus TCP connections, open. Node, which makes it easy to
 manage many connections without creating a separate thread of control
 for each one, is a good fit for such a system.
 
 == HTTP interface ==
 
 Before we start fleshing out either the server or the client, let's
-define the point where they touch: the HTTP interface over which they
-communicate.
+think about the point where they touch: the HTTP interface over which
+they communicate.
 
 We will base our interface on JSON, and, like in the file server from
 link:20_node.html#file_server[Chapter 20], try to make good use of
-HTTP verbs. The interface is centered around the path `/talks`, and
-leaves other paths for serving normal files, such as the HTML and
-JavaScript files that implement the client-side system.
+HTTP verbs. The interface is centered around the path `/talks`. Paths
+that do not start with `/talks` will be used for serving static
+files—the HTML and JavaScript code that implement the client-side
+system.
 
-A normal `GET` request to `/talks` will return a JSON document like
-this:
+A `GET` request to `/talks` returns a JSON document like this:
 
+[source,application/json]
 ----
 {"serverTime": 1405438911833,
  "talks": [{"title": "Unituning",
@@ -129,18 +130,18 @@ this:
             "comment": []}]}
 ----
 
-The `serverTime` field will be used to allow reliable long polling. I
-will come back to it link:21_skillsharing.html#poll_time[later].
+The `serverTime` field will be used to make reliable long polling
+possible. I will come back to it
+link:21_skillsharing.html#poll_time[later].
 
 Creating a new talk is done by making a `PUT` request to a URL like
 `/talks/Unituning`, where the part after the second slash is the title
-of the talk. The `PUT` request's body should contain a JSON
-representation of the new talk: an object containing `title`,
-`presenter`, and `summary` properties.
+of the talk. The `PUT` request's body should contain a JSON object
+that has `presenter` and `summary` properties.
 
-Since talk titles may contain spaces and other characters that can not
-be included normally in a URL, they must be encoded when building up
-such a URL, using the `encodeURIComponent` function.
+Since talk titles may contain spaces and other characters that may not
+appear normally in a URL, they must be encoded when building up such a
+URL, using the `encodeURIComponent` function.
 
 [source,javascript]
 ----
@@ -148,7 +149,7 @@ console.log("/talks/" + encodeURIComponent("How to Idle"));
 // → /talks/How%20to%20Idle
 ----
 
-A request to creates a talk about idling might look something like
+A request to create a talk about idling might look something like
 this:
 
 [source,http]
@@ -183,27 +184,26 @@ query parameter `changesSince`, which is used to indicate that the
 client is interested in updates that happened since a given point in
 time. When there are such changes, they are immediately returned. When
 not, the response is delayed until something happens, or a given time
-(we will use 90 seconds) has elapsed.
+period (we will use 90 seconds) has elapsed.
 
 [[poll_time]]
 The time must be indicated as the number of milliseconds elapsed since
-the start of 1970, the same format that is returned by `Date.now()`.
-In order to ensure that it receives all updates, and doesn't receive
-the same update more than once, the client must pass the time at which
-it last received information from the server. The server's clock might
-not be exactly in sync with the client's clock, and even if they were,
-it will be impossible for the client to know the precise time at which
-the server sent a response, due to the fact that transferring data
-over the network takes time.
+the start of 1970, the same type of number that is returned by
+`Date.now()`. In order to ensure that it receives all updates, and
+doesn't receive the same update more than once, the client must pass
+the time at which it last received information from the server. The
+server's clock might not be exactly in sync with the client's clock,
+and even if it were, it will be impossible for the client to know
+the precise time at which the server sent a response, due to the fact
+that transferring data over the network takes time.
 
 This is the reason for the existence of the `serverTime` property in
 responses sent to `GET` requests to `/talks`. It tells the client the
 precise time, from the server's perspective, at which the data it
-receives was current. It can then simply store this time, and pass it
+receives was created. It can then simply store this time, and pass it
 along in its next polling request, to make sure that it receives
 exactly the updates that it has not seen before.
 
-[source,http]
 ----
 GET /talks?changesSince=1405438911833 HTTP/1.1
 
@@ -218,13 +218,12 @@ Content-Length: 95
             "deleted": true}]}
 ----
 
-When a talk has been changed, newly created, or had a comment added,
-the full representation of the talk will be included in the response
-to such a request. When a talk is deleted, only its title and the
-property `deleted`, with the value `true`, are included. The client
-can then add talks with titles it has not seen before to its display,
-update talks that it was already showing, and remove those that were
-deleted.
+When a talk has been changed, newly created, or has a comment added,
+the full representation of the talk is included in the response to
+such a request. When a talk is deleted, only its title and the
+property `deleted` are included. The client can then add talks with
+titles it has not seen before to its display, update talks that it was
+already showing, and remove those that were deleted.
 
 The protocol described here does not do any access control. Everybody
 can comment, modify talks, and even delete them. Since the internet is
@@ -248,7 +247,8 @@ always risky). But all that is outside of the scope of this chapter.
 
 == The server ==
 
-Let's start by writing the server-side part of the program.
+Let's start by writing the server-side part of the program. The
+following code runs on Node.js.
 
 === Routing ===
 
@@ -259,13 +259,13 @@ path) that we support. This can be done with a long chain of `if`
 statements, but there is a nicer way.
 
 A _router_ is a component that helps dispatch a request to the
-function that can handle it. You can tell it, for example, that `PUT`
-methods where the path matches the regular expression
-`/^\/talks\/([^\/]+)$/` (`/talks/` followed by a talk title) is
-handled by a given function. In addition it can help extract the
-meaningful parts of the path, in this case the talk title, which is
-wrapped in parentheses in the regular expression, and pass those to
-the handler function.
+function that can handle it. You can tell it, for example, that
+requests with the `PUT` method which have a path that matches the
+regular expression `/^\/talks\/([^\/]+)$/` (`/talks/` followed by a
+talk title) can be handled by a given function. In addition it can
+help extract the meaningful parts of the path, in this case the talk
+title, wrapped in parentheses in the regular expression, and pass
+those to the handler function.
 
 There are a number of good router packages on NPM, but here we will
 write one ourselves, to illustrate the principle.
@@ -317,26 +317,26 @@ objects. When the regular expression that matches the URL contains any
 groups, these are URL-decoded (since the raw URL will contain
 `%20`-style codes), and passed to the handler as extra arguments.
 
-=== Serving HTTP ===
+=== Serving files ===
 
 When a request matches none of the request types defined in our
 router, the server must interpret it as being a request for a file in
 the `public` directory. It would be possible to use the file server
 defined in link:20_node.html#file_server[Chapter 20] to serve such
 files, but since we neither need nor want to support `PUT` and
-`DELETE` requests, and we would like to have advanced features like
-caching support, let's use a solid, well-tested static file server
-from NPM instead.
+`DELETE` requests on files, and we would like to have advanced
+features such as support for caching, let's use a solid, well-tested
+static file server from NPM instead.
 
 I opted for `ecstatic`, which isn't the only such server on NPM, but
 which works well and fits our purposes. The `ecstatic` module exports
 a function that can be called with a configuration object to produce a
-request handler function. We just set the `root` where we want it to
-look for files to server. The handler function accepts `request` and
-`response` parameters, and can be passed directly to `createServer` to
-create a server that _only_ server files. We want to first check for
-requests that we handle specially though, so we wrap it in another
-function.
+request handler function. We use the `root` option to tell the server
+where it should look for files. The handler function accepts `request`
+and `response` parameters, and can be passed directly to
+`createServer` to create a server that _only_ serves files. We want to
+first check for requests that we handle specially though, so we wrap
+it in another function.
 
 // include_code >code/skillsharing/skillsharing_server.js
 
@@ -375,9 +375,9 @@ function respondJSON(response, status, data) {
 }
 ----
 
-=== Exposing talks as resources ===
+=== Talks as resources ===
 
-The server keeps the talks that have been proposed in an object
+The server keeps the talks that have been proposed in an object called
 `talks`, whose property names are the talk titles. These will be
 exposed as HTTP resources under `/talks/[title]`, so we need to add
 handlers to our router that implement the various methods that clients
@@ -447,10 +447,10 @@ function readStreamAsJSON(stream, callback) {
 
 One of the handlers that needs to read JSON responses is the `PUT`
 handler used to create new talks. It has to checks whether the data it
-was given has `presenter` and `summary` properties are strings, since
-any data coming from outside the system might be nonsense, and we
-don't want to corrupt our internal data model or crash when
-encountering bad requests.
+was given has `presenter` and `summary` properties which are strings.
+Any data coming from outside the system might be nonsense, and we
+don't want to corrupt our internal data model, or even crash, when bad
+requests come in.
 
 If the data looks valid, the handler stores an object that represents
 the new talk in the `talks` object, possibly overwriting an existing
@@ -481,7 +481,7 @@ router.add("PUT", /^\/talks\/([^\/]+)$/,
 });
 ----
 
-Adding a comment to a talk is done in a very similar way. We again use
+Adding a comment to a talk is done in a very similar way. We use
 `readStreamAsJSON` to get the content of the request, validate the
 resulting data, and store it as a comment when it looks valid.
 
@@ -535,12 +535,12 @@ function sendTalks(talks, response) {
 }
 ----
 
-The handler itself uses the `"url"` module again to parse the
-request's URL, but passes it `true` as a second parameter. This will
-cause it to also parse the query part of the URL—the part after the
-question mark, in for example ++/talks?changesSince=…++—and give the
-resulting object a property `query` that associates parameter names
-(such as `changesSince`) with their value.
+The handler itself needs to look at the query parameters in the
+request's URL, to see whether a `changesSince` parameter is given. The
+`"url"` module's `parse` function will, if you give it a second
+argument of `true`, also parse the query part of a URL. The object it
+returns will have a `query` property, holding another object that maps
+parameter names to values.
 
 // include_code >code/skillsharing/skillsharing_server.js
 
@@ -571,13 +571,13 @@ router.add("GET", /^\/talks$/, function(request, response) {
 When the `changesSince` parameter is missing, the handler simply
 builds up a list of all talks, and returns that.
 
-In the other case, the parameter, which the parser will return as a
-string, first has to be checked to make sure that it is a valid
-number. The `getChangedTalks` function, to be defined shortly, returns
-an array of changed talk since a given point in time. If it returns an
-empty array, the server does not yet have anything to send back to the
-client, so it stores the response object (using `waitForChanges`) to
-be responded to at a later time.
+In the other case, the `changeSince` parameter first has to be checked
+to make sure that it is a valid number. The `getChangedTalks`
+function, to be defined shortly, returns an array of changed talk
+since a given point in time. If it returns an empty array, the server
+does not yet have anything to send back to the client, so it stores
+the response object (using `waitForChanges`) to be responded to at a
+later time.
 
 // include_code >code/skillsharing/skillsharing_server.js
 
@@ -599,16 +599,16 @@ function waitForChanges(since, response) {
 ----
 
 When a response object is stored in the `waiting` array, a timeout is
-immediately set. After 90 seconds, this timeout sees if the response
-is still pending, and if it is, sends an empty response and removes it
+immediately set. After 90 seconds, this timeout sees if the request is
+still waiting, and if it is, sends an empty response and removes it
 from the `waiting` array.
 
-[[registerChange]]
-To be able to find exactly those talks that have been changed since a
-given point in time, we need to keep track of the history of changes.
-This is what the `changes` array is used for. Registering a change
-will add it to this array, and then send the changed talk to all
-waiting requests.
+[[registerChange]] To be able to find exactly those talks that have
+been changed since a given point in time, we need to keep track of the
+history of changes. Registering a change with `registerChange` will
+remember that change, along with the current time, in an array called
+`changes`. When a change occurs that means there is new data, so all
+waiting requests can be responded to immediately.
 
 // include_code >code/skillsharing/skillsharing_server.js
 
@@ -627,9 +627,9 @@ function registerChange(title) {
 
 Finally, `getChangedTalks` uses the `changes` array to build up an
 array of changed talks, including object with a `deleted` property for
-talks that no longer exist. In doing this, it has to ensure that it
-doesn't add the same talk twice, since there might have been multiple
-changes to a talk since the given time.
+talks that no longer exist. When doing this, it has to ensure that it
+doesn't include the same talk twice, since there might have been
+multiple changes to a talk since the given time.
 
 // include_code >code/skillsharing/skillsharing_server.js
 
@@ -655,7 +655,7 @@ function getChangedTalks(since) {
 }
 ----
 
-That concludes our server code. Running the program defined so far
+That concludes the server code. Running the program defined so far
 will get you a server running on port 8000, which serves up files from
 the `public` subdirectory alongside a talk-managing interface under
 the `/talks` URL.
@@ -667,7 +667,7 @@ files: an HTML page, a style sheet, and a JavaScript file.
 
 === HTML ===
 
-It is a widely used convention, for web servers, to try and serve up a
+It is a widely used convention for web servers to try and serve up a
 file named `index.html` when a request is made directly to a path that
 corresponds to a directory. The file server module we use, `ecstatic`,
 supports this convention. When a request is made to the path `/`, it
@@ -676,7 +676,7 @@ gave it), and returns that if it finds it.
 
 Thus, if we want a page to show up when a browser is pointed at our
 server, we should put it in `public/index.html`. This is how our
-`index.html` starts:
+`index.html` file starts:
 
 // include_code >code/skillsharing/public/index.html
 
@@ -694,15 +694,14 @@ server, we should put it in `public/index.html`. This is how our
 <div id="talks"></div>
 ----
 
-It defines the document title and includes a style sheet which defines
-a few classes that will be used to display talks. Then it adds a
-heading, and a name field. The user is expected to put their name in
-the latter, so that it can be attached to the talks and comments that
-they submit.
+It defines the document title and includes a style sheet, which
+defines a few styles which, among other things, add a border around
+talks. Then it adds a heading, and a name field. The user is expected
+to put their name in the latter, so that it can be attached to talks
+and comments they submit.
 
 The `<div>` element with ID `"talks"` will contain the current list of
-talks. The script will fill it in when it receives talks from the
-server.
+talks. The script fills it in when it receives talks from the server.
 
 Next comes the form that is used to create a new talk:
 
@@ -749,18 +748,16 @@ you guess what it is for?
 </div>
 ----
 
-Creating complicated DOM structures with JavaScript code makes for
-some really ugly code. You can make it slightly better by introducing
-helper functions like the `elt` function from
-link:13_dom.html#elt[Chapter 13], but the result will still look worse
-than HTML, which can be thought of as a domain-specific language for
-expressing DOM structures.
+Creating complicated DOM structures with JavaScript code produces ugly
+code. You can make it slightly better by introducing helper functions
+like the `elt` function from link:13_dom.html#elt[Chapter 13], but the
+result will still look worse than HTML, which can be thought of as a
+((domain-specific language)) for expressing DOM structures.
 
 To create DOM structures for the talks, our program will define a very
-simple _templating_ system, which uses these hidden DOM structures
-included in the document to instantiate new DOM structures, replacing
-the placeholders between double braces with the values of a specific
-talk.
+simple _templating_ system, which uses hidden DOM structures included
+in the document to instantiate new DOM structures, replacing the
+placeholders between double braces with the values of a specific talk.
 
 Finally, the HTML document includes the script file that contains the
 client-side code.
@@ -777,7 +774,7 @@ client-side code.
 
 The first thing the client has to do when the page is loaded is to ask
 the server for the current set of talks. Since we are going to make a
-lot of HTTP requests, we will again start with a simple wrapper around
+lot of HTTP requests, we will again define a small wrapper around
 `XMLHttpRequest`, which accepts an object to configure the request as
 well as a callback to call when the request finishes.
 
@@ -801,7 +798,7 @@ function request(options, callback) {
 }
 ----
 
-The initial request displays the talks it gets back on the screen and
+The initial request displays the talks it receives on the screen, and
 starts the long-polling process by calling `waitForChanges`.
 
 // test: no
@@ -847,8 +844,8 @@ function reportError(error) {
 
 The function checks whether there _is_ an actual error, and only
 reports it when there is. That way, we can also directly pass it to
-`request` for requests where we can ignore the response, and just want
-to make sure errors get reported.
+`request` for requests where we can ignore the response to make sure
+that if the request fails, the error is reported to the user.
 
 === Displaying talks ===
 
@@ -896,11 +893,11 @@ Building up the DOM structure for talks is done using the templates
 that were included in the HTML document. First we must define
 `instantiateTemplate`, which looks up and fills in a template.
 
-The `name` parameter is the template's name. The template itself is
-looked up by using `querySelector` to find a node with a class name
-that matches the given name, which exists under the element with ID
-`"template"`. There were templates named `"talk"` and `"comment"` in
-the HTML page.
+The `name` parameter is the template's name. To look up the template
+element, we search for an element whose class name matches the
+template name, which is a child of the element with ID `"template"`.
+Using the `querySelector` method, this is easy. There were templates
+named `"talk"` and `"comment"` in the HTML page.
 
 // include_code >code/skillsharing/public/skillsharing_client.js
 
@@ -929,18 +926,18 @@ function instantiateTemplate(name, values) {
 }
 ----
 
-The `cloneNode` method, which all DOM nodes have, creates a copy of
-the node. It won't copy the node's child nodes, unless `true` is given
-as a first argument. The `instantiate` function recursively builds up
-a copy of the template, filling it in as it goes.
+The `cloneNode` method, which all DOM nodes have, creates a copy of a
+node. It won't copy the node's child nodes, unless `true` is given as
+a first argument. The `instantiate` function recursively builds up a
+copy of the template, filling it in as it goes.
 
 The second argument to `instantiateTemplate` should be an object,
 whose properties hold the strings that are to be filled into the
 template. A placeholder like `{{title}}` will be replaced with the
-value of `values`'s `title` property.
+value of `values`’ `title` property.
 
-This is a very crude approach to templating, but it is enough to
-implement `drawTalk`.
+This is a crude approach to templating, but it is enough to implement
+`drawTalk`.
 
 // include_code >code/skillsharing/public/skillsharing_client.js
 
@@ -1021,7 +1018,7 @@ function addComment(title, comment) {
 ----
 
 The `nameField` variable used to set the comment's `author` property
-is a reference to the `<input>` field at the top of the page, that
+is a reference to the `<input>` field at the top of the page that
 allows the user to specify their name. We also wire that field up to
 `localStorage`, so that it does not have to be filled in again every
 time the page is reloaded.
@@ -1033,18 +1030,17 @@ time the page is reloaded.
 ----
 var nameField = document.querySelector("#name");
 
-if (localStorage.getItem("name"))
-  nameField.value = localStorage.getItem("name");
+nameField.value = localStorage.getItem("name") || "";
 
 nameField.addEventListener("change", function() {
   localStorage.setItem("name", nameField.value);
 });
 ----
 
-The form at the bottom of the page, for proposing a new talk, is also
-wired up to a `"submit"` event handler. This handler prevents the
-event's default effect (which would cause a page reload), clears the
-form, and fires off the `PUT` request that creates the talk.
+The form at the bottom of the page, for proposing a new talk, gets a
+`"submit"` event handler. This handler prevents the event's default
+effect (which would cause a page reload), clears the form, and fires
+off a `PUT` request to create the talk.
 
 // test: no
 // include_code >code/skillsharing/public/skillsharing_client.js
@@ -1067,10 +1063,10 @@ talkForm.addEventListener("submit", function(event) {
 
 === Noticing changes ===
 
-I want to explicitly point out that the various functions that change
-the state of the application by creating or deleting talks, or adding
-a comment, do absolutely nothing to ensure that the changes they make
-are visible on the screen.
+I should point out that the various functions that change the state of
+the application by creating or deleting talks, or adding a comment, do
+absolutely nothing to ensure that the changes they make are visible on
+the screen.
 
 They simply tell the server, and rely on the long polling mechanism to
 trigger the appropriate updates to the page.
@@ -1108,13 +1104,13 @@ and a half seconds later.
 
 When the request succeeds, the new data is put onto the screen, and
 `lastServerTime` is updated to reflect the fact that we received data
-that reflects the situation at this new `serverTime`. The request is
-immediately restarted to wait the next update.
+corresponding to this new `serverTime`. The request is immediately
+restarted to wait for the next update.
 
 If you run the server, and open two browser windows for
-http://localhost:8000/hello[_localhost:8000/hello_] next to each
-other, you can see that the actions you perform in one window are
-immediately visible in the other.
+http://localhost:8000/[_localhost:8000/_] next to each other, you can
+see that the actions you perform in one window are immediately visible
+in the other.
 
 == Exercises ==
 
@@ -1156,12 +1152,12 @@ prototype-less object.
 
 === Comment field resets ===
 
-The wholesale redrawing of talks works pretty well because usually you
-can't tell the difference between a DOM node and another identical DOM
-node that replaces it. But there are exceptions. If you start typing
-something in the comment field for a talk in one browser window, and
-then, in another, add a comment to that talk, the field in the first
-window will be redrawn, removing both its content and its focus.
+The wholesale redrawing of talks works pretty well because you usually
+can't tell the difference between a DOM node and its identical
+replacement. But there are exceptions. If you start typing something
+in the comment field for a talk in one browser window, and then, in
+another, add a comment to that talk, the field in the first window
+will be redrawn, removing both its content and its focus.
 
 In a heated discussion, where multiple people are adding comments to a
 single talk, this would be very annoying. Can you come up with a way
@@ -1185,14 +1181,14 @@ harder to implement.
 
 Most templating systems do more than just fill in a bunch of fields.
 At the very least, they also allow conditional inclusion of parts of
-the template, analogous to `if` statements, and repeating parts of a
-template.
+the template, analogous to `if` statements, and repetition of parts of
+a template, similar to a loop.
 
-If we had the second feature, being able to repeat a piece of template
-for each element in an array, we would not need the second template
-(`"comment"`), but rather could specify the `"talk"` template to loop
-over the array held in a talk's `comments` property, and render the
-nodes that make up a comment for every element in the array.
+If we were able to repeat a piece of template for each element in an
+array, we would not need the second template (`"comment"`), but rather
+could specify the `"talk"` template to loop over the array held in a
+talk's `comments` property, and render the nodes that make up a
+comment for every element in the array.
 
 It could look like this:
 
@@ -1206,9 +1202,9 @@ It could look like this:
 ----
 
 The idea being that whenever a node with a `template-repeat` attribute
-is found when instantiating a template, the instantiating code loops
-over the array held in the property indicated by the attribute, and
-adds an instance of the node for each element in the array. The
+is found during template instantiation, the instantiating code loops
+over the array held in the property indicated by the attribute. For
+each element in the array, it adds an instance of the node. The
 template's context (the `values` variable in `instantiateTemplate`)
 would, during this loop, point at the current element of the array, so
 that `{{author}}`, rather than being looked up in the original context
@@ -1243,12 +1239,12 @@ false).
 
 When someone visits our website with a browser that has JavaScript
 disabled, or is simply not capable of displaying JavaScript, they will
-get a completely broken, inoperable page. This is unfortunate.
+get a completely broken, inoperable page. This is not nice.
 
 Some types of web applications really can't be done without
 JavaScript. For others, you just don't have the budget or patience to
 bother about clients that can't run scripts. But for pages with a wide
-audience, it really is polite to support script-less users.
+audience, it is polite to support script-less users.
 
 Try to think of a way the skill sharing website could be set up to
 preserve basic functionality when ran without JavaScript. The

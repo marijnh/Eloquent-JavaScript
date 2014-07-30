@@ -8,7 +8,8 @@ addEventListener("load", function() {
     lineNumbers: true
   });
   function guessType(code) {
-    return /^[\s\w]*</.test(code) ? "html" : "js";
+    console.log("guess", /^[\s\w:\n]*</.test(code) ? "html" : "js", "for " + code);
+    return /^[\s\w\n:]*</.test(code) ? "html" : "js";
   }
   var reGuess;
   editor.on("change", function() {
@@ -101,7 +102,9 @@ addEventListener("load", function() {
     clearSandbox();
     var chapter = getChapter(chapters.value), visible;
     if (value == "box") {
-      var code = "Run code here in the context of Chapter " + chapter.number;
+      var code = chapters.value < 20
+       ? "Run code here in the context of Chapter " + chapter.number
+       : "Code from Node.js chapters can't be run in the browser";
       var guessed = guessType(chapter.start_code);
       if (guessed == "js")
         code = "// " + code;

@@ -8,7 +8,7 @@ do. Computers are about as common as screwdrivers today, but contain a
 lot more hidden complexity, and thus are harder to operate and
 understand. To many, they remain alien, slightly threatening things.
 
-image::img/computer.svg[alt="Communicating with a computer"]
+image::img/computer.png[alt="Communicating with a computer"]
 
 (((graphical user interface)))We've found two effective ways of
 bridging the communication gap between us, squishy biological

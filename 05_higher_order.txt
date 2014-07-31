@@ -937,9 +937,10 @@ endif::html_target[]
 
 (((ancestry example)))(((age difference (exercise))))(((average
 function)))Using the example data set from this chapter, compute the
-average age difference between mothers and children. You can use the
-`average` function defined
-link:05_higher_order.html#average_function[earlier] in this chapter.
+average age difference between mothers and children (the age of the
+mother when the child is born). You can use the `average` function
+defined link:05_higher_order.html#average_function[earlier] in this
+chapter.
 
 (((byName object)))Note that not all the mothers mentioned in the data
 are themselves present in the array. The `byName` object, which makes

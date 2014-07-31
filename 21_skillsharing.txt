@@ -3,12 +3,13 @@
 
 = Project: Skill-Sharing Website =
 
-(((meetup)))(((project chapter)))A _((skill-sharing))_ meeting is an
-event where people with a shared interest come together and give
-small, informal presentations about things they know. At a
-((gardening)) skill-sharing meeting, someone might explain how to
-cultivate ((celery)). Or in a programming-oriented skill-sharing
-group, you could drop by and tell everybody about Node.js.
+(((skill-sharing project)))(((meetup)))(((project chapter)))A
+_((skill-sharing))_ meeting is an event where people with a shared
+interest come together and give small, informal presentations about
+things they know. At a ((gardening)) skill-sharing meeting, someone
+might explain how to cultivate ((celery)). Or in a
+programming-oriented skill-sharing group, you could drop by and tell
+everybody about Node.js.
 
 (((learning)))(((users' group)))Such meetups, also often called
 _users’ groups_ when they are about computers, are a great way to
@@ -36,11 +37,11 @@ http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code
 
 == Design ==
 
-(((persistence)))There is a _((server))_ part to this project, written
-for ((Node.js)), and a _((client))_ part, written for the ((browser)).
-The server stores the system's data and provides it to the client. It
-also serves the HTML and JavaScript files that implement the
-client-side system.
+(((skill-sharing project)))(((persistence)))There is a _((server))_
+part to this project, written for ((Node.js)), and a _((client))_
+part, written for the ((browser)). The server stores the system's data
+and provides it to the client. It also serves the HTML and JavaScript
+files that implement the client-side system.
 
 The server keeps a list of ((talk))s proposed for the next meeting,
 and the client shows this list. Each talk has a presenter name, a
@@ -117,9 +118,9 @@ system.
 
 == HTTP interface ==
 
-Before we start fleshing out either the server or the client, let's
-think about the point where they touch: the ((HTTP)) ((interface))
-over which they communicate.
+(((skill-sharing project)))Before we start fleshing out either the
+server or the client, let's think about the point where they touch:
+the ((HTTP)) ((interface)) over which they communicate.
 
 We will base our interface on ((JSON)), and, like in the file server
 from link:20_node.html#file_server[Chapter 20], try to make good use
@@ -200,8 +201,6 @@ delayed until something happens, or a given time period (we will use
 90 seconds) has elapsed.
 
 [[poll_time]]
-
-
 (((Unix time)))(((Date.now function)))(((synchronization)))The time
 must be indicated as the number of milliseconds elapsed since the
 start of 1970, the same type of number that is returned by
@@ -263,8 +262,8 @@ always risky). But all that is outside of the scope of this chapter.
 
 == The server ==
 
-Let's start by writing the ((server))-side part of the program. The
-following code runs on ((Node.js)).
+(((skill-sharing project)))Let's start by writing the ((server))-side
+part of the program. The following code runs on ((Node.js)).
 
 === Routing ===
 
@@ -692,8 +691,9 @@ the `/talks` URL.
 
 == The client ==
 
-The ((client))-side part of the talk-managing website consists of
-three files: an HTML page, a style sheet, and a JavaScript file.
+(((skill-sharing project)))The ((client))-side part of the
+talk-managing website consists of three files: an HTML page, a style
+sheet, and a JavaScript file.
 
 === HTML ===
 
@@ -927,10 +927,10 @@ function displayTalks(talks) {
 }
 ----
 
-(((instantiation)))Building up the DOM structure for talks is done
-using the ((template))s that were included in the HTML document. First
-we must define `instantiateTemplate`, which looks up and fills in a
-template.
+(((drawTalk function)))(((instantiation)))Building up the DOM
+structure for talks is done using the ((template))s that were included
+in the HTML document. First we must define `instantiateTemplate`,
+which looks up and fills in a template.
 
 (((class (CSS))))(((querySelector method)))The `name` parameter is the
 template's name. To look up the template element, we search for an
@@ -977,8 +977,8 @@ whose properties hold the strings that are to be filled into the
 template. A ((placeholder)) like `{{title}}` will be replaced with the
 value of `values`’ `title` property.
 
-This is a crude approach to templating, but it is enough to implement
-`drawTalk`.
+(((drawTalk function)))This is a crude approach to templating, but it
+is enough to implement `drawTalk`.
 
 // include_code >code/skillsharing/public/skillsharing_client.js
 
@@ -1175,33 +1175,36 @@ about efficiency—do the simplest thing that works.
 
 !!solution!!
 
-The simplest solution I can come up with is to simply encode the whole
-`talks` object as JSON and dump it to a file with `fs.writeFile`.
-There is already a function (`registerChange`) which is called every
-time the server's data changes. It can be extended to write the new
-data to disk.
+(((file system)))(((writeFile function)))(((registerChange
+function)))(((persistence)))The simplest solution I can come up with
+is to simply encode the whole `talks` object as ((JSON)) and dump it
+to a file with `fs.writeFile`. There is already a function
+(`registerChange`) which is called every time the server's data
+changes. It can be extended to write the new data to disk.
 
-Pick a file name, for example `./talks.json`. When the server starts
-up, it can try to read that file with `fs.readFile`, and if that
-succeeds, use its contents as our starting data.
+(((readFile function)))Pick a ((file)) name, for example
+`./talks.json`. When the server starts up, it can try to read that
+file with `fs.readFile`, and if that succeeds, use its contents as our
+starting data.
 
-Beware though, the `talks` object started out as a prototype-less
-object, so that the `in` operator could be sanely used. `JSON.parse`
-will return regular objects with `Object.prototype` as their
-prototype. If you use JSON as your file format, you'll have to copy
-the properties of the object returned by `JSON.parse` into a new,
-prototype-less object.
+(((prototype)))(((JSON.parse function)))Beware though, the `talks`
+object started out as a prototype-less object, so that the `in`
+operator could be sanely used. `JSON.parse` will return regular
+objects with `Object.prototype` as their prototype. If you use JSON as
+your file format, you'll have to copy the properties of the object
+returned by `JSON.parse` into a new, prototype-less object.
 
 !!solution!!
 
 === Comment field resets ===
 
-The wholesale redrawing of talks works pretty well because you usually
+(((comment field reset (exercise))))(((template)))(((state)))The
+wholesale redrawing of talks works pretty well because you usually
 can't tell the difference between a DOM node and its identical
 replacement. But there are exceptions. If you start typing something
-in the comment field for a talk in one browser window, and then, in
-another, add a comment to that talk, the field in the first window
-will be redrawn, removing both its content and its focus.
+in the comment ((field)) for a talk in one browser window, and then,
+in another, add a comment to that talk, the field in the first window
+will be redrawn, removing both its content and its ((focus)).
 
 In a heated discussion, where multiple people are adding comments to a
 single talk, this would be very annoying. Can you come up with a way
@@ -1209,29 +1212,31 @@ to avoid it?
 
 !!solution!!
 
-The ad-hoc approach is to simply store the state a talk's comment
-field (its content and whether it is focused) before redrawing the
-talk, and then reset the field to its old state afterwards.
+(((comment field reset (exercise))))(((template)))The ad-hoc approach
+is to simply store the state a talk's comment field (its content and
+whether it is ((focus))ed) before redrawing the talk, and then
+((reset)) the ((field)) to its old state afterwards.
 
-Another solution would be to not simply replace the old DOM structure
-with the new one, but recursively compare them, node by node, and only
-update the parts that actually changed. This is more general (it
-continues working even if we add another text field), but also a lot
-harder to implement.
+(((recursion)))(((comparison,of DOM nodes)))Another solution would be
+to not simply replace the old DOM structure with the new one, but
+recursively compare them, node by node, and only update the parts that
+actually changed. This is more general (it continues working even if
+we add another text field), but also a lot harder to implement.
 
 !!solution!!
 
 === Better templates ===
 
-Most templating systems do more than just fill in a bunch of fields.
-At the very least, they also allow conditional inclusion of parts of
-the template, analogous to `if` statements, and repetition of parts of
-a template, similar to a loop.
+(((conditional execution)))(((repetition)))(((template)))Most
+templating systems do more than just fill in some strings. At the very
+least, they also allow conditional inclusion of parts of the template,
+analogous to `if` statements, and repetition of parts of a template,
+similar to a loop.
 
 If we were able to repeat a piece of template for each element in an
 array, we would not need the second template (`"comment"`), but rather
-could specify the `"talk"` template to loop over the array held in a
-talk's `comments` property, and render the nodes that make up a
+could specify the `"talk"` template to ((loop)) over the array held in
+a talk's `comments` property, and render the nodes that make up a
 comment for every element in the array.
 
 It could look like this:
@@ -1245,32 +1250,36 @@ It could look like this:
 </div>
 ----
 
-The idea being that whenever a node with a `template-repeat` attribute
-is found during template instantiation, the instantiating code loops
-over the array held in the property indicated by the attribute. For
-each element in the array, it adds an instance of the node. The
-template's context (the `values` variable in `instantiateTemplate`)
-would, during this loop, point at the current element of the array, so
-that `{{author}}`, rather than being looked up in the original context
-(the talk), would be looked up in the comment object.
+(((template-repeat attribute)))The idea being that whenever a node
+with a `template-repeat` attribute is found during template
+instantiation, the instantiating code loops over the array held in the
+property named by that attribute. For each element in the array, it
+adds an instance of the node. The template's context (the `values`
+variable in `instantiateTemplate`) would, during this loop, point at
+the current element of the array, so that `{{author}}`, rather than
+being looked up in the original context (the talk), would be looked up
+in the comment object.
 
-Rewrite `instantiateTemplate` to implement this, and then change the
-templates to use this feature and remove the explicit rendering of
-comments from the `drawTalk` function.
+(((drawTalk function)))(((instantiateTemplate function)))Rewrite
+`instantiateTemplate` to implement this, and then change the templates
+to use this feature and remove the explicit rendering of comments from
+the `drawTalk` function.
 
-How would you add conditional instantiation of nodes, where it is
+How would you add conditional instantiation of nodes, making it
 possible to omit parts of the template when a given value is true or
 false?
 
 !!solution!!
 
-One way to do this is to change `instantiateTemplate` so that its
-inner function takes not just a node, but also a current context as
-argument. You can then, when looping over a node's child nodes, check
-whether the child has a `template-repeat` attribute. If it does, don't
-instantiate it once, but instead loop over the array indicated by the
-attribute's value, and instantiate it once for every element in the
-array, passing the current array element as context.
+(((template)))(((repetition)))(((instantiateTemplate
+function)))(((recursion)))(((template-repeat attribute)))One way to do
+this is to change `instantiateTemplate` so that its inner function
+takes not just a node, but also a current context as argument. You can
+then, when looping over a node's child nodes, check whether the child
+has a `template-repeat` attribute. If it does, don't instantiate it
+once, but instead loop over the array indicated by the attribute's
+value, and instantiate it once for every element in the array, passing
+the current array element as context.
 
 Conditionals can be implemented in a similar way, with attributes
 called, for example, `template-when` and `template-unless`, which
@@ -1281,20 +1290,22 @@ false).
 
 === The unscriptables ===
 
-When someone visits our website with a browser that has JavaScript
-disabled, or is simply not capable of displaying JavaScript, they will
-get a completely broken, inoperable page. This is not nice.
+(((skill-sharing project)))(((JavaScript,absence of)))When someone
+visits our website with a ((browser)) that has JavaScript disabled, or
+is simply not capable of displaying JavaScript, they will get a
+completely broken, inoperable page. This is not nice.
 
-Some types of web applications really can't be done without
-JavaScript. For others, you just don't have the budget or patience to
-bother about clients that can't run scripts. But for pages with a wide
-audience, it is polite to support script-less users.
+Some types of ((web application))s really can't be done without
+JavaScript. For others, you just don't have the ((budget)) or patience
+to bother about clients that can't run scripts. But for pages with a
+wide audience, it is polite to support script-less users.
 
-Try to think of a way the skill sharing website could be set up to
-preserve basic functionality when ran without JavaScript. The
-automatic updates will have to go, and people will have to refresh
-their page the old-fashioned way. But being able to see existing
-talks, create new ones, and submit comments would be nice.
+(((graceful degradation)))Try to think of a way the skill sharing
+website could be set up to preserve basic functionality when ran
+without JavaScript. The automatic updates will have to go, and people
+will have to refresh their page the old-fashioned way. But being able
+to see existing talks, create new ones, and submit comments would be
+nice.
 
 Don't feel obliged to actually implement this. Outlining a solution is
 enough. Does the revised approach strike you as more, or less elegant
@@ -1302,24 +1313,25 @@ than what we did initially?
 
 !!solution!!
 
-Two central aspects of the approach taken in this chapter—a clean HTTP
-interface, and client-side template rendering—don't work without
-JavaScript. Normal HTML forms can send `GET` and `POST` requests, but
-no `PUT` or `DELETE` requests, and can only send their data to a fixed
-URL.
+(((form (HTML tag))))(((page reload)))Two central aspects of the
+approach taken in this chapter—a clean HTTP interface, and client-side
+template rendering—don't work without JavaScript. Normal HTML forms
+can send `GET` and `POST` requests, but no `PUT` or `DELETE` requests,
+and can only send their data to a fixed URL.
 
-Thus, the server would have to be revised to accept comments, new
-talks, and deleted talks through `POST` requests, whose bodies aren't
-JSON, but rather use the URL-encoded format that HTML forms use (see
+(((query string)))(((POST method)))(((URL encoding)))Thus, the server
+would have to be revised to accept comments, new talks, and deleted
+talks through `POST` requests, whose bodies aren't JSON, but rather
+use the URL-encoded format that HTML forms use (see
 link:18_forms.html#forms[Chapter 17]). These requests would have to
 return the full new page, so that users see the new state of the site
 after they make a change. This would not be too hard to engineer, and
 could be implemented alongside the “clean” HTTP interface.
 
-The code for rendering talks would have to be duplicated on the
-server. The `index.html` file, rather than being a static file, would
-have to be generated dynamically (by adding a handler for it to the
-router), so that it already includes the current talks when it gets
-served.
+(((template)))The code for rendering talks would have to be duplicated
+on the server. The `index.html` file, rather than being a static file,
+would have to be generated dynamically (by adding a handler for it to
+the router), so that it already includes the current talks and
+comments when it gets served.
 
 !!solution!!

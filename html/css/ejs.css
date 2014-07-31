@@ -311,7 +311,7 @@ blockquote footer:before {
 }
 .CodeMirror-gutters {
   border: none;
-  background: transparent;
+  background: white;
 }
 .CodeMirror-linenumber {
   padding: .5em 3px 0 0;

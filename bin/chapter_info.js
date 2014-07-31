@@ -6,7 +6,7 @@ var fs = require("fs");
 
 var output = [], failed = false;
 
-var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { return !/^20/.test(file); });
+var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { return !/^2[01]/.test(file); });
 
 var dir = fs.readdirSync(".");
 dir.sort();
@@ -90,6 +90,29 @@ dir.forEach(function(file) {
      type: "js",
      code: nodeInfo,
      solution: "// This solutions consists of multiple files. Download it\n// though the link below.\n"
+    }
+  ];
+  if (chapter.number == 21) chapter.exercises = [
+    {name: "Disk persistence",
+     file: "code/solutions/21_1_disk_persistence.js",
+     number: 1,
+     type: "js",
+     code: nodeInfo,
+     solution: fs.readFileSync("code/solutions/21_1_disk_persistence.js", "utf8")
+    },
+    {name: "Comment field resets",
+     file: "code/solutions/21_2_comment_field_resets.js",
+     number: 2,
+     type: "js",
+     code: nodeInfo,
+     solution: fs.readFileSync("code/solutions/21_2_comment_field_resets.js", "utf8")
+    },
+    {name: "Better templates",
+     file: "code/solutions/21_3_better_templates.js",
+     number: 3,
+     type: "js",
+     code: nodeInfo,
+     solution: fs.readFileSync("code/solutions/21_3_better_templates.js", "utf8")
     }
   ];
 

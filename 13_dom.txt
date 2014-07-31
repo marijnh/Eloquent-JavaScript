@@ -97,13 +97,13 @@ node is `document.body`. Some of these children can be ((leaf node))s,
 such as pieces of ((text)) or ((comment))s (which are written between
 `<!--` and `-->` in HTML).
 
-(((ELEMENT_NODE code)))(((COMMENT_NODE code)))(((TEXT_NODE
-code)))(((nodeType property)))Each DOM node object has a `nodeType`
-property, which contains a numeric code that identifies the type of
-node. Regular elements have the value 1, which is also defined as the
-constant property `document.ELEMENT_NODE`. Text nodes, representing a
-section of text in the document, have the value 3
-(`document.TEXT_NODE`). Comments get the value 8
+(((text node)))(((ELEMENT_NODE code)))(((COMMENT_NODE
+code)))(((TEXT_NODE code)))(((nodeType property)))Each DOM node object
+has a `nodeType` property, which contains a numeric code that
+identifies the type of node. Regular elements have the value 1, which
+is also defined as the constant property `document.ELEMENT_NODE`. Text
+nodes, representing a section of text in the document, have the value
+3 (`document.TEXT_NODE`). Comments get the value 8
 (`document.COMMENT_NODE`).
 
 So another way to visualize our document ((tree)) is:
@@ -178,7 +178,7 @@ will be null, and for a last child, `nextSibling` is null.
 
 (((talksAbout function)))(((recursion)))(((nesting,of objects)))When
 dealing with a nested data structure like this, recursive functions
-are often useful. The one below scans a document for text nodes
+are often useful. The one below scans a document for ((text node))s
 containing a given string, and returns `true` when it has found one.
 
 [[talksAbout]]
@@ -328,9 +328,9 @@ but adding a new text node to replace them. For this, we use the
 </script>
 ----
 
-Given a string, `createTextNode` gives us a type 3 DOM node (a text
-node), which we can insert into the document to make it show up on the
-screen.
+(((text node)))Given a string, `createTextNode` gives us a type 3 DOM
+node (a text node), which we can insert into the document to make it
+show up on the screen.
 
 (((live data structure)))(((getElementsByTagName
 method)))(((childNodes property)))The loop that goes over the images
@@ -475,10 +475,11 @@ the node. We loop over all matches of the keyword expression,
 appending the text _between_ them as regular text nodes, and the text
 matched as text nodes wrapped in `<strong>` (bold) elements.
 
-(((getElementsByTagName method)))We can automatically highlight all
-programs on the page by looping over all the `<pre>` elements that
-have a `data-language` attribute, and calling `highlightCode` on each
-one with the correct regular expression for the language.
+(((data attribute)))(((getElementsByTagName method)))We can
+automatically highlight all programs on the page by looping over all
+the `<pre>` elements that have a `data-language` attribute, and
+calling `highlightCode` on each one with the correct regular
+expression for the language.
 
 // include_code
 
@@ -1134,7 +1135,7 @@ a recursive call on it to inspect its own children.
 
 === The cat's hat ===
 
-(((cat's hat exercise)))Extend the cat ((animation)) defined
+(((cat's hat (exercise))))Extend the cat ((animation)) defined
 link:13_dom.html#animation[earlier] so that both the cat and his hat
 (`<img src="img/hat.png">`) orbit, at opposite sides of the ellipse.
 

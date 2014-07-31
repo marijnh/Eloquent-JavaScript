@@ -776,7 +776,7 @@ function with their interfaces as arguments.
 
 === Month names ===
 
-(((Date type)))(((weekday example)))(((month name exercise)))Write a
+(((Date type)))(((weekday example)))(((month name (exercise))))Write a
 simple module similar to the `weekDay` module, which can convert month
 numbers (zero-based, as in the `Date` type) to names, and names back
 to numbers. Give it its own namespace, since it will need an internal
@@ -800,7 +800,7 @@ endif::html_target[]
 
 !!solution!!
 
-(((month name exercise)))This follows the `weekDay` module almost
+(((month name (exercise))))This follows the `weekDay` module almost
 exactly. A function expression, called immediately, wraps the variable
 that holds the array of names, along with the two functions that must
 be exported. The functions are put in an object, and returned. The

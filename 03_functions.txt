@@ -98,7 +98,7 @@ cause the function to return `undefined`.
 initial values are given by the _caller_ of the function, not the code
 in the function itself.
 
-(((function,scope)))(((scope)))(((variable,local)))An
+(((function,scope)))(((scope)))(((local variable)))An
 important property of functions is that the variables created inside
 of them, including their parameters, are _local_ to the function. This
 means, for example, that the `result` variable in the `power` example
@@ -454,7 +454,7 @@ console.log("R", 2, "D", 2);
 
 == Closure ==
 
-(((call stack)))(((variable,local)))(((function,as
+(((call stack)))(((local variable)))(((function,as
 value)))(((closure)))(((scope)))The ability to treat functions as
 values, combined with the fact that local variables are “re-created”
 every time a function is called, brings up an interesting question.
@@ -1028,7 +1028,7 @@ current position is the same as the one the function is looking for,
 it adds 1 to a counter variable. Once the loop has finished, the
 counter can be returned.
 
-(((variable,local)))Take care to make all the variables used in the
+(((local variable)))Take care to make all the variables used in the
 function _local_ to the function by using the `var` keyword.
 
 !!solution!!

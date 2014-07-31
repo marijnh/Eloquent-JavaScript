@@ -195,7 +195,7 @@ the body is inside of the function value, as well as inside of the
 ((parentheses)) of the call to `forEach`. This is why it has to be
 closed with the closing brace _and_ closing parenthesis.
 
-(((variable,local)))(((parameters)))Using this pattern, we can
+(((local variable)))(((parameters)))Using this pattern, we can
 specify a variable name for the current element (`number`), rather
 than having to pick it out of the array manually.
 
@@ -305,7 +305,7 @@ repeat(3, function(n) {
 ----
 
 (((inner function)))(((nesting,of functions)))((({}
-(block))))(((variable,local)))(((closure)))The ((lexical scoping))
+(block))))(((local variable)))(((closure)))The ((lexical scoping))
 rules that we discussed in link:03_functions.html#scoping[Chapter 3]
 work to our advantage when using functions in this way. In the example
 above, the `n` variable is a ((parameter)) to the outer function.

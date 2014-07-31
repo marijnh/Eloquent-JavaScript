@@ -12,9 +12,9 @@ my blank canvas. Then, I try to apply colors like words that shape
 poems, like notes that shape music.
 ____
 
-(((project chapter)))The material from the previous chapters gives you
-all the elements you need to build a simple ((web application)). In this
-chapter, we will do just that.
+(((drawing program example)))(((project chapter)))The material from
+the previous chapters gives you all the elements you need to build a
+simple ((web application)). In this chapter, we will do just that.
 
 Our application will be a small web-based ((drawing)) program, along
 the lines of ((Microsoft Paint)). You can use it to open image

@@ -81,10 +81,10 @@ are normal variables in this language, applied just like other
 need a `do` construct (like above) to represent doing multiple things
 in sequence.
 
-(((parsing)))The ((data structure)) the parser will use to describe a
-program will consist of ((expression)) objects, each of which has a
-`type` property indicating the kind of expression it is and other
-properties to describe its content.
+(((type property)))(((parsing)))The ((data structure)) the parser will
+use to describe a program will consist of ((expression)) objects, each
+of which has a `type` property indicating the kind of expression it is
+and other properties to describe its content.
 
 (((identifier)))Expresions of type `"value"` represent literal strings
 or numbers. Their `value` property contains the string or number value
@@ -812,7 +812,7 @@ how many characters to slice off.
 assign a ((variable)) a value is `define`. This construct acts both as
 a way to define new variables and to give existing ones a new value.
 
-(((variable,local)))This ((ambiguity)) causes a problem. When you try
+(((local variable)))This ((ambiguity)) causes a problem. When you try
 to give a non-local variable a new value, you will end up defining a
 local one with the same name instead. (Some languages work like this
 by design, but I've always found it a silly way to handle ((scope)).)

@@ -323,12 +323,13 @@ also have used `&quot;`, but that'd make the program harder to read.
 
 == In the sandbox ==
 
-(((World Wide Web)))(((browser)))(((website)))(((security)))Running
-programs downloaded from the ((Internet)) is potentially dangerous.
-You do not know much about the people behind most sites you visit, and
-they do not necessarily mean well. Running programs by people who do
-not mean well is how you get your computer infected by ((virus))es,
-your data stolen, and your accounts hacked.
+((malicious script))(((World Wide
+Web)))(((browser)))(((website)))(((security)))Running programs
+downloaded from the ((Internet)) is potentially dangerous. You do not
+know much about the people behind most sites you visit, and they do
+not necessarily mean well. Running programs by people who do not mean
+well is how you get your computer infected by ((virus))es, your data
+stolen, and your accounts hacked.
 
 Yet the attraction of the Web is that you can surf it without
 necessarily ((trust))ing all the pages you visit. This is why browsers

@@ -1039,16 +1039,17 @@ Many languages will stop you, or at least warn you, when you are
 defining a variable with a name that is already taken. JavaScript does
 neither, so be careful.
 
-(((trigonometry)))(((Math.cos function)))(((Math.sin
-function)))(((Math.tan function)))(((Math.acos function)))(((Math.asin
+(((Math.cos function)))(((Math.sin function)))(((Math.tan
+function)))(((Math.acos function)))(((Math.asin
 function)))(((Math.atan function)))(((Math.PI
 constant)))(((cosine)))(((sine)))(((tangent)))(((PI constant)))Back to
-the `Math` object. If you need to do trigonometry, `Math` can help. It
-contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as
-their inverse functions, `acos`, `asin`, and `atan`. The number π
-(pi)—or at least the closest approximation that fits in a JavaScript
-number—is available as `Math.PI`. (There is an old programming
-tradition of writing the names of ((constant)) values in all caps.)
+the `Math` object. If you need to do ((trigonometry)), `Math` can
+help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent),
+as well as their inverse functions, `acos`, `asin`, and `atan`. The
+number π (pi)—or at least the closest approximation that fits in a
+JavaScript number—is available as `Math.PI`. (There is an old
+programming tradition of writing the names of ((constant)) values in
+all caps.)
 
 // test: no
 

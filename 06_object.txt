@@ -828,9 +828,9 @@ objects in the data set appear as normal cells—we extract them by
 mapping over the `keys` array, so that we are sure that the order of
 the cells is the same in every row.
 
-The resulting table resembles the example shown before, except that it
-does not right-align the numbers in the `height` colomn. We will get
-to that in a moment.
+(((right-aligning)))The resulting table resembles the example shown
+before, except that it does not right-align the numbers in the
+`height` colomn. We will get to that in a moment.
 
 == Getters and setters ==
 

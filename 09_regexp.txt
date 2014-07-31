@@ -529,8 +529,8 @@ our progress through the flow chart would look like this:
    so we go through the last box and have successfully matched this
    string.
 
-((regular
-expression,matching))(((matching,algorithm)))(((searching)))Conceptually,
+(((regular
+expression,matching)))(((matching,algorithm)))(((searching)))Conceptually,
 a regular expression engine looks for a match in a string as follows:
 it starts at the start of the string and tries a match there. In this
 case, there _is_ a word boundary there, so it'd get past the first

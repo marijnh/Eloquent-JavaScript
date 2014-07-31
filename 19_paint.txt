@@ -72,13 +72,13 @@ handlers, or have to be touched by the script in some other way. Thus,
 our script would have to make lots of `querySelector` (or similar)
 calls in order to find the DOM elements that it needs to act on.
 
-(((readability)))(((verbosity)))(((createElement method)))It would be
-nice if the DOM structure for each part of our interface is defined
-close to the JavaScript code that drives it. Thus, I've chosen to do
-all creation of DOM nodes in JavaScript. As we saw in
-link:13_dom.html#standard[Chapter 13], the built-in interface for
-building up a DOM structure is horrendously verbose. If we are going
-to do a lot of DOM construction, we need a helper function.
+(((DOM,construction)))(((readability)))(((verbosity)))(((createElement
+method)))It would be nice if the DOM structure for each part of our
+interface is defined close to the JavaScript code that drives it.
+Thus, I've chosen to do all creation of DOM nodes in JavaScript. As we
+saw in link:13_dom.html#standard[Chapter 13], the built-in interface
+for building up a DOM structure is horrendously verbose. If we are
+going to do a lot of DOM construction, we need a helper function.
 
 (((elt function)))This function below is an extended version of the
 `elt` function from link:13_dom.html#elt[Chapter 13]. It creates an
@@ -146,7 +146,7 @@ canvas—it contains the current picture as well as the selected color
 (in its `fillStyle` property) and brush size (in its `lineWidth`
 property).
 
-(((class (CSS))))(((CSS)))We wrap the canvas and the controls in
+(((class attribute)))(((CSS)))We wrap the canvas and the controls in
 `<div>` elements with classes to be able to add some styling—for
 example the grey border around the picture.
 

@@ -382,7 +382,8 @@ mostly full of Flemish ((farmer))s. For my amusement, I extracted the
 information on my direct ancestors, and put it into a
 computer-readable format.
 
-(((JSON)))The file I created looks something like this:
+(((data format)))(((JSON)))The file I created looks something like
+this:
 
 [source,application/json]
 ----

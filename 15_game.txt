@@ -401,7 +401,7 @@ the game. It would also be possible to directly assign to the
 elements’ `style` property when we create them, but that would produce
 more verbose programs.
 
-(((class (CSS))))The following helper function provides a short way to
+(((class attribute)))The following helper function provides a short way to
 create an element and give it a class.
 
 // include_code
@@ -527,7 +527,7 @@ DOMDisplay.prototype.drawActors = function() {
 };
 ----
 
-(((position (CSS))))(((class (CSS))))Giving an element more than one
+(((position (CSS))))(((class attribute)))Giving an element more than one
 class is done by separating the class names with spaces. In the
 ((CSS)) code shown next, the `actor` class gives the actors their
 absolute position. Their type name is used as an extra class to give
@@ -565,7 +565,7 @@ DOMDisplay.prototype.drawFrame = function() {
 };
 ----
 
-(((level)))(((class (CSS))))(((style sheet)))By adding the level's
+(((level)))(((class attribute)))(((style sheet)))By adding the level's
 current status as a class name to the wrapper, we can style the player
 actor slightly differently when the game is won or lost, by adding a
 ((CSS)) rule that only takes effect when the player has an ((ancestor

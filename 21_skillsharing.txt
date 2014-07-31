@@ -787,11 +787,11 @@ link:13_dom.html#elt[Chapter 13], but the result will still look worse
 than HTML, which can be thought of as a ((domain-specific language))
 for expressing DOM structures.
 
-(((template)))To create DOM structures for the talks, our program will
-define a very simple _templating_ system, which uses hidden DOM
-structures included in the document to instantiate new DOM structures,
-replacing the ((placeholder))s between double braces with the values
-of a specific talk.
+(((DOM,construction)))(((template)))To create DOM structures for the
+talks, our program will define a very simple _templating_ system,
+which uses hidden DOM structures included in the document to
+instantiate new DOM structures, replacing the ((placeholder))s between
+double braces with the values of a specific talk.
 
 (((script (HTML tag))))Finally, the HTML document includes the script
 file that contains the client-side code.
@@ -932,7 +932,7 @@ structure for talks is done using the ((template))s that were included
 in the HTML document. First we must define `instantiateTemplate`,
 which looks up and fills in a template.
 
-(((class (CSS))))(((querySelector method)))The `name` parameter is the
+(((class attribute)))(((querySelector method)))The `name` parameter is the
 template's name. To look up the template element, we search for an
 element whose class name matches the template name, which is a child
 of the element with ID `"template"`. Using the `querySelector` method,

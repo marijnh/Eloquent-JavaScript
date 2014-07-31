@@ -7,7 +7,7 @@
 
 [quote,Iain Banks,The Player of Games]
 ____
-All reality is a game.
+(((Banks+++,+++ Ian)))All reality is a game.
 ____
 
 (((project chapter)))(((simulation)))My initial fascination with

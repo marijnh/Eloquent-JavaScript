@@ -529,8 +529,9 @@ our progress through the flow chart would look like this:
    so we go through the last box and have successfully matched this
    string.
 
-(((matching,algorithm)))(((searching)))Conceptually, a ((regular
-expression,matching)) engine looks for a match in a string as follows:
+((regular
+expression,matching))(((matching,algorithm)))(((searching)))Conceptually,
+a regular expression engine looks for a match in a string as follows:
 it starts at the start of the string and tries a match there. In this
 case, there _is_ a word boundary there, so it'd get past the first
 box—but there is no digit, so it'd fail at the second box. Then it

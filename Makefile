@@ -50,13 +50,7 @@ test: html
 
 book.pdf: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex) tex/solutions.tex \
           $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
-	cd tex/book && xelatex book.tex
-	cd tex/book && xelatex book.tex
-	makeindex -s tex/book/nostarch.ist -o tex/book/book.ind tex/book/book.idx
-	makeindex -s tex/book/nostarch.ist -o tex/book/book.ind tex/book/book.idx
-	cd tex/book && xelatex book.tex
-	while ( grep -q '^LaTeX Warning: Label(s) may have changed' tex/book/book.log) \
-	do cd tex/book && xelatex book.tex; done
+	cd tex/book && sh build.sh
 	mv tex/book/book.pdf .
 
 pdfonce:
@@ -65,3 +59,17 @@ pdfonce:
 
 texclean:
 	rm -f tex/book/book.aux tex/book/book.idx tex/book/book.log tex/book/book.out tex/book/book.tbc tex/book/book.toc
+
+TMPDIR=/tmp/ejs_tex
+
+ejs_tex.zip: tex/book/book.tex $(foreach CHAP,$(CHAPTERS),tex/$(CHAP).tex) tex/solutions.tex \
+             $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
+	rm -rf $@ $(TMPDIR)
+	mkdir -p $(TMPDIR)
+	cp tex/*.tex $(TMPDIR)
+	cat tex/book/book.tex | sed -e 's/\\input{\.\.\//\\input{/' > $(TMPDIR)/book.tex
+	cp tex/book/build.sh tex/book/nostarch.cls tex/book/nshyper.sty $(TMPDIR)
+	grep includegraphics tex/*.tex | sed -e 's/.*{\(.*\)}/\1/' | xargs -I{} cp --parents "{}" $(TMPDIR)
+	cd /tmp; zip -r ejs_tex.zip ejs_tex
+	mv /tmp/ejs_tex.zip $@
+	rm -rf $(TMPDIR)

@@ -59,7 +59,8 @@ the objects for those elements.
 
 == Trees ==
 
-Think back to the syntax trees from link:11_language.html#parsing[Chapter 11] for a moment. Their
+Think back to the ((syntax tree))s from
+link:11_language.html#parsing[Chapter 11] for a moment. Their
 structure is strikingly similar to the structure of a browser's
 document. Each _node_ may refer to other nodes, _children_, which may
 have their own children. This shape is typical of nested structures

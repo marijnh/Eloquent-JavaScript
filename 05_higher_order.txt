@@ -36,8 +36,9 @@ programmers, in turn, tend to introduce mistakes (_((bug))s_) into
 programs. A large program also provides a lot of space for these bugs
 to hide, making them hard to find.
 
-(((summing)))Let us briefly go back to the final two example programs
-in the introduction. The first is self-contained, and six lines long.
+(((summing example)))Let us briefly go back to the final two example
+programs in the introduction. The first is self-contained, and six
+lines long.
 
 [source,javascript]
 ----
@@ -538,7 +539,7 @@ arrays.
 
 == Summarizing with reduce ==
 
-(((array,methods)))(((summing)))(((reduce method)))(((ancestry
+(((array,methods)))(((summing example)))(((reduce method)))(((ancestry
 example)))Another common pattern of computation on arrays is computing
 a single value from them. Our recurring example, summing a collection
 of numbers, is an instance of this. Another example would be finding

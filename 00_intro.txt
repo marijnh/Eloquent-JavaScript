@@ -201,10 +201,10 @@ memory locations:
  Output “total”
 ----
 
-(((loop)))(((jump)))(((summing)))At this point it is not too hard to
-see how the program works. Can you? The first two lines give two
-memory locations their starting values: `total` will be used to build
-up the result of the computation, and `count` keeps track of the
+(((loop)))(((jump)))(((summing example)))At this point it is not too
+hard to see how the program works. Can you? The first two lines give
+two memory locations their starting values: `total` will be used to
+build up the result of the computation, and `count` keeps track of the
 number that we are currently looking at. The lines using `compare` are
 probably the weirdest ones. What the program wants to do is see
 whether `count` is equal to 11 in order to decide whether it can stop

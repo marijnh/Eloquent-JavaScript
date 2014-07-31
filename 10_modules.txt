@@ -344,8 +344,8 @@ string as JavaScript code.
 [[eval]]
 == Evaluating data as code ==
 
-(((interpretation)))There are several ways to take data (a string of
-code) and run it as part of the current program.
+(((evaluation)))(((interpretation)))There are several ways to take
+data (a string of code) and run it as part of the current program.
 
 (((isolation)))(((eval)))The most obvious way is the special operator
 `eval`, which will execute a string of code in the _current_ scope.

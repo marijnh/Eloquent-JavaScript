@@ -116,7 +116,7 @@ relationships between nodes.
 [[standard]]
 == The standard ==
 
-(((programming language)))(((interface design)))Using cryptic numeric
+(((programming language)))(((interface,design)))Using cryptic numeric
 codes to represent node types is not a very JavaScript-like thing to
 do. Further on in this chapter, we'll see that other parts of the
 ((DOM)) interface also feel cumbersome and alien. The reason for this
@@ -138,7 +138,7 @@ the DOM have. This property holds an array-like object, with a
 child nodes. But it is an instance of the `NodeList` type, not a real
 array, so it does not have methods like `slice` and `forEach`.
 
-(((interface design)))(((DOM,construction)))(((side effect)))Then
+(((interface,design)))(((DOM,construction)))(((side effect)))Then
 there are issues that are simply poor design. For example, there is no
 way to create a new node and immediately add children or attributes to
 it. Instead, you have to first create it, then add the children one by
@@ -407,7 +407,7 @@ links, can be accessed through a ((property)) of the same name on the
 element's ((DOM)) object. This is the case for a limited set of
 commonly used standard attributes.
 
-(((data attributes)))(((getAttribute method)))(((setAttribute
+(((data attribute)))(((getAttribute method)))(((setAttribute
 method)))But HTML allows you to set any attribute you want on nodes.
 This can be useful, as it allows you to store extra information in a
 document. If you make up your own attribute names, though, such
@@ -542,7 +542,7 @@ rendered on the same line with their surrounding text. Such elements
 are called _inline_ elements.
 
 (((drawing)))For any given document, browser are able to compute a
-layout, which gives each element a ((size)) and position based on its
+layout, which gives each element a size and position based on its
 type and content. This layout is then used to actually draw the
 document.
 
@@ -716,20 +716,20 @@ element's style.
 </script>
 ----
 
-(((capitalization)))(((dash character)))(((font-family (CSS))))Some
-style property names contain dashes, like `font-family`. Because such
-property names are awkward to work with in JavaScript (you'd have to
-say `style["font-family"]`), the property names in the `style` object
-for such properties have their dashes removed, and the letter that
-follows them capitalized (`style.fontFamily`).
+(((camel case)))(((capitalization)))(((dash character)))(((font-family
+(CSS))))Some style property names contain dashes, like `font-family`.
+Because such property names are awkward to work with in JavaScript
+(you'd have to say `style["font-family"]`), the property names in the
+`style` object for such properties have their dashes removed, and the
+letter that follows them capitalized (`style.fontFamily`).
 
 == Cascading styles ==
 
 indexsee:[Cascading Style Sheets,CSS]
 
-(((style (HTML tag))))The styling system for HTML is called ((CSS)),
+(((rule (CSS))))(((style (HTML tag))))The styling system for HTML is called ((CSS)),
 for _Cascading Style Sheets_. A _((style sheet))_ is a set of
-((rule))s for how to style elements in the document. It can be given
+rules for how to style elements in the document. It can be given
 inside a `<style>` tag.
 
 [source,text/html]
@@ -743,8 +743,8 @@ inside a `<style>` tag.
 <p>Now <strong>strong text</strong> is italic and grey.</p>
 ----
 
-(((font-weight (CSS))))(((overlay)))The _((cascading))_ in the name
-refers to the fact that multiple such ((rule))s get combined to
+(((rule (CSS))))(((font-weight (CSS))))(((overlay)))The _((cascading))_ in the name
+refers to the fact that multiple such rules get combined to
 produce the final style for an element. In the example above, the
 default styling for `<strong>` tags, which gives them `font-weight:
 bold`, is overlaid by the rule in the `<style>` tag, which adds
@@ -780,7 +780,7 @@ p.a.b#main {
 }
 ----
 
-The ((precedence)) ((rule)) favoring the most recently defined rule
+(((rule (CSS))))The ((precedence)) rule favoring the most recently defined rule
 only holds when the rules have the same _((specificity))_. A rule's
 specificity is a measure of how precisely it describes matching
 elements, determined by the number and kind (tag, class, or id) of
@@ -806,7 +806,7 @@ _((selector))_ syntax—the notation used in style sheets to determine
 which elements a set of styles apply to—is that we can use this same
 mini-language as an effective way to find ((DOM)) elements.
 
-(((querySelectorAll)))The `querySelectorAll` method, which is defined
+(((querySelectorAll method)))The `querySelectorAll` method, which is defined
 both on the `document` object and on element nodes, takes a selector
 string, and returns an ((array-like object)) containing all the
 elements that it matches.
@@ -1125,7 +1125,7 @@ array variable defined in the outer function to which it can add the
 matching elements it finds. Don't forget to call the ((inner
 function)) once from the outer function.
 
-(((nodeType property)))(((ELEMENT_NODE type)))The recursive function
+(((nodeType property)))(((ELEMENT_NODE code)))The recursive function
 must check the node type. Here we are only interested in node type 1
 (`document.ELEMENT_NODE`). For such nodes, we must loop over their
 children, and for each child, see if it matches the query, but also do

@@ -18,13 +18,12 @@ appeal to our sense of the physical world, and build interfaces that
 mimic that world, and allow us to manipulate shapes on a screen with
 our fingers. This works very well for casual machine interaction.
 
-(((programming language)))(((machine language)))But we have not yet
-found a good way to use the point-and-click approach to communicate
-things to the computer that the designer of the interface did not
-anticipate. For open-ended interfaces, such as instructing the
-computer to perform arbitrary tasks, we've had more luck with an
-approach that makes use of our talent for language: teaching the
-machine a language.
+(((programming language)))But we have not yet found a good way to use
+the point-and-click approach to communicate things to the computer
+that the designer of the interface did not anticipate. For open-ended
+interfaces, such as instructing the computer to perform arbitrary
+tasks, we've had more luck with an approach that makes use of our
+talent for language: teaching the machine a language.
 
 (((human language)))(((expressivity)))Human languages allow words and
 subsentences to be combined in many, many ways, allowing us to say
@@ -133,9 +132,9 @@ their craft.
 
 == Why language matters ==
 
-(((programming language)))(((binary)))In the beginning, at the birth
-of computing, there were no programming languages. Programs looked
-something like this:
+(((programming language)))(((machine code)))(((binary data)))In the
+beginning, at the birth of computing, there were no programming
+languages. Programs looked something like this:
 
 ----
 00110001 00000000 00000000
@@ -263,19 +262,19 @@ one is almost English: `log` the `sum` of the `range` of numbers from
 1 to 10. (We will see in link:04_data.html#data[later chapters] how to
 build things like `sum` and `range`.)
 
-(((programming language,power of)))(((composition)))A good programming
-language helps the programmer by allowing them to talk about the
-actions that the computer has to perform on a higher level. It helps
-omit uninteresting details, provides convenient building blocks (such
-as `while` and `console.log`), allows you to define your own building
-blocks (such as `sum` and `range`), and makes it easy to compose these
-blocks.
+(((programming language,power of)))(((composability)))A good
+programming language helps the programmer by allowing them to talk
+about the actions that the computer has to perform on a higher level.
+It helps omit uninteresting details, provides convenient building
+blocks (such as `while` and `console.log`), allows you to define your
+own building blocks (such as `sum` and `range`), and makes it easy to
+compose these blocks.
 
 == What is JavaScript? ==
 
 indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web]
 
-(((history)))(((Netscape Navigator)))(((browser)))(((web
+(((history)))(((Netscape)))(((browser)))(((web
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995, as a way to add programs to
 Web pages in the Netscape Navigator browser. The language has since
@@ -357,10 +356,10 @@ at first, but I promise that you will quickly get the hang of it. The
 same goes for the ((exercises)). Don't assume you understand them
 until you've actually written a working solution.
 
-I recommend to try out your solutions to exercises in an actual
-JavaScript ((interpreter)), to get immediate feedback on whether what
-you are doing is working or not, and, hopefully, to be tempted to
-((experiment)) and go beyond the exercises.
+(((interpretation)))I recommend to try out your solutions to exercises
+in an actual JavaScript interpreter, to get immediate feedback on
+whether what you are doing is working or not, and, hopefully, to be
+tempted to ((experiment)) and go beyond the exercises.
 
 ifdef::html_target[]
 
@@ -371,9 +370,9 @@ endif::html_target[]
 
 ifdef::tex_target[]
 
-(((download)))(((sandbox)))(((code sandbox)))(((running code)))Most of
-the example code in this book can be found on the book's ((website)),
-at http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
+(((download)))(((sandbox)))(((running code)))Most of the example code
+in this book can be found on the book's ((website)), at
+http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
 which also provides an easy way to run the programs and experiment
 with writing your own code.
 

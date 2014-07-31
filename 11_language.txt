@@ -8,8 +8,7 @@
 [chapterquote="true"]
 [quote, Hal Abelson and Gerald Sussman, Structure and Interpretation of Computer Programs]
 ____
-(((Abelson+++,+++ Hal)))(((Sussman+++,+++ Gerald)))(((SICP)))The
-evaluator, which determines the meaning of expressions in a
+The evaluator, which determines the meaning of expressions in a
 programming language, is just another program.
 ____
 
@@ -24,9 +23,10 @@ ____
 
 endif::html_target[]
 
-(((project chapter)))Building your own ((programming language)) is
-surprisingly easy (as long as you do not aim too high) and very
-enlightening.
+(((Abelson+++,+++ Hal)))(((Sussman+++,+++
+Gerald)))(((SICP)))(((project chapter)))Building your own
+((programming language)) is surprisingly easy (as long as you do not
+aim too high) and very enlightening.
 
 The main thing I want to show in this chapter is that there is no
 ((magic)) involved in building your own language. I've often felt that
@@ -74,12 +74,11 @@ do(define(x, 10),
       print("small"))
 ----
 
-(((block (of statements))))The ((uniformity)) of the ((Egg language))
-means that things which are ((operator))s in JavaScript (such as `>`)
-are normal variables in this language, applied just like other
-((function))s. And since the ((syntax)) has no concept of a block, we
-need a `do` construct (like above) to represent doing multiple things
-in sequence.
+(((block)))The ((uniformity)) of the ((Egg language)) means that
+things which are ((operator))s in JavaScript (such as `>`) are normal
+variables in this language, applied just like other ((function))s. And
+since the ((syntax)) has no concept of a block, we need a `do`
+construct (like above) to represent doing multiple things in sequence.
 
 (((type property)))(((parsing)))The ((data structure)) the parser will
 use to describe a program will consist of ((expression)) objects, each
@@ -458,11 +457,11 @@ console.log(evaluate(prog, topEnv));
 // → false
 ----
 
-(((Function constructor)))To supply basic ((arithmetic)) and
-((comparison)) ((operator))s, we will also add some function values to
-the ((environment)). In the interest of keeping the code short, we'll
-use `new Function` to synthesize a bunch of operator functions in a
-loop, rather than defining them all individually.
+(((arithmetic)))(((Function constructor)))To supply basic
+((arithmetic)) and ((comparison)) ((operator))s, we will also add some
+function values to the ((environment)). In the interest of keeping the
+code short, we'll use `new Function` to synthesize a bunch of operator
+functions in a loop, rather than defining them all individually.
 
 // include_code
 
@@ -568,7 +567,7 @@ use `Object.create` to make a new object that has access to the
 variables in the outer environment (its prototype), but can also
 contain new variables without modifying that outer scope.
 
-(((power function)))(((evaluation)))(((interpretation)))The function
+(((power example)))(((evaluation)))(((interpretation)))The function
 created by the `fun` form creates this local environment, and adds the
 argument variables to it. It then evaluates the function body in this
 environment, and returns the result.
@@ -665,11 +664,11 @@ behavior attack
     launch arm-rockets
 ----
 
-This is what is usually called a _((domain-specific language))_, a
-language tailored to express a narrow domain of knowledge. Such a
-language can be more expressive than a general-purpose language
-because it is designed to express exactly the things that need
-expressing in its domain, and nothing else.
+(((expressivity)))This is what is usually called a _((domain-specific
+language))_, a language tailored to express a narrow domain of
+knowledge. Such a language can be more expressive than a
+general-purpose language because it is designed to express exactly the
+things that need expressing in its domain, and nothing else.
 
 == Exercises ==
 

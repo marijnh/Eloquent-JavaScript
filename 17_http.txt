@@ -8,16 +8,16 @@
 [chapterquote="true"]
 [quote,Tim Berners-Lee,The World Wide Web: A very short personal history]
 ____
-(((Berners-Lee+++,+++ Tim)))The dream behind the ((Web)) is of a
-common information space in which we communicate by sharing
-information. Its universality is essential: the fact that a hypertext
-link can point to anything, be it personal, local or global, be it
-draft or highly polished.
+The dream behind the Web is of a common information space in which we
+communicate by sharing information. Its universality is essential: the
+fact that a hypertext link can point to anything, be it personal,
+local or global, be it draft or highly polished.
 ____
 
-(((HTTP)))The _Hyper-Text Transfer Protocol_, already mentioned in
+(((Berners-Lee+++,+++ Tim)))(((World Wide Web)))(((HTTP)))The
+_Hyper-Text Transfer Protocol_, already mentioned in
 link:12_browser.html#web[Chapter 12], is the mechanism through which
-data is requested and provided on the World Wide ((Web)). This chapter
+data is requested and provided on the ((World Wide Web)). This chapter
 describes the ((protocol)) in detail, and explains the way ((browser))
 JavaScript has access to it.
 
@@ -69,7 +69,7 @@ Note that the ((server)) is not obliged to carry out every request it
 gets. If you walk up to a random website and tell it to `DELETE` its
 main page, it'll probably refuse.
 
-(((Twitter)))The part after the ((method)) name is the ((path)) of the
+(((path,URL)))(((Twitter)))The part after the ((method)) name is the path of the
 ((resource)) the request applies to. In the simplest case, a resource
 is simply a ((file)) on the ((server)). But the protocol doesn't
 require it to be: it may be anything that can be transferred _as if_
@@ -79,7 +79,7 @@ http://twitter.com/marijnjh[_twitter.com/marijnjh_], the server looks
 in its database for a user named “marijnjh”, and if it finds one, it
 will generate a profile page for that user.
 
-After the resource ((path)), the first line of the request mentions
+After the resource path, the first line of the request mentions
 `HTTP/1.1`, to indicate the ((version)) of the ((HTTP)) ((protocol))
 it is using.
 
@@ -149,7 +149,7 @@ simultaneously, rather than waiting for the responses one at a time.
 ((request))s.
 
 [[http_forms]]
-(((POST request)))Generating `POST` requests in a ((browser)) is also a
+(((POST method)))Generating `POST` requests in a ((browser)) is also a
 common thing to do. HTML pages may include _((form))s_, which allow
 the user to fill out information and send it to the server. This is an
 example of a form:
@@ -176,10 +176,11 @@ query string is tacked onto the `action` URL, and the browser makes a
 GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
 ----
 
-The start of a ((query string)) is indicated by a ((question mark)).
-After that follow pairs of names and values, corresponding to the
-`name` attribute on the form field elements, and the content of those
-elements. The ((ampersand)) (“&”) is used to separate the pairs.
+(((ampersand character)))The start of a ((query string)) is indicated
+by a ((question mark)). After that follow pairs of names and values,
+corresponding to the `name` attribute on the form field elements, and
+the content of those elements. The ampersand (“&”) is used to separate
+the pairs.
 
 (((escaping,in URLs)))(((hexadecimal number)))(((percent
 sign)))(((URL encoding)))(((encodeURIComponent
@@ -202,7 +203,7 @@ console.log(decodeURIComponent("Hello%20%26%20goodbye"));
 // → Hello & goodbye
 ----
 
-(((body (HTTP)))(((POST method)))If we change the `method` attribute
+(((body (HTTP))))(((POST method)))If we change the `method` attribute
 of the form above to `POST`, the ((HTTP)) request made to submit the
 ((form)) will use the `POST` method, and put the ((query string)) in
 body of the request, rather than adding it to the URL.
@@ -273,13 +274,13 @@ console.log(req.responseText);
 // → This is the content of data.txt
 ----
 
-(((open method)))(((relative URL)))(((slash character)))The `open`
+(((path,URL)))(((open method)))(((relative URL)))(((slash character)))The `open`
 method configures the request. In this case, we choose to make a `GET`
 request for the _example/data.txt_ file. ((URL))s that don't start
 with a protocol (like _http://_) are called relative, which means that
 they are interpreted relative to the current document. When they start
 with a slash (“/”), they replace the current path (the part after the
-server name). When they do not, the part of the current ((path)) up to
+server name). When they do not, the part of the current path up to
 and including its last slash character is put in front of the relative
 URL.
 
@@ -403,7 +404,7 @@ console.log(req.responseXML.querySelectorAll("fruit").length);
 // → 3
 ----
 
-(((transfer format)))XML documents can be used to exchange structured
+(((data format)))XML documents can be used to exchange structured
 information with the server. Their form—tags nested inside other
 tags—lends itself well to storing most types of data, or at least
 better than flat text files. The DOM interface is rather clumsy for
@@ -422,7 +423,7 @@ console.log(JSON.parse(req.responseText));
 [[http_sandbox]]
 == HTTP sandboxing ==
 
-(((sandboxing)))Making ((HTTP)) requests in web page scripts once
+(((sandbox)))Making ((HTTP)) requests in web page scripts once
 again raises concerns about ((security)). The person who controls the
 script might not have the same interests as the person on whose
 computer it is running. More specifically, if I visit _themafia.org_,
@@ -782,7 +783,7 @@ to its destination it must hop through anything from coffee shop wifi
 ((network))s to networks controlled by various companies and states.
 At any point along its routed, it may be inspected, or even modified.
 
-(((tampering)))If it is important that something remain ((secret)),
+(((tampering)))If it is important that something remain secret,
 such as the ((password)) to your ((email)) account, or that it arrive
 at its destination unmodified, such as the account number you transfer
 money to from your bank's website, plain HTTP is not good enough.

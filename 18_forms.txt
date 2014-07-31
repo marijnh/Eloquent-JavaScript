@@ -8,13 +8,14 @@
 [chapterquote="true"]
 [quote,Mephistopheles,in Goethe's Faust]
 ____
-(((Goethe+++,+++ Johann Wolfgang von)))(((Mephistopheles)))I shall this very day, at Doctor's feast, + 
+I shall this very day, at Doctor's feast, + 
 My bounden service duly pay thee. + 
 But one thing!—For insurance’ sake, I pray thee, + 
 Grant me a line or two, at least.
 ____
 
-(((page reload)))(((form)))Forms were introduced briefly in the
+(((Goethe+++,+++ Johann Wolfgang von)))(((Mephistopheles)))(((page
+reload)))(((form)))Forms were introduced briefly in the
 link:17_http.html#http_forms[previous chapter] as a way to
 _((submit))_ information provided by the user over ((HTTP)). They were
 designed for a pre-JavaScript Web, assuming that interaction with the
@@ -117,16 +118,19 @@ a `"change"` event.
 
 == Focus ==
 
+indexsee:[keyboard focus,focus]
+
 (((keyboard)))(((focus)))Unlike most elements in an HTML document,
-form fields can get _((keyboard focus))_. When clicked—or activated in
+form fields can get _keyboard ((focus))_. When clicked—or activated in
 some other way—they become the currently active element, the main
 recipient of keyboard ((input)).
 
-(((select (HTML tag))))If a document has a ((text field)), text typed
-will only end up in there when it is focused. Other fields respond
-differently to keyboard events, for example a `<select>` menu will try
-to move to the ((option)) that contains the text the user typed, and
-respond to the arrow keys by moving its selection up and down.
+(((option (HTML tag))))(((select (HTML tag))))If a document has a
+((text field)), text typed will only end up in there when it is
+focused. Other fields respond differently to keyboard events, for
+example a `<select>` menu will try to move to the option that contains
+the text the user typed, and respond to the arrow keys by moving its
+selection up and down.
 
 (((focus method)))(((blur method)))(((activeElement property)))We can
 control ((focus)) from JavaScript with the `focus` and `blur` methods.
@@ -877,7 +881,7 @@ text when you create the element.
 (((game of life (exercise))))(((artificial life)))(((Conway's Game of
 Life)))Conway's Game of Life is a simple ((simulation)) that creates
 artificial “life” on a ((grid)), each cell of which is either live or
-not. Each ((generation)) (turn), the following ((rule))s are applied:
+not. Each ((generation)) (turn), the following rules are applied:
 
 1. Any live ((cell)) with fewer than two or more than three live
    ((neighbor))s dies.

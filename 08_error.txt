@@ -8,7 +8,7 @@
 [chapterquote="true"]
 [quote, Brian Kernighan and P.J. Plauger, The Elements of Programming Style]
 ____
-(((Kernighan+++,+++ Brian)))(((Plaugher+++,+++ P.J.)))Debugging is
+Debugging is
 twice as hard as writing the code in the first place. Therefore, if
 you write the code as cleverly as possible, you are, by definition,
 not smart enough to debug it.
@@ -28,7 +28,7 @@ ____
 
 endif::html_target[]
 
-(((debugging)))(((error handling)))A program is crystallized thought.
+(((Kernighan+++,+++ Brian)))(((Plaugher+++,+++ P.J.)))(((debugging)))(((error handling)))A program is crystallized thought.
 Sometimes those thoughts are confused. Other times, mistakes are
 introduced when converting thought into code. Either way, the result
 is a flawed program.
@@ -46,7 +46,7 @@ situation has to be anticipated and handled somehow.
 
 == Programmer mistakes ==
 
-(((parser)))(((analysis)))When it comes to programmer mistakes, our
+(((parsing)))(((analysis)))When it comes to programmer mistakes, our
 aim is simple. We want to find them and fix them. Such mistakes can
 range from simple ((typo))s that cause the computer to complain as
 soon as it lays eyes on our program, to subtle mistakes in our
@@ -290,12 +290,12 @@ number. Instead of `n /= base`, what we actually want is `n =
 Math.floor(n / base)`, so that the number is properly “shifted” to the
 right.
 
-(((JavaScript console)))(((breakpoint)))(((debugger)))(((debugger
-statement)))An alternative to using `console.log` is to use the
-_debugger_ capabilities of your browser. Modern browsers come with the
-ability to set a _breakpoint_ on a specific line of your code. This
-will cause the execution of the program to pause every time the line
-with the breakpoint is reached, and allow you to inspect the values of
+(((JavaScript console)))(((breakpoint)))(((debugger statement)))An
+alternative to using `console.log` is to use the _debugger_
+capabilities of your browser. Modern browsers come with the ability to
+set a _breakpoint_ on a specific line of your code. This will cause
+the execution of the program to pause every time the line with the
+breakpoint is reached, and allow you to inspect the values of
 variables at that point. I won't go into details here since debuggers
 differ from browser to browser, but look in your browser's developer
 tools and search the Web for more information. Another way to set a

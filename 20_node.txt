@@ -7,19 +7,19 @@
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
-(((Yuan-Ma)))(((Book of Programming, The)))A student asked ‘The
+A student asked ‘The
 programmers of old used only simple machines and no programming
 languages, yet they made beautiful programs. Why do we use complicated
 machines and programming languages?’. Fu-Tzu replied ‘The builders of
 old used only sticks and clay, yet they made beautiful huts.’
 ____
 
-So far, we have learned the JavaScript language, and used it within a
-single environment: the browser. The next two chapters will briefly
-introduce you to ((Node.js)), a program that allows you to apply your
-JavaScript skills outside of the browser. With it, you can build
-anything from simple ((command-line)) tools to dynamic HTTP
-((server))s.
+(((command line)))(((Yuan-Ma)))(((Book of Programming)))So far, we
+have learned the JavaScript language, and used it within a single
+environment: the browser. The next two chapters will briefly introduce
+you to ((Node.js)), a program that allows you to apply your JavaScript
+skills outside of the browser. With it, you can build anything from
+simple command-line tools to dynamic HTTP ((server))s.
 
 These chapters aim to teach you the important ideas that Node.js
 builds on and give you enough information to write some useful
@@ -46,7 +46,7 @@ endif::html_target[]
 (((responsiveness)))(((input)))One of the more difficult problems in
 writing systems that communicate over the ((network)) is managing in-
 and ((output))—that is, the reading and writing of data to and from
-the network, the ((hard disk)), and other such devices. Moving data
+the network, the ((hard drive)), and other such devices. Moving data
 around takes time, and ((scheduling)) it cleverly can make a big
 difference in how quickly a system responds to the user or to network
 requests.
@@ -211,10 +211,10 @@ link:10_modules.html#commonjs[Chapter 10]. This system is built into
 Node, and is used to load anything from built-in ((module))s to
 downloaded libraries to files that are part of your own program.
 
-(((relative path)))(((resolution)))When `require` is called, Node has
+(((path,file system)))(((relative path)))(((resolution)))When `require` is called, Node has
 to resolve the given string to an actual ((file)) to load. Path names
 that start with `"/"`, `"./"`, or `"../"` are resolved relative to the
-current module's ((path)), where `"./"` stands for the current
+current module's path, where `"./"` stands for the current
 directory, `"../"` for one directory up, and `"/"` for the root of the
 file system. So if you ask for `"./world/world"` from the file
 `/home/marijn/elife/run.js`, Node will try to load the file
@@ -258,7 +258,7 @@ module.exports = function(string) {
 };
 ----
 
-(((exports variable)))(((CommonJS)))Remember that replacing
+(((exports object)))(((CommonJS)))Remember that replacing
 `module.exports`, rather than adding properties to it, allows us to
 export a specific value from a module. In this case, we make the
 result of requiring our `garble` file the garbling function itself.
@@ -521,7 +521,7 @@ var request = http.request({
 request.end();
 ----
 
-(((Node.js)))(((callback function)))(((readable stram)))The first
+(((Node.js)))(((callback function)))(((readable stream)))The first
 argument to `request` configures the request, telling Node what server
 to talk to, what path to request from that server, which method to
 use, and so on. The second argument is the function that should be
@@ -645,14 +645,14 @@ system)), and create a bridge between them: an HTTP server that allows
 allows web applications to store and share data, or give a group of
 people shared access to a bunch of files.
 
-(((GET method)))(((PUT method)))(((DELETE method)))It is
+(((path,URL)))(((GET method)))(((PUT method)))(((DELETE method)))It is
 straightforward to treat ((file))s as HTTP ((resource))s. The HTTP
 methods `GET`, `PUT`, and `DELETE` can be used to read, write, and
 delete them, respectively. We will interpret the path in the request
-as the ((path)) of the file that the request refers to.
+as the path of the file that the request refers to.
 
-(((relative path)))Because we probably don't want to share our whole
-file system, we'll interpret these ((path))s as starting in the
+(((path,file system)))(((relative path)))Because we probably don't want to share our whole
+file system, we'll interpret these paths as starting in the
 server's working ((directory)), which is the directory in which it was
 started. If I ran the server from `/home/marijn/public/` (or
 `c:\Users\marijn\public\` on Windows), then a request for `/file.txt`
@@ -703,8 +703,8 @@ readable stream to a ((writable stream)). If not, it is assumed to be
 either `null` (no body) or a string, and is passed directly to the
 response's `end` method.
 
-(((urlToPath function)))(((url module)))(((parsing)))(((escaping,in
-URLs)))(((decodeURIComponent function)))To get a ((path)) from the
+(((path,URL)))(((urlToPath function)))(((url module)))(((parsing)))(((escaping,in
+URLs)))(((decodeURIComponent function)))To get a path from the
 ((URL)) in the request, the `urlToPath` function uses Node's built-in
 `"url"` module to parse the URL. It takes its pathname, which will be
 something like `/file.txt`, decodes that to get rid of the `%20`-style
@@ -722,7 +722,7 @@ function urlToPath(url) {
 ----
 
 
-(((security)))(((path)))(If you are worried about the security of the
+(((security)))(((path,file system)))(If you are worried about the security of the
 `urlToPath` function, you are right. We will come back to it in the
 exercises.)
 
@@ -895,7 +895,7 @@ server. And of course you can modify and extend it, to solve this
 chapter's exercises or to experiment.
 
 (((body (HTTP))))(((curl program)))The command-line tool `curl`,
-widely available on Unix-like systems, can be used to make ((HTTP))
+widely available on ((Unix))-like systems, can be used to make ((HTTP))
 ((request))s. The following session briefly tests our server. Note
 that `-X` is used to set the request's ((method)), and `-d` to include
 a request body.
@@ -1143,9 +1143,9 @@ system might be used to do bad things to your machine.
 
 (((replace method)))(((file server example)))(((leak)))(((period
 character)))(((slash character)))(((backslash
-character)))(((decodeURIComponent)))It is enough to strip out all
-occurrences of two dots which have a one of a slash, backslash, or the
-end of the string on both sides. Using the `replace` method with a
+character)))(((decodeURIComponent function)))It is enough to strip out
+all occurrences of two dots which have a one of a slash, backslash, or
+the end of the string on both sides. Using the `replace` method with a
 ((regular expression)) is the easiest way to do this. Do not forget
 the `g` flag on the expression, or `replace` will only replace a
 single instance, and people could still get around this safety measure
@@ -1153,12 +1153,12 @@ by including additional double dots in their paths! Also make sure you
 do the replace _after_ decoding the string, or it would be possible to
 foil the check by encoding a dot or a slash.
 
-(((slash character)))Another potentially worrying case is ((path))s
-starting with a slash, which interpreted as ((absolute path))s. But
-because `urlToPath` puts a dot character in front of the path, it is
-impossible to create requests that result in such a path. Multiple
-slashes in a row, inside of the path, are odd, but will be treated as
-a single slash by the file system.
+(((path,file system)))(((slash character)))Another potentially
+worrying case is paths starting with a slash, which interpreted as
+((absolute path))s. But because `urlToPath` puts a dot character in
+front of the path, it is impossible to create requests that result in
+such a path. Multiple slashes in a row, inside of the path, are odd,
+but will be treated as a single slash by the file system.
 
 !!solution!!
 

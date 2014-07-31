@@ -27,14 +27,14 @@ ____
 
 endif::html_target[]
 
-(((organization)))(((code,structure of)))Every program has a shape. On
+(((organization)))(((code structure)))Every program has a shape. On
 a small scale, this shape is determined by its division into
 ((function))s, and the blocks inside those functions. Programmers have
 a lot of freedom in the shape they give their programs. Shape follows
 more from the ((taste)) of the programmer than from the program's
 intended functionality.
 
-(((readibility)))When looking at a larger program in its entirety,
+(((readability)))When looking at a larger program in its entirety,
 individual functions start to blend into the background. Such a
 program can be made more readable if we have larger unit of
 organization.
@@ -83,7 +83,7 @@ your program.
 === Namespacing ===
 
 (((encapsulation)))(((isolation)))(((global
-scope)))(((scope,local)))Most modern ((programming language))s have a
+scope)))(((local scope)))Most modern ((programming language))s have a
 ((scope)) level between _global_ (everyone can see it) and _local_
 (only this function can see it). JavaScript does not. Thus, by
 default, everything that needs to be visible outside of the scope of a
@@ -105,17 +105,16 @@ modules on top of the primitive concepts that JavaScript gives us.
 === Reuse ===
 
 (((version control)))(((bug)))(((copy-paste programming)))(((ini
-file)))(((dependencies)))(((structure)))In a “flat” project, which
-isn't structured as a set of ((module))s, it is not apparent which
-parts of the code are needed to use a particular function. In my
-program for spying on my enemies (see link:09_regexp.html#ini[Chapter
-9]), I wrote a function for reading configuration files. If I want to
-use that function in another project, I must go and copy out the part
-of the old program that look like they are relevant to the
-functionality that I need, and paste them into my new program. Then,
-if I find a mistake in that code, I'll only fix it in whichever
-program that I'm working with at the time, and forget to also fix it
-in the other program.
+file)))(((dependency)))(((structure)))In a “flat” project, which isn't
+structured as a set of ((module))s, it is not apparent which parts of
+the code are needed to use a particular function. In my program for
+spying on my enemies (see link:09_regexp.html#ini[Chapter 9]), I wrote
+a function for reading configuration files. If I want to use that
+function in another project, I must go and copy out the part of the
+old program that look like they are relevant to the functionality that
+I need, and paste them into my new program. Then, if I find a mistake
+in that code, I'll only fix it in whichever program that I'm working
+with at the time, and forget to also fix it in the other program.
 
 (((duplication)))Once you have lots of such shared, duplicated pieces
 of code, you will find yourself wasting a lot of time and energy on
@@ -170,7 +169,7 @@ concepts as possible, while also making the “language” that the
 interface exposes powerful and flexible enough to be applicable in a
 wide range of situations.
 
-(((interface design)))For interfaces that expose a single, focused
+(((interface,design)))For interfaces that expose a single, focused
 concept, like a configuration file reader, this design comes
 naturally. For others, like a text editor, which has many different
 aspects that external code might need to access (content, styling,
@@ -218,7 +217,7 @@ console.log(dayName(3));
 // → Wednesday
 ----
 
-(((function,anonymous)))Now `names` is a local variable in an
+(((anonymous function)))Now `names` is a local variable in an
 (unnamed) function. This function is created and immediately called,
 and its return value (the actual `dayName` function) is stored in a
 variable. We could have pages and pages of code in this function, with
@@ -914,13 +913,13 @@ what the function would have to do to allow this.
 
 !!solution!!
 
-(((circular dependency)))(((exports object)))The trick is to add the
-`exports` object created for a module to `require`'s ((cache))
-_before_ actually running the module. This means the module will not
-yet have had a chance to ((override)) `module.exports`, so we do not
-know whether it may want to export some other value. After loading,
-the cache object is overridden with `module.exports`, which may be a
-different value.
+(((overriding)))(((circular dependency)))(((exports object)))The trick
+is to add the `exports` object created for a module to `require`'s
+((cache)) _before_ actually running the module. This means the module
+will not yet have had a chance to override `module.exports`, so we do
+not know whether it may want to export some other value. After
+loading, the cache object is overridden with `module.exports`, which
+may be a different value.
 
 But if, in the course of loading the module, a second module is loaded
 that asks for the first module, its default `exports` object, likely

@@ -8,40 +8,40 @@
 [chapterquote="true"]
 [quote,M.C. Escher,cited by Bruno Ernst in The Magic Mirror of M.C. Escher]
 ____
-(((Escher+++,+++ M.C.)))Drawing is deception
+Drawing is deception.
 ____
 
-(((CSS)))(((transform (CSS))))Browsers give us several ways to display
-((graphics)). The simplest is to use regular ((DOM)) elements, and use
-styles to position and color them. This can get you quite far, as the
-link:15_game.html#game[previous chapter] showed. By adding partially
-transparent background ((image))s to the nodes, we can make then look
-exactly the way we want to. It is even possible to rotate or skew
-nodes by using the `transform` style.
+(((Escher+++,+++ M.C.)))(((CSS)))(((transform (CSS))))Browsers give us
+several ways to display ((graphics)). The simplest is to use regular
+((DOM)) elements, and use styles to position and color them. This can
+get you quite far, as the link:15_game.html#game[previous chapter]
+showed. By adding partially transparent background ((image))s to the
+nodes, we can make then look exactly the way we want to. It is even
+possible to rotate or skew nodes by using the `transform` style.
 
 But we'd be using the DOM for something that it wasn't originally
 designed for. There are things, like drawing a ((line)) between
 arbitrary points, that are extremely awkward to do with regular
 ((HTML)) elements.
 
-(((img (HTML))))There are two alternatives. The first is DOM-based,
+(((img (HTML tag))))There are two alternatives. The first is DOM-based,
 but utilizing _((SVG))_ (_Scalable Vector Graphics_), rather than HTML
 elements. You can think of SVG as a different dialect for describing
 ((document))s, one that focuses on ((shape))s rather than text. An SVG
 document can be embedded inside an HTML document, but also included
 through an `<img>` tag.
 
-The second alternative is called a _((canvas))_. A canvas is a single
-((DOM)) element that encapsulates a ((picture)). It provides a
-programming ((interface)) for drawing ((shape))s onto the space taken
-up by the node. The main difference between a canvas and an SVG
-picture is that in SVG, the original description of the shapes is
-preserved, so that they can be moved or resized at any time. Canvas,
-on the other hand, converts the shapes to ((pixel))s (colored dots on
-a raster) as soon as they are drawn, and does not remember what these
-pixels represent. The only way to move a shape on a canvas is to
-((clear)) the canvas (or the area around the shape) and redraw it with
-the shape in its new position.
+(((clearing)))The second alternative is called a _((canvas))_. A
+canvas is a single ((DOM)) element that encapsulates a ((picture)). It
+provides a programming ((interface)) for drawing ((shape))s onto the
+space taken up by the node. The main difference between a canvas and
+an SVG picture is that in SVG, the original description of the shapes
+is preserved, so that they can be moved or resized at any time.
+Canvas, on the other hand, converts the shapes to ((pixel))s (colored
+dots on a raster) as soon as they are drawn, and does not remember
+what these pixels represent. The only way to move a shape on a canvas
+is to clear the canvas (or the area around the shape) and redraw it
+with the shape in its new position.
 
 == SVG ==
 
@@ -64,7 +64,7 @@ This is an HTML document with a simple SVG ((picture)) inside of it:
 </svg>
 ----
 
-(((circle (SVG))))(((rect (SVG))))(((namespace,XML)))(((XML)))(((xmlns
+(((circle (SVG tag))))(((rect (SVG tag))))(((XML namespace)))(((XML)))(((xmlns
 attribute)))The `xmlns` attribute changes an element (and its
 children) to a different _XML namespace_. This namespace, identified
 by a ((URL)), specifies the dialect that we are currently speaking.
@@ -85,7 +85,7 @@ circle.setAttribute("fill", "cyan");
 
 == The canvas element ==
 
-(((canvas,size)))(((canvas (HTML))))Canvas ((graphics)) can be drawn
+(((canvas,size)))(((canvas (HTML tag))))Canvas ((graphics)) can be drawn
 onto a `<canvas>` element. You can give such an element `width` and
 `height` attributes to determine its size, in ((pixel))s.
 
@@ -142,13 +142,13 @@ is ten pixels below and to the right of at corner.
 [[fill_stroke]]
 == Filling and stroking ==
 
-(((drawing)))(((SVG)))In the terminology used by the ((canvas))
-interface (as well as by SVG), there are two things that can be done
-with a shape. It can be either _((fill))ed_, meaning its area is given
-a certain color (or pattern), or it can be _((stroke))d_, which means
-a ((line)) is drawn along its edge.
+(((filling)))(((stroking)))(((drawing)))(((SVG)))In the terminology
+used by the ((canvas)) interface (as well as by SVG), there are two
+things that can be done with a shape. It can be either _filled_,
+meaning its area is given a certain color (or pattern), or it can be
+_stroked_, which means a ((line)) is drawn along its edge.
 
-(((fillRect method))(((strokeRect method)))The `fillRect` method fills
+(((fillRect method)))(((strokeRect method)))The `fillRect` method fills
 a ((rectangle)). It takes first the x and y ((coordinates)) of the
 rectangle's top left corner, then its width, and then its height. A
 similar method, `strokeRect`, draws the ((outline)) of a rectangle.
@@ -159,11 +159,11 @@ or stroking happens is not determined by an argument to the method (as
 you might justly expect), but rather by properties of the drawing
 context object.
 
-(((fillStyle property)))Setting `fillStyle` changes the way shapes are
+(((filling)))(((fillStyle property)))Setting `fillStyle` changes the way shapes are
 filled. It can be set to a string that specifies a ((color)) (any
 color understood by ((CSS)) can also be used here).
 
-(((line width)))(((strokeStyle property)))(((lineWidth
+(((stroking)))(((line width)))(((strokeStyle property)))(((lineWidth
 property)))(((canvas)))The `strokeStyle` property work similarly, but
 determines the color used for a stroked line. The width of that line
 is determined by the `lineWidth` property, which may contain any
@@ -193,9 +193,10 @@ gets a default width of 300 and height of 150 pixels.
 
 == Paths ==
 
-(((interface,design)))(((canvas,path)))A ((path)) is a sequence of
-((line))s. The 2d canvas interface's approach to describing such a
-path is rather peculiar. It is done entirely through ((side effect))s.
+(((path,canvas)))(((interface,design)))(((canvas,path)))A path is a
+sequence of ((line))s. The 2d canvas interface's approach to
+describing such a path is rather peculiar. It is done entirely through
+((side effect))s.
 
 [source,text/html]
 ----
@@ -224,12 +225,12 @@ method. Each segment created with `lineTo` starts at the path's
 _current_ position, which is the end of the last segment, unless
 `moveTo` was called to go to a new position.
 
-(((path,closing)))(((fill method)))When filling a ((path)) (using the
-`fill` method), each ((shape)) is filled separately. A path can
-contain multiple shapes—each `moveTo` motion starts a new one. If the
-path is not already _closed_ (its start and end are in different
-positions), a line is added from its end to its start, and the shape
-enclosed by the resulting line is filled.
+(((path,canvas)))(((filling)))(((path,closing)))(((fill method)))When
+filling a path (using the `fill` method), each ((shape)) is filled
+separately. A path can contain multiple shapes—each `moveTo` motion
+starts a new one. If the path is not already _closed_ (its start and
+end are in different positions), a line is added from its end to its
+start, and the shape enclosed by the resulting line is filled.
 
 [source,text/html]
 ----
@@ -262,7 +263,7 @@ its start. This segment _is_ drawn when stroking the path.
 
 == Curves ==
 
-(((canvas)))(((drawing)))A ((path)) may also contain ((curve))d
+(((path,canvas)))(((canvas)))(((drawing)))A path may also contain ((curve))d
 ((line))s. These are, unfortunately, a bit more involved to draw than
 straight lines.
 
@@ -336,7 +337,7 @@ curve. The further they are away from their corresponding point, the
 more the curve will “bulge” in that direction.
 
 (((trial-and-error)))Such ((curve))s can be hard to work with—it is
-not always clear how to find the ((control points)) that provide the
+not always clear how to find the ((control point))s that provide the
 ((shape)) you are looking for. Sometimes you can find a way to compute
 them, and sometimes you'll just have to find a suitable value by trial
 and error.
@@ -414,7 +415,7 @@ image::img/canvas_circle.png[alt="Drawing a circle",width="4.9cm"]
 
 endif::tex_target[]
 
-(((moveTo method)))(((arc method)))(((path)))The resulting picture
+(((moveTo method)))(((arc method)))(((path, canvas)))The resulting picture
 contains a ((line)) from the left of the full circle (first call to
 `arc`) to the left of the quarter-((circle)) (second call). Like other
 path drawing methods, a line drawn with `arc` is connected to the
@@ -488,11 +489,11 @@ would like to have a way to draw text to the ((canvas)).
 
 == Text ==
 
-(((text))(((fill)))(((fillColor property)))(((fillText
+(((stroking)))(((filling)))(((fillColor property)))(((fillText
 method)))(((strokeText method)))A 2d canvas drawing context provides
 the methods `fillText` and `strokeText`. The latter can be useful for
 outlining letters, but usually `fillText` is what you need. It will
-fill the given text with the current `fillColor`.
+fill the given ((text)) with the current `fillColor`.
 
 [source,text/html]
 ----
@@ -534,7 +535,7 @@ chapter—specifying a picture by giving a logical description of
 ((shape))s. Bitmap graphics, on the other hand, don't specify actual
 shapes but rather work with ((pixel)) data (rasters of colored dots).
 
-(((load event)))(((event handling)))(((img (HTML))))(((drawImage
+(((load event)))(((event handling)))(((img (HTML tag))))(((drawImage
 method)))The `drawImage` method allows us to draw ((pixel)) data onto
 a ((canvas)). This pixel data can originate from an `<img>` element or
 from another canvas (neither have to be visible in the actual
@@ -583,7 +584,7 @@ the ((picture)) on a ((canvas)), the `clearRect` method is useful. It
 resembles `fillRect`, but instead of coloring the rectangle, it makes
 it ((transparent)).
 
-(((setInterval method)))(((img (HTML))))We know that each
+(((setInterval function)))(((img (HTML tag))))We know that each
 _((sprite))_, each sub-picture, is 24 ((pixel))s wide and 30 pixels
 high. The code below loads the image, and then sets up an interval
 (repeated timer) to draw the next _((frame))_.
@@ -619,7 +620,9 @@ the sprite for the current posture has in the picture.
 
 == Transformation ==
 
-(((transformation)))(((flip)))But what if we want our character to
+indexsee:[flipping,mirroring]
+
+(((transformation)))(((mirroring)))But what if we want our character to
 walk to the left instead of to the right? We could add another set of
 sprites, of course. But we can also instruct the ((canvas)) to draw
 the picture the other way round.
@@ -647,9 +650,9 @@ image::img/canvas_scale.png[alt="A scaled circle",width="6.6cm"]
 
 endif::tex_target[]
 
-Scaling will cause everything about the drawn image, including the
+(((mirroring)))Scaling will cause everything about the drawn image, including the
 ((line width)), to be stretched out or squeezed together as specified.
-Scaling by a negative amount will ((flip)) the picture around. The
+Scaling by a negative amount will flip the picture around. The
 flipping happens around point (0,0), which means that it will also
 flip the direction of the coordinate system. When a horizontal scaling
 of -1 is applied, a shape drawn at x position 100 will end up at what
@@ -686,7 +689,7 @@ translated by (50,50), the translation will happen in the rotated
 coordinate system, and thus produce a different orientation. The order
 in which transformations are applied matters.
 
-(((axis)))To ((flip)) a picture around the vertical line at a given x
+(((axis)))(((mirroring)))To flip a picture around the vertical line at a given x
 position, we can do the following:
 
 // include_code
@@ -757,10 +760,11 @@ management. They conceptually keep a stack of transformation
 stack, and when you call `restore`, the state on top of the stack is
 taken off, and used as the context's current transformation.
 
-(((branch fractal example)))(((recursion)))The `branch` function in
-the example below illustrates what you can do with a function that
-changes the transformation and then calls another function (in this
-case itself), which continues drawing with the given transformation.
+(((branching recursion)))(((branching fractal
+example)))(((recursion)))The `branch` function in the example below
+illustrates what you can do with a function that changes the
+transformation and then calls another function (in this case itself),
+which continues drawing with the given transformation.
 
 This function draws a tree-like shape by first drawing a line, and
 then moving the coordinate system to the end of the line and calling
@@ -917,11 +921,11 @@ CanvasDisplay.prototype.updateViewport = function() {
 };
 ----
 
-(((Math.max function)))(((Math.min function)))(((clipping)))The calls
+(((boundary)))(((Math.max function)))(((Math.min function)))(((clipping)))The calls
 to `Math.max` and `Math.min` are used to ensure that the viewport does
 not end up showing space outside of the level. `Math.max(x, 0)` has
 the effect of ensuring the resulting number is not less than zero.
-`Math.min`, similarly, ensures a value stays below a given ((bound)).
+`Math.min`, similarly, ensures a value stays below a given bound.
 
 When ((clearing)) the display, we'll use a slightly different
 ((color)) depending on whether the game is won (brighter) or lost
@@ -944,7 +948,7 @@ CanvasDisplay.prototype.clearDisplay = function() {
 };
 ----
 
-(((Math.floor method)))(((Math.ceil method)))(((rounding)))To draw the
+(((Math.floor function)))(((Math.ceil function)))(((rounding)))To draw the
 background, we run through the tiles that are visible in the current
 viewport, using the same trick used in `obstacleAt` in the
 link:15_game.html#viewport[previous chapter].
@@ -979,7 +983,7 @@ CanvasDisplay.prototype.drawBackground = function() {
 };
 ----
 
-(((drawImage)))(((sprite)))(((tile)))Tiles that are not empty (null)
+(((drawImage method)))(((sprite)))(((tile)))Tiles that are not empty (null)
 are drawn with `drawImage`. The `otherSprites` image contains the
 pictures used for elements other than the player. It contains, from
 left to right, the wall tile, the lava tile, and then the sprite for a
@@ -1183,10 +1187,11 @@ Rectangles and pieces of text can be drawn with a single method call
 (`fillRect` and `strokeRect`, or `fillText` and `strokeText` for
 text). To create custom shapes, we must first build up a path.
 
-Calling `beginPath` starts a new path. A number of other methods add
-lines and curves to the current path, for example `lineTo` can be used
-to add a straight line. When a path is finished, it can be filled with
-the `fill` method or stroked with the `stroke` method.
+(((stroking)))(((filling)))Calling `beginPath` starts a new path. A
+number of other methods add lines and curves to the current path, for
+example `lineTo` can be used to add a straight line. When a path is
+finished, it can be filled with the `fill` method or stroked with the
+`stroke` method.
 
 Moving pixels from an image or another canvas onto our canvas is done
 with the `drawImage` method. By default, this method draws the whole
@@ -1252,8 +1257,8 @@ endif::html_target[]
 
 !!solution!!
 
-(((shapes (exercise))))The ((parallelogram)) (1) is easy to draw using
-a ((path)). Pick suitable center coordinates, and add each of the four
+(((path,canvas)))(((shapes (exercise))))The ((parallelogram)) (1) is easy to draw using
+a path. Pick suitable center coordinates, and add each of the four
 corners around that.
 
 (((flipHorizontally function)))(((rotation)))The ((diamond)) (2) can

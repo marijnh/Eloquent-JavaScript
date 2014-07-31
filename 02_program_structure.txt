@@ -7,16 +7,17 @@
 [chapterquote="true"]
 [quote, _why, Why's (Poignant) Guide to Ruby]
 ____
-(((why)))(((Poignant Guide)))And my heart glows bright red under my
+And my heart glows bright red under my
 filmy, translucent skin and they have to administer 10cc of JavaScript
 to get me to come back. (I respond well to toxins in the blood.) Man,
 that stuff will kick the peaches right out your gills!
 ____
 
-In this chapter, we will start to do things that can actually be
-called _programming_. We will expand our command of the JavaScript
-language beyond the nouns and sentence fragments we've seen so far,
-to the point where we can actually express some meaningful prose.
+(((why)))(((Poignant Guide)))In this chapter, we will start to do
+things that can actually be called _programming_. We will expand our
+command of the JavaScript language beyond the nouns and sentence
+fragments we've seen so far, to the point where we can actually
+express some meaningful prose.
 
 == Expressions and statements ==
 
@@ -171,10 +172,10 @@ console.log(one + two);
 == Keywords and reserved words ==
 
 (((syntax)))(((implements (reserved word))))(((interface (reserved
-word))))(((let reserved word)))(((package (reserved word))))(((private
-reserved word)))(((protected (reserved word))))(((public reserved
-words)))(((static (reserved word))))(((void operator)))(((yield
-(reserved word))))(((reserved words)))(((variable,naming)))Words with
+word))))(((let keyword)))(((package (reserved word))))(((private
+(reserved word))))(((protected (reserved word))))(((public (reserved
+word))))(((static (reserved word))))(((void operator)))(((yield
+(reserved word))))(((reserved word)))(((variable,naming)))Words with
 a special meaning, such as `var`, are _((keyword))s_, and they may not
 be used as variable names. There are also a number of words that are
 “reserved for use” in ((future)) versions of JavaScript. These are also
@@ -211,13 +212,13 @@ indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 indexsee:[calling (of functions),function application]
 
-(((output)))(((function)))(((function,application)))(((Function
-type)))(((alert function)))(((message box)))A lot of the values
-provided in the default environment have the type _((function))_. A
-function is a piece of program wrapped in a value. Such values can be
-_applied_ in order to run the wrapped program. For example, in a
-((browser)) environment, the variable `alert` holds a function that
-shows a little ((dialog box)) with a message. It is used like this:
+(((output)))(((function)))(((function,application)))(((alert
+function)))(((message box)))A lot of the values provided in the
+default environment have the type _((function))_. A function is a
+piece of program wrapped in a value. Such values can be _applied_ in
+order to run the wrapped program. For example, in a ((browser))
+environment, the variable `alert` holds a function that shows a little
+((dialog box)) with a message. It is used like this:
 
 [source,javascript]
 ----
@@ -226,7 +227,7 @@ alert("Good morning!");
 
 image::img/alert.png[alt="An alert dialog",width="8cm"]
 
-(((parameters)))(((function,application)))Executing a function is
+(((parameter)))(((function,application)))Executing a function is
 called _invoking_, _calling_, or _applying_ it. You can call a
 function by putting ((parentheses)) after an expression that produces a
 function value. Usually you'll directly use the name of a variable
@@ -266,8 +267,6 @@ var x = 30;
 console.log("the value of x is", x);
 // → the value of x is 30
 ----
-
-indexsee:[field,property]
 
 (((object)))Though ((variable)) names cannot contain ((period
 character))s, `console.log` clearly has one. This is because
@@ -357,12 +356,13 @@ alert("Your number is the square root of " +
       theNumber * theNumber);
 ----
 
-(((type conversion)))(((Number function)))(((String
-function)))(((Boolean function)))(((Boolean type,conversion to)))The
-function `Number` converts a value to a number. We need that
-conversion because the result of `prompt` is a string value, and we
-want a number. There are similar functions called `String` and
-`Boolean` that convert values to those types.
+(((number,conversion to)))(((type coercion)))(((Number
+function)))(((String function)))(((Boolean
+function)))(((Boolean,conversion to)))The function `Number` converts a
+value to a number. We need that conversion because the result of
+`prompt` is a string value, and we want a number. There are similar
+functions called `String` and `Boolean` that convert values to those
+types.
 
 Here is the rather trivial schematic representation of straight
 control flow:
@@ -562,7 +562,7 @@ except `""` convert to `true`.
 
 == Indenting Code ==
 
-(((block)))(((code,structure of)))(((whitespace)))(((programming
+(((block)))(((code structure)))(((whitespace)))(((programming
 style)))You've probably noticed the spaces I put in front of some
 statements. In JavaScript, these are not required—the computer will
 accept the program just fine without them. In fact, even the ((line))
@@ -646,7 +646,7 @@ console.log(current);
 // → 21
 ----
 
-(((remainder operation)))(((% operator)))The trick with the remainder
+(((remainder operator)))(((% operator)))The trick with the remainder
 (`%`) operator is an easy way to test whether a number is divisible by
 another number. If it is, the remainder of their division is zero.
 
@@ -713,7 +713,7 @@ for (var number = 0; number <= 12; number += 2)
 
 == Dispatching on a value with switch ==
 
-(((syntax)))(((conditional execution)))(((dispatch)))(((if
+(((syntax)))(((conditional execution)))(((dispatching)))(((if
 keyword,chaining)))It is common for code to look like this:
 
 // test: no
@@ -1004,7 +1004,7 @@ order in which we build up the string (line by line, left to right,
 top to bottom). So the outer loop handles the lines and the inner loop
 handles the characters on a line.
 
-(((counter variable)))(((remainder operation)))(((% operator)))You'll
+(((counter variable)))(((remainder operator)))(((% operator)))You'll
 need two variables to track your progress. To know whether to put a
 space or a hash sign at a given position, you could test whether the
 sum of the two counters is even (`% 2`).

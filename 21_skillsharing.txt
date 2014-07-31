@@ -18,13 +18,13 @@ people with similar interests. Many large cities have a JavaScript
 meetup. They are typically free to attend, and I've found the ones
 I've visited to be friendly and welcoming.
 
-(((organizing)))In this final project chapter, our project is to set
-up a ((website)) for managing ((talk))s given at a skill-sharing
-meeting. Imagine a small group of people, meeting up regularly in one
-of the members’ office to talk about ((unicycling)). Problem is: when
-the previous organizer of the meetings moved to another town, nobody
-stepped forward to take over this task. We want a system that will let
-the participants propose and discuss talks among themselves, without a
+In this final project chapter, our project is to set up a ((website))
+for managing ((talk))s given at a skill-sharing meeting. Imagine a
+small group of people, meeting up regularly in one of the members’
+office to talk about ((unicycling)). Problem is: when the previous
+organizer of the meetings moved to another town, nobody stepped
+forward to take over this task. We want a system that will let the
+participants propose and discuss talks among themselves, without a
 central organizer.
 
 image::img/unicycle.svg[alt="The unicycling meetup"]
@@ -122,9 +122,9 @@ system.
 server or the client, let's think about the point where they touch:
 the ((HTTP)) ((interface)) over which they communicate.
 
-We will base our interface on ((JSON)), and, like in the file server
+(((path,URL)))We will base our interface on ((JSON)), and, like in the file server
 from link:20_node.html#file_server[Chapter 20], try to make good use
-of HTTP ((method))s. The interface is centered around the ((path))
+of HTTP ((method))s. The interface is centered around the path
 `/talks`. Paths that do not start with `/talks` will be used for
 serving ((static file))s—the HTML and JavaScript code that implement
 the client-side system.
@@ -267,7 +267,7 @@ part of the program. The following code runs on ((Node.js)).
 
 === Routing ===
 
-(((createServer function)))(((path)))Our server will use
+(((createServer function)))(((path,URL)))Our server will use
 `http.createServer` to start an HTTP server. In the function that
 handles a new request, we must distinguish between the various kinds
 of requests (as determined by the ((method)) and the path) that we
@@ -625,10 +625,11 @@ function waitForChanges(since, response) {
 }
 ----
 
-(((setTimeout function)))(((timeout)))When a response object is stored
-in the `waiting` array, a timeout is immediately set. After 90
-seconds, this timeout sees if the request is still waiting, and if it
-is, sends an empty response and removes it from the `waiting` array.
+(((splice method)))(((setTimeout function)))(((timeout)))When a
+response object is stored in the `waiting` array, a timeout is
+immediately set. After 90 seconds, this timeout sees if the request is
+still waiting, and if it is, sends an empty response and removes it
+from the `waiting` array.
 
 [[registerChange]]
 (((registerChange function)))To be able to find exactly those talks
@@ -1059,7 +1060,7 @@ function addComment(title, comment) {
 }
 ----
 
-(((localStorage)))(((persistence)))The `nameField` variable used to
+(((localStorage object)))(((persistence)))The `nameField` variable used to
 set the comment's `author` property is a reference to the `<input>`
 field at the top of the page that allows the user to specify their
 name. We also wire that field up to `localStorage`, so that it does
@@ -1169,7 +1170,7 @@ and have Node installed (http://nodejs.org[_nodejs.org_]).
 data purely in ((memory)). This means that when it ((crash))es or is
 restarted for any reason, all talks and comments are lost.
 
-(((hard disk)))Extend the server so that it stores the talk data to
+(((hard drive)))Extend the server so that it stores the talk data to
 disk, and automatically reloads it when it is restarted. Do not worry
 about efficiency—do the simplest thing that works.
 

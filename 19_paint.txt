@@ -7,14 +7,15 @@
 
 [quote,Joan Miro,]
 ____
-(((Miro+++,+++ Joan)))I look at the many colors before me. I look at
+I look at the many colors before me. I look at
 my blank canvas. Then, I try to apply colors like words that shape
 poems, like notes that shape music.
 ____
 
-(((drawing program example)))(((project chapter)))The material from
-the previous chapters gives you all the elements you need to build a
-simple ((web application)). In this chapter, we will do just that.
+(((Miro+++,+++ Joan)))(((drawing program example)))(((project
+chapter)))The material from the previous chapters gives you all the
+elements you need to build a simple ((web application)). In this
+chapter, we will do just that.
 
 Our application will be a small web-based ((drawing)) program, along
 the lines of ((Microsoft Paint)). You can use it to open image
@@ -265,9 +266,9 @@ tools.Line = function(event, cx, onEnd) {
 };
 ----
 
-(((lineCap property)))(((line)))It starts by setting the drawing
+(((path,canvas)))(((lineCap property)))(((line)))It starts by setting the drawing
 context's `lineCap` property to `"round"`, which has the effect that
-both ends of a stroked ((path)) will be round, rather than the square
+both ends of a stroked path will be round, rather than the square
 form that is the default behavior. This is a trick to make sure that
 multiple separate lines, drawn in response to separate events, do look
 like a single, coherent line. With bigger line widths, you will see
@@ -772,7 +773,7 @@ graphics programs is a ((color)) picker, which allows the user to
 click on the picture, and selects the color under the mouse pointer.
 Build this.
 
-(((getImageData method)))(((toDataURL function)))In order to build
+(((getImageData method)))(((toDataURL method)))In order to build
 this, we need a way to access the content of the ((canvas)). The
 `toDataURL` method more or less did this, but getting ((pixel))
 information out of such a data URL is hard. Instead, we'll use the

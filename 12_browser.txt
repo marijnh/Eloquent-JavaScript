@@ -7,14 +7,13 @@
 [chapterquote="true"]
 [quote,Douglas Crockford,The JavaScript Programming Language (video lecture)]
 ____
-(((Crockford+++,+++ Douglas)))The browser is a really hostile
-programming environment.
+The browser is a really hostile programming environment.
 ____
 
-(((JavaScript,history of)))(((World Wide Web)))The next part of this
-book will talk about web browsers. Without web ((browser))s, there
-would be no JavaScript. And even if there were, no one would ever have
-paid any attention to it.
+(((Crockford+++,+++ Douglas)))(((JavaScript,history of)))(((World Wide
+Web)))The next part of this book will talk about web browsers. Without
+web ((browser))s, there would be no JavaScript. And even if there
+were, no one would ever have paid any attention to it.
 
 (((decentralization)))(((compatibility)))Web technology has, from the
 very start, been decentralized, not just technically, but also in the
@@ -223,7 +222,7 @@ a closing bracket as `&gt;` (“greater than”). In HTML, an ampersand
 (“&”) character followed by a word and a semicolon (“;”) is called an
 _((entity))_, and will be replaced by the character it encodes.
 
-(((backslash character)))(((ampersand character)))(((double quote
+(((backslash character)))(((ampersand character)))(((double-quote
 character)))This is analogous to the way backslashes are used in
 JavaScript strings. Since this mechanism gives ampersand characters a
 special meaning too, those need to be escaped as `&amp;`. Inside of an
@@ -323,7 +322,7 @@ also have used `&quot;`, but that'd make the program harder to read.
 
 == In the sandbox ==
 
-((malicious script))(((World Wide
+(((malicious script)))(((World Wide
 Web)))(((browser)))(((website)))(((security)))Running programs
 downloaded from the ((Internet)) is potentially dangerous. You do not
 know much about the people behind most sites you visit, and they do
@@ -386,7 +385,7 @@ there were four major players, rather than one.
 
 (((compatibility)))The new players had a more serious attitude towards
 ((standards)) and better ((engineering)) practices, leading to less
-incompatibility and fewer ((bugs)). Microsoft, seeing its market share
+incompatibility and fewer ((bug))s. Microsoft, seeing its market share
 crumble, came around and adopted these attitudes. If you are starting
 to learn web development today, consider yourself lucky. The latest
 versions of the major browsers behave quite uniformly, and have

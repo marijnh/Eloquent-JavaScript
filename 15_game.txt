@@ -7,15 +7,16 @@
 
 [quote,Iain Banks,The Player of Games]
 ____
-(((Banks+++,+++ Ian)))All reality is a game.
+All reality is a game.
 ____
 
-(((project chapter)))(((simulation)))My initial fascination with
-computers, like that of many kids, originated with computer ((game))s.
-I was drawn into the tiny computer-simulated ((world))s which I could
-manipulate and in which stories (sort of) unfolded. More, I suppose,
-because of the way I could project my ((imagination)) into them, than
-because of the possibilities they actually offered.
+(((Banks+++,+++ Ian)))(((project chapter)))(((simulation)))My initial
+fascination with computers, like that of many kids, originated with
+computer ((game))s. I was drawn into the tiny computer-simulated
+((world))s which I could manipulate and in which stories (sort of)
+unfolded. More, I suppose, because of the way I could project my
+((imagination)) into them, than because of the possibilities they
+actually offered.
 
 I wouldn't wish a ((career)) in game programming on anyone—much like
 in the ((music)) industry, the discrepancy between the many eager
@@ -75,7 +76,7 @@ everything looks like colored ((box))es, drawing is uncomplicated: we
 create DOM elements, and use styling to give them a background color,
 size, and position.
 
-(((table (HTML))))We can represent the background as a table, since it
+(((table (HTML tag))))We can represent the background as a table, since it
 is an unchanging ((grid)) of squares. The free-moving elements can be
 overlaid on top of that, using absolutely positioned elements.
 
@@ -313,7 +314,7 @@ function Lava(pos, ch) {
 Lava.prototype.type = "lava";
 ----
 
-(((Coint type)))(((animation)))`Coin` actors are simple. They mostly
+(((Coin type)))(((animation)))`Coin` actors are simple. They mostly
 just sit in their place. But to liven up the game a little, they are
 given a “wobble”, a slight vertical motion back and forth. To track
 this, a coin object stores a base position as well as a `wobble`
@@ -395,7 +396,7 @@ by defining a _((display))_ object, which displays a given ((level)).
 The display type we define in this chapter is called `DOMDisplay`,
 because it uses simple ((DOM)) elements to show the level.
 
-(((style property)))We will be using a ((style sheet)) to set the
+(((style attribute)))We will be using a ((style sheet)) to set the
 actual colors and other fixed properties of the elements that make up
 the game. It would also be possible to directly assign to the
 elements’ `style` property when we create them, but that would produce
@@ -443,7 +444,7 @@ that holds the actors, so that they can be easily removed and
 replaced.
 
 (((scaling)))(((DOMDisplay type)))Our ((coordinates)) and sizes are
-tracked in ((unit))s relative to the ((grid)) size, where a size or
+tracked in units relative to the ((grid)) size, where a size or
 distance of one means one grid unit. When setting ((pixel)) sizes, we
 will have to scale these coordinates up—things would be ridiculously
 small at a single pixel per square. The `scale` variable gives the
@@ -470,7 +471,7 @@ DOMDisplay.prototype.drawBackground = function() {
 ----
 
 [[game_css]]
-(((style sheet)))(((CSS)))(((table (HTML))))As mentioned earlier, the
+(((style sheet)))(((CSS)))(((table (HTML tag))))As mentioned earlier, the
 background is drawn as a `<table>` element. This nicely corresponds to
 the structure of the `grid` property in the level—each row of the grid
 is turned into a table row (`<tr>` element). The strings in the grid
@@ -692,7 +693,7 @@ image::img/game_simpleLevel.png[alt="Our level rendered",width="7cm"]
 
 endif::tex_target[]
 
-(((link (HTML))))(((style sheet)))(((CSS)))The `<link>` tag, when used
+(((link (HTML tag))))(((style sheet)))(((CSS)))The `<link>` tag, when used
 with `rel="stylesheet"`, is a way to load a CSS file into a page. The
 file `game.css` contains the styles necessary for our game.
 
@@ -705,12 +706,12 @@ small steps, and for each step, move the actors by a distance
 corresponding to their speed (distance moved per second) multiplied by
 the size of the time step (in seconds).
 
-(((collision detection)))That is easy. The difficult part is to deal
-with the interactions between the elements. When the player hits a
-wall or floor, they should not simply move through it. The game must
-notice when a given motion causes an object to hit another object, and
-respond accordingly—for walls, the motion must be stopped, for coins,
-the coin collected, and so on.
+(((obstacle)))(((collision detection)))That is easy. The difficult
+part is to deal with the interactions between the elements. When the
+player hits a wall or floor, they should not simply move through it.
+The game must notice when a given motion causes an object to hit
+another object, and respond accordingly—for walls, the motion must be
+stopped, for coins, the coin collected, and so on.
 
 Solving this for the general case is a big task. You can find
 libraries, usually called _((physics engine))s_, that simulate
@@ -735,9 +736,9 @@ be to find the exact collision spot, and move there. We will take the
 simple approach, and hide its problems by ensuring the animation
 proceeds in small steps.
 
-(((obstacleAt method)))(((collision detection)))This method tells us
-whether a ((rectangle)) (specified by a position and a size) overlaps with
-any non-empty space on the background grid:
+(((obstacle)))(((obstacleAt method)))(((collision detection)))This
+method tells us whether a ((rectangle)) (specified by a position and a
+size) overlaps with any non-empty space on the background grid:
 
 // include_code
 
@@ -1201,7 +1202,7 @@ with tasks that can take an arbitrary amount of ((time)), such as
 ((network)) requests in link:17_http.html#http[Chapter 17], and in-
 and output in general in link:20_node.html#node[Chapter 20].
 
-(((game,with DOM)))(((GAME_LEVELS data set)))There is a set of
+(((game)))(((GAME_LEVELS data set)))There is a set of
 ((level)) plans available in the `GAME_LEVELS` variable (!tex (downloadable from
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 This page feeds them to `runGame`, starting an actual game:

@@ -10,7 +10,7 @@ ifdef::html_target[]
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
-(((Yuan-Ma)))(((Book of Programming, The)))Tzu-li and Tzu-ssu were
+Tzu-li and Tzu-ssu were
 boasting about the size of their latest programs. ‘Two-hundred
 thousand lines,’ said Tzu-li, ‘not counting comments!’ Tzu-ssu
 responded, ‘Pssh, mine is almost a *million* lines already.’ Master
@@ -132,7 +132,7 @@ for (var i = 0; i < array.length; i++) {
 }
 ----
 
-(((length propery,for
+(((length property,for
 array)))(((array,indexing)))(((readability)))It's trying to say: “For
 each element in the array, log it to the console”. But it uses a
 roundabout way that involves a counter variable `i`, a check against
@@ -189,17 +189,17 @@ console.log(sum);
 // → 15
 ----
 
-(((loop body)))(((braces)))This looks quite a lot like the classical
-`for` loop, with its body written as a block below it. Except that now
-the body is inside of the function value, as well as inside of the
-((parentheses)) of the call to `forEach`. This is why it has to be
-closed with the closing brace _and_ closing parenthesis.
+(((loop body)))(((curly braces)))This looks quite a lot like the
+classical `for` loop, with its body written as a block below it.
+Except that now the body is inside of the function value, as well as
+inside of the ((parentheses)) of the call to `forEach`. This is why it
+has to be closed with the closing brace _and_ closing parenthesis.
 
-(((local variable)))(((parameters)))Using this pattern, we can
+(((local variable)))(((parameter)))Using this pattern, we can
 specify a variable name for the current element (`number`), rather
 than having to pick it out of the array manually.
 
-(((array,methods)))(((function,higher order)))(((forEach
+(((array,methods)))(((function,higher-order)))(((forEach
 method)))(((array)))In fact, we don't need to write `forEach`
 ourselves. It is available as a standard method on arrays. Since the
 array is already provided as the thing the method acts on, `forEach`
@@ -618,7 +618,7 @@ longer, but still quite easy to understand.
 
 [[average_function]]
 (((average
-function)))(((composition)))(((function,higher-order)))Higher-order
+function)))(((composability)))(((function,higher-order)))Higher-order
 functions start to shine when you need to _compose_ functions. As an
 example, let us write code that finds the average age for men and for
 women in the data set.
@@ -661,7 +661,7 @@ and pretty rainbows, there lives a spoil-sport monster called
 “__inefficiency__”.
 
 (((elegance)))(((array,creation)))(((pure
-function)))(((composition)))A program that processes an array is most
+function)))(((composability)))A program that processes an array is most
 elegantly expressed as a sequence of cleanly separated steps that each
 do something with the array and produce a new array. But building up
 all those intermediate arrays is somewhat expensive.
@@ -1041,19 +1041,19 @@ be used to print the average ages for the individual centuries.
 
 !!solution!!
 
-(((map)))(((object,as map)))(((groupBy function)))For bonus
-points, write a function `groupBy` that abstracts the grouping
+(((grouping)))(((map)))(((object,as map)))(((groupBy function)))For
+bonus points, write a function `groupBy` that abstracts the grouping
 operation. It should accept as arguments an array and a function that
 computes the group for an element in the array, and returns the object
 containing the groups.
 
 === Every and then some ===
 
-(((every and some (exercise))))(((every method)))(((some
-method)))(((array,methods)))(((&& operator)))(((||
+(((predicate function)))(((every and some (exercise))))(((every
+method)))(((some method)))(((array,methods)))(((&& operator)))(((||
 operator)))Arrays also come with the standard methods `every` and
-`some`. Both take a ((predicate)) function that, when called with an
-array element as argument, returns true or false. Just like `&&` only
+`some`. Both take a predicate function that, when called with an array
+element as argument, returns true or false. Just like `&&` only
 returns a true value when the expressions on both sides are true,
 `every` only returns true when the predicate returned true for _all_
 elements of the array. Similarly, `some` returns true as soon as the

@@ -7,12 +7,12 @@
 [chapterquote="true"]
 [quote, Donald Knuth]
 ____
-(((Knuth+++,+++ Donald)))People think that computer science is the art of
+People think that computer science is the art of
 geniuses but the actual reality is the opposite, just many people
 doing things that build on each other, like a wall of mini stones.
 ____
 
-(((function)))(((code,structure of)))You've seen function values, such
+(((Knuth+++,+++ Donald)))(((function)))(((code structure)))You've seen function values, such
 as `alert`, and how to call them. Functions are the bread and butter
 of JavaScript programming. The concept of wrapping a piece of program
 in a value has many uses. It is a tool to structure larger programs,
@@ -49,16 +49,18 @@ console.log(square(12));
 // → 144
 ----
 
-(((block)))(((syntax)))(((function
+indexsee:[braces,curly braces]
+
+(((curly braces)))(((block)))(((syntax)))(((function
 keyword)))(((function,body)))(((function,as value)))A function is
 created by an expression that starts with the keyword `function`.
 Functions have a set of _((parameter))s_ (in this case, only `x`) and
 a _body_, which contains the statements that are to be executed when
 the function is called. The function body must always be wrapped in
-((braces)), even when it consists of only a single ((statement)) (as
+braces, even when it consists of only a single ((statement)) (as
 in the previous example).
 
-(((power function)))A function can have multiple parameters or no
+(((power example)))A function can have multiple parameters or no
 parameters at all. In the following example, `makeNoise` does not list
 any parameter names, whereas `power` lists two:
 
@@ -413,7 +415,7 @@ accidentally pass the wrong number of arguments to functions and no
 one will tell you about it.
 
 [[power]]
-(((power example)))(((optional argument)))(((optional arguments)))The
+(((power example)))(((optional argument)))The
 upside is that this behavior can be used to have a function take
 “optional” arguments. For example, the following version of `power`
 can be called either with two arguments or with a single argument, in
@@ -553,7 +555,7 @@ console.log(power(2, 3));
 // → 8
 ----
 
-(((loop)))(((readability)))(((mathematical definition)))This is rather
+(((loop)))(((readability)))(((mathematics)))This is rather
 close to the way mathematicians define exponentiation and arguably
 describes the concept in a more elegant way than the looping variant
 does. The function calls itself multiple times with different
@@ -647,7 +649,7 @@ The inner function `find` does the actual recursing. It takes two
 reached this number—and returns either a string that shows how to get
 to the target or `null`.
 
-(((null)))(((|| operator)))(((shortcut evaluation)))To do this, the
+(((null)))(((|| operator)))(((short-circuit evaluation)))To do this, the
 function performs one of three actions. If the current number is the
 target number, the current history is a way to reach that target, so
 it is simply returned. If the current number is greater than the
@@ -805,7 +807,7 @@ figure out what it does. And it is useful in more situations than just
 this specific program. For example, you could use it to help print
 nicely aligned tables of numbers.
 
-(((interface design)))How smart and versatile should our function be?
+(((interface,design)))How smart and versatile should our function be?
 We could write anything from a terribly simple function that simply
 pads a number so that it's three characters wide to a complicated
 generalized number-formatting system that handles fractional numbers,
@@ -827,7 +829,7 @@ and those that are called for their return value. (Though it is
 definitely also possible to have both side effects and return a
 value.)
 
-(((reusability)))The first helper function in the ((farm example)),
+(((reuse)))The first helper function in the ((farm example)),
 `printZeroPaddedWithLabel`, is called for its side effect: it prints a
 line. The second version, `zeroPad`, is called for its return value.
 It is no coincidence that the second is useful in more situations than

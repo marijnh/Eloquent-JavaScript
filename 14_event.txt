@@ -7,14 +7,15 @@
 [chapterquote="true"]
 [quote,Marcus Aurelius,Meditations]
 ____
-(((stoicism)))(((Marcus Aurelius)))You have power over your mind—not
+You have power over your mind—not
 outside events. Realize this, and you will find strength.
 ____
 
-(((input)))(((timeline)))(((control flow)))Some of the things that a
-program works with, such as user input, happen at unpredictable times,
-in an unpredictable order. This requires a different approach to
-control than the one we have used so far.
+(((stoicism)))(((Marcus Aurelius)))(((input)))(((timeline)))(((control
+flow)))Some of the things that a program works with, such as user
+input, happen at unpredictable times, in an unpredictable order. This
+requires a different approach to control than the one we have used so
+far.
 
 == Event handlers ==
 
@@ -60,12 +61,13 @@ described by its first argument occurs.
 
 == Events and DOM nodes ==
 
-(((addEventHandler method)))(((event handling)))Each ((browser)) event
-handler is registered in a context. When you call `addEventListener`
-as above, you are calling it as a method on the whole ((window)),
-because in the browser the ((global scope)) is equivalent to the
-`window` object. Every ((DOM)) element has an own `addEventListener`
-method, which allows you to listen specifically on that element.
+(((addEventListener method)))(((event handling)))Each ((browser))
+event handler is registered in a context. When you call
+`addEventListener` as above, you are calling it as a method on the
+whole ((window)), because in the browser the ((global scope)) is
+equivalent to the `window` object. Every ((DOM)) element has an own
+`addEventListener` method, which allows you to listen specifically on
+that element.
 
 [source,text/html]
 ----
@@ -584,13 +586,13 @@ the document, and updates it to fill up as you scroll down.
 </script>
 ----
 
-(((scrolling)))(((position (CSS))))(((fixed positioning)))(((absolute
+(((unit (CSS))))(((scrolling)))(((position (CSS))))(((fixed positioning)))(((absolute
 positioning)))(((percent)))Giving an element a `position` of `fixed`
 acts much like an `absolute` position, but also prevents it from
 scrolling along with the rest of the document. This is used to make
 our progress bar stay in its corner. Inside of it is another element,
 which is resized to indicate the current progress. We use `%`, rather
-than `px` as a ((unit)) when setting the width, so that the element is
+than `px` as a unit when setting the width, so that the element is
 sized relative to the whole bar.
 
 (((innerHeight property)))(((innerWidth property)))(((pageYOffset
@@ -1091,7 +1093,7 @@ up in this object, because it is live. For another, the text nodes
 created for the ((whitespace)) between the nodes are also in there,
 and should not get their own tabs.
 
-(((TEXT_NODE type)))(((nodeType property)))To work around this, start
+(((TEXT_NODE code)))(((nodeType property)))To work around this, start
 by building up a real array of all the `nodeType` 1 children in the
 wrapper.
 

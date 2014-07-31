@@ -8,16 +8,16 @@
 [chapterquote="true"]
 [quote, Joe Armstrong, interviewed in Coders at Work]
 ____
-(((Armstrong+++,+++ Joe)))The problem with object-oriented languages
+The problem with object-oriented languages
 is they’ve got all this implicit environment that they carry around
 with them. You wanted a banana but what you got was a gorilla holding
 the banana and the entire jungle.
 ____
 
-(((object)))(((holy war)))When a programmer says “object”, this
-is a loaded term. In my profession, objects are a way of life, the
-subject of holy wars, and a beloved buzzword that still hasn't quite
-lost its power.
+(((Armstrong+++,+++ Joe)))(((object)))(((holy war)))When a programmer
+says “object”, this is a loaded term. In my profession, objects are a
+way of life, the subject of holy wars, and a beloved buzzword that
+still hasn't quite lost its power.
 
 To an outsider, this is probably a little confusing. Let's start with
 a brief ((history)) of objects as a programming construct.
@@ -180,12 +180,11 @@ sits `Object.prototype`. It provides a few ((method))s that show up in
 all objects, such as `toString`, which converts an object to a string
 representation.
 
-(((inheritance)))(((Function
-prototype)))(((array,prototype)))(((Object prototype)))Many objects
-don't directly have `Object.prototype` as their ((prototype)), but
-instead have another object, which provides its own default
-properties. Functions derive from `Function.prototype`, arrays from
-`Array.prototype`.
+(((inheritance)))(((Function prototype)))(((Array
+prototype)))(((Object prototype)))Many objects don't directly have
+`Object.prototype` as their ((prototype)), but instead have another
+object, which provides its own default properties. Functions derive
+from `Function.prototype`, arrays from `Array.prototype`.
 
 [source,javascript]
 ----
@@ -930,7 +929,7 @@ RTextCell.prototype.draw = function(width, height) {
 };
 ----
 
-(((shared properties)))(((overriding)))(((interface)))We reuse the
+(((shared property)))(((overriding)))(((interface)))We reuse the
 constructor and the `minHeight` and `minWidth` methods from the
 regular `TextCell`. An `RTextCell` is now basically equivalent to a
 `TextCell`, except that its `draw` method contains a different
@@ -992,7 +991,7 @@ code from each other, reducing the tangledness of the overall program,
 ((inheritance)) fundamentally ties types together, creating _more_
 tangle.
 
-(((code,structure of)))(((programming style)))You can have
+(((code structure)))(((programming style)))You can have
 polymorphism without inheritance, as we saw. I am not going to tell
 you to avoid inheritance entirely—I use it regularly in my own
 programs. But see it as a slightly dodgy trick that can help you

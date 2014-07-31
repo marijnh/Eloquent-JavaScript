@@ -7,7 +7,7 @@
 [chapterquote="true"]
 [quote,Jamie Zawinski]
 ____
-(((Zawinski+++,+++ Jamie)))Some people, when confronted with a
+Some people, when confronted with a
 problem, think ‘I know, I'll use regular expressions.’ Now they have
 two problems.
 ____
@@ -24,11 +24,12 @@ ____
 
 endif::html_target[]
 
-(((evolution)))(((adoption)))(((integration)))Programming ((tool))s
-and techniques survive and spread in a chaotic, evolutionary way. It's
-not always the pretty or brilliant ones that win, but rather the ones
-that function well enough within the right niche—for example by being
-integrated with another successful piece of technology.
+(((Zawinski+++,+++
+Jamie)))(((evolution)))(((adoption)))(((integration)))Programming
+((tool))s and techniques survive and spread in a chaotic, evolutionary
+way. It's not always the pretty or brilliant ones that win, but rather
+the ones that function well enough within the right niche—for example
+by being integrated with another successful piece of technology.
 
 (((domain-specific language)))In this chapter I will discuss one such
 tool, _((regular expression))s_. Regular expressions are a way to
@@ -129,7 +130,7 @@ console.log(/[0-9]/.test("in 1992"));
 // → true
 ----
 
-(((dash character))))))Within square brackets, a dash (`-`) between two
+(((dash character)))Within square brackets, a dash (`-`) between two
 characters can be used to indicate a ((range)) of characters, where
 the ordering is determined by the character's ((Unicode)) number.
 Characters “0” to “9” sit right next to each other in this ordering
@@ -385,7 +386,7 @@ The last four arguments (hours, minutes, seconds, and milliseconds)
 are optional, and taken to be zero when not given.
 
 (((getTime method)))Timestamps are stored as the number of
-milliseconds since the start of ((1970)), using negative numbers for
+milliseconds since the start of 1970, using negative numbers for
 times before 1970 (following a convention set by “((Unix time))”,
 which was invented that year). The `getTime` method on a date object
 returns this number. It is big, as you can imagine.
@@ -398,8 +399,11 @@ console.log(new Date(1387407600000));
 // → Thu Dec 19 2013 00:00:00 GMT+0100 (CET)
 ----
 
-(((Date constructor)))If you give the `Date` constructor a single
-argument, that argument is treated as such millisecond count.
+(((Date.now function)))(((Date constructor)))If you give the `Date`
+constructor a single argument, that argument is treated as such
+millisecond count. You can get the current millisecond count by
+creating a new `Date` object and calling `getTime` on it, but also by
+calling the `Date.now` function.
 
 (((getFullYear method)))(((getMonth method)))(((getDate
 method)))(((getHours method)))(((getMinutes method)))(((getSeconds
@@ -428,7 +432,7 @@ console.log(findDate("30-1-2003"));
 
 == Word and string boundaries ==
 
-(((matching)))(((regular expression,boundaries)))Unfortunately,
+(((matching)))(((regular expression,boundary)))Unfortunately,
 `findDate` will also happily extract the nonsensical date “00-1-3000”
 from the string `"100-1-30000"`. A match may happen anywhere in the
 string, so in this case it'll just start at the second character and
@@ -560,13 +564,13 @@ for example, it only becomes clear at the “3” that we are in the wrong
 branch. The string _does_ match the expression, just not the branch we
 are currently in.
 
-(((searching)))So the matcher _((backtracks))_. When entering a
-branch, it remembers where its current position (in this case, at the
-start of the string, just past the first boundary box in the diagram),
-so that it can go back and try another branch if the current one does
-not work out. For the string `"103"`, after encountering the “3”
-character, it will start trying the branch for decimal numbers. This
-one matches, so a match is reported after all.
+(((backtracking)))(((searching)))So the matcher _backtracks_. When
+entering a branch, it remembers where its current position (in this
+case, at the start of the string, just past the first boundary box in
+the diagram), so that it can go back and try another branch if the
+current one does not work out. For the string `"103"`, after
+encountering the “3” character, it will start trying the branch for
+decimal numbers. This one matches, so a match is reported after all.
 
 (((matching,algorithm)))The matcher stops as soon as it finds a full
 match. This means that if multiple branches could potentially match a
@@ -1019,7 +1023,7 @@ function parseINI(string) {
 }
 ----
 
-(((parseINI function)))(((parser)))This code goes over every line in
+(((parseINI function)))(((parsing)))This code goes over every line in
 the file, updating the “current section” object as it goes along.
 First it checks whether the line can be ignored, using the expression
 `/^\s*(;.*)?$/`. Do you see how it works? The part between the
@@ -1150,10 +1154,10 @@ program in as few characters as possible. Similarly, “regexp golf” is
 the practice of writing as tiny a regular expression as possible to
 match a given pattern, and _only_ that pattern.
 
-(((matching)))For each of the following items, write a ((regular
+(((boundary)))(((matching)))For each of the following items, write a ((regular
 expression)) to test whether any of the given sub-strings occur in a
 string. The regular expression should match only strings containing
-one the sub-strings described. Do not worry about word ((boundaries))
+one the sub-strings described. Do not worry about word boundaries
 unless explicitly mentioned. When your expression works, see if you
 can make it any smaller.
 
@@ -1222,7 +1226,7 @@ endif::html_target[]
 
 (((quoting style (exercise))))(((single-quote
 character)))(((double-quote character)))Imagine you have written a
-story, and used single ((quotation marks)) throughout to mark pieces
+story, and used single ((quotation mark))s throughout to mark pieces
 of dialogue. Now you want to replace all the dialogue quotes with
 double quotes, while keeping the single quotes used in contractions
 like “aren't”.

@@ -8,13 +8,13 @@
 [chapterquote="true"]
 [quote, Charles Babbage, Passages from the Life of a Philosopher (1864)]
 ____
-(((Babbage+++,+++ Charles)))On two occasions I have been asked, ‘Pray,
+On two occasions I have been asked, ‘Pray,
 Mr. Babbage, if you put into the machine wrong figures, will the right
 answers come out?’ [...] I am not able rightly to apprehend the kind
 of confusion of ideas that could provoke such a question.
 ____
 
-(((object)))(((data structure)))Numbers, Booleans, and strings are the
+(((Babbage+++,+++ Charles)))(((object)))(((data structure)))Numbers, Booleans, and strings are the
 bricks that ((data)) structures are built from. But you can't make
 much of a house out of a single brick. _Objects_ allow us to group
 values—including other objects—together and thus build more complex
@@ -33,7 +33,7 @@ introduced earlier in the text.
 
 ifdef::tex_target[]
 
-(((sandbox)))(((code sandbox)))The online coding sandbox for the book
+(((sandbox)))The online coding sandbox for the book
 (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
 provides a way to run code in the context of a specific chapter. If
 you decide to work through the examples in another environment, be
@@ -44,7 +44,7 @@ endif::tex_target[]
 
 == The weresquirrel ==
 
-(((weresquirrel project)))(((lycanthropy)))Every now and then, usually
+(((weresquirrel example)))(((lycanthropy)))Every now and then, usually
 between eight and ten in the evening, ((Jacques)) finds himself
 transforming into a small furry rodent with a bushy tail.
 
@@ -145,7 +145,7 @@ null.length;
 indexsee:[dot character,period character]
 
 ((([] (subscript))))(((period character)))(((square
-brackets)))(((computed properties)))The two most common ways to access
+brackets)))(((computed property)))The two most common ways to access
 properties in JavaScript are with a dot and with square brackets. Both
 `value.x` and `value[x]` access a ((property)) on ++value++—but not
 necessarily the same property. The difference is in how `x` is
@@ -166,7 +166,7 @@ know the precise name of the property in advance, because neither "0"
 nor "John Doe" is a valid variable name and so cannot be accessed
 through dot notation.
 
-(((array)))(((lenth property,for arrays)))(((array,length
+(((array)))(((length property,for arrays)))(((array,length
 of)))The elements in an array are stored in properties. Because the
 names of these properties are numbers and we often need to get their
 name from a variable, we have to use the bracket syntax to access
@@ -235,7 +235,7 @@ determines the text that is glued between the array's elements.
 
 == Objects ==
 
-(((journal)))(((weresquirrel project)))(((array)))(((record)))Back to the weresquirrel. A set of daily log
+(((journal)))(((weresquirrel example)))(((array)))(((record)))Back to the weresquirrel. A set of daily log
 entries can be represented as an array. But the entries do not consist
 of just a number or a string—each entry needs to store a list of
 activities and a Boolean value that indicates whether Jacques turned
@@ -342,7 +342,7 @@ numbers.
 
 image::img/octopus-array.jpg[alt="Artist's representation of an array"]
 
-(((journal)))(((weresquirrel project)))So we can represent Jacques’
+(((journal)))(((weresquirrel example)))So we can represent Jacques’
 journal as an array of objects.
 
 [source,javascript]
@@ -422,7 +422,7 @@ chapter).
 
 == The lycanthrope's log ==
 
-(((weresquirrel project)))(((lycanthropy)))(((addEntry function)))So
+(((weresquirrel example)))(((lycanthropy)))(((addEntry function)))So
 Jacques starts up his JavaScript interpreter and sets up the
 environment he needs to keep his ((journal)).
 
@@ -457,14 +457,14 @@ Once he has enough data points, he intends to compute the
 ((correlation)) between his squirrelification and each of the day's
 events and ideally learn something useful from those correlations.
 
-_Correlation_ is a measure of ((dependence)) between ((variable))s
-(“variables” in the statistical sense, not the JavaScript sense). It
-is usually expressed as a coefficient that ranges from -1 to 1. Zero
-correlation means the variables are not related, whereas a correlation
-of one indicates that the two are perfectly related—if you know one,
-you also know the other. Negative one also means that the variables
-are perfectly related but that they are opposites—when one is true,
-the other is false.
+(((correlation)))_Correlation_ is a measure of ((dependence)) between
+((variable))s (“variables” in the statistical sense, not the
+JavaScript sense). It is usually expressed as a coefficient that
+ranges from -1 to 1. Zero correlation means the variables are not
+related, whereas a correlation of one indicates that the two are
+perfectly related—if you know one, you also know the other. Negative
+one also means that the variables are perfectly related but that they
+are opposites—when one is true, the other is false.
 
 (((phi coefficient)))For binary (Boolean) variables, the _phi_
 coefficient (_ϕ_) provides a good measure of correlation and is
@@ -616,7 +616,7 @@ should we store these correlations once we compute them?
 
 == Objects as maps ==
 
-(((weresquirrel project)))(((array)))One possible way is to store
+(((weresquirrel example)))(((array)))One possible way is to store
 all the ((correlation))s in an array, using objects with `name` and
 `value` properties. But that makes looking up the correlation for a
 given event somewhat cumbersome: you'd have to loop over the whole
@@ -673,7 +673,7 @@ for (var event in map)
 [[analysis]]
 == The final analysis ==
 
-(((journal)))(((weresquirrel project)))(((gatherCorrelations
+(((journal)))(((weresquirrel example)))(((gatherCorrelations
 function)))To find all the types of events that are present in the
 data set, we simply process each entry in turn and then loop over the
 events in that entry. We keep an object `phis` that has correlation
@@ -774,7 +774,7 @@ his affliction.
 Knowing this, Jacques simply stops eating peanuts altogether and finds
 that this completely puts an end to his transformations.
 
-(((weresquirrel project)))All is well with Jacques for a while. But a
+(((weresquirrel example)))All is well with Jacques for a while. But a
 few years later, he loses his ((job)) and is eventually forced to take
 employment with a ((circus)), where he performs as _The Incredible
 Squirrelman_ by stuffing his mouth with peanut butter before every
@@ -942,7 +942,7 @@ console.log(string[1]);
 == The arguments object ==
 
 (((arguments object)))(((length
-property)))(((parameters)))(((optional argument)))(((array-like
+property)))(((parameter)))(((optional argument)))(((array-like
 object)))Whenever a function is called, a special variable named
 `arguments` is added to the environment in which the function body
 runs. This variable refers to an object that holds all of the
@@ -1042,7 +1042,7 @@ neither, so be careful.
 (((Math.cos function)))(((Math.sin function)))(((Math.tan
 function)))(((Math.acos function)))(((Math.asin
 function)))(((Math.atan function)))(((Math.PI
-constant)))(((cosine)))(((sine)))(((tangent)))(((PI constant)))Back to
+constant)))(((cosine)))(((sine)))(((tangent)))(((PI constant)))(((pi)))Back to
 the `Math` object. If you need to do ((trigonometry)), `Math` can
 help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent),
 as well as their inverse functions, `acos`, `asin`, and `atan`. The
@@ -1165,7 +1165,7 @@ a given name. The same keyword can also be used in a `for` loop
 
 === The sum of a range ===
 
-(((summing,exercise)))The introduction of this book alluded to the
+(((summing (exercise))))The introduction of this book alluded to the
 following as a nice way to compute the sum of a range of numbers:
 
 // test: no
@@ -1208,7 +1208,7 @@ endif::html_target[]
 
 !!solution!!
 
-(((summing,exercise)))(((array,creation)))(((square
+(((summing (exercise))))(((array,creation)))(((square
 brackets)))Building up an array is most easily done by first
 initializing a variable to `[]` (a fresh, empty array) and repeatedly
 calling its `push` method to add a value. Don't forget to return the
@@ -1298,12 +1298,12 @@ place where the mirror image used to be.
 
 === A list ===
 
-(((data structure)))(((list (exercise))))(((list (data
-structure))))(((linked list)))(((object)))(((array)))(((collection)))Objects, as generic blobs of values, can be
-used to build all sorts of data structures. A common data structure is
-the _list_ (not to be confused with the array). A list is a nested set
-of objects, with the first object holding a reference to the second,
-the second to the third, and so on.
+(((data structure)))(((list (exercise))))(((linked
+list)))(((object)))(((array)))(((collection)))Objects, as generic
+blobs of values, can be used to build all sorts of data structures. A
+common data structure is the _list_ (not to be confused with the
+array). A list is a nested set of objects, with the first object
+holding a reference to the second, the second to the third, and so on.
 
 // include_code
 

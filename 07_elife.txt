@@ -8,15 +8,15 @@
 [chapterquote="true"]
 [quote, Edsger Dijkstra, The Threats to Computing Science]
 ____
-(((artificial intelligence)))(((Dijkstra+++,+++ Edsger)))[...] the
-question of whether Machines Can Think [...] is about as relevant as
-the question of whether Submarines Can Swim.
+[...] the question of whether Machines Can Think [...] is about as
+relevant as the question of whether Submarines Can Swim.
 ____
 
-(((project chapter)))(((reading code)))(((writing code)))In “project”
-chapters, I'll stop pummeling you with new theory for a brief moment,
-and instead work through a program with you. Theory is indispensable
-when learning to program, but it should be accompanied by reading and
+(((artificial intelligence)))(((Dijkstra+++,+++ Edsger)))(((project
+chapter)))(((reading code)))(((writing code)))In “project” chapters,
+I'll stop pummeling you with new theory for a brief moment, and
+instead work through a program with you. Theory is indispensable when
+learning to program, but it should be accompanied by reading and
 understanding non-trivial programs.
 
 (((artificial life)))(((electronic life)))(((ecosystem)))Our
@@ -219,9 +219,9 @@ directions with that character. For example, a creature sitting left
 (west) of a wall will get `["ne", "e", "se"]` when calling `findAll`
 on its view object with the `"#"` character as argument.
 
-(((behavior)))(((BouncingCritter type)))Here is a simple, stupid
-critter that just follows its nose until it hits an obstacle, then
-bounces off in a random open direction:
+(((bouncing)))(((behavior)))(((BouncingCritter type)))Here is a
+simple, stupid critter that just follows its nose until it hits an
+obstacle, then bounces off in a random open direction:
 
 // include_code
 
@@ -1226,7 +1226,7 @@ slowly is recommended. That'll make them less vulnerable to periods of
 starvation when the herbivores are scarce.
 
 Beyond staying alive, keeping its ((food)) stock alive is a
-((predator))'s main objective. Find some way to make predators hunt
+predator's main objective. Find some way to make predators hunt
 more aggressively when there are a lot of ((herbivore))s, and more
 slowly (or not at all) when prey is rare. Since plant eaters move
 around, the simple trick of only eating one when others are nearby is

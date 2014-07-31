@@ -98,7 +98,7 @@ cause the function to return `undefined`.
 initial values are given by the _caller_ of the function, not the code
 in the function itself.
 
-(((function,scope)))(((variable,scope)))(((variable,local)))An
+(((function,scope)))(((scope)))(((variable,local)))An
 important property of functions is that the variables created inside
 of them, including their parameters, are _local_ to the function. This
 means, for example, that the `result` variable in the `power` example
@@ -141,22 +141,22 @@ console.log(x);
 // → inside f2
 ----
 
-(((variable,naming)))(((variable,scope)))(((global
-scope)))(((code,structure of)))This behavior helps prevent accidental
-interference between functions. If all variables were shared by the
-whole program, it'd take a lot of effort to make sure no name is ever
-used for two different purposes. And if you _did_ reuse a variable
-name, you might see strange effects from unrelated code messing with
-the value of your variable. By treating function-local variables as
-existing only within the function, the language makes it possible to
-read and understand functions as small universes, without having to
-worry about all the code at once.
+(((variable,naming)))(((scope)))(((global scope)))(((code,structure
+of)))This behavior helps prevent accidental interference between
+functions. If all variables were shared by the whole program, it'd
+take a lot of effort to make sure no name is ever used for two
+different purposes. And if you _did_ reuse a variable name, you might
+see strange effects from unrelated code messing with the value of your
+variable. By treating function-local variables as existing only within
+the function, the language makes it possible to read and understand
+functions as small universes, without having to worry about all the
+code at once.
 
 [[scoping]]
 == Nested scope ==
 
 (((nesting,of functions)))(((nesting,of
-scope)))(((variable,scope)))(((inner function)))(((lexical
+scope)))(((scope)))(((inner function)))(((lexical
 scoping)))JavaScript distinguishes not just between _global_ and
 _local_ variables. Functions can be created inside other functions,
 producing several degrees of locality.
@@ -191,12 +191,12 @@ console.log(landscape());
 // → ___/''''\______/'\_
 ----
 
-(((function,scope)))(((variable,scope)))The `flat` and `mountain`
-functions can “see” the variable called `result`, since they are
-inside the function that defines it. But they cannot see each other's
-`count` variables since they are outside each other's scope. The
-environment outside of the `landscape` function doesn't see any of the
-variables defined inside `landscape`.
+(((function,scope)))(((scope)))The `flat` and `mountain` functions
+can “see” the variable called `result`, since they are inside the
+function that defines it. But they cannot see each other's `count`
+variables since they are outside each other's scope. The environment
+outside of the `landscape` function doesn't see any of the variables
+defined inside `landscape`.
 
 In short, each local scope can also see all the local scopes that
 contain it. The set of variables visible inside a function is
@@ -455,11 +455,11 @@ console.log("R", 2, "D", 2);
 == Closure ==
 
 (((call stack)))(((variable,local)))(((function,as
-value)))(((closure)))(((variable,scope)))The ability to treat
-functions as values, combined with the fact that local variables are
-“re-created” every time a function is called, brings up an interesting
-question. What happens to local variables when the function call that
-created them is no longer active?
+value)))(((closure)))(((scope)))The ability to treat functions as
+values, combined with the fact that local variables are “re-created”
+every time a function is called, brings up an interesting question.
+What happens to local variables when the function call that created
+them is no longer active?
 
 The following code shows an example of this. It defines a function,
 `wrapValue` that creates a local variable. It then returns a function

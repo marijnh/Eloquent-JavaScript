@@ -1119,8 +1119,8 @@ number) and `Math.round` (to the nearest whole number).
 == The global object ==
 
 (((global object)))(((window variable)))(((global
-scope)))(((variable,scope)))(((object)))The global scope, the space in
-which global variables live, can also be approached as an object in
+scope)))(((scope)))(((object)))The global scope, the space in which
+global variables live, can also be approached as an object in
 JavaScript. Each global variable is present as a ((property)) of this
 object. In ((browser))s, the global scope object is stored in the
 `window` variable.

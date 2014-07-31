@@ -374,7 +374,7 @@ console.log(world.toString());
 == this and its scope ==
 
 (((forEach
-method)))(((function,scope)))(((this)))(((variable,scope)))(((self
+method)))(((function,scope)))(((this)))(((scope)))(((self
 variable)))(((global object)))The `World` ((constructor)) contains a
 call to `forEach`. One interesting thing to note is that inside the
 function passed to `forEach`, we are no longer directly in the

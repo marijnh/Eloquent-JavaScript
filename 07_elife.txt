@@ -539,7 +539,7 @@ direction, _and_ the square in that direction is empty (null), we set
 the square where the critter used to be to hold null, and store the
 critter in the destination square.
 
-(((defensive programming)))(((sloppy
+(((error tolerance)))(((defensive programming)))(((sloppy
 programming)))(((validation)))Note that `letAct` takes care to ignore
 nonsense ((input))—it doesn't assume that the action's `direction`
 property is valid, or that the `type` property makes sense. This kind

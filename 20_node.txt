@@ -444,8 +444,8 @@ produce annoying delays.
 `"http"`. It provides functionality for running ((HTTP)) ((server))s
 and making HTTP ((request))s.
 
-(((listen method)))(((createServer function)))This is all it takes to
-start a simple HTTP server:
+(((listening (TCP))))(((listen method)))(((createServer
+function)))This is all it takes to start a simple HTTP server:
 
 [source,javascript]
 ----

@@ -360,7 +360,7 @@ top
 (((return keyword)))(((memory)))Because a function has to jump back to
 the place of the call when it returns, the computer must remember the
 context from which the function was called. In one case, `console.log`
-had to jump back to the `greet` function. In the other case, it jumps
+has to jump back to the `greet` function. In the other case, it jumps
 back to the end of the program.
 
 The place where the computer stores this context is the _((call

@@ -807,7 +807,7 @@ how many characters to slice off.
 
 === Fixing scope ===
 
-(((variable,definition)))(((assignment)))(((Currently, the only way to
+(((variable,definition)))(((assignment)))Currently, the only way to
 assign a ((variable)) a value is `define`. This construct acts both as
 a way to define new variables and to give existing ones a new value.
 

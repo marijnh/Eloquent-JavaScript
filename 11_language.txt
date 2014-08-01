@@ -253,7 +253,7 @@ console.log(parse("+(a, 10)"));
 //           {type: "value", value: 10}]}
 ----
 
-(((error message))It works! It doesn't give us very helpful
+(((error message)))It works! It doesn't give us very helpful
 information when it fails, and doesn't store the line and column on
 which each expression starts, which might be helpful when reporting
 errors later on, but it's good enough for our purposes.
@@ -807,7 +807,7 @@ how many characters to slice off.
 
 === Fixing scope ===
 
-(((variable,definition)))(((assignment)))(((Currently, the only way to
+(((variable,definition)))(((assignment)))Currently, the only way to
 assign a ((variable)) a value is `define`. This construct acts both as
 a way to define new variables and to give existing ones a new value.
 

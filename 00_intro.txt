@@ -278,7 +278,7 @@ indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web]
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995, as a way to add programs to
 Web pages in the Netscape Navigator browser. The language has since
-been adapted by all other major graphical web browsers. It has made
+been adopted by all other major graphical web browsers. It has made
 the current generation of web applications possible—browser-based
 email clients, maps, and social networks—and is also used in more
 traditional sites to provide various forms of interactivity and
@@ -380,10 +380,10 @@ endif::tex_target[]
 
 (((developer tools)))(((JavaScript console)))Running JavaScript
 programs outside of this book's sandbox is also possible. You can opt
-to install Node.js, and use it run text files that contain programs.
-Or you can use your browser's developer console (typically found
-somewhere under a “tools” or “developer” menu) and play around in
-there. In link:12_browser.html#script_tag[Chapter 12], the way in
+to install ((Node.js)), and use it to run text files that contain
+programs. Or you can use your browser's developer console (typically
+found somewhere under a “tools” or “developer” menu) and play around
+in there. In link:12_browser.html#script_tag[Chapter 12], the way in
 which JavaScript programs are embedded in web pages (HTML files) is
 explained. There are also websites like http://jsbin.com[_jsbin.com_]
 which provide a friendly interface for running JavaScript code in a

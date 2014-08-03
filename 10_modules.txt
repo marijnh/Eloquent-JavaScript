@@ -467,8 +467,8 @@ function require(name) {
     return require.cache[name];
 
   var code = new Function("exports, module", readFile(name));
-  var exports = {}, mod = {exports: exports};
-  code(exports, mod);
+  var exports = {}, module = {exports: exports};
+  code(exports, module);
 
   require.cache[name] = module.exports;
   return module.exports;
@@ -583,15 +583,15 @@ function getModule(name) {
   if (name in defineCache)
     return defineCache[name];
 
-  var mod = {exports: null,
-             loaded: false,
-             onLoad: []};
-  defineCache[name] = mod;
+  var module = {exports: null,
+                loaded: false,
+                onLoad: []};
+  defineCache[name] = module;
   backgroundReadFile(name, function(code) {
-    currentMod = mod;
+    currentMod = module;
     new Function("", code)();
   });
-  return mod;
+  return module;
 }
 ----
 

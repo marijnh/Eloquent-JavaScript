@@ -12,37 +12,35 @@ outside events. Realize this, and you will find strength.
 ____
 
 (((stoicism)))(((Marcus Aurelius)))(((input)))(((timeline)))(((control
-flow)))Some of the things that a program works with, such as user
-input, happen at unpredictable times, in an unpredictable order. This
-requires a different approach to control than the one we have used so
-far.
+flow)))Some programs work with direct user input, such as mouse and
+keyboard interaction. The timing and order of such input can't be
+predicted in advance. This requires a different approach to control
+flow than the one we have used so far.
 
 == Event handlers ==
 
 (((polling)))(((button)))(((real-time)))Imagine an interface where the
-only way to find out whether a button is pressed is to read the
+only way to find out whether a button is being pressed is to read the
 current state of that button. In order to be able to react to button
 presses, you would have to constantly read the button's state, so that
-you'd catch it before it was released again. It would be dangerous to
-perform other computations that took a while, since you might miss a
+you'd catch it before it gets released again. It would be dangerous to
+perform other time-intensive computations, since you might miss a
 button press.
 
-That is how things were done on _very_ primitive machines. A step up
-would be for the hardware or the ((operating system)) to notice the
-button press, and put it in a ((queue)) somewhere. Our program can
-then periodically check whether something has appeared in this queue,
-and react to what it finds there.
+That is how such input was handled on very primitive machines. A step
+up would be for the hardware or operating system to notice the button
+press and put it in a queue. A program can then periodically check the
+queue for new events, and react to what it finds there.
 
 (((responsiveness)))(((user experience)))Of course, it has to remember
-to look at the queue, and to do it often, because any time elapsed
-between the button being pressed and our program getting around to
-seeing if a new event came in will cause the software to feel
-unresponsive. This approach is called _((polling))_. Most programmers
-avoid it whenever possible.
+to look at the queue, and to do it often, because any time between the
+button being pressed and the program noticing the event will cause the
+software to feel unresponsive. This approach is called _((polling))_.
+Most programmers avoid it whenever possible.
 
 (((callback function)))(((event handling)))A better mechanism is for
-the underlying system to immediately give our code a chance to react
-to events as they occur. Browsers do this, by allowing us to register
+the underlying system to give our code a chance to react
+to events as they occur. Browsers do this by allowing us to register
 functions as _handlers_ for specific events.
 
 [source,text/html]
@@ -63,9 +61,9 @@ described by its first argument occurs.
 
 (((addEventListener method)))(((event handling)))Each ((browser))
 event handler is registered in a context. When you call
-`addEventListener` as above, you are calling it as a method on the
+`addEventListener` as seen above, you are calling it as a method on the
 whole ((window)), because in the browser the ((global scope)) is
-equivalent to the `window` object. Every ((DOM)) element has an own
+equivalent to the `window` object. Every ((DOM)) element has its own
 `addEventListener` method, which allows you to listen specifically on
 that element.
 
@@ -85,16 +83,16 @@ that element.
 to the button node. Thus, clicks on the button cause that handler to
 run, whereas clicks on the rest of the document do not.
 
-(((onclick attribute)))(((encapsulation)))An `onclick` attribute put
-directly on a node has a similar effect. But a node only has one
-`onclick` attribute, so you can only register one handler per node
-that way. The `addEventListener` method allows any number of handlers
-to be added, so that you can't accidentally replace an already
-registered handler.
+(((onclick attribute)))(((encapsulation)))Giving a node an `onclick`
+attribute has a similar effect. But a node only has one `onclick`
+attribute, so you can only register one handler per node that way. The
+`addEventListener` method allows you to add any number of handlers, so
+you can't accidentally replace a handler that has already been
+registered.
 
 (((removeEventListener method)))The `removeEventListener` method,
-called with the same type of arguments as `addEventListener` removes a
-handler again.
+called with similar arguments as `addEventListener`, removes a
+handler.
 
 [source,text/html]
 ----
@@ -109,19 +107,17 @@ handler again.
 </script>
 ----
 
-(((function,as value)))In order to be able to unregister it, we had to
-give our handler function a name (`once`), so that we can pass the
-exact same value that we passed to `addEventListener` to
-`removeEventListener`.
+(((function,as value)))To be able to unregister a handler function, we
+have to give it a name (like `once` in the above example), so that we
+can pass it to both `addEventListener` and `removeEventListener`.
 
 == Event objects ==
 
-(((which property)))(((event handling)))(((event object)))Though we
-have ignored it in the examples above, event handler functions are
-passed an argument: the event object. This object gives us additional
-information about the event. For example, if we want to know _which_
-((mouse button)) was pressed, we can look at this object's `which`
-property.
+(((which property)))(((event handling)))Though we have ignored it in
+the examples above, event handler functions are passed an argument:
+the _((event object))_. This object gives us additional information
+about the event. For example, if we want to know _which_ ((mouse
+button)) was pressed, we can look at the event object's `which` property.
 
 [source,text/html]
 ----
@@ -156,8 +152,8 @@ the paragraph will also receive the click event.
 
 (((event handling)))But if both the paragraph and the button have a
 handler, the more specific handler—the one on the button—gets to go
-first. The event _propagates_ outwards, from the node where it
-happened, to that node's parent node, and on to the root of the
+first. The event is said to _propagate_ outwards, from the node where
+it happened, to that node's parent node, and on to the root of the
 document. Finally, after all handlers registered on a specific node
 have had their turn, handlers registered on the whole ((window)) get a
 chance to respond to the event.
@@ -169,12 +165,12 @@ useful when, for example, you have a button inside another clickable
 element, and you don't want clicks on the button to activate the outer
 element's click behavior.
 
-(((mousedown event)))The example below registers mousedown handler on
-both a button and the paragraph around it. When clicked with the right
-mouse button, the handler for the button calls `stopPropagation`,
-which will prevent the handler on the paragraph from running. When the
-button is clicked with another ((mouse button)), both handlers will
-run.
+(((mousedown event)))The example below registers `"mousedown"`
+handlers on both a button and the paragraph around it. When clicked
+with the right mouse button, the handler for the button calls
+`stopPropagation`, which will prevent the handler on the paragraph
+from running. When the button is clicked with another ((mouse
+button)), both handlers will run.
 
 [source,text/html]
 ----
@@ -193,17 +189,17 @@ run.
 </script>
 ----
 
-(((event propagation)))(((target property)))Event objects have a
-`target` property that refers to the node where they originate. You
-can also use this to ensure that you are not accidentally handling
-something that propagated up from a node you do not want to handle. It
-is also possible to use the `target` property to cast a wide net for a
-specific type of event—for example, if you have a node containing a
-long list of buttons and you want to handle clicks on these buttons,
-it may be more convenient to register a single click handler on the
-outer node, and have it use the `target` property to figure out
-whether a button was clicked, than to register individual handlers on
-all of the buttons.
+(((event propagation)))(((target property)))Most event objects have a
+`target` property that refers to the node where they originated. You
+can use this property to ensure that you're not accidentally handling
+something that propagated up from a node you do not want to handle.
+
+It is also possible to use the `target` property to cast a wide net
+for a specific type of event—for example, if you have a node
+containing a long list of buttons it may be more convenient to
+register a single click handler on the outer node, and have it use the
+`target` property to figure out whether a button was clicked, rather
+than register individual handlers on all of the buttons.
 
 [source,text/html]
 ----
@@ -221,21 +217,21 @@ all of the buttons.
 == Default actions ==
 
 (((scrolling)))(((default behavior)))(((event handling)))Many events
-have a default action associated with them by the browser. If you
-click a ((link)), you will be taken to the link's target. If you press
-the down arrow, the browser will scroll the page down. If you
-right-click, you get a context menu. And so on.
+have a default action associated with them. If you click a ((link)),
+you will be taken to the link's target. If you press the down arrow,
+the browser will scroll the page down. If you right-click, you'll get
+a context menu. And so on.
 
 (((preventDefault method)))For most types of events, the JavaScript
 event handlers are called _before_ the default behavior is performed.
-When the handler has taken care of handling the event, and does not
-want the normal behavior to happen in addition, it can call the
-`preventDefault` method on the event object.
+If the handler doesn't want the normal behavior to happen, typically
+because it has already taken care of handling the event, it can call
+the `preventDefault` method on the event object.
 
 (((expectation)))This can be used to implement your own ((keyboard))
 shortcuts or ((context menu)). It can also be used to obnoxiously
 interfere with the behavior that users expect. For example, here is a
-link that can not be followed:
+link that cannot be followed:
 
 [source,text/html]
 ----
@@ -250,19 +246,19 @@ link that can not be followed:
 ----
 
 Try not to do such things unless you have a really good reason to. For
-people using your page, it can be very unpleasant when expected
-behavior is broken.
+people using your page, it can be very unpleasant when the behavior
+they expect is broken.
 
-Depending on the browser, some events can not be intercepted. On
+Depending on the browser, some events can't be intercepted. On
 Chrome, for example, ((keyboard)) shortcuts to close the current tab
-(Control-W or Command-W) can not be handled by JavaScript.
+(Control-W or Command-W) cannot be handled by JavaScript.
 
 == Key events ==
 
 (((keyboard)))(((keydown event)))(((keyup event)))(((event
-handling)))When a key on the keyboard is pressed down, your browser
-fires a `"keydown"` event. When it is released again, a `"keyup"`
-event is fired.
+handling)))When a key on the keyboard is pressed, your browser fires a
+`"keydown"` event. When it is released again, a `"keyup"` event is
+fired.
 
 [source,text/html]
 [focus="yes"]
@@ -283,22 +279,23 @@ event is fired.
 (((repeating key)))Despite its name, `"keydown"` is not only fired
 when the key is physically pushed down. When a key is pressed and
 held, the event is fired again every time the key _repeats_.
-Sometimes, for example when you want to increase the acceleration of
-your ((game)) character when an arrow key is pressed, and decrease it
-again when the key is released, you have to be careful not to increase
-it again every time the key repeats, or you'd end up with
-unintentionally huge values.
+Sometimes, for example if you want to increase the acceleration of a
+((game)) character when an arrow key is pressed, and decrease it again
+when the key is released, you have to be careful not to increase it
+again every time the key repeats, or you'd end up with unintentionally
+huge values.
 
 (((keyCode property)))(((key code)))The example above looked at the
-`keyCode` property of the event object. This is the way we can
-identify which key is being pressed or released. Unfortunately, it
-holds a number, and translating that number to an actual key is not
-always obvious.
+`keyCode` property of the event object. This is how you can identify
+which key is being pressed or released. Unfortunately, it's not
+always obvious how to translate the numeric key code to an actual
+key.
 
 (((event object)))(((charCodeAt method)))For letter and number keys,
 the associated key code will be the ((Unicode)) character code
-associated with the (upper case) letter printed on the key. The
-`charCodeAt` method on ((string))s gives us a way to find this code:
+associated with the (upper case) letter or number printed on the key.
+The `charCodeAt` method on ((string))s gives us a way to find this
+code:
 
 [source,javascript]
 ----
@@ -309,7 +306,7 @@ console.log("1".charCodeAt(0));
 ----
 
 Other keys have less predictable ((key code))s. The best way to find
-the codes you need is usually by ((experiment))—register a key event
+the codes you need is usually by ((experiment))ing—register a key event
 handler that logs the key codes it gets, and press the key you are
 interested in.
 
@@ -320,7 +317,7 @@ like shift, control, alt, and meta (“Command” on Mac) generate key
 events just like normal keys. But when looking for key combinations,
 you can also also find out whether these keys are held down by looking
 at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of
-keyboard (and mouse) events.
+keyboard and mouse events.
 
 [source,text/html]
 [focus="yes"]
@@ -337,15 +334,15 @@ keyboard (and mouse) events.
 (((typing)))(((fromCharCode function)))(((charCode
 property)))(((keydown event)))(((keyup event)))(((keypress event)))The
 `"keydown"` and `"keyup"` events give you information about the
-physical key that is being hit. When you are interested in ((text))
-that is being typed, deriving that text from key codes is awkward.
-Instead, there exists another event, `"keypress"`, for this purpose.
-It is fired right after `"keydown"` (and repeated along with
-`"keydown"` when the key is held), but only for keys that produce
-character input. The `charCode` property in the event object contains
-a code that can be interpreted as a ((Unicode)) character code. The
+physical key that is being pressed. But what if you are interested in
+the actual ((text)) being typed? Getting that text from key codes is
+awkward. Instead, there exists another event, `"keypress"`, which is
+fired right after `"keydown"` (and repeated along with `"keydown"`
+when the key is held), but only for keys that produce character input.
+The `charCode` property in the event object contains a code that can
+be interpreted as a ((Unicode)) character code. The
 `String.fromCharCode` function can be used to turn this code into an
-actual (single-character) ((string)).
+actual single-((character)) ((string)).
 
 [source,text/html]
 [focus="yes"]
@@ -358,22 +355,22 @@ actual (single-character) ((string)).
 </script>
 ----
 
-(((button (HTML tag))))(((tabindex attribute)))The ((DOM)) node where
-key events originate depends on the element that is currently
-((focus))ed. Normal nodes can not be focused (unless you give them a
-`tabindex` attribute), but things like ((link))s, buttons, and form
-fields can. We'll come back to form ((field))s in
-link:18_forms.html#forms[Chapter 18]. When nothing in particular is
-focused, `document.body` acts as the target node of key events.
+(((button (HTML tag))))(((tabindex attribute))) The ((DOM)) node where
+a key event originates depends on the element that has ((focus)) when
+the key is pressed. Normal nodes cannot have focus (unless you give
+them a `tabindex` attribute), but things like ((link))s, buttons, and
+form fields can. We'll come back to form ((field))s in
+link:18_forms.html#forms[Chapter 18]. When nothing in particular has
+focus, `document.body` acts as the target node of key events.
 
 == Mouse clicks ==
 
 (((mousedown event)))(((mouseup event)))(((mouse cursor)))Clicking a
 ((mouse button)) also causes a number of events to be fired. The
 `"mousedown"` and `"mouseup"` events are similar to `"keydown"` and
-`"keyup"`, fired when the button is pressed and released. These will
-happen on the DOM nodes that are immediately below the mouse pointer
-when the event occurs.
+`"keyup"`, and are fired when the button is pressed and released.
+These will happen on the DOM nodes that are immediately below the
+mouse pointer when the event occurs.
 
 (((click event)))After the `"mouseup"` event, a `"click"` event is
 fired on the most specific node that contained both the press and the
@@ -382,9 +379,9 @@ on one paragraph, and then move the pointer to another paragraph and
 release the button, the `"click"` event will happen on the element
 that contains both those paragraphs.
 
-(((dblclick event)))(((double click)))If two clicks quickly follow
-each other, a `"dblclick"` (double click) event is also fired, after
-the second click event.
+(((dblclick event)))(((double click)))If two clicks happen close
+together, a `"dblclick"` (double click) event is also fired, after the
+second click event.
 
 (((pixel)))(((pageX property)))(((pageY property)))(((event
 object)))To get precise information about the place where a mouse
@@ -484,17 +481,19 @@ outside of the bar during resizing, we still want to update its size
 and stop dragging when the mouse is released.
 
 (((mouseover event)))(((mouseout event)))Whenever the mouse pointer
-enters or leaves a node, the `"mouseover"` or `"mouseout"` event is
-fired on this node. This can be used, among other things, to create
+enters or leaves a node, a `"mouseover"` or `"mouseout"` event is
+fired. These two events can be used, among other things, to create
 ((hover effect))s, showing or styling something when the mouse is over
 a given element.
 
-(((event propagation)))Unfortunately, that is not as simple as it
-would initially seem. When the mouse moves from a node onto one of its
-children, `"mouseout"` is also fired on the parent node. To make
-things worse, these events propagate just like other events, and thus
-you will also receive `"mouseout"` events when the mouse leaves one of
-the ((child node))s of the node on which the handler is registered.
+(((event propagation)))Unfortunately, creating such an effect is not
+as simple as starting the effect on `"mouseover"` and ending it on
+`"mouseout"`. When the mouse moves from a node onto one of its
+children, `"mouseout"` is fired on the parent node, though the mouse
+did not actually leave the node's extent. To make things worse, these
+events propagate just like other events, and thus you will also
+receive `"mouseout"` events when the mouse leaves one of the ((child
+node))s of the node on which the handler is registered.
 
 (((isInside function)))(((relatedTarget property)))(((target
 property)))To work around this problem, we can use the `relatedTarget`
@@ -502,9 +501,9 @@ property of the event objects created for these events. It tells us,
 in the case of `"mouseover"`, what element the pointer was over
 before, and in the case of `"mouseout"`, what element it is going to.
 We only want to change our hover effect when the `relatedTarget` is
-outside of our target node. When that is the case, it means that this
-event actually represents a _crossing over_ from outside to inside the
-node (or the other way around).
+outside of our target node. Only in that case does this event actually
+represents a _crossing over_ from outside to inside the node (or the
+other way around).
 
 [source,text/html]
 ----
@@ -586,40 +585,41 @@ the document, and updates it to fill up as you scroll down.
 </script>
 ----
 
-(((unit (CSS))))(((scrolling)))(((position (CSS))))(((fixed positioning)))(((absolute
-positioning)))(((percent)))Giving an element a `position` of `fixed`
-acts much like an `absolute` position, but also prevents it from
-scrolling along with the rest of the document. This is used to make
-our progress bar stay in its corner. Inside of it is another element,
-which is resized to indicate the current progress. We use `%`, rather
-than `px` as a unit when setting the width, so that the element is
-sized relative to the whole bar.
+(((unit (CSS))))(((scrolling)))(((position (CSS))))(((fixed
+positioning)))(((absolute positioning)))(((percent)))Giving an element
+a `position` of `fixed` acts much like an `absolute` position, but
+also prevents it from scrolling along with the rest of the document.
+The effect is to make our progress bar stay in its corner. Inside of
+it is another element, which is resized to indicate the current
+progress. We use `%`, rather than `px` as a unit when setting the
+width, so that the element is sized relative to the whole bar.
 
 (((innerHeight property)))(((innerWidth property)))(((pageYOffset
 property)))The global `innerHeight` variable gives us the height of
 the window, which we have to subtract from the total scrollable
-height, because you can't scroll down anymore when the bottom of the
-screen has reached the bottom of the document. (There is, of course,
-also `innerWidth`.) By dividing `pageYOffset` (the current scroll
-position) by the maximum scroll position, and multiplying that by a
-hundred, we get the percentage that we want to display.
+height— you can't keep scrolling when you hit the bottom of the
+document. (There's also an `innerWidth` to go along with
+`innerHeight`.) By dividing `pageYOffset`, the current scroll
+position, by the maximum scroll position, and multiplying by a
+hundred, we get the percentage for the progress bar.
 
 (((preventDefault method)))Calling `preventDefault` on a scroll event
 does not prevent the scrolling from happening. In fact, the event
-handler is called only _after_ the scrolling took place.
+handler is called only _after_ the scrolling takes place.
 
 == Focus events ==
 
 (((event handling)))(((focus event)))(((blur event)))When an element
-is ((focus))ed, the browser fires a `"focus"` event on it. When it
+gains ((focus)), the browser fires a `"focus"` event on it. When it
 loses focus, a `"blur"` event fires.
 
-(((event propagation)))Unlike to the events discussed earlier, these
-two events do not propagate. A handler on a parent element is not
-notified when a child element is focused or unfocused.
+(((event propagation)))Unlike the events discussed earlier, these two
+events do not propagate. A handler on a parent element is not notified
+when a child element gains or loses focus.
 
 (((input (HTML tag))))(((help text example)))The example below
-displays a help text for the ((text field)) that is currently focused.
+displays a help text for the ((text field)) that is currently has
+focus.
 
 [source,text/html]
 ----
@@ -649,19 +649,19 @@ image::img/help-field.png[alt="Providing help when a field is focused",width="4.
 endif::tex_target[]
 
 (((focus event)))(((blur event)))The ((window)) object will receive
-`"focus"` and `"blur"` events when the user moves from or to the tab
-or window in which the document is shown.
+`"focus"` and `"blur"` events when the user moves from or to the
+browser tab or window in which the document is shown.
 
 == Load event ==
 
-(((script (HTML tag))))(((initialization)))(((load event)))When a page
-finishes loading, the `"load"` event is fired on the window and the
-document body. This is often used to schedule actions that initialize
-something, but require the whole ((document)) to have been built up.
-Remember that the content of `<script>` tags is run immediately, when
-the tag is encountered. This is often too soon, for example when the
-script needs to do something with parts of the document that appear
-after the `<script>` tag.
+(((script (HTML tag))))(((load event)))When a page finishes loading,
+the `"load"` event is fired on the window and the document body
+objects. This is often used to schedule ((initialization)) actions
+that require the whole ((document)) to have been built. Remember that
+the content of `<script>` tags is run immediately when the tag is
+encountered. This is often too soon, for example when the script needs
+to do something with parts of the document that appear after the
+`<script>` tag.
 
 (((event propagation)))(((img (HTML tag))))Elements like ((image))s
 and script tags that load an external file also have a `"load"` event
@@ -674,7 +674,7 @@ following a link), a `"beforeunload"` event is fired. The main use of
 this event is to prevent the user from accidentally losing work by
 closing a document. Preventing the page from unloading is not, as you
 might expect, done with the `preventDefault` method. Instead, it is
-done by returning a string from the handler. This string will be used
+done by returning a string from the handler. The string will be used
 in a dialog that asks the user if they want to stay on the page or
 leave it. This mechanism ensures that a user is able to leave the
 page, even if it running a ((malicious script)) that would prefer to
@@ -687,8 +687,8 @@ weight loss ads.
 (((requestAnimationFrame function)))(((event
 handling)))(((timeline)))(((script (HTML tag))))There are various
 things that can cause a script to start executing. Reading a
-`<script>` tag is obviously one such thing. An event firing is
-another. link:13_dom.html#animationFrame[Chapter 13] discussed the
+`<script>` tag is one such thing. An event firing is another.
+link:13_dom.html#animationFrame[Chapter 13] discussed the
 `requestAnimationFrame` function, which schedules a function to be
 called before the next page redraw. That is yet another way in which a
 script can start running.
@@ -696,12 +696,11 @@ script can start running.
 (((parallelism)))(((concurrency)))(((blocking)))It is important to
 understand that, even though events can fire at any time, no two
 scripts in a single document ever run at the same moment. If a script
-is already running, event handlers and pieces of program scheduled in
-other ways have to wait for their turn. This is also the reason why a
+is already running, event handlers and pieces of code scheduled in
+other ways have to wait for their turn. This is the reason why a
 document will freeze when a script runs for a long time. The browser
-can not react to clicks and other events inside the document, because
-it can not run event handlers until the current script finishes
-running.
+cannot react to clicks and other events inside the document, because
+it can't run event handlers until the current script finishes running.
 
 (((performance)))(((complexity)))Some programming environments do
 allow multiple _((thread))s of execution_ to run at the same time.
@@ -712,7 +711,7 @@ an order of magnitude harder.
 
 The fact that JavaScript programs only do one thing at a time makes
 our life easier. For cases where you _really_ do want to do some
-time-consuming thing in the background, without freezing the document,
+time-consuming thing in the background without freezing the page,
 browsers provide something called _((Web Worker))s_. A worker is an
 isolated JavaScript ((environment)), which runs alongside the main
 program for a document, and can only communicate with it by sending
@@ -755,9 +754,9 @@ original script.
 
 (((timeout)))(((setTimeout function)))The `setTimeout` function is
 similar to `requestAnimationFrame`. It schedules another function to
-be called later. But instead of having it called at the next redraw,
-it is given an amount of milliseconds to wait before calling the
-function. This page turns from blue to yellow after two seconds:
+be called later. But instead of calling the function at the next
+redraw, it waits for a given an amount of milliseconds. This page
+turns from blue to yellow after two seconds:
 
 [source,text/html]
 ----
@@ -815,7 +814,7 @@ event)))(((blocking)))Some types of events have the potential to fire
 rapidly, many times in a row. The `"mousemove"` and `"scroll"` events,
 for example. When handling such events, you must be careful not to do
 anything too time-consuming, or your handler will take up so much time
-that interaction with the document starts to feel slow and choppy.
+that interaction with the document will start to feel slow and choppy.
 
 (((setTimeout function)))If you do need to do something non-trivial in
 such a handler, you can use `setTimeout` to make sure you are not
@@ -826,11 +825,11 @@ There are several slightly different approaches to this.
 event)))In the first example, we want to do something when the user
 has typed something, but we don't want to do it immediately for every
 key event. When they are ((typing)) quickly, we just want to wait
-until a pause occurs. This is done by not immediately performing an
-action in the event handler, but setting a timeout instead. We also
-clear the previous timeout (if any), so that when events occur close
-together (closer than our timeout delay), the timeout from the
-previous event will be canceled.
+until a pause occurs. Instead of immediately performing an action in
+the event handler, we can set a timeout instead. We also clear the
+previous timeout (if any), so that when events occur close together
+(closer than our timeout delay), the timeout from the previous event
+will be canceled.
 
 [source,text/html]
 ----
@@ -848,16 +847,16 @@ previous event will be canceled.
 ----
 
 (((sloppy programming)))Giving an undefined value to `clearTimeout` or
-calling it on a timeout that already fired has no effect. Thus, we
-don't have to be careful about when to call it, and simply do so for
-every event.
+calling it on a timeout that has already fired has no effect. Thus, we
+don't have to be careful about when to call it, and we simply do so
+for every event.
 
-(((mousemove event)))A slightly different pattern occurs when we want
-to space responses to an event at least a certain amount of ((time))
-apart, but do want to fire them _during_ a series of events, not just
-afterwards. For example, we want to respond to `"mousemove"` events by
-showing the current coordinates of the mouse, but only every 250
-milliseconds.
+(((mousemove event)))We can use a slightly different pattern if we
+want to space responses so that they're seperated by at least a
+certain length of ((time)), but want to fire them _during_ a series of
+events, not just afterwards. For example, we might want to respond to
+`"mousemove"` events by showing the current coordinates of the mouse,
+but only every 250 milliseconds.
 
 [source,text/html]
 ----
@@ -889,8 +888,8 @@ register such a handler.
 
 Each event has a name (`"keydown"`, `"focus"`, etc.) that identifies
 it. Most events are called on a specific DOM elements, and then
-_propagate_ to that element's ancestor elements, allowing handlers
-associated with those elements to handle them.
+_propagate_ to that element's ancestors, allowing handlers associated
+with those elements to handle them.
 
 When an event handler is called, it is passed an event object with
 additional information about the event. This object also has methods
@@ -923,8 +922,7 @@ people, but not in Istanbul Turkish.
 
 (((typing)))(((input (HTML tag))))As an exercise in doing ridiculous
 things with technology, I'm asking you to program a ((text field)) (an
-`<input type="text">` tag) in such a way that these letters can not be
-typed into it.
+`<input type="text">` tag) that these letters can not be typed into.
 
 (((clipboard)))(Do not worry about copy-paste and other such
 loopholes.)
@@ -947,20 +945,19 @@ endif::html_target[]
 !!solution!!
 
 (((keypress event)))(((keydown event)))(((preventDefault
-method)))(((censored keyboard (exercise))))The solution to this exercise
-involves preventing the ((default behavior)) of key events. You can
-handle either `"keypress"` (the most obvious) or `"keydown"`. If
-either of them has `preventDefault` called on it, the letter will not
-appear.
+method)))(((censored keyboard (exercise))))The solution to this
+exercise involves preventing the ((default behavior)) of key events.
+You can handle either `"keypress"` or `"keydown"`. If either of them
+has `preventDefault` called on it, the letter will not appear.
 
 (((keyCode property)))(((charCode
 property)))(((capitalization)))Identifying the letter typed requires
 looking at the `keyCode` or `charCode` property, and comparing that
-with the codes for the letters we want to filter. In `"keydown"`, you
+with the codes for the letters you want to filter. In `"keydown"`, you
 do not have to worry about lower- and upper-case letters, since it
-only identifies the key pressed. If you decided to handle `"keypress"`
-instead, which identifies actual characters typed, you have to make
-sure you test both for both cases. One way to do that would be this:
+only identifies the key pressed. If you decide to handle `"keypress"`
+instead, which identifies the actual character typed, you have to make
+sure you test for both cases. One way to do that would be this:
 
 ----
 /[qwx]/i.test(String.fromCharCode(event.charCode))
@@ -975,8 +972,8 @@ which was the high time of ((gaudy homepages)) with lots of animated
 images, people came up with some truly inspiring ways to use the
 language.
 
-One of these was the “mouse trail”—a series of images following the
-mouse as you moved it across the page.
+One of these was the “mouse trail”—a series of images that would
+follow the mouse pointer as you moved it across the page.
 
 (((absolute positioning)))(((background (CSS))))In this exercise, I
 want you to implement a mouse trail. Use absolutely positioned `<div>`
@@ -986,10 +983,10 @@ events for an example). Create twelve such elements, and when the
 mouse moves, display them in the wake of the mouse pointer, somehow.
 
 (((mousemove event)))There are various possible approaches here. You
-can make your solution as complex as you want. To start with, a simple
-solution is to keep a fixed number of trail elements, and cycle
-through them, moving the next one to the mouse's current position
-every time a `"mousemove"` event occurs.
+can make your solution as simple or complex as you want. A simple
+solution to start with is to keep a fixed number of trail elements and
+cycle through them, moving the next one to the mouse's current
+position every time a `"mousemove"` event occurs.
 
 ifdef::html_target[]
 
@@ -1031,32 +1028,32 @@ array index, to pick the element we want to position during a given
 event.
 
 (((simulation)))(((requestAnimationFrame function)))Another
-interesting effect can be gotten by modeling a simple ((physics))
-system. The `"mousemove"` event is then used only to update a pair of
-variables that track the mouse position. The animation is created by
-using `requestAnimationFrame` to simulate the trailing elements being
-attracted by the position of the mouse pointer. Every ((animation))
-step, their position is updated based on their relative position to
-the pointer (and optionally, a speed that is stored for each element).
-Figuring out a good way to do this is up to you.
+interesting effect can be achieved by modeling a simple ((physics))
+system. Use the `"mousemove"` event only to update a pair of variables
+that track the mouse position. Then use `requestAnimationFrame` to
+simulate the trailing elements being attracted to the position of the
+mouse pointer. At every animation step, update their position based on
+their position relative to the pointer (and optionally, a speed that
+is stored for each element). Figuring out a good way to do this is up
+to you.
 
 !!solution!!
 
 === Tabs ===
 
-(((tabbed interface (exercise))))A tabbed interface is a commonly used
-pattern. It allows you to select from a number of panels by selecting
-little clips “sticking out” above an element.
+(((tabbed interface (exercise))))A tabbed interface is a common design
+pattern. It allows you to select an interface panel by selecting from
+a number of tabs “sticking out” above an element.
 
 (((button (HTML tag))))(((display (CSS))))(((hidden element)))(((data
-attribute)))In this exercise we implement a crude tabbed interface.
-Write a function `asTabs` that, given a DOM node, creates a tabbed
-interface showing the children of that node. It should insert a list
-of `<button>` elements at the top of the node, one for each child
-node, containing text retrieved from the `data-tabname` attributes of
-the child node. All but one of the original children should be hidden
-(given a `display` style of `none`), and the currently visible node
-can be selected by clicking the buttons.
+attribute)))In this exercise you'll implement a simple tabbed
+interface. Write a function, `asTabs`, that takes a DOM node and
+creates a tabbed interface showing the children of that node. It
+should insert a list of `<button>` elements at the top of the node,
+one for each child element, containing text retrieved from the
+`data-tabname` attribute of the child. All but one of the original
+children should be hidden (given a `display` style of `none`), and the
+currently visible node can be selected by clicking the buttons.
 
 When it works, extend it to also style the currently active button
 differently.
@@ -1094,15 +1091,15 @@ created for the ((whitespace)) between the nodes are also in there,
 and should not get their own tabs.
 
 (((TEXT_NODE code)))(((nodeType property)))To work around this, start
-by building up a real array of all the `nodeType` 1 children in the
-wrapper.
+by building up a real array of all the children in the wrapper that
+have a `nodeType` of 1.
 
 (((event handling)))(((closure)))When registering event handlers on
 the buttons, the handler functions will need to know which tab element
-is associated with this button. When they are created in a normal
-loop, accessing the loop index variable from inside the function
-works, but won't give the correct number, because that variable will
-have been further changed by the loop.
+is associated with the button. If they are created in a normal loop,
+you can access the loop index variable from inside the function, but
+it won't give you the correct number because that variable will have
+been further changed by the loop.
 
 (((forEach method)))(((local variable)))(((loop)))A simple workaround
 is to use the `forEach` method and create the handler functions from

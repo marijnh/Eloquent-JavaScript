@@ -70,7 +70,8 @@ addEventListener("load", function() {
     if (chapter.exercises.length) {
       per.appendChild(opt("box", "Select an exercise"));
       chapter.exercises.forEach(function(exercise) {
-        per.appendChild(opt(chapter.number + "." + exercise.number));
+        var num = chapter.number + "." + exercise.number;
+        per.appendChild(opt(num, num + " " + exercise.name));
       });
     } else {
       per.appendChild(opt("box", "This chapter has no exercises"));

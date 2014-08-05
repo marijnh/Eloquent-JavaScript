@@ -820,7 +820,7 @@ method)))(((this)))The new `letAct` method first checks whether an
 action was returned at all, then whether a handler function for this
 type of action exists, and finally, whether that handler returned
 true, indicating that it successfully handled the action. Note the use
-of `call` to give the handler access to the world, though its `this`
+of `call` to give the handler access to the world, through its `this`
 binding.
 
 If the action didn't work for whatever reason, the default action is

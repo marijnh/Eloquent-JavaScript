@@ -387,8 +387,8 @@ number.
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
-if (!isNaN(theNumber))
+var theNumber = prompt("Pick a number", "");
+if (!isNaN(Number(theNumber)))
   alert("Your number is the square root of " +
         theNumber * theNumber);
 ----
@@ -432,9 +432,9 @@ var num = Number(prompt("Pick a number", "0"));
 if (num < 10)
   alert("Small");
 else if (num < 100)
-  alert("Medium");
-else
-  alert("Large");
+    alert("Medium");
+  else
+    alert("Large");
 ----
 
 The program will first check whether `num` is less than 10. If it is,

@@ -722,8 +722,8 @@ keyword,chaining)))It is common for code to look like this:
 ----
 if (variable == "value1") action1();
 else if (variable == "value2") action2();
-else if (variable == "value3") action3();
-else defaultAction();
+  else if (variable == "value3") action3();
+    else defaultAction();
 ----
 
 (((colon character)))(((switch keyword)))There is a construct called

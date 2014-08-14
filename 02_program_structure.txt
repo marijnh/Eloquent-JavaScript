@@ -387,7 +387,7 @@ number.
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
+var theNumber = prompt("Pick a number", "");
 if (!isNaN(theNumber))
   alert("Your number is the square root of " +
         theNumber * theNumber);
@@ -878,8 +878,8 @@ headache.
 
 === Looping a triangle ===
 
-(((triangle (exercise))))(((loop)))Write a program that makes seven
-calls to `console.log` to output the following triangle:
+(((triangle (exercise))))Write a ((loop)) that makes seven calls to
+`console.log` to output the following triangle:
 
 ----
 #
@@ -891,11 +891,24 @@ calls to `console.log` to output the following triangle:
 #######
 ----
 
+It may be useful to know that you can find the lengt of a string by
+writing `.length` after it.
+
+[source,javascript]
+----
+var abc = "abc";
+console.log(abc.length);
+// → 3
+----
+
 ifdef::html_target[]
+
+Most exercises contain a piece of code that you can modify to solve
+the exercise. Remember that you can click code blocks to edit them.
+
 [source,javascript]
 ----
 // Your code here.
-// (Click code listings to edit them.)
 ----
 endif::html_target[]
 

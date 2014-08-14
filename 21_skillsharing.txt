@@ -625,11 +625,19 @@ function waitForChanges(since, response) {
 }
 ----
 
-(((splice method)))(((setTimeout function)))(((timeout)))When a
-response object is stored in the `waiting` array, a timeout is
-immediately set. After 90 seconds, this timeout sees if the request is
-still waiting, and if it is, sends an empty response and removes it
-from the `waiting` array.
+(((splice method)))(((array,methods)))(((array,indexing)))(((indexOf
+method)))The `splice` method is used to cut a piece out of an array.
+You give it an index and a number of elements, and _mutates_ the
+array, removing that many elements after the given index. In this
+case, we remove a single element, the object that tracks the waiting
+response, whose index we found by calling `indexOf`. If you pass
+additional arguments to `splice` their values will be inserted into
+the array at the given position, replacing the removed elements.
+
+(((setTimeout function)))(((timeout)))When a response object is stored
+in the `waiting` array, a timeout is immediately set. After 90
+seconds, this timeout sees if the request is still waiting, and if it
+is, sends an empty response and removes it from the `waiting` array.
 
 [[registerChange]]
 (((registerChange function)))To be able to find exactly those talks

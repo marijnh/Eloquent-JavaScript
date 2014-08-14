@@ -824,8 +824,9 @@ Level.prototype.animate = function(step, keys) {
 
   while (step > 0) {
     var thisStep = Math.min(step, maxStep);
-    for (var i = 0; i < this.actors.length; i++)
-      this.actors[i].act(thisStep, this, keys);
+    this.actors.forEach(function(actor) {
+      actor.act(thisStep, this, keys);
+    }, this);
     step -= thisStep;
   }
 };
@@ -1011,7 +1012,9 @@ Level.prototype.playerTouched = function(type, actor) {
     this.status = "lost";
     this.finishDelay = 1;
   } else if (type == "coin") {
-    this.actors.splice(this.actors.indexOf(actor), 1);
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    });
     if (!this.actors.some(function(actor) {
       return actor.type == "coin";
     })) {
@@ -1025,15 +1028,6 @@ Level.prototype.playerTouched = function(type, actor) {
 When ((lava)) is touched, the game's status is set to `"lost"`. When a
 coin is touched, that ((coin)) is removed from the array of actors,
 and if it was the last one, the game's status is set to `"won"`.
-
-(((splice method)))(((array,methods)))(((array,indexing)))(((indexOf
-method)))The `splice` method is used to cut a piece out of an array.
-You give it an index and a number of elements, and _mutates_ the
-array, removing that many elements after the given index. In this
-case, we remove a single element, our coin actor, whose index we found
-by calling `indexOf`. If you pass additional arguments to `splice`
-their values will be inserted into the array at the given position,
-replacing the removed elements.
 
 This gives us a level that can actually be animated. All that's
 missing now is the code that _drives_ the animation.

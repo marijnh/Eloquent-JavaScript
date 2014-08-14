@@ -8,7 +8,6 @@ addEventListener("load", function() {
     lineNumbers: true
   });
   function guessType(code) {
-    console.log("guess", /^[\s\w:\n]*</.test(code) ? "html" : "js", "for " + code);
     return /^[\s\w\n:]*</.test(code) ? "html" : "js";
   }
   var reGuess;

@@ -268,7 +268,7 @@ There are, of course, situations where you want a backslash in a
 string to be just a backslash, not a special code. If two backslashes
 follow each other, they will collapse together, and only one will be
 left in the resulting string value. This is how the string “`A newline
-character is written like "\n"`” can be written:
+character is written like "\n".`” can be expressed:
 
 [source,javascript]
 ----

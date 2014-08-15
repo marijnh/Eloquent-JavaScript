@@ -891,7 +891,7 @@ headache.
 #######
 ----
 
-It may be useful to know that you can find the lengt of a string by
+It may be useful to know that you can find the length of a string by
 writing `.length` after it.
 
 [source,javascript]

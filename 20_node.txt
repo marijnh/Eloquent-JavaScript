@@ -109,7 +109,7 @@ image::img/control-io.svg[alt="Control flow for synchronous and asynchronous I/O
 
 (((control flow)))(((asynchronous programming)))Another way to express
 this difference is that waiting for I/O to finish is _implicit_ in the
-synchronous model, whereas is it is _explicit_, directly under our
+synchronous model, whereas is it _explicit_, directly under our
 control, in the asynchronous one. This cuts both ways. Asynchronicity
 makes it easier to express programs that do not fit the straight-line
 model of control, but it also makes it more awkward to express

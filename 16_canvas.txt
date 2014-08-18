@@ -621,7 +621,6 @@ the sprite for the current posture has in the picture.
 == Transformation ==
 
 indexsee:[flipping,mirroring]
-
 (((transformation)))(((mirroring)))But what if we want our character to
 walk to the left instead of to the right? We could add another set of
 sprites, of course. But we can also instruct the ((canvas)) to draw

@@ -44,8 +44,8 @@ process.stdin.on("data", function(chunk) {
   input += chunk;
 });
 process.stdin.on("end", function() {
-  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Solutions to the Exercises)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}|\\textasciicircum\{\}\{([^\}]+?)\}/g,
-                        function(all, codeSpace, manyBlanks, why, simplechapter, link, seeFrom, seeTo, superscript) {
+  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Solutions to the Exercises)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}|\\textasciicircum\{\}\{([^\}]+?)\}|(���)/g,
+                        function(all, codeSpace, manyBlanks, why, simplechapter, link, seeFrom, seeTo, superscript, bogusChars) {
     if (codeSpace)
       return codeSpace.slice(1);
     if (manyBlanks)
@@ -60,6 +60,8 @@ process.stdin.on("end", function() {
       return "\\index{" + seeFrom + "|see{" + seeTo + "}}";
     if (superscript)
       return "\\textsuperscript{" + superscript + "}";
+    if (bogusChars)
+      return "→";
   });
   input = cleanLstInline(input);
   input = input.replace(/({\\hspace\*\{.+?\}\\itshape``)\s*([^]+?)\s*('')/g, "$1$2$3");

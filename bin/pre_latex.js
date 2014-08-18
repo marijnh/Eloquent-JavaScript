@@ -28,8 +28,8 @@ instream.on("data", function(chunk) {
 instream.on("end", function() {
   if (infile != "-")
     input = ":docid: " + infile.match(/^\d{2}_(.*?)\.txt/)[1] + "\n" + input;
-  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[|!!(hint)!![^]+?!!hint!!(?:\n|$)/g,
-                                     function(match, title, quoted, imgName, imgType, link, solution) {
+  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(\w+)(\[.*\])?|link:[^\.]+\.html#(.*?)\[|!!(hint)!![^]+?!!hint!!(?:\n|$)/g,
+                                     function(match, title, quoted, imgName, imgType, imgOpts, link, solution) {
     if (title) { // Section title, must be converted to title case
       if (!nostarch) return match;
       var kind = /^\n(=*)/.exec(match)[1];
@@ -43,7 +43,7 @@ instream.on("end", function() {
       if (!nostarch) return match;
       return quoted + "”";
     } else if (imgName) { // Image file
-      return "\nimage::" + convertImage(imgName, imgType);
+      return "\nimage::" + convertImage(imgName, imgType) + (!imgOpts ? "" : nostarch ? imgOpts : calcWidth(imgOpts));
     } else if (link) {
       return "link:" + link + "[";
     } else if (solution) {
@@ -52,16 +52,26 @@ instream.on("end", function() {
   }));
 });
 
+function calcWidth(opts) {
+  var replaced = false;
+  opts = opts.replace(/width=\"([\d.]+)cm\"/, function(m, w) {
+    replaced = true;
+    return "width=\"" + (Number(w)/11).toFixed(2) + "\\\\textwidth\"";
+  });
+  if (!replaced) return opts.slice(0, opts.length - 1) + ",width=\"0.95\\\\textwidth\"]";
+  else return opts;
+}
+
 function convertImage(name, type) {
+  var oldName = "img/" + name + "." + type;
   if (type == "svg") {
-    var oldName = "img/" + name + "." + type, newName = "img/generated/" + name + ".pdf";
+    var newName = "img/generated/" + name + ".pdf";
     try {
       var newAge = fs.statSync(newName).atime;
     } catch (e) {
       newAge = 0;
     }
     return newName;
-  } else {
-    return oldName;
   }
+  return oldName;
 }

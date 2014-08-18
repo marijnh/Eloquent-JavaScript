@@ -39,10 +39,9 @@ look. One such language, _JavaScript_, is built into just about every
 web ((browser)), and thus available on just about every consumer
 device.
 
-indexsee:[web browser,browser]
-
-This book intends to make you familiar enough with this language to be
-able to make a computer do what you want.
+indexsee:[web browser,browser]This book intends to make you familiar
+enough with this language to be able to make a computer do what you
+want.
 
 == On programming ==
 
@@ -272,9 +271,7 @@ compose these blocks.
 
 == What is JavaScript? ==
 
-indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web]
-
-(((history)))(((Netscape)))(((browser)))(((web
+indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((history)))(((Netscape)))(((browser)))(((web
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995, as a way to add programs to
 Web pages in the Netscape Navigator browser. The language has since

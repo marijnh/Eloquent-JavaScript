@@ -143,7 +143,6 @@ null.length;
 ----
 
 indexsee:[dot character,period character]
-
 ((([] (subscript))))(((period character)))(((square
 brackets)))(((computed property)))The two most common ways to access
 properties in JavaScript are with a dot and with square brackets. Both
@@ -964,7 +963,6 @@ function. It also has a property for each argument, named 0, 1, 2, and
 so on.
 
 indexsee:[pseudo array,array-like object]
-
 (((array,methods)))If that sounds a lot like an array to you,
 you're right, it _is_ a lot like an array. But this object,
 unfortunately, does not have any array methods (like `slice` or

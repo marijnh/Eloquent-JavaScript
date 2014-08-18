@@ -109,7 +109,6 @@ The `>(x, 5)` part of the program above would be represented like this:
 ----
 
 indexsee:[abstract syntax tree,syntax tree]
-
 Such a ((data structure)) is called a _((syntax tree))_. If you
 imagine the objects as dots, and the links between them as lines
 between those dots, it has a ((tree))-like shape. The fact that

@@ -144,7 +144,6 @@ identifying the event (for example `"click"` or `"mousedown"`).
 
 indexsee:[bubbling,event propagation]
 indexsee:[propagation,event propagation]
-
 (((event propagation)))(((parent node)))Event handlers registered on
 nodes with children will also receive some events that happen in the
 children. If a button inside a paragraph is clicked, event handlers on

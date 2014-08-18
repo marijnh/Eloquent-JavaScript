@@ -85,7 +85,6 @@ called _debugging_.
 == Strict mode ==
 
 indexsee:[use strict,strict mode]
-
 (((strict mode)))(((syntax)))(((function)))JavaScript can be made a
 _little_ more strict by enabling _strict mode_. This is done by
 putting the string `"use strict"` at the top of a file or a function

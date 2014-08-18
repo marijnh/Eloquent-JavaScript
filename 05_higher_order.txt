@@ -155,10 +155,8 @@ function logEach(array) {
 }
 ----
 
-indexsee:[higher-order function,function+++,+++ higher-order]
-
 [[forEach]]
-(((function,higher-order)))(((loop)))(((array,traversal)))(((function,as value)))(((forEach method)))But what
+indexsee:[higher-order function,function+++,+++ higher-order](((function,higher-order)))(((loop)))(((array,traversal)))(((function,as value)))(((forEach method)))But what
 if we want to do something other than logging the elements? Since
 “doing something” can be represented as a function, and functions are
 just values, we can pass our action as a function value:
@@ -400,9 +398,7 @@ this:
 ]
 ----
 
-indexsee:[JavaScript Object Notation,JSON]
-
-(((World Wide Web)))This format is called JSON (pronounced “Jason”),
+indexsee:[JavaScript Object Notation,JSON](((World Wide Web)))This format is called JSON (pronounced “Jason”),
 which stands for JavaScript Object Notation. It is widely used as a
 data storage and communication format on the Web.
 

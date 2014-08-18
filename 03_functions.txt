@@ -50,7 +50,6 @@ console.log(square(12));
 ----
 
 indexsee:[braces,curly braces]
-
 (((curly braces)))(((block)))(((syntax)))(((function
 keyword)))(((function,body)))(((function,as value)))A function is
 created by an expression that starts with the keyword `function`.
@@ -108,7 +107,6 @@ will be newly created every time the function is called, and these
 separate incarnations do not interfere with each other.
 
 indexsee:[top-level scope,global scope]
-
 (((var keyword)))(((global scope)))(((variable,global)))This
 “localness” of variables applies only to the parameters and variables
 declared with the `var` keyword inside the function body. Variables
@@ -323,7 +321,6 @@ function example() {
 == The call stack ==
 
 indexsee:[stack,call stack]
-
 (((call stack)))(((function,application)))It will be helpful to take a
 closer look at the way control flows through functions. Here is a
 simple program that makes a few function calls:

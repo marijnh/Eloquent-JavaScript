@@ -211,7 +211,6 @@ and to read ((mouse)) and ((keyboard)) input.
 indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 indexsee:[calling (of functions),function application]
-
 (((output)))(((function)))(((function,application)))(((alert
 function)))(((message box)))A lot of the values provided in the
 default environment have the type _((function))_. A function is a

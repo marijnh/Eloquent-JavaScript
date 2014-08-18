@@ -789,7 +789,6 @@ at its destination unmodified, such as the account number you transfer
 money to from your bank's website, plain HTTP is not good enough.
 
 indexsee:[Secure HTTP,HTTPS]
-
 (((cryptography)))(((encryption)))The secure ((HTTP)) protocol, whose
 ((URL))s start with _https://_, wraps HTTP traffic in a way that makes
 it harder to read and tamper with. First, the client verifies that the

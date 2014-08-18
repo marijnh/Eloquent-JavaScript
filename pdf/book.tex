@@ -1,6 +1,9 @@
-\documentclass{scrbook}
+\documentclass[13pt,oneside]{scrbook}
 \usepackage{natbib}
+\usepackage{charter}
+\usepackage{inconsolata}
 \usepackage{hyperref}
+\usepackage{bookmark}
 \usepackage{fontspec}
 \usepackage{listings}
 
@@ -8,6 +11,15 @@
 \usepackage{epigraph}
 \setlength{\epigraphwidth}{.8\textwidth}
 \setlength{\epigraphrule}{0pt}
+
+\lstset{basicstyle=\ttfamily,xleftmargin=0.8em,breaklines=true,lineskip=-0.2em,aboveskip=0.8em,belowskip=0.8em}
+
+\makeatletter
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{1}
+\setmonofont[Scale=0.85]{Inconsolata}
+\pagestyle{plain}
+\makeatother
 
 \graphicspath{ {../} }
 \makeindex

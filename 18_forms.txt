@@ -119,7 +119,6 @@ a `"change"` event.
 == Focus ==
 
 indexsee:[keyboard focus,focus]
-
 (((keyboard)))(((focus)))Unlike most elements in an HTML document,
 form fields can get _keyboard ((focus))_. When clicked—or activated in
 some other way—they become the currently active element, the main

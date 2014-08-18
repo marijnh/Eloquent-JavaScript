@@ -69,7 +69,6 @@ arrive at the correct destination in the correct order. Ensuring those
 things is already a rather difficult technical problem.
 
 indexsee:[Transmission Control Protocol,TCP]
-
 (((TCP)))TCP (_Transmission Control Protocol_) is a ((protocol)) that
 solves this problem. All internet-connected devices “speak” it, and
 most communication on the ((Internet)) is built on top of it.
@@ -105,14 +104,12 @@ that such pages can easily link to each other, thus connecting into a
 huge ((mesh)) that users can move through.
 
 indexsee:[Hyper-Text Transfer Prototol,HTTP]
-
 To add content to the Web, all you need to do is connect a machine to
 the ((Internet)), and have it listen on port 80, using ((HTTP)) (the
 _Hyper-Text Transfer Protocol_). This protocol allows other computers
 to request documents over the ((network)).
 
 indexsee:[Universal Resource Locator,URL]
-
 Each ((document)) on the Web is named by a ((URL)) (_Universal Resource
 Locator_), which looks something like this:
 
@@ -151,7 +148,6 @@ link:17_http.html#http[Chapter 17].
 == HTML ==
 
 indexsee:[Hyper-Text Markup Language,HTML]
-
 (((HTML)))HTML, which stands for _Hyper-Text Markup Language_, is the
 document format used for web pages. An HTML document contains
 ((text)), as well as _((tag))s_ that gives structure to the text,

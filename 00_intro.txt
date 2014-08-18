@@ -232,7 +232,7 @@ Most importantly, there is no need to specify the way we want the
 program to jump back and forth any more. The `while` language
 construct takes care of that. It continues executing the block
 (wrapped in braces) below it as long as the condition it was given
-holds: `count <= 10`, which means “`count` is less than or equal to
+holds: `count <= 10`, which means “++count++ is less than or equal to
 10”. We no longer have to create a temporary value and compare that
 to zero. This was an uninteresting detail, and the power of
 programming languages is that they take care of uninteresting details

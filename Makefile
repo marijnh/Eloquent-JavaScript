@@ -1,5 +1,3 @@
-all: html nostarch
-
 CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_higher_order 06_object \
   07_elife 08_error 09_regexp 10_modules 11_language 12_browser 13_dom 14_event 15_game 16_canvas \
   17_http 18_forms 19_paint 20_node 21_skillsharing
@@ -31,14 +29,6 @@ code/solutions/20_4_a_public_space_on_the_web.zip: $(wildcard code/solutions/20_
 	rm -f $@
 	cd code/solutions; zip 20_4_a_public_space_on_the_web.zip 20_4_a_public_space_on_the_web/*
 
-nostarch: $(foreach CHAP,$(CHAPTERS),nostarch/$(CHAP).tex) nostarch/hints.tex
-
-nostarch/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) bin/extract_hints.js
-	node bin/extract_hints.js | node bin/pre_latex.js - | asciidoc -f asciidoc_nostarch.conf --backend=latex -o - - | node bin/clean_latex.js > $@
-
-nostarch/%.tex: %.txt asciidoc_nostarch.conf bin/pre_latex.js bin/clean_latex.js
-	node bin/pre_latex.js $< | asciidoc -f asciidoc_nostarch.conf --backend=latex -o - - | node bin/clean_latex.js > $@
-
 test: html
 	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
 	@! grep '[a-zA-Z0-9]_[—“”‘’]\|[—“”‘’]_[a-zA-Z0-9]\|[a-zA-Z0-9]`—\|[a-zA-Z0-9]`[a-zA-Z0-9]' *.txt
@@ -46,17 +36,39 @@ test: html
 	@node bin/check_links.js
 	@echo Done.
 
+nostarch: $(foreach CHAP,$(CHAPTERS),nostarch/$(CHAP).tex) nostarch/hints.tex
+
+nostarch/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) bin/extract_hints.js
+	node bin/extract_hints.js | node bin/pre_latex.js --nostarch - | asciidoc -f asciidoc_nostarch.conf --backend=latex -o - - | node bin/clean_latex.js > $@
+
+nostarch/%.tex: %.txt asciidoc_nostarch.conf bin/pre_latex.js bin/clean_latex.js
+	node bin/pre_latex.js --nostarch $< | asciidoc -f asciidoc_nostarch.conf --backend=latex -o - - | node bin/clean_latex.js > $@
+
 nostarch.pdf: nostarch/book.tex $(foreach CHAP,$(CHAPTERS),nostarch/$(CHAP).tex) nostarch/hints.tex \
           $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
 	cd nostarch && sh build.sh
 	mv nostarch/book.pdf nostarch.pdf
 
+pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex
+
+pdf/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) bin/extract_hints.js asciidoc_pdf.conf bin/pre_latex.js bin/clean_latex.js
+	node bin/extract_hints.js | node bin/pre_latex.js - | asciidoc -f asciidoc_pdf.conf --backend=latex -o - - | node bin/clean_latex.js > $@
+
+pdf/%.tex: %.txt asciidoc_pdf.conf bin/pre_latex.js bin/clean_latex.js
+	node bin/pre_latex.js $< | asciidoc -f asciidoc_pdf.conf --backend=latex -o - - | node bin/clean_latex.js > $@
+
+book.pdf: pdf/book.tex $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex \
+          $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
+	cd pdf && sh build.sh
+	mv pdf/book.pdf .
+
 pdfonce:
-	cd nostarch && xelatex book.tex
-	mv nostarch/book.pdf nostarch.pdf
+	cd pdf && xelatex book.tex
+	mv pdf/book.pdf book.pdf
 
 texclean:
 	rm -f nostarch/book.aux nostarch/book.idx nostarch/book.log nostarch/book.out nostarch/book.tbc nostarch/book.toc
+	rm -f pdf/book.aux pdf/book.idx pdf/book.log pdf/book.out pdf/book.tbc pdf/book.toc
 
 TMPDIR=/tmp/ejs_tex
 

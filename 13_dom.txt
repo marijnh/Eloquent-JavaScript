@@ -669,8 +669,8 @@ endif::book_target[]
 style attribute may contain one or more _((declaration))s_, which are
 a property (such as `color`) followed by a colon and a value (such as
 `green`). When there are more than one declaration, they must be
-separated by ((semicolon))s. For example, “`color: red; border:
-none`”.
+separated by ((semicolon))s. For example, “++color: red; border:
+none++”.
 
 (((display (CSS))))(((layout)))There are a lot aspects that can be
 influenced with styling. For example, the `display` property controls

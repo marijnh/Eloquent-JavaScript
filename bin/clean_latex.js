@@ -12,12 +12,38 @@ function checkUnicode(str) {
   }
 }
 
+var escaped = {"\\{{}": "{",
+               "\\}{}": "}",
+               "\\textbackslash{}": "\\",
+               "\\${}": "$",
+               "\\textless{}": "<",
+               "\\textgreater{}": ">",
+               "\\&{}": "&",
+               "\\_{}": "_",
+               "\\%{}": "%",
+               "\\#{}": "\\#",
+               "\\textasciicircum{}": "^",
+               "\\textasciitilde{}": "~",
+               "\\textbar{}": "|",
+               "\\textquotedbl{}": "\""};
+var specials = Object.keys(escaped).map(function(k) {return k.replace(/[^\w\s]/g, "\\$&");}).join("|") + "|[^]";
+var deEscapeRE = new RegExp("\\\\lstinline:::((?:" + specials + ")+?):::", "g");
+var specialRE = new RegExp(specials, "g");
+function cleanLstInline(str) {
+  return str.replace(deEscapeRE, function(m, content) {
+    return "\\lstinline`" + content.replace(specialRE, function(f) {
+      if (f.length > 1) return escaped[f];
+      else if (f == "\n") return " ";
+      else return f;
+    }) + "`";
+  });
+}
+
 var input = "";
 process.stdin.on("data", function(chunk) {
   input += chunk;
 });
 process.stdin.on("end", function() {
-  checkUnicode(input);
   input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Solutions to the Exercises)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}|\\textasciicircum\{\}\{([^\}]+?)\}/g,
                         function(all, codeSpace, manyBlanks, why, simplechapter, link, seeFrom, seeTo, superscript) {
     if (codeSpace)
@@ -35,7 +61,9 @@ process.stdin.on("end", function() {
     if (superscript)
       return "\\textsuperscript{" + superscript + "}";
   });
+  input = cleanLstInline(input);
   input = input.replace(/({\\hspace\*\{.+?\}\\itshape``)\s*([^]+?)\s*('')/g, "$1$2$3");
+  checkUnicode(input);
 
   process.stdout.write(input);
 });

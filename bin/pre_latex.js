@@ -4,7 +4,14 @@
 
 var fs = require("fs"), child = require("child_process");
 
-var infile = process.argv[2], instream;
+var infile, nostarch = false;
+for (var i = 2; i < process.argv.length; i++) {
+  var arg = process.argv[i];
+  if (arg == "--nostarch") nostarch = true;
+  else infile = arg;
+}
+
+var instream;
 if (infile == "-") {
   instream = process.stdin;
   instream.resume();
@@ -24,6 +31,7 @@ instream.on("end", function() {
   process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[|!!(hint)!![^]+?!!hint!!(?:\n|$)/g,
                                      function(match, title, quoted, imgName, imgType, link, solution) {
     if (title) { // Section title, must be converted to title case
+      if (!nostarch) return match;
       var kind = /^\n(=*)/.exec(match)[1];
       return "\n" + kind + " " + title.split(" ").map(function(word) {
         if (titleCaseSmallWords.indexOf(word) == -1)
@@ -32,6 +40,7 @@ instream.on("end", function() {
           return word;
       }).join(" ") + " " + kind;
     } else if (quoted) { // Move punctuation into quotes
+      if (!nostarch) return match;
       return quoted + "”";
     } else if (imgName) { // Image file
       return "\nimage::" + convertImage(imgName, imgType);

@@ -204,7 +204,7 @@ not pass any arguments, the function somehow has access to the string
 described in link:06_object.html#obj_methods[Chapter 6].
 
 Properties that contain functions are generally called _methods_ of
-the value they belong to. As in, “`toUpperCase` is a method of a
+the value they belong to. As in, “++toUpperCase++ is a method of a
 string”.
 
 [[array_methods]]

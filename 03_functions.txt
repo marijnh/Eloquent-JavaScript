@@ -268,7 +268,7 @@ other functions.
 
 (((syntax)))(((square example)))(((function
 keyword)))(((function,definition)))(((function,declaration)))There is
-a slightly shorter way to say “`var square = function…`”. The
+a slightly shorter way to say “++var square = function…++”. The
 `function` keyword can also be used at the start of a statement, as in
 the following:
 

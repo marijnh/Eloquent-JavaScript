@@ -1,0 +1,65 @@
+%%
+%% This is file `nshyper.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% nostarch.dtx  (with options: `nshyper')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from nshyper.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file nostarch.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+\ProvidesPackage{nshyper}
+[2008/06/06 v1.3 Typesetting books for No Starch Press]
+\RequirePackage[breaklinks,colorlinks,linkcolor=black,
+  citecolor=black,pagecolor=black,urlcolor=black,hyperindex,
+  bookmarks=false]{hyperref}
+\AtBeginDocument{%
+  \def\@schapter[#1]#2{%
+    \H@old@schapter[#1]{#2}%
+  \@nschapterpreamble}%
+  \def\@spart[#1]#2{%
+    \H@old@spart[#1]{#2}%
+    \Hy@GlobalStepCount\Hy@linkcounter
+    \xdef\@currentHref{part*.\the\Hy@linkcounter}%
+    \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}}}%
+\def\@nschapterpreamble{%
+  \begingroup
+  \let\@mkboth\@gobbletwo
+  \Hy@GlobalStepCount\Hy@linkcounter
+  \xdef\@currentHref{\Hy@chapapp*.\the\Hy@linkcounter}%
+  \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}%
+  \endgroup}
+\let\ns@old@maketitle\maketitle
+\def\maketitle{%
+  \hypersetup{pdfauthor=\@author, pdftitle=\@title}%
+  \ns@old@maketitle}
+\endinput
+%%
+%% End of file `nshyper.sty'.

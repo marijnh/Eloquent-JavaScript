@@ -1,6 +1,6 @@
 var fs = require("fs");
 
-process.stdout.write(":docid: solutions\n\n= Solutions to the Exercises =\n\nThe hints below might help when you are stuck with one of the exercises in this book. They don't ive away the entire solution, but rather try to help you find it yourself.\n\n");
+process.stdout.write(":docid: hints\n\n= Exercise Hints =\n\nThe hints below might help when you are stuck with one of the exercises in this book. They don't give away the entire solution, but rather try to help you find it yourself.\n\n");
 
 fs.readdirSync(".").forEach(function(name) {
   var m = /^(\d\d.*)\.txt$/.exec(name);

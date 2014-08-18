@@ -7,8 +7,13 @@ Feedback welcome, in the form of issues and pull requests.
 
 ## Building
 
-    npm install
+    npm install --production
     apt-get install asciidoc inkscape
     make html
 
 For OSX, you can use port or brew to install the asciidoc package.
+
+To build the PDF file:
+
+    apt-get install texlive texlive-xetex texlive-fonts-extra
+    make book.pdf

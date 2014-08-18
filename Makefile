@@ -59,7 +59,7 @@ pdf/%.tex: %.txt asciidoc_pdf.conf bin/pre_latex.js bin/clean_latex.js
 
 book.pdf: pdf/book.tex $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex \
           $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
-	cd pdf && sh build.sh
+	cd pdf && sh build.sh > /dev/null
 	mv pdf/book.pdf .
 
 pdfonce:

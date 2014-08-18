@@ -687,11 +687,11 @@ DOMDisplay.prototype.clear = function() {
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/game_simpleLevel.png[alt="Our level rendered",width="7cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((link (HTML tag))))(((style sheet)))(((CSS)))The `<link>` tag, when used
 with `rel="stylesheet"`, is a way to load a CSS file into a page. The

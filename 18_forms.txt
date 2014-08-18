@@ -68,11 +68,11 @@ JavaScript, that is often not what we want anyway.
 <p><input type="file" checked> (file)</p>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/form_fields.png[alt="Various types of input tags",width="4cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 The JavaScript interface for such elements differs with the type of
 the element. We'll go over each of them later on in the chapter.
@@ -107,11 +107,11 @@ pre-defined options.
 </select>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/form_select.png[alt="A select field",width="4cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((change event)))Whenever the value of a form field changes, it fires
 a `"change"` event.
@@ -198,11 +198,11 @@ and faded.
 <button disabled>I'm out</button>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/button_disabled.png[alt="A disabled button",width="3cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((user experience)))(((asynchronous programming)))When the program is
 busy processing the action caused by some ((button)) or other control,
@@ -438,11 +438,11 @@ any number of options, rather than just a single option.
 </select>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/form_multi_select.png[alt="A multiple select field",width="5cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((select (HTML tag))))(((drop-down menu)))(((size attribute)))This
 will, in most browsers, show up differently than a non-`multiple`

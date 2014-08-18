@@ -339,11 +339,11 @@ Explorer users running our paint program will have to type in the name
 of the color they want, rather than select it from a convenient
 widget.(!book This is what a color picker may look like:!)
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/color-field.png[alt="A color field",width="6cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 // include_code
 

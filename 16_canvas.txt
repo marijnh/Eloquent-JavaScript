@@ -124,11 +124,11 @@ through the `getContext` method on the `<canvas>` element.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_fill.png[alt="A canvas with a rectangle",width="3cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 After creating the context object, the example draws a red
 ((rectangle)) 100 ((pixel))s wide and 50 pixels high, with its top
@@ -181,11 +181,11 @@ positive number.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_stroke.png[alt="Two stroked squares",width="5cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((default value)))(((canvas,size)))When no `width` or `height`
 attributes are specified, as in the previous example, a canvas element
@@ -212,11 +212,11 @@ describing such a path is rather peculiar. It is done entirely through
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_path.png[alt="Stroking a number of lines",width="2.1cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((canvas)))(((stroke method)))(((lineTo method)))(((moveTo
 method)))(((shape)))The example creates a path with a number of
@@ -245,11 +245,11 @@ start, and the shape enclosed by the resulting line is filled.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_triangle.png[alt="Filling a path",width="2.2cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 This draws a filled triangle. Note that only two of the triangle's
 sides are explicitly drawn. The third, from the bottom right corner
@@ -291,11 +291,11 @@ picture illustrates this:
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_quadraticcurve.png[alt="A quadratic curve",width="2.3cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((stroke method)))We draw a ((quadratic curve)) from the left to the
 right, with (60,10) as control point, and then draw two ((line))
@@ -326,11 +326,11 @@ illustrates the behavior of such a curve:
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_beziercurve.png[alt="A bezier curve",width="2.2cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 The two control points specify the direction at both ends of the
 curve. The further they are away from their corresponding point, the
@@ -370,11 +370,11 @@ start of the rounded part.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_arc.png[alt="Two arcs with different radii",width="2.3cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((canvas)))(((arcTo method)))(((lineTo method)))The `arcTo` method
 will not draw the line from the end of the rounded part to the goal
@@ -409,11 +409,11 @@ to draw a full circle.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_circle.png[alt="Drawing a circle",width="4.9cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((moveTo method)))(((arc method)))(((path, canvas)))The resulting picture
 contains a ((line)) from the left of the full circle (first call to
@@ -478,11 +478,11 @@ people that picked a given choice.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_pie_chart.png[alt="A pie chart",width="5cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 But a chart that doesn't tell us what it means is not very helpful. We
 would like to have a way to draw text to the ((canvas)).
@@ -644,11 +644,11 @@ set a horizontal scale and one to set a vertical scale.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_scale.png[alt="A scaled circle",width="6.6cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((mirroring)))Scaling will cause everything about the drawn image, including the
 ((line width)), to be stretched out or squeezed together as specified.
@@ -793,11 +793,11 @@ recursion stops when the length drops below 8.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/canvas_tree.png[alt="A recursive picture",width="5cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((save method)))(((restore method)))(((canvas)))(((rotate method)))If
 the calls to `save` and `restore` were not there, the second recursive
@@ -1109,14 +1109,14 @@ below plugs the new display into `runGame`:
 
 endif::html_target[]
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 (((game,screenshot)))That concludes the new ((display)) system. The
 resulting game looks something like this:
 
 image::img/canvas_game.png[alt="The game as shown on canvas",width="8cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 [[graphics_tradeoffs]]
 == Choosing a graphics interface ==

@@ -175,13 +175,13 @@ A simple HTML document looks like this:
 </html>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 This is what such a document would look like in the browser:
 
 image::img/home-page.png[alt="My home page",width="6.3cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((angular brackets)))The tags, wrapped in angular brackets (“++<++”
 and “++>++”), provide information about the ((structure)) of the

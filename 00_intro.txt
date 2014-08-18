@@ -368,7 +368,7 @@ example programs by clicking on them.
 
 endif::html_target[]
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 (((download)))(((sandbox)))(((running code)))Most of the example code
 in this book can be found on the book's ((website)), at
@@ -376,7 +376,7 @@ http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
 which also provides an easy way to run the programs and experiment
 with writing your own code.
 
-endif::tex_target[]
+endif::book_target[]
 
 (((developer tools)))(((JavaScript console)))Running JavaScript
 programs outside of this book's sandbox is also possible. You can opt

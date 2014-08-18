@@ -394,11 +394,11 @@ This function is then used to add a simple attribution to a quote.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/blockquote.png[alt="A blockquote with attribution",width="8cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 == Attributes ==
 
@@ -514,11 +514,11 @@ function id(x) { return x; }
 <script>highlightAllCode();</script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/highlighted.png[alt="A highlighted piece of code",width="4.8cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((getAttribute method)))(((setAttribute method)))(((className
 property)))(((class attribute)))There is one commonly used attribute,
@@ -569,11 +569,11 @@ space _inside_ the element, ignoring border width.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/boxed-in.png[alt="A paragraph with a border",width="8cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 
 [[boundingRect]]
@@ -659,11 +659,11 @@ property.
 <p><a href="." style="color: green">Green link</a></p>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/colored-links.png[alt="A normal and a green link",width="2.2cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((border (CSS))))(((color (CSS))))(((CSS)))(((colon character)))A
 style attribute may contain one or more _((declaration))s_, which are
@@ -683,11 +683,11 @@ This text is displayed <strong>inline</strong>,
 <strong style="display: none">not at all</strong>.
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/display.png[alt="Different display styles",width="4cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((hidden element)))The `block` tag will end up on its own line, since
 ((block element))s are not displayed inline with the text around them.
@@ -885,11 +885,11 @@ displays a picture of a cat that floats around in an ((ellipse)).
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/cat-animation.png[alt="A moving cat head",width="8cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((top (CSS))))(((left (CSS))))(((centering)))(((relative
 positioning)))First, the picture is centered on the page, and given a

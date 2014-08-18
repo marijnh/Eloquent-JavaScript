@@ -31,7 +31,7 @@ example, introducing concepts as they apply to the problem at hand.
 The example code will often build on functions and variables that were
 introduced earlier in the text.
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 (((sandbox)))The online coding sandbox for the book
 (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
@@ -40,7 +40,7 @@ you decide to work through the examples in another environment, be
 sure to first download the full code from this chapter from the
 sandbox page.
 
-endif::tex_target[]
+endif::book_target[]
 
 == The weresquirrel ==
 
@@ -494,11 +494,11 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 pass:[\begin{equation}\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}\end{equation}]
 
-endif::tex_target[]
+endif::book_target[]
 
 The notation (!html _n_~01~!)(!book pass:[$n_{01}$]!) indicates the
 number of measurements where the first measurement (pizza) is false

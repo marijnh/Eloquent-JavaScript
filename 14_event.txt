@@ -469,11 +469,11 @@ on this bar makes it narrower or wider.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/drag-bar.png[alt="A draggable bar",width="5.3cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((mouseup event)))(((mousemove event)))Note that the `"mousemove"`
 handler is registered on the whole ((window)). Even if the mouse goes
@@ -642,11 +642,11 @@ focus.
 </script>
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 image::img/help-field.png[alt="Providing help when a field is focused",width="4.4cm"]
 
-endif::tex_target[]
+endif::book_target[]
 
 (((focus event)))(((blur event)))The ((window)) object will receive
 `"focus"` and `"blur"` events when the user moves from or to the

@@ -619,7 +619,7 @@ for (var i = 0; i < 5; i++) {
 // → … five turns of moving critters
 ----
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 The first two maps that are displayed will look something like this
 (depending on the random direction the critters picked):
@@ -644,7 +644,7 @@ critters crawling around and bouncing off the walls, open this chapter
 in the online version of the book at
 http://eloquentjavascript.net[_eloquentjavascript.net_].
 
-endif::tex_target[]
+endif::book_target[]
 
 ifdef::html_target[]
 
@@ -1029,7 +1029,7 @@ animateWorld(valley);
 
 endif::html_target[]
 
-ifdef::tex_target[]
+ifdef::book_target[]
 
 ----
 ############################  ############################
@@ -1072,7 +1072,7 @@ ifdef::tex_target[]
 ############################  ############################
 ----
 
-endif::tex_target[]
+endif::book_target[]
 
 (((stability)))(((reproduction)))(((extinction)))(((starvation)))Most
 of the time, the plants multiply and expand quite quickly, but then

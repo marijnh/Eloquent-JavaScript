@@ -797,7 +797,7 @@ console.log(month.number("November"));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((month name (exercise))))This follows the `weekDay` module almost
 exactly. A function expression, called immediately, wraps the variable
@@ -805,7 +805,7 @@ that holds the array of names, along with the two functions that must
 be exported. The functions are put in an object, and returned. The
 returned interface object is stored in the `month` variable.
 
-!!solution!!
+!!hint!!
 
 === A return to electronic life ===
 
@@ -849,7 +849,7 @@ internal to their module, and thus inaccessible to other modules.
 There is no single correct solution here. Module organization is
 largely a matter of ((taste)).
 
-!!solution!!
+!!hint!!
 
 Here is what I came up with. I've put parentheses around internal
 functions.
@@ -895,7 +895,7 @@ ecosystems) don't have to know or worry about the existence of the
 in different contexts, and do not belong in the interfaces for these
 modules.
 
-!!solution!!
+!!hint!!
 
 === Circular dependencies ===
 
@@ -911,7 +911,7 @@ Can you think of a way in which support for this feature could be
 implemented? Look back to the definition of `require`, and consider
 what the function would have to do to allow this.
 
-!!solution!!
+!!hint!!
 
 (((overriding)))(((circular dependency)))(((exports object)))The trick
 is to add the `exports` object created for a module to `require`'s
@@ -928,4 +928,4 @@ will receive a reference to it. If it doesn't try to do anything with
 the object until the first module has finished loading, things will
 work.
 
-!!solution!!
+!!hint!!

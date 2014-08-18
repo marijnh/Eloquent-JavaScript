@@ -10,7 +10,7 @@ fs.readdirSync(".").forEach(function(name) {
   var title = file.match(/\n= (.*?) =\n/)[1], titleWritten = false;
 
   var curSubsection;
-  var re = /\n=== (.*?) ===|!!solution!!([^]+?)!!solution!!/g;
+  var re = /\n=== (.*?) ===|!!hint!!([^]+?)!!hint!!/g;
   while (m = re.exec(file)) {
     if (m[1]) {
       curSubsection = m[1];

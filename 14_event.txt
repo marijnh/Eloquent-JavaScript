@@ -942,7 +942,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((keypress event)))(((keydown event)))(((preventDefault
 method)))(((censored keyboard (exercise))))The solution to this
@@ -963,7 +963,7 @@ sure you test for both cases. One way to do that would be this:
 /[qwx]/i.test(String.fromCharCode(event.charCode))
 ----
 
-!!solution!!
+!!hint!!
 
 === Mouse trail ===
 
@@ -1013,7 +1013,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((mouse trail (exercise))))Creating the elements is best done in a
 loop. Append them to the document to make them show up. In order to be
@@ -1037,7 +1037,7 @@ their position relative to the pointer (and optionally, a speed that
 is stored for each element). Figuring out a good way to do this is up
 to you.
 
-!!solution!!
+!!hint!!
 
 === Tabs ===
 
@@ -1079,7 +1079,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((text node)))(((childNodes property)))(((live data
 structure)))(((tabbed interface (exercise))))One pitfall you'll
@@ -1107,4 +1107,4 @@ inside the function passed to `forEach`. The loop index, which is
 passed as a second argument to that function, will be a normal local
 variable there, and won't be overwritten by further iterations.
 
-!!solution!!
+!!hint!!

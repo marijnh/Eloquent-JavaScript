@@ -34,7 +34,7 @@ from the side, and involve lots jumping onto and over things.
 
 (((minimalism)))(((Palef+++,+++ Thomas)))(((Dark Blue (game))))Our
 ((game)) will be roughly based on
-“http://www.lessmilk.com/games/10[Dark Blue]”(!tex (_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose this game
+“http://www.lessmilk.com/games/10[Dark Blue]”(!book (_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose this game
 because it is both entertaining and minimalist, and can be built
 without too much ((code)). It looks like this:
 
@@ -1197,7 +1197,7 @@ with tasks that can take an arbitrary amount of ((time)), such as
 and output in general in link:20_node.html#node[Chapter 20].
 
 (((game)))(((GAME_LEVELS data set)))There is a set of
-((level)) plans available in the `GAME_LEVELS` variable (!tex (downloadable from
+((level)) plans available in the `GAME_LEVELS` variable (!book (downloadable from
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 This page feeds them to `runGame`, starting an actual game:
 
@@ -1262,7 +1262,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((lives (exercise))))(((runGame function)))The most obvious solution
 would be to make `lives` a variable that lives in `runGame`, and is
@@ -1279,7 +1279,7 @@ possible state transitions: if that was the last life, we go back to
 level zero with the starting amount of lives. If not, we repeat the
 current level with one less life remaining.
 
-!!solution!!
+!!hint!!
 
 === Pausing the game ===
 
@@ -1335,7 +1335,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((pausing (exercise))))An ((animation)) can be interrupted by
 returning `false` from the function given to `runAnimation`. It can be
@@ -1358,4 +1358,4 @@ You can add a property to the object returned by `trackKeys`,
 containing either that function value, or a method that handles the
 unregistering directly.
 
-!!solution!!
+!!hint!!

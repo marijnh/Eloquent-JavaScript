@@ -1255,7 +1255,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((path,canvas)))(((shapes (exercise))))The ((parallelogram)) (1) is easy to draw using
 a path. Pick suitable center coordinates, and add each of the four
@@ -1289,7 +1289,7 @@ have) pieces. Draw lines between these points, making them curve
 towards the center of the star (with `quadraticCurveTo`, you can use
 the center as control point).
 
-!!solution!!
+!!hint!!
 
 [[exercise_pie_chart]]
 === The pie chart ===
@@ -1337,7 +1337,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((fillText method)))(((textAlign property)))(((textBaseline
 property)))(((pie chart example)))You will need to call `fillText`,
@@ -1373,7 +1373,7 @@ of the circle a given angle is on, look back to the explanation of
 which x coordinate it corresponds to, which in turn tells us exactly
 which side of the circle we are on.
 
-!!solution!!
+!!hint!!
 
 === A bouncing ball ===
 
@@ -1411,7 +1411,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((strokeRect method)))(((animation)))(((arc method)))A ((box)) is
 easy to draw with `strokeRect`. Define a variable that holds its size
@@ -1432,7 +1432,7 @@ the y component when it hits a horizontal wall.
 position and speed, use `clearRect` to delete the scene, and redraw it
 using the new position.
 
-!!solution!!
+!!hint!!
 
 === Precomputed mirroring ===
 
@@ -1454,7 +1454,7 @@ Think of a way to allow us to draw an inverted character, without
 loading additional image files, and without having to make transformed
 `drawImage` calls every frame.
 
-!!solution!!
+!!hint!!
 
 (((mirror)))(((scaling)))(((drawImage method)))The key to the solution
 is the fact that we can use a ((canvas)) element as a source image
@@ -1470,4 +1470,4 @@ the image can be used to draw the inverted images to the extra canvas.
 This canvas can be used as a drawing source immediately (it'll simply
 be blank until we draw the character onto it).
 
-!!solution!!
+!!hint!!

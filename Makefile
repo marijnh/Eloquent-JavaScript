@@ -44,7 +44,7 @@ tex/%.tex: %.txt asciidoc_latex.conf bin/pre_latex.js bin/clean_latex.js
 test: html
 	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
 	@! grep '[a-zA-Z0-9]_[—“”‘’]\|[—“”‘’]_[a-zA-Z0-9]\|[a-zA-Z0-9]`—\|[a-zA-Z0-9]`[a-zA-Z0-9]' *.txt
-	@! grep '(!tex\|(!html' html/*.html tex/*.tex
+	@! grep '(!book\|(!html' html/*.html tex/*.tex
 	@node bin/check_links.js
 	@echo Done.
 

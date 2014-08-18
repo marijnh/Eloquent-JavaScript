@@ -431,7 +431,7 @@ console.log(JSON.parse(string).born);
 (((ANCESTRY_FILE data set)))The variable `ANCESTRY_FILE`, available in
 the ((sandbox)) for this chapter as well as in
 http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
-the website(!tex (_eloquentjavascript.net/code_)!), contains the
+the website(!book (_eloquentjavascript.net/code_)!), contains the
 content of my ((JSON)) file as a string. Let's decode it and see how
 many people it contains:
 
@@ -972,7 +972,7 @@ ancestry.forEach(function(person) {
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((age difference (exercise))))(((filter method)))(((map
 method)))(((null)))(((average function)))Because not all elements in
@@ -985,7 +985,7 @@ filtering on that first. Alternatively, you could start by calling
 or `null` if no mother is known. Then, you can call `filter` to remove
 the `null` elements before passing the array to `average`.
 
-!!solution!!
+!!hint!!
 
 === Historical life expectancy ===
 
@@ -1021,7 +1021,7 @@ function average(array) {
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((life expectancy (exercise))))The essence of this example lies in
 ((grouping)) the elements of a collection by some aspect of
@@ -1039,7 +1039,7 @@ the person (or age) to the array for the proper century.
 (((for/in loop)))(((average function)))Finally, a `for`/`in` loop can
 be used to print the average ages for the individual centuries.
 
-!!solution!!
+!!hint!!
 
 (((grouping)))(((map)))(((object,as map)))(((groupBy function)))For
 bonus points, write a function `groupBy` that abstracts the grouping
@@ -1085,7 +1085,7 @@ console.log(some([2, 3, 4], isNaN));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((every and some (exercise))))(((short-circuit evaluation)))(((return
 keyword)))The functions can follow a similar pattern to the
@@ -1096,4 +1096,4 @@ Don't forget to put another `return` statement after the loop, so that
 the function also returns the correct value when it reaches the end of
 the array.
 
-!!solution!!
+!!hint!!

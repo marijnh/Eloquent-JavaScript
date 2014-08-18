@@ -337,7 +337,7 @@ an `<input>` tag is `"text"`, and when an unsupported type is used,
 browsers will treat it as a text field. That means that Internet
 Explorer users running our paint program will have to type in the name
 of the color they want, rather than select it from a convenient
-widget.(!tex This is what a color picker may look like:!)
+widget.(!book This is what a color picker may look like:!)
 
 ifdef::tex_target[]
 
@@ -734,7 +734,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((relativePos function)))(((trackDrag function)))(((rectangle tool
 (exercise))))You can use `relativePos` to find the corner
@@ -764,7 +764,7 @@ the document (you can append it to `document.body`), and also removed
 again when the drag ends and the actual rectangle gets drawn onto the
 canvas.
 
-!!solution!!
+!!hint!!
 
 === Color picker ===
 
@@ -847,7 +847,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((color picker (exercise))))(((relativePos function)))(((rgb
 (CSS))))You'll again need to use `relativePos` to find out which
@@ -859,7 +859,7 @@ merely requires some string ((concatenation)).
 that the exception you catch is an instance of `SecurityError`, so
 that you don't accidentally handle the wrong kind of exception.
 
-!!solution!!
+!!hint!!
 
 === Flood fill ===
 
@@ -941,7 +941,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((algorithm)))(((bucket fill)))(((flood fill (exercise))))Given a
 pair of starting ((coordinates)) and the image data for the whole
@@ -988,4 +988,4 @@ When enumerating the neighbors of a given point, take care to exclude
 neighbors that are not inside of the canvas, or your program might run
 off into one direction forever.
 
-!!solution!!
+!!hint!!

@@ -768,7 +768,7 @@ console.log(reliableMultiply(8, 8));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((primitiveMultiply (exercise))))(((try keyword)))(((catch
 keyword)))(((throw keyword)))The call to `primitiveMultiply` should
@@ -782,7 +782,7 @@ earlier in this chapter—or use ((recursion)) and hope you don't get a
 string of failures so long that it overflows the stack (which is a
 pretty safe bet).
 
-!!solution!!
+!!hint!!
 
 === The locked box ===
 
@@ -843,7 +843,7 @@ the box is already unlocked, the box stays unlocked.
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((locked box (exercise))))(((finally keyword)))(((try keyword)))This
 exercise calls for a `finally` block, as you probably guessed. Your
@@ -855,4 +855,4 @@ To make sure we don't lock the box when it wasn't already locked,
 check its lock at the start of the function and unlock and lock
 it only  when it started out locked.
 
-!!solution!!
+!!hint!!

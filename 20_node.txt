@@ -1065,7 +1065,7 @@ property of `http.request`’s first argument.
 
 (((output)))Write out the content of the responses to each request.
 
-!!solution!!
+!!hint!!
 
 (((content negotiation (exercise))))(((end method)))(((request
 function)))Don't forget to call the `end` method on the object
@@ -1095,7 +1095,7 @@ function readStreamAsString(stream, callback) {
 }
 ----
 
-!!solution!!
+!!hint!!
 
 === Fixing a leak ===
 
@@ -1139,7 +1139,7 @@ both forward slashes and backslashes to separate directories.
 some half-baked system on the ((Internet)), the ((bug))s in that
 system might be used to do bad things to your machine.
 
-!!solution!!
+!!hint!!
 
 (((replace method)))(((file server example)))(((leak)))(((period
 character)))(((slash character)))(((backslash
@@ -1160,7 +1160,7 @@ front of the path, it is impossible to create requests that result in
 such a path. Multiple slashes in a row, inside of the path, are odd,
 but will be treated as a single slash by the file system.
 
-!!solution!!
+!!hint!!
 
 === Creating directories ===
 
@@ -1174,7 +1174,7 @@ basic HTTP methods, but it does exist, for this same purpose, in the
 _((WebDAV))_ standard, which specifies a set of extensions to ((HTTP))
 that make it suitable for writing resources, not just reading them.
 
-!!solution!!
+!!hint!!
 
 (((file server example)))(((MKCOL method)))(((mkdir
 function)))(((idempotency)))(((400 (HTTP status code))))You can use
@@ -1185,7 +1185,7 @@ response, so that directory creation requests are idempotent. If a
 non-directory file exists here, return an error code. 400 (“bad
 request”) would be appropriate here.
 
-!!solution!!
+!!hint!!
 
 === A public space on the web ===
 
@@ -1229,7 +1229,7 @@ copy the IP address it gives you into the address bar of your browser,
 and add `:8000` after it to select the right port. If that brings you
 to your site, it is online for everybody to see.
 
-!!solution!!
+!!hint!!
 
 (((file server example)))(((textarea (HTML
 tag))))(((XMLHttpRequest)))(((relative path)))(((public space
@@ -1260,4 +1260,4 @@ since it does not tell us whether the thing we fetched with a `GET`
 request is a regular file or a directory. Can you think of a way to
 extend the server to address this?
 
-!!solution!!
+!!hint!!

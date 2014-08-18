@@ -1015,7 +1015,7 @@ var valley = new LifelikeWorld(
 ----
 
 (((animation)))(((simulation)))Let's see what happens if we run this.
-(!tex These snapshots illustrate a typical run of this world.!)
+(!book These snapshots illustrate a typical run of this world.!)
 
 ifdef::html_target[]
 
@@ -1138,7 +1138,7 @@ animateWorld(new LifelikeWorld(
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((artificial stupidity (exercise))))(((artificial
 intelligence)))(((behavior)))(((state)))The greediness problem can be
@@ -1164,7 +1164,7 @@ more boring. If you have a handful of fat, immobile critters forever
 munching on a sea of plants and never reproducing, that makes for a
 very stable ecosystem. But no one wants to watch that.
 
-!!solution!!
+!!hint!!
 
 === Predators ===
 
@@ -1217,7 +1217,7 @@ animateWorld(new LifelikeWorld(
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((predators (exercise))))(((reproduction)))(((starvation)))Many of
 the same tricks that worked for the previous exercise also apply here.
@@ -1235,4 +1235,4 @@ starve. But you could keep track of observations in previous turns, in
 some ((data structure)) kept on the predator objects, and have it base
 its ((behavior)) on what it has seen recently.
 
-!!solution!!
+!!hint!!

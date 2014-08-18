@@ -1247,7 +1247,7 @@ console.log(text.replace(/A/g, "B"));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((quoting style (exercise))))(((boundary)))The most obvious solution
 is to only replace quotes with a nonword character on at least one
@@ -1261,7 +1261,7 @@ wrapping them in ((parentheses)) and including their groups in the
 replacement string (`$1`, `$2`). Groups that are not matched will be
 replaced by nothing.
 
-!!solution!!
+!!hint!!
 
 === Numbers again ===
 
@@ -1300,7 +1300,7 @@ var number = /^...$/;
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((regular expression,escaping)))(((backslash character)))First, do
 not forget the backslash in front of the dot.
@@ -1320,4 +1320,4 @@ digits.
 expression,flags)))Finally, to make the _e_ case-insensitive, either
 add an `i` option to the regular expression or use `[eE]`.
 
-!!solution!!
+!!hint!!

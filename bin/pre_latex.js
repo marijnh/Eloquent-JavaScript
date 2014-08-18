@@ -21,7 +21,7 @@ instream.on("data", function(chunk) {
 instream.on("end", function() {
   if (infile != "-")
     input = ":docid: " + infile.match(/^\d{2}_(.*?)\.txt/)[1] + "\n" + input;
-  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[|!!(solution)!![^]+?!!solution!!(?:\n|$)/g,
+  process.stdout.write(input.replace(/\n===? (.*?) ===?|”([.,:;])|\nimage::img\/(.+?)\.(svg)|link:[^\.]+\.html#(.*?)\[|!!(hint)!![^]+?!!hint!!(?:\n|$)/g,
                                      function(match, title, quoted, imgName, imgType, link, solution) {
     if (title) { // Section title, must be converted to title case
       var kind = /^\n(=*)/.exec(match)[1];

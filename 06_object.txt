@@ -755,7 +755,7 @@ code doesn't really do anything interesting.
 mountains that we are trying to build is available in the `MOUNTAINS`
 variable in the ((sandbox)) and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
-list of data sets on the website(!tex (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
+list of data sets on the website(!book (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
 
 (((table example)))We will want to highlight the top row, which
 contains the column names, by underlining the cells with a series of
@@ -1095,7 +1095,7 @@ console.log(new Vector(3, 4).length);
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((vector (exercise))))Your solution can follow the pattern of the
 `Rabbit` constructor from this chapter quite closely.
@@ -1106,11 +1106,11 @@ constructor can be done with the `Object.defineProperty` function. To
 compute the distance from (0, 0) to (x, y), you can use the
 Pythagorean theorem, which says that the square of the distance we are
 looking for is equal to the square of the x coordinate plus the square
-of the y coordinate. Thus, (!html √(x^2^ + y^2^)!)(!tex pass:[$\sqrt{x^2 + y^2}$]!)
+of the y coordinate. Thus, (!html √(x^2^ + y^2^)!)(!book pass:[$\sqrt{x^2 + y^2}$]!)
 is the number you want, and `Math.sqrt` is the way you compute a square
 root in JavaScript.
 
-!!solution!!
+!!hint!!
 
 === Another cell ===
 
@@ -1141,7 +1141,7 @@ console.log(sc.draw(3, 2));
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((StretchCell (exercise))))You'll have to store all three constructor
 arguments in the instance object. The `minWidth` and `minHeight`
@@ -1152,7 +1152,7 @@ returned (possibly using `Math.max`).
 Don't forget to add a `draw` method that simply forwards the call to
 the inner cell.
 
-!!solution!!
+!!hint!!
 
 === Sequence interface ===
 
@@ -1195,7 +1195,7 @@ logFive(new RangeSeq(100, 1000));
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((sequence (exercise))))(((collection)))One way to solve this is to
 give the sequence objects _((state))_, meaning their properties are
@@ -1222,4 +1222,4 @@ unfortunately, also somewhat inefficient in a language like
 JavaScript because it involves creating a lot of objects during
 iteration.
 
-!!solution!!
+!!hint!!

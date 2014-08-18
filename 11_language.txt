@@ -706,7 +706,7 @@ run("do(define(sum, fun(array,",
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 The easiest way to do this is to represent Egg arrays
 with JavaScript arrays.
@@ -715,7 +715,7 @@ with JavaScript arrays.
 functions. `Array.prototype.slice` can be used to convert an
 `arguments` array-like object into a regular array.
 
-!!solution!!
+!!hint!!
 
 === Closure ===
 
@@ -738,7 +738,7 @@ run("do(define(f, fun(a, fun(b, +(a, b)))),",
 Go back to the definition of the `fun` form and explain which
 mechanism causes this to work.
 
-!!solution!!
+!!hint!!
 
 (((closure)))Again, we are riding along on a JavaScript mechanism to
 get the equivalent feature in Egg. Special forms are passed the local
@@ -755,7 +755,7 @@ the function. This is all there is to implementing closure (though to
 compile it in a way that is actually efficient, you'd need to do some
 more work).
 
-!!solution!!
+!!hint!!
 
 === Comments ===
 
@@ -792,7 +792,7 @@ console.log(parse("a # one\n   # two\n()"));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((comment)))Make sure your solution handles multiple comments in a
 row, with potentially ((whitespace)) between or after them.
@@ -803,7 +803,7 @@ times”. Use the `exec` or `match` method, and look at the length of
 the first element in the returned array (the whole match) to find out
 how many characters to slice off.
 
-!!solution!!
+!!hint!!
 
 === Fixing scope ===
 
@@ -861,7 +861,7 @@ run("set(quux, true)");
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((variable,definition)))(((assignment)))(((getPrototypeOf
 function)))(((hasOwnProperty method)))You will have to loop through
@@ -875,4 +875,4 @@ evaluating the second argument to `set`, and return that value.
 reached (`Object.getPrototypeOf` returns null) and we haven't found
 the variable yet, it doesn't exist, and an error should be thrown.
 
-!!solution!!
+!!hint!!

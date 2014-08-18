@@ -916,7 +916,7 @@ console.log(min(0, -10));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((minimum (exercise))))If you have trouble putting braces and
 parentheses in the right place to get a valid function definition,
@@ -925,7 +925,7 @@ start by copying one of the examples in this chapter and modifying it.
 (((return keyword)))A function may contain multiple `return`
 statements.
 
-!!solution!!
+!!hint!!
 
 === Recursion ===
 
@@ -965,7 +965,7 @@ console.log(isEven(-1));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((isEven (exercise))))(((if keyword,chaining)))(((recursion)))Your
 function will likely look somewhat similar to the inner `find`
@@ -982,7 +982,7 @@ recurse again and again, passing itself an ever more negative number,
 thus getting further and further away from returning a result. It will
 eventually run out of stack space and abort.
 
-!!solution!!
+!!hint!!
 
 === Bean counting ===
 
@@ -1020,7 +1020,7 @@ console.log(countChar("kakkerlak", "k"));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((bean counting (exercise))))(((length property,for
 strings)))(((counter variable)))A ((loop)) in your function will have
@@ -1033,4 +1033,4 @@ counter can be returned.
 (((local variable)))Take care to make all the variables used in the
 function _local_ to the function by using the `var` keyword.
 
-!!solution!!
+!!hint!!

@@ -887,7 +887,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((synchronous I/O)))(((content negotiation (exercise))))See the
 various examples of using an `XMLHttpRequest` in this chapter for an
@@ -900,7 +900,7 @@ media type will return a response with code 406 “Not acceptable”,
 which is the code a server should return when it can not fulfill the
 `Accept` header.
 
-!!solution!!
+!!hint!!
 
 === Waiting for multiple promises ===
 
@@ -959,7 +959,7 @@ all([soon(1), fail(), soon(3)]).then(function(array) {
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((all function)))(((Promise constructor)))(((then method)))The
 function passed to the `Promise` constructor will have to call `then`
@@ -980,4 +980,4 @@ simple. Just pass the failure function of the wrapping promise to each
 of the promises in the array, so that a failure in one of them
 triggers failure of the whole wrapper.
 
-!!solution!!
+!!hint!!

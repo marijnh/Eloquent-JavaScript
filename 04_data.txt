@@ -500,20 +500,20 @@ pass:[\begin{equation}\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}
 
 endif::tex_target[]
 
-The notation (!html _n_~01~!)(!tex pass:[$n_{01}$]!) indicates the
+The notation (!html _n_~01~!)(!book pass:[$n_{01}$]!) indicates the
 number of measurements where the first measurement (pizza) is false
 (0) and the second measurement (squirrelness) is true (1). In this
-example, (!html _n_~01~!)(!tex pass:[$n_{01}$]!) is 4.
+example, (!html _n_~01~!)(!book pass:[$n_{01}$]!) is 4.
 
-The value (!html _n_~1•~!)(!tex pass:[$n_{1\bullet}$]!) refers to the
+The value (!html _n_~1•~!)(!book pass:[$n_{1\bullet}$]!) refers to the
 sum of all measurements where the first variable is true, which is 10
-in the example table. Likewise, (!html _n_~•0~!)(!tex pass:[$n_{\bullet0}$]!)
+in the example table. Likewise, (!html _n_~•0~!)(!book pass:[$n_{\bullet0}$]!)
 refers to the sum of the measurements where the squirrel variable is false.
 
 (((correlation)))(((phi coefficient)))So for the pizza table, the part
 above the division line (the dividend) would be 1×76 - 9×4 = 40, and
 the part below it (the divisor) would be the square root of
-10×80×5×85, or (!html √340000!)(!tex pass:[$\sqrt{340000}$]!). This
+10×80×5×85, or (!html √340000!)(!book pass:[$\sqrt{340000}$]!). This
 comes out to _ϕ_ ≈ 0.069, which is tiny. Eating ((pizza)) does not
 appear to have influence on the transformations.
 
@@ -557,13 +557,13 @@ console.log(phi([76, 9, 4, 1]));
 translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is the
 square root function, as provided by the `Math` object in a standard
 JavaScript environment. We have to sum two fields from the table to
-get fields like (!html n~1•~!)(!tex pass:[$n_{1\bullet}$]!) because
+get fields like (!html n~1•~!)(!book pass:[$n_{1\bullet}$]!) because
 the sums of rows or columns are not stored directly in our data
 structure.
 
 (((JOURNAL data set)))Jacques kept his journal for three months. The
 resulting ((data set)) is available in the coding sandbox for this
-chapter(!tex (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!),
+chapter(!book (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!),
 where it is stored in the `JOURNAL` variable, and in a downloadable
 http://eloquentjavascript.net/code/jacques_journal.js[file].
 
@@ -1206,7 +1206,7 @@ console.log(range(5, 2, -1));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((summing (exercise))))(((array,creation)))(((square
 brackets)))Building up an array is most easily done by first
@@ -1234,7 +1234,7 @@ It might also be worthwhile to use a different default step, namely,
 `range(5, 2)` returns something meaningful, rather than getting stuck
 in an ((infinite loop)).
 
-!!solution!!
+!!hint!!
 
 === Reversing an array ===
 
@@ -1271,7 +1271,7 @@ console.log(arrayValue);
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((reversing (exercise))))There are two obvious ways to implement
 `reverseArray`. The first is to simply go over the input array from
@@ -1296,7 +1296,7 @@ briefly hold on to one of the elements, overwrite that one with its
 mirror image, and then put the value from the local variable in the
 place where the mirror image used to be.
 
-!!solution!!
+!!hint!!
 
 === A list ===
 
@@ -1366,7 +1366,7 @@ console.log(nth(arrayToList([10, 20, 30]), 1));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((list (exercise))))(((linked list)))Building up a list is best done
 back to front. So `arrayToList` could iterate over the array backward
@@ -1397,7 +1397,7 @@ zeroeth element of a list, you simply take the `value` property of its
 head node. To get element _N_ + 1, you take the __N__th element of the
 list that's in this list's `rest` property.
 
-!!solution!!
+!!hint!!
 
 [[exercise_deep_compare]]
 === Deep comparison ===
@@ -1437,7 +1437,7 @@ console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
 ----
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((deep comparison (exercise))))(((typeof operator)))(((object)))(((=== operator)))Your test for whether you are dealing with a
 real object will look something like `typeof x == "object" && x !=
@@ -1458,4 +1458,4 @@ of the properties are compared by a recursive call to `deepEqual`.
 best done by immediately returning false when a mismatch is noticed
 and returning true at the end of the function.
 
-!!solution!!
+!!hint!!

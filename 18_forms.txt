@@ -797,7 +797,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((click event)))(((mousedown event)))(((Function
 constructor)))(((workbench (exercise))))Use `document.querySelector`
@@ -820,7 +820,7 @@ you want to keep the old content around, create a new text node using
 add a newline character to the end, so that not all output appears on
 a single line.
 
-!!solution!!
+!!hint!!
 
 === Autocompletion ===
 
@@ -852,7 +852,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((input event)))(((autocompletion (exercise))))The best event for
 updating the suggestion list is `"input"`, since that will fire
@@ -874,7 +874,7 @@ property of the event to find out which suggestion was clicked.
 look at its `textContent`, or set an attribute to explicitly store the
 text when you create the element.
 
-!!solution!!
+!!hint!!
 
 === Conway's Game of Life ===
 
@@ -925,7 +925,7 @@ ifdef::html_target[]
 
 endif::html_target[]
 
-!!solution!!
+!!hint!!
 
 (((game of life (exercise))))To solve the problem of having the
 changes conceptually happen at the same time, try to see the
@@ -955,4 +955,4 @@ link:13_dom.html#exercise_table[Chapter 13]) or simply put them all in
 the same element, and put `<br>` (line break) elements between the
 rows.
 
-!!solution!!
+!!hint!!

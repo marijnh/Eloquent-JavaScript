@@ -1182,7 +1182,7 @@ restarted for any reason, all talks and comments are lost.
 disk, and automatically reloads it when it is restarted. Do not worry
 about efficiency—do the simplest thing that works.
 
-!!solution!!
+!!hint!!
 
 (((file system)))(((writeFile function)))(((registerChange
 function)))(((persistence)))The simplest solution I can come up with
@@ -1203,7 +1203,7 @@ objects with `Object.prototype` as their prototype. If you use JSON as
 your file format, you'll have to copy the properties of the object
 returned by `JSON.parse` into a new, prototype-less object.
 
-!!solution!!
+!!hint!!
 
 === Comment field resets ===
 
@@ -1219,7 +1219,7 @@ In a heated discussion, where multiple people are adding comments to a
 single talk, this would be very annoying. Can you come up with a way
 to avoid it?
 
-!!solution!!
+!!hint!!
 
 (((comment field reset (exercise))))(((template)))The ad-hoc approach
 is to simply store the state a talk's comment field (its content and
@@ -1232,7 +1232,7 @@ recursively compare them, node by node, and only update the parts that
 actually changed. This is more general (it continues working even if
 we add another text field), but also a lot harder to implement.
 
-!!solution!!
+!!hint!!
 
 === Better templates ===
 
@@ -1278,7 +1278,7 @@ How would you add conditional instantiation of nodes, making it
 possible to omit parts of the template when a given value is true or
 false?
 
-!!solution!!
+!!hint!!
 
 (((template)))(((repetition)))(((instantiateTemplate
 function)))(((recursion)))(((template-repeat attribute)))One way to do
@@ -1295,7 +1295,7 @@ called, for example, `template-when` and `template-unless`, which
 cause a node to be instantiated only when a given property is true (or
 false).
 
-!!solution!!
+!!hint!!
 
 === The unscriptables ===
 
@@ -1320,7 +1320,7 @@ Don't feel obliged to actually implement this. Outlining a solution is
 enough. Does the revised approach strike you as more, or less elegant
 than what we did initially?
 
-!!solution!!
+!!hint!!
 
 (((form (HTML tag))))(((page reload)))Two central aspects of the
 approach taken in this chapter—a clean HTTP interface, and client-side
@@ -1343,4 +1343,4 @@ would have to be generated dynamically (by adding a handler for it to
 the router), so that it already includes the current talks and
 comments when it gets served.
 
-!!solution!!
+!!hint!!

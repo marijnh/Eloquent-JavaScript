@@ -736,7 +736,7 @@ continue on a new line, and dots do not match the newline character.
 
 But the output of the previous example appears to have gone wrong. Why?
 
-(((backtracking)))(((greed)))(((regular expression)))The `.*` part of
+(((backtracking)))(((greed)))(((regular expression)))The `[^]*` part of
 the expression, as I described in the section on backtracking, will
 first match as much as it can. If that causes the next part of the
 pattern to fail, the matcher moves back one character and tries again

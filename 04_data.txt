@@ -907,17 +907,14 @@ console.log("one two three".indexOf("ee"));
 // → 11
 ----
 
-(((whitespace)))(((trim method)))(((trimLeft method)))(((trimRight
-method)))The `trim` method removes whitespace (spaces, newlines, tabs,
-and similar characters) from the start and end of a string. To trim
-only one side, the `trimLeft` and `trimRight` methods can be used.
+(((whitespace)))(((trim method)))The `trim` method removes whitespace
+(spaces, newlines, tabs, and similar characters) from the start and
+end of a string.
 
 [source,javascript]
 ----
 console.log("  okay \n ".trim());
 // → okay
-console.log("|" + " a ".trimLeft() + "|");
-// → |a |
 ----
 
 (((length property,for strings)))(((charAt

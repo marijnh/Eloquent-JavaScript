@@ -402,11 +402,12 @@ indexsee:[JavaScript Object Notation,JSON](((World Wide Web)))This format is cal
 which stands for JavaScript Object Notation. It is widely used as a
 data storage and communication format on the Web.
 
-(((array)))(((object)))(((quoting,in JSON)))JSON is similar to
+(((array)))(((object)))(((quoting,in JSON)))(((comment)))JSON is similar to
 JavaScript's way of writing arrays and objects, with a few
-restrictions. All property names have to be surrounded by quotes, and
+restrictions. All property names have to be surrounded by double quotes, and
 only simple data expressions are allowed—no function calls, or
-variables, or anything that involves actual computation.
+variables, or anything that involves actual computation. Comments are not
+allowed in JSON.
 
 (((JSON.stringify function)))(((JSON.parse
 function)))(((serialization)))(((deserialization)))(((parsing)))JavaScript

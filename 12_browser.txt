@@ -308,7 +308,7 @@ whenever the button is pressed.
 
 [source,text/html]
 ----
-<button onclick="alert('Boom!')">DO NOT PRESS</button>
+<button onclick="alert('Boom!');">DO NOT PRESS</button>
 ----
 
 (((single-quote character)))(((escaping,in HTML)))Note that I had to

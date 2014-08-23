@@ -1,5 +1,5 @@
 function all(promises) {
-  return new Promise(function(success, fail) {
+  return new Promise(function(succeed, fail) {
     var results = [], pending = promises.length;
     promises.forEach(function(promise, i) {
       promise.then(function(result) {
@@ -17,7 +17,7 @@ function all(promises) {
 }
 
 // Test code.
-all([], function(array) {
+all([]).then(function(array) {
   console.log("This should be []:", array);
 });
 function soon(val) {

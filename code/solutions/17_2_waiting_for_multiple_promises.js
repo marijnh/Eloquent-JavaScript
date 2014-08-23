@@ -17,7 +17,7 @@ function all(promises) {
 }
 
 // Test code.
-all([], function(array) {
+all([]).then(function(array) {
   console.log("This should be []:", array);
 });
 function soon(val) {

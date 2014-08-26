@@ -895,7 +895,7 @@ updated to track time, and then used as argument to `Math.sin` to
 create a ((wave)), which is used to compute a new position.
 
 (((collision detection)))(((Player type)))That leaves the ((player))
-itself. Player motion is handles separately per ((axis)), because
+itself. Player motion is handled separately per ((axis)), because
 hitting the floor should not prevent horizontal motion, and hitting a
 wall should not stop falling or jumping motion. This method implements
 the horizontal part:

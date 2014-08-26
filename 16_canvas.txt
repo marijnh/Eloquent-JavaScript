@@ -1164,7 +1164,7 @@ techniques. For example, drawing a ((graph)) with ((SVG)) or
 much which interface you choose. The
 link:16_canvas.html#canvasdisplay[second display] we built for our
 game in this chapter could have been implemented using any of these
-thee ((graphics)) technologies, since it does not need to draw text,
+three ((graphics)) technologies, since it does not need to draw text,
 handle mouse interaction, or work with an extraordinarily large amount
 of elements.
 

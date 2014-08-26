@@ -1,0 +1,33 @@
+%
+% Doctrip file for nostarch
+% This file is in public domain
+% $Id: nostarch.ins,v 1.3 2008-03-23 21:48:10 boris Exp $
+%
+\def\batchfile{nostarch.ins}
+\input docstrip
+\keepsilent
+\showprogress
+
+
+\askforoverwritefalse
+
+\generate{%
+  \file{nostarch.cls}{\from{nostarch.dtx}{class}}
+  \file{nshyper.sty}{\from{nostarch.dtx}{nshyper}}
+  \file{nostarch.ist}{\from{nostarch.dtx}{ist}}}
+
+\obeyspaces
+\Msg{*****************************************************}%
+\Msg{* Congratulations!  You successfully  generated the *}%
+\Msg{* nostarch package.                                 *}%
+\Msg{*                                                   *}%
+\Msg{* Please move the file nostarch.cls and nshyper.sty *}%
+\Msg{* to the place where the LaTeX files are stored  on *}%
+\Msg{* your system.  Move the file  nostarch.ist  to the *}%
+\Msg{* place where  MakeIndex  styles are storen on your *}%
+\Msg{* system. The manual is nostarch.pdf      .         *}%
+\Msg{*                                                   *}%
+\Msg{* The package is released under LPPL                *}%
+\Msg{*                                                   *}%
+\Msg{* Happy TeXing!                                     *}%
+\Msg{*****************************************************}%

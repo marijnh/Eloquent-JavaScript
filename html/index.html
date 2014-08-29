@@ -2,15 +2,20 @@
 <head>
   <meta charset="utf-8">
   <title>Eloquent JavaScript</title>
-  <link rel=stylesheet href="ejs.css">
+  <link rel=stylesheet href="css/ejs.css">
 </head>
 
 <article>
   <h1>Eloquent JavaScript<div style="font-size: 70%">second edition</div></h2>
 
-  <p>A modern introduction to JavaScript, programming, and the wonders of the digital.</p>
+  <p>This is a book about JavaScript, programming, and the wonders of
+  the digital. You can read it online here, and
+  a <a href="http://www.nostarch.com/ejs2">paper version</a> is being
+  worked on.</p>
 
-  <p>[[new cover here]]</p>
+  <p style="text-align: center; margin: 1.5em 0">
+    <a href="http://www.nostarch.com/ejs2"><img src="img/cover.png" alt="Cover image" style="border: 1px solid black"></a>
+  </p>
 
   <p>Written by Marijn Haverbeke.</p>
 
@@ -20,21 +25,68 @@
   may also be considered licensed under
   an <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
 
-  <p>Illustration (chapter 1) by Margarita Martínez and José
-  Menor.</p>
+  <p style="font-size: 80%">Illustrations by various artists: Cover by
+  Wasif Hyder. Computer (introduction) and unicycle people (Chapter
+  21) by Max Xiantu. Sea of bits (Chapter 1) and weresquirrel (Chapter
+  4) by Margarita Martínez and José Menor. Octopuses (Chapter 2 and 4)
+  by Jim Tierney. Object with on/off switch (Chapter 6) by Dyle
+  MacGregor. Regular expression diagrams in Chapter 9 generated
+  with <a href="http://regexper.com">regexper.com</a> by Jeff
+  Avallone. Game concept for Chapter 15
+  by <a href="http://lessmilk.com">Thomas Palef</a>. Pixel art in
+  Chapter 16 by Antonio Perdomo Pastor.</p>
+
+  <p style="font-size: 80%">The second edition was made possible
+  by <a href="backers.html">454 financial backers</a>.</p>
 
   <h2>Contents</h2>
 
   <style>
     li.contents-intro:before { display: none; }
+    .toc h3 { position: absolute; margin: 0; top: -2px; right: 0; font-family: inherit; font-weight: normal; font-size: 90%; }
+    ul.links { list-style-type: circle; }
   </style>
 
-  <ol>
+  <ol class=toc>
     <li class="contents-intro"><a href="00_intro.html">Introduction</a>
-    <li style="counter-reset: li"><a href="01_values.html">Values, Types, and Operators</a>
+    <li style="counter-reset: li; position: relative">
+      <h3>(Part 1: Language)</h3>
+      <a href="01_values.html">Values, Types, and Operators</a>
+    </li>
     <li><a href="02_program_structure.html">Program Structure</a>
     <li><a href="03_functions.html">Functions</a>
-    <li><a href="04_data.html">Data Structures: Object and Array</a>
+    <li><a href="04_data.html">Data Structures: Objects and Arrays</a>
+    <li><a href="05_higher_order.html">Higher-order Functions</a>
+    <li><a href="06_object.html">The Secret Life of Objects</a>
+    <li><a href="07_elife.html">Project: Electronic Life</a>
+    <li><a href="08_error.html">Bugs and Error Handling</a>
+    <li><a href="09_regexp.html">Regular Expressions</a>
+    <li><a href="10_modules.html">Modules</a>
+    <li><a href="11_language.html">Project: A Programming Language</a>
+    <li style="position: relative">
+      <h3>(Part 2: Browser)</h3>
+      <a href="12_browser.html">JavaScript and the Browser</a>
+    </li>
+    <li><a href="13_dom.html">The Document Object Model</a>
+    <li><a href="14_event.html">Handling Events</a>
+    <li><a href="15_game.html">Project: A Platform Game</a>
+    <li><a href="16_canvas.html">Drawing on Canvas</a>
+    <li><a href="17_http.html">HTTP</a>
+    <li><a href="18_forms.html">Forms and Form Fields</a>
+    <li><a href="19_paint.html">Project: A Paint Program</a>
+    <li style="position: relative">
+      <h3>(Part 3: Node)</h3>
+      <a href="20_node.html">Node.js</a>
+    </li>
+    <li><a href="21_skillsharing.html">Project: Skill-Sharing Website</a>
   </ol>
+
+  <h2>Other pages</h2>
+
+  <ul class="links">
+    <li><a href="code">Code sandbox and exercise solutions</a></li>
+    <li><a href="http://eloquentjavascript.net/Eloquent_JavaScript.pdf">This book as a single PDF file</a></li>
+    <li><a href="http://eloquentjavascript.net/1st_edition">The first edition of the book</a></li>
+  </ul>
 
 </article>

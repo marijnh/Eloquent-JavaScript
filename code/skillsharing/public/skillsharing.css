@@ -1,0 +1,22 @@
+#talks {
+  margin-bottom: 25px;
+}
+
+.talk {
+  margin-bottom: 5px;
+  padding: 8px;
+  border: 1px solid silver;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.comment {
+  font-style: italic;
+}
+
+.talk h2 {
+  margin: 0;
+  font-size: 130%;
+}

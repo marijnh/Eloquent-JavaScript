@@ -1,0 +1,1096 @@
+:chap_num: 5
+:prev_link: 04_data
+:next_link: 06_object
+:load_files: ["code/ancestry.js", "code/chapter/05_higher_order.js", "js/intro.js"]
+
+= Higher-Order Functions =
+
+ifdef::html_target[]
+
+[chapterquote="true"]
+[quote, Master Yuan-Ma, The Book of Programming]
+____
+Tzu-li and Tzu-ssu were
+boasting about the size of their latest programs. ‘Two-hundred
+thousand lines,’ said Tzu-li, ‘not counting comments!’ Tzu-ssu
+responded, ‘Pssh, mine is almost a *million* lines already.’ Master
+Yuan-Ma said, ‘My best program has five hundred lines.’ Hearing this,
+Tzu-li and Tzu-ssu were enlightened.
+____
+
+endif::html_target[]
+
+[chapterquote="true"]
+[quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
+____
+(((Hoare+++,+++ C.A.R.)))There are two ways of constructing a software
+design: One way is to make it so simple that there are obviously no
+deficiencies, and the other way is to make it so complicated that
+there are no obvious deficiencies.
+____
+
+(((program size)))A large program is a costly program, and not just
+because of the time it takes to build. Size almost always involves
+((complexity)), and complexity confuses programmers. Confused
+programmers, in turn, tend to introduce mistakes (_((bug))s_) into
+programs. A large program also provides a lot of space for these bugs
+to hide, making them hard to find.
+
+(((summing example)))Let us briefly go back to the final two example
+programs in the introduction. The first is self-contained, and six
+lines long.
+
+[source,javascript]
+----
+var total = 0, count = 1;
+while (count <= 10) {
+  total += count;
+  count += 1;
+}
+console.log(total);
+----
+
+The second relies on two external functions, and is one line long.
+
+[source,javascript]
+----
+console.log(sum(range(1, 10)));
+----
+
+Which one is more likely to contain a bug?
+
+(((program size)))If we count the size of the definitions of `sum` and
+`range`, the second program is also big—even bigger than the first.
+But still, I'd argue that it is more likely to be correct.
+
+(((abstraction)))(((domain-specific language)))It is is more likely to
+be correct because the solution is expressed in a ((vocabulary)) that
+corresponds to the problem that is being solved. Summing a range of
+numbers isn't about loops and counters, it is about ranges and sums.
+
+The definitions of this vocabulary (the functions `sum` and `range`)
+will still involve loops, counters, and other incidental details. But
+because they are expressing simpler concepts than the program as a
+whole, they are easier to get right.
+
+== Abstraction ==
+
+In the context of programming, these kinds of vocabularies are usually
+called _((abstraction))s_. Abstractions hide details, and give us the
+ability to talk about problems at a higher (or more abstract) level.
+
+(((recipe analogy)))(((pea soup)))As an analogy, compare these two
+recipes for pea soup:
+
+____
+Put 1 cup of dried peas per person into a container. Add water until
+the peas are well covered. Leave the peas in water for at least 12 hours.
+Take the peas out of the water and put them in a cooking pan. Add 4
+cups of water per person. Cover the pan and keep the peas
+simmering for two hours. Take half an onion per person. Cut it into
+pieces with a knife. Add it to the peas. Take a stalk of celery per
+person. Cut it into pieces with a knife. Add it to the peas. Take a
+carrot per person. Cut it into pieces. With a knife! Add it to the
+peas. Cook for 10 more minutes.
+____
+
+And the second recipe:
+____
+Per person: 1 cup dried split peas, half a chopped onion, a stalk of
+celery, and a carrot.
+
+Soak peas for 12 hours. Simmer for 2 hours in 4 cups of water
+(per person). Chop and add vegetables. Cook for 10 more minutes.
+____
+
+(((vocabulary)))The second is shorter, and easier to interpret. But
+you do need to understand a few more cooking-related words—“soak”,
+“simmer”, “chop”, and, I guess, “vegetables”.
+
+When programming, we can't rely on all the words we need to be waiting
+for us in the dictionary. Thus, you might fall into the pattern of the
+first recipe—work out the precise steps the computer has to perform,
+one by one, blind to the higher-level concepts that they express.
+
+(((abstraction)))It has to become second nature, for a programmer, to
+notice when a concept is begging to be abstracted into a new word.
+
+== Abstracting array traversal ==
+
+(((array)))Plain functions, as we've seen them so far, are a good
+way to build abstractions. But sometimes they fall short.
+
+(((for loop)))In the link:04_data.html#data[previous chapter], this
+type of `for` ((loop)) made several appearances:
+
+[source,javascript]
+----
+var array = [1, 2, 3];
+for (var i = 0; i < array.length; i++) {
+  var current = array[i];
+  console.log(current);
+}
+----
+
+(((length property,for
+array)))(((array,indexing)))(((readability)))It's trying to say: “For
+each element in the array, log it to the console”. But it uses a
+roundabout way that involves a counter variable `i`, a check against
+the array's length, and an extra variable declaration to pick out the
+current element. Apart from being a bit of an eyesore, this provides a
+lot of space for potential mistakes. We might accidentally reuse the
+`i` variable, or misspell `lenght`, or confuse the `i` and `current`
+variables, and so on.
+
+So let's try to abstract this into a function. Can you think of a way?
+
+Well, it's easy to write a function that goes over an array and calls
+`console.log` on every element:
+
+[source,javascript]
+----
+function logEach(array) {
+  for (var i = 0; i < array.length; i++)
+    console.log(array[i]);
+}
+----
+
+[[forEach]]
+indexsee:[higher-order function,function+++,+++ higher-order](((function,higher-order)))(((loop)))(((array,traversal)))(((function,as value)))(((forEach method)))But what
+if we want to do something other than logging the elements? Since
+“doing something” can be represented as a function, and functions are
+just values, we can pass our action as a function value:
+
+[source,javascript]
+----
+function forEach(array, action) {
+  for (var i = 0; i < array.length; i++)
+    action(array[i]);
+}
+
+forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
+// → Wampeter
+// → Foma
+// → Granfalloon
+----
+
+Often, you don't pass a pre-defined function to `forEach`, but create
+a function value on the spot instead.
+
+[source,javascript]
+----
+var numbers = [1, 2, 3, 4, 5], sum = 0;
+forEach(numbers, function(number) {
+  sum += number;
+});
+console.log(sum);
+// → 15
+----
+
+(((loop body)))(((curly braces)))This looks quite a lot like the
+classical `for` loop, with its body written as a block below it.
+Except that now the body is inside of the function value, as well as
+inside of the ((parentheses)) of the call to `forEach`. This is why it
+has to be closed with the closing brace _and_ closing parenthesis.
+
+(((local variable)))(((parameter)))Using this pattern, we can
+specify a variable name for the current element (`number`), rather
+than having to pick it out of the array manually.
+
+(((array,methods)))(((function,higher-order)))(((forEach
+method)))(((array)))In fact, we don't need to write `forEach`
+ourselves. It is available as a standard method on arrays. Since the
+array is already provided as the thing the method acts on, `forEach`
+only takes one required argument: the function to be executed for each
+element.
+
+To illustrate how helpful this is, let's look back at this function
+from link:04_data.html#analysis[the previous chapter]. It contains two
+array-traversing ((loop))s:
+
+[source,javascript]
+----
+function gatherCorrelations(journal) {
+  var phis = {};
+  for (var entry = 0; entry < journal.length; entry++) {
+    var events = journal[entry].events;
+    for (var i = 0; i < events.length; i++) {
+      var event = events[i];
+      if (!(event in phis))
+        phis[event] = phi(tableFor(event, journal));
+    }
+  }
+  return phis;
+}
+----
+
+(((forEach method)))Working with `forEach` makes it slightly shorter
+and quite a bit cleaner:
+
+[source,javascript]
+----
+function gatherCorrelations(journal) {
+  var phis = {};
+  journal.forEach(function(entry) {
+    entry.events.forEach(function(event) {
+      if (!(event in phis))
+        phis[event] = phi(tableFor(event, journal));
+    });
+  });
+  return phis;
+}
+----
+
+== Higher-order functions ==
+
+(((function,higher-order)))(((function,as value)))Functions that
+operate on other functions, either by taking them as arguments or
+returning them, are called _higher-order functions_. If you have
+already accepted the fact that functions are regular values, there is
+nothing particularly remarkable about the fact that such functions
+exist. The term comes from ((mathematics)), where the distinction
+between functions and other values is taken more seriously.
+
+(((abstraction)))Higher-order functions allow us to abstract over
+_actions_, not just values. They come in several forms. For example,
+you can have functions that create new functions:
+
+[source,javascript]
+----
+function greaterThan(n) {
+  return function(m) { return m > n; };
+}
+var greaterThan10 = greaterThan(10);
+console.log(greaterThan10(11));
+// → true
+----
+
+Or functions that change other functions:
+
+[source,javascript]
+----
+function noisy(f) {
+  return function(arg) {
+    console.log("calling with", arg);
+    var val = f(arg);
+    console.log("called with", arg, "- got", val);
+    return val;
+  };
+}
+noisy(Boolean)(0);
+// → calling with 0
+// → called with 0 - got false
+----
+
+Or functions that build new types of ((control flow)):
+
+[source,javascript]
+----
+function unless(test, then) {
+  if (!test) then();
+}
+function repeat(times, body) {
+  for (var i = 0; i < times; i++) body(i);
+}
+
+repeat(3, function(n) {
+  unless(n % 2, function() {
+    console.log(n, "is even");
+  });
+});
+// → 0 is even
+// → 2 is even
+----
+
+(((inner function)))(((nesting,of functions)))((({}
+(block))))(((local variable)))(((closure)))The ((lexical scoping))
+rules that we discussed in link:03_functions.html#scoping[Chapter 3]
+work to our advantage when using functions in this way. In the example
+above, the `n` variable is a ((parameter)) to the outer function.
+Because the inner function lives inside the environment of the outer
+one, it can use `n`. The bodies of such inner functions can access the
+variables around them. They can play a role similar to the `{}` blocks
+used in regular loops and conditional statements. An important
+difference is that variables declared inside inner functions do not
+end up in the environment of the outer function. And that is usually a
+good thing.
+
+== Passing along arguments ==
+
+(((function,wrapping)))(((arguments object)))The `noisy` function
+above, which wraps its argument in another function, has a rather
+serious deficit.
+
+[source,javascript]
+----
+function noisy(f) {
+  return function(arg) {
+    console.log("calling with", arg);
+    var val = f(arg);
+    console.log("called with", arg, "- got", val);
+    return val;
+  };
+}
+----
+
+If `f` takes more than one ((parameter)), it only gets the first one.
+We could add a bunch of arguments to the inner function (`arg1`,
+`arg2`, and so on) and pass them all to `f`, it is not clear how many
+would be enough. This solution would also deprive `f` of the
+information in `arguments.length`. Since we'd always pass the same
+number of arguments, it wouldn't know how many argument were
+originally given.
+
+(((apply method)))(((array-like object)))(((function,application)))For
+these kinds of situations, JavaScript functions have an `apply`
+method. You pass it an array (or array-like object) of arguments, and
+it will call the function with those arguments.
+
+[source,javascript]
+----
+function transparentWrapping(f) {
+  return function() {
+    return f.apply(null, arguments);
+  };
+}
+----
+
+(((null)))That's a useless function, but it shows the pattern we are
+interested in—the function it returns passes all of the given
+arguments, and only those arguments, to `f`. It does this by passing
+its own `arguments` object to `apply`. The first argument to `apply`,
+for which we are passing `null` here, can be used to simulate a
+((method)) call. More on that in the
+link:06_object.html#call_method[next chapter].
+
+== JSON ==
+
+(((array)))(((function,higher-order)))(((forEach method)))(((data
+set)))Higher-order functions that somehow apply a function to the
+elements of an array are widely used in JavaScript. The `forEach`
+method is the most primitive such function. There are a number of
+other variants available as methods on arrays. In order to familiarize
+ourselves with them, let's play around with another data set.
+
+(((ancestry example)))A few years ago, someone crawled through a lot
+of archives and put together a book on the history of my family name
+(“Haverbeke”—literally “Oatbrook”). I opened it hoping to find
+knights, pirates, and alchemists ... but the book turns out to be
+mostly full of Flemish ((farmer))s. For my amusement, I extracted the
+information on my direct ancestors, and put it into a
+computer-readable format.
+
+(((data format)))(((JSON)))The file I created looks something like
+this:
+
+[source,application/json]
+----
+[
+  {"name": "Emma de Milliano", "sex": "f",
+   "born": 1876, "died": 1956,
+   "father": "Petrus de Milliano",
+   "mother": "Sophia van Damme"},
+  {"name": "Carolus Haverbeke", "sex": "m",
+   "born": 1832, "died": 1905,
+   "father": "Carel Haverbeke",
+   "mother": "Maria van Brussel"},
+  … and so on
+]
+----
+
+indexsee:[JavaScript Object Notation,JSON](((World Wide Web)))This format is called JSON (pronounced “Jason”),
+which stands for JavaScript Object Notation. It is widely used as a
+data storage and communication format on the Web.
+
+(((array)))(((object)))(((quoting,in JSON)))(((comment)))JSON is similar to
+JavaScript's way of writing arrays and objects, with a few
+restrictions. All property names have to be surrounded by double quotes, and
+only simple data expressions are allowed—no function calls, or
+variables, or anything that involves actual computation. Comments are not
+allowed in JSON.
+
+(((JSON.stringify function)))(((JSON.parse
+function)))(((serialization)))(((deserialization)))(((parsing)))JavaScript
+gives us functions, `JSON.stringify` and `JSON.parse`, that convert
+data from and to this format. The first takes a JavaScript value, and
+returns a JSON-encoded string. The second takes such a string, and
+converts it to the value it encodes.
+
+[source,javascript]
+----
+var string = JSON.stringify({name: "X", born: 1980});
+console.log(string);
+// → {"name":"X","born":1980}
+console.log(JSON.parse(string).born);
+// → 1980
+----
+
+(((ANCESTRY_FILE data set)))The variable `ANCESTRY_FILE`, available in
+the ((sandbox)) for this chapter as well as in
+http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
+the website(!book (_eloquentjavascript.net/code_)!), contains the
+content of my ((JSON)) file as a string. Let's decode it and see how
+many people it contains:
+
+// include_code strip_log
+
+[source,javascript]
+----
+var ancestry = JSON.parse(ANCESTRY_FILE);
+console.log(ancestry.length);
+// → 39
+----
+
+== Filtering an array ==
+
+(((array,methods)))(((array,filtering)))(((filter
+method)))(((function,higher-order)))(((predicate function)))To find
+the people in the ancestry data set that were young in 1924, the
+following function might be helpful. It filters out the elements in an
+array that don't pass a test.
+
+[source,javascript]
+----
+function filter(array, test) {
+  var passed = [];
+  for (var i = 0; i < array.length; i++) {
+    if (test(array[i]))
+      passed.push(array[i]);
+  }
+  return passed;
+}
+
+console.log(filter(ancestry, function(person) {
+  return person.born > 1900 && person.born < 1925;
+}));
+// → [{name: "Philibert Haverbeke", …}, …]
+----
+
+(((function,as value)))(((function,application)))This uses the
+argument named `test`, a function value, to fill in a “gap” in the
+computation. The test function is called for each element, and its
+return value determines whether an element is included in the returned
+array or not.
+
+(((ancestry example)))Three people in the file were alive and young in
+1924: my grandfather, grandmother, and great-aunt.
+
+(((filter method)))(((pure function)))(((side effect)))Note how the
+`filter` function, rather than delete elements from the existing
+array, builds up a new array with only the elements that pass the
+test. This function is _pure_, it does not modify the array it is
+given.
+
+Like `forEach`, `filter` is also a ((standard)) method on arrays. The
+example defined the function only in order to show what it does
+internally. From now on, we'll use it like this instead:
+
+[source,javascript]
+----
+console.log(ancestry.filter(function(person) {
+  return person.father == "Carel Haverbeke";
+}));
+// → [{name: "Carolus Haverbeke", …}]
+----
+
+== Transforming with map ==
+
+(((array,methods)))(((map method)))(((ancestry example)))Say we
+have an array of objects representing people, produced by filtering
+the `ancestry` array somehow. But we want an array of names, which is
+easier to read through.
+
+(((function,higher-order)))The `map` method transforms an array by
+applying a function to all of its elements, and building a new array
+from the returned values. The new array will have the same length as
+the input array, but its content will have been “mapped” to a new form
+by the function.
+
+// test: join
+
+[source,javascript]
+----
+function map(array, transform) {
+  var mapped = [];
+  for (var i = 0; i < array.length; i++)
+    mapped.push(transform(array[i]));
+  return mapped;
+}
+
+var overNinety = ancestry.filter(function(person) {
+  return person.died - person.born > 90;
+});
+console.log(map(overNinety, function(person) {
+  return person.name;
+}));
+// → ["Clara Aernoudts", "Emile Haverbeke",
+//    "Maria Haverbeke"]
+----
+
+Interestingly, the people that lived to over 90 years of age are the
+same three people that we saw before—the people who were young in the
+1920s, which happens to be the most recent generation in my data set.
+I guess ((medicine)) has come a long way.
+
+Like `forEach` and `filter`, `map` is also a standard method on
+arrays.
+
+== Summarizing with reduce ==
+
+(((array,methods)))(((summing example)))(((reduce method)))(((ancestry
+example)))Another common pattern of computation on arrays is computing
+a single value from them. Our recurring example, summing a collection
+of numbers, is an instance of this. Another example would be finding
+the person with the earliest year of birth in the data set.
+
+(((function,higher-order)))(((fold function)))The higher-order
+operation that represents this pattern is called _reduce_ (or
+sometimes _fold_). You can think of it as folding up the array, one
+element at a time. When summing numbers, you'd start with the number
+zero, and for each element, combine it with the current sum by adding
+the two.
+
+The parameters to the `reduce` function are, apart from the array, a
+combining function and a start value. This function is a little less
+straightforward than `filter` and `map`, so pay careful attention.
+
+[source,javascript]
+----
+function reduce(array, combine, start) {
+  var current = start;
+  for (var i = 0; i < array.length; i++)
+    current = combine(current, array[i]);
+  return current;
+}
+
+console.log(reduce([1, 2, 3, 4], function(a, b) {
+  return a + b;
+}, 0));
+// → 10
+----
+
+(((reduce method)))The standard array method `reduce`, which of course
+corresponds to this function, has an added convenience. If your array
+contains at least one element, you are allowed to leave off the
+`start` argument. The method will take the first element of the array
+as its start value, and start reducing at the second element.
+
+(((ancestry example)))(((minimum)))To use `reduce` to find my most
+ancient known ancestor, we can write something like this:
+
+// test: no
+
+[source,javascript]
+----
+console.log(ancestry.reduce(function(min, cur) {
+  if (cur.born < min.born) return cur;
+  else return min;
+}));
+// → {name: "Pauwels van Haverbeke", born: 1535, …}
+----
+
+== Composability ==
+
+(((loop)))(((minimum)))(((ancestry example)))Consider how we would
+have written the previous example (finding the person with the
+earliest year of birth) without higher-order functions. The code is
+not that much worse:
+
+// test: no
+
+[source,javascript]
+----
+var min = ancestry[0];
+for (var i = 1; i < ancestry.length; i++) {
+  var cur = ancestry[i];
+  if (cur.born < min.born)
+    min = cur;
+}
+console.log(min);
+// → {name: "Pauwels van Haverbeke", born: 1535, …}
+----
+
+There are a few more ((variable))s, and the program is two lines
+longer, but still quite easy to understand.
+
+[[average_function]]
+(((average
+function)))(((composability)))(((function,higher-order)))Higher-order
+functions start to shine when you need to _compose_ functions. As an
+example, let us write code that finds the average age for men and for
+women in the data set.
+
+// test: clip
+
+[source,javascript]
+----
+function average(array) {
+  function plus(a, b) { return a + b; }
+  return array.reduce(plus) / array.length;
+}
+function age(p) { return p.died - p.born; }
+function male(p) { return p.sex == "m"; }
+function female(p) { return p.sex == "f"; }
+
+console.log(average(ancestry.filter(male).map(age)));
+// → 61.67
+console.log(average(ancestry.filter(female).map(age)));
+// → 54.56
+----
+
+(((plus function)))(((+ operator)))(((function,as value)))(It's a bit
+silly that we have to define `plus` as a function, but operators in
+JavaScript, unlike functions, are not values, so you can't pass them
+as arguments.)
+
+(((abstraction)))(((vocabulary)))Instead of tangling the logic into a
+big ((loop)), it is neatly composed into the concepts we are
+interested in—determining sex, computing age, averaging numbers. We
+can apply these one by one to get the result we were looking for.
+
+This is _fabulous_ for writing clear code. Unfortunately, this clarity
+comes at a cost.
+
+== The cost ==
+
+(((efficiency)))(((optimization)))In the happy land of elegant code
+and pretty rainbows, there lives a spoil-sport monster called
+“__inefficiency__”.
+
+(((elegance)))(((array,creation)))(((pure
+function)))(((composability)))A program that processes an array is most
+elegantly expressed as a sequence of cleanly separated steps that each
+do something with the array and produce a new array. But building up
+all those intermediate arrays is somewhat expensive.
+
+(((readability)))(((function,application)))(((forEach
+method)))(((function,as value)))Likewise, passing a function to
+`forEach` and letting that method handle the array iteration for us is
+convenient and easy to read. But function calls in JavaScript are
+costly compared to simple loop bodies.
+
+(((abstraction)))And so it goes with a lot of techniques that help
+improve the clarity of a program. Abstractions add layers between the
+raw things the computer is doing and the concepts we are working with,
+and thus cause the machine to perform more work. This is not an iron
+law—there are programming languages that have better support for
+building abstractions without adding inefficiencies, and even in
+JavaScript, an experienced programmer can find ways to write abstract
+code that is still fast. But it is a problem that comes up a lot.
+
+(((profiling)))Fortunately, most computers are insanely fast. If you
+are processing a modest set of data, or doing something that only has
+to happen on a human time scale (say, every time the user clicks a
+button), then it _does not matter_ whether you wrote a pretty solution
+that takes half a millisecond or a super-optimized solution that takes
+a tenth of a millisecond.
+
+(((nesting,of loops)))(((inner loop)))(((complexity)))It is helpful to
+roughly keep track of how often a piece of your program is going to
+run. If you have a ((loop)) inside a loop (either directly, or through
+the outer loop calling a function that ends up performing the inner
+loop), the code inside the inner loop will end up running __N__×__M__
+times, where _N_ is the number of times the outer loop repeats, and
+_M_ the number of times the inner loop repeats within each iteration
+of the outer loop. If that inner loop contains another loop that makes
+_P_ rounds, its body will run __M__×__N__×__P__ times, and so on. This
+can add up to large numbers, and when a program is slow, the problem
+can often be traced to only a small part of the code, which sits in
+such an inner loop.
+
+== Great-great-great-great-... ==
+
+(((ancestry example)))My ((grandfather)), Philibert Haverbeke, is
+included in the data file. By starting with him, I can trace my
+lineage to find out whether the most ancient person in the data,
+Pauwels van Haverbeke, is my direct ancestor. And if he is, I would
+like to know how much ((DNA)) I theoretically share with him.
+
+(((byName object)))(((map)))(((data structure)))(((object,as
+map)))To be able to go from a parent's name to the actual object that
+represents this person, we first build up an object that associates
+names with people.
+
+// include_code strip_log
+
+[source,javascript]
+----
+var byName = {};
+ancestry.forEach(function(person) {
+  byName[person.name] = person;
+});
+
+console.log(byName["Philibert Haverbeke"]);
+// → {name: "Philibert Haverbeke", …}
+----
+
+Now, the problem is not entirely as simple as following the `father`
+properties and counting how many we need to reach Pauwels. There are
+several cases in the family ((tree)) where people married their second
+cousins (tiny villages and all that). This causes the branches of the
+family tree to re-join in a few places, which means I share more than
+1/2^_G_^ of my genes with this person, where _G_ for the number of
+generations between Pauwels and me. This formula comes from the idea
+that each generation splits the gene pool in two.
+
+(((reduce method)))(((data structure)))A reasonable way to think about
+this problem is to look at it as being analogous to `reduce`, which
+condenses an array down to a single value by repeatedly combining
+values, left to right. In this case, we also want to condense our data
+structure down to a single value, but in a way that follows family
+lines. The _shape_ of the data is that of a family tree, rather than a
+flat list.
+
+The way we want to reduce this shape is by computing a value for a
+given person by combining values from their ancestors. This can be
+done recursively: if we are interested in person _A_, we have to
+compute the values for __A__’s parents, which in turn requires us to
+compute the value for __A__’s grandparents, and so on. In principle,
+that'd require us to look at an infinite number of people, but since
+our data set is finite, we have to stop somewhere. We'll allow a
+((default value)) to be given to our reduction function, which will be
+used for people that are not in the data. In our case, that value is
+simply zero, on the assumption that people not in the list don't share
+DNA with the ancestor we are looking at.
+
+(((recursion)))(((reduceAncestors function)))Given a person, a
+function to combine values from the two parents of a given person, and
+a default value, `reduceAncestors` condenses a value from a family
+tree.
+
+// include_code
+
+[source,javascript]
+----
+function reduceAncestors(person, f, defaultValue) {
+  function valueFor(person) {
+    if (person == null)
+      return defaultValue;
+    else
+      return f(person, valueFor(byName[person.mother]),
+                       valueFor(byName[person.father]));
+  }
+  return valueFor(person);
+}
+----
+
+(((function,higher-order)))The inner function (`valueFor`) handles a
+single person. Through the ((magic)) of recursion, it can simply call
+itself to handle the father and the mother of this person. The
+results, along with the person object itself, are passed to `f`, which
+returns the actual value for this person.
+
+We can then use this to compute the amount of ((DNA)) my
+((grandfather)) shared with Pauwels van Haverbeke, and divide that by
+four.
+
+// start_code bottom_lines: 2
+// test: clip
+// include_code top_lines: 6
+
+[source,javascript]
+----
+function sharedDNA(person, fromMother, fromFather) {
+  if (person.name == "Pauwels van Haverbeke")
+    return 1;
+  else
+    return (fromMother + fromFather) / 2;
+}
+var ph = byName["Philibert Haverbeke"];
+console.log(reduceAncestors(ph, sharedDNA, 0) / 4);
+// → 0.00049
+----
+
+The person with the name Pauwels van Haverbeke obviously shared 100%
+of his DNA with Pauwels van Haverbeke (there are no people who share
+names in the data set), so the function returns 1 for him. All other
+people share the average of the amounts that their parents share.
+
+So, statistically speaking, I share about 0.05% of my ((DNA)) with
+this 16th-century person. It should be noted that this is only a
+statistical approximation, not an exact amount. It is a rather small
+number, but given how much genetic material we carry (about 3 billion
+base pairs), there's still probably some aspect in the biological
+machine that is me that originates with Pauwels.
+
+(((ancestry example)))(((reduceAncestors
+function)))(((abstraction)))We could also have computed this number
+without relying on `reduceAncestors`. But separating the general
+approach (condensing a family tree) from the specific case (computing
+shared DNA) can improve the clarity of the code, and allows us to
+reuse the abstract part of the program for other cases. For example,
+the following code finds the percentage of known ancestors, for a
+given person, that lived past 70:
+
+// test: clip
+
+[source,javascript]
+----
+function countAncestors(person, test) {
+  function combine(person, fromMother, fromFather) {
+    var thisOneCounts = test(person);
+    return fromMother + fromFather + (thisOneCounts ? 1 : 0);
+  }
+  return reduceAncestors(person, combine, 0);
+}
+function longLivingPercentage(person) {
+  var all = countAncestors(person, function(person) {
+    return true;
+  });
+  var longLiving = countAncestors(person, function(person) {
+    return (person.died - person.born) >= 70;
+  });
+  return longLiving / all;
+}
+console.log(longLivingPercentage(byName["Emile Haverbeke"]));
+// → 0.145
+----
+
+Such numbers are not to be taken too seriously, given the fact that
+our data set contains a rather arbitrary collection of people. But the
+code illustrates the fact that `reduceAncestors` gives us a useful
+piece of ((vocabulary)) for working with the family tree data
+structure.
+
+== Binding ==
+
+(((bind method)))(((partial
+application)))(((function,application)))The `bind` method, which all
+functions have, creates a new function that will call the original
+function, but with some of the arguments already fixed.
+
+(((filter method)))(((function,as value)))The code below shows an
+example of `bind` in use. First it defines a function `isInSet` that
+tells us whether a person is in a given set of strings. To call
+`filter` in order to collect those person objects whose names are in a
+specific set, we can either write a function expression that makes a
+call to `isInSet` with our set as its first argument, or _partially
+apply_ the `isInSet` function.
+
+[source,javascript]
+----
+var theSet = ["Carel Haverbeke", "Maria van Brussel",
+              "Donald Duck"];
+function isInSet(set, person) {
+  return set.indexOf(person.name) > -1;
+}
+
+console.log(ancestry.filter(function(person) {
+  return isInSet(theSet, person);
+}));
+// → [{name: "Maria van Brussel", …},
+//    {name: "Carel Haverbeke", …}]
+console.log(ancestry.filter(isInSet.bind(null, theSet)));
+// → … same result
+----
+
+The above `bind` call returns a function that will call `isInSet` with
+`theSet` as first argument, followed by any remaining arguments given
+to the bound function.
+
+(((null)))The first argument, where the example passes `null`, is used
+for ((method call))s, similar to the first argument to `apply`. We'll
+describe this in more detail in the
+link:06_object.html#call_method[next chapter].
+
+== Summary ==
+
+Being able to pass function values to other functions is not just a
+gimmick, but a deeply useful aspect of JavaScript. It allows us to
+write computations with “gaps” in them as functions, and have the code
+that calls these functions fill in those gaps by providing function
+values that describe the missing computations.
+
+Arrays provide a number of very useful higher-order methods—`forEach`
+to do something with each element in an array, `filter` to build a new
+array with some elements filtered out, `map` to build a new array
+where each element has been put through a function, and `reduce` to
+combine all an array's elements into a single value.
+
+Functions have an `apply` method that can be used to call them with an
+array specifying their arguments. They also have a `bind` method,
+which is used to create a partially applied version of the function.
+
+== Exercises ==
+
+=== Flattening ===
+
+(((flattening (exercise))))(((reduce method)))(((concat
+method)))(((array)))Use the `reduce` method in combination with
+the `concat` method to “flatten” an array of arrays into a single
+array that has all the elements of the input arrays.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+var arrays = [[1, 2, 3], [4, 5], [6]];
+// Your code here.
+// → [1, 2, 3, 4, 5, 6]
+----
+endif::html_target[]
+
+=== Mother-child age difference ===
+
+(((ancestry example)))(((age difference (exercise))))(((average
+function)))Using the example data set from this chapter, compute the
+average age difference between mothers and children (the age of the
+mother when the child is born). You can use the `average` function
+defined link:05_higher_order.html#average_function[earlier] in this
+chapter.
+
+(((byName object)))Note that not all the mothers mentioned in the data
+are themselves present in the array. The `byName` object, which makes
+it easy to find a person's object from their name, might be useful
+here.
+
+ifdef::html_target[]
+
+// test: no
+// include_code
+
+[source,javascript]
+----
+function average(array) {
+  function plus(a, b) { return a + b; }
+  return array.reduce(plus) / array.length;
+}
+
+var byName = {};
+ancestry.forEach(function(person) {
+  byName[person.name] = person;
+});
+
+// Your code here.
+
+// → 31.2
+----
+endif::html_target[]
+
+!!hint!!
+
+(((age difference (exercise))))(((filter method)))(((map
+method)))(((null)))(((average function)))Because not all elements in
+the `ancestry` array produce useful data (we can't compute the age
+difference unless we know the birth date of the mother), we will have
+to apply `filter` in some manner before calling `average`. You could
+do it as a first pass, by defining a `hasKnownMother` function and
+filtering on that first. Alternatively, you could start by calling
+`map`, and in your mapping function return either the age difference,
+or `null` if no mother is known. Then, you can call `filter` to remove
+the `null` elements before passing the array to `average`.
+
+!!hint!!
+
+=== Historical life expectancy ===
+
+(((life expectancy (exercise))))When we looked up all the people in
+our data set that lived more than ninety years, only the very latest
+generation in the data came out. Let's take a closer look at that
+phenomenon.
+
+(((average function)))Compute and output the average age of the people
+in the ancestry data set per century. A person is assigned to a
+((century)) by taking their year of death, dividing it by a hundred,
+and rounding it up, as in `Math.ceil(person.died / 100)`.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+function average(array) {
+  function plus(a, b) { return a + b; }
+  return array.reduce(plus) / array.length;
+}
+
+// Your code here.
+
+// → 16: 43.5
+//   17: 51.2
+//   18: 52.8
+//   19: 54.8
+//   20: 84.7
+//   21: 94
+----
+endif::html_target[]
+
+!!hint!!
+
+(((life expectancy (exercise))))The essence of this example lies in
+((grouping)) the elements of a collection by some aspect of
+theirs—splitting the array of ancestors into smaller arrays with the
+ancestors for each century.
+
+(((array)))(((map)))(((object,as map)))During the grouping
+process, keep an object that associates ((century)) names (numbers)
+with arrays of either person objects or ages. Since we do not know in
+advance what categories we will find, we'll have to create them on the
+fly. For each person, after computing their century, we test whether
+that century was already known. If not, add an array for it. Then add
+the person (or age) to the array for the proper century.
+
+(((for/in loop)))(((average function)))Finally, a `for`/`in` loop can
+be used to print the average ages for the individual centuries.
+
+!!hint!!
+
+(((grouping)))(((map)))(((object,as map)))(((groupBy function)))For
+bonus points, write a function `groupBy` that abstracts the grouping
+operation. It should accept as arguments an array and a function that
+computes the group for an element in the array, and returns the object
+containing the groups.
+
+=== Every and then some ===
+
+(((predicate function)))(((every and some (exercise))))(((every
+method)))(((some method)))(((array,methods)))(((&& operator)))(((||
+operator)))Arrays also come with the standard methods `every` and
+`some`. Both take a predicate function that, when called with an array
+element as argument, returns true or false. Just like `&&` only
+returns a true value when the expressions on both sides are true,
+`every` only returns true when the predicate returned true for _all_
+elements of the array. Similarly, `some` returns true as soon as the
+predicate returned true for _any_ of the elements. They do not process
+more elements than necessary—for example, if `some` finds that the
+predicate holds for the first element of the array, it will not look
+at the values after that.
+
+Write two functions, `every` and `some`, that behave like these
+methods, except that they take the array as their first argument,
+rather than being a method.
+
+ifdef::html_target[]
+
+// test: no
+
+[source,javascript]
+----
+// Your code here.
+
+console.log(every([NaN, NaN, NaN], isNaN));
+// → true
+console.log(every([NaN, NaN, 4], isNaN));
+// → false
+console.log(some([NaN, 3, 4], isNaN));
+// → true
+console.log(some([2, 3, 4], isNaN));
+// → false
+----
+endif::html_target[]
+
+!!hint!!
+
+(((every and some (exercise))))(((short-circuit evaluation)))(((return
+keyword)))The functions can follow a similar pattern to the
+link:05_higher_order.html#forEach[definition] of `forEach` at the
+start of the chapter, except that they must return immediately (with
+the right value) when the predicate function returns false—or true.
+Don't forget to put another `return` statement after the loop, so that
+the function also returns the correct value when it reaches the end of
+the array.
+
+!!hint!!

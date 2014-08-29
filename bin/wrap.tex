@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{ifthen}
+\newboolean{DBKIsBook}
+\setboolean{DBKIsBook}{false}
+\IfFileExists{ifxetex.sty}{%
+    \usepackage{ifxetex}%
+  }{%
+    \newif\ifxetex
+    \xetexfalse
+  }
+  \ifxetex
+\usepackage{fontspec}
+\usepackage{xltxtra}
+\defaultfontfeatures{Mapping=tex-text}
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+\else
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\fi
+\usepackage{fancybox}
+\usepackage{makeidx}
+\usepackage[hyperlink]{docbook}
+\renewcommand{\DBKreleaseinfo}{}
+\renewcommand{\DBKrevhistory}{}
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+\renewcommand{\DBKdate}{2014-{}06-{}23}
+\title{Eloquent JavaScript}
+\author{Marijn Haverbeke}
+\renewcommand{\DBKindexation}{}
+\makeindex
+\makeglossary
+\begin{document}
+\lstsetup
+\maketitle
+\tableofcontents
+\mainmatter
+
+{{CHAPTERS}}
+
+\end{document}
+\printindex

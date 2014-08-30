@@ -204,7 +204,7 @@ endif::book_target[]
 
 (((user experience)))(((asynchronous programming)))When the program is
 busy processing the action caused by some ((button)) or other control,
-(for example, making requests to a server), it can be a good idea to
+for example making requests to a server, it can be a good idea to
 disable the control until the action finishes so that, when the user
 gets impatient and clicks it again, they don't accidentally repeat
 their action.
@@ -604,7 +604,7 @@ so-called _blob_ object) to the file reader.
 == Storing data client-side ==
 
 (((web application)))Simple ((HTML)) pages with a bit of JavaScript
-can be a great medium for “((mini applications))”—small helper programs
+can be a great medium for “((mini application))s”—small helper programs
 that automate everyday things. By connecting a few form ((field))s
 with event handlers you can do anything from converting between
 degrees Celsius and Fahrenheit to computing passwords from a master

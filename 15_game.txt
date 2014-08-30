@@ -550,7 +550,7 @@ that work, we would need a lot of additional information flow between
 the display code and the simulation code. We'd need to associate
 actors with DOM elements, and the ((drawing)) code must remove
 elements when their actors vanish. Since there will typically only be
-a handful of actors in the game, redrawing all of them is is not
+a handful of actors in the game, redrawing all of them is not
 expensive.
 
 // include_code

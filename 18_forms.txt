@@ -8,9 +8,9 @@
 [chapterquote="true"]
 [quote,Mephistopheles,in Goethe's Faust]
 ____
-I shall this very day, at Doctor's feast, + 
-My bounden service duly pay thee. + 
-But one thing!—For insurance’ sake, I pray thee, + 
+I shall this very day, at Doctor's feast, +
+My bounden service duly pay thee. +
+But one thing!—For insurance’ sake, I pray thee, +
 Grant me a line or two, at least.
 ____
 
@@ -22,17 +22,16 @@ designed for a pre-JavaScript Web, assuming that interaction with the
 server always happens by navigating to a new page.
 
 But their elements are part of the ((DOM)) like the rest of the page,
-and the DOM elements that represent form ((field))s supports a number
+and the DOM elements that represent form ((field))s support a number
 of properties and events that are not present on other elements. These
-make it possible to inspect and control them with JavaScript programs.
-This makes it possible to add additional functionality to a
-traditional form, or to use forms and fields as building blocks in a
-JavaScript application.
+make it possible to inspect and control them with JavaScript programs by
+adding additional functionality to a traditional form or by using forms
+and fields as building blocks in a JavaScript application.
 
 == Fields ==
 
 (((form (HTML tag))))A web form consists of any number of input
-((field))s, grouped in a `<form>` tag. HTML allows a number of
+((field))s grouped in a `<form>` tag. HTML allows a number of
 different styles of fields, ranging from simple on/off checkboxes to
 drop-down menus and fields for text input. This book won't try to
 comprehensively discuss all of them, but we will start with a rough
@@ -205,8 +204,8 @@ endif::book_target[]
 
 (((user experience)))(((asynchronous programming)))When the program is
 busy processing the action caused by some ((button)) or other control,
-for example making requests to a server, it can be a good idea to
-disable the control until the action finishes, so that when the user
+(for example, making requests to a server), it can be a good idea to
+disable the control until the action finishes so that, when the user
 gets impatient and clicks it again, they don't accidentally repeat
 their action.
 
@@ -223,7 +222,7 @@ inside of it.
 form field determines the way its value will be identified when the
 form is ((submit))ted. It can also be used as a property name when
 accessing the form's `elements` property, which acts both as an
-array-like object (accessible by number) and a ((map)) (accessable by
+array-like object (accessible by number) and a ((map)) (accessible by
 name).
 
 [source,text/html]
@@ -278,7 +277,7 @@ calling `preventDefault` on the event object.
 verify that the values the user entered make sense, and immediately
 show an error message instead of submitting the form when they don't.
 Or we can disable the regular way of submitting the form entirely, as
-in the example above, and have out program handle the input, possibly
+in the example above, and have our program handle the input, possibly
 using `XMLHttpRequest` to send it over to a server without reloading
 the page.
 
@@ -605,7 +604,7 @@ so-called _blob_ object) to the file reader.
 == Storing data client-side ==
 
 (((web application)))Simple ((HTML)) pages with a bit of JavaScript
-can be a great medium for “((mini application))”—small helper programs
+can be a great medium for “((mini applications))”—small helper programs
 that automate everyday things. By connecting a few form ((field))s
 with event handlers you can do anything from converting between
 degrees Celsius and Fahrenheit to computing passwords from a master
@@ -615,7 +614,7 @@ password and a website name.
 remember something between sessions, you can not use JavaScript
 ((variable))s, since those are thrown away every time a page is
 closed. You could set up a server, connect it to the Internet, and
-have your appplication store something there. We will see how to do
+have your application store something there. We will see how to do
 that in link:20_node.html#node[Chapter 20]. But this adds a lot of
 extra work and complexity. Sometimes it is enough to just keep the
 data in the ((browser)). But how?
@@ -753,7 +752,7 @@ buttons) are used to read or set the field's content.
 
 When a form is submitted, its `"submit"` event fires. A JavaScript
 handler can `preventDefault` that event to prevent the submission from
-happening. Form fields elements do not have to be wrapped in `<form>`
+happening. Form field elements do not have to be wrapped in `<form>`
 tag.
 
 When the user has selected a field from their local file system in a

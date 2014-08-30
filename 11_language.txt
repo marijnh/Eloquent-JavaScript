@@ -433,7 +433,7 @@ variable names, and whose values correspond to the values those
 represent the ((global scope)).
 
 To be able to use the `if` construct we just defined, we must
-((Boolean)) values in this global scope. Since there are only two
+have ((Boolean)) values in this global scope. Since there are only two
 boolean values, we do not need special syntax for them. We simply bind
 two variables to the values `true` and `false`, and use those.
 

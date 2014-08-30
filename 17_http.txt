@@ -747,7 +747,7 @@ of all the error handing ourselves.
 (((client)))(((HTTP)))When building a system that requires
 ((communication)) between a JavaScript program running in the
 ((browser)) (client-side) and a program on a ((server)) (server-side),
-there several different ways to model this communication.
+there are several different ways to model this communication.
 
 (((network)))(((abstraction)))A commonly used model is that of
 _((remote procedure call))s_. In this model, communication follows the
@@ -781,7 +781,7 @@ since resources are easier to reason about than a jumble of functions.
 the internet tends to follow a long, dangerous road. In order to get
 to its destination it must hop through anything from coffee shop wifi
 ((network))s to networks controlled by various companies and states.
-At any point along its routed, it may be inspected, or even modified.
+At any point along its route it may be inspected or even modified.
 
 (((tampering)))If it is important that something remain secret,
 such as the ((password)) to your ((email)) account, or that it arrive
@@ -868,7 +868,7 @@ the standardized _media types_ `text/plain`, `text/html`, and
 
 (((setRequestHeader method)))(((XMLHttpRequest)))Send requests to
 fetch all three formats of this resource. Use the `setRequestHeader`
-method of your `XMLHttpRequest` object set the header named `Accept`
+method of your `XMLHttpRequest` object to set the header named `Accept`
 to one of the media types given above. Make sure you set the header
 _after_ calling `open`, but before calling `send`.
 

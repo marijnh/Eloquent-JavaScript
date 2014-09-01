@@ -930,7 +930,7 @@ changes conceptually happen at the same time, try to see the
 computation of a ((generation)) as a ((pure function)), which takes
 one ((grid)), and produces a new grid that represents the next turn.
 
-Representing the grid can be done in any of the way seen in Chapters
+Representing the grid can be done in any of the ways seen in Chapters
 link:07_elife.html#grid[7] and link:15_game.html#level[15]. Counting
 live ((neighbor))s can be done with two nested loops, looping over
 adjacent coordinates. Take care not to count cells outside of the

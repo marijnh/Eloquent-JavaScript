@@ -40,8 +40,6 @@ without too much ((code)). It looks like this:
 
 image::img/darkblue.png[alt="The game Dark Blue"]
 
-// FIXME Make this explanation work for the grayscale paper book
-
 (((coin)))(((lava)))The dark ((box)) represents the ((player)), whose
 task is to collect the yellow boxes (coins) while avoiding the red
 stuff (lava?). A ((level)) is completed when all coins have been

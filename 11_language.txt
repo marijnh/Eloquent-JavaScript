@@ -231,7 +231,8 @@ parentheses follow.
 (((syntax tree)))(((Egg language)))(((parse function)))This is all we
 need to parse Egg. We wrap it in a convenient `parse` function which
 verifies that it has reached the end of the input string after parsing
-the program, and which gives us the program's data structure.
+the expression (an Egg program is a single expression), and which
+gives us the program's data structure.
 
 // include_code strip_log
 // test: join
@@ -354,9 +355,10 @@ specialForms["if"] = function(args, env) {
 (((conditional execution)))Egg's `if` construct expects exactly three
 arguments. It will evaluate the first, and if the result isn't the
 value `false`, it will evaluate the second. Otherwise, the third gets
-evaluated. Because this `if` form is an expression, not a statement as
-it is in JavaScript, it has a value—namely, the result of the second
-or third argument.
+evaluated. This `if` form is more similar to JavaScript's ternary `?:`
+operator than to JavaScript's `if`—is an expression, not a statement,
+and it produces a value—namely the result of the second or third
+argument.
 
 (((Boolean)))Egg differs from JavaScript in how it handles the
 condition value to `if`. It will not treat things like zero or the

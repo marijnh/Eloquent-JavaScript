@@ -97,8 +97,8 @@ code))))Codes starting with a 2 indicate that the request succeeded.
 Codes starting with a 4 mean there was something wrong with the
 ((request)). 404 is probably the most famous HTTP status code—it means
 that the resource that was requested could not be found. Codes that
-start with 5 mean an error happened on the the ((server)), and the
-request is not to blame.
+start with 5 mean an error happened on the ((server)), and the request
+is not to blame.
 
 [[headers]]
 (((HTTP)))The first line of a request or response may be followed by
@@ -489,7 +489,7 @@ application is doing. The above one only does `GET` requests, and
 doesn't give us control over the headers or the request body. You
 could write another variant for `POST` requests, or a more generic one
 that supports various kinds of requests. Many JavaScript libraries
-also provide with wrappers for `XMLHttpRequest`.
+also provide wrappers for `XMLHttpRequest`.
 
 (((user experience)))(((error response)))The main problem with the
 wrapper above is its handling of ((failure)). When the request returns
@@ -740,7 +740,7 @@ think of the promise interface as implementing its own language for
 asynchronous ((control flow)). The extra method calls and function
 expressions needed to achieve this make the code look somewhat
 awkward, but not remotely as awkward as it would look if we took care
-of all the error handing ourselves.
+of all the error handling ourselves.
 
 == Appreciating HTTP ==
 

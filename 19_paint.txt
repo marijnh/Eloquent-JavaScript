@@ -332,7 +332,7 @@ pickers, but in the past years, a number of new form field types have
 been ((standard))ized. One of those is `<input type="color">`. Others
 include `"date"`, `"email"`, `"url"`, and `"number"`. Not all
 ((browser))s support them yet—at the time of writing, no version of
-Internet Explorer version supports color fields. The default type of
+Internet Explorer supports color fields. The default type of
 an `<input>` tag is `"text"`, and when an unsupported type is used,
 browsers will treat it as a text field. That means that Internet
 Explorer users running our paint program will have to type in the name
@@ -442,7 +442,7 @@ controls.save = function(cx) {
 ----
 
 (((mouseover event)))(((focus event)))(((magic)))Thus, the link just
-quietly sits there, pointing at the wrong thing, but when the use
+quietly sits there, pointing at the wrong thing, but when the user
 approaches it, it magically updates itself to point at the current
 picture.
 
@@ -464,7 +464,7 @@ information out of that picture, they could snoop on the user in
 undesirable ways.
 
 (((tainting)))(((pixel)))To prevent these kinds of information
-((leak))s, ((browser))s will marks a canvas as _tainted_ when an image
+((leak))s, ((browser))s will mark a canvas as _tainted_ when an image
 that the script may not see is drawn onto it. Pixel data, including
 data URLs, may not be extracted from a tainted canvas. You can write
 to it, but you can no longer read it.

@@ -216,7 +216,7 @@ later. Another complicating factor is that text nodes are created even
 for the ((whitespace)) between nodes. The example document's body tag
 does not have just three children (`<h1>` and two `<p>`’s), but
 actually has seven: those three, plus the spaces before, after, and
-between them).
+between them.
 
 (((searching)))(((href attribute)))(((getElementsByTagName method)))So
 if we want to get the `href` attribute of the link in that document,

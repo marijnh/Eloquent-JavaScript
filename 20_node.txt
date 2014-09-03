@@ -369,7 +369,7 @@ fs.readFile("file.txt", "utf8", function(error, text) {
 });
 ----
 
-(((Buffer type)))(((array-like object)))The second argument to
+(((Buffer type)))The second argument to
 `readFile` indicates the _((character encoding))_ used to decode the
 file into a string. There are several ways in which ((text)) can be
 encoded to ((binary data)), but most modern systems use ((UTF-8)) to
@@ -377,7 +377,7 @@ encode text, so unless you have reasons to believe another encoding is
 used, passing `"utf8"` when reading a text file is a safe bet. If you
 do not pass an encoding, Node will assume you are interested in the
 binary data itself, and will give you a `Buffer` object instead of a
-string. This is an array-like object that contains numbers
+string. This is an ((arraylike object)) that contains numbers
 representing the bytes in the files.
 
 [source,javascript]

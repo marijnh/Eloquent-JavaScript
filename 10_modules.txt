@@ -708,8 +708,8 @@ structure))s possible, and make functions do a single, clear thing.
 Whenever practical, make them ((pure function))s (see
 link:03_functions.html#pure[Chapter 3]).
 
-(((array-like object)))For example, it is not uncommon for modules to
-provide their own array-like collection objects, with their own
+(((arraylike object)))For example, it is not uncommon for modules to
+provide their own arraylike collection objects, with their own
 interface for counting and extracting elements. Such objects won't
 have `map` or `forEach` methods, and any existing function that
 expects a real array won't be able to work with them. This is an

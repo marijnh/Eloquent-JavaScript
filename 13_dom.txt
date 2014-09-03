@@ -130,9 +130,9 @@ consistency) isn't all that compelling. Having an interface that is
 properly integrated with the language you are using will save you more
 time than having a familiar interface across languages.
 
-(((array-like object)))(((NodeList type)))As an example of such poor
+(((arraylike object)))(((NodeList type)))As an example of such poor
 integration, consider the `childNodes` property that element nodes in
-the DOM have. This property holds an array-like object, with a
+the DOM have. This property holds an arraylike object, with a
 `length` property and properties labeled by numbers to access the
 child nodes. But it is an instance of the `NodeList` type, not a real
 array, so it does not have methods like `slice` and `forEach`.
@@ -162,7 +162,7 @@ image::img/html-links.svg[alt="Links between DOM nodes",width="6cm"]
 property)))Although the diagram only shows one link of each type,
 every node has a `parentNode` property that points to its containing
 node. Likewise, every element node (node type 1) has a `childNodes`
-property that points to an ((array-like object)) holding its children.
+property that points to an ((arraylike object)) holding its children.
 
 (((firstChild property)))(((lastChild property)))(((previousSibling
 property)))(((nextSibling property)))In theory, you could move
@@ -234,7 +234,7 @@ console.log(link.href);
 (((child node)))All element nodes have a `getElementsByTagName`
 method, which collects all elements with the given tag name that are
 descendants (direct or indirect children) of the given node, and
-returns them as an array-like object.
+returns them as an arraylike object.
 
 (((id attribute)))(((getElementById method)))To find a specific
 _single_ node, you can give it an `id` attribute, and use
@@ -806,7 +806,7 @@ mini-language as an effective way to find ((DOM)) elements.
 
 (((querySelectorAll method)))The `querySelectorAll` method, which is defined
 both on the `document` object and on element nodes, takes a selector
-string, and returns an ((array-like object)) containing all the
+string, and returns an ((arraylike object)) containing all the
 elements that it matches.
 
 [source,text/html]

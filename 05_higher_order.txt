@@ -340,7 +340,7 @@ information in `arguments.length`. Since we'd always pass the same
 number of arguments, it wouldn't know how many argument were
 originally given.
 
-(((apply method)))(((array-like object)))(((function,application)))For
+(((apply method)))(((arraylike object)))(((function,application)))For
 these kinds of situations, JavaScript functions have an `apply`
 method. You pass it an array (or arraylike object) of arguments, and
 it will call the function with those arguments.

@@ -83,3 +83,11 @@ ejs_tex.zip: nostarch/book.tex $(foreach CHAP,$(CHAPTERS),nostarch/$(CHAP).tex) 
 	cd /tmp; zip -r ejs_tex.zip ejs_tex
 	mv /tmp/ejs_tex.zip $@
 	rm -rf $(TMPDIR)
+
+Eloquent_JavaScript.epub: epub/titlepage.xhtml epub/toc.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) epub/content.opf epub/style.css
+	rm -f $@
+	cd epub; zip -X ../$@ mimetype
+	cd epub; zip -X ../$@ -r * -x mimetype
+
+epub/%.xhtml: %.txt asciidoc_epub.conf
+	asciidoc -f asciidoc_epub.conf --backend=xhtml11 -o $@ $<

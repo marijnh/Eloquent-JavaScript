@@ -1,0 +1,120 @@
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 700;
+  src: url(font/cinzel_bold.otf);
+}
+
+@font-face {
+  font-family: 'PT Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url(font/pt_mono.otf);
+}
+
+body {
+  font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
+  font-size: 20px;
+  line-height: 1.45;
+  color: black;
+  background: white;
+}
+
+article {
+  margin: 0 auto;
+  max-width: 35em;
+  padding: 2em 0 5em 0;
+}
+
+pre {
+  padding: 5px 0 5px 15px;
+  line-height: 1.35;
+  margin: 1rem 0;
+  position: relative;
+}
+
+code, pre {
+  font-size: 18px;
+  font-family: 'PT Mono', monospace;
+}
+
+code {
+  padding: 0 2px;
+}
+
+h1, h2, h3 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  margin: 1rem 0;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: 130%;
+}
+h2 {
+  font-size: 115%;
+}
+h3 {
+  font-size: 100%;
+}
+
+span.chap_num {
+  display: block;
+  font-size: 60%;
+  color: #aaa;
+  margin-top: -.7em;
+}
+
+blockquote {
+  margin: 0 0 0 3em;
+  padding: 0;
+  position: relative;
+  font-size: 85%;
+}
+
+blockquote p {
+  color: #333;
+}
+
+blockquote:before {
+  content: '“';
+  position: absolute;
+  left: -.5em;
+}
+
+blockquote footer {
+  position: relative;
+  margin-left: 1em;
+}
+
+p + footer {
+  margin-top: -.5em;
+}
+
+blockquote footer cite {
+  font-style: italic;
+}
+
+blockquote footer:before {
+  content: '—';
+  position: absolute;
+  left: -1em;
+}
+
+div.image img {
+  max-width: 640px;
+  margin-left: 30px;
+}
+
+td {
+  vertical-align: top;
+}
+
+td + td {
+  padding-left: 1em;
+}
+
+table {
+  margin-left: 15px;
+}

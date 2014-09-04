@@ -497,7 +497,7 @@ than two patterns.
 expressions can be thought of as ((flow diagram))s. This is the
 diagram for the livestock expression in the previous example:
 
-image::img/re_pigchickens.svg[alt="Visualization of /\b\d+ (pig|cow|chicken)s?\b/"]
+image::img/re_pigchickens.svg[alt="Visualization of /\\b\\d+ (pig|cow|chicken)s?\\b/"]
 
 (((traversal)))Our expression matches a string if we can find a path
 from the left side of the diagram to the right side. We keep
@@ -555,7 +555,7 @@ character, or a hexadecimal number (that is, base 16, with the letters
 _a_ to _f_ standing for the digits 10 to 15) followed by an _h_. This
 is the corresponding diagram:
 
-image::img/re_number.svg[alt="Visualization of /\b([01]+b|\d+|[\da-f]h)\b/"]
+image::img/re_number.svg[alt="Visualization of /\\b([01]+b|\\d+|[\\da-f]h)\\b/"]
 
 (((branching)))When matching this expression, it will often happen
 that the top (binary) branch is entered even though the input does not

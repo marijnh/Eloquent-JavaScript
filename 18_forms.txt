@@ -211,18 +211,18 @@ their action.
 
 == The form as a whole ==
 
-(((arraylike object)))(((form (HTML tag))))(((form
+(((array-like object)))(((form (HTML tag))))(((form
 property)))(((elements property)))When a ((field)) is contained in a
 `<form>` element, its DOM element will have a property `form` linking
 back to the form's DOM element. The `<form>` element, in turn, has a
-property `elements` containing an arraylike collection of the fields
+property `elements` containing an array-like collection of the fields
 inside of it.
 
 (((elements property)))(((name attribute)))The `name` attribute of a
 form field determines the way its value will be identified when the
 form is ((submit))ted. It can also be used as a property name when
 accessing the form's `elements` property, which acts both as an
-arraylike object (accessible by number) and a ((map)) (accessible by
+array-like object (accessible by number) and a ((map)) (accessible by
 name).
 
 [source,text/html]
@@ -403,7 +403,7 @@ Color:
 </script>
 ----
 
-(((getElementsByName method)))(((name attribute)))(((arraylike
+(((getElementsByName method)))(((name attribute)))(((array-like
 object)))(((event handling)))(((target property)))The
 `document.getElementsByName` method gives us all elements with a given
 `name` attribute. The example loops over those (with a regular `for`
@@ -461,7 +461,7 @@ of the currently selected options.
 
 (((select (HTML tag))))(((options property)))(((selected
 attribute)))The `<option>` tags for a `<select>` field can be accessed
-as an arraylike object through its `options` property. Each option
+as an array-like object through its `options` property. Each option
 has a property `selected`, which indicates whether that option is
 currently selected. The property can also be written to select or
 deselect an option.
@@ -526,7 +526,7 @@ to it.
 ----
 
 (((multiple attribute)))(((files property)))The `files` property of a
-((file field)) element is an ((arraylike object)) (again, not a real
+((file field)) element is an ((array-like object)) (again, not a real
 array) containing the files chosen in the field. It is initially
 empty. The reason there isn't simply a `file` property is that file
 fields also support a `multiple` attribute, which makes it possible to
@@ -569,7 +569,7 @@ registering a `"load"` event handler for it, and calling its
 `readAsText` method, giving it the file we want to read. Once loading
 finishes, the reader's `result` property contains the file's content.
 
-(((forEach method)))(((arraylike object)))(((closure)))The example
+(((forEach method)))(((array-like object)))(((closure)))The example
 uses `Array.prototype.forEach` to iterate over the array, since in a
 normal loop it would be awkward to get the correct `file` and `reader`
 objects from the event handler—the variables would be shared by all

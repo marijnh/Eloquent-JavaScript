@@ -938,7 +938,7 @@ console.log(string[1]);
 == The arguments object ==
 
 (((arguments object)))(((length
-property)))(((parameter)))(((optional argument)))(((arraylike
+property)))(((parameter)))(((optional argument)))(((array-like
 object)))Whenever a function is called, a special variable named
 `arguments` is added to the environment in which the function body
 runs. This variable refers to an object that holds all of the
@@ -959,7 +959,7 @@ that tells us the number of arguments that were really passed to the
 function. It also has a property for each argument, named 0, 1, 2, and
 so on.
 
-indexsee:[pseudo array,arraylike object]
+indexsee:[pseudo array,array-like object]
 (((array,methods)))If that sounds a lot like an array to you,
 you're right, it _is_ a lot like an array. But this object,
 unfortunately, does not have any array methods (like `slice` or

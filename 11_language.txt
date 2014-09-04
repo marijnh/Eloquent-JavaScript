@@ -504,7 +504,7 @@ function run() {
 ----
 
 (((join method)))(((call method)))The use of
-`Array.prototype.slice.call` above is a trick to turn an ((arraylike
+`Array.prototype.slice.call` above is a trick to turn an ((array-like
 object)), such as `arguments`, into a real array, so that we can call
 `join` on it. It takes all the arguments given to `run` and treats
 them as the lines of a program.
@@ -714,7 +714,7 @@ with JavaScript arrays.
 
 (((slice method)))The values added to the top environment must be
 functions. `Array.prototype.slice` can be used to convert an
-`arguments` arraylike object into a regular array.
+`arguments` array-like object into a regular array.
 
 !!hint!!
 

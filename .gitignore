@@ -20,4 +20,5 @@
 /img/cover.xcf
 /epub/[012]*.xhtml
 /epub/img/*
+/epub/content.opf
 /Eloquent_JavaScript.epub

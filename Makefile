@@ -84,10 +84,13 @@ ejs_tex.zip: nostarch/book.tex $(foreach CHAP,$(CHAPTERS),nostarch/$(CHAP).tex) 
 	mv /tmp/ejs_tex.zip $@
 	rm -rf $(TMPDIR)
 
-Eloquent_JavaScript.epub: epub/titlepage.xhtml epub/toc.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) epub/content.opf epub/style.css
+Eloquent_JavaScript.epub: epub/titlepage.xhtml epub/toc.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) \
+	                  epub/content.opf.src epub/style.css bin/add_images_to_epub.js
 	rm -f $@
+	grep '<img' epub/*.xhtml | sed -e 's/.*src="\([^"]*\)".*/\1/' | xargs -I{} cp --parents "{}" epub
+	node bin/add_images_to_epub.js
 	cd epub; zip -X ../$@ mimetype
-	cd epub; zip -X ../$@ -r * -x mimetype
+	cd epub; zip -X ../$@ -r * -x mimetype -x content.opf.src
 
-epub/%.xhtml: %.txt asciidoc_epub.conf
-	asciidoc -f asciidoc_epub.conf --backend=xhtml11 -o $@ $<
+epub/%.xhtml: %.txt asciidoc_epub.conf bin/pre_epub.js
+	node bin/pre_epub.js $< | asciidoc -f asciidoc_epub.conf --backend=xhtml11 -o $@ -

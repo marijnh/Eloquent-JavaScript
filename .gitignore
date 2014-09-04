@@ -19,6 +19,7 @@
 /img/generated/*
 /img/cover.xcf
 /epub/[012]*.xhtml
+/epub/hints.xhtml
 /epub/img/*
 /epub/content.opf
-/Eloquent_JavaScript.epub
+/book.epub

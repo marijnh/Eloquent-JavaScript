@@ -32,7 +32,7 @@ code/solutions/20_4_a_public_space_on_the_web.zip: $(wildcard code/solutions/20_
 test: html
 	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
 	@! grep '[a-zA-Z0-9]_[—“”‘’]\|[—“”‘’]_[a-zA-Z0-9]\|[a-zA-Z0-9]`—\|[a-zA-Z0-9]`[a-zA-Z0-9]' *.txt
-	@! grep '(!book\|(!html' html/*.html nostarch/*.tex
+	@! grep '(!book\|(!html|(!interactive|(!tex' html/*.html nostarch/*.tex
 	@node bin/check_links.js
 	@echo Done.
 
@@ -84,8 +84,8 @@ ejs_tex.zip: nostarch/book.tex $(foreach CHAP,$(CHAPTERS),nostarch/$(CHAP).tex) 
 	mv /tmp/ejs_tex.zip $@
 	rm -rf $(TMPDIR)
 
-Eloquent_JavaScript.epub: epub/titlepage.xhtml epub/toc.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) \
-	                  epub/content.opf.src epub/style.css bin/add_images_to_epub.js
+book.epub: epub/titlepage.xhtml epub/toc.xhtml epub/hints.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) \
+	   epub/content.opf.src epub/style.css bin/add_images_to_epub.js
 	rm -f $@
 	grep '<img' epub/*.xhtml | sed -e 's/.*src="\([^"]*\)".*/\1/' | xargs -I{} cp --parents "{}" epub
 	node bin/add_images_to_epub.js
@@ -94,3 +94,9 @@ Eloquent_JavaScript.epub: epub/titlepage.xhtml epub/toc.xhtml $(foreach CHAP,$(C
 
 epub/%.xhtml: %.txt asciidoc_epub.conf bin/pre_epub.js
 	node bin/pre_epub.js $< | asciidoc -f asciidoc_epub.conf --backend=xhtml11 -o $@ -
+
+epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) bin/extract_hints.js
+	node bin/extract_hints.js | node bin/pre_epub.js - | asciidoc -f asciidoc_epub.conf --backend=xhtml11 -o $@ -
+
+epubcheck: book.epub
+	epubcheck book.epub 2>&1 | grep -v 'img/.*\.svg'

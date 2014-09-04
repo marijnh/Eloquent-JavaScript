@@ -18,11 +18,10 @@ body {
   line-height: 1.45;
   color: black;
   background: white;
+  text-align: left;
 }
 
 article {
-  margin: 0 auto;
-  max-width: 35em;
   padding: 2em 0 5em 0;
 }
 
@@ -31,14 +30,15 @@ pre {
   line-height: 1.35;
   margin: 1rem 0;
   position: relative;
+  font-size: 16px;
 }
 
 code, pre {
-  font-size: 18px;
   font-family: 'PT Mono', monospace;
 }
 
 code {
+  font-size: 18px;
   padding: 0 2px;
 }
 
@@ -103,7 +103,7 @@ blockquote footer:before {
 }
 
 div.image img {
-  max-width: 640px;
+  max-width: 80%;
   margin-left: 30px;
 }
 

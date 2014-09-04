@@ -926,7 +926,7 @@ things with technology, I'm asking you to program a ((text field)) (an
 (((clipboard)))(Do not worry about copy-paste and other such
 loopholes.)
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -939,7 +939,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -987,7 +987,7 @@ solution to start with is to keep a fixed number of trail elements and
 cycle through them, moving the next one to the mouse's current
 position every time a `"mousemove"` event occurs.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1010,7 +1010,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1057,7 +1057,7 @@ currently visible node can be selected by clicking the buttons.
 When it works, extend it to also style the currently active button
 differently.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1076,7 +1076,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

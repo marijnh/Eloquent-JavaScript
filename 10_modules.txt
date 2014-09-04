@@ -5,7 +5,7 @@
 
 = Modules =
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
@@ -25,7 +25,7 @@ things in their simple form. Her programs are like clay, solid yet
 malleable.
 ____
 
-endif::html_target[]
+endif::interactive_target[]
 
 (((organization)))(((code structure)))Every program has a shape. On
 a small scale, this shape is determined by its division into
@@ -782,7 +782,7 @@ to numbers. Give it its own namespace, since it will need an internal
 array of month names, and use plain JavaScript, without any module
 loader system.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -795,7 +795,7 @@ console.log(month.name(2));
 console.log(month.number("November"));
 // → 10
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

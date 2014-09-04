@@ -14,7 +14,7 @@ you write the code as cleverly as possible, you are, by definition,
 not smart enough to debug it.
 ____
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
@@ -26,7 +26,7 @@ this be?’ The master said, ‘There is no need to fetch a water hose
 when the house is not on fire.’
 ____
 
-endif::html_target[]
+endif::interactive_target[]
 
 (((Kernighan+++,+++ Brian)))(((Plaugher+++,+++ P.J.)))(((debugging)))(((error handling)))A program is crystallized thought.
 Sometimes those thoughts are confused. Other times, mistakes are
@@ -743,7 +743,7 @@ succeeds, returning the result.
 (((catch keyword)))Make sure you handle only  the exceptions you
 are trying to handle.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -765,7 +765,7 @@ function reliableMultiply(a, b) {
 console.log(reliableMultiply(8, 8));
 // → 64
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -814,7 +814,7 @@ box, runs the function, and then ensures that the box is locked again
 before returning, regardless of whether the argument function returned
 normally or threw an exception.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 [source,javascript]
 ----
@@ -840,7 +840,7 @@ console.log(box.locked);
 For extra points, make sure that if you call `withBoxUnlocked` when
 the box is already unlocked, the box stays unlocked. 
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

@@ -29,7 +29,7 @@ central organizer.
 
 image::img/unicycle.svg[alt="The unicycling meetup"]
 
-(!html Just like in the link:20_node.html#node[previous chapter], the
+(!interactive Just like in the link:20_node.html#node[previous chapter], the
 code in this chapter is written for Node.js, and running it directly
 in the HTML page that you are looking at is unlikely to work. !)The
 full code for the project can be ((download))ed from

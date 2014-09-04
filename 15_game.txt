@@ -1217,11 +1217,11 @@ This page feeds them to `runGame`, starting an actual game:
 </script>
 ----
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 See if you can beat those. I had quite a lot of fun building them.
 
-endif::html_target[]
+endif::interactive_target[]
 
 == Exercises ==
 
@@ -1235,7 +1235,7 @@ restarts from the beginning.
 (((runGame function)))Adjust `runGame` to implement lives, and have the
 player start with three.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1263,7 +1263,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1308,7 +1308,7 @@ unregister its handlers, and then change `runLevel` to register its
 handlers when it starts, and unregister them again when it is
 finished.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1336,7 +1336,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

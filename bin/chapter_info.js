@@ -29,10 +29,10 @@ dir.forEach(function(file) {
   while (match = header.exec(exerciseBlock)) {
     var nextsection = exerciseBlock.indexOf("\n==", header.lastIndex);
     for (var pos = header.lastIndex;;) {
-      var ifdef = exerciseBlock.indexOf("ifdef::html_target[]", pos);
+      var ifdef = exerciseBlock.indexOf("ifdef::interactive_target[]", pos);
       if (ifdef == -1 || nextsection > 0 && nextsection < ifdef) break;
       var indef = exerciseBlock.slice(pos = ifdef + 21,
-                                      exerciseBlock.indexOf("endif::html_target[]", ifdef));
+                                      exerciseBlock.indexOf("endif::interactive_target[]", ifdef));
       var sourceBlock = indef.match(/\[source,([^\]]*)\]\n----\n([^]+?)\n----/);
       if (!sourceBlock) continue;
       var type = sourceBlock[1].indexOf("html") > -1 ? "html" : "js";

@@ -646,7 +646,7 @@ http://eloquentjavascript.net[_eloquentjavascript.net_].
 
 endif::book_target[]
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 Simply printing out many copies of the map is a rather unpleasant
 way to observe a world, though. That's why the sandbox provides an
@@ -667,7 +667,7 @@ but after you've read the link:13_dom.html#dom[later chapters] of this
 book, which discuss JavaScript integration in web browsers, it won't
 look so magical anymore.
 
-endif::html_target[]
+endif::interactive_target[]
 
 == More life forms ==
 
@@ -736,7 +736,7 @@ ahead, so that it'll walk straight when in empty space.
 won't run forever when the critter is walled in or crowded in by other
 critters and can't find an empty square.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 This small world demonstrates the wall-following creatures:
 
@@ -758,7 +758,7 @@ animateWorld(new World(
 ));
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 == A more lifelike simulation ==
 
@@ -1017,7 +1017,7 @@ var valley = new LifelikeWorld(
 (((animation)))(((simulation)))Let's see what happens if we run this.
 (!book These snapshots illustrate a typical run of this world.!)
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // start_code
 // test: no
@@ -1027,7 +1027,7 @@ ifdef::html_target[]
 animateWorld(valley);
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 ifdef::book_target[]
 
@@ -1108,7 +1108,7 @@ Write a new critter type that tries to address one or more of these
 points and substitute it for the old `PlantEater` type in the valley
 world. See how it fares. Tweak it some more if necessary.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1136,7 +1136,7 @@ animateWorld(new LifelikeWorld(
 ));
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1180,7 +1180,7 @@ This way, local population booms or busts are less likely to wipe out
 a species entirely, and there is space for the relatively large prey
 population needed to sustain a small predator population.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1215,7 +1215,7 @@ animateWorld(new LifelikeWorld(
 ));
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

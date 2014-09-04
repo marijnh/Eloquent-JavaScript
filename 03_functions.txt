@@ -898,7 +898,7 @@ introduced the standard function `Math.min` that returns its smallest
 argument. We can do that ourselves now. Write a function `min` that
 takes two arguments and returns their minimum.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -911,7 +911,7 @@ console.log(min(0, 10));
 console.log(min(0, -10));
 // → -10
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -945,7 +945,7 @@ return a Boolean.
 (((stack overflow)))Test it on 50 and 75. See how it behaves on -1.
 Why? Can you think of a way to fix this?
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -960,7 +960,7 @@ console.log(isEven(75));
 console.log(isEven(-1));
 // → ??
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1002,7 +1002,7 @@ except it takes a second argument that indicates the character that is
 to be counted (rather than counting only uppercase "B" characters).
 Rewrite `countBs` to make use of this new function.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1015,7 +1015,7 @@ console.log(countBs("BBC"));
 console.log(countChar("kakkerlak", "k"));
 // → 4
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

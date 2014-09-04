@@ -875,7 +875,7 @@ _after_ calling `open`, but before calling `send`.
 Finally, try asking for the media type `application/rainbows+unicorns`
 and see what happens.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -884,7 +884,7 @@ ifdef::html_target[]
 // Your code here.
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -918,7 +918,7 @@ can not succeed or fail again, and further calls to the functions that
 resolve it are ignored. This can simplify the way you handle failure
 of your promise.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -956,7 +956,7 @@ all([soon(1), fail(), soon(3)]).then(function(array) {
 });
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

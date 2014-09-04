@@ -778,7 +778,7 @@ link:10_modules.html#eval[Chapter 10] to wrap the text in a function
 and call it. Convert the return value of the function, or any error it
 raised, to a string and display it below the text field.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -793,7 +793,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -828,7 +828,7 @@ the field. You have an array of possible values, and should show those
 that start with the text that was typed. When a ((suggestion)) is
 clicked, replace the text field's current value with it.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -848,7 +848,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -907,7 +907,7 @@ the next ((generation)). When the user checks or unchecks the
 checkboxes, their changes should be included when computing the next
 generation.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -921,7 +921,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

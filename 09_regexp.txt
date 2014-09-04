@@ -12,7 +12,7 @@ problem, think ‘I know, I'll use regular expressions.’ Now they have
 two problems.
 ____
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
@@ -22,7 +22,7 @@ strength is needed. When you program against the grain of a problem,
 much code is needed.’
 ____
 
-endif::html_target[]
+endif::interactive_target[]
 
 (((Zawinski+++,+++
 Jamie)))(((evolution)))(((adoption)))(((integration)))Programming
@@ -1173,7 +1173,7 @@ Refer to the table in the
 link:09_regexp.html#summary_regexp[chapter summary] for help. Test each
 solution with a few test strings.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 [source,javascript]
 ----
 // Fill in the regular expressions
@@ -1220,7 +1220,7 @@ function verify(regexp, yes, no) {
   });
 }
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 === Quoting style ===
 
@@ -1235,7 +1235,7 @@ like _aren't_.
 kinds of quote usage and craft a call to the `replace` method that
 does the proper replacement.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 // test: no
 
 [source,javascript]
@@ -1245,7 +1245,7 @@ var text = "'I'm the cook,' he said, 'it's my job.'";
 console.log(text.replace(/A/g, "B"));
 // → "I'm the cook," he said, "it's my job."
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1278,7 +1278,7 @@ it is not necessary for there to be digits in front of or after the
 dot, but the number cannot be a dot alone. That is, `.5` and `5.`
 are valid JavaScript numbers, but a lone dot _isn't_.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 // test: no
 
 [source,javascript]
@@ -1298,7 +1298,7 @@ var number = /^...$/;
     console.log("Incorrectly accepted '" + s + "'");
 });
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

@@ -32,14 +32,14 @@ installation instructions for your operating system. Also refer to
 that website for further ((documentation)) about Node and its built-in
 ((module))s.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 Whereas you could run the code in previous chapters directly on these
 pages, since it was either raw JavaScript or written for the browser,
 the code samples in this chapter are written for Node, and won't run
 in the browser.
 
-endif::html_target[]
+endif::interactive_target[]
 
 == Background ==
 

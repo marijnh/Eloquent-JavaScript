@@ -358,12 +358,12 @@ in an actual JavaScript interpreter, to get immediate feedback on
 whether what you are doing is working or not, and, hopefully, to be
 tempted to ((experiment)) and go beyond the exercises.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 When reading this book in your browser, you can edit (and run) all
 example programs by clicking on them.
 
-endif::html_target[]
+endif::interactive_target[]
 
 ifdef::book_target[]
 

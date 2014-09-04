@@ -1028,7 +1028,7 @@ be helpful here.
 working, right-align cells containing numbers by setting their
 `style.textAlign` property to `"right"`.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1049,7 +1049,7 @@ ifdef::html_target[]
   document.body.appendChild(buildTable(MOUNTAINS));
 </script>
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1082,7 +1082,7 @@ use its `tagName` property. But note that this will return the tag
 name in all upper case. Use the `toLowerCase` or `toUpperCase` string
 method to compensate for this.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1106,7 +1106,7 @@ ifdef::html_target[]
   // → 2
 </script>
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1147,7 +1147,7 @@ good idea to switch to absolute positioning. This means that `top` and
 using negative coordinates, you can simply add a fixed number of
 pixels to the position values.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1163,4 +1163,4 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]

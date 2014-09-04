@@ -12,7 +12,7 @@ The evaluator, which determines the meaning of expressions in a
 programming language, is just another program.
 ____
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
@@ -21,7 +21,7 @@ When a student asked the master about the nature of the cycle of Data
 and Control, Yuan-Ma replied ‘Think of a compiler, compiling itself.’
 ____
 
-endif::html_target[]
+endif::interactive_target[]
 
 (((Abelson+++,+++ Hal)))(((Sussman+++,+++
 Gerald)))(((SICP)))(((project chapter)))Building your own
@@ -356,7 +356,7 @@ specialForms["if"] = function(args, env) {
 arguments. It will evaluate the first, and if the result isn't the
 value `false`, it will evaluate the second. Otherwise, the third gets
 evaluated. This `if` form is more similar to JavaScript's ternary `?:`
-operator than to JavaScript's `if`—is an expression, not a statement,
+operator than to JavaScript's ++if++—is an expression, not a statement,
 and it produces a value—namely the result of the second or third
 argument.
 
@@ -681,7 +681,7 @@ constructs an array containing the argument values, `length(array)` to
 get an array's length, and `element(array, n)` to fetch the n^th^
 element from an array.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -705,7 +705,7 @@ run("do(define(sum, fun(array,",
     "   print(sum(array(1, 2, 3))))");
 // → 6
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -770,7 +770,7 @@ parser to support this. We can simply change `skipSpace` to skip
 comments as if they are ((whitespace)), so that all the points where
 `skipSpace` is called will now also skip comments. Make this change.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -791,7 +791,7 @@ console.log(parse("a # one\n   # two\n()"));
 //    operator: {type: "word", name: "x"},
 //    args: []}
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -842,7 +842,7 @@ Object.prototype.hasOwnProperty.call(scope, name);
 This fetches the `hasOwnProperty` method from the `Object` prototype,
 and then calls it on a scope object.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -860,7 +860,7 @@ run("do(define(x, 4),",
 run("set(quux, true)");
 // → Some kind of ReferenceError
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

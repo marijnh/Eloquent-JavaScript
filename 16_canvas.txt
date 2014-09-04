@@ -1088,7 +1088,7 @@ computing the actor's position, since (0,0) on our ((canvas))
 corresponds to the top left of the viewport, not the top left of the
 level. We could also have used `translate` for this. Either way works.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 (((GAME_LEVELS data set)))(((game,with canvas)))The tiny document
 below plugs the new display into `runGame`:
@@ -1106,7 +1106,7 @@ below plugs the new display into `runGame`:
 </body>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 ifdef::book_target[]
 
@@ -1238,7 +1238,7 @@ such as the size or the number of points, as parameters. The
 alternative, which is to hard-code numbers all over your code, tends
 to make the code needlessly hard to read and modify.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1252,7 +1252,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1305,7 +1305,7 @@ a bunch of tiny ones next to each other).
 You might again need `Math.sin` and `Math.cos`, as described in the
 previous exercise.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1334,7 +1334,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1383,7 +1383,7 @@ link:15_game.html#runAnimation[Chapter 15] to draw a ((box)) with a
 bouncing ((ball)) inside of it. The ball moves at a constant
 ((speed)), and bounces off the box's sides when it hits them.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1408,7 +1408,7 @@ ifdef::html_target[]
 </script>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1420,7 +1420,7 @@ going from zero to more than a whole circle—and fill it.
 
 (((collision detection)))(((Vector type)))To model the ball's position
 and ((speed)), you can use the `Vector` type from
-link:15_game.html#vector[Chapter 15](!html (which is available on this
+link:15_game.html#vector[Chapter 15](!interactive (which is available on this
 page)!). Give it a starting speed, preferably one that is not purely
 vertical or horizontal, and every ((frame)), multiply that speed with
 the amount of time that elapsed. When the ball gets too close to a

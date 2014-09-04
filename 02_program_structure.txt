@@ -252,13 +252,13 @@ but most browsers open it when you press F12 or, on Mac, when you
 press Command-Option-I. If that does not work, search through the
 menus for an item named “web console” or “developer tools”.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 When running the examples, or your own code, on the pages of this
 book, `console.log` output will be shown after the example, instead of
 in the browser's JavaScript console.
 
-endif::html_target[]
+endif::interactive_target[]
 
 [source,javascript]
 ----
@@ -658,7 +658,7 @@ a condition that always produces `true`, your program would get stuck
 in an _((infinite loop))_. A program stuck in an infinite loop will
 never finish running, which is usually a bad thing.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 If you create an infinite loop in one of the examples on these pages,
 you'll usually be asked whether you want to stop the script after a
@@ -666,7 +666,7 @@ few seconds. If that fails, you will have to close the tab that you're
 working in, or on some browsers close your whole browser, in order to
 recover.
 
-endif::html_target[]
+endif::interactive_target[]
 
 (((continue keyword)))The `continue` keyword is similar to `break`, in
 that it influences the progress of a loop. When `continue` is
@@ -866,7 +866,7 @@ exercises, refer to the end of the introduction.
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the
-hints (!html after the exercise!)(!book at the link:solutions[end of the book]!).
+hints (!interactive after the exercise!)(!book at the link:solutions[end of the book]!).
 Full solutions to the exercises are not included in this
 book, but you can find them online at
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_].
@@ -900,7 +900,7 @@ console.log(abc.length);
 // → 3
 ----
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 Most exercises contain a piece of code that you can modify to solve
 the exercise. Remember that you can click code blocks to edit them.
@@ -909,7 +909,7 @@ the exercise. Remember that you can click code blocks to edit them.
 ----
 // Your code here.
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -941,12 +941,12 @@ for numbers that are divisible by both 3 and 5.
 weed out a significant percentage of programmer candidates. So if you
 solved it, you're now allowed to feel good about yourself.)
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 [source,javascript]
 ----
 // Your code here.
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -993,12 +993,12 @@ When you have a program that generates this pattern, define a
 ((variable)) `size = 8` and change the program so that it works for
 any `size`, outputting a grid of the given width and height.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 [source,javascript]
 ----
 // Your code here.
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

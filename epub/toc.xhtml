@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
   <head>
+    <title>Table of Contents</title>
     <link rel="stylesheet" href="style.css"/>
     <style>
       ol.toc {
@@ -23,7 +24,7 @@
         left: -2.5em; top: 1px;
         font-size: 90%;
       }
-      li.contents-intro:before { display: none; }
+      li.no-number:before { display: none; }
       ol.toc span.parttitle {
         display: block;
         position: absolute;
@@ -38,9 +39,10 @@
   </head>
 
   <body>
+    <h1>Table of Contents</h1>
     <nav xmlns:epub="http://www.idpf.org/2007/ops" epub:type="toc" id="toc">
       <ol class="toc">
-        <li class="contents-intro"><a href="00_intro.xhtml">Introduction</a></li>
+        <li class="no-number"><a href="00_intro.xhtml">Introduction</a></li>
         <li style="counter-reset: li; position: relative">
           <a href="01_values.xhtml">Values, Types, and Operators<span class="parttitle">(Part 1: Language)</span></a>
         </li>
@@ -68,6 +70,7 @@
           <a href="20_node.xhtml">Node.js<span class="parttitle">(Part 3: Node)</span></a>
         </li>
         <li><a href="21_skillsharing.xhtml">Project: Skill-Sharing Website</a></li>
+        <li class="no-number"><a href="hints.xhtml">Hints to the exercises</a></li>
       </ol>
     </nav>
   </body>

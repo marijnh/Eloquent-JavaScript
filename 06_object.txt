@@ -1078,7 +1078,7 @@ Add a ((getter)) property `length` to the prototype that computes the
 length of the vector—that is, the distance of the point (x, y) from
 the origin (0, 0).
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1093,7 +1093,7 @@ console.log(new Vector(1, 2).minus(new Vector(2, 3)));
 console.log(new Vector(3, 4).length);
 // → 5
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1106,7 +1106,7 @@ constructor can be done with the `Object.defineProperty` function. To
 compute the distance from (0, 0) to (x, y), you can use the
 Pythagorean theorem, which says that the square of the distance we are
 looking for is equal to the square of the x coordinate plus the square
-of the y coordinate. Thus, (!html √(x^2^ + y^2^)!)(!book pass:[$\sqrt{x^2 + y^2}$]!)
+of the y coordinate. Thus, (!html √(x^2^ + y^2^)!)(!tex pass:[$\sqrt{x^2 + y^2}$]!)
 is the number you want, and `Math.sqrt` is the way you compute a square
 root in JavaScript.
 
@@ -1122,7 +1122,7 @@ earlier in the chapter. It should wrap another cell (like
 least the given `width` and `height`, even if the inner cell would
 naturally be smaller.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1139,7 +1139,7 @@ console.log(sc.draw(3, 2));
 // → ["abc", "   "]
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1174,7 +1174,7 @@ Implement another object type `RangeSeq` that iterates over a range of
 integers (taking `from` and `to` arguments to its constructor)
 instead.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1193,7 +1193,7 @@ logFive(new RangeSeq(100, 1000));
 // → 104
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

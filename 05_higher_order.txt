@@ -5,7 +5,7 @@
 
 = Higher-Order Functions =
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
@@ -18,7 +18,7 @@ Yuan-Ma said, ‘My best program has five hundred lines.’ Hearing this,
 Tzu-li and Tzu-ssu were enlightened.
 ____
 
-endif::html_target[]
+endif::interactive_target[]
 
 [chapterquote="true"]
 [quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
@@ -104,7 +104,7 @@ Soak peas for 12 hours. Simmer for 2 hours in 4 cups of water
 ____
 
 (((vocabulary)))The second is shorter and easier to interpret. But
-you do need to understand a few more cooking-related words—_soak_,
+you do need to understand a few more cooking-related words—__soak__,
 _simmer_, _chop_, and, I guess, _vegetable_.
 
 When programming, we can't rely on all the words we need to be waiting
@@ -918,7 +918,7 @@ method)))(((array)))Use the `reduce` method in combination with
 the `concat` method to “flatten” an array of arrays into a single
 array that has all the elements of the input arrays.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -928,7 +928,7 @@ var arrays = [[1, 2, 3], [4, 5], [6]];
 // Your code here.
 // → [1, 2, 3, 4, 5, 6]
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 === Mother-child age difference ===
 
@@ -944,7 +944,7 @@ are themselves present in the array. The `byName` object, which makes
 it easy to find a person's object from their name, might be useful
 here.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 // include_code
@@ -965,7 +965,7 @@ ancestry.forEach(function(person) {
 
 // → 31.2
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -994,7 +994,7 @@ in the ancestry data set per century. A person is assigned to a
 ((century)) by taking their year of death, dividing it by 100,
 and rounding it up, as in `Math.ceil(person.died / 100)`.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1014,7 +1014,7 @@ function average(array) {
 //   20: 84.7
 //   21: 94
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1061,7 +1061,7 @@ Write two functions, `every` and `some`, that behave like these
 methods, except that they take the array as their first argument
 rather than being a method.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1078,7 +1078,7 @@ console.log(some([NaN, 3, 4], isNaN));
 console.log(some([2, 3, 4], isNaN));
 // → false
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

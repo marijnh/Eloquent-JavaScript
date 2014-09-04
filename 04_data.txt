@@ -479,7 +479,8 @@ _ϕ_ can be computed using the following formula, where n refers to the table:
 ifdef::html_target[]
 
 ++++
-<style>sub { font-size: 60%; }</style>
+<div>
+<style scoped="scoped">sub { font-size: 60%; }</style>
 <table style="border-collapse: collapse; margin-left: 1em;"><tr>
   <td style="vertical-align: middle"><em>ϕ</em> =</td>
   <td style="padding-left: .5em">
@@ -489,30 +490,31 @@ ifdef::html_target[]
     </span></div>
   </td>
 </tr></table>
+</div>
 ++++
 
 endif::html_target[]
 
-ifdef::book_target[]
+ifdef::tex_target[]
 
 pass:[\begin{equation}\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}\end{equation}]
 
-endif::book_target[]
+endif::tex_target[]
 
-The notation (!html _n_~01~!)(!book pass:[$n_{01}$]!) indicates the
+The notation (!html _n_~01~!)(!tex pass:[$n_{01}$]!) indicates the
 number of measurements where the first measurement (pizza) is false
 (0) and the second measurement (squirrelness) is true (1). In this
-example, (!html _n_~01~!)(!book pass:[$n_{01}$]!) is 4.
+example, (!html _n_~01~!)(!tex pass:[$n_{01}$]!) is 4.
 
-The value (!html _n_~1•~!)(!book pass:[$n_{1\bullet}$]!) refers to the
+The value (!html _n_~1•~!)(!tex pass:[$n_{1\bullet}$]!) refers to the
 sum of all measurements where the first variable is true, which is 10
-in the example table. Likewise, (!html _n_~•0~!)(!book pass:[$n_{\bullet0}$]!)
+in the example table. Likewise, (!html _n_~•0~!)(!tex pass:[$n_{\bullet0}$]!)
 refers to the sum of the measurements where the squirrel variable is false.
 
 (((correlation)))(((phi coefficient)))So for the pizza table, the part
 above the division line (the dividend) would be 1×76 - 9×4 = 40, and
 the part below it (the divisor) would be the square root of
-10×80×5×85, or (!html √340000!)(!book pass:[$\sqrt{340000}$]!). This
+10×80×5×85, or (!html √340000!)(!tex pass:[$\sqrt{340000}$]!). This
 comes out to _ϕ_ ≈ 0.069, which is tiny. Eating ((pizza)) does not
 appear to have influence on the transformations.
 
@@ -556,7 +558,7 @@ console.log(phi([76, 9, 4, 1]));
 translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is the
 square root function, as provided by the `Math` object in a standard
 JavaScript environment. We have to sum two fields from the table to
-get fields like (!html n~1•~!)(!book pass:[$n_{1\bullet}$]!) because
+get fields like (!html n~1•~!)(!tex pass:[$n_{1\bullet}$]!) because
 the sums of rows or columns are not stored directly in our data
 structure.
 
@@ -1186,7 +1188,7 @@ behavior. The function call `range(1, 10, 2)` should return `[1, 3, 5,
 7, 9]`. Make sure it also works with negative step values so that
 `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1199,7 +1201,7 @@ console.log(sum(range(1, 10)));
 console.log(range(5, 2, -1));
 // → [5, 4, 3, 2]
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1249,7 +1251,7 @@ the notes about side effects and pure functions in the
 link:03_functions.html#pure[previous chapter], which variant do you
 expect to be useful in more situations? Which one is more efficient?
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1264,7 +1266,7 @@ reverseArrayInPlace(arrayValue);
 console.log(arrayValue);
 // → [5, 4, 3, 2, 1]
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1342,7 +1344,7 @@ is no such element.
 (((recursion)))If you haven't already, also write a recursive version
 of `nth`.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1359,7 +1361,7 @@ console.log(prepend(10, prepend(20, null)));
 console.log(nth(arrayToList([10, 20, 30]), 1));
 // → 20
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -1414,7 +1416,7 @@ it produces `"object"` for both values, you should do a deep
 comparison. But you have to take one silly exception into account: by
 a historical accident, `typeof null` also produces `"object"`.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -1430,7 +1432,7 @@ console.log(deepEqual(obj, {here: 1, object: 2}));
 console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
 // → true
 ----
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

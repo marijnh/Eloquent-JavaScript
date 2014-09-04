@@ -665,10 +665,10 @@ the dots are not distributed uniformly, but more likely to appear near
 the center of the circle. There are ways around this, but they are
 more complicated than the loop above.
 
-We now have a functioning paint program.(!html  Run the code below to
+We now have a functioning paint program.(!interactive  Run the code below to
 try it out.!)
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // start_code
 
@@ -682,7 +682,7 @@ ifdef::html_target[]
 </body>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 == Exercises ==
 
@@ -714,7 +714,7 @@ of a mouse event can be used to position an element precisely under
 the mouse, by setting the `left`, `top`, `width`, and `height` styles
 to the correct pixel values.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -732,7 +732,7 @@ ifdef::html_target[]
 </body>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -827,7 +827,7 @@ link:15_game.html#game_css[Chapter 15].
 that originate from another domain. Use a `try`/`catch` statement to
 report such errors with an `alert` dialog.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -845,7 +845,7 @@ ifdef::html_target[]
 </body>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 
@@ -921,7 +921,7 @@ pixels when a pixel that should be colored is found, and keeping some
 data structure that tells you about all the pixels that have already
 been looked at.
 
-ifdef::html_target[]
+ifdef::interactive_target[]
 
 // test: no
 
@@ -939,7 +939,7 @@ ifdef::html_target[]
 </body>
 ----
 
-endif::html_target[]
+endif::interactive_target[]
 
 !!hint!!
 

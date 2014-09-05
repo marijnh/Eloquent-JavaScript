@@ -427,7 +427,7 @@ function findDate(string) {
                   Number(match[1]));
 }
 console.log(findDate("30-1-2003"));
-// → Sun Mar 02 2003 00:00:00 GMT+0100 (CET)
+// → Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
 ----
 
 == Word and string boundaries ==

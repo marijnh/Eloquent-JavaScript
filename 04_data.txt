@@ -37,7 +37,7 @@ ifdef::book_target[]
 (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
 provides a way to run code in the context of a specific chapter. If
 you decide to work through the examples in another environment, be
-sure to first download the full code from this chapter from the
+sure to first download the full code for this chapter from the
 sandbox page.
 
 endif::book_target[]
@@ -172,7 +172,7 @@ name from a variable, we have to use the bracket syntax to access
 them. The `length` property of an array tells us how many elements it
 contains. This property name is a valid variable name, and we know its
 name in advance, so to find the length of an array, you typically
-write `array.length` because it is easier to write than
+write `array.length` because that is easier to write than
 `array["length"]`.
 
 [[methods]]
@@ -474,7 +474,7 @@ eating ((pizza)) and put that in a table like this:
 
 image::img/pizza-squirrel.svg[alt="Eating pizza versus turning into a squirrel",width="7cm"]
 
-_ϕ_ can be computed using the following formula, where n refers to the table:
+_ϕ_ can be computed using the following formula, where _n_ refers to the table:
 
 ifdef::html_target[]
 

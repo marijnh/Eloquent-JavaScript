@@ -25,7 +25,7 @@ express some meaningful prose.
 of)))(((grammar)))(((JavaScript,syntax)))In
 link:01_values.html#values[Chapter 1], we made some values and then
 applied operators to them to get new values. Creating values like this
-is an essential part of every JavaScript program, but it is still only
+is an essential part of every JavaScript program, but it is only
 a part.
 
 (((literal expression)))A fragment of code that produces a value is
@@ -70,7 +70,7 @@ happens.
 (((programming style)))(((automatic semicolon
 insertion)))(((semicolon)))In some cases, JavaScript allows you to
 omit the semicolon at the end of a statement. In other cases, it has
-to be there, the next ((line)) will be treated as part of the same
+to be there, or the next ((line)) will be treated as part of the same
 statement. The rules for when it can be safely omitted are somewhat
 complex and error-prone. In this book, every statement that needs a
 semicolon will always be terminated by one. I recommend you do the
@@ -116,7 +116,7 @@ sign)))(((variable,naming)))Variable names can be any word that isn't
 reserved as a keyword (such as `var`). They may not include spaces.
 Digits can also be part of variable names—`catch22` is a valid name,
 for example—but the name must not start with a digit. A variable name
-cannot include punctuation, except for the characters “$” and “_”.
+cannot include punctuation, except for the characters `$` and `_`.
 
 (((= operator)))(((assignment)))(((variable,assignment)))When a
 variable points at a value, that does not mean it is tied to that
@@ -229,8 +229,8 @@ image::img/alert.png[alt="An alert dialog",width="8cm"]
 (((parameter)))(((function,application)))Executing a function is
 called _invoking_, _calling_, or _applying_ it. You can call a
 function by putting ((parentheses)) after an expression that produces a
-function value. Usually you'll directly use the name of a variable
-that holds a function. The values between the parentheses are given to
+function value. Usually you'll directly use the name of the variable
+that holds the function. The values between the parentheses are given to
 the program inside the function. In the example, the `alert` function
 uses the string that we give it as the text to show in the dialog box.
 Values given to functions are called _((argument))s_. The `alert`
@@ -406,7 +406,7 @@ translates to “unless `theNumber` is not-a-number, do this”.
 
 (((else keyword)))You often won't just have code that executes when a
 condition holds true, but also code that handles the other case. This
-alternate path is represented by the second arrow in the previous
+alternate path is represented by the second arrow in the
 diagram. The `else` keyword can be used, together with `if`, to create
 two separate, alternative execution paths.
 
@@ -670,7 +670,7 @@ endif::interactive_target[]
 
 (((continue keyword)))The `continue` keyword is similar to `break`, in
 that it influences the progress of a loop. When `continue` is
-encountered in a loop body, control jumps out of the loop body, and
+encountered in a loop body, control jumps out of the body, and
 continues with the loop's next iteration.
 
 == Updating variables succinctly ==
@@ -851,7 +851,7 @@ looping (`while`, `do`, and `for`) statements.
 
 Variables can be used to file pieces of data under a name, and they
 are useful for tracking state in your program. The environment is the
-set of variables that are defined in a program. JavaScript systems
+set of variables that are defined. JavaScript systems
 always put a number of useful standard variables into your
 environment.
 

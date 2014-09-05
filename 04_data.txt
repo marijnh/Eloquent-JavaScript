@@ -666,7 +666,8 @@ itself by the use of the word `in`.
 [source,javascript]
 ----
 for (var event in map)
-  console.log("The correlation for '" + event + "' is " + map[event]);
+  console.log("The correlation for '" + event +
+              "' is " + map[event]);
 // → The correlation for 'pizza' is 0.069
 // → The correlation for 'touched tree' is -0.081
 ----

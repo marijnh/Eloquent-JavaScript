@@ -118,3 +118,19 @@ td + td {
 table {
   margin-left: 15px;
 }
+
+/* Syntax highlighting */
+.cm-keyword {color: #506;}
+.cm-atom {color: #106;}
+.cm-number {color: #042;}
+.cm-def {color: #009;}
+.cm-variable-2, .cm-attribute {color: #027;}
+.cm-variable-3 {color: #072;}
+.cm-comment {color: #740;}
+.cm-string {color: #700;}
+.cm-string-2 {color: #740;}
+.cm-tag {color: #170;}
+.cm-keyword {color: #708;}
+.cm-atom {color: #219;}
+.cm-number {color: #164;}
+.cm-def {color: #00f;}

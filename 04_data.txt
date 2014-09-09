@@ -550,7 +550,7 @@ function phi(table) {
               (table[0] + table[2]));
 }
 
-console.log(phi([76, 9, 4, 1]));
+console.log(phi([76, 4, 9, 1]));
 // → 0.068599434
 ----
 

@@ -85,7 +85,7 @@ use to describe a program will consist of ((expression)) objects, each
 of which has a `type` property indicating the kind of expression it is
 and other properties to describe its content.
 
-(((identifier)))Expresions of type `"value"` represent literal strings
+(((identifier)))Expressions of type `"value"` represent literal strings
 or numbers. Their `value` property contains the string or number value
 that they represent. Expressions of type `"word"` are used for
 identifiers (names). Such objects have a `name` property that holds

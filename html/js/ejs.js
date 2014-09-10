@@ -19,7 +19,7 @@ window.addEventListener("load", function() {
           chapNum == 1 && !/console\.log/.test(pre.textContent)) continue;
       sandboxHint = elt("div", {"class": "sandboxhint"},
                         "edit & run code by clicking it");
-      pre.appendChild(sandboxHint);
+      pre.insertBefore(sandboxHint, pre.firstChild);
       break;
     }
   }

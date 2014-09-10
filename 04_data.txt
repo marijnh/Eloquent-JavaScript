@@ -37,7 +37,7 @@ ifdef::book_target[]
 (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
 provides a way to run code in the context of a specific chapter. If
 you decide to work through the examples in another environment, be
-sure to first download the full code from this chapter from the
+sure to first download the full code for this chapter from the
 sandbox page.
 
 endif::book_target[]
@@ -172,7 +172,7 @@ name from a variable, we have to use the bracket syntax to access
 them. The `length` property of an array tells us how many elements it
 contains. This property name is a valid variable name, and we know its
 name in advance, so to find the length of an array, you typically
-write `array.length` because it is easier to write than
+write `array.length` because that is easier to write than
 `array["length"]`.
 
 [[methods]]
@@ -474,7 +474,7 @@ eating ((pizza)) and put that in a table like this:
 
 image::img/pizza-squirrel.svg[alt="Eating pizza versus turning into a squirrel",width="7cm"]
 
-_ϕ_ can be computed using the following formula, where n refers to the table:
+_ϕ_ can be computed using the following formula, where _n_ refers to the table:
 
 ifdef::html_target[]
 
@@ -527,12 +527,13 @@ containing two two-element arrays (`[[76, 9], [4, 1]]`) or an object
 with property names like `"11"` and `"01"`, but the flat array is
 simple and makes the expressions that access the table pleasantly
 short. We'll interpret the indices to the array as two-((bit))
-((binary number)), where the rightmost digit refers to the squirrel
-variable and the leftmost digit refers to event variable. For example,
-the binary number `10` refers to the case where the event (say,
-"pizza") is true, but Jacques didn't turn into a squirrel. And since
-binary `10` is 2 in decimal notation, we will store this value in the
-array at index 2.
+((binary number)), where the leftmost (most significant) digit refers
+to the squirrel variable and the rightmost (least significant) digit
+refers to the event variable. For example, the binary number `10`
+refers to the case where Jacques did turn into a squirrel, but the
+event (say, "pizza") didn't occur. This happened four times. And since
+binary `10` is 2 in decimal notation, we will store this number at
+index 2 of the array.
 
 (((phi coefficient)))(((phi function)))This is the function that
 computes the _ϕ_ coefficient from such an array:
@@ -666,7 +667,8 @@ itself by the use of the word `in`.
 [source,javascript]
 ----
 for (var event in map)
-  console.log("The correlation for '" + event + "' is " + map[event]);
+  console.log("The correlation for '" + event +
+              "' is " + map[event]);
 // → The correlation for 'pizza' is 0.069
 // → The correlation for 'touched tree' is -0.081
 ----

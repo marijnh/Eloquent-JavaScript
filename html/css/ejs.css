@@ -53,7 +53,6 @@ pre {
   padding: 5px 0 5px 15px;
   line-height: 1.35;
   margin: 1rem 0;
-  position: relative;
 }
 
 pre[data-language=javascript] {
@@ -322,8 +321,7 @@ blockquote footer:before {
 
 .sandboxhint {
   position: absolute;
-  top: 5px;
-  right: 0px;
+  right: -15px;
   font-family: tahoma, arial, sans-serif;
   font-size: 70%;
   padding: 4px 8px;

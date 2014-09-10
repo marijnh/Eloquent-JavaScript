@@ -108,7 +108,7 @@ handler.
 ----
 
 (((function,as value)))To be able to unregister a handler function, we
-have to give it a name (like `once` in the above example), so that we
+give it a name (like `once` in the above example), so that we
 can pass it to both `addEventListener` and `removeEventListener`.
 
 == Event objects ==

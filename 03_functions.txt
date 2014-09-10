@@ -108,7 +108,7 @@ separate incarnations do not interfere with each other.
 
 indexsee:[top-level scope,global scope]
 (((var keyword)))(((global scope)))(((variable,global)))This
-“localness” of variables applies only to the parameters and variables
+“localness” of variables applies only to the parameters and to variables
 declared with the `var` keyword inside the function body. Variables
 declared outside of any function are called _global_, because they are
 visible throughout the program. It is possible to access such
@@ -362,7 +362,7 @@ back to the end of the program.
 
 The place where the computer stores this context is the _((call
 stack))_. Every time a function is called, the current context is put
-on top of this “stack”. When the function returns, it takes the top
+on top of this “stack”. When the function returns, it removes the top
 context from the stack and uses it to continue execution.
 
 (((infinite loop)))(((stack overflow)))(((recursion)))Storing this
@@ -678,8 +678,8 @@ find(1, "1")
         found!
 ----
 
-The indentation suggests the depth of the call stack. The first call
-to `find` calls itself twice to explore the solutions that start with
+The indentation suggests the depth of the call stack. The first time
+`find` is called it calls itself twice to explore the solutions that start with
 `(1 + 5)` and `(1 * 3)`. The first call tries to find a solution that
 starts with `(1 + 5)` and, using recursion, explores _every_ solution
 that yields a number smaller than or equal to the target number. Since

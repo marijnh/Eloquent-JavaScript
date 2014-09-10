@@ -373,7 +373,7 @@ image::img/controlflow-straight.svg[alt="Trivial control flow",width="4cm"]
 (((Boolean)))(((control flow)))Executing statements in straight-line
 order isn't the only option we have. An alternative is _((conditional
 execution))_, where we choose between two different routes based on a
-Boolean value.
+Boolean value, like this:
 
 image::img/controlflow-if.svg[alt="Conditional control flow",width="4cm"]
 
@@ -467,7 +467,8 @@ console.log(12);
 (((control flow)))That works, but the idea of writing a program is to
 make something _less_ work, not more. If we needed all even numbers
 less than 1,000, the previous would be unworkable. What we need is a
-way to repeat some code—a _((loop))_.
+way to repeat some code. This form of control flow is called a
+_((loop))_:
 
 image::img/controlflow-loop.svg[alt="Loop control flow",width="4cm"]
 

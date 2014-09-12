@@ -24,8 +24,8 @@ server always happens by navigating to a new page.
 But their elements are part of the ((DOM)) like the rest of the page,
 and the DOM elements that represent form ((field))s support a number
 of properties and events that are not present on other elements. These
-make it possible to inspect and control them with JavaScript programs by
-adding additional functionality to a traditional form or by using forms
+make it possible to inspect and control such input fields with JavaScript programs,
+and do things like adding functionality to a traditional form or using forms
 and fields as building blocks in a JavaScript application.
 
 == Fields ==
@@ -34,12 +34,12 @@ and fields as building blocks in a JavaScript application.
 ((field))s grouped in a `<form>` tag. HTML allows a number of
 different styles of fields, ranging from simple on/off checkboxes to
 drop-down menus and fields for text input. This book won't try to
-comprehensively discuss all of them, but we will start with a rough
+comprehensively discuss all field types, but we will start with a rough
 overview.
 
-(((input (HTML tag))))(((type attribute)))The `<input>` tag is used
-for a lot of field types. Its `type` attribute is used to select the
-field's style. These are some commonly used types:
+(((input (HTML tag))))(((type attribute)))A lot of field types use the 
+`<input>` tag. This tag's `type` attribute is used to select the 
+field's style. These are some commonly used `<input>` types:
 
 [cols="1,5"]
 |====
@@ -52,9 +52,9 @@ field's style. These are some commonly used types:
 
 (((value attribute)))(((checked attribute)))(((form (HTML tag))))Form
 fields do not necessarily have to appear in a `<form>` tag. You can
-put them anywhere in a page. Such fields can not be ((submit))ted
+put them anywhere in a page. Such fields cannot be ((submit))ted
 (only a form as a whole can), but when responding to input with
-JavaScript, that is often not what we want anyway.
+JavaScript, we often do not want to submit our fields normally anyway.
 
 [source,text/html]
 ----
@@ -79,7 +79,7 @@ the element. We'll go over each of them later on in the chapter.
 (((textarea (HTML tag))))(((text field)))Multi-line text fields have
 their own tag, `<textarea>`, mostly because using an attribute to
 specify a multi-line starting value would be awkward. The `<textarea>`
-requires a matching `</textarea>` closing tag, and uses the text
+requires a matching `</textarea>` closing tag and uses the text
 between those two, instead of using its `value` attribute, as starting
 text.
 
@@ -124,15 +124,15 @@ some other way—they become the currently active element, the main
 recipient of keyboard ((input)).
 
 (((option (HTML tag))))(((select (HTML tag))))If a document has a
-((text field)), text typed will only end up in there when it is
-focused. Other fields respond differently to keyboard events, for
-example a `<select>` menu will try to move to the option that contains
-the text the user typed, and respond to the arrow keys by moving its
+((text field)), text typed will only end up in there when the field is
+focused. Other fields respond differently to keyboard events. For
+example, a `<select>` menu tries to move to the option that contains
+the text the user typed and responds to the arrow keys by moving its
 selection up and down.
 
 (((focus method)))(((blur method)))(((activeElement property)))We can
 control ((focus)) from JavaScript with the `focus` and `blur` methods.
-The first moves focus to the DOM element it is called on, the second
+The first moves focus to the DOM element it is called on, and the second
 removes focus. The value in `document.activeElement` corresponds to
 the currently focused element.
 
@@ -149,11 +149,11 @@ the currently focused element.
 </script>
 ----
 
-(((autofocus attribute)))For some pages, it is expected that the user
-will want to start interacting with a form field immediately.
+(((autofocus attribute)))For some pages, the user is expected to
+want to start interacting with a form field immediately.
 JavaScript can be used to ((focus)) this field when the document is
 loaded, but HTML also provides the `autofocus` attribute, which
-produces the same effect, but lets the browser know what we are trying
+produces the same effect but lets the browser know what we are trying
 to achieve. This makes it possible for the browser to disable the
 behavior when it is not appropriate, such as when the user has focused
 something else.
@@ -186,9 +186,8 @@ which will make it focusable.
 
 (((disabled attribute)))All ((form)) ((field))s can be _disabled_
 through their `disabled` attribute, which also exists as a property on
-the element's DOM object. Disabled fields can not be ((focus))ed or
-changed. They also have a different appearance, usually they look grey
-and faded.
+the element's DOM object. Disabled fields cannot be ((focus))ed or
+changed, and unlike active fields, they usually they look grey and faded.
 
 [source,text/html]
 ----
@@ -202,10 +201,11 @@ image::img/button_disabled.png[alt="A disabled button",width="3cm"]
 
 endif::book_target[]
 
-(((user experience)))(((asynchronous programming)))When the program is
-busy processing the action caused by some ((button)) or other control,
-for example making requests to a server, it can be a good idea to
-disable the control until the action finishes so that, when the user
+(((user experience)))(((asynchronous programming)))When a program is
+in the process of handling an action caused by some ((button)) or other control,
+which might require communication with the server and thus take a
+while, it can be a good idea to
+disable the control until the action finishes. That way, when the user
 gets impatient and clicks it again, they don't accidentally repeat
 their action.
 
@@ -215,7 +215,7 @@ their action.
 property)))(((elements property)))When a ((field)) is contained in a
 `<form>` element, its DOM element will have a property `form` linking
 back to the form's DOM element. The `<form>` element, in turn, has a
-property `elements` containing an array-like collection of the fields
+property called `elements` that contains an array-like collection of the fields
 inside of it.
 
 (((elements property)))(((name attribute)))The `name` attribute of a
@@ -249,8 +249,8 @@ cause the form to be submitted. Pressing Enter in when a form field is
 focused has the same effect.
 
 (((submit event)))(((event handling)))(((preventDefault
-method)))(((page reload)))(((GET method)))(((POST method)))When this
-happens, the ((form)) is submitted. This normally means that the
+method)))(((page reload)))(((GET method)))(((POST method)))Submitting
+a ((form)) normally means that the
 ((browser)) navigates to the page indicated by the form's `action`
 attribute, using either a `GET` or a `POST` ((request)). But before
 that happens, a `"submit"` event is fired. This event can be handled
@@ -286,17 +286,17 @@ the page.
 (((value attribute)))(((input (HTML tag))))(((text field)))(((textarea
 (HTML tag))))Fields created by `<input>` tags with a type of `text` or
 `password`, as well as `textarea` tags, share a common ((interface)).
-Their ((DOM)) elements have a `value` property which holds their
-current content, as a string. Setting this property to another string
+Their ((DOM)) elements have a `value` property that holds their
+current content, as a string value. Setting this property to another string
 changes the field's content.
 
 (((selectionStart property)))(((selectionEnd property)))The
 `selectionStart` and `selectionEnd` properties of ((text field))s give
 us information about the ((cursor)) and ((selection)) in the ((text)).
 When nothing is selected, these two properties hold the same number,
-indicating the position of the cursor, for example 0 to indicate the
-start of the text, or 10 when it is after the 10^th^ ((character)).
-When part of the field is selected, they will differ, giving us the
+indicating the position of the cursor. For example, 0 indicates the
+start of the text, and 10 indicates the cursor is after the 10^th^ ((character)).
+When part of the field is selected, the two properties will differ, giving us the
 start and end of the selected text. Like `value`, these properties may
 also be written to.
 
@@ -337,10 +337,11 @@ word, so that the user can continue typing.
 
 (((change event)))(((input event)))The `"change"` event for a ((text
 field)) does not fire every time something is typed. Rather, it
-happens when the field loses ((focus)) after its content was changed.
+fires when the field loses ((focus)) after its content was changed.
 To respond immediately to changes in a text field, you should register
 a handler for the `"input"` event instead, which fires for every
-character typed (or deleted, or otherwise manipulated by the user).
+time the user types a character, deletes text, or otherwise manipulates
+the field's content.
 
 The example below shows a text field and a counter showing the current
 length of the text entered.
@@ -379,11 +380,11 @@ its `checked` property, which holds a Boolean value.
 (((for attribute)))(((id attribute)))(((focus)))(((label (HTML
 tag))))(((labeling)))The `<label>` tag is used to associate a piece of
 text with an input ((field)). Its `for` attribute should refer to the
-`id` of the field. Clicking the label will activate the field (focus
-it, or change it in case of a checkbox).
+`id` of the field. Clicking the label will activate the field, which focuses
+it, and toggles its value when it is a checkbox or radio button.
 
 (((input (HTML tag))))(((multiple choice)))A ((radio button)) is
-similar to a checkbox, but implicitly linked to other radio buttons
+similar to a checkbox, but it's implicitly linked to other radio buttons
 with the same `name` attribute, so that only one of them can be active
 at any time.
 
@@ -446,9 +447,9 @@ endif::book_target[]
 will, in most browsers, show up differently than a non-`multiple`
 select field, which is commonly drawn as a _drop-down_ control that
 only shows the options when you _open_ it. The `size` attribute to the
-`<select>` tag allows explicit control over this—it is used to set the
-amount of options that are visible at the same time. For example
-setting it to `"3"` will make the field show three lines, whether it
+`<select>` tag is used to set the amount of options that are visible at 
+the same time, which gives you explicit control over the drop-down's appearance. For example,
+setting the `size` attribute to `"3"` will make the field show three lines, whether it
 has the `multiple` option enabled or not.
 
 (((option (HTML tag))))(((value attribute)))Each `<option>` tag has a
@@ -461,15 +462,15 @@ of the currently selected options.
 
 (((select (HTML tag))))(((options property)))(((selected
 attribute)))The `<option>` tags for a `<select>` field can be accessed
-as an array-like object through its `options` property. Each option
-has a property `selected`, which indicates whether that option is
+as an array-like object through the field's `options` property. Each option
+has a property called `selected`, which indicates whether that option is
 currently selected. The property can also be written to select or
 deselect an option.
 
 (((multiple attribute)))(((binary number)))The example below extracts
-the selected values from a `multiple` select field, and uses them to
+the selected values from a `multiple` select field and uses them to
 compose a binary number from individual bits. Hold control (or command
-on Mac) to select multiple options.
+on a Mac) to select multiple options.
 
 [source,text/html]
 ----
@@ -500,12 +501,12 @@ on Mac) to select multiple options.
 field)))(((input (HTML tag))))File fields were originally designed as
 a way to ((upload)) files from the browser's machine through a form.
 In modern browsers, they also provide a way to read such files from
-JavaScript programs. The field acts as a manner of gatekeeper—the
-script can not simply start reading private files from the user's
-computer, but when a file has been selected in such a field, that is
-understood to mean that the script may read it.
+JavaScript programs. The field acts as a manner of gatekeeper. The
+script cannot simply start reading private files from the user's
+computer, but if the user selects a file in such a field, the browser
+interprets that action to mean that the script may read the file.
 
-A file field usually looks like a button labeled something like
+A file field usually looks like a button labeled with something like
 “choose file” or “browse”, with information about the chosen file next
 to it.
 
@@ -572,13 +573,14 @@ finishes, the reader's `result` property contains the file's content.
 (((forEach method)))(((array-like object)))(((closure)))The example
 uses `Array.prototype.forEach` to iterate over the array, since in a
 normal loop it would be awkward to get the correct `file` and `reader`
-objects from the event handler—the variables would be shared by all
+objects from the event handler. The variables would be shared by all
 iterations of the loop.
 
 (((error event)))(((FileReader type)))(((promise)))++FileReader++s
 also fire an `"error"` event when reading the file fails for any
 reason. The error object itself will end up in the reader's `error`
-property. You could wrap it in a `Promise` (see
+property. If you don't want to remember the details of yet another
+inconsistent asynchronous interface, you could wrap it in a `Promise` (see
 link:17_http.html#promises[Chapter 17]) like this:
 
 [source,javascript]
@@ -598,7 +600,7 @@ function readFile(file) {
 ----
 
 (((slice method)))(((Blob type)))It is possible to read only part of a
-file by calling `slice` on it, and passing the result of that (a
+file by calling `slice` on it and passing the result (a
 so-called _blob_ object) to the file reader.
 
 == Storing data client-side ==
@@ -606,12 +608,12 @@ so-called _blob_ object) to the file reader.
 (((web application)))Simple ((HTML)) pages with a bit of JavaScript
 can be a great medium for “((mini application))s”—small helper programs
 that automate everyday things. By connecting a few form ((field))s
-with event handlers you can do anything from converting between
+with event handlers, you can do anything from converting between
 degrees Celsius and Fahrenheit to computing passwords from a master
 password and a website name.
 
 (((persistence)))(((memory)))When such an application needs to
-remember something between sessions, you can not use JavaScript
+remember something between sessions, you cannot use JavaScript
 ((variable))s, since those are thrown away every time a page is
 closed. You could set up a server, connect it to the Internet, and
 have your application store something there. We will see how to do
@@ -623,7 +625,7 @@ data in the ((browser)). But how?
 method)))(((removeItem method)))You can store string data in a way
 that survives ((page reload))s by putting it in the `localStorage`
 object. This object allows you to file string values under names (also
-strings). For example:
+strings), as in this example.
 
 [source,javascript]
 ----
@@ -634,26 +636,26 @@ localStorage.removeItem("username");
 ----
 
 (((localStorage object)))A value in `localStorage` sticks around until
-it is overwritten, removed with `removeItem`, or the user clears out
+it is overwritten, it is removed with `removeItem`, or the user clears out
 their local data.
 
 (((security)))Sites from different ((domain))s get different storage
 compartments. That means that data stored in `localStorage` by a given
-website can in principle only be read (and overwritten) by scripts on
+website can, in principle, only be read (and overwritten) by scripts on
 that same site.
 
 (((localStorage object)))Browsers also enforce a limit on the size of
-the data a site can store in `localStorage`, typically in the order of
-a few megabytes. This restriction, along with the fact that filling up
+the data a site can store in `localStorage`, typically on the order of
+a few megabytes. That restriction, along with the fact that filling up
 people's ((hard drive))s with junk is not really profitable, prevents
 this feature from eating up too much space.
 
 (((localStorage object)))(((note-taking example)))(((select (HTML
 tag))))(((button (HTML tag))))(((textarea (HTML tag))))The code below
 implements a simple note-taking application. It keeps the user's notes
-as an object associating note titles with content strings. This object
+as an object, associating note titles with content strings. This object
 is encoded as ((JSON)) and stored in `localStorage`. The user can
-select a note from a `<select>` field, and change that note's text in
+select a note from a `<select>` field and change that note's text in
 a `<textarea>`. A note can be added by pressing a button.
 
 // start_code
@@ -713,8 +715,8 @@ Notes: <select id="list"></select>
 script initializes the `notes` variable to the value stored in
 `localStorage`, or if that is missing, to a simple object with only an
 empty `"shopping list"` note in it. Reading a field that does not
-exist from `localStorage` will yield `null`. And passing `null` to
-`JSON.parse` will make it parse the string `"null"`, and return
+exist from `localStorage` will yield `null`. Passing `null` to
+`JSON.parse` will make it parse the string `"null"` and return
 `null`. Thus, the `||` operator can be used to provide a default value
 in a situation like this.
 
@@ -744,16 +746,16 @@ HTML can express various types of form fields, such as text fields,
 checkboxes, multiple-choice fields, and file pickers.
 
 Such fields can be inspected and manipulated with JavaScript. They
-fire the events `"change"` when changed and `"input"` when text is
-typed, as well as the various keyboard events. These allow us to
-notice when the user is interacting with them. Properties like `value`
+fire the `"change"` event when changed, the `"input"` event when text is
+typed, as well as the various keyboard events. These events allow us to
+notice when the user is interacting with the fields. Properties like `value`
 (for text and select fields) or `checked` (for checkboxes and radio
 buttons) are used to read or set the field's content.
 
 When a form is submitted, its `"submit"` event fires. A JavaScript
 handler can `preventDefault` that event to prevent the submission from
 happening. Form field elements do not have to be wrapped in `<form>`
-tag.
+tags.
 
 When the user has selected a field from their local file system in a
 file picker field, the `FileReader` interface can be used to access
@@ -824,7 +826,7 @@ a single line.
 
 (((completion)))(((autocompletion (exercise))))Extend a ((text field))
 so that when the user types, a list of suggested values is shown below
-the field. You have an array of possible values, and should show those
+the field. You have an array of possible values available, and should show those
 that start with the text that was typed. When a ((suggestion)) is
 clicked, replace the text field's current value with it.
 
@@ -857,15 +859,15 @@ updating the suggestion list is `"input"`, since that will fire
 immediately when the content of the field is changed.
 
 (((indexOf method)))(((textContent property)))Then loop over the array
-of terms and see if they start with the given string, for example by
-calling `indexOf` and seeing if the result is zero. For each matching
+of terms and see if they start with the given string. For example, you
+could call `indexOf` and see if the result is zero. For each matching
 string, add an element to the suggestions `<div>`. You should probably
 also empty that each time you start updating the suggestions, for
 example by setting its `textContent` to the empty string.
 
 (((click event)))(((mouse)))(((target property)))You could either add
 a `"click"` event handler to every suggestion element, or add a single
-one to the outer `<div>` that holds them, and look at the `target`
+one to the outer `<div>` that holds them and look at the `target`
 property of the event to find out which suggestion was clicked.
 
 (((attribute)))To get the suggestion text out of a DOM node, you could
@@ -934,7 +936,7 @@ Representing the grid can be done in any of the ways seen in Chapters
 link:07_elife.html#grid[7] and link:15_game.html#level[15]. Counting
 live ((neighbor))s can be done with two nested loops, looping over
 adjacent coordinates. Take care not to count cells outside of the
-field, and to ignore the cell in the center, for which we are
+field and to ignore the cell in the center, whose neighbors we are
 counting.
 
 (((event handling)))(((change event)))Making changes to ((checkbox))es

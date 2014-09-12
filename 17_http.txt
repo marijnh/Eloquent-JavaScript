@@ -71,8 +71,8 @@ main page, it'll probably refuse.
 
 (((path,URL)))(((Twitter)))The part after the ((method)) name is the path of the
 ((resource)) the request applies to. In the simplest case, a resource
-is simply a ((file)) on the ((server)). But the protocol doesn't
-require it to be: it may be anything that can be transferred _as if_
+is simply a ((file)) on the ((server)), but the protocol doesn't
+require it to be. A resource may be anything that can be transferred _as if_
 it is a file. Many servers generate the responses they produce on the
 fly. For example, if you open
 http://twitter.com/marijnjh[_twitter.com/marijnjh_], the server looks
@@ -85,7 +85,7 @@ it is using.
 
 (((status code)))The server's ((response)) will start with a version
 as well, followed by the status of the response, first as a
-three-digit code, and then as a human-readable string.
+three-digit status code, and then as a human-readable string.
 
 [source,http]
 ----
@@ -93,7 +93,7 @@ HTTP/1.1 200 OK
 ----
 
 (((200 (HTTP status code))))(((error response)))(((404 (HTTP status
-code))))Codes starting with a 2 indicate that the request succeeded.
+code))))Status codes starting with a 2 indicate that the request succeeded.
 Codes starting with a 4 mean there was something wrong with the
 ((request)). 404 is probably the most famous HTTP status code—it means
 that the resource that was requested could not be found. Codes that
@@ -117,19 +117,19 @@ header)))This tells us the size and type of the response document. In
 this case, an HTML document of 65,585 bytes. It also tells us when
 that document was last modified.
 
-(((Host header)))(((domain)))Which ((header))s to include in a
-((request)) or a ((response)) is mostly up to the client or server
-sending it, though a few are required. For example, the `Host` header
-in a request, which specifies the host name, should be included,
+(((Host header)))(((domain)))For the most part, a client or server 
+decides which ((header))s to include in a ((request)) or ((response)), 
+though a few headers are required. For example, the `Host` header,
+which specifies the host name, should be included in a request
 because a ((server)) might be serving multiple host names on a single
-((IP address)), and without that header it won't know which one the
+((IP address)), and without that header, the server won't know which host the
 client is trying to talk to.
 
 (((GET method)))(((DELETE method)))(((PUT method)))(((POST
 method)))(((body (HTTP))))After the headers, both requests and
 responses may include a blank line followed by a _body_, which
-contains the data being sent. `GET` or `DELETE` request don't send
-along any data, but `PUT` or `POST` requests are expected to.
+contains the data being sent. `GET` and `DELETE` requests don't send
+along any data, but `PUT` and `POST` requests do.
 Similarly, some response types, such as error responses, do not
 require a body.
 
@@ -144,8 +144,7 @@ HTML page references other files, such as ((image))s and JavaScript
 include anywhere from ten to two hundred ((resource))s. To be able to
 fetch those quickly, browsers will make several requests
 simultaneously, rather than waiting for the responses one at a time.
-
-(((GET method)))Fetching such documents is always done using `GET`
+(((GET method)))Such documents are always fetched using `GET`
 ((request))s.
 
 [[http_forms]]
@@ -163,10 +162,10 @@ example of a form:
 </form>
 ----
 
-(((form)))(((method attribute)))(((GET method)))That will show two
+(((form)))(((method attribute)))(((GET method)))This code describes a form with two
 ((field))s, a small one asking for a name, and a larger one to write a
 message in. When you press the “Send” ((button)), the information in
-the fields will be encoded into a _((query string))_. When the
+those fields will be encoded into a _((query string))_. When the
 `<form>` element's `method` attribute is `GET` (or is omitted), that
 query string is tacked onto the `action` URL, and the browser makes a
 `GET` request to that URL.
@@ -178,22 +177,23 @@ GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
 
 (((ampersand character)))The start of a ((query string)) is indicated
 by a ((question mark)). After that follow pairs of names and values,
-corresponding to the `name` attribute on the form field elements, and
-the content of those elements. The ampersand (“&”) is used to separate
+corresponding to the `name` attribute on the form field elements and
+the content of those elements, respectively. An ampersand character (“&”) is used to separate
 the pairs.
 
 (((escaping,in URLs)))(((hexadecimal number)))(((percent
 sign)))(((URL encoding)))(((encodeURIComponent
 function)))(((decodeURIComponent function)))The actual message encoded
-in the URL above is “Yes?”. Some characters in query strings must be
-escaped. The question mark is one of those, and is represented as
+in the URL above is “Yes?”, even though the question mark is replaced
+by a strange code. Some characters in query strings must be
+escaped. The question mark is one of those, and it is represented as
 `%3F`. There seems to be an unwritten rule that every format needs its
-own different way of escaping characters. This one, called “URL
+own way of escaping characters. This one, called “URL
 encoding”, uses a percent sign followed by two hexadecimal digits
-which encode the character code. In this case 3F, which is 63 in
+that encode the character code. In this case 3F, which is 63 in
 decimal notation, is the code of a question mark character. JavaScript
 provides the `encodeURIComponent` and `decodeURIComponent` functions
-to en- and decode this format.
+to encode and decode this format.
 
 [source,javascript]
 ----
@@ -204,7 +204,7 @@ console.log(decodeURIComponent("Hello%20%26%20goodbye"));
 ----
 
 (((body (HTTP))))(((POST method)))If we change the `method` attribute
-of the form above to `POST`, the ((HTTP)) request made to submit the
+of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request made to submit the
 ((form)) will use the `POST` method, and put the ((query string)) in
 body of the request, rather than adding it to the URL.
 
@@ -217,8 +217,16 @@ Content-type: application/x-www-form-urlencoded
 name=Jean&message=Yes%3F
 ----
 
-The link:18_forms.html#forms[next chapter] will come back to forms,
-and talk about the way we can script them with JavaScript.
+By convention, the `GET` method is used for requests that do not have
+side effects, such as doing a search. Requests that change something on
+the server, such as creating a new account or posting a message, should
+be expressed with other methods, such as `POST`. Client-side software,
+such as a browser, knows that it shouldn't blindly make `POST`
+requests, but will often implicitly make `GET` requests—for example to
+pre-fetch a resource it believes the user will soon need.
+
+The link:18_forms.html#forms[next chapter] will come back to forms
+and talk how we can script them with JavaScript.
 
 [[xmlhttprequest]]
 == XMLHttpRequest ==
@@ -227,14 +235,14 @@ and talk about the way we can script them with JavaScript.
 which browser JavaScript can make HTTP requests is called
 `XMLHttpRequest` (note the inconsistent capitalization). It was
 designed by ((Microsoft)), for their ((Internet Explorer))
-((browser)), in the late 1990s. During this time, in the world of
-((business software)) (a world which Microsoft has always been at home
-in) the ((XML)) file format was _very_ popular. So popular that the
+((browser)), in the late 1990s. During this time, the ((XML)) file format 
+was _very_ popular in the world of ((business software)), a world where 
+Microsoft has always been at home. In fact, it was so popular that the
 word “XML” was tacked onto the front of the name of an interface for
 ((HTTP)), which is in no way tied to XML.
 
 (((modularity)))(((interface,design)))The name isn't completely
-nonsensical. The interface allows you to parse response documents as
+nonsensical, though. The interface allows you to parse response documents as
 XML if you want to. Confusing two distinct concepts (making a request
 and ((parsing)) the response) into a single thing is terrible design,
 of course, but so it goes.
@@ -243,15 +251,15 @@ When the `XMLHttpRequest` interface was added to Internet Explorer, it
 allowed people to do things with JavaScript that had been very hard
 before. For example, websites started showing lists of suggestions
 when the user was typing something into a text field. The script would
-send the text typed to the server over ((HTTP)), and the ((server)),
-which had some ((database)) of things that the user might mean, would
-match those against the partial input, and send back possible
-((completion))s, which were then shown to the user. This was
-considered very spectacular—people were used to the fact that every
-interaction with a website required a full page reload.
+send the text to the server over ((HTTP)) as the user typed. The ((server)),
+which had some ((database)) of possible inputs, would
+match the database entries against the partial input and send back possible
+((completion))s to show the user. This was
+considered spectacular—people were used to waiting for a full page reload
+for every interaction with a website.
 
 (((compatibility)))(((Firefox)))(((XMLHttpRequest)))The other
-significant browser at that time, ((Mozilla)) (later Firefox) did not
+significant browser at that time, ((Mozilla)) (later Firefox), did not
 want to be left behind. To allow people to do similarly neat things in
 _their_ browser, they copied the interface, including the bogus name.
 The next generation of ((browser))s followed this example, and today
@@ -277,10 +285,10 @@ console.log(req.responseText);
 (((path,URL)))(((open method)))(((relative URL)))(((slash character)))The `open`
 method configures the request. In this case, we choose to make a `GET`
 request for the _example/data.txt_ file. ((URL))s that don't start
-with a protocol (like _http://_) are called relative, which means that
+with a protocol name (such as _http:_) are relative, which means that
 they are interpreted relative to the current document. When they start
-with a slash (“/”), they replace the current path (the part after the
-server name). When they do not, the part of the current path up to
+with a slash (“/”), they replace the current path, which is the part after the
+server name. When they do not, the part of the current path up to
 and including its last slash character is put in front of the relative
 URL.
 
@@ -312,16 +320,16 @@ console.log(req.getResponseHeader("content-type"));
 // → text/plain
 ----
 
-(((case-sensitivity)))(((capitalization)))Headers names are
+(((case-sensitivity)))(((capitalization)))Header names are
 case-insensitive. They are usually written with a capital letter at
-the start of each word, such as “Content-Type”, but “content-type” or
+the start of each word, such as “Content-Type”, but “content-type” and
 “cOnTeNt-TyPe” refer to the same header.
 
 (((Host header)))(((setRequestHeader method)))The browser will
 automatically add some request ((header))s, such as “Host” and those
 needed for the server to figure out the size of the body. But you can
 add your own headers with the `setRequestHeader` method. This is only
-needed for advanced uses, and requires the cooperation of the
+needed for advanced uses and requires the cooperation of the
 ((server)) you are talking to—a server is free to ignore headers it
 does not know how to handle.
 
@@ -391,7 +399,7 @@ would be the `<fruits>` tag.
 </fruits>
 ----
 
-We can retrieve it like this:
+We can retrieve such a file like this:
 
 // test: no
 
@@ -409,7 +417,8 @@ information with the server. Their form—tags nested inside other
 tags—lends itself well to storing most types of data, or at least
 better than flat text files. The DOM interface is rather clumsy for
 extracting information, though, and ((XML)) documents tend to be
-verbose. It is often a better idea to communicate using ((JSON)) data.
+verbose. It is often a better idea to communicate using ((JSON)) data,
+which is easier to read and write, both for programs and for humans.
 
 [source,javascript]
 ----
@@ -432,18 +441,18 @@ _mybank.com_, using identifying information from my ((browser)), with
 instructions to transfer all my money to some random ((mafia))
 account.
 
-It is not too hard for ((website))s to protect themselves against such
-((attack))s, but it requires effort, and many websites fail to do it.
+It is possible for ((website))s to protect themselves against such
+((attack))s, but that requires effort, and many websites fail to do it.
 For this reason, browsers protect us by disallowing scripts to make
 HTTP requests to other _((domain))s_ (names like _themafia.org_ and
 _mybank.com_).
 
 (((Access-Control-Allow-Origin header)))(((cross-domain request)))This
 can be an annoying problem when building systems that want to access
-several domains for legitimate reasons. It is possible for ((server))s
-to include a ((header)) like this in their ((response)) to explicitly
-indicate to browsers that it is okay for the request to come from a
-different domain:
+several domains for legitimate reasons. Fortunately, ((server))s can
+include a ((header)) like this in their ((response)) to explicitly
+indicate to browsers that it is okay for the request to come from
+other domains:
 
 ----
 Access-Control-Allow-Origin: *
@@ -484,7 +493,7 @@ name, `callback`, is a term that is often used to describe functions
 like this. A callback function is given to other code to provide that
 code with a way to “call us back” later.
 
-(((library)))It is not hard to write your own, tailored to what your
+(((library)))It is not hard to write your HTTP utility function, tailored to what your
 application is doing. The above one only does `GET` requests, and
 doesn't give us control over the headers or the request body. You
 could write another variant for `POST` requests, or a more generic one
@@ -502,7 +511,7 @@ misleadingly looking like it is doing something. The user will wait
 for a while, get impatient, and consider the site uselessly flaky.
 
 We should also have an option to be notified when the request fails,
-so that we can take appropriate action—for example, remove the
+so that we can take appropriate action. For example, we could remove the
 “loading” message and inform the user that something went wrong.
 
 (((exception handling)))(((callback function)))(((error
@@ -601,22 +610,22 @@ solve this with extra abstractions. One of the more successful ones is
 called _promises_. Promises wrap an asynchronous action in an object,
 which can be passed around and told to do certain things when the
 action finishes or fails. They are set to become a part of the next
-version of the JavaScript language, but can already be used as a
+version of the JavaScript language but can already be used as a
 library.
 
-The ((interface)) for promises is somewhat non-obvious, but very
+The ((interface)) for promises isn't entirely intuitive, but it is very
 powerful. This chapter will only roughly describe it. A more thorough
 treatment can be found at
 https://www.promisejs.org/[_www.promisejs.org_].
 
 (((Promise constructor)))To create a promise object, we call the
-`Promise` constructor, giving it a function that will initialize the
+`Promise` constructor, giving it a function that initializes the
 asynchronous action. The constructor calls that function, passing it
 two arguments, which are themselves functions. The first should be
 called when the action finishes successfully, and the second when it
 fails.
 
-(((HTTP)))(((get function)))Here is once again our wrapper for `GET`
+(((HTTP)))(((get function)))Once again, here is our wrapper for `GET`
 requests, this time returning a promise. We'll simply call it `get`,
 this time.
 
@@ -657,7 +666,7 @@ get("example/data.txt").then(function(text) {
 });
 ----
 
-(((chaining)))So far, this is just a different way to express the same
+(((chaining)))So far, this is just another way to express the same
 thing we already expressed before. It is only when you need to chain
 actions together that promises make a significant difference.
 
@@ -687,7 +696,7 @@ function getJSON(url) {
 (((error handling)))That last call to `then` did not specify a failure
 handler. This is allowed. The error will be passed on to the promise
 returned by `then`, which is exactly what we want—`getJSON` does not
-know what to do when something goes wrong, but its caller hopefully
+know what to do when something goes wrong, but hopefully, its caller 
 does.
 
 As an example that shows the use of ((promise))s, we will build a
@@ -731,7 +740,7 @@ relatively compact and readable. The `catch` method is similar to
 `then`, except that it only expects a failure handler, and will pass
 through the result unmodified in case of success. Much like with the
 `catch` clause for the `try` statement, control will continue as
-normal after the failure is caught, so that the final `then`, which
+normal after the failure is caught. That way, the final `then`, which
 removes the loading message, is always executed, even if something
 went wrong.
 
@@ -764,11 +773,12 @@ abstraction layer that hides it entirely.
 communication around the concept of ((resource))s and ((HTTP))
 ((method))s. Instead of a remote procedure called `addUser`, you use a
 `PUT` request to `/users/larry`. Instead of encoding that user's
-properties in function arguments, you define a document format (or use
-an existing one) that represents the user, and use it as the body of
-this `PUT` request. Fetching a resource is done by making `GET`
-request to the resource's URL, for example `/user/larry`, which
-returns the document representing that resource.
+properties in function arguments, you define a document format, or use
+an existing format, that represents a user. The body of the `PUT` request
+to create a new resoure is then simply such a document. A resource is
+fetched by making a `GET`
+request to the resource's URL (for example `/user/larry`), which
+returns the document representing the resource.
 
 This second approach makes it easier to use some of the features that
 HTTP provides, such as support for caching resources (keeping a copy
@@ -779,7 +789,7 @@ since resources are easier to reason about than a jumble of functions.
 
 (((man-in-the-middle)))(((security)))(((HTTPS)))Data traveling over
 the internet tends to follow a long, dangerous road. In order to get
-to its destination it must hop through anything from coffee shop wifi
+to its destination, it must hop through anything from coffee shop wifi
 ((network))s to networks controlled by various companies and states.
 At any point along its route it may be inspected or even modified.
 
@@ -792,7 +802,7 @@ indexsee:[Secure HTTP,HTTPS]
 (((cryptography)))(((encryption)))The secure ((HTTP)) protocol, whose
 ((URL))s start with _https://_, wraps HTTP traffic in a way that makes
 it harder to read and tamper with. First, the client verifies that the
-server is who it claims to be, by requiring it to prove that is has a
+server is who it claims to be by requiring that server to prove that it has a
 cryptographic ((certificate)) issued by a certificate authority that
 the ((browser)) recognizes. Next, all data going over the
 ((connection)) is encrypted in a way that should prevent eavesdropping
@@ -843,7 +853,7 @@ req.send(null);
 Asynchronous programming is tricky. _Promises_ are an interface that
 makes it slightly easier, by helping route error conditions and
 exceptions to the right handler, and abstracting away some of the more
-repetetive and error-prone elements in this style of programming.
+repetitive and error-prone elements in this style of programming.
 
 == Exercises ==
 
@@ -896,7 +906,7 @@ a synchronous request (by setting the third parameter to `open` to
 
 (((406 (HTTP status code))))(((Accept header)))Asking for a bogus
 media type will return a response with code 406 “Not acceptable”,
-which is the code a server should return when it can not fulfill the
+which is the code a server should return when it can't fulfill the
 `Accept` header.
 
 !!hint!!
@@ -904,8 +914,8 @@ which is the code a server should return when it can not fulfill the
 === Waiting for multiple promises ===
 
 (((all function)))(((Promise constructor)))The `Promise` constructor
-has an `all` method which, given an array of ((promise))s, returns a
-promise that waits for all of them to finish, and then succeeds
+has an `all` method that, given an array of ((promise))s, returns a
+promise that waits for all of the promises in the array to finish. It then succeeds
 itself, yielding an array of result values. If any of the promises in
 the array fail, the promise returned by `all` fails too (with the
 failure value from the failing promise).
@@ -914,7 +924,7 @@ Try to implement something like this yourself, as a regular function
 called `all`.
 
 Note that after a promise is resolved (has succeeded or failed), it
-can not succeed or fail again, and further calls to the functions that
+can't succeed or fail again, and further calls to the functions that
 resolve it are ignored. This can simplify the way you handle failure
 of your promise.
 
@@ -963,18 +973,18 @@ endif::interactive_target[]
 (((all function)))(((Promise constructor)))(((then method)))The
 function passed to the `Promise` constructor will have to call `then`
 on each of the promises in the given array. When one of them succeeds,
-two things need to happen—the resulting value needs to be stored in
+two things need to happen. The resulting value needs to be stored in
 the correct position of a result array, and we must check whether this
-was the last pending ((promise)), and finish our own promise when it
+was the last pending ((promise)) and finish our own promise if it
 was.
 
 (((counter variable)))The latter can be done with a counter, which is
-initialized to the length of the input array, and which we subtract
+initialized to the length of the input array, and from which we subtract
 one for every time a promise succeeds. When it reaches zero, we are
 done. Make sure you take the situation where the input array is empty
 (and thus no promise will ever resolve) into account.
 
-Handling failure requires some though, but turns out to be extremely
+Handling failure requires some thought, but turns out to be extremely
 simple. Just pass the failure function of the wrapping promise to each
 of the promises in the array, so that a failure in one of them
 triggers failure of the whole wrapper.

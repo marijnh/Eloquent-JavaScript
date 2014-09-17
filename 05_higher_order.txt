@@ -882,7 +882,7 @@ console.log(ancestry.filter(isInSet.bind(null, theSet)));
 // → … same result
 ----
 
-The previous `bind` call returns a function that will call `isInSet` with
+The call to `bind` returns a function that will call `isInSet` with
 `theSet` as first argument, followed by any remaining arguments given
 to the bound function.
 
@@ -1039,8 +1039,8 @@ be used to print the average ages for the individual centuries.
 (((grouping)))(((map)))(((object,as map)))(((groupBy function)))For
 bonus points, write a function `groupBy` that abstracts the grouping
 operation. It should accept as arguments an array and a function that
-computes the group for an element in the array and returns the object
-containing the groups.
+computes the group for an element in the array and returns an object
+that maps group names to arrays of group members.
 
 === Every and then some ===
 

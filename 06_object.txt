@@ -333,8 +333,6 @@ console.log(Array.prototype.toString ==
 // → false
 console.log([1, 2].toString());
 // → 1,2
-console.log(Object.prototype.toString.call([1, 2]));
-// → [object Array]
 ----
 
 (((toString method)))(((join method)))(((call method)))Calling
@@ -1019,7 +1017,7 @@ console.log([1] instanceof Array);
 // → true
 ----
 
-(((inheritance)))The operator will also see through inherited types.
+(((inheritance)))The operator will see through inherited types.
 An `RTextCell` is an instance of `TextCell` because
 `RTextCell.prototype` derives from `TextCell.prototype`. The operator
 can be applied to standard constructors like `Array`. Almost every

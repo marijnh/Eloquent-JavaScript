@@ -159,10 +159,10 @@ So if you know that the property you are interested in is called
 “length”, you say `value.length`. If you want to extract the property
 named by the value held in the variable `i`, you say `value[i]`. And
 because property names can be any string, if you want to access a
-property named “0” or “John Doe”, you must use square brackets:
-`value[0]` or `value["John Doe"]`. This is the case even though you
-know the precise name of the property in advance, because neither "0"
-nor "John Doe" is a valid variable name and so cannot be accessed
+property named “2” or “John Doe”, you must use square brackets:
+`value[2]` or `value["John Doe"]`. This is the case even though you
+know the precise name of the property in advance, because neither “2”
+nor “John Doe” is a valid variable name and so cannot be accessed
 through dot notation.
 
 (((array)))(((length property,for arrays)))(((array,length

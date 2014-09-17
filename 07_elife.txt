@@ -46,19 +46,18 @@ strings that lays out the world's grid using one character per square.
 
 [source,javascript]
 ----
-var plan =
-  ["############################",
-   "#      #    #      o      ##",
-   "#                          #",
-   "#          #####           #",
-   "##         #   #    ##     #",
-   "###           ##     #     #",
-   "#           ###      #     #",
-   "#   ####                   #",
-   "#   ##       o             #",
-   "# o  #         o       ### #",
-   "#    #                     #",
-   "############################"];
+var plan = ["############################",
+            "#      #    #      o      ##",
+            "#                          #",
+            "#          #####           #",
+            "##         #   #    ##     #",
+            "###           ##     #     #",
+            "#           ###      #     #",
+            "#   ####                   #",
+            "#   ##       o             #",
+            "# o  #         o       ### #",
+            "#    #                     #",
+            "############################"];
 ----
 
 The “#” characters in this plan represent ((wall))s and rocks, and the
@@ -79,7 +78,7 @@ take one turn and updates the world to reflect their actions.
 (((array,as grid)))(((Vector type)))(((coordinates)))The ((grid))
 that models the world has a fixed width and height. Squares are
 identified by their x- and y-coordinates. We use a simple type,
-`Vector` (as seen in the exercises for the
+` (as seen in the exercises for the
 link:06_object.html#exercise_vector[previous chapter]), to represent
 these coordinate pairs.
 
@@ -353,9 +352,8 @@ similar to the plan we put in.
 
 [source,javascript]
 ----
-var world = new World(plan,
-                      {"#": Wall,
-                       "o": BouncingCritter});
+var world = new World(plan, {"#": Wall,
+                             "o": BouncingCritter});
 console.log(world.toString());
 // → ############################
 //   #      #    #      o      ##

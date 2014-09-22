@@ -50,12 +50,12 @@ additional form fields. These are hooked up to update the canvas
 drawing context's `fillStyle`, `strokeStyle`, and `lineWidth` whenever
 they are changed.
 
-Loading an ((image)) into the program can be done in two ways. The
+You can load an ((image)) into the program in two ways. The
 first uses a file field, where the user can select a file on their own
 ((file system)). The second asks for a ((URL)), and will fetch an
 image from the web.
 
-(((saving)))Saving an image is done in a somewhat atypical way. The
+(((saving)))Images are saved in a somewhat atypical way. The
 “save” ((link)) at the right-hand side points at the current image. It
 can be followed, shared, or saved. I will explain how this is achieved
 in a moment.
@@ -69,7 +69,7 @@ need to construct these somehow.
 most obvious format for defining complex DOM structures. But
 separating the program into a piece of HTML and a script is made
 difficult by the fact that many of the DOM elements need event
-handlers, or have to be touched by the script in some other way. Thus,
+handlers or have to be touched by the script in some other way. Thus,
 our script would have to make lots of `querySelector` (or similar)
 calls in order to find the DOM elements that it needs to act on.
 
@@ -81,9 +81,9 @@ saw in link:13_dom.html#standard[Chapter 13], the built-in interface
 for building up a DOM structure is horrendously verbose. If we are
 going to do a lot of DOM construction, we need a helper function.
 
-(((elt function)))This function below is an extended version of the
+(((elt function)))This helper function is an extended version of the
 `elt` function from link:13_dom.html#elt[Chapter 13]. It creates an
-element with the given name and ((attribute))s, and appends all
+element with the given name and ((attribute))s and appends all
 further arguments it gets as child nodes, automatically converting
 strings to ((text node))s.
 
@@ -117,7 +117,7 @@ code as long and dull as a corporate end-user agreement.
 (((createPaint function)))(((controls object)))The core of our program
 is the `createPaint` function, which appends the paint interface to
 the DOM element it is given as argument. Because we want to build our
-program piece by piece, we define an object `controls`, which will
+program piece by piece, we define an object called `controls`, which will
 hold functions to initialize the various controls below the image.
 
 // include_code
@@ -141,23 +141,23 @@ function createPaint(parent) {
 
 (((fillStyle property)))(((lineWidth property)))(((canvas
 property)))(((context)))Each control has access to the ((canvas))
-drawing context (and, through that context's `canvas` property, to the
-`<canvas>` element itself). Most of the program's state lives in this
+drawing context and, through that context's `canvas` property, to the
+`<canvas>` element itself. Most of the program's state lives in this
 canvas—it contains the current picture as well as the selected color
 (in its `fillStyle` property) and brush size (in its `lineWidth`
 property).
 
 (((class attribute)))(((CSS)))We wrap the canvas and the controls in
-`<div>` elements with classes to be able to add some styling—for
-example the grey border around the picture.
+`<div>` elements with classes to be able to add some styling, such as
+the grey border around the picture.
 
 == Tool selection ==
 
 (((mouse)))(((tools object)))(((hard-coding)))(((select (HTML
-tag))))The first control we add is the the `<select>` element that
+tag))))The first control we add is the `<select>` element that
 allows the user to pick a drawing ((tool)). As with `controls`, we
 will use an object to collect the various tools, so that we do not
-have to hard-code them all in one place, and can add more tools later.
+have to hard-code them all in one place and can add more tools later.
 This object associates the names of the tools with the function that
 should be called when they are selected and the canvas is clicked.
 
@@ -222,10 +222,7 @@ function relativePos(event, element) {
 function)))Several of the drawing tools need to listen for
 `"mousemove"` events as long as the mouse button is held down. The
 `trackDrag` function takes care of the event registration and
-unregistration for such situations. It takes two arguments, a function
-to call for each `"mousemove"` event and a function to call when the
-mouse button is released again. Either argument can be omitted when it
-is not needed.
+unregistration for such situations. 
 
 // include_code
 
@@ -244,7 +241,12 @@ function trackDrag(onMove, onEnd) {
 }
 ----
 
-(((line tool)))The “line” tool uses these two helpers to do actual
+This function takes two arguments. One is a function to call for each 
+`"mousemove"` event, and the other is a function to call when the
+mouse button is released again. Either argument can be omitted when it
+is not needed.
+
+(((line tool)))The line tool uses two helpers to do actual
 drawing.
 
 // include_code
@@ -266,13 +268,13 @@ tools.Line = function(event, cx, onEnd) {
 };
 ----
 
-(((path,canvas)))(((lineCap property)))(((line)))It starts by setting the drawing
-context's `lineCap` property to `"round"`, which has the effect that
-both ends of a stroked path will be round, rather than the square
-form that is the default behavior. This is a trick to make sure that
-multiple separate lines, drawn in response to separate events, do look
-like a single, coherent line. With bigger line widths, you will see
-gaps at corners if you don't set this property.
+(((path,canvas)))(((lineCap property)))(((line)))The function starts by setting the drawing
+context's `lineCap` property to `"round"`, which causes both ends of
+a stroked path to be round rather than the default square form.
+This is a trick to make sure that multiple separate lines, drawn in 
+response to separate events, look like a single, coherent line. With 
+bigger line widths, you will see gaps at corners if you use the default flat
+line caps.
 
 (((mousemove event)))(((strokeStyle property)))(((lineWidth
 property)))Then, for every `"mousemove"` event that occurs as long as
@@ -303,19 +305,19 @@ tools.Erase = function(event, cx) {
 (((globalCompositeOperation property)))(((compositing)))(((erase
 tool)))The `globalCompositeOperation` property influences the way
 drawing operations on a canvas influence the color of the pixels they
-touch. By default it is `"source-over"`, which means that the drawn
-color is overlaid on the existing color at that spot. If it is an
-opaque ((color)), it will simply replace the old color, but if it is
+touch. By default, the property's value is `"source-over"`, which means that the drawn
+color is overlaid on the existing color at that spot. If the ((color)) is
+opaque, it will simply replace the old color, but if it is
 partially transparent, the two will be mixed.
 
 The “erase” tool sets `globalCompositeOperation` to
 `"destination-out"`, which has the effect of erasing the pixels we
 touch, making them transparent again.
 
-(((drawing)))That gives us two tools. The program so far is a working
-paint program, allows us to draw black lines a single pixel wide (the
+(((drawing)))That gives us two tools, so at this point, we have created a working
+paint program. It allows us to draw black lines a single pixel wide (the
 default `strokeStyle` and `lineWidth` for a canvas), and erase them
-again.
+again. Admittedly, this makes it a rather limited paint program.
 
 == Color and brush size ==
 
@@ -327,7 +329,7 @@ add controls for those two settings.
 field)))(((email field)))(((number field)))(((compatibility)))In
 link:18_forms.html#forms[Chapter 18], I discussed a number of
 different form ((field))s. Color fields were not among those.
-Traditionally, browsers do not have built-in support for color
+Traditionally, browsers don't have built-in support for color
 pickers, but in the past years, a number of new form field types have
 been ((standard))ized. One of those is `<input type="color">`. Others
 include `"date"`, `"email"`, `"url"`, and `"number"`. Not all
@@ -386,7 +388,7 @@ controls.brushSize = function(cx) {
 };
 ----
 
-(((lineWidth property)))It generates options from an array of brush
+(((lineWidth property)))The code generates options from an array of brush
 sizes, and again ensures that the canvas’ `lineWidth` is updated when
 a brush size is chosen.
 
@@ -394,8 +396,8 @@ a brush size is chosen.
 
 (((save link)))To explain the implementation of the “save” link, I
 must first tell you about _((data URL))s_. A data ((URL)) is a URL
-whose ((protocol)) is _data:_. Unlike regular _http:_ and _https:_
-URLs, data URLs do not point at a resource, but contain the entire
+with _data:_ as its ((protocol)). Unlike regular _http:_ and _https:_
+URLs, data URLs don't point at a resource, but rather contain the entire
 ((resource)) inside of them. This is a data URL containing a very
 simple HTML document:
 
@@ -403,19 +405,19 @@ simple HTML document:
 data:text/html,<h1 style="color:red">Hello!</h1>
 ----
 
-Such URLs are useful for various things, such as including small
+Such URLs are useful for various tasks, such as including small
 images directly in a ((style sheet)) file. They also allow us to link
-to things that we created on the client side, in the browser, without
+to files that we created on the client side, in the browser, without
 first moving them to some server.
 
 (((canvas)))(((toDataURL method)))(((optimization)))(((href
-attribute)))Canvas elements have a convenient method `toDataURL`,
+attribute)))Canvas elements have a convenient method, called `toDataURL`,
 which will return a data URL that contains the picture on the canvas
 as an image file. We don't want to update our “save” link every time
-the picture is changed, since for big pictures this involves moving
+the picture is changed, however. For big pictures, that involves moving
 quite a lot of data into a link, and would be noticeably slow.
 Instead, we rig the link to update its `href` attribute whenever it is
-focused (with the keyboard) or the mouse is moved over it.
+focused with the keyboard or the mouse is moved over it.
 
 // include_code
 
@@ -452,12 +454,14 @@ should work well.
 
 (((security)))(((privacy)))(((cross-domain request)))But here we once
 again run into the subtleties of browser ((sandbox))ing. When an
-((image)) is loaded from a URL on another ((domain)), and the server's
-response did not include a header that tells the browser that this
+((image)) is loaded from a URL on another ((domain)), if the server's
+response doesn't include a header that tells the browser the
 resource may be used from other domains (see
-link:17_http.html#http_sandbox[Chapter 17]), the ((canvas)) now
-contains information that the _user_ may look at, but that the
-_script_ may not. We may have requested a picture that contains
+link:17_http.html#http_sandbox[Chapter 17]), then the ((canvas)) will
+contain information that the _user_ may look at, but that the
+_script_ may not.
+
+We may have requested a picture that contains
 private information (for example, a graph showing the user's bank
 account balance), using the user's ((session)). If scripts could get
 information out of that picture, they could snoop on the user in
@@ -482,7 +486,7 @@ after the colon when they are followed, so that the link will show an
 == Loading image files ==
 
 (((img (HTML tag))))(((load event)))(((file system)))The final two
-controls are used to load images, from local files and from URLs.
+controls are used to load images from local files and from URLs.
 We'll need the following helper function, which tries to load an image
 file from a ((URL)) and replace the contents of the canvas with it.
 
@@ -510,13 +514,13 @@ function loadImageURL(cx, url) {
 size of the canvas to precisely fit the image. For some reason,
 changing the size of a canvas will cause its drawing context to forget
 configuration properties like `fillStyle` and `lineWidth`, so the
-function first saves those, and restores them after it has updated the
+function first saves those. It restores them after it has updated the
 size.
 
 (((FileReader type)))(((readAsDataURL method)))The control for loading
 a local file uses the `FileReader` technique from
 link:18_forms.html#filereader[Chapter 18]. Apart from the `readAsText`
-method we used there, such reader objects also have a method
+method we used there, such reader objects also have a method called
 `readAsDataURL`, which is exactly what we need here. We load the
 ((file)) that the user chose as a data URL, and pass it to
 `loadImageURL` to put it into the canvas.
@@ -567,7 +571,7 @@ controls.openURL = function(cx) {
 ----
 
 We have now defined all the controls that our simple paint program
-needs. But it could use a few more tools.
+needs, but it could still use a few more tools.
 
 == Finishing up ==
 
@@ -589,16 +593,16 @@ tools.Text = function(event, cx) {
 };
 ----
 
-It would be possible to add extra fields for the ((font)) size and the
-font, but for simplicity's sake we always use a sans-serif font, and
-base the font size on the current brush size, with a minimum size of 7
+You could add extra fields for the ((font)) size and the
+font, but for simplicity's sake, we always use a sans-serif font, and
+base the font size on the current brush size. The minimum size is seven
 pixels, because text smaller than that is unreadable.
 
 (((spray paint tool)))(((random number)))Another indispensable tool
 for drawing amateurish computer graphics is the “spray paint” tool.
 This one draws dots in random locations under the ((brush)) as long as
-the mouse is held down, allowing denser or less dense speckling to be
-created by moving the mouse faster or slower.
+the mouse is held down, creating denser or less dense speckling
+based on how fast or slow the mouse moves.
 
 // include_code
 
@@ -626,16 +630,16 @@ tools.Spray = function(event, cx) {
 };
 ----
 
-(((setInterval function)))(((trackDrag function)))The tool uses
+(((setInterval function)))(((trackDrag function)))The spray tool uses
 `setInterval` to spit out colored dots every 25 milliseconds as long
 as the mouse button is held down. The `trackDrag` function is used to
 keep `currentPos` pointing at the current mouse position, and to turn
 off the interval when the mouse button is released.
 
 To determine how many dots to draw every time the interval fires, the
-function computes the ((area)) of the current brush, and divides that
-by 30. To find a random position under the brush, the following
-function is used:
+function computes the ((area)) of the current brush and divides that
+by 30. To find a random position under the brush, the `randomPointInRadius`
+function is used.
 
 // include_code
 
@@ -652,18 +656,17 @@ function randomPointInRadius(radius) {
 }
 ----
 
-(((Pythagoras)))This generates points in the square between (-1,-1)
-and (1,1), and as soon as it finds one that lies within a ((circle))
-with ((radius)) 1 (using the Pythagorean theorem), it returns it,
+(((Pythagoras)))This function generates points in the square between (-1,-1)
+and (1,1). Using the Pythagorean theorem, it tests whether the generated point lies within a ((circle))
+of ((radius)) one. As soon as the function finds such a point, it returns the point
 multiplied by the `radius` argument.
 
 (((uniformity)))(((Math.sin function)))(((Math.cos function)))The loop
-is necessary because the straightforward way of generating a random
-point within a circle, by using a random ((angle)) and distance, and
-calling `Math.sin` and `Math.cos` to create the corresponding point,
-the dots are not distributed uniformly, but more likely to appear near
-the center of the circle. There are ways around this, but they are
-more complicated than the loop above.
+is necessary for a uniform distribution of dots. The straightforward way 
+of generating a random point within a circle would be to use a random ((angle)) and distance and
+call `Math.sin` and `Math.cos` to create the corresponding point. But with that method, 
+the dots are more likely to appear near the center of the circle. 
+There are other ways around that, but they're more complicated than the loop above.
 
 We now have a functioning paint program.(!interactive  Run the code below to
 try it out.!)
@@ -851,7 +854,7 @@ endif::interactive_target[]
 
 (((color picker (exercise))))(((relativePos function)))(((rgb
 (CSS))))You'll again need to use `relativePos` to find out which
-pixel. The `pixelAt` function in the example demonstrates how to get
+pixel was clicked. The `pixelAt` function in the example demonstrates how to get
 the values for a given pixel. Putting those into an `rgb` string
 merely requires some string ((concatenation)).
 
@@ -864,7 +867,7 @@ that you don't accidentally handle the wrong kind of exception.
 === Flood fill ===
 
 (((flood fill (exercise))))This is a more advanced exercise than the
-preceding two, and will require you to design a non-trivial solution
+preceding two, and it will require you to design a non-trivial solution
 to a tricky problem. Make sure you have plenty of time and
 ((patience)) before starting to work on this exercise, and do not get
 discouraged by initial failures.
@@ -874,7 +877,7 @@ and the whole group of pixels around it that have the same color. For
 the purpose of this exercise, we will consider such a group to include
 all pixels that can be reached from our starting pixel by moving in
 single-pixel horizontal and vertical steps (not diagonal), without
-ever touching a pixel that has a color different form the starting
+ever touching a pixel that has a color different from the starting
 pixel.
 
 The picture below illustrates the set of pixels colored when the flood
@@ -907,10 +910,10 @@ have to do something similar to the backtracking done by the regular
 expression matcher, described in
 link:09_regexp.html#backtracking[Chapter 9]. Whenever more than one
 possible direction to proceed is seen, you must store all the
-directions you do not take immediately, and look at them later, when
+directions you do not take immediately and look at them later, when
 you finish your current walk.
 
-(((performance)))(((optimization)))In a normal-sized picture there are
+(((performance)))(((optimization)))In a normal-sized picture, there are
 a _lot_ of pixels. Thus, you must take care to do the minimal amount
 of work required, or your program will take a very long to run. For
 example, every walk must ignore pixels seen by previous walks, so that
@@ -973,11 +976,11 @@ structure that tracks colored pixels will be consulted _very_ often.
 Searching through the whole thing every time a new pixel is visited
 will take a lot of time. You could instead create an array that has a
 value in it for every pixel, using again the x + y × width scheme for
-associating positions with pixels, and when checking if a pixel has
-been colored already, directly access the field corresponding to the
+associating positions with pixels. When checking if a pixel has
+been colored already, you could directly access the field corresponding to the
 current pixel.
 
-(((comparison,of colors)))Comparing colors can be done by running over
+(((comparison,of colors)))You can compare colors by running over
 the relevant part of the data array, comparing one field at a time. Or
 you can “condense” a color down to a single number or string, and
 compare those. When doing this, ensure that every color produces a

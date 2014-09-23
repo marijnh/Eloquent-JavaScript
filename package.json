@@ -15,6 +15,7 @@
   "devDependencies": {
     "contextify": "kkoopa/contextify",
     "jsdom": "0.10",
-    "canvas": "git://github.com/learnboost/node-canvas"
+    "canvas": "git://github.com/learnboost/node-canvas",
+    "promise": "6"
   }
 }

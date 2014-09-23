@@ -15,7 +15,7 @@ old used only sticks and clay, yet they made beautiful huts.’
 ____
 
 (((command line)))(((Yuan-Ma)))(((Book of Programming)))So far, we
-have learned the JavaScript language, and used it within a single
+have learned the JavaScript language and used it within a single
 environment: the browser. The next two chapters will briefly introduce
 you to ((Node.js)), a program that allows you to apply your JavaScript
 skills outside of the browser. With it, you can build anything from
@@ -26,12 +26,6 @@ builds on and give you enough information to write some useful
 programs for it. They do not try to be a complete, or even a thorough,
 treatment of Node.
 
-If you want to follow along and run the code in this chapter, start by
-going to http://nodejs.org[_nodejs.org_], and following the
-installation instructions for your operating system. Also refer to
-that website for further ((documentation)) about Node and its built-in
-((module))s.
-
 ifdef::interactive_target[]
 
 Whereas you could run the code in previous chapters directly on these
@@ -41,33 +35,39 @@ in the browser.
 
 endif::interactive_target[]
 
+If you want to follow along and run the code in this chapter, start by
+going to http://nodejs.org[_nodejs.org_], and following the
+installation instructions for your operating system. Also refer to
+that website for further ((documentation)) about Node and its built-in
+((module))s.
+
 == Background ==
 
 (((responsiveness)))(((input)))One of the more difficult problems in
-writing systems that communicate over the ((network)) is managing in-
+writing systems that communicate over the ((network)) is managing input
 and ((output))—that is, the reading and writing of data to and from
 the network, the ((hard drive)), and other such devices. Moving data
 around takes time, and ((scheduling)) it cleverly can make a big
 difference in how quickly a system responds to the user or to network
 requests.
 
-The traditional way to do in- and output is to have a function, for
-example `readFile`, start reading the file and return only when the
+The traditional way to handle input and output is to have a function, such as
+`readFile`, start reading a file and return only when the
 file has been fully read. This is called _((synchronous I/O))_ (I/O
 stands for input/output).
 
 (((asynchronous I/O)))(((asynchronous programming)))(((callback
 function)))Node was initially conceived for the purpose of making
-_asynchronous_ I/O easy and convenient. We have asynchronous
-interfaces before, for example in a browser's `XMLHttpRequest` object,
+_asynchronous_ I/O easy and convenient. We have seen asynchronous
+interfaces before, including a browser's `XMLHttpRequest` object,
 discussed in link:17_http.html#xmlhttprequest[Chapter 17]. Such an
 interface allows the script to continue running while it does its
 work, and calls a callback function when it's done. This is the way
 Node does all its I/O.
 
 (((programming language)))(((Node.js)))(((standard)))JavaScript lends
-itself well for a system like Node. It is one of the few programming
-languages that does not have a built-in way to do I/O. Thus, it could
+itself well to a system like Node. It is one of the few programming
+languages that does not have a built-in way to do I/O. Thus, JavaScript could
 be fit onto Node's rather eccentric approach to I/O without ending up
 with two inconsistent I/O interfaces. In 2009, when Node was being
 designed, people were already doing callback-based I/O in the browser,
@@ -78,10 +78,10 @@ programming)) style.
 
 I'll try to illustrate synchronous versus asynchronous
 I/O with a small example, where a program needs to fetch two resources
-from the Internet, and then do some simple processing with the result.
+from the Internet and then do some simple processing with the result.
 
 (((synchronous I/O)))In a synchronous environment, the obvious way to
-do this is to make the requests one after the other. This has the
+perform this task is to make the requests one after the other. This method has the
 drawback that the second request will only be started when the first
 has finished. The total time taken will be at least the sum of the two
 response times. This is not a very effective use of the machine, which
@@ -89,16 +89,16 @@ will be mostly idle when it is transmitting and receiving data over
 the ((network)).
 
 (((parallelism)))The solution to this problem, in a synchronous
-system, is to start additional ((thread))s of control (refer back to
+system, is to start additional ((thread))s of control. (Refer back to
 link:14_event.html#timeline[Chapter 14] for a previous discussion of
-threads). A second thread could start the second request, and then
+threads.) A second thread could start the second request, and then
 both threads wait for their results to come back, after which they
-somehow re-synchronize to combine their results.
+re-synchronize to combine their results.
 
 (((CPU)))(((blocking)))(((synchronous I/O)))(((asynchronous
 I/O)))(((timeline)))(((callback function)))In the following diagram,
-the thick lines represents time the program spends running normally,
-whereas the thin lines represent time spent waiting for I/O. In the
+the thick lines represent time the program spends running normally,
+and the thin lines represent time spent waiting for I/O. In the
 synchronous model, the time taken by I/O is _part_ of the timeline for
 a given thread of control. In the asynchronous model, starting an I/O
 action conceptually causes a _split_ in the timeline. The thread that
@@ -109,11 +109,11 @@ image::img/control-io.svg[alt="Control flow for synchronous and asynchronous I/O
 
 (((control flow)))(((asynchronous programming)))Another way to express
 this difference is that waiting for I/O to finish is _implicit_ in the
-synchronous model, whereas is it _explicit_, directly under our
-control, in the asynchronous one. This cuts both ways. Asynchronicity
-makes it easier to express programs that do not fit the straight-line
-model of control, but it also makes it more awkward to express
-programs that do.
+synchronous model, while it is _explicit_, directly under our
+control, in the asynchronous one. But asynchronicity cuts both ways. It
+makes expressing programs that do not fit the straight-line
+model of control easier, but it also makes expressing
+programs that do follow a straight line more awkward.
 
 (((verbosity)))In link:17_http.html#promises[Chapter 17], I already
 touched on the fact that all those callbacks do add quite a lot of
@@ -125,9 +125,9 @@ it takes some getting used to.
 JavaScript-based system, I would argue that callback-style
 asynchronicity is a sensible choice. One of the strengths of
 JavaScript is its simplicity, and trying to add multiple ((thread))s
-of control to it would add a lot of complexity. Though they don't tend
-to lead to simple _code_, callbacks as a _concept_ are pleasantly
-simple, but powerful enough to write high-performance Web servers.
+of control to it would add a lot of complexity. Though callbacks don't tend
+to lead to simple _code_, as a _concept_, they're pleasantly
+simple, yet powerful enough to write high-performance Web servers.
 
 == The node command ==
 
@@ -208,7 +208,7 @@ built-in functionality, you have to ask the module system for it.
 (((library)))(((require function)))The ((CommonJS)) module system,
 based on the `require` function, was described in
 link:10_modules.html#commonjs[Chapter 10]. This system is built into
-Node, and is used to load anything from built-in ((module))s to
+Node and is used to load anything from built-in ((module))s to
 downloaded libraries to files that are part of your own program.
 
 (((path,file system)))(((relative path)))(((resolution)))When `require` is called, Node has
@@ -314,8 +314,8 @@ $ node
 
 (((require function)))(((node_modules directory)))(((npm
 program)))After running `npm install`, ((NPM)) will have created a
-directory `node_modules`, and put a `figlet` directory inside of that
-which contains the ((library)) itself. When we run `node` and call
+directory called `node_modules`. Inside that directory will be a `figlet`
+directory, which contains the ((library)) itself. When we run `node` and call
 `require("figlet")`, this library is loaded, and we can call its
 `text` method to draw some big letters.
 
@@ -323,15 +323,15 @@ which contains the ((library)) itself. When we run `node` and call
 instead of simply returning the string that makes up the big letters,
 `figlet.text` takes a ((callback function)) that it passes its result
 to. It also passes the callback another argument, `error`, which will
-hold an error object when something went wrong, or null when
+hold an error object when something goes wrong, or null when
 everything is all right.
 
 (((file system)))(((asynchronous programming)))(((Node.js)))This is a
 common pattern in Node code. Rendering something with `figlet`
 requires the library to read a file that contains the letter shapes.
-Since reading that file from disk is an asynchronous operation in
-Node, that means that `figlet.text` can't immediately return its
-result. Asynchronicity is “infectious”, in a way—every function that
+Reading that file from disk is an asynchronous operation in
+Node, so `figlet.text` can't immediately return its
+result. Asynchronicity is infectious, in a way—every function that
 calls an asynchronous function must itself become asynchronous.
 
 (((dependency)))(((publishing)))(((package.json file)))(((npm
@@ -420,8 +420,8 @@ remove one, and so on. See the documentation at
 http://nodejs.org[_nodejs.org_] for specifics.
 
 (((synchronous I/O)))(((fs module)))(((readFileSync function)))Many of
-the functions in `"fs"` come in two variants, a synchronous one and an
-asynchronous one. For example, there is a synchronous version of
+the functions in `"fs"` come in both synchronous and asynchronous variants. 
+For example, there is a synchronous version of
 `readFile` which is called `readFileSync`.
 
 [source,javascript]
@@ -431,8 +431,8 @@ console.log(fs.readFileSync("file.txt", "utf8"));
 ----
 
 (((synchronous
-I/O)))(((optimization)))(((performance)))(((blocking)))These require
-less ceremony to use, and can be useful in simple scripts, where the
+I/O)))(((optimization)))(((performance)))(((blocking)))Synchronous functions require
+less ceremony to use and can be useful in simple scripts, where the
 extra speed provided by asynchronous I/O is irrelevant. But note that,
 while such a synchronous operation is being performed, your program
 will be stopped entirely. If it should be responding to the user or to
@@ -465,26 +465,26 @@ you can point your web browser at
 http://localhost:8000/hello[_http://localhost:8000/hello_] to make a
 request to your server. It will respond with a very small HTML page.
 
-(((createServer function)))(((HTTP)))The function passed as argument
+(((createServer function)))(((HTTP)))The function passed as an argument
 to `createServer` is called every time a client tries to connect to
 the server. The `request` and `response` variables are objects
 representing the incoming and outgoing data. The first contains
-information about the ((request)), for example its `url` property
+information about the ((request)), such as its `url` property, which
 tells us to what URL the request was made.
 
 (((200 (HTTP status code))))(((Content-Type header)))(((writeHead
 method)))To send something back, you call methods on the `response`
 object. The first, `writeHead`, will write out the ((response))
 ((header))s (see link:17_http.html#headers[Chapter 17]). You give it
-the status code (200 for “OK” in this case), and an object that
+the status code (200 for “OK” in this case) and an object that
 contains header values. Here we tell the client that we will be
 sending back an HTML document.
 
 (((writable stream)))(((body (HTTP))))(((stream)))(((write
 method)))(((end method)))Next, the actual response body (the document
 itself) is sent with `response.write`. You are allowed to call this
-method multiple times, if you want to send the response piece by piece
-(possibly streaming data to the client as it becomes available).
+method multiple times if you want to send the response piece by piece,
+possibly streaming data to the client as it becomes available.
 Finally, `response.end` signals the end of the response.
 
 (((listen method)))The call to `server.listen` causes the ((server))
@@ -496,11 +496,12 @@ you have to connect to _localhost:8000_, rather than just _localhost_
 doesn't finish automatically because it is waiting for further events
 (in this case, network connections), press Control-C.
 
-A real web ((server)) would probably need to do a lot of other things,
-such as analyze the ((URL)) to figure out which ((resource)) the
-request is interested in, and actually looking at the request's
+A real web ((server)) usually does more than the one in the previous
+example—it looks at the request's
 ((method)) (the `method` property) to see what action the client is
-trying to perform.
+trying to perform, and at the request's ((URL)) to find out which
+resource this action is being performed on. We'll see a more advanced
+server link:20_node.html#file_server[later in this chapter].
 
 (((http module)))(((request function)))To act as an ((HTTP))
 _((client))_, we can use the `request` function in the `"http"`
@@ -529,15 +530,15 @@ called when a response comes in. It is given an object that allows us
 to inspect the response, for example to find out its status code.
 
 (((GET method)))(((write method)))(((end method)))(((writable
-stream)))(((request function)))The object returned by `request`, just
-like the `response` object we saw in the server, allows us to
-((stream)) data into the ((request)) with the `write` method, and
+stream)))(((request function)))Just like the `response` object 
+we saw in the server, the object returned by `request` allows us to
+((stream)) data into the ((request)) with the `write` method and
 finish the request with the `end` method. The example does not use
 `write`, because requests using the GET method should not contain data
 in their request body.
 
 (((https module)))(((request function)))To make requests to ((HTTPS))
-(secure HTTP) URLs, Node provides a package `https`, which contains
+(secure HTTP) URLs, Node provides a package called `https`, which contains
 its own `request` function, similar to `http.request`.
 
 == Streams ==
@@ -546,20 +547,20 @@ its own `request` function, similar to `http.request`.
 type)))(((stream)))(((writable stream)))We have seen two examples of
 writable streams in the HTTP examples—namely the response object that
 the server could write to, and the request object that was returned
-from `http.request`. These are a widely used concept in Node
+from `http.request`.
+
+(((callback function)))(((asynchronous programming))) Writable streams are a widely used concept in Node
 interfaces. All writable streams have a `write` method, which can be
 passed a string or a `Buffer` object. Their `end` method closes the
 stream, and if given an argument, will also write out a piece of data
-before it does so.
-
-(((callback function)))(((asynchronous programming)))Both of these
+before it does so. Both of these
 methods can also be given a callback as an additional argument, which
 they will call when the writing to or closing of the stream has
 finished.
 
 (((createWriteStream function)))(((writeFile function)))It is possible
 to create a writable stream that points at a ((file)) with the
-`fs.createWriteStream` function, and then use the `write` method on
+`fs.createWriteStream` function. Then you can use the `write` method on
 the resulting object to write the file one piece at a time, rather
 than in one shot as with `fs.writeFile`.
 
@@ -609,8 +610,8 @@ the data handler will be a binary `Buffer`, which we can convert to a
 string by calling `toString` on it, which will decode it using the
 default encoding (UTF-8).
 
-The following piece of code, if run while the upcasing server is
-running, will send a request to it and write out the response it gets.
+The following piece of code, if run while the uppercasing server is
+running, will send a request to that server and write out the response it gets.
 
 // test: no
 
@@ -632,8 +633,9 @@ request.end("Hello server");
 (((stdout property)))(((standard output)))(((writable
 stream)))(((console.log)))The example writes to `process.stdout` (the
 process's standard output, as a writable stream) instead of using
-`console.log`. The latter adds an extra newline character after each
-piece of text that it writes, which isn't needed here.
+`console.log`. We can't use `console.log` because it adds an extra
+newline character after each piece of text that it writes, which isn't
+appropriate here.
 
 [[file_server]]
 == A simple file server ==
@@ -641,26 +643,26 @@ piece of text that it writes, which isn't needed here.
 (((file server example)))(((Node.js)))Let's combine our newfound
 knowledge about ((HTTP)) ((server))s and talking to the ((file
 system)), and create a bridge between them: an HTTP server that allows
-((remote access)) to a file system. Such a server has many uses—it
+((remote access)) to a file system. Such a server has many uses. It
 allows web applications to store and share data, or give a group of
 people shared access to a bunch of files.
 
-(((path,URL)))(((GET method)))(((PUT method)))(((DELETE method)))It is
-straightforward to treat ((file))s as HTTP ((resource))s. The HTTP
+(((path,URL)))(((GET method)))(((PUT method)))(((DELETE method))) When 
+we treat ((file))s as HTTP ((resource))s, the HTTP
 methods `GET`, `PUT`, and `DELETE` can be used to read, write, and
-delete them, respectively. We will interpret the path in the request
+delete the files, respectively. We will interpret the path in the request
 as the path of the file that the request refers to.
 
-(((path,file system)))(((relative path)))Because we probably don't want to share our whole
-file system, we'll interpret these paths as starting in the
+(((path,file system)))(((relative path)))We probably don't want to share our whole
+file system, so we'll interpret these paths as starting in the
 server's working ((directory)), which is the directory in which it was
 started. If I ran the server from `/home/marijn/public/` (or
-`c:\Users\marijn\public\` on Windows), then a request for `/file.txt`
+`C:\Users\marijn\public\` on Windows), then a request for `/file.txt`
 should refer to `/home/marijn/public/file.txt` (or
-`c:\Users\marijn\public\file.txt`).
+`C:\Users\marijn\public\file.txt`).
 
 (((file server example)))(((Node.js)))(((methods object)))We'll build
-the program piece by piece again, using an object (`methods`) to store
+the program piece by piece, using an object called `methods` to store
 the functions that handle the various HTTP methods.
 
 // include_code >code/file_server.js
@@ -695,12 +697,12 @@ method isn't handled by the server.
 
 (((end method)))(((Content-Type header)))(((response)))(((pipe
 method)))(((stream)))The `respond` function is passed to the functions
-that handle the various methods, and acts as a callback to finish the
+that handle the various methods and acts as a callback to finish the
 request. It takes an HTTP ((status code)), a body, and optionally a
-content type. If the value passed as the body is a ((readable
+content type as arguments. If the value passed as the body is a ((readable
 stream)), it will have a `pipe` method, which is used to forward a
 readable stream to a ((writable stream)). If not, it is assumed to be
-either `null` (no body) or a string, and is passed directly to the
+either `null` (no body) or a string and is passed directly to the
 response's `end` method.
 
 (((path,URL)))(((urlToPath function)))(((url module)))(((parsing)))(((escaping,in
@@ -722,9 +724,9 @@ function urlToPath(url) {
 ----
 
 
-(((security)))(((path,file system)))(If you are worried about the security of the
-`urlToPath` function, you are right. We will come back to it in the
-exercises.)
+(((security)))(((path,file system)))If you are worried about the security of the
+`urlToPath` function, you are right. We will come back to that in the
+exercises.
 
 (((file server example)))(((Node.js)))(((GET method)))We will set up
 the `GET` method to return a list of ((file))s when reading a
@@ -738,7 +740,7 @@ them. But ((NPM)) can help with that. The `mime` package (content type
 indicators like `text/plain` are also called _MIME types_) knows the
 correct type for a huge amount of ((file extension))s.
 
-(((require function)))(((npm program)))If you do this in the directory
+(((require function)))(((npm program)))If you run the following `npm` command in the directory
 where the server script lives, you'll be able to `require("mime")` to
 get access to the library.
 
@@ -783,9 +785,9 @@ handling)))(((ENOENT (status code))))(((Error
 type)))(((inheritance)))Because it has to touch the disk, and thus
 might take a while, `fs.stat` is asynchronous. When the file does not
 exist, `fs.stat` will pass an error object with a `code` property of
-`"ENOENT"` to its callback. It would have been nice if Node defined
+`"ENOENT"` to its callback. It would be nice if Node defined
 different sub-types of `Error` for different types of error, but it
-doesn't, and instead just puts obscure, ((Unix))-inspired codes in
+doesn't. Instead, it just puts obscure, ((Unix))-inspired codes in
 there.
 
 (((500 (HTTP status code))))(((error handling)))(((error response)))We
@@ -891,7 +893,7 @@ that happens, we can report success to the client with a 204 response.
 for the server is available at
 http://eloquentjavascript.net/code/file_server.js[_eloquentjavascript.net/code/file_server.js_].
 You can download that and run it with Node to start your own file
-server. And of course you can modify and extend it, to solve this
+server. And of course, you can modify and extend it, to solve this
 chapter's exercises or to experiment.
 
 (((body (HTTP))))(((curl program)))The command-line tool `curl`,
@@ -914,7 +916,7 @@ File not found
 The first request for `file.txt` fails, since the file does not exist
 yet. The `PUT` request creates the file, and behold, the next request
 successfully retrieves it. After deleting it with a `DELETE` request,
-it is again missing.
+the file is again missing.
 
 == Error handling ==
 
@@ -925,19 +927,19 @@ we don't know how to handle to ((error response))s. Because
 rather passed to them as arguments, they have to be handled explicitly
 every time. This completely defeats the advantage of ((exception
 handling)), namely the ability to centralize the handling of
-exceptions.
+failure conditions.
 
 (((Node.js)))(((stack trace)))(((throw keyword)))(((try
 keyword)))(((uncaught exception)))What happens when something actually
 _throws_ an exception in this system? Since we are not using any `try`
 blocks, the exception will propagate to the top of the call stack. In
-Node, that aborts the program, and writes information information
+Node, that aborts the program and writes information
 about the exception (including a stack trace) to the program's
 standard error stream.
 
 (((callback function)))This means that our server will ((crash))
 whenever a problem is encountered in the server's code itself, as
-opposed to asynchronous problems which will be passed as arguments to
+opposed to asynchronous problems, which will be passed as arguments to
 the callbacks. If we wanted to handle all exceptions raised during the
 handling of a request, to make sure we send back a response, we would
 have to add `try`/`catch` blocks to _every_ callback.
@@ -951,11 +953,11 @@ program can handle, and crashing is the right response.
 module)))(((error handling)))Another approach is to use ((promise))s,
 which were introduced in link:17_http.html#promises[Chapter 17]. Those
 catch exceptions raised by callback functions, and propagate them as
-failures. It is possible to load a promise library in Node, and use
+failures. It is possible to load a promise library in Node and use
 that to manage your asynchronous control. Very few Node libraries
 integrate promises, but it is often trivial to wrap them. The
-excellent `"promise"` module from ((NPM)) contains a function
-`denodeify`, which takes an asynchronous function like `fs.readFile`,
+excellent `"promise"` module from ((NPM)) contains a function called
+`denodeify`, which takes an asynchronous function like `fs.readFile`
 and converts it to a promise-returning function.
 
 [source,javascript]
@@ -986,7 +988,7 @@ server, to illustrate the difference in the style of programming.
 code contains promise-style variants of a number of `fs` functions,
 wrapped by `Promise.denodeify`. The object returned from the callback,
 with `code` and `body` properties, will become the final result of the
-chain of ((promise))s, and be used to determine what kind of
+chain of ((promise))s, and it will be used to determine what kind of
 ((response)) to send to the client.
 
 // test: no
@@ -1018,8 +1020,8 @@ function inspectPath(path) {
 
 (((500 (HTTP status code))))(((stat function)))(((ENOENT (status
 code))))(((promise)))The `inspectPath` function is a simple wrapper
-around `fs.stat`, which handles the case where the file is not found,
-replacing the failure with a success that yields `null` in that case.
+around `fs.stat`, which handles the case where the file is not found.
+In that case, we replace the failure with a success that yields `null`.
 All other errors are allowed to propagate implicitly. When the promise
 that is returned from these handlers fails, the HTTP server responds
 with a 500 status code.
@@ -1034,14 +1036,13 @@ something you enjoy, automating everyday tasks with Node works
 wonderfully.
 
 NPM provides libraries for everything you can think of (and quite a
-few things you'd probably never think of), and allows you to fetch and
-install them by running a simple command.
+few things you'd probably never think of), and it allows you to fetch and
+install those libraries by running a simple command. Node also comes with a 
+number of built-in modules, including the `"fs"` module, for working with 
+the file system, and the `"http"` module, for running HTTP servers and making 
+HTTP requests.
 
-Node also comes with a number of built-in modules, among which the
-`"fs"` module, for working with the file system, and the `"http"`
-module, to running HTTP servers and make HTTP requests.
-
-All in- and output in Node is done asynchronously, unless you
+All input and output in Node is done asynchronously, unless you
 explicitly use a synchronous variant of a function, such as
 `fs.readFileSync`. You provide callback functions, and Node will call
 them at the appropriate time, when the I/O you asked for has finished.
@@ -1077,7 +1078,7 @@ is a ((readable stream)). This means that it is not entirely trivial
 to get the whole response body out of it. The following utility
 function reads a whole stream and calls a callback function with the
 result, using the usual pattern of passing any errors it encounters as
-first argument to the callback.
+the first argument to the callback.
 
 [source,text/javascript]
 ----
@@ -1154,7 +1155,7 @@ do the replace _after_ decoding the string, or it would be possible to
 foil the check by encoding a dot or a slash.
 
 (((path,file system)))(((slash character)))Another potentially
-worrying case is paths starting with a slash, which interpreted as
+worrying case is paths starting with a slash, which are interpreted as
 ((absolute path))s. But because `urlToPath` puts a dot character in
 front of the path, it is impossible to create requests that result in
 such a path. Multiple slashes in a row, inside of the path, are odd,
@@ -1209,7 +1210,7 @@ website itself.
 (((XMLHttpRequest)))Use an HTML ((form))
 (link:18_forms.html#forms[Chapter 18]) to edit the content of the
 files that make up the website, allowing the user to update them on
-the server, using HTTP request as described in
+the server, using HTTP requests as described in
 link:17_http.html#http[Chapter 17].
 
 Start by making only a single file editable. Then make it so that the

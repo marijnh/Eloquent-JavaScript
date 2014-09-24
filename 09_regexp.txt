@@ -147,7 +147,7 @@ same thing as `[0-9]`.
 |`\d`      |Any ((digit)) character
 |`\w`      |An alphanumeric character (“((word character))”)
 |`\s`      |Any ((whitespace)) character (space, tab, newline, and similar)
-|`\D`      |A characters that is _not_ a digit
+|`\D`      |A character that is _not_ a digit
 |`\W`      |A nonalphanumeric character
 |`\S`      |A nonwhitespace character
 |`.`       |Any character except for newline(((newline character)))
@@ -287,7 +287,7 @@ is itself all lowercase.
 is the absolute simplest way to match a regular expression. It 
 tells you only whether it matched and nothing else. Regular expressions
 also have an `exec` (execute) method that will return `null` if no
-match was found and have an object with information about the match
+match was found and return an object with information about the match
 otherwise.
 
 [source,javascript]
@@ -388,7 +388,7 @@ are optional and taken to be zero when not given.
 (((getTime method)))Timestamps are stored as the number of
 milliseconds since the start of 1970, using negative numbers for
 times before 1970 (following a convention set by “((Unix time))”,
-which was invented that year). The `getTime` method on a date object
+which was invented around that time). The `getTime` method on a date object
 returns this number. It is big, as you can imagine.
 
 [source,javascript]
@@ -565,7 +565,7 @@ branch. The string _does_ match the expression, just not the branch we
 are currently in.
 
 (((backtracking)))(((searching)))So the matcher _backtracks_. When
-entering a branch, it remembers where its current position (in this
+entering a branch, it remembers its current position (in this
 case, at the start of the string, just past the first boundary box in
 the diagram) so that it can go back and try another branch if the
 current one does not work out. For the string `"103"`, after
@@ -1013,7 +1013,7 @@ function parseINI(string) {
       categories.push(currentSection);
     } else if (match = line.match(/^(\w+)=(.*)$/)) {
       currentSection.fields.push({name: match[1],
-                                   value: match[2]});
+                                  value: match[2]});
     } else {
       throw new Error("Line '" + line + "' is invalid.");
     }
@@ -1111,11 +1111,11 @@ They use their own syntax to express these patterns.
 
 A regular expression has a method `test` to test whether a given
 string matches it. It also has an `exec` method that, when a match is
-found, returns an array containing all matched groups. The array also
+found, returns an array containing all matched groups. Such an array
 has an `index` property that indicates where the match started.
 
 Strings have a `match` method to match them against a regular
-expression and a `search` method search for one, returning only the
+expression and a `search` method to search for one, returning only the
 starting position of the match. Their `replace` method can replace
 matches of a pattern with a replacement string. Alternatively, you can
 pass a function to `replace`, which will be used to build up a

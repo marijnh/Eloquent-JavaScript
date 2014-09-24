@@ -424,7 +424,7 @@ block causes an exception to be raised, the `catch` block is
 evaluated. The variable name (in parentheses) after `catch` will be
 bound to the exception value. After the `catch` block finishes—or if
 the `try` block finishes without problems—control proceeds beneath the
-entire try-catch statement.
+entire `try`/`catch` statement.
 
 (((debugging)))(((call stack)))(((Error type)))(((stack
 trace)))In this case, we used the `Error` ((constructor)) to create

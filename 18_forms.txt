@@ -187,7 +187,7 @@ which will make it focusable.
 (((disabled attribute)))All ((form)) ((field))s can be _disabled_
 through their `disabled` attribute, which also exists as a property on
 the element's DOM object. Disabled fields cannot be ((focus))ed or
-changed, and unlike active fields, they usually they look grey and faded.
+changed, and unlike active fields, they usually they look gray and faded.
 
 [source,text/html]
 ----

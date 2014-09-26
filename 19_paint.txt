@@ -149,7 +149,7 @@ property).
 
 (((class attribute)))(((CSS)))We wrap the canvas and the controls in
 `<div>` elements with classes to be able to add some styling, such as
-the grey border around the picture.
+the gray border around the picture.
 
 == Tool selection ==
 

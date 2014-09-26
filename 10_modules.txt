@@ -30,7 +30,7 @@ endif::interactive_target[]
 (((organization)))(((code structure)))Every program has a shape. On
 a small scale, this shape is determined by its division into
 ((function))s and the blocks inside those functions. Programmers have
-a lot of freedom in the shape they give their programs. Shape follows
+a lot of freedom in the way they structure their programs. Shape follows
 more from the ((taste)) of the programmer than from the program's
 intended functionality.
 
@@ -143,7 +143,7 @@ to automatically download it.
 modules and a tool for downloading and upgrading the modules your
 program depends on. It grew out of ((Node.js)), the browserless
 JavaScript environment we will discuss in
-link:20_node.html#node[Chapter 20] but can also be useful when
+link:20_node.html#node[Chapter 20], but can also be useful when
 programming for the browser.
 
 === Decoupling ===
@@ -716,7 +716,7 @@ expects a real array won't be able to work with them. This is an
 example of poor __composability__—the module cannot be easily composed
 with other code.
 
-(((encapsulation)))(((spell-check example)))Another example would be a
+(((encapsulation)))(((spell-check example)))An example would be a
 module for spell-checking text, which we might need when we want to
 write a text editor. The spell-checker could be made to operate
 directly on whichever complicated ((data structure))s the editor uses

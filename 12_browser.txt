@@ -46,7 +46,7 @@ _((Internet))_. It has lived up to its promise.
 A computer can use this network to spew bits at another computer. For
 any effective ((communication)) to arise out of this bit-spewing, the
 computers at both ends must know what the bits are supposed to
-represent. The meaning of any given sequence of bits depends entirely
+mean. The meaning of any given sequence of bits depends entirely
 on the kind of thing that it is trying to express and on the
 ((encoding)) mechanism used.
 

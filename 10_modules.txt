@@ -645,7 +645,7 @@ function define(depNames, moduleFunction) {
 
 (((define function)))When all dependencies are available,
 `whenDepsLoaded` calls the function that holds the module, giving it
-the dependencies' interfaces as arguments.
+the dependencies’ interfaces as arguments.
 
 The first thing `define` does is store the value that `currentMod` had
 when it was called in a variable `myMod`. Remember that `getModule`,

@@ -11,7 +11,7 @@ might explain how to cultivate ((celery)). Or in a
 programming-oriented skill-sharing group, you could drop by and tell
 everybody about Node.js.
 
-(((learning)))(((users' group)))Such meetups, also often called
+(((learning)))(((users’ group)))Such meetups, also often called
 _users’ groups_ when they are about computers, are a great way to
 broaden your horizon, learn about new developments, or simply meet
 people with similar interests. Many large cities have a JavaScript

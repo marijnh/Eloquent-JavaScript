@@ -64,8 +64,8 @@ syntax.
 
 (((comma character)))Applications are written the way they are in
 JavaScript, by putting ((parentheses)) after an expression and having
-any number of ((argument))s separated by commas between those
-parentheses.
+any number of ((argument))s between those parentheses, separated by
+commas.
 
 ----
 do(define(x, 10),
@@ -78,7 +78,7 @@ do(define(x, 10),
 things that are ((operator))s in JavaScript (such as `>`) are normal
 variables in this language, applied just like other ((function))s. And
 since the ((syntax)) has no concept of a block, we need a `do`
-construct (like the previous one) to represent doing multiple things in sequence.
+construct to represent doing multiple things in sequence.
 
 (((type property)))(((parsing)))The ((data structure)) that the parser will
 use to describe a program will consist of ((expression)) objects, each

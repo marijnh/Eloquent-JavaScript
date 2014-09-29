@@ -41,9 +41,17 @@
       self.win = frame.contentWindow;
       self.setupEnv();
 
-      self.frame.addEventListener("load", function() {
+      function resize() {
         if (self.frame.style.display != "none") self.resizeFrame();
-      });
+      }
+      self.frame.addEventListener("load", resize);
+      var resizeTimeout = null;
+      function scheduleResize() {
+        self.win.clearTimeout(resizeTimeout);
+        self.win.__setTimeout(resize, 200);
+      }
+      self.win.addEventListener("keydown", scheduleResize);
+      self.win.addEventListener("mousedown", scheduleResize);
 
       if (options.loadFiles) {
         var i = 0;
@@ -179,7 +187,7 @@
       };
     },
     resizeFrame: function() {
-      this.frame.style.height = Math.max(80, Math.min(this.win.document.body.scrollHeight + 20, 500)) + "px";
+      this.frame.style.height = Math.max(80, Math.min(this.win.document.documentElement.offsetHeight + 10, 500)) + "px";
       var box = this.frame.getBoundingClientRect();
       if (box.bottom > box.top && box.top >= 0 && box.top < window.innerHeight && box.bottom > window.innerHeight)
         window.scrollBy(0, Math.min(box.top, box.bottom - window.innerHeight));

@@ -6,7 +6,7 @@ var fs = require("fs");
 
 var output = [], failed = false;
 
-var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { return !/^2[01]/.test(file); });
+var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { return !/^2[012]/.test(file); });
 
 var dir = fs.readdirSync(".");
 dir.sort();
@@ -118,6 +118,37 @@ dir.forEach(function(file) {
 
   output.push(chapter);
 });
+
+output.push({
+  title: "How JavaScript is so Fast",
+  number: 22,
+  start_code: "<!-- This chapter exists in the paper book, not in the online version -->\n\n<script>\n  runLayout(forceDirected_simple, treeGraph(4, 4));\n</script>\n",
+  include: ["code/draw_graph.js", "code/chapter/22_fast.js"],
+  exercises: [
+    {name: "Pathfinding",
+     file: "code/solutions/22_1_pathfinding.js",
+     number: 1,
+     type: "js",
+     code: "function findPath(a, b) {\n  // Your code here...\n}\n\nvar graph = treeGraph(4, 4);\nvar root = graph[0], leaf = graph[graph.length - 1];\nconsole.log(findPath(root, leaf).length);\n// → 3\n\nleaf.connect(root);\nconsole.log(findPath(root, leaf).length);\n// → 1\n",
+     solution: fs.readFileSync("code/solutions/22_1_pathfinding.js", "utf8")
+    },
+    {name: "Timing",
+     file: "code/solutions/22_2_timing.js",
+     number: 2,
+     type: "js",
+     code: "",
+     solution: fs.readFileSync("code/solutions/22_2_timing.js", "utf8")
+    },
+    {name: "Optimizing",
+     file: "code/solutions/22_3_optimizing.js",
+     number: 3,
+     type: "js",
+     code: "",
+     solution: fs.readFileSync("code/solutions/22_3_optimizing.js", "utf8")
+    }
+  ]
+});
+
 
 if (allSolutions.length) {
   console.error("Solution files " + allSolutions + " were not used.");

@@ -337,7 +337,7 @@ We could add a bunch of arguments to the inner function (`arg1`,
 `arg2`, and so on) and pass them all to `f`, but it is not clear how many
 would be enough. This solution would also deprive `f` of the
 information in `arguments.length`. Since we'd always pass the same
-number of arguments, it wouldn't know how many argument were
+number of arguments, it wouldn't know how many arguments were
 originally given.
 
 (((apply method)))(((array-like object)))(((function,application)))For

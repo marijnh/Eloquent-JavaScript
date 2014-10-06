@@ -44,7 +44,7 @@ process.stdin.on("data", function(chunk) {
   input += chunk;
 });
 process.stdin.on("end", function() {
-  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Solutions to the Exercises)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}|\\textasciicircum\{\}\{([^\}]+?)\}|(���)/g,
+  input = input.replace(/(\n\n\\end{Code})|(\n{3,})|(_why,)|\\chapter\{(Introduction|Exercise Hints)\}|\\hyperref\[((?:[^\]]|\\_\{\})+)\]|\\index\{([^|}]+?)\\textbar\{\}see\{([^}]+)}}|\\textasciicircum\{\}\{([^\}]+?)\}|(���)/g,
                         function(all, codeSpace, manyBlanks, why, simplechapter, link, seeFrom, seeTo, superscript, bogusChars) {
     if (codeSpace)
       return codeSpace.slice(1);

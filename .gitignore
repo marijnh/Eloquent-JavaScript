@@ -8,6 +8,7 @@
 /book.pdf
 /html/[012]*.html
 /html/js/chapter_info.js
+/html/js/acorn_codemirror.js
 /code/chapter/*
 /code/file_server.js
 /code/skillsharing.zip

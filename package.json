@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "acorn": "0.3",
-    "codemirror": "4"
+    "codemirror": "4",
+    "uglify-js": "2"
   },
   "devDependencies": {
     "contextify": "kkoopa/contextify",

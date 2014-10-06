@@ -1297,6 +1297,7 @@ place where the mirror image used to be.
 
 !!hint!!
 
+[[list]]
 === A list ===
 
 (((data structure)))(((list (exercise))))(((linked

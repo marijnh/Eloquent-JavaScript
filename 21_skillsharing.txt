@@ -213,9 +213,9 @@ precise time at which the server sent a response, due to the fact that
 transferring data over the ((network)) takes time.
 
 This is the reason for the existence of the `serverTime` property in
-responses sent to `GET` requests to `/talks`. It tells the client the
+responses sent to `GET` requests to `/talks`. That property tells the client the
 precise time, from the server's perspective, at which the data it
-receives was created. It can then simply store this time, and pass it
+receives was created. The client can then simply store this time, and pass it
 along in its next polling request, to make sure that it receives
 exactly the updates that it has not seen before.
 
@@ -270,7 +270,7 @@ there is a nicer way.
 (((dispatching)))A _((router))_ is a component that helps dispatch a
 request to the function that can handle it. You can tell the router, for
 example, that `PUT` requests with a path that
-matches the regular expression `/^\/talks\/([^\/]+)$/` (`/talks/`
+matches the regular expression `/^\/talks\/([^\/]+)$/` (which matches `/talks/`
 followed by a talk title) can be handled by a given function. In
 addition, it can help extract the meaningful parts of the path, in this
 case the talk title, wrapped in parentheses in the ((regular
@@ -1131,11 +1131,12 @@ function waitForChanges() {
     if (error) {
       setTimeout(waitForChanges, 2500);
       console.error(error.stack);
+    } else {
+      response = JSON.parse(response);
+      displayTalks(response.talks);
+      lastServerTime = response.serverTime;
+      waitForChanges();
     }
-    response = JSON.parse(response);
-    displayTalks(response.talks);
-    lastServerTime = response.serverTime;
-    waitForChanges();
   });
 }
 ----

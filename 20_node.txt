@@ -573,7 +573,7 @@ writes responses, whereas a client first writes a request and then
 reads a response.) Reading from a stream is done using event handlers,
 rather than methods.
 
-(((on method)))(((addEventListener method)))Object that emit events in
+(((on method)))(((addEventListener method)))Objects that emit events in
 Node have a method called `on` that is very similar to the
 `addEventListener` method in the browser. You give it an event name
 and then a function, and it will register that function to be called

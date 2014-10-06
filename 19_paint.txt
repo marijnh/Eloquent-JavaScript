@@ -575,7 +575,7 @@ needs, but it could still use a few more tools.
 
 == Finishing up ==
 
-(((prompt function)))It is very easy to add a ((text)) ((tool)), which
+(((prompt function)))We can now easily add a ((text)) ((tool)) that
 uses `prompt` to ask the user which string it should draw.
 
 // include_code

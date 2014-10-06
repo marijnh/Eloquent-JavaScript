@@ -102,7 +102,7 @@ addEventListener("load", function() {
     clearSandbox();
     var chapter = getChapter(chapters.value), visible;
     if (value == "box") {
-      var code = chapters.value < 20
+      var code = (chapters.value < 20 || chapters.value > 21)
        ? "Run code here in the context of Chapter " + chapter.number
        : "Code from Node.js chapters can't be run in the browser";
       var guessed = guessType(chapter.start_code);

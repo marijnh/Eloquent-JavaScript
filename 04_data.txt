@@ -497,7 +497,7 @@ endif::html_target[]
 
 ifdef::tex_target[]
 
-pass:[\begin{equation}\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}\end{equation}]
+pass:[\begin{equation}\varphi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}\end{equation}]
 
 endif::tex_target[]
 

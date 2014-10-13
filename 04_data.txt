@@ -565,7 +565,7 @@ structure.
 
 (((JOURNAL data set)))Jacques kept his journal for three months. The
 resulting ((data set)) is available in the coding sandbox for this
-chapter(!book (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!),
+chapter(!book (http://eloquentjavascript.net/code#4[_eloquentjavascript.net/code#4_])!),
 where it is stored in the `JOURNAL` variable, and in a downloadable
 http://eloquentjavascript.net/code/jacques_journal.js[file].
 

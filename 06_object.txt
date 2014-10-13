@@ -753,7 +753,7 @@ code doesn't really do anything interesting.
 mountains that we are trying to build is available in the `MOUNTAINS`
 variable in the ((sandbox)) and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
-list of data sets on the website(!book (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
+website(!book (http://eloquentjavascript.net/code#6[_eloquentjavascript.net/code#6_])!).
 
 (((table example)))We will want to highlight the top row, which
 contains the column names, by underlining the cells with a series of

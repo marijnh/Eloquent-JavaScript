@@ -5,12 +5,11 @@
 
 = The Document Object Model =
 
-(((drawing)))(((parsing)))When you open a web page in your browser, the browser
+(((drawing)))(((parsing)))When you open a web page in your browser, it
 retrieves the page's ((HTML)) text and parses it, much like the way
 our parser from link:11_language.html#parsing[Chapter 11] parsed
 programs. The browser builds up a model of the document's
-((structure)) and then uses this model to draw the page on the
-screen.
+((structure)) and then uses this model to draw the page on the screen.
 
 (((live data structure)))This representation of the ((document))
 is one of the toys that a JavaScript program has
@@ -79,7 +78,7 @@ well-defined “((root))”. In the case of the ((DOM)),
 (((sorting)))(((data structure)))(((syntax tree)))Trees come up a lot
 in computer science. In addition to representing recursive structures such as
 HTML documents or programs, they are often used to maintain
-sorted ((set))s of data because elements can typically be found or
+sorted ((set))s of data because elements can usually be found or
 inserted more efficiently in a sorted tree than in a sorted flat
 array.
 
@@ -395,6 +394,8 @@ This function is then used to add a simple attribution to a quote.
 
 ifdef::book_target[]
 
+This is what the resulting document looks like:
+
 image::img/blockquote.png[alt="A blockquote with attribution",width="8cm"]
 
 endif::book_target[]
@@ -515,6 +516,8 @@ function id(x) { return x; }
 
 ifdef::book_target[]
 
+This produces a page that looks like this:
+
 image::img/highlighted.png[alt="A highlighted piece of code",width="4.8cm"]
 
 endif::book_target[]
@@ -569,6 +572,8 @@ space _inside_ the element, ignoring border width.
 ----
 
 ifdef::book_target[]
+
+Giving a paragraph a border causes a rectangle to be drawn around it.
 
 image::img/boxed-in.png[alt="A paragraph with a border",width="8cm"]
 
@@ -660,6 +665,8 @@ property:
 
 ifdef::book_target[]
 
+The second link will be green instead of the default link color.
+
 image::img/colored-links.png[alt="A normal and a green link",width="2.2cm"]
 
 endif::book_target[]
@@ -670,7 +677,7 @@ a property (such as `color`) followed by a colon and a value (such as
 `green`). When there is more than one declaration, they must be
 separated by ((semicolon))s, as in “++color: red; border: none++”.
 
-(((display (CSS))))(((layout)))There are a lot aspects that can be
+(((display (CSS))))(((layout)))There are a lot of aspects that can be
 influenced with styling. For example, the `display` property controls
 whether an element is displayed as a block or inline element.
 
@@ -681,18 +688,18 @@ This text is displayed <strong>inline</strong>,
 <strong style="display: none">not at all</strong>.
 ----
 
+(((hidden element)))The `block` tag will end up on its own line since
+((block element))s are not displayed inline with the text around them.
+The last tag is not displayed at all—`display: none` prevents an
+element from showing up on the screen. This is a way to hide elements.
+It is often preferable to removing them from the document
+entirely because it makes it easy to reveal them again at a later time.
+
 ifdef::book_target[]
 
 image::img/display.png[alt="Different display styles",width="4cm"]
 
 endif::book_target[]
-
-(((hidden element)))The `block` tag will end up on its own line since
-((block element))s are not displayed inline with the text around them.
-The last tag is not displayed at all—`display: none` prevents an
-element from showing up on the screen. This is a way to hide elements,
-and it is often preferable to removing them from the document
-entirely because it makes it easy to reveal them again at a later time.
 
 (((color (CSS))))(((style attribute)))JavaScript code can directly
 manipulate the style of an element through the node's `style`
@@ -719,7 +726,7 @@ element's style.
 Because such property names are awkward to work with in JavaScript
 (you'd have to say `style["font-family"]`), the property names in the
 `style` object for such properties have their dashes removed and the
-letter that follows them capitalized (`style.fontFamily`).
+letters that follow them capitalized (`style.fontFamily`).
 
 == Cascading styles ==
 
@@ -781,8 +788,8 @@ p.a.b#main {
 holds true only when the rules have the same _((specificity))_. A rule's
 specificity is a measure of how precisely it describes matching
 elements, determined by the number and kind (tag, class, or ID) of
-element aspects it requires. For example, `p.a` is more specific than
-just `p` or just `.a`, so a rule defined as such would take precedence
+element aspects it requires. For example, a rule that targets `p.a` is more specific than
+rules that target `p` or just `.a`, and would thus take precedence
 over them.
 
 (((direct child node)))The notation `p > a {…}` applies the given
@@ -856,7 +863,7 @@ is removed from the normal document flow—that is, it no longer takes
 up space and may overlap with other elements. Also, its `top` and `left`
 properties can be used to absolutely position it relative to the top-left
 corner of the nearest enclosing element whose `position` property
-isn't `static` or relative to the document if no such enclosing element exists.
+isn't `static`, or relative to the document if no such enclosing element exists.
 
 We can use this to create an ((animation)). The following document 
 displays a picture of a cat that floats around in an ((ellipse)):
@@ -882,6 +889,8 @@ displays a picture of a cat that floats around in an ((ellipse)):
 ----
 
 ifdef::book_target[]
+
+The gray arrow shows the path along which the image moves.
 
 image::img/cat-animation.png[alt="A moving cat head",width="8cm"]
 
@@ -1008,9 +1017,8 @@ cells (`<td>`).
 
 (((download)))(((MOUNTAINS data set)))(((table example)))The same
 source data that was used in link:06_object.html#mountains[Chapter 6]
-is again available in the `MOUNTAINS` variable in the sandbox. It is
-also http://eloquentjavascript.net/code/mountains.js[downloadable]
-from the list of data sets on the website(!book (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])!).
+is again available in the `MOUNTAINS` variable in the sandbox. It can also be http://eloquentjavascript.net/code/mountains.js[downloaded]
+from the website(!book (http://eloquentjavascript.net/code#13[_eloquentjavascript.net/code#13_])!).
 
 Write a function `buildTable` that, given an array of objects that all
 have the same set of properties, builds up a DOM structure

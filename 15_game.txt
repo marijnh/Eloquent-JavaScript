@@ -14,12 +14,12 @@ ____
 fascination with computers, like that of many kids, originated with
 computer ((game))s. I was drawn into the tiny computer-simulated
 ((world))s that I could manipulate and in which stories (sort of)
-unfolded. More, I suppose, because of the way I could project my
-((imagination)) into them, than because of the possibilities they
+unfolded—more, I suppose, because of the way I could project my
+((imagination)) into them than because of the possibilities they
 actually offered.
 
-I wouldn't wish a ((career)) in game programming on anyone—much like
-in the ((music)) industry, the discrepancy between the many eager
+I wouldn't wish a ((career)) in game programming on anyone. Much like
+the ((music)) industry, the discrepancy between the many eager
 young people wanting to work in it and the actual demand for such
 people creates a rather unhealthy environment. But writing games for
 fun is amusing.
@@ -27,15 +27,15 @@ fun is amusing.
 (((jump-and-run game)))(((dimensions)))This chapter will walk through
 the implementation of a simple ((platform game)). Platform games (or
 “jump and run” games) are games that expect the ((player)) to move a
-figure through a ((world)), which is often two dimensional and viewed
-from the side, and involve lots jumping onto and over things.
+figure through a ((world)), which is often two-dimensional and viewed
+from the side, and do lots of jumping onto and over things.
 
 == The game ==
 
 (((minimalism)))(((Palef+++,+++ Thomas)))(((Dark Blue (game))))Our
 ((game)) will be roughly based on
-“http://www.lessmilk.com/games/10[Dark Blue]”(!book (_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose this game
-because it is both entertaining and minimalist, and can be built
+http://www.lessmilk.com/games/10[Dark Blue](!book  (_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose this game
+because it is both entertaining and minimalist, and because it can be built
 without too much ((code)). It looks like this:
 
 image::img/darkblue.png[alt="The game Dark Blue"]
@@ -46,11 +46,11 @@ stuff (lava?). A ((level)) is completed when all coins have been
 collected.
 
 (((keyboard)))(((jumping)))The player can walk around with the left
-and right arrow keys, and jump with the up arrow. Jumping is a
+and right arrow keys and jump with the up arrow. Jumping is a
 specialty of this game character. It can reach several times its own
-height, and is able to change direction in mid-air. This may not be
+height and is able to change direction in midair. This may not be
 entirely realistic, but it helps give the player the feeling of being
-in direct control of the on-screen ((avatar)).
+in direct control of the onscreen ((avatar)).
 
 (((fractional number)))(((discretization)))(((artificial
 life)))(((electronic life)))The ((game)) consists of a fixed
@@ -74,7 +74,7 @@ everything looks like colored ((box))es, drawing is uncomplicated: we
 create DOM elements and use styling to give them a background color,
 size, and position.
 
-(((table (HTML tag))))We can represent the background as a table, since it
+(((table (HTML tag))))We can represent the background as a table since it
 is an unchanging ((grid)) of squares. The free-moving elements can be
 overlaid on top of that, using absolutely positioned elements.
 
@@ -82,15 +82,15 @@ overlaid on top of that, using absolutely positioned elements.
 ((graphics)) and respond to user ((input)) without noticeable delay,
 ((efficiency)) is important. Though the ((DOM)) was not originally
 designed for high-performance graphics, it is actually better at this
-than you would expect. We saw some ((animation))s in
+than you would expect. You saw some ((animation))s in
 link:13_dom.html#animation[Chapter 13]. On a modern machine, a simple
 game like this performs well even if we don't think about
-((optimization)) very much.
+((optimization)) much.
 
 (((canvas)))In the link:16_canvas.html#canvas[next chapter], we will
 explore another ((browser)) technology, the `<canvas>` tag, which
 provides a more traditional way to draw graphics, working in terms of
-shapes and ((pixel))s, rather than ((DOM)) elements.
+shapes and ((pixel))s rather than ((DOM)) elements.
 
 == Levels ==
 
@@ -119,19 +119,19 @@ var simpleLevelPlan = [
 ----
 
 Both the fixed ((grid)) and the moving elements are included in the
-plan. The “x” characters stand for ((wall))s, space characters for empty
-space, and exclamation marks for fixed, non-moving lava tiles.
+plan. The _x_ characters stand for ((wall))s, the space characters are for empty
+space, and the exclamation marks represent fixed, nonmoving lava tiles.
 
-(((level)))The “@” defines the place where the ((player)) starts. Every “o” is a
-((coin)), and the equals sign (“=”) stands for a block of ((lava))
+(((level)))The @ defines the place where the ((player)) starts. Every _o_ is a
+((coin)), and the equal sign (=) stands for a block of ((lava))
 that moves back and forth horizontally. Note that the ((grid)) for
 these positions will be set to contain empty space, and another data
 structure is used to track the position of such moving elements.
 
 (((bouncing)))We'll support two other kinds of moving ((lava)): the
-pipe character (“|”) for vertically moving blobs, and “v” for
+pipe character (|) for vertically moving blobs, and _v_ for
 _dripping_ lava—vertically moving lava that doesn't bounce back and
-forth, but only moves down, jumping back to its start position when it
+forth but only moves down, jumping back to its start position when it
 hits the floor.
 
 A whole ((game)) consists of multiple ((level))s that the
@@ -181,28 +181,28 @@ function Level(plan) {
 ----
 
 (((validation)))For brevity, the code does not check for malformed
-input. It assumes that you've given it a proper ((level)) plan, complete.
+input. It assumes that you've given it a proper ((level)) plan, complete
 with a player start position and other essentials. 
 
 (((array)))A level stores its width and height, along with two
-arrays—one for the ((grid)), and one for the _((actor))s_, the dynamic
+arrays—one for the ((grid)) and one for the _((actor))s_, which are the dynamic
 elements. The grid is represented as an array of arrays, where each of
-the inner arrays represents a horizontal line, and each square
+the inner arrays represents a horizontal line and each square
 contains either null, for empty squares, or a string indicating the
 type of the square—`"wall"` or `"lava"`.
 
 The ((actor))s array holds objects that track the current position and
 ((state)) of the dynamic elements in the ((level)). Each of these is
 expected to have a `pos` property giving its position (the
-((coordinates)) of its top left corner), a `size` property giving its
-size, and a `type` property that holds a string that identifies the
+((coordinates)) of its top-left corner), a `size` property giving its
+size, and a `type` property that holds a string identifying the
 element (`"lava"`, `"coin"`, or `"player"`).
 
 (((filter method)))After building the grid, we use the `filter` method
 to find the ((player)) actor object, which we store in a property of the
 level. The `status` property tracks whether the player has won or
 lost. When this happens, `finishDelay` is used to keep the level active
-for a short period of time, so that a simple ((animation)) can be
+for a short period of time so that a simple ((animation)) can be
 shown. (Immediately resetting or advancing the level would look
 cheap.) This method can be used to find out whether a ((level)) is
 finished:
@@ -221,7 +221,7 @@ Level.prototype.isFinished = function() {
 [[vector]]
 (((Vector type)))(((coordinates)))To store the position and size of an
 actor, we will return to our trusty `Vector` type, which groups an x
-and y coordinate into an object.
+coordinate and a y coordinate into an object.
 
 // include_code
 
@@ -240,7 +240,7 @@ Vector.prototype.times = function(factor) {
 
 (((times method)))(((multiplication)))The `times` method scales a
 vector by a given amount. It will be useful when we need to multiply a
-speed vector by a time interval, to get the distance traveled during
+speed vector by a time interval to get the distance traveled during
 that time.
 
 (((map)))(((object,as map)))In the previous section, the `actorChars` object was used by
@@ -259,12 +259,12 @@ var actorChars = {
 ----
 
 (((lava)))(((bouncing)))Three characters map to `Lava`. The `Level`
-constructor passes the actor's source character as second argument to
+constructor passes the actor's source character as the second argument to
 the constructor, and the `Lava` constructor uses that to adjust its
 behavior (bouncing horizontally, bouncing vertically, or dripping).
 
 (((simulation)))(((Player type)))The player type is built with the
-constructor below. It has a property `speed` that stores its current
+following constructor. It has a property `speed` that stores its current
 speed, which will help simulate momentum and gravity.
 
 // include_code
@@ -279,8 +279,8 @@ function Player(pos) {
 Player.prototype.type = "player";
 ----
 
-Because a player is one and a half squares high, its initial position
-is set to be half a square above the position where the “@” character
+Because a player is one-and-a-half squares high, its initial position
+is set to be half a square above the position where the @ character
 appeared. This way, its bottom aligns with the bottom of the square
 it appeared in.
 
@@ -290,9 +290,9 @@ character it is based on. Dynamic lava moves along at its given speed
 until it hits an obstacle. At that point, if it has a `repeatPos`
 property, it will jump back to its start position (dripping). If it
 does not, it will invert its speed and continue in the other direction
-(bouncing). The constructor only sets up the necessary properties—the
+(bouncing). The constructor only sets up the necessary properties. The
 method that does the actual moving will be written
-link:15_game.html#actors[later on].
+link:15_game.html#actors[later].
 
 // include_code
 
@@ -364,26 +364,26 @@ time and motion inside them.
 
 (((programming style)))(((program size)))(((complexity)))Most of the
 code in this chapter does not worry about ((encapsulation)) for
-two reasons. Firstly, encapsulation takes extra effort. It makes
+two reasons. First, encapsulation takes extra effort. It makes
 programs bigger and requires additional concepts and interfaces to be
 introduced. Since there is only so much code you can throw at a reader
 before their eyes glaze over, I've made an effort to keep the program
 small.
 
-(((interface)))Secondly, the various elements in this game are so
+(((interface)))Second, the various elements in this game are so
 closely tied together that if the behavior of one of them changed, it
 is unlikely that any of the others would be able to stay the same.
 Interfaces between the elements would end up encoding a lot of
 assumptions about the way the game works. This makes them a lot less
 effective—whenever you change one part of the system, you still have
-to worry about the way it impacts the other parts, because their
+to worry about the way it impacts the other parts because their
 interfaces wouldn't cover the new situation.
 
 Some _cutting points_ in a system lend themselves well to separation
-through rigorous interfaces, others don't. Trying to encapsulate
+through rigorous interfaces, but others don't. Trying to encapsulate
 something that isn't a suitable boundary is a sure way to waste a lot
 of energy. When you are making this mistake, you'll usually notice
-that your interfaces are getting awkwardly large and detailed, and
+that your interfaces are getting awkwardly large and detailed and
 that they need to be modified often, as the program evolves.
 
 (((graphics)))(((encapsulation)))(((graphics)))There is one thing that
@@ -391,7 +391,7 @@ we _will_ encapsulate in this chapter, and that is the ((drawing))
 subsystem. The reason for this is that we will ((display)) the same
 game in a different way in the link:16_canvas.html#canvasdisplay[next
 chapter]. By putting the drawing behind an interface, we can simply
-load the same game program there, and plug in a new display
+load the same game program there and plug in a new display
 ((module)).
 
 [[domdisplay]]
@@ -399,7 +399,7 @@ load the same game program there, and plug in a new display
 
 (((DOMDisplay type)))The encapsulation of the ((drawing)) code is done
 by defining a _((display))_ object, which displays a given ((level)).
-The display type we define in this chapter is called `DOMDisplay`,
+The display type we define in this chapter is called `DOMDisplay`
 because it uses simple ((DOM)) elements to show the level.
 
 (((style attribute)))We will be using a ((style sheet)) to set the
@@ -409,7 +409,7 @@ elements’ `style` property when we create them, but that would produce
 more verbose programs.
 
 (((class attribute)))The following helper function provides a short way to
-create an element and give it a class.
+create an element and give it a class:
 
 // include_code
 
@@ -423,7 +423,7 @@ function elt(name, className) {
 ----
 
 A display is created by giving it a parent element to which it should
-append itself, and a ((level)) object.
+append itself and a ((level)) object.
 
 // include_code
 
@@ -446,15 +446,15 @@ the appended element to create the wrapper element and store it in the
 (((level)))The level's ((background)), which never changes, is drawn
 once. The actors are redrawn every time the display is updated. The
 `actorLayer` property will be used by `drawFrame` to track the element
-that holds the actors, so that they can be easily removed and
+that holds the actors so that they can be easily removed and
 replaced.
 
 (((scaling)))(((DOMDisplay type)))Our ((coordinates)) and sizes are
 tracked in units relative to the ((grid)) size, where a size or
-distance of one means one grid unit. When setting ((pixel)) sizes, we
+distance of 1 means 1 grid unit. When setting ((pixel)) sizes, we
 will have to scale these coordinates up—everything in the game would be ridiculously
 small at a single pixel per square. The `scale` variable gives the
-amount of pixels a single unit takes up on the screen.
+number of pixels that a single unit takes up on the screen.
 
 // include_code
 
@@ -496,16 +496,16 @@ want:
 
 (((padding (CSS))))Some of these (`border-spacing`
 and `padding`) are simply used to suppress unwanted default behavior.
-We don't want space between the ((table)) cells, or padding inside
+We don't want space between the ((table)) cells or padding inside
 them.
 
 (((background (CSS))))(((rgb (CSS))))(((CSS)))The `background` rule
 sets the background color. CSS allows colors to be specified both as
-words (`white`) and with a format like `rgb(R, G, B)`, where the red,
+words (`white`) and with a format such as `rgb(R, G, B)`, where the red,
 green, and blue components of the color are separated into three
-numbers from 0 to 255. So in `rgb(52, 166, 251)` the red component is
+numbers from 0 to 255. So, in `rgb(52, 166, 251)`, the red component is
 52, green is 166, and blue is 251. Since the blue component is the
-largest, the resulting color will be blueish. You can see that in the
+largest, the resulting color will be bluish. You can see that in the
 `.lava` rule, the first number (red) is the largest.
 
 We draw each ((actor)) by creating a ((DOM)) element for it and
@@ -548,11 +548,11 @@ the same class as lava grid squares, which we defined earlier.
 (((graphics)))(((optimization)))(((efficiency)))When it updates the
 display, the `drawFrame` method first removes the old actor graphics,
 if any, and then redraws them in their new positions. It may be
-tempting to try and reuse the ((DOM)) elements for actors, but to make
+tempting to try to reuse the ((DOM)) elements for actors, but to make
 that work, we would need a lot of additional information flow between
 the display code and the simulation code. We'd need to associate
 actors with DOM elements, and the ((drawing)) code must remove
-elements when their actors vanish. Since there will typically only be
+elements when their actors vanish. Since there will typically be only 
 a handful of actors in the game, redrawing all of them is not
 expensive.
 
@@ -571,8 +571,8 @@ DOMDisplay.prototype.drawFrame = function() {
 
 (((level)))(((class attribute)))(((style sheet)))By adding the level's
 current status as a class name to the wrapper, we can style the player
-actor slightly differently when the game is won or lost, by adding a
-((CSS)) rule that only takes effect when the player has an ((ancestor
+actor slightly differently when the game is won or lost by adding a
+((CSS)) rule that takes effect only  when the player has an ((ancestor
 element)) with a given class.
 
 [source,text/css]
@@ -595,13 +595,13 @@ left and one to the top right, to create a white halo effect.
 (((position (CSS))))(((max-width (CSS))))(((overflow
 (CSS))))(((max-height (CSS))))(((viewport)))We can't assume that
 levels always fit in the viewport. That is why the
-`scrollPlayerIntoView` call is needed—it ensures that, if the level is
-sticking out outside of the viewport, we scroll that viewport to make
+`scrollPlayerIntoView` call is needed—it ensures that if the level is
+sticking out outside the viewport, we scroll that viewport to make
 sure the player is near its center. The following ((CSS)) gives the
 game's wrapping ((DOM)) element a maximum size and ensures that
 anything that sticks out of the element's box is not visible. We also give the outer element a relative
-position, so that the actors inside of it are positioned relative to
-the level's top left corner.
+position so that the actors inside it are positioned relative to
+the level's top-left corner.
 
 [source,text/css]
 ----
@@ -649,7 +649,7 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
 (((center)))(((coordinates)))(((readability)))The way the player's
 center is found shows how the methods on our `Vector` type allow
 computations with objects to be written in a readable way. To
-find the actor's center, we add its position (its top left corner) and
+find the actor's center, we add its position (its top-left corner) and
 half its size. That is the center in level coordinates, but we need it
 in pixel coordinates, so we then multiply the resulting vector by our
 display scale.
@@ -658,16 +658,16 @@ display scale.
 position isn't outside of the allowed range. Note that sometimes this
 will set nonsense scroll coordinates, below zero or beyond the
 element's scrollable area. This is okay—the DOM will constrain them to
-sane values. Setting `scrollLeft` to -10 will cause it to become zero.
+sane values. Setting `scrollLeft` to -10 will cause it to become 0.
 
 It would have been slightly simpler to always try to scroll the player
 to the center of the ((viewport)). But this creates a rather jarring
 effect. As you are jumping, the view will constantly shift up and
 down. It is more pleasant to have a “neutral” area in the middle of
-the screen, where you can move around without causing any scrolling.
+the screen where you can move around without causing any scrolling.
 
 (((cleaning up)))Finally, we'll need a way to clear a displayed level,
-to be used when the game moves on to the next level or resets a level.
+to be used when the game moves to the next level or resets a level.
 
 // include_code
 
@@ -678,7 +678,7 @@ DOMDisplay.prototype.clear = function() {
 };
 ----
 
-(((game,screenshot)))We are now able to display our tiny level:
+(((game,screenshot)))We are now able to display our tiny level.
 
 [source,text/html]
 ----
@@ -705,12 +705,12 @@ file `game.css` contains the styles necessary for our game.
 (((physics)))(((animation)))Now we're at the point where we can start
 adding motion—the most interesting aspect of the game. The basic
 approach, taken by most games like this, is to split ((time)) into
-small steps, and for each step, move the actors by a distance
+small steps and, for each step, move the actors by a distance
 corresponding to their speed (distance moved per second) multiplied by
 the size of the time step (in seconds).
 
 (((obstacle)))(((collision detection)))That is easy. The difficult
-part is to deal with the interactions between the elements. When the
+part is dealing with the interactions between the elements. When the
 player hits a wall or floor, they should not simply move through it.
 The game must notice when a given motion causes an object to hit
 another object and respond accordingly. For walls, the motion must be
@@ -725,23 +725,23 @@ way.
 
 (((bouncing)))(((collision detection)))(((animation)))Before moving
 the ((player)) or a block of ((lava)), we test whether the motion
-would take it inside of a non-empty part of the ((background)). If it
+would take it inside of a nonempty part of the ((background)). If it
 does, we simply cancel the motion altogether. The response to such a
 collision depends on the type of actor—the player will stop, whereas a
 lava block will bounce back.
 
 (((discretization)))This approach requires our ((time)) steps to be
-rather small, since it will cause motion to stop before the objects
+rather small since it will cause motion to stop before the objects
 actually touch. If the time steps (and thus the motion steps) are too
 big, the player would end up hovering a noticeable distance above the
 ground. Another approach, arguably better but more complicated, would
-be to find the exact collision spot, and move there. We will take the
-simple approach, and hide its problems by ensuring the animation
+be to find the exact collision spot and move there. We will take the
+simple approach and hide its problems by ensuring the animation
 proceeds in small steps.
 
 (((obstacle)))(((obstacleAt method)))(((collision detection)))This
 method tells us whether a ((rectangle)) (specified by a position and a
-size) overlaps with any non-empty space on the background grid:
+size) overlaps with any nonempty space on the background grid:
 
 // include_code
 
@@ -769,17 +769,17 @@ Level.prototype.obstacleAt = function(pos, size) {
 (((Math.floor function)))(((Math.ceil function)))This method computes the set
 of grid squares that the body ((overlap))s with by using `Math.floor`
 and `Math.ceil` on the body's ((coordinates)). Remember that ((grid)) squares
-are one by one unit in size. By ((rounding)) the sides of a box up and
+are 1-by-1 units in size. By ((rounding)) the sides of a box up and
 down, we get the range of ((background)) squares that the box touches.
 
 image::img/game-grid.svg[alt="Finding collisions on a grid",width="3cm"]
 
 If the body sticks out of the level, we always return `"wall"` for the
-sides and top, and `"lava"` for the bottom. This ensures that the
+sides and top and `"lava"` for the bottom. This ensures that the
 player dies when falling out of the world. When the body is fully
 inside the grid, we loop over the block of ((grid)) squares found by
-((rounding)) the ((coordinates)), and return the content of the first
-non-empty square we find.
+((rounding)) the ((coordinates)) and return the content of the first
+nonempty square we find.
 
 (((coin)))(((lava)))(((collision detection)))Collisions between the
 ((player)) and other dynamic ((actor))s (coins, moving lava) are
@@ -787,8 +787,8 @@ handled _after_ the player moved. When the motion has taken the player
 into another other actor, the appropriate effect—collecting a coin or
 dying—is activated.
 
-(((actorAt method)))This method scans through the array of actors,
-looking for an actor that overlaps the one given as an argument.
+(((actorAt method)))This method scans the array of actors,
+looking for an actor that overlaps the one given as an argument:
 
 // include_code
 
@@ -813,7 +813,7 @@ Level.prototype.actorAt = function(actor) {
 (((animate method)))(((animation)))(((keyboard)))The `animate` method
 on the `Level` type gives all actors in the level a chance to move.
 Its `step` argument is the ((time)) step in seconds. The `keys` object
-contains information about the current position of the arrow keys.
+contains information about the arrow keys the player has pressed.
 
 // include_code
 
@@ -844,7 +844,7 @@ we want to stop showing the level.
 (((while loop)))(((discretization)))The `while` loop cuts the time
 step we are animating into suitably small pieces. It ensures that no
 step larger than `maxStep` is taken. For example, a `step` of 0.12
-second would be cut into two steps of 0.05 second, and one of 0.02.
+second would be cut into two steps of 0.05 second and one step of 0.02.
 
 (((actor)))(((Lava type)))(((lava)))Actor objects have an `act`
 method, which takes as arguments the time step, the level object, and
@@ -876,7 +876,7 @@ when it hits something. Bouncing lava simply inverts its speed
 (multiplies it by -1) in order to start moving in the other direction.
 
 (((Coin type)))(((coin)))(((wave)))Coins use their `act` method to
-wobble. They ignore collisions, since they are simply wobbling around
+wobble. They ignore collisions since they are simply wobbling around
 inside of their own square, and collisions with the ((player)) will be
 handled by the _player_'s `act` method.
 
@@ -894,11 +894,11 @@ Coin.prototype.act = function(step) {
 ----
 
 (((Math.sin function)))(((sine)))(((phase)))The `wobble` property is
-updated to track time, and then used as argument to `Math.sin` to
+updated to track time and then used as an argument to `Math.sin` to
 create a ((wave)), which is used to compute a new position.
 
 (((collision detection)))(((Player type)))That leaves the ((player))
-itself. Player motion is handled separately per ((axis)), because
+itself. Player motion is handled separately per ((axis)) because
 hitting the floor should not prevent horizontal motion, and hitting a
 wall should not stop falling or jumping motion. This method implements
 the horizontal part:
@@ -930,7 +930,7 @@ hit something, the level's `playerTouched` method, which handles
 things like dying in ((lava)) and collecting ((coin))s, is called.
 Otherwise, the object updates its position.
 
-Vertical motion works in a similar way, but has to simulate
+Vertical motion works in a similar way but has to simulate
 ((jumping)) and ((gravity)).
 
 // include_code
@@ -960,12 +960,12 @@ Player.prototype.moveY = function(step, level, keys) {
 (((acceleration)))(((physics)))At the start of the method, the player
 is accelerated vertically to account for ((gravity)). The gravity,
 ((jumping)) speed, and pretty much all other ((constant))s in this
-game, have been set by ((trial-and-error)). I tested out various values
+game have been set by ((trial and error)). I tested various values
 until I found a combination I liked.
 
 (((collision detection)))(((keyboard)))(((jumping)))Next we check for
 obstacles again. If we hit an obstacle, there are two possible
-outcomes. When the up arrow is pressed, _and_ we are moving down
+outcomes. When the up arrow is pressed _and_ we are moving down
 (meaning the thing we hit is below us), the speed is set to a
 relatively large, negative value. This causes the player to jump. If
 that is not the case, we simply bumped into something, and the speed
@@ -994,13 +994,13 @@ Player.prototype.act = function(step, level, keys) {
 ----
 
 (((player)))After moving, the method checks for other actors that the
-player is colliding with, and again calls `playerTouched` when it
-finds one. This time, it passes the actor object as second argument,
+player is colliding with and again calls `playerTouched` when it
+finds one. This time, it passes the actor object as the second argument
 because if the other actor is a ((coin)), `playerTouched` needs to
 know _which_ coin is being collected.
 
-(((animation)))Finally, when the player dies (touches lava) we set up
-a little animation that causes them to “shrink” or “sink” down, by
+(((animation)))Finally, when the player dies (touches lava), we set up
+a little animation that causes them to “shrink” or “sink” down by
 reducing the height of the player object.
 
 (((collision detection)))And here is the method that handles
@@ -1032,7 +1032,7 @@ When ((lava)) is touched, the game's status is set to `"lost"`. When a
 coin is touched, that ((coin)) is removed from the array of actors,
 and if it was the last one, the game's status is set to `"won"`.
 
-This gives us a level that can actually be animated. All that's
+This gives us a level that can actually be animated. All that is
 missing now is the code that _drives_ the animation.
 
 == Tracking keys ==
@@ -1043,11 +1043,11 @@ figure) to continue happening as long as they are pressed.
 
 (((preventDefault method)))We need to set up a key handler that stores
 the current state of the left, right, and up keys. We will also want
-to call `preventDefault` for those keys, so that they don't end up
+to call `preventDefault` for those keys so that they don't end up
 ((scrolling)) the page.
 
 (((trackKeys function)))(((key code)))(((event
-handling)))(((addEventListener method)))The function below, when given
+handling)))(((addEventListener method)))The following function, when given
 an object with key codes as property names and key names as values,
 will return an object that tracks the current position of those keys.
 It registers event handlers for `"keydown"` and `"keyup"` events and,
@@ -1088,13 +1088,13 @@ property to determine whether the key state should be updated to true
 link:13_dom.html#animationFrame[Chapter 13], provides a good way to
 animate a game. But its interface is quite primitive—using it requires
 us to track the time at which our function was called the last time
-around, and call `requestAnimationFrame` again after every frame.
+around and call `requestAnimationFrame` again after every frame.
 
 (((runAnimation function)))(((callback function)))(((function,as
 value)))(((function,higher-order)))Let's define a helper function that
-wraps those boring parts in a convenient interface, and allows us to
+wraps those boring parts in a convenient interface and allows us to
 simply call `runAnimation`, giving it a function that expects a time
-difference as argument and draws a single frame. When the frame
+difference as an argument and draws a single frame. When the frame
 function returns the value `false`, the animation stops.
 
 // include_code
@@ -1118,12 +1118,12 @@ function runAnimation(frameFunc) {
 ----
 
 (((time)))(((discretization)))I have set a maximum frame step of 100
-milliseconds (one tenth of a second). When the browser tab or window
+milliseconds (one-tenth of a second). When the browser tab or window
 with our page is hidden, `requestAnimationFrame` calls will be
-suspended until it is shown again. In this case, the difference
+suspended until the tab or window is shown again. In this case, the difference
 between `lastTime` and `time` will be the entire time in which the
 page was hidden. Advancing the game by that much in a single step will
-look silly, and might be a lot of work (remember the time-splitting in
+look silly and might be a lot of work (remember the time-splitting in
 the link:15_game.html#actors[`animate` method]).
 
 The function also converts the time steps to seconds, which are an
@@ -1131,9 +1131,9 @@ easier quantity to think about than milliseconds.
 
 (((callback function)))(((runLevel function)))The `runLevel` function
 takes a `Level` object, a constructor for a ((display)), and,
-optionally, a function. It displays the level (in `document.body`), and
+optionally, a function. It displays the level (in `document.body`) and
 lets the user play through it. When the level is finished (lost or
-won), `runLevel` clears the display, stops the ((animation)), and if an
+won), `runLevel` clears the display, stops the ((animation)), and, if an
 `andThen` function was given, calls that function with the level's status.
 
 // include_code
@@ -1184,19 +1184,19 @@ function runGame(plans, Display) {
 
 (((function,higher-order)))(((function,as value)))These functions show
 a peculiar style of programming. Both `runAnimation` and `runLevel`
-are higher-order functions, but not in the style we saw in
+are higher-order functions but are not in the style we saw in
 link:05_higher_order.html#higher_order[Chapter 5]. The function
 argument is used to arrange things to happen at some time in the
 future, and neither of the functions returns anything useful. Their
 task is, in a way, to schedule actions. Wrapping these actions in
-functions gives us a way to store them as a value, so that they can be
+functions gives us a way to store them as a value so that they can be
 called at the right moment.
 
 (((asynchronous programming)))(((event handling)))This programming
 style is usually called _asynchronous_ programming. Event handling is
 also an instance of it, and we will see much more of it when working
 with tasks that can take an arbitrary amount of ((time)), such as
-((network)) requests in link:17_http.html#http[Chapter 17], and in-
+((network)) requests in link:17_http.html#http[Chapter 17] and input
 and output in general in link:20_node.html#node[Chapter 20].
 
 (((game)))(((GAME_LEVELS data set)))There is a set of
@@ -1229,10 +1229,10 @@ endif::interactive_target[]
 
 (((lives (exercise))))(((game)))It's traditional for ((platform game))s
 to have the player start with a limited number of _lives_ and
-subtract one life each time they die. When out of lives, the game
+subtract one life each time they die. When the player is out of lives, the game
 restarts from the beginning.
 
-(((runGame function)))Adjust `runGame` to implement lives, and have the
+(((runGame function)))Adjust `runGame` to implement lives. Have the
 player start with three.
 
 ifdef::interactive_target[]
@@ -1273,12 +1273,12 @@ thus visible to the `startLevel` ((closure)).
 
 Another approach, which fits nicely with the spirit of the rest of the
 function, would be to add a second ((parameter)) to `startLevel` that
-gives the amount of lives. When the whole ((state)) of a system is stored
+gives the number of lives. When the whole ((state)) of a system is stored
 in the arguments to a ((function)), calling that function provides an
 elegant way to transition to a new state.
 
 In any case, when a ((level)) is lost, there should now be two
-possible state transitions: if that was the last life, we go back to
+possible state transitions. If that was the last life, we go back to
 level zero with the starting amount of lives. If not, we repeat the
 current level with one less life remaining.
 
@@ -1287,12 +1287,12 @@ current level with one less life remaining.
 === Pausing the game ===
 
 (((pausing (exercise))))(((escape key)))(((keyboard)))Make it possible
-to pause (suspend) and unpause the game by pressing the Escape key.
+to pause (suspend) and unpause the game by pressing the Esc key.
 
 (((runLevel function)))(((event handling)))This can be done by
 changing the `runLevel` function to use another keyboard event
 handler and interrupting or resuming the animation whenever the
-Escape key is hit.
+Esc key is hit.
 
 (((runAnimation function)))The `runAnimation` interface may not look
 like it is suitable for this, at first glance, but it is, if you
@@ -1304,8 +1304,8 @@ registering keyboard event handlers is somewhat problematic. The
 `arrows` object is currently a global variable, and its event handlers
 are kept around even when no game is running. You could say they _((leak))_ out of
 our system. Extend `trackKeys` to provide a way to
-unregister its handlers, and then change `runLevel` to register its
-handlers when it starts, and unregister them again when it is
+unregister its handlers and then change `runLevel` to register its
+handlers when it starts and unregister them again when it is
 finished.
 
 ifdef::interactive_target[]
@@ -1344,8 +1344,8 @@ endif::interactive_target[]
 returning `false` from the function given to `runAnimation`. It can be
 continued by calling `runAnimation` again.
 
-(((closure)))To communicate the fact that the animation should be
-interrupted to the function passed to `runAnimation`, so that it can
+(((closure)))To communicate that the animation should be
+interrupted to the function passed to `runAnimation` so that it can
 return `false`, you can use a variable that both the event handler and
 that function have access to.
 
@@ -1358,7 +1358,7 @@ created in `trackKeys` must be available to the code that unregisters
 the handlers.
 
 You can add a property to the object returned by `trackKeys`,
-containing either that function value, or a method that handles the
+containing either that function value or a method that handles the
 unregistering directly.
 
 !!hint!!

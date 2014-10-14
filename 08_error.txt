@@ -262,7 +262,7 @@ console.log(numberToString(13, 10));
 moment that you don't. We know that our program is malfunctioning, and
 we want to find out why.
 
-(((trial-and-error)))This is where you must resist the urge to start
+(((trial and error)))This is where you must resist the urge to start
 making random changes to the code. Instead, _think_. Analyze what is
 happening and come up with a ((theory)) of why it might be happening.
 Then, make additional observations to test this theory—or, if you

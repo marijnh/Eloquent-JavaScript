@@ -336,7 +336,7 @@ The two control points specify the direction at both ends of the
 curve. The further they are away from their corresponding point, the
 more the curve will “bulge” in that direction.
 
-(((trial-and-error)))Such ((curve))s can be hard to work with—it's
+(((trial and error)))Such ((curve))s can be hard to work with—it's
 not always clear how to find the ((control point))s that provide the
 ((shape)) you are looking for. Sometimes you can compute
 them, and sometimes, you'll just have to find a suitable value by trial

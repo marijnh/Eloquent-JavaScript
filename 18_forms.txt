@@ -24,8 +24,8 @@ server always happens by navigating to a new page.
 But their elements are part of the ((DOM)) like the rest of the page,
 and the DOM elements that represent form ((field))s support a number
 of properties and events that are not present on other elements. These
-make it possible to inspect and control such input fields with JavaScript programs,
-and do things like adding functionality to a traditional form or using forms
+make it possible to inspect and control such input fields with JavaScript programs
+and do things such as adding functionality to a traditional form or using forms
 and fields as building blocks in a JavaScript application.
 
 == Fields ==
@@ -44,9 +44,9 @@ field's style. These are some commonly used `<input>` types:
 [cols="1,5"]
 |====
 |`text`    |A single-line ((text field))
-|`password`|(((password field)))Same as above, but hides the text that is typed
+|`password`|(((password field)))Same as `text` but hides the text that is typed
 |`checkbox`|(((checkbox)))An on/off switch
-|`radio`   |(((radio button)))(Part of) a ((multiple choice)) field
+|`radio`   |(((radio button)))(Part of) a ((multiple-choice)) field
 |`file`    |(((file field)))Allows the user to choose a file from their computer
 |====
 
@@ -74,11 +74,11 @@ image::img/form_fields.png[alt="Various types of input tags",width="4cm"]
 endif::book_target[]
 
 The JavaScript interface for such elements differs with the type of
-the element. We'll go over each of them later on in the chapter.
+the element. We'll go over each of them later in the chapter.
 
-(((textarea (HTML tag))))(((text field)))Multi-line text fields have
+(((textarea (HTML tag))))(((text field)))Multiline text fields have
 their own tag, `<textarea>`, mostly because using an attribute to
-specify a multi-line starting value would be awkward. The `<textarea>`
+specify a multiline starting value would be awkward. The `<textarea>`
 requires a matching `</textarea>` closing tag and uses the text
 between those two, instead of using its `value` attribute, as starting
 text.
@@ -95,7 +95,7 @@ three
 (((select (HTML tag))))(((option (HTML tag))))(((multiple
 choice)))(((drop-down menu)))Finally, the `<select>` tag is used to
 create a field that allows the user to select from a number of
-pre-defined options.
+predefined options.
 
 [source,text/html]
 ----
@@ -124,7 +124,7 @@ some other way—they become the currently active element, the main
 recipient of keyboard ((input)).
 
 (((option (HTML tag))))(((select (HTML tag))))If a document has a
-((text field)), text typed will only end up in there when the field is
+((text field)), text typed will end up in there only  when the field is
 focused. Other fields respond differently to keyboard events. For
 example, a `<select>` menu tries to move to the option that contains
 the text the user typed and responds to the arrow keys by moving its
@@ -168,8 +168,8 @@ something else.
 tag))))Browsers traditionally also allow the user to move the focus
 through the document by pressing the Tab key. We can influence the
 order in which elements receive focus with the `tabindex` attribute.
-The example document below will let focus jump from the text input to
-the “OK” button, rather than going through the help link first.
+The following example document will let focus jump from the text input to
+the OK button, rather than going through the help link first:
 
 [source,text/html]
 [focus="yes"]
@@ -187,7 +187,7 @@ which will make it focusable.
 (((disabled attribute)))All ((form)) ((field))s can be _disabled_
 through their `disabled` attribute, which also exists as a property on
 the element's DOM object. Disabled fields cannot be ((focus))ed or
-changed, and unlike active fields, they usually they look gray and faded.
+changed, and unlike active fields, they usually look gray and faded.
 
 [source,text/html]
 ----
@@ -216,7 +216,7 @@ property)))(((elements property)))When a ((field)) is contained in a
 `<form>` element, its DOM element will have a property `form` linking
 back to the form's DOM element. The `<form>` element, in turn, has a
 property called `elements` that contains an array-like collection of the fields
-inside of it.
+inside it.
 
 (((elements property)))(((name attribute)))The `name` attribute of a
 form field determines the way its value will be identified when the
@@ -243,7 +243,7 @@ name).
 </script>
 ----
 
-(((button (HTML tag))))(((type attribute)))(((submit)))(((enter
+(((button (HTML tag))))(((type attribute)))(((submit)))(((Enter
 key)))A button with a `type` attribute of `submit` will, when pressed,
 cause the form to be submitted. Pressing Enter in when a form field is
 focused has the same effect.
@@ -274,10 +274,10 @@ calling `preventDefault` on the event object.
 
 (((submit event)))(((validation)))(((XMLHttpRequest)))Intercepting
 `"submit"` events in JavaScript has various uses. We can write code to
-verify that the values the user entered make sense, and immediately
+verify that the values the user entered make sense and immediately
 show an error message instead of submitting the form when they don't.
 Or we can disable the regular way of submitting the form entirely, as
-in the example above, and have our program handle the input, possibly
+in the previous example, and have our program handle the input, possibly
 using `XMLHttpRequest` to send it over to a server without reloading
 the page.
 
@@ -287,7 +287,7 @@ the page.
 (HTML tag))))Fields created by `<input>` tags with a type of `text` or
 `password`, as well as `textarea` tags, share a common ((interface)).
 Their ((DOM)) elements have a `value` property that holds their
-current content, as a string value. Setting this property to another string
+current content as a string value. Setting this property to another string
 changes the field's content.
 
 (((selectionStart property)))(((selectionEnd property)))The
@@ -300,12 +300,12 @@ When part of the field is selected, the two properties will differ, giving us th
 start and end of the selected text. Like `value`, these properties may
 also be written to.
 
-(((Ramanujan+++,+++ Srinivasa)))(((textarea (HTML
+(((Khasekhemwy)))(((textarea (HTML
 tag))))(((keyboard)))(((event handling)))As an example, imagine you
-are writing an article about Srinivasa Ramanujan, but have some
-trouble spelling his name. The code below wires up a `<textarea>` tag
+are writing an article about Khasekhemwy but have some
+trouble spelling his name. The following code wires up a `<textarea>` tag
 with an event handler that, when you press F1, inserts the string
-“Srinivasa Ramanujan” for you.
+“Khasekhemwy” for you.
 
 [source,text/html]
 ----
@@ -315,7 +315,7 @@ with an event handler that, when you press F1, inserts the string
   textarea.addEventListener("keydown", function(event) {
     // The key code for F1 happens to be 112
     if (event.keyCode == 112) {
-      replaceSelection(textarea, "Srinivasa Ramanujan");
+      replaceSelection(textarea, "Khasekhemwy");
       event.preventDefault();
     }
   });
@@ -332,8 +332,8 @@ with an event handler that, when you press F1, inserts the string
 
 (((replaceSelection function)))(((text field)))The `replaceSelection`
 function replaces the currently selected part of a text field's
-content with the given word, and then moves the ((cursor)) after that
-word, so that the user can continue typing.
+content with the given word and then moves the ((cursor)) after that
+word so that the user can continue typing.
 
 (((change event)))(((input event)))The `"change"` event for a ((text
 field)) does not fire every time something is typed. Rather, it
@@ -343,8 +343,8 @@ a handler for the `"input"` event instead, which fires for every
 time the user types a character, deletes text, or otherwise manipulates
 the field's content.
 
-The example below shows a text field and a counter showing the current
-length of the text entered.
+The following example  shows a text field and a counter showing the current
+length of the text entered:
 
 [source,text/html]
 ----
@@ -381,11 +381,11 @@ its `checked` property, which holds a Boolean value.
 tag))))(((labeling)))The `<label>` tag is used to associate a piece of
 text with an input ((field)). Its `for` attribute should refer to the
 `id` of the field. Clicking the label will activate the field, which focuses
-it, and toggles its value when it is a checkbox or radio button.
+it, and will toggle its value when it is a checkbox or radio button.
 
-(((input (HTML tag))))(((multiple choice)))A ((radio button)) is
+(((input (HTML tag))))(((multiple-choice)))A ((radio button)) is
 similar to a checkbox, but it's implicitly linked to other radio buttons
-with the same `name` attribute, so that only one of them can be active
+with the same `name` attribute so that only one of them can be active
 at any time.
 
 [source,text/html]
@@ -409,7 +409,7 @@ object)))(((event handling)))(((target property)))The
 `document.getElementsByName` method gives us all elements with a given
 `name` attribute. The example loops over those (with a regular `for`
 loop, not `forEach`, because the returned collection is not a real
-array), and registers an event handler for each element. Remember that
+array) and registers an event handler for each element. Remember that
 event objects have a `target` property referring to the element that
 triggered the event. This is often useful in event handlers like this
 one, which will be called on different elements and need some way to
@@ -417,7 +417,7 @@ access the current target.
 
 == Select fields ==
 
-(((select (HTML tag))))(((multiple choice)))(((option (HTML
+(((select (HTML tag))))(((multiple-choice)))(((option (HTML
 tag))))Select fields are conceptually similar to radio buttons—they
 also allow the user to choose from a set of options. But where a radio
 button puts the layout of the options under our control, the
@@ -446,8 +446,8 @@ endif::book_target[]
 (((select (HTML tag))))(((drop-down menu)))(((size attribute)))This
 will, in most browsers, show up differently than a non-`multiple`
 select field, which is commonly drawn as a _drop-down_ control that
-only shows the options when you _open_ it. The `size` attribute to the
-`<select>` tag is used to set the amount of options that are visible at 
+shows the options only when you _open_ it. The `size` attribute to the
+`<select>` tag is used to set the number of options that are visible at 
 the same time, which gives you explicit control over the drop-down's appearance. For example,
 setting the `size` attribute to `"3"` will make the field show three lines, whether it
 has the `multiple` option enabled or not.
@@ -457,7 +457,7 @@ value. This value can be defined with a `value` attribute, but when
 that is not given, the ((text)) inside the option will count as the
 option's value. The `value` property of a `<select>` element reflects
 the currently selected option. For a `multiple` field, though, this
-property doesn't mean much, since it will only give the value of _one_
+property doesn't mean much since it will give the value of only _one_
 of the currently selected options.
 
 (((select (HTML tag))))(((options property)))(((selected
@@ -467,9 +467,9 @@ has a property called `selected`, which indicates whether that option is
 currently selected. The property can also be written to select or
 deselect an option.
 
-(((multiple attribute)))(((binary number)))The example below extracts
+(((multiple attribute)))(((binary number)))The following example extracts
 the selected values from a `multiple` select field and uses them to
-compose a binary number from individual bits. Hold control (or command
+compose a binary number from individual bits. Hold Ctrl (or Command
 on a Mac) to select multiple options.
 
 [source,text/html]
@@ -533,9 +533,9 @@ empty. The reason there isn't simply a `file` property is that file
 fields also support a `multiple` attribute, which makes it possible to
 select multiple files at the same time.
 
-(((File type)))Objects in the `files` property have properties like
+(((File type)))Objects in the `files` property have properties such as
 `name` (the file name), `size` (the file's size in bytes), and `type`
-(the media type of the file, like `text/plain` or `image/jpeg`).
+(the media type of the file, such as `text/plain` or `image/jpeg`).
 
 [[filereader]]
 (((asynchronous programming)))(((file reading)))(((FileReader
@@ -543,7 +543,7 @@ type)))What it does not have is a property that contains the content
 of the file. Getting at that is a little more involved. Since reading
 a file from disk can take time, the interface will have to be
 asynchronous to avoid freezing the document. You can think of the
-`FileReader` constructor as being similar to `XMLHttpRequest`, but for
+`FileReader` constructor as being similar to `XMLHttpRequest` but for
 files.
 
 [source,text/html]
@@ -571,7 +571,7 @@ registering a `"load"` event handler for it, and calling its
 finishes, the reader's `result` property contains the file's content.
 
 (((forEach method)))(((array-like object)))(((closure)))The example
-uses `Array.prototype.forEach` to iterate over the array, since in a
+uses `Array.prototype.forEach` to iterate over the array since in a
 normal loop it would be awkward to get the correct `file` and `reader`
 objects from the event handler. The variables would be shared by all
 iterations of the loop.
@@ -614,7 +614,7 @@ password and a website name.
 
 (((persistence)))(((memory)))When such an application needs to
 remember something between sessions, you cannot use JavaScript
-((variable))s, since those are thrown away every time a page is
+((variable)) since those are thrown away every time a page is
 closed. You could set up a server, connect it to the Internet, and
 have your application store something there. We will see how to do
 that in link:20_node.html#node[Chapter 20]. But this adds a lot of
@@ -625,7 +625,7 @@ data in the ((browser)). But how?
 method)))(((removeItem method)))You can store string data in a way
 that survives ((page reload))s by putting it in the `localStorage`
 object. This object allows you to file string values under names (also
-strings), as in this example.
+strings), as in this example:
 
 [source,javascript]
 ----
@@ -640,8 +640,8 @@ it is overwritten, it is removed with `removeItem`, or the user clears out
 their local data.
 
 (((security)))Sites from different ((domain))s get different storage
-compartments. That means that data stored in `localStorage` by a given
-website can, in principle, only be read (and overwritten) by scripts on
+compartments. That means data stored in `localStorage` by a given
+website can, in principle, be read (and overwritten) by scripts only  on
 that same site.
 
 (((localStorage object)))Browsers also enforce a limit on the size of
@@ -651,12 +651,12 @@ people's ((hard drive))s with junk is not really profitable, prevents
 this feature from eating up too much space.
 
 (((localStorage object)))(((note-taking example)))(((select (HTML
-tag))))(((button (HTML tag))))(((textarea (HTML tag))))The code below
+tag))))(((button (HTML tag))))(((textarea (HTML tag))))The following code 
 implements a simple note-taking application. It keeps the user's notes
 as an object, associating note titles with content strings. This object
 is encoded as ((JSON)) and stored in `localStorage`. The user can
 select a note from a `<select>` field and change that note's text in
-a `<textarea>`. A note can be added by pressing a button.
+a `<textarea>`. A note can be added by clicking a button.
 
 // start_code
 
@@ -713,7 +713,7 @@ Notes: <select id="list"></select>
 
 (((getItem method)))(((JSON)))(((|| operator)))(((default value)))The
 script initializes the `notes` variable to the value stored in
-`localStorage`, or if that is missing, to a simple object with only an
+`localStorage` or, if that is missing, to a simple object with only an
 empty `"shopping list"` note in it. Reading a field that does not
 exist from `localStorage` will yield `null`. Passing `null` to
 `JSON.parse` will make it parse the string `"null"` and return
@@ -731,7 +731,7 @@ store them, such as giving each note its own storage field.
 (((change event)))When the user adds a new note, the code must update
 the text field explicitly, even though the `<select>` field has a
 `"change"` handler that does the same thing. This is necessary because
-`"change"` events only fire when the _user_ changes the field's value,
+`"change"` events fire only when the _user_ changes the field's value,
 not when a script does it.
 
 (((sessionStorage object)))There is another object similar to
@@ -747,13 +747,13 @@ checkboxes, multiple-choice fields, and file pickers.
 
 Such fields can be inspected and manipulated with JavaScript. They
 fire the `"change"` event when changed, the `"input"` event when text is
-typed, as well as the various keyboard events. These events allow us to
+typed, and  various keyboard events. These events allow us to
 notice when the user is interacting with the fields. Properties like `value`
 (for text and select fields) or `checked` (for checkboxes and radio
 buttons) are used to read or set the field's content.
 
 When a form is submitted, its `"submit"` event fires. A JavaScript
-handler can `preventDefault` that event to prevent the submission from
+handler can call `preventDefault` on that event to prevent the submission from
 happening. Form field elements do not have to be wrapped in `<form>`
 tags.
 
@@ -763,7 +763,7 @@ the content of this file from a JavaScript program.
 
 The `localStorage` and `sessionStorage` objects can be used to save
 information in a way that survives page reloads. The first saves the
-data forever (or until the user decides to clear it), the second saves
+data forever (or until the user decides to clear it), and the second saves
 it until the browser is closed.
 
 == Exercises ==
@@ -778,7 +778,7 @@ constructor)))(((error message)))Put a button next to a `<textarea>`
 field, which, when pressed, uses the `Function` constructor we saw in
 link:10_modules.html#eval[Chapter 10] to wrap the text in a function
 and call it. Convert the return value of the function, or any error it
-raised, to a string and display it below the text field.
+raised, to a string and display it after the text field.
 
 ifdef::interactive_target[]
 
@@ -801,13 +801,13 @@ endif::interactive_target[]
 
 (((click event)))(((mousedown event)))(((Function
 constructor)))(((workbench (exercise))))Use `document.querySelector`
-or `document.getElementById`, to get access to the elements defined in
+or `document.getElementById` to get access to the elements defined in
 your HTML. An event handler for `"click"` or `"mousedown"` events on
-the button can get the `value` property of the text field, and call
+the button can get the `value` property of the text field and call
 `new Function` on it.
 
 (((try keyword)))(((exception handling)))Make sure you wrap both the
-call to `new Function` and the call to its result in a `try` block, so
+call to `new Function` and the call to its result in a `try` block so
 that you can catch exceptions that it produces. In this case, we
 really don't know what type of exception we are looking for, so catch
 everything.
@@ -816,8 +816,8 @@ everything.
 method)))(((newline character)))The `textContent` property of the
 output element can be used to fill it with a string message. Or, if
 you want to keep the old content around, create a new text node using
-`document.createTextNode`, and append it to the element. Remember to
-add a newline character to the end, so that not all output appears on
+`document.createTextNode` and append it to the element. Remember to
+add a newline character to the end so that not all output appears on
 a single line.
 
 !!hint!!
@@ -826,7 +826,7 @@ a single line.
 
 (((completion)))(((autocompletion (exercise))))Extend a ((text field))
 so that when the user types, a list of suggested values is shown below
-the field. You have an array of possible values available, and should show those
+the field. You have an array of possible values available and should show those
 that start with the text that was typed. When a ((suggestion)) is
 clicked, replace the text field's current value with it.
 
@@ -855,23 +855,23 @@ endif::interactive_target[]
 !!hint!!
 
 (((input event)))(((autocompletion (exercise))))The best event for
-updating the suggestion list is `"input"`, since that will fire
+updating the suggestion list is `"input"` since that will fire
 immediately when the content of the field is changed.
 
 (((indexOf method)))(((textContent property)))Then loop over the array
-of terms and see if they start with the given string. For example, you
-could call `indexOf` and see if the result is zero. For each matching
+of terms and see whether they start with the given string. For example, you
+could call `indexOf` and see whether the result is zero. For each matching
 string, add an element to the suggestions `<div>`. You should probably
 also empty that each time you start updating the suggestions, for
 example by setting its `textContent` to the empty string.
 
 (((click event)))(((mouse)))(((target property)))You could either add
-a `"click"` event handler to every suggestion element, or add a single
+a `"click"` event handler to every suggestion element or add a single
 one to the outer `<div>` that holds them and look at the `target`
 property of the event to find out which suggestion was clicked.
 
 (((attribute)))To get the suggestion text out of a DOM node, you could
-look at its `textContent`, or set an attribute to explicitly store the
+look at its `textContent` or set an attribute to explicitly store the
 text when you create the element.
 
 !!hint!!
@@ -883,25 +883,25 @@ Life)))Conway's Game of Life is a simple ((simulation)) that creates
 artificial “life” on a ((grid)), each cell of which is either live or
 not. Each ((generation)) (turn), the following rules are applied:
 
-1. Any live ((cell)) with fewer than two or more than three live
-   ((neighbor))s dies.
+* Any live ((cell)) with fewer than two or more than three live
+  ((neighbor))s dies.
 
-2. Any live cell with two or three live neighbors lives on to the
-   next generation.
+* Any live cell with two or three live neighbors lives on to the
+  next generation.
 
-3. Any dead cell with exactly three live neighbors becomes a live
-   cell.
+* Any dead cell with exactly three live neighbors becomes a live
+  cell.
 
-Where a neighbor is defined as any adjacent cell, including diagonally
+A neighbor is defined as any adjacent cell, including diagonally
 adjacent ones.
 
 (((pure function)))Note that these rules are applied to the whole grid
-at once, not one square at a time. That means that the counting of
+at once, not one square at a time. That means the counting of
 neighbors is based on the situation at the start of the generation,
-and changes happening to neighbor cells this generation should not
+and changes happening to neighbor cells during this generation should not
 influence the new state of a given cell.
 
-(((Math.random function)))Implement this game, using whichever ((data
+(((Math.random function)))Implement this game using whichever ((data
 structure)) you find appropriate. Use `Math.random` to populate the
 grid with a random pattern initially. Display it as a grid of
 ((checkbox)) ((field))s, with a ((button)) next to it to advance to
@@ -930,9 +930,9 @@ endif::interactive_target[]
 (((game of life (exercise))))To solve the problem of having the
 changes conceptually happen at the same time, try to see the
 computation of a ((generation)) as a ((pure function)), which takes
-one ((grid)), and produces a new grid that represents the next turn.
+one ((grid)) and produces a new grid that represents the next turn.
 
-Representing the grid can be done in any of the ways seen in Chapters
+Representing the grid can be done in any of the ways shown in Chapters
 link:07_elife.html#grid[7] and link:15_game.html#level[15]. Counting
 live ((neighbor))s can be done with two nested loops, looping over
 adjacent coordinates. Take care not to count cells outside of the
@@ -940,19 +940,19 @@ field and to ignore the cell in the center, whose neighbors we are
 counting.
 
 (((event handling)))(((change event)))Making changes to ((checkbox))es
-take affect on the next generation can be done in two ways. An event
+take effect on the next generation can be done in two ways. An event
 handler could notice these changes and update the current grid to
 reflect them, or you could generate a fresh grid from the values in
 the checkboxes before computing the next turn.
 
 If you choose to go with event handlers, you might want to attach
 ((attribute))s that identify the position that each checkbox
-corresponds to, so that it is easy to find out which cell to change.
+corresponds to so that it is easy to find out which cell to change.
 
 (((drawing)))(((table (HTML tag))))(((br (HTML tag))))To draw the grid
-of checkboxes, you can use either a `<table>` element (see
+of checkboxes, you either can use  a `<table>` element (see
 link:13_dom.html#exercise_table[Chapter 13]) or simply put them all in
-the same element, and put `<br>` (line break) elements between the
+the same element and put `<br>` (line break) elements between the
 rows.
 
 !!hint!!

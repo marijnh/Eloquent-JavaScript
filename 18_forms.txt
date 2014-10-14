@@ -304,7 +304,7 @@ also be written to.
 tag))))(((keyboard)))(((event handling)))As an example, imagine you
 are writing an article about Khasekhemwy but have some
 trouble spelling his name. The following code wires up a `<textarea>` tag
-with an event handler that, when you press F1, inserts the string
+with an event handler that, when you press F2, inserts the string
 “Khasekhemwy” for you.
 
 [source,text/html]
@@ -313,8 +313,8 @@ with an event handler that, when you press F1, inserts the string
 <script>
   var textarea = document.querySelector("textarea");
   textarea.addEventListener("keydown", function(event) {
-    // The key code for F1 happens to be 112
-    if (event.keyCode == 112) {
+    // The key code for F2 happens to be 113
+    if (event.keyCode == 113) {
       replaceSelection(textarea, "Khasekhemwy");
       event.preventDefault();
     }

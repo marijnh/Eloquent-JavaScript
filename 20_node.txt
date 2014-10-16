@@ -14,15 +14,15 @@ machines and programming languages?’. Fu-Tzu replied ‘The builders of
 old used only sticks and clay, yet they made beautiful huts.’
 ____
 
-(((command line)))(((Yuan-Ma)))(((Book of Programming)))So far, we
+(((command line)))(((Yuan-Ma)))(((Book of Programming)))So far, you
 have learned the JavaScript language and used it within a single
-environment: the browser. The next two chapters will briefly introduce
+environment: the browser. This chapter and the link:21_skillsharing.html#skillsharing[next one] will briefly introduce
 you to ((Node.js)), a program that allows you to apply your JavaScript
 skills outside of the browser. With it, you can build anything from
 simple command-line tools to dynamic HTTP ((server))s.
 
 These chapters aim to teach you the important ideas that Node.js
-builds on and give you enough information to write some useful
+builds on and to give you enough information to write some useful
 programs for it. They do not try to be a complete, or even a thorough,
 treatment of Node.
 
@@ -30,13 +30,13 @@ ifdef::interactive_target[]
 
 Whereas you could run the code in previous chapters directly on these
 pages, since it was either raw JavaScript or written for the browser,
-the code samples in this chapter are written for Node, and won't run
+the code samples in this chapter are written for Node and won't run
 in the browser.
 
 endif::interactive_target[]
 
 If you want to follow along and run the code in this chapter, start by
-going to http://nodejs.org[_nodejs.org_], and following the
+going to http://nodejs.org[_nodejs.org_] and following the
 installation instructions for your operating system. Also refer to
 that website for further ((documentation)) about Node and its built-in
 ((module))s.
@@ -62,7 +62,7 @@ _asynchronous_ I/O easy and convenient. We have seen asynchronous
 interfaces before, including a browser's `XMLHttpRequest` object,
 discussed in link:17_http.html#xmlhttprequest[Chapter 17]. Such an
 interface allows the script to continue running while it does its
-work, and calls a callback function when it's done. This is the way
+work and calls a callback function when it's done. This is the way
 Node does all its I/O.
 
 (((programming language)))(((Node.js)))(((standard)))JavaScript lends
@@ -82,18 +82,18 @@ from the Internet and then do some simple processing with the result.
 
 (((synchronous I/O)))In a synchronous environment, the obvious way to
 perform this task is to make the requests one after the other. This method has the
-drawback that the second request will only be started when the first
+drawback that the second request will be started only when the first
 has finished. The total time taken will be at least the sum of the two
-response times. This is not a very effective use of the machine, which
+response times. This is not an effective use of the machine, which
 will be mostly idle when it is transmitting and receiving data over
 the ((network)).
 
 (((parallelism)))The solution to this problem, in a synchronous
-system, is to start additional ((thread))s of control. (Refer back to
+system, is to start additional ((thread))s of control. (Refer to
 link:14_event.html#timeline[Chapter 14] for a previous discussion of
 threads.) A second thread could start the second request, and then
 both threads wait for their results to come back, after which they
-re-synchronize to combine their results.
+resynchronize to combine their results.
 
 (((CPU)))(((blocking)))(((synchronous I/O)))(((asynchronous
 I/O)))(((timeline)))(((callback function)))In the following diagram,
@@ -127,7 +127,7 @@ asynchronicity is a sensible choice. One of the strengths of
 JavaScript is its simplicity, and trying to add multiple ((thread))s
 of control to it would add a lot of complexity. Though callbacks don't tend
 to lead to simple _code_, as a _concept_, they're pleasantly
-simple, yet powerful enough to write high-performance Web servers.
+simple yet powerful enough to write high-performance web servers.
 
 == The node command ==
 
@@ -156,7 +156,7 @@ stream, rather than to a browser's ((JavaScript console)).
 
 (((node program)))(((read-eval-print loop)))If you run `node` without
 giving it a file, it provides you with a prompt at which you can type
-JavaScript code, and immediately see the result.
+JavaScript code and immediately see the result.
 
 ----
 $ node
@@ -172,12 +172,12 @@ $
 method)))(((status code)))The `process` variable, just like the
 `console` variable, is available globally in Node. It provides various
 ways to inspect and manipulate the current program. The `exit` method
-ends the process, and can be given an exit status code, which tells
-the program that started `node` (in this case, the command line shell)
+ends the process and can be given an exit status code, which tells
+the program that started `node` (in this case, the command-line shell)
 whether the program completed successfully (code zero) or encountered
 an error (any other code).
 
-(((argv property)))To find the ((command line)) arguments given to
+(((command line)))(((argv property)))To find the command-line arguments given to
 your script, you can read `process.argv`, which is an array of
 strings. Note that it also includes the name of the `node` commands
 and your script name, so the actual arguments start at index 2. If
@@ -190,8 +190,8 @@ $ node showargv.js one --and two
 ----
 
 (((variable,global)))All the ((standard)) JavaScript global variables,
-like `Array`, `Math`, and `JSON`, are also present in Node's
-environment. Browser-related functionality, like `document` and
+such as `Array`, `Math`, and `JSON`, are also present in Node's
+environment. Browser-related functionality, such as `document` and
 `alert`, is absent.
 
 (((global object)))(((global scope)))(((window)))The global scope
@@ -201,7 +201,7 @@ name `global` in Node.
 == Modules ==
 
 (((Node.js)))(((global scope)))(((module loader)))Beyond the few
-variables I mentioned, such as `console` and `process`, Node puts very
+variables I mentioned, such as `console` and `process`, Node puts 
 little functionality in the global scope. If you want to access other
 built-in functionality, you have to ask the module system for it.
 
@@ -223,7 +223,7 @@ omitted.
 
 (((node_modules directory)))When a string that does not look like a
 relative or absolute path is given to `require`, it is assumed to
-refer to either a built-in ((module)), or a module installed in a
+refer to either a built-in ((module)) or a module installed in a
 `node_modules` directory. For example, `require("fs")` will give you
 Node's built-in file system module, and `require("elife")` will try to
 load the library found in `node_modules/elife/`. A common way to
@@ -239,14 +239,14 @@ can be called from the ((command line)) to garble a string.
 ----
 var garble = require("./garble");
 
-// Index 2 holds the first actual command line argument
+// Index 2 holds the first actual command-line argument
 var argument = process.argv[2];
 
 console.log(garble(argument));
 ----
 
 (((reuse)))The file `garble.js` defines a library for garbling strings,
-which can be used both by the command line tool defined above and by
+which can be used both by the command-line tool defined earlier and by
 other scripts that need direct access to a garbling function.
 
 [source,javascript]
@@ -265,9 +265,9 @@ result of requiring our `garble` file the garbling function itself.
 
 (((Unicode)))(((split method)))(((map method)))(((join method)))The
 function splits the string it is given into single characters by
-splitting on the empty string, and then replaces each character with
+splitting on the empty string and then replaces each character with
 the character whose code is five points higher. Finally, it joins the
-result together again into a string.
+result again into a string.
 
 We can now call our tool like this:
 
@@ -287,7 +287,7 @@ interface to this repository.
 
 (((figlet module)))For example, one module you will find on NPM is
 `figlet`, which can convert text into “((ASCII art))”, drawings made
-out of text characters. The transcript below shows how to ((install))
+out of text characters. The following  transcript shows how to ((install))
 and use it:
 
 ----
@@ -315,7 +315,7 @@ $ node
 (((require function)))(((node_modules directory)))(((npm
 program)))After running `npm install`, ((NPM)) will have created a
 directory called `node_modules`. Inside that directory will be a `figlet`
-directory, which contains the ((library)) itself. When we run `node` and call
+directory, which contains the ((library)). When we run `node` and call
 `require("figlet")`, this library is loaded, and we can call its
 `text` method to draw some big letters.
 
@@ -323,7 +323,7 @@ directory, which contains the ((library)) itself. When we run `node` and call
 instead of simply returning the string that makes up the big letters,
 `figlet.text` takes a ((callback function)) that it passes its result
 to. It also passes the callback another argument, `error`, which will
-hold an error object when something goes wrong, or null when
+hold an error object when something goes wrong or null when
 everything is all right.
 
 (((file system)))(((asynchronous programming)))(((Node.js)))This is a
@@ -341,17 +341,17 @@ a program or library, such as which other libraries it depends on.
 Doing `npm install` in a directory that contains such a file will
 automatically install all dependencies, as well as _their_
 dependencies. The `npm` tool is also used to publish libraries to
-NPM's online repository of packages, so that other people can find,
+NPM's online repository of packages so that other people can find,
 download, and use them.
 
 (((library)))This book won't delve further into the details of ((NPM))
 usage. Refer to http://npmjs.org[_npmjs.org_] for further
-documentation, and for an easy way to search for libraries.
+documentation and for an easy way to search for libraries.
 
 == The file system module ==
 
 (((directory)))(((fs module)))(((Node.js)))One of the most commonly
-used built-in modules that come with Node is the `"fs"` module, which
+used built-in modules that comes with Node is the `"fs"` module, which
 stands for “((file system))”. This module provides functions for
 working with ((file))s and directories.
 
@@ -376,7 +376,7 @@ encoded to ((binary data)), but most modern systems use ((UTF-8)) to
 encode text, so unless you have reasons to believe another encoding is
 used, passing `"utf8"` when reading a text file is a safe bet. If you
 do not pass an encoding, Node will assume you are interested in the
-binary data itself, and will give you a `Buffer` object instead of a
+binary data and will give you a `Buffer` object instead of a
 string. This is an ((array-like object)) that contains numbers
 representing the bytes in the files.
 
@@ -392,7 +392,7 @@ fs.readFile("file.txt", function(error, buffer) {
 ----
 
 (((writeFile function)))(((file system)))A similar function,
-`writeFile` is used to write a ((file)) to disk.
+`writeFile`, is used to write a ((file)) to disk.
 
 [source,javascript]
 ----
@@ -406,23 +406,23 @@ fs.writeFile("graffiti.txt", "Node was here", function(err) {
 ----
 
 (((Buffer type)))(((character encoding)))Here it was not necessary to
-specify the encoding, since `writeFile` will assume that if it is
+specify the encoding since `writeFile` will assume that if it is
 given a string to write, rather than a `Buffer` object, it should
 write it out as text using its default character encoding, which is
 ((UTF-8)).
 
 (((fs module)))(((readdir function)))(((stat function)))(((rename
 function)))(((unlink function)))The `"fs"` module contains many other
-useful functions, such as `readdir`, which will return the ((file))s
-in a ((directory)) as an array of strings, `stat`, which retrieves
-information about a file, `rename` to rename a file, `unlink` to
+useful functions: `readdir` will return the ((file))s
+in a ((directory)) as an array of strings, `stat` will retrieve
+information about a file, `rename` will rename a file, `unlink` will
 remove one, and so on. See the documentation at
 http://nodejs.org[_nodejs.org_] for specifics.
 
 (((synchronous I/O)))(((fs module)))(((readFileSync function)))Many of
 the functions in `"fs"` come in both synchronous and asynchronous variants. 
 For example, there is a synchronous version of
-`readFile` which is called `readFileSync`.
+`readFile` called `readFileSync`.
 
 [source,javascript]
 ----
@@ -433,7 +433,7 @@ console.log(fs.readFileSync("file.txt", "utf8"));
 (((synchronous
 I/O)))(((optimization)))(((performance)))(((blocking)))Synchronous functions require
 less ceremony to use and can be useful in simple scripts, where the
-extra speed provided by asynchronous I/O is irrelevant. But note that,
+extra speed provided by asynchronous I/O is irrelevant. But note that
 while such a synchronous operation is being performed, your program
 will be stopped entirely. If it should be responding to the user or to
 other machines on the network, being stuck on synchronous I/O might
@@ -463,7 +463,7 @@ server.listen(8000);
 (((port)))(((localhost)))If you run this script on your own machine,
 you can point your web browser at
 http://localhost:8000/hello[_http://localhost:8000/hello_] to make a
-request to your server. It will respond with a very small HTML page.
+request to your server. It will respond with a small HTML page.
 
 (((createServer function)))(((HTTP)))The function passed as an argument
 to `createServer` is called every time a client tries to connect to
@@ -494,13 +494,13 @@ you have to connect to _localhost:8000_, rather than just _localhost_
 
 (((Node.js)))(((kill)))To stop running a Node script like this, which
 doesn't finish automatically because it is waiting for further events
-(in this case, network connections), press Control-C.
+(in this case, network connections), press Ctrl-C.
 
 A real web ((server)) usually does more than the one in the previous
 example—it looks at the request's
 ((method)) (the `method` property) to see what action the client is
-trying to perform, and at the request's ((URL)) to find out which
-resource this action is being performed on. We'll see a more advanced
+trying to perform and at the request's ((URL)) to find out which
+resource this action is being performed on. You'll see a more advanced
 server link:20_node.html#file_server[later in this chapter].
 
 (((http module)))(((request function)))To act as an ((HTTP))
@@ -534,25 +534,25 @@ stream)))(((request function)))Just like the `response` object
 we saw in the server, the object returned by `request` allows us to
 ((stream)) data into the ((request)) with the `write` method and
 finish the request with the `end` method. The example does not use
-`write`, because requests using the GET method should not contain data
+`write` because requests using the GET method should not contain data
 in their request body.
 
-(((https module)))(((request function)))To make requests to ((HTTPS))
-(secure HTTP) URLs, Node provides a package called `https`, which contains
+(((HTTPS)))(((https module)))(((request function)))To make requests to secure HTTP (HTTPS)
+URLs, Node provides a package called `https`, which contains
 its own `request` function, similar to `http.request`.
 
 == Streams ==
 
 (((Node.js)))(((write method)))(((end method)))(((Buffer
 type)))(((stream)))(((writable stream)))We have seen two examples of
-writable streams in the HTTP examples—namely the response object that
-the server could write to, and the request object that was returned
+writable streams in the HTTP examples—namely, the response object that
+the server could write to and the request object that was returned
 from `http.request`.
 
 (((callback function)))(((asynchronous programming))) Writable streams are a widely used concept in Node
 interfaces. All writable streams have a `write` method, which can be
 passed a string or a `Buffer` object. Their `end` method closes the
-stream, and if given an argument, will also write out a piece of data
+stream and, if given an argument, will also write out a piece of data
 before it does so. Both of these
 methods can also be given a callback as an additional argument, which
 they will call when the writing to or closing of the stream has
@@ -574,7 +574,7 @@ reads a response.) Reading from a stream is done using event handlers,
 rather than methods.
 
 (((on method)))(((addEventListener method)))Objects that emit events in
-Node have a method called `on` that is very similar to the
+Node have a method called `on` that is similar to the
 `addEventListener` method in the browser. You give it an event name
 and then a function, and it will register that function to be called
 whenever the given event occurs.
@@ -588,8 +588,8 @@ even when the whole document isn't available yet. A file can be read
 as a readable stream by using the `fs.createReadStream` function.
 
 (((upcasing server example)))(((capitalization)))(((toUpperCase
-method)))The code below creates a ((server)) that reads request
-bodies, and streams them back to the client as all-uppercase text.
+method)))The following code creates a ((server)) that reads request
+bodies and streams them back to the client as all-uppercase text:
 
 [source,javascript]
 ----
@@ -611,7 +611,7 @@ string by calling `toString` on it, which will decode it using the
 default encoding (UTF-8).
 
 The following piece of code, if run while the uppercasing server is
-running, will send a request to that server and write out the response it gets.
+running, will send a request to that server and write out the response it gets:
 
 // test: no
 
@@ -642,9 +642,9 @@ appropriate here.
 
 (((file server example)))(((Node.js)))Let's combine our newfound
 knowledge about ((HTTP)) ((server))s and talking to the ((file
-system)), and create a bridge between them: an HTTP server that allows
+system)) and create a bridge between them: an HTTP server that allows
 ((remote access)) to a file system. Such a server has many uses. It
-allows web applications to store and share data, or give a group of
+allows web applications to store and share data or give a group of
 people shared access to a bunch of files.
 
 (((path,URL)))(((GET method)))(((PUT method)))(((DELETE method))) When 
@@ -708,7 +708,7 @@ response's `end` method.
 (((path,URL)))(((urlToPath function)))(((url module)))(((parsing)))(((escaping,in
 URLs)))(((decodeURIComponent function)))To get a path from the
 ((URL)) in the request, the `urlToPath` function uses Node's built-in
-`"url"` module to parse the URL. It takes its pathname, which will be
+`"url"` module to parse the URL. It takes its path name, which will be
 something like `/file.txt`, decodes that to get rid of the `%20`-style
 escape codes, and prefixes a single dot to produce a path relative to
 the current directory.
@@ -725,12 +725,12 @@ function urlToPath(url) {
 
 
 (((security)))(((path,file system)))If you are worried about the security of the
-`urlToPath` function, you are right. We will come back to that in the
+`urlToPath` function, you are right. We will return to that in the
 exercises.
 
 (((file server example)))(((Node.js)))(((GET method)))We will set up
 the `GET` method to return a list of ((file))s when reading a
-((directory)), and the file's content when reading a regular file.
+((directory)) and to return the file's content when reading a regular file.
 
 (((media type)))(((MIME type)))(((Content-Type header)))(((mime
 module)))One tricky question is what kind of `Content-Type` header we
@@ -738,11 +738,11 @@ should add when returning a file's content. Since these files could be
 anything, our server can't simply return the same type for all of
 them. But ((NPM)) can help with that. The `mime` package (content type
 indicators like `text/plain` are also called _MIME types_) knows the
-correct type for a huge amount of ((file extension))s.
+correct type for a huge number of ((file extension))s.
 
 (((require function)))(((npm program)))If you run the following `npm` command in the directory
-where the server script lives, you'll be able to `require("mime")` to
-get access to the library.
+where the server script lives, you'll be able to use `require("mime")` to
+get access to the library:
 
 ----
 $ npm install mime
@@ -782,18 +782,18 @@ methods.GET = function(path, respond) {
 
 (((createReadStream function)))(((asynchronous programming)))(((error
 handling)))(((ENOENT (status code))))(((Error
-type)))(((inheritance)))Because it has to touch the disk, and thus
+type)))(((inheritance)))Because it has to touch the disk and thus
 might take a while, `fs.stat` is asynchronous. When the file does not
 exist, `fs.stat` will pass an error object with a `code` property of
 `"ENOENT"` to its callback. It would be nice if Node defined
-different sub-types of `Error` for different types of error, but it
+different subtypes of `Error` for different types of error, but it
 doesn't. Instead, it just puts obscure, ((Unix))-inspired codes in
 there.
 
 (((500 (HTTP status code))))(((error handling)))(((error response)))We
 are going to report any errors we didn't expect with status code 500,
 which indicates that the problem exists in the server, as opposed to
-codes starting with 4 (such as 404) which refer to bad requests. There
+codes starting with 4 (such as 404), which refer to bad requests. There
 are some situations in which this is not entirely accurate, but for a
 small example program like this, it will have to be good enough.
 
@@ -805,9 +805,9 @@ property). Here we are interested in the question of whether it is a
 us.
 
 (((readdir function)))We use `fs.readdir` to read the
-list of files in a ((directory)), and, in yet another callback, return
+list of files in a ((directory)) and, in yet another callback, return
 it to the user. For normal files, we create a readable stream with
-`fs.createReadStream`, and pass it to `respond`, along with the
+`fs.createReadStream` and pass it to `respond`, along with the
 content type that the `"mime"` module gives us for the file's name.
 
 (((Node.js)))(((file server example)))(((DELETE method)))The code to
@@ -832,7 +832,7 @@ methods.DELETE = function(path, respond) {
 ----
 
 (((idempotency)))(((error response)))You may be wondering why trying
-to delete a non-existent file returns a 204 status, rather than an
+to delete a nonexistent file returns a 204 status, rather than an
 error. When the file that is being deleted is not there, you could say
 that the request's objective is already fulfilled. The ((HTTP))
 standard encourages people to make requests _idempotent_, which means
@@ -882,7 +882,7 @@ methods.PUT = function(path, respond, request) {
 event)))(((finish event)))(((createWriteStream function)))(((pipe
 method)))(((stream)))Here we don't need to check whether the file
 exists—if it does, we'll just overwrite it. We again use `pipe` to
-move data from a readable stream to a writable one, in this case form
+move data from a readable stream to a writable one, in this case from
 the request to the file. If creating the stream fails, an `"error"`
 event is raised for it, which we report in our response. When the data
 is transferred successfully, `pipe` will close both streams, which
@@ -893,13 +893,13 @@ that happens, we can report success to the client with a 204 response.
 for the server is available at
 http://eloquentjavascript.net/code/file_server.js[_eloquentjavascript.net/code/file_server.js_].
 You can download that and run it with Node to start your own file
-server. And of course, you can modify and extend it, to solve this
+server. And of course, you can modify and extend it to solve this
 chapter's exercises or to experiment.
 
 (((body (HTTP))))(((curl program)))The command-line tool `curl`,
 widely available on ((Unix))-like systems, can be used to make ((HTTP))
 ((request))s. The following session briefly tests our server. Note
-that `-X` is used to set the request's ((method)), and `-d` to include
+that `-X` is used to set the request's ((method)) and `-d` is used to include
 a request body.
 
 ----
@@ -913,7 +913,7 @@ $ curl http://localhost:8000/file.txt
 File not found
 ----
 
-The first request for `file.txt` fails, since the file does not exist
+The first request for `file.txt` fails since the file does not exist
 yet. The `PUT` request creates the file, and behold, the next request
 successfully retrieves it. After deleting it with a `DELETE` request,
 the file is again missing.
@@ -922,11 +922,11 @@ the file is again missing.
 
 (((verbosity)))(((error handling)))In the code for the file server,
 there are _six_ places where we are explicitly routing exceptions that
-we don't know how to handle to ((error response))s. Because
-((exception))s aren't automatically propagated to callbacks, but
+we don't know how to handle ((error response))s. Because
+((exception))s aren't automatically propagated to callbacks but
 rather passed to them as arguments, they have to be handled explicitly
 every time. This completely defeats the advantage of ((exception
-handling)), namely the ability to centralize the handling of
+handling)), namely, the ability to centralize the handling of
 failure conditions.
 
 (((Node.js)))(((stack trace)))(((throw keyword)))(((try
@@ -941,7 +941,7 @@ standard error stream.
 whenever a problem is encountered in the server's code itself, as
 opposed to asynchronous problems, which will be passed as arguments to
 the callbacks. If we wanted to handle all exceptions raised during the
-handling of a request, to make sure we send back a response, we would
+handling of a request, to make sure we send a response, we would
 have to add `try`/`catch` blocks to _every_ callback.
 
 (((exception handling)))This is not workable. Many Node programs are
@@ -952,9 +952,9 @@ program can handle, and crashing is the right response.
 (((denodeify function)))(((readFile function)))(((promise
 module)))(((error handling)))Another approach is to use ((promise))s,
 which were introduced in link:17_http.html#promises[Chapter 17]. Those
-catch exceptions raised by callback functions, and propagate them as
+catch exceptions raised by callback functions and propagate them as
 failures. It is possible to load a promise library in Node and use
-that to manage your asynchronous control. Very few Node libraries
+that to manage your asynchronous control. Few Node libraries
 integrate promises, but it is often trivial to wrap them. The
 excellent `"promise"` module from ((NPM)) contains a function called
 `denodeify`, which takes an asynchronous function like `fs.readFile`
@@ -977,12 +977,12 @@ readFile("file.txt", "utf8").then(function(content) {
 example)))For comparison, I've written another version of the file
 server based on ((promise))s, which you can find at
 http://eloquentjavascript.net/code/file_server_promises.js[_eloquentjavascript.net/code/file_server_promises.js_].
-It is slightly cleaner, because functions can now _return_ their
+It is slightly cleaner because functions can now _return_ their
 results, rather than having to call callbacks, and the routing of
 exceptions is implicit, rather than explicit.
 
-(((programming style)))I'll list a few lines from promise-based file
-server, to illustrate the difference in the style of programming.
+(((programming style)))I'll list a few lines from the promise-based file
+server to illustrate the difference in the style of programming.
 
 (((chaining)))(((fsp object)))The `fsp` object that is used by this
 code contains promise-style variants of a number of `fs` functions,
@@ -1029,8 +1029,8 @@ with a 500 status code.
 == Summary ==
 
 (((Node.js)))Node is a nice, straightforward system that lets us run
-JavaScript in a non-browser context. It was originally designed for
-network tasks, to play the role of a _node_ in a network. But it lends
+JavaScript in a nonbrowser context. It was originally designed for
+network tasks to play the role of a _node_ in a network. But it lends
 itself to all kinds of scripting tasks, and if writing JavaScript is
 something you enjoy, automating everyday tasks with Node works
 wonderfully.
@@ -1070,15 +1070,15 @@ property of `http.request`’s first argument.
 
 (((content negotiation (exercise))))(((end method)))(((request
 function)))Don't forget to call the `end` method on the object
-returned by `http.request`, in order to actually fire off the request.
+returned by `http.request` in order to actually fire off the request.
 
 (((concatenation)))(((callback function)))(((readStreamAsString
 function)))The ((response)) object passed to `http.request`’s callback
 is a ((readable stream)). This means that it is not entirely trivial
-to get the whole response body out of it. The following utility
+to get the whole response body from it. The following utility
 function reads a whole stream and calls a callback function with the
 result, using the usual pattern of passing any errors it encounters as
-the first argument to the callback.
+the first argument to the callback:
 
 [source,text/javascript]
 ----
@@ -1123,7 +1123,7 @@ function urlToPath(url) {
 (((fs module)))Now consider the fact that paths passed to the `"fs"`
 functions can be relative—they may contain `"../"` to go up a
 directory. What happens when a client sends requests to URLs like the
-ones below?
+ones shown here?
 
 ----
 http://myhostname:8000/../.config/config/google-chrome/Default/Web%20Data
@@ -1145,20 +1145,20 @@ system might be used to do bad things to your machine.
 (((replace method)))(((file server example)))(((leak)))(((period
 character)))(((slash character)))(((backslash
 character)))(((decodeURIComponent function)))It is enough to strip out
-all occurrences of two dots which have a one of a slash, backslash, or
+all occurrences of two dots that have a slash, a backslash, or
 the end of the string on both sides. Using the `replace` method with a
 ((regular expression)) is the easiest way to do this. Do not forget
-the `g` flag on the expression, or `replace` will only replace a
+the `g` flag on the expression, or `replace` will  replace only a
 single instance, and people could still get around this safety measure
 by including additional double dots in their paths! Also make sure you
 do the replace _after_ decoding the string, or it would be possible to
 foil the check by encoding a dot or a slash.
 
 (((path,file system)))(((slash character)))Another potentially
-worrying case is paths starting with a slash, which are interpreted as
+worrying case is when paths start with a slash, which are interpreted as
 ((absolute path))s. But because `urlToPath` puts a dot character in
 front of the path, it is impossible to create requests that result in
-such a path. Multiple slashes in a row, inside of the path, are odd,
+such a path. Multiple slashes in a row, inside the path, are odd
 but will be treated as a single slash by the file system.
 
 !!hint!!
@@ -1172,18 +1172,18 @@ not provide any way to _create_ a ((directory)).
 (((MKCOL method)))Add support for a method `MKCOL`, which should
 create a directory by calling `fs.mkdir`. `MKCOL` is not one of the
 basic HTTP methods, but it does exist, for this same purpose, in the
-_((WebDAV))_ standard, which specifies a set of extensions to ((HTTP))
-that make it suitable for writing resources, not just reading them.
+_((WebDAV))_ standard, which specifies a set of extensions to ((HTTP)),
+making it suitable for writing resources, not just reading them.
 
 !!hint!!
 
 (((file server example)))(((MKCOL method)))(((mkdir
 function)))(((idempotency)))(((400 (HTTP status code))))You can use
 the function that implements the `DELETE` method as a blueprint for
-methods.`MKCOL`. When no file is found, try to create a directory with
+the `MKCOL` method. When no file is found, try to create a directory with
 `fs.mkdir`. When a directory exists at that path, you can return a 204
-response, so that directory creation requests are idempotent. If a
-non-directory file exists here, return an error code. 400 (“bad
+response so that directory creation requests are idempotent. If a
+nondirectory file exists here, return an error code. The code 400 (“bad
 request”) would be appropriate here.
 
 !!hint!!
@@ -1192,34 +1192,34 @@ request”) would be appropriate here.
 
 (((public space (exercise))))(((file server example)))(((Content-Type
 header)))(((website)))Since the file server serves up any kind of
-files, and even includes the right `Content-Type` header, you can use
+file and even includes the right `Content-Type` header, you can use
 it to serve a website. Since it allows everybody to delete and replace
 files, it would be an interesting kind of website: one that can be
 modified, vandalized, and destroyed by everybody who takes the time to
 create the right HTTP request. Still, it would be a website.
 
-Write a simple ((HTML)) page, which includes a simple JavaScript file.
-Put them in a directory served by the file server, and open them in
+Write a simple ((HTML)) page that includes a simple JavaScript file.
+Put the files in a directory served by the file server and open them in
 your browser.
 
-Next, as an advanced exercise, or even a ((weekend project)), combine
+Next, as an advanced exercise or even a ((weekend project)), combine
 all the knowledge you gained from this book to build a more
-user-friendly interface for modifying the website, from _inside_ the
-website itself.
+user-friendly interface for modifying the website from _inside_ the
+website.
 
 (((XMLHttpRequest)))Use an HTML ((form))
 (link:18_forms.html#forms[Chapter 18]) to edit the content of the
 files that make up the website, allowing the user to update them on
-the server, using HTTP requests as described in
+the server, by using HTTP requests as described in
 link:17_http.html#http[Chapter 17].
 
 Start by making only a single file editable. Then make it so that the
 user can select which file to edit. Use the fact that our file server
 returns lists of files when reading a directory.
 
-(((overwriting)))Don't work directly in the code on the file server,
+(((overwriting)))Don't work directly in the code on the file server
 since if you make a mistake, you are likely to damage the files there.
-Instead, keep you work outside of the publicly accessible directory,
+Instead, keep your work outside of the publicly accessible directory
 and copy it there when testing.
 
 (((IP address)))If your computer is directly connected to the
@@ -1243,20 +1243,20 @@ to refer to files on the same server as the running script.
 
 (((form (HTML tag))))(((submit event)))(((click event)))(((PUT
 method)))Then, when the user clicks a button (you can use a `<form>`
-element and `"submit"` event, or simply a `"click"` handler), make a
+element and `"submit"` event or simply a `"click"` handler), make a
 `PUT` request to the same URL, with the content of the `<textarea>` as
 request body, to save the file.
 
 (((select (HTML tag))))(((option (HTML tag))))(((change event)))You
 can then add a `<select>` element that contains all the files in the
-server's root ((directory)), by adding `<option>` elements containing
+server's root ((directory)) by adding `<option>` elements containing
 the lines returned by a `GET` request to the URL `/`. When the user
 selects another file (a `"change"` event on the field), the script
 must fetch and display that file. Also make sure that when saving a
-file, you use the currently selected file name.
+file, you use the currently selected filename.
 
 (((directory)))(((GET method)))Unfortunately, the server is too
-simplistic to be able to reliably read files from subdirectories,
+simplistic to be able to reliably read files from subdirectories
 since it does not tell us whether the thing we fetched with a `GET`
 request is a regular file or a directory. Can you think of a way to
 extend the server to address this?

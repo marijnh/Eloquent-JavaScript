@@ -632,7 +632,7 @@ request.end("Hello server");
 
 (((stdout property)))(((standard output)))(((writable
 stream)))(((console.log)))The example writes to `process.stdout` (the
-process's standard output, as a writable stream) instead of using
+process’ standard output, as a writable stream) instead of using
 `console.log`. We can't use `console.log` because it adds an extra
 newline character after each piece of text that it writes, which isn't
 appropriate here.

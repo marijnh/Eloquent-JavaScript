@@ -62,7 +62,7 @@ close together.
 programs are even organized along the model of a traditional ((text)),
 with a well-defined order in which the reader is encouraged to go
 through the program and with lots of prose (comments) providing a coherent
-description of the code. This make reading the program a lot less
+description of the code. This makes reading the program a lot less
 intimidating—reading unknown code is usually intimidating—but has the
 downside of being more work to set up. It also makes the program more
 difficult to change because prose tends to be more tightly

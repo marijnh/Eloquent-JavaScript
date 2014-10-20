@@ -85,7 +85,7 @@ array.
 (((leaf node)))(((Egg language)))A typical tree has different kinds of
 ((node))s. The syntax tree for link:11_language.html#language[the Egg
 language] had variables, values, and application nodes. Application
-nodes always have children, whereas variables and values ae _leaves_, or
+nodes always have children, whereas variables and values are _leaves_, or
 nodes without children.
 
 (((body property)))The same goes for the DOM. Nodes for regular

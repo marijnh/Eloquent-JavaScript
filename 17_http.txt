@@ -18,7 +18,7 @@ ____
 _Hypertext Transfer Protocol_, already mentioned in
 link:12_browser.html#web[Chapter 12], is the mechanism through which
 data is requested and provided on the ((World Wide Web)). This chapter
-describes the ((protocol)) in detail and explains the way ((browser))
+describes the ((protocol)) in more detail and explains the way ((browser))
 JavaScript has access to it.
 
 == The protocol ==
@@ -42,7 +42,7 @@ Then the server responds, through that same connection.
 [source,http]
 ----
 HTTP/1.1 200 OK
-Content-Length: 3122
+Content-Length: 65585
 Content-Type: text/html
 Last-Modified: Wed, 09 Apr 2014 10:48:09 GMT
 
@@ -148,8 +148,7 @@ simultaneously, rather than waiting for the responses one at a time.
 ((request))s.
 
 [[http_forms]]
-(((POST method)))Generating `POST` requests in a ((browser)) is also a
-common thing to do. HTML pages may include _((form))s_, which allow
+HTML pages may include _((form))s_, which allow
 the user to fill out information and send it to the server. This is an
 example of a form:
 
@@ -609,7 +608,7 @@ tedious.
 solve this with extra abstractions. One of the more successful ones is
 called _promises_. Promises wrap an asynchronous action in an object,
 which can be passed around and told to do certain things when the
-action finishes or fails. They are set to become part of the next
+action finishes or fails. This interface is set to become part of the next
 version of the JavaScript language but can already be used as a
 library.
 
@@ -915,8 +914,8 @@ which is the code a server should return when it can't fulfill the
 
 (((all function)))(((Promise constructor)))The `Promise` constructor
 has an `all` method that, given an array of ((promise))s, returns a
-promise that waits for all of the promises in the array to finish. It then succeeds
-itself, yielding an array of result values. If any of the promises in
+promise that waits for all of the promises in the array to finish. It then succeeds,
+yielding an array of result values. If any of the promises in
 the array fail, the promise returned by `all` fails too (with the
 failure value from the failing promise).
 

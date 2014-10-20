@@ -72,6 +72,14 @@ The `<circle>` and `<rect>` tags, which do not exist in HTML, do have
 a meaning in SVG—they draw shapes using the style and position
 specified by their attributes.
 
+ifdef::book_target[]
+
+The document is displayed like this:
+
+image::img/svg-demo.png[alt="An embedded SVG image",width="4.5cm"]
+
+endif::book_target[]
+
 These tags create ((DOM)) elements, just like ((HTML)) tags. For
 example, this changes the `<circle>` element to be ((color))ed cyan
 instead:
@@ -124,15 +132,15 @@ through the `getContext` method on the `<canvas>` element.
 </script>
 ----
 
-ifdef::book_target[]
-
-image::img/canvas_fill.png[alt="A canvas with a rectangle",width="3cm"]
-
-endif::book_target[]
-
 After creating the context object, the example draws a red
 ((rectangle)) 100 ((pixel))s wide and 50 pixels high, with its top-left
 corner at coordinates (10,10).
+
+ifdef::book_target[]
+
+image::img/canvas_fill.png[alt="A canvas with a rectangle",width="2.5cm"]
+
+endif::book_target[]
 
 (((SVG)))(((coordinates)))Just like in ((HTML)) (and SVG), the
 coordinate system that the canvas uses puts (0,0) at the top-left
@@ -181,6 +189,9 @@ positive number.
 
 ifdef::book_target[]
 
+This code draws two blue squares, using a thicker line for the second
+one.
+
 image::img/canvas_stroke.png[alt="Two stroked squares",width="5cm"]
 
 endif::book_target[]
@@ -212,12 +223,6 @@ make a sequence of method calls to describe its shape.
 </script>
 ----
 
-ifdef::book_target[]
-
-image::img/canvas_path.png[alt="Stroking a number of lines",width="2.1cm"]
-
-endif::book_target[]
-
 (((canvas)))(((stroke method)))(((lineTo method)))(((moveTo
 method)))(((shape)))This example creates a path with a number of
 horizontal ((line)) segments and then strokes it using the `stroke`
@@ -225,6 +230,14 @@ method. Each segment created with `lineTo` starts at the path's
 _current_ position. That position is usually the end of the last segment, 
 unless `moveTo` was called. In that case, the next segment would start
 at the position passed to `moveTo`.
+
+ifdef::book_target[]
+
+The path described by the previous program looks like this:
+
+image::img/canvas_path.png[alt="Stroking a number of lines",width="2.1cm"]
+
+endif::book_target[]
 
 (((path,canvas)))(((filling)))(((path,closing)))(((fill method)))When
 filling a path (using the `fill` method), each ((shape)) is filled
@@ -247,16 +260,16 @@ start, and the shape enclosed by the completed path is filled.
 </script>
 ----
 
+This example draws a filled triangle. Note that only two of the triangle's
+sides are explicitly drawn. The third, from the bottom-right corner
+back to the top, is implied and won't be there when you stroke the
+path.
+
 ifdef::book_target[]
 
 image::img/canvas_triangle.png[alt="Filling a path",width="2.2cm"]
 
 endif::book_target[]
-
-This example draws a filled triangle. Note that only two of the triangle's
-sides are explicitly drawn. The third, from the bottom-right corner
-back to the top, is implied and won't be there when you stroke the
-path.
 
 (((stroke method)))(((closePath
 method)))(((path,closing)))(((canvas)))You could also use the `closePath` method
@@ -295,6 +308,8 @@ example illustrates this:
 
 ifdef::book_target[]
 
+It produces a path that looks like this:
+
 image::img/canvas_quadraticcurve.png[alt="A quadratic curve",width="2.3cm"]
 
 endif::book_target[]
@@ -328,15 +343,15 @@ illustrate the behavior of such a curve:
 </script>
 ----
 
+The two control points specify the direction at both ends of the
+curve. The further they are away from their corresponding point, the
+more the curve will “bulge” in that direction.
+
 ifdef::book_target[]
 
 image::img/canvas_beziercurve.png[alt="A bezier curve",width="2.2cm"]
 
 endif::book_target[]
-
-The two control points specify the direction at both ends of the
-curve. The further they are away from their corresponding point, the
-more the curve will “bulge” in that direction.
 
 (((trial and error)))Such ((curve))s can be hard to work with—it's
 not always clear how to find the ((control point))s that provide the
@@ -373,6 +388,8 @@ start of the rounded part.
 ----
 
 ifdef::book_target[]
+
+This produces two rounded corners with different radiuses.
 
 image::img/canvas_arc.png[alt="Two arcs with different radii",width="2.3cm"]
 
@@ -411,18 +428,18 @@ to draw a full circle.
 </script>
 ----
 
-ifdef::book_target[]
-
-image::img/canvas_circle.png[alt="Drawing a circle",width="4.9cm"]
-
-endif::book_target[]
-
 (((moveTo method)))(((arc method)))(((path, canvas)))The resulting picture
 contains a ((line)) from the left of the full circle (first call to
 `arc`) to the left of the quarter-((circle)) (second call). Like other
 path-drawing methods, a line drawn with `arc` is connected to the
 previous path segment by default. You'd have to call `moveTo` or
 start a new path if you want to avoid this.
+
+ifdef::book_target[]
+
+image::img/canvas_circle.png[alt="Drawing a circle",width="4.9cm"]
+
+endif::book_target[]
 
 [[pie_chart]]
 == Drawing a pie chart ==
@@ -469,8 +486,8 @@ people who picked a given choice.
     var sliceAngle = (result.count / total) * 2 * Math.PI;
     cx.beginPath();
     // center=100,100, radius=100
-    cx.arc(100, 100, 100,
     // from current angle, clockwise by slice's angle
+    cx.arc(100, 100, 100,
            currentAngle, currentAngle + sliceAngle);
     currentAngle += sliceAngle;
     cx.lineTo(100, 100);
@@ -481,6 +498,8 @@ people who picked a given choice.
 ----
 
 ifdef::book_target[]
+
+This draws the following chart:
 
 image::img/canvas_pie_chart.png[alt="A pie chart",width="5cm"]
 
@@ -647,6 +666,9 @@ set a horizontal scale and one to set a vertical scale.
 
 ifdef::book_target[]
 
+Due to the call to `scale`, the circle is drawn three times as wide
+and half as high.
+
 image::img/canvas_scale.png[alt="A scaled circle",width="6.6cm"]
 
 endif::book_target[]
@@ -760,7 +782,7 @@ management. They conceptually keep a stack of transformation
 stack, and when you call `restore`, the state on top of the stack is
 taken off and used as the context's current transformation.
 
-(((branching recursion)))(((branching fractal
+(((branching recursion)))(((fractal
 example)))(((recursion)))The `branch` function in the following example 
 illustrates what you can do with a function that changes the
 transformation and then calls another function (in this case itself),
@@ -794,6 +816,8 @@ recursion stops when the length drops below 8.
 ----
 
 ifdef::book_target[]
+
+The result is a simple fractal.
 
 image::img/canvas_tree.png[alt="A recursive picture",width="5cm"]
 
@@ -1055,7 +1079,7 @@ CanvasDisplay.prototype.drawPlayer = function(x, y, width,
 };
 ----
 
-The previous function is called by `drawActors`, which is responsible for
+The `drawPlayer` method is called by `drawActors`, which is responsible for
 drawing all the actors in the game.
 
 // include_code

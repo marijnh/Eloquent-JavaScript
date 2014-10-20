@@ -108,7 +108,7 @@ handler.
 ----
 
 (((function,as value)))To be able to unregister a handler function, we
-give it a name (like `once` in the previous example) so that we
+give it a name (such as `once`) so that we
 can pass it to both `addEventListener` and `removeEventListener`.
 
 == Event objects ==
@@ -250,7 +250,7 @@ they expect is broken.
 
 Depending on the browser, some events can't be intercepted. On
 Chrome, for example, ((keyboard)) shortcuts to close the current tab
-(Control-W or Command-W) cannot be handled by JavaScript.
+(Ctrl-W or Command-W) cannot be handled by JavaScript.
 
 == Key events ==
 
@@ -312,7 +312,7 @@ interested in.
 (((modifier key)))(((shift key)))(((control key)))(((alt key)))(((meta
 key)))(((command key)))(((ctrlKey property)))(((shiftKey
 property)))(((altKey property)))(((metaKey property)))Modifier keys
-such as Shift, Control, Alt, and Meta (Command on Mac) generate key
+such as Shift, Ctrl, Alt, and Meta (Command on Mac) generate key
 events just like normal keys. But when looking for key combinations,
 you can also find out whether these keys are held down by looking
 at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of
@@ -321,7 +321,7 @@ keyboard and mouse events.
 [source,text/html]
 [focus="yes"]
 ----
-<p>Press Control-Space to continue.</p>
+<p>Press Ctrl-Space to continue.</p>
 <script>
   addEventListener("keydown", function(event) {
     if (event.keyCode == 32 && event.ctrlKey)
@@ -469,6 +469,8 @@ on this bar makes it narrower or wider:
 ----
 
 ifdef::book_target[]
+
+The resulting page looks like this:
 
 image::img/drag-bar.png[alt="A draggable bar",width="5.3cm"]
 
@@ -643,6 +645,9 @@ focus:
 
 ifdef::book_target[]
 
+The following screenshot shows the help text for the age field being
+shown.
+
 image::img/help-field.png[alt="Providing help when a field is focused",width="4.4cm"]
 
 endif::book_target[]
@@ -676,7 +681,7 @@ might expect, done with the `preventDefault` method. Instead, it is
 done by returning a string from the handler. The string will be used
 in a dialog that asks the user if they want to stay on the page or
 leave it. This mechanism ensures that a user is able to leave the
-page, even if it running a ((malicious script)) that would prefer to
+page, even if it is running a ((malicious script)) that would prefer to
 keep them there forever in order to force them to look at dodgy
 weight loss ads.
 
@@ -777,7 +782,7 @@ var bombTimer = setTimeout(function() {
   console.log("BOOM!");
 }, 500);
 
-if (Math.random() < .5) { // 50% chance
+if (Math.random() < 0.5) { // 50% chance
   console.log("Defused.");
   clearTimeout(bombTimer);
 }
@@ -813,7 +818,7 @@ event)))(((blocking)))Some types of events have the potential to fire
 rapidly, many times in a row (the `"mousemove"` and `"scroll"` events,
 for example). When handling such events, you must be careful not to do
 anything too time-consuming or your handler will take up so much time
-that interaction with the document will start to feel slow and choppy.
+that interaction with the document starts to feel slow and choppy.
 
 (((setTimeout function)))If you do need to do something nontrivial in
 such a handler, you can use `setTimeout` to make sure you are not
@@ -825,7 +830,7 @@ event)))In the first example, we want to do something when the user
 has typed something, but we don't want to do it immediately for every
 key event. When they are ((typing)) quickly, we just want to wait
 until a pause occurs. Instead of immediately performing an action in
-the event handler, we can set a timeout instead. We also clear the
+the event handler, we set a timeout instead. We also clear the
 previous timeout (if any) so that when events occur close together
 (closer than our timeout delay), the timeout from the previous event
 will be canceled.
@@ -885,7 +890,7 @@ Event handlers make it possible to detect and react to events we have
 no direct control over. The `addEventListener` method is used to
 register such a handler.
 
-Each event has a name (`"keydown"`, `"focus"`, and so on) that identifies
+Each event has a type (`"keydown"`, `"focus"`, and so on) that identifies
 it. Most events are called on a specific DOM elements and then
 _propagate_ to that element's ancestors, allowing handlers associated
 with those elements to handle them.
@@ -978,7 +983,7 @@ follow the mouse pointer as you moved it across the page.
 want you to implement a mouse trail. Use absolutely positioned `<div>`
 elements with a fixed size and background color (refer to the
 link:14_event.html#mouse_drawing[code] in the “Mouse Clicks”
-section for an example). Create 12 such elements, and when the
+section for an example). Create a bunch of such elements and, when the
 mouse moves, display them in the wake of the mouse pointer, somehow.
 
 (((mousemove event)))There are various possible approaches here. You
@@ -1041,13 +1046,13 @@ to you.
 === Tabs ===
 
 (((tabbed interface (exercise))))A tabbed interface is a common design
-pattern. It allows you to select an interface panel by selecting from
+pattern. It allows you to select an interface panel by choosing from
 a number of tabs “sticking out” above an element.
 
 (((button (HTML tag))))(((display (CSS))))(((hidden element)))(((data
 attribute)))In this exercise you'll implement a simple tabbed
 interface. Write a function, `asTabs`, that takes a DOM node and
-creates a tabbed interface showing the children of that node. It
+creates a tabbed interface showing the child elements of that node. It
 should insert a list of `<button>` elements at the top of the node,
 one for each child element, containing text retrieved from the
 `data-tabname` attribute of the child. All but one of the original

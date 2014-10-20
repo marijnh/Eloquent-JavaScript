@@ -363,7 +363,7 @@ time and motion inside them.
 == Encapsulation as a burden ==
 
 (((programming style)))(((program size)))(((complexity)))Most of the
-code in this chapter does not worry about ((encapsulation)) for
+code in this chapter does not worry about ((encapsulation)). This has
 two reasons. First, encapsulation takes extra effort. It makes
 programs bigger and requires additional concepts and interfaces to be
 introduced. Since there is only so much code you can throw at a reader
@@ -520,8 +520,8 @@ pixels.
 DOMDisplay.prototype.drawActors = function() {
   var wrap = elt("div");
   this.level.actors.forEach(function(actor) {
-    var rect = wrap.appendChild(elt("div", "actor " +
-                                           actor.type));
+    var rect = wrap.appendChild(elt("div",
+                                    "actor " + actor.type));
     rect.style.width = actor.size.x * scale + "px";
     rect.style.height = actor.size.y * scale + "px";
     rect.style.left = actor.pos.x * scale + "px";
@@ -535,8 +535,8 @@ DOMDisplay.prototype.drawActors = function() {
 class, we separate the class names by spaces. In the
 ((CSS)) code shown next, the `actor` class gives the actors their
 absolute position. Their type name is used as an extra class to give
-them a color. Lava actors don't need the extra class because they use 
-the same class as lava grid squares, which we defined earlier.
+them a color. We don't have to define the `lava` class again because we reuse
+the class for the lava grid squares which we defined earlier.
 
 [source,text/css]
 ----
@@ -587,7 +587,7 @@ element)) with a given class.
 
 (((player)))(((box shadow (CSS))))After touching ((lava)), the
 player's color turns dark red, suggesting scorching. When the last
-coin has been collected, we use two white box shadows, one to the top
+coin has been collected, we use two blurred white box shadows, one to the top
 left and one to the top right, to create a white halo effect.
 
 [[viewport]]
@@ -720,7 +720,7 @@ Solving this for the general case is a big task. You can find
 libraries, usually called _((physics engine))s_, that simulate
 interaction between physical objects in two or three ((dimensions)).
 We'll take a more modest approach in this chapter, handling only
-collisions between boxes and handling them in a rather simplistic
+collisions between rectangular objects and handling them in a rather simplistic
 way.
 
 (((bouncing)))(((collision detection)))(((animation)))Before moving
@@ -1038,11 +1038,11 @@ missing now is the code that _drives_ the animation.
 == Tracking keys ==
 
 (((keyboard)))For a ((game)) like this, we do not want keys to take
-effect once per press. Rather, we want their effect (moving the player
+effect once per keypress. Rather, we want their effect (moving the player
 figure) to continue happening as long as they are pressed.
 
 (((preventDefault method)))We need to set up a key handler that stores
-the current state of the left, right, and up keys. We will also want
+the current state of the left, right, and up arrow keys. We will also want
 to call `preventDefault` for those keys so that they don't end up
 ((scrolling)) the page.
 
@@ -1194,7 +1194,7 @@ called at the right moment.
 
 (((asynchronous programming)))(((event handling)))This programming
 style is usually called _asynchronous_ programming. Event handling is
-also an instance of it, and we will see much more of it when working
+also an instance of this style, and we will see much more of it when working
 with tasks that can take an arbitrary amount of ((time)), such as
 ((network)) requests in link:17_http.html#http[Chapter 17] and input
 and output in general in link:20_node.html#node[Chapter 20].

@@ -15,7 +15,7 @@ bridging the communication gap between us, squishy biological
 organisms with a talent for social and spatial reasoning, and the
 computer, unfeeling manipulator of meaningless data. The first is to
 appeal to our sense of the physical world, and build interfaces that
-mimic that world, and allow us to manipulate shapes on a screen with
+mimic that world and allow us to manipulate shapes on a screen with
 our fingers. This works very well for casual machine interaction.
 
 (((programming language)))But we have not yet found a good way to use
@@ -57,9 +57,9 @@ ____
 (((programming,difficulty of)))Besides explaining JavaScript, I also
 want to introduce the basic principles of programming. Programming, it
 turns out, is hard. The fundamental rules are typically simple and
-clear. But programs, built on top of these basic rules, tend to become
-complex enough to introduce their own rules and complexity. You're
-building your own maze, in a way, and you might just get lost in it.
+clear. But programs built on top of these rules tend to become complex
+enough to introduce their own rules and complexity. You're building
+your own maze, in a way, and you might just get lost in it.
 
 (((learning)))There will be times at which reading this book feels terribly
 frustrating. If you are new to programming, there will be a lot of new
@@ -115,7 +115,7 @@ that this complexity is best managed by using only a small set of
 well-understood techniques in their programs. They have composed
 strict rules (_“best practices”_) prescribing the form programs should
 have, and the more zealous among them will consider those that go
-outside of this little safe zone to be _bad_ programmers.
+outside of this safe little zone to be _bad_ programmers.
 
 (((experiment)))(((learning)))What hostility to the richness of
 programming—to try to reduce it to something straightforward and
@@ -248,6 +248,8 @@ operations `range` and `sum` available, which respectively create a
 ((collection)) of numbers within a range and compute the sum of a
 collection of numbers:
 
+// start_code
+
 [source,javascript]
 ----
 console.log(sum(range(1, 10)));
@@ -275,10 +277,10 @@ indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((history)))(((Netsc
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995, as a way to add programs to
 Web pages in the Netscape Navigator browser. The language has since
-been adopted by all other major graphical web browsers. It has made
-the current generation of web applications—browser-based
-email clients, maps, and social networks—possible and is also used in more
-traditional sites to provide various forms of interactivity and
+been adopted by all other major graphical web browsers. It has made modern
+web applications possible, applications with which you can interact
+directly, without doing a page reload for every action. But it is also used in more
+traditional websites to provide various forms of interactivity and
 cleverness.
 
 (((Java)))(((naming)))It is important to note that JavaScript has
@@ -294,7 +296,7 @@ Netscape, a ((standard)) document was written to describe the way the
 JavaScript language should work, to make sure the various pieces of
 software that claimed to support JavaScript were actually talking
 about the same language. This is called the ECMAScript standard, after
-the ECMA organization, which did the standardization. In practice, the
+the ECMA organization which did the standardization. In practice, the
 terms ECMAScript and JavaScript can be used interchangeably—they are
 two names for the same language.
 
@@ -367,24 +369,28 @@ endif::interactive_target[]
 
 ifdef::book_target[]
 
-(((download)))(((sandbox)))(((running code)))Most of the example code
-in this book can be found on the book's ((website)), at
+(((download)))(((sandbox)))(((running code)))The easiest way to run
+the example code in the book, and to experiment with it, is to look it
+up in the online version of the book at
+http://eloquentjavascript.net/[_eloquentjavascript.net_]. There you
+can click on any code example to edit and run it, and to see the
+output it produces. To work on the exercises, go to
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
-which also provides an easy way to run the programs and experiment
-with writing your own code.
+which provides starting code for each coding exercise, and allows you
+to look at the solutions.
 
 endif::book_target[]
 
-(((developer tools)))(((JavaScript console)))Running JavaScript
-programs outside of this book's sandbox is also possible. You can opt
-to install ((Node.js)) and use it to run text files that contain
-programs. Or you can use your browser's developer console (typically
-found somewhere under a “tools” or “developer” menu) and play around
-in there. In link:12_browser.html#script_tag[Chapter 12], I explain
-the way in which JavaScript programs are embedded in web pages (HTML files). 
-You could also try websites like http://jsbin.com[_jsbin.com_]
-which provide a friendly interface for running JavaScript code in a
-browser.
+(((developer tools)))(((JavaScript console)))If you want to run the
+programs defined in this book outside of the book's sandbox, some care
+is required. Many examples stand on their own, and should work in any
+JavaScript environment. But code in later chapters is mostly written
+for a specific environment (the browser or Node.js), and can only run
+there. In addition, many chapters define bigger programs, and the
+pieces of code that appear in them depend on each other or on external
+files. The http://eloquentjavascript.net/code[sandbox] on the website
+provides links to zip files containing all of the scripts and data
+files necessary to run the code for a given chapter.
 
 == Typographic conventions ==
 

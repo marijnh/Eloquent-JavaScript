@@ -22,6 +22,21 @@ addEventListener("load", function() {
     }, 500);
   });
 
+  function addIncludes(code, include) {
+    if (!include) return code;
+    return include.map(function(s) {
+      return "<script src=\"" + s + "\"></script>\n";
+    }).join("") + code;
+  }
+  function hasIncludes(code, include) {
+    if (!include) return code;
+
+    var re = /(?:\s|<!--.*?-->)*<script src="(.*?)"><\/script>/g, m;
+    var found = [];
+    while (m = re.exec(code)) found.push(m[1]);
+    return include.every(function(s) { return found.indexOf(s) > -1; });
+  }
+
   function setEditorCode(code, type) {
     editor.setValue(code);
     editor.setOption("mode", (type || guessType(code)) == "html" ? "text/html" : "javascript");
@@ -110,18 +125,22 @@ addEventListener("load", function() {
         code = "// " + code;
       else
         code = "<!-- " + code + "-->";
-      if (chapter.start_code) code += "\n\n" + chapter.start_code;
+      if (chapter.start_code) code += "\n\n" + addIncludes(chapter.start_code, chapter.include);
       context = {include: chapter.include};
       setEditorCode(code, guessed);
       visible = "box";
     } else {
-      var exercise = findExercise(value, chapter);
+      var exercise = findExercise(value, chapter), code = exercise.code, sol = exercise.solution;
+      if (exercise.type == "html") {
+        code = addIncludes(code, chapter.include);
+        sol = addIncludes(sol, chapter.include);
+      }
       context = {include: chapter.include,
-                 solution: exercise.solution,
+                 solution: sol,
                  type: exercise.type};
-      setEditorCode(exercise.code, exercise.type);
+      setEditorCode(code, exercise.type);
       visible = "exercise";
-      document.querySelector("#download").href = exercise.file;
+      document.querySelector("#download").href = "data:text/plain;base64," + btoa(sol);
     }
     ["box", "exercise"].forEach(function(id) {
       document.querySelector("#" + id + "_info").style.display =
@@ -144,17 +163,17 @@ addEventListener("load", function() {
 
   function runCode() {
     clearSandbox();
-    var type = context.type || guessType(editor.getValue());
+    var val = editor.getValue(), type = context.type || guessType(val);
     sandbox = new SandBox({
-      loadFiles: context.include,
+      loadFiles: hasIncludes(val, context.include) ? [] : context.include,
       place: type == "html" &&
         function(node) { outnode.parentNode.insertBefore(node, outnode); }
     }, function(box) {
       output.clear();
       if (type == "html")
-        box.setHTML(editor.getValue(), output);
+        box.setHTML(val, output);
       else
-        box.run(editor.getValue(), output);
+        box.run(val, output);
     });
   }
 

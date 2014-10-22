@@ -22,16 +22,10 @@ addEventListener("load", function() {
     }, 500);
   });
 
-  function addIncludes(code, include) {
-    if (!include) return code;
-    return include.map(function(s) {
-      return "<script src=\"" + s + "\"></script>\n";
-    }).join("") + code;
-  }
   function hasIncludes(code, include) {
     if (!include) return code;
 
-    var re = /(?:\s|<!--.*?-->)*<script src="(.*?)"><\/script>/g, m;
+    var re = /(?:\s|<!--.*?-->)*<script src="([^"]*)"><\/script>/g, m;
     var found = [];
     while (m = re.exec(code)) found.push(m[1]);
     return include.every(function(s) { return found.indexOf(s) > -1; });
@@ -77,6 +71,15 @@ addEventListener("load", function() {
   });
   var fileList = document.querySelector("#files");
   var fileInfo = document.querySelector("#fileInfo");
+  var runLocally = document.querySelector("#runLocally");
+  var localFileList = document.querySelector("#local-files");
+
+  function addItem(container, link) {
+    var li = container.appendChild(document.createElement("li"));
+    var a = li.appendChild(document.createElement("a"));
+    a.href = link;
+    a.textContent = link.replace(/^code\//, "");
+  }
 
   function selectChapter(number, context) {
     per.textContent = "";
@@ -90,14 +93,15 @@ addEventListener("load", function() {
     } else {
       per.appendChild(opt("box", "This chapter has no exercises"));
     }
-    fileInfo.style.display = "none";
-    fileList.textContent = "";
+    fileInfo.style.display = runLocally.style.display = "none";
+    fileList.textContent = localFileList.textContent = "";
+    if (chapter.links) chapter.links.forEach(function(file, i) {
+      if (!i) runLocally.style.display = "";
+      addItem(localFileList, file);
+    });
     if (chapter.include) chapter.include.forEach(function(file, i) {
       if (!i) fileInfo.style.display = "";
-      var li = fileList.appendChild(document.createElement("li"));
-      var a = li.appendChild(document.createElement("a"));
-      a.href = file;
-      a.textContent = file.replace(/^code\//, "");
+      addItem(fileList, file);
     });
     selectContext(context || "box");
   }
@@ -125,22 +129,18 @@ addEventListener("load", function() {
         code = "// " + code;
       else
         code = "<!-- " + code + "-->";
-      if (chapter.start_code) code += "\n\n" + addIncludes(chapter.start_code, chapter.include);
+      if (chapter.start_code) code += "\n\n" + chapter.start_code;
       context = {include: chapter.include};
       setEditorCode(code, guessed);
       visible = "box";
     } else {
-      var exercise = findExercise(value, chapter), code = exercise.code, sol = exercise.solution;
-      if (exercise.type == "html") {
-        code = addIncludes(code, chapter.include);
-        sol = addIncludes(sol, chapter.include);
-      }
+      var exercise = findExercise(value, chapter);
       context = {include: chapter.include,
-                 solution: sol,
+                 solution: exercise.solution,
                  type: exercise.type};
-      setEditorCode(code, exercise.type);
+      setEditorCode(exercise.code, exercise.type);
       visible = "exercise";
-      document.querySelector("#download").href = "data:text/plain;base64," + btoa(sol);
+      document.querySelector("#download").href = "data:text/plain;base64," + btoa(exercise.solution);
     }
     ["box", "exercise"].forEach(function(id) {
       document.querySelector("#" + id + "_info").style.display =

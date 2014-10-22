@@ -1,7 +1,7 @@
 :chap_num: 18
 :prev_link: 17_http
 :next_link: 19_paint
-:load_files: ["js/promise.js"]
+:load_files: ["code/promise.js"]
 
 = Forms and Form Fields =
 

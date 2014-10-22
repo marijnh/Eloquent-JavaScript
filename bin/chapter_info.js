@@ -11,16 +11,23 @@ var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { ret
 var dir = fs.readdirSync(".");
 dir.sort();
 dir.forEach(function(file) {
-  var match = /^(\d+).*\.txt$/.exec(file), chapNum = match && match[1];
+  var match = /^((\d+).*).txt$/.exec(file), chapNum = match && match[2];
   if (!match) return;
   var text = fs.readFileSync(file, "utf8");
 
-  var chapter = {number: +chapNum,
-                 title: text.match(/\n= (.*?) =\n/)[1],
-                 start_code: getStartCode(text),
-                 exercises: []};
   var includes = text.match(/\n:load_files: (.*)/);
-  if (includes) chapter.include = JSON.parse(includes[1]);
+  if (includes) includes = includes = JSON.parse(includes[1]);
+  var chapter = {number: +chapNum,
+                 id: match[1],
+                 title: text.match(/\n= (.*?) =\n/)[1],
+                 start_code: getStartCode(text, includes),
+                 exercises: [],
+                 include: includes};
+  var zip = chapterZipFile(text, chapter);
+  var extraLinks = text.match(/\n:code_links: (.*)/);
+  if (extraLinks) extraLinks = JSON.parse(extraLinks[1]);
+  if (extraLinks || zip)
+    chapter.links = (zip ? [zip] : []).concat(extraLinks || []);
 
   var exerciseSection = text.indexOf("\n== Exercises ==\n");
   var exerciseBlock = exerciseSection ? text.slice(exerciseSection) : "";
@@ -52,8 +59,8 @@ dir.forEach(function(file) {
           file: "code/solutions/" + file,
           number: num,
           type: type,
-          code: sourceBlock[2],
-          solution: solution.trim()
+          code: type == "html" ? prepareHTML(sourceBlock[2], includes) : sourceBlock[2],
+          solution: type == "html" ? prepareHTML(solution.trim(), includes) : solution.trim()
         });
         break;
       }
@@ -160,7 +167,17 @@ if (!failed)
 else
   process.exit(1);
 
-function getStartCode(text) {
+function prepareHTML(code, include) {
+  return "<!doctype html>\n" + (include || []).map(function(s) {
+    return "<script src=\"" + s + "\"></script>\n";
+  }).join("") + "\n" + code;
+}
+
+function guessType(code) {
+  return /^[\s\w\n:]*</.test(code) ? "html" : "js";
+}
+
+function getStartCode(text, includes) {
   var found = /\/\/ start_code(.*)\n(?:\/\/.*\n)*\s*(?:\[.*\n)*\[source,.*?\]\n----\n([\s\S]*?\n)----/.exec(text);
   if (!found) return "";
 
@@ -172,5 +189,38 @@ function getStartCode(text) {
     var lines = snippet.trimRight().split("\n");
     snippet = lines.slice(lines.length - Number(m[1])).join("\n") + "\n";
   }
-  return snippet;
+  if (guessType(snippet) == "html")
+    return prepareHTML(snippet, includes);
+  else
+    return snippet;
+}
+
+function chapterZipFile(text, chapter) {
+  var spec = text.match(/\n:zip: (\S+)(?: include=(.*))?/);
+  if (!spec) return null;
+  if (!chapter.start_code) throw new Error("zip but no start code");
+  var name = "code/chapter/" + chapter.id + ".zip";
+  var files = (chapter.include || []).concat(spec[2] ? JSON.parse(spec[2]) : []);
+  var exists = fs.existsSync(name) && fs.statSync(name).mtime;
+  if (exists && files.every(function(file) { return fs.statSync("html/" + file).mtime < exists; }))
+    return name;
+
+  var zip = new (require("jszip"));
+  files.forEach(function(file) {
+    zip.file(chapter.id + "/" + file, fs.readFileSync("html/" + file));
+  });
+  if (spec[1].indexOf("html") != -1) {
+    var html = chapter.start_code;
+    if (guessType(html) != "html")
+      html = prepareHTML("<body><script>\n" + html.trim() + "\n</script></body>", chapter.include);
+    zip.file(chapter.id + "/index.html", html);
+  }
+  if (spec[1].indexOf("node") != -1) {
+    zip.file(chapter.id + "/code/load.js", fs.readFileSync("code/load.js", "utf8"));
+    var js = chapter.start_code;
+    if (chapter.include) js = "// load dependencies\nrequire(\"./code/load\")(" + chapter.include.map(JSON.stringify).join(", ") + ");\n\n" + js;
+    zip.file(chapter.id + "/run_with_node.js", js);
+  }
+  fs.writeFileSync(name, zip.generate({type: "nodebuffer"}));
+  return name;
 }

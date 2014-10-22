@@ -2,6 +2,7 @@
 :prev_link: 05_higher_order
 :next_link: 07_elife
 :load_files: ["code/mountains.js", "code/chapter/06_object.js"]
+:zip: node/html
 
 = The Secret Life of Objects =
 

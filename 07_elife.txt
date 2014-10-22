@@ -1,7 +1,8 @@
 :chap_num: 7
 :prev_link: 06_object
 :next_link: 08_error
-:load_files: ["code/chapter/07_elife.js", "js/animateworld.js"]
+:load_files: ["code/chapter/07_elife.js", "code/animateworld.js"]
+:zip: html
 
 = Project: Electronic Life =
 

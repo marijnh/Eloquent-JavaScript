@@ -1,5 +1,6 @@
 :chap_num: 21
 :prev_link: 20_node
+:code_links: ["code/skillsharing.zip"]
 
 = Project: Skill-Sharing Website =
 
@@ -1164,7 +1165,7 @@ in the other.
 (((Node.js)))The following exercises will involve modifying the system
 defined in this chapter. To work on them, make sure you ((download))
 the code first
-(http://eloquentjavascript.net/code/skillshare.zip[_eloquentjavascript.net/code/skillshare.zip_])
+(http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code/skillsharing.zip_])
 and have Node installed (http://nodejs.org[_nodejs.org_]).
 
 === Disk persistence ===

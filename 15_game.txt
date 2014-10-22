@@ -2,6 +2,7 @@
 :prev_link: 14_event
 :next_link: 16_canvas
 :load_files: ["code/chapter/15_game.js", "code/game_levels.js"]
+:zip: html include=["css/game.css"]
 
 = Project: A Platform Game =
 
@@ -1212,9 +1213,11 @@ This page feeds them to `runGame`, starting an actual game:
 ----
 <link rel="stylesheet" href="css/game.css">
 
-<script>
-  runGame(GAME_LEVELS, DOMDisplay);
-</script>
+<body>
+  <script>
+    runGame(GAME_LEVELS, DOMDisplay);
+  </script>
+</body>
 ----
 
 ifdef::interactive_target[]
@@ -1244,6 +1247,7 @@ ifdef::interactive_target[]
 ----
 <link rel="stylesheet" href="css/game.css">
 
+<body>
 <script>
   // The old runGame function. Modify it...
   function runGame(plans, Display) {
@@ -1261,6 +1265,7 @@ ifdef::interactive_target[]
   }
   runGame(GAME_LEVELS, DOMDisplay);
 </script>
+</body>
 ----
 
 endif::interactive_target[]
@@ -1317,6 +1322,7 @@ ifdef::interactive_target[]
 ----
 <link rel="stylesheet" href="css/game.css">
 
+<body>
 <script>
   // The old runLevel function. Modify this...
   function runLevel(level, Display, andThen) {
@@ -1334,6 +1340,7 @@ ifdef::interactive_target[]
   }
   runGame(GAME_LEVELS, DOMDisplay);
 </script>
+</body>
 ----
 
 endif::interactive_target[]

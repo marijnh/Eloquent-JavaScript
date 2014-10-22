@@ -110,28 +110,29 @@
       this.frame.style.height = "80px";
       this.resizeFrame();
       if (output) this.output = output;
-      if (scriptTags.length) {
-        this.startedAt = Date.now();
-        this.extraSecs = 2;
-        this.win.__c = 0;
-        var last = scriptTags[scriptTags.length - 1];
-        var finish = function() {
-          setTimeout(function() {sandbox.resizeFrame();}, 50);
+      var sandbox = this;
+
+      function loadScript(i) {
+        if (i == scriptTags.length) {
+          if (i) setTimeout(function() {sandbox.resizeFrame();}, 50);
           callback && callback();
-        };
-        if (last.src) {
-          last.addEventListener("load", finish);
+          return;
+        }
+
+        sandbox.startedAt = Date.now();
+        sandbox.extraSecs = 2;
+        sandbox.win.__c = 0;
+        var tag = scriptTags[i];
+        if (tag.src) {
+          tag.addEventListener("load", function() { loadScript(i + 1); });
         } else {
           var id = Math.floor(Math.random() * 0xffffff);
-          this.callbacks[id] = function() { delete sandbox.callbacks[id]; finish(); };
-          var fin = doc.createElement("script");
-          fin.text = "__sandbox.callbacks[" + id + "]();";
-          scriptTags.push(fin);
+          sandbox.callbacks[id] = function() { delete sandbox.callbacks[id]; loadScript(i + 1); };
+          tag.text += ";__sandbox.callbacks[" + id + "]();";
         }
-        scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
-      } else {
-        callback && callback();
+        doc.body.appendChild(tag);
       }
+      loadScript(0);
     },
     setupEnv: function() {
       var win = this.win, self = this;

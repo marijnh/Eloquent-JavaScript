@@ -4,7 +4,7 @@
 = Introduction =
 
 This is a book about getting ((computer))s to do what you want them to
-do. Computers are about as common as screwdrivers today, but contain a
+do. Computers are about as common as screwdrivers today, but they contain a
 lot more hidden complexity, and thus are harder to operate and
 understand. To many, they remain alien, slightly threatening things.
 
@@ -26,7 +26,7 @@ tasks, we've had more luck with an approach that makes use of our
 talent for language: teaching the machine a language.
 
 (((human language)))(((expressivity)))Human languages allow words and
-subsentences to be combined in many, many ways, allowing us to say
+phrases to be combined in many, many ways, allowing us to say
 many, many different things. Computer languages, though typically less
 grammatically flexible, follow a similar principle.
 
@@ -36,7 +36,7 @@ language-based interfaces, which once were the default way in which
 people interacted with computers, have largely been replaced with
 graphical interfaces. But they are still there, if you know where to
 look. One such language, _JavaScript_, is built into just about every
-web ((browser)), and thus available on just about every consumer
+web ((browser)) and is thus available on just about every consumer
 device.
 
 indexsee:[web browser,browser]This book intends to make you familiar
@@ -59,7 +59,7 @@ want to introduce the basic principles of programming. Programming, it
 turns out, is hard. The fundamental rules are typically simple and
 clear. But programs, built on top of these basic rules, tend to become
 complex enough to introduce their own rules and complexity. You're
-building your own maze, in a way, and might just get lost in it.
+building your own maze, in a way, and you might just get lost in it.
 
 (((learning)))There will be times at which reading this book feels terribly
 frustrating. If you are new to programming, there will be a lot of new
@@ -103,9 +103,9 @@ fascinating game. A program is a building of thought. It is costless
 to build, it is weightless, and it grows easily under our typing
 hands.
 
-If we are not careful, its size and ((complexity)) will grow out of
-control, confusing even the person who created it. This is the main
-problem of programming: keeping programs under control. When a program
+But without care, a program's size and ((complexity)) will grow out of
+control, confusing even the person who created it. Keeping programs
+under control is the main problem of programming. When a program
 works, it is beautiful. The art of programming is the skill of
 controlling complexity. The great program is subdued, made simple in
 its complexity.
@@ -152,8 +152,8 @@ program to add the numbers from 1 to 10 together and print out the
 result `(1 + 2 + ... + 10 = 55)`. It could run on a very simple,
 hypothetical machine. To program early computers, it was necessary to
 set large arrays of switches in the right position, or punch holes in
-strips of cardboard and feed them to the computer. You can imagine how
-this was a tedious, error-prone procedure. Even the writing of simple
+strips of cardboard and feed them to the computer. You can probably imagine how
+how tedious and error-prone this procedure was. Even writing simple
 programs required much cleverness and discipline. Complex ones were
 nearly inconceivable.
 
@@ -199,19 +199,19 @@ memory locations:
  Output “total”
 ----
 
-(((loop)))(((jump)))(((summing example)))At this point it is not too
-hard to see how the program works. Can you? The first two lines give
+(((loop)))(((jump)))(((summing example)))Can you see how the program
+works at this point? The first two lines give
 two memory locations their starting values: `total` will be used to
-build up the result of the computation, and `count` keeps track of the
+build up the result of the computation, and `count` will keep track of the
 number that we are currently looking at. The lines using `compare` are
-probably the weirdest ones. What the program wants to do is see
-whether `count` is equal to 11 in order to decide whether it can stop
-yet. Because our hypothetical machine is rather primitive, it can only
-test whether a number is zero and make a decision (jump) based on
+probably the weirdest ones. The program wants to see
+whether `count` is equal to 11 in order to decide if it can stop
+running. Because our hypothetical machine is rather primitive, it can only
+test whether a number is zero and make a decision (or jump) based on
 that. So, it uses the memory location labeled `compare` to compute the
 value of `count - 11` and makes a decision based on that value. The
 next two lines add the value of `count` to the result and increment
-`count` by 1 every time the program has decided that it is not 11 yet.
+`count` by 1 every time the program has decided that `count` is not 11 yet.
 
 Here is the same program in JavaScript:
 
@@ -226,14 +226,14 @@ console.log(total);
 // → 55
 ----
 
-(((while loop)))(((loop)))This gives us a few more improvements.
+(((while loop)))(((loop)))This version gives us a few more improvements.
 Most importantly, there is no need to specify the way we want the
 program to jump back and forth any more. The `while` language
 construct takes care of that. It continues executing the block
 (wrapped in braces) below it as long as the condition it was given
-holds: `count <= 10`, which means “++count++ is less than or equal to
+holds. That condition is `count <= 10`, which means “++count++ is less than or equal to
 10”. We no longer have to create a temporary value and compare that
-to zero. This was an uninteresting detail, and the power of
+to zero, which was an uninteresting detail. Part of the power of
 programming languages is that they take care of uninteresting details
 for us.
 
@@ -259,15 +259,15 @@ be expressed in long and short, unreadable and readable ways. The
 first version of the program was extremely obscure, whereas this last
 one is almost English: `log` the `sum` of the `range` of numbers from
 1 to 10. (We will see in link:04_data.html#data[later chapters] how to
-build things like `sum` and `range`.)
+build operations like `sum` and `range`.)
 
 (((programming language,power of)))(((composability)))A good
 programming language helps the programmer by allowing them to talk
 about the actions that the computer has to perform on a higher level.
 It helps omit uninteresting details, provides convenient building
 blocks (such as `while` and `console.log`), allows you to define your
-own building blocks (such as `sum` and `range`), and makes it easy to
-compose these blocks.
+own building blocks (such as `sum` and `range`), and makes those blocks
+easy to compose.
 
 == What is JavaScript? ==
 
@@ -276,8 +276,8 @@ application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995, as a way to add programs to
 Web pages in the Netscape Navigator browser. The language has since
 been adopted by all other major graphical web browsers. It has made
-the current generation of web applications possible—browser-based
-email clients, maps, and social networks—and is also used in more
+the current generation of web applications—browser-based
+email clients, maps, and social networks—possible and is also used in more
 traditional sites to provide various forms of interactivity and
 cleverness.
 
@@ -301,7 +301,7 @@ two names for the same language.
 (((JavaScript,weaknesses of)))(((debugging)))There are those who will
 say _terrible_ things about the JavaScript language. Many of these
 things are true. When I was required to write something in JavaScript
-for the first time, I quickly came to despise it—it would accept
+for the first time, I quickly came to despise it. It would accept
 almost anything I typed but interpret it in a way that was completely
 different from what I meant. This had a lot to do with the fact that I
 did not have a clue what I was doing, of course, but there is a real
@@ -347,15 +347,15 @@ outside of the browser.
 (((reading code)))(((writing code)))Code is the text that makes up
 programs. Most chapters in this book contain quite a lot of it. In my
 experience, reading and writing ((code)) is an indispensable part of
-((learning)) to program. Try to not just glance over the examples, read
-them attentively and understand them. This will be slow and confusing
+((learning)) to program, so try to not just glance over the examples. Read
+them attentively and understand them. This may be slow and confusing
 at first, but I promise that you will quickly get the hang of it. The
 same goes for the ((exercises)). Don't assume you understand them
 until you've actually written a working solution.
 
-(((interpretation)))I recommend to try out your solutions to exercises
-in an actual JavaScript interpreter, to get immediate feedback on
-whether what you are doing is working or not, and, hopefully, to be
+(((interpretation)))I recommend you try out your solutions to exercises
+in an actual JavaScript interpreter. That way, you'll get immediate feedback on
+whether what you are doing is working or not, and, hopefully, you'll be
 tempted to ((experiment)) and go beyond the exercises.
 
 ifdef::interactive_target[]
@@ -377,12 +377,12 @@ endif::book_target[]
 
 (((developer tools)))(((JavaScript console)))Running JavaScript
 programs outside of this book's sandbox is also possible. You can opt
-to install ((Node.js)), and use it to run text files that contain
+to install ((Node.js)) and use it to run text files that contain
 programs. Or you can use your browser's developer console (typically
 found somewhere under a “tools” or “developer” menu) and play around
-in there. In link:12_browser.html#script_tag[Chapter 12], the way in
-which JavaScript programs are embedded in web pages (HTML files) is
-explained. There are also websites like http://jsbin.com[_jsbin.com_]
+in there. In link:12_browser.html#script_tag[Chapter 12], I explain
+the way in which JavaScript programs are embedded in web pages (HTML files). 
+You could also try websites like http://jsbin.com[_jsbin.com_]
 which provide a friendly interface for running JavaScript code in a
 browser.
 

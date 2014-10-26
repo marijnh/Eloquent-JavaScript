@@ -140,7 +140,7 @@ addEventListener("load", function() {
                  type: exercise.type};
       setEditorCode(exercise.code, exercise.type);
       visible = "exercise";
-      document.querySelector("#download").href = "data:text/plain;base64," + btoa(exercise.solution);
+      document.querySelector("#download").href = "data:text/plain;charset=UTF-8," + exercise.solution;
     }
     ["box", "exercise"].forEach(function(id) {
       document.querySelector("#" + id + "_info").style.display =

@@ -18,7 +18,7 @@ chapter)))The material from the previous chapters gives you all the
 elements you need to build a simple ((web application)). In this
 chapter, we will do just that.
 
-Our application will be a small web-based ((drawing)) program, along
+Our application will be a web-based ((drawing)) program, along
 the lines of ((Microsoft Paint)). You can use it to open image
 ((file))s, scribble on them with your mouse, and save them. This
 is what it will look like:
@@ -150,7 +150,7 @@ property).
 
 (((class attribute)))(((CSS)))We wrap the canvas and the controls in
 `<div>` elements with classes to be able to add some styling, such as
-the gray border around the picture.
+a gray border around the picture.
 
 == Tool selection ==
 
@@ -247,7 +247,7 @@ This function takes two arguments. One is a function to call for each
 mouse button is released. Either argument can be omitted when it
 is not needed.
 
-(((line tool)))The line tool uses two helpers to do the actual
+(((line tool)))The line tool uses these two helpers to do the actual
 drawing.
 
 // include_code
@@ -281,7 +281,7 @@ line caps.
 property)))Then, for every `"mousemove"` event that occurs as long as
 the mouse button is down, a simple line segment is drawn between the
 mouse's old and new position, using whatever `strokeStyle` and
-`lineWidth` happen to be currently defined.
+`lineWidth` happen to be currently set.
 
 (((erase tool)))The `onEnd` argument to `tools.Line` is simply passed
 through to `trackDrag`. The normal way to run tools won't pass a third
@@ -305,7 +305,7 @@ tools.Erase = function(event, cx) {
 
 (((globalCompositeOperation property)))(((compositing)))(((erase
 tool)))The `globalCompositeOperation` property influences the way
-drawing operations on a canvas influence the color of the pixels they
+drawing operations on a canvas change the color of the pixels they
 touch. By default, the property's value is `"source-over"`, which means that the drawn
 color is overlaid on the existing color at that spot. If the ((color)) is
 opaque, it will simply replace the old color, but if it is
@@ -315,7 +315,7 @@ The “erase” tool sets `globalCompositeOperation` to
 `"destination-out"`, which has the effect of erasing the pixels we
 touch, making them transparent again.
 
-(((drawing)))That gives us two tools, so at this point, we have created a working
+(((drawing)))That gives us two tools. We have created a working
 paint program. It allows us to draw black lines a single pixel wide (the
 default `strokeStyle` and `lineWidth` for a canvas) and erase them
 again. Admittedly, this makes it a rather limited paint program.
@@ -340,9 +340,11 @@ an `<input>` tag is `"text"`, and when an unsupported type is used,
 browsers will treat it as a text field. This means that Internet
 Explorer users running our paint program will have to type in the name
 of the color they want, rather than select it from a convenient
-widget.(!book This is what a color picker may look like:!)
+widget.
 
 ifdef::book_target[]
+
+This is what a color picker may look like:
 
 image::img/color-field.png[alt="A color field",width="6cm"]
 
@@ -450,8 +452,8 @@ approaches it, it magically updates itself to point at the current
 picture.
 
 If you load a big image, some ((browser))s will choke on the
-giant data URLs that this produces. But for small pictures, this
-should work well.
+giant data URLs that this produces. For small pictures, this
+approach works without problem.
 
 (((security)))(((privacy)))(((cross-domain request)))But here we once
 again run into the subtleties of browser ((sandbox))ing. When an
@@ -515,7 +517,7 @@ function loadImageURL(cx, url) {
 size of the canvas to precisely fit the image. For some reason,
 changing the size of a canvas will cause its drawing context to forget
 configuration properties such as `fillStyle` and `lineWidth`, so the
-function first saves those. It restores them after it has updated the
+function saves those and restores them after it has updated the canvas
 size.
 
 (((FileReader type)))(((readAsDataURL method)))The control for loading
@@ -576,7 +578,7 @@ needs, but it could still use a few more tools.
 
 == Finishing up ==
 
-(((prompt function)))We can now easily add a ((text)) ((tool)) that
+(((prompt function)))We can easily add a ((text)) ((tool)) that
 uses `prompt` to ask the user which string it should draw.
 
 // include_code
@@ -669,8 +671,7 @@ call `Math.sin` and `Math.cos` to create the corresponding point. But with that 
 the dots are more likely to appear near the center of the circle. 
 There are other ways around that, but they're more complicated than the previous loop.
 
-We now have a functioning paint program.(!interactive  Run the code below to
-try it:!)
+We now have a functioning paint program.(!interactive  Run the code below to try it.!)
 
 ifdef::interactive_target[]
 
@@ -777,9 +778,9 @@ graphics programs is a ((color)) picker, which allows the user to
 click the picture and selects the color under the mouse pointer.
 Build this.
 
-(((getImageData method)))(((toDataURL method)))To build
-this, we need a way to access the content of the ((canvas)). The
-`toDataURL` method more or less did this, but getting ((pixel))
+(((getImageData method)))(((toDataURL method)))For
+this tool, we need a way to access the content of the ((canvas)). The
+`toDataURL` method more or less did that, but getting ((pixel))
 information out of such a data URL is hard. Instead, we'll use the
 `getImageData` method on the drawing context, which returns a
 rectangular piece of the image as an object with `width`, `height`,

@@ -229,7 +229,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 95
 
-{"serverTime": 1405438911833,
+{"serverTime": 1405438913401,
  "talks": [{"title": "Unituning",
             "deleted": true}]}
 ----
@@ -326,7 +326,7 @@ one is found.
 (((capture group)))(((decodeURIComponent function)))(((escaping,in
 URLs)))The handler functions are called with the `request` and
 `response` objects. When the ((regular expression)) that matches the
-URL contains any groups, the strings they match is passed to the handler
+URL contains any groups, the strings they match are passed to the handler
 as extra arguments. These strings have to be URL-decoded since the raw URL
 contains `%20`-style codes.
 

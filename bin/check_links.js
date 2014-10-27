@@ -5,6 +5,7 @@ fs.readdirSync(".").forEach(function(name) {
   var m = /^(\d\d.*)\.txt$/.exec(name);
   if (m) files[m[1]] = fs.readFileSync(name, "utf8");
 });
+files["22_fast"] = "[[fast]]"; // Kludge to recognize bonus chapter
 
 var fail = 0;
 function error(file, msg) {

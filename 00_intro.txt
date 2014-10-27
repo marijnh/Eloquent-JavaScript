@@ -392,6 +392,65 @@ files. The http://eloquentjavascript.net/code[sandbox] on the website
 provides links to zip files containing all of the scripts and data
 files necessary to run the code for a given chapter.
 
+== Overview of this book ==
+
+Roughly, this book contains three parts. The first 11 chapters discuss
+the JavaScript language itself. The next 8 chapters are about web
+((browsers)) and the way JavaScript is used to program them. Finally,
+2 chapters are devoted to ((Node.js)), another environment to program
+JavaScript in.
+
+Throughout the book, there are five _project chapters_, which describe
+larger example programs to give you a taste of real programming. In
+order of appearance, we will work through an
+link:07_elife.html[artificial life simulation], a
+link:11_language.html[programming language], a
+link:15_game.html#game[platform game], a
+link:19_paint.html#paint[paint program], and a
+link:21_skillsharing.html#skillsharing[dynamic website].
+
+The language part of the book starts with four chapters to introduce
+the basic structure of the JavaScript language. They introduce
+link:02_program_structure.html#program_structure[control structures]
+(such as the `while` word you saw in this introduction),
+link:03_functions.html#functions[functions] (writing your own
+operations), and link:04_data.html#data[data structures]. After these,
+you will be able to write simple programs. Next, Chapters
+link:05_higher_order.html#higher_order[5] and
+link:06_object.html#object[6] introduce techniques to use functions
+and objects to write more _abstract_ code, and thus keep complexity
+under control.
+
+After a link:07_elife.html#elife[first project chapter], the first
+part of the book continues with chapters on
+link:08_error.html#error[error handling and fixing], on
+link:09_regexp.html#regexp[regular expressions] (an important tool for
+working with text data), and on
+link:10_modules.html#modules[modularity]—another weapon against
+complexity. The link:11_language.html#language[second project chapter]
+concludes the first part of the book.
+
+The second part, Chapters link:12_browser.html#browser[12] to
+link:19_paint.html#paint[19], describes the tools that browser
+JavaScript has access to. You'll learn to display things on the screen
+(Chapters link:13_dom.html#dom[13] and
+link:16_canvas.html#canvas[16]), respond to user input (Chapters
+link:14_event.html#event[14] and link:18_forms.html#forms[18]) and
+communicate over the network (link:17_http.html#http[Chapter 17]).
+There are again two project chapters in this part.
+
+After that, link:20_node.html#node[Chapter 20] describes Node.js, and
+link:21_skillsharing.html#skillsharing[Chapter 21] builds a simple web
+system using that tool.
+
+ifdef::commercial_target[]
+
+Finally, link:22_fast.html#fast[Chapter 22] describes some of the
+considerations that come up when optimizing JavaScript programs for
+speed.
+
+endif::commercial_target[]
+
 == Typographic conventions ==
 
 (((factorial function)))In this book, text written in a `monospaced`

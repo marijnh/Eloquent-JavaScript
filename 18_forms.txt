@@ -69,6 +69,8 @@ JavaScript, we often do not want to submit our fields normally anyway.
 
 ifdef::book_target[]
 
+The fields created with this HTML code look like this:
+
 image::img/form_fields.png[alt="Various types of input tags",width="4cm"]
 
 endif::book_target[]
@@ -107,6 +109,8 @@ predefined options.
 ----
 
 ifdef::book_target[]
+
+Such a field looks like this:
 
 image::img/form_select.png[alt="A select field",width="4cm"]
 
@@ -186,14 +190,16 @@ which will make it focusable.
 
 (((disabled attribute)))All ((form)) ((field))s can be _disabled_
 through their `disabled` attribute, which also exists as a property on
-the element's DOM object. Disabled fields cannot be ((focus))ed or
-changed, and unlike active fields, they usually look gray and faded.
+the element's DOM object.
 
 [source,text/html]
 ----
 <button>I'm all right</button>
 <button disabled>I'm out</button>
 ----
+
+Disabled fields cannot be ((focus))ed or changed, and unlike active
+fields, they usually look gray and faded.
 
 ifdef::book_target[]
 
@@ -381,7 +387,7 @@ its `checked` property, which holds a Boolean value.
 tag))))(((labeling)))The `<label>` tag is used to associate a piece of
 text with an input ((field)). Its `for` attribute should refer to the
 `id` of the field. Clicking the label will activate the field, which focuses
-it, and will toggle its value when it is a checkbox or radio button.
+it and will toggle its value when it is a checkbox or radio button.
 
 (((input (HTML tag))))(((multiple-choice)))A ((radio button)) is
 similar to a checkbox, but it's implicitly linked to other radio buttons
@@ -437,16 +443,18 @@ any number of options, rather than just a single option.
 </select>
 ----
 
+(((select (HTML tag))))(((drop-down menu)))This
+will, in most browsers, show up differently than a non-`multiple`
+select field, which is commonly drawn as a _drop-down_ control that
+shows the options only when you _open_ it. 
+
 ifdef::book_target[]
 
 image::img/form_multi_select.png[alt="A multiple select field",width="5cm"]
 
 endif::book_target[]
 
-(((select (HTML tag))))(((drop-down menu)))(((size attribute)))This
-will, in most browsers, show up differently than a non-`multiple`
-select field, which is commonly drawn as a _drop-down_ control that
-shows the options only when you _open_ it. The `size` attribute to the
+(((size attribute)))The `size` attribute to the
 `<select>` tag is used to set the number of options that are visible at 
 the same time, which gives you explicit control over the drop-down's appearance. For example,
 setting the `size` attribute to `"3"` will make the field show three lines, whether it
@@ -543,7 +551,7 @@ type)))What it does not have is a property that contains the content
 of the file. Getting at that is a little more involved. Since reading
 a file from disk can take time, the interface will have to be
 asynchronous to avoid freezing the document. You can think of the
-`FileReader` constructor as being similar to `XMLHttpRequest` but for
+`FileReader` constructor as being similar to `XMLHttpRequest`, but for
 files.
 
 [source,text/html]
@@ -636,12 +644,12 @@ localStorage.removeItem("username");
 ----
 
 (((localStorage object)))A value in `localStorage` sticks around until
-it is overwritten, it is removed with `removeItem`, or the user clears out
+it is overwritten, it is removed with `removeItem`, or the user clears
 their local data.
 
 (((security)))Sites from different ((domain))s get different storage
 compartments. That means data stored in `localStorage` by a given
-website can, in principle, be read (and overwritten) by scripts only  on
+website can, in principle, only be read (and overwritten) by scripts on
 that same site.
 
 (((localStorage object)))Browsers also enforce a limit on the size of

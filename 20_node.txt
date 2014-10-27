@@ -60,7 +60,7 @@ stands for input/output).
 (((asynchronous I/O)))(((asynchronous programming)))(((callback
 function)))Node was initially conceived for the purpose of making
 _asynchronous_ I/O easy and convenient. We have seen asynchronous
-interfaces before, including a browser's `XMLHttpRequest` object,
+interfaces before, such as a browser's `XMLHttpRequest` object,
 discussed in link:17_http.html#xmlhttprequest[Chapter 17]. Such an
 interface allows the script to continue running while it does its
 work and calls a callback function when it's done. This is the way
@@ -70,7 +70,7 @@ Node does all its I/O.
 itself well to a system like Node. It is one of the few programming
 languages that does not have a built-in way to do I/O. Thus, JavaScript could
 be fit onto Node's rather eccentric approach to I/O without ending up
-with two inconsistent I/O interfaces. In 2009, when Node was being
+with two inconsistent interfaces. In 2009, when Node was being
 designed, people were already doing callback-based I/O in the browser,
 so the ((community)) around the language was used to an ((asynchronous
 programming)) style.
@@ -535,7 +535,7 @@ stream)))(((request function)))Just like the `response` object
 we saw in the server, the object returned by `request` allows us to
 ((stream)) data into the ((request)) with the `write` method and
 finish the request with the `end` method. The example does not use
-`write` because requests using the GET method should not contain data
+`write` because `GET` requests should not contain data
 in their request body.
 
 (((HTTPS)))(((https module)))(((request function)))To make requests to secure HTTP (HTTPS)
@@ -987,7 +987,7 @@ server to illustrate the difference in the style of programming.
 
 (((chaining)))(((fsp object)))The `fsp` object that is used by this
 code contains promise-style variants of a number of `fs` functions,
-wrapped by `Promise.denodeify`. The object returned from the callback,
+wrapped by `Promise.denodeify`. The object returned from the method handler,
 with `code` and `body` properties, will become the final result of the
 chain of ((promise))s, and it will be used to determine what kind of
 ((response)) to send to the client.
@@ -1023,7 +1023,7 @@ function inspectPath(path) {
 code))))(((promise)))The `inspectPath` function is a simple wrapper
 around `fs.stat`, which handles the case where the file is not found.
 In that case, we replace the failure with a success that yields `null`.
-All other errors are allowed to propagate implicitly. When the promise
+All other errors are allowed to propagate. When the promise
 that is returned from these handlers fails, the HTTP server responds
 with a 500 status code.
 

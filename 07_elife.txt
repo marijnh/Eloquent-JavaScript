@@ -231,8 +231,10 @@ function randomElement(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+var directionNames = "n ne e se s sw w nw".split(" ");
+
 function BouncingCritter() {
-  this.direction = randomElement(Object.keys(directions)); 
+  this.direction = randomElement(directionNames);
 };
 
 BouncingCritter.prototype.act = function(view) {
@@ -248,12 +250,14 @@ function simply picks a random element from an array, using
 `Math.random` plus some arithmetic to get a random index. We'll use
 this again later because randomness can be useful in ((simulation))s.
 
-(((Object.keys function)))The `BouncingCritter` constructor calls
-`Object.keys`. We saw this function in the
-link:06_object.html#keys[previous chapter]: it returns an array
-containing all the property names in the given object. Here, it gets
-all the direction names from the `directions` object we defined
-link:07_elife.html#directions[earlier].
+(((Object.keys function)))To pick a random direction, the
+`BouncingCritter` constructor calls `randomElement` on an array of
+direction names. We could also have used `Object.keys` to get this
+array from the `directions` object we defined
+link:07_elife.html#directions[earlier], but that provides no
+guarantees about the order in which the properties are listed. In most
+situations modern JavaScript engines will return properties in the
+order they were defined, but they are not required to.
 
 (((|| operator)))(((null)))The “++|| "s"++” in the `act` method is
 there to prevent `this.direction` from getting the value `null` if the
@@ -691,7 +695,6 @@ south, which is east.
 
 [source,javascript]
 ----
-var directionNames = Object.keys(directions);
 function dirPlus(dir, n) {
   var index = directionNames.indexOf(dir);
   return directionNames[(index + n + 8) % 8];

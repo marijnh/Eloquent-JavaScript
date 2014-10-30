@@ -5,16 +5,16 @@
 
 This is a book about getting ((computer))s to do what you want them to
 do. Computers are about as common as screwdrivers today, but they contain a
-lot more hidden complexity, and thus are harder to operate and
+lot more hidden complexity and thus are harder to operate and
 understand. To many, they remain alien, slightly threatening things.
 
 image::img/generated/computer.png[alt="Communicating with a computer"]
 
 (((graphical user interface)))We've found two effective ways of
 bridging the communication gap between us, squishy biological
-organisms with a talent for social and spatial reasoning, and the
-computer, unfeeling manipulator of meaningless data. The first is to
-appeal to our sense of the physical world, and build interfaces that
+organisms with a talent for social and spatial reasoning, and 
+computers, unfeeling manipulators of meaningless data. The first is to
+appeal to our sense of the physical world and build interfaces that
 mimic that world and allow us to manipulate shapes on a screen with
 our fingers. This works very well for casual machine interaction.
 
@@ -26,16 +26,16 @@ tasks, we've had more luck with an approach that makes use of our
 talent for language: teaching the machine a language.
 
 (((human language)))(((expressivity)))Human languages allow words and
-phrases to be combined in many, many ways, allowing us to say
-many, many different things. Computer languages, though typically less
+phrases to be combined in many ways, allowing us to say
+many different things. Computer languages, though typically less
 grammatically flexible, follow a similar principle.
 
 (((JavaScript,availability of)))(((casual computing)))Casual computing
-has become much more widespread in the past twenty years, and
+has become much more widespread in the past 20 years, and
 language-based interfaces, which once were the default way in which
 people interacted with computers, have largely been replaced with
 graphical interfaces. But they are still there, if you know where to
-look. One such language, _JavaScript_, is built into just about every
+look. One such language, JavaScript, is built into just about every
 web ((browser)) and is thus available on just about every consumer
 device.
 
@@ -55,7 +55,7 @@ points again.
 ____
 
 (((programming,difficulty of)))Besides explaining JavaScript, I also
-want to introduce the basic principles of programming. Programming, it
+will introduce the basic principles of programming. Programming, it
 turns out, is hard. The fundamental rules are typically simple and
 clear. But programs built on top of these rules tend to become complex
 enough to introduce their own rules and complexity. You're building
@@ -69,9 +69,9 @@ ways that require you to make additional connections.
 It is up to you to make the effort necessary. When you are struggling
 to follow the book, do not jump to any conclusions about your own
 capabilities. You are fine—you just need to keep at it. Take a break,
-re-read some material, and _always_ make sure you read and understand
+reread some material, and _always_ make sure you read and understand
 the example programs and ((exercises)). Learning is hard work, but
-everything you learn is yours, and will make subsequent learning
+everything you learn is yours and will make subsequent learning
 easier.
 
 [quote, Joseph Weizenbaum, Computer Power and Human Reason]
@@ -88,11 +88,11 @@ memory, yet it controls the actions performed on this same memory.
 Analogies that try to compare programs to objects we are familiar with
 tend to fall short. A superficially fitting one is that of a
 machine—lots of separate parts tend to be involved, and to make the
-whole thing tick we have to consider the ways in which these parts
+whole thing tick, we have to consider the ways in which these parts
 interconnect and contribute to the operation of the whole.
 
 (((computer)))A computer is a machine built to act as a host for these
-immaterial machines. Computers themselves can only do stupidly
+immaterial machines. Computers themselves can do only stupidly
 straightforward things. The reason they are so useful is that they do
 these things at an incredibly high speed. A program can ingeniously
 combine enormous numbers of these simple actions in order to do very
@@ -114,7 +114,7 @@ its complexity.
 that this complexity is best managed by using only a small set of
 well-understood techniques in their programs. They have composed
 strict rules (_“best practices”_) prescribing the form programs should
-have, and the more zealous among them will consider those that go
+have, and the more zealous among them will consider those who go
 outside of this safe little zone to be _bad_ programmers.
 
 (((experiment)))(((learning)))What hostility to the richness of
@@ -149,9 +149,9 @@ languages. Programs looked something like this:
 
 (((programming,history of)))(((punch card)))(((complexity)))That is a
 program to add the numbers from 1 to 10 together and print out the
-result `(1 + 2 + ... + 10 = 55)`. It could run on a very simple,
+result: `1 + 2 + ... + 10 = 55`. It could run on a simple,
 hypothetical machine. To program early computers, it was necessary to
-set large arrays of switches in the right position, or punch holes in
+set large arrays of switches in the right position or punch holes in
 strips of cardboard and feed them to the computer. You can probably imagine how
 how tedious and error-prone this procedure was. Even writing simple
 programs required much cleverness and discipline. Complex ones were
@@ -162,7 +162,7 @@ arcane patterns of bits (the ones and zeros) did give the programmer
 a profound sense of being a mighty wizard. And that has to be worth
 something in terms of job satisfaction.
 
-(((memory)))(((instruction)))Each line of the program above contains a
+(((memory)))(((instruction)))Each line of the previous program contains a
 single instruction. It could be written in English like this:
 
 [source,text/plain]
@@ -182,21 +182,21 @@ single instruction. It could be written in English like this:
 (((readability)))(((naming)))(((variable)))Although that is already
 more readable than the soup of bits, it is still rather unpleasant. It
 might help to use names instead of numbers for the instructions and
-memory locations:
+memory locations.
 
 [source,text/plain]
 ----
- Set “total” to 0
- Set “count” to 1
+ Set “total” to 0.
+ Set “count” to 1.
 [loop]
- Set “compare” to “count”
- Subtract 11 from “compare”
- If “compare” is zero, continue at [end]
- Add “count” to “total”
- Add 1 to “count”
- Continue at [loop]
+ Set “compare” to “count”.
+ Subtract 11 from “compare”.
+ If “compare” is zero, continue at [end].
+ Add “count” to “total”.
+ Add 1 to “count”.
+ Continue at [loop].
 [end]
- Output “total”
+ Output “total”.
 ----
 
 (((loop)))(((jump)))(((summing example)))Can you see how the program
@@ -205,7 +205,7 @@ two memory locations their starting values: `total` will be used to
 build up the result of the computation, and `count` will keep track of the
 number that we are currently looking at. The lines using `compare` are
 probably the weirdest ones. The program wants to see
-whether `count` is equal to 11 in order to decide if it can stop
+whether `count` is equal to 11 in order to decide whether it can stop
 running. Because our hypothetical machine is rather primitive, it can only
 test whether a number is zero and make a decision (or jump) based on
 that. So, it uses the memory location labeled `compare` to compute the
@@ -228,7 +228,7 @@ console.log(total);
 
 (((while loop)))(((loop)))This version gives us a few more improvements.
 Most importantly, there is no need to specify the way we want the
-program to jump back and forth any more. The `while` language
+program to jump back and forth anymore. The `while` language
 construct takes care of that. It continues executing the block
 (wrapped in braces) below it as long as the condition it was given
 holds. That condition is `count <= 10`, which means “++count++ is less than or equal to
@@ -275,8 +275,8 @@ easy to compose.
 
 indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((history)))(((Netscape)))(((browser)))(((web
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
-Web))) JavaScript was introduced in 1995, as a way to add programs to
-Web pages in the Netscape Navigator browser. The language has since
+Web))) JavaScript was introduced in 1995 as a way to add programs to
+web pages in the Netscape Navigator browser. The language has since
 been adopted by all other major graphical web browsers. It has made modern
 web applications possible, applications with which you can interact
 directly, without doing a page reload for every action. But it is also used in more
@@ -293,10 +293,10 @@ are stuck with the name.
 
 (((ECMAScript)))(((compatibility)))After its adoption outside of
 Netscape, a ((standard)) document was written to describe the way the
-JavaScript language should work, to make sure the various pieces of
+JavaScript language should work to make sure the various pieces of
 software that claimed to support JavaScript were actually talking
 about the same language. This is called the ECMAScript standard, after
-the ECMA organization which did the standardization. In practice, the
+the ECMA organization that did the standardization. In practice, the
 terms ECMAScript and JavaScript can be used interchangeably—they are
 two names for the same language.
 
@@ -310,13 +310,13 @@ did not have a clue what I was doing, of course, but there is a real
 issue here: JavaScript is ridiculously liberal in what it allows. The
 idea behind this design was that it would make programming in
 JavaScript easier for beginners. In actuality, it mostly makes finding
-problems in your programs harder, because the system will not point
+problems in your programs harder because the system will not point
 them out to you.
 
 (((JavaScript,flexibility of)))(((flexibility)))This flexibility also
 has its advantages, though. It leaves space for a lot of techniques
-that are impossible in more rigid languages, and, as we will see, for
-example, in the link:10_modules.html#modules[chapter on modules], it
+that are impossible in more rigid languages, and as you will see, for
+example, in link:10_modules.html#modules[Chapter 10], it
 can be used to overcome some of JavaScript's shortcomings. After
 ((learning)) the language properly and working with it for a while, I have
 learned to actually _like_ JavaScript.
@@ -328,11 +328,11 @@ JavaScript's ascent to dominance, roughly between 2000 and 2010.
 During this time, work was underway on an ambitious version 4, which
 planned a number of radical improvements and extensions to the
 language. Changing a living, widely used language in such a radical
-way turned out to be politically difficult, and work on the 4th
-edition was abandoned in 2008, leading to the much less ambitious 5th
+way turned out to be politically difficult, and work on the fourth
+edition was abandoned in 2008, leading to the much less ambitious fifth
 edition coming out in 2009. We're now at the point where all major
-browsers support this 5th edition, which is the language version that
-this book will be focusing on. A 6th edition is in the process of
+browsers support this fifth edition, which is the language version that
+this book will be focusing on. A sixth edition is in the process of
 being finalized, and some browsers are starting to support new
 features from this edition.
 
@@ -348,22 +348,22 @@ outside of the browser.
 
 (((reading code)))(((writing code)))Code is the text that makes up
 programs. Most chapters in this book contain quite a lot of it. In my
-experience, reading and writing ((code)) is an indispensable part of
+experience, reading code and writing ((code)) are indispensable parts of
 ((learning)) to program, so try to not just glance over the examples. Read
 them attentively and understand them. This may be slow and confusing
 at first, but I promise that you will quickly get the hang of it. The
 same goes for the ((exercises)). Don't assume you understand them
 until you've actually written a working solution.
 
-(((interpretation)))I recommend you try out your solutions to exercises
+(((interpretation)))I recommend you try your solutions to exercises
 in an actual JavaScript interpreter. That way, you'll get immediate feedback on
-whether what you are doing is working or not, and, hopefully, you'll be
+whether what you are doing is working, and, I hope, you'll be
 tempted to ((experiment)) and go beyond the exercises.
 
 ifdef::interactive_target[]
 
 When reading this book in your browser, you can edit (and run) all
-example programs by clicking on them.
+example programs by clicking them.
 
 endif::interactive_target[]
 
@@ -373,19 +373,19 @@ ifdef::book_target[]
 the example code in the book, and to experiment with it, is to look it
 up in the online version of the book at
 http://eloquentjavascript.net/[_eloquentjavascript.net_]. There you
-can click on any code example to edit and run it, and to see the
+can click any code example to edit and run it and to see the
 output it produces. To work on the exercises, go to
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
-which provides starting code for each coding exercise, and allows you
+which provides starting code for each coding exercise and allows you
 to look at the solutions.
 
 endif::book_target[]
 
 (((developer tools)))(((JavaScript console)))If you want to run the
 programs defined in this book outside of the book's sandbox, some care
-is required. Many examples stand on their own, and should work in any
+is required. Many examples stand on their own and should work in any
 JavaScript environment. But code in later chapters is mostly written
-for a specific environment (the browser or Node.js), and can only run
+for a specific environment (the browser or Node.js) and can run only
 there. In addition, many chapters define bigger programs, and the
 pieces of code that appear in them depend on each other or on external
 files. The http://eloquentjavascript.net/code[sandbox] on the website
@@ -394,15 +394,15 @@ files necessary to run the code for a given chapter.
 
 == Overview of this book ==
 
-Roughly, this book contains three parts. The first 11 chapters discuss
-the JavaScript language itself. The next 8 chapters are about web
+This book contains roughly three parts. The first 11 chapters discuss
+the JavaScript language itself. The next eight chapters are about web
 ((browsers)) and the way JavaScript is used to program them. Finally,
-2 chapters are devoted to ((Node.js)), another environment to program
+two chapters are devoted to ((Node.js)), another environment to program
 JavaScript in.
 
 Throughout the book, there are five _project chapters_, which describe
 larger example programs to give you a taste of real programming. In
-order of appearance, we will work through an
+order of appearance, we will work through building an
 link:07_elife.html[artificial life simulation], a
 link:11_language.html[programming language], a
 link:15_game.html#game[platform game], a
@@ -418,7 +418,7 @@ operations), and link:04_data.html#data[data structures]. After these,
 you will be able to write simple programs. Next, Chapters
 link:05_higher_order.html#higher_order[5] and
 link:06_object.html#object[6] introduce techniques to use functions
-and objects to write more _abstract_ code, and thus keep complexity
+and objects to write more _abstract_ code and thus keep complexity
 under control.
 
 After a link:07_elife.html#elife[first project chapter], the first
@@ -435,7 +435,7 @@ link:19_paint.html#paint[19], describes the tools that browser
 JavaScript has access to. You'll learn to display things on the screen
 (Chapters link:13_dom.html#dom[13] and
 link:16_canvas.html#canvas[16]), respond to user input (Chapters
-link:14_event.html#event[14] and link:18_forms.html#forms[18]) and
+link:14_event.html#event[14] and link:18_forms.html#forms[18]), and
 communicate over the network (link:17_http.html#http[Chapter 17]).
 There are again two project chapters in this part.
 
@@ -470,8 +470,8 @@ function fac(n) {
 ----
 
 (((console.log)))Sometimes, in order to show the output that a program
-produces, the expected output is written below it, with two slashes
-and an arrow in front:
+produces, the expected output is written after it, with two slashes
+and an arrow in front.
 
 [source,javascript]
 ----

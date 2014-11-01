@@ -315,10 +315,10 @@ The “erase” tool sets `globalCompositeOperation` to
 `"destination-out"`, which has the effect of erasing the pixels we
 touch, making them transparent again.
 
-(((drawing)))That gives us two tools. We have created a working
-paint program. It allows us to draw black lines a single pixel wide (the
-default `strokeStyle` and `lineWidth` for a canvas) and erase them
-again. Admittedly, this makes it a rather limited paint program.
+(((drawing)))That gives us two tools in our paint program. We can draw
+black lines a single pixel wide (the default `strokeStyle` and
+`lineWidth` for a canvas) and erase them again. It is a working,
+albeit rather limited, paint program.
 
 == Color and brush size ==
 

@@ -134,7 +134,7 @@ for (var i = 0; i < array.length; i++) {
 ----
 
 (((length property,for
-array)))(((array,indexing)))(((readability)))It's trying to say, “For
+arrays)))(((array,indexing)))(((readability)))It's trying to say, “For
 each element in the array, log it to the console”. But it uses a
 roundabout way that involves a counter variable `i`, a check against
 the array's length, and an extra variable declaration to pick out the

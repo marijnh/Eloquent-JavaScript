@@ -1030,7 +1030,7 @@ object in the array, with its property values in `<td>` elements.
 array containing the property names that an object has, will probably
 be helpful here.
 
-(((right-aligning)))(((textAlign (CSS))))Once you have the basics
+(((right-aligning)))(((text-align (CSS))))Once you have the basics
 working, right-align cells containing numbers by setting their
 `style.textAlign` property to `"right"`.
 

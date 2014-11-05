@@ -229,7 +229,7 @@ prototype.
 [[constructors]]
 == Constructors ==
 
-(((new operator)))(((this variable)))(((return keyword)))(((object,creation)))A more convenient way to create objects that derive
+(((new operator)))(((this)))(((return keyword)))(((object,creation)))A more convenient way to create objects that derive
 from some shared prototype is to use a _((constructor))_. In
 JavaScript, calling a function with the `new` keyword in front of it
 causes it to be treated as a constructor. The constructor will have

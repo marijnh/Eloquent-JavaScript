@@ -1230,7 +1230,7 @@ starvation when the herbivores are scarce.
 Beyond staying alive, keeping its ((food)) stock alive is a
 predator's main objective. Find some way to make predators hunt
 more aggressively when there are a lot of ((herbivore))s and hunt more
-slowly (or not at all) when prey is rare. Since plant eaters moveg
+slowly (or not at all) when prey is rare. Since plant eaters move
 around, the simple trick of eating one only when others are nearby is
 unlikely to work—that'll happen so rarely that your predator will
 starve. But you could keep track of observations in previous turns, in

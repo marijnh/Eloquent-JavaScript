@@ -820,6 +820,7 @@ appearance:
 Vector
 Grid
 directions
+directionNames
 randomElement
 BouncingCritter
 elementFromChar
@@ -827,7 +828,6 @@ World
 charFromElement
 Wall
 View
-directionNames
 WallFollower
 dirPlus
 LifelikeWorld
@@ -859,6 +859,7 @@ Module "grid"
   Vector
   Grid
   directions
+  directionNames
 
 Module "world"
   (randomElement)
@@ -871,7 +872,6 @@ Module "world"
 
 Module "simple_ecosystem"
   (randomElement) [duplicated]
-  (directionNames)
   (dirPlus)
   Wall
   BouncingCritter

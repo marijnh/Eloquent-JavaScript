@@ -59,7 +59,7 @@ and disoriented, he has taken to locking the doors and windows of his
 room at night and putting a few walnuts on the floor to keep himself
 busy.
 
-image::img/weresquirrel.svg[alt="The weresquirrel"]
+image::img/weresquirrel.png[alt="The weresquirrel"]
 
 That takes care of the cat and oak problems. But Jacques still suffers
 from his condition. The irregular occurrences of the transformation

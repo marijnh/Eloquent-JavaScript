@@ -403,8 +403,8 @@ JavaScript in.
 Throughout the book, there are five _project chapters_, which describe
 larger example programs to give you a taste of real programming. In
 order of appearance, we will work through building an
-link:07_elife.html[artificial life simulation], a
-link:11_language.html[programming language], a
+link:07_elife.html#elife[artificial life simulation], a
+link:11_language.html#language[programming language], a
 link:15_game.html#game[platform game], a
 link:19_paint.html#paint[paint program], and a
 link:21_skillsharing.html#skillsharing[dynamic website].

@@ -290,6 +290,8 @@
     this.div = div;
   };
 
+  var safari = /Safari\//.test(navigator.userAgent);
+
   Output.prototype = {
     clear: function() { this.div.innerHTML = ""; },
     out: function(type, args) {
@@ -304,6 +306,8 @@
           wrap.appendChild(represent(arg, 58));
       }
       this.div.appendChild(wrap);
+      if (safari)
+        setTimeout(function() { this.div.style.minHeight = ".1em"; }.bind(this), 50);
     }
   };
 

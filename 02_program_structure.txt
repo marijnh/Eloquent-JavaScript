@@ -980,7 +980,6 @@ should form a chess board.
 Passing this string to `console.log` should show something like this:
 
 ----
-# # # # 
  # # # #
 # # # # 
  # # # #
@@ -988,6 +987,7 @@ Passing this string to `console.log` should show something like this:
  # # # #
 # # # # 
  # # # #
+# # # # 
 ----
 
 When you have a program that generates this pattern, define a

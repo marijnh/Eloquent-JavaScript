@@ -820,7 +820,7 @@ tasks. You add tasks to the end of the list by calling
 front instead of the back of the list.
 
 (((array,searching)))(((indexOf method)))(((lastIndexOf
-method)))The `indexOf` method has a sibling called `lastIndexof`,
+method)))The `indexOf` method has a sibling called `lastIndexOf`,
 which starts searching for the given element at the end of the array
 instead of the front.
 

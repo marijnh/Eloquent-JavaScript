@@ -489,16 +489,18 @@ want:
 [source,text/css]
 ----
 .background    { background: rgb(52, 166, 251);
+                 table-layout: fixed;
                  border-spacing: 0;              }
 .background td { padding: 0;                     }
 .lava          { background: rgb(255, 100, 100); }
 .wall          { background: white;              }
 ----
 
-(((padding (CSS))))Some of these (`border-spacing`
+(((padding (CSS))))Some of these (`table-layout`, `border-spacing`, 
 and `padding`) are simply used to suppress unwanted default behavior.
-We don't want space between the ((table)) cells or padding inside
-them.
+We don't want the layout of the ((table)) to depend upon the contents 
+of its cells, and we don't want space between the ((table)) cells or 
+padding inside them.
 
 (((background (CSS))))(((rgb (CSS))))(((CSS)))The `background` rule
 sets the background color. CSS allows colors to be specified both as

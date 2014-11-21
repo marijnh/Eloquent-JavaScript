@@ -503,19 +503,19 @@ pass:[\begin{equation}\varphi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bull
 endif::tex_target[]
 
 The notation (!html _n_~01~!)(!tex pass:[$n_{01}$]!) indicates the
-number of measurements where the first measurement (pizza) is false
-(0) and the second measurement (squirrelness) is true (1). In this
-example, (!html _n_~01~!)(!tex pass:[$n_{01}$]!) is 4.
+number of measurements where the first variable (squirrelness) is false
+(0) and the second variable (pizza) is true (1). In this
+example, (!html _n_~01~!)(!tex pass:[$n_{01}$]!) is 9.
 
 The value (!html _n_~1•~!)(!tex pass:[$n_{1\bullet}$]!) refers to the
-sum of all measurements where the first variable is true, which is 10
+sum of all measurements where the first variable is true, which is 5
 in the example table. Likewise, (!html _n_~•0~!)(!tex pass:[$n_{\bullet0}$]!)
-refers to the sum of the measurements where the squirrel variable is false.
+refers to the sum of the measurements where the second variable is false.
 
 (((correlation)))(((phi coefficient)))So for the pizza table, the part
-above the division line (the dividend) would be 1×76 - 9×4 = 40, and
+above the division line (the dividend) would be 1×76 - 4×9 = 40, and
 the part below it (the divisor) would be the square root of
-10×80×5×85, or (!html √340000!)(!tex pass:[$\sqrt{340000}$]!). This
+5×85×10×80, or (!html √340000!)(!tex pass:[$\sqrt{340000}$]!). This
 comes out to _ϕ_ ≈ 0.069, which is tiny. Eating ((pizza)) does not
 appear to have influence on the transformations.
 

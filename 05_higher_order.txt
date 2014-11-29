@@ -763,7 +763,7 @@ tree.
 ----
 function reduceAncestors(person, f, defaultValue) {
   function valueFor(person) {
-    if (person == null)
+    if (typeof person === "undefined")
       return defaultValue;
     else
       return f(person, valueFor(byName[person.mother]),

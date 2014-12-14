@@ -296,9 +296,9 @@ Netscape, a ((standard)) document was written to describe the way the
 JavaScript language should work to make sure the various pieces of
 software that claimed to support JavaScript were actually talking
 about the same language. This is called the ECMAScript standard, after
-the ECMA organization that did the standardization. In practice, the
-terms ECMAScript and JavaScript can be used interchangeably—they are
-two names for the same language.
+the Ecma International organization that did the standardization. In
+practice, the terms ECMAScript and JavaScript can be used interchangeably—they
+are two names for the same language.
 
 (((JavaScript,weaknesses of)))(((debugging)))There are those who will
 say _terrible_ things about the JavaScript language. Many of these

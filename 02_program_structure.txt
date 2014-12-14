@@ -185,11 +185,12 @@ reserved words is rather long.
 
 [source,text/plain]
 ----
-break case catch continue debugger default delete
-do else false finally for function if implements
-in instanceof interface let new null package private
-protected public return static switch throw true
-try typeof var void while with yield this
+break case catch class const continue debugger
+default delete do else enum export extends false
+finally for function if implements import in
+instanceof interface let new null package private
+protected public return static super switch this
+throw true try typeof var void while with yield
 ----
 
 Don't worry about memorizing these, but remember that this might be

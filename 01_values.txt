@@ -614,7 +614,7 @@ and `%`), string concatenation (`+`), comparison (`==`, `!=`, `===`,
 `!==`, `<`, `>`, `<=`, `>=`), and logic (`&&`, `||`), as well as
 several unary operators (`-` to negate a number, `!` to negate
 logically, and `typeof` to find a value's type) and a ternary
-operator (condition ? ifTrue : ifFalse).
+operator (`?:`) to pick one of two values based on a third value.
 
 This gives you enough information to use JavaScript as a pocket
 calculator, but not much more. The

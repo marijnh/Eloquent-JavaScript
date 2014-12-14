@@ -152,7 +152,7 @@ program to add the numbers from 1 to 10 together and print out the
 result: `1 + 2 + ... + 10 = 55`. It could run on a simple,
 hypothetical machine. To program early computers, it was necessary to
 set large arrays of switches in the right position or punch holes in
-strips of cardboard and feed them to the computer. You can probably imagine how
+strips of cardboard and feed them to the computer. You can probably imagine
 how tedious and error-prone this procedure was. Even writing simple
 programs required much cleverness and discipline. Complex ones were
 nearly inconceivable.

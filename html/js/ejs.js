@@ -75,7 +75,7 @@ window.addEventListener("load", function() {
   var keyMap = {
     Esc: function(cm) { cm.display.input.blur(); },
     "Ctrl-Enter": function(cm) { runCode(cm.state.context); },
-    "Ctrl-D": function(cm) { closeCode(cm.state.context); },
+    "Ctrl-`": function(cm) { closeCode(cm.state.context); },
     "Ctrl-Q": resetSandbox
   };
 
@@ -129,7 +129,7 @@ window.addEventListener("load", function() {
                  ["Revert to original code", function() { revertCode(data); }],
                  ["Reset sandbox (ctrl-q)", function() { resetSandbox(data.sandbox); }]];
     if (!data.isHTML || !data.sandbox)
-      items.push(["Deactivate editor (ctrl-d)", function() { closeCode(data); }]);
+      items.push(["Deactivate editor (ctrl-`)", function() { closeCode(data); }]);
     items.forEach(function(choice) {
       menu.appendChild(elt("div", choice[0]));
     });

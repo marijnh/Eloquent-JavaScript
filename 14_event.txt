@@ -455,8 +455,14 @@ on this bar makes it narrower or wider:
     }
   });
 
+  function buttonPressed(event) {
+    if (event.buttons == null)
+      return event.which != 0;
+    else
+      return event.buttons != 0;
+  }
   function moved(event) {
-    if (event.which != 1) {
+    if (!buttonPressed(event)) {
       removeEventListener("mousemove", moved);
     } else {
       var dist = event.pageX - lastX;
@@ -480,6 +486,15 @@ endif::book_target[]
 handler is registered on the whole ((window)). Even if the mouse goes
 outside of the bar during resizing, we still want to update its size
 and stop dragging when the mouse is released.
+
+(((buttons property)))(((which property)))We must stop resizing the
+bar when the mouse button is released. Unfortunately, not all browsers
+give `"mousemove"` events a meaningful `which` property. There is a
+standard property called `buttons`, which provides similar
+information, but that is also not supported on all browsers.
+Fortunately, all major browsers support either `buttons` or `which`,
+so the `buttonPressed` function in the example first tries `buttons`,
+and falls back to `which` when that isn't available.
 
 (((mouseover event)))(((mouseout event)))Whenever the mouse pointer
 enters or leaves a node, a `"mouseover"` or `"mouseout"` event is

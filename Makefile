@@ -69,8 +69,16 @@ pdf/%.tex: %.txt asciidoc_pdf.conf bin/pre_latex.js bin/clean_latex.js
 
 book.pdf: pdf/book.tex $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex \
           $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
-	cd pdf && sh build.sh > /dev/null
+	cd pdf && sh build.sh book > /dev/null
 	mv pdf/book.pdf .
+
+pdf/book_mobile.tex: pdf/book.tex
+	cat pdf/book.tex | sed -e 's/makeidx}/makeidx}\n\\usepackage[a5paper, margin=5mm]{geometry}/' | sed -e 's/setmonofont.Scale=0.8./setmonofont[Scale=0.75]/' > pdf/book_mobile.tex
+
+book_mobile.pdf: pdf/book_mobile.tex $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex \
+          $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
+	cd pdf && sh build.sh book_mobile > /dev/null
+	mv pdf/book_mobile.pdf .
 
 pdfonce:
 	cd pdf && xelatex book.tex

@@ -26,7 +26,7 @@ tasks, we've had more luck with an approach that makes use of our
 talent for language: teaching the machine a language.
 
 (((human language)))(((expressivity)))Human languages allow words and
-phrases to be combined in many ways, allowing us to say
+phrases to be combined in many ways, which allows us to say
 many different things. Computer languages, though typically less
 grammatically flexible, follow a similar principle.
 
@@ -35,7 +35,7 @@ has become much more widespread in the past 20 years, and
 language-based interfaces, which once were the default way in which
 people interacted with computers, have largely been replaced with
 graphical interfaces. But they are still there, if you know where to
-look. One such language, JavaScript, is built into just about every
+look. One such language, JavaScript, is built into almost every
 web ((browser)) and is thus available on just about every consumer
 device.
 
@@ -61,12 +61,12 @@ clear. But programs built on top of these rules tend to become complex
 enough to introduce their own rules and complexity. You're building
 your own maze, in a way, and you might just get lost in it.
 
-(((learning)))There will be times at which reading this book feels terribly
+(((learning)))There will be times when reading this book feels terribly
 frustrating. If you are new to programming, there will be a lot of new
 material to digest. Much of this material will then be _combined_ in
 ways that require you to make additional connections.
 
-It is up to you to make the effort necessary. When you are struggling
+It is up to you to make the necessary effort. When you are struggling
 to follow the book, do not jump to any conclusions about your own
 capabilities. You are fine—you just need to keep at it. Take a break,
 reread some material, and _always_ make sure you read and understand
@@ -95,7 +95,7 @@ interconnect and contribute to the operation of the whole.
 immaterial machines. Computers themselves can do only stupidly
 straightforward things. The reason they are so useful is that they do
 these things at an incredibly high speed. A program can ingeniously
-combine enormous numbers of these simple actions in order to do very
+combine an enormous number of these simple actions in order to do very
 complicated things.
 
 (((programming,joy of)))To some of us, writing computer programs is a
@@ -107,13 +107,13 @@ But without care, a program's size and ((complexity)) will grow out of
 control, confusing even the person who created it. Keeping programs
 under control is the main problem of programming. When a program
 works, it is beautiful. The art of programming is the skill of
-controlling complexity. The great program is subdued, made simple in
+controlling complexity. The great program is subdued—made simple in
 its complexity.
 
 (((programming style)))(((best practices)))Many programmers believe
 that this complexity is best managed by using only a small set of
 well-understood techniques in their programs. They have composed
-strict rules (_“best practices”_) prescribing the form programs should
+strict rules (“best practices”) prescribing the form programs should
 have, and the more zealous among them will consider those who go
 outside of this safe little zone to be _bad_ programmers.
 
@@ -124,7 +124,7 @@ The landscape of programming techniques is enormous, fascinating in
 its diversity, and still largely unexplored. It is certainly dangerous
 going, luring the inexperienced programmer into all kinds of
 confusion, but that only means you should proceed with caution and
-keep your wits about you. As you learn, there will always be new
+keep your wits about you. As you learn there will always be new
 challenges and new territory to explore. Programmers who refuse to
 keep exploring will stagnate, forget their joy, and get bored with
 their craft.
@@ -208,7 +208,7 @@ probably the weirdest ones. The program wants to see
 whether `count` is equal to 11 in order to decide whether it can stop
 running. Because our hypothetical machine is rather primitive, it can only
 test whether a number is zero and make a decision (or jump) based on
-that. So, it uses the memory location labeled `compare` to compute the
+that. So it uses the memory location labeled `compare` to compute the
 value of `count - 11` and makes a decision based on that value. The
 next two lines add the value of `count` to the result and increment
 `count` by 1 every time the program has decided that `count` is not 11 yet.
@@ -237,7 +237,7 @@ to zero, which was an uninteresting detail. Part of the power of
 programming languages is that they take care of uninteresting details
 for us.
 
-(((console.log)))At the end of the program, after the `while` has
+(((console.log)))At the end of the program, after the `while` construct has
 finished, the `console.log` operation is applied to the result in
 order to write it as output.
 
@@ -278,7 +278,7 @@ application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995 as a way to add programs to
 web pages in the Netscape Navigator browser. The language has since
 been adopted by all other major graphical web browsers. It has made modern
-web applications possible, applications with which you can interact
+web applications possible—applications with which you can interact
 directly, without doing a page reload for every action. But it is also used in more
 traditional websites to provide various forms of interactivity and
 cleverness.
@@ -287,8 +287,8 @@ cleverness.
 almost nothing to do with the programming language named Java. The
 similar name was inspired by marketing considerations, rather than
 good judgment. When JavaScript was being introduced, the Java language
-was being heavily marketed and was gaining in popularity. Someone
-thought it a good idea to try to ride along on this success. Now we
+was being heavily marketed and was gaining popularity. Someone
+thought it was a good idea to try to ride along on this success. Now we
 are stuck with the name.
 
 (((ECMAScript)))(((compatibility)))After its adoption outside of
@@ -315,33 +315,33 @@ them out to you.
 
 (((JavaScript,flexibility of)))(((flexibility)))This flexibility also
 has its advantages, though. It leaves space for a lot of techniques
-that are impossible in more rigid languages, and as you will see, for
-example, in link:10_modules.html#modules[Chapter 10], it
+that are impossible in more rigid languages, and as you will see (for
+example in link:10_modules.html#modules[Chapter 10]) it
 can be used to overcome some of JavaScript's shortcomings. After
 ((learning)) the language properly and working with it for a while, I have
 learned to actually _like_ JavaScript.
 
 (((future)))(((JavaScript,versions of)))(((ECMAScript)))(((ECMAScript
-6)))There have been several _versions_ of JavaScript. ECMAScript
-version 3 was the dominant, widely supported version in the time of
+6)))There have been several versions of JavaScript. ECMAScript
+version 3 was the widely supported version in the time of
 JavaScript's ascent to dominance, roughly between 2000 and 2010.
 During this time, work was underway on an ambitious version 4, which
 planned a number of radical improvements and extensions to the
 language. Changing a living, widely used language in such a radical
-way turned out to be politically difficult, and work on the fourth
-edition was abandoned in 2008, leading to the much less ambitious fifth
-edition coming out in 2009. We're now at the point where all major
-browsers support this fifth edition, which is the language version that
-this book will be focusing on. A sixth edition is in the process of
+way turned out to be politically difficult, and work on the version 4
+was abandoned in 2008, leading to the much less ambitious version 5
+coming out in 2009. We're now at the point where all major
+browsers support version 5, which is the language version that
+this book will be focusing on. A version 6 is in the process of
 being finalized, and some browsers are starting to support new
-features from this edition.
+features from this version.
 
 (((JavaScript,uses of)))Web browsers are not the only platforms on
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
 use JavaScript as their scripting and query language. Several
 platforms for desktop and server programming, most notably the
-_((Node.js))_ project, the subject of link:20_node.html#node[Chapter
-20], are providing a powerful environment for programming JavaScript
+((Node.js)) project (the subject of link:20_node.html#node[Chapter
+20]) are providing a powerful environment for programming JavaScript
 outside of the browser.
 
 == Code, and what to do with it ==
@@ -372,7 +372,7 @@ ifdef::book_target[]
 (((download)))(((sandbox)))(((running code)))The easiest way to run
 the example code in the book, and to experiment with it, is to look it
 up in the online version of the book at
-http://eloquentjavascript.net/[_eloquentjavascript.net_]. There you
+http://eloquentjavascript.net/[_eloquentjavascript.net_]. There, you
 can click any code example to edit and run it and to see the
 output it produces. To work on the exercises, go to
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
@@ -389,7 +389,7 @@ for a specific environment (the browser or Node.js) and can run only
 there. In addition, many chapters define bigger programs, and the
 pieces of code that appear in them depend on each other or on external
 files. The http://eloquentjavascript.net/code[sandbox] on the website
-provides links to zip files containing all of the scripts and data
+provides links to Zip files containing all of the scripts and data
 files necessary to run the code for a given chapter.
 
 == Overview of this book ==
@@ -454,7 +454,7 @@ endif::commercial_target[]
 == Typographic conventions ==
 
 (((factorial function)))In this book, text written in a `monospaced`
-font should be understood to represent elements of programs—sometimes
+font will represent elements of programs—sometimes
 they are self-sufficient fragments, and sometimes they just refer to
 part of a nearby program. Programs (of which you have already seen a
 few), are written as follows:

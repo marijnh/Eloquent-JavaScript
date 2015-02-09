@@ -19,7 +19,7 @@ if (infile == "-") {
   instream = fs.createReadStream(infile);
 }
 
-var titleCaseSmallWords = "a an the at by for in of on to up and as but it or nor if console.log".split(" ");
+var titleCaseSmallWords = "a an the at by for in of on to up and as but with or nor if console.log".split(" ");
 
 var input = "";
 instream.on("data", function(chunk) {

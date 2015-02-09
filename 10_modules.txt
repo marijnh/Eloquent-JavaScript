@@ -636,7 +636,7 @@ function define(depNames, moduleFunction) {
     if (myMod) {
       myMod.exports = exports;
       myMod.loaded = true;
-      myMod.onLoad.every(function(f) { f(); });
+      myMod.onLoad.forEach(function(f) { f(); });
     }
   }
   whenDepsLoaded();

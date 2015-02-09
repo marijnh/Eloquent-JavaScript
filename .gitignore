@@ -5,7 +5,9 @@
 /pdf/[012]*.tex
 /pdf/hints.tex
 /pdf/book.*
+/pdf/book_mobile.*
 /book.pdf
+/book_mobile.pdf
 /html/[012]*.html
 /html/js/chapter_info.js
 /html/js/acorn_codemirror.js

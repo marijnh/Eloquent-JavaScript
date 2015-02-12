@@ -16,7 +16,7 @@ ____
 (((why)))(((Poignant Guide)))In this chapter, we will start to do
 things that can actually be called _programming_. We will expand our
 command of the JavaScript language beyond the nouns and sentence
-fragments we've seen so far, to the point where we can actually
+fragments we've seen so far, to the point where we can
 express some meaningful prose.
 
 == Expressions and statements ==
@@ -312,7 +312,7 @@ write your own functions.
 
 (((dialog box)))(((input)))(((browser)))(((confirm function)))Browser
 environments contain other functions besides `alert` for popping up
-windows. You can ask the user an “OK”/“Cancel” question using
+windows. You can ask the user an OK/Cancel question using
 `confirm`. This returns a Boolean: `true` if the user clicks OK and
 `false` if the user clicks Cancel.
 
@@ -647,7 +647,7 @@ console.log(current);
 // → 21
 ----
 
-(((remainder operator)))(((% operator)))The trick with the remainder
+(((remainder operator)))(((% operator)))Using the remainder
 (`%`) operator is an easy way to test whether a number is divisible by
 another number. If it is, the remainder of their division is zero.
 
@@ -672,7 +672,7 @@ endif::interactive_target[]
 
 (((continue keyword)))The `continue` keyword is similar to `break`, in
 that it influences the progress of a loop. When `continue` is
-encountered in a loop body, control jumps out of the body, and
+encountered in a loop body, control jumps out of the body and
 continues with the loop's next iteration.
 
 == Updating variables succinctly ==
@@ -864,7 +864,7 @@ a function call is an expression, and may produce a value.
 == Exercises ==
 
 (((exercises)))If you are unsure how to try your solutions to
-exercises, refer to the end of the introduction.
+exercises, refer to the link:00_into.html#intro[introduction].
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the
@@ -918,7 +918,7 @@ endif::interactive_target[]
 (((triangle (exercise))))You can start with a program that simply
 prints out the numbers 1 to 7, which you can derive by making a few
 modifications to the
-link:02_program_structure.html#loops[even-number-printing example]
+link:02_program_structure.html#loops[even number printing example]
 given earlier in the chapter, where the `for` loop was introduced.
 
 Now consider the equivalence between numbers and strings of hash

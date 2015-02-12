@@ -145,7 +145,7 @@ interacts heavily with the DOM tends to get long, repetitive, and
 ugly.
 
 (((library)))But these flaws aren't fatal. Since JavaScript
-allows us to create our own ((abstraction))s. It is easy to write some
+allows us to create our own ((abstraction))s, it is easy to write some
 ((helper function))s that allow you to express the operations you are
 performing in a clearer and shorter way. In fact, many libraries
 intended for browser programming come with such tools.

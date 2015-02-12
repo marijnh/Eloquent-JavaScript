@@ -715,7 +715,7 @@ it is that you're trying to wrap. Let's go through an example.
 
 (((farm example)))We want to write a program that prints two numbers,
 the numbers of cows and chickens on a farm, with the words `Cows` and
-`Chickens` after them, and zeroes padded before both numbers so that
+`Chickens` after them, and zeros padded before both numbers so that
 they are always three digits long.
 
 ----
@@ -742,7 +742,7 @@ printFarmInventory(7, 11);
 
 (((length property,for strings)))(((while loop)))Adding `.length`
 after a string value will give us the length of that string. Thus, the
-`while` loops keep adding zeroes in front of the number strings until
+`while` loops keep adding zeros in front of the number strings until
 they are at least three characters long.
 
 Mission accomplished! But just as we are about to send the farmer the

@@ -22,7 +22,7 @@ data—but anything that isn't data simply does not exist. All this data
 is stored as long sequences of bits and is thus fundamentally alike.
 
 (((CD)))(((signal)))Bits are any kind of two-valued things, usually
-described as zeroes and ones. Inside the computer, they take forms
+described as zeros and ones. Inside the computer, they take forms
 such as a high or low electrical charge, a strong or weak signal, or a
 shiny or dull spot on the surface of a CD. Any piece of discrete
 information can be reduced to a sequence of zeros and ones and thus
@@ -94,10 +94,10 @@ memory.
 number of bits, namely 64 of them, to store a single number value.
 There are only so many patterns you can make with 64 bits, which means
 that the amount of different numbers that can be represented is
-limited. For N decimal ((digit))s, the amount of numbers that can be
-represented is 10^N^. Similarly, given 64 binary digits, you can
+limited. For _N_ decimal ((digit))s, the amount of numbers that can be
+represented is 10^_N_^. Similarly, given 64 binary digits, you can
 represent 2^64^ different numbers, which is about 18 quintillion (an
-18 with 18 zeroes after it). This is a lot.
+18 with 18 zeros after it). This is a lot.
 
 Computer memory used to be a lot smaller, and people tended to use
 groups of 8 or 16 bits to represent their numbers. It was easy to
@@ -113,7 +113,7 @@ though. Those bits also store negative numbers, so one bit indicates
 the sign of the number. A bigger issue is that nonwhole numbers must
 also be represented. To do this, some of the bits are used to store
 the position of the decimal point. The actual maximum whole number
-that can be stored is more in the range of 9 quadrillion (15 zeroes),
+that can be stored is more in the range of 9 quadrillion (15 zeros),
 which is still pleasantly huge.
 
 (((number,notation)))Fractional numbers are written by using a
@@ -134,7 +134,7 @@ number:
 2.998e8
 ----
 
-That is 2.998 × 10^8^ = 299800000.
+That is 2.998 × 10^8^ = 299,800,000.
 
 (((pi)))(((number,precision of)))(((floating-point
 number)))Calculations with whole numbers (also called _((integer))s_)
@@ -169,7 +169,7 @@ values will apply it to those values and produce a new value.
 (((grouping)))(((parentheses)))(((precedence)))Does the example mean
 “add 4 and 100, and multiply the result by 11”, or is the
 multiplication done before the adding? As you might have guessed, the
-multiplication happens first. But, as in mathematics, you can change
+multiplication happens first. But as in mathematics, you can change
 this by wrapping the addition in parentheses.
 
 [source,javascript]
@@ -187,7 +187,7 @@ they are applied is determined by the _((precedence))_ of the
 operators. The example shows that multiplication comes before
 addition. The `/` operator has the same precedence as `*`. Likewise
 for `+` and `-`. When multiple operators with the same precedence
-appear next to each other (as in `1 - 2 + 1`), they are applied left
+appear next to each other, as in `1 - 2 + 1`, they are applied left
 to right: `(1 - 2) + 1`.
 
 These rules of precedence are not something you should worry about.
@@ -243,13 +243,13 @@ quotes between quotes might be hard. _Newlines_ (the characters you
 get when you press Enter) also can't be put between quotes. The string
 has to stay on a single line.
 
-(((escaping,in strings)))(((backslash character)))To be able to have
+(((escaping,in strings)))(((backslash character)))To make it possible to include
 such characters in a string, the following notation is used: whenever
-a backslash (“\”) is found inside quoted text, it indicates that the
+a backslash (`\`) is found inside quoted text, it indicates that the
 character after it has a special meaning. This is called _escaping_
 the character. A quote that is preceded by a backslash will not end
-the string but be part of it. When an “n” character occurs after a
-backslash, it is interpreted as a newline. Similarly, a “t” after a
+the string but be part of it. When an `n` character occurs after a
+backslash, it is interpreted as a newline. Similarly, a `t` after a
 backslash means a ((tab character)). Take the following string:
 
 [source,javascript]
@@ -328,7 +328,7 @@ console.log(- (10 - 2))
 
 (((Boolean)))(((operator)))(((true)))(((false)))(((bit)))Often,
 you will need a value that simply distinguishes between two
-possibilities, like “yes” and “no”, or “on” and “off”. For this,
+possibilities, like “yes” and “no” or “on” and “off”. For this,
 JavaScript has a _Boolean_ type, which has just two values: true and
 false (which are written simply as those words).
 
@@ -360,7 +360,7 @@ console.log("Aardvark" < "Zoroaster")
 
 (((comparison,of strings)))The way strings are ordered is more or less
 alphabetic: uppercase letters are always “less” than lowercase ones,
-so `"Z" < "a"` is true, and nonalphabetic characters (!, -, and so on)
+so `"Z" < "a"` is true, and non-alphabetic characters (!, -, and so on)
 are also included in the ordering. The actual comparison is based on
 the _((Unicode))_ standard. This standard assigns a number to
 virtually every character you would ever need, including characters
@@ -382,8 +382,8 @@ console.log("Itchy" != "Scratchy")
 ----
 
 (((comparison,of NaN)))(((NaN)))There is only one value in JavaScript
-that is not equal to itself, and that is `NaN` (which stands for "not
-a number").
+that is not equal to itself, and that is `NaN`, which stands for “not
+a number”.
 
 [source,javascript]
 ----
@@ -619,4 +619,4 @@ operator (`?:`) to pick one of two values based on a third value.
 This gives you enough information to use JavaScript as a pocket
 calculator, but not much more. The
 link:02_program_structure.html#program_structure[next chapter] will
-start tying these basic expressions together into basic programs.
+start tying these expressions together into basic programs.

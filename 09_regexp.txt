@@ -596,7 +596,7 @@ might accidentally write something like `/([01]+)+b/`.
 image::img/re_slow.svg[alt="Visualization of /([01]+)+b/",width="6cm"]
 
 (((inner loop)))(((nesting,in regexps)))If that tries to match some
-long series of zeroes and ones with no trailing _b_ character, the
+long series of zeros and ones with no trailing _b_ character, the
 matcher will first go through the inner loop until it runs out of
 digits. Then it notices there is no _b_, so it backtracks one
 position, goes through the outer loop once, and gives up again, trying

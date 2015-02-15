@@ -787,7 +787,7 @@ nonempty square we find.
 (((coin)))(((lava)))(((collision detection)))Collisions between the
 ((player)) and other dynamic ((actor))s (coins, moving lava) are
 handled _after_ the player moved. When the motion has taken the player
-into another other actor, the appropriate effect—collecting a coin or
+into another actor, the appropriate effect—collecting a coin or
 dying—is activated.
 
 (((actorAt method)))This method scans the array of actors,
@@ -847,7 +847,7 @@ we want to stop showing the level.
 (((while loop)))(((discretization)))The `while` loop cuts the time
 step we are animating into suitably small pieces. It ensures that no
 step larger than `maxStep` is taken. For example, a `step` of 0.12
-second would be cut into two steps of 0.05 second and one step of 0.02.
+second would be cut into two steps of 0.05 seconds and one step of 0.02.
 
 (((actor)))(((Lava type)))(((lava)))Actor objects have an `act`
 method, which takes as arguments the time step, the level object, and

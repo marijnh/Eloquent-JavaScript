@@ -740,7 +740,7 @@ function printFarmInventory(cows, chickens) {
 printFarmInventory(7, 11);
 ----
 
-(((length property,for strings)))(((while loop)))Adding `.length`
+(((length property,for string)))(((while loop)))Adding `.length`
 after a string value will give us the length of that string. Thus, the
 `while` loops keep adding zeros in front of the number strings until
 they are at least three characters long.
@@ -1020,7 +1020,7 @@ endif::interactive_target[]
 !!hint!!
 
 (((bean counting (exercise))))(((length property,for
-strings)))(((counter variable)))A ((loop)) in your function will have
+string)))(((counter variable)))A ((loop)) in your function will have
 to look at every character in the string by running an index from zero
 to one below its length (`< string.length`). If the character at the
 current position is the same as the one the function is looking for,

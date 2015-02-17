@@ -122,7 +122,7 @@ JavaScript), it works well.
 == Properties ==
 
 (((Math object)))(((Math.max function)))(((length property,for
-strings)))(((object,property)))(((period character)))We've seen a few
+string)))(((object,property)))(((period character)))We've seen a few
 suspicious-looking expressions like `myString.length` (to get the
 length of a string) and `Math.max` (the maximum function) in past
 examples. These are expressions that access a _((property))_ of some
@@ -166,7 +166,7 @@ know the precise name of the property in advance, because neither “2”
 nor “John Doe” is a valid variable name and so cannot be accessed
 through dot notation.
 
-(((array)))(((length property,for arrays)))(((array,length
+(((array)))(((length property,for array)))(((array,length
 of)))The elements in an array are stored in properties. Because the
 names of these properties are numbers and we often need to get their
 name from a variable, we have to use the bracket syntax to access
@@ -922,7 +922,7 @@ console.log("  okay \n ".trim());
 // → okay
 ----
 
-(((length property,for strings)))(((charAt
+(((length property,for string)))(((charAt
 method)))(((string,indexing)))We have already seen the string type's
 `length` property. Accessing the individual characters in a string can
 be done with the `charAt` method but also by simply reading numeric

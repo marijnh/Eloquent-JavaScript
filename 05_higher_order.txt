@@ -134,7 +134,7 @@ for (var i = 0; i < array.length; i++) {
 ----
 
 (((length property,for
-arrays)))(((array,indexing)))(((readability)))It's trying to say, “For
+array)))(((array,indexing)))(((readability)))It's trying to say, “For
 each element in the array, log it to the console”. But it uses a
 roundabout way that involves a counter variable `i`, a check against
 the array's length, and an extra variable declaration to pick out the
@@ -426,7 +426,7 @@ console.log(JSON.parse(string).born);
 ----
 
 (((ANCESTRY_FILE data set)))The variable `ANCESTRY_FILE`, available in
-the ((sandbox)) for this chapter as well as in
+the ((sandbox)) for this chapter and in
 http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
 the website(!book (http://eloquentjavascript.net/code#5[_eloquentjavascript.net/code#5_])!), contains the
 content of my ((JSON)) file as a string. Let's decode it and see how

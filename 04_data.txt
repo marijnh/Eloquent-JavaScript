@@ -288,7 +288,7 @@ never useful to start a statement with a curly-brace object, and in
 typical programs, there is no ambiguity between these two uses.
 
 (((undefined)))Reading a property that doesn't exist will produce the
-value `undefined`, as happens the first time we try to read the `wolf`
+value `undefined`, which happens the first time we try to read the `wolf`
 property in the previous example.
 
 (((property,assignment)))(((mutability)))(((= operator)))It is
@@ -306,7 +306,7 @@ inscribed on it.
 image::img/octopus-object.jpg[alt="Artist's representation of an object"]
 
 (((delete operator)))(((property,deletion)))The `delete` operator cuts
-off a leg from such an octopus. It is a unary operator that, when
+off a tentacle from such an octopus. It is a unary operator that, when
 applied to a property access expression, will remove the named
 property from the object. This is not a common thing to do, but it is
 possible.
@@ -660,7 +660,7 @@ the time being, we won't worry about those.
 (((for/in loop)))(((for loop)))(((object,looping over)))What if
 we want to find all the events for which we have stored a coefficient?
 The properties don't form a predictable series, like they would in an
-array, so we can not use a normal `for` loop. JavaScript provides a
+array, so we cannot use a normal `for` loop. JavaScript provides a
 loop construct specifically for going over the properties of an
 object. It looks a little like a normal `for` loop but distinguishes
 itself by the use of the word `in`.
@@ -856,7 +856,7 @@ a `slice` method, which has a similar effect.
 to glue arrays together, similar to what the `+` operator does for
 strings. The following example shows both `concat` and `slice` in
 action. It takes an array and an index, and it returns a new array
-which is a copy of the original array with the element at the given
+that is a copy of the original array with the element at the given
 index removed.
 
 [source,javascript]
@@ -1045,7 +1045,7 @@ function)))(((Math.atan function)))(((Math.PI
 constant)))(((cosine)))(((sine)))(((tangent)))(((PI constant)))(((pi)))Back to
 the `Math` object. If you need to do ((trigonometry)), `Math` can
 help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent),
-as well as their inverse functions, `acos`, `asin`, and `atan`. The
+as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The
 number π (pi)—or at least the closest approximation that fits in a
 JavaScript number—is available as `Math.PI`. (There is an old
 programming tradition of writing the names of ((constant)) values in
@@ -1070,7 +1070,7 @@ link:13_dom.html#sin_cos[Chapter 13], I'll explain them.
 
 (((Math.random function)))(((random number)))The previous example
 uses `Math.random`. This is a function that returns a new
-pseudo-random number between zero (inclusive) and one (exclusive)
+pseudorandom number between zero (inclusive) and one (exclusive)
 every time you call it.
 
 // test: no
@@ -1085,15 +1085,15 @@ console.log(Math.random());
 // → 0.40180766698904335
 ----
 
-(((pseudo-random number)))(((random number)))Though computers are
+(((pseudorandom number)))(((random number)))Though computers are
 deterministic machines—they always react the same way if given the
-same input— it is possible to have them produce numbers that appear
+same input—it is possible to have them produce numbers that appear
 random. To do this, the machine keeps a number (or a bunch of numbers)
 in its internal state. Then, every time a random number is requested,
 it performs some complicated deterministic computations on this
 internal state and returns part of the result of those computations.
 The machine also uses the outcome to change its own internal state so
-that the next "random" number produced will be different.
+that the next “random” number produced will be different.
 
 (((rounding)))(((Math.floor function)))If we want a whole random
 number instead of a fractional one, we can use `Math.floor` (which
@@ -1108,13 +1108,13 @@ console.log(Math.floor(Math.random() * 10));
 // → 2
 ----
 
-Multiplying the random number by ten gives us a number greater than or
-equal to zero, and below ten. Since `Math.floor` rounds down, this
+Multiplying the random number by 10 gives us a number greater than or
+equal to zero, and below 10. Since `Math.floor` rounds down, this
 expression will produce, with equal chance, any number from 0 through
 9.
 
 (((Math.ceil function)))(((Math.round function)))There are also the
-functions `Math.ceil` (for "ceiling", which rounds up to a whole
+functions `Math.ceil` (for “ceiling”, which rounds up to a whole
 number) and `Math.round` (to the nearest whole number).
 
 == The global object ==
@@ -1165,7 +1165,7 @@ a given name. The same keyword can also be used in a `for` loop
 
 === The sum of a range ===
 
-(((summing (exercise))))The introduction of this book alluded to the
+(((summing (exercise))))The link:00_intro.html#intro[introduction] of this book alluded to the
 following as a nice way to compute the sum of a range of numbers:
 
 // test: no

@@ -251,7 +251,7 @@ name).
 
 (((button (HTML tag))))(((type attribute)))(((submit)))(((Enter
 key)))A button with a `type` attribute of `submit` will, when pressed,
-cause the form to be submitted. Pressing Enter in when a form field is
+cause the form to be submitted. Pressing Enter when a form field is
 focused has the same effect.
 
 (((submit event)))(((event handling)))(((preventDefault
@@ -332,7 +332,7 @@ with an event handler that, when you press F2, inserts the string
     // Put the cursor after the word
     field.selectionStart = field.selectionEnd =
       from + word.length;
-  };
+  }
 </script>
 ----
 
@@ -622,7 +622,7 @@ password and a website name.
 
 (((persistence)))(((memory)))When such an application needs to
 remember something between sessions, you cannot use JavaScript
-((variable)) since those are thrown away every time a page is
+((variable))s since those are thrown away every time a page is
 closed. You could set up a server, connect it to the Internet, and
 have your application store something there. We will see how to do
 that in link:20_node.html#node[Chapter 20]. But this adds a lot of

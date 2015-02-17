@@ -46,7 +46,7 @@ As an example, you can imagine an object that provides an interface to
 an area on your screen. It provides a way to draw shapes or text onto
 this area but hides all the details of how these shapes are converted
 to the actual pixels that make up the screen. You'd have a set of
-methods, for example `drawCircle`, and those are the only things you
+methods—for example, ++drawCircle++—and those are the only things you
 need to know in order to use such an object.
 
 (((object-oriented programming)))These ideas were initially worked out
@@ -113,13 +113,11 @@ fatRabbit.speak("I could sure use a carrot right now.");
 //   right now.'
 ----
 
-(((rabbit example)))The code uses the `this` keyword to output the
-type of rabbit that is speaking.
-
-(((apply method)))(((bind method)))(((this)))Recall that the `apply`
-and `bind` methods both take a first argument that can be used to
-simulate method calls. This first argument is in fact used to give a
-value to `this`.
+(((apply method)))(((bind method)))(((this)))(((rabbit example)))The
+code uses the `this` keyword to output the type of rabbit that is
+speaking. Recall that the `apply` and `bind` methods both take a first
+argument that can be used to simulate method calls. This first
+argument is in fact used to give a value to `this`.
 
 [[call_method]]
 (((call method)))There is a method similar to `apply`, called `call`.
@@ -506,8 +504,8 @@ function)))(((polymorphism)))(((overriding)))When you call the
 `String` function, which converts a value to a string, on an object,
 it will call the `toString` method on that object to try to create a
 meaningful string to return. I mentioned that some of the standard
-prototypes define their own version of `toString` in order to be able
-to create a string that contains more useful information than
+prototypes define their own version of `toString` so they can
+create a string that contains more useful information than
 `"[object Object]"`.
 
 (((object-oriented programming)))This is a simple instance of a 
@@ -902,8 +900,8 @@ setter is defined, writing to the property is simply ignored.
 (((inheritance)))(((table example)))(((alignment)))(((TextCell
 type)))We are not quite done yet with our table layout exercise. It
 helps readability to right-align columns of numbers. We should create
-another cell type that is like `TextCell` but rather than padding the
-lines on the right side it pads them on the left side so that they
+another cell type that is like `TextCell`, but rather than padding the
+lines on the right side, it pads them on the left side so that they
 align to the right.
 
 (((RTextCell type)))We could simply write a whole new ((constructor))
@@ -946,7 +944,7 @@ instances of this type will also have access to the properties in that
 prototype. Finally, we can override some of these properties by adding
 them to our new prototype.
 
-(((dataTable function)))Now if we slightly adjust the `dataTable`
+(((dataTable function)))Now, if we slightly adjust the `dataTable`
 function to use ++RTextCell++s for cells whose value is a number, we
 get the table we were aiming for.
 
@@ -1071,10 +1069,10 @@ to properties of the same name.
 (((addition)))(((subtraction)))Give the `Vector` prototype two
 methods, `plus` and `minus`, that take another vector as a parameter
 and return a new vector that has the sum or difference of the two
-vectors’ (the one in `this` and the parameter) x and y values.
+vectors’ (the one in `this` and the parameter) _x_ and _y_ values.
 
 Add a ((getter)) property `length` to the prototype that computes the
-length of the vector—that is, the distance of the point (x, y) from
+length of the vector—that is, the distance of the point (_x_, _y_) from
 the origin (0, 0).
 
 ifdef::interactive_target[]

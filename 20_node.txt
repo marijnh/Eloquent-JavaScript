@@ -943,7 +943,7 @@ whenever a problem is encountered in the server's code itself, as
 opposed to asynchronous problems, which will be passed as arguments to
 the callbacks. If we wanted to handle all exceptions raised during the
 handling of a request, to make sure we send a response, we would
-have to add `try`/`catch` blocks to _every_ callback.
+have to add `try/catch` blocks to _every_ callback.
 
 (((exception handling)))This is not workable. Many Node programs are
 written to make as little use of exceptions as possible, with the

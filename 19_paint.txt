@@ -478,7 +478,7 @@ to it, but you can no longer read it.
 
 (((try keyword)))(((toDataURL method)))(((exception
 handling)))(((SecurityError type)))This is why we need the
-`try`/`catch` statement in the `update` function for the save link.
+`try/catch` statement in the `update` function for the save link.
 When the canvas has become tainted, calling `toDataURL` will raise an
 exception that is an instance of `SecurityError`. When that happens, we
 set the link to point at yet another kind of URL, using the
@@ -829,7 +829,7 @@ link:15_game.html#game_css[Chapter 15].
 (((cross-domain request)))(((sandbox)))(((getImageData method)))The
 `getImageData` method is subject to the same restrictions as
 ++toDataURL++—it will raise an error when the canvas contains pixels
-that originate from another domain. Use a `try`/`catch` statement to
+that originate from another domain. Use a `try/catch` statement to
 report such errors with an `alert` dialog.
 
 ifdef::interactive_target[]

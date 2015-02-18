@@ -709,7 +709,7 @@ response's `end` method.
 (((path,URL)))(((urlToPath function)))(((url module)))(((parsing)))(((escaping,in
 URLs)))(((decodeURIComponent function)))To get a path from the
 ((URL)) in the request, the `urlToPath` function uses Node's built-in
-`"url"` module to parse the URL. It takes its path name, which will be
+`"url"` module to parse the URL. It takes its pathname, which will be
 something like `/file.txt`, decodes that to get rid of the `%20`-style
 escape codes, and prefixes a single dot to produce a path relative to
 the current directory.

@@ -18,7 +18,7 @@ were, no one would ever have paid any attention to it.
 (((decentralization)))(((compatibility)))Web technology has, from the
 start, been decentralized, not just technically but also in the
 way it has evolved. Various browser vendors have added new
-functionality in ad-hoc and sometimes poorly thought out ways, which
+functionality in ad hoc and sometimes poorly thought out ways, which
 then sometimes ended up being adopted by others and finally set down
 as a ((standard)).
 
@@ -46,7 +46,7 @@ _((Internet))_. It has lived up to its promise.
 A computer can use this network to spew bits at another computer. For
 any effective ((communication)) to arise out of this bit-spewing, the
 computers at both ends must know what the bits are supposed to
-mean. The meaning of any given sequence of bits depends entirely
+represent. The meaning of any given sequence of bits depends entirely
 on the kind of thing that it is trying to express and on the
 ((encoding)) mechanism used.
 
@@ -179,7 +179,7 @@ image::img/home-page.png[alt="My home page",width="6.3cm"]
 
 endif::book_target[]
 
-(((angular brackets)))The tags, wrapped in angular brackets (`<`
+(((angle brackets)))The tags, wrapped in angle brackets (`<`
 and `>`), provide information about the ((structure)) of the
 document. The other ((text)) is just plain text.
 
@@ -210,18 +210,18 @@ closed. An example of this would be `<img
 src="http://example.com/image.jpg">`, which will display the ((image))
 found at the given source URL.
 
-(((escaping,in HTML)))To be able to include ((angular brackets)) in
+(((escaping,in HTML)))To be able to include ((angle brackets)) in
 the text of a document, even though they have a special meaning in
 HTML, yet another form of special notation has to be introduced. A
-plain opening angular bracket is written as `&lt;` (“less than”), and
+plain opening angle bracket is written as `&lt;` (“less than”), and
 a closing bracket is written as `&gt;` (“greater than”). In HTML, an ampersand
-(&) character followed by a word and a semicolon (;) is called an
+(`&`) character followed by a word and a semicolon (`;`) is called an
 _((entity))_, and will be replaced by the character it encodes.
 
 (((backslash character)))(((ampersand character)))(((double-quote
 character)))This is analogous to the way backslashes are used in
 JavaScript strings. Since this mechanism gives ampersand characters a
-special meaning too, those need to be escaped as `&amp;`. Inside an
+special meaning, too, those need to be escaped as `&amp;`. Inside an
 attribute, which is wrapped in double quotes, `&quot;` can be used to
 insert an actual quote character.
 
@@ -293,7 +293,7 @@ JavaScript program) from a URL.
 
 The _code/hello.js_ file included here contains the same simple program,
 `alert("hello!")`. When an HTML page references other URLs as part of
-itself, for example an image file or a script, web browsers will
+itself, for example an image file or a script—web browsers will
 retrieve them immediately and include them in the page.
 
 (((script (HTML tag))))(((closing tag)))A script tag must always be

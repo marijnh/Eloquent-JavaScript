@@ -323,7 +323,7 @@ can see the effect of the control point: the lines leaving the lower
 corners start off in the direction of the control point and then
 ((curve)) toward their target.
 
-(((canvas)))(((bezierCurve method))) The `bezierCurve` method draws a 
+(((canvas)))(((bezierCurveTo method))) The `bezierCurveTo` method draws a
 similar kind of curve. Instead of a single ((control point)), this one
 has two—one for each of the ((line))'s endpoints. Here is a similar sketch to
 illustrate the behavior of such a curve:

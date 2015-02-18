@@ -22,6 +22,14 @@ page</a>.</p>
 <p><strong>Page 4</strong>: The sentence “You can probably imagine
 how how tedious…” duplicates the word <em>how</em>.</p>
 
+<h2>Chapter 9</h2>
+
+<p><strong>Page 159</strong> (The Date Type):
+The <code>findDate</code> function produces the wrong months. The
+second argument given to <code>new Date</code> should
+be <code>Number(match[2]) - 1</code>, subtracting one to compensate
+for the fact that months start at zero in this interface.</p>
+
 <h2>Chapter 10</h2>
 
 <p><strong>Page 185</strong> (Slow-Loading Modules): In the code

@@ -319,7 +319,7 @@ console.log(req.getResponseHeader("content-type"));
 // → text/plain
 ----
 
-(((case-sensitivity)))(((capitalization)))Header names are
+(((case sensitivity)))(((capitalization)))Header names are
 case-insensitive. They are usually written with a capital letter at
 the start of each word, such as “Content-Type”, but “content-type” and
 “cOnTeNt-TyPe” refer to the same header.

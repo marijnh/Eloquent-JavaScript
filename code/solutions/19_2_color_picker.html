@@ -1,0 +1,23 @@
+<!doctype html>
+
+<base href="http://eloquentjavascript.net/">
+<script src="code/chapter/19_paint.js"></script>
+
+<script>
+  function colorAt(cx, x, y) {
+    var pixel = cx.getImageData(x, y, 1, 1).data;
+    return "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
+  }
+
+  tools["Pick color"] = function(event, cx) {
+    var pos = relativePos(event, cx.canvas);
+    var color = colorAt(cx, pos.x, pos.y);
+    cx.fillStyle = color;
+    cx.strokeStyle = color;
+  };
+</script>
+
+<link rel="stylesheet" href="css/paint.css">
+<body>
+  <script>createPaint(document.body);</script>
+</body>

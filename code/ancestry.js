@@ -43,5 +43,4 @@ var ANCESTRY_FILE = "[\n  " + [
 // This makes sure the data is exported in node.js —
 // `require(./path/to/ancestry.js)` will get you the array.
 if (typeof module != "undefined" && module.exports)
-  module.exports = ancestry;
-
+  module.exports = ANCESTRY_FILE;

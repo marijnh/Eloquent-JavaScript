@@ -1,6 +1,28 @@
 window.addEventListener("load", function() {
+  // Fall back to pngs when svg images are not supported
+  if (document.getElementsByTagName && !document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1")) {
+    var imgs = document.getElementsByTagName("img");
+    for (var i = 0, svg; i < imgs.length; i++)
+      if (svg = /^(.*?img\/)([^.]+)\.svg$/.exec(imgs[i].src))
+        imgs[i].src = svg[1] + "generated/" + svg[2] + ".png";
+  }
+
   // If there's no ecmascript 5 support, don't try to initialize
   if (!Object.create || !window.JSON) return;
+
+  var sandboxHint = null;
+  if (window.chapNum && window.chapNum < 20 && window.localStorage && !localStorage.getItem("usedSandbox")) {
+    var pres = document.getElementsByTagName("pre");
+    for (var i = 0; i < pres.length; i++) {
+      var pre = pres[i];
+      if (!/^(text\/)?(javascript|html)$/.test(pre.getAttribute("data-language")) ||
+          chapNum == 1 && !/console\.log/.test(pre.textContent)) continue;
+      sandboxHint = elt("div", {"class": "sandboxhint"},
+                        "edit & run code by clicking it");
+      pre.insertBefore(sandboxHint, pre.firstChild);
+      break;
+    }
+  }
 
   document.body.addEventListener("click", function(e) {
     for (var n = e.target; n; n = n.parentNode) {
@@ -53,13 +75,20 @@ window.addEventListener("load", function() {
   var keyMap = {
     Esc: function(cm) { cm.display.input.blur(); },
     "Ctrl-Enter": function(cm) { runCode(cm.state.context); },
-    "Ctrl-D": function(cm) { closeCode(cm.state.context); },
+    "Ctrl-`": function(cm) { closeCode(cm.state.context); },
     "Ctrl-Q": resetSandbox
   };
 
   var nextID = 0;
+  var article = document.getElementsByTagName("article")[0];
 
   function activateCode(node, e, lang) {
+    if (sandboxHint) {
+      sandboxHint.parentNode.removeChild(sandboxHint);
+      sandboxHint = null;
+      localStorage.setItem("usedSandbox", "true");
+    }
+
     var code = node.textContent;
     var wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node);
     var editor = CodeMirror(function(div) {wrap.insertBefore(div, wrap.firstChild)}, {
@@ -69,7 +98,7 @@ window.addEventListener("load", function() {
       matchBrackets: true,
       lineNumbers: true
     });
-    wrap.style.margin = "1rem -5em";
+    wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px";
     setTimeout(function() { editor.refresh(); }, 600);
     if (e) {
       editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
@@ -100,7 +129,7 @@ window.addEventListener("load", function() {
                  ["Revert to original code", function() { revertCode(data); }],
                  ["Reset sandbox (ctrl-q)", function() { resetSandbox(data.sandbox); }]];
     if (!data.isHTML || !data.sandbox)
-      items.push(["Deactivate editor (ctrl-d)", function() { closeCode(data); }]);
+      items.push(["Deactivate editor (ctrl-`)", function() { closeCode(data); }]);
     items.forEach(function(choice) {
       menu.appendChild(elt("div", choice[0]));
     });

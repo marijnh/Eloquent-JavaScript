@@ -1,0 +1,136 @@
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 700;
+  src: url(font/cinzel_bold.otf);
+}
+
+@font-face {
+  font-family: 'PT Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url(font/pt_mono.otf);
+}
+
+body {
+  font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
+  font-size: 20px;
+  line-height: 1.45;
+  color: black;
+  background: white;
+  text-align: left;
+}
+
+article {
+  padding: 2em 0 5em 0;
+}
+
+pre {
+  padding: 5px 0 5px 15px;
+  line-height: 1.35;
+  margin: 1rem 0;
+  position: relative;
+  font-size: 16px;
+}
+
+code, pre {
+  font-family: 'PT Mono', monospace;
+}
+
+code {
+  font-size: 18px;
+  padding: 0 2px;
+}
+
+h1, h2, h3 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  margin: 1rem 0;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: 130%;
+}
+h2 {
+  font-size: 115%;
+}
+h3 {
+  font-size: 100%;
+}
+
+span.chap_num {
+  display: block;
+  font-size: 60%;
+  color: #aaa;
+  margin-top: -.7em;
+}
+
+blockquote {
+  margin: 0 0 0 3em;
+  padding: 0;
+  position: relative;
+  font-size: 85%;
+}
+
+blockquote p {
+  color: #333;
+}
+
+blockquote:before {
+  content: '“';
+  position: absolute;
+  left: -.5em;
+}
+
+blockquote footer {
+  position: relative;
+  margin-left: 1em;
+}
+
+p + footer {
+  margin-top: -.5em;
+}
+
+blockquote footer cite {
+  font-style: italic;
+}
+
+blockquote footer:before {
+  content: '—';
+  position: absolute;
+  left: -1em;
+}
+
+div.image img {
+  max-width: 80%;
+  margin-left: 30px;
+}
+
+td {
+  vertical-align: top;
+}
+
+td + td {
+  padding-left: 1em;
+}
+
+table {
+  margin-left: 15px;
+}
+
+/* Syntax highlighting */
+.cm-keyword {color: #506;}
+.cm-atom {color: #106;}
+.cm-number {color: #042;}
+.cm-def {color: #009;}
+.cm-variable-2, .cm-attribute {color: #027;}
+.cm-variable-3 {color: #072;}
+.cm-comment {color: #740;}
+.cm-string {color: #700;}
+.cm-string-2 {color: #740;}
+.cm-tag {color: #170;}
+.cm-keyword {color: #708;}
+.cm-atom {color: #219;}
+.cm-number {color: #164;}
+.cm-def {color: #00f;}

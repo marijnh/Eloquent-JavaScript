@@ -7,7 +7,7 @@
 
   function Animated(world) {
     this.world = world;
-    var outer = __sandbox.output.div, doc = outer.ownerDocument;
+    var outer = (window.__sandbox ? window.__sandbox.output.div : document.body), doc = outer.ownerDocument;
     var node = outer.appendChild(doc.createElement("div"));
     node.style.cssText = "position: relative; width: intrinsic; width: fit-content;";
     this.pre = node.appendChild(doc.createElement("pre"));

@@ -21,7 +21,9 @@
     // Used to cancel existing events when new code is loaded
     this.timeouts = []; this.intervals = []; this.frames = []; this.framePos = 0;
 
-    var sandbox = this, frame = this.frame = document.createElement("iframe");
+    var frame = this.frame = document.createElement("iframe");
+    frame.addEventListener("load", loaded);
+    frame.src = "empty.html";
     if (options.place) {
       options.place(frame);
     } else {
@@ -29,35 +31,43 @@
       document.body.appendChild(frame);
     }
 
-    var win = this.win = frame.contentWindow;
-    win.document.open();
-    win.document.write("<!doctype html>");
-    win.document.close();
-
-    var self = this;
-    this.setupEnv();
-
-    this.frame.addEventListener("load", function() {
-      if (self.frame.style.display != "none") self.resizeFrame();
-    });
-
     this.startedAt = null;
     this.extraSecs = 2;
     this.output = null;
 
-    if (options.loadFiles) setTimeout(function() {
-      var i = 0;
-      function loadNext() {
-        if (i == options.loadFiles.length) return callback(sandbox);
-        var script = win.document.createElement("script");
-        script.src = options.loadFiles[i];
-        win.document.body.appendChild(script);
-        ++i;
-        script.addEventListener("load", loadNext);
+    var self = this;
+    function loaded() {
+      frame.removeEventListener("load", loaded);
+      self.win = frame.contentWindow;
+      self.setupEnv();
+
+      function resize() {
+        if (self.frame.style.display != "none") self.resizeFrame();
       }
-      loadNext();
-    }, 50);
-    else callback(sandbox);
+      self.frame.addEventListener("load", resize);
+      var resizeTimeout = null;
+      function scheduleResize() {
+        self.win.clearTimeout(resizeTimeout);
+        self.win.__setTimeout(resize, 200);
+      }
+      self.win.addEventListener("keydown", scheduleResize);
+      self.win.addEventListener("mousedown", scheduleResize);
+
+      if (options.loadFiles) {
+        var i = 0;
+        var loadNext = function() {
+          if (i == options.loadFiles.length) return callback(self);
+          var script = self.win.document.createElement("script");
+          script.src = options.loadFiles[i];
+          self.win.document.body.appendChild(script);
+          ++i;
+          script.addEventListener("load", loadNext);
+        };
+        loadNext();
+      } else {
+        callback(self);
+      }
+    }
   };
 
   SandBox.prototype = {
@@ -100,27 +110,29 @@
       this.frame.style.height = "80px";
       this.resizeFrame();
       if (output) this.output = output;
-      if (scriptTags.length) {
-        this.startedAt = Date.now();
-        this.extraSecs = 2;
-        this.win.__c = 0;
-        var last = scriptTags[scriptTags.length - 1];
-        var finish = function() {
-          setTimeout(function() {sandbox.resizeFrame();}, 50);
-          callback();
-        };
-        if (last.src) {
-          last.addEventListener("load", finish);
-        } else {
-          var id = Math.floor(Math.random() * 0xffffff), fin;
-          this.callbacks[id] = function() { delete sandbox.callbacks[id]; finish(); };
-          scriptTags.push(fin = document.createElement("script"));
-          fin.innerText = "__sandbox.callbacks[" + id + "]();";
+      var sandbox = this;
+
+      function loadScript(i) {
+        if (i == scriptTags.length) {
+          if (i) setTimeout(function() {sandbox.resizeFrame();}, 50);
+          callback && callback();
+          return;
         }
-        scriptTags.forEach(function(tag) { doc.body.appendChild(tag); });
-      } else {
-        callback();
+
+        sandbox.startedAt = Date.now();
+        sandbox.extraSecs = 2;
+        sandbox.win.__c = 0;
+        var tag = scriptTags[i];
+        if (tag.src) {
+          tag.addEventListener("load", function() { loadScript(i + 1); });
+        } else {
+          var id = Math.floor(Math.random() * 0xffffff);
+          sandbox.callbacks[id] = function() { delete sandbox.callbacks[id]; loadScript(i + 1); };
+          tag.text += ";__sandbox.callbacks[" + id + "]();";
+        }
+        doc.body.appendChild(tag);
       }
+      loadScript(0);
     },
     setupEnv: function() {
       var win = this.win, self = this;
@@ -176,7 +188,7 @@
       };
     },
     resizeFrame: function() {
-      this.frame.style.height = Math.max(80, Math.min(this.win.document.body.scrollHeight + 10, 500)) + "px";
+      this.frame.style.height = Math.max(80, Math.min(this.win.document.documentElement.offsetHeight + 10, 500)) + "px";
       var box = this.frame.getBoundingClientRect();
       if (box.bottom > box.top && box.top >= 0 && box.top < window.innerHeight && box.bottom > window.innerHeight)
         window.scrollBy(0, Math.min(box.top, box.bottom - window.innerHeight));
@@ -255,6 +267,14 @@
       }
     }
     patches.push({from: tryPos, text: "try{"});
+    for (var i = ast.body.length - 1, catchPos = ast.end; i >= 0; i--) {
+      var stat = ast.body[i];
+      if (stat.type != "FunctionDeclaration") {
+        catchPos = stat.end;
+        break;
+      }
+    }
+    patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"});
     patches.sort(function(a, b) { return a.from - b.from; });
     var out = "";
     for (var i = 0, pos = 0; i < patches.length; ++i) {
@@ -263,12 +283,14 @@
       pos = patch.to || patch.from;
     }
     out += code.slice(pos, code.length);
-    return (strict ? '"use strict";' : "") + out + "\n}catch(e){__sandbox.error(e);}";
+    return (strict ? '"use strict";' : "") + out;
   }
 
   var Output = SandBox.Output = function(div) {
     this.div = div;
   };
+
+  var safari = /Safari\//.test(navigator.userAgent);
 
   Output.prototype = {
     clear: function() { this.div.innerHTML = ""; },
@@ -284,6 +306,8 @@
           wrap.appendChild(represent(arg, 58));
       }
       this.div.appendChild(wrap);
+      if (safari)
+        setTimeout(function() { this.div.style.minHeight = ".1em"; }.bind(this), 50);
     }
   };
 

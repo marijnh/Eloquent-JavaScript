@@ -1,0 +1,143 @@
+\documentclass[cfonts]{nostarch}
+\usepackage{natbib}
+\usepackage{nshyper}
+
+% There has to be a better way do to this, but after wasting a full
+% day, I wasn't able to find it (using the fontspec package kills the
+% nostarch style)
+\usepackage{newunicodechar}
+\newunicodechar{→}{$\triangleright$}
+\newunicodechar{←}{$\leftarrow$}
+\newunicodechar{“}{``}
+\newunicodechar{”}{''}
+\newunicodechar{’}{'}
+\newunicodechar{π}{$\pi$}
+\newunicodechar{½}{$\frac{1}{2}$}
+\newunicodechar{⅓}{$\frac{1}{3}$}
+\newunicodechar{¼}{$\frac{1}{4}$}
+\newunicodechar{…}{...}
+\newunicodechar{×}{$\times$}
+\newunicodechar{β}{\ss}
+\newunicodechar{ϕ}{$\varphi$}
+\newunicodechar{≈}{$\approx$}
+\newunicodechar{—}{---}
+
+% epigraph is used to style chapter quotes
+\usepackage{epigraph}
+\setlength{\epigraphwidth}{.8\textwidth}
+\setlength{\epigraphrule}{0pt}
+
+\graphicspath{ {../} }
+\makeindex
+
+\begin{document}
+
+\frontmatter
+
+\author{Marijn Haverbeke}
+
+\title{Eloquent JavaScript}
+
+\subtitle{A Modern Introduction to Programming}
+
+\makehalftitle
+
+\maketitle
+
+\begin{copyrightpage}
+  \textbf{\sffamily\MakeUppercase{Pellentesque habitant morbi.}}
+  Copyright \textcopyright{} 2014 by Marijn Haverbeke
+
+  This work is licensed under a Creative Commons
+  attribution-noncommercial license
+  (\url{http://creativecommons.org/licenses/by-nc/3.0/}).
+
+For information on book distributors or translations, please contact
+No Starch Press, Inc. directly: \\
+No Starch Press, Inc.\\
+555 De Haro Street, Suite 250, San Francisco, CA 94107\\
+phone: 415.863.9900; fax: 415.863.9950; info@nostarch.com; www.nostarch.com\\
+
+No Starch Press and the No Starch Press logo are registered trademarks
+of No Starch Press, Inc. Other product and company names mentioned
+herein may be the trademarks of their respective owners. Rather than
+use a trademark symbol with every occurrence of a trademarked name, we
+are using the names only in an editorial fashion and to the benefit of
+the trademark owner, with no intention of infringement of the
+trademark.
+
+The information in this book is distributed on an ``As Is'' basis,
+without warranty. While every precaution has been taken in the
+preparation of this work, neither the author nor No Starch Press, Inc.
+shall have any liability to any person or entity with respect to any
+loss or damage caused or alleged to be caused directly or indirectly
+by the information contained in it.
+
+\end{copyrightpage}
+
+\begin{dedicationpage}
+For Lotte and Jan
+\end{dedicationpage}
+
+\brieftableofcontents
+
+\tableofcontents
+
+\mainmatter
+
+\input{00_intro.tex}
+
+\input{01_values.tex}
+
+\input{02_program_structure.tex}
+
+\input{03_functions.tex}
+
+\input{04_data.tex}
+
+\input{05_higher_order.tex}
+
+\input{06_object.tex}
+
+\input{07_elife.tex}
+
+\input{08_error.tex}
+
+\input{09_regexp.tex}
+
+\input{10_modules.tex}
+
+\input{11_language.tex}
+
+\input{12_browser.tex}
+
+\input{13_dom.tex}
+
+\input{14_event.tex}
+
+\input{15_game.tex}
+
+\input{16_canvas.tex}
+
+\input{17_http.tex}
+
+\input{18_forms.tex}
+
+\input{19_paint.tex}
+
+\input{20_node.tex}
+
+\input{21_skillsharing.tex}
+
+\input{hints.tex}
+
+\backmatter
+
+\printindex
+
+\updatespage
+
+Visit \url{http://eloquentjavascript.net} for solutions to the
+exercises, updates, errata, and other information.
+
+\end{document}

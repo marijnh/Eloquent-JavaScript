@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+  <head>
+    <title>Table of Contents</title>
+    <link rel="stylesheet" href="style.css"/>
+    <style>
+      ol.toc {
+        margin: 1em 0;
+        padding: 0;
+        counter-reset: li;
+      }
+      ol.toc li {
+        margin: 0 0 0 40px;
+        padding: 0;
+        list-style: none;
+        position: relative;
+      }
+      ol.toc li:before {
+        content: counter(li) ".";
+        counter-increment: li;
+        position: absolute;
+        width: 2em;
+        text-align: right;
+        left: -2.5em; top: 1px;
+        font-size: 90%;
+      }
+      li.no-number:before { display: none; }
+      ol.toc span.parttitle {
+        display: block;
+        position: absolute;
+        margin: 0;
+        top: -2px;
+        right: 0;
+        font-family: inherit;
+        font-weight: normal;
+        font-size: 90%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Table of Contents</h1>
+    <nav xmlns:epub="http://www.idpf.org/2007/ops" epub:type="toc" id="toc">
+      <ol class="toc">
+        <li class="no-number"><a href="00_intro.xhtml">Introduction</a></li>
+        <li style="counter-reset: li; position: relative">
+          <a href="01_values.xhtml">Values, Types, and Operators<span class="parttitle">(Part 1: Language)</span></a>
+        </li>
+        <li><a href="02_program_structure.xhtml">Program Structure</a></li>
+        <li><a href="03_functions.xhtml">Functions</a></li>
+        <li><a href="04_data.xhtml">Data Structures: Objects and Arrays</a></li>
+        <li><a href="05_higher_order.xhtml">Higher-order Functions</a></li>
+        <li><a href="06_object.xhtml">The Secret Life of Objects</a></li>
+        <li><a href="07_elife.xhtml">Project: Electronic Life</a></li>
+        <li><a href="08_error.xhtml">Bugs and Error Handling</a></li>
+        <li><a href="09_regexp.xhtml">Regular Expressions</a></li>
+        <li><a href="10_modules.xhtml">Modules</a></li>
+        <li><a href="11_language.xhtml">Project: A Programming Language</a></li>
+        <li style="position: relative">
+          <a href="12_browser.xhtml">JavaScript and the Browser<span class="parttitle">(Part 2: Browser)</span></a>
+        </li>
+        <li><a href="13_dom.xhtml">The Document Object Model</a></li>
+        <li><a href="14_event.xhtml">Handling Events</a></li>
+        <li><a href="15_game.xhtml">Project: A Platform Game</a></li>
+        <li><a href="16_canvas.xhtml">Drawing on Canvas</a></li>
+        <li><a href="17_http.xhtml">HTTP</a></li>
+        <li><a href="18_forms.xhtml">Forms and Form Fields</a></li>
+        <li><a href="19_paint.xhtml">Project: A Paint Program</a></li>
+        <li style="position: relative">
+          <a href="20_node.xhtml">Node.js<span class="parttitle">(Part 3: Node)</span></a>
+        </li>
+        <li><a href="21_skillsharing.xhtml">Project: Skill-Sharing Website</a></li>
+        <li class="no-number"><a href="hints.xhtml">Hints to the exercises</a></li>
+      </ol>
+    </nav>
+  </body>
+</html>

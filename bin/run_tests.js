@@ -39,7 +39,7 @@ function pos(index) {
 
 var sandboxes = {}, anonId = 0;
 
-var re = /((?:\/\/.*\n|\s)*)(?:\[sandbox="([^"]*)"\]\n)?\[source,([^\]]+)\]\n----\n([\s\S]*?\n)----/g, m;
+var re = /((?:\/\/.*\n|\s)*)(?:\[sandbox="([^"]*)"\]\n|\[.*\n)*\[source,([^\]]+)\]\n----\n([\s\S]*?\n)----/g, m;
 while (m = re.exec(input)) {
   var snippet = m[4], hasConf = m[1].match(/\/\/ test: (.*)/);
   var sandbox = m[2] || "null", type = m[3], config = hasConf ? hasConf[1] : "";
@@ -52,6 +52,7 @@ while (m = re.exec(input)) {
   if (!sandbox)
     sandbox = sandboxes[boxId] = {code: ""};
 
+  if (/\bnever\b/.test(config)) continue;
   if (type == "text/html") {
     var stripped = stripHTML(snippet);
     snippet = stripped.javascript;
@@ -199,14 +200,42 @@ function report(err) {
 
 require("canvas/lib/context2d").prototype.drawImage = function() {};
 
+// Gruesome kludgery to make the node chapter tests run
+
+var fakeFS = {};
+for (var prop in fs) fakeFS[prop] = function() {
+  var lastArg = arguments[arguments.length - 1];
+  if (lastArg && lastArg.call) lastArg(null, "hi");
+  return "ok";
+};
+
+var fakeHTTP = {
+  request: require("http").request,
+  createServer: function() { return {listen: Math.min}; }
+};
+
+function fakeRequire(str) {
+  if (str == "./garble") return function(string) {
+    return string.split("").map(function(ch) {
+      return String.fromCharCode(ch.charCodeAt(0) + 5);
+    }).join("");
+  };
+  if (str == "./router") return require("../code/skillsharing/router");
+  if (str == "ecstatic") return Math.min;
+  if (str == "fs") return fakeFS;
+  if (str == "http") return fakeHTTP;
+
+  return require(str);
+}
+
 var i = 0, boxes = Object.keys(sandboxes).map(function(k) { return sandboxes[k]; });;
 function nextSandbox() {
   if (i == boxes.length) return;
   var sandbox = boxes[i];
   i++;
-  if (chapNum < 12) { // Language-only
+  if (chapNum < 12 || chapNum >= 20) { // Language-only
     try {
-      (new Function("console", baseCode + sandbox.code))(_console);
+      (new Function("console, require, module", baseCode + sandbox.code))(_console, chapNum >= 20 && fakeRequire, {});
       nextSandbox();
     } catch(e) {
       report(e);

@@ -1,0 +1,42 @@
+<!doctype html>
+
+<base href="http://eloquentjavascript.net/">
+<script src="code/chapter/19_paint.js"></script>
+
+<script>
+  function rectangleFrom(a, b) {
+    return {left: Math.min(a.x, b.x),
+            top: Math.min(a.y, b.y),
+            width: Math.abs(a.x - b.x),
+            height: Math.abs(a.y - b.y)};
+  }
+
+  tools.Rectangle = function(event, cx) {
+    var relativeStart = relativePos(event, cx.canvas);
+    var pageStart = {x: event.pageX, y: event.pageY};
+
+    var trackingNode = document.createElement("div");
+    trackingNode.style.position = "absolute";
+    trackingNode.style.background = cx.fillStyle;
+    document.body.appendChild(trackingNode);
+
+    trackDrag(function(event) {
+      var rect = rectangleFrom(pageStart,
+                               {x: event.pageX, y: event.pageY});
+      trackingNode.style.left = rect.left + "px";
+      trackingNode.style.top = rect.top + "px";
+      trackingNode.style.width = rect.width + "px";
+      trackingNode.style.height = rect.height + "px";
+    }, function(event) {
+      var rect = rectangleFrom(relativeStart,
+                               relativePos(event, cx.canvas));
+      cx.fillRect(rect.left, rect.top, rect.width, rect.height);
+      document.body.removeChild(trackingNode);
+    });
+  };
+</script>
+
+<link rel="stylesheet" href="css/paint.css">
+<body>
+  <script>createPaint(document.body);</script>
+</body>

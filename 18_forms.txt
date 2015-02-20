@@ -154,7 +154,7 @@ the currently focused element.
 ----
 
 (((autofocus attribute)))For some pages, the user is expected to
-want to start interacting with a form field immediately.
+want to interact with a form field immediately.
 JavaScript can be used to ((focus)) this field when the document is
 loaded, but HTML also provides the `autofocus` attribute, which
 produces the same effect but lets the browser know what we are trying
@@ -182,8 +182,8 @@ the OK button, rather than going through the help link first:
 <button onclick="console.log('ok')" tabindex=2>OK</button>
 ----
 
-(((tabindex attribute)))By default, most types of HTML elements can
-not be focused. But you can add a `tabindex` attribute to any element,
+(((tabindex attribute)))By default, most types of HTML elements cannot
+be focused. But you can add a `tabindex` attribute to any element,
 which will make it focusable.
 
 == Disabled fields ==
@@ -387,7 +387,7 @@ its `checked` property, which holds a Boolean value.
 tag))))(((labeling)))The `<label>` tag is used to associate a piece of
 text with an input ((field)). Its `for` attribute should refer to the
 `id` of the field. Clicking the label will activate the field, which focuses
-it and will toggle its value when it is a checkbox or radio button.
+it and toggles its value when it is a checkbox or radio button.
 
 (((input (HTML tag))))(((multiple-choice)))A ((radio button)) is
 similar to a checkbox, but it's implicitly linked to other radio buttons
@@ -446,7 +446,7 @@ any number of options, rather than just a single option.
 (((select (HTML tag))))(((drop-down menu)))This
 will, in most browsers, show up differently than a non-`multiple`
 select field, which is commonly drawn as a _drop-down_ control that
-shows the options only when you _open_ it. 
+shows the options only when you open it. 
 
 ifdef::book_target[]
 
@@ -542,7 +542,7 @@ fields also support a `multiple` attribute, which makes it possible to
 select multiple files at the same time.
 
 (((File type)))Objects in the `files` property have properties such as
-`name` (the file name), `size` (the file's size in bytes), and `type`
+`name` (the filename), `size` (the file's size in bytes), and `type`
 (the media type of the file, such as `text/plain` or `image/jpeg`).
 
 [[filereader]]
@@ -551,7 +551,7 @@ type)))What it does not have is a property that contains the content
 of the file. Getting at that is a little more involved. Since reading
 a file from disk can take time, the interface will have to be
 asynchronous to avoid freezing the document. You can think of the
-`FileReader` constructor as being similar to `XMLHttpRequest`, but for
+`FileReader` constructor as being similar to `XMLHttpRequest` but for
 files.
 
 [source,text/html]
@@ -745,7 +745,7 @@ not when a script does it.
 (((sessionStorage object)))There is another object similar to
 `localStorage` called `sessionStorage`. The difference between the two
 is that the content of `sessionStorage` is forgotten at the end of
-each _((session))_, which for most ((browser))s means whenever the
+each ((session)), which for most ((browser))s means whenever the
 browser is closed.
 
 == Summary ==

@@ -5,7 +5,7 @@
 
 = The Document Object Model =
 
-(((drawing)))(((parsing)))When you open a web page in your browser, it
+(((drawing)))(((parsing)))When you open a web page in your browser, the browser
 retrieves the page's ((HTML)) text and parses it, much like the way
 our parser from link:11_language.html#parsing[Chapter 11] parsed
 programs. The browser builds up a model of the document's
@@ -21,7 +21,7 @@ updated to reflect the changes.
 
 You can imagine an ((HTML)) document as a nested set of ((box))es.
 Tags such as `<body>` and `</body>` enclose other ((tag))s, which in
-turn contain other tags, or ((text)). Here's the example document from
+turn contain other tags or ((text)). Here's the example document from
 the link:12_browser.html#browser[previous chapter]:
 
 [sandbox="homepage"]
@@ -65,8 +65,8 @@ representing the `<html>` tag. It also provides the properties `head` and
 link:11_language.html#parsing[Chapter 11] for a moment. Their
 structures are strikingly similar to the structure of a browser's
 document. Each _((node))_ may refer to other nodes, _children_, which
-may have their own children. This shape is typical of nested
-structures where elements can contain subelements that are similar to
+in turn may have their own children. This shape is typical of nested
+structures where elements can contain sub-elements that are similar to
 themselves.
 
 (((documentElement property)))We call a data structure a _((tree))_
@@ -101,7 +101,7 @@ has a `nodeType` property, which contains a numeric code that
 identifies the type of node. Regular elements have the value 1, which
 is also defined as the constant property `document.ELEMENT_NODE`. Text
 nodes, representing a section of text in the document, have the value
-3 (`document.TEXT_NODE`). Comments get the value 8
+3 (`document.TEXT_NODE`). Comments have the value 8
 (`document.COMMENT_NODE`).
 
 So another way to visualize our document ((tree)) is as follows:
@@ -175,8 +175,8 @@ before or after the node itself. For a first child, `previousSibling`
 will be null, and for a last child, `nextSibling` will be null.
 
 (((talksAbout function)))(((recursion)))(((nesting,of objects)))When
-dealing with a nested data structure like this, recursive functions
-are often useful. The following one scans a document for ((text node))s
+dealing with a nested data structure like this one, recursive functions
+are often useful. The following recursive function scans a document for ((text node))s
 containing a given string and returns `true` when it has found one:
 
 [[talksAbout]]
@@ -435,7 +435,7 @@ attributes.
 
 (((programming language)))(((syntax highlighting example)))As a simple
 example, we'll write a “syntax highlighter” that looks for `<pre>`
-tags (“preformatted”, used for code and similar plain text) with a
+tags (“preformatted”, used for code and similar plaintext) with a
 `data-language` attribute and crudely tries to highlight the
 ((keyword))s for that language.
 
@@ -587,7 +587,7 @@ the precise position of an element on the screen is the
 `getBoundingClientRect` method. It returns an object with `top`,
 `bottom`, `left`, and `right` properties, indicating the pixel
 positions of the sides of the element relative to the top left of the
-_screen_. If you want them relative to the whole document, you must
+screen. If you want them relative to the whole document, you must
 add the current scroll position, found under the global `pageXOffset`
 and `pageYOffset` variables.
 
@@ -675,11 +675,11 @@ endif::book_target[]
 style attribute may contain one or more _((declaration))s_, which are
 a property (such as `color`) followed by a colon and a value (such as
 `green`). When there is more than one declaration, they must be
-separated by ((semicolon))s, as in “++color: red; border: none++”.
+separated by ((semicolon))s, as in `"color: red; border: none"`.
 
 (((display (CSS))))(((layout)))There are a lot of aspects that can be
-influenced with styling. For example, the `display` property controls
-whether an element is displayed as a block or inline element.
+influenced by styling. For example, the `display` property controls
+whether an element is displayed as a block or an inline element.
 
 [source,text/html]
 ----
@@ -731,9 +731,9 @@ letters that follow them capitalized (`style.fontFamily`).
 == Cascading styles ==
 
 indexsee:[Cascading Style Sheets,CSS]
-(((rule (CSS))))(((style (HTML tag))))The styling system for HTML is called ((CSS)),
+(((rule (CSS))))(((style (HTML tag))))The styling system for HTML is called ((CSS))
 for _Cascading Style Sheets_. A _((style sheet))_ is a set of
-rules for how to style elements in the document. It can be given
+rules for how to style elements in a document. It can be given
 inside a `<style>` tag.
 
 [source,text/html]
@@ -748,7 +748,7 @@ inside a `<style>` tag.
 ----
 
 (((rule (CSS))))(((font-weight (CSS))))(((overlay)))The _((cascading))_ in the name
-refers to the fact that multiple such rules get combined to
+refers to the fact that multiple such rules are combined to
 produce the final style for an element. In the previous example, the
 default styling for `<strong>` tags, which gives them `font-weight:
 bold`, is overlaid by the rule in the `<style>` tag, which adds
@@ -766,7 +766,7 @@ precedence and always win.
 to target things other than ((tag)) names in CSS rules. A rule for
 `.abc` applies to all elements with `"abc"` in their class attributes.
 A rule for `#xyz` applies to the element with an `id` attribute of
-`"xyz"` (which should be unique, within the document).
+`"xyz"` (which should be unique within the document).
 
 [source,text/css]
 ----
@@ -850,20 +850,19 @@ element or null if no elements match.
 [[animation]]
 == Positioning and animating ==
 
-(((position (CSS))))The `position` style property influences layout in
-a powerful way.
-
-(((relative positioning)))(((top (CSS))))(((left (CSS))))(((absolute
-positioning)))By default it has a value of `static`, meaning the
-element sits in its normal place in the document. When it is set to
-`relative`, the element still takes up space in the document, but now
-the `top` and `left` style properties can be used to move it relative
-to its normal place. When `position` is set to `absolute`, the element
-is removed from the normal document flow—that is, it no longer takes
-up space and may overlap with other elements. Also, its `top` and `left`
-properties can be used to absolutely position it relative to the top-left
-corner of the nearest enclosing element whose `position` property
-isn't `static`, or relative to the document if no such enclosing element exists.
+(((position (CSS))))(((relative positioning)))(((top (CSS))))(((left
+(CSS))))(((absolute positioning)))The `position` style property
+influences layout in a powerful way. By default it has a value of
+`static`, meaning the element sits in its normal place in the
+document. When it is set to `relative`, the element still takes up
+space in the document, but now the `top` and `left` style properties
+can be used to move it relative to its normal place. When `position`
+is set to `absolute`, the element is removed from the normal document
+flow—that is, it no longer takes up space and may overlap with other
+elements. Also, its `top` and `left` properties can be used to
+absolutely position it relative to the top-left corner of the nearest
+enclosing element whose `position` property isn't `static`, or
+relative to the document if no such enclosing element exists.
 
 We can use this to create an ((animation)). The following document 
 displays a picture of a cat that floats around in an ((ellipse)):
@@ -939,9 +938,9 @@ finding points that lie on a circle around point (0,0) with a radius
 of one unit. Both functions interpret their argument as the position
 on this circle, with zero denoting the point on the far right of the
 circle, going clockwise until 2π (about 6.28) has taken us around the
-whole circle. `Math.cos` tells you the x coordinate of the point that
+whole circle. `Math.cos` tells you the x-coordinate of the point that
 corresponds to the given position around the circle, while `Math.sin`
-yields the y coordinate. Positions (or angles) greater than 2π or less than
+yields the y-coordinate. Positions (or angles) greater than 2π or less than
 0 are valid—the rotation repeats so that _a_+2π refers to the same
 ((angle)) as _a_.
 
@@ -963,7 +962,7 @@ we have to append `"px"` to the number to tell the browser we are
 counting in ((pixel))s (as opposed to centimeters, “ems”, or other
 units). This is easy to forget. Using numbers without units will
 result in your style being ignored—unless the number is 0, which
-always means the same, regardless of its unit.
+always means the same thing, regardless of its unit.
 
 == Summary ==
 
@@ -989,7 +988,7 @@ element's style directly through its `style` property.
 [[exercise_table]]
 === Build a table ===
 
-(((table (HTML tag))))We built plain-text ((table))s in
+(((table (HTML tag))))We built plaintext ((table))s in
 link:06_object.html#tables[Chapter 6]. HTML makes laying out tables
 quite a bit easier. An ((HTML)) table is built with the following tag
 structure:

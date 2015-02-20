@@ -751,8 +751,8 @@ event handler.
 function)))When you have two corners of the rectangle, you must
 somehow translate these into the arguments that `fillRect` expects:
 the top-left corner, width, and height of the rectangle. `Math.min`
-can be used to find the leftmost x coordinate and topmost y
-coordinate. To get the width or height, you can call `Math.abs` (the
+can be used to find the leftmost x-coordinate and topmost
+y-coordinate. To get the width or height, you can call `Math.abs` (the
 absolute value) on the difference between two sides.
 
 (((coordinates)))Showing the rectangle during the mouse drag requires

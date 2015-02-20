@@ -44,7 +44,7 @@ that website for further ((documentation)) about Node and its built-in
 
 == Background ==
 
-(((responsiveness)))(((input)))One of the more difficult problems in
+(((responsiveness)))(((input)))One of the more difficult problems with
 writing systems that communicate over the ((network)) is managing input
 and ((output))—that is, the reading and writing of data to and from
 the network, the ((hard drive)), and other such devices. Moving data
@@ -61,7 +61,7 @@ stands for input/output).
 function)))Node was initially conceived for the purpose of making
 _asynchronous_ I/O easy and convenient. We have seen asynchronous
 interfaces before, such as a browser's `XMLHttpRequest` object,
-discussed in link:17_http.html#xmlhttprequest[Chapter 17]. Such an
+discussed in link:17_http.html#xmlhttprequest[Chapter 17]. An asynchronous
 interface allows the script to continue running while it does its
 work and calls a callback function when it's done. This is the way
 Node does all its I/O.
@@ -117,7 +117,7 @@ model of control easier, but it also makes expressing
 programs that do follow a straight line more awkward.
 
 (((verbosity)))In link:17_http.html#promises[Chapter 17], I already
-touched on the fact that all those callbacks do add quite a lot of
+touched on the fact that all those callbacks add quite a lot of
 noise and indirection to a program. Whether this style of
 asynchronicity is a good idea in general can be debated. In any case,
 it takes some getting used to.
@@ -213,7 +213,7 @@ Node and is used to load anything from built-in ((module))s to
 downloaded libraries to files that are part of your own program.
 
 (((path,file system)))(((relative path)))(((resolution)))When `require` is called, Node has
-to resolve the given string to an actual ((file)) to load. Path names
+to resolve the given string to an actual ((file)) to load. Pathnames
 that start with `"/"`, `"./"`, or `"../"` are resolved relative to the
 current module's path, where `"./"` stands for the current
 directory, `"../"` for one directory up, and `"/"` for the root of the
@@ -268,7 +268,7 @@ result of requiring our `garble` file the garbling function itself.
 function splits the string it is given into single characters by
 splitting on the empty string and then replaces each character with
 the character whose code is five points higher. Finally, it joins the
-result again into a string.
+result back into a string.
 
 We can now call our tool like this:
 
@@ -287,7 +287,7 @@ you also get a program called `npm`, which provides a convenient
 interface to this repository.
 
 (((figlet module)))For example, one module you will find on NPM is
-`figlet`, which can convert text into “((ASCII art))”, drawings made
+`figlet`, which can convert text into __((ASCII art))__—drawings made
 out of text characters. The following  transcript shows how to ((install))
 and use it:
 
@@ -353,7 +353,7 @@ documentation and for an easy way to search for libraries.
 
 (((directory)))(((fs module)))(((Node.js)))One of the most commonly
 used built-in modules that comes with Node is the `"fs"` module, which
-stands for “((file system))”. This module provides functions for
+stands for _((file system))_. This module provides functions for
 working with ((file))s and directories.
 
 (((readFile function)))(((callback function)))For example, there is a
@@ -406,7 +406,7 @@ fs.writeFile("graffiti.txt", "Node was here", function(err) {
 });
 ----
 
-(((Buffer type)))(((character encoding)))Here it was not necessary to
+(((Buffer type)))(((character encoding)))Here, it was not necessary to
 specify the encoding since `writeFile` will assume that if it is
 given a string to write, rather than a `Buffer` object, it should
 write it out as text using its default character encoding, which is
@@ -881,13 +881,13 @@ methods.PUT = function(path, respond, request) {
 
 (((overwriting)))(((204 (HTTP status code))))(((error
 event)))(((finish event)))(((createWriteStream function)))(((pipe
-method)))(((stream)))Here we don't need to check whether the file
+method)))(((stream)))Here, we don't need to check whether the file
 exists—if it does, we'll just overwrite it. We again use `pipe` to
 move data from a readable stream to a writable one, in this case from
 the request to the file. If creating the stream fails, an `"error"`
 event is raised for it, which we report in our response. When the data
 is transferred successfully, `pipe` will close both streams, which
-will cause a `"finish"` event to be fired on the writable stream. When
+will cause a `"finish"` event to fire on the writable stream. When
 that happens, we can report success to the client with a 204 response.
 
 (((download)))(((file server example)))(((Node.js)))The full script
@@ -923,7 +923,7 @@ the file is again missing.
 
 (((verbosity)))(((error handling)))In the code for the file server,
 there are _six_ places where we are explicitly routing exceptions that
-we don't know how to handle ((error response))s. Because
+we don't know how to handle into ((error response))s. Because
 ((exception))s aren't automatically propagated to callbacks but
 rather passed to them as arguments, they have to be handled explicitly
 every time. This completely defeats the advantage of ((exception
@@ -1199,7 +1199,7 @@ files, it would be an interesting kind of website: one that can be
 modified, vandalized, and destroyed by everybody who takes the time to
 create the right HTTP request. Still, it would be a website.
 
-Write a simple ((HTML)) page that includes a simple JavaScript file.
+Write a basic ((HTML)) page that includes a simple JavaScript file.
 Put the files in a directory served by the file server and open them in
 your browser.
 
@@ -1211,15 +1211,15 @@ website.
 (((XMLHttpRequest)))Use an HTML ((form))
 (link:18_forms.html#forms[Chapter 18]) to edit the content of the
 files that make up the website, allowing the user to update them on
-the server, by using HTTP requests as described in
+the server by using HTTP requests as described in
 link:17_http.html#http[Chapter 17].
 
 Start by making only a single file editable. Then make it so that the
 user can select which file to edit. Use the fact that our file server
 returns lists of files when reading a directory.
 
-(((overwriting)))Don't work directly in the code on the file server
-since if you make a mistake, you are likely to damage the files there.
+(((overwriting)))Don't work directly in the code on the file server,
+since if you make a mistake you are likely to damage the files there.
 Instead, keep your work outside of the publicly accessible directory
 and copy it there when testing.
 

@@ -637,7 +637,7 @@ high. The following code loads the image and then sets up an interval
 (((remainder operator)))(((% operator)))The `cycle` variable tracks
 our position in the ((animation)). Each ((frame)), it is incremented
 and then clipped back to the 0 to 7 range by using the remainder
-operator. This variable is then used to compute the x coordinate that
+operator. This variable is then used to compute the x-coordinate that
 the sprite for the current pose has in the picture.
 
 == Transformation ==
@@ -1044,7 +1044,7 @@ tenth, rightmost sprite.
 (((flipHorizontally function)))(((CanvasDisplay type)))Because the
 ((sprite))s are slightly wider than the player object—24 instead of 16
 pixels, to allow some space for feet and arms—the method has to adjust
-the x coordinate and width by a given amount (`playerXOverlap`).
+the x-coordinate and width by a given amount (`playerXOverlap`).
 
 // include_code
 
@@ -1396,7 +1396,7 @@ from the pie.
 (((Math.cos function)))If you are not sure how to find out which side
 of the circle a given angle is on, look to the explanation of
 `Math.cos` in the previous exercise. The cosine of an angle tells us
-which x coordinate it corresponds to, which in turn tells us exactly
+which x-coordinate it corresponds to, which in turn tells us exactly
 which side of the circle we are on.
 
 !!hint!!

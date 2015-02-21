@@ -430,8 +430,8 @@ to draw a full circle.
 ----
 
 (((moveTo method)))(((arc method)))(((path, canvas)))The resulting picture
-contains a ((line)) from the left of the full circle (first call to
-`arc`) to the left of the quarter-((circle)) (second call). Like other
+contains a ((line)) from the right of the full circle (first call to
+`arc`) to the right of the quarter-((circle)) (second call). Like other
 path-drawing methods, a line drawn with `arc` is connected to the
 previous path segment by default. You'd have to call `moveTo` or
 start a new path if you want to avoid this.

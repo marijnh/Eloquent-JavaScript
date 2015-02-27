@@ -19,7 +19,6 @@ function readStreamAsString(stream, callback) {
     path: "/author",
     headers: {Accept: type}
   }, function(response) {
-    return console.log(response.read());
     readStreamAsString(response, function(error, content) {
       if (error) throw error;
       console.log("Type " + type + ": " + content);

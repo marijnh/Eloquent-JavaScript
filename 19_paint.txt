@@ -567,7 +567,7 @@ controls.openURL = function(cx) {
                  elt("button", {type: "submit"}, "load"));
   form.addEventListener("submit", function(event) {
     event.preventDefault();
-    loadImageURL(cx, form.querySelector("input").value);
+    loadImageURL(cx, input.value);
   });
   return form;
 };

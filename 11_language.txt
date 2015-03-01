@@ -70,9 +70,9 @@ commas.
 
 ----
 do(define(x, 10),
-   if(>(x, 5)),
+   if(>(x, 5),
       print("large"),
-      print("small"))
+      print("small")))
 ----
 
 (((block)))The ((uniformity)) of the ((Egg language)) means that

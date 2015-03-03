@@ -123,7 +123,7 @@ methods.PUT = function(path, request) {
   });
 };
 
-methods.MKCOL = function(path, request, response) {
+methods.MKCOL = function(path, request) {
   return inspectPath(path).then(function(stats) {
     if (!stats)
       return fsp.mkdir(path).then(returnNoContent);

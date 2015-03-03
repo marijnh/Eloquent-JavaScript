@@ -962,6 +962,8 @@ function instantiateTemplate(name, values) {
     } else if (node.nodeType == document.TEXT_NODE) {
       return document.createTextNode(
                instantiateText(node.nodeValue));
+    } else {
+      return node;
     }
   }
 

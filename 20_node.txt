@@ -1086,7 +1086,7 @@ the first argument to the callback:
 function readStreamAsString(stream, callback) {
   var data = "";
   stream.on("data", function(chunk) {
-    data += chunk;
+    data += chunk.toString();
   });
   stream.on("end", function() {
     callback(null, data);

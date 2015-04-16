@@ -742,6 +742,7 @@ switch (prompt("What is the weather like?")) {
     break;
   case "sunny":
     console.log("Dress lightly.");
+    break;
   case "cloudy":
     console.log("Go outside.");
     break;

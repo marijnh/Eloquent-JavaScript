@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+var input = ""
+process.stdin.resume()
+process.stdin.on("data", function(chunk) {
+  input += chunk.toString("utf8")
+})
+
+process.stdin.on("end", function() {
+  var re = /<(p|pre\ data-language|h[23])\b[^>]*>/g, m
+  var pos = 0
+  while (m = re.exec(input)) {
+    var tag = m[1].match(/^\w+/)[0]
+    var start = m.index + m[0].length
+    var end = input.indexOf("</" + tag + ">", start)
+    re.lastIndex = end + 3 + tag.length
+
+    var type, toHash = toPlainText(input.slice(start, end))
+    if (tag == "pre") {
+      type = "c"
+    } else if (tag == "p") {
+      type = "p"
+      toHash = startAndEnd(toHash)
+    } else {
+      type = "h"
+    }
+    var mark = type + "_" + hash(toHash)
+    var bookmark = "<a class=" + type + "_ident id=\"" + mark + "\" href=\"#" + mark + "\"></a>"
+    process.stdout.write(input.slice(pos, start) + bookmark)
+    pos = start
+  }
+  process.stdout.write(input.slice(pos))
+})
+
+function hash(string) {
+  var sum = require("crypto").createHash("sha1");
+  sum.update(string);
+  return sum.digest("base64").slice(0, 10);
+}
+
+function toPlainText(text) {
+  return text.replace(/<[^>]+>|&[^;]+;/g, "");
+}
+
+function startAndEnd(text) {
+  var words = text.split(/\W+/);
+  if (!words[0]) words.shift();
+  if (!words[words.length - 1]) words.pop();
+  if (words.length <= 6) return words.join(" ");
+  return words.slice(0, 3).join(" ") + " " + words.slice(words.length - 3).join(" ");
+}

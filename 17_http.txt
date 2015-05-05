@@ -844,7 +844,7 @@ preferable. Making a request looks like this:
 var req = new XMLHttpRequest();
 req.open("GET", "example/data.txt", true);
 req.addEventListener("load", function() {
-  console.log(req.statusCode);
+  console.log(req.status);
 });
 req.send(null);
 ----

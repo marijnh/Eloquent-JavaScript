@@ -936,7 +936,7 @@ while (match = number.exec(input))
 
 (((while loop)))(((= operator)))This makes use of the fact that the
 value of an ((assignment)) expression (`=`) is the assigned value. So
-by using `match = re.exec(input)` as the condition in the `while`
+by using `match = number.exec(input)` as the condition in the `while`
 statement, we perform the match at the start of each iteration, save
 its result in a ((variable)), and stop looping when no more matches
 are found.

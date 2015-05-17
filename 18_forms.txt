@@ -765,7 +765,7 @@ handler can call `preventDefault` on that event to prevent the submission from
 happening. Form field elements do not have to be wrapped in `<form>`
 tags.
 
-When the user has selected a field from their local file system in a
+When the user has selected a file from their local file system in a
 file picker field, the `FileReader` interface can be used to access
 the content of this file from a JavaScript program.
 

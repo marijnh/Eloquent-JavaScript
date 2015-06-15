@@ -149,7 +149,7 @@ canvas—it contains the current picture as well as the selected color
 property).
 
 (((class attribute)))(((CSS)))We wrap the canvas and the controls in
-`<div>` elements with classes to be able to add some styling, such as
+`<div>` elements with classes so we can add some styling, such as
 a gray border around the picture.
 
 == Tool selection ==
@@ -158,7 +158,7 @@ a gray border around the picture.
 tag))))The first control we add is the `<select>` element that
 allows the user to pick a drawing ((tool)). As with `controls`, we
 will use an object to collect the various tools so that we do not
-have to hard-code them all in one place and we can add more tools later.
+have to hard-code them all in one place and can add more tools later.
 This object associates the names of the tools with the function that
 should be called when they are selected and the canvas is clicked.
 
@@ -187,7 +187,7 @@ controls.tool = function(cx) {
 
 (((preventDefault method)))(((selection)))(((option (HTML
 tag))))(((mousedown event)))The tool field is populated with
-`<option>` elements for all tools that have been defined and a
+`<option>` elements for all tools that have been defined, and a
 `"mousedown"` handler on the canvas element takes care of calling the
 function for the current tool, passing it both the ((event object))
 and the drawing ((context)) as arguments. It also calls
@@ -197,7 +197,7 @@ not cause the browser to select parts of the page.
 (((relativePos function)))(((event object)))(((getBoundingClientRect
 method)))(((clientX property)))(((clientY property)))The most basic
 tool is the ((line tool)), which allows the user to draw lines with
-the ((mouse)). To be able to put the line ends in the right place, we
+the ((mouse)). To put the line ends in the right place, we
 need to be able to find the canvas-relative ((coordinates)) that a
 given mouse event corresponds to. The `getBoundingClientRect` method,
 briefly mentioned in link:13_dom.html#boundingRect[Chapter 13], can
@@ -287,8 +287,8 @@ mouse's old and new position, using whatever `strokeStyle` and
 through to `trackDrag`. The normal way to run tools won't pass a third
 argument, so when using the line tool, that argument will hold
 `undefined`, and nothing happens at the end of the mouse drag. The
-argument is there to allow us to implement the “erase” tool on top of
-the “line” tool with very little additional code.
+argument is there to allow us to implement the erase tool on top of
+the line tool with very little additional code.
 
 // include_code
 
@@ -311,7 +311,7 @@ color is overlaid on the existing color at that spot. If the ((color)) is
 opaque, it will simply replace the old color, but if it is
 partially transparent, the two will be mixed.
 
-The “erase” tool sets `globalCompositeOperation` to
+The erase tool sets `globalCompositeOperation` to
 `"destination-out"`, which has the effect of erasing the pixels we
 touch, making them transparent again.
 
@@ -408,7 +408,7 @@ simple HTML document:
 data:text/html,<h1 style="color:red">Hello!</h1>
 ----
 
-Such URLs are useful for various tasks, such as including small
+Data URLs are useful for various tasks, such as including small
 images directly in a ((style sheet)) file. They also allow us to link
 to files that we created on the client side, in the browser, without
 first moving them to some server.
@@ -478,7 +478,7 @@ to it, but you can no longer read it.
 
 (((try keyword)))(((toDataURL method)))(((exception
 handling)))(((SecurityError type)))This is why we need the
-`try`/`catch` statement in the `update` function for the save link.
+`try/catch` statement in the `update` function for the save link.
 When the canvas has become tainted, calling `toDataURL` will raise an
 exception that is an instance of `SecurityError`. When that happens, we
 set the link to point at yet another kind of URL, using the
@@ -567,7 +567,7 @@ controls.openURL = function(cx) {
                  elt("button", {type: "submit"}, "load"));
   form.addEventListener("submit", function(event) {
     event.preventDefault();
-    loadImageURL(cx, form.querySelector("input").value);
+    loadImageURL(cx, input.value);
   });
   return form;
 };
@@ -602,7 +602,7 @@ base the font size on the current brush size. The minimum size is 7
 pixels because text smaller than that is unreadable.
 
 (((spray paint tool)))(((random number)))Another indispensable tool
-for drawing amateurish computer graphics is the “spray paint” tool.
+for drawing amateurish computer graphics is the spray paint tool.
 This one draws dots in random locations under the ((brush)) as long as
 the mouse is held down, creating denser or less dense speckling
 based on how fast or slow the mouse moves.
@@ -751,8 +751,8 @@ event handler.
 function)))When you have two corners of the rectangle, you must
 somehow translate these into the arguments that `fillRect` expects:
 the top-left corner, width, and height of the rectangle. `Math.min`
-can be used to find the leftmost x coordinate and topmost y
-coordinate. To get the width or height, you can call `Math.abs` (the
+can be used to find the leftmost x-coordinate and topmost
+y-coordinate. To get the width or height, you can call `Math.abs` (the
 absolute value) on the difference between two sides.
 
 (((coordinates)))Showing the rectangle during the mouse drag requires
@@ -812,14 +812,14 @@ pixelAt(cx, 10, 10);
 // → [255, 0, 0, 255]
 ----
 
-The arguments to `getImageData` indicate the starting x and y
-coordinates of the rectangle we want to retrieve, followed by its
+The arguments to `getImageData` indicate the starting x- and
+y-coordinates of the rectangle we want to retrieve, followed by its
 width and height.
 
 (((transparent)))Ignore transparency during this exercise and look
 only at the first three values for a given pixel. Also, do not worry
 about updating the color field when the user picks a color. Just make
-sure that the drawing context's `fillStyle` and `strokeStyle` get set
+sure that the drawing context's `fillStyle` and `strokeStyle` are set
 to the color under the mouse cursor.
 
 (((rgb (CSS))))Remember that these properties accept any color that
@@ -829,7 +829,7 @@ link:15_game.html#game_css[Chapter 15].
 (((cross-domain request)))(((sandbox)))(((getImageData method)))The
 `getImageData` method is subject to the same restrictions as
 ++toDataURL++—it will raise an error when the canvas contains pixels
-that originate from another domain. Use a `try`/`catch` statement to
+that originate from another domain. Use a `try/catch` statement to
 report such errors with an `alert` dialog.
 
 ifdef::interactive_target[]
@@ -874,8 +874,8 @@ to a tricky problem. Make sure you have plenty of time and
 ((patience)) before starting to work on this exercise, and do not get
 discouraged by initial failures.
 
-(((bucket fill)))A “flood fill” tool colors the pixel under the mouse
-and the whole group of pixels around it that have the same color. For
+(((bucket fill)))A flood fill tool colors the pixel under the mouse
+and the surrounding pixels of the same color. For
 the purpose of this exercise, we will consider such a group to include
 all pixels that can be reached from our starting pixel by moving in
 single-pixel horizontal and vertical steps (not diagonal), without
@@ -898,7 +898,7 @@ out pixel data from the resulting array. The pixels are organized in
 this array in a similar way to the ((grid)) elements in
 link:07_elife.html#grid[Chapter 7], one row at a time, except that
 each pixel is represented by four values. The first value for the
-pixel at (x,y) is at position (x + y × width) × 4.
+pixel at (_x_,_y_) is at position (_x_ + _y_ × width) × 4.
 
 (((alpha)))(((transparent)))Do include the fourth (alpha) value this
 time since we want to be able to tell the difference between empty
@@ -917,12 +917,12 @@ you finish your current walk.
 
 (((performance)))(((optimization)))In a normal-sized picture, there are
 a _lot_ of pixels. Thus, you must take care to do the minimal amount
-of work required or your program will take a very long to run. For
+of work required or your program will take a very long time to run. For
 example, every walk must ignore pixels seen by previous walks so that
 it does not redo work that has already been done.
 
 (((fillRect method)))I recommend calling `fillRect` for individual
-pixels when a pixel that should be colored is found and keeping some
+pixels when a pixel that should be colored is found, and keeping some
 data structure that tells you about all the pixels that have already
 been looked at.
 

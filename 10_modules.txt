@@ -118,7 +118,7 @@ with at the time and forget to also fix it in the other program.
 
 (((duplication)))Once you have lots of such shared, duplicated pieces
 of code, you will find yourself wasting a lot of time and energy on
-moving them around and keeping them up to date.
+moving them around and keeping them up-to-date.
 
 (((reuse)))Putting pieces of functionality that stand on their own
 into separate files and modules makes them easier to track, update,
@@ -481,11 +481,11 @@ global variable (`require`) to allow modules to find and use each
 other without going through the ((global scope)).
 
 This style of module system is called _((CommonJS)) modules_, after
-the pseudo((standard)) that first specified it. It is built into the
+the pseudo-((standard)) that first specified it. It is built into the
 ((Node.js)) system. Real implementations do a lot more than the
 example I showed. Most importantly, they have a much more intelligent
 way of going from a module name to an actual piece of code, allowing
-both path names relative to the current file and module names that
+both pathnames relative to the current file and module names that
 point directly to locally installed modules.
 
 [[amd]]
@@ -663,7 +663,7 @@ code executes.
 
 A real ((AMD)) implementation is, again, quite a lot more clever about
 resolving module names to actual URLs and generally more robust than
-the one shown previously. The _((RequireJS))_ (_requirejs.org_) project provides
+the one shown previously. The _((RequireJS))_ (http://requirejs.org[_requirejs.org_]) project provides
 a popular implementation of this style of ((module loader)).
 
 == Interface design ==
@@ -716,7 +716,7 @@ expects a real array won't be able to work with them. This is an
 example of poor __composability__—the module cannot be easily composed
 with other code.
 
-(((encapsulation)))(((spell-check example)))An example would be a
+(((encapsulation)))(((spell-check example)))One example would be a
 module for spell-checking text, which we might need when we want to
 write a text editor. The spell-checker could be made to operate
 directly on whichever complicated ((data structure))s the editor uses
@@ -840,7 +840,7 @@ Tiger
 (((book analogy)))Don't exaggerate and create too many modules. A book
 that starts a new chapter for every page would probably get on your
 nerves, if only because of all the space wasted on titles. Similarly,
-having to open ten files to read a tiny project isn't helpful. Aim for
+having to open 10 files to read a tiny project isn't helpful. Aim for
 three to five modules.
 
 (((encapsulation)))You can choose to have some functions become

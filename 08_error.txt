@@ -55,7 +55,7 @@ outcomes only in specific situations. Bugs of the latter type can
 take weeks to diagnose.
 
 (((programming language)))(((type)))(((static typing)))(((dynamic
-typing)))(((run-time error)))(((error)))The degree in which languages
+typing)))(((run-time error)))(((error)))The degree to which languages
 help you find such mistakes varies. Unsurprisingly, JavaScript is at
 the “hardly helps at all” end of that scale. Some languages want to
 know the types of all your variables and expressions before even
@@ -188,7 +188,7 @@ We will write a program to check that our implementation of `Vector`
 works as intended. Then, every time we change the implementation, we
 follow up by running the test program so that we can be reasonably
 confident that we didn't break anything. When we add extra
-functionality (for example a new method) to the `Vector` type, we also
+functionality (for example, a new method) to the `Vector` type, we also
 add tests for the new feature.
 
 [source,javascript]
@@ -424,7 +424,7 @@ block causes an exception to be raised, the `catch` block is
 evaluated. The variable name (in parentheses) after `catch` will be
 bound to the exception value. After the `catch` block finishes—or if
 the `try` block finishes without problems—control proceeds beneath the
-entire `try`/`catch` statement.
+entire `try/catch` statement.
 
 (((debugging)))(((call stack)))(((Error type)))(((stack
 trace)))In this case, we used the `Error` ((constructor)) to create
@@ -529,7 +529,7 @@ exception makes it all the way to the bottom of the stack without
 being caught, it gets handled by the environment. What this means
 differs between environments. In browsers, a description of the error
 typically gets written to the JavaScript console (reachable through
-the browser's “tools” or “developer” menu).
+the browser's Tools or Developer menu).
 
 (((crash)))(((error handling)))For programmer mistakes or problems
 that the program cannot possibly handle, just letting the error go
@@ -582,7 +582,7 @@ for (;;) {
 (((infinite loop)))(((for loop)))(((catch keyword)))(((debugging)))The
 `for (;;)` construct is a way to intentionally create a loop that
 doesn't terminate on its own. We break out of the loop only when a
-valid direction is given. _But_, we misspelled `promptDirection`,
+valid direction is given. _But_ we misspelled `promptDirection`,
 which will result in an “undefined variable” error. Because the
 `catch` block completely ignores its exception value (`e`), assuming
 it knows what the problem is, it wrongly treats the variable error as
@@ -721,7 +721,7 @@ handled locally, special return values are a sane way to track them.
 Otherwise, exceptions are preferable.
 
 Throwing an exception causes the call stack to be unwound until the
-next enclosing `try`/`catch` block or until the bottom of the stack.
+next enclosing `try/catch` block or until the bottom of the stack.
 The exception value will be given to the `catch` block that catches
 it, which should verify that it is actually the expected kind of
 exception and then do something with it. To deal with the
@@ -735,10 +735,10 @@ finishes.
 
 (((primitiveMultiply (exercise))))(((exception handling)))(((throw
 keyword)))Say you have a function `primitiveMultiply` that, in 50 percent of
-cases, multiplies two numbers and in the other 50 percent raises an
+cases, multiplies two numbers, and in the other 50 percent, raises an
 exception of type `MultiplicatorUnitFailure`. Write a function that
 wraps this clunky function and just keeps trying until a call
-succeeds, returning the result.
+succeeds, after which it returns the result.
 
 (((catch keyword)))Make sure you handle only  the exceptions you
 are trying to handle.
@@ -804,7 +804,7 @@ var box = {
 };
 ----
 
-(((private property)))(((access control)))It is a ((box)), with a
+(((private property)))(((access control)))It is a ((box)) with a
 lock. Inside is an array, but you can get at it only  when the box is
 unlocked. Directly accessing the `_content` property is not allowed.
 

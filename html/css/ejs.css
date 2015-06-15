@@ -59,12 +59,7 @@ pre[data-language=javascript] {
   cursor: pointer;
 }
 
-pre.cm-s-default, p {
-  margin-right: -30px;
-  padding-right: 30px;
-}
-
-p:hover a.p_ident:after, pre:hover a.c_ident:after {
+p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3:hover a.h_ident:after {
   content: "¶";
   color: #888;
   font-size: 80%;
@@ -97,6 +92,11 @@ h2 {
 }
 h3 {
   font-size: 100%;
+}
+
+pre.cm-s-default, p, h2, h3 {
+  margin-right: -30px;
+  padding-right: 30px;
 }
 
 a, a:visited, a:active {

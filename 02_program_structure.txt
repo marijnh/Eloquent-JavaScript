@@ -864,7 +864,7 @@ a function call is an expression, and may produce a value.
 == Exercises ==
 
 (((exercises)))If you are unsure how to try your solutions to
-exercises, refer to the link:00_into.html#intro[introduction].
+exercises, refer to the link:00_intro.html#intro[introduction].
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the

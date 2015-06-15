@@ -9,7 +9,7 @@ html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/chapter_info.js html
       $(patsubst img/%.svg,img/generated/%.png,$(SVGS))
 
 html/%.html: %.txt asciidoc_html.conf
-	PATH=node_modules/codemirror/bin:$(PATH) asciidoc -f asciidoc_html.conf --backend=html5 -o $@ $<
+	PATH=node_modules/codemirror/bin:$(PATH) asciidoc -f asciidoc_html.conf --backend=html5 -o - $< | node bin/addmarks > $@
 	node bin/build_code.js $<
 
 html/js/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) code/solutions/* bin/chapter_info.js

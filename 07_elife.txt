@@ -40,7 +40,7 @@ our simulation is intended to be amusing, not accurate, so we can
 freely cut such corners.
 
 [[plan]]
-(((array)))We can define a world with a “plan”, an array of
+(((array)))We can define a world with a _plan_, an array of
 strings that lays out the world's grid using one character per square.
 
 // include_code
@@ -79,7 +79,7 @@ take one turn and updates the world to reflect their actions.
 (((array,as grid)))(((Vector type)))(((coordinates)))The ((grid))
 that models the world has a fixed width and height. Squares are
 identified by their x- and y-coordinates. We use a simple type,
-` (as seen in the exercises for the
+`Vector` (as seen in the exercises for the
 link:06_object.html#exercise_vector[previous chapter]), to represent
 these coordinate pairs.
 
@@ -114,9 +114,9 @@ console.log(grid[1][2]);
 // → bottom right
 ----
 
-(((array,indexing)))(((coordinates)))(((grid)))Or, we can use a
+(((array,indexing)))(((coordinates)))(((grid)))Or we can use a
 single array, with size width × height, and decide that the element at
-(x,y) is found at position x + (y × width) in the array.
+(_x_,_y_) is found at position _x_ + (_y_ × width) in the array.
 
 [source,javascript]
 ----
@@ -256,7 +256,7 @@ direction names. We could also have used `Object.keys` to get this
 array from the `directions` object we defined
 link:07_elife.html#directions[earlier], but that provides no
 guarantees about the order in which the properties are listed. In most
-situations modern JavaScript engines will return properties in the
+situations, modern JavaScript engines will return properties in the
 order they were defined, but they are not required to.
 
 (((|| operator)))(((null)))The “++|| "s"++” in the `act` method is
@@ -611,7 +611,7 @@ in, the critters still won't be tempted to try to walk off the edges.
 
 (((electronic life)))(((simulation)))We instantiated a world
 object earlier. Now that we've added all the necessary methods, it
-should be possible to actually make it move.
+should be possible to actually make the world move.
 
 [source,javascript]
 ----
@@ -934,7 +934,7 @@ require a valid (and empty) destination.
 ((framework)) to simulate these more lifelike creatures. We could put
 the critters from the old world into it, but they would just die
 since they don't have an ((energy)) property. So let's make new ones.
-First we'll write a ((plant)), which is a rather simple life form.
+First we'll write a ((plant)), which is a rather simple life-form.
 
 // include_code
 

@@ -21,7 +21,7 @@ I've visited to be friendly and welcoming.
 
 In this final project chapter, our goal is to set up a ((website))
 for managing ((talk))s given at a skill-sharing meeting. Imagine a
-small group of people, meeting up regularly in a member’s
+small group of people meeting up regularly in a member’s
 office to talk about ((unicycling)). The problem is that when the previous
 organizer of the meetings moved to another town, nobody stepped
 forward to take over this task. We want a system that will let the
@@ -60,7 +60,7 @@ view of the current proposed talks and their comments. Whenever
 someone, somewhere, submits a new talk or adds a comment, all people
 who have the page open in their browsers should immediately see the
 change. This poses a bit of a challenge since there is no way for a
-web server to open up a connection to a client nor is there a good
+web server to open up a connection to a client, nor is there a good
 way to know which clients currently are looking at a given website.
 
 (((Node.js)))A common solution to this problem is called _((long
@@ -88,7 +88,7 @@ open ((connection))s for arbitrary data exchange. But using them
 properly is somewhat tricky.
 
 In this chapter, we will use a relatively simple technique, ((long
-polling)), where clients continuously ask the server for new information,
+polling)), where clients continuously ask the server for new information
 using regular HTTP requests, and the server simply stalls its answer
 when it has nothing new to report.
 
@@ -96,8 +96,8 @@ when it has nothing new to report.
 polling request open, it will receive information from the server
 immediately. For example, if Alice has our skill-sharing application
 open in her browser, that browser will have made a request for
-updates and be waiting for a response to that request. When Bob, from
-his own browser, submits a talk on Extreme Downhill Unicycling, the
+updates and be waiting for a response to that request. When Bob
+submits a talk on Extreme Downhill Unicycling, the
 server will notice that Alice is waiting for updates and send
 information about the new talk as a response to her pending request.
 Alice's browser will receive the data and update the screen to show
@@ -333,12 +333,12 @@ contains `%20`-style codes.
 === Serving files ===
 
 When a request matches none of the request types defined in our
-router, the server must interpret it as being a request for a file in
+router, the server must interpret it as a request for a file in
 the `public` directory. It would be possible to use the file server
 defined in link:20_node.html#file_server[Chapter 20] to serve such
 files, but we neither need nor want to support `PUT` and
 `DELETE` requests on files, and we would like to have advanced
-features such as support for caching. So, let's use a solid, well-tested
+features such as support for caching. So let's use a solid, well-tested
 ((static file)) server from ((NPM)) instead.
 
 (((createServer function)))(((ecstatic module)))I opted for
@@ -370,8 +370,7 @@ http.createServer(function(request, response) {
 ----
 
 (((JSON)))The `respond` and `respondJSON` helper functions are used throughout the
-server code to be able to send off responses with a single function
-call.
+server code to send off responses with a single function call.
 
 // include_code >code/skillsharing/skillsharing_server.js
 
@@ -438,8 +437,8 @@ router.add("DELETE", /^\/talks\/([^\/]+)$/,
 will define link:21_skillsharing.html#registerChange[later], notifies
 waiting long-polling requests about the change.
 
-(((readStreamAsJSON function)))(((body (HTTP))))To be able to easily
-get the content of ((JSON))-encoded request bodies, we define a
+(((readStreamAsJSON function)))(((body (HTTP))))To retrieve
+the content of ((JSON))-encoded request bodies, we define a
 function called `readStreamAsJSON`, which reads all content from a stream,
 parses it as JSON, and then calls a callback function.
 
@@ -562,7 +561,7 @@ needs to look at the query parameters in the request's URL to see
 whether a `changesSince` parameter is given. If you give the `"url"` module's
 `parse` function a second argument of `true`, it will
 also parse the query part of a URL. The object it returns will have a
-`query` property, holding another object that maps parameter names to
+`query` property, which holds another object that maps parameter names to
 values.
 
 // include_code >code/skillsharing/skillsharing_server.js
@@ -870,7 +869,7 @@ appropriate initial value for `lastServerTime`.
 
 (((error handling)))(((user experience)))When the request fails, we
 don't want to have our page just sit there, doing nothing without
-explanation. So, we define a simple function called `reportError`, which at
+explanation. So we define a simple function called `reportError`, which at
 least shows the user a dialog that tells them something went wrong.
 
 // include_code >code/skillsharing/public/skillsharing_client.js
@@ -895,7 +894,7 @@ to the user.
 the talks when changes come in, the client must keep track of the
 talks that it is currently showing. That way, when a new version of a
 ((talk)) that is already on the screen comes in, the talk can be replaced
-(in-place) with its updated form. Similarly, when information comes in
+(in place) with its updated form. Similarly, when information comes in
 that a talk is being deleted, the right DOM element can be removed
 from the document.
 
@@ -934,7 +933,7 @@ function displayTalks(talks) {
 
 (((drawTalk function)))(((instantiation)))Building up the DOM
 structure for talks is done using the ((template))s that were included
-in the HTML document. First we must define `instantiateTemplate`,
+in the HTML document. First, we must define `instantiateTemplate`,
 which looks up and fills in a template.
 
 (((class attribute)))(((querySelector method)))The `name` parameter is the
@@ -963,6 +962,8 @@ function instantiateTemplate(name, values) {
     } else if (node.nodeType == document.TEXT_NODE) {
       return document.createTextNode(
                instantiateText(node.nodeValue));
+    } else {
+      return node;
     }
   }
 
@@ -1148,7 +1149,7 @@ to ensure that a polling request is always active. When the request
 fails, we don't call `reportError` since popping up a dialog every
 time we fail to reach the server would get annoying when the
 server is down. Instead, the error is written to the console (to ease
-debugging), and another attempt is made two-and-a-half seconds later.
+debugging), and another attempt is made 2.5 seconds later.
 
 When the request succeeds, the new data is put onto the screen, and
 `lastServerTime` is updated to reflect the fact that we received data
@@ -1302,7 +1303,7 @@ completely broken, inoperable page. This is not nice.
 Some types of ((web application))s really can't be done without
 JavaScript. For others, you just don't have the ((budget)) or patience
 to bother about clients that can't run scripts. But for pages with a
-wide audience, it is polite to support script-less users.
+wide audience, it is polite to support scriptless users.
 
 (((graceful degradation)))Try to think of a way the skill-sharing
 website could be set up to preserve basic functionality when run

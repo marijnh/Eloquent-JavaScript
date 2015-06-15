@@ -44,7 +44,7 @@ express any computation you can think of. It will also allow simple
 == Parsing ==
 
 (((parsing)))(((validation)))The most immediately visible part of a
-programming language is its _((syntax))_, or notation. A parser is a
+programming language is its _((syntax))_, or notation. A _parser_ is a
 program that reads a piece of text and produces a data structure that
 reflects the structure of the program contained in that text. If the
 text does not form a valid program, the parser should complain and
@@ -70,9 +70,9 @@ commas.
 
 ----
 do(define(x, 10),
-   if(>(x, 5)),
+   if(>(x, 5),
       print("large"),
-      print("small"))
+      print("small")))
 ----
 
 (((block)))The ((uniformity)) of the ((Egg language)) means that
@@ -323,7 +323,7 @@ link:11_language.html#egg_fun[later], when the special form called
 (((readability)))(((evaluate
 function)))(((recursion)))(((parsing)))The recursive structure of
 `evaluate` resembles the similar structure of the parser. Both mirror
-the structure of the language itself. It would also be possible
+the structure of the language itself. It would also be possible to
 integrate the parser with the evaluator and evaluate during parsing,
 but splitting them up this way makes the program more readable.
 
@@ -438,7 +438,7 @@ represent the ((global scope)).
 
 To be able to use the `if` construct we just defined, we must
 have access to ((Boolean)) values. Since there are only two
-boolean values, we do not need special syntax for them. We simply bind
+Boolean values, we do not need special syntax for them. We simply bind
 two variables to the values `true` and `false` and use those.
 
 // include_code
@@ -764,8 +764,8 @@ more work).
 
 (((hash character)))(((Egg language)))It would be nice if we could
 write ((comment))s in Egg. For example, whenever we find a hash sign
-(“#”), we could treat the rest of the line as a comment and ignore it,
-similar to “++//++” in JavaScript.
+(`#`), we could treat the rest of the line as a comment and ignore it,
+similar to `//` in JavaScript.
 
 (((skipSpace function)))We do not have to make any big changes to the
 parser to support this. We can simply change `skipSpace` to skip

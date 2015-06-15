@@ -26,7 +26,7 @@ arbitrary points, are extremely awkward to do with regular
 ((HTML)) elements.
 
 (((SVG)))(((img (HTML tag))))There are two alternatives. The first is DOM-based
-but utilizes Scalable Vector Graphics (SVG), rather than HTML
+but utilizes _Scalable Vector Graphics (SVG)_, rather than HTML
 elements. Think of SVG as a dialect for describing
 ((document))s that focuses on ((shape))s rather than text. You can embed an SVG
 document in an HTML document, or you can include it
@@ -114,7 +114,7 @@ three-dimensional graphics through the OpenGL interface.
 WebGL. We stick to two dimensions. But if you are interested in
 three-dimensional graphics, I do encourage you to look into WebGL. It
 provides a very direct interface to modern graphics hardware and thus
-allows you to render even complicated scenes efficiently—from
+allows you to render even complicated scenes efficiently, using
 JavaScript.
 
 (((getContext method)))(((canvas,context)))A ((context)) is created
@@ -145,7 +145,7 @@ endif::book_target[]
 
 (((SVG)))(((coordinates)))Just like in ((HTML)) (and SVG), the
 coordinate system that the canvas uses puts (0,0) at the top-left
-corner, and the positive y-((axis)) goes down from there. So, (10,10)
+corner, and the positive y-((axis)) goes down from there. So (10,10)
 is 10 pixels below and to the right of the top-left corner.
 
 [[fill_stroke]]
@@ -157,12 +157,12 @@ or it can be _stroked_, which means a ((line)) is drawn along its edge. The
 same terminology is used by SVG. 
 
 (((fillRect method)))(((strokeRect method)))The `fillRect` method fills
-a ((rectangle)). It takes first the x and y ((coordinates)) of the
+a ((rectangle)). It takes first the x- and y-((coordinates)) of the
 rectangle's top-left corner, then its width, and then its height. A
 similar method, `strokeRect`, draws the ((outline)) of a rectangle.
 
 (((property)))(((state)))Neither method takes any further parameters. 
-The color of the fill, thickness of the stroke, and so on, are not
+The color of the fill, thickness of the stroke, and so on are not
 determined by an argument to the method (as you might justly expect)
 but rather by properties of the context object.
 
@@ -199,7 +199,7 @@ endif::book_target[]
 
 (((default value)))(((canvas,size)))When no `width` or `height`
 attribute is specified, as in the previous example, a canvas element
-gets a default width of 300 and height of 150 pixels.
+gets a default width of 300 pixels and height of 150 pixels.
 
 == Paths ==
 
@@ -317,13 +317,13 @@ endif::book_target[]
 
 (((stroke method)))We draw a ((quadratic curve)) from the left to the
 right, with (60,10) as control point, and then draw two ((line))
-segments, going through that control point and back to the start of
+segments going through that control point and back to the start of
 the line. The result somewhat resembles a _((Star Trek))_ insignia. You
 can see the effect of the control point: the lines leaving the lower
 corners start off in the direction of the control point and then
 ((curve)) toward their target.
 
-(((canvas)))(((bezierCurve method))) The `bezierCurve` method draws a 
+(((canvas)))(((bezierCurveTo method))) The `bezierCurveTo` method draws a
 similar kind of curve. Instead of a single ((control point)), this one
 has two—one for each of the ((line))'s endpoints. Here is a similar sketch to
 illustrate the behavior of such a curve:
@@ -390,7 +390,7 @@ start of the rounded part.
 
 ifdef::book_target[]
 
-This produces two rounded corners with different radiuses.
+This produces two rounded corners with different radii.
 
 image::img/canvas_arc.png[alt="Two arcs with different radii",width="2.3cm"]
 
@@ -430,8 +430,8 @@ to draw a full circle.
 ----
 
 (((moveTo method)))(((arc method)))(((path, canvas)))The resulting picture
-contains a ((line)) from the left of the full circle (first call to
-`arc`) to the left of the quarter-((circle)) (second call). Like other
+contains a ((line)) from the right of the full circle (first call to
+`arc`) to the right of the quarter-((circle)) (second call). Like other
 path-drawing methods, a line drawn with `arc` is connected to the
 previous path segment by default. You'd have to call `moveTo` or
 start a new path if you want to avoid this.
@@ -637,7 +637,7 @@ high. The following code loads the image and then sets up an interval
 (((remainder operator)))(((% operator)))The `cycle` variable tracks
 our position in the ((animation)). Each ((frame)), it is incremented
 and then clipped back to the 0 to 7 range by using the remainder
-operator. This variable is then used to compute the x coordinate that
+operator. This variable is then used to compute the x-coordinate that
 the sprite for the current pose has in the picture.
 
 == Transformation ==
@@ -888,7 +888,7 @@ CanvasDisplay.prototype.clear = function() {
 (((CanvasDisplay type)))The `animationTime` counter is the reason we
 passed the step size to `drawFrame` in
 link:15_game.html#domdisplay[Chapter 15], even though `DOMDisplay`
-does not use it. Our new `drawFrame` function uses it to track time
+does not use it. Our new `drawFrame` function uses the counter to track time
 so that it can switch between ((animation)) ((frame))s based on the
 current time.
 
@@ -948,8 +948,8 @@ CanvasDisplay.prototype.updateViewport = function() {
 
 (((boundary)))(((Math.max function)))(((Math.min function)))(((clipping)))The calls
 to `Math.max` and `Math.min` ensure that the viewport does
-not end up showing space outside of the level. `Math.max(x, 0)` has
-the effect of ensuring the resulting number is not less than zero.
+not end up showing space outside of the level. `Math.max(x, 0)`
+ensures that the resulting number is not less than zero.
 `Math.min`, similarly, ensures a value stays below a given bound.
 
 When ((clearing)) the display, we'll use a slightly different
@@ -1030,7 +1030,7 @@ serious problem. Since we keep updating the screen, the correct scene
 will appear as soon as the loading finishes.
 
 (((player character)))(((animation)))(((drawing)))The ((walking))
-character we used before will be used to represent the player. The
+character shown earlier will be used to represent the player. The
 code that draws it needs to pick the right ((sprite)) and direction
 based on the player's current motion. The first eight sprites contain a
 walking animation. When the player is moving along a floor, we cycle
@@ -1044,7 +1044,7 @@ tenth, rightmost sprite.
 (((flipHorizontally function)))(((CanvasDisplay type)))Because the
 ((sprite))s are slightly wider than the player object—24 instead of 16
 pixels, to allow some space for feet and arms—the method has to adjust
-the x coordinate and width by a given amount (`playerXOverlap`).
+the x-coordinate and width by a given amount (`playerXOverlap`).
 
 // include_code
 
@@ -1396,7 +1396,7 @@ from the pie.
 (((Math.cos function)))If you are not sure how to find out which side
 of the circle a given angle is on, look to the explanation of
 `Math.cos` in the previous exercise. The cosine of an angle tells us
-which x coordinate it corresponds to, which in turn tells us exactly
+which x-coordinate it corresponds to, which in turn tells us exactly
 which side of the circle we are on.
 
 !!hint!!

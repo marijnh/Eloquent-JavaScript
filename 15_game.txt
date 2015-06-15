@@ -81,11 +81,11 @@ overlaid on top of that, using absolutely positioned elements.
 
 (((performance)))In games and other programs that have to animate
 ((graphics)) and respond to user ((input)) without noticeable delay,
-((efficiency)) is important. Though the ((DOM)) was not originally
+((efficiency)) is important. Although the ((DOM)) was not originally
 designed for high-performance graphics, it is actually better at this
 than you would expect. You saw some ((animation))s in
 link:13_dom.html#animation[Chapter 13]. On a modern machine, a simple
-game like this performs well even if we don't think about
+game like this performs well, even if we don't think about
 ((optimization)) much.
 
 (((canvas)))In the link:16_canvas.html#canvas[next chapter], we will
@@ -120,17 +120,17 @@ var simpleLevelPlan = [
 ----
 
 Both the fixed ((grid)) and the moving elements are included in the
-plan. The _x_ characters stand for ((wall))s, the space characters are for empty
+plan. The `x` characters stand for ((wall))s, the space characters for empty
 space, and the exclamation marks represent fixed, nonmoving lava tiles.
 
-(((level)))The @ defines the place where the ((player)) starts. Every _o_ is a
-((coin)), and the equal sign (=) stands for a block of ((lava))
+(((level)))The `@` defines the place where the ((player)) starts. Every `o` is a
+((coin)), and the equal sign (`=`) stands for a block of ((lava))
 that moves back and forth horizontally. Note that the ((grid)) for
 these positions will be set to contain empty space, and another data
 structure is used to track the position of such moving elements.
 
 (((bouncing)))We'll support two other kinds of moving ((lava)): the
-pipe character (|) for vertically moving blobs, and _v_ for
+pipe character (`|`) for vertically moving blobs, and `v` for
 _dripping_ lava—vertically moving lava that doesn't bounce back and
 forth but only moves down, jumping back to its start position when it
 hits the floor.
@@ -194,8 +194,8 @@ type of the square—`"wall"` or `"lava"`.
 
 The ((actor))s array holds objects that track the current position and
 ((state)) of the dynamic elements in the ((level)). Each of these is
-expected to have a `pos` property giving its position (the
-((coordinates)) of its top-left corner), a `size` property giving its
+expected to have a `pos` property that gives its position (the
+((coordinates)) of its top-left corner), a `size` property that gives its
 size, and a `type` property that holds a string identifying the
 element (`"lava"`, `"coin"`, or `"player"`).
 
@@ -219,10 +219,9 @@ Level.prototype.isFinished = function() {
 
 == Actors ==
 
-[[vector]]
-(((Vector type)))(((coordinates)))To store the position and size of an
-actor, we will return to our trusty `Vector` type, which groups an x
-coordinate and a y coordinate into an object.
+[[vector]] (((Vector type)))(((coordinates)))To store the position and
+size of an actor, we will return to our trusty `Vector` type, which
+groups an x-coordinate and a y-coordinate into an object.
 
 // include_code
 
@@ -281,7 +280,7 @@ Player.prototype.type = "player";
 ----
 
 Because a player is one-and-a-half squares high, its initial position
-is set to be half a square above the position where the @ character
+is set to be half a square above the position where the `@` character
 appeared. This way, its bottom aligns with the bottom of the square
 it appeared in.
 
@@ -337,7 +336,7 @@ Coin.prototype.type = "coin";
 (((Math.random function)))(((random number)))(((Math.sin
 function)))(((sine)))(((wave)))In
 link:13_dom.html#sin_cos[Chapter 13], we saw that `Math.sin` gives us
-the y coordinate of a point on a circle. That coordinate goes back and
+the y-coordinate of a point on a circle. That coordinate goes back and
 forth in a smooth wave form as we move along the circle, which makes
 the sine function useful for modeling a wavy motion.
 
@@ -364,7 +363,7 @@ time and motion inside them.
 == Encapsulation as a burden ==
 
 (((programming style)))(((program size)))(((complexity)))Most of the
-code in this chapter does not worry about ((encapsulation)). This has
+code in this chapter does not worry about ((encapsulation)) for
 two reasons. First, encapsulation takes extra effort. It makes
 programs bigger and requires additional concepts and interfaces to be
 introduced. Since there is only so much code you can throw at a reader
@@ -599,7 +598,7 @@ left and one to the top right, to create a white halo effect.
 (CSS))))(((max-height (CSS))))(((viewport)))We can't assume that
 levels always fit in the viewport. That is why the
 `scrollPlayerIntoView` call is needed—it ensures that if the level is
-sticking out outside the viewport, we scroll that viewport to make
+protruding outside the viewport, we scroll that viewport to make
 sure the player is near its center. The following ((CSS)) gives the
 game's wrapping ((DOM)) element a maximum size and ensures that
 anything that sticks out of the element's box is not visible. We also give the outer element a relative
@@ -772,7 +771,7 @@ Level.prototype.obstacleAt = function(pos, size) {
 (((Math.floor function)))(((Math.ceil function)))This method computes the set
 of grid squares that the body ((overlap))s with by using `Math.floor`
 and `Math.ceil` on the body's ((coordinates)). Remember that ((grid)) squares
-are 1-by-1 units in size. By ((rounding)) the sides of a box up and
+are 1×1 units in size. By ((rounding)) the sides of a box up and
 down, we get the range of ((background)) squares that the box touches.
 
 image::img/game-grid.svg[alt="Finding collisions on a grid",width="3cm"]
@@ -927,8 +926,8 @@ Player.prototype.moveX = function(step, level, keys) {
 };
 ----
 
-(((animation)))(((keyboard)))The motion is computed based on the state
-of the left and right arrow keys. When a motion would cause the player to
+(((animation)))(((keyboard)))The horizontal motion is computed based on the state
+of the left and right arrow keys. When a motion causes the player to
 hit something, the level's `playerTouched` method, which handles
 things like dying in ((lava)) and collecting ((coin))s, is called.
 Otherwise, the object updates its position.
@@ -966,7 +965,7 @@ is accelerated vertically to account for ((gravity)). The gravity,
 game have been set by ((trial and error)). I tested various values
 until I found a combination I liked.
 
-(((collision detection)))(((keyboard)))(((jumping)))Next we check for
+(((collision detection)))(((keyboard)))(((jumping)))Next, we check for
 obstacles again. If we hit an obstacle, there are two possible
 outcomes. When the up arrow is pressed _and_ we are moving down
 (meaning the thing we hit is below us), the speed is set to a
@@ -1055,7 +1054,7 @@ an object with key codes as property names and key names as values,
 will return an object that tracks the current position of those keys.
 It registers event handlers for `"keydown"` and `"keyup"` events and,
 when the key code in the event is present in the set of codes that it
-is tracking, update the object.
+is tracking, updates the object.
 
 // include_code
 
@@ -1302,7 +1301,7 @@ handler and interrupting or resuming the animation whenever the
 Esc key is hit.
 
 (((runAnimation function)))The `runAnimation` interface may not look
-like it is suitable for this, at first glance, but it is, if you
+like it is suitable for this at first glance, but it is, if you
 rearrange the way `runLevel` calls it.
 
 (((variable,global)))(((trackKeys function)))When you have that
@@ -1311,7 +1310,7 @@ registering keyboard event handlers is somewhat problematic. The
 `arrows` object is currently a global variable, and its event handlers
 are kept around even when no game is running. You could say they _((leak))_ out of
 our system. Extend `trackKeys` to provide a way to
-unregister its handlers and then change `runLevel` to register its
+unregister its handlers, and then change `runLevel` to register its
 handlers when it starts and unregister them again when it is
 finished.
 

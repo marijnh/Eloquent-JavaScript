@@ -11,7 +11,16 @@
 
   tools["Pick color"] = function(event, cx) {
     var pos = relativePos(event, cx.canvas);
-    var color = colorAt(cx, pos.x, pos.y);
+    try {
+      var color = colorAt(cx, pos.x, pos.y);
+    } catch(e) {
+      if (e instanceof SecurityError) {
+        alert("Unable to access your picture's pixel data");
+        return;
+      } else {
+        throw e;
+      }
+    }
     cx.fillStyle = color;
     cx.strokeStyle = color;
   };

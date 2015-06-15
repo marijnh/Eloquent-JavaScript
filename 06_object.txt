@@ -1102,8 +1102,8 @@ root)))(((Math.sqrt function)))Adding a getter property to the
 constructor can be done with the `Object.defineProperty` function. To
 compute the distance from (0, 0) to (x, y), you can use the
 Pythagorean theorem, which says that the square of the distance we are
-looking for is equal to the square of the x coordinate plus the square
-of the y coordinate. Thus, (!html √(x^2^ + y^2^pass:[)]!)(!tex pass:[$\sqrt{x^2 + y^2}$]!)
+looking for is equal to the square of the x-coordinate plus the square
+of the y-coordinate. Thus, (!html √(x^2^ + y^2^pass:[)]!)(!tex pass:[$\sqrt{x^2 + y^2}$]!)
 is the number you want, and `Math.sqrt` is the way you compute a square
 root in JavaScript.
 

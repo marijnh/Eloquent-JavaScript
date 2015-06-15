@@ -21,9 +21,9 @@ flow than the one we have used so far.
 
 (((polling)))(((button)))(((real-time)))Imagine an interface where the
 only way to find out whether a key on the keyboard is being pressed is to read the
-current state of that key. To be able to react to key
-presses, you would have to constantly read the key's state so that
-you'd catch it before it gets released again. It would be dangerous to
+current state of that key. To be able to react to keypresses,
+you would have to constantly read the key's state so that
+you'd catch it before it's released again. It would be dangerous to
 perform other time-intensive computations since you might miss a
 keypress.
 
@@ -91,7 +91,7 @@ you can't accidentally replace a handler that has already been
 registered.
 
 (((removeEventListener method)))The `removeEventListener` method,
-called with similar arguments as `addEventListener`, removes a
+called with arguments similar to as `addEventListener`, removes a
 handler.
 
 [source,text/html]
@@ -256,8 +256,7 @@ Chrome, for example, ((keyboard)) shortcuts to close the current tab
 
 (((keyboard)))(((keydown event)))(((keyup event)))(((event
 handling)))When a key on the keyboard is pressed, your browser fires a
-`"keydown"` event. When it is released, a `"keyup"` event is
-fired.
+`"keydown"` event. When it is released, a `"keyup"` event fires.
 
 [source,text/html]
 [focus="yes"]
@@ -275,12 +274,12 @@ fired.
 </script>
 ----
 
-(((repeating key)))Despite its name, `"keydown"` is fired not only 
+(((repeating key)))Despite its name, `"keydown"` fires not only 
 when the key is physically pushed down. When a key is pressed and
-held, the event is fired again every time the key _repeats_.
-Sometimes, for example if you want to increase the acceleration of a
+held, the event fires again every time the key _repeats_.
+Sometimes—for example if you want to increase the acceleration of a
 ((game)) character when an arrow key is pressed and decrease it again
-when the key is released, you have to be careful not to increase it
+when the key is released—you have to be careful not to increase it
 again every time the key repeats or you'd end up with unintentionally
 huge values.
 
@@ -335,8 +334,8 @@ property)))(((keydown event)))(((keyup event)))(((keypress event)))The
 `"keydown"` and `"keyup"` events give you information about the
 physical key that is being pressed. But what if you are interested in
 the actual ((text)) being typed? Getting that text from key codes is
-awkward. Instead, there exists another event, `"keypress"`, which is
-fired right after `"keydown"` (and repeated along with `"keydown"`
+awkward. Instead, there exists another event, `"keypress"`, which
+fires right after `"keydown"` (and repeated along with `"keydown"`
 when the key is held) but only for keys that produce character input.
 The `charCode` property in the event object contains a code that can
 be interpreted as a ((Unicode)) character code. We can use the
@@ -365,21 +364,21 @@ focus, `document.body` acts as the target node of key events.
 == Mouse clicks ==
 
 (((mousedown event)))(((mouseup event)))(((mouse cursor)))Pressing a
-((mouse button)) also causes a number of events to be fired. The
+((mouse button)) also causes a number of events to fire. The
 `"mousedown"` and `"mouseup"` events are similar to `"keydown"` and
-`"keyup"` and are fired when the button is pressed and released.
+`"keyup"` and fire when the button is pressed and released.
 These will happen on the DOM nodes that are immediately below the
 mouse pointer when the event occurs.
 
-(((click event)))After the `"mouseup"` event, a `"click"` event is
-fired on the most specific node that contained both the press and the
+(((click event)))After the `"mouseup"` event, a `"click"` event
+fires on the most specific node that contained both the press and the
 release of the button. For example, if I press down the mouse button
 on one paragraph and then move the pointer to another paragraph and
 release the button, the `"click"` event will happen on the element
 that contains both those paragraphs.
 
 (((dblclick event)))(((double click)))If two clicks happen close
-together, a `"dblclick"` (double-click) event is also fired, after the
+together, a `"dblclick"` (double-click) event also fires, after the
 second click event.
 
 (((pixel)))(((pageX property)))(((pageY property)))(((event
@@ -497,15 +496,15 @@ so the `buttonPressed` function in the example first tries `buttons`,
 and falls back to `which` when that isn't available.
 
 (((mouseover event)))(((mouseout event)))Whenever the mouse pointer
-enters or leaves a node, a `"mouseover"` or `"mouseout"` event is
-fired. These two events can be used, among other things, to create
+enters or leaves a node, a `"mouseover"` or `"mouseout"` event
+fires. These two events can be used, among other things, to create
 ((hover effect))s, showing or styling something when the mouse is over
 a given element.
 
 (((event propagation)))Unfortunately, creating such an effect is not
 as simple as starting the effect on `"mouseover"` and ending it on
 `"mouseout"`. When the mouse moves from a node onto one of its
-children, `"mouseout"` is fired on the parent node, though the mouse
+children, `"mouseout"` fires on the parent node, though the mouse
 did not actually leave the node's extent. To make things worse, these
 events propagate just like other events, and thus you will also
 receive `"mouseout"` events when the mouse leaves one of the ((child
@@ -562,7 +561,7 @@ with `"mouseover"` and `"mouseout"` events.
 == Scroll events ==
 
 (((scrolling)))(((scroll event)))(((event handling)))Whenever an
-element is scrolled, a `"scroll"` event is fired on it. This has
+element is scrolled, a `"scroll"` event fires on it. This has
 various uses, such as knowing what the user is currently looking at
 (for disabling off-screen ((animation))s or sending ((spy)) reports to
 your evil headquarters) or showing some indication of progress (by
@@ -660,8 +659,7 @@ focus:
 
 ifdef::book_target[]
 
-The following screenshot shows the help text for the age field being
-shown.
+In the following screenshot, the help text for the age field is shown.
 
 image::img/help-field.png[alt="Providing help when a field is focused",width="4.4cm"]
 
@@ -674,7 +672,7 @@ browser tab or window in which the document is shown.
 == Load event ==
 
 (((script (HTML tag))))(((load event)))When a page finishes loading,
-the `"load"` event is fired on the window and the document body
+the `"load"` event fires on the window and the document body
 objects. This is often used to schedule ((initialization)) actions
 that require the whole ((document)) to have been built. Remember that
 the content of `<script>` tags is run immediately when the tag is
@@ -689,7 +687,7 @@ focus-related events, loading events do not propagate.
 
 (((beforeunload event)))(((page reload)))(((preventDefault
 method)))When a page is closed or navigated away from (for example by
-following a link), a `"beforeunload"` event is fired. The main use of
+following a link), a `"beforeunload"` event fires. The main use of
 this event is to prevent the user from accidentally losing work by
 closing a document. Preventing the page from unloading is not, as you
 might expect, done with the `preventDefault` method. Instead, it is
@@ -906,7 +904,7 @@ no direct control over. The `addEventListener` method is used to
 register such a handler.
 
 Each event has a type (`"keydown"`, `"focus"`, and so on) that identifies
-it. Most events are called on a specific DOM elements and then
+it. Most events are called on a specific DOM element and then
 _propagate_ to that element's ancestors, allowing handlers associated
 with those elements to handle them.
 
@@ -999,7 +997,7 @@ want you to implement a mouse trail. Use absolutely positioned `<div>`
 elements with a fixed size and background color (refer to the
 link:14_event.html#mouse_drawing[code] in the “Mouse Clicks”
 section for an example). Create a bunch of such elements and, when the
-mouse moves, display them in the wake of the mouse pointer, somehow.
+mouse moves, display them in the wake of the mouse pointer.
 
 (((mousemove event)))There are various possible approaches here. You
 can make your solution as simple or as complex as you want. A simple

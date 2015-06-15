@@ -1,15 +1,20 @@
-// Check that no unicode characters that we aren't explicitly handling
-// with \newunicodechar snuck into the output.
-function checkUnicode(str) {
   var allowedUnicode = /[→←“”’π½⅓¼…×βϕ≈é—]/;
-  var unicode = /[\x7f-\uffff]/g;
-  var match;
-  while (match = unicode.exec(str)) {
-    if (!allowedUnicode.test(match[0])) {
-      console.error("Found unhandled unicode: " + match[0]);
-      process.exit(1);
+function replaceUnicode(input) {
+  var inCode = false;
+  return input.replace(/\\(end|begin)\{lstlisting\}|([\x80-\uffff])/g, function(full, beginEnd, ch) {
+    if (beginEnd) {
+      inCode = beginEnd == "begin";
+      return full;
+    } else {
+      if (!allowedUnicode.test(ch)) {
+        console.error("Found unhandled unicode: " + ch);
+        process.exit(1);
+      }
+      if (inCode && /[“”]/.test(ch)) return '"';
+      if (inCode && /[‘’]/.test(ch)) return "'";
+      return ch;
     }
-  }
+  });
 }
 
 var escaped = {"\\{{}": "{",
@@ -65,7 +70,7 @@ process.stdin.on("end", function() {
   });
   input = cleanLstInline(input);
   input = input.replace(/({\\hspace\*\{.+?\}\\itshape``)\s*([^]+?)\s*('')/g, "$1$2$3");
-  checkUnicode(input);
+  input = replaceUnicode(input);
 
   process.stdout.write(input);
 });

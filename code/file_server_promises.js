@@ -22,7 +22,8 @@ http.createServer(function(request, response) {
     else
       response.end(data.body);
   }, function(error) {
-    response.writeHead(500, error.toString());
+    response.writeHead(500);
+    response.end(error.toString());
     console.log("Response failed: ", error.stack);
   });
 }).listen(8000);
@@ -31,8 +32,8 @@ function respondTo(request) {
   if (request.method in methods)
     return methods[request.method](urlToPath(request.url), request);
   else
-    return {code: 405,
-            body: "Method " + request.method + " not allowed."};
+    return Promise.resolve({code: 405,
+                            body: "Method " + request.method + " not allowed."});
 }
 
 function urlToPath(url) {
@@ -51,7 +52,7 @@ var fsp = {};
 });
 
 // Since several functions need to call `fsp.stat` and handle failures
-// that indicate non-existant files in a special way, this is a
+// that indicate non-existent files in a special way, this is a
 // convenience wrapper that converts file-not-found failures into
 // success with a null value.
 //
@@ -122,7 +123,7 @@ methods.PUT = function(path, request) {
   });
 };
 
-methods.MKCOL = function(path, request, response) {
+methods.MKCOL = function(path, request) {
   return inspectPath(path).then(function(stats) {
     if (!stats)
       return fsp.mkdir(path).then(returnNoContent);

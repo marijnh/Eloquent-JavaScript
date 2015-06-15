@@ -28,7 +28,7 @@ endif::interactive_target[]
 Jamie)))(((evolution)))(((adoption)))(((integration)))Programming
 ((tool))s and techniques survive and spread in a chaotic, evolutionary
 way. It's not always the pretty or brilliant ones that win but rather
-the ones that function well enough within the right niche—for example
+the ones that function well enough within the right niche—for example,
 by being integrated with another successful piece of technology.
 
 (((domain-specific language)))In this chapter, I will discuss one such
@@ -48,7 +48,7 @@ programmer.
 
 (((regular expression,creation)))(((RegExp constructor)))(((literal
 expression)))(((slash character)))A regular expression is a type of
-object. It can be either  constructed with the `RegExp` constructor or
+object. It can either be constructed with the `RegExp` constructor or
 written as a literal value by enclosing the pattern in forward slash
 (`/`) characters.
 
@@ -166,7 +166,7 @@ console.log(dateTime.test("30-jan-2003 15:20"));
 ----
 
 (((backslash character)))That looks completely awful, doesn't it? It has way too
-many backslashes, producing a background noise that makes it hard to
+many backslashes, producing background noise that makes it hard to
 spot the actual ((pattern)) expressed. We'll see a slightly improved
 version of this expression
 link:09_regexp.html#date_regexp_counted[later].
@@ -222,7 +222,7 @@ match zero instances if it can't find any suitable text to match.
 
 (((British English)))(((American English)))(((question mark)))A
 question mark makes a part of a pattern “((optional))”, meaning it may
-occur zero or one times. In the following example, the _u_ character
+occur zero or one time. In the following example, the _u_ character
 is allowed to occur, but the pattern also matches when it is missing.
 
 [source,javascript]
@@ -260,7 +260,7 @@ braces)) by omitting the number on either side of the comma. So
 
 (((regular expression,grouping)))(((grouping)))To use an operator like `*` or
 `+` on more than one element at a time, you can use ((parentheses)). A
-part of a regular expression that is surrounded in parentheses counts
+part of a regular expression that is enclosed in parentheses counts
 as a single element as far as the operators following it are
 concerned.
 
@@ -275,9 +275,9 @@ console.log(cartoonCrying.test("Boohoooohoohooo"));
 second _o_ in _boo_ and _hoo_, respectively. The third `+` applies to
 the whole group `(hoo+)`, matching one or more sequences like that.
 
-(((case-sensitivity)))(((capitalization)))(((regular
+(((case sensitivity)))(((capitalization)))(((regular
 expression,flags)))The `i` at the end of the expression in the
-previous example makes this regular expression case-insensitive, allowing it to
+previous example makes this regular expression case insensitive, allowing it to
 match the uppercase _B_ in the input string, even though the pattern
 is itself all lowercase.
 
@@ -330,7 +330,7 @@ console.log(quotedText.exec("she said 'hello'"));
 ----
 
 (((capture group)))When a group does not end up being matched at all
-(for example when followed by a question mark), its position in the
+(for example, when followed by a question mark), its position in the
 output array will hold `undefined`. Similarly, when a group is matched
 multiple times, only the last match ends up in the array.
 
@@ -435,7 +435,7 @@ console.log(findDate("30-1-2003"));
 (((matching)))(((regular expression,boundary)))Unfortunately,
 `findDate` will also happily extract the nonsensical date 00-1-3000
 from the string `"100-1-30000"`. A match may happen anywhere in the
-string, so in this case it'll just start at the second character and
+string, so in this case, it'll just start at the second character and
 end at the second-to-last character.
 
 (((boundary)))(((caret character)))(((dollar sign)))If we want to
@@ -524,7 +524,7 @@ our progress through the flow chart would look like this:
    do see “pig”, so we take that branch.
 
  - At position 9, after the three-way branch, one path skips
-   the _s_ box and go straight to the final word boundary, while the other path
+   the _s_ box and goes straight to the final word boundary, while the other path
    matches an _s_. There is an _s_ character here, not a word boundary,
    so we go through the _s_ box.
 
@@ -585,12 +585,12 @@ of the string, the star operator tries to match one character less.
 But the matcher doesn't find an _x_ after `abcx` either, so it
 backtracks again, matching the star operator to just `abc`. _Now_ it
 finds an _x_ where it needs it and reports a successful match from
-position 0 to 4.
+positions 0 to 4.
 
 (((performance)))(((complexity)))It is possible to write regular
 expressions that will do a _lot_ of backtracking. This problem occurs
 when a pattern can match a piece of input in many different ways. For
-example, if we get confused while writing a binary-number regexp, we
+example, if we get confused while writing a binary-number regular expression, we
 might accidentally write something like `/([01]+)+b/`.
 
 image::img/re_slow.svg[alt="Visualization of /([01]+)+b/",width="6cm"]
@@ -620,7 +620,7 @@ console.log("papa".replace("p", "m"));
 (((regular expression,flags)))(((regular expression,global)))The first
 argument can also be a regular expression, in which case the first
 match of the regular expression is replaced. When a `g` option (for
-“global”) is added to the regular expression, _all_ matches in the
+_global_) is added to the regular expression, _all_ matches in the
 string will be replaced, not just the first.
 
 [source,javascript]
@@ -860,7 +860,7 @@ will start.
 
 (((interface,design)))(((exec method)))(((regular
 expression,global)))Those circumstances are that the regular
-expression must have the “global” (`g`) option enabled, and the match
+expression must have the global (`g`) option enabled, and the match
 must happen through the `exec` method. Again, a more sane solution
 would have been to just allow an extra argument to be passed to
 `exec`, but sanity is not a defining characteristic of JavaScript's
@@ -936,7 +936,7 @@ while (match = number.exec(input))
 
 (((while loop)))(((= operator)))This makes use of the fact that the
 value of an ((assignment)) expression (`=`) is the assigned value. So
-by using `match = re.exec(input)` as the condition in the `while`
+by using `match = number.exec(input)` as the condition in the `while`
 statement, we perform the match at the start of each iteration, save
 its result in a ((variable)), and stop looping when no more matches
 are found.
@@ -1025,7 +1025,7 @@ function parseINI(string) {
 
 (((parseINI function)))(((parsing)))This code goes over every line in
 the file, updating the “current section” object as it goes along.
-First it checks whether the line can be ignored, using the expression
+First, it checks whether the line can be ignored, using the expression
 `/^\s*(;.*)?$/`. Do you see how it works? The part between the
 ((parentheses)) will match comments, and the `?` will make sure it
 also matches lines containing only whitespace.
@@ -1078,8 +1078,8 @@ Unicode standard considers whitespace, including things like the
 ((implementation))s in other programming languages have syntax to
 match specific ((Unicode)) character categories, such as “all
 uppercase letters”, “all punctuation”, or “control characters”. There
-are plans to add support for such categories JavaScript, but they
-unfortunately look like they won't be realized in the near ((future)).
+are plans to add support for such categories JavaScript, but it
+unfortunately looks like they won't be realized in the near ((future)).
 
 [[summary_regexp]]
 == Summary ==
@@ -1122,7 +1122,7 @@ pass a function to `replace`, which will be used to build up a
 replacement string based on the match text and matched groups.
 
 Regular expressions can have options, which are written after
-the closing slash. The `i` option makes the match case-insensitive,
+the closing slash. The `i` option makes the match case insensitive,
 while the `g` option makes the expression _global_, which, among other
 things, causes the `replace` method to replace all instances instead
 of just the first.
@@ -1316,7 +1316,7 @@ separate the two cases—either one or more digits optionally followed
 by a dot and zero or more digits _or_ a dot followed by one or more
 digits.
 
-(((exponent)))(((case-sensitivity)))(((regular
+(((exponent)))(((case sensitivity)))(((regular
 expression,flags)))Finally, to make the _e_ case-insensitive, either
 add an `i` option to the regular expression or use `[eE]`.
 

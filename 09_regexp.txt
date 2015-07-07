@@ -549,13 +549,13 @@ of the string and decides that there really is no match.
 (((regular expression,backtracking)))(((binary number)))(((decimal
 number)))(((hexadecimal number)))(((flow
 diagram)))(((matching,algorithm)))(((backtracking)))The regular
-expression `/\b([01]+b|\d+|[\da-f]h)\b/` matches either a binary
+expression `/\b([01]+b|\d+|[\da-f]+h)\b/` matches either a binary
 number followed by a _b_, a regular decimal number with no suffix
 character, or a hexadecimal number (that is, base 16, with the letters
 _a_ to _f_ standing for the digits 10 to 15) followed by an _h_. This
 is the corresponding diagram:
 
-image::img/re_number.svg[alt="Visualization of /\\b([01]+b|\\d+|[\\da-f]h)\\b/"]
+image::img/re_number.svg[alt="Visualization of /\\b([01]+b|\\d+|[\\da-f]+h)\\b/"]
 
 (((branching)))When matching this expression, it will often happen
 that the top (binary) branch is entered even though the input does not

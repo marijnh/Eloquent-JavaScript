@@ -12,40 +12,52 @@
 
 <h1>Errata<div style="font-size: 70%"><a class="subtlelink" href="index.html">Eloquent JavaScript</a></div></h2>
 
-<p>These are the known mistakes in the <strong>second edition</strong> of the book. For
-errata in the first edition,
+<p>These are the known mistakes in the <strong>second edition</strong>
+of the book. For errata in the first edition,
 see <a href="http://eloquentjavascript.net/1st_edition/errata.html">this
-page</a>.</p>
+page</a>. To report a problem that is not listed
+here, <a href="mailto:marijnh@gmail.com">send me an email</a>.</p>
+
+<p>Issues whose section title is followed by a superscript ¹ were
+fixed after the first print of the book, and will not be present in
+later prints.</p>
 
 <h2>Introduction</h2>
 
-<p><strong>Page 4</strong>: The sentence “You can probably imagine
-how how tedious…” duplicates the word <em>how</em>.</p>
+<p><strong>Page 4</strong> (Why Language Matters¹): The sentence “You
+can probably imagine how how tedious…” duplicates the
+word <em>how</em>.</p>
 
 <h2>Chapter 9</h2>
 
-<p><strong>Page 159</strong> (The Date Type):
+<p><strong>Page 159</strong> (The Date Type¹):
 The <code>findDate</code> function produces the wrong months. The
 second argument given to <code>new Date</code> should
 be <code>Number(match[2]) - 1</code>, subtracting one to compensate
 for the fact that months start at zero in this interface.</p>
 
+<p><strong>Page 162</strong> (Backtracking): The regular expression
+should have another <code>+</code> sign after the <code>[\da-f]</code>
+group to match what it is described as matching. The diagram for the
+expression is similarly missing an arrow looping back around the
+corresponding box.</p>
+
 <h2>Chapter 10</h2>
 
-<p><strong>Page 185</strong> (Slow-Loading Modules): In the code
+<p><strong>Page 185</strong> (Slow-Loading Modules¹): In the code
 snippet for <code>define</code>, the second use of
 the <code>every</code> method is incorrect. The call should be
 to <code>myMod.onLoad.forEach</code> instead.</p>
 
 <h2>Chapter 11</h2>
 
-<p><strong>Page 192</strong> (Parsing): The example Egg program has
+<p><strong>Page 192</strong> (Parsing¹): The example Egg program has
 its parentheses distributed incorrectly. One closing parentheses from
 the second line should be moved to the end of the last line.</p>
 
 <h2>Chapter 14</h2>
 
-<p><strong>Page 242</strong> (Mouse Motion): The example
+<p><strong>Page 242</strong> (Mouse Motion¹): The example
 uses <code>event.which</code> to detect mouse button release. This
 only works in Chrome and Safari. See
 the <a href="14_event.html#c_xBQPHox4ts">updated code</a>
@@ -54,23 +66,23 @@ way.</p>
 
 <h2>Chapter 16</h2>
 
-<p><strong>Page 281</strong> (Curves): The text refers to
+<p><strong>Page 281</strong> (Curves¹): The text refers to
 the <code>bezierCurve</code> method. This method is actually
 called <code>bezierCurveTo</code> (as in the example code).</p>
 
-<p><strong>Page 282</strong> (Curves): Where it says the picture shows
+<p><strong>Page 282</strong> (Curves¹): Where it says the picture shows
 a line from the left of the circle to the left of the quarter circle,
 it should definitely say <em>right</em> in both instances.</p>
 
 <h2>Chapter 17</h2>
 
-<p><strong>Page 312</strong> (Summary): The code example uses
+<p><strong>Page 312</strong> (Summary¹): The code example uses
 the <code>statusCode</code> property. This does not exist, since the
 property is actually called <code>status</code>.</p>
 
 <h2>Chapter 18</h2>
 
-<p><strong>Page 327</strong> (Summary): “When the user has selected
+<p><strong>Page 327</strong> (Summary¹): “When the user has selected
 a <em>field</em>” should be “When the user has selected
 a <em>file</em>”.
 

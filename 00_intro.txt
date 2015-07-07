@@ -1,14 +1,14 @@
 :next_link: 01_values
 :load_files: ["code/intro.js"]
 
-= Introduction =
+= Introducción =
 
-This is a book about getting ((computer))s to do what you want them to
-do. Computers are about as common as screwdrivers today, but they contain a
-lot more hidden complexity and thus are harder to operate and
-understand. To many, they remain alien, slightly threatening things.
+Este libro trata de como hacer que las ((computadoras)) hagan lo que tú quieres
+que hagan. Las computadoras son tan comunes como los desarmadores hoy en día,
+pero tienen mucha más complejidad oculta y, por lo tanto, son más difíciles de
+operar y entender. Para muchos siguen siendo cosas extrañas, un poco amenazadoras.
 
-image::img/generated/computer.png[alt="Communicating with a computer"]
+image::img/generated/computer.png[alt="Comunicándose con una computadora"]
 
 (((graphical user interface)))We've found two effective ways of
 bridging the communication gap between us, squishy biological

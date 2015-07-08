@@ -10,24 +10,24 @@ operar y entender. Para muchos siguen siendo cosas extrañas, un poco amenazador
 
 image::img/generated/computer.png[alt="Comunicándose con una computadora"]
 
-(((graphical user interface)))We've found two effective ways of
-bridging the communication gap between us, squishy biological
-organisms with a talent for social and spatial reasoning, and 
-computers, unfeeling manipulators of meaningless data. The first is to
-appeal to our sense of the physical world and build interfaces that
-mimic that world and allow us to manipulate shapes on a screen with
-our fingers. This works very well for casual machine interaction.
+(((interfaz gráfica de usuario)))Hemos encontrado dos formas efectivas
+de cerrar la brecha ente nosotros, suaves organismos biológicos
+con talento para razonamiento social y espacial, y las computadoras,
+manipuladoras sin sentimientos de datos sin sentido. La primera es
+usar nuestros sentidos del mundo físico y construir interfaces que
+imitan ese mundo y nos permiten manipular figuras en una pantalla
+con nuestros dedos. Esto funciona muy bien para interacciones casuales con la máquina.
 
-(((programming language)))But we have not yet found a good way to use
-the point-and-click approach to communicate things to the computer
-that the designer of the interface did not anticipate. For open-ended
-interfaces, such as instructing the computer to perform arbitrary
-tasks, we've had more luck with an approach that makes use of our
-talent for language: teaching the machine a language.
+(((lenguage de programación)))Pero aún no hemos encontrado una buena forma
+de usar la interfaz gráfica para comunicar a la computadora cosas que
+el diseñador de interfaces no anticipó. Para interfaces abiertas,
+como indicarle a la computadora que ejecute tareas arbitrarias, 
+hemos tenido más suerte con otra estrategia, que hace uso de nuestro
+talento para el lenguaje: enseñarle a la computadora uno.
 
-(((human language)))(((expressivity)))Human languages allow words and
-phrases to be combined in many ways, which allows us to say
-many different things. Computer languages, though typically less
+(((lengiajes humanos)))(((expresividad)))Los lenguajes humanos permiten que
+palabras y frases se combinen en muchas diferentes formas, lo cuál nos permite
+decir una amplia variedad de cosas. Los , though typically less
 grammatically flexible, follow a similar principle.
 
 (((JavaScript,availability of)))(((casual computing)))Casual computing

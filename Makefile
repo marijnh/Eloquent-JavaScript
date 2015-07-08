@@ -24,9 +24,9 @@ html/js/acorn_codemirror.js: node_modules/codemirror/lib/codemirror.js \
 	                     node_modules/acorn/acorn.js \
 	                     node_modules/acorn/util/walk.js
 	node_modules/.bin/uglifyjs $? -m -o $@
-
-img/generated/%.png: img/%.svg
-	inkscape --export-png=$@ $<
+current_directory = = $(shell pwd)
+img/generated/%.png: $(current_directory)/img/%.svg
+	inkscape --export-png=$(current_directory)/$@ $<
 
 img/generated/%.pdf: img/%.svg
 	inkscape --export-pdf=$@ $<

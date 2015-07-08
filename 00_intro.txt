@@ -27,64 +27,61 @@ talento para el lenguaje: enseñarle a la computadora uno.
 
 (((lengiajes humanos)))(((expresividad)))Los lenguajes humanos permiten que
 palabras y frases se combinen en muchas diferentes formas, lo cuál nos permite
-decir una amplia variedad de cosas. Los , though typically less
-grammatically flexible, follow a similar principle.
+decir una amplia variedad de cosas. Los lenguajes computacionales, aunque son gramaticalmente menos flexibles, siguen un principio similar.
 
-(((JavaScript,availability of)))(((casual computing)))Casual computing
-has become much more widespread in the past 20 years, and
-language-based interfaces, which once were the default way in which
-people interacted with computers, have largely been replaced with
-graphical interfaces. But they are still there, if you know where to
-look. One such language, JavaScript, is built into almost every
-web ((browser)) and is thus available on just about every consumer
-device.
+(((JavaScript,disponibilidad de)))(((computación casual)))La computación casual
+se ha extendido mucho en los últimos 20 años, y las interfaces basadas en el lenguaje,
+que alguna vez fueron la forma predeterminada en la que las personas interactuaban
+con las computadoras, han sido reemplazadas en gran medida por interfaces gráficas. Pero todavía están ahí, si sabes donde buscar.
+Uno de tales lenguajes, JavaScript, está presente en casi todos los ((navegadores
+web)) existentes y por lo tanto, disponible en prácticamente todos los dispositivos
+de consumo.
 
-indexsee:[web browser,browser]This book intends to make you familiar
-enough with this language to be able to make a computer do what you
-want.
+indexsee:[navegador web,navegador]Este libro trata de hacer que te familiarices lo
+suficiente con este lenguaje para que puedas hacer que la computadora hago lo
+que tu quieras.
 
-== On programming ==
+== Acerca de la Programación ==
 
-[quote, Confucius]
+[quote, Confucio]
 ____
-(((Confucius)))I do not enlighten those who are not eager to learn,
-nor arouse those who are not anxious to give an explanation
-themselves. If I have presented one corner of the square and they
-cannot come back to me with the other three, I should not go over the
-points again.
+(((Confucio)))No ilumino a aquellos que no están deseosos de aprender,
+tampoco despierto a quienes no están ansiosos de darse una explicación a
+sí mismos. Si les he presentado una esquina del cuadro y ellos no vienen
+con las otras tres, no debería recorrer otra vez los puntos.
 ____
 
-(((programming,difficulty of)))Besides explaining JavaScript, I also
-will introduce the basic principles of programming. Programming, it
-turns out, is hard. The fundamental rules are typically simple and
-clear. But programs built on top of these rules tend to become complex
-enough to introduce their own rules and complexity. You're building
-your own maze, in a way, and you might just get lost in it.
+(((programación,dificultad de)))A parte de explicar JavaScript, te introduciré en
+los principios básicos de la programación. Programar, resulta, es difícil.
+Las reglas fundamentales típicamente son simples y claras.
+Pero los programas contruidos sobre esas reglas tienden a volverse
+lo suficientemente complejos para introducir sus propias reglas y más
+complejidad. En cierta forma, estás construyendo tu propio laberinto y podrías
+perderte en él.
 
-(((learning)))There will be times when reading this book feels terribly
-frustrating. If you are new to programming, there will be a lot of new
-material to digest. Much of this material will then be _combined_ in
-ways that require you to make additional connections.
+(((aprendizaje)))Habrá ocasiones en las que al leer este libro te sentirás
+terriblemente frustrado. Si eres nuevo programando, tendrás mucho material nuevo 
+para digerir. Mucho de este material será después _combinado_ en
+formas que requerirán que hagas conexiones adicionales.
 
-It is up to you to make the necessary effort. When you are struggling
-to follow the book, do not jump to any conclusions about your own
-capabilities. You are fine—you just need to keep at it. Take a break,
-reread some material, and _always_ make sure you read and understand
-the example programs and ((exercises)). Learning is hard work, but
-everything you learn is yours and will make subsequent learning
-easier.
+Es tu responsabilidad realizar el esfuerzo necesario. Cuando se te haga difícil
+seguir este libro, no concluyas rápidamente nada acerca de tus capacidades.
+Tu eres bueno—sólo necesitas mantener el paso. Toma un respiro,
+vuelve a leer el material, y _siempre_ asegúrate de leer y entender
+los programas de ejemplo y los ((ejercicios)). Aprender es un trabajo duro, 
+pero todo lo que aprendas ahora es tuyo y hará el aprendizaje cada vez más fácil
 
 [quote, Joseph Weizenbaum, Computer Power and Human Reason]
 ____
-(((Weizenbaum+++,+++ Joseph)))The computer programmer is a creator of
-universes for which he [sic] alone is responsible. Universes of virtually
-unlimited complexity can be created in the form of computer programs.
+(((Weizenbaum+++,+++ Joseph)))El programador de computadoras es el creador de
+universos de los cuales él solo es responsable. Universos de complejidad
+virtualmente ilimitada pueden ser creados en la forma de programas de computadora.
 ____
 
-(((program,nature of)))(((data)))A program is many things. It is a
-piece of text typed by a programmer, it is the directing force that
-makes the computer do what it does, it is data in the computer's
-memory, yet it controls the actions performed on this same memory.
+(((programa,naturaleza de un)))(((datos)))Un programa es muchas cosas. Es una
+pieza de texto escrita por un programador, es la fuerza que dirije 
+a la computadora para hacer lo que hace, son datos en la memoria de la
+comutadora, y aún así controla las acciones realizadas en esta misme memoria.
 Analogies that try to compare programs to objects we are familiar with
 tend to fall short. A superficially fitting one is that of a
 machine—lots of separate parts tend to be involved, and to make the

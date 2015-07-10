@@ -21,18 +21,20 @@ con nuestros dedos. Esto funciona muy bien para interacciones casuales con la m�
 (((lenguage de programación)))Pero aún no hemos encontrado una buena forma
 de usar la interfaz gráfica para comunicar a la computadora cosas que
 el diseñador de interfaces no anticipó. Para interfaces abiertas,
-como indicarle a la computadora que ejecute tareas arbitrarias, 
+como indicarle a la computadora que ejecute tareas arbitrarias,
 hemos tenido más suerte con otra estrategia, que hace uso de nuestro
 talento para el lenguaje: enseñarle a la computadora uno.
 
 (((lengiajes humanos)))(((expresividad)))Los lenguajes humanos permiten que
 palabras y frases se combinen en muchas diferentes formas, lo cuál nos permite
-decir una amplia variedad de cosas. Los lenguajes computacionales, aunque son gramaticalmente menos flexibles, siguen un principio similar.
+decir una amplia variedad de cosas. Los lenguajes computacionales, aunque son
+gramaticalmente menos flexibles, siguen un principio similar.
 
 (((JavaScript,disponibilidad de)))(((computación casual)))La computación casual
 se ha extendido mucho en los últimos 20 años, y las interfaces basadas en el lenguaje,
 que alguna vez fueron la forma predeterminada en la que las personas interactuaban
-con las computadoras, han sido reemplazadas en gran medida por interfaces gráficas. Pero todavía están ahí, si sabes donde buscar.
+con las computadoras, han sido reemplazadas en gran medida por interfaces gráficas.
+Pero todavía están ahí, si sabes donde buscar.
 Uno de tales lenguajes, JavaScript, está presente en casi todos los ((navegadores
 web)) existentes y por lo tanto, disponible en prácticamente todos los dispositivos
 de consumo.
@@ -60,7 +62,7 @@ complejidad. En cierta forma, estás construyendo tu propio laberinto y podrías
 perderte en él.
 
 (((aprendizaje)))Habrá ocasiones en las que al leer este libro te sentirás
-terriblemente frustrado. Si eres nuevo programando, tendrás mucho material nuevo 
+terriblemente frustrado. Si eres nuevo programando, tendrás mucho material nuevo
 para digerir. Mucho de este material será después _combinado_ en
 formas que requerirán que hagas conexiones adicionales.
 
@@ -68,7 +70,7 @@ Es tu responsabilidad realizar el esfuerzo necesario. Cuando se te haga difícil
 seguir este libro, no concluyas rápidamente nada acerca de tus capacidades.
 Tu eres bueno—sólo necesitas mantener el paso. Toma un respiro,
 vuelve a leer el material, y _siempre_ asegúrate de leer y entender
-los programas de ejemplo y los ((ejercicios)). Aprender es un trabajo duro, 
+los programas de ejemplo y los ((ejercicios)). Aprender es un trabajo duro,
 pero todo lo que aprendas ahora es tuyo y hará el aprendizaje cada vez más fácil
 
 [quote, Joseph Weizenbaum, Computer Power and Human Reason]
@@ -79,58 +81,57 @@ virtualmente ilimitada pueden ser creados en la forma de programas de computador
 ____
 
 (((programa,naturaleza de un)))(((datos)))Un programa es muchas cosas. Es una
-pieza de texto escrita por un programador, es la fuerza que dirije 
+pieza de texto escrita por un programador, es la fuerza que dirije
 a la computadora para hacer lo que hace, son datos en la memoria de la
-comutadora, y aún así controla las acciones realizadas en esta misme memoria.
-Analogies that try to compare programs to objects we are familiar with
-tend to fall short. A superficially fitting one is that of a
-machine—lots of separate parts tend to be involved, and to make the
-whole thing tick, we have to consider the ways in which these parts
-interconnect and contribute to the operation of the whole.
+comutadora, y aún así controla las acciones realizadas en esta misma memoria.
+Las analogías que tratan de comparar a las computadoras con objetos que conocemos
+tienden a quedarse cortas. Una que se ajusta superficialmente es la de
+máquina—un montón de piezas separdas que se relacionan, y para hacerlo
+functionar, tenemos que considerar las formas en que esas piezas se
+interconectan y contribuyen al funcionamiento del todo.
 
-(((computer)))A computer is a machine built to act as a host for these
-immaterial machines. Computers themselves can do only stupidly
-straightforward things. The reason they are so useful is that they do
-these things at an incredibly high speed. A program can ingeniously
-combine an enormous number of these simple actions in order to do very
-complicated things.
+(((computadora)))Una computadora es una máquina que actua como anfitriona de
+estas máquinas inmateriales. Las computadoras por sí mismas sólo pueden hacer
+cosas estúpidamente simples. La razón por la que son tan poderosas es que hacen
+esas cosas a una velocidad increíblemente rápida. Un programa puede combinar
+ingeniosamente un número enorme de esas acciones simples para lograr cosas muy
+complicadas.
 
-(((programming,joy of)))To some of us, writing computer programs is a
-fascinating game. A program is a building of thought. It is costless
-to build, it is weightless, and it grows easily under our typing
-hands.
+(((progración,lo bueno de)))Para algunos de nosotros, escribir programas de
+computadoras es un juego fascinante. Un programa es un construcción del
+pensamiento. No tiene costo construirlo, no pesa nada, y crece fácilmente bajo
+nuestras manos tecleando.
 
-But without care, a program's size and ((complexity)) will grow out of
-control, confusing even the person who created it. Keeping programs
-under control is the main problem of programming. When a program
-works, it is beautiful. The art of programming is the skill of
-controlling complexity. The great program is subdued—made simple in
-its complexity.
+Pero si no tenemos cuidado, el tamaño y la ((complejidad)) de un programa
+se saldrán de control, confundiendo incluso a la persona que lo creó.
+Mantener los programas bajo control es el principal problema de la programación.
+Cuando funcionan, es hermoso. El Arte de Programar es la habilidad de
+controlar la complejidad. Un gran programa está dominado, hecho simple
+en su complejidad.
 
-(((programming style)))(((best practices)))Many programmers believe
-that this complexity is best managed by using only a small set of
-well-understood techniques in their programs. They have composed
-strict rules (“best practices”) prescribing the form programs should
-have, and the more zealous among them will consider those who go
-outside of this safe little zone to be _bad_ programmers.
+(((estilo de programación)))(((mejores prácticas)))Muchos programadores creen
+que esta complejidad es mejor controlada usando un pequeño conjunto de
+técnicas bien entendidas en sus programas. Estos han compuesto reglas estrictas
+(“mejores prácticas”) que prescriben la forma que los programas deberían
+tener, y los más celosos de ellos considerarán a aquellos que se salen de
+esta pequeña zona segura como _malos_ programadores.
 
-(((experiment)))(((learning)))What hostility to the richness of
-programming—to try to reduce it to something straightforward and
-predictable, to place a taboo on all the weird and beautiful programs!
-The landscape of programming techniques is enormous, fascinating in
-its diversity, and still largely unexplored. It is certainly dangerous
-going, luring the inexperienced programmer into all kinds of
-confusion, but that only means you should proceed with caution and
-keep your wits about you. As you learn there will always be new
-challenges and new territory to explore. Programmers who refuse to
-keep exploring will stagnate, forget their joy, and get bored with
-their craft.
+(((experimentar)))(((aprender)))¡Qué hostilidad hacia la riqueza de la
+programación, la de tratar de reducirla a algo simple y predecible, tratar de
+crear un tabú en todos los programas extraños y bellos!
+El panorama de todas las técnicas de programación es enorme, fascinante en
+su diversidad, y permanece inexplorado en gran parte. Ciertamente es peligroso
+ir, porque seduce al programador novato con todo tipo de confusiones,
+pero eso sólo significa que debes de andar con cuidado y estar alerta.
+Conforme vayas aprendiendo, siempre habrá nuevos retos y nuevo territorio por
+explorar. Los programadores que se nieguen a explorar dejarán de progresar,
+olvidarán su alegría, y se aburrirán con su trabajo.
 
-== Why language matters ==
+== Por qué el lenguaje importa ==
 
-(((programming language)))(((machine code)))(((binary data)))In the
-beginning, at the birth of computing, there were no programming
-languages. Programs looked something like this:
+(((lenguaje de programación)))(((código máquina)))(((datos binarios)))En el
+principio, cuando nació la computación, no había lenguajes de programación.
+Los progrmas lucían algo así:
 
 ----
 00110001 00000000 00000000
@@ -144,106 +145,103 @@ languages. Programs looked something like this:
 01100010 00000000 00000000
 ----
 
-(((programming,history of)))(((punch card)))(((complexity)))That is a
-program to add the numbers from 1 to 10 together and print out the
-result: `1 + 2 + ... + 10 = 55`. It could run on a simple,
-hypothetical machine. To program early computers, it was necessary to
-set large arrays of switches in the right position or punch holes in
-strips of cardboard and feed them to the computer. You can probably imagine
-how tedious and error-prone this procedure was. Even writing simple
-programs required much cleverness and discipline. Complex ones were
-nearly inconceivable.
+(((programación,historia de)))(((tarjeta perforada)))(((complejidad)))Eso es un
+programa para sumar los números del 1 al 10 e imprimir el
+resultado: `1 + 2 + ... + 10 = 55`. Podría correr en una simple,
+hipotética máquina. Para programar las primeras computadoras, era necesario
+configurar grandes conjuntos de tiras de switches en la posición correcta o
+perforar tiras de tarjetas e introducirlas en la computadora.
+Probablemente te puedes imaginar cuan tedioso y propenso al error era este
+procedimiento. Incluso escrbibir programas simples requería gran inteligencia y
+disciplina. Los programas complejos eran casi inconcebibles.
 
-(((bit)))(((wizard (mighty))))Of course, manually entering these
-arcane patterns of bits (the ones and zeros) did give the programmer
-a profound sense of being a mighty wizard. And that has to be worth
-something in terms of job satisfaction.
+(((bit)))(((mago (poderoso))))Claro, introducir manualmente estos
+oscuros patrones de bits (los unos y ceros) dieron al progrmador
+un profundo sentimiento de ser un poderoso mago. Y eso ha valido algo en
+términos de satisfacción en el trabajo.
 
-(((memory)))(((instruction)))Each line of the previous program contains a
-single instruction. It could be written in English like this:
-
-[source,text/plain]
-----
-1. Store the number 0 in memory location 0.
-2. Store the number 1 in memory location 1.
-3. Store the value of memory location 1 in memory location 2.
-4. Subtract the number 11 from the value in memory location 2.
-5. If the value in memory location 2 is the number 0,
-   continue with instruction 9.
-6. Add the value of memory location 1 to memory location 0.
-7. Add the number 1 to the value of memory location 1.
-8. Continue with instruction 3.
-9. Output the value of memory location 0.
-----
-
-(((readability)))(((naming)))(((variable)))Although that is already
-more readable than the soup of bits, it is still rather unpleasant. It
-might help to use names instead of numbers for the instructions and
-memory locations.
+(((memoria)))(((instrucción)))Cada línea del programa anterior contiene una
+instrucción. Podría ser escrita en español como sigue:
 
 [source,text/plain]
 ----
- Set “total” to 0.
- Set “count” to 1.
-[loop]
- Set “compare” to “count”.
- Subtract 11 from “compare”.
- If “compare” is zero, continue at [end].
- Add “count” to “total”.
- Add 1 to “count”.
- Continue at [loop].
-[end]
- Output “total”.
+1. Guarda el número 0 en la locación de memoria 0.
+2. Guarda el número 1 en la locación de memoria 1.
+3. Guarda el valor de la locación de memoria 1 en la locación 2.
+4. Resta 11 del valor en la locación de meoria 2.
+5. Si el valor en la locación de memoria 2 es el número 0,
+   continua con la instrucción 9.
+6. Suma el valor de la locación de memoria 1 al valor de la
+   locación de memoria 0.
+7. Suma 1 al valor de la locación de memoria 1.
+8. Continua con la instrucción 3.
+9. Devuelve el valor de la locación de memoria 0.
 ----
 
-(((loop)))(((jump)))(((summing example)))Can you see how the program
-works at this point? The first two lines give
-two memory locations their starting values: `total` will be used to
-build up the result of the computation, and `count` will keep track of the
-number that we are currently looking at. The lines using `compare` are
-probably the weirdest ones. The program wants to see
-whether `count` is equal to 11 in order to decide whether it can stop
-running. Because our hypothetical machine is rather primitive, it can only
-test whether a number is zero and make a decision (or jump) based on
-that. So it uses the memory location labeled `compare` to compute the
-value of `count - 11` and makes a decision based on that value. The
-next two lines add the value of `count` to the result and increment
-`count` by 1 every time the program has decided that `count` is not 11 yet.
+(((legibilidad)))(((nombramiento)))(((variable)))Aunque eso es más leíble que
+una sopa de bits, sigue sin ser agradable. Podría ayudar usar nombres en números
+para las instrucciones y locaciones de memoria.
 
-Here is the same program in JavaScript:
+[source,text/plain]
+----
+ Pon “total” igual a 0.
+ Pon “conteo” igual a 1.
+[bucle]
+ Pon “comparación” igual a “conteo”.
+ Resta 11 de “comparación”.
+ Si “comparación” es cero, continua en [final].
+ Suma “conteo” a “total”.
+ Suma 1 a “conteo”.
+ Continua en [bucle].
+[final]
+ Devuelve “total”.
+----
+
+(((bucle)))(((salto)))(((ejemplo de sumatoria)))¿Puedes entender cómo funciona
+el programa en este punto? Las primeras dos línas ponen en dos locaciones de
+memoria sus valores iniciales: `total` será usado para construir el resultado
+del cálculo y `conteo` mantendrá el registro del número en el que estamos
+trabajando en este momento. Las líneas que usan `comparación` son probablemente
+las más raras. El programa quiere ver si `conteo` es igual a 11 para saber si
+puede terminar. A causa de que nuestra máquina hipotética es más bien primitiva,
+solo puede probar si un número es cero y tomar una decisión (o salto) basada
+en eso. Así que usa la locación de memoria etiquetada como `comparación` para
+calcular el valor de `conteo - 11` y toma una decisión basada en ese valor.
+Las próximas dos líneas suman el valor de `conteo` al resultado e incrementan
+`conteo` en 1 cada vez que el programa ha decido que `conteo` no es todavía 11.
+
+Este es el mismo programa en JavaScript:
 
 [source,javascript]
 ----
-var total = 0, count = 1;
-while (count <= 10) {
-  total += count;
-  count += 1;
+var total = 0, conteo = 1;
+while (conteo <= 10) {
+  total += conteo;
+  conteo += 1;
 }
 console.log(total);
 // → 55
 ----
 
-(((while loop)))(((loop)))This version gives us a few more improvements.
-Most importantly, there is no need to specify the way we want the
-program to jump back and forth anymore. The `while` language
-construct takes care of that. It continues executing the block
-(wrapped in braces) below it as long as the condition it was given
-holds. That condition is `count <= 10`, which means “++count++ is less than or equal to
-10”. We no longer have to create a temporary value and compare that
-to zero, which was an uninteresting detail. Part of the power of
-programming languages is that they take care of uninteresting details
-for us.
+(((bucle while)))(((bucle)))Esta versión nos da unas cuantas menjoras más.
+Y lo más importante es que ya no hay necesidad de especificar la forma en que
+queremos que nuestro programa salte de atrás para adelante. La construcción del
+lenguaje `while` se encarga de eso. Continua ejecutándo el bloque (dentro de las
+llaves) debajo de él mientras la condición que se le dio se mantenga. Esa
+condición es `conteo <= 10`, lo que significa "++conteo++ es menor o igual que 10"
+Ya no tenemos que crear un valor temporal y compararlo con 0, lo cuál era un
+detalle sin interés para nosotros. Parte del poder de los lenguajes de
+programación es que estos se encargan de los detalles que no nos interesan.
 
-(((console.log)))At the end of the program, after the `while` construct has
-finished, the `console.log` operation is applied to the result in
-order to write it as output.
+(((console.log)))Al final del programa, después de que la construcción `while`
+ha terminado, la operación `console.log` es aplicada al resultado para imprimirlo
+como resultado.
 
-(((sum function)))(((range
-function)))(((abstraction)))(((function)))Finally, here is what the
-program could look like if we happened to have the convenient
-operations `range` and `sum` available, which respectively create a
-((collection)) of numbers within a range and compute the sum of a
-collection of numbers:
+(((sum, función)))(((range, función)))(((abstracción)))(((función)))Finalmente,
+así es como el programa luciría si sucidiera que tenemos
+las convenientes operaciones `range` y `sum` disponibles, una crea una
+((colección)) de números dentro de un rango y la otra calcula la suma de
+una ((colección)) de números, respectivamente:
 
 // start_code
 
@@ -253,20 +251,21 @@ console.log(sum(range(1, 10)));
 // → 55
 ----
 
-(((readability)))The moral of this story is that the same program can
-be expressed in long and short, unreadable and readable ways. The
-first version of the program was extremely obscure, whereas this last
-one is almost English: `log` the `sum` of the `range` of numbers from
-1 to 10. (We will see in link:04_data.html#data[later chapters] how to
-build operations like `sum` and `range`.)
+(((legibilidad)))La moraleja de esta historia es que el mismo programa puede
+ser expresado en formas largas, cortas, legibles e ilegibles.
+La primera versión del programa era extremadamente difícil de entender, mientras
+que la última está casi en lenguaje humano, inglés: `log`(registra) la
+`sum`(suma) del `rango` de números del 1 al 10.
+(Veremos en link:04_data.html#data[capítulos posteriores] como construir
+operaciones como `sum` y `range`.)
 
-(((programming language,power of)))(((composability)))A good
-programming language helps the programmer by allowing them to talk
-about the actions that the computer has to perform on a higher level.
-It helps omit uninteresting details, provides convenient building
-blocks (such as `while` and `console.log`), allows you to define your
-own building blocks (such as `sum` and `range`), and makes those blocks
-easy to compose.
+(((lenguaje de programación,poder de)))(((composición)))Un buen lenguaje de
+programación ayuda al programador mediante permitirle hablar acerca de las
+acciones que la computadora tiene que realizar en un nivel más alto.
+Ayuda a omitir detalles que no nos interesan, provee convenientes
+bloques de  construcción (tales como `while` y `console.log`), y te permite
+definir tus propios bloques (como `sum` y `range`), y hace fácil componer esos
+bloques.
 
 == What is JavaScript? ==
 

@@ -4,7 +4,7 @@
 = Introducción =
 
 Este libro trata de como hacer que las ((computadoras)) hagan lo que tú quieres
-que hagan. Las computadoras son tan comunes como los desarmadores hoy en día,
+que hagan. Las computadoras son tan comunes como los desatornilladores hoy en día,
 pero tienen mucha más complejidad oculta y, por lo tanto, son más difíciles de
 operar y entender. Para muchos siguen siendo cosas extrañas, un poco amenazadoras.
 
@@ -12,7 +12,7 @@ image::img/generated/computer.png[alt="Comunicándose con una computadora"]
 
 (((interfaz gráfica de usuario)))Hemos encontrado dos formas efectivas
 de cerrar la brecha ente nosotros, suaves organismos biológicos
-con talento para razonamiento social y espacial, y las computadoras,
+con talento para el razonamiento social y espacial, y las computadoras,
 manipuladoras sin sentimientos de datos sin sentido. La primera es
 usar nuestros sentidos del mundo físico y construir interfaces que
 imitan ese mundo y nos permiten manipular figuras en una pantalla
@@ -41,7 +41,7 @@ de consumo.
 
 indexsee:[navegador web,navegador]Este libro trata de hacer que te familiarices lo
 suficiente con este lenguaje para que puedas hacer que la computadora hago lo
-que tu quieras.
+que tú quieras.
 
 == Acerca de la Programación ==
 
@@ -50,7 +50,7 @@ ____
 (((Confucio)))No ilumino a aquellos que no están deseosos de aprender,
 tampoco despierto a quienes no están ansiosos de darse una explicación a
 sí mismos. Si les he presentado una esquina del cuadro y ellos no vienen
-con las otras tres, no debería recorrer otra vez los puntos.
+con las otras tres, no debería recorrer otra vez los puntos."
 ____
 
 (((programación,dificultad de)))A parte de explicar JavaScript, te introduciré en
@@ -71,23 +71,23 @@ seguir este libro, no concluyas rápidamente nada acerca de tus capacidades.
 Tu eres bueno—sólo necesitas mantener el paso. Toma un respiro,
 vuelve a leer el material, y _siempre_ asegúrate de leer y entender
 los programas de ejemplo y los ((ejercicios)). Aprender es un trabajo duro,
-pero todo lo que aprendas ahora es tuyo y hará el aprendizaje cada vez más fácil
+pero todo lo que aprendas ahora es tuyo y hará el aprendizaje cada vez más fácil.
 
 [quote, Joseph Weizenbaum, Computer Power and Human Reason]
 ____
 (((Weizenbaum+++,+++ Joseph)))El programador de computadoras es el creador de
-universos de los cuales él solo es responsable. Universos de complejidad
-virtualmente ilimitada pueden ser creados en la forma de programas de computadora.
+universos de los cuales él sólo es responsable. Universos de complejidad
+virtualmente ilimitada pueden ser creados en la forma de programas de computadora."
 ____
 
 (((programa,naturaleza de un)))(((datos)))Un programa es muchas cosas. Es una
 pieza de texto escrita por un programador, es la fuerza que dirije
 a la computadora para hacer lo que hace, son datos en la memoria de la
-comutadora, y aún así controla las acciones realizadas en esta misma memoria.
+computadora, y aún así controla las acciones realizadas en esta misma memoria.
 Las analogías que tratan de comparar a las computadoras con objetos que conocemos
 tienden a quedarse cortas. Una que se ajusta superficialmente es la de
-máquina—un montón de piezas separdas que se relacionan, y para hacerlo
-functionar, tenemos que considerar las formas en que esas piezas se
+máquina, un montón de piezas separdas que se relacionan, y para hacerlo
+funcionar, tenemos que considerar las formas en que esas piezas se
 interconectan y contribuyen al funcionamiento del todo.
 
 (((computadora)))Una computadora es una máquina que actua como anfitriona de
@@ -110,7 +110,7 @@ controlar la complejidad. Un gran programa está dominado, hecho simple
 en su complejidad.
 
 (((estilo de programación)))(((mejores prácticas)))Muchos programadores creen
-que esta complejidad es mejor controlada usando un pequeño conjunto de
+que esta complejidad es mejor controlada usando sólo un pequeño conjunto de
 técnicas bien entendidas en sus programas. Estos han compuesto reglas estrictas
 (“mejores prácticas”) que prescriben la forma que los programas deberían
 tener, y los más celosos de ellos considerarán a aquellos que se salen de
@@ -118,7 +118,7 @@ esta pequeña zona segura como _malos_ programadores.
 
 (((experimentar)))(((aprender)))¡Qué hostilidad hacia la riqueza de la
 programación, la de tratar de reducirla a algo simple y predecible, tratar de
-crear un tabú en todos los programas extraños y bellos!
+hacer tabú a todos los programas extraños y bellos!
 El panorama de todas las técnicas de programación es enorme, fascinante en
 su diversidad, y permanece inexplorado en gran parte. Ciertamente es peligroso
 ir, porque seduce al programador novato con todo tipo de confusiones,
@@ -271,53 +271,51 @@ bloques.
 
 indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((hisotria)))(((Netscape)))(((browser)))(((web
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
-Web))) JavaScript was introduced in 1995 as a way to add programs to
-web pages in the Netscape Navigator browser. The language has since
-been adopted by all other major graphical web browsers. It has made modern
-web applications possible—applications with which you can interact
-directly, without doing a page reload for every action. But it is also used in more
-traditional websites to provide various forms of interactivity and
-cleverness.
+Web))) JavaScript fu introducido en 1995 como una forma de añadir programas
+a las páginas web en el navegador Netscape Navigator. Desde entonces el lenguaje
+ha sido adoptado por la mayaría de los navegadores más importantes. Ha hecho
+posibles las aplicaciones web modernas, aplicaciones con las que puedes interactuar
+directamente, sin hacer recarga de la página para cada acción. Pero también es
+usado en sitios web más tradicionales para añadirles distintas formas de
+interactividad y hacerlas más ingeniosas.
 
-(((Java)))(((naming)))It is important to note that JavaScript has
-almost nothing to do with the programming language named Java. The
-similar name was inspired by marketing considerations, rather than
-good judgment. When JavaScript was being introduced, the Java language
-was being heavily marketed and was gaining popularity. Someone
-thought it was a good idea to try to ride along on this success. Now we
-are stuck with the name.
+(((Java)))(((nombres)))Es importante hacert notar que JavaScript no tiene casi
+nada que ver con el lenguaje de programación llamado Java. El nombre tan parecido
+fue inspirado por razones de marketing más que de buen juicio. Cuando JavaScript
+estaba entrando, el lenguaje Java estaba siendo promovido fuertemente y ganando
+popularidad. Alguien pensó que sería buena idea colgarse de su éxito. Ahora ya
+ya nos quedamos con el nombre.
 
-(((ECMAScript)))(((compatibility)))After its adoption outside of
-Netscape, a ((standard)) document was written to describe the way the
-JavaScript language should work to make sure the various pieces of
-software that claimed to support JavaScript were actually talking
-about the same language. This is called the ECMAScript standard, after
-the Ecma International organization that did the standardization. In
-practice, the terms ECMAScript and JavaScript can be used interchangeably—they
-are two names for the same language.
+(((ECMAScript)))(((compatibilidad)))Después de su adopción fuera de Netscape,
+un documento de ((estándar)) fue escrito para describir la forma en que
+JavaScript debería de trabajar para asegurarse de que distintos programas que
+argumentaban soportar JavaScript hablaran realmente del mismo lenguaje.
+Este documento es llamado el estándar ECMAScript, en honor a la Ecma International
+Organization, que realizó la estandarización. En la práctica, los términos
+ECMAScript y JavaScript pueden ser usados indistintamente, son dos nombres
+para el mismo lenguaje.
 
-(((JavaScript,weaknesses of)))(((debugging)))There are those who will
-say _terrible_ things about the JavaScript language. Many of these
-things are true. When I was required to write something in JavaScript
-for the first time, I quickly came to despise it. It would accept
-almost anything I typed but interpret it in a way that was completely
-different from what I meant. This had a lot to do with the fact that I
-did not have a clue what I was doing, of course, but there is a real
-issue here: JavaScript is ridiculously liberal in what it allows. The
-idea behind this design was that it would make programming in
-JavaScript easier for beginners. In actuality, it mostly makes finding
-problems in your programs harder because the system will not point
-them out to you.
 
-(((JavaScript,flexibility of)))(((flexibility)))This flexibility also
-has its advantages, though. It leaves space for a lot of techniques
-that are impossible in more rigid languages, and as you will see (for
-example in link:10_modules.html#modules[Chapter 10]) it
-can be used to overcome some of JavaScript's shortcomings. After
-((learning)) the language properly and working with it for a while, I have
-learned to actually _like_ JavaScript.
+(((JavaScript,debilidades de)))(((debugging)))Existen aquellos que dirán cosas
+_terribles_ acerca de JavaScript. Muchas de esas cosas son ciertas. La primera
+vez que tuve que programar algo en JavaScript, rápidamente llegué a despreciarlo.
+Aceptaría cualquier cosa que yo escribiera pero la interpretaba en una forma
+completamente distinta a lo que yo quería decir. Esto tenía mucho que ver con
+el hecho de que yo no tenía idea de lo que estaba haciendo, por supuesto, pero
+aquí existe un problema real: JavaScript es extremadamente liberal en lo que
+permite. La idea detrás de este diseño es que haría la programación en JavaScript
+más fácil para los principiantes. En realidad, la mayor parte de las veces
+eso hace más difícil encontrar los errores en tus programas debido a que el
+sistema no te los señalará.
 
-(((future)))(((JavaScript,versions of)))(((ECMAScript)))(((ECMAScript
+(((JavaScript,flexibilidad de)))(((flexibilidad))) Esta flexibilidad tiene sus
+ventajas también. Permite muchas técnicas que son imposibles en otros
+lenguajes más rígidos, y como verás, puede ser usada para superar algunas de las
+fallas de JavaScript (por ejemplo en el link:10_modules.html#modulos[Capítulo 10]).
+Después de ((aprender)) el lenguaje propiamente y de trabajar con él por un tiempo,
+JavaScript realmente me ha _gustado_.
+
+(((futuro)))(((JavaScript,versiones de)))(((ECMAScript)))(((ECMAScript
 6)))There have been several versions of JavaScript. ECMAScript
 version 3 was the widely supported version in the time of
 JavaScript's ascent to dominance, roughly between 2000 and 2010.

@@ -273,13 +273,13 @@ indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((hisotria)))(((Nets
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript fu introducido en 1995 como una forma de añadir programas
 a las páginas web en el navegador Netscape Navigator. Desde entonces el lenguaje
-ha sido adoptado por la mayaría de los navegadores más importantes. Ha hecho
+ha sido adoptado por la mayoría de los navegadores más importantes. Ha hecho
 posibles las aplicaciones web modernas, aplicaciones con las que puedes interactuar
 directamente, sin hacer recarga de la página para cada acción. Pero también es
 usado en sitios web más tradicionales para añadirles distintas formas de
-interactividad y hacerlas más ingeniosas.
+interactividad y hacerlos más ingeniosos.
 
-(((Java)))(((nombres)))Es importante hacert notar que JavaScript no tiene casi
+(((Java)))(((nombres)))Es importante hacer notar que JavaScript no tiene casi
 nada que ver con el lenguaje de programación llamado Java. El nombre tan parecido
 fue inspirado por razones de marketing más que de buen juicio. Cuando JavaScript
 estaba entrando, el lenguaje Java estaba siendo promovido fuertemente y ganando
@@ -316,142 +316,138 @@ Después de ((aprender)) el lenguaje propiamente y de trabajar con él por un ti
 JavaScript realmente me ha _gustado_.
 
 (((futuro)))(((JavaScript,versiones de)))(((ECMAScript)))(((ECMAScript
-6)))There have been several versions of JavaScript. ECMAScript
-version 3 was the widely supported version in the time of
-JavaScript's ascent to dominance, roughly between 2000 and 2010.
-During this time, work was underway on an ambitious version 4, which
-planned a number of radical improvements and extensions to the
-language. Changing a living, widely used language in such a radical
-way turned out to be politically difficult, and work on the version 4
-was abandoned in 2008, leading to the much less ambitious version 5
-coming out in 2009. We're now at the point where all major
-browsers support version 5, which is the language version that
-this book will be focusing on. A version 6 is in the process of
-being finalized, and some browsers are starting to support new
-features from this version.
+6)))Han existido varias versiones de JavaScript. ECMAScript versión 3 fue la
+versión ampliamente soportada en la época de ascención a la dominación de
+JavaScript, más o menos entre 2000 y 2010. Durante este tiempo, el trabajo fue
+dirigido a una ambiciosa versión 4, que planeaba varias mejoras radicales y
+extensiones al lenguaje. Cambiar un lenguaje vivo, ampliamente usado en una
+forma tan radical resultó ser políticamente difícil, y el trabajo en la versión
+4 fue abandonado en 2008, llevando así a la salida de la mucho menos
+ambiciosa versión 5 en 2009. Nosotros estamos en el punto en el que todos los
+navegadores mayores soportan la versión 5, que es la versión en la que este
+libro se enfocará. La versión 6 está en proceso de ser terminada, y algunos
+navegadores estám empezando a soportar nuevas características de esta versión.
 
-(((JavaScript,uses of)))Web browsers are not the only platforms on
-which JavaScript is used. Some databases, such as MongoDB and CouchDB,
-use JavaScript as their scripting and query language. Several
-platforms for desktop and server programming, most notably the
-((Node.js)) project (the subject of link:20_node.html#node[Chapter
-20]) are providing a powerful environment for programming JavaScript
-outside of the browser.
 
-== Code, and what to do with it ==
+(((JavaScript,usos de)))Los navegadores web no son las únicas plataformas en las
+que JavaScript es usado. Algunas Bases de Datos, como MongoDB y CouchDB, usan
+JavaScript como su lenguaje de manejo y consulta. Varias plataformas para
+programación de computadoras de escritorio y servidores, más notablemente
+el proyecto ((Node.js)) (el tema del link:20_node.html#node[Capítulo 20]), están
+haciendo disponible un entorno poderoso para la programación en JavaScript fuera
+del navegador.
 
-(((reading code)))(((writing code)))Code is the text that makes up
-programs. Most chapters in this book contain quite a lot of it. In my
-experience, reading code and writing ((code)) are indispensable parts of
-((learning)) to program, so try to not just glance over the examples. Read
-them attentively and understand them. This may be slow and confusing
-at first, but I promise that you will quickly get the hang of it. The
-same goes for the ((exercises)). Don't assume you understand them
-until you've actually written a working solution.
+== Código, y qué hacer con él ==
 
-(((interpretation)))I recommend you try your solutions to exercises
-in an actual JavaScript interpreter. That way, you'll get immediate feedback on
-whether what you are doing is working, and, I hope, you'll be
-tempted to ((experiment)) and go beyond the exercises.
+(((leyenfo código)))(((escribiendo código)))El código es el texto del que están
+compuestos los programas. La mayor parte de los capítulos de este libro
+contienen un montón de él. En mi experiencia, leer y escribir ((código)) son partes
+indispensables de ((aprender)) a programar, así que trata de no sólo darles una
+mirada rápida a los ejemplos. Léelos aténtamente y entiéndelos. Esto podría ser
+lento y confuso al principio, pero prometo que rápidamente le agarrarás el modo.
+Lo mismo es aplicable a los ((ejercicios)). No asumas que los entiendes hasta
+que realemente hayas escrito una solución que funcione.
+
+
+(((interpretación))) Te recomiendo probar tus soluciones a los ejercicios en
+un intérprete de JavaScript real. De esa forma obtendrás retroalimentación
+inmediata acerca de si lo que estás haciendo funciona, y, yo espero, serás
+tentado a ((experimentar)) e ir más allás de los ejercicios.
 
 ifdef::interactive_target[]
 
-When reading this book in your browser, you can edit (and run) all
-example programs by clicking them.
+Cuando estés leyendo este libro en tu navegador, puedes editar(y correr)
+todos los programas de ejemplo haciendo click en ellos.
 
 endif::interactive_target[]
 
 ifdef::book_target[]
 
-(((download)))(((sandbox)))(((running code)))The easiest way to run
-the example code in the book, and to experiment with it, is to look it
-up in the online version of the book at
-http://eloquentjavascript.net/[_eloquentjavascript.net_]. There, you
-can click any code example to edit and run it and to see the
-output it produces. To work on the exercises, go to
-http://eloquentjavascript.net/code[_eloquentjavascript.net/code_],
-which provides starting code for each coding exercise and allows you
-to look at the solutions.
+(((descarga)))(((sandbox)))(((código funcionando)))La manera más fácil de
+correr el código del libro, y de experimentar con él, es en la versión
+web en http://eloquentjavascript.net/[_eloquentjavascript.net_]. Ahí podrás
+hacer click en un ejemplo para editarlo y correrlo y para ver la salida que
+produce. Para trabajar en lo ejercicios, dirígete a
+http://eloquentjavascript.net/code[_eloquentjavascript.net/code_], que provee
+código para empezar con cada ejercicio y te permite ver las soluciones.
 
 endif::book_target[]
 
-(((developer tools)))(((JavaScript console)))If you want to run the
-programs defined in this book outside of the book's sandbox, some care
-is required. Many examples stand on their own and should work in any
-JavaScript environment. But code in later chapters is mostly written
-for a specific environment (the browser or Node.js) and can run only
-there. In addition, many chapters define bigger programs, and the
-pieces of code that appear in them depend on each other or on external
-files. The http://eloquentjavascript.net/code[sandbox] on the website
-provides links to Zip files containing all of the scripts and data
-files necessary to run the code for a given chapter.
+(((developer tools)))(((consola de JavaScript)))Si quieres correr los programas
+de este libro fuera del ambiente que se provee, hay que prestarle atención a ciertas cosas.
+Muchos ejemplos deberían trabajar por sí mismos. Pero el código de los capítulos
+más avanzados está escrito para un entorno específico (el navegador o Node.js)
+y sólo puede correr ahí. Además, muchos capítulos definen programas más grandes,
+y las partes del código que aparecen en él dependen de entre ellas o de archivos
+externos. El http://eloquentjavascript.net/code[entorno] en el sitio tiene
+links para descargar los archivos Zip que contienen todos los scripts y datos
+necesarios para hacer funcionar el código de cualquier capítulo.
 
-== Overview of this book ==
+== Vista general del libro ==
 
-This book contains roughly three parts. The first 11 chapters discuss
-the JavaScript language itself. The next eight chapters are about web
-((browsers)) and the way JavaScript is used to program them. Finally,
-two chapters are devoted to ((Node.js)), another environment to program
-JavaScript in.
+Este libro está compuesto por tres aprtes. Los primeros 11 capítulos hablan de
+JavaScript en sí mismo. Los siguientes ocho son acerca de los ((navegadores))
+web y la forma en que JavaScript es usado para programarlos. Finalmente,
+los últimos dos capítulos están dedicados a ((Node.js)), otro entorno para
+programar en JavaScript.
 
-Throughout the book, there are five _project chapters_, which describe
-larger example programs to give you a taste of real programming. In
-order of appearance, we will work through building an
-link:07_elife.html#elife[artificial life simulation], a
-link:11_language.html#language[programming language], a
-link:15_game.html#game[platform game], a
-link:19_paint.html#paint[paint program], and a
-link:21_skillsharing.html#skillsharing[dynamic website].
+A lo largo del libro hay cinco _capítulos de proyecto_, que describen programas
+de ejemplo más grandes para darte una prueba de la programación en el mundo real.
+En order de aparcición trabajaremos en
+link:07_elife.html#elife[simulación de vida artificial], un
+link:11_language.html#language[lenguaje de programación], un
+link:15_game.html#game[juego de plataforma], un
+link:19_paint.html#paint[programa de pintura], y un
+link:21_skillsharing.html#skillsharing[sitio dinámico].
 
-The language part of the book starts with four chapters to introduce
-the basic structure of the JavaScript language. They introduce
-link:02_program_structure.html#program_structure[control structures]
-(such as the `while` word you saw in this introduction),
-link:03_functions.html#functions[functions] (writing your own
-operations), and link:04_data.html#data[data structures]. After these,
-you will be able to write simple programs. Next, Chapters
-link:05_higher_order.html#higher_order[5] and
-link:06_object.html#object[6] introduce techniques to use functions
-and objects to write more _abstract_ code and thus keep complexity
-under control.
+La parte del lenguaje del libro empieza con cuatro capítulos para presentar
+la estructura básica de JavaScript. Estos presentan
+link:02_program_structure.html#program_structure[estructuras de control]
+(como la palabra `while` que viste ene esta introducción),
+link:03_functions.html#functions[funciones] (escribir tus propias operaciones),
+y link:04_data.html#data[estructuras de datos]. Despeués de esto, serás capaz de
+escribir programas simples. Después, los capítulos
+link:05_higher_order.html#higher_order[5] y
+link:06_object.html#object[6] presentan técnicas para usar
+funciones y objetos para escribir código más _abstracto_ y de esta manera
+mantener a la complejidad bajo control.
 
-After a link:07_elife.html#elife[first project chapter], the first
-part of the book continues with chapters on
-link:08_error.html#error[error handling and fixing], on
-link:09_regexp.html#regexp[regular expressions] (an important tool for
-working with text data), and on
-link:10_modules.html#modules[modularity]—another weapon against
-complexity. The link:11_language.html#language[second project chapter]
-concludes the first part of the book.
+Después de link:07_elife.html#elife[un primer capítulo de proyecto], la primera
+parte del libro continua con capítulos acerca de
+link:08_error.html#error[manejo y correccón de errores],
+link:09_regexp.html#regexp[expresiones regulares] (una herramienta importanate
+para el manejo de datos de texto), y
+link:10_modules.html#modules[modularidad], otra arma contra la complejidad.
+El link:11_language.html#language[segundo capítulo de proyecto] termina con la
+primera parte del libro.
 
-The second part, Chapters link:12_browser.html#browser[12] to
-link:19_paint.html#paint[19], describes the tools that browser
-JavaScript has access to. You'll learn to display things on the screen
-(Chapters link:13_dom.html#dom[13] and
-link:16_canvas.html#canvas[16]), respond to user input (Chapters
-link:14_event.html#event[14] and link:18_forms.html#forms[18]), and
-communicate over the network (link:17_http.html#http[Chapter 17]).
-There are again two project chapters in this part.
+En la segunda parte, los Capítulos link:12_browser.html#browser[12] a
+link:19_paint.html#paint[19], describen las herramientas a las que JavaScript
+tiene acceso en el navegador web. Aprenderás a mostrar cosas en la pantalla
+(Capítulos link:13_dom.html#dom[13] y
+link:16_canvas.html#canvas[16]), repsonder a los datos de entrada del usuario
+(Capítulos link:14_event.html#event[14] y link:18_forms.html#forms[18]), y a comunicarte
+a través de la red (link:17_http.html#http[Capítulo 17]).
+Otra vez, hay dos proyectos en esta parte.
 
-After that, link:20_node.html#node[Chapter 20] describes Node.js, and
-link:21_skillsharing.html#skillsharing[Chapter 21] builds a simple web
-system using that tool.
+Después de eso, el link:20_node.html#node[Capítulo 20] describe Node.js, y el
+link:21_skillsharing.html#skillsharing[Capítulo 21] construye un sencillo sistema
+web usando esa herramienta.
 
 ifdef::commercial_target[]
 
-Finally, link:22_fast.html#fast[Chapter 22] describes some of the
-considerations that come up when optimizing JavaScript programs for
-speed.
+Finalmente, link:22_fast.html#fast[Capítulo 22] describe algunas de las
+consideraciones que se deben tener al optimizar programas de JavaScript
+para que sean rápidos.
 
 endif::commercial_target[]
 
-== Typographic conventions ==
+== Convenciones Tipográficas ==
 
-(((factorial function)))In this book, text written in a `monospaced`
-font will represent elements of programs—sometimes
-they are self-sufficient fragments, and sometimes they just refer to
-part of a nearby program. Programs (of which you have already seen a
-few), are written as follows:
+(((función factorial))) En este libro, texto escrito en fuente `monoespacio`
+representará elementos de programas; algunas veces programas completos y otras,
+partes de programas que hayan sido definidos cerca de ahí. Los programas(de los
+  cuales has visto unos pocos), están escritos como sigue:
 
 [source,javascript]
 ----
@@ -463,9 +459,9 @@ function fac(n) {
 }
 ----
 
-(((console.log)))Sometimes, in order to show the output that a program
-produces, the expected output is written after it, with two slashes
-and an arrow in front.
+(((console.log)))Algunas veces, para mostrar la salida que un programa produce,
+la salida esperada será escrita después de este, con dos diagonales y una flecha
+enfrente.
 
 [source,javascript]
 ----
@@ -473,4 +469,4 @@ console.log(fac(8));
 // → 40320
 ----
 
-Good luck!
+Buena suerte!

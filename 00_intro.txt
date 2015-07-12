@@ -267,9 +267,9 @@ bloques de  construcción (tales como `while` y `console.log`), y te permite
 definir tus propios bloques (como `sum` y `range`), y hace fácil componer esos
 bloques.
 
-== What is JavaScript? ==
+== ¿Qué es JavaScript? ==
 
-indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((history)))(((Netscape)))(((browser)))(((web
+indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((hisotria)))(((Netscape)))(((browser)))(((web
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
 Web))) JavaScript was introduced in 1995 as a way to add programs to
 web pages in the Netscape Navigator browser. The language has since

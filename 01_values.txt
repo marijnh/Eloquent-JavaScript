@@ -8,25 +8,26 @@
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
-Below the surface of the
-machine, the program moves. Without effort, it expands and contracts.
-In great harmony, electrons scatter and regroup. The forms on the
-monitor are but ripples on the water. The essence stays invisibly
-below.
+Debajo de la superficie de la
+máquina, el programa se mueve. Sin esfuerzo, se expande y contrae.
+En gran armonía, los electrones se separan y reagrupan. Las formas en
+el monitor no son más que ondas en el agua. La escencia permanece
+invisible debajo.
 ____
 
-(((Yuan-Ma)))(((Book of Programming)))(((binary
-data)))(((data)))(((bit)))(((memory)))Inside the computer's world,
-there is only data. You can read data, modify data, create new
-data—but anything that isn't data simply does not exist. All this data
-is stored as long sequences of bits and is thus fundamentally alike.
+(((Yuan-Ma)))(((Libro de la Programación)))(((datos
+binarios)))(((datos)))(((bit)))(((memoria))) En el mundo de las
+computadoras sólo existen los datos. Puedes leer, modificar y crear
+nuevos datos, pero culaquier cosa que no sea datos simplemente no 
+existe. Todos estos datos son guardados en largas secuencias de bits
+y por la tanto son parecidos.
 
-(((CD)))(((signal)))Bits are any kind of two-valued things, usually
-described as zeros and ones. Inside the computer, they take forms
-such as a high or low electrical charge, a strong or weak signal, or a
-shiny or dull spot on the surface of a CD. Any piece of discrete
-information can be reduced to a sequence of zeros and ones and thus
-represented in bits.
+(((CD)))(((señal))) Los bits son cualquier tipo cosas con dos valores,
+normalmente descritos como ceros y unos. Dentro de la computadora, toman
+formas como alta o baja carga eléctrica, una señal débil o fuerte o
+un punto brillante u opaco en la superficie de un CD. Cualquier pieza
+de información discreta puede ser reducida a una secuencia de ceros y
+unos y por lo tanto representada como bits.
 
 (((binary number)))(((radix)))(((decimal number)))For example, think
 about how you might show the number 13 in bits. It works the same way

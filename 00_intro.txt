@@ -469,4 +469,4 @@ console.log(fac(8));
 // → 40320
 ----
 
-Buena suerte!
+¡Buena suerte!

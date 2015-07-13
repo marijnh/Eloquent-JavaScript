@@ -3,7 +3,7 @@
 :next_link: 02_program_structure
 :docid: values
 
-= Values, Types, and Operators =
+= Valores, Tipos y Operadores =
 
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
@@ -20,32 +20,34 @@ binarios)))(((datos)))(((bit)))(((memoria))) En el mundo de las
 computadoras sólo existen los datos. Puedes leer, modificar y crear
 nuevos datos, pero culaquier cosa que no sea datos simplemente no 
 existe. Todos estos datos son guardados en largas secuencias de bits
-y por la tanto son parecidos.
+y por lo tanto son parecidos.
 
-(((CD)))(((señal))) Los bits son cualquier tipo cosas con dos valores,
+(((CD)))(((señal))) Los bits son cualquier tipo de cosas con dos valores,
 normalmente descritos como ceros y unos. Dentro de la computadora, toman
-formas como alta o baja carga eléctrica, una señal débil o fuerte o
+formas como alta o baja carga eléctrica, una señal débil o fuerte, o
 un punto brillante u opaco en la superficie de un CD. Cualquier pieza
 de información discreta puede ser reducida a una secuencia de ceros y
 unos y por lo tanto representada como bits.
 
-(((binary number)))(((radix)))(((decimal number)))For example, think
-about how you might show the number 13 in bits. It works the same way
-you write decimal numbers, but instead of 10 different ((digit))s, you
-have only 2, and the weight of each increases by a factor of 2 from
-right to left. Here are the bits that make up the number 13, with the
-weights of the digits shown below them:
+(((número binario)))(((base)))(((número décimal))) Por ejemplo, piensa
+cómo podrías representar el número 13 en bits. Funciona de la misma
+forma en que escribes números decimales, pero en vez de tener 10
+((dígitos)), tienes sólo 2, y el peso de cada uno se incrementa
+por un factor de 2 de derecha a izquierda. Aquí están los bits que
+conforman el número 13, con los pesos de cada uno mostrados debajo de
+ellos.
 
 ----
    0   0   0   0   1   1   0   1
  128  64  32  16   8   4   2   1
 ----
 
-So that's the binary number 00001101, or 8 + 4 + 1, which equals 13.
+Así que ese es el número binario 00001101, u 8 + 4 + 1,
+que equivale a 13.
 
-== Values ==
+== Valores ==
 
-(((memory)))(((volatile data storage)))(((hard drive)))Imagine a sea of
+(((memoria)))(((volatile data storage)))(((hard drive)))Imagine a sea of
 bits. An ocean of them. A typical modern computer has more than 30
 billion bits in its volatile data storage. Nonvolatile storage (the
 hard disk or equivalent) tends to have yet a few orders of magnitude

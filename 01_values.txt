@@ -204,23 +204,24 @@ La precedencia del sobrante es la misma que la de la multiplicación
 y división. Verás a menudo este operador referido como _módulo_, 
 aunque técnicamente _sobrante_ es más preciso.
 
-=== Special numbers ===
+=== Números especiales ===
 
-(((number,special values)))There are three special values in
-JavaScript that are considered numbers but don't behave like normal
-numbers.
+(((número,valores especiales)))Hay 3 valores especiales en JavaScript
+que son considerados números pero no se comportanc como números
+normales.
 
-(((infinity)))The first two are `Infinity` and `-Infinity`, which
-represent the positive and negative infinities. `Infinity - 1` is
-still `Infinity`, and so on. Don't put too much trust in
-infinity-based computation. It isn't mathematically solid, and it will
-quickly lead to our next special number: `NaN`.
+(((infinito)))El primero es `Infinity` (Infinito) y `-Infinity`, que
+representan infinitos positivos y negativos. `Infinity - 1`
+sigue siendo `Infinity`, y así por el estilo. No confíes mucho en los
+cálculos basados en infinitos. No son matemáticamente confiables y
+pronto te llevarán al próximo número especial: `NaN`.
 
-(((NaN)))(((not a number)))(((division by zero)))`NaN` stands for “not
-a number”, even though it is a value of the number type. You'll get
-this result when you, for example, try to calculate `0 / 0` (zero
-divided by zero), `Infinity - Infinity`, or any number of other
-numeric operations that don't yield a precise, meaningful result.
+(((NaN)))(((not a number)))(((divisón por cero)))`NaN` son las siglas
+de “not a number” ("no es un número"), aunque es un valor del tipo
+número. Obtendrás este resultado cuando, por ejemplo, trates de
+calcular `0 / 0` (cero entre cero), `Infinity - Infinity`, o cualquier
+otra operación numérica que no produzca un resultado
+preciso, significativo.
 
 == Strings ==
 

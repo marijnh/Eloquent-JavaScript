@@ -204,13 +204,13 @@ La precedencia del sobrante es la misma que la de la multiplicación
 y división. Verás a menudo este operador referido como _módulo_, 
 aunque técnicamente _sobrante_ es más preciso.
 
-=== Números especiales ===
+=== Números Especiales ===
 
-(((número,valores especiales)))Hay 3 valores especiales en JavaScript
-que son considerados números pero no se comportanc como números
+(((número,valores especiales)))Hay tres valores especiales en JavaScript
+que son considerados números pero no se comportan como números
 normales.
 
-(((infinito)))El primero es `Infinity` (Infinito) y `-Infinity`, que
+(((infinito)))Los primeros dos son `Infinity` y `-Infinity`, que
 representan infinitos positivos y negativos. `Infinity - 1`
 sigue siendo `Infinity`, y así por el estilo. No confíes mucho en los
 cálculos basados en infinitos. No son matemáticamente confiables y
@@ -223,73 +223,78 @@ calcular `0 / 0` (cero entre cero), `Infinity - Infinity`, o cualquier
 otra operación numérica que no produzca un resultado
 preciso, significativo.
 
-== Strings ==
+== Cadenas ==
 
-(((syntax)))(((text)))(((character)))(((string,notation)))(((single-quote
-character)))(((double-quote character)))(((quotation mark)))The next
-basic data type is the _((string))_. Strings are used to represent
-text. They are written by enclosing their content in quotes.
+(((sintaxis)))(((texto)))(((caracter)))(((cadena,notación)))(((caracter
+comilla simple)))(((caracter comilla doble)))(((comillas)))El siguiente
+tipo de data básico son las _cadenas_. Estas son usadas para representar
+texto. Son declaradas al poner el contenido entre comillas.
 
 [source,javascript]
 ----
-"Patch my boat with chewing gum"
+"Parcha mi bote con goma de mascar"
 'Monkeys wave goodbye'
 ----
 
-Both single and double quotes can be used to mark strings as long as
-the quotes at the start and the end of the string match.
+Tanto las comillas simples como las dobles pueden ser usadas para declarar
+cadenas de texto mientras coincidan al principio y al final.
 
-(((line break)))(((newline character)))Almost anything can be put
-between quotes, and JavaScript will make a string value out of it. But
-a few characters are more difficult. You can imagine how putting
-quotes between quotes might be hard. _Newlines_ (the characters you
-get when you press Enter) also can't be put between quotes. The string
-has to stay on a single line.
+(((salto de línea)))(((caracter de nueva línea)))(((newline)))Casi cualquier
+cosa puede estar entre comillas, y JavaScript creará una cadena. Pero unos
+cuantos caracteres son un poco difíceles. Puedes imaginar que poner
+comillas dentro de comillas puede ser difícil. _Newlines_ (el caracter
+salto de línea, lo que obtines cuando presionas Enter), tampoco puede
+ser introducido entre comillas. La cadena tiene que permanecer en una
+sola línea.
 
-(((escaping,in strings)))(((backslash character)))To make it possible to include
-such characters in a string, the following notation is used: whenever
-a backslash (`\`) is found inside quoted text, it indicates that the
-character after it has a special meaning. This is called _escaping_
-the character. A quote that is preceded by a backslash will not end
-the string but be part of it. When an `n` character occurs after a
-backslash, it is interpreted as a newline. Similarly, a `t` after a
-backslash means a ((tab character)). Take the following string:
+(((escape,en cadenas)))(((diagonal invertida)))Para hacer posible
+la inclusión de estos caracteres en  una cadena de texto, la siguiente
+notación es usada: cuando una diagonal invertida(_backslash_: `\`)
+se encuentra dentro de un texto entre comillas, indica que el caracter
+siguiente tiene un significado especial. Esto es llamado _escapar_ el
+caracter. Una comilla que es precedida por una diagonal invertida
+no terminará la cadena, sino que será parte de ella. Cuando un
+caracter `n` sigue a una diagonal invertida, se interpreta como
+una nueva línea. Similarmente, un `t` después de la diagonal invertida
+significa un ((tabulador)). Tomemos la siguiente cadena:
 
-[source,javascript]
-----
-"This is the first line\nAnd this is the second"
-----
-
-The actual text contained is this:
-
-----
-This is the first line
-And this is the second
-----
-
-There are, of course, situations where you want a backslash in a
-string to be just a backslash, not a special code. If two backslashes
-follow each other, they will collapse together, and only one will be
-left in the resulting string value. This is how the string “++A newline
-character is written like "\n".++” can be expressed:
 
 [source,javascript]
 ----
-"A newline character is written like \"\\n\"."
+"Esta es la primera línea\nY esta la segunda"
 ----
 
-(((+ operator)))(((concatenation)))Strings cannot be divided,
-multiplied, or subtracted, but the `+` operator _can_ be used on them.
-It does not add, but it __concatenates__—it glues two strings together.
-The following line will produce the string `"concatenate"`:
+El verdadero texto contenido es:
+
+----
+Esta es la primera línea
+Y esta la segunda
+----
+
+Existen, por supuesto, situaciones en las que querrás que una
+diagonal invertida sea sólo eso en una cadena de texto, no un 
+código especial. Si dos diagonales invertidas están juntas, se van
+a juntar, y sólo una quedará como resultado en el valor de la cadena.
+Así es como la cadena "++Un caracter de nueva línea es escrito "\n".++"
+puede ser expresada:
 
 [source,javascript]
 ----
-"con" + "cat" + "e" + "nate"
+"Un caracter de nueva linea es escrito \"\\n\"."
 ----
 
-There are more ways of manipulating strings, which we will discuss
-when we get to methods in link:04_data.html#methods[Chapter 4].
+(((operador +)))(((concatenación)))Las cadenas de texto no pueden ser
+divididas numéricamente, multiplicadas, o restadas, pero el caracter
+`+` _puede_ ser usado en ellas. No suma, sino que _concatena_; pega dos
+cadenas. La siguiente línea produce la cadena `"concatenar"`:
+
+[source,javascript]
+----
+"con" + "cat" + "e" + "nar"
+----
+
+Hay más maneras de manipular las cadenas, de las que hablaremos cuando
+lleguemos a los métodos en el link:04_data.html#methods[Capítulo 4].
 
 == Unary operators ==
 

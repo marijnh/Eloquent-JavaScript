@@ -13,30 +13,30 @@ to get me to come back. (I respond well to toxins in the blood.) Man,
 that stuff will kick the peaches right out your gills!
 ____
 
-(((why)))(((Poignant Guide)))In this chapter, we will start to do
-things that can actually be called _programming_. We will expand our
-command of the JavaScript language beyond the nouns and sentence
-fragments we've seen so far, to the point where we can
-express some meaningful prose.
+(((why)))(((Poignant Guide)))En este capítulo, vamos a empezar a hacer
+cosas que realmente pueden ser llamadas _programación_. Vamos a ampliarº
+nuestro conocimiento del lenguaje JavaScript, más allá de los sustantivos y fragmentos
+de oraciones que hemos visto hasta ahora, hasta el punto que podemos
+expresar alguna prosa significativa.
 
-== Expressions and statements ==
+== Expresiones y declaraciones ==
 
 (((grammar)))(((syntax)))(((code,structure
-of)))(((grammar)))(((JavaScript,syntax)))In
-link:01_values.html#values[Chapter 1], we made some values and then
-applied operators to them to get new values. Creating values like this
-is an essential part of every JavaScript program, but it is only
-a part.
+of)))(((grammar)))(((JavaScript,syntax)))En el
+link:01_values.html#values[Chapter 1], hicimos algunos valores y después
+les aplicamos operadores para obtener nuevos valores. Creando valores como éste
+es una parte esencial de cada programa de JavaScript, pero esto es sólo
+una parte.
 
-(((literal expression)))A fragment of code that produces a value is
-called an _((expression))_. Every value that is written literally
-(such as `22` or `"psychoanalysis"`) is an expression. An expression
-between ((parentheses)) is also an expression, as is a ((binary
-operator)) applied to two expressions or a unary operator applied to
-one.
+(((literal expression)))Un fragmento de código que produce un valor es
+llamado una _((expresión))_. Cada valor que se escribe literalmente
+(tal como `22` o `"psicoanálisis"`) es una expresión. Una expresión
+entre ((paréntesis)) es también una expresión, como es un ((operador
+binario)) aplicado a dos expresiones o un operador unitario aplicado a
+uno.
 
-(((nesting,of expressions)))(((human language)))This shows part of the
-beauty of a language-based interface. Expressions can nest in a way
+(((nesting,of expressions)))(((human language)))Esto muestra parte de la
+belleza de una interfaz basada en el lenguaje. Expressions can nest in a way
 very similar to the way subsentences in human languages are nested—a
 subsentence can contain its own subsentences, and so on. This allows
 us to combine expressions to express arbitrarily complex computations.
@@ -983,13 +983,13 @@ Passing this string to `console.log` should show something like this:
 
 ----
  # # # #
-# # # # 
+# # # #
  # # # #
-# # # # 
+# # # #
  # # # #
-# # # # 
+# # # #
  # # # #
-# # # # 
+# # # #
 ----
 
 When you have a program that generates this pattern, define a

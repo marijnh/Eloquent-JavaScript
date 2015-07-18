@@ -467,34 +467,33 @@ console.log(false ? 1 : 2);
 // → 2
 ----
 
-Esste es llamado el operador _condicional (o algunas veces el operador
+Esste es llamado el operador _condicional_ (o algunas veces el operador
 _tenario_ dado que es el único operador de este tipo en el lenguaje).
 El valor a la izquierda del signo de interrogación "escoge" cuál de los
 otros dos valores resultará. Cuando es verdadero, el valor central es 
 escogido, y cuando es falso, el valor de la derecha se da como resultado.
 
-== Undefined values ==
+== Valores Indefinidos (Undefined) ==
 
-(((undefined)))(((null)))There are two special values, written `null`
-and `undefined`, that are used to denote the absence of a meaningful
-value. They are themselves values, but they carry no
-information.
+(((undefined)))(((null)))(((indefinido)))Existen dos valores especiales,
+escritos `null` y `undefined`, que son usados para denotar la ausencia
+de un valor con significado. Son valores en sí mismos, pero no poseen
+ninguna información.
 
-Many operations in the language that don't produce a meaningful value
-(you'll see some later) yield `undefined` simply because they have to
-yield _some_ value.
+Muchas operaciones en el lenguaje que no producen un valor con significado
+(lo verás después) producen `undefined` simplemente porque tienen producir
+_algún_ valor.
 
-The difference in meaning between `undefined` and `null` is an accident
-of JavaScript's design, and it doesn't matter most of the time. In the cases
-where you actually have to concern yourself with these values, I
-recommend treating them as interchangeable (more on that in a moment).
+La diferencia en el significado entre `undefined` y `null` es un accidente del
+diseño de JavaScript, y no importa la mayoría del tiempo. En los casos en
+dónde realmente te tienes que preocupar de estos valores, te recomiendo tratarlos
+como intercambiables (más de esto en un momento).
 
-== Automatic type conversion ==
+== Conversión automática de tipo ==
 
-(((NaN)))(((type coercion)))In the introduction, I mentioned that
-JavaScript goes out of its way to accept almost any program you give
-it, even programs that do odd things. This is nicely demonstrated by
-the following expressions:
+(((NaN)))(((coerción de tipos)))En la introducción, mencioné que
+JavaScript acepta casi cualquier programa que le des, incluso programas que
+hagan cosas raras. Esto es muy bien demostrado por las siguientes expresiones:
 
 [source,javascript]
 ----

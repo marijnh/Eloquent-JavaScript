@@ -56,8 +56,8 @@ tiene un par de órdenes de magnitud más todavía.
 
 image::img/bit-sea.png[alt="The Ocean of Bits"]
 
-Para ser capaces con tales cantidades de bits sin perderte, puedes
-separarlos en pedazos que representen piezas de información. En un
+Para ser capaz de trabajar con semejantes cantidades de bits sin perderte,
+puedes separarlos en pedazos que representen piezas de información. En un
 entorno en JavaScript, esos pedazos son llamados _((valor))es_. Aunque
 todos los valores están hechos de bits, juegan diferentes roles. Cada
 valor tiene un tipo que determina su rol. Existen seis tipos básicos de
@@ -76,7 +76,7 @@ sus bits para que sean reciclados como material de construcción de la
 próxima generación de valores.
 
 Este capítulo introduce los elementos atómicos de los programas en 
-JavaScript, los tipos de valor simples y los operadores que pueden 
+JavaScript, los tipos de valores simples y los operadores que pueden 
 actuar sobre tales valores.
 
 == Números ==
@@ -503,7 +503,7 @@ console.log("5" - 1)
 // → 4
 console.log("5" + 1)
 // → 51
-console.log("five" * 2)
+console.log("cinco" * 2)
 // → NaN
 console.log(false == 0)
 // → true
@@ -520,22 +520,23 @@ em la tercera expresión, `+` intenta hacer concatenación de cadenas
 antes de suma numérica, así que el `1` es convertido en `"1"` (de
 número a cadena).
 
-(((type coercion)))(((number,conversion to)))When something that
-doesn't map to a number in an obvious way (such as `"five"` or
-`undefined`) is converted to a number, the value `NaN` is produced.
-Further arithmetic operations on `NaN` keep producing `NaN`, so if you
-find yourself getting one of those in an unexpected place, look for
-accidental type conversions.
+(((coerción de tipo)))(((número,conversión a)))Cuando algo que no
+se corresponde con un número de manera obvia (como `"cinco"` o
+`undefined`) es convertido a un número, el valor resultante
+es `NaN`. Las siguientes operaciones aritméticas sobre `NaN` seguirán
+produciendo `NaN`, así que si te encuentras con uno de estos en
+un lugar inesperado, busca conversiones accidentales de tipo.
 
-(((null)))(((undefined)))(((comparison,of undefined values)))(((==
-operator)))When comparing values of the same type using `==`, the
-outcome is easy to predict: you should get true when both values are
-the same, except in the case of `NaN`. But when the types differ,
-JavaScript uses a complicated and confusing set of rules to determine
-what to do. In most cases, it just tries to convert one of the values
-to the other value's type. However, when `null` or `undefined` occurs
-on either side of the operator, it produces true only if both sides
-are one of `null` or `undefined`.
+(((null)))(((undefined)))(((comparación,de valores
+indefinidos)))(((operador ==))) Cuando comparamos valores del mismo tipo
+usando `==`, la salida es fácil de predecir: deberías obtener verdadero
+cuando los dos valores sean el mismo, excepto en el caso de `NaN`.
+Pero cuando los tipos son diferentes, JavaScript usa un complicado
+y confuso conjunto de reglas para determinar qué hacer. En la mayoría
+de los casos, sólo trata de convertir uno de los valores al tipo de
+dato del otro valor. Sin embargo, cuando `null` o `undefined` están
+en cualquier lado de la operación, resulta verdadero sólo en el caso
+de que los dos lados sean `null` o `undefined`.
 
 [source,javascript]
 ----
@@ -545,26 +546,27 @@ console.log(null == 0);
 // → false
 ----
 
-That last piece of behavior is often useful. When you want to test
-whether a value has a real value instead of `null` or `undefined`, you
-can simply compare it to `null` with the `==` (or `!=`) operator.
+Este último comportamiento es útil a menudo. Cuando quieres probar
+si un valor tiene un significado real en vez de `null` o `undefined`, 
+simplemente comparas contra `null` con el operador `==` (o `!=`).
 
-(((type coercion)))(((Boolean,conversion to)))(((=== operator)))(((!==
-operator)))(((comparison)))But what if you want to test whether
-something refers to the precise value `false`? The rules for
-converting strings and numbers to Boolean values state that `0`,
-`NaN`, and the empty string (`""`) count as `false`, while all the
-other values count as `true`. Because of this, expressions like `0 ==
-false` and `"" == false` are also true. For cases like this, where you
-do _not_ want any automatic type conversions to happen, there are two
-extra operators: `===` and `!==`. The first tests whether a value is
-precisely equal to the other, and the second tests whether it is not
-precisely equal. So `"" === false` is false as expected.
+(((coerción de tipos)))(((Boolean,conversión a)))(((operador
+ ===)))(((operador !==)))(((comparación)))¿Y si quieres proobar
+si algo se refiere precisamente al valor `false`? Las reglas para 
+convertir cadenas y números a Booleanos dicen que `0`, `NaN` y la
+cadena vacía (`""`) cuantan como `false`, mientras que todos los
+demás valores cuentan como `true`. Debido a esto, expresiones como 
+`0 == false` y `"" == false` también son verdaderas. Para casos como
+este en el que _no_ quieres que ocurra ninguna conversión automática
+de tipos, existen dos operadores extra: `===` y `!==`. El primero
+prueba si un valor es precisamente igual a otro, y el segundo
+si no es precisamente igual. Así que `"" === false` es falso como
+se espera.
 
-I recommend using the three-character comparison operators defensively to
-prevent unexpected type conversions from tripping you up. But when you're
-certain the types on both sides will be the same, there is no problem with
-using the shorter operators.
+Yo recomiendo usar la comparación de tres caracteres defensivamente para
+evitar que conversiones de tipos inesperadas te causen problemas. Pero
+cuando estás seguro de que los tipos en ambos lados serán los mismos,
+no hay problema con usar los operadores más cortos.
 
 === Short-circuiting of logical operators ===
 

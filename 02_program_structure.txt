@@ -2,37 +2,37 @@
 :prev_link: 01_values
 :next_link: 03_functions
 
-= Program Structure =
+= Estructura del Programa =
 
 [chapterquote="true"]
 [quote, _why, Why's (Poignant) Guide to Ruby]
 ____
-And my heart glows bright red under my
-filmy, translucent skin and they have to administer 10cc of JavaScript
-to get me to come back. (I respond well to toxins in the blood.) Man,
-that stuff will kick the peaches right out your gills!
+Y mi corazón brilla rojo debajo de mi
+delgada, translúcida piel y tienen que administrarme 10cc de JavaScript
+para hacerme regresar. (Responsdo bien a las toxinas en la sangre.) ¡Hombre,
+esa cosa te sacará de tus casillas!
 ____
 
 (((why)))(((Poignant Guide)))En este capítulo, vamos a empezar a hacer
-cosas que realmente pueden ser llamadas _programación_. Vamos a ampliarº
-nuestro conocimiento del lenguaje JavaScript, más allá de los sustantivos y fragmentos
-de oraciones que hemos visto hasta ahora, hasta el punto que podemos
-expresar alguna prosa significativa.
+cosas que realmente pueden ser llamadas _programación_. Vamos a ampliar
+nuestro conocimiento del lenguaje JavaScript, más allá de los sustantivos
+y fragmentos de oraciones que hemos visto hasta ahora,
+hasta el punto en que podamos expresar alguna prosa significativa.
 
 == Expresiones y declaraciones ==
 
 (((grammar)))(((syntax)))(((code,structure
 of)))(((grammar)))(((JavaScript,syntax)))En el
 link:01_values.html#values[Chapter 1], hicimos algunos valores y después
-les aplicamos operadores para obtener nuevos valores. Creando valores como éste
-es una parte esencial de cada programa de JavaScript, pero esto es sólo
+les aplicamos operadores para obtener nuevos valores. Crear valores de esta forma
+es una parte esencial de cada programa en JavaScript, pero esto es sólo
 una parte.
 
 (((literal expression)))Un fragmento de código que produce un valor es
 llamado una _((expresión))_. Cada valor que se escribe literalmente
 (tal como `22` o `"psicoanálisis"`) es una expresión. Una expresión
 entre ((paréntesis)) es también una expresión, como es un ((operador
-binario)) aplicado a dos expresiones o un operador unitario aplicado a
+binario)) aplicado a dos expresiones o un operador unario aplicado a
 uno.
 
 (((nesting,of expressions)))(((human language)))Esto muestra parte de la

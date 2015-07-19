@@ -2,95 +2,98 @@
 :prev_link: 02_program_structure
 :next_link: 04_data
 
-= Functions =
+= Funciones =
 
 [chapterquote="true"]
 [quote, Donald Knuth]
 ____
-People think that computer science is the art of
-geniuses but the actual reality is the opposite, just many people
-doing things that build on each other, like a wall of mini stones.
+La gente piensa que las ciencias de la computación son el
+arte de los genios pero la realidad es lo contrario, es sólo un
+montón de gente haciendo cosas que se construyen sobre otras,
+como una pared de piedras muy pequeñas.
 ____
 
-(((Knuth+++,+++ Donald)))(((function)))(((code structure)))You've seen function values, such
-as `alert`, and how to call them. Functions are the bread and butter
-of JavaScript programming. The concept of wrapping a piece of program
-in a value has many uses. It is a tool to structure larger programs,
-to reduce repetition, to associate names with subprograms, and to
-isolate these subprograms from each other.
+(((Knuth+++,+++ Donald)))(((funció)))(((estructura del código)))Has visto
+valores función, como `alert`, y cómo llamarlos. Las funciones son el pan de
+cada día en la programación en JavaScript. El concepto de de envolver
+una porción del programa en un valor(variable) tiene muchos usos.
+Es una herramienta para estructurar programas más grandes, para reducir
+la repetición, para asociar nombres con subprogramas, y para separar
+estos programas de los demás.
 
-(((human language)))The most obvious application of functions is
-defining new ((vocabulary)). Creating new words in regular,
-human-language prose is usually bad style. But in programming, it is
+(((lenguaje humano)))La aplicación más obvia de las funciones es la de
+definir un nuevo ((vocabulario)). Crear nuevas palabras en la prosa regular en
+lenguaje humano es usualmente un mal estilo. Pero en programación, es
 indispensable.
 
-(((abstraction)))Typical adult English speakers have some 20,000 words
-in their vocabulary. Few programming languages come with 20,000
-commands built in. And the vocabulary that _is_ available tends to be
-more precisely defined, and thus less flexible, than in human
-language. Therefore, we usually _have_ to add some of our own
-vocabulary to avoid repeating ourselves too much.
+(((abstracción)))Un adulto promedio tiene unas 20,000 palabras en su
+vocabulario. Pocos lenguajes de programación tienen 20,000 comandos
+incorporados. Y el vocabulario que _está_ disponible tiende a ser 
+definido de forma más precisa, así que es menos flexible
+que en un lenguaje humano. En consecuencia, usualmente _tenemos_
+que añadir algo de nuestro propio vocabulario para evitar repetirnos
+demasiado.
 
-== Defining a function ==
+== Definiendo una función ==
 
-(((square)))(((function,definition)))A function definition is just a
-regular ((variable)) definition where the value given to the variable
-happens to be a function. For example, the following code defines the
-variable `square` to refer to a function that produces the square of a
-given number:
+(((cuadrado)))(((función,definición)))Una definición de una función
+es sólo una definición regular de una ((variable)) cuando ocurre que el 
+valor dado a la variable es una función. Por ejemplo, el siguiente código
+define la variable `cuadrado` para referirse a la función que produce
+el cuadrado de un número dado:
 
 [source,javascript]
 ----
-var square = function(x) {
+var cuadrado = function(x) {
   return x * x;
 };
 
-console.log(square(12));
+console.log(cuadrado(12));
 // → 144
 ----
 
-indexsee:[braces,curly braces]
-(((curly braces)))(((block)))(((syntax)))(((function
-keyword)))(((function,body)))(((function,as value)))A function is
-created by an expression that starts with the keyword `function`.
-Functions have a set of _((parameter))s_ (in this case, only `x`) and
-a _body_, which contains the statements that are to be executed when
-the function is called. The function body must always be wrapped in
-braces, even when it consists of only a single ((statement)) (as
-in the previous example).
+indexsee:[llaves]
+(((llaves)))(((bloque)))(((sintaxis)))(((palabra reservada
+function)))(((función, cuerpo)))(((función,como valor)))Una función es
+creada por una expresión que empieza con la palbra reservada `function`.
+Las funciones tienen un conjunto de _((parametros))_ (en este caso
+sólo `x`) y un _cuerpo_, que contiene las sentencias que serán ejecutadas
+cuando la función sea llamada. El cuerpo de la función tiene que estar
+siempre encerrado en llaves, incluso cuando consista de una sola
+((instrucción)) (como en el ejemplo previo).
 
-(((power example)))A function can have multiple parameters or no
-parameters at all. In the following example, `makeNoise` does not list
-any parameter names, whereas `power` lists two:
+(((ejemplo de la potencia)))Una función puede tener varios parámetros
+o puede no tener ninguno. En el siguiente ejemplo `hazRuido` no tiene
+parámetros, mientras que `potencia` tiene dos:
 
 [source,javascript]
 ----
-var makeNoise = function() {
+var hazRuido = function() {
   console.log("Pling!");
 };
 
-makeNoise();
+hazRuido();
 // → Pling!
 
-var power = function(base, exponent) {
-  var result = 1;
-  for (var count = 0; count < exponent; count++)
-    result *= base;
-  return result;
+var potencia = function(base, exponente) {
+  var resultado = 1;
+  for (var cuenta = 0; cuenta < exponente; cuenta++)
+    resultado *= base;
+  return resultado;
 };
 
-console.log(power(2, 10));
+console.log(potencia(2, 10));
 // → 1024
 ----
 
-(((return value)))(((return keyword)))(((undefined)))Some functions
-produce a value, such as `power` and `square`, and some don't, such as
-`makeNoise`, which produces only a ((side effect)). A `return`
-statement determines the value the function returns. When control
-comes across such a statement, it immediately jumps out of the current
-function and gives the returned value to the code that called the
-function. The `return` keyword without an expression after it will
-cause the function to return `undefined`.
+(((valor de retorno)))(((palabra reservada return)))(((undefined)))Algunas
+funciones producen un valor, como `potencia` y `cuadrado`, y algunas no,
+como `hazRuido`, la cuál produce sólo un ((efecto secundario)). Una sentencia
+`return` determina el valor que una función regresa. Cuando el control
+pasa a esta sentencia, inmediatamente salta fuera de la función actual
+y pasa el valor retornado a la código que llamó la función. La palabra 
+reservada `return` sin una expresión después de ella hará que la función
+devuelva `undefined`.
 
 == Parameters and scopes ==
 

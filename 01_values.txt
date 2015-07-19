@@ -489,7 +489,7 @@ diseño de JavaScript, y no importa la mayoría del tiempo. En los casos en
 dónde realmente te tienes que preocupar de estos valores, te recomiendo tratarlos
 como intercambiables (más de esto en un momento).
 
-== Conversión automática de tipo ==
+== Conversión automática de tipos ==
 
 (((NaN)))(((coerción de tipos)))En la introducción, mencioné que
 JavaScript acepta casi cualquier programa que le des, incluso programas que
@@ -568,20 +568,20 @@ evitar que conversiones de tipos inesperadas te causen problemas. Pero
 cuando estás seguro de que los tipos en ambos lados serán los mismos,
 no hay problema con usar los operadores más cortos.
 
-=== Short-circuiting of logical operators ===
+=== Corto circuito de operadores lógicos ===
 
-(((type coercion)))(((Boolean,conversion to)))(((operator)))The
-logical operators `&&` and `||` handle values of different types in a
-peculiar way. They will convert the value on their left side to
-Boolean type in order to decide what to do, but depending on the
-operator and the result of that conversion, they return either the
-_original_ left-hand value or the right-hand value.
+(((coerciónd de tipos)))(((Booleanos,conversión a)))(((operador)))Los
+operadores lógicos `&&` and `||` manejan los valores de diferentes
+tipos de un modo peculiar. Convertirán el valor de su lado izquierdo
+para decidir qué hacer, pero dependiendo del operador y del resultado
+de la conversión, devuelven el valor del lado izquierdo _original_
+o el del lado derecho.
 
-(((|| operator)))The `||` operator, for example, will return the value
-to its left when that can be converted to true and will return the
-value on its right otherwise. This conversion works as you'd expect
-for Boolean values and should do something analogous for values of
-other types.
+(((operador ||)))El operador `||`, por ejemplo, regresará el valor de
+la izquierda cuando pueda ser convertido a `true` y regresará el valor
+a la derecha en cualquier otro caso. Esta conversión funciona como
+esperarías con valores Booleanos y debería hacer algo análogo con
+valores de otros tipos.
 
 [source,javascript]
 ----
@@ -591,44 +591,46 @@ console.log("Karl" || "user")
 // → Karl
 ----
 
-(((default value)))This functionality allows the `||` operator to be
-used as a way to fall back on a default value. If you give it an
-expression that might produce an empty value on the left, the value on
-the right will be used as a replacement in that case.
+(((valor por defecto)))Esta funcionalidad permite al operador `||`
+ser usado como una manera de repaldarnos con un valor por defecto.
+Si le das en el lado izquierdo una expresión que puede producir
+un valor vacío, el valor de l aderecha será usado como reemplazo
+dado el caso.
 
-(((&& operator)))The `&&` operator works similarly, but the other way
-around. When the value to its left is something that converts to
-false, it returns that value, and otherwise it returns the value on
-its right.
+(((operador &&)))El operador `&&` funciona de manera similar, pero
+en sentido opuesto. Cuando el valor a su izquierda es algo que se
+convierte en falso, regresa este valor, y en otro caso regresa el
+valor de la derecha.
 
-(((short-circuit evaluation)))Another important property of these two
-operators is that the expression to their right is evaluated only when
-necessary. In the case of `true || X`, no matter what `X` is—even if
-it's an expression that does something __terrible__—the result will be
-true, and `X` is never evaluated. The same goes for `false && X`,
-which is false and will ignore `X`. This is called _short-circuit
-evaluation_.
+(((evaluación de corto circuito)))Otra importante propiedad de estos
+dos operadores es que el lado derecho sólo es evaluado cuando es
+necesario. En el caso de `true || X`, no importa lo que sea `X`,
+incluso en si es una expresión que hace algo __terrible__, el resultado
+será verdadero, y `X` no será evaluado nunca. Lo mismo ocurre para
+`false && X`, lo cuál es falso e ignorará `X`. Esto es llamado
+_evaluación de corto circuito_ (short-circuit evaluation).
 
-(((ternary operator)))(((?: operator)))(((conditional operator)))The
-conditional operator works in a similar way. The first expression is
-always evaluated, but the second or third value, the one that is not
-picked, is not.
+(((operador ternario)))(((operador ?:)))(((operadores condicionales)))El
+operador condicional trabaja de una forma similar. La primera expresión
+es evaluada siempre, pero el segundo o tercer valor, el que no sea 
+escogido, no se evalúa.
 
-== Summary ==
+== Resumen ==
 
-We looked at four types of JavaScript values in this chapter: numbers,
-strings, Booleans, and undefined values.
+Vimos cuatro tipos de valores de JavaScript en este capítulo: números,
+cadenas, Booleanos, y valores indefinidos.
 
-Such values are created by typing in their name (`true`, `null`) or
-value (`13`, `"abc"`). You can combine and transform values with
-operators. We saw binary operators for arithmetic (`+`, `-`, `*`, `/`,
-and `%`), string concatenation (`+`), comparison (`==`, `!=`, `===`,
-`!==`, `<`, `>`, `<=`, `>=`), and logic (`&&`, `||`), as well as
-several unary operators (`-` to negate a number, `!` to negate
-logically, and `typeof` to find a value's type) and a ternary
-operator (`?:`) to pick one of two values based on a third value.
+Estos valores son creados al escribir su nombre (`true`, `null`) o
+valor (`13`, `"abc"`). Puedes combinar y transformar valores con los
+operadores. Vimos operadores binarios para aritmética(`+`, `-`,
+`*`, `/` y `%`), concatenación de cadenas (`+`), comparación 
+(`==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=`), y lógica
+(`&&`, `||`), así como varios operadores unarios (`-` para hacer
+negativo un número, `!` para negar lógicamente y `typeof` para
+obtener el tipo de un valor) y un operador ternario (`?:`) para
+elegir entre dos valores basándonos en un tercero.
 
-This gives you enough information to use JavaScript as a pocket
-calculator, but not much more. The
-link:02_program_structure.html#program_structure[next chapter] will
-start tying these expressions together into basic programs.
+Esto te brinda suficiente información para usar JavaScript como una
+pequeña calculadora, pero no para mucho más. El 
+link:02_program_structure.html#program_structure[siguiente capítulo]
+empezará a entremezclar estas expresiones en programas básicos.

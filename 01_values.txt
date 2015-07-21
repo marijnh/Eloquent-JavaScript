@@ -56,8 +56,8 @@ tiene un par de órdenes de magnitud más todavía.
 
 image::img/bit-sea.png[alt="The Ocean of Bits"]
 
-Para ser capaces con tales cantidades de bits sin perderte, puedes
-separarlos en pedazos que representen piezas de información. En un
+Para ser capaz de trabajar con semejantes cantidades de bits sin perderte,
+puedes separarlos en pedazos que representen piezas de información. En un
 entorno en JavaScript, esos pedazos son llamados _((valor))es_. Aunque
 todos los valores están hechos de bits, juegan diferentes roles. Cada
 valor tiene un tipo que determina su rol. Existen seis tipos básicos de
@@ -76,7 +76,7 @@ sus bits para que sean reciclados como material de construcción de la
 próxima generación de valores.
 
 Este capítulo introduce los elementos atómicos de los programas en 
-JavaScript, los tipos de valor simples y los operadores que pueden 
+JavaScript, los tipos de valores simples y los operadores que pueden 
 actuar sobre tales valores.
 
 == Números ==
@@ -204,13 +204,13 @@ La precedencia del sobrante es la misma que la de la multiplicación
 y división. Verás a menudo este operador referido como _módulo_, 
 aunque técnicamente _sobrante_ es más preciso.
 
-=== Números especiales ===
+=== Números Especiales ===
 
-(((número,valores especiales)))Hay 3 valores especiales en JavaScript
-que son considerados números pero no se comportanc como números
+(((número,valores especiales)))Hay tres valores especiales en JavaScript
+que son considerados números pero no se comportan como números
 normales.
 
-(((infinito)))El primero es `Infinity` (Infinito) y `-Infinity`, que
+(((infinito)))Los primeros dos son `Infinity` y `-Infinity`, que
 representan infinitos positivos y negativos. `Infinity - 1`
 sigue siendo `Infinity`, y así por el estilo. No confíes mucho en los
 cálculos basados en infinitos. No son matemáticamente confiables y
@@ -223,80 +223,85 @@ calcular `0 / 0` (cero entre cero), `Infinity - Infinity`, o cualquier
 otra operación numérica que no produzca un resultado
 preciso, significativo.
 
-== Strings ==
+== Cadenas ==
 
-(((syntax)))(((text)))(((character)))(((string,notation)))(((single-quote
-character)))(((double-quote character)))(((quotation mark)))The next
-basic data type is the _((string))_. Strings are used to represent
-text. They are written by enclosing their content in quotes.
+(((sintaxis)))(((texto)))(((caracter)))(((cadena,notación)))(((caracter
+comilla simple)))(((caracter comilla doble)))(((comillas)))El siguiente
+tipo de data básico son las _cadenas_. Estas son usadas para representar
+texto. Son declaradas al poner el contenido entre comillas.
 
 [source,javascript]
 ----
-"Patch my boat with chewing gum"
+"Parcha mi bote con goma de mascar"
 'Monkeys wave goodbye'
 ----
 
-Both single and double quotes can be used to mark strings as long as
-the quotes at the start and the end of the string match.
+Tanto las comillas simples como las dobles pueden ser usadas para declarar
+cadenas de texto mientras coincidan al principio y al final.
 
-(((line break)))(((newline character)))Almost anything can be put
-between quotes, and JavaScript will make a string value out of it. But
-a few characters are more difficult. You can imagine how putting
-quotes between quotes might be hard. _Newlines_ (the characters you
-get when you press Enter) also can't be put between quotes. The string
-has to stay on a single line.
+(((salto de línea)))(((caracter de nueva línea)))(((newline)))Casi cualquier
+cosa puede estar entre comillas, y JavaScript creará una cadena. Pero unos
+cuantos caracteres son un poco difíceles. Puedes imaginar que poner
+comillas dentro de comillas puede ser difícil. _Newlines_ (el caracter
+salto de línea, lo que obtines cuando presionas Enter), tampoco puede
+ser introducido entre comillas. La cadena tiene que permanecer en una
+sola línea.
 
-(((escaping,in strings)))(((backslash character)))To make it possible to include
-such characters in a string, the following notation is used: whenever
-a backslash (`\`) is found inside quoted text, it indicates that the
-character after it has a special meaning. This is called _escaping_
-the character. A quote that is preceded by a backslash will not end
-the string but be part of it. When an `n` character occurs after a
-backslash, it is interpreted as a newline. Similarly, a `t` after a
-backslash means a ((tab character)). Take the following string:
+(((escape,en cadenas)))(((diagonal invertida)))Para hacer posible
+la inclusión de estos caracteres en  una cadena de texto, la siguiente
+notación es usada: cuando una diagonal invertida(_backslash_: `\`)
+se encuentra dentro de un texto entre comillas, indica que el caracter
+siguiente tiene un significado especial. Esto es llamado _escapar_ el
+caracter. Una comilla que es precedida por una diagonal invertida
+no terminará la cadena, sino que será parte de ella. Cuando un
+caracter `n` sigue a una diagonal invertida, se interpreta como
+una nueva línea. Similarmente, un `t` después de la diagonal invertida
+significa un ((tabulador)). Tomemos la siguiente cadena:
 
-[source,javascript]
-----
-"This is the first line\nAnd this is the second"
-----
-
-The actual text contained is this:
-
-----
-This is the first line
-And this is the second
-----
-
-There are, of course, situations where you want a backslash in a
-string to be just a backslash, not a special code. If two backslashes
-follow each other, they will collapse together, and only one will be
-left in the resulting string value. This is how the string “++A newline
-character is written like "\n".++” can be expressed:
 
 [source,javascript]
 ----
-"A newline character is written like \"\\n\"."
+"Esta es la primera línea\nY esta la segunda"
 ----
 
-(((+ operator)))(((concatenation)))Strings cannot be divided,
-multiplied, or subtracted, but the `+` operator _can_ be used on them.
-It does not add, but it __concatenates__—it glues two strings together.
-The following line will produce the string `"concatenate"`:
+El verdadero texto contenido es:
+
+----
+Esta es la primera línea
+Y esta la segunda
+----
+
+Existen, por supuesto, situaciones en las que querrás que una
+diagonal invertida sea sólo eso en una cadena de texto, no un 
+código especial. Si dos diagonales invertidas están juntas, se volverán
+una, y sólo eso quedará como resultado en el valor de la cadena.
+Así es como la cadena "++Un caracter de nueva línea es escrito "\n".++"
+puede ser expresada:
 
 [source,javascript]
 ----
-"con" + "cat" + "e" + "nate"
+"Un caracter de nueva línea es escrito \"\\n\"."
 ----
 
-There are more ways of manipulating strings, which we will discuss
-when we get to methods in link:04_data.html#methods[Chapter 4].
+(((operador +)))(((concatenación)))Las cadenas de texto no pueden ser
+divididas numéricamente, multiplicadas, o restadas, pero el caracter
+`+` _puede_ ser usado en ellas. No suma, sino que _concatena_; pega dos
+cadenas. La siguiente línea produce la cadena `"concatenar"`:
 
-== Unary operators ==
+[source,javascript]
+----
+"con" + "cat" + "e" + "nar"
+----
 
-(((operator)))(((typeof operator)))(((type)))Not all operators are
-symbols. Some are written as words. One example is the `typeof`
-operator, which produces a string value naming the type of the value
-you give it.
+Hay más maneras de manipular las cadenas, de las que hablaremos cuando
+lleguemos a los métodos en el link:04_data.html#methods[Capítulo 4].
+
+== Operadores Unarios ==
+
+(((operador)))(((operador typeof)))(((tipo)))No todos los operadores
+son símbolos. Algunos son escritos como palabras. Un ejemplo es el
+operador `typeof`, que produce una cadena de texto que representa el
+tipo del valor que le pasaste.
 
 [source,javascript]
 ----
@@ -308,18 +313,18 @@ console.log(typeof "x")
 
 [[console.log]]
 
-(((console.log)))(((output)))(((JavaScript console)))We will use
-`console.log` in example code to indicate that we want to see the
-result of evaluating something. When you run such code, the value
-produced should be shown on the screen, though how it appears will
-depend on the JavaScript environment you use to run it.
+(((console.log)))(((salida)))(((consola de JavaScript)))Usaremos
+`console.log` para indicar que queremos ver el resultado de la evaluación
+de algo. Cuando corres ese código, el valor producido debería mostrarse en
+pantalla, aunque la forma en que aparece dependerá del en entorno en que
+estés corriendo el programa.
 
-(((negation)))(((- operator)))(((binary operator)))(((unary
-operator)))The other operators we saw all operated on two values, but
-`typeof` takes only one. Operators that use two values are called
-_binary_ operators, while those that take one are called _unary_
-operators. The minus operator can be used both as a binary operator
-and as a unary operator.
+(((negación)))(((operador -)))(((operador binario)))(((operador
+binario))) Los otros operadores que hemos visto operaban sobre
+dos valores, pero `typeof` sólamente toma uno. Los operadores que usan
+dos valores son llamados operadores _binarios_, mientras que aquellos 
+que sólo toman uno son llamados operadores _unarios_. El operador menos
+puede usar tanto como operador binario como operador unario.
 
 [source,javascript]
 ----
@@ -327,17 +332,17 @@ console.log(- (10 - 2))
 // → -8
 ----
 
-== Boolean values ==
+== Valores Booleanos ==
 
-(((Boolean)))(((operator)))(((true)))(((false)))(((bit)))Often,
-you will need a value that simply distinguishes between two
-possibilities, like “yes” and “no” or “on” and “off”. For this,
-JavaScript has a _Boolean_ type, which has just two values: true and
-false (which are written simply as those words).
+(((Booleano)))(((operador)))(((true)))(((false)))(((bit)))A menudo,
+necesitarás un valor que simplemente distinga entre dos posibilidades,
+como "sí" y "no" o "encendido" y "apagado". Para esto, JavaScript
+tiene un tipo _Booleano_, que tiene sólo dos valores, verdadero (true)
+y falso (false), que son simplemente estas palabras en inglés. 
 
-=== Comparisons ===
+=== Comparaciones ===
 
-(((comparison)))Here is one way to produce Boolean values:
+(((compración)))Esta es una forma de producir valores booleanos:
 
 [source,javascript]
 ----
@@ -347,13 +352,13 @@ console.log(3 < 2)
 // → false
 ----
 
-(((comparison,of numbers)))(((> operator)))(((< operator)))(((greater
-than)))(((less than)))The `>` and `<` signs are the traditional
-symbols for “is greater than” and “is less than”, respectively. They
-are binary operators. Applying them results in a Boolean value that
-indicates whether they hold true in this case.
+(((comparación,de números)))(((operador >)))(((operador <)))(((mayor
+que)))(((menor que)))Los signos `>` y `<` son los símbolos tradicionales
+para "es mayor que" y "es menor que", respectivamente. Estos son
+operadores binarios. Aplicarlos resulta en un valor Booleano que indica
+si son ciertos en ese caso.
 
-Strings can be compared in the same way.
+Las cadenas de texto pueden ser comparadas de la misma manera.
 
 [source,javascript]
 ----
@@ -361,22 +366,23 @@ console.log("Aardvark" < "Zoroaster")
 // → true
 ----
 
-(((comparison,of strings)))The way strings are ordered is more or less
-alphabetic: uppercase letters are always “less” than lowercase ones,
-so `"Z" < "a"` is true, and non-alphabetic characters (!, -, and so on)
-are also included in the ordering. The actual comparison is based on
-the _((Unicode))_ standard. This standard assigns a number to
-virtually every character you would ever need, including characters
-from Greek, Arabic, Japanese, Tamil, and so on. Having such numbers is
-useful for storing strings inside a computer because it makes it
-possible to represent them as a sequence of numbers. When comparing
-strings, JavaScript goes over them from left to right, comparing the
-numeric codes of the characters one by one.
+(((comparación,de cadenas)))La manera en que las cadenas son ordenadas
+es más o menos alfabética: las letras mayúsculas son siempre "menores"
+que las minúsculas, así que `"Z" < "a"` es verdad, y los caracteres no
+alfabéticos (!, -, y así por el estilo) son también incluidos en el
+ordenamiento. La comparación real está basada en el estéandar
+_((Unicode))_. Este estándar asigna un número a virtualemente cada
+caracter que alguna vez necesitarás, incluyendo caracteres del Griego,
+Árabe, Japonés, Tamil, y otros alfabetos. Tener tales números es 
+útil para guardar las cadenas de texto dentro de la computadora porque
+hace posible representarlas como una secuencia de números. Cuando
+comparamos cadenas, JavaScript va de izquierda a derecha, comparando
+los códigos numéricos de los caracteres uno por uno.
 
-(((equality)))(((>= operator)))(((pass:[<=] operator)))(((==
-operator)))(((!= operator)))Other similar operators are `>=` (greater
-than or equal to), `<=` (less than or equal to), `==` (equal to), and
-`!=` (not equal to).
+(((igualdad)))(((operador >=)))(((pass:[<=] operador)))(((operador 
+==)))(((operador != ))) Otros operadores similares son `>=` (mayor o
+igual a), `<=` (menor o igual a), `==` (igual a), y `!=` (no es igual
+a).
 
 [source,javascript]
 ----
@@ -384,9 +390,9 @@ console.log("Itchy" != "Scratchy")
 // → true
 ----
 
-(((comparison,of NaN)))(((NaN)))There is only one value in JavaScript
-that is not equal to itself, and that is `NaN`, which stands for “not
-a number”.
+(((comparaciéon,de NaN)))(((NaN)))Sólo esxiste un valor en JavaScript
+que no es igual a sí mismo, y este es `NaN`, que significa "no es un
+número".
 
 [source,javascript]
 ----
@@ -394,20 +400,20 @@ console.log(NaN == NaN)
 // → false
 ----
 
-`NaN` is supposed to denote the result of a nonsensical computation,
-and as such, it isn't equal to the result of any _other_ nonsensical
-computations.
+La intención de `NaN` es representar el resultado de un cálculo sin
+sentido y como tal, no es igual al resultado de cualquier _otro_
+cálculo sin sentido.
 
-=== Logical operators ===
+=== Operadores Lógicos ===
 
-(((reasoning)))(((logical operators)))There are also some operations
-that can be applied to Boolean values themselves. JavaScript supports
-three logical operators: _and_, _or_, and _not_. These can be used to
-“reason” about Booleans.
+(((razonamiento)))(((operadores lógicos)))Hay también algunas operaciones
+que pueden ser aplicadas a los valores Booleanos. JavaScript soporta
+tres operadores lógicos: _and_, _or_ y _not_. Estos pueden ser usados para
+"razonar" con los Booleanos.
 
-(((&& operator)))(((logical and)))The `&&` operator represents logical
-_and_. It is a binary operator, and its result is true only if both
-the values given to it are true.
+(((operador &&)))(((and lógico)))El operador `&&` representa la operación
+lógica _and_ ("y"). Es un operador binario, y su resultado es verdadero(true)
+sólo si los dos valores dados son verdaderos.
 
 [source,javascript]
 ----
@@ -417,8 +423,9 @@ console.log(true && true)
 // → true
 ----
 
-(((|| operator)))(((logical or)))The `||` operator denotes logical
-_or_. It produces true if either of the values given to it is true.
+(((operador ||)))(((or lógico)))El operador `||` denota la operación
+lógica _or_ ("o"). Devuelve verdadero si cualquiera de los dos valores
+dados es verdadero.
 
 [source,javascript]
 ----
@@ -428,29 +435,29 @@ console.log(false || false)
 // → false
 ----
 
-(((negation)))(((! operator)))_Not_ is written as an exclamation mark
-(`!`). It is a unary operator that flips the value given to it—`!true`
-produces `false` and `!false` gives `true`.
+(((negación)))(((operador !)))_Not_ (Negación) es escrito como un símbolo
+de admiración (`!`). Es un operador binario que voltea el valor que se 
+le de; `!true` produce `false` y `!false` regresa `true`.
 
-(((precedence)))When mixing these Boolean operators with arithmetic
-and other operators, it is not always obvious when parentheses are
-needed. In practice, you can usually get by with knowing that of the
-operators we have seen so far, `||` has the lowest precedence, then
-comes `&&`, then the comparison operators (`>`, `==`, and so on), and
-then the rest. This order has been chosen such that, in typical
-expressions like the following one, as few parentheses as possible are
-necessary:
+(((precedencia)))Cuando mezclamos estos operadores Booleanos con
+aritmética y otros operadores, no es siempre obvio cuándo se necesitan los
+paréntesis. En la prácitca, puedes avanzar sabiendo que de los operadores
+que hemos visto hasta ahora, `||` tiene la menor precedencia, después
+viene el `&&`, siguen los operadores de comparación(`>`, `==`, etc.),
+y después los demás operadores. Este orden ha sido elegido tal que, en
+expresiones típicas con la siguiente, sean necesarios tan pocos
+paréntesis como sea posible:
 
 [source,javascript]
 ----
 1 + 1 == 2 && 10 * 10 > 50
 ----
 
-(((conditional execution)))(((ternary operator)))(((?:
-operator)))(((conditional operator)))(((colon character)))(((question
-mark)))The last logical operator I will discuss is not unary, not
-binary, but _ternary_, operating on three values. It is written with a
-question mark and a colon, like this:
+(((ejecución condicional)))(((operador ternario)))(((operador ?:
+)))(((operador condicional)))(((caracter dos puntos)))(((signo de
+interrogación)))El último operador lógico del que hablaré no es unario,
+ni binario, sino _ternario_, opera en tres valores. Este es escrito con
+un símbolo de interrogación  y dos puntos, como sigue:
 
 [source,javascript]
 ----
@@ -460,34 +467,33 @@ console.log(false ? 1 : 2);
 // → 2
 ----
 
-This one is called the _conditional_ operator (or sometimes just
-_ternary_ operator since it is the only such operator in the
-language). The value on the left of the question mark “picks” which of
-the other two values will come out. When it is true, the middle value
-is chosen, and when it is false, the value on the right comes out.
+Esste es llamado el operador _condicional_ (o algunas veces el operador
+_tenario_ dado que es el único operador de este tipo en el lenguaje).
+El valor a la izquierda del signo de interrogación "escoge" cuál de los
+otros dos valores resultará. Cuando es verdadero, el valor central es 
+escogido, y cuando es falso, el valor de la derecha se da como resultado.
 
-== Undefined values ==
+== Valores Indefinidos (Undefined) ==
 
-(((undefined)))(((null)))There are two special values, written `null`
-and `undefined`, that are used to denote the absence of a meaningful
-value. They are themselves values, but they carry no
-information.
+(((undefined)))(((null)))(((indefinido)))Existen dos valores especiales,
+escritos `null` y `undefined`, que son usados para denotar la ausencia
+de un valor con significado. Son valores en sí mismos, pero no poseen
+ninguna información.
 
-Many operations in the language that don't produce a meaningful value
-(you'll see some later) yield `undefined` simply because they have to
-yield _some_ value.
+Muchas operaciones en el lenguaje que no producen un valor con significado
+(lo verás después) producen `undefined` simplemente porque tienen producir
+_algún_ valor.
 
-The difference in meaning between `undefined` and `null` is an accident
-of JavaScript's design, and it doesn't matter most of the time. In the cases
-where you actually have to concern yourself with these values, I
-recommend treating them as interchangeable (more on that in a moment).
+La diferencia en el significado entre `undefined` y `null` es un accidente del
+diseño de JavaScript, y no importa la mayoría del tiempo. En los casos en
+dónde realmente te tienes que preocupar de estos valores, te recomiendo tratarlos
+como intercambiables (más de esto en un momento).
 
-== Automatic type conversion ==
+== Conversión automática de tipos ==
 
-(((NaN)))(((type coercion)))In the introduction, I mentioned that
-JavaScript goes out of its way to accept almost any program you give
-it, even programs that do odd things. This is nicely demonstrated by
-the following expressions:
+(((NaN)))(((coerción de tipos)))En la introducción, mencioné que
+JavaScript acepta casi cualquier programa que le des, incluso programas que
+hagan cosas raras. Esto es muy bien demostrado por las siguientes expresiones:
 
 [source,javascript]
 ----
@@ -497,38 +503,40 @@ console.log("5" - 1)
 // → 4
 console.log("5" + 1)
 // → 51
-console.log("five" * 2)
+console.log("cinco" * 2)
 // → NaN
 console.log(false == 0)
 // → true
 ----
 
-(((+ operator)))(((arithmetic)))(((pass:[*] operator)))(((-
-operator)))When an operator is applied to the “wrong” type of value,
-JavaScript will quietly convert that value to the type it wants, using
-a set of rules that often aren't what you want or expect. This is
-called _((type coercion))_. So the `null` in the first expression becomes
-`0`, and the `"5"` in the second expression becomes `5` (from string
-to number). Yet in the third expression, `+` tries string
-concatenation before numeric addition, so the `1` is converted to
-`"1"` (from number to string).
+(((operador +)))(((aritmética)))(((pass:[*] operador)))(((operador
+-)))Cuando un operador es aplicado al tipo "incorrecto" de valor,
+JavaScript convertirá silenciosamente el valor en el tipo de dato
+que espera, usando un conjunto de reglas que a menudo no son lo que
+tú quieres o esperas. Esto es llamado _((coerción de tipo))_. Así que
+el `null` en la primera expresión se vuelve `0`, y el `"5"` en la
+segunda expresión se convierte en `5` (de cadena a número). Aún así, 
+em la tercera expresión, `+` intenta hacer concatenación de cadenas
+antes de suma numérica, así que el `1` es convertido en `"1"` (de
+número a cadena).
 
-(((type coercion)))(((number,conversion to)))When something that
-doesn't map to a number in an obvious way (such as `"five"` or
-`undefined`) is converted to a number, the value `NaN` is produced.
-Further arithmetic operations on `NaN` keep producing `NaN`, so if you
-find yourself getting one of those in an unexpected place, look for
-accidental type conversions.
+(((coerción de tipo)))(((número,conversión a)))Cuando algo que no
+se corresponde con un número de manera obvia (como `"cinco"` o
+`undefined`) es convertido a un número, el valor resultante
+es `NaN`. Las siguientes operaciones aritméticas sobre `NaN` seguirán
+produciendo `NaN`, así que si te encuentras con uno de estos en
+un lugar inesperado, busca conversiones accidentales de tipo.
 
-(((null)))(((undefined)))(((comparison,of undefined values)))(((==
-operator)))When comparing values of the same type using `==`, the
-outcome is easy to predict: you should get true when both values are
-the same, except in the case of `NaN`. But when the types differ,
-JavaScript uses a complicated and confusing set of rules to determine
-what to do. In most cases, it just tries to convert one of the values
-to the other value's type. However, when `null` or `undefined` occurs
-on either side of the operator, it produces true only if both sides
-are one of `null` or `undefined`.
+(((null)))(((undefined)))(((comparación,de valores
+indefinidos)))(((operador ==))) Cuando comparamos valores del mismo tipo
+usando `==`, la salida es fácil de predecir: deberías obtener verdadero
+cuando los dos valores sean el mismo, excepto en el caso de `NaN`.
+Pero cuando los tipos son diferentes, JavaScript usa un complicado
+y confuso conjunto de reglas para determinar qué hacer. En la mayoría
+de los casos, sólo trata de convertir uno de los valores al tipo de
+dato del otro valor. Sin embargo, cuando `null` o `undefined` están
+en cualquier lado de la operación, resulta verdadero sólo en el caso
+de que los dos lados sean `null` o `undefined`.
 
 [source,javascript]
 ----
@@ -538,41 +546,42 @@ console.log(null == 0);
 // → false
 ----
 
-That last piece of behavior is often useful. When you want to test
-whether a value has a real value instead of `null` or `undefined`, you
-can simply compare it to `null` with the `==` (or `!=`) operator.
+Este último comportamiento es útil a menudo. Cuando quieres probar
+si un valor tiene un significado real en vez de `null` o `undefined`, 
+simplemente comparas contra `null` con el operador `==` (o `!=`).
 
-(((type coercion)))(((Boolean,conversion to)))(((=== operator)))(((!==
-operator)))(((comparison)))But what if you want to test whether
-something refers to the precise value `false`? The rules for
-converting strings and numbers to Boolean values state that `0`,
-`NaN`, and the empty string (`""`) count as `false`, while all the
-other values count as `true`. Because of this, expressions like `0 ==
-false` and `"" == false` are also true. For cases like this, where you
-do _not_ want any automatic type conversions to happen, there are two
-extra operators: `===` and `!==`. The first tests whether a value is
-precisely equal to the other, and the second tests whether it is not
-precisely equal. So `"" === false` is false as expected.
+(((coerción de tipos)))(((Boolean,conversión a)))(((operador
+ ===)))(((operador !==)))(((comparación)))¿Y si quieres proobar
+si algo se refiere precisamente al valor `false`? Las reglas para 
+convertir cadenas y números a Booleanos dicen que `0`, `NaN` y la
+cadena vacía (`""`) cuantan como `false`, mientras que todos los
+demás valores cuentan como `true`. Debido a esto, expresiones como 
+`0 == false` y `"" == false` también son verdaderas. Para casos como
+este en el que _no_ quieres que ocurra ninguna conversión automática
+de tipos, existen dos operadores extra: `===` y `!==`. El primero
+prueba si un valor es precisamente igual a otro, y el segundo
+si no es precisamente igual. Así que `"" === false` es falso como
+se espera.
 
-I recommend using the three-character comparison operators defensively to
-prevent unexpected type conversions from tripping you up. But when you're
-certain the types on both sides will be the same, there is no problem with
-using the shorter operators.
+Yo recomiendo usar la comparación de tres caracteres defensivamente para
+evitar que conversiones de tipos inesperadas te causen problemas. Pero
+cuando estás seguro de que los tipos en ambos lados serán los mismos,
+no hay problema con usar los operadores más cortos.
 
-=== Short-circuiting of logical operators ===
+=== Corto circuito de operadores lógicos ===
 
-(((type coercion)))(((Boolean,conversion to)))(((operator)))The
-logical operators `&&` and `||` handle values of different types in a
-peculiar way. They will convert the value on their left side to
-Boolean type in order to decide what to do, but depending on the
-operator and the result of that conversion, they return either the
-_original_ left-hand value or the right-hand value.
+(((coerciónd de tipos)))(((Booleanos,conversión a)))(((operador)))Los
+operadores lógicos `&&` and `||` manejan los valores de diferentes
+tipos de un modo peculiar. Convertirán el valor de su lado izquierdo
+para decidir qué hacer, pero dependiendo del operador y del resultado
+de la conversión, devuelven el valor del lado izquierdo _original_
+o el del lado derecho.
 
-(((|| operator)))The `||` operator, for example, will return the value
-to its left when that can be converted to true and will return the
-value on its right otherwise. This conversion works as you'd expect
-for Boolean values and should do something analogous for values of
-other types.
+(((operador ||)))El operador `||`, por ejemplo, regresará el valor de
+la izquierda cuando pueda ser convertido a `true` y regresará el valor
+a la derecha en cualquier otro caso. Esta conversión funciona como
+esperarías con valores Booleanos y debería hacer algo análogo con
+valores de otros tipos.
 
 [source,javascript]
 ----
@@ -582,44 +591,46 @@ console.log("Karl" || "user")
 // → Karl
 ----
 
-(((default value)))This functionality allows the `||` operator to be
-used as a way to fall back on a default value. If you give it an
-expression that might produce an empty value on the left, the value on
-the right will be used as a replacement in that case.
+(((valor por defecto)))Esta funcionalidad permite al operador `||`
+ser usado como una manera de repaldarnos con un valor por defecto.
+Si le das en el lado izquierdo una expresión que puede producir
+un valor vacío, el valor de l aderecha será usado como reemplazo
+dado el caso.
 
-(((&& operator)))The `&&` operator works similarly, but the other way
-around. When the value to its left is something that converts to
-false, it returns that value, and otherwise it returns the value on
-its right.
+(((operador &&)))El operador `&&` funciona de manera similar, pero
+en sentido opuesto. Cuando el valor a su izquierda es algo que se
+convierte en falso, regresa este valor, y en otro caso regresa el
+valor de la derecha.
 
-(((short-circuit evaluation)))Another important property of these two
-operators is that the expression to their right is evaluated only when
-necessary. In the case of `true || X`, no matter what `X` is—even if
-it's an expression that does something __terrible__—the result will be
-true, and `X` is never evaluated. The same goes for `false && X`,
-which is false and will ignore `X`. This is called _short-circuit
-evaluation_.
+(((evaluación de corto circuito)))Otra importante propiedad de estos
+dos operadores es que el lado derecho sólo es evaluado cuando es
+necesario. En el caso de `true || X`, no importa lo que sea `X`,
+incluso en si es una expresión que hace algo __terrible__, el resultado
+será verdadero, y `X` no será evaluado nunca. Lo mismo ocurre para
+`false && X`, lo cuál es falso e ignorará `X`. Esto es llamado
+_evaluación de corto circuito_ (short-circuit evaluation).
 
-(((ternary operator)))(((?: operator)))(((conditional operator)))The
-conditional operator works in a similar way. The first expression is
-always evaluated, but the second or third value, the one that is not
-picked, is not.
+(((operador ternario)))(((operador ?:)))(((operadores condicionales)))El
+operador condicional trabaja de una forma similar. La primera expresión
+es evaluada siempre, pero el segundo o tercer valor, el que no sea 
+escogido, no se evalúa.
 
-== Summary ==
+== Resumen ==
 
-We looked at four types of JavaScript values in this chapter: numbers,
-strings, Booleans, and undefined values.
+Vimos cuatro tipos de valores de JavaScript en este capítulo: números,
+cadenas, Booleanos, y valores indefinidos.
 
-Such values are created by typing in their name (`true`, `null`) or
-value (`13`, `"abc"`). You can combine and transform values with
-operators. We saw binary operators for arithmetic (`+`, `-`, `*`, `/`,
-and `%`), string concatenation (`+`), comparison (`==`, `!=`, `===`,
-`!==`, `<`, `>`, `<=`, `>=`), and logic (`&&`, `||`), as well as
-several unary operators (`-` to negate a number, `!` to negate
-logically, and `typeof` to find a value's type) and a ternary
-operator (`?:`) to pick one of two values based on a third value.
+Estos valores son creados al escribir su nombre (`true`, `null`) o
+valor (`13`, `"abc"`). Puedes combinar y transformar valores con los
+operadores. Vimos operadores binarios para aritmética(`+`, `-`,
+`*`, `/` y `%`), concatenación de cadenas (`+`), comparación 
+(`==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=`), y lógica
+(`&&`, `||`), así como varios operadores unarios (`-` para hacer
+negativo un número, `!` para negar lógicamente y `typeof` para
+obtener el tipo de un valor) y un operador ternario (`?:`) para
+elegir entre dos valores basándonos en un tercero.
 
-This gives you enough information to use JavaScript as a pocket
-calculator, but not much more. The
-link:02_program_structure.html#program_structure[next chapter] will
-start tying these expressions together into basic programs.
+Esto te brinda suficiente información para usar JavaScript como una
+pequeña calculadora, pero no para mucho más. El 
+link:02_program_structure.html#program_structure[siguiente capítulo]
+empezará a entremezclar estas expresiones en programas básicos.

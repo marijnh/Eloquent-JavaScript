@@ -61,11 +61,11 @@ punto y coma después de ella. Se trata de un programa:
 !false;
 ----
 
-Es un programa inútil, sin embargo. Una ((expresión)) puede ser contenido a
+Es un programa inútil, sin embargo. Una ((expresión)) puede ser contenida
 solo de producir un valor, que puede entonces ser utilizado por the "enclosing
 expression". Una ((declaración)) destaca por su cuenta y que equivale a algo
-sólo si afecta al mundo. Se podría mostrar algo en el
-pantalla-que cuenta como cambiar el mundo o podría cambiar el
+sólo si afecta al mundo. Se podría mostrar algo en la
+pantalla que cuenta como cambiar el mundo o podría cambiar el
 estado interno de la máquina de una manera que afectará los estados
 que vienen despues de él. Estos cambios se llaman _((efecto colateral))s_. Las
 declaraciones en el ejemplo anterior solo producen los valores `1` y

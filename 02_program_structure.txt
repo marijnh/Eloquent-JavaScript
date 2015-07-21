@@ -23,7 +23,7 @@ expresar alguna prosa significativa.
 
 (((grammar)))(((syntax)))(((code,structure
 of)))(((grammar)))(((JavaScript,syntax)))En el
-link:01_values.html#values[Chapter 1], hicimos algunos valores y después
+link:01_values.html#values[Capítulo 1], hicimos algunos valores y después
 les aplicamos operadores para obtener nuevos valores. Creando valores como éste
 es una parte esencial de cada programa de JavaScript, pero esto es sólo
 una parte.
@@ -36,18 +36,18 @@ binario)) aplicado a dos expresiones o un operador unitario aplicado a
 uno.
 
 (((nesting,of expressions)))(((human language)))Esto muestra parte de la
-belleza de una interfaz basada en el lenguaje. Expressions can nest in a way
-very similar to the way subsentences in human languages are nested—a
-subsentence can contain its own subsentences, and so on. This allows
-us to combine expressions to express arbitrarily complex computations.
+belleza de una interfaz basada en el lenguaje. Las expresiones se puede anidar en una forma
+muy similar a la forma de sub-frases en la que las lenguas humanas son anidada, y
+las sub-frase puede contener sus propias sub-frases, etc. Esto nos permite
+combinar expresiones para expresar cálculos arbitrariamente complejos.
 
-(((statement)))(((semicolon)))(((program)))If an expression
-corresponds to a sentence fragment, a JavaScript _statement_
-corresponds to a full sentence in a human language. A program is
-simply a list of statements.
+(((statement)))(((semicolon)))(((program)))Si una expresión
+corresponde a un fragmento de frase, una _declaración_ en JavaScript
+corresponde a una frase completa en un lenguaje humano. Un programa es
+simplemente una lista de declaraciones.
 
-(((syntax)))The simplest kind of statement is an expression with a
-semicolon after it. This is a program:
+(((syntax)))El tipo más simple de declaración es una expresión con un
+punto y coma después de ella. Se trata de un programa:
 
 [source,javascript]
 ----
@@ -55,27 +55,27 @@ semicolon after it. This is a program:
 !false;
 ----
 
-It is a useless program, though. An ((expression)) can be content to
-just produce a value, which can then be used by the enclosing
-expression. A ((statement)) stands on its own and amounts to something
-only if it affects the world. It could display something on the
-screen—that counts as changing the world—or it could change the
-internal state of the machine in a way that will affect the statements
-that come after it. These changes are called _((side effect))s_. The
-statements in the previous example just produce the values `1` and
-`true` and then immediately throw them away. This leaves no impression
-on the world at all. When executing the program, nothing observable
-happens.
+Es un programa inútil, sin embargo. Una ((expresión)) puede ser contenido a
+solo de producir un valor, que puede entonces ser utilizado por the "enclosing
+expression". Una ((declaración)) destaca por su cuenta y que equivale a algo
+sólo si afecta al mundo. Se podría mostrar algo en el
+pantalla-que cuenta como cambiar el mundo o podría cambiar el
+estado interno de la máquina de una manera que afectará los estados
+que vienen despues de él. Estos cambios se llaman _((efecto colateral))s_. Las
+declaraciones en el ejemplo anterior solo producen los valores `1` y
+`verdadero` y después los tiran inmediatamente. Esto no deja ninguna impresión
+en el mundo en absoluto. Al ejecutar el programa, nada observable
+sucede.
 
 (((programming style)))(((automatic semicolon
-insertion)))(((semicolon)))In some cases, JavaScript allows you to
-omit the semicolon at the end of a statement. In other cases, it has
-to be there, or the next ((line)) will be treated as part of the same
-statement. The rules for when it can be safely omitted are somewhat
-complex and error-prone. In this book, every statement that needs a
-semicolon will always be terminated by one. I recommend you do the
-same in your own programs, at least until you've learned more about
-subtleties involved in leaving out semicolons.
+insertion)))(((semicolon)))En algunos casos, JavaScript le permite
+omitir el punto y coma al final de una instrucción. En otros casos, tiene que
+estar allí, o el siguiente ((linea)) serán tratados como parte de la misma
+declaración. Las reglas para cuando se puede omitir con seguridad son algo
+complejo y propenso a errores. En este libro, cada declaración que necesita un
+punto y coma siempre será terminada por uno. Te recomiendo que hagas lo
+misma en sus propios programas, al menos hasta que haya aprendido más sobre
+sutilezas involucradas en omitir el punto y coma.
 
 == Variables ==
 

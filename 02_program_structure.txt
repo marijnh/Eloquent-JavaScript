@@ -85,12 +85,12 @@ sutilezas involucradas en omitir el punto y coma.
 
 == Variables ==
 
-(((syntax)))(((variable,definition)))(((side effect)))(((memory)))How
-does a program keep an internal ((state))? How does it remember
-things? We have seen how to produce new values from old values, but
-this does not change the old values, and the new value has to be
-immediately used or it will dissipate again. To catch and hold values,
-JavaScript provides a thing called a _variable_.
+(((syntax)))(((variable,definition)))(((side effect)))(((memory))) ¿Cómo
+un programa de mantener un estado ((estado))? ¿Cómo recuerda
+cosas? Hemos visto cómo producir nuevos valores de viejos valores, pero
+esto no cambia los valores antiguos, y el nuevo valor tiene que ser
+inmediatamente utilizado o se disipará de nuevo. Para atrapar y mantener los valores,
+JavaScript proporciona una cosa llamada _variable_.
 
 [source,javascript]
 ----

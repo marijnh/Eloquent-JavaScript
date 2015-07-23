@@ -97,18 +97,18 @@ JavaScript proporciona una cosa llamada _variable_.
 var caught = 5 * 5;
 ----
 
-(((var keyword)))And that gives us our second kind of ((statement)).
-The special word (_((keyword))_) `var` indicates that this sentence is
-going to define a variable. It is followed by the name of the variable
-and, if we want to immediately give it a value, by an `=` operator and
-an expression.
+(((var keyword)))Y eso nos da nuestra segunda clase de ((declaración)).
+La palabra especial (_((keyword))_) `var` indica que esta frase
+va a definir una variable. Es seguido por el nombre de la variable
+y, si queremos dar de inmediato un valor, con un operador de `=` y
+una expresión.
 
-The previous statement creates a variable called `caught` and uses it
-to grab hold of the number that is produced by multiplying 5 by 5.
+La declaración anterior crea una variable llamada `caught` y se usa
+para agarrar el número que se produce al multiplicar 5 por 5.
 
-After a variable has been defined, its name can be used as an
-((expression)). The value of such an expression is the value the
-variable currently holds. Here's an example:
+Después de que una variable se ha definido, su nombre puede ser usado como una
+((expresión)). El valor de esa expresión es el valor que la
+variable alberga actualmente. He aquí un ejemplo:
 
 [source,javascript]
 ----

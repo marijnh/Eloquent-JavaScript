@@ -23,15 +23,9 @@ hasta el punto en que podamos expresar alguna prosa significativa.
 
 (((grammar)))(((syntax)))(((code,structure
 of)))(((grammar)))(((JavaScript,syntax)))En el
-<<<<<<< HEAD
-link:01_values.html#values[Capítulo 1], hicimos algunos valores y después
+link:01_values.html#values[Capítulo 1], creamos algunos valores y después
 les aplicamos operadores para obtener nuevos valores. Creando valores como éste
 es una parte esencial de cada programa de JavaScript, pero esto es sólo
-=======
-link:01_values.html#values[Chapter 1], hicimos algunos valores y después
-les aplicamos operadores para obtener nuevos valores. Crear valores de esta forma
-es una parte esencial de cada programa en JavaScript, pero esto es sólo
->>>>>>> e0235e7907f77b15ca8e7067a420d6bc035e543f
 una parte.
 
 (((literal expression)))Un fragmento de código que produce un valor es

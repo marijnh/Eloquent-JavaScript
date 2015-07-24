@@ -13,7 +13,7 @@ montón de gente haciendo cosas que se construyen sobre otras,
 como una pared de piedras muy pequeñas.
 ____
 
-(((Knuth+++,+++ Donald)))(((funció)))(((estructura del código)))Has visto
+(((Knuth+++,+++ Donald)))(((función)))(((estructura del código)))Has visto
 valores función, como `alert`, y cómo llamarlos. Las funciones son el pan de
 cada día en la programación en JavaScript. El concepto de de envolver
 una porción del programa en un valor(variable) tiene muchos usos.
@@ -95,212 +95,208 @@ y pasa el valor retornado a la código que llamó la función. La palabra
 reservada `return` sin una expresión después de ella hará que la función
 devuelva `undefined`.
 
-== Parameters and scopes ==
+== Parámetros y ámbitos ==
 
-(((function,application)))(((variable,from parameter)))The
-((parameter))s to a function behave like regular variables, but their
-initial values are given by the _caller_ of the function, not the code
-in the function itself.
+(((función, aplicación)))(((variable,de parametro)))Los
+((parametro))s para una función se comportan como variables normales,
+pero su valor inicial esta dado por _quien llama_ a la función, no por
+el código mismo de la función. 
 
-(((function,scope)))(((scope)))(((local variable)))An
-important property of functions is that the variables created inside
-of them, including their parameters, are _local_ to the function. This
-means, for example, that the `result` variable in the `power` example
-will be newly created every time the function is called, and these
-separate incarnations do not interfere with each other.
+(((función,ámbito)))(((ámbito)))(((variable local)))Un propiedad
+importante de las funciones es que las varibales creades dentro de ellas,
+incluyendo sus parámetros, son _locales_ para la función. Este significa,
+por ejemplo, que la varibale `resultado` en el ejemplo `potencia` será
+creada de nuvo cada vez que la función es llamada, y estas instancias
+separadas no interfieren entre ellas.
 
-indexsee:[top-level scope,global scope]
-(((var keyword)))(((global scope)))(((variable,global)))This
-“localness” of variables applies only to the parameters and to variables
-declared with the `var` keyword inside the function body. Variables
-declared outside of any function are called _global_, because they are
-visible throughout the program. It is possible to access such
-variables from inside a function, as long as you haven't declared a
-local variable with the same name.
+indexsee:[ámbito superior,ámbito global]
+(((palabra reservada var)))(((ámbito global)))(((variable,global)))Esta 
+"localidad" de las variables aplica sólo a los parámetros y variables
+declaradas con la palabra reservada `var` dentro del cuerpo de la función.
+Las variables declaradas duera de cualquier función son llamadas _globales_,
+porque son visibles a través de todo el programa. Es posible acceder a
+estas variables desde dentro de una función, mientras no hayas declarado una
+variable local con el mismo nombre.
 
-(((variable,assignment)))The following code demonstrates this. It
-defines and calls two functions that both assign a value to the
-variable `x`. The first one declares the variable as local and thus
-changes only the local variable. The second does not declare `x`
-locally, so references to `x` inside of it refer to the global
-variable `x` defined at the top of the example.
+(((variable,asignación)))El siguiente código demuestra eso. Define y llama 
+dos funciones que asignan un valor a la variable `x`. La primera declara
+la variable como local y de esta manera cambia únicamente la variable que
+creó. La segunda no declara `x` localmente, así que la `x` dentro de ella
+hace referencia a la `x` definida al principio del ejemplo.
 
 [source,javascript]
 ----
-var x = "outside";
+var x = "fuera";
 
 var f1 = function() {
-  var x = "inside f1";
+  var x = "dentro de f1";
 };
 f1();
 console.log(x);
-// → outside
+// → fuera
 
 var f2 = function() {
-  x = "inside f2";
+  x = "dentro de f2";
 };
 f2();
 console.log(x);
-// → inside f2
+// → dentro de f2
 ----
 
-(((variable,naming)))(((scope)))(((global scope)))(((code,structure
-of)))This behavior helps prevent accidental interference between
-functions. If all variables were shared by the whole program, it'd
-take a lot of effort to make sure no name is ever used for two
-different purposes. And if you _did_ reuse a variable name, you might
-see strange effects from unrelated code messing with the value of your
-variable. By treating function-local variables as existing only within
-the function, the language makes it possible to read and understand
-functions as small universes, without having to worry about all the
-code at once.
+(((variable,nombrado)))(((ámbito)))(((ámbito global)))(((code,estructura
+de)))Este comportamiento ayuda a prevenir interferencia accidental entre
+las funciones. Si todas las variables fueran compartidas por el programa
+entero, sería muy difícil asegurarse de que algún nombre no fue usado para
+dos propósitos diferentes. Y si _reusaste_ un nombre de variable, podrías
+ver efectos extraños de código no relacionado causando problemas en el valor
+de tu variable. Al tratar tus variables locales a la función, el lenguaje
+hace posible leer y entender las funciones como un pequeños universos,
+sin tener que preocuparse de todo el código a la vez.
 
 [[scoping]]
-== Nested scope ==
+== Ámbitos Anidados ==
 
-(((nesting,of functions)))(((nesting,of
-scope)))(((scope)))(((inner function)))(((lexical
-scoping)))JavaScript distinguishes not just between _global_ and
-_local_ variables. Functions can be created inside other functions,
-producing several degrees of locality.
+(((anidado,de funciones)))(((anidado,de
+ámbitos)))(((ámbito)))(((función interna)))(((definición léxica
+de ámbito)))JavaScript distingue nos solo entre variables _globales_ y _locales_
+Las funciones pueden ser creadas dentro de otras funciones, 
+produciendo distindos grados de                                   localidad.
 
-(((landscape example)))For example, this rather nonsensical function
-has two functions inside of it:
+(((ejemplo paisaje)))Por ejemplo, esta función sin sentido, tiene dos
+funciones dentro de ella:
 
 [source,javascript]
 ----
-var landscape = function() {
-  var result = "";
-  var flat = function(size) {
-    for (var count = 0; count < size; count++)
-      result += "_";
+var paisaje = function() {
+  var resultado = "";
+  var meseta = function(tamano) {
+    for (var cuenta = 0; cuenta < size; cuenta++)
+      resultado += "_";
   };
-  var mountain = function(size) {
+  var montana = function(tamano) {
     result += "/";
-    for (var count = 0; count < size; count++)
-      result += "'";
-    result += "\\";
+    for (var cuenta = 0; cuenta < size; cuenta++)
+      resultado += "'";
+    resultado += "\\";
   };
  
-  flat(3);
-  mountain(4);
-  flat(6);
-  mountain(1);
-  flat(1);
-  return result;
+  meseta(3);
+  montana(4);
+  meseta(6);
+  montana(1);
+  meseta(1);
+  return resultado;
 };
 
 console.log(landscape());
 // → ___/''''\______/'\_
 ----
 
-(((function,scope)))(((scope)))The `flat` and `mountain` functions
-can “see” the variable called `result`, since they are inside the
-function that defines it. But they cannot see each other's `count`
-variables since they are outside each other's scope. The environment
-outside of the `landscape` function doesn't see any of the variables
-defined inside `landscape`.
+(((función,ámbito)))(((ámbito)))Las funciones `meseta` y `montana`
+pueden "ver" la variable llamada `resultado`, debido a que están 
+dentro de la función que la define. Pero no pueden ver la variable
+`cuenta` entre ellas, porque están definidas fuera del ámbito de la otra.
+El entorno fuera de la función `paisaje` no puede acceder a ninguna de
+las variables definidas dentro de `paisaje`.
 
-In short, each local scope can also see all the local scopes that
-contain it. The set of variables visible inside a function is
-determined by the place of that function in the program text. All
-variables from blocks _around_ a function's definition are
-visible—meaning both those in function bodies that enclose it and
-those at the top level of the program. This approach to variable
-visibility is called _((lexical scoping))_.
+En pocas palabras, cada ámbito local también puede ver los ámbitos
+locales que lo contienen. El conjunto de variables visible dentro de
+la función es determinado por el lugar de la función en el texto del
+programa. Todas las variables de los bloques que _envuelven_ una
+la definición de una función son visibles para ella, esto es, en todos
+los cuerpos de las funciones que la envuelven y las correspondientes
+al nivel superior(ámbito global). Este manera de resolver la visibilidad
+de las variables es llamada _((definición léxica de ámbito))_(lexical scoping).
 
-((({} (block))))People who have experience with other programming
-languages might expect that any block of code between braces produces
-a new local environment. But in JavaScript, functions are the only
-things that create a new scope. You are allowed to use free-standing
-blocks.
+((({} (bloque))))Las personas que tienen experiencia con otros lenguajes
+de programción podrían esperar que cualquier bloque entre llaves produzca 
+un nuevo entorno local. Pero en JavaScript, las funciones son lo único
+que crea un nuevo ámbito. Pero puedes usar bloques independientes.
 
 [source,javascript]
 ----
-var something = 1;
+var algo = 1;
 {
-  var something = 2;
-  // Do stuff with variable something...
+  var algo = 2;
+  // Haz algo con la variable...
 }
-// Outside of the block again...
+// Fuera del bloque...
 ----
 
-But the `something` inside the block refers to the same variable as
-the one outside the block. In fact, although blocks like this are
-allowed, they are useful only to group the body of an `if` statement
-or a loop.
+Pero la variable `algo` dentro del bloque se refiere a la misma variable
+que la que está fuera del bloque. De hecho, aunque bloques como este
+son permitidos, sólo son útiles para agrupar el cuerpo de las sentencias
+`if` o de los bucles.
 
-(((let keyword)))(((ECMAScript 6)))If you find this odd, you're not
-alone. The next version of JavaScript will introduce a `let` keyword,
-which works like `var` but creates a variable that is local to the
-enclosing _block_, not the enclosing _function_.
+(((palabra clave let)))(((ECMAScript 6)))Si esto te parece raro, no eres
+el único. La próxima versión de  JavaScript introducirá una palabra
+reservada `let`, que trabaja como `var` pero crea una variable que es
+local para el _bloque_ en el que está, no para la función.
 
-== Functions as values ==
+== Funciones como valores ==
 
-(((function,as value)))Function ((variable))s usually simply act as
-names for a specific piece of the program. Such a variable is defined
-once and never changed. This makes it easy to start confusing the
-function and its name.
+(((funciones,como valor)))Las ((variables)) de función normalmente actúan
+como nombres para una parte específica del programa. Esa variables es
+definida una vez y nunca cambiada. Esto hace fácil empezar a confundir 
+la función con su nombre.
 
-(((variable,assignment)))But the two are different. A function value
-can do all the things that other values can do—you can use it in
-arbitrary ((expression))s, not just call it. It is possible to store a
-function value in a new place, pass it as an argument to a function,
-and so on. Similarly, a variable that holds a function is still just a
-regular variable and can be assigned a new value, like so:
-
+(((vriable,asignación)))Pero son diferentes entre sí. Un valor función
+puede hacer todo los que los otros valores pueden hacer; lo puedes usar
+en ((expresiones)) arbitrarias, no sólo llamarlos. Es posible guardar la
+función en un nuevo lugar, pasar como argumento a otra función, etc. De
+manera parecida, la variable que contiene una función sigue siendo una variable
+normal a la que se le puede asignar otro valor, como sigue:
 // test: no
 
 [source,javascript]
 ----
-var launchMissiles = function(value) {
-  missileSystem.launch("now");
+var lanzarMisiles = function(valor) {
+  sistemaDeMisiles.lanzar("ahora");
 };
-if (safeMode)
-  launchMissiles = function(value) {/* do nothing */};
+if (modoSeguro)
+  lanzarMisiles = function(valor) {/* No hacer nada. */};
 ----
 
-(((function,higher-order)))In
-link:05_higher_order.html#higher_order[Chapter 5], we will discuss the
-wonderful things that can be done by passing around function values to
-other functions.
+(((función,orden superior)))En
+link:05_higher_order.html#higher_order[Capítulo 5], hablaremos de las
+maravillosas cosas que puedes hacer al pasar valores función a otras funciones.
 
-== Declaration notation ==
+== Notación de Declaración ==
 
-(((syntax)))(((square example)))(((function
-keyword)))(((function,definition)))(((function,declaration)))There is
-a slightly shorter way to say “++var square = function…++”. The
-`function` keyword can also be used at the start of a statement, as in
-the following:
+(((sintaxis)))(((ejemplo del cuadrado)))(((palabra clave
+function)))(((función,definición)))(((función,declaración)))Existe una
+forma más corta de decir “++var square = function…++”. La palabra reservada
+`function` puede ser usada al principio de una sentencia, como sigue:
 
 [source,javascript]
 ----
-function square(x) {
+function cuadrado(x) {
   return x * x;
 }
 ----
 
-(((future)))(((execution order)))This is a function _declaration_. The
-statement defines the variable `square` and points it at the given
-function. So far so good. There is one subtlety with this form of
-function definition, however.
+(((futuro)))(((order de ejecución)))Esta es una _declaración_ de función.
+La expresión define la variable `cuadrado` y la apunta a la función
+dada. Hasta aquí todo bien. sin embargo, hay una pequeña sutileza con
+esta forma de definición.
 
 [source,javascript]
 ----
-console.log("The future says:", future());
+console.log("El futuro dice: ", futuro());
 
 function future() {
-  return "We STILL have no flying cars.";
+  return "Seguimos sin tener carros voladores.";
 }
 ----
 
-This code works, even though the function is defined _below_ the code
-that uses it. This is because function declarations are not part of
-the regular top-to-bottom flow of control. They are conceptually moved
-to the top of their scope and can be used by all the code in that
-scope. This is sometimes useful because it gives us the freedom to
-order code in a way that seems meaningful, without worrying about
-having to define all functions above their first use.
+Este código funciona aunque la función está definida _debajo_ del 
+código que la usa. Esto es debido a que las declaraciones de función
+no toman parte en el flujo de control regular de arriba hacia abajo.
+Son movidas conceptualmente a la parte superior de su ámbito y pueden
+ser usadas por todo el código en ese ámbito. Esto es útil algunas veces
+porque nos da la libertad de organizar el código de una manera parezca
+significativa sin preocuparnos por definir todas las funciones antes de
+su primer uso.
 
 (((function,declaration)))What happens when you put such a function
 definition inside a conditional (`if`) block or a loop? Well, don't do

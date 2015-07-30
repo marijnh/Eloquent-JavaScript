@@ -64,7 +64,7 @@ JavaScript, we often do not want to submit our fields normally anyway.
 <p><input type="radio" value="A" name="choice">
    <input type="radio" value="B" name="choice" checked>
    <input type="radio" value="C" name="choice"> (radio)</p>
-<p><input type="file" checked> (file)</p>
+<p><input type="file"> (file)</p>
 ----
 
 ifdef::book_target[]

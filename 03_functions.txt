@@ -298,151 +298,148 @@ porque nos da la libertad de organizar el código de una manera parezca
 significativa sin preocuparnos por definir todas las funciones antes de
 su primer uso.
 
-(((function,declaration)))What happens when you put such a function
-definition inside a conditional (`if`) block or a loop? Well, don't do
-that. Different JavaScript platforms in different browsers have
-traditionally done different things in that situation, and the latest
-((standard)) actually forbids it. If you want your programs to behave
-consistently, only use this form of function-defining statements in
-the outermost block of a function or program.
+(((función,declaración)))¿Qué pasa cuando pones una declaración
+de función dentro de un bloque condicional (`if`) o dentro de un bucle?
+Bueno, mejor no lo hagas. Diferentes plataformas de JavaScript en 
+diferentes navegadores hacen diferentes cosas tradicionalmente en esa
+situación, y el último ((estándar)) de hecho lo prohibe. Si quieres que
+tus programas sean consistentes, usa las sentencia de declaración de función
+en el bloque más externo de tu función o programa.
 
 [source,javascript]
 ----
-function example() {
-  function a() {} // Okay
-  if (something) {
-    function b() {} // Danger!
+function ejemplo() {
+  function a() {} // Bien
+  if (alguna_condicion) {
+    function b() {} // ¡Peligro!
   }
 }
 ----
 
 [[stack]]
-== The call stack ==
+== La pila de llamadas ==
 
-indexsee:[stack,call stack]
-(((call stack)))(((function,application)))It will be helpful to take a
-closer look at the way control flows through functions. Here is a
-simple program that makes a few function calls:
+indexsee:[pila,pila de llamadas]
+(((pila de llamadas)))(((función,aplicación))) Será útil mirar más de
+cerca la forma en que el control se mueve a través de las funciones.
+Aquí hay un simple programa que hace unas cuantas llamadas a funciones.
 
 [source,javascript]
 ----
-function greet(who) {
-  console.log("Hello " + who);
+function saluda(a_quien) {
+  console.log("Hola " + a_quien);
 }
-greet("Harry");
-console.log("Bye");
+saluda("Harry");
+console.log("Adiós");
 ----
 
-(((control flow)))(((execution order)))(((console.log)))A run through
-this program goes roughly like this: the call to `greet` causes
-control to jump to the start of that function (line 2). It calls
-`console.log` (a built-in browser function), which takes control, does
-its job, and then returns control to line 2. Then it reaches the end
-of the `greet` function, so it returns to the place that called it, at
-line 4. The line after that calls `console.log` again.
+(((flujo de control)))(((order de ejecución)))(((console.log))Una ejecución
+de este programa va más o menos así: la llamada a `saluda` causa que el control
+pase al inicio de esa función (línea 2). Esta llama a `control.log` (una función
+incluída en los navegadores), que toma el control, hace su trabajo, y devuelve
+el control a la línea 2. Después, se alcanza el dinal de la función `saluda`, así
+que se regresa al lugar en dónde se llamó, en la línea 4. La línea siguiente llama
+a `console.log` otra vez.
 
-We could show the flow of control schematically like this:
+Podemos mostrar el flujo de control esquemáticamente así:
 
 ----
-top
-   greet
+raíz
+   saluda
         console.log
-   greet
-top
+   saluda
+raíz
    console.log
-top
+raíz
 ----
 
-(((return keyword)))(((memory)))Because a function has to jump back to
-the place of the call when it returns, the computer must remember the
-context from which the function was called. In one case, `console.log`
-has to jump back to the `greet` function. In the other case, it jumps
-back to the end of the program.
+(((palabra reservada return)))(((memoria)))Debido a que una función tiene que 
+saltar de regreso al lugar en que fue llamada cuando termine, la computadora
+debe recordar el contexto en el que fue llamada. En un caso, `console.log` tiene
+que regresar a la función `saluda`. En el otro caso salta al final del programa.
 
-The place where the computer stores this context is the _((call
-stack))_. Every time a function is called, the current context is put
-on top of this “stack”. When the function returns, it removes the top
-context from the stack and uses it to continue execution.
+El lugar en el que la computadora guarda este context es la _((pila de llamadas))_.
+Cada vez que una función es llamada, el contexto actual es puesto en la parte superior
+de esta pila. Cuando la función retorne, remueve el contexto superior de la "pila" y
+lo usa para continuar la ejecución.
 
-(((infinite loop)))(((stack overflow)))(((recursion)))Storing this
-stack requires space in the computer's memory. When the stack grows
-too big, the computer will fail with a message like “out of stack
-space” or “too much recursion”. The following code illustrates this by
-asking the computer a really hard question, which causes an infinite
-back-and-forth between two functions. Rather, it _would_ be infinite,
-if the computer had an infinite stack. As it is, we will run out of
-space, or “blow the stack”.
-
+(((loo infinito)))(((desbordamiento de la pila)))(((recursión)))Guardar esta pila requiere
+espacio en la memoria de la coputadora. Cuando la pila se hace demasiado grande
+la computadora mostrará un error parecido a "out of stack space" (sin espacio en la
+en la pila) o "too much recursion" (demasiada recursión). El siguiente código lo ilustra
+al preguntarle algo realmente difícil a la computadora, lo que causa un ir y venir
+infinito entre funciones. Más bien, _sería_ infinito, si la computadora 
+tuviera una pila infinita. Como son las cosas, nos quedaremos sin espacio,
+o "volaremos la pila".
 // test: no
 
 [source,javascript]
 ----
-function chicken() {
-  return egg();
+function gallina() {
+  return huevo();
 }
-function egg() {
-  return chicken();
+function huevo() {
+  return gallina();
 }
-console.log(chicken() + " came first.");
+console.log(gallina() + " fue primero");
 // → ??
 ----
 
-== Optional Arguments ==
+== Argumentos Opcionales ==
 
-(((argument)))(((function,application)))The following code is allowed
-and executes without any problem:
+(((argumento)))(((función,aplicación)))El siguiente código es permitido y se ejecuta sin
+ningún problema:
 
 [source,javascript]
 ----
-alert("Hello", "Good Evening", "How do you do?");
+alert("Hola", "Buenas Noches", "¿Cómo estás?");
 ----
 
-(((alert function)))The function `alert` officially accepts only one
-argument. Yet when you call it like this, it doesn't complain. It
-simply ignores the other arguments and shows you “Hello”.
+(((función alert)))La función `alert` oficialmente acepta sólo un argumento.
+Aún así, cuando la llamas como aquí, no se queja. Simplemente ignora los otros
+argumentos y te muestra "Hola".
 
-(((undefined)))(((parameter)))JavaScript is extremely broad-minded
-about the number of arguments you pass to a function. If you pass too
-many, the extra ones are ignored. If you pass too few, the missing
-parameters simply get assigned the value `undefined`.
+(((undefined)))(((parámetros)))JavaScript es extremadamente abierta de mente
+acerca del número de argumentos que le pasas a una función. Sí le pasas demasiados,
+loa argumentos extra son ignorados. Si le pasas muy pocos, los parámetros quie faltan
+simplemente son asignados a `undefined`.
 
-The downside of this is that it is possible—likely, even—that you'll
-accidentally pass the wrong number of arguments to functions and no
-one will tell you about it.
+El lado malo de esto es que es posbible/probable, casi seguro que le pasarás
+accidentalmente un número incorrecto de argumentos a las funciones y nadie te
+avisará.
 
-[[power]]
-(((power example)))(((optional argument)))The
-upside is that this behavior can be used to have a function take
-“optional” arguments. For example, the following version of `power`
-can be called either with two arguments or with a single argument, in
-which case the exponent is assumed to be two, and the function behaves
-like `square`.
+[[potencia]]
+(((ejemplo de la potencia)))(((argumentos opcionales))) El lado bueno de este
+comportamiento es que puede ser usado para tener una función que 
+tome parámetros "opcionales". Por ejemplo, la soguiente versión de
+`potencia` puede ser llamada con dos argumentos o uno solo, caso en el que
+el exponente se asume como dos, y la función se comporta como `cuadrado`.
 
 // test: wrap
 
 [source,javascript]
 ----
-function power(base, exponent) {
-  if (exponent == undefined)
-    exponent = 2;
-  var result = 1;
-  for (var count = 0; count < exponent; count++)
-    result *= base;
-  return result;
+function potencia(base, exponente) {
+  if (exponente == undefined)
+    exponente = 2;
+  var resultado = 1;
+  for (var cuenta = 0; cuenta < exponente; cuenta++)
+    resultado *= base;
+  return resultado;
 }
 
-console.log(power(4));
+console.log(potencia(4));
 // → 16
-console.log(power(4, 3));
+console.log(potencia(4, 3));
 // → 64
 ----
 
-(((console.log)))In the link:04_data.html#arguments_object[next
-chapter], we will see a way in which a function body can get at the
-exact list of arguments that were passed. This is helpful because it
-makes it possible for a function to accept any number of arguments.
-For example, `console.log` makes use of this—it outputs all of the
-values it is given.
+(((console.log)))En el link:04_data.html#arguments_object[próximo
+capítulo], veremos una forma en la que el cuerpo de una función puede 
+obetener la lista exacta de argumentos que se le pasaron. Esto es útil
+porque permite a una función aceptar un número indeterminado de argumentos.
+Por ejemplo, `console.log` hace uso de esto: imprime todos los valores que
+se le pasaron.
 
 [source,javascript]
 ----

@@ -397,7 +397,7 @@ With this modification, if you enter “cheese”, no output will be shown.
 
 The keyword `if` executes or skips a statement depending on the value
 of a Boolean expression. The deciding expression is written after the
-keywords, between ((parentheses)), followed by the statement to execute.
+keyword, between ((parentheses)), followed by the statement to execute.
 
 (((isNaN function)))The `isNaN` function is a standard JavaScript
 function that returns `true` only if the argument it is given is

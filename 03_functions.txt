@@ -411,7 +411,7 @@ avisará.
 [[potencia]]
 (((ejemplo de la potencia)))(((argumentos opcionales))) El lado bueno de este
 comportamiento es que puede ser usado para tener una función que 
-tome parámetros "opcionales". Por ejemplo, la soguiente versión de
+tome parámetros "opcionales". Por ejemplo, la siguiente versión de
 `potencia` puede ser llamada con dos argumentos o uno solo, caso en el que
 el exponente se asume como dos, y la función se comporta como `cuadrado`.
 
@@ -449,29 +449,29 @@ console.log("R", 2, "D", 2);
 
 == Closure ==
 
-(((call stack)))(((local variable)))(((function,as
-value)))(((closure)))(((scope)))The ability to treat functions as
-values, combined with the fact that local variables are “re-created”
-every time a function is called, brings up an interesting question.
-What happens to local variables when the function call that created
-them is no longer active?
+(((pila de llamadas)))(((variable local)))(((función,como
+valor)))(((closure)))(((ámbito))) La habilidad de tratar Funciones
+como valores, combinada con el hecho de que las varibles locales son
+"re-creadas" cada vez que una función es llamada, saca a la luz
+una pregunta interesante. ¿Qué pasa con las variables locales 
+cuando la función que las creó ya no está activa?
 
-The following code shows an example of this. It defines a function,
-`wrapValue`, which creates a local variable. It then returns a function
-that accesses and returns this local variable.
+El siguiente código muestra un ejemplo de esto. Define una funnción,
+`envuelveValor`, que crea una variable local. Después devuelve una 
+función que accede y devuelve esta variable local.
 
 [source,javascript]
 ----
-function wrapValue(n) {
-  var localVariable = n;
-  return function() { return localVariable; };
+function envuelveValor(n) {
+  var variableLocal = n;
+  return function() { return variableLocal; };
 }
 
-var wrap1 = wrapValue(1);
-var wrap2 = wrapValue(2);
-console.log(wrap1());
+var envoltura1 = envuelveValor(1);
+var envoltura2 = envuelveValor(2);
+console.log(envoltura11());
 // → 1
-console.log(wrap2());
+console.log(envoltura2());
 // → 2
 ----
 

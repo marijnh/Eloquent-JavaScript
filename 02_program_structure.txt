@@ -111,12 +111,12 @@ console.log(ten * ten);
 // → 100
 ----
 
-(((underscore character)))(((dollar
-sign)))(((variable,naming)))Variable names can be any word that isn't
-a reserved word (such as `var`). They may not include spaces.
-Digits can also be part of variable names—`catch22` is a valid name,
-for example—but the name must not start with a digit. A variable name
-cannot include punctuation, except for the characters `$` and `_`.
+(((subrayar el carácter)))(((signo de
+dólar)))(((variable,naming)))Los nombres de variables pueden ser cualquier palabra que no es
+una palabra reservada (tal como `var`). Ellos no pueden incluir espacios.
+Dígitos también pueden ser parte de la variable nombre—`catch22` es un nombre válido,
+por ejemplo-, pero el nombre no debe comenzar con un dígito. Un nombre de variable
+no puede incluir puntuacion, a excepción de los caracteres `$` y `_`.
 
 (((= operator)))(((assignment)))(((variable,assignment)))When a
 variable points at a value, that does not mean it is tied to that

@@ -475,11 +475,11 @@ console.log(envoltura2());
 // → 2
 ----
 
-This is allowed and works as you'd hope—the variable can still be
-accessed. In fact, multiple instances of the variable can be alive at
-the same time, which is another good illustration of the concept that
-local variables really are re-created for every call—different calls
-can't trample on one another's local variables.
+Esto está permitido y trabaja como esperarías; la variable todavía puede
+leerse. De hecho, múltiples instancias de las variables pueden existir
+al mismo tiempo, lo que es otra buena ilustración del concepto de que las
+variables locales son re-creadas realmente para cada llamada; diferentes
+llamadas no pueden afectar otras variables locales.
 
 This feature—being able to reference a specific instance of local
 variables in an enclosing function—is called _closure_. A function

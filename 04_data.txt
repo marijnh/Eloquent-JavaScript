@@ -4,95 +4,94 @@
 :load_files: ["code/jacques_journal.js", "code/chapter/04_data.js"]
 :zip: node/html
 
-= Data Structures: Objects and Arrays =
+= Estructuras de Datos: Objetos y Arreglos =
 
 [chapterquote="true"]
 [quote, Charles Babbage, Passages from the Life of a Philosopher (1864)]
 ____
-On two occasions I have been asked, ‘Pray,
-Mr. Babbage, if you put into the machine wrong figures, will the right
-answers come out?’ [...] I am not able rightly to apprehend the kind
-of confusion of ideas that could provoke such a question.
+En dos ocasiones me preguntaron - “Disculpe, Sr. Babbage, si pongo
+números incorrectos en la máquina, ¿van a salir las respuestas correctas?”
+[...] No puedo terminar de comprender el tipo de confusión de ideas que
+podrían provocar esta pregunta.
 ____
 
-(((Babbage+++,+++ Charles)))(((object)))(((data structure)))Numbers, Booleans, and strings are the
-bricks that ((data)) structures are built from. But you can't make
-much of a house out of a single brick. _Objects_ allow us to group
-values—including other objects—together and thus build more complex
-structures.
+(((Babbage+++,+++ Charles)))(((object)))(((data structure)))Números, Booleanos
+y cadenas son los ladrillos de los que están hechas las estructuras de ((datos)).
+Pero no podrás construir mucha casa de un solo ladrillo. Los _objetos_ nos
+permiten agrupar valores-incluyendo otros objetos-permitiéndonos construir
+estructuras más complejas.
 
-The programs we have built so far have been seriously hampered by the
-fact that they were operating only on simple data types. This chapter
-will add a basic understanding of data structures to your toolkit. By
-the end of it, you'll know enough to start writing some useful
-programs.
+Los programas que hemos construido hasta ahora han sido seriamente limitados
+debido al hecho de que estaban operando únicamente en tipos de datos simples. Este
+capítulo agregará a tu caja de herramientas un entendimiento básico de las
+estructuras de datos. Al finalizarlo, sabrás lo suficiente para empezar a escribir
+algunos programas de utilidad.
 
-The chapter will work through a more or less realistic programming
-example, introducing concepts as they apply to the problem at hand.
-The example code will often build on functions and variables that were
-introduced earlier in the text.
+El capítulo trabajará a lo largo de un ejemplo de programación más o menos
+realista, introduciendo conceptos conforme apliquen al problema en cuestión.
+El código de ejemplo muchas veces construirá sobre funciones y variables que
+fueron presentadas previamente en el texto.
 
 ifdef::book_target[]
 
-(((sandbox)))The online coding sandbox for the book
+(((sandbox)))El sandbox de programación en línea para el libro
 (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
-provides a way to run code in the context of a specific chapter. If
-you decide to work through the examples in another environment, be
-sure to first download the full code for this chapter from the
-sandbox page.
+proporciona una manera de correr el código en el contexto de un capítulo en
+espacífico. Si decides trabajar en los ejemplos en otro entorno, asegúrate de
+descargar primero el código completo de este capítulo desde la página del
+sandbox.
 
 endif::book_target[]
 
-== The weresquirrel ==
+== La ardillalobo ==
 
-(((weresquirrel example)))(((lycanthropy)))Every now and then, usually
-between eight and ten in the evening, ((Jacques)) finds himself
-transforming into a small furry rodent with a bushy tail.
+(((weresquirrel example)))(((lycanthropy)))De vez en cuando, comúnmente
+entre las ocho y las diez de la noche, ((Jacques))  se transforma en
+un pequeño y peludo roedor con una frondosa cola.
 
-On one hand, Jacques is quite glad that he doesn't have classic
-lycanthropy. Turning into a squirrel tends to cause fewer problems
-than turning into a wolf. Instead of having to worry about
-accidentally eating the neighbor (_that_ would be awkward), he worries
-about being eaten by the neighbor's cat. After two occasions where he
-woke up on a precariously thin branch in the crown of an oak, naked
-and disoriented, he has taken to locking the doors and windows of his
-room at night and putting a few walnuts on the floor to keep himself
-busy.
+Por un lado, Jacques esta bastante contento de no tener la clásica licantropía.
+Convertirse en una ardilla suele causar menos problemas que convertirse en un
+lobo. En vez de tener que preocuparse por comerse accidentalmente a un vecino
+(_eso_ sería extraño), le preocupa el ser deborado por el gato del vecino.
+Después de un par de ocasiones donde se despertó, desnudo y desorientado, en una
+apenas delgada rama en la cima de un roble, se ha asegurado de cerrar puertas y
+ventanas de su cuarto por las noches y ponear algunas nueces en el suelo para
+mantenerse ocupado.
 
 image::img/weresquirrel.png[alt="The weresquirrel"]
 
-That takes care of the cat and oak problems. But Jacques still suffers
-from his condition. The irregular occurrences of the transformation
-make him suspect that they might be triggered by something.
-For a while, he believed that it happened only on days when he
-had touched trees. So he stopped touching trees entirely and even
-avoided going near them. But the problem persisted.
+Eso resuelve los problemas del gato y el roble. Pero Jacques aún sufre de su
+enfermedad. Los momentos irregular en que se presenta la transformación le hacen
+sospechar que pudieran ser detonadas por algo. Por algún tiempo, creyó que
+sucedía sólo en los dias que había tocado árboles. Así que dejó de tocar árboles
+de manera definitiva e incluso evitó acercarse a ellos. Pero el problema
+presistió.
 
-(((journal)))Switching to a more scientific approach, Jacques intends
-to start keeping a daily log of everything he did that day and whether
-he changed form. With this data he hopes to narrow down the conditions
-that trigger the transformations.
+(((journal)))Cambiando a una perspectiva un poco más científica, Jacques planea
+empezar un registro diario de todo lo que hizo ese día y si tuvo o no una
+transformación. Con estos datos espera limitar las condiciones que disparan las
+transformaciones.
 
-The first thing he does is design a data structure to store this
-information.
+La primer cosa que hace es diseñar una estructura de datos para almacenar esta
+información.
 
-== Data sets ==
+== Conjuntos de datos ==
 
-(((data structure)))To work with a chunk of digital data, we'll first
-have to find a way to represent it in our machine's ((memory)). Say,
-as a simple example, that we want to represent a ((collection)) of
-numbers: 2, 3, 5, 7, and 11.
+(((data structure)))Para trabajar con un pedazo de datos digitales, primero
+tendremos que encontrar una forma de representarlo en la ((memoria)) de nuestra
+máquina.Digamos, como un pequeño ejemplo, que queremos representar una
+((colección)) de números: 2, 3, 5, 7 y 11.
 
-(((string)))We could get creative with strings—after all, strings
-can be any length, so we can put a lot of data into them—and use `"2 3
-5 7 11"` as our representation. But this is awkward. You'd have to
-somehow extract the digits and convert them back to numbers to access
-them.
+(((string)))Podríamos ponernos creativos usando cadenas-despues de todo, las
+cadenas pueden ser de cualquier longitud, así que podríamos pone mucha
+información en ellas-y usar `"2 3 5 7 11"` como nuestra representación. Pero
+esto es extaño. De alguna forma tendrías que extaer los dígitos y convertirlos
+de vuelta a números para accesarlos.
 
-(((array,creation)))((([] (array))))Fortunately, JavaScript
-provides a data type specifically for storing sequences of values. It
-is called an _array_ and is written as a list of values between
-((square brackets)), separated by commas.
+(((array,creation)))((([] (array))))Afortunadamente, Javascript proporciona un
+tipo de dato específico para almacenar secuencias de valores. Se le llama
+_arreglo_ y se escribe como una lista de valores entre ((corchetes)), separados
+por comas.
 
 [source,javascript]
 ----
@@ -103,37 +102,35 @@ console.log(listOfNumbers[1 - 1]);
 // → 2
 ----
 
-((([] (subscript))))(((array,indexing)))The notation for getting
-at the elements inside an array also uses ((square brackets)). A pair
-of square brackets immediately after an expression, with another
-expression inside of them, will look up the element in the left-hand
-expression that corresponds to the _((index))_ given by the expression
-in the brackets.
+((([] (subscript))))(((array,indexing)))La notación para obtener los elementos
+dentro de un arreglo también utiliza ((corchetes)). Un par de corchetes
+inmediátamente después de una expresión, con otra expresión dentro de los
+corchetes. buscará el elemento en la expresión de la izquierda que corresponda
+al  _((índice))_ dado por la expresión en corchetes.
 
 [[array_indexing]]
-The first index of an array is zero, not one. So the first element can
-be read with `listOfNumbers[0]`. If you don't have a programming
-background, this convention might take some getting used to. But
-((zero-based counting)) has a long tradition in technology, and as
-long as this convention is followed consistently (which it is, in
-JavaScript), it works well.
+El primer índice de un arreglo es cero, no uno. Así que el primer elemento puede
+leerse usando `listOfNumbers[0]`. Si no tienes antecedentes en programación,
+acostumbrarte a esta convención puede tomarte algún tiempo. Pero el
+((zero-based counting)) tiene una larga tradición en tecnología y mientras la
+convención se siga de manera consistente (que se ha hecho, en Javascript),
+funciona bien.
 
 [[properties]]
-== Properties ==
+== Propiedades ==
 
 (((Math object)))(((Math.max function)))(((length property,for
-string)))(((object,property)))(((period character)))We've seen a few
-suspicious-looking expressions like `myString.length` (to get the
-length of a string) and `Math.max` (the maximum function) in past
-examples. These are expressions that access a _((property))_ of some
-value. In the first case, we access the `length` property of the value
-in `myString`. In the second, we access the property named `max` in
-the `Math` object (which is a collection of mathematics-related values
-and functions).
+string)))(((object,property)))(((period character)))Hemos visto algunas expresiones
+sospechosas como `myString.length` (para obtener la longitud de una cadena) y
+`Math.max` (la función máximo) en ejemplos pasados. Estas son expresiones que
+accesan una _((propiedad))_ de algún valor. En el primer caso, accesamos la
+propiedad `length` de el valor en `myString`. En el segundo, accesamos la
+propiedad llamada `max` en el objeto `Math` (que es una colección de valores y
+funciones relacionadas con las matemáticas).
 
-(((property)))(((null)))(((undefined)))Almost all JavaScript values
-have properties. The exceptions are `null` and `undefined`. If you try
-to access a property on one of these nonvalues, you get an error.
+(((property)))(((null)))(((undefined)))Casi todos los valores de Javascript tienen
+propiedades. Las excepciones son `null` y `undefined`. Si intentas acceder una
+propiedad de alguno de estos nonvalues, recibirás un error.
 
 // test: no
 
@@ -145,43 +142,40 @@ null.length;
 
 indexsee:[dot character,period character]
 ((([] (subscript))))(((period character)))(((square
-brackets)))(((computed property)))The two most common ways to access
-properties in JavaScript are with a dot and with square brackets. Both
-`value.x` and `value[x]` access a ((property)) on ++value++—but not
-necessarily the same property. The difference is in how `x` is
-interpreted. When using a dot, the part after the dot must be a valid
-variable name, and it directly names the property. When using square
-brackets, the expression between the brackets is _evaluated_ to get
-the property name. Whereas `value.x` fetches the property of `value`
-named “x”, `value[x]` tries to evaluate the expression `x` and uses
-the result as the property name.
+brackets)))(((computed property)))Las dos maneras comúnes de accesar propiedades
+en Javascript es con un punto y con corchetes. Ambas `value.x` y `value[x]`
+accesan una ((propiedad)) en ++value++—pero no necesariamente la misma propiedad.
+La diferencia radica en cómo se interpreta `x`. Cuando usamos un punto, la parte
+después del punto debe ser un nombre de variable válido y nombra de maner a
+directa a la propiedad. Cuando usamos corchetes, la expresión dentro de los
+corchetes es _evaluada_ para obtener el nombre de la propiedad. Mientras que
+`value.x` busca la propiedad de `value` llamada “x”, `value[x]` intenta evaluar
+la expresión `x` y usa el resultado como el nombre de la propiedad.
 
-So if you know that the property you are interested in is called
-“length”, you say `value.length`. If you want to extract the property
-named by the value held in the variable `i`, you say `value[i]`. And
-because property names can be any string, if you want to access a
-property named “2” or “John Doe”, you must use square brackets:
-`value[2]` or `value["John Doe"]`. This is the case even though you
-know the precise name of the property in advance, because neither “2”
-nor “John Doe” is a valid variable name and so cannot be accessed
-through dot notation.
+Así que si sabes que la propiedad que te interesa se llama “length”, usas
+`value.length`. Si deseas extraer la propiedad nombrada por el valor almacenado
+en la variable`i`, usas `value[i]`. Y debido a que el nombre de las propiedades
+puede ser cualquier cadena, si quieres accesar una propiedad llamada “2” o
+“John Doe”, debes utilizar corchetes:`value[2]` or `value["John Doe"]`. Así lo
+harías incluso si conoces el nombre preciso de la propiedad de antemano, ya que
+ni “2” ni “John Doe” son nombres válidos de variables y por lo tanto no pueden
+accesarse a traves de la notación con punto.
 
 (((array)))(((length property,for array)))(((array,length
-of)))The elements in an array are stored in properties. Because the
-names of these properties are numbers and we often need to get their
-name from a variable, we have to use the bracket syntax to access
-them. The `length` property of an array tells us how many elements it
-contains. This property name is a valid variable name, and we know its
-name in advance, so to find the length of an array, you typically
-write `array.length` because that is easier to write than
-`array["length"]`.
+of)))Los elementos en un arreglo se almacenan en propiedades. Debido a que los
+nombres de estas propiedades son números y usualmente necesitamos obtener su
+nombre de una variable, tenemos que usar la sintaxis de corchetes para accesarlos.
+La propiedad `length` de un arreglo nos dice cuantos elementos contiene. Este
+nombre de propiedad es un nombre de variable válido, y conocemos su nombre por
+anticipad, así que para encontrar la longitud de un arreglo, comúnmente
+escribiremos `array.length` ya que es más fácil de escribir que `array["length"]`.
 
 [[methods]]
-== Methods ==
+== Métodos ==
 
-(((function,as property)))(((method)))(((string)))Both string and
-array objects contain, in addition to the `length` property, a number
-of properties that refer to function values.
+(((function,as property)))(((method)))(((string)))Ambos objetos, las cadenas y
+los arreglos contienen, adicionalmente a la propiedad `length`, un número de
+propiedades que refieren a valores función.
 
 [source,javascript]
 ----
@@ -193,10 +187,9 @@ console.log(doh.toUpperCase());
 ----
 
 (((case conversion)))(((toUpperCase method)))(((toLowerCase
-method)))Every string has a `toUpperCase` property. When called, it
-will return a copy of the string, in which all letters have been
-converted to uppercase. There is also `toLowerCase`. You can guess
-what that does.
+method)))Todas las cadenas tienen una propiedad `toUpperCase`. Cuando es llamada,
+regresará una copia de la cadena en la que todas las letras han sido convertidas
+a mayúsculas. También existe `toLowerCase`. Puedes adivinar que es lo que hace.
 
 (((this)))Interestingly, even though the call to `toUpperCase` does
 not pass any arguments, the function somehow has access to the string

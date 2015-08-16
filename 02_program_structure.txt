@@ -198,45 +198,45 @@ el problema cuando una definición de variable no funciona como se esperaba.
 
 == El entorno ==
 
-(((standard environment)))The collection of variables and their values
-that exist at a given time is called the _((environment))_. When a
-program starts up, this environment is not empty. It always contains
-variables that are part of the language ((standard)), and most of the
-time, it has variables that provide ways to interact with the
-surrounding system. For example, in a ((browser)), there are variables
-and functions to inspect and influence the currently loaded website
-and to read ((mouse)) and ((keyboard)) input.
+(((entorno estándar)))La colección de variables y sus valores
+que existe en un momento dado se llama el _((entorno))_. cuando una
+programa se pone en marcha, este entorno no está vacío. Siempre contiene
+variables que forman parte de la lenguaje ((estándar)), y la mayoría de la
+tiempo, tiene variables que proporcionan formas de interactuar con el
+sistema de alrededores. por ejemplo, en un ((navegador)), hay variables
+y funciones para inspeccionar e influir en la página web cargada en ese momento
+y leer ((ratón)) and ((teclado)) entrada.
 
-== Functions ==
+== Funciones ==
 
 indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 indexsee:[calling (of functions),function application]
 (((output)))(((function)))(((function,application)))(((alert
-function)))(((message box)))A lot of the values provided in the
-default environment have the type _((function))_. A function is a
-piece of program wrapped in a value. Such values can be _applied_ in
-order to run the wrapped program. For example, in a ((browser))
-environment, the variable `alert` holds a function that shows a little
-((dialog box)) with a message. It is used like this:
+function)))(((message box)))Una gran cantidad de los valores proporcionada en el
+entorno por defecto tienen el tipo _((funcion))_. Una función es un
+pedazo de programa envuelto en un valor. Tales valores pueden ser _aplicado_ con
+el fin de ejecutar el programa envuelta. Por ejemplo, en un ((navegador))
+entorno, la variable `alert` ejerce una función que muestra un poco
+((cuadro de diálogo)) con un mensaje. Se utiliza como esto:
 
 [source,javascript]
 ----
-alert("Good morning!");
+alert("Buenos días!");
 ----
 
 image::img/alert.png[alt="An alert dialog",width="8cm"]
 
-(((parameter)))(((function,application)))Executing a function is
-called _invoking_, _calling_, or _applying_ it. You can call a
-function by putting ((parentheses)) after an expression that produces a
-function value. Usually you'll directly use the name of the variable
-that holds the function. The values between the parentheses are given to
-the program inside the function. In the example, the `alert` function
-uses the string that we give it as the text to show in the dialog box.
-Values given to functions are called _((argument))s_. The `alert`
-function needs only one of them, but other functions might need a
-different number or different types of arguments.
+(((parameter)))(((function,application)))La ejecución de una función se
+llamado _invoking_, _llamar_, or _aplicar_ la. Usted puede llamar a un
+función poniendo ((paréntesis)) después de una expresión que produce una
+valor de la función. Por lo general, vamos a usar directamente el nombre de la variable
+que mantiene la función de. Los valores entre paréntesis le dan a
+el programa dentro de la función. En el ejemplo, la funcion de `alert`
+utiliza la cadena que le damos como el texto que se mostrará en el cuadro de diálogo.
+Los valores dados a las funciones se denominan _((argumento))s_. La funcion
+de `alert` necesita solo uno de ellos, pero otras funciones pueden necesitar un
+número diferente o diferentes tipos de argumentos.
 
 == The console.log function ==
 

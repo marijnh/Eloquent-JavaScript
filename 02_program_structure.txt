@@ -173,15 +173,15 @@ console.log(one + two);
 
 (((syntax)))(((implementos (palabra reservada))))(((interfaz (palabra
 reservada))))(((dejar palabras clave)))(((paquete (palabra reservada))))(((privado
-(palabra reservada))))(((protegido (reserved word))))(((public (reserved
-word))))(((static (reserved word))))(((void operator)))(((yield
-(reserved word))))(((reserved word)))(((variable,naming)))Words with
-a special meaning, such as `var`, are _((keyword))s_, and they may not
-be used as variable names. There are also a number of words that are
-“reserved for use” in ((future)) versions of JavaScript. These are also
-officially not allowed to be used as variable names, though some
-JavaScript environments do allow them. The full list of keywords and
-reserved words is rather long.
+(palabra reservada))))(((protegido (palabra reservada))))(((publico (palabra
+reservada))))(((statico (palabra reservada))))(((operador vacío)))(((yield
+(palabra reservada))))(((palabra reservada)))(((variable,naming)))Palabras con
+un significado especial, como `var`, son _((palabra reservada))s_, y no se pueden ser
+utilizadas como nombres de variables. También hay un número de palabras que son
+“reservado para uso” en ((futuras)) versiones de JavaScript. Estos también
+oficialmente no pueden ser utilizados como nombres de variables, aunque algunos
+entornos de JavaScript hacen que puedan. La lista completa de palabras clave y
+palabras reservadas es bastante larga.
 
 [source,text/plain]
 ----
@@ -193,10 +193,10 @@ protected public return static super switch this
 throw true try typeof var void while with yield
 ----
 
-Don't worry about memorizing these, but remember that this might be
-the problem when a variable definition does not work as expected.
+No te preocupes por la memorización de estos, pero recuerda que esto podría ser
+el problema cuando una definición de variable no funciona como se esperaba.
 
-== The environment ==
+== El entorno ==
 
 (((standard environment)))The collection of variables and their values
 that exist at a given time is called the _((environment))_. When a

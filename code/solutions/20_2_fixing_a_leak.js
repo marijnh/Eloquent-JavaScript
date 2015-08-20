@@ -2,7 +2,7 @@
 // code/file_server_promises.js already contain this fixed version.
 
 function urlToPath(url) {
-  var path = url;
+  var path = require("url").parse(url).pathname;
   var decoded = decodeURIComponent(path);
   return "." + decoded.replace(/(\/|\\)\.\.(\/|\\|$)/g, "/");
 }

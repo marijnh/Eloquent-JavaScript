@@ -503,27 +503,25 @@ var doble = multiplicador(2);
 console.log(doble(5));
 // → 10
 ----
+(((variable, desde parámetros))) La variable explícita `variableLocal` de la
+función `envuelveValor` en el ejemplo previo no es necesaria porque un
+parámetro en sí mismo es una variable local.
 
-(((variable,from parameter)))The explicit `localVariable` from the
-`wrapValue` example isn't needed since a parameter is itself a local
-variable.
+(((función, modelo de)))Concebir los parámetros de esta forma
+requiere algo de práctica. Un buen modelo mental es pensar en la
+palabra clave `function` como si "congelara" el código que está dentro de
+ella en un paquete(el valor función). Así, cuando leas `return function(...){...}`,
+piensa en que esto regresa un acceso a un conjunto de cálculos, congelados
+para uso posterior.
 
-(((function,model of)))Thinking about programs like this takes some
-practice. A good mental model is to think of the `function` keyword as
-“freezing” the code in its body and wrapping it into a package (the
-function value). So when you read `return function(...) {...}`, think
-of it as returning a handle to a piece of computation, frozen for
-later use.
+En el ejemplo, `multiplicador` regresa un pedazo congelado de código que
+se guarda en la variable `doble`. La última línea entonces llama el valor 
+guardado en esta variable, haciendo que el código congelado (`return numero * factor;`)
+se active. Este todavía tiene acceso a la variable `factor` de la llamada a 
+`multiplicador` que lo creó, y además obtiene acceso al argumento que se pasa
+cuando se activa el código, 5, a través de su parámetro `numero`.
 
-In the example, `multiplier` returns a frozen chunk of code that gets
-stored in the `twice` variable. The last line then calls the value in
-this variable, causing the frozen code (`return number * factor;`) to
-be activated. It still has access to the `factor` variable from the
-`multiplier` call that created it, and in addition it gets access to
-the argument passed when unfreezing it, 5, through its `number`
-parameter.
-
-== Recursion ==
+== Recursión ==
 
 (((power example)))(((stack
 overflow)))(((recursion)))(((function,application)))It is perfectly

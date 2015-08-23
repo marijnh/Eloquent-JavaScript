@@ -118,11 +118,11 @@ Dígitos también pueden ser parte de la variable nombre—`catch22` es un nombr
 por ejemplo-, pero el nombre no debe comenzar con un dígito. Un nombre de variable
 no puede incluir puntuacion, a excepción de los caracteres `$` y `_`.
 
-(((= operator)))(((assignment)))(((variable,assignment)))When a
-variable points at a value, that does not mean it is tied to that
-value forever. The `=` operator can be used at any time on existing
-variables to disconnect them from their current value and have them
-point to a new one.
+(((= operator)))(((assignment)))(((variable,assignment))Cuando una
+variable apunta a un valor, eso no quiere decir que está ligado a ese
+valor para siempre. El operador de `=` se puede utilizar en cualquier momento en variables
+existentes para desconectarlas de su valor actual y etenerlas
+apuntando a una nueva.
 
 [source,javascript]
 ----
@@ -134,18 +134,18 @@ console.log(mood);
 // → dark
 ----
 
-(((variable,model of)))(((tentacle (analogy))))You should
-imagine variables as tentacles, rather than boxes. They do not
-_contain_ values; they _grasp_ them—two variables can refer to the
-same value. A program can access only the values that it still has a
-hold on. When you need to remember something, you grow a tentacle to
-hold on to it or you reattach one of your existing tentacles to it.
+(((variable,modelo of)))(((tentáculo (analogía)))) Debieras
+imaginar variables como tentáculos, en lugar de las cajas. Ellas no
+_contienen _ valores; ellas _grasp_ them—two variables pueden referirse la
+mismo valor. Un programa puede acceder sólo los valores que todavía tiene a
+hold on. Cuando usted necesita recordar algo, haces crecer un tentáculo para
+afferarse a ello or you reattach one of your existing tentacles to it.
 
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
-Let's look at an example. To remember the number of dollars that Luigi
-still owes you, you create a variable. And then when he pays back $35,
-you give this variable a new value.
+Veamos un ejemplo. Para recordar el número de dólares que Luigi
+aún te debe, se crea una variable. Y luego, cuando él te paga $ 35,
+tu das a esta variable un valor nuevo.
 
 [source,javascript]
 ----
@@ -155,12 +155,12 @@ console.log(luigisDebt);
 // → 105
 ----
 
-(((undefined)))When you define a variable without giving it a value,
-the tentacle has nothing to grasp, so it ends in thin air. If you ask
-for the value of an empty variable, you'll get the value `undefined`.
+(((indefinido)))Cuando se define una variable sin darle un valor,
+el tentáculo no tiene nada de que enteder, por lo que termina en el aire. Si le preguntas
+por el valor de una variable vacía, obtendrá el valor de `undefined (indefinido)`.
 
-(((var keyword)))A single `var` statement may define multiple
-variables. The definitions must be separated by commas.
+(((var keyword)))Una sola `var` declaración puede definir múltiples
+variables. Las definiciones deben estar separados por comas.
 
 [source,javascript]
 ----
@@ -169,19 +169,19 @@ console.log(one + two);
 // → 3
 ----
 
-== Keywords and reserved words ==
+== Palabras clave y palabras reservadas ==
 
-(((syntax)))(((implements (reserved word))))(((interface (reserved
-word))))(((let keyword)))(((package (reserved word))))(((private
-(reserved word))))(((protected (reserved word))))(((public (reserved
-word))))(((static (reserved word))))(((void operator)))(((yield
-(reserved word))))(((reserved word)))(((variable,naming)))Words with
-a special meaning, such as `var`, are _((keyword))s_, and they may not
-be used as variable names. There are also a number of words that are
-“reserved for use” in ((future)) versions of JavaScript. These are also
-officially not allowed to be used as variable names, though some
-JavaScript environments do allow them. The full list of keywords and
-reserved words is rather long.
+(((syntax)))(((implementos (palabra reservada))))(((interfaz (palabra
+reservada))))(((dejar palabras clave)))(((paquete (palabra reservada))))(((privado
+(palabra reservada))))(((protegido (palabra reservada))))(((publico (palabra
+reservada))))(((statico (palabra reservada))))(((operador vacío)))(((yield
+(palabra reservada))))(((palabra reservada)))(((variable,naming)))Palabras con
+un significado especial, como `var`, son _((palabra reservada))s_, y no se pueden ser
+utilizadas como nombres de variables. También hay un número de palabras que son
+“reservado para uso” en ((futuras)) versiones de JavaScript. Estos también
+oficialmente no pueden ser utilizados como nombres de variables, aunque algunos
+entornos de JavaScript hacen que puedan. La lista completa de palabras clave y
+palabras reservadas es bastante larga.
 
 [source,text/plain]
 ----
@@ -193,50 +193,50 @@ protected public return static super switch this
 throw true try typeof var void while with yield
 ----
 
-Don't worry about memorizing these, but remember that this might be
-the problem when a variable definition does not work as expected.
+No te preocupes por la memorización de estos, pero recuerda que esto podría ser
+el problema cuando una definición de variable no funciona como se esperaba.
 
-== The environment ==
+== El entorno ==
 
-(((standard environment)))The collection of variables and their values
-that exist at a given time is called the _((environment))_. When a
-program starts up, this environment is not empty. It always contains
-variables that are part of the language ((standard)), and most of the
-time, it has variables that provide ways to interact with the
-surrounding system. For example, in a ((browser)), there are variables
-and functions to inspect and influence the currently loaded website
-and to read ((mouse)) and ((keyboard)) input.
+(((entorno estándar)))La colección de variables y sus valores
+que existe en un momento dado se llama el _((entorno))_. cuando una
+programa se pone en marcha, este entorno no está vacío. Siempre contiene
+variables que forman parte de la lenguaje ((estándar)), y la mayoría de la
+tiempo, tiene variables que proporcionan formas de interactuar con el
+sistema de alrededores. por ejemplo, en un ((navegador)), hay variables
+y funciones para inspeccionar e influir en la página web cargada en ese momento
+y leer ((ratón)) and ((teclado)) entrada.
 
-== Functions ==
+== Funciones ==
 
 indexsee:[application (of functions),function application]
 indexsee:[invoking (of functions),function application]
 indexsee:[calling (of functions),function application]
 (((output)))(((function)))(((function,application)))(((alert
-function)))(((message box)))A lot of the values provided in the
-default environment have the type _((function))_. A function is a
-piece of program wrapped in a value. Such values can be _applied_ in
-order to run the wrapped program. For example, in a ((browser))
-environment, the variable `alert` holds a function that shows a little
-((dialog box)) with a message. It is used like this:
+function)))(((message box)))Una gran cantidad de los valores proporcionada en el
+entorno por defecto tienen el tipo _((funcion))_. Una función es un
+pedazo de programa envuelto en un valor. Tales valores pueden ser _aplicado_ con
+el fin de ejecutar el programa envuelta. Por ejemplo, en un ((navegador))
+entorno, la variable `alert` ejerce una función que muestra un poco
+((cuadro de diálogo)) con un mensaje. Se utiliza como esto:
 
 [source,javascript]
 ----
-alert("Good morning!");
+alert("Buenos días!");
 ----
 
 image::img/alert.png[alt="An alert dialog",width="8cm"]
 
-(((parameter)))(((function,application)))Executing a function is
-called _invoking_, _calling_, or _applying_ it. You can call a
-function by putting ((parentheses)) after an expression that produces a
-function value. Usually you'll directly use the name of the variable
-that holds the function. The values between the parentheses are given to
-the program inside the function. In the example, the `alert` function
-uses the string that we give it as the text to show in the dialog box.
-Values given to functions are called _((argument))s_. The `alert`
-function needs only one of them, but other functions might need a
-different number or different types of arguments.
+(((parameter)))(((function,application)))La ejecución de una función se
+llamado _invoking_, _llamar_, or _aplicar_ la. Usted puede llamar a un
+función poniendo ((paréntesis)) después de una expresión que produce una
+valor de la función. Por lo general, vamos a usar directamente el nombre de la variable
+que mantiene la función de. Los valores entre paréntesis le dan a
+el programa dentro de la función. En el ejemplo, la funcion de `alert`
+utiliza la cadena que le damos como el texto que se mostrará en el cuadro de diálogo.
+Los valores dados a las funciones se denominan _((argumento))s_. La funcion
+de `alert` necesita solo uno de ellos, pero otras funciones pueden necesitar un
+número diferente o diferentes tipos de argumentos.
 
 == The console.log function ==
 

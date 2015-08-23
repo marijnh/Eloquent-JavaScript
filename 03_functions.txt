@@ -523,134 +523,132 @@ cuando se activa el código, 5, a través de su parámetro `numero`.
 
 == Recursión ==
 
-(((power example)))(((stack
-overflow)))(((recursion)))(((function,application)))It is perfectly
-okay for a function to call itself, as long as it takes care not to
-overflow the stack. A function that calls itself is called
-_recursive_. Recursion allows some functions to be written in a
-different style. Take, for example, this alternative implementation of
-`power`:
+(((ejemplo de la potencia)))(((desbordamiento de 
+pila)))(((recursión)))(((función,aplicación)))Es perfectamente correcto que 
+una función se llame a sí misma, mientras tenga cuidado de no desbordar la pila.
+Una función que se llama a sí misma se llama _recursiva_. La recursión permite
+que algunas funciones se escriban con un estilo diferente. Tomemos por ejemplo,
+esta implementación alternativa de `potencia`:
+
 
 // test: wrap
 
 [source,javascript]
 ----
-function power(base, exponent) {
-  if (exponent == 0)
+function potencia(base, exponente) {
+  if (exponente == 0)
     return 1;
   else
-    return base * power(base, exponent - 1);
+    return base * potencia(base, exponente - 1);
 }
 
-console.log(power(2, 3));
+console.log(potencia(2, 3));
 // → 8
 ----
 
-(((loop)))(((readability)))(((mathematics)))This is rather
-close to the way mathematicians define exponentiation and arguably
-describes the concept in a more elegant way than the looping variant
-does. The function calls itself multiple times with different
-arguments to achieve the repeated multiplication.
+(((bucle)))(((legibilidad)))(((matemáticas))) Esto es más cercano
+al modo en que los matemáticos definen la potenciación y describe
+el concepto de un modo más elegante que la variante que lo hace con bucles.
+La función se llama a sí misma varias veces con diferentes argumentos 
+para conseguir la multiplicación repetida.
 
-(((function,application)))(((efficiency)))But this implementation has
-one important problem: in typical JavaScript implementations, it's
-about 10 times slower than the looping version. Running through a
-simple loop is a lot cheaper than calling a function multiple times.
+(((función, applicación)))(((eficiencia)))Pero esta implementación tiene
+un problema importante: en implementaciones típicas de JavaScript, es
+cerca de 10 veces más lenta que la versión con bucles. Correr a través
+de un siple bucle es más barato que llamar a una función muchas veces.
 
-(((optimization)))The dilemma of speed versus ((elegance)) is an
-interesting one. You can see it as a kind of continuum between
-human-friendliness and machine-friendliness. Almost any program can be
-made faster by making it bigger and more convoluted. The programmer
-must decide on an appropriate balance.
+(((optimización)))El dilema de velocidad contra ((elegancia)) es interesante.
+Puedes verlo como un continuum entre amigabilidad-humano y amigabilidad-máquina.
+Casi cualquier programa puede hacerse más rápido haciéndolo más grande
+y convolucionado. El programador debe de decidir el balance apropiado.
 
-In the case of the link:03_functions.html#power[earlier] `power`
-function, the inelegant (looping) version is still fairly simple and
-easy to read. It doesn't make much sense to replace it with the
-recursive version. Often, though, a program deals with such complex
-concepts that giving up some efficiency in order to make the program
-more straightforward becomes an attractive choice.
+En el caso de la función link:03_functions.html#potencia[anterior] `potencia`
+la poco elegante versión(iterativa) es aún bastante simple y fácil de leer.
+No tiene mucho sentido reemplazarla con la versión recursiva. A menudo,
+sin embargo, un programa tiene conceptos tan complejos que sacrificar
+un poco de eficiencia para hacer el programa más claro se vuelve una
+opción atractiva.
 
-(((profiling)))The basic rule, which has been repeated by many
-programmers and with which I wholeheartedly agree, is to not worry
-about efficiency until you know for sure that the program is too slow.
-If it is, find out which parts are taking up the most time, and start
-exchanging elegance for efficiency in those parts.
+(((profiling))) La regla básica, que ha sido repetida por muchos programadores
+y con la cuál concuerdo de todo corazón, es no preocuparse por
+la eficiencia hasta que estés seguro que el programa es demasiado lento.
+Si lo es, busca las partes que están abarcando la mayoría del tiempo
+y empieza a cambiar elegancia por eficiencia en esas partes.
 
-Of course, this rule doesn't mean one should start ignoring
-performance altogether. In many cases, like the `power` function, not
-much simplicity is gained from the “elegant” approach. And sometimes
-an experienced programmer can see right away that a simple approach is
-never going to be fast enough.
+Por supuesto, esta regla no significa que debas ignorar el rendimiento
+completamente. En muchos casos, como en la función `potencia`,
+no se gana demasiada simplicidad de la solución "elegante". Y algunas
+veces un programador experimentado puede inmediatamente que un
+soulución simple nunca va a ser lo suficientemente rápida.
 
-(((premature optimization)))The reason I'm stressing this is that
-surprisingly many beginning programmers focus fanatically on
-efficiency, even in the smallest details. The result is bigger, more
-complicated, and often less correct programs, that take longer to
-write than their more straightforward equivalents and that usually run
-only marginally faster.
+(((optimización prematura)))La razón por la que estoy hablando tanto
+de esto es que muchos programadores novatos se enfocan fanáticamente
+en la eficiencia, incluso en los detalles más pequeños. El resultado
+son programas más grandes, más complicados y a menudo menos correctos,
+que toman más tiempo en escribirse que sus equivalentes más sencillos
+y que generalmente corren solo un poco más rápido.
 
-(((branching recursion)))But recursion is not always just a
-less-efficient alternative to looping. Some problems are much easier
-to solve with recursion than with loops. Most often these are problems
-that require exploring or processing several “branches”, each of which
-might branch out again into more branches.
+(((recursión ramificada)))Pero la recursión no es siempre sólo
+una alternativa menos eficiente a los bucles. Alguos problemas son
+mucho más fáciles de resolver con recursión que con bucles. La mayoría
+de estos son problemas que requieren explorar o procesar varias "ramas",
+cada una de las cuáles se puede ramificar otra vez.
 
-[[recursive_puzzle]]
 
-(((recursion)))(((number puzzle example)))Consider this puzzle: by
-starting from the number 1 and repeatedly either adding 5 or
-multiplying by 3, an infinite amount of new numbers can be produced.
-How would you write a function that, given a number, tries to find a
-sequence of such additions and multiplications that produce that
-number? For example, the number 13 could be reached by first
-multiplying by 3 and then adding 5 twice, whereas the number 15 cannot
-be reached at all.
+[[rompecabezas_recursivo]]
 
-Here is a recursive solution:
+(((recursión)))(((ejemplo del rompecabezas numéricos)))Considera el siguente
+rompecabezas: empezando por el número 1 y añadiendo repetidamente 5 o
+multiplicándolo por 3, un número infinito de nuevos números puede ser producido.
+¿Cómo escribirías una función que, dado un número, trate de encontrar una 
+secuencia de sumas y multipliclaciones que producen ese número?
+Por ejemplo, el número 13 puede ser producido al multiplicar por 3 primero
+y después sumar 5 dos veces, mientras que el número 15 no puede ser producido.
+
+Aquí hay una solución recursiva:
 
 [source,javascript]
 ----
-function findSolution(target) {
-  function find(start, history) {
-    if (start == target)
-      return history;
-    else if (start > target)
+function encontrarSolucion(objetivo) {
+  function encontrar(inicio, historia) {
+    if (inicio == objetivo)
+      return historia;
+    else if (inicio > objetivo)
       return null;
     else
-      return find(start + 5, "(" + history + " + 5)") ||
-             find(start * 3, "(" + history + " * 3)");
+      return encontrar(inicio + 5, "(" + historia + " + 5)") ||
+             encontrar(inicio * 3, "(" + historia + " * 3)");
   }
-  return find(1, "1");
+  return encontrar(1, "1");
 }
 
-console.log(findSolution(24));
+console.log(encontrarSolucion(24));
 // → (((1 * 3) + 5) * 3)
 ----
 
-Note that this program doesn't necessarily find the _shortest_
-sequence of operations. It is satisfied when it finds any sequence at
-all.
+Nota que este programa no encuentra necesariamente la ruta
+_más corta_ de operaciones. Se satisface cuando cuentre cualquier sequencia.
 
-I don't necessarily expect you to see how it works right away. But
-let's work through it, since it makes for a great exercise in
-recursive thinking.
+No necesariamente espero que veas como este trabaja esto inmediatamente. Pero
+trabajemos en eso, porque es un gran ejercicio en el pensamiento recursivo.
 
-The inner function `find` does the actual recursing. It takes two
-((argument))s—the current number and a string that records how we
-reached this number—and returns either a string that shows how to get
-to the target or `null`.
+La función interna `encontrar` hace la recursividad. Toma dos 
+((argumento))s – el número actual y una cadena que registra como
+hemos alcanzado el número – y regresa o una cadena que muestra como
+llegar al objetivo o `null`.
 
-(((null)))(((|| operator)))(((short-circuit evaluation)))To do this, the
-function performs one of three actions. If the current number is the
-target number, the current history is a way to reach that target, so
-it is simply returned. If the current number is greater than the
-target, there's no sense in further exploring this history since both
-adding and multiplying will only make the number bigger. And finally,
-if we're still below the target, the function tries both possible
-paths that start from the current number, by calling itself twice,
-once for each of the allowed next steps. If the first call returns
-something that is not `null`, it is returned. Otherwise, the second
-call is returned—regardless of whether it produces a string or `null`.
+(((null)))(((operador ||)))(((evaluación de corto circuito))) Para hacer esto
+la función realiza una de tres acciones. Si el número actual es el
+número objetivo, entonces la historia actual es una forma de alcanzar 
+este objetivo, así que siemplemente es devuelta. Si el número actual 
+es mayot que el número objetivo, no tiene sentido seguir haciendo más 
+exploraciones porque tanto sumar como multiplicar sólo hará mayor el número.
+Y finalmente, si estamos todavía debajo del objetivo la función prueba
+los dos caminos posibles que empiezan con el número actual llamándose dos
+veces a sí misma, una vez por cada uno de los pasos permitos. Si la 
+primera llamada regresa cualquier cosa que no sea `null`, se devuelve como
+resultado. De otra forma, la segunda opción es la que se devuelve, independientemente
+de si produce una cadena o `null`.
 
 (((call stack)))To better understand how this function produces the
 effect we're looking for, let's look at all the calls to `find` that

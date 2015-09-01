@@ -670,8 +670,8 @@ encuentra(1, "1")
         ¡Encontrado!
 ----
 
-La identación indica la profundidad en la pila de llamadas. La primera vez que 
-`encuentra` es llamada, se llama ados veces a sí misma para explorar las
+El sangrado (indentación) indica la profundidad en la pila de llamadas. La primera vez que 
+`encuentra` es llamada, se llama dos veces a sí misma para explorar las
 soluciones que empiezan con `(1 + 5)` y `(1 * 3)`. La primera llamada intenta
 encontrar una solución que empiece con `(1 + 5)` y, usando la recursión,
 explora _todas_ las soluciónes que produzcan un número menor o igual que 
@@ -685,51 +685,50 @@ pasan esa cadena, finalmente regresando nuestra solución.
 
 == Funciones crecientes ==
 
-(((function,definition)))There are two more or less natural ways for
-functions to be introduced into programs.
+(((función, definición)))Existen dos formas más o menos naturales de
+intorducir las funciones en los programas.
 
-(((repetition)))The first is that you find yourself writing very
-similar code multiple times. We want to avoid doing that since having
-more code means more space for mistakes to hide and more material to
-read for people trying to understand the program. So we take the
-repeated functionality, find a good name for it, and put it into a
-function.
+(((repetición)))La primera es que te encuentras a ti mismo escribiendo el mismo
+código varias veces. Necesitamos evitar hacer debido a que más código significa
+más espacio para que los errores se oculten y más material para leer para que
+leer para las personas que quiere entender el programa. Así que tomamos
+funcionalidad repetida, encontramos un buen nombre para esta, y la ponemos dentro
+de una función.
+La segunda forma es que encuentres que necesitas cierta funcionalidad
+que no has escrito aún y que suena como a que merece su propia función.
+Empezarás por nombrar la función y después escribirás su cuerpo. Podrías
+incluso empezar a escribir el código que usa la función antes de realmente
+definir la función misma.
 
-The second way is that you find you need some functionality that you
-haven't written yet and that sounds like it deserves its own function.
-You'll start by naming the function, and you'll then write its body.
-You might even start writing code that uses the function before you
-actually define the function itself.
+(((función,nombramiento)))(((variable,nombramiento)))Qué tan difícil es encontrar
+un nombre para una función es un buen indicador de que tan claro tienes el
+concepto de aquello que estás tratando de envolver. Hagamos un ejemplo.
 
-(((function,naming)))(((variable,naming)))How difficult it is to find
-a good name for a function is a good indication of how clear a concept
-it is that you're trying to wrap. Let's go through an example.
-
-(((farm example)))We want to write a program that prints two numbers,
-the numbers of cows and chickens on a farm, with the words `Cows` and
-`Chickens` after them, and zeros padded before both numbers so that
-they are always three digits long.
+(((ejemplo de la granja)))Necesitamos escribir un problema que imprima dos números,
+el número de las vacas y de los pollos de una granja, con las palabras `Cows` y
+`Pollos` después de estos, y completados con ceros para que siempre sean de 3 dígitos
+de longitud.
 
 ----
-007 Cows
-011 Chickens
+007 Vacas
+011 Pollos
 ----
 
-That clearly asks for a function of two arguments. Let's get coding.
+Esto claramente requiere una función de dos argumentos. Empecemos a programar.
 
 [source,javascript]
 ----
-function printFarmInventory(cows, chickens) {
-  var cowString = String(cows);
-  while (cowString.length < 3)
-    cowString = "0" + cowString;
-  console.log(cowString + " Cows");
-  var chickenString = String(chickens);
-  while (chickenString.length < 3)
-    chickenString = "0" + chickenString;
-  console.log(chickenString + " Chickens");
+function imprimeInventarioGranja(vacas, pollos) {
+  var vacasString = String(vacas);
+  while (vacasString.length < 3)
+    vacasString = "0" + vacasString;
+  console.log(vacasString + " Vacas");
+  var pollosString = String(pollos);
+  while (pollosString.length < 3)
+    pollosString = "0" + pollosString;
+  console.log(pollosString + " Pollos");
 }
-printFarmInventory(7, 11);
+imprimeInventarioGranja(7, 11);
 ----
 
 (((length property,for string)))(((while loop)))Adding `.length`

@@ -731,45 +731,44 @@ function imprimeInventarioGranja(vacas, pollos) {
 imprimeInventarioGranja(7, 11);
 ----
 
-(((length property,for string)))(((while loop)))Adding `.length`
-after a string value will give us the length of that string. Thus, the
-`while` loops keep adding zeros in front of the number strings until
-they are at least three characters long.
+(((length,propiedad de cadenas)))(((bucle while)))Añadir `.length` despues
+de un valor de cadena nos dará la longitud de esa cadena. Así, los `while`
+continuán agregando ceros al principio de la cadena del número hasta que
+son por lo menos de 3 caracteres.
 
-Mission accomplished! But just as we are about to send the farmer the
-code (along with a hefty invoice, of course), he calls and tells us
-he's also started keeping pigs, and couldn't we please extend the
-software to also print pigs?
+¡Misión cumplida! Pero casi cuando le vamos a mandar el código al granjero 
+(con una buena factura) nos llama y nos dice que ha empezado a críar puercos,
+y que si podríamos extender el software para también mostrar los puerquitos,
+¿por favor?.
 
-(((copy-paste programming)))We sure can. But just as we're in the
-process of copying and pasting those four lines one more time, we stop
-and reconsider. There has to be a better way. Here's a first attempt:
+(((copy-paste, programación)))De seguro podemos. Pero mientras estamos en el
+proceso de copiar y pegar esas cuatro líneas una vez más, paramos y reconsideramos.
+Existe una mejor forma. Aquí hay un intento:
 
 [source,javascript]
 ----
-function printZeroPaddedWithLabel(number, label) {
-  var numberString = String(number);
-  while (numberString.length < 3)
-    numberString = "0" + numberString;
-  console.log(numberString + " " + label);
+function imprimeConCerosYEtiqueta(numero, etiqueta) {
+  var numeroString = String(numero);
+  while (numeroString.length < 3)
+    numeroString = "0" + numeroString;
+  console.log(numeroString + " " + etiqueta);
 }
 
-function printFarmInventory(cows, chickens, pigs) {
-  printZeroPaddedWithLabel(cows, "Cows");
-  printZeroPaddedWithLabel(chickens, "Chickens");
-  printZeroPaddedWithLabel(pigs, "Pigs");
+function imprimeInventarioGranja(vacas, pollos, puercos) {
+  imprimeConCerosYEtiqueta(vacas, "Vacas");
+  imprimeConCerosYEtiqueta(pollos, "Pollos");
+  imprimeConCerosYEtiqueta(puercos, "Puercos");
 }
 
-printFarmInventory(7, 11, 3);
+imprimeInventarioGranja(7, 11, 3);
 ----
 
-(((function,naming)))It works! But that name,
-`printZeroPaddedWithLabel`, is a little awkward. It conflates three
-things—printing, zero-padding, and adding a label—into a single
-function.
+(((función,nombrado)))¡Funciona! Pero ese nombre, 
+`imprimeConCerosYEtiqueta`, es un poco feo. Amonotona tres cosas–imprimir,
+completar con ceros, y agragar la etiqueta–en una sola función.
 
-(((zeroPad function)))Instead of lifting out the repeated part of our
-program wholesale, let's try to pick out a single _concept_.
+(((función rellenoConCero)))En vez de quitar la parte repetida de nuestra
+programa por mayoreo, tratemos de escoger un solo _concepto_.
 
 [source,javascript]
 ----

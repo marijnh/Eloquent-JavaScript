@@ -4,7 +4,7 @@
 :load_files: ["code/ancestry.js", "code/chapter/05_higher_order.js", "code/intro.js"]
 :zip: node/html
 
-= Higher-Order Functions =
+= Funciones de Order Superior =
 
 ifdef::interactive_target[]
 

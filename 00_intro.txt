@@ -40,7 +40,7 @@ web)) existentes y por lo tanto, disponible en prácticamente todos los disposit
 de consumo.
 
 indexsee:[navegador web,navegador]Este libro trata de hacer que te familiarices lo
-suficiente con este lenguaje para que puedas hacer que la computadora hago lo
+suficiente con este lenguaje para que puedas hacer que la computadora haga lo
 que tú quieras.
 
 == Acerca de la Programación ==
@@ -105,7 +105,7 @@ nuestras manos tecleando.
 Pero si no tenemos cuidado, el tamaño y la ((complejidad)) de un programa
 se saldrán de control, confundiendo incluso a la persona que lo creó.
 Mantener los programas bajo control es el principal problema de la programación.
-Cuando funcionan, es hermoso. El Arte de Programar es la habilidad de
+Cuando funcionan, es hermoso. El Arte de programar es la habilidad de
 controlar la complejidad. Un gran programa está dominado, hecho simple
 en su complejidad.
 
@@ -156,7 +156,7 @@ procedimiento. Incluso escrbibir programas simples requería gran inteligencia y
 disciplina. Los programas complejos eran casi inconcebibles.
 
 (((bit)))(((mago (poderoso))))Claro, introducir manualmente estos
-oscuros patrones de bits (los unos y ceros) dieron al progrmador
+oscuros patrones de bits (los unos y ceros) dieron al programador
 un profundo sentimiento de ser un poderoso mago. Y eso ha valido algo en
 términos de satisfacción en el trabajo.
 
@@ -170,11 +170,11 @@ instrucción. Podría ser escrita en español como sigue:
 3. Guarda el valor de la locación de memoria 1 en la locación 2.
 4. Resta 11 del valor en la locación de meoria 2.
 5. Si el valor en la locación de memoria 2 es el número 0,
-   continua con la instrucción 9.
+   continúa con la instrucción 9.
 6. Suma el valor de la locación de memoria 1 al valor de la
    locación de memoria 0.
 7. Suma 1 al valor de la locación de memoria 1.
-8. Continua con la instrucción 3.
+8. Continúa con la instrucción 3.
 9. Devuelve el valor de la locación de memoria 0.
 ----
 
@@ -189,10 +189,10 @@ para las instrucciones y locaciones de memoria.
 [bucle]
  Pon “comparación” igual a “conteo”.
  Resta 11 de “comparación”.
- Si “comparación” es cero, continua en [final].
+ Si “comparación” es cero, continúa en [final].
  Suma “conteo” a “total”.
  Suma 1 a “conteo”.
- Continua en [bucle].
+ Continúa en [bucle].
 [final]
  Devuelve “total”.
 ----
@@ -223,10 +223,10 @@ console.log(total);
 // → 55
 ----
 
-(((bucle while)))(((bucle)))Esta versión nos da unas cuantas menjoras más.
+(((bucle while)))(((bucle)))Esta versión nos da unas cuantas mejoras más.
 Y lo más importante es que ya no hay necesidad de especificar la forma en que
 queremos que nuestro programa salte de atrás para adelante. La construcción del
-lenguaje `while` se encarga de eso. Continua ejecutándo el bloque (dentro de las
+lenguaje `while` se encarga de eso. Continúa ejecutándo el bloque (dentro de las
 llaves) debajo de él mientras la condición que se le dio se mantenga. Esa
 condición es `conteo <= 10`, lo que significa "++conteo++ es menor o igual que 10"
 Ya no tenemos que crear un valor temporal y compararlo con 0, lo cuál era un
@@ -238,7 +238,7 @@ ha terminado, la operación `console.log` es aplicada al resultado para imprimir
 como resultado.
 
 (((sum, función)))(((range, función)))(((abstracción)))(((función)))Finalmente,
-así es como el programa luciría si sucidiera que tenemos
+así es como el programa luciría si sucediera que tenemos
 las convenientes operaciones `range` y `sum` disponibles, una crea una
 ((colección)) de números dentro de un rango y la otra calcula la suma de
 una ((colección)) de números, respectivamente:
@@ -271,7 +271,7 @@ bloques.
 
 indexsee:[WWW,World Wide Web] indexsee:[Web,World Wide Web](((hisotria)))(((Netscape)))(((browser)))(((web
 application)))(((JavaScript)))(((JavaScript,history of)))(((World Wide
-Web))) JavaScript fu introducido en 1995 como una forma de añadir programas
+Web))) JavaScript fue introducido en 1995 como una forma de añadir programas
 a las páginas web en el navegador Netscape Navigator. Desde entonces el lenguaje
 ha sido adoptado por la mayoría de los navegadores más importantes. Ha hecho
 posibles las aplicaciones web modernas, aplicaciones con las que puedes interactuar
@@ -326,7 +326,7 @@ forma tan radical resultó ser políticamente difícil, y el trabajo en la versi
 ambiciosa versión 5 en 2009. Nosotros estamos en el punto en el que todos los
 navegadores mayores soportan la versión 5, que es la versión en la que este
 libro se enfocará. La versión 6 está en proceso de ser terminada, y algunos
-navegadores estám empezando a soportar nuevas características de esta versión.
+navegadores están empezando a soportar nuevas características de esta versión.
 
 
 (((JavaScript,usos de)))Los navegadores web no son las únicas plataformas en las
@@ -413,7 +413,7 @@ funciones y objetos para escribir código más _abstracto_ y de esta manera
 mantener a la complejidad bajo control.
 
 Después de link:07_elife.html#elife[un primer capítulo de proyecto], la primera
-parte del libro continua con capítulos acerca de
+parte del libro continúa con capítulos acerca de
 link:08_error.html#error[manejo y correccón de errores],
 link:09_regexp.html#regexp[expresiones regulares] (una herramienta importanate
 para el manejo de datos de texto), y

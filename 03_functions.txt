@@ -914,26 +914,26 @@ y modificarlo.
 
 !!pista!!
 
-=== Recursion ===
+=== Recursión ===
 
-(((recursion)))(((isEven (exercise))))(((even number)))We've seen
-that `%` (the remainder operator) can be used to test whether a number
-is even or odd by using `% 2` to check whether it's divisible by two.
-Here's another way to define whether a positive whole number is even
-or odd:
+(((recursión)))(((esPar (ejercicio))))(((número par)))Hemos visto que
+`%` (el operador de sobrante) puede ser usado para probar si un número
+es par o impar usando `% 2` para checar si es divisible por dos. Aquí
+hay otra forma  de definir si un número entero es par o impar:
 
-- Zero is even.
+- Cero es par.
 
-- One is odd.
+- Uno es impar.
 
-- For any other number _N_, its evenness is the same as _N_ - 2.
+- Para cualquier otro número _N_, su paridad es la misma que
+_N_ - 2.
 
-Define a recursive function `isEven` corresponding to this
-description. The function should accept a `number` parameter and
-return a Boolean.
+Escribe una función recursiva `esPar` que corresponda a esta descripción.
+La función debería aceptar un `numero` como parámetro y regresar un Booleano.
 
-(((stack overflow)))Test it on 50 and 75. See how it behaves on -1.
-Why? Can you think of a way to fix this?
+(((pila desbordada)))Pruebala con 50 y 75. Observa cómo se
+comporta con -1. ¿Por qué? ¿Puedes pensar en alguna forma de 
+componer esto?
 
 ifdef::interactive_target[]
 
@@ -941,35 +941,35 @@ ifdef::interactive_target[]
 
 [source,javascript]
 ----
-// Your code here.
+// Tu código va aquí.
 
-console.log(isEven(50));
+console.log(esPar(50));
 // → true
-console.log(isEven(75));
+console.log(esPar(75));
 // → false
-console.log(isEven(-1));
+console.log(esPar(-1));
 // → ??
 ----
 endif::interactive_target[]
 
-!!hint!!
+!!pista!!
 
-(((isEven (exercise))))(((if keyword,chaining)))(((recursion)))Your
-function will likely look somewhat similar to the inner `find`
-function in the recursive `findSolution`
-link:03_functions.html#recursive_puzzle[example] in this chapter, with
-an `if`/`else if`/`else` chain that tests which of the three cases
-applies. The final `else`, corresponding to the third case, makes the
-recursive call. Each of the branches should contain a `return`
-statement or in some other way arrange for a specific value to be
-returned.
+(((esPar (ejercicio))))(((palabra reservada
+if,encadenamiento)))(((recursión))) La función será algo similar al
+`encuentra` interno en la solución recursiva 
+link:03_functions.html#rompecabezas_recursivo[ejemplo] `encuentraSolucion`
+en este capítulo, con una cadena de `if`/`else if`/`else` que probará
+cuál de los tres casos aplica. El `else` final, correspondiente al tercer caso,
+hace la llamada recursiva. Cada una de las ramas debe de contener una
+sentencia `return` o de alguna otra forma arrglárselas para devolver un
+valor específico.
 
-(((stack overflow)))When given a negative number, the function will
-recurse again and again, passing itself an ever more negative number,
-thus getting further and further away from returning a result. It will
-eventually run out of stack space and abort.
+(((pila desbordada))) Cuando se le da un número negativo, la función va
+llamarse a sí misma una y otra vez, pasándose un número cada vez más negativo,
+así alejándose más y más de regresar una solución. En algún momento
+se quedará sin espacio en la pila y abortará.
 
-!!hint!!
+!!pista!!
 
 === Bean counting ===
 

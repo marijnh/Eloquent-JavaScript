@@ -971,26 +971,26 @@ se quedará sin espacio en la pila y abortará.
 
 !!pista!!
 
-=== Bean counting ===
+=== Contando Frijoles ===
 
-(((bean counting (exercise))))(((charAt
-method)))(((string,indexing)))(((zero-based counting)))You can get the
-Nth character, or letter, from a string by writing
-`"string".charAt(N)`, similar to how you get its length with
-`"s".length`. The returned value will be a string containing only one
-character (for example, `"b"`). The first character has position zero,
-which causes the last one to be found at position `string.length - 1`.
-In other words, a two-character string has length 2, and its
-characters have positions 0 and 1.
+(((contando frijoles (ejercicio))))(((método
+charAt)))(((string,indexado)))(((conteo con base cero)))Puedes obtener el
+n-avo caracter, o letra, de una cadena escribiendo `"cadena".charAt(N)`,
+similar a como obtienes su longitud con `"cadena".length`. El valor
+obtenido será una cadena que contiene sólo un caracter(por ejemplo, `"b"`).
+El primer caracter tiene la posición cero, lo cual hace que el último
+pueda ser encontrado en la posición `string.lenght -1`. En otras palabras,
+una cadenas de dos caracteres tiene un “lenght” o longitud de 2, y sus
+caracteres tienen las posiciones 0 y 1.
 
-Write a function `countBs` that takes a string as its only argument
-and returns a number that indicates how many uppercase “B” characters
-are in the string.
+Escribe una función `cuentaFs` que tome una cadena como su único
+argumento y regrese un número que indique cunántos caracteres “F” mayúscula
+hay en la cadena.
 
-Next, write a function called `countChar` that behaves like `countBs`,
-except it takes a second argument that indicates the character that is
-to be counted (rather than counting only uppercase “B” characters).
-Rewrite `countBs` to make use of this new function.
+A continuación, escribe una funcióon llamada `cuentaCaracter` que se comoporte
+como `cuentaFs`, con la diferencia de que tome un segundo caracter que 
+indique el caracter que será contado(en vez de sólo caracteres “F”).
+Reescribe `cuentaFs` para hacer uso de esta nueva función.
 
 ifdef::interactive_target[]
 
@@ -998,26 +998,27 @@ ifdef::interactive_target[]
 
 [source,javascript]
 ----
-// Your code here.
+// Tu código va a aquí.
 
-console.log(countBs("BBC"));
+console.log(cuentaFs("FFC"));
 // → 2
-console.log(countChar("kakkerlak", "k"));
+console.log(cuentaCaracter("ferrocarril", "r"));
 // → 4
 ----
 endif::interactive_target[]
 
-!!hint!!
+!!pista!!
 
-(((bean counting (exercise))))(((length property,for
-string)))(((counter variable)))A ((loop)) in your function will have
-to look at every character in the string by running an index from zero
-to one below its length (`< string.length`). If the character at the
-current position is the same as the one the function is looking for,
-it adds 1 to a counter variable. Once the loop has finished, the
-counter can be returned.
+(((contando frijoles (ejercicio))))(((propiedad lenght,para
+cadenas)))(((variable contador)))Un ((bucle)) en tu función tendrá que
+revisar cada caracter en la cadena corriendo un índice desde cero hasta uno
+menos que su longitud (`< cadena.length`). Si el caracter de la
+posición actual es el mismo que la función está buscando, añade uno a 
+la variable contador. Una vez que se ha terminado el bucle, el contador
+puede ser regresado.
 
-(((local variable)))Take care to make all the variables used in the
-function _local_ to the function by using the `var` keyword.
+(((variable local)))Pon atención en hacer todas las variables usadas en la
+función _locales_ a la función midiante el uso de la palabra reservada
+`var`.
 
-!!hint!!
+!!pista!!

@@ -29,7 +29,7 @@ dir.forEach(function(file) {
   if (extraLinks || zip)
     chapter.links = (zip ? [zip] : []).concat(extraLinks || []);
 
-  var exerciseSection = text.indexOf("\n== Exercises ==\n");
+  var exerciseSection = text.indexOf("\n== Ejercicios ==\n");
   var exerciseBlock = exerciseSection ? text.slice(exerciseSection) : "";
   var header = /\n=== (.*?) ===\n/g;
   var num = 1;
@@ -45,6 +45,9 @@ dir.forEach(function(file) {
       var type = sourceBlock[1].indexOf("html") > -1 ? "html" : "js";
       var file = chapNum + "_" + num + "_" + match[1].toLowerCase().replace(/[^\-\s\w]/g, "").replace(/\s/g, "_") + "." + type;
       try {
+        // console.log("HOLALALSDALSDALS");
+        console.log(file);
+        // print(file)
         var solution = fs.readFileSync("code/solutions/" + file, "utf8");
         var extra = /^\s*<!doctype html>\s*(<base .*\n(<script src=.*\n)*)?/.exec(solution);
         if (extra) solution = solution.slice(extra[0].length);

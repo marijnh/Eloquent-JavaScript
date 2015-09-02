@@ -772,121 +772,121 @@ programa por mayoreo, tratemos de escoger un solo _concepto_.
 
 [source,javascript]
 ----
-function zeroPad(number, width) {
-  var string = String(number);
-  while (string.length < width)
-    string = "0" + string;
-  return string;
+function rellenoConCero(numero, ancho) {
+  var cadena = String(numero);
+  while (cadena.length < ancho)
+    cadena = "0" + cadena;
+  return cadena;
 }
 
-function printFarmInventory(cows, chickens, pigs) {
-  console.log(zeroPad(cows, 3) + " Cows");
-  console.log(zeroPad(chickens, 3) + " Chickens");
-  console.log(zeroPad(pigs, 3) + " Pigs");
+function imprimeInvantarioGranja(vacas, pollos, puercos) {
+  console.log(rellenoConCero(vacas, 3) + " Vacas");
+  console.log(rellenoConCero(pollos, 3) + " Pollos");
+  console.log(rellenoConCero(puercos, 3) + " Puercos");
 }
 
-printFarmInventory(7, 16, 3);
+imprimeInvantarioGranja(7, 16, 3);
 ----
 
-(((readability)))(((pure function)))A function with a nice, obvious
-name like `zeroPad` makes it easier for someone who reads the code to
-figure out what it does. And it is useful in more situations than just
-this specific program. For example, you could use it to help print
-nicely aligned tables of numbers.
+(((legibilidad)))(((función pura)))Una función con un bonito y obvio
+nombre como `rellenoConCero` hace más fácil para alguien que lea el
+código descubrir lo que hace. Y eso es útil en más situaciones que sólo
+en este programa específico. Por ejemplo, puedes usarla para imprimir
+una tabla bien alineada de números.
 
-(((interface,design)))How smart and versatile should our function be?
-We could write anything from a terribly simple function that simply
-pads a number so that it's three characters wide to a complicated
-generalized number-formatting system that handles fractional numbers,
-negative numbers, alignment of dots, padding with different
-characters, and so on.
+(((interface,diseño)))¿Qué tan inteligente y versátil debería ser nuestra
+función? Podríamos escribir cualquier cosa desde una función terriblemente
+simple que sólamente rellena un número de tal manera que tenga 3 caracteres
+hasta una complicada, muy generalizada función, un sistema de formateo de
+números que maneje fracciones, números negativos, alineación de puntos, relleno
+con diferentes carecteres y así por el estilo.
 
-A useful principle is not to add cleverness unless you are absolutely
-sure you're going to need it. It can be tempting to write general
-“((framework))s” for every little bit of functionality you come
-across. Resist that urge. You won't get any real work done, and you'll
-end up writing a lot of code that no one will ever use.
+Un principio útil no añadir características a menos que estés completamente
+seguro de que las vas a ocupar. Puede ser tentador escribir marcos de trabajo
+generals "((framework))s" para cada pequeño pedazo de funcionalidad que te
+encuentras. Resiste el impulso. No acabarás ningún trabajo real y terminarás
+escribiendo mucho código que nadie usará alguna vez.
 
-[[pure]]
-== Functions and side effects ==
+[[pura]]
+== Funciones y efectos colaterales ==
 
-(((side effect)))(((pure function)))(((function,purity)))Functions can
-be roughly divided into those that are called for their side effects
-and those that are called for their return value. (Though it is
-definitely also possible to have both side effects and return a
-value.)
+(((efecto colateral)))(((función pura)))(((función,pureza)))Las funciones
+pueden ser más o menos divididas en aquellas que son llamadas por sus
+efectos colaterales y aquellas que son llamadas por su valor de resultado.
+(Aunque es completamente posible tener tanto efectos colaterales
+como retornar un valor). 
 
-(((reuse)))The first helper function in the ((farm example)),
-`printZeroPaddedWithLabel`, is called for its side effect: it prints a
-line. The second version, `zeroPad`, is called for its return value.
-It is no coincidence that the second is useful in more situations than
-the first. Functions that create values are easier to combine in new
-ways than functions that directly perform side effects.
+(((reuso)))La primer función de ayuda en el ((ejemplo de la granja)),
+`imprimeConCerosYEtiqueta`, es llamada por su efecto colateral:
+imprime su valor de resultado. La segunda versión, `rellenoConCero`, es
+llamada por su valor de resultado. No es coincidencia que la segunda sea 
+útil en más situaciones que la primera. Las funciones que crean valores
+son más fáciles de combinar en nuevas formas que funciones que
+realizan directamente un efecto colateral.
 
-(((substitution)))A _pure_ function is a specific kind of
-value-producing function that not only has no side effects but also
-doesn't rely on side effects from other code—for example, it doesn't
-read global variables that are occasionally changed by other code. A
-pure function has the pleasant property that, when called with the
-same arguments, it always produces the same value (and doesn't do
-anything else). This makes it easy to reason about. A call to such a
-function can be mentally substituted by its result, without changing
-the meaning of the code. When you are not sure that a pure function is
-working correctly, you can test it by simply calling it, and know that
-if it works in that context, it will work in any context. Nonpure
-functions might return different values based on all kinds of factors
-and have side effects that might be hard to test and think about.
+(((sustitución)))Una función _pura_ es un tipo de función que produce un valor
+que no sólo carece de efectos colaterales, tampoco usa los efectos colaterales
+de otro código–por ejemplo, no lee variables globales que son ocasionalmente
+cambiadas por otro código. Una función pura tiene la agradable propiedad de que,
+cuando se llama los mismos argumentos, siempre produce el mismo valor (y 
+no hace nada más). Esto hace fácil razonar con ella. Una llamada a 
+una función como esta puede ser sustituida mentalmente como su resultado, 
+sin cambiar el significado del código. Cuando no estas seguro de que una
+función pura funciona correctamente, puedes probarlo simplemente llamándola,
+y sabiendo que trabaja bien este contexto, trabajará bien en cualquier context.
+Funciones no puras pueden regresar diferentes valores basadas en todo tipo
+de factores y tienen efectos secundarios y que pueden ser difícil de probar
+y de razonar con ellas.
 
-(((optimization)))(((console.log)))Still, there's no need to feel bad
-when writing functions that are not pure or to wage a holy war to
-purge them from your code. Side effects are often useful. There'd be
-no way to write a pure version of `console.log`, for example, and
-`console.log` is certainly useful. Some operations are also easier to
-express in an efficient way when we use side effects, so computing
-speed can be a reason to avoid purity.
+(((optimización)))(((console.log)))Aún así, no hay necesidad de sentirse mal
+cuando escribimos funciones que  no son puras o de armar una guerra santa
+para eliminarlas de tu código. Los efectos secundarios a menudo son útiles.
+No habría forma de imprimir una versión pura de `console.log`, por ejemplo, y
+`console.log` es ciertamente útil. Algunas operaciones son además más fáciles
+de expresar en una forma eficiente cuando se usan los efectos scundarios, 
+así que la velocidad de cómputo puede ser una razón para evitar la pureza.
 
-== Summary ==
+== Sumrio ==
 
-This chapter taught you how to write your own functions. The
-`function` keyword, when used as an expression, can create a function
-value. When used as a statement, it can be used to declare a variable
-and give it a function as its value.
+Este capítulo enseñó como escribir tus propias funciones. La palabra
+resevada `function`, cuando se usa como una expresión, puede crear un 
+valor función. Cuando es usada como sentencia, puede ser usada para declarar
+una variable y darle una función como valor.
 
 [source,javascript]
 ----
-// Create a function value f
+// Crear un valor función f
 var f = function(a) {
   console.log(a + 2);
 };
 
-// Declare g to be a function
+// Declarar g como función
 function g(a, b) {
   return a * b * 3.5;
 }
 ----
 
-A key aspect in understanding functions is understanding local scopes.
-Parameters and variables declared inside a function are local to the
-function, re-created every time the function is called, and not visible
-from the outside. Functions declared inside another function have
-access to the outer function's local scope.
+Un aspecto clave para entender las funciones es entender los ámbitos
+locales. Los parámetros y variables declaradas dentro de una función son
+locales para la función, re-creados cada vez que la función es llamada y no
+visibles de desde fuera. Las funciones declaradas dentro de otra función
+tienen acceso al ámbito local externo de la función.
 
-Separating the tasks your program performs into different
-functions is helpful. You won't have to repeat yourself as much, and
-functions can make a program more readable by grouping code into
-conceptual chunks, in the same way that chapters and sections help
-organize regular text.
+Seprar las tareas que tu tarea realiza en diferentes funciones es útil.
+No tendrás que repetir lo mismo tanto, y las funciones pueden hacer un 
+programa más legible al agrupar el código en partes conceptuales, de la misma
+forma que capítulos y secciones ayudan a organizar el texto regular.
 
-== Exercises ==
+== Ejercicios ==
 
-=== Minimum ===
+=== Mínimo ===
 
-(((Math object)))(((minimum (exercise))))(((Math.min
-function)))(((minimum)))The
-link:02_program_structure.html#return_values[previous chapter]
-introduced the standard function `Math.min` that returns its smallest
-argument. We can do that ourselves now. Write a function `min` that
-takes two arguments and returns their minimum.
+(((Objeto Math)))(((mínimo (ejercicio))))(((función
+Math.min)))(((mínimo)))El
+link:02_program_structure.html#return_values[capítulo anterior]
+intordujo la función estándar `Math.min` que devuelve su argumento más pequeño.
+Ahora nosotros mismos podemos hacer eso. Escribe una función `min` que
+tome dos argumentos y devuelva el mínimo.
 
 ifdef::interactive_target[]
 
@@ -894,7 +894,7 @@ ifdef::interactive_target[]
 
 [source,javascript]
 ----
-// Your code here.
+// Tu código va aquí.
 
 console.log(min(0, 10));
 // → 0
@@ -903,16 +903,16 @@ console.log(min(0, -10));
 ----
 endif::interactive_target[]
 
-!!hint!!
+!!pista!!
 
-(((minimum (exercise))))If you have trouble putting braces and
-parentheses in the right place to get a valid function definition,
-start by copying one of the examples in this chapter and modifying it.
+(((mínimo (ejercicio))))Si tienes problemas poniendo las llaves y los
+paréntesis en el lugar correcto para obtener una definición de 
+función válida, empieza por copiar uno de los ejemplos del capítulo
+y modificarlo.
 
-(((return keyword)))A function may contain multiple `return`
-statements.
+(((palabra reservada return)))Una función puede contener múltiples `return`.
 
-!!hint!!
+!!pista!!
 
 === Recursion ===
 

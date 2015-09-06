@@ -11,12 +11,12 @@ ifdef::interactive_target[]
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
-Tzu-li and Tzu-ssu were
-boasting about the size of their latest programs. ‘Two-hundred
-thousand lines,’ said Tzu-li, ‘not counting comments!’ Tzu-ssu
-responded, ‘Pssh, mine is almost a *million* lines already.’ Master
-Yuan-Ma said, ‘My best program has five hundred lines.’ Hearing this,
-Tzu-li and Tzu-ssu were enlightened.
+Tzu-li y Tzu-ssu estaban
+presumiendo acerca del tamaño de sus úlitmos programas. ‘Doscientas mil líneas
+,’ dijo Tzu-li, ‘¡sin contar los comentarios!’. Tzu-ssu
+respondió, ‘Pssh, el mío tiene ya casi *un millión* de líneas.’ El Maestro
+Yuan-Ma dijo, ‘Mi mejor programa tiene quinientas líneas’. Oyendo esto,
+Tzu-li y Tzu-ssu fueron iluminados.
 ____
 
 endif::interactive_target[]
@@ -24,55 +24,56 @@ endif::interactive_target[]
 [chapterquote="true"]
 [quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
 ____
-(((Hoare+++,+++ C.A.R.)))There are two ways of constructing a software
-design: One way is to make it so simple that there are obviously no
-deficiencies, and the other way is to make it so complicated that
-there are no obvious deficiencies.
+(((Hoare+++,+++ C.A.R.)))Hay dos formas de construir un diseño de
+software: Una forma es hacerlo tan simple que obviamente no tenga
+deficiencias, y la otra forma es hacerlo tan complicado que
+no haya obvias deficiecias.
 ____
 
-(((program size)))A large program is a costly program, and not just
-because of the time it takes to build. Size almost always involves
-((complexity)), and complexity confuses programmers. Confused
-programmers, in turn, tend to introduce mistakes (_((bug))s_) into
-programs. A large program also provides a lot of space for these bugs
-to hide, making them hard to find.
+(((tamaño de un programa)))Un programa grande es costoso y no sólo
+por el tiempo que toma construirlo. El tamaño casi siempre involucra
+((complejidad)), y la complejidad confunde a los programadores. Los
+programadores confundidos, a su vez, tienden a introducir errores 
+(_((bug))s_) en los programas. Un programa grande, además, da un amplio 
+espacio para que estos bugs se oculten, haciéndolos difíciles de encontrar.
 
-(((summing example)))Let's briefly go back to the final two example
-programs in the introduction. The first is self-contained and six
-lines long.
+(((ejemplo de la suma)))Regresemos brevemente a los dos programas finales
+en la introducción. El primero es auto-contenido y tiene seis líneas de longitud.
 
 [source,javascript]
 ----
-var total = 0, count = 1;
-while (count <= 10) {
-  total += count;
-  count += 1;
+var total = 0, cuenta = 1;
+while (cuenta <= 10) {
+  total += cuenta;
+  cuenta += 1;
 }
 console.log(total);
 ----
 
-The second relies on two external functions and is one line long.
+El segundo depende de dos funciones externas y es una sola línea
 
 [source,javascript]
 ----
-console.log(sum(range(1, 10)));
+console.log(suma(rango(1, 10)));
 ----
 
-Which one is more likely to contain a bug?
+¿Cuál de los dos es más probable que tenga un bug?
 
-(((program size)))If we count the size of the definitions of `sum` and
-`range`, the second program is also big—even bigger than the first.
-But still, I'd argue that it is more likely to be correct.
+(((tamaño del programa)))Si contamos el tamaño de definición de 
+`suma` y `rango`, el segungo programa también es grande–incluso más 
+grande que el primero. Pero aún así, yo diría que es más probable
+que sea correcto.
 
-(((abstraction)))(((domain-specific language)))It is more likely to
-be correct because the solution is expressed in a ((vocabulary)) that
-corresponds to the problem being solved. Summing a range of
-numbers isn't about loops and counters. It is about ranges and sums.
+(((abstracción)))(((lenguaje de cominio específico)))Es más probable que
+sea correcto porque la solución es expresada en un ((vocabulario)) que
+corresponde al problema que está siendo resuelto. Sumar un rango de
+enteros no tiene que ver con bucles y contadores. Es acerca de 
+rangos y sumas.
 
-The definitions of this vocabulary (the functions `sum` and `range`)
-will still involve loops, counters, and other incidental details. But
-because they are expressing simpler concepts than the program as a
-whole, they are easier to get right.
+Las definiciones de este vocabulario (las funciones `suma` y `rango` )
+todavía incluirán bucles, contadores y otros detalles incidentales.
+Pero debido a que están expresando conceptos más simples que todo el
+programa, es más fácil tenerlos bien.
 
 == Abstraction ==
 

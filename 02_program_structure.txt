@@ -550,9 +550,9 @@ To reflect this, the test appears after the body of the loop:
 [source,javascript]
 ----
 do {
-  var name = prompt("Who are you?");
-} while (!name);
-console.log(name);
+  var yourName = prompt("Who are you?");
+} while (!yourName);
+console.log(yourName);
 ----
 
 (((Boolean,conversion to)))(((! operator)))This program will

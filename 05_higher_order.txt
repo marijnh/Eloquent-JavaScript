@@ -175,6 +175,10 @@ forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
 // → Granfalloon
 ----
 
+(In some browsers, calling `console.log` in this way does not work.
+You can use `alert` instead of `console.log` if this example fails to
+work.)
+
 Often, you don't pass a predefined function to `forEach` but create
 a function value on the spot instead.
 

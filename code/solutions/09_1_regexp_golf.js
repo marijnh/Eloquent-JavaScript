@@ -16,7 +16,7 @@ verify(/ious\b/,
        ["how delicious", "spacious room"],
        ["ruinous", "consciousness"]);
 
-verify(/\s[.,;]/,
+verify(/\s[.,:;]/,
        ["bad punctuation ."],
        ["escape the dot"]);
 

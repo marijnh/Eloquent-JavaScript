@@ -152,7 +152,7 @@ hipotética máquina. Para programar las primeras computadoras, era necesario
 configurar grandes conjuntos de tiras de switches en la posición correcta o
 perforar tiras de tarjetas e introducirlas en la computadora.
 Probablemente te puedes imaginar cuan tedioso y propenso al error era este
-procedimiento. Incluso escrbibir programas simples requería gran inteligencia y
+procedimiento. Incluso escribir programas simples requería gran inteligencia y
 disciplina. Los programas complejos eran casi inconcebibles.
 
 (((bit)))(((mago (poderoso))))Claro, introducir manualmente estos
@@ -179,7 +179,7 @@ instrucción. Podría ser escrita en español como sigue:
 ----
 
 (((legibilidad)))(((nombramiento)))(((variable)))Aunque eso es más leíble que
-una sopa de bits, sigue sin ser agradable. Podría ayudar usar nombres en números
+una sopa de bits, sigue sin ser agradable. Podría ayudar usar nombres en los números
 para las instrucciones y locaciones de memoria.
 
 [source,text/plain]
@@ -198,7 +198,7 @@ para las instrucciones y locaciones de memoria.
 ----
 
 (((bucle)))(((salto)))(((ejemplo de sumatoria)))¿Puedes entender cómo funciona
-el programa en este punto? Las primeras dos línas ponen en dos locaciones de
+el programa en este punto? Las primeras dos líneas ponen en dos locaciones de
 memoria sus valores iniciales: `total` será usado para construir el resultado
 del cálculo y `conteo` mantendrá el registro del número en el que estamos
 trabajando en este momento. Las líneas que usan `comparación` son probablemente
@@ -228,7 +228,7 @@ Y lo más importante es que ya no hay necesidad de especificar la forma en que
 queremos que nuestro programa salte de atrás para adelante. La construcción del
 lenguaje `while` se encarga de eso. Continúa ejecutándo el bloque (dentro de las
 llaves) debajo de él mientras la condición que se le dio se mantenga. Esa
-condición es `conteo <= 10`, lo que significa "++conteo++ es menor o igual que 10"
+condición es `conteo <= 10`, lo que significa "++conteo++ es menor o igual que 10". 
 Ya no tenemos que crear un valor temporal y compararlo con 0, lo cuál era un
 detalle sin interés para nosotros. Parte del poder de los lenguajes de
 programación es que estos se encargan de los detalles que no nos interesan.

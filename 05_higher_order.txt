@@ -33,8 +33,8 @@ ____
 (((tamaño de un programa)))Un programa grande es costoso y no sólo
 por el tiempo que toma construirlo. El tamaño casi siempre involucra
 ((complejidad)), y la complejidad confunde a los programadores. Los
-programadores confundidos, a su vez, tienden a introducir errores 
-(_((bug))s_) en los programas. Un programa grande, además, da un amplio 
+programadores confundidos, a su vez, tienden a introducir errores
+(_((bug))s_) en los programas. Un programa grande, además, da un amplio
 espacio para que estos bugs se oculten, haciéndolos difíciles de encontrar.
 
 (((ejemplo de la suma)))Regresemos brevemente a los dos programas finales
@@ -72,82 +72,85 @@ rangos y sumas.
 
 Las definiciones de este vocabulario (las funciones `suma` y `rango` )
 todavía incluirán bucles, contadores y otros detalles incidentales.
-Pero debido a que están expresando conceptos más simples que todo el
-programa, es más fácil tenerlos bien.
+Pero debido a que están expresando conceptos más simples que el
+programa como un todo, es más fácil acertar.
 
-== Abstraction ==
+== Abstracción ==
 
-In the context of programming, these kinds of vocabularies are usually
-called _((abstraction))s_. Abstractions hide details and give us the
-ability to talk about problems at a higher (or more abstract) level.
+En el contexto de la programación, vocabularios de este estilo son usualmente
+llamados _((abstracción))_. Las abstracciones econden detalles y nos
+dan la habilidad de hablar de los problemas en un nivel más alto (o más
+abstracto).
 
-(((recipe analogy)))(((pea soup)))As an analogy, compare these two
-recipes for pea soup:
+(((analogía de la receta)))(((sopa de guisantes)))Como una analogía,
+compara estas dos recetas para la sopa de guisantes:
 
 ____
-Put 1 cup of dried peas per person into a container. Add water until
-the peas are well covered. Leave the peas in water for at least 12 hours.
-Take the peas out of the water and put them in a cooking pan. Add 4
-cups of water per person. Cover the pan and keep the peas
-simmering for two hours. Take half an onion per person. Cut it into
-pieces with a knife. Add it to the peas. Take a stalk of celery per
-person. Cut it into pieces with a knife. Add it to the peas. Take a
-carrot per person. Cut it into pieces. With a knife! Add it to the
-peas. Cook for 10 more minutes.
+Pon una 1 taza de guisantes secos por persona en un contenedor. Agrega agua
+hasta que los guisantes estén cubiertos. Deja los guisantes en el agua
+por lo menos 12 horas. Saca los guisantes del agua y ponlos en en un
+sartén para cocer. Agrega 4 copas de agua por persona. Cubre el sartén y mantén
+los hirviéndose a fuego lento por dos horas. Agrega la mitad de una cebolla por 
+persona. Córtala en piezas con un cuchillo. Agrégalas a los guisantes.
+Toma un diente de ajo por persona. Córtalos en piezas con un cuchillo.
+Agrégalos a los guisantes. Toma una zanahoria por persona. Córtalas
+en piezas. ¡Con un cuchillo! Agrégalas a los guisantes. Cocina por 10
+minutos más.
 ____
 
-And the second recipe:
+Y la segunda receta:
+
 ____
-Per person: 1 cup dried split peas, half a chopped onion, a stalk of
-celery, and a carrot.
+Por persona: 1 taza de guisantes partidos secos, media cebolla picada, un 
+diente de ajo y una zanohoria.
 
-Soak peas for 12 hours. Simmer for 2 hours in 4 cups of water
-(per person). Chop and add vegetables. Cook for 10 more minutes.
+Remoja los guisantes por 12 horas
+Soak peas for 12 hours. Hierve a fuego lento por 2 horas en 
+4 tazas(por persona). Pica y agrega los vegetales. Cocina por 10 minutos más.
 ____
 
-(((vocabulary)))The second is shorter and easier to interpret. But
-you do need to understand a few more cooking-related words—__soak__,
-_simmer_, _chop_, and, I guess, _vegetable_.
+(((vocabulario)))La segunda es más corta y más fácil de interpretar. Pero
+necesitas entender unos cuántas palabras relacionadas con la cocina-__remojar__,
+__picar__ y, imagino, __vegetal__.
 
-When programming, we can't rely on all the words we need to be waiting
-for us in the dictionary. Thus, you might fall into the pattern of the
-first recipe—work out the precise steps the computer has to perform,
-one by one, blind to the higher-level concepts that they express.
+Cuando programamos, no podemos confiar en que todas las palbras que necesitamos
+estén esperándonos en el diccionario. Así que podrías caer en el patrón de
+la primera receta–trabajar en los pasos precisos que la computadora debe realizar,
+uno por uno, sin ver los conceptos de alto nivel que estos expresan.
 
-(((abstraction)))It has to become second nature, for a programmer, to
-notice when a concept is begging to be abstracted into a new word.
+(((abstracción)))Se tiene que convertir en una segunda naturaleza, para un
+programador, notar cuando un concepto está rogando ser abstraído en
+una nueva palabra.
 
-== Abstracting array traversal ==
+== Abstrayendo transversal de array ==
 
-(((array)))Plain functions, as we've seen them so far, are a good
-way to build abstractions. But sometimes they fall short.
+(((array)))Las fuunciones planas, como hemos visto hasta ahora, son una buena forma
+de construir abstracciones. Pero algunas veces se quedan cortas.
 
-(((for loop)))In the link:04_data.html#data[previous chapter], this
-type of `for` ((loop)) made several appearances:
+(((bucle for)))En el link:04_data.html#data[capítulo antterior], este tipo de 
+((bucle)) `for` apareció varias veces:
 
 [source,javascript]
 ----
 var array = [1, 2, 3];
 for (var i = 0; i < array.length; i++) {
-  var current = array[i];
-  console.log(current);
+  var actual = array[i];
+  console.log(actual);
 }
 ----
 
-(((length property,for
-array)))(((array,indexing)))(((readability)))It's trying to say, “For
-each element in the array, log it to the console”. But it uses a
-roundabout way that involves a counter variable `i`, a check against
-the array's length, and an extra variable declaration to pick out the
-current element. Apart from being a bit of an eyesore, this provides a
-lot of space for potential mistakes. We might accidentally reuse the
-`i` variable, misspell `length` as `lenght`, confuse the `i` and `current`
-variables, and so on.
+(((propiedad length,para 
+array)))(((array,indexado)))(((legibilidad)))Está tratando de decir,
+"Cada elemento, escríbelo en la consola". Pero usa una forma rebuscada que
+implica una variable `i`, una revisión del tamaño del array y una declaración
+de variable extra para guardar el elemento actual. A parte de causar un poco de 
+dolor de ojos, esto nos da mucho espacio para errores potenciales. Podríamos
+qccidentalmente reusar la variable `i`, escribir mal `length` como `lenght`,
+confundir las variables `i` y `actual` y así por el estilo.
+Así que tratemos de abstraer esto en una función. ¿Puedes pensar en alguna forma?
 
-So let's try to abstract this into a function. Can you think of a way?
-
-Well, it's easy to write a function that goes over an array and calls
-`console.log` on every element.
+Bueno, es fácil escribir una función que vaya a través de un array y llamar
+`console.log` en cada elemento.
 
 [source,javascript]
 ----
@@ -158,16 +161,17 @@ function logEach(array) {
 ----
 
 [[forEach]]
-indexsee:[higher-order function,function+++,+++ higher-order](((function,higher-order)))(((loop)))(((array,traversal)))(((function,as value)))(((forEach method)))But what
-if we want to do something other than logging the elements? Since
-“doing something” can be represented as a function and functions are
-just values, we can pass our action as a function value.
+indexsee:[función de orden superior,función+++,+++ orden superior](((función,orden superior)))(((bucle)))(((array,
+transversal)))(((función, como valor)))(((método forEach)))Pero, ¿qué pasa si 
+queremos hacer otra cosa que loggear los elementos? Debido a que "hacer algo"
+puede ser representado como una función y las funciones son sólo valores, podemos pasar
+nuestra acción como un valor función.
 
 [source,javascript]
 ----
-function forEach(array, action) {
+function forEach(array, accion) {
   for (var i = 0; i < array.length; i++)
-    action(array[i]);
+    accion(array[i]);
 }
 
 forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
@@ -176,39 +180,39 @@ forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
 // → Granfalloon
 ----
 
-Often, you don't pass a predefined function to `forEach` but create
-a function value on the spot instead.
+A menudo, no le pasas una  función predefinida a `forEach` sino que 
+creas una función en el acto.
 
 [source,javascript]
 ----
-var numbers = [1, 2, 3, 4, 5], sum = 0;
-forEach(numbers, function(number) {
-  sum += number;
+var numeros = [1, 2, 3, 4, 5], suma = 0;
+forEach(numeros, function(numero) {
+  suma += numero;
 });
-console.log(sum);
+console.log(suma);
 // → 15
 ----
 
-(((loop body)))(((curly braces)))This looks quite a lot like the
-classical `for` loop, with its body written as a block below it.
-However, now the body is inside the function value, as well as
-inside the ((parentheses)) of the call to `forEach`. This is why it
-has to be closed with the closing brace _and_ closing parenthesis.
+(((cuerpo de un bucle)))(((llaves)))Esto luce muy parecido al clásico
+bucle `for`, con su cuerpo escrito debajo de él. Sin embargo,
+ahora el cuerpo está dentro del valor función, así como
+dentro de los ((paréntesis)) de la llamada a `forEach`. Esta es la
+razón de que tenga que ser terminado con una llave _y_ un paréntesis de cierre.
 
-(((local variable)))(((parameter)))Using this pattern, we can
-specify a variable name for the current element (`number`), rather
-than having to pick it out of the array manually.
+(((variable local)))(((parámetro)))Usando este patrón, podemos especificar un nombre
+de variable para el elemento actual(`numero`), en vez de tener que
+tomarlo del array manuelmente.
 
-(((array,methods)))(((function,higher-order)))(((forEach
-method)))(((array)))In fact, we don't need to write `forEach`
-ourselves. It is available as a standard method on arrays. Since the
-array is already provided as the thing the method acts on, `forEach`
-takes only one required argument: the function to be executed for each
-element.
+(((array,métodos)))(((función,orden superior)))(((forEach
+método)))(((array)))De hecho, no necesitamos escribir `forEach`
+nosotros mismos. Está disponible como un método estándar en los arrays.
+Debido a que el array le es pasado como el elemento sobre el que actúa
+el método, `forEach` sólo recibe un argumento requerido: la función que será
+ejecutada para cada elemento.
 
-To illustrate how helpful this is, let's look back at a function
-from link:04_data.html#analysis[the previous chapter]. It contains two
-array-traversing ((loop))s.
+Para ilustrar lo útil que esto es, miremos otra vez la función del
+link:04_data.html#analysis[capítulo anterior]. Contiene dos bucles que
+recorren un arreglo.
 
 [source,javascript]
 ----

@@ -765,7 +765,7 @@ underlining.
 ----
 function UnderlinedCell(inner) {
   this.inner = inner;
-};
+}
 UnderlinedCell.prototype.minWidth = function() {
   return this.inner.minWidth();
 };

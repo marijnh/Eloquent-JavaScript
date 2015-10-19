@@ -4,8 +4,8 @@ CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_high
 
 SVGS := $(wildcard img/*.svg)
 
-html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/chapter_info.js html/js/acorn_codemirror.js \
-      code/skillsharing.zip code/solutions/20_4_a_public_space_on_the_web.zip \
+html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/acorn_codemirror.js \
+      code/skillsharing.zip code/solutions/20_4_a_public_space_on_the_web.zip html/js/chapter_info.js \
       $(patsubst img/%.svg,img/generated/%.png,$(SVGS))
 
 html/%.html: %.txt asciidoc_html.conf

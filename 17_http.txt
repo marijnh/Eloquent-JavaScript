@@ -294,7 +294,7 @@ URL.
 (((send method)))(((GET method)))(((body (HTTP))))(((responseText
 property)))After opening the request, we can send it with the `send`
 method. The argument to send is the request body. For `GET` requests,
-we can pass null. If the third argument to `open` was `false`, `send`
+we can pass `null`. If the third argument to `open` was `false`, `send`
 will return only  after the response to our request was received. We
 can read the request object's `responseText` property to get the
 response body.

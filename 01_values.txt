@@ -18,7 +18,7 @@ ____
 (((Yuan-Ma)))(((Libro de la Programación)))(((datos
 binarios)))(((datos)))(((bit)))(((memoria))) En el mundo de las
 computadoras sólo existen los datos. Puedes leer, modificar y crear
-nuevos datos, pero culaquier cosa que no sea datos simplemente no
+nuevos datos, pero cualquier cosa que no sea datos simplemente no
 existe. Todos estos datos son guardados en largas secuencias de bits
 y por lo tanto son parecidos.
 
@@ -180,7 +180,7 @@ esto mediante encerrar en paréntesis la suma.
 (100 + 4) * 11
 ----
 
-(((caracter guión)))(((diagonal
+(((carácter guión)))(((diagonal
 )))(((división)))(((resta)))(((menos)))(((operador
 -)))(((operador /)))Para la resta existe el operador `-`,
 y la división se puede hacer con el operador `/`.

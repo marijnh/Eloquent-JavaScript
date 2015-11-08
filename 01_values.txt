@@ -139,7 +139,7 @@ del número:
 
 Esto es 2.998 × 10^8^ = 299,800,000.
 
-(((pi)))(((número, precisión de)))(((número de punto flotante)))Calculos con
+(((pi)))(((número, precisión de)))(((número de punto flotante)))Cálculos con
 números enteros (en inglés llamados _((integer))_) más pequeños que el supracitado
 9 trillones, están garantizados para siempre ser precisos. Desafortunadamente,
 cálculos con números fraccionarios generalmente no lo son. Justo como π (pi)
@@ -170,7 +170,7 @@ la multiplicación. Al poner un operador entre dos valores, se
 aplicará la operación a esos valores y producirá un nuevo valor.
 
 (((agrupamiento)))(((paréntesis)))(((precedencia)))¿Significa el ejemplo
-anterior: "suma 4 y 100, y multitplica el resultado por 11", o es la
+anterior: "suma 4 y 100, y multiplica el resultado por 11", o es la
 multiplicación ralizada antes de hacer la suma? Como pudiste haber adivinado,
 la multiplicación ocurre primero. Pero como en matemáticas, puedes cambiar
 esto mediante encerrar en paréntesis la suma.
@@ -225,9 +225,9 @@ preciso, significativo.
 
 == Cadenas ==
 
-(((sintaxis)))(((texto)))(((caracter)))(((cadena,notación)))(((caracter
-comilla simple)))(((caracter comilla doble)))(((comillas)))El siguiente
-tipo de data básico son las _cadenas_. Estas son usadas para representar
+(((sintaxis)))(((texto)))(((carácter)))(((cadena,notación)))(((carácter
+comilla simple)))(((carácter comilla doble)))(((comillas)))El siguiente
+tipo de dato básico son las _cadenas_. Estas son usadas para representar
 texto. Son declaradas al poner el contenido entre comillas.
 
 [source,javascript]
@@ -242,19 +242,19 @@ cadenas de texto mientras coincidan al principio y al final.
 (((salto de línea)))(((caracter de nueva línea)))(((newline)))Casi cualquier
 cosa puede estar entre comillas, y JavaScript creará una cadena. Pero unos
 cuantos caracteres son un poco difíciles. Puedes imaginar que poner
-comillas dentro de comillas puede ser difícil. _Newlines_ (el caracter
+comillas dentro de comillas puede ser difícil. _Newlines_ (el carácter
 salto de línea, lo que obtines cuando presionas Enter), tampoco puede
 ser introducido entre comillas. La cadena tiene que permanecer en una
 sola línea.
 
 (((escape,en cadenas)))(((diagonal invertida)))Para hacer posible
-la inclusión de estos caracteres en  una cadena de texto, la siguiente
+la inclusión de estos caracteres en una cadena de texto, la siguiente
 notación es usada: cuando una diagonal invertida(_backslash_: `\`)
-se encuentra dentro de un texto entre comillas, indica que el caracter
+se encuentra dentro de un texto entre comillas, indica que el carácter
 siguiente tiene un significado especial. Esto es llamado _escapar_ el
-caracter. Una comilla que es precedida por una diagonal invertida
+carácter. Una comilla que es precedida por una diagonal invertida
 no terminará la cadena, sino que será parte de ella. Cuando un
-caracter `n` sigue a una diagonal invertida, se interpreta como
+carácter `n` sigue a una diagonal invertida, se interpreta como
 una nueva línea. Similarmente, un `t` después de la diagonal invertida
 significa un ((tabulador)). Tomemos la siguiente cadena:
 
@@ -275,16 +275,16 @@ Existen, por supuesto, situaciones en las que querrás que una
 diagonal invertida sea sólo eso en una cadena de texto, no un
 código especial. Si dos diagonales invertidas están juntas, se volverán
 una, y sólo eso quedará como resultado en el valor de la cadena.
-Así es como la cadena "++Un caracter de nueva línea es escrito "\n".++"
+Así es como la cadena "++Un carácter de nueva línea es escrito "\n".++"
 puede ser expresada:
 
 [source,javascript]
 ----
-"Un caracter de nueva línea es escrito \"\\n\"."
+"Un carácter de nueva línea es escrito \"\\n\"."
 ----
 
 (((operador +)))(((concatenación)))Las cadenas de texto no pueden ser
-divididas numéricamente, multiplicadas, o restadas, pero el caracter
+divididas numéricamente, multiplicadas, o restadas, pero el carácter
 `+` _puede_ ser usado en ellas. No suma, sino que _concatena_; pega dos
 cadenas. La siguiente línea produce la cadena `"concatenar"`:
 
@@ -296,7 +296,7 @@ cadenas. La siguiente línea produce la cadena `"concatenar"`:
 Hay más maneras de manipular las cadenas, de las que hablaremos cuando
 lleguemos a los métodos en el link:04_data.html#methods[Capítulo 4].
 
-== Operadores Unarios ==
+== Operadores Unitario ==
 
 (((operador)))(((operador typeof)))(((tipo)))No todos los operadores
 son símbolos. Algunos son escritos como palabras. Un ejemplo es el
@@ -316,15 +316,15 @@ console.log(typeof "x")
 (((console.log)))(((salida)))(((consola de JavaScript)))Usaremos
 `console.log` para indicar que queremos ver el resultado de la evaluación
 de algo. Cuando corres ese código, el valor producido debería mostrarse en
-pantalla, aunque la forma en que aparece dependerá del en entorno en que
+pantalla, aunque la forma en que aparece dependerá del entorno en que
 estés corriendo el programa.
 
 (((negación)))(((operador -)))(((operador binario)))(((operador
 binario))) Los otros operadores que hemos visto operaban sobre
 dos valores, pero `typeof` sólamente toma uno. Los operadores que usan
 dos valores son llamados operadores _binarios_, mientras que aquellos
-que sólo toman uno son llamados operadores _unarios_. El operador menos
-puede usar tanto como operador binario como operador unario.
+que sólo toman uno son llamados operadores _unitarios_. El operador menos
+puede usar tanto como operador binario como operador unitario.
 
 [source,javascript]
 ----
@@ -370,10 +370,10 @@ console.log("Aardvark" < "Zoroaster")
 es más o menos alfabética: las letras mayúsculas son siempre "menores"
 que las minúsculas, así que `"Z" < "a"` es verdad, y los caracteres no
 alfabéticos (!, -, y así por el estilo) son también incluidos en el
-ordenamiento. La comparación real está basada en el estéandar
-_((Unicode))_. Este estándar asigna un número a virtualmente cada
-caracter que alguna vez necesitarás, incluyendo caracteres del Griego,
-Árabe, Japonés, Tamil, y otros alfabetos. Tener tales números es
+ordenamiento. La comparación real está basada en el estándar
+_((Unicode))_. Este estándar asigna un número a virtualemente cada
+carácter que alguna vez necesitarás, incluyendo caracteres del griego,
+árabe, japonés, tamil, y otros alfabetos. Tener tales números es
 útil para guardar las cadenas de texto dentro de la computadora porque
 hace posible representarlas como una secuencia de números. Cuando
 comparamos cadenas, JavaScript va de izquierda a derecha, comparando
@@ -455,7 +455,7 @@ paréntesis como sea posible:
 
 (((ejecución condicional)))(((operador ternario)))(((operador ?:
 )))(((operador condicional)))(((caracter dos puntos)))(((signo de
-interrogación)))El último operador lógico del que hablaré no es unario,
+interrogación)))El último operador lógico del que hablaré no es unitario,
 ni binario, sino _ternario_, opera en tres valores. Este es escrito con
 un símbolo de interrogación  y dos puntos, como sigue:
 
@@ -467,7 +467,7 @@ console.log(false ? 1 : 2);
 // → 2
 ----
 
-Esste es llamado el operador _condicional_ (o algunas veces el operador
+Este es llamado el operador _condicional_ (o algunas veces el operador
 _tenario_ dado que es el único operador de este tipo en el lenguaje).
 El valor a la izquierda del signo de interrogación "escoge" cuál de los
 otros dos valores resultará. Cuando es verdadero, el valor central es
@@ -481,7 +481,7 @@ de un valor con significado. Son valores en sí mismos, pero no poseen
 ninguna información.
 
 Muchas operaciones en el lenguaje que no producen un valor con significado
-(lo verás después) producen `undefined` simplemente porque tienen producir
+(lo verás después) producen `undefined` simplemente porque tienen que producir
 _algún_ valor.
 
 La diferencia en el significado entre `undefined` y `null` es un accidente del
@@ -516,7 +516,7 @@ que espera, usando un conjunto de reglas que a menudo no son lo que
 tú quieres o esperas. Esto es llamado _((coerción de tipo))_. Así que
 el `null` en la primera expresión se vuelve `0`, y el `"5"` en la
 segunda expresión se convierte en `5` (de cadena a número). Aún así,
-em la tercera expresión, `+` intenta hacer concatenación de cadenas
+en la tercera expresión, `+` intenta hacer concatenación de cadenas
 antes de suma numérica, así que el `1` es convertido en `"1"` (de
 número a cadena).
 
@@ -554,7 +554,7 @@ simplemente comparas contra `null` con el operador `==` (o `!=`).
  ===)))(((operador !==)))(((comparación)))¿Y si quieres probar
 si algo se refiere precisamente al valor `false`? Las reglas para
 convertir cadenas y números a Booleanos dicen que `0`, `NaN` y la
-cadena vacía (`""`) cuantan como `false`, mientras que todos los
+cadena vacía (`""`) cuentan como `false`, mientras que todos los
 demás valores cuentan como `true`. Debido a esto, expresiones como
 `0 == false` y `"" == false` también son verdaderas. Para casos como
 este en el que _no_ quieres que ocurra ninguna conversión automática
@@ -594,7 +594,7 @@ console.log("Karl" || "user")
 (((valor por defecto)))Esta funcionalidad permite al operador `||`
 ser usado como una manera de respaldarnos con un valor por defecto.
 Si le das en el lado izquierdo una expresión que puede producir
-un valor vacío, el valor de l aderecha será usado como reemplazo
+un valor vacío, el valor de la derecha será usado como reemplazo
 dado el caso.
 
 (((operador &&)))El operador `&&` funciona de manera similar, pero
@@ -625,7 +625,7 @@ valor (`13`, `"abc"`). Puedes combinar y transformar valores con los
 operadores. Vimos operadores binarios para aritmética(`+`, `-`,
 `*`, `/` y `%`), concatenación de cadenas (`+`), comparación
 (`==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=`), y lógica
-(`&&`, `||`), así como varios operadores unarios (`-` para hacer
+(`&&`, `||`), así como varios operadores unitarios (`-` para hacer
 negativo un número, `!` para negar lógicamente y `typeof` para
 obtener el tipo de un valor) y un operador ternario (`?:`) para
 elegir entre dos valores basándonos en un tercero.

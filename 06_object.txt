@@ -17,7 +17,7 @@ ____
 (((Armstrong+++,+++ Joe)))(((objeto)))(((guerra sagrada)))Cuando un
 programador dice ˝objeto˝, este es un término amplio. En mi profesión,
 los objetos son una forma de vida, tema de guerras sagradas y una
-amada palabra de demodé que todavía no ha perdido su gran poder.
+amada palabra llamativa que todavía no ha perdido su gran poder.
 
 Para alguien ajeno, esto es probablemente un poco confuso. Empecemos
 con una introducción a la ((historia)) de los objetos como una forma

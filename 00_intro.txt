@@ -165,22 +165,22 @@ instrucción. Podría ser escrita en español como sigue:
 
 [source,text/plain]
 ----
-1. Guarda el número 0 en la locación de memoria 0.
-2. Guarda el número 1 en la locación de memoria 1.
-3. Guarda el valor de la locación de memoria 1 en la locación 2.
-4. Resta 11 del valor en la locación de memoria 2.
-5. Si el valor en la locación de memoria 2 es el número 0,
+1. Guarda el número 0 en la dirección de memoria 0.
+2. Guarda el número 1 en la dirección de memoria 1.
+3. Guarda el valor de la dirección de memoria 1 en la dirección 2.
+4. Resta 11 del valor en la dirección de memoria 2.
+5. Si el valor en la dirección de memoria 2 es el número 0,
    continúa con la instrucción 9.
-6. Suma el valor de la locación de memoria 1 al valor de la
-   locación de memoria 0.
-7. Suma 1 al valor de la locación de memoria 1.
+6. Suma el valor de la dirección de memoria 1 al valor de la
+   dirección de memoria 0.
+7. Suma 1 al valor de la dirección de memoria 1.
 8. Continúa con la instrucción 3.
-9. Devuelve el valor de la locación de memoria 0.
+9. Devuelve el valor de la dirección de memoria 0.
 ----
 
-(((legibilidad)))(((nombramiento)))(((variable)))Aunque eso es más leíble que
+(((legibilidad)))(((nombramiento)))(((variable)))Aunque eso es más legible que
 una sopa de bits, sigue sin ser agradable. Podría ayudar usar nombres en los números
-para las instrucciones y locaciones de memoria.
+para las instrucciones y direcciones de memoria.
 
 [source,text/plain]
 ----

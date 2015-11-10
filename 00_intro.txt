@@ -205,7 +205,7 @@ trabajando en este momento. Las líneas que usan `comparación` son probablement
 las más raras. El programa quiere ver si `conteo` es igual a 11 para saber si
 puede terminar. A causa de que nuestra máquina hipotética es más bien primitiva,
 solo puede probar si un número es cero y tomar una decisión (o salto) basada
-en eso. Así que usa la locación de memoria etiquetada como `comparación` para
+en eso. Así que usa la dirección de memoria etiquetada como `comparación` para
 calcular el valor de `conteo - 11` y toma una decisión basada en ese valor.
 Las próximas dos líneas suman el valor de `conteo` al resultado e incrementan
 `conteo` en 1 cada vez que el programa ha decido que `conteo` no es todavía 11.

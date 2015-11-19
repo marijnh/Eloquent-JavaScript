@@ -545,6 +545,8 @@ used to counting from 0.
 control structure similar to the `while` loop. It differs only on one
 point: a `do` loop always executes its body at least once, and it
 starts testing whether it should stop only after that first execution.
+The condition to test is tested by a while statement.
+
 To reflect this, the test appears after the body of the loop:
 
 [source,javascript]

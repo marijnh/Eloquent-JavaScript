@@ -216,38 +216,37 @@ recorren un arreglo.
 
 [source,javascript]
 ----
-function gatherCorrelations(journal) {
+function reuneCorrelaciones(diario) {
   var phis = {};
-  for (var entry = 0; entry < journal.length; entry++) {
-    var events = journal[entry].events;
+  for (var entrada = 0; entrada < diario.length; entrada++) {
+    var eventos = diario[entrada].events;
     for (var i = 0; i < events.length; i++) {
-      var event = events[i];
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
+      var evento = eventos[i];
+      if (!(evento in phis))
+        phis[evento] = phi(tableFor(evento, diario));
     }
   }
   return phis;
 }
 ----
 
-(((forEach method)))Working with `forEach` makes it slightly shorter
-and quite a bit cleaner.
+(((método forEach))) `forEach` la hace un poco más corta y limpia.
 
 [source,javascript]
 ----
-function gatherCorrelations(journal) {
+function reuneCorrelaciones(diario) {
   var phis = {};
-  journal.forEach(function(entry) {
-    entry.events.forEach(function(event) {
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
+  diario.forEach(function(entrada) {
+    entrada.eventos.forEach(function(evento) {
+      if (!(evento in phis))
+        phis[evento] = phi(tableFor(evento, diario));
     });
   });
   return phis;
 }
 ----
 
-== Higher-order functions ==
+== Funciones de Orden Superior ==
 
 (((function,higher-order)))(((function,as value)))Functions that
 operate on other functions, either by taking them as arguments or by

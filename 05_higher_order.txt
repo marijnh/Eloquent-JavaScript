@@ -216,76 +216,74 @@ recorren un arreglo.
 
 [source,javascript]
 ----
-function gatherCorrelations(journal) {
+function reuneCorrelaciones(diario) {
   var phis = {};
-  for (var entry = 0; entry < journal.length; entry++) {
-    var events = journal[entry].events;
+  for (var entrada = 0; entrada < diario.length; entrada++) {
+    var eventos = diario[entrada].events;
     for (var i = 0; i < events.length; i++) {
-      var event = events[i];
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
+      var evento = eventos[i];
+      if (!(evento in phis))
+        phis[evento] = phi(tableFor(evento, diario));
     }
   }
   return phis;
 }
 ----
 
-(((forEach method)))Working with `forEach` makes it slightly shorter
-and quite a bit cleaner.
+(((método forEach))) `forEach` la hace un poco más corta y limpia.
 
 [source,javascript]
 ----
-function gatherCorrelations(journal) {
+function reuneCorrelaciones(diario) {
   var phis = {};
-  journal.forEach(function(entry) {
-    entry.events.forEach(function(event) {
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
+  diario.forEach(function(entrada) {
+    entrada.eventos.forEach(function(evento) {
+      if (!(evento in phis))
+        phis[evento] = phi(tableFor(evento, diario));
     });
   });
   return phis;
 }
 ----
 
-== Higher-order functions ==
+== Funciones de Orden Superior ==
 
-(((function,higher-order)))(((function,as value)))Functions that
-operate on other functions, either by taking them as arguments or by
-returning them, are called _higher-order functions_. If you have
-already accepted the fact that functions are regular values, there is
-nothing particularly remarkable about the fact that such functions
-exist. The term comes from ((mathematics)), where the distinction
-between functions and other values is taken more seriously.
+(((función,de orden superior)))(((función,como valor)))Las funciones que
+operan en otras funceiones, ya sea tomándolas como argumentos o regresándolas,
+son llamadas _funciones de orden superior_. Si ya has aceptado el hecho de que las funciones son 
+valores reulares, no hay nada de especial en el hecho de que estas funciones
+existan. El términos viene de las ((matemáticas)), en dónde la distinción
+entre las funciones y otros valores es tomado más seriamente. 
 
-(((abstraction)))Higher-order functions allow us to abstract over
-_actions_, not just values. They come in several forms. For example,
-you can have functions that create new functions.
+(((abstracción)))Las funciones de orden superior nos permiten abstraer
+_acciones_, no sólo valores. Pueden venir en diferentes formas. Por ejemplo
+puedes tener funciones que creen nuevas funciones.
 
 [source,javascript]
 ----
-function greaterThan(n) {
+function mayorQue(n) {
   return function(m) { return m > n; };
 }
-var greaterThan10 = greaterThan(10);
-console.log(greaterThan10(11));
+var mayorQue10 = mayorQue(10);
+console.log(mayorQue10(11));
 // → true
 ----
 
-And you can have functions that change other functions.
+Y puedes tener funciones que cambien otras funciones.
 
 [source,javascript]
 ----
-function noisy(f) {
+function ruidosa(f) {
   return function(arg) {
-    console.log("calling with", arg);
+    console.log("llamando con", arg);
     var val = f(arg);
-    console.log("called with", arg, "- got", val);
+    console.log("llamada con", arg, "- got", val);
     return val;
   };
 }
-noisy(Boolean)(0);
-// → calling with 0
-// → called with 0 - got false
+ruidosa(Boolean)(0);
+// → llamando con 0
+// → llamada con 0 - obtuve false
 ----
 
 You can even write functions that provide new types of ((control flow)).

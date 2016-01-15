@@ -1,7 +1,6 @@
 dependencies:
   override:
     - npm install --production
-    - sudo apt-get install asciidoc inkscape
     - sudo pip install awscli
 
 test:

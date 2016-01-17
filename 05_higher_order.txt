@@ -286,24 +286,24 @@ ruidosa(Boolean)(0);
 // → llamada con 0 - obtuve false
 ----
 
-You can even write functions that provide new types of ((control flow)).
+Incluso puedes escribir funciones que creen nuevos tipos ((control de flujo)).
 
 [source,javascript]
 ----
-function unless(test, then) {
-  if (!test) then();
+function a_menos_que(condicion, entonces) {
+  if (!condicion) entonces();
 }
-function repeat(times, body) {
-  for (var i = 0; i < times; i++) body(i);
+function repetir(veces, cuerpo) {
+  for (var i = 0; i < veces; i++) cuerpo(i);
 }
 
-repeat(3, function(n) {
-  unless(n % 2, function() {
-    console.log(n, "is even");
+repetir(3, function(n) {
+  a_menos_que(n % 2, function() {
+    console.log(n, "es par");
   });
 });
-// → 0 is even
-// → 2 is even
+// → 0 es par
+// → 2 es par
 ----
 
 (((inner function)))(((nesting,of functions)))((({}

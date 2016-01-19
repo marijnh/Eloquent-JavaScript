@@ -12,7 +12,7 @@ image::img/generated/computer.png[alt="Communicating with a computer"]
 
 (((graphical user interface)))We've found two effective ways of
 bridging the communication gap between us, squishy biological
-organisms with a talent for social and spatial reasoning, and 
+organisms with a talent for social and spatial reasoning, and
 computers, unfeeling manipulators of meaningless data. The first is to
 appeal to our sense of the physical world and build interfaces that
 mimic that world and allow us to manipulate shapes on a screen with
@@ -129,147 +129,6 @@ challenges and new territory to explore. Programmers who refuse to
 keep exploring will stagnate, forget their joy, and get bored with
 their craft.
 
-== Why language matters ==
-
-(((programming language)))(((machine code)))(((binary data)))In the
-beginning, at the birth of computing, there were no programming
-languages. Programs looked something like this:
-
-----
-00110001 00000000 00000000
-00110001 00000001 00000001
-00110011 00000001 00000010
-01010001 00001011 00000010
-00100010 00000010 00001000
-01000011 00000001 00000000
-01000001 00000001 00000001
-00010000 00000010 00000000
-01100010 00000000 00000000
-----
-
-(((programming,history of)))(((punch card)))(((complexity)))That is a
-program to add the numbers from 1 to 10 together and print out the
-result: `1 + 2 + ... + 10 = 55`. It could run on a simple,
-hypothetical machine. To program early computers, it was necessary to
-set large arrays of switches in the right position or punch holes in
-strips of cardboard and feed them to the computer. You can probably imagine
-how tedious and error-prone this procedure was. Even writing simple
-programs required much cleverness and discipline. Complex ones were
-nearly inconceivable.
-
-(((bit)))(((wizard (mighty))))Of course, manually entering these
-arcane patterns of bits (the ones and zeros) did give the programmer
-a profound sense of being a mighty wizard. And that has to be worth
-something in terms of job satisfaction.
-
-(((memory)))(((instruction)))Each line of the previous program contains a
-single instruction. It could be written in English like this:
-
-[source,text/plain]
-----
-1. Store the number 0 in memory location 0.
-2. Store the number 1 in memory location 1.
-3. Store the value of memory location 1 in memory location 2.
-4. Subtract the number 11 from the value in memory location 2.
-5. If the value in memory location 2 is the number 0,
-   continue with instruction 9.
-6. Add the value of memory location 1 to memory location 0.
-7. Add the number 1 to the value of memory location 1.
-8. Continue with instruction 3.
-9. Output the value of memory location 0.
-----
-
-(((readability)))(((naming)))(((variable)))Although that is already
-more readable than the soup of bits, it is still rather unpleasant. It
-might help to use names instead of numbers for the instructions and
-memory locations.
-
-[source,text/plain]
-----
- Set “total” to 0.
- Set “count” to 1.
-[loop]
- Set “compare” to “count”.
- Subtract 11 from “compare”.
- If “compare” is zero, continue at [end].
- Add “count” to “total”.
- Add 1 to “count”.
- Continue at [loop].
-[end]
- Output “total”.
-----
-
-(((loop)))(((jump)))(((summing example)))Can you see how the program
-works at this point? The first two lines give
-two memory locations their starting values: `total` will be used to
-build up the result of the computation, and `count` will keep track of the
-number that we are currently looking at. The lines using `compare` are
-probably the weirdest ones. The program wants to see
-whether `count` is equal to 11 in order to decide whether it can stop
-running. Because our hypothetical machine is rather primitive, it can only
-test whether a number is zero and make a decision (or jump) based on
-that. So it uses the memory location labeled `compare` to compute the
-value of `count - 11` and makes a decision based on that value. The
-next two lines add the value of `count` to the result and increment
-`count` by 1 every time the program has decided that `count` is not 11 yet.
-
-Here is the same program in JavaScript:
-
-[source,javascript]
-----
-var total = 0, count = 1;
-while (count <= 10) {
-  total += count;
-  count += 1;
-}
-console.log(total);
-// → 55
-----
-
-(((while loop)))(((loop)))This version gives us a few more improvements.
-Most importantly, there is no need to specify the way we want the
-program to jump back and forth anymore. The `while` language
-construct takes care of that. It continues executing the block
-(wrapped in braces) below it as long as the condition it was given
-holds. That condition is `count <= 10`, which means “++count++ is less than or equal to
-10”. We no longer have to create a temporary value and compare that
-to zero, which was an uninteresting detail. Part of the power of
-programming languages is that they take care of uninteresting details
-for us.
-
-(((console.log)))At the end of the program, after the `while` construct has
-finished, the `console.log` operation is applied to the result in
-order to write it as output.
-
-(((sum function)))(((range
-function)))(((abstraction)))(((function)))Finally, here is what the
-program could look like if we happened to have the convenient
-operations `range` and `sum` available, which respectively create a
-((collection)) of numbers within a range and compute the sum of a
-collection of numbers:
-
-// start_code
-
-[source,javascript]
-----
-console.log(sum(range(1, 10)));
-// → 55
-----
-
-(((readability)))The moral of this story is that the same program can
-be expressed in long and short, unreadable and readable ways. The
-first version of the program was extremely obscure, whereas this last
-one is almost English: `log` the `sum` of the `range` of numbers from
-1 to 10. (We will see in link:04_data.html#data[later chapters] how to
-build operations like `sum` and `range`.)
-
-(((programming language,power of)))(((composability)))A good
-programming language helps the programmer by allowing them to talk
-about the actions that the computer has to perform on a higher level.
-It helps omit uninteresting details, provides convenient building
-blocks (such as `while` and `console.log`), allows you to define your
-own building blocks (such as `sum` and `range`), and makes those blocks
-easy to compose.
 
 == What is JavaScript? ==
 
@@ -290,59 +149,6 @@ good judgment. When JavaScript was being introduced, the Java language
 was being heavily marketed and was gaining popularity. Someone
 thought it was a good idea to try to ride along on this success. Now we
 are stuck with the name.
-
-(((ECMAScript)))(((compatibility)))After its adoption outside of
-Netscape, a ((standard)) document was written to describe the way the
-JavaScript language should work to make sure the various pieces of
-software that claimed to support JavaScript were actually talking
-about the same language. This is called the ECMAScript standard, after
-the Ecma International organization that did the standardization. In
-practice, the terms ECMAScript and JavaScript can be used interchangeably—they
-are two names for the same language.
-
-(((JavaScript,weaknesses of)))(((debugging)))There are those who will
-say _terrible_ things about the JavaScript language. Many of these
-things are true. When I was required to write something in JavaScript
-for the first time, I quickly came to despise it. It would accept
-almost anything I typed but interpret it in a way that was completely
-different from what I meant. This had a lot to do with the fact that I
-did not have a clue what I was doing, of course, but there is a real
-issue here: JavaScript is ridiculously liberal in what it allows. The
-idea behind this design was that it would make programming in
-JavaScript easier for beginners. In actuality, it mostly makes finding
-problems in your programs harder because the system will not point
-them out to you.
-
-(((JavaScript,flexibility of)))(((flexibility)))This flexibility also
-has its advantages, though. It leaves space for a lot of techniques
-that are impossible in more rigid languages, and as you will see (for
-example in link:10_modules.html#modules[Chapter 10]) it
-can be used to overcome some of JavaScript's shortcomings. After
-((learning)) the language properly and working with it for a while, I have
-learned to actually _like_ JavaScript.
-
-(((future)))(((JavaScript,versions of)))(((ECMAScript)))(((ECMAScript
-6)))There have been several versions of JavaScript. ECMAScript
-version 3 was the widely supported version in the time of
-JavaScript's ascent to dominance, roughly between 2000 and 2010.
-During this time, work was underway on an ambitious version 4, which
-planned a number of radical improvements and extensions to the
-language. Changing a living, widely used language in such a radical
-way turned out to be politically difficult, and work on the version 4
-was abandoned in 2008, leading to the much less ambitious version 5
-coming out in 2009. We're now at the point where all major
-browsers support version 5, which is the language version that
-this book will be focusing on. A version 6 is in the process of
-being finalized, and some browsers are starting to support new
-features from this version.
-
-(((JavaScript,uses of)))Web browsers are not the only platforms on
-which JavaScript is used. Some databases, such as MongoDB and CouchDB,
-use JavaScript as their scripting and query language. Several
-platforms for desktop and server programming, most notably the
-((Node.js)) project (the subject of link:20_node.html#node[Chapter
-20]) are providing a powerful environment for programming JavaScript
-outside of the browser.
 
 == Code, and what to do with it ==
 
@@ -392,64 +198,6 @@ files. The http://eloquentjavascript.net/code[sandbox] on the website
 provides links to Zip files containing all of the scripts and data
 files necessary to run the code for a given chapter.
 
-== Overview of this book ==
-
-This book contains roughly three parts. The first 11 chapters discuss
-the JavaScript language itself. The next eight chapters are about web
-((browsers)) and the way JavaScript is used to program them. Finally,
-two chapters are devoted to ((Node.js)), another environment to program
-JavaScript in.
-
-Throughout the book, there are five _project chapters_, which describe
-larger example programs to give you a taste of real programming. In
-order of appearance, we will work through building an
-link:07_elife.html#elife[artificial life simulation], a
-link:11_language.html#language[programming language], a
-link:15_game.html#game[platform game], a
-link:19_paint.html#paint[paint program], and a
-link:21_skillsharing.html#skillsharing[dynamic website].
-
-The language part of the book starts with four chapters to introduce
-the basic structure of the JavaScript language. They introduce
-link:02_program_structure.html#program_structure[control structures]
-(such as the `while` word you saw in this introduction),
-link:03_functions.html#functions[functions] (writing your own
-operations), and link:04_data.html#data[data structures]. After these,
-you will be able to write simple programs. Next, Chapters
-link:05_higher_order.html#higher_order[5] and
-link:06_object.html#object[6] introduce techniques to use functions
-and objects to write more _abstract_ code and thus keep complexity
-under control.
-
-After a link:07_elife.html#elife[first project chapter], the first
-part of the book continues with chapters on
-link:08_error.html#error[error handling and fixing], on
-link:09_regexp.html#regexp[regular expressions] (an important tool for
-working with text data), and on
-link:10_modules.html#modules[modularity]—another weapon against
-complexity. The link:11_language.html#language[second project chapter]
-concludes the first part of the book.
-
-The second part, Chapters link:12_browser.html#browser[12] to
-link:19_paint.html#paint[19], describes the tools that browser
-JavaScript has access to. You'll learn to display things on the screen
-(Chapters link:13_dom.html#dom[13] and
-link:16_canvas.html#canvas[16]), respond to user input (Chapters
-link:14_event.html#event[14] and link:18_forms.html#forms[18]), and
-communicate over the network (link:17_http.html#http[Chapter 17]).
-There are again two project chapters in this part.
-
-After that, link:20_node.html#node[Chapter 20] describes Node.js, and
-link:21_skillsharing.html#skillsharing[Chapter 21] builds a simple web
-system using that tool.
-
-ifdef::commercial_target[]
-
-Finally, link:22_fast.html#fast[Chapter 22] describes some of the
-considerations that come up when optimizing JavaScript programs for
-speed.
-
-endif::commercial_target[]
 
 == Typographic conventions ==
 

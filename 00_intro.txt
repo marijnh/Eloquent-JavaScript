@@ -182,6 +182,35 @@ files. The http://eloquentjavascript.net/code[sandbox] on the website
 provides links to Zip files containing all of the scripts and data
 files necessary to run the code for a given chapter.
 
+== Programming Environment and TLC Library ==
+
+TODO! Please write me.
+
+Ideas:
+
+Browser based. Editing files and loading them into the browser. Reason: pictures!
+
+We probably need to have some simple standard library that will create
+somewhere to print output to (a <pre>? Or something?). It should also
+be able to put canvas output, so that people can write, in their program:
+
+`circle(10, "green")`
+
+And have it show up somewhere!
+
+```
+<html>
+<body>
+<div id="output">
+</div>
+<script src="https://.../tlc.js">
+<script src="myprogram.js"></script>
+</body>
+</html>
+```
+
+And we have to override `console.log` to print to our output. Or just
+define a "print".
 
 == Typographic conventions ==
 

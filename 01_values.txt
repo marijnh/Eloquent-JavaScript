@@ -51,22 +51,29 @@ complicated expressions:
 
 [source,javascript]
 ----
+console.log(1 + 2 * 3 - 4)
+----
+
+Like human languages, programming languages have a grammar, which
+often allows certain expressions (or entire programs) to be embedded
+within other programs, as we can see with our program `1 + 2` in the
+second example. As in arithmetic, sometimes a program could be
+ambiguous. For example, in the previous example, if we first evaluated
+`1 + 2` before multiplying by `3` we would get a different
+answer. These kind of ambiguities are resolved in the same way as
+arithmetic - with rules of "precedence" (what operations "precede"
+others) and parenthesis to override them.
+
+As an exercise, consider the following:
+
+[source,javascript]
+----
 console.log((1 + 2) * 3 - 4)
 ----
 
 This prints out `5` right now. Try adding parenthesis so that it
 prints out `-3`. Now try changing the parenthesis so that it prints
 out 3.
-
-Like human languages, programming languages have a grammar, which
-often allows certain expressions (or entire programs) to be embedded
-within other programs, as we can see with our program "1 + 2" in the
-second example. As in arithmetic, sometimes a program could be
-ambiguous. For example, in the previous example, if we first evaluated
-"3 - 4" before multiplying by "1 + 2" we would get a different answer
-than if we multiplied by 3 first. These kind of ambiguities are
-resolved in the same way as arithmetic - with rules of "precedence"
-(what operations "precede" others) and parenthesis to override them.
 
 But programs aren't all about numbers! Indeed, most programs deal with
 more interesting forms of data. "String"s are used to represent

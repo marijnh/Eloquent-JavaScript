@@ -54,6 +54,10 @@ complicated expressions:
 console.log((1 + 2) * 3 - 4)
 ----
 
+This prints out `5` right now. Try adding parenthesis so that it
+prints out `-3`. Now try changing the parenthesis so that it prints
+out 3.
+
 Like human languages, programming languages have a grammar, which
 often allows certain expressions (or entire programs) to be embedded
 within other programs, as we can see with our program "1 + 2" in the

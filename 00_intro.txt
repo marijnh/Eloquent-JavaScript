@@ -45,15 +45,6 @@ want.
 
 == On programming ==
 
-[quote, Confucius]
-____
-(((Confucius)))I do not enlighten those who are not eager to learn,
-nor arouse those who are not anxious to give an explanation
-themselves. If I have presented one corner of the square and they
-cannot come back to me with the other three, I should not go over the
-points again.
-____
-
 (((programming,difficulty of)))Besides explaining JavaScript, I also
 will introduce the basic principles of programming. Programming, it
 turns out, is hard. The fundamental rules are typically simple and
@@ -73,13 +64,6 @@ reread some material, and _always_ make sure you read and understand
 the example programs and ((exercises)). Learning is hard work, but
 everything you learn is yours and will make subsequent learning
 easier.
-
-[quote, Joseph Weizenbaum, Computer Power and Human Reason]
-____
-(((Weizenbaum+++,+++ Joseph)))The computer programmer is a creator of
-universes for which he [sic] alone is responsible. Universes of virtually
-unlimited complexity can be created in the form of computer programs.
-____
 
 (((program,nature of)))(((data)))A program is many things. It is a
 piece of text typed by a programmer, it is the directing force that

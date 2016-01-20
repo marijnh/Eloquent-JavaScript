@@ -46,4 +46,6 @@ function circle(radius, color) {
   ctx.fill();
 
   _addOutput(canvas);
+
+  return { tlc_dt: "circle", radius: radius, color: color };
 }

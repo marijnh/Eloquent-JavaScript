@@ -5,16 +5,6 @@
 
 = Values, Types, and Operators =
 
-[chapterquote="true"]
-[quote, Master Yuan-Ma, The Book of Programming]
-____
-Below the surface of the
-machine, the program moves. Without effort, it expands and contracts.
-In great harmony, electrons scatter and regroup. The forms on the
-monitor are but ripples on the water. The essence stays invisibly
-below.
-____
-
 At the core, programming is just about following instructions. You, as
 the programmer, will write instructions that the computer will follow.
 

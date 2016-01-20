@@ -50,7 +50,7 @@ resolved in the same way as arithmetic - with rules of "precedence"
 (what operations "precede" others) and parenthesis to override them.
 
 But programs aren't all about numbers! Indeed, most programs deal with
-more interesting forms of data. _((String))_s are used to represent
+more interesting forms of data. "String"s are used to represent
 text. They are written by enclosing their content in quotes.
 
 [source,javascript]

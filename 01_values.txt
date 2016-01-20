@@ -30,13 +30,38 @@ Which tells the computer, as you were told when first learning
 arithmetic, to add the numbers 1 and 2 together. The result of this
 program is the number 3.
 
-You can also do other basic arithmetic, and you can write more
-complicated expressions:
+While this program evaluates to 3, we haven't told the computer what
+to do with that value. So it won't do anything, and we won't see any
+result if we run the program above.
 
+One of the most common things we want to do is print values to the
+screen. This is helpful not only in figuring out if our programs are
+working, but also to let people actually use them. In Javascript, we can
+print any value to the screen with the "console.log" operation. This is done like:
 
 [source,javascript]
 ----
-(1 + 2) * 3 - 4
+console.log(1 + 2)
+----
+
+You put what you want to print out inside the parethesis that follow
+`console.log`. This might remind you of functions in algebra class,
+where you may have seen `f(x)` or similar.
+
+If you want to print multiple expressions out, you can do that as well:
+
+[source,javascript]
+----
+console.log(1 + 2)
+console.log(3 - 2)
+----
+
+You can also do other basic arithmetic, and you can write more
+complicated expressions:
+
+[source,javascript]
+----
+console.log((1 + 2) * 3 - 4)
 ----
 
 Like human languages, programming languages have a grammar, which
@@ -61,6 +86,13 @@ text. They are written by enclosing their content in quotes.
 
 Both single and double quotes can be used to mark strings as long as
 the quotes at the start and the end of the string match.
+
+You can also print out strings:
+
+[source,javascript]
+----
+console.log("Patch my boat with chewing gum")
+----
 
 (((line break)))(((newline character)))Almost anything can be put
 between quotes, and JavaScript will make a string value out of it. But

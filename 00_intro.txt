@@ -184,7 +184,7 @@ files necessary to run the code for a given chapter.
 
 == Programming Environment and TLC Library ==
 
-TODO! Please write me.
+Libby, Daniel P, and Tim have started on this.
 
 Ideas:
 
@@ -198,19 +198,23 @@ be able to put canvas output, so that people can write, in their program:
 
 And have it show up somewhere!
 
-```
-<html>
-<body>
-<div id="output">
-</div>
-<script src="https://.../tlc.js">
-<script src="myprogram.js"></script>
-</body>
-</html>
-```
+The boilerplate will need to be:
 
-And we have to override `console.log` to print to our output. Or just
-define a "print".
+----
+<body>
+  <script src="http://tlcjs.dbp.io/tlc.js">
+  <script src="myprogram.js"></script>
+----
+
+Then we can write myprogram like:
+
+---
+circle(10, "green");
+circle(30, "red");
+print("Hello world!");
+circle(50, "black");
+print(1 + 2 - 3);
+---
 
 == Typographic conventions ==
 

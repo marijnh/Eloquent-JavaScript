@@ -204,8 +204,7 @@ files necessary to run the code for a given chapter.
 (((factorial function)))In this book, text written in a `monospaced`
 font will represent elements of programs—sometimes
 they are self-sufficient fragments, and sometimes they just refer to
-part of a nearby program. Programs (of which you have already seen a
-few), are written as follows:
+part of a nearby program. Programs are written as follows:
 
 [source,javascript]
 ----

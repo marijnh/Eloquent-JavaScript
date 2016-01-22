@@ -133,6 +133,13 @@ function draw(scene) {
 
 }
 
+/* emptyScene :: number -> number -> scene */
+function emptyScene(width, height) {
+  return { elements: [],
+           width: width,
+           height: height };
+}
+
 /* overlay :: scene-> scene -> scene */
 function overlay(foreground, background) {
   var newX = background.width/2

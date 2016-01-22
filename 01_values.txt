@@ -31,19 +31,19 @@ print any value to the screen with the "console.log" operation. This is done lik
 
 [source,javascript]
 ----
-console.log(1 + 2)
+print(1 + 2)
 ----
 
 You put what you want to print out inside the parethesis that follow
-`console.log`. This might remind you of functions in algebra class,
+`print`. This might remind you of functions in algebra class,
 where you may have seen `f(x)` or similar.
 
 If you want to print multiple expressions out, you can do that as well:
 
 [source,javascript]
 ----
-console.log(1 + 2)
-console.log(3 - 2)
+print(1 + 2)
+print(3 - 2)
 ----
 
 You can also do other basic arithmetic, and you can write more
@@ -51,7 +51,7 @@ complicated expressions:
 
 [source,javascript]
 ----
-console.log(1 + 2 * 3 - 4)
+print(1 + 2 * 3 - 4)
 ----
 
 Like human languages, programming languages have a grammar, which
@@ -68,7 +68,7 @@ As an exercise, consider the following:
 
 [source,javascript]
 ----
-console.log((1 + 2) * 3 - 4)
+print((1 + 2) * 3 - 4)
 ----
 
 This prints out `5` right now. Try adding parenthesis so that it
@@ -92,7 +92,7 @@ You can also print out strings:
 
 [source,javascript]
 ----
-console.log("Patch my boat with chewing gum")
+print("Patch my boat with chewing gum")
 ----
 
 (((line break)))(((newline character)))Almost anything can be put
@@ -156,16 +156,16 @@ you give it.
 
 [source,javascript]
 ----
-console.log(typeof 4.5)
+print(typeof 4.5)
 // → number
-console.log(typeof "x")
+print(typeof "x")
 // → string
 ----
 
-[[console.log]]
+[[print]]
 
-(((console.log)))(((output)))(((JavaScript console)))We will use
-`console.log` in example code to indicate that we want to see the
+(((print)))(((output)))(((JavaScript console)))We will use
+`print` in example code to indicate that we want to see the
 result of evaluating something. When you run such code, the value
 produced should be shown on the screen, though how it appears will
 depend on the JavaScript environment you use to run it.
@@ -179,7 +179,7 @@ and as a unary operator.
 
 [source,javascript]
 ----
-console.log(- (10 - 2))
+print(- (10 - 2))
 // → -8
 ----
 
@@ -197,9 +197,9 @@ false (which are written simply as those words).
 
 [source,javascript]
 ----
-console.log(3 > 2)
+print(3 > 2)
 // → true
-console.log(3 < 2)
+print(3 < 2)
 // → false
 ----
 
@@ -213,7 +213,7 @@ Strings can be compared in the same way.
 
 [source,javascript]
 ----
-console.log("Aardvark" < "Zoroaster")
+print("Aardvark" < "Zoroaster")
 // → true
 ----
 
@@ -236,7 +236,7 @@ than or equal to), `<=` (less than or equal to), `==` (equal to), and
 
 [source,javascript]
 ----
-console.log("Itchy" != "Scratchy")
+print("Itchy" != "Scratchy")
 // → true
 ----
 
@@ -246,7 +246,7 @@ a number”.
 
 [source,javascript]
 ----
-console.log(NaN == NaN)
+print(NaN == NaN)
 // → false
 ----
 
@@ -267,9 +267,9 @@ the values given to it are true.
 
 [source,javascript]
 ----
-console.log(true && false)
+print(true && false)
 // → false
-console.log(true && true)
+print(true && true)
 // → true
 ----
 
@@ -278,9 +278,9 @@ _or_. It produces true if either of the values given to it is true.
 
 [source,javascript]
 ----
-console.log(false || true)
+print(false || true)
 // → true
-console.log(false || false)
+print(false || false)
 // → false
 ----
 
@@ -310,9 +310,9 @@ question mark and a colon, like this:
 
 [source,javascript]
 ----
-console.log(true ? 1 : 2);
+print(true ? 1 : 2);
 // → 1
-console.log(false ? 1 : 2);
+print(false ? 1 : 2);
 // → 2
 ----
 
@@ -346,15 +346,15 @@ is nicely demonstrated by the following expressions:
 
 [source,javascript]
 ----
-console.log(8 * null)
+print(8 * null)
 // → 0
-console.log("5" - 1)
+print("5" - 1)
 // → 4
-console.log("5" + 1)
+print("5" + 1)
 // → 51
-console.log("five" * 2)
+print("five" * 2)
 // → NaN
-console.log(false == 0)
+print(false == 0)
 // → true
 ----
 
@@ -387,9 +387,9 @@ are one of `null` or `undefined`.
 
 [source,javascript]
 ----
-console.log(null == undefined);
+print(null == undefined);
 // → true
-console.log(null == 0);
+print(null == 0);
 // → false
 ----
 
@@ -431,9 +431,9 @@ other types.
 
 [source,javascript]
 ----
-console.log(null || "user")
+print(null || "user")
 // → user
-console.log("Karl" || "user")
+print("Karl" || "user")
 // → Karl
 ----
 

@@ -233,13 +233,13 @@ function fac(n) {
 }
 ----
 
-(((console.log)))Sometimes, in order to show the output that a program
+(((print)))Sometimes, in order to show the output that a program
 produces, the expected output is written after it, with two slashes
 and an arrow in front.
 
 [source,javascript]
 ----
-console.log(fac(8));
+print(fac(8));
 // → 40320
 ----
 

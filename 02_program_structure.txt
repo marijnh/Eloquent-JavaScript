@@ -98,7 +98,7 @@ variable currently holds. Here's an example:
 [source,javascript]
 ----
 var ten = 10;
-console.log(ten * ten);
+print(ten * ten);
 // → 100
 ----
 
@@ -115,7 +115,7 @@ variables. The definitions must be separated by commas.
 [source,javascript]
 ----
 var one = 1, two = 2;
-console.log(one + two);
+print(one + two);
 // → 3
 ----
 
@@ -188,7 +188,9 @@ Values given to functions are called _((argument))s_. The `alert`
 function needs only one of them, but other functions might need a
 different number or different types of arguments.
 
-== The console.log function ==
+== The print function ==
+
+TODO(dbp 2016-01-21): Rewrite this for our print!
 
 (((JavaScript console)))(((developer
 tools)))(((Node.js)))(((console.log)))(((output)))The `alert` function

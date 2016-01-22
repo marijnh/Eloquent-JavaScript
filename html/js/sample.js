@@ -1,10 +1,20 @@
-draw(circle(10, "green"));
+draw(circle(10, "black"));
 draw(circle(30, "red"));
 print("Hello world!");
-draw(circle(50, "black"));
-print(1 + 2 - 3);
+print("Calculating (1 + 2 - 3): " + (1 + 2 - 3));
 
-draw(placeImage(circle(20,"black"),circle(10,"white")));
+print("SMASH THE STATE");
+draw(rectangle(125, 75, "black"));
 
-var collage = placeImage(circle(10,"black"),circle(20,"white"));
-draw(placeImage(collage, circle(15, "red")));
+var eye = overlay(circle(10, "black"), circle(30, "purple"));
+
+draw(eye);
+
+draw(overlay(eye, rectangle(75,50,"white")));
+
+var eyes = overlay(overlay(rectangle(50,50,"green"), rectangle(150,50,"red")), rectangle(160, 60, "pink"));
+
+draw(overlay(eyes, circle(100, "green")));
+
+var collage = placeImage(circle(10,"black"),circle(20,"white"), 0, 0);
+draw(placeImage(collage, circle(30, "red"), 0, 0));

@@ -36,47 +36,63 @@ function print(value) {
 
 /* circle :: number -> color -> shape */
 function circle(radius, color) {
-  var canvas = document.createElement("canvas");
-  canvas.width = radius * 2;
-  canvas.height = radius * 2;
-
-  var ctx = canvas.getContext("2d");
-
-  _addOutput(canvas);
 
   var circ = { tlc_dt: "circle",
                width: radius * 2,
                height: radius * 2,
                radius: radius,
                color: color };
-  draw(ctx, [circ]);
 
   return [circ];
 }
 
 /* rectangle :: number -> number -> color -> shape */
 function rectangle(width, height, color) {
-  var canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
 
-  var ctx = canvas.getContext("2d");
-
-  _addOutput(canvas);
-  
   var rect = { tlc_dt: "rectangle",
                width: width,
                height: height,
                color: color };
 
-  draw(ctx, [rect]);
-
   return [rect];
 }
 
-/* draw :: context -> shape -> nothing */
-function draw(ctx, shapes) {
+/* image :: url -> shape */
+function image(location) {
+  var img = new Image()
+  //img.src = location;
+  //img.style.visibility = "hidden"
+
+  // append the node, get the dimensions, and remove it again
+  //document.body.appendChild(img);
+  //var imgClone = img.cloneNode();
+  //document.body.removeChild(img);
   
+  var imgShape = { tlc_dt: "image",
+                   img: img,
+                   locaton: location
+                 };
+  
+  img.onload = function() {
+    imgShape.width = img.width;
+    imgShape.height = img.height;
+  };
+
+  img.src = location;
+  
+  return [imgShape];
+}
+
+/* draw :: shape -> nothing */
+function draw(shapes) {
+
+  canvas = document.createElement("canvas");
+
+  var ctx = canvas.getContext("2d");
+
+  canvas.width = largestX(shapes);
+  canvas.height = largestY(shapes);
+
   for (var i = 0; i < shapes.length; i++) {
     var shape = shapes[i];
     switch (shape.tlc_dt) {
@@ -92,33 +108,34 @@ function draw(ctx, shapes) {
               shape.radius, 0, 2 * Math.PI);
       ctx.fill();
       break;
+    case "image":
+      shape.img.onload = function() {
+        ctx.drawImage(shape.img,
+                      0,
+                      0);
+      }
+      break;
     default:
       break;
-    }
+    } 
   }
-}
   
+  _addOutput(canvas);
+
+}
+
 /* placeImage :: shape -> shape -> shape */
 function placeImage(shape1, shape2, x, y) {
   var canvas = document.createElement("canvas");
   var shapes = shape1.concat(shape2);
-  canvas.width = largestX(shapes);
-  canvas.height = largestY(shapes);
-
-  var ctx = canvas.getContext("2d");
-
-  draw(ctx, shapes);
-  
-  _addOutput(canvas);
 
   return shapes;
 }
 
 function largestX (shapes) {
   var max = -Infinity;
-  
-  for (var i = 0; i < shapes.length; i++) {
 
+  for (var i = 0; i < shapes.length; i++) {
     if (shapes[i].width > max) {
       max = shapes[i].width;
     }
@@ -129,7 +146,7 @@ function largestX (shapes) {
 
 function largestY (shapes) {
   var max = -Infinity;
-  
+
   for (var i = 0; i < shapes.length; i++) {
 
     if (shapes[i].height > max) {
@@ -139,7 +156,5 @@ function largestY (shapes) {
 
   return max;
 }
-    
-  
-  
-  
+
+var smile = "smile.gif";

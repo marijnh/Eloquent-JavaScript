@@ -12,9 +12,11 @@ draw(eye);
 
 draw(overlay(eye, rectangle(75,50,"white")));
 
-var eyes = overlay(overlay(rectangle(50,50,"green"), rectangle(150,50,"red")), rectangle(160, 60, "pink"));
+var eyes = overlay(overlay(rectangle(60,60,"green"), overlay(rectangle(70,60,"pink"), rectangle(160,50,"red"))), rectangle(170, 60, "pink"));
 
-draw(overlay(eyes, circle(100, "green")));
+var mouth = overlay(rectangle(50, 120, "green"), rectangle(50,140, "red"));
+
+draw(overlay(eyes, overlay(mouth, circle(100, "green"))));
 
 var collage = placeImage(circle(10,"black"),circle(20,"white"), 0, 0);
 draw(placeImage(collage, circle(30, "red"), 0, 0));
@@ -39,6 +41,3 @@ var bodyWithFeet = placeImage(circle(25, "white"), withLeft, 130, 200);
 var bodyScene = placeImage(bodyWithFeet, scene, 0, 150);
 
 draw(placeImage(head, bodyScene, 40, 0));
-
-
-

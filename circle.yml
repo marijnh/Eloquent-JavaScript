@@ -12,4 +12,4 @@ deployment:
     branch: master
     commands:
       - make html
-      - aws s3 sync --acl public-read --follow-symlinks html s3://tlcjs.dbp.io
+      - aws s3 sync --acl public-read --follow-symlinks html s3://tlcjs.org

@@ -35,10 +35,10 @@ function _addOutput(content) {
 function show_source(url) {
   var client = new XMLHttpRequest();
   client.open('GET', url);
+  var pre = document.createElement("pre");
+  source.appendChild(pre);
   client.onreadystatechange = function() {
-    var pre = document.createElement("pre");
     pre.textContent = client.responseText;
-    source.appendChild(pre);
   }
   client.send();
 }

@@ -1,14 +1,20 @@
 console.log("TLC is starting up...");
 
+/* OUTPUT AND INFRASTRUCTURE */
+
 var output = document.createElement("div");
 output.id = "output";
 
+var source = document.createElement("div");
+source.id = "source";
+
 var body = document.getElementsByTagName("body")[0];
+body.appendChild(source);
 body.appendChild(output);
 
 var style = document.createElement("style");
 
-style.textContent = ".output { border-bottom: 1px solid #ccc; padding: 10px 0; }";
+style.textContent = "#output { width: 45%; float: left; } #source { width: 45%; float: left; } .output { border-bottom: 1px solid #ccc; padding: 10px 0; }";
 
 body.appendChild(style);
 
@@ -25,6 +31,20 @@ function _addOutput(content) {
   output.appendChild(container);
   return container;
 }
+
+function show_source(url) {
+  var client = new XMLHttpRequest();
+  client.open('GET', url);
+  client.onreadystatechange = function() {
+    var pre = document.createElement("pre");
+    pre.textContent = client.responseText;
+    source.appendChild(pre);
+  }
+  client.send();
+}
+
+
+/* LIBRARY FOR DRAWING ETC */
 
 /* print :: anything -> nothing */
 function print(value) {
@@ -73,19 +93,19 @@ function image(location) {
   //document.body.appendChild(img);
   //var imgClone = img.cloneNode();
   //document.body.removeChild(img);
-  
+
   var imgShape = { tlc_dt: "image",
                    img: img,
                    locaton: location
                  };
-  
+
   img.onload = function() {
     imgShape.width = img.width;
     imgShape.height = img.height;
   };
 
   img.src = location;
-  
+
   return [imgShape];
 }
 
@@ -126,9 +146,9 @@ function draw(scene) {
       break;
     default:
       break;
-    } 
+    }
   }
-  
+
   _addOutput(canvas);
 
 }
@@ -159,7 +179,7 @@ function placeImage(foreground, background, x, y) {
         newE.y = e.y + y;
         return newE;
       });
-  
+
   var scene = _.clone(background);
 
   scene.elements =

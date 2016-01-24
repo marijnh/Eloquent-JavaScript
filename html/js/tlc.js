@@ -8,13 +8,17 @@ output.id = "output";
 var source = document.createElement("div");
 source.id = "source";
 
+var images = document.createElement("div");
+images.id = "images";
+
 var body = document.getElementsByTagName("body")[0];
 body.appendChild(source);
+body.appendChild(images);
 body.appendChild(output);
 
 var style = document.createElement("style");
 
-style.textContent = "#output { width: 45%; float: left; } #source { width: 45%; float: left; } .output { border-bottom: 1px solid #ccc; padding: 10px 0; }";
+style.textContent = "#output { width: 45%; float: left; } #source { width: 45%; float: left; } .output { border-bottom: 1px solid #ccc; padding: 10px 0; } #images { width: 45%; float: right; } ";
 
 body.appendChild(style);
 
@@ -83,30 +87,32 @@ function rectangle(width, height, color) {
            height: height };
 }
 
-/* image :: url -> shape */
-function image(location) {
-  var img = new Image()
-  //img.src = location;
-  //img.style.visibility = "hidden"
+function loadImage (name, location) {
+  var img = document.createElement("img");
+  img.id = name;
 
-  // append the node, get the dimensions, and remove it again
-  //document.body.appendChild(img);
-  //var imgClone = img.cloneNode();
-  //document.body.removeChild(img);
+  img.src = location;
+  
+  images.appendChild(img);
+}
+
+/* image :: url -> shape */
+function image(name) {
+  
+  var img = document.getElementById(name);
 
   var imgShape = { tlc_dt: "image",
                    img: img,
-                   locaton: location
+                   locaton: location,
+                   width: img.width,
+                   height: img.height,
+                   x: 0,
+                   y: 0,
                  };
 
-  img.onload = function() {
-    imgShape.width = img.width;
-    imgShape.height = img.height;
-  };
-
-  img.src = location;
-
-  return [imgShape];
+  return { elements: [imgShape],
+           width: img.width,
+           height: img.height };
 }
 
 /* draw :: scene -> nothing */
@@ -138,10 +144,17 @@ function draw(scene) {
       ctx.fill();
       break;
     case "image":
-      shape.img.onload = function() {
+      // if image has loaded, draw it, else add callback
+      if (shape.img.complete || shape.img.naturalWidth) {
         ctx.drawImage(shape.img,
                       shape.x,
                       shape.y);
+      } else {
+        shape.img.onload = function() {
+          ctx.drawImage(shape.img,
+                        shape.x,
+                        shape.y);
+        };
       }
       break;
     default:
@@ -188,4 +201,4 @@ function placeImage(foreground, background, x, y) {
   return scene;
 }
 
-var smile = "smile.gif";
+var smile = "js/smile.gif";

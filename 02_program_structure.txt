@@ -9,7 +9,7 @@
 ____
 Y mi corazón brilla rojo debajo de mi
 delgada, translúcida piel y tienen que administrarme 10cc de JavaScript
-para hacerme regresar. (Responsdo bien a las toxinas en la sangre.) ¡Hombre,
+para hacerme regresar (respondo bien a las toxinas en la sangre). ¡Hombre,
 esa cosa te sacará de tus casillas!
 ____
 
@@ -21,33 +21,34 @@ hasta el punto en que podamos expresar alguna prosa significativa.
 
 == Expresiones y declaraciones ==
 
-(((grammar)))(((syntax)))(((code,structure
-of)))(((grammar)))(((JavaScript,syntax)))En el
+(((gramática)))(((sintaxis)))(((código,
+estructura de)))(((gramática)))(((JavaScript,sintaxis)))En el
 link:01_values.html#values[Capítulo 1], creamos algunos valores y después
-les aplicamos operadores para obtener nuevos valores. Creando valores como éste
+les aplicamos operadores para obtener nuevos valores. Crear valores de esta forma
 es una parte esencial de cada programa de JavaScript, pero esto es sólo
 una parte.
 
-(((literal expression)))Un fragmento de código que produce un valor es
+(((expresión literal)))Un fragmento de código que produce un valor es
 llamado una _((expresión))_. Cada valor que se escribe literalmente
 (tal como `22` o `"psicoanálisis"`) es una expresión. Una expresión
-entre ((paréntesis)) es también una expresión, como es un ((operador
+entre ((paréntesis)) es también una expresión, como un ((operador
 binario)) aplicado a dos expresiones o un operador unario aplicado a
-uno.
+una expresion.
 
-(((nesting,of expressions)))(((human language)))Esto muestra parte de la
-belleza de una interfaz basada en el lenguaje. Las expresiones se puede anidar en una forma
-muy similar a la forma de sub-frases en la que las lenguas humanas son anidada, y
-las sub-frase puede contener sus propias sub-frases, etc. Esto nos permite
-combinar expresiones para expresar cálculos arbitrariamente complejos.
+(((anidado de instrucciones)))(((lenguage humano)))Esto muestra parte de la
+belleza de una interfaz basada en el lenguaje. Las expresiones se pueden anidar
+en una forma muy similar a la forma de sub-frases en la que las lenguas humanas
+son anidadas, y las sub-frases pueden contener sus propias sub-frases, etc.
+Esto nos permite combinar expresiones para expresar cálculos
+arbitrariamente complejos.
 
-(((statement)))(((semicolon)))(((program)))Si una expresión
+(((declaración)))(((punto y coma)))(((programa)))Si una expresión
 corresponde a un fragmento de frase, una _declaración_ en JavaScript
 corresponde a una frase completa en un lenguaje humano. Un programa es
 simplemente una lista de declaraciones.
 
 (((syntax)))El tipo más simple de declaración es una expresión con un
-punto y coma después de ella. Se trata de un programa:
+punto y coma después de ella. Esto es un programa:
 
 [source,javascript]
 ----
@@ -55,26 +56,25 @@ punto y coma después de ella. Se trata de un programa:
 !false;
 ----
 
-Es un programa inútil, sin embargo. Una ((expresión)) puede ser contenida
-solo de producir un valor, que puede entonces ser utilizado por the "enclosing
-expression". Una ((declaración)) destaca por su cuenta y que equivale a algo
-sólo si afecta al mundo. Se podría mostrar algo en la
-pantalla que cuenta como cambiar el mundo o podría cambiar el
-estado interno de la máquina de una manera que afectará los estados
-que vienen despues de él. Estos cambios se llaman _((efecto colateral))s_. Las
-declaraciones en el ejemplo anterior solo producen los valores `1` y
-`verdadero` y después los tiran inmediatamente. Esto no deja ninguna impresión
-en el mundo en absoluto. Al ejecutar el programa, nada observable
-sucede.
+Es un programa inútil, sin embargo. Una ((expresión)) puede estar presente para
+sólo producir un valor, que puede entonces ser utilizado por la expresión que
+la contiene. Una ((declaración)) existe por sí sola y que equivale a algo
+sólo si afecta al mundo. Podría mostrar algo en la
+pantalla -que cuenta como cambiar el mundo_ o podría cambiar el
+estado interno de la máquina de estados de manera que afectará las
+declaraciones que vienen despues de ella. Estos cambios se
+llaman _((efectos colaterale))s_. Las declaraciones en el ejemplo anterior solo
+producen los valores `1` y `verdadero` y los desechan inmediatamente.
+Esto no deja ningún cambio en el mundo en absoluto. Al ejecutar el programa,
+nada observable sucede.
 
-(((programming style)))(((automatic semicolon
-insertion)))(((semicolon)))En algunos casos, JavaScript le permite
+(((estilos de programación)))(((inserción automática de punto y coma)))(((punto y coma)))En algunos casos, JavaScript te permite
 omitir el punto y coma al final de una instrucción. En otros casos, tiene que
-estar allí, o el siguiente ((linea)) serán tratados como parte de la misma
+estar allí, o la siguiente ((linea)) serán tratados como parte de la misma
 declaración. Las reglas para cuando se puede omitir con seguridad son algo
-complejo y propenso a errores. En este libro, cada declaración que necesita un
-punto y coma siempre será terminada por uno. Te recomiendo que hagas lo
-misma en sus propios programas, al menos hasta que haya aprendido más sobre
+complejas y es propenso a errores. En este libro, cada declaración que necesita un
+punto y coma siempre será terminada por un punto y coma. Te recomiendo que hagas lo
+mismo en tus propios programas, al menos hasta que hayas aprendido más sobre
 sutilezas involucradas en omitir el punto y coma.
 
 == Variables ==

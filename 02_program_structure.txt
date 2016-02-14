@@ -68,37 +68,38 @@ producen los valores `1` y `verdadero` y los desechan inmediatamente.
 Esto no deja ningún cambio en el mundo en absoluto. Al ejecutar el programa,
 nada observable sucede.
 
-(((estilos de programación)))(((inserción automática de punto y coma)))(((punto y coma)))En algunos casos, JavaScript te permite
-omitir el punto y coma al final de una instrucción. En otros casos, tiene que
-estar allí, o la siguiente ((linea)) serán tratados como parte de la misma
+(((estilos de programación)))(((inserción automática de punto
+y coma)))(((punto y coma)))En algunos casos, JavaScript te permite
+omitir el punto y coma al final de una declaración. En otros casos, tiene que
+estar allí, o la siguiente ((linea)) será tratada como parte de la misma
 declaración. Las reglas para cuando se puede omitir con seguridad son algo
-complejas y es propenso a errores. En este libro, cada declaración que necesita un
-punto y coma siempre será terminada por un punto y coma. Te recomiendo que hagas lo
+complejas y propensas a errores. En este libro, cada declaración que necesite un
+punto y coma siempre será terminada por un punto y coma4. Te recomiendo que hagas lo
 mismo en tus propios programas, al menos hasta que hayas aprendido más sobre
 sutilezas involucradas en omitir el punto y coma.
 
 == Variables ==
 
-(((syntax)))(((variable,definition)))(((side effect)))(((memory))) ¿Cómo
-un programa de mantener un estado ((estado))? ¿Cómo recuerda
-cosas? Hemos visto cómo producir nuevos valores de viejos valores, pero
+(((sintaxis)))(((variable, definición)))(((efecto secundario)))(((memoria))) ¿Cómo
+mantiene un programa su ((estado)) interno? ¿Cómo recuerda algo?
+Hemos visto cómo producir nuevos valores de viejos valores, pero
 esto no cambia los valores antiguos, y el nuevo valor tiene que ser
 inmediatamente utilizado o se disipará de nuevo. Para atrapar y mantener los valores,
 JavaScript proporciona una cosa llamada _variable_.
 
 [source,javascript]
 ----
-var caught = 5 * 5;
+var atrapado = 5 * 5;
 ----
 
-(((var keyword)))Y eso nos da nuestra segunda clase de ((declaración)).
-La palabra especial (_((keyword))_) `var` indica que esta frase
-va a definir una variable. Es seguido por el nombre de la variable
+(((palabra reservada var)))Y eso nos da nuestra segunda clase de ((declaración)).
+La palabra especial(_((palabra reservada))_ o _((keyword))_) `var` indica que
+esta frase va a definir una variable. Es seguida por el nombre de la variable
 y, si queremos dar de inmediato un valor, con un operador de `=` y
 una expresión.
 
-La declaración anterior crea una variable llamada `caught` y se usa
-para agarrar el número que se produce al multiplicar 5 por 5.
+La declaración anterior crea una variable llamada `atrapado` y se usa
+para retener el número que se produce al multiplicar 5 por 5.
 
 Después de que una variable se ha definido, su nombre puede ser usado como una
 ((expresión)). El valor de esa expresión es el valor que la
@@ -106,52 +107,53 @@ variable alberga actualmente. He aquí un ejemplo:
 
 [source,javascript]
 ----
-var ten = 10;
-console.log(ten * ten);
+var diez = 10;
+console.log(diez * diez);
 // → 100
 ----
 
-(((subrayar el carácter)))(((signo de
-dólar)))(((variable,naming)))Los nombres de variables pueden ser cualquier palabra que no es
-una palabra reservada (tal como `var`). Ellos no pueden incluir espacios.
-Dígitos también pueden ser parte de la variable nombre—`catch22` es un nombre válido,
-por ejemplo-, pero el nombre no debe comenzar con un dígito. Un nombre de variable
-no puede incluir puntuacion, a excepción de los caracteres `$` y `_`.
+(((carácter guión bajo)))(((signo de
+dólar)))(((variable,naming)))Los nombres de variables pueden ser cualquier
+palabra que no sea una palabra reservada (tal como `var`). Estos no pueden incluir
+espacios. Los dígitos también pueden ser parte de la variable nombre —`catch22`
+es un nombre válido, por ejemplo-, pero el nombre no debe comenzar con un dígito.
+Un nombre de variable no puede incluir puntuación, a excepción de los caracteres
+`$` y `_`.
 
-(((= operator)))(((assignment)))(((variable,assignment))Cuando una
-variable apunta a un valor, eso no quiere decir que está ligado a ese
-valor para siempre. El operador de `=` se puede utilizar en cualquier momento en variables
-existentes para desconectarlas de su valor actual y etenerlas
-apuntando a una nueva.
+(((operador =)))(((asignación)))(((variable,asiganción))Cuando una
+variable apunta a un valor, eso no quiere decir que está ligada a ese
+valor para siempre. El operador `=` se puede utilizar en cualquier momento
+en variables existentes para desconectarlas de su valor actual y apuntarlas
+a uno nuevo.
 
 [source,javascript]
 ----
-var mood = "light";
-console.log(mood);
-// → light
-mood = "dark";
-console.log(mood);
-// → dark
+var tono = "claro";
+console.log(tono);
+// → claro
+tono = "oscuro";
+console.log(tono);
+// → oscuro
 ----
 
-(((variable,modelo of)))(((tentáculo (analogía)))) Debieras
-imaginar variables como tentáculos, en lugar de las cajas. Ellas no
-_contienen _ valores; ellas _grasp_ them—two variables pueden referirse la
-mismo valor. Un programa puede acceder sólo los valores que todavía tiene a
-hold on. Cuando usted necesita recordar algo, haces crecer un tentáculo para
-afferarse a ello or you reattach one of your existing tentacles to it.
+(((variable,modelo de)))(((tentáculo (analogía)))) Podrías
+imaginar  las variables como tentáculos, en lugar de la cajas. Estas no
+_contienen _ valores; los _agarran_ -dos variables pueden referirse al
+mismo valor. Un programa puede acceder sólo los valores que todavía mantiene detenidos.
+Cuando necesitas recordar algo, haces crecer un tentáculo para
+agarrarlo o cambias unos de tus tentáculos existentes para agarrarlo.
 
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
 Veamos un ejemplo. Para recordar el número de dólares que Luigi
 aún te debe, se crea una variable. Y luego, cuando él te paga $ 35,
-tu das a esta variable un valor nuevo.
+le das a esta variable un valor nuevo.
 
 [source,javascript]
 ----
-var luigisDebt = 140;
-luigisDebt = luigisDebt - 35;
-console.log(luigisDebt);
+var deudaDeLuigi = 140;
+deudaDeLuigi = deudaDeLuigi - 35;
+console.log(deudaDeLuigi);
 // → 105
 ----
 

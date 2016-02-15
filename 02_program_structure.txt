@@ -92,8 +92,8 @@ JavaScript proporciona una cosa llamada _variable_.
 var atrapado = 5 * 5;
 ----
 
-(((palabra reservada var)))Y eso nos da nuestra segunda clase de ((declaración)).
-La palabra especial(_((palabra reservada))_ o _((keyword))_) `var` indica que
+(((palabra clave var)))Y eso nos da nuestra segunda clase de ((declaración)).
+La palabra especial(_((palabra clave))_ o _((keyword))_) `var` indica que
 esta frase va a definir una variable. Es seguida por el nombre de la variable
 y, si queremos dar de inmediato un valor, con un operador de `=` y
 una expresión.
@@ -114,7 +114,7 @@ console.log(diez * diez);
 
 (((carácter guión bajo)))(((signo de
 dólar)))(((variable,naming)))Los nombres de variables pueden ser cualquier
-palabra que no sea una palabra reservada (tal como `var`). Estos no pueden incluir
+palabra que no sea una palabra clave (tal como `var`). Estos no pueden incluir
 espacios. Los dígitos también pueden ser parte de la variable nombre —`catch22`
 es un nombre válido, por ejemplo-, pero el nombre no debe comenzar con un dígito.
 Un nombre de variable no puede incluir puntuación, a excepción de los caracteres
@@ -138,7 +138,7 @@ console.log(tono);
 
 (((variable,modelo de)))(((tentáculo (analogía)))) Podrías
 imaginar  las variables como tentáculos, en lugar de la cajas. Estas no
-_contienen _ valores; los _agarran_ -dos variables pueden referirse al
+_contienen_ valores; los _agarran_; dos variables pueden referirse al
 mismo valor. Un programa puede acceder sólo los valores que todavía mantiene detenidos.
 Cuando necesitas recordar algo, haces crecer un tentáculo para
 agarrarlo o cambias unos de tus tentáculos existentes para agarrarlo.
@@ -146,7 +146,7 @@ agarrarlo o cambias unos de tus tentáculos existentes para agarrarlo.
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
 Veamos un ejemplo. Para recordar el número de dólares que Luigi
-aún te debe, se crea una variable. Y luego, cuando él te paga $ 35,
+aún te debe, se crea una variable. Y luego, cuando te paga $35,
 le das a esta variable un valor nuevo.
 
 [source,javascript]
@@ -158,31 +158,31 @@ console.log(deudaDeLuigi);
 ----
 
 (((indefinido)))Cuando se define una variable sin darle un valor,
-el tentáculo no tiene nada de que enteder, por lo que termina en el aire. Si le preguntas
-por el valor de una variable vacía, obtendrá el valor de `undefined (indefinido)`.
+el tentáculo no tiene nada que sostener, por lo que termina en el aire. Si preguntas
+por el valor de una variable vacía, obtendrás el valor `undefined` (indefinido).
 
-(((var keyword)))Una sola `var` declaración puede definir múltiples
-variables. Las definiciones deben estar separados por comas.
+(((var keyword)))Una sola declaración `var` puede definir múltiples
+variables. Las definiciones deben estar separadas por comas.
 
 [source,javascript]
 ----
-var one = 1, two = 2;
-console.log(one + two);
+var uno = 1, dos = 2;
+console.log(uno + dos);
 // → 3
 ----
 
 == Palabras clave y palabras reservadas ==
 
-(((syntax)))(((implementos (palabra reservada))))(((interfaz (palabra
-reservada))))(((dejar palabras clave)))(((paquete (palabra reservada))))(((privado
-(palabra reservada))))(((protegido (palabra reservada))))(((publico (palabra
-reservada))))(((statico (palabra reservada))))(((operador vacío)))(((yield
-(palabra reservada))))(((palabra reservada)))(((variable,naming)))Palabras con
-un significado especial, como `var`, son _((palabra reservada))s_, y no se pueden ser
+(((sintaxis)))(((implements (palabra reservada))))(((interface (palabra
+reservada))))(((let (palabra reservada))))(((package (palabra reservada))))(((private
+(palabra reservada))))(((protected (palabra reservada))))(((public (palabra
+reservada))))(((static (palabra reservada))))(((operador vacío)))(((yield
+(palabra reservada))))(((palabra reservada)))(((variable, nombrado)))Palabras con
+un significado especial, como `var`, son _((palabras clave))_, y no se pueden ser
 utilizadas como nombres de variables. También hay un número de palabras que son
-“reservado para uso” en ((futuras)) versiones de JavaScript. Estos también
-oficialmente no pueden ser utilizados como nombres de variables, aunque algunos
-entornos de JavaScript hacen que puedan. La lista completa de palabras clave y
+“reservado para uso” en ((futuras)) versiones de JavaScript. Estas también
+están oficialmente no permitidas como nombres de variables, aunque algunos
+entornos de JavaScript las permiten. La lista completa de palabras clave y
 palabras reservadas es bastante larga.
 
 [source,text/plain]
@@ -195,8 +195,8 @@ protected public return static super switch this
 throw true try typeof var void while with yield
 ----
 
-No te preocupes por la memorización de estos, pero recuerda que esto podría ser
-el problema cuando una definición de variable no funciona como se esperaba.
+No te preocupes por memorizarlas, pero recuerda que esto podría ser
+el problema cuando una definición de variable no funcione como se esperaba.
 
 == El entorno ==
 

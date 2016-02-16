@@ -178,9 +178,9 @@ reservada))))(((let (palabra reservada))))(((package (palabra reservada))))(((pr
 (palabra reservada))))(((protected (palabra reservada))))(((public (palabra
 reservada))))(((static (palabra reservada))))(((operador vacío)))(((yield
 (palabra reservada))))(((palabra reservada)))(((variable, nombrado)))Palabras con
-un significado especial, como `var`, son _((palabras clave))_, y no se pueden ser
+un significado especial, como `var`, son _((palabras clave))_, y no pueden ser
 utilizadas como nombres de variables. También hay un número de palabras que son
-“reservado para uso” en ((futuras)) versiones de JavaScript. Estas también
+“reservadas para uso” en ((futuras)) versiones de JavaScript. Estas también
 están oficialmente no permitidas como nombres de variables, aunque algunos
 entornos de JavaScript las permiten. La lista completa de palabras clave y
 palabras reservadas es bastante larga.
@@ -201,17 +201,17 @@ el problema cuando una definición de variable no funcione como se esperaba.
 == El entorno ==
 
 (((entorno estándar)))La colección de variables y sus valores
-que existe en un momento dado se llama el _((entorno))_. cuando una
+que existe en un momento dado se llama el _((entorno))_. Cuando un
 programa se pone en marcha, este entorno no está vacío. Siempre contiene
-variables que forman parte de la lenguaje ((estándar)), y la mayoría de la
-tiempo, tiene variables que proporcionan formas de interactuar con el
-sistema de alrededores. por ejemplo, en un ((navegador)), hay variables
+variables que forman parte del lenguaje ((estándar)), y la mayoría del
+tiempo, contiene variables que proporcionan formas de interactuar con el
+sistema que lo contiene. Por ejemplo, en un ((navegador)), existen variables
 y funciones para inspeccionar e influir en la página web cargada en ese momento
-y leer ((ratón)) and ((teclado)) entrada.
+y leer entrada del ((ratón)) y del ((teclado)).
 
 == Funciones ==
 
-indexsee:[application (of functions),function application]
+indexsee:[aplicación (de funciones),función de aplicación]
 indexsee:[invoking (of functions),function application]
 indexsee:[calling (of functions),function application]
 (((output)))(((function)))(((function,application)))(((alert

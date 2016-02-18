@@ -224,20 +224,20 @@ el fin de ejecutar el programa envuelto. Por ejemplo, en un entorno de
 
 [source,javascript]
 ----
-alert("¡Buenos días!");
+alert("¡Good Morning!");
 ----
 
 image::img/alert.png[alt="An alert dialog",width="8cm"]
 
-(((parameter)))(((function,application)))La ejecución de una función se
-llamado _invoking_, _llamar_, or _aplicar_ la. Usted puede llamar a un
-función poniendo ((paréntesis)) después de una expresión que produce una
-valor de la función. Por lo general, vamos a usar directamente el nombre de la variable
-que mantiene la función de. Los valores entre paréntesis le dan a
-el programa dentro de la función. En el ejemplo, la funcion de `alert`
+(((parametro)))(((función,aplicación)))La ejecución de una función es denominada
+_invocar_, _llamar_, o _aplicar_ la función. Puedes llamar a una
+función poniendo ((paréntesis)) después de una expresión que produce un
+valor de la función. Por lo general, se usa directamente el nombre de la variable
+que contiene la función. Los valores entre paréntesis se le pasan a
+el programa dentro de la función. En el ejemplo, la función `alert`
 utiliza la cadena que le damos como el texto que se mostrará en el cuadro de diálogo.
-Los valores dados a las funciones se denominan _((argumento))s_. La funcion
-de `alert` necesita solo uno de ellos, pero otras funciones pueden necesitar un
+Los valores dados a las funciones se denominan _((argumento))s_. La función `alert`
+necesita solo uno, pero otras funciones pueden necesitar un
 número diferente o diferentes tipos de argumentos.
 
 == The console.log function ==

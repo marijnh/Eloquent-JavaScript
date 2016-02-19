@@ -240,34 +240,34 @@ Los valores dados a las funciones se denominan _((argumento))s_. La función `al
 necesita solo uno, pero otras funciones pueden necesitar un
 número diferente o diferentes tipos de argumentos.
 
-== The console.log function ==
+== La función console.log ==
 
-(((JavaScript console)))(((developer
-tools)))(((Node.js)))(((console.log)))(((output)))The `alert` function
-can be useful as an output device when experimenting, but clicking
-away all those little windows will get on your nerves. In past
-examples, we've used `console.log` to output values. Most JavaScript
-systems (including all modern web ((browser))s and Node.js) provide a
-`console.log` function that writes out its arguments to _some_ text
-output device. In browsers, the output lands in the ((JavaScript
-console)). This part of the browser interface is hidden by default,
-but most browsers open it when you press F12 or, on Mac, when you
-press Command-Option-I. If that does not work, search through the
-menus for an item named “web console” or “developer tools”.
+(((consola de JavaScript)))(((developer
+tools)))(((Node.js)))(((console.log)))(((salida)))(((output)))La función `alert`
+puede ser útil para imprimir cuando estamos experimentando, pero quitar del camino
+todas esas pequeñas ventanas puede desesperarte. En ejemplos pasados, hemos usado
+`console.log` para devolver valores. La mayoría sistemas JavaScript (incluyendo a
+todos los ((navegador))es web modernos y a Node.js) nos dan una función `console.log`
+que imprime sus argumentos en _algún_ dispositivo de salida de texto. En los navegadores
+la salida queda en la ((consola de JavaScript)). Esta parte del navegador está
+escondida por defecto, pero la mayoría de los navegadores la abren cuando presionas
+F12 o, en Mac, cuando presionas Command-Option-I. Si esto no funciona, busca en los
+menús un item llamado "Consola Web" o "Herramientas de Desarrollador".
+
 
 ifdef::interactive_target[]
 
-When running the examples, or your own code, on the pages of this
-book, `console.log` output will be shown after the example, instead of
-in the browser's JavaScript console.
+Cuando corras los ejemplos, o tu propio código, en las páginas de este libro,
+la salida de `console.log` será mostrada después del ejemplo, en vez de en la
+consola de JavaScript del navegador.
 
 endif::interactive_target[]
 
 [source,javascript]
 ----
 var x = 30;
-console.log("the value of x is", x);
-// → the value of x is 30
+console.log("el valor de x es", x);
+// → el valor de x es 30
 ----
 
 (((object)))Though ((variable)) names cannot contain ((period

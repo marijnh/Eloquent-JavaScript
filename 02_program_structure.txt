@@ -278,15 +278,14 @@ variable `console`. Veremos que significa exactamente en el
 link:04_data.html#properties[Capítulo 4].
 
 [[return_values]]
-== Return values ==
+== Valores de Retorno ==
 
-(((comparison,of numbers)))(((return value)))(((Math.max
-function)))(((maximum)))Showing a dialog box or writing text to
-the screen is a _((side effect))_. A lot of functions are useful
-because of the side effects they produce. Functions may also produce
-values, and in that case, they don't need to have a side effect to be
-useful. For example, the function `Math.max` takes any number of
-number values and gives back the greatest.
+(((comparación,de números)))(((valor de retorno)))(((función
+Math.max)))(((máximo)))Mostrar un cuadro de diálogo o escribir texto
+en la pantalla es un _((efecto secundario))_. Muchas funciones son útiles porque
+producen valores, y en ese caso, no necesitan tener un efecto secundario para
+ser útiles. Por ejemplo, la función `Math.max` toma un número indeterminado de
+números y regresa el más grande.
 
 [source,javascript]
 ----

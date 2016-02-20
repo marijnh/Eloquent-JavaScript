@@ -270,12 +270,12 @@ console.log("el valor de x es", x);
 // → el valor de x es 30
 ----
 
-(((object)))Though ((variable)) names cannot contain ((period
-character))s, `console.log` clearly has one. This is because
-`console.log` isn't a simple variable. It is actually an expression
-that retrieves the `log` ((property)) from the value held by the
-`console` variable. We will find out exactly what this means in
-link:04_data.html#properties[Chapter 4].
+(((objeto)))Aunque los nombres de ((variable)) no pueden contener
+el ((caracter punto)), `console.log` claramente tiene uno. Esto es
+porque `console.log` no es una variable simple. Es en realidad una
+expresión que trae la propiedad `log` del valor mantenido por la
+variable `console`. Veremos que significa exactamente en el
+link:04_data.html#properties[Capítulo 4].
 
 [[return_values]]
 == Return values ==

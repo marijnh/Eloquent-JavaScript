@@ -293,12 +293,12 @@ console.log(Math.max(2, 4));
 // → 4
 ----
 
-(((function,application)))(((minimum)))(((Math.min
-function)))When a function produces a value, it is said to _return_
-that value. Anything that produces a value is an ((expression)) in
-JavaScript, which means function calls can be used within larger
-expressions. Here a call to `Math.min`, which is the opposite of
-`Math.max`, is used as an input to the plus operator:
+(((función,aplicación)))(((minimo)))(((función
+Math.min))) Cuando una función produce un valor, se dice que _regresa_
+ese valor. Cualquier cosa que produce un valor es una ((expresión)) en
+JavaScript, lo que significa que puede ser usada dentro de expresiones
+más grandes. Aquí, una llamada a `Math.min`, que es lo opuesto a
+`Math.max`, es usada como entrada de un operador de suma:
 
 [source,javascript]
 ----
@@ -306,8 +306,8 @@ console.log(Math.min(2, 4) + 100);
 // → 102
 ----
 
-The link:03_functions.html#functions[next chapter] explains how to
-write your own functions.
+El link:03_functions.html#functions[próximo capítulo] explica como escribir
+tus propias funciones.
 
 == prompt and confirm ==
 

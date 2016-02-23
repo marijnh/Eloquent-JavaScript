@@ -309,17 +309,17 @@ console.log(Math.min(2, 4) + 100);
 El link:03_functions.html#functions[próximo capítulo] explica como escribir
 tus propias funciones.
 
-== prompt and confirm ==
+== Pedir información y confirmar ==
 
-(((dialog box)))(((input)))(((browser)))(((confirm function)))Browser
-environments contain other functions besides `alert` for popping up
-windows. You can ask the user an OK/Cancel question using
-`confirm`. This returns a Boolean: `true` if the user clicks OK and
-`false` if the user clicks Cancel.
+(((cuadro de diálogo)))(((entrada)))(((navegador)))(((función confirm)))Los
+entornos de navegadir tienen otras funciones más allá de `alert` para mostrar
+ventanas. Puedes preguntar al usuario una pregunta estilo OK/Cancelar usando
+`confirm`. Esto regresa un Booleano: `true` si el usuario hace click en OK y
+`false` si el usuario presiona en Cancelar.
 
 [source,javascript]
 ----
-confirm("Shall we, then?");
+confirm("¿Entonces, deberíamos?");
 ----
 
 image::img/confirm.png[alt="A confirm dialog",width="8cm"]

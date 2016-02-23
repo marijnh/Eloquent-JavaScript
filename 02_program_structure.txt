@@ -324,11 +324,11 @@ confirm("¿Entonces, deberíamos?");
 
 image::img/confirm.png[alt="A confirm dialog",width="8cm"]
 
-(((input)))(((prompt function)))(((text input)))The `prompt` function
-can be used to ask an “open” question. The first argument is the
-question, the second one is the text that the user starts with. A line
-of text can be typed into the dialog window, and the function will
-return this text as a string.
+(((entrada)))(((función prompt)))(((entrada de texto)))La función `prompt`
+puede ser usada para preguntar una pregunta "abierta". El primer argumento
+es la pregunta, el segundo es un texto con el que usuario inicia. Se puede
+escribir una línea de texto en el cuadro de diálogo, y la función regresará
+este texto como una cadena.
 
 [source,javascript]
 ----
@@ -337,9 +337,9 @@ prompt("Tell me everything you know.", "...");
 
 image::img/prompt.png[alt="An prompt dialog",width="8cm"]
 
-These two functions aren't used much in modern web programming, mostly
-because you have no control over the way the resulting windows look,
-but they are useful for toy programs and experiments.
+Estas dos funciones no son usadas mucho en la programación web moderna,
+principalmente porque no tienes control sobre la forma en que las ventanas
+resultantes se verán, pero son útiles para programas de prueba y experimentos.
 
 == Control flow ==
 

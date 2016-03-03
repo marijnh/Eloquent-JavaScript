@@ -252,9 +252,9 @@ console.log(dateTime.test("30-1-2003 8:45"));
 // → true
 ----
 
-You can also specify open-ended ((range))s when using ((curly
-braces)) by omitting the number on either side of the comma. So
-`{,5}` means zero to five times, and `{5,}` means five or more times.
+You can also specify open-ended ((range))s when using ((curly braces))
+by omitting the number after the comma. So `{5,}` means five or more
+times.
 
 == Grouping subexpressions ==
 

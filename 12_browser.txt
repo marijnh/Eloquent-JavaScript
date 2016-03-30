@@ -109,8 +109,8 @@ the ((Internet)), and have it listen on port 80, using the
 _Hypertext Transfer Protocol_ (HTTP). This protocol allows other computers
 to request documents over the ((network)).
 
-indexsee:[Universal Resource Locator,URL]
-(((URL)))Each ((document)) on the Web is named by a _Universal Resource
+indexsee:[Uniform Resource Locator,URL]
+(((URL)))Each ((document)) on the Web is named by a _Uniform Resource
 Locator_ (URL), which looks something like this:
 
 ----

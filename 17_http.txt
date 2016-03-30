@@ -294,7 +294,7 @@ URL.
 (((send method)))(((GET method)))(((body (HTTP))))(((responseText
 property)))After opening the request, we can send it with the `send`
 method. The argument to send is the request body. For `GET` requests,
-we can pass null. If the third argument to `open` was `false`, `send`
+we can pass `null`. If the third argument to `open` was `false`, `send`
 will return only  after the response to our request was received. We
 can read the request object's `responseText` property to get the
 response body.
@@ -338,7 +338,7 @@ does not know how to handle.
 I/O)))(((responseText property)))(((send method)))In the examples we
 saw, the request has finished when the call to `send` returns. This is
 convenient because it means properties such as `responseText` are
-available immediately. But it also mean that our program is suspended
+available immediately. But it also means that our program is suspended
 as long as the ((browser)) and server are communicating. When the
 ((connection)) is bad, the server is slow, or the file is big, that
 might take quite a while. Worse, because no event handlers can fire
@@ -386,7 +386,7 @@ the ((DOM)) discussed in link:13_dom.html#dom[Chapter 13], except that
 it doesn't have HTML-specific functionality like the `style` property.
 The object that `responseXML` holds corresponds to the `document`
 object. Its `documentElement` property refers to the outer tag of the
-XML document. In the following document (_example/fruit.xml_), that would
+XML document. In the following document (_example/fruit.xml_), that
 would be the `<fruits>` tag:
 
 [source,application/xml]

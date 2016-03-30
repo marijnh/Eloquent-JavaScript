@@ -180,8 +180,17 @@ forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
 // → Granfalloon
 ----
 
+<<<<<<< HEAD
 A menudo, no le pasas una  función predefinida a `forEach` sino que 
 creas una función en el acto.
+=======
+(In some browsers, calling `console.log` in this way does not work.
+You can use `alert` instead of `console.log` if this example fails to
+work.)
+
+Often, you don't pass a predefined function to `forEach` but create
+a function value on the spot instead.
+>>>>>>> marijnh/master
 
 [source,javascript]
 ----
@@ -819,18 +828,18 @@ machine that is me that originates with Pauwels.
 function)))(((abstraction)))We could also have computed this number
 without relying on `reduceAncestors`. But separating the general
 approach (condensing a family tree) from the specific case (computing
-shared DNA) can improve the clarity of the code and allows us to
-reuse the abstract part of the program for other cases. For example,
-the following code finds the percentage of known ancestors, for a
-given person, who lived past 70:
+shared DNA) can improve the clarity of the code and allows us to reuse
+the abstract part of the program for other cases. For example, the
+following code finds the percentage of a person's known ancestors who
+lived past 70 (by lineage, so people may be counted multiple times):
 
 // test: clip
 
 [source,javascript]
 ----
 function countAncestors(person, test) {
-  function combine(person, fromMother, fromFather) {
-    var thisOneCounts = test(person);
+  function combine(current, fromMother, fromFather) {
+    var thisOneCounts = current != person && test(current);
     return fromMother + fromFather + (thisOneCounts ? 1 : 0);
   }
   return reduceAncestors(person, combine, 0);
@@ -845,7 +854,7 @@ function longLivingPercentage(person) {
   return longLiving / all;
 }
 console.log(longLivingPercentage(byName["Emile Haverbeke"]));
-// → 0.145
+// → 0.129
 ----
 
 Such numbers are not to be taken too seriously, given that

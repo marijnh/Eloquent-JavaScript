@@ -95,7 +95,7 @@ dir.forEach(function(file) {
      solution: fs.readFileSync("code/solutions/20_3_creating_directories.js", "utf8")
     },
     {name: "A public space on the web",
-     file: "code/solutions/20_4_a_public_space_on_the_web",
+     file: "code/solutions/20_4_a_public_space_on_the_web.zip",
      number: 4,
      type: "js",
      code: nodeInfo,

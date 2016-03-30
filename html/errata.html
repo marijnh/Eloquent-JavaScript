@@ -20,7 +20,7 @@ here, <a href="mailto:marijnh@gmail.com">send me an email</a>.</p>
 
 <p>Issues whose section title is followed by a superscript ¹ were
 fixed after the first print of the book, and will not be present in
-later prints.</p>
+later prints. Those followed by ² were fixed in the third print.</p>
 
 <h2>Introduction</h2>
 
@@ -28,7 +28,20 @@ later prints.</p>
 can probably imagine how how tedious…” duplicates the
 word <em>how</em>.</p>
 
+<h2>Chapter 2</h2>
+
+<p><strong>Page 32</strong> (while and do Loops²): The <code>var
+name</code> example unintentionally exits the loop when the dialog is
+canceled, because browsers have a built-in global
+variable <code>name</code> whose values are implicitly converted to
+strings.</p>
+
 <h2>Chapter 9</h2>
+
+<p><strong>Page 157</strong> (Repeating Parts of a Pattern): The
+paragraph at the top of the page claims that <code>{,5}</code> is equivalent to
+<code>{0,5}</code> in a regular expression. This is not the case (you
+have to include the zero).</p>
 
 <p><strong>Page 159</strong> (The Date Type¹):
 The <code>findDate</code> function produces the wrong months. The
@@ -36,7 +49,7 @@ second argument given to <code>new Date</code> should
 be <code>Number(match[2]) - 1</code>, subtracting one to compensate
 for the fact that months start at zero in this interface.</p>
 
-<p><strong>Page 162</strong> (Backtracking): The regular expression
+<p><strong>Page 162</strong> (Backtracking²): The regular expression
 should have another <code>+</code> sign after the <code>[\da-f]</code>
 group to match what it is described as matching. The diagram for the
 expression is similarly missing an arrow looping back around the
@@ -54,6 +67,12 @@ to <code>myMod.onLoad.forEach</code> instead.</p>
 <p><strong>Page 192</strong> (Parsing¹): The example Egg program has
 its parentheses distributed incorrectly. One closing parentheses from
 the second line should be moved to the end of the last line.</p>
+
+<h2>Chapter 12</h2>
+
+<p><strong>Page 209</strong> (The Web²): In the third paragraph I claim
+that the U in “URL” stands for <em>Universal</em>, whereas it actually
+stands for <em>Uniform</em>.</p>
 
 <h2>Chapter 14</h2>
 
@@ -81,6 +100,10 @@ the <code>statusCode</code> property. This does not exist, since the
 property is actually called <code>status</code>.</p>
 
 <h2>Chapter 18</h2>
+
+<p><strong>Page 316</strong> (Fields²): The <code>checked</code>
+attribute in the <code>file</code> field at the bottom of the example
+doesn't mean anything, and should not be there.</p>
 
 <p><strong>Page 327</strong> (Summary¹): “When the user has selected
 a <em>field</em>” should be “When the user has selected

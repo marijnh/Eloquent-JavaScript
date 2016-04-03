@@ -312,8 +312,8 @@ tus propias funciones.
 == Pedir información y confirmar ==
 
 (((cuadro de diálogo)))(((entrada)))(((navegador)))(((función confirm)))Los
-entornos de navegadir tienen otras funciones más allá de `alert` para mostrar
-ventanas. Puedes preguntar al usuario una pregunta estilo OK/Cancelar usando
+entornos de navegador tienen otras funciones más allá de `alert` para mostrar
+ventanas. Puedes preguntar al usuario una cuestión estilo OK/Cancelar usando
 `confirm`. Esto regresa un Booleano: `true` si el usuario hace click en OK y
 `false` si el usuario presiona en Cancelar.
 
@@ -325,7 +325,7 @@ confirm("¿Entonces, deberíamos?");
 image::img/confirm.png[alt="A confirm dialog",width="8cm"]
 
 (((entrada)))(((función prompt)))(((entrada de texto)))La función `prompt`
-puede ser usada para preguntar una pregunta "abierta". El primer argumento
+puede ser usada para hacer una pregunta "abierta". El primer argumento
 es la pregunta, el segundo es un texto con el que usuario inicia. Se puede
 escribir una línea de texto en el cuadro de diálogo, y la función regresará
 este texto como una cadena.

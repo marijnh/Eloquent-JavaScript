@@ -341,20 +341,18 @@ Estas dos funciones no son usadas mucho en la programación web moderna,
 principalmente porque no tienes control sobre la forma en que las ventanas
 resultantes se verán, pero son útiles para programas de prueba y experimentos.
 
-== Control flow ==
+== Control de flujo ==
 
-(((execution order)))(((program)))(((control flow)))When your program
-contains more than one ((statement)), the statements are executed,
-predictably, from top to bottom. As a basic example, this program has
-two statements. The first one asks the user for a number, and the
-second, which is executed afterward, shows the ((square)) of that
-number.
+(((orden de ejecución)))(((programa)))(((control de flujo)))Cuando tu
+programa contiene más de una ((sentencia)), las sentencias son ejecutadas (fácil de predecir), de arriba hacia abajo. Como un ejemplo básico, este programa
+tiene dos sentencias. La primera le pide un número al usuario, y la
+segunda, que se ejecuta en seguida, muestra el ((cuadrado)) de ese número
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
-alert("Your number is the square root of " +
-      theNumber * theNumber);
+var elNumero = Number(prompt("Dame un número", ""));
+alert("Tú número es la raíz cuadrada de " +
+      elNumero * elNumero);
 ----
 
 (((number,conversion to)))(((type coercion)))(((Number

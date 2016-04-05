@@ -346,7 +346,7 @@ resultantes se verán, pero son útiles para programas de prueba y experimentos.
 (((orden de ejecución)))(((programa)))(((control de flujo)))Cuando tu
 programa contiene más de una ((sentencia)), las sentencias son ejecutadas (fácil de predecir), de arriba hacia abajo. Como un ejemplo básico, este programa
 tiene dos sentencias. La primera le pide un número al usuario, y la
-segunda, que se ejecuta en seguida, muestra el ((cuadrado)) de ese número
+segunda, que se ejecuta después, muestra el ((cuadrado)) de ese número
 
 [source,javascript]
 ----
@@ -355,13 +355,12 @@ alert("Tú número es la raíz cuadrada de " +
       elNumero * elNumero);
 ----
 
-(((number,conversion to)))(((type coercion)))(((Number
-function)))(((String function)))(((Boolean
-function)))(((Boolean,conversion to)))The function `Number` converts a
-value to a number. We need that conversion because the result of
-`prompt` is a string value, and we want a number. There are similar
-functions called `String` and `Boolean` that convert values to those
-types.
+(((number,conversión a)))(((conversión de tipos)))(((función
+Number)))(((función String)))(((función Boolean)))(((Boolean,
+conversión a))) La función `Numero` convierte un valor a un número.
+Necesitamos esa conversión porque el resultado de `prompt` es un valor
+de cadena de texto (string), y queremos un número. Hay funciones similares
+llamadas `String` y `Boolean` que convierten valores a estos tipos.
 
 Here is the rather trivial schematic representation of straight
 control flow:

@@ -362,95 +362,90 @@ Necesitamos esa conversión porque el resultado de `prompt` es un valor
 de cadena de texto (string), y queremos un número. Hay funciones similares
 llamadas `String` y `Boolean` que convierten valores a estos tipos.
 
-Here is the rather trivial schematic representation of straight
-control flow:
+Aquí está la trivial representación esquemática de un flojo de control recto.
 
 image::img/controlflow-straight.svg[alt="Trivial control flow",width="4cm"]
 
-== Conditional execution ==
+== Ejecución Condicional ==
 
-(((Boolean)))(((control flow)))Executing statements in straight-line
-order isn't the only option we have. An alternative is _((conditional
-execution))_, where we choose between two different routes based on a
-Boolean value, like this:
+(((Booleano)))(((flujo de control)))Ejecutar sentencia en línea recta no es
+la íunica opción que tenemos. Una alternativa es la _((ejecución condicional))_,
+en dondne escogemos entre dos rutas diferentes basados en un valor Booleano,
+como el siguiente:
 
 image::img/controlflow-if.svg[alt="Conditional control flow",width="4cm"]
 
-(((syntax)))(((Number function)))(((if keyword)))Conditional execution
-is written with the `if` keyword in JavaScript. In the simple case, we
-just want some code to be executed if, and only if, a certain
-condition holds. For example, in the previous program, we might want
-to show the square of the input only if the input is actually a
-number.
+(((sintaxis)))(((función Number)))(((if, palabra clave)))La ejecución condicional
+se escribe con la palabra clave `if` en JavaScript. En el caso sencillo,
+queremos que algo de código se ejecute si, y sólo si, cierta condición se cumple.
+Por ejemplo, en el programa previo, podríamos querer mostrar el cuadrado de
+la entrada sólo si la entrada es un número.
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
-if (!isNaN(theNumber))
-  alert("Your number is the square root of " +
-        theNumber * theNumber);
+var elNumero = Number(prompt("Dame un número", ""));
+if (!isNaN(elNumero))
+  alert("Tu número es la raíz cuadrada de " +
+        elNumero * elNumero);
 ----
+Con esta modificación, si le das "queso", no se mostrará ninguna salida.
 
-With this modification, if you enter “cheese”, no output will be shown.
+La palbra clave `if` ejecuta o salta una sentencia dependiendo del valor
+de una expresión Booleana. La expresión de decisión se escribe después de
+la palbra clave, entre ((parántesis)), seguida por una sentencia a ejecutar.
 
-The keyword `if` executes or skips a statement depending on the value
-of a Boolean expression. The deciding expression is written after the
-keyword, between ((parentheses)), followed by the statement to execute.
+(((función isNaN)))La función `inNaN` es una función estándar de JavaScript
+que regresa `true` sólo si el argumento que le diste es `NaN`. Resulta que
+la función Number regresa `NaN` cuando le das una cadena que no 
+“a menos que  `elNumero` no sea un número, has esto”.
 
-(((isNaN function)))The `isNaN` function is a standard JavaScript
-function that returns `true` only if the argument it is given is
-`NaN`. The `Number` function happens to return `NaN` when you give it
-a string that doesn't represent a valid number. Thus, the condition
-translates to “unless `theNumber` is not-a-number, do this”.
-
-(((else keyword)))You often won't just have code that executes when a
-condition holds true, but also code that handles the other case. This
-alternate path is represented by the second arrow in the
-diagram. The `else` keyword can be used, together with `if`, to create
-two separate, alternative execution paths.
+(((palabra clave else)))A menudo no sólo tendrás código que se ejecute cuando
+una condición sea verdadera, sino también que maneje el otro caso. Este camino
+alternativo es representado por la segunda flecha en el diagrama. La palabra
+clave `else` puede ser usada, junto con `if`, para crear dos rutas de ejecución
+separadas y alternativas.
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
-if (!isNaN(theNumber))
-  alert("Your number is the square root of " +
-        theNumber * theNumber);
+var elNumero = Number(prompt("Dame un número", ""));
+if (!isNaN(elNumero))
+  alert("Tu número es la raíz cuadrada de " +
+        elNumero * elNumero);
 else
-  alert("Hey. Why didn't you give me a number?");
+  alert("Hey. ¿Por qué no me diste un número?");
 ----
 
-(((if keyword,chaining)))If we have more than two paths to choose
-from, multiple `if`/`else` pairs can be “chained” together. Here's an
-example:
+(((palabra clave if ,encadenado)))Si tenemos más de dos caminos a escoger,
+varios pares de `if`/`else` pueden ser "encadenados". Aquí hay un ejemplo:
 
 [source,javascript]
 ----
-var num = Number(prompt("Pick a number", "0"));
+var num = Number(prompt("Dame un número", "0"));
 
 if (num < 10)
-  alert("Small");
+  alert("Chico");
 else if (num < 100)
-  alert("Medium");
+  alert("Mediano");
 else
-  alert("Large");
+  alert("Grande");
 ----
 
-The program will first check whether `num` is less than 10. If it is,
-it chooses that branch, shows `"Small"`, and is done. If it isn't, it
-takes the `else` branch, which itself contains a second `if`. If the
-second condition (`< 100`) holds, that means the number is between 10
-and 100, and `"Medium"` is shown. If it doesn't, the second, and last,
-`else` branch is chosen.
+El programa primero checará sí `num` es menor que 10. Si lo es, escoge 
+ese camino, muestra `"Chico"` y termina. Si no lo es, toma el el branch
+`else`, que en sí mismo contiene un segundo `if`. Si la segunda condición
+(`< 100`) se cumple, significa que el número está entre 10 y 100, y se
+muestra `"Mediano"`. Si no lo es, el segundo y último `else` es escogido.
 
-The flow chart for this program looks something like this:
+El diagrama de flujo para este programa es algo así:
 
 image::img/controlflow-nested-if.svg[alt="Nested if control flow",width="4cm"]
 
-[[loops]]
-== while and do loops ==
+[[bucles]]
+==  bucles while y do ==
 
-(((even number)))Consider a program that prints all even numbers from
-0 to 12. One way to write this is as follows:
+(((número par)))Piensa en un programa que imprima todos
+los números primos del 1 al 12. Una manera de escribirlo
+sería como sigue:
 
 [source,javascript]
 ----
@@ -463,11 +458,10 @@ console.log(10);
 console.log(12);
 ----
 
-(((control flow)))That works, but the idea of writing a program is to
-make something _less_ work, not more. If we needed all even numbers
-less than 1,000, the previous would be unworkable. What we need is a
-way to repeat some code. This form of control flow is called a
-_((loop))_:
+(((control de flujo)))Eso funciona, pero la idea de escribir un programa es
+trabajar _menos_, no más. Si necesitamos todos los números menores que
+1,000, lo anterior sería imposible de trabajar. Lo que necesitamos es una
+forma de repetir algo de código. Esta forma de control de flujo es llamada _((bucle))_:
 
 image::img/controlflow-loop.svg[alt="Loop control flow",width="4cm"]
 

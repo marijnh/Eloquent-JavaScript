@@ -371,7 +371,7 @@ es más o menos alfabética: las letras mayúsculas son siempre "menores"
 que las minúsculas, así que `"Z" < "a"` es verdad, y los caracteres no
 alfabéticos (!, -, y así por el estilo) son también incluidos en el
 ordenamiento. La comparación real está basada en el estándar
-_((Unicode))_. Este estándar asigna un número a virtualemente cada
+_((Unicode))_. Este estándar asigna un número virtualmente a cada
 carácter que alguna vez necesitarás, incluyendo caracteres del griego,
 árabe, japonés, tamil, y otros alfabetos. Tener tales números es
 útil para guardar las cadenas de texto dentro de la computadora porque
@@ -390,7 +390,7 @@ console.log("Itchy" != "Scratchy")
 // → true
 ----
 
-(((comparaciéon,de NaN)))(((NaN)))Sólo esxiste un valor en JavaScript
+(((comparaciéon,de NaN)))(((NaN)))Sólo existe un valor en JavaScript
 que no es igual a sí mismo, y este es `NaN`, que significa "no es un
 número".
 

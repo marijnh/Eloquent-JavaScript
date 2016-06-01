@@ -7,8 +7,8 @@
 [chapterquote="true"]
 [quote, Donald Knuth]
 ____
-La gente piensa que las ciencias de la computación son el
-arte de los genios pero la realidad es lo contrario, es sólo un
+La gente piensa que las ciencias de la computación son las
+artes de los genios pero la realidad es lo contrario, es sólo un
 montón de gente haciendo cosas que se construyen sobre otras,
 como una pared de piedras muy pequeñas.
 ____

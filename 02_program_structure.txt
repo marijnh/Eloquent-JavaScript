@@ -465,119 +465,118 @@ forma de repetir algo de código. Esta forma de control de flujo es llamada _((b
 
 image::img/controlflow-loop.svg[alt="Loop control flow",width="4cm"]
 
-(((syntax)))(((counter variable)))Looping control flow allows us to go
-back to some point in the program where we were before and repeat it
-with our current program state. If we combine this with a variable
-that counts, we can do something like this:
+(((sintaxis)))(((variable contador)))El control de flujo por bucles nos
+permite regresar a cierto punto en el progrma en el que estuvimos antes
+y repetirlo con nuestro estado actual. Si combinamos esto con una variable
+que mantenga una cuenta, podemos hacer algo como lo siguiente:
 
 [source,javascript]
 ----
-var number = 0;
-while (number <= 12) {
-  console.log(number);
-  number = number + 2;
+var numero = 0;
+while (numero <= 12) {
+  console.log(numero);
+  numero = numero + 2;
 }
 // → 0
 // → 2
 //   … etcetera
 ----
 
-(((while loop)))(((Boolean)))A ((statement)) starting with the
-keyword `while` creates a loop. The word `while` is followed by an
-((expression)) in ((parentheses)) and then a statement, much like `if`.
-The loop executes that statement as long as the expression produces a
-value that is `true` when converted to Boolean type.
+(((bucle while)))(((Booleano)))Una ((sentencia)) que comienza con la palabra
+clave `while` crea un bucle. Después de `while` viene una ((expresión)) en
+((paréntesis)) y después una sentencia, muy parecido a el `if`. El bucle
+ejecuta la sentencia mientras la expresión produzca un valor que sea
+`true` cuando se convierta a un tipo Booleano.
 
-(((grouping)))((({} (block))))(((block)))In this loop, we want to both
-print the current number and add two to our variable. Whenever we need
-to execute multiple ((statement))s inside a loop, we wrap them in
-((curly braces)) (`{` and `}`). Braces do for statements what
-((parentheses)) do for expressions: they group them together, making
-them count as a single statement. A sequence of statements wrapped in
-braces is called a _block_.
+(((agrupamiento)))((({} (bloque))))(((bloque)))En este bucle, queremos
+tanto imprimir el número como sumar dos a nuestra variable. Cuando necesitamos
+ejecutar múltiples ((sentencia))s dentro de un bucle, lo encerramos
+en ((llaves)) (`{` y `}`). Las llaves hacen por las sentencias lo que
+los ((paréntesis)) hacen por las expresiones: las agrupan, haciéndolos
+valer por una sola sentencia. Una secuencia de sentencias encerradas
+en llaves es llamada un _bloque_.
 
-(((programming style)))Many JavaScript programmers wrap every single
-loop or `if` body in braces. They do this both for the sake of
-consistency and to avoid having to add or remove braces when changing
-the number of statements in the body later. In this book, I will write
-most single-statement bodies without braces, since I value brevity.
-You are free to go with whichever style you prefer.
+(((estilo de programación)))Muchos programadores de JavaScript encierran
+cada cuerpo de un bucle o `if` en llaves. Lo hacen en nombre de la consistencia
+y para evitar tener que añadir o quitar las llaves cuando el número de
+sentencias en el cuerpo cambie. En este libro escribiré la mayoría de los
+cuerpos de una sola sentencia sin bloques, porque value la brevedad.
+Tú eres libre de usar el estilo que prefieras.
 
-(((comparison)))(((state)))The variable `number` demonstrates the way
-a ((variable)) can track the progress of a program. Every time the
-loop repeats, `number` is incremented by `2`. Then, at the beginning
-of every repetition, it is compared with the number `12` to decide
-whether the program has done all the work it intended to do.
+(((comparación)))(((estado)))La variable número demuestra la forma en que
+una ((variable)) puede dar seguimiento al progreso de un programa.
+Cada vez que el bucle se repite, `numero` se incrementa en `2`. Entonces,
+al principio de cada repetición. es comparada con el número `12` para decidir
+si el programa ha hecho todo el trabajo que tenía que hacer.
 
-(((exponentiation)))As an example that actually does something useful,
-we can now write a program that calculates and shows the value of
-2^10^ (2 to the 10th power). We use two variables: one to keep
-track of our result and one to count how often we have multiplied this
-result by 2. The loop tests whether the second variable has reached 10
-yet and then updates both variables.
+(((exponenciación)))Coomo un ejemplo que hace realmente algo útil,
+podemos escribir un programa que calcula y mustra el valor de 2^10
+(dos a la décima potencia). Usamos dos varianles: una para mantener el
+resultado y una para contar cuantas veces hemos multiplicado este
+resultado por dos. El bucle verifica si la segunda variable ha llegado
+a 10 y entonces actualiza las dos variables.
 
 [source,javascript]
 ----
-var result = 1;
-var counter = 0;
-while (counter < 10) {
-  result = result * 2;
-  counter = counter + 1;
+var resultado = 1;
+var contador = 0;
+while (contador < 10) {
+  resultado = resultado * 2;
+  contador = contador + 1;
 }
-console.log(result);
+console.log(resultado);
 // → 1024
 ----
 
-The counter could also start at `1` and check for `<= 10`, but, for
-reasons that will become apparent in
-link:04_data.html#array_indexing[Chapter 4], it is a good idea to get
-used to counting from 0.
+El contador pudo también empezar en `1` y verificar que `<=10`, pero,
+por razones que se aclararán en el
+link:04_data.html#array_indexing[Capítulo 4], es una buena idea acostumbrarse
+a contar desde 0.
 
-(((loop body)))(((do loop)))(((control flow)))The `do` loop is a
-control structure similar to the `while` loop. It differs only on one
-point: a `do` loop always executes its body at least once, and it
-starts testing whether it should stop only after that first execution.
-To reflect this, the test appears after the body of the loop:
+(((cuerpo del bucle)))(((bucle do)))(((control de flujo)))El bucle `do` es una
+estructura de control similar al bucle `while`. Se diferencia en sólo
+un punto: un bucle `do` siempre ejecuta su cuerpo por lo menos una vez y
+empieza a verificar si debería para sólo después de la primera ejecución.
+Para reflejar esto, la condición aprece después del cuerpo del bucle:
 
 [source,javascript]
 ----
 do {
-  var yourName = prompt("Who are you?");
-} while (!yourName);
-console.log(yourName);
+  var tuNombre = prompt("¿Quién eres?");
+} while (!tuNombre);
+console.log(tuNombre);
 ----
 
-(((Boolean,conversion to)))(((! operator)))This program will
-force you to enter a name. It will ask again and again until it gets
-something that is not an empty string. Applying the `!` operator will
-convert a value to Boolean type before negating it, and all strings
-except `""` convert to `true`. This means the loop continues going round
-until you provide a name that is not the empty string.
+(((Booleano,conversión a)))(((operador !)))Este programa te obligará a
+introducir un nombre. Preguntará una y otra vez hasta que obtenga algo que
+no sea una cadena vacía. Aplicar el operador `!` convierte un valor a Booleano
+negándolo y todas las cadenas excepto `""` se convierten a `true`. Esto significa
+qie el bucle continúa corriendo hasta que des un nombre que no sea una cadena vacía.
 
-== Indenting Code ==
+== Indentando código ==
 
-(((block)))(((code structure)))(((whitespace)))(((programming
-style)))You've probably noticed the spaces I put in front of some
-statements. In JavaScript, these are not required—the computer will
-accept the program just fine without them. In fact, even the ((line))
-breaks in programs are optional. You could write a program as a single
-long line if you felt like it. The role of the ((indentation)) inside
-blocks is to make the structure of the code stand out. In complex
-code, where new blocks are opened inside other blocks, it can become
-hard to see where one block ends and another begins. With proper
-indentation, the visual shape of a program corresponds to the shape of
-the blocks inside it. I like to use two spaces for every open block,
-but tastes differ—some people use four spaces, and some people use
-((tab character))s.
+(((bloque)))(((estructura del código)))(((espacio en blanco)))(((estilo de
+programción))) Probablemente has notado los espacios que pongo en frente
+de algunas sentencias. En JavaScript, no son requeridos, la computadora
+aceptaré el programa bien sin ellos. De hecho, incluso los saltos de ((línea))
+en los programas son opcionales. Puedes escribir un programa en una sola línea
+si así lo prefieres. El rol de la ((indentación)) dentro de los
+bloques es hacer notar la estructura del código. En código complejo,
+en dónde nuevos bloques son abiertos dentro de otros bloques, puede ser difícil
+de ver en dónde termina uno y empieza otro. Con la indentación correcta,
+la forma visual del programa se corresponde con la forma de los bloques dentro
+de él. A mí me gusta usar dos espacios por cada bloque abierto, pero los gustos
+varían; algunas personas usan cuatro espacios, y algunas
+otras usan el ((carácter tab)).
 
-== for loops ==
+== Bucles for ==
 
-(((syntax)))(((while loop)))(((counter variable)))Many loops follow
-the pattern seen in the previous `while` examples. First, a “counter”
-variable is created to track the progress of the loop. Then comes a
-`while` loop, whose test expression usually checks whether the counter
-has reached some boundary yet. At the end of the loop body, the
-counter is updated to track progress.
+(((sintaxis)))(((bucle while)))(((variable contador)))Muchos bucles siguen el
+patrón de los ejemplos previos del `while`. Primero, una variable “contador”
+es creada para dar seguimiento al progreso del bucle. Entonces viene el 
+bucle `while`, cuya expresión condicional normamelte verifica si el 
+contador ha alcanzafo cierto límite. El final del cuerpo del bucle, el
+contador es actualizado para dar seguimiento al progreso.
 
 (((for loop)))(((loop)))Because this pattern is so common, JavaScript and
 similar languages provide a slightly shorter and more comprehensive

@@ -119,7 +119,7 @@ function forceDirected_novector(graph) {
   }
 }
 
-function forceDirected_novector(graph) {
+function forceDirected_localforce(graph) {
   var forcesX = [], forcesY = [];
   for (var i = 0; i < graph.length; i++)
    forcesX[i] = forcesY[i] = 0;

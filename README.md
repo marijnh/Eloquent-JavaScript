@@ -8,7 +8,7 @@ Feedback welcome, in the form of issues and pull requests.
 ## Building
 
     npm install --production
-    apt-get install asciidoc inkscape
+    apt-get install asciidoc inkscape calibre
     make html
 
 For OSX, you can use port or brew to install the asciidoc package.
@@ -21,3 +21,7 @@ To build the PDF file:
 To build the ePub book:
 
     make book.epub
+
+To build a mobi book from the epub book:
+
+    make book.mobi

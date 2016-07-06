@@ -593,7 +593,7 @@ router.add("GET", /^\/talks$/, function(request, response) {
 When the `changesSince` parameter is missing, the handler simply
 builds up a list of all talks and returns that.
 
-(((long polling)))(((validation)))Otherwise, the `changeSince`
+(((long polling)))(((validation)))Otherwise, the `changesSince`
 parameter first has to be checked to make sure that it is a valid
 number. The `getChangedTalks` function, to be defined shortly, returns
 an array of changed talks since a given point in time. If it returns an

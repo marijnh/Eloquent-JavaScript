@@ -119,5 +119,5 @@ epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) bin/extract_hints.js
 epubcheck: book.epub
 	epubcheck book.epub 2>&1 | grep -v 'img/.*\.svg'
 
-book.mobi:
-	ebook-convert book.epub book.mobi --output-profile=kindle --remove-first-image
+book.mobi: book.epub img/cover.png
+	ebook-convert book.epub book.mobi --output-profile=kindle --cover=img/cover.png --remove-first-image

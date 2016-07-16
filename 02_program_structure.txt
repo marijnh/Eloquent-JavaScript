@@ -56,7 +56,7 @@ punto y coma después de ella. Esto es un programa:
 !false;
 ----
 
-Es un programa inútil, sin embargo. Una ((expresión)) puede estar presente para
+Sin embargo, es un programa inútil. Una ((expresión)) puede estar presente para
 sólo producir un valor, que puede entonces ser utilizado por la expresión que
 la contiene. Una ((declaración)) existe por sí sola y que equivale a algo
 sólo si afecta al mundo. Podría mostrar algo en la
@@ -578,221 +578,224 @@ bucle `while`, cuya expresión condicional normamelte verifica si el
 contador ha alcanzafo cierto límite. El final del cuerpo del bucle, el
 contador es actualizado para dar seguimiento al progreso.
 
-(((for loop)))(((loop)))Because this pattern is so common, JavaScript and
-similar languages provide a slightly shorter and more comprehensive
-form, the `for` loop.
+(((bucle for)))(((bucle)))Debido a que este patrón es tan común, JavaScript
+y otros lenguajes similares proveen una versión un poco más corta y más
+completa, el bucle `for`.
+
 
 [source,javascript]
 ----
-for (var number = 0; number <= 12; number = number + 2)
-  console.log(number);
+for (var numero = 0; numero <= 12; numero = numero + 2)
+  console.log(numero);
 // → 0
 // → 2
-//   … etcetera
+//   … etc.
 ----
 
-(((control flow)))(((state)))This program is exactly equivalent to the
-link:02_program_structure.html#loops[earlier] even-number-printing
-example. The only change is that all the ((statement))s that are
-related to the “state” of the loop are now grouped together.
+(((control de flujo)))(((estado)))Este programa es exactamente equivalente
+a el link:02_program_structure.html#loops[ejemplo previo] de impresión
+de números pares. El único cambio es que todas las ((sentencia))s que están
+relacionadas con el "estado" del bucle están agrupadas.
 
-The ((parentheses)) after a `for` keyword must contain two
-((semicolon))s. The part before the first semicolon _initializes_ the
-loop, usually by defining a ((variable)). The second part is the
-((expression)) that _checks_ whether the loop must continue. The final
-part _updates_ the state of the loop after every iteration. In most
-cases, this is shorter and clearer than a `while` construct.
+Los ((paréntesis)) después de una palabra clave `for` tienen que contener
+dos ((punto y coma)). La parte que está antes del primer punto y coma
+_inicializa_ el bucle, normalmente al definir una ((variable)). La segunda parte es la ((expresión)) que verifica si el bucle tiene que continuar.
+La parte final _actualiza_ el estado del bucle antes de cada iteración. En
+la mayoría de los casos, esto es más corto y claro que una construcción con
+`while`.
 
-(((exponentiation)))Here is the code that computes 2^10^, using `for`
-instead of `while`:
+(((exponenciación)))Aquí está un código que calcula 2^10^, usando el `for`
+en vez del `while`.
 
 [source,javascript]
 ----
-var result = 1;
-for (var counter = 0; counter < 10; counter = counter + 1)
-  result = result * 2;
-console.log(result);
+var resultado = 1;
+for (var contador = 0; contador < 10; contador = contador + 1)
+  resultado = resultado * 2;
+console.log(resultado);
 // → 1024
 ----
 
-(((programming style)))(((indentation)))Note that even though no block
-is opened with a `{`, the statement in the loop is still indented two
-spaces to make it clear that it “belongs” to the line before it.
+(((estilo de programación)))(((indentación)))Nota que incluso aunque no se
+abrió ningún bloque con un `{`, la sentencia del bucle está indentada dos
+espacios para dejar claro que "pertenece" al la línea que está antes de
+ella.
 
-== Breaking Out of a Loop ==
+== Forzando la salida de un bucle ==
 
-(((loop,termination of)))(((break keyword)))Having the loop's
-condition produce `false` is not the only way a loop can finish. There
-is a special statement called `break` that has the effect of
-immediately jumping out of the enclosing loop.
+(((bucle, terminación de)))(((palabra clave break)))Hacer que la condición del bucle produzca `false` no es la única forma de que un bucle termine.
+Existe una una sentencia especial llamada `break` que tiene el 
+efecto de salir inmediatamente del bucle que la esté encerrando.
 
-This program illustrates the `break` statement. It finds the first number
-that is both greater than or equal to 20 and divisible by 7.
+El siguiente programa ilustra la sentencia `break`. Encuentra el primer
+número que es más grande o igual que 20 y divisible por 7.
 
 [source,javascript]
 ----
-for (var current = 20; ; current++) {
-  if (current % 7 == 0)
+for (var actual = 20; ; actual++) {
+  if (actual % 7 == 0)
     break;
 }
-console.log(current);
+console.log(actual);
 // → 21
 ----
 
-(((remainder operator)))(((% operator)))Using the remainder
-(`%`) operator is an easy way to test whether a number is divisible by
-another number. If it is, the remainder of their division is zero.
+(((operador sobrante)))(((operador %)))Usar el operador de sobrante o
+módulo (`%`) es una forma fácil de probar si un número es divisible por
+otro. Si lo es, el sobrante de la división es cero.
 
-(((for loop)))The `for` construct in the example does not have a part
-that checks for the end of the loop. This means that the loop will
-never stop unless the `break` statement inside is executed.
+(((bucle for)))La construcción `for` en este ejemplo no tiene la parte
+que verifica si el bucle debe terminar. Esto significa que el loop nunca
+terminará hasta que la sentencia `break` que está adentro sea ejecutada.
 
-If you were to leave out that `break` statement or accidentally write
-a condition that always produces `true`, your program would get stuck
-in an _((infinite loop))_. A program stuck in an infinite loop will
-never finish running, which is usually a bad thing.
+Si dejaras afuera esa sentencia `break` o accidentalmente escribieras una
+condición que siempre produzca `true`, tu programa se quedaría atorado en
+un _((bucle infinito))_. Un programa que se queda en un bucle infinito
+nunca terminará de correr, y eso usualmente es malo.
 
 ifdef::interactive_target[]
 
-If you create an infinite loop in one of the examples on these pages,
-you'll usually be asked whether you want to stop the script after a
-few seconds. If that fails, you will have to close the tab that you're
-working in, or on some browsers close your whole browser, in order to
-recover.
+Si creas un bucle infinito en uno de los ejemplos de estas páginas,
+usualmente se te preguntará si quieres detener el script después de unos
+cuantos segundos. Si eso falla, tendrás que cerrar la pestaña en la que
+estás trabajando, o, en otros nevagadores, cerrar el navegador entero para
+recuperarte.
 
 endif::interactive_target[]
 
-(((continue keyword)))The `continue` keyword is similar to `break`, in
-that it influences the progress of a loop. When `continue` is
-encountered in a loop body, control jumps out of the body and
-continues with the loop's next iteration.
+(((palabra clave continue)))La palabra clave `continue` es similar a
+`break` en que influencia el progreso del bucle. Cuando se encuentra
+`continue` en el cuerpo de un bucle, el control sale del curpo del
+bucle inmediatamente y continúa en la próxima iteración del bucle.
 
-== Updating variables succinctly ==
+== Actualizando variables sucintamente ==
 
-(((assignment)))(((+= operator)))(((-= operator)))(((/=
-operator)))(((*= operator)))(((state)))(((side effect)))Especially
-when looping, a program often needs to “update” a variable to hold a
-value based on that variable's previous value.
-
-// test: no
-
-[source,javascript]
-----
-counter = counter + 1;
-----
-
-JavaScript provides a shortcut for this:
+(((asiganción)))(((operador +=)))(((operador -=)))(((operador
+/=)))(((operador \*=)))(((estado)))(((efecto secundario)))Especialmente
+cuando estamos en un bucle, un programa necesita "actualizar" una variable
+para mantener un valor basado en el valor previo de esa variable.
 
 // test: no
 
 [source,javascript]
 ----
-counter += 1;
+contador = contador + 1;
 ----
 
-Similar shortcuts work for many other operators, such as `result *= 2` to
-double `result` or `counter -= 1` to count downward.
-
-This allows us to shorten our counting example a little more.
-
-[source,javascript]
-----
-for (var number = 0; number <= 12; number += 2)
-  console.log(number);
-----
-
-(((++ operator)))(((-- operator)))For `counter += 1` and `counter -=
-1`, there are even shorter equivalents: `counter++` and `counter--`.
-
-== Dispatching on a value with switch ==
-
-(((syntax)))(((conditional execution)))(((dispatching)))(((if
-keyword,chaining)))It is common for code to look like this:
+JavaScript nos da un atajo para esto:
 
 // test: no
 
 [source,javascript]
 ----
-if (variable == "value1") action1();
-else if (variable == "value2") action2();
-else if (variable == "value3") action3();
-else defaultAction();
+contador += 1;
 ----
 
-(((colon character)))(((switch keyword)))There is a construct called
-`switch` that is intended to solve such a “dispatch” in a more direct
-way. Unfortunately, the syntax JavaScript uses for this (which it
-inherited from the C/Java line of programming languages) is somewhat
-awkward—a chain of `if` statements often looks better. Here is an
-example:
+Atajos similares funcionan igual para muchos otros operadores, como
+`resultado *= 2` para duplicar `resultado` o `counter -= 1` para restar uno.
+
+Esto nos permite acortar nuestro ejemplo de la cuenta un poco más.
 
 [source,javascript]
 ----
-switch (prompt("What is the weather like?")) {
-  case "rainy":
-    console.log("Remember to bring an umbrella.");
+for (var numero = 0; numero <= 12; numero += 2)
+  console.log(numero);
+----
+
+(((operador ++)))(((operador --)))Para `contador += 1` y `contador -= 1`,
+hay incluso equivalentes más cortos: `contador+=` y `contador--`.
+
+== Despachando sobre un valor con switch ==
+
+(((sintaxis)))(((ejecución condicional)))(((despachando)))(((palabra clave if,
+encadenamiento)))Es común ver código así:
+
+// test: no
+
+[source,javascript]
+----
+if (variable == "valor1") accion1();
+else if (variable == "valor2") accion2();
+else if (variable == "valor3") accion3();
+else accionDefault();
+----
+
+(((caracter punto y coma)))(((palabra clave switch)))Existe una estructura
+llamada `switch` que está hecha para resolver este "despachado" de un modo
+más directo. Desafortunadamente, la sintaxis que JavaScript usa para
+esto (que es heredada de la línea de lenguajes de programación de C o Java)
+es un poco incómoda; una cadena de sentencias `if` a menudo luce mejor.
+Aquí hay un ejemplo:
+
+[source,javascript]
+----
+switch (prompt("¿Cómo está el clima?")) {
+  case "lluvioso":
+    console.log("Recuerda llevar un paraguas.");
     break;
-  case "sunny":
-    console.log("Dress lightly.");
-  case "cloudy":
-    console.log("Go outside.");
+  case "soleado":
+    console.log("Viste ligero.");
+  case "nublado":
+    console.log("Sal a la calle.");
     break;
   default:
-    console.log("Unknown weather type!");
+    console.log("Tipo de Clima desconocido.");
     break;
 }
 ----
 
-(((fallthrough)))(((comparison)))(((break keyword)))(((case
-keyword)))(((default keyword)))You may put any number of `case` labels
-inside the block opened by `switch`. The program will jump to the
-label that corresponds to the value that `switch` was given or to
-`default` if no matching value is found. It starts executing
-statements there, even if they're under another label, until it
-reaches a `break` statement. In some cases, such as the `"sunny"` case
-in the example, this can be used to share some code between cases (it
-recommends going outside for both sunny and cloudy weather). But
-beware: it is easy to forget such a `break`, which will cause the
-program to execute code you do not want executed.
+(((fallthrough)))(((comparación)))(((palabra clave break)))(((palabra calve
+case)))(((palabra clave default))) Puedes poner cualquier cantidad
+de etiquetas `case` dentro del bloque `switch` abierto. El programa
+saltará a la etiqueta que corresponda al valor que se le dio al
+`switch` o a `default` si no se encuentra valor que corresponda.
+Se empiezan a ejecutar las sentencias desde ahí, incluso si están
+bajo otra etiqueta, hasta que se llegue a una sentencia `breal`.
+En algunos casos, como en el caso de `"soleado"` en el ejemplo, esto
+puede ser usado para compartir código entre casos (recomienda
+salir a la calle tanto para clima soleado como para nublado). Pero
+cuidado: es fácil olvidar el `break`, lo cuál causará que el programa
+ejecute código que no quieres que se ejecute.
 
-== Capitalization ==
+== Capitalización ==
 
-(((capitalization)))(((variable,naming)))(((whitespace)))Variable
-names may not contain spaces, yet it is often helpful to use multiple
-words to clearly describe what the variable represents. These are
-pretty much your choices for writing a variable name with several
-words in it:
+(((capitalización)))(((variable, nombrado)))(((espacio en blanco)))Los
+nombres de variable no pueden contener espacios, pero aún así es útil
+ocupar varias palabras para describir claramente lo que esa variable
+representa. Estas son tus elecciones para escribir un nombre
+de variable con varias palabras:
 
 ----
-fuzzylittleturtle
-fuzzy_little_turtle
-FuzzyLittleTurtle
-fuzzyLittleTurtle
+toortuguitadifusa
+tortuguita_difusa
+TortuguitaDifusa
+tortuguitaDifusa
 ----
 
-(((camel case)))(((programming style)))(((underscore character)))The
-first style can be hard to read. Personally, I like the look of the
-underscores, though that style is a little painful to type. The
-((standard)) JavaScript functions, and most JavaScript programmers,
-follow the bottom style—they capitalize every word except the first.
-It is not hard to get used to little things like that, and code with
-mixed naming styles can be jarring to read, so we will just follow
-this ((convention)).
+(((camel case)))(((estilo de programación)))(((carácter guión bajo)))El
+primer estilo puede ser difícil de leer. Personalmente, me gusta como
+luce con los guiones bajos, aunque es un poco difícil de escribir. Las
+funciones ((estándar)) de JavaScript, y la mayoría de los programadores
+de JavaScript, siguen el último estilo; capitalizan cada palabra excepto la
+primera. No es difícil acostumbrarse a pequeñas cosas como esas y código
+con estilos de nombrado mezclados puede ser desagradable de leer,
+así que simplemente seguiremos esta ((convención)).
 
-(((Number function)))(((constructor)))In a few cases, such as the
-`Number` function, the first letter of a variable is also capitalized.
-This was done to mark this function as a constructor. What a
-constructor is will become clear in
-link:06_object.html#constructors[Chapter 6]. For now, the important
-thing is not to be bothered by this apparent lack of ((consistency)).
+(((función Number)))(((constructor)))En algunos casos, como en el
+de la función `Number`, la primera letra de una variable también es
+mayúscula. Esto fue hecho para marcar la función como un constructor.
+Lo que es un constructor, quedará claro en el
+link:06_object.html#constructors[Capítulo 6]. Por ahora, lo importante
+es no preocuparse por esta aparente falta de ((consistencia)).
 
-== Comments ==
+== Comentarios ==
 
-(((readability)))Often, raw code does not convey all the information
-you want a program to convey to human readers, or it conveys it in
-such a cryptic way that people might not understand it. At other
-times, you might just feel poetic or want to include some thoughts as
-part of your program. This is what _((comment))s_ are for.
+(((legibilidad)))A menudo, el código por sí mismo no transmite toda la
+información que quieres que un programa transmita para los lectores
+humanos, o la transmite de un modo tan críptico que las personas
+podrían no entenderlo. En otras ocasiones, simplemente puedieras
+sentirte poético o quisieras incluir algunos pensamientos como parte
+del programa. Para eso son los _((comentario))s_.
 
 (((slash character)))(((line comment)))A comment is a piece of text
 that is part of a program but is completely ignored by the computer.
@@ -945,21 +948,21 @@ endif::interactive_target[]
 
 !!hint!!
 
-(((FizzBuzz (exercise))))(((remainder operator)))(((% operator)))Going
+(((FizzBuzz (exercise))))(((remainder operador)))(((% operador)))Going
 over the numbers is clearly a looping job, and selecting what to print
 is a matter of conditional execution. Remember the trick of using the
-remainder (`%`) operator for checking whether a number is divisible by
+remainder (`%`) operador for checking whether a number is divisible by
 another number (has a remainder of zero).
 
 In the first version, there are three possible outcomes for every
 number, so you'll have to create an `if`/`else if`/`else` chain.
 
-(((|| operator)))(((if keyword,chaining)))The second version of the
+(((|| operador)))(((if keyword,chaining)))The second version of the
 program has a straightforward solution and a clever one. The simple
 way is to add another “branch” to precisely test the given condition.
 For the clever method, build up a string containing the word or words
 to output, and print either this word or the number if there is no
-word, potentially by making elegant use of the `||` operator.
+word, potentially by making elegant use of the `||` operador.
 
 !!hint!!
 
@@ -1011,7 +1014,7 @@ order in which we build up the string (line by line, left to right,
 top to bottom). So the outer loop handles the lines and the inner loop
 handles the characters on a line.
 
-(((counter variable)))(((remainder operator)))(((% operator)))You'll
+(((counter variable)))(((remainder operador)))(((% operador)))You'll
 need two variables to track your progress. To know whether to put a
 space or a hash sign at a given position, you could test whether the
 sum of the two counters is even (`% 2`).

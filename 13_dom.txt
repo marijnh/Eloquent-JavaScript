@@ -805,7 +805,7 @@ the browser, properly explaining all the properties they support and the
 interaction among those properties would take two or three books.
 
 (((domain-specific language)))The main reason I introduced
-_((selector))_ syntax—the notation used in style sheets to determine
+_((selector))_ syntax--the notation used in style sheets to determine
 which elements a set of styles apply to—is that we can use this same
 mini-language as an effective way to find ((DOM)) elements.
 

@@ -75,7 +75,7 @@ and encounters the nonsensical action.
 produce a `NaN` (not a number) or undefined value. And the program
 happily continues, convinced that it's doing something meaningful. The
 mistake will manifest itself only later, after the bogus value has
-traveled though several functions. It might not trigger an error at
+traveled through several functions. It might not trigger an error at
 all but silently cause the program's output to be wrong. Finding the
 source of such problems can be difficult.
 

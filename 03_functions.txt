@@ -404,7 +404,7 @@ acerca del número de argumentos que le pasas a una función. Sí le pasas demas
 loa argumentos extra son ignorados. Si le pasas muy pocos, los parámetros quie faltan
 simplemente son asignados a `undefined`.
 
-El lado malo de esto es que es posbible/probable, casi seguro que le pasarás
+El lado malo de esto es que es posible, probable a menudo, que le pasarás
 accidentalmente un número incorrecto de argumentos a las funciones y nadie te
 avisará.
 

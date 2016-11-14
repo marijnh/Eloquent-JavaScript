@@ -296,7 +296,7 @@ cadenas. La siguiente línea produce la cadena `"concatenar"`:
 Hay más maneras de manipular las cadenas, de las que hablaremos cuando
 lleguemos a los métodos en el link:04_data.html#methods[Capítulo 4].
 
-== Operadores Unitario ==
+== Operadores unarios ==
 
 (((operador)))(((operador typeof)))(((tipo)))No todos los operadores
 son símbolos. Algunos son escritos como palabras. Un ejemplo es el
@@ -323,8 +323,8 @@ estés corriendo el programa.
 binario))) Los otros operadores que hemos visto operaban sobre
 dos valores, pero `typeof` sólamente toma uno. Los operadores que usan
 dos valores son llamados operadores _binarios_, mientras que aquellos
-que sólo toman uno son llamados operadores _unitarios_. El operador menos
-puede usar tanto como operador binario como operador unitario.
+que sólo toman uno son llamados operadores _unarios_. El operador menos
+puede usar tanto como operador binario como operador unario.
 
 [source,javascript]
 ----
@@ -455,7 +455,7 @@ paréntesis como sea posible:
 
 (((ejecución condicional)))(((operador ternario)))(((operador ?:
 )))(((operador condicional)))(((caracter dos puntos)))(((signo de
-interrogación)))El último operador lógico del que hablaré no es unitario,
+interrogación)))El último operador lógico del que hablaré no es unario,
 ni binario, sino _ternario_, opera en tres valores. Este es escrito con
 un símbolo de interrogación  y dos puntos, como sigue:
 
@@ -509,7 +509,7 @@ console.log(false == 0)
 // → true
 ----
 
-(((operador +)))(((aritmética)))(((pass:[*] operador)))(((operador
+(((operador +)))(((aritmética)))(((pass:[\*] operador)))(((operador
 -)))Cuando un operador es aplicado al tipo "incorrecto" de valor,
 JavaScript convertirá silenciosamente el valor en el tipo de dato
 que espera, usando un conjunto de reglas que a menudo no son lo que
@@ -625,7 +625,7 @@ valor (`13`, `"abc"`). Puedes combinar y transformar valores con los
 operadores. Vimos operadores binarios para aritmética(`+`, `-`,
 `*`, `/` y `%`), concatenación de cadenas (`+`), comparación
 (`==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=`), y lógica
-(`&&`, `||`), así como varios operadores unitarios (`-` para hacer
+(`&&`, `||`), así como varios operadores unarios (`-` para hacer
 negativo un número, `!` para negar lógicamente y `typeof` para
 obtener el tipo de un valor) y un operador ternario (`?:`) para
 elegir entre dos valores basándonos en un tercero.

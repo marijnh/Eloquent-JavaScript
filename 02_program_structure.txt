@@ -797,85 +797,85 @@ podrían no entenderlo. En otras ocasiones, simplemente puedieras
 sentirte poético o quisieras incluir algunos pensamientos como parte
 del programa. Para eso son los _((comentario))s_.
 
-(((slash character)))(((line comment)))A comment is a piece of text
-that is part of a program but is completely ignored by the computer.
-JavaScript has two ways of writing comments. To write a single-line
-comment, you can use two slash characters (`//`) and then the comment
-text after it.
+(((carácter diagonal)))(((comentario de línea)))Un comentario es una
+pieza de texto que es parte del programa pero es completamente ignorado
+por la computadora. JavaScript tiene dos formas para escribir comentarios.
+Para escribir un comentario de una línea, puedes usar dos diagonales ('//')
+con el texto después.
 
 // test: no
 
 [source,javascript]
 ----
-var accountBalance = calculateBalance(account);
-// It's a green hollow where a river sings
-accountBalance.adjust();
-// Madly catching white tatters in the grass.
-var report = new Report();
-// Where the sun on the proud mountain rings:
-addToReport(accountBalance, report);
-// It's a little valley, foaming like light in a glass.
+var balandeDeCuenta = calcularBalance(cuenta);
+// Es en un claro de bosque donde canta un río.
+balandeDeCuenta.ajustar();
+// Cuelgan enloquecidamente de la hierbas harapos
+var reporte = new Reporte();
+// De plata; donde el sol de la orgullosa montaña
+agregaAReporte(balandeDeCuenta, reporte);
+// Luce: Es un pequeño valle espumoso de luz.
 ----
 
-(((block comment)))A `//` comment goes only to the end of the line. A
-section of text between `/*` and `*/` will be ignored, regardless of
-whether it contains line breaks. This is often useful for adding
-blocks of information about a file or a chunk of program.
+(((comentario de bloque)))Un `//` sólo es válido hasta el fin de la línea.
+Una sección de texto entre `/*` y '*/' será ignorada, sin importar si
+contiene saltos de línea. Esto es útil a menudo para añadir bloques de
+información acerca de un archivo o un pedazo de un programa.
 
 [source,javascript]
 ----
 /*
- I first found this number scrawled on the back of one of
- my notebooks a few years ago. Since then, it has often
- dropped by, showing up in phone numbers and the serial
- numbers of products that I've bought. It obviously likes
- me, so I've decided to keep it.
+ Primero, encontré este número garabateado en la parte trasera de 
+ una de mis libretas hace unos cuantos años. Desde entonces,
+ a menudo ha aparecido de la nada, apareciendo en números de
+ teléfono y números de serie de productos que he comprado. 
+ Obviamente le gusto, así que decidí conservarlo.
 */
-var myNumber = 11213;
+var miNumero = 11213;
 ----
 
-== Summary ==
+== Sumario ==
 
-You now know that a program is built out of statements, which
-themselves sometimes contain more statements. Statements tend to
-contain expressions, which themselves can be built out of smaller
-expressions.
+Ya sabes que un programa está construido de sentencias, que
+a su vez pueden contener más sentencias algunas veces. Las 
+sentencias normalmente contienen expresiones, que a su vez pueden
+contener expresiones más pequeñas.
 
-Putting statements after one another gives you a program that is
-executed from top to bottom. You can introduce disturbances in the
-flow of control by using conditional (`if`, `else`, and `switch`) and
-looping (`while`, `do`, and `for`) statements.
+Colocar una sentencia tras otras te da un programa que es ejecutado
+de arriba hacia abajo. Puedes introducir disturbios en el flujo de
+control usando sentencias condicionales (`if`, `else`, and `switch`) y
+de bucle (`while`, `do`, and `for`).
 
-Variables can be used to file pieces of data under a name, and they
-are useful for tracking state in your program. The environment is the
-set of variables that are defined. JavaScript systems
-always put a number of useful standard variables into your
-environment.
+Las variables pueden ser usadas para guardar piezas de información bajo un
+nombre, y son útiles para llevar registro del estado del programa.
+El entorno es el conjunto de variables que están definidas. Los sistemas
+de JavaScript siempre colocan varias variables estándar útiles en
+tu entorno.
 
-Functions are special values that encapsulate a piece of program. You
-can invoke them by writing `functionName(argument1, argument2)`. Such
-a function call is an expression, and may produce a value.
+Las funciones son valores especiales que encapsulan un pedazo del programa.
+Puedes invocar una escribiendo `nombreDeLaFuncion(argumento1, argumento2)`.
+Esta llamada a la función es una expresión, y podría producir un valor.
 
-== Exercises ==
+== Ejercicios ==
 
-(((exercises)))If you are unsure how to try your solutions to
-exercises, refer to the link:00_intro.html#intro[introduction].
+(((ejercicios)))Si no estás seguro de cómo probar tus soluciones a los
+ejercicios, visita la link:00_intro.html#intro[introducción]
 
-Each exercise starts with a problem description. Read that and try to
-solve the exercise. If you run into problems, consider reading the
-hints (!interactive after the exercise!)(!book at the link:hints.html#hints[end of the book]!).
-Full solutions to the exercises are not included in this
-book, but you can find them online at
+Cada ejercicio empieza con una descripción del problema. Léela e intenta
+resolver el ejercicio. Si tienes problemas, considera leer las pistas
+(!interactive después del ejercicio!)(!book al link:hints.html#hints[final del libro]!).
+Las soluciones completas a los ejercicios no están incluidas en este
+libro, pero puedes encontrarlas en línea en
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_].
-If you want to learn something from the exercises, I recommend looking
-at the solutions only after you've solved the exercise, or at least
-after you've attacked it long and hard enough to have a slight
-headache.
+Si quieres aprender a partir de los ejercicios, recomiendo mirar las soluciones
+sólo después de que hayas resuelto el ejercicio, o al menos lo hayas
+atacado con el tiempo y esfuerzo suficientes para tener un pequeño dolor
+de cabeza.
 
-=== Looping a triangle ===
+=== Iterando un triángulo ===
 
-(((triangle (exercise))))Write a ((loop)) that makes seven calls to
-`console.log` to output the following triangle:
+(((triángulo (ejercicio))))Escribe un ((bucle)) que haga siete
+llamadas a `console.log` para producir el siguiente triángulo:
 
 ----
 #
@@ -887,8 +887,8 @@ headache.
 #######
 ----
 
-It may be useful to know that you can find the length of a string by
-writing `.length` after it.
+Puede ser útil saber que puedes encontrar la longitud de una cadena
+de texto escribiendo `.length` después de ella.
 
 [source,javascript]
 ----
@@ -899,128 +899,136 @@ console.log(abc.length);
 
 ifdef::interactive_target[]
 
-Most exercises contain a piece of code that you can modify to solve
-the exercise. Remember that you can click code blocks to edit them.
+La mayoría de los ejercicios contienen una porción de código 
+que puedes modificar para resolver el ejercicio. Recuerda que puedes hacer
+click en los bloques de código para editarlos.
 
 [source,javascript]
 ----
-// Your code here.
+// Tu código aquí:
 ----
 endif::interactive_target[]
 
 !!hint!!
 
-(((triangle (exercise))))You can start with a program that simply
-prints out the numbers 1 to 7, which you can derive by making a few
-modifications to the
-link:02_program_structure.html#loops[even number printing example]
-given earlier in the chapter, where the `for` loop was introduced.
+(((triángulo (exercise))))Puedes empezar con un programa que
+simplemente imprima los números 1 a 7, el cuál puede derivarse
+de hacer unas cuantas modificaciones al
+link:02_program_structure.html#loops[ejemplo de impresión de
+los números pares] dado antes en este capítulo,
+en dónde se introdujo el bucle `for`.
 
-Now consider the equivalence between numbers and strings of hash
-characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go
-from `"#"` to `"##"` by adding a character (`+= "#"`). Thus, your
-solution can closely follow the number-printing program.
+Ahora considera la equivalencia entre números y cadenas de símbolos
+de numeral. Puedes ir de uno a dos añadiendo uno (`+=1`). Puedes
+ir de `"#"` a `"##"` añadiendo un carácter (`+= "#"`). Así, tu solución
+puede seguir de cerca el programa de impresión de números.
 
 !!hint!!
 
 === FizzBuzz ===
 
-(((FizzBuzz (exercise))))(((loop)))(((conditional execution)))Write a
-program that uses `console.log` to print all the numbers from 1 to
-100, with two exceptions. For numbers divisible by 3, print `"Fizz"`
-instead of the number, and for numbers divisible by 5 (and not 3),
-print `"Buzz"` instead.
+(((FizzBuzz (ejercicio))))(((bucle)))(((ejecución condicional)))Escribe
+un programa que use `console.log` para imprimir todos los números
+del 1 al 100, con dos excepciones. Para números divisibles por 3, 
+imprime `"Fizz"` en vez del número y para números divisibles por 5
+(pero no por 3), imprime `"Buzz"`.
 
-When you have that working, modify your program to print `"FizzBuzz"`,
-for numbers that are divisible by both 3 and 5 (and still print
-`"Fizz"` or `"Buzz"` for numbers divisible by only one of those).
+Cuando tengas eso funcionando, modifica tu programa para imprimir
+`"FizzBuzz"`, para números que sean divisibles tanto por 3 como por 5
+(y que siga imprimiendo `"Fizz"` o `"Buzz"` para números divisibles por
+sólo uno de ellos).
 
-(This is actually an ((interview question)) that has been claimed to
-weed out a significant percentage of programmer candidates. So if you
-solved it, you're now allowed to feel good about yourself.)
+(Esta es en realidad una ((pregunta de entrevista)) de la que se dice
+que elimina a un porcentaje significativo de programadores candidatos.
+Así que si lo resolviste, puedes sentirte bien contigo mismo.)
 
 ifdef::interactive_target[]
+
 [source,javascript]
 ----
-// Your code here.
+// Tu código aquí:
+----
+
+endif::interactive_target[]
+
+!!hint!!
+
+(((FizzBuzz (ejercicio))))(((operador sobrante)))(((operador %)))Recorrer
+los números es claramente un trabajo para un bucle y seleccionar
+qué imprimir es asunto de ejecución condicional. Recuerda el truco
+de usar el operador sobrante (`%`) para verificar si un número es divisible
+por otro (tiene un sobrante de cero).
+
+En la primera versión, hay tres posibles salidas para cada número, 
+así que tendrás que crear una cadena de `if`/`else if`/`else`.
+
+(((operador ||)))(((palabra clave if keyword,encadenado)))La segunda versión
+del programa tiene una solución obvia y una inteligente. El camino simple
+es añadir otra "rama" para probar la condición dada. Para el método
+inteligente, construye una cadena que contenga la palabra o las palabras
+que se van a devolver, e imprime esta palabra o el número si no hay palabra,
+probablemente haciendo un uso elegante del operador `||`.
+
+!!hint!!
+
+=== Tablero de Ajedrez ===
+
+(((tablero de ajedrez (exercise))))(((bucle)))(((anidado,de bucles)))(((caracter
+de nueva línea)))Escribe un programa que cree un cadena de texto que
+represente una cuadrícula de 8x8, usando el salto de línea como separador.
+En cada posición de la cuadrícula está o un espacio o un carácter "#".
+Los caracteres deberían formar un tablero de ajedrez.
+
+Pasar esta cadena a `console.log` debería mostrar algo como esto:
+
+----
+ # # # #
+# # # #
+ # # # #
+# # # #
+ # # # #
+# # # #
+ # # # #
+# # # #
+----
+
+Cuando tengas un programa que genere este patrón, defina
+una ((variable)) `tamano = 8` y cambia el programa de tal manera
+que trabaje para cualquier `tamano`, produciendo una cuadrícula
+del ancho y alto dado.
+
+ifdef::interactive_target[]
+
+[source,javascript]
+----
+// Tu código aquí:
 ----
 endif::interactive_target[]
 
 !!hint!!
 
-(((FizzBuzz (exercise))))(((remainder operador)))(((% operador)))Going
-over the numbers is clearly a looping job, and selecting what to print
-is a matter of conditional execution. Remember the trick of using the
-remainder (`%`) operador for checking whether a number is divisible by
-another number (has a remainder of zero).
+(((tablero de ajedrez (ejercicio))))La cadena puede ser construida
+empezando con una vacía (`""`) y agregando caracteres repetidamente.
+Un carácter de nueva línea se escribe `"\n"`.
 
-In the first version, there are three possible outcomes for every
-number, so you'll have to create an `if`/`else if`/`else` chain.
+Usa `console.log` para inspeccionar la salida de tu programa.
 
-(((|| operador)))(((if keyword,chaining)))The second version of the
-program has a straightforward solution and a clever one. The simple
-way is to add another “branch” to precisely test the given condition.
-For the clever method, build up a string containing the word or words
-to output, and print either this word or the number if there is no
-word, potentially by making elegant use of the `||` operador.
+(((anidado,de bucles)))Para trabajar con dos ((dimensiones)), necesitarás
+un ((bucle)) adentro de un bucle. Coloca ((llaves)) alrededor de los
+cuerpos de los dos bucles para hacer fácil ver dónde empiezan y dónde
+terminan. Intenta indentar propieamente los cuerpos. El orden de los
+bucles debe seguir el orden en el que construimos la cadena (línea por
+línea, de izquierda a derecha, de arriba hacia abajo). Así que el bucle
+de afuera maneja la línea y el bucle interno maneja los caracteres en
+una línea.
 
-!!hint!!
+(((variable contador)))(((operador sobrante)))(((operador %)))Necesitarás
+dos variables para dar seguimiento al progreso. Para saber si debes poner
+un espacio o un símbolo de número en una posición dada, puedes probar si
+la suma de los contadores es par (`%2`)
 
-=== Chess board ===
-
-(((chess board (exercise))))(((loop)))(((nesting,of loops)))(((newline
-character)))Write a program that creates a string that represents an
-8×8 grid, using newline characters to separate lines. At each position
-of the grid there is either a space or a “#” character. The characters
-should form a chess board.
-
-Passing this string to `console.log` should show something like this:
-
-----
- # # # #
-# # # #
- # # # #
-# # # #
- # # # #
-# # # #
- # # # #
-# # # #
-----
-
-When you have a program that generates this pattern, define a
-((variable)) `size = 8` and change the program so that it works for
-any `size`, outputting a grid of the given width and height.
-
-ifdef::interactive_target[]
-[source,javascript]
-----
-// Your code here.
-----
-endif::interactive_target[]
-
-!!hint!!
-
-(((chess board (exercise))))The string can be built by starting with
-an empty one (`""`) and repeatedly adding characters. A newline
-character is written `"\n"`.
-
-Use `console.log` to inspect the output of your program.
-
-(((nesting,of loops)))To work with two ((dimensions)), you will need a
-((loop)) inside of a loop. Put ((curly braces)) around the bodies of
-both loops to make it easy to see where they start and end. Try to
-properly indent these bodies. The order of the loops must follow the
-order in which we build up the string (line by line, left to right,
-top to bottom). So the outer loop handles the lines and the inner loop
-handles the characters on a line.
-
-(((counter variable)))(((remainder operador)))(((% operador)))You'll
-need two variables to track your progress. To know whether to put a
-space or a hash sign at a given position, you could test whether the
-sum of the two counters is even (`% 2`).
-
-Terminating a line by adding a newline character happens after the
-line has been built up, so do this after the inner loop but inside of
-the outer loop.
+Terminar una línea al añadir un carácter de nueva línea sucede después de
+que la línea ha sido construida, así que haz esto después del bucle interno
+pero dentro del bucle externo.
 
 !!hint!!

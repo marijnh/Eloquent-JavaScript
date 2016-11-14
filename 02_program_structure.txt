@@ -390,11 +390,11 @@ if (!isNaN(elNumero))
 ----
 Con esta modificación, si le das "queso", no se mostrará ninguna salida.
 
-La palbra clave `if` ejecuta o salta una sentencia dependiendo del valor
+La palabra clave `if` ejecuta o salta una sentencia dependiendo del valor
 de una expresión Booleana. La expresión de decisión se escribe después de
-la palbra clave, entre ((parántesis)), seguida por una sentencia a ejecutar.
+la palabra clave, entre ((parántesis)), seguida por una sentencia a ejecutar.
 
-(((función isNaN)))La función `inNaN` es una función estándar de JavaScript
+(((función isNaN)))La función `isNaN` es una función estándar de JavaScript
 que regresa `true` sólo si el argumento que le diste es `NaN`. Resulta que
 la función Number regresa `NaN` cuando le das una cadena que no 
 “a menos que  `elNumero` no sea un número, has esto”.
@@ -509,7 +509,7 @@ Cada vez que el bucle se repite, `numero` se incrementa en `2`. Entonces,
 al principio de cada repetición. es comparada con el número `12` para decidir
 si el programa ha hecho todo el trabajo que tenía que hacer.
 
-(((exponenciación)))Coomo un ejemplo que hace realmente algo útil,
+(((exponenciación)))Como un ejemplo que hace realmente algo útil,
 podemos escribir un programa que calcula y mustra el valor de 2^10
 (dos a la décima potencia). Usamos dos varianles: una para mantener el
 resultado y una para contar cuantas veces hemos multiplicado este

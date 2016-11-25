@@ -28,7 +28,7 @@ body {
 article {
   margin: 0 auto;
   max-width: 35em;
-  padding: 2em 0 5em 0;
+  padding: 2em 0.75em 5em 0.75em;
   position: relative;
 }
 

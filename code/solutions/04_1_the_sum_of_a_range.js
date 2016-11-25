@@ -1,15 +1,16 @@
 function range (start, end, step) {
     var array = [];
-    if (start < end)
+    if (start < end) {
       if (step == null)
         step = 1;
       for (var i = start; i <= end; i += step)
         array.push(i);
-    else
+    } else {
       if (step == null)
         step = -1;
       for (var i = start; i >= end; i+= step)
         array.push(i);
+    }
     return array;
 }
 

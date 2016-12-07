@@ -415,8 +415,8 @@ allowed in JSON.
 
 (((JSON.stringify function)))(((JSON.parse
 function)))(((serialization)))(((deserialization)))(((parsing)))JavaScript
-gives us functions, `JSON.parse` and `JSON.stringify`, that convert
-data from and to this format. The first takes a JavaScript value and
+gives us functions, `JSON.stringify` and `JSON.parse`, that convert
+data to and from this format. The first takes a JavaScript value and
 returns a JSON-encoded string. The second takes such a string and
 converts it to the value it encodes.
 

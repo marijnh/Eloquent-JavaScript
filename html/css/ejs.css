@@ -159,6 +159,10 @@ blockquote:before {
   left: -.5em;
 }
 
+blockquote p:last-of-type:after {
+  content: '”';
+}
+
 blockquote footer {
   position: relative;
   margin-left: 1em;

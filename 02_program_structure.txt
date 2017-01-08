@@ -500,7 +500,7 @@ en llaves es llamada un _bloque_.
 cada cuerpo de un bucle o `if` en llaves. Lo hacen en nombre de la consistencia
 y para evitar tener que añadir o quitar las llaves cuando el número de
 sentencias en el cuerpo cambie. En este libro escribiré la mayoría de los
-cuerpos de una sola sentencia sin bloques, porque value la brevedad.
+cuerpos de una sola sentencia sin bloques, porque valoro la brevedad.
 Tú eres libre de usar el estilo que prefieras.
 
 (((comparación)))(((estado)))La variable número demuestra la forma en que

@@ -4,19 +4,19 @@
 :load_files: ["code/ancestry.js", "code/chapter/05_higher_order.js", "code/intro.js"]
 :zip: node/html
 
-= Higher-Order Functions =
+= Funciones de Order Superior =
 
 ifdef::interactive_target[]
 
 [chapterquote="true"]
 [quote, Master Yuan-Ma, The Book of Programming]
 ____
-Tzu-li and Tzu-ssu were
-boasting about the size of their latest programs. ‘Two-hundred
-thousand lines,’ said Tzu-li, ‘not counting comments!’ Tzu-ssu
-responded, ‘Pssh, mine is almost a *million* lines already.’ Master
-Yuan-Ma said, ‘My best program has five hundred lines.’ Hearing this,
-Tzu-li and Tzu-ssu were enlightened.
+Tzu-li y Tzu-ssu estaban
+presumiendo acerca del tamaño de sus úlitmos programas. ‘Doscientas mil líneas
+,’ dijo Tzu-li, ‘¡sin contar los comentarios!’. Tzu-ssu
+respondió, ‘Pssh, el mío tiene ya casi *un millión* de líneas.’ El Maestro
+Yuan-Ma dijo, ‘Mi mejor programa tiene quinientas líneas’. Oyendo esto,
+Tzu-li y Tzu-ssu fueron iluminados.
 ____
 
 endif::interactive_target[]
@@ -24,129 +24,133 @@ endif::interactive_target[]
 [chapterquote="true"]
 [quote, C.A.R. Hoare, 1980 ACM Turing Award Lecture]
 ____
-(((Hoare+++,+++ C.A.R.)))There are two ways of constructing a software
-design: One way is to make it so simple that there are obviously no
-deficiencies, and the other way is to make it so complicated that
-there are no obvious deficiencies.
+(((Hoare+++,+++ C.A.R.)))Hay dos formas de construir un diseño de
+software: Una forma es hacerlo tan simple que obviamente no tenga
+deficiencias, y la otra forma es hacerlo tan complicado que
+no haya obvias deficiecias.
 ____
 
-(((program size)))A large program is a costly program, and not just
-because of the time it takes to build. Size almost always involves
-((complexity)), and complexity confuses programmers. Confused
-programmers, in turn, tend to introduce mistakes (_((bug))s_) into
-programs. A large program also provides a lot of space for these bugs
-to hide, making them hard to find.
+(((tamaño de un programa)))Un programa grande es costoso y no sólo
+por el tiempo que toma construirlo. El tamaño casi siempre involucra
+((complejidad)), y la complejidad confunde a los programadores. Los
+programadores confundidos, a su vez, tienden a introducir errores
+(_((bug))s_) en los programas. Un programa grande, además, da un amplio
+espacio para que estos bugs se oculten, haciéndolos difíciles de encontrar.
 
-(((summing example)))Let's briefly go back to the final two example
-programs in the introduction. The first is self-contained and six
-lines long.
+(((ejemplo de la suma)))Regresemos brevemente a los dos programas finales
+en la introducción. El primero es auto-contenido y tiene seis líneas de longitud.
 
 [source,javascript]
 ----
-var total = 0, count = 1;
-while (count <= 10) {
-  total += count;
-  count += 1;
+var total = 0, cuenta = 1;
+while (cuenta <= 10) {
+  total += cuenta;
+  cuenta += 1;
 }
 console.log(total);
 ----
 
-The second relies on two external functions and is one line long.
+El segundo depende de dos funciones externas y es una sola línea
 
 [source,javascript]
 ----
-console.log(sum(range(1, 10)));
+console.log(suma(rango(1, 10)));
 ----
 
-Which one is more likely to contain a bug?
+¿Cuál de los dos es más probable que tenga un bug?
 
-(((program size)))If we count the size of the definitions of `sum` and
-`range`, the second program is also big—even bigger than the first.
-But still, I'd argue that it is more likely to be correct.
+(((tamaño del programa)))Si contamos el tamaño de definición de 
+`suma` y `rango`, el segungo programa también es grande–incluso más 
+grande que el primero. Pero aún así, yo diría que es más probable
+que sea correcto.
 
-(((abstraction)))(((domain-specific language)))It is more likely to
-be correct because the solution is expressed in a ((vocabulary)) that
-corresponds to the problem being solved. Summing a range of
-numbers isn't about loops and counters. It is about ranges and sums.
+(((abstracción)))(((lenguaje de cominio específico)))Es más probable que
+sea correcto porque la solución es expresada en un ((vocabulario)) que
+corresponde al problema que está siendo resuelto. Sumar un rango de
+enteros no tiene que ver con bucles y contadores. Es acerca de 
+rangos y sumas.
 
-The definitions of this vocabulary (the functions `sum` and `range`)
-will still involve loops, counters, and other incidental details. But
-because they are expressing simpler concepts than the program as a
-whole, they are easier to get right.
+Las definiciones de este vocabulario (las funciones `suma` y `rango` )
+todavía incluirán bucles, contadores y otros detalles incidentales.
+Pero debido a que están expresando conceptos más simples que el
+programa como un todo, es más fácil acertar.
 
-== Abstraction ==
+== Abstracción ==
 
-In the context of programming, these kinds of vocabularies are usually
-called _((abstraction))s_. Abstractions hide details and give us the
-ability to talk about problems at a higher (or more abstract) level.
+En el contexto de la programación, vocabularios de este estilo son usualmente
+llamados _((abstracción))_. Las abstracciones econden detalles y nos
+dan la habilidad de hablar de los problemas en un nivel más alto (o más
+abstracto).
 
-(((recipe analogy)))(((pea soup)))As an analogy, compare these two
-recipes for pea soup:
+(((analogía de la receta)))(((sopa de guisantes)))Como una analogía,
+compara estas dos recetas para la sopa de guisantes:
 
 ____
-Put 1 cup of dried peas per person into a container. Add water until
-the peas are well covered. Leave the peas in water for at least 12 hours.
-Take the peas out of the water and put them in a cooking pan. Add 4
-cups of water per person. Cover the pan and keep the peas
-simmering for two hours. Take half an onion per person. Cut it into
-pieces with a knife. Add it to the peas. Take a stalk of celery per
-person. Cut it into pieces with a knife. Add it to the peas. Take a
-carrot per person. Cut it into pieces. With a knife! Add it to the
-peas. Cook for 10 more minutes.
+Pon una 1 taza de guisantes secos por persona en un contenedor. Agrega agua
+hasta que los guisantes estén cubiertos. Deja los guisantes en el agua
+por lo menos 12 horas. Saca los guisantes del agua y ponlos en en un
+sartén para cocer. Agrega 4 copas de agua por persona. Cubre el sartén y mantén
+los hirviéndose a fuego lento por dos horas. Agrega la mitad de una cebolla por 
+persona. Córtala en piezas con un cuchillo. Agrégalas a los guisantes.
+Toma un diente de ajo por persona. Córtalos en piezas con un cuchillo.
+Agrégalos a los guisantes. Toma una zanahoria por persona. Córtalas
+en piezas. ¡Con un cuchillo! Agrégalas a los guisantes. Cocina por 10
+minutos más.
 ____
 
-And the second recipe:
+Y la segunda receta:
+
 ____
-Per person: 1 cup dried split peas, half a chopped onion, a stalk of
-celery, and a carrot.
+Por persona: 1 taza de guisantes partidos secos, media cebolla picada, un 
+diente de ajo y una zanohoria.
 
-Soak peas for 12 hours. Simmer for 2 hours in 4 cups of water
-(per person). Chop and add vegetables. Cook for 10 more minutes.
+Remoja los guisantes por 12 horas
+Soak peas for 12 hours. Hierve a fuego lento por 2 horas en 
+4 tazas(por persona). Pica y agrega los vegetales. Cocina por 10 minutos más.
 ____
 
-(((vocabulary)))The second is shorter and easier to interpret. But
-you do need to understand a few more cooking-related words—__soak__,
-_simmer_, _chop_, and, I guess, _vegetable_.
+(((vocabulario)))La segunda es más corta y más fácil de interpretar. Pero
+necesitas entender unos cuántas palabras relacionadas con la cocina-__remojar__,
+__picar__ y, imagino, __vegetal__.
 
-When programming, we can't rely on all the words we need to be waiting
-for us in the dictionary. Thus, you might fall into the pattern of the
-first recipe—work out the precise steps the computer has to perform,
-one by one, blind to the higher-level concepts that they express.
+Cuando programamos, no podemos confiar en que todas las palbras que necesitamos
+estén esperándonos en el diccionario. Así que podrías caer en el patrón de
+la primera receta–trabajar en los pasos precisos que la computadora debe realizar,
+uno por uno, sin ver los conceptos de alto nivel que estos expresan.
 
-(((abstraction)))It has to become second nature, for a programmer, to
-notice when a concept is begging to be abstracted into a new word.
+(((abstracción)))Se tiene que convertir en una segunda naturaleza, para un
+programador, notar cuando un concepto está rogando ser abstraído en
+una nueva palabra.
 
-== Abstracting array traversal ==
+== Abstrayendo transversal de array ==
 
-(((array)))Plain functions, as we've seen them so far, are a good
-way to build abstractions. But sometimes they fall short.
+(((array)))Las fuunciones planas, como hemos visto hasta ahora, son una buena forma
+de construir abstracciones. Pero algunas veces se quedan cortas.
 
-(((for loop)))In the link:04_data.html#data[previous chapter], this
-type of `for` ((loop)) made several appearances:
+(((bucle for)))En el link:04_data.html#data[capítulo antterior], este tipo de 
+((bucle)) `for` apareció varias veces:
 
 [source,javascript]
 ----
 var array = [1, 2, 3];
 for (var i = 0; i < array.length; i++) {
-  var current = array[i];
-  console.log(current);
+  var actual = array[i];
+  console.log(actual);
 }
 ----
 
-(((length property,for
-array)))(((array,indexing)))(((readability)))It's trying to say, “For
-each element in the array, log it to the console”. But it uses a
-roundabout way that involves a counter variable `i`, a check against
-the array's length, and an extra variable declaration to pick out the
-current element. Apart from being a bit of an eyesore, this provides a
-lot of space for potential mistakes. We might accidentally reuse the
-`i` variable, misspell `length` as `lenght`, confuse the `i` and `current`
-variables, and so on.
+(((propiedad length,para 
+array)))(((array,indexado)))(((legibilidad)))Está tratando de decir,
+"Cada elemento, escríbelo en la consola". Pero usa una forma rebuscada que
+implica una variable `i`, una revisión del tamaño del array y una declaración
+de variable extra para guardar el elemento actual. A parte de causar un poco de 
+dolor de ojos, esto nos da mucho espacio para errores potenciales. Podríamos
+qccidentalmente reusar la variable `i`, escribir mal `length` como `lenght`,
+confundir las variables `i` y `actual` y así por el estilo.
+Así que tratemos de abstraer esto en una función. ¿Puedes pensar en alguna forma?
 
-So let's try to abstract this into a function. Can you think of a way?
-
-Well, it's easy to write a function that goes over an array and calls
-`console.log` on every element.
+Bueno, es fácil escribir una función que vaya a través de un array y llamar
+`console.log` en cada elemento.
 
 [source,javascript]
 ----
@@ -157,16 +161,17 @@ function logEach(array) {
 ----
 
 [[forEach]]
-indexsee:[higher-order function,function+++,+++ higher-order](((function,higher-order)))(((loop)))(((array,traversal)))(((function,as value)))(((forEach method)))But what
-if we want to do something other than logging the elements? Since
-“doing something” can be represented as a function and functions are
-just values, we can pass our action as a function value.
+indexsee:[función de orden superior,función+++,+++ orden superior](((función,orden superior)))(((bucle)))(((array,
+transversal)))(((función, como valor)))(((método forEach)))Pero, ¿qué pasa si 
+queremos hacer otra cosa que loggear los elementos? Debido a que "hacer algo"
+puede ser representado como una función y las funciones son sólo valores, podemos pasar
+nuestra acción como un valor función.
 
 [source,javascript]
 ----
-function forEach(array, action) {
+function forEach(array, accion) {
   for (var i = 0; i < array.length; i++)
-    action(array[i]);
+    accion(array[i]);
 }
 
 forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
@@ -175,136 +180,139 @@ forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
 // → Granfalloon
 ----
 
+<<<<<<< HEAD
+A menudo, no le pasas una  función predefinida a `forEach` sino que 
+creas una función en el acto.
+=======
 (In some browsers, calling `console.log` in this way does not work.
 You can use `alert` instead of `console.log` if this example fails to
 work.)
 
 Often, you don't pass a predefined function to `forEach` but create
 a function value on the spot instead.
+>>>>>>> marijnh/master
 
 [source,javascript]
 ----
-var numbers = [1, 2, 3, 4, 5], sum = 0;
-forEach(numbers, function(number) {
-  sum += number;
+var numeros = [1, 2, 3, 4, 5], suma = 0;
+forEach(numeros, function(numero) {
+  suma += numero;
 });
-console.log(sum);
+console.log(suma);
 // → 15
 ----
 
-(((loop body)))(((curly braces)))This looks quite a lot like the
-classical `for` loop, with its body written as a block below it.
-However, now the body is inside the function value, as well as
-inside the ((parentheses)) of the call to `forEach`. This is why it
-has to be closed with the closing brace _and_ closing parenthesis.
+(((cuerpo de un bucle)))(((llaves)))Esto luce muy parecido al clásico
+bucle `for`, con su cuerpo escrito debajo de él. Sin embargo,
+ahora el cuerpo está dentro del valor función, así como
+dentro de los ((paréntesis)) de la llamada a `forEach`. Esta es la
+razón de que tenga que ser terminado con una llave _y_ un paréntesis de cierre.
 
-(((local variable)))(((parameter)))Using this pattern, we can
-specify a variable name for the current element (`number`), rather
-than having to pick it out of the array manually.
+(((variable local)))(((parámetro)))Usando este patrón, podemos especificar un nombre
+de variable para el elemento actual(`numero`), en vez de tener que
+tomarlo del array manuelmente.
 
-(((array,methods)))(((function,higher-order)))(((forEach
-method)))(((array)))In fact, we don't need to write `forEach`
-ourselves. It is available as a standard method on arrays. Since the
-array is already provided as the thing the method acts on, `forEach`
-takes only one required argument: the function to be executed for each
-element.
+(((array,métodos)))(((función,orden superior)))(((forEach
+método)))(((array)))De hecho, no necesitamos escribir `forEach`
+nosotros mismos. Está disponible como un método estándar en los arrays.
+Debido a que el array le es pasado como el elemento sobre el que actúa
+el método, `forEach` sólo recibe un argumento requerido: la función que será
+ejecutada para cada elemento.
 
-To illustrate how helpful this is, let's look back at a function
-from link:04_data.html#analysis[the previous chapter]. It contains two
-array-traversing ((loop))s.
+Para ilustrar lo útil que esto es, miremos otra vez la función del
+link:04_data.html#analysis[capítulo anterior]. Contiene dos bucles que
+recorren un arreglo.
 
 [source,javascript]
 ----
-function gatherCorrelations(journal) {
+function reuneCorrelaciones(diario) {
   var phis = {};
-  for (var entry = 0; entry < journal.length; entry++) {
-    var events = journal[entry].events;
+  for (var entrada = 0; entrada < diario.length; entrada++) {
+    var eventos = diario[entrada].events;
     for (var i = 0; i < events.length; i++) {
-      var event = events[i];
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
+      var evento = eventos[i];
+      if (!(evento in phis))
+        phis[evento] = phi(tableFor(evento, diario));
     }
   }
   return phis;
 }
 ----
 
-(((forEach method)))Working with `forEach` makes it slightly shorter
-and quite a bit cleaner.
+(((método forEach))) `forEach` la hace un poco más corta y limpia.
 
 [source,javascript]
 ----
-function gatherCorrelations(journal) {
+function reuneCorrelaciones(diario) {
   var phis = {};
-  journal.forEach(function(entry) {
-    entry.events.forEach(function(event) {
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
+  diario.forEach(function(entrada) {
+    entrada.eventos.forEach(function(evento) {
+      if (!(evento in phis))
+        phis[evento] = phi(tableFor(evento, diario));
     });
   });
   return phis;
 }
 ----
 
-== Higher-order functions ==
+== Funciones de Orden Superior ==
 
-(((function,higher-order)))(((function,as value)))Functions that
-operate on other functions, either by taking them as arguments or by
-returning them, are called _higher-order functions_. If you have
-already accepted the fact that functions are regular values, there is
-nothing particularly remarkable about the fact that such functions
-exist. The term comes from ((mathematics)), where the distinction
-between functions and other values is taken more seriously.
+(((función,de orden superior)))(((función,como valor)))Las funciones que
+operan en otras funceiones, ya sea tomándolas como argumentos o regresándolas,
+son llamadas _funciones de orden superior_. Si ya has aceptado el hecho de que las funciones son 
+valores reulares, no hay nada de especial en el hecho de que estas funciones
+existan. El términos viene de las ((matemáticas)), en dónde la distinción
+entre las funciones y otros valores es tomado más seriamente. 
 
-(((abstraction)))Higher-order functions allow us to abstract over
-_actions_, not just values. They come in several forms. For example,
-you can have functions that create new functions.
+(((abstracción)))Las funciones de orden superior nos permiten abstraer
+_acciones_, no sólo valores. Pueden venir en diferentes formas. Por ejemplo
+puedes tener funciones que creen nuevas funciones.
 
 [source,javascript]
 ----
-function greaterThan(n) {
+function mayorQue(n) {
   return function(m) { return m > n; };
 }
-var greaterThan10 = greaterThan(10);
-console.log(greaterThan10(11));
+var mayorQue10 = mayorQue(10);
+console.log(mayorQue10(11));
 // → true
 ----
 
-And you can have functions that change other functions.
+Y puedes tener funciones que cambien otras funciones.
 
 [source,javascript]
 ----
-function noisy(f) {
+function ruidosa(f) {
   return function(arg) {
-    console.log("calling with", arg);
+    console.log("llamando con", arg);
     var val = f(arg);
-    console.log("called with", arg, "- got", val);
+    console.log("llamada con", arg, "- got", val);
     return val;
   };
 }
-noisy(Boolean)(0);
-// → calling with 0
-// → called with 0 - got false
+ruidosa(Boolean)(0);
+// → llamando con 0
+// → llamada con 0 - obtuve false
 ----
 
-You can even write functions that provide new types of ((control flow)).
+Incluso puedes escribir funciones que creen nuevos tipos ((control de flujo)).
 
 [source,javascript]
 ----
-function unless(test, then) {
-  if (!test) then();
+function a_menos_que(condicion, entonces) {
+  if (!condicion) entonces();
 }
-function repeat(times, body) {
-  for (var i = 0; i < times; i++) body(i);
+function repetir(veces, cuerpo) {
+  for (var i = 0; i < veces; i++) cuerpo(i);
 }
 
-repeat(3, function(n) {
-  unless(n % 2, function() {
-    console.log(n, "is even");
+repetir(3, function(n) {
+  a_menos_que(n % 2, function() {
+    console.log(n, "es par");
   });
 });
-// → 0 is even
-// → 2 is even
+// → 0 es par
+// → 2 es par
 ----
 
 (((inner function)))(((nesting,of functions)))((({}

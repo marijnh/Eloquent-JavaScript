@@ -2,52 +2,53 @@
 :prev_link: 01_values
 :next_link: 03_functions
 
-= Program Structure =
+= Estructura del Programa =
 
 [chapterquote="true"]
 [quote, _why, Why's (Poignant) Guide to Ruby]
 ____
-And my heart glows bright red under my
-filmy, translucent skin and they have to administer 10cc of JavaScript
-to get me to come back. (I respond well to toxins in the blood.) Man,
-that stuff will kick the peaches right out your gills!
+Y mi corazón brilla rojo debajo de mi
+delgada, translúcida piel y tienen que administrarme 10cc de JavaScript
+para hacerme regresar (respondo bien a las toxinas en la sangre). ¡Hombre,
+esa cosa te sacará de tus casillas!
 ____
 
-(((why)))(((Poignant Guide)))In this chapter, we will start to do
-things that can actually be called _programming_. We will expand our
-command of the JavaScript language beyond the nouns and sentence
-fragments we've seen so far, to the point where we can
-express some meaningful prose.
+(((why)))(((Poignant Guide)))En este capítulo, vamos a empezar a hacer
+cosas que realmente pueden ser llamadas _programación_. Vamos a ampliar
+nuestro conocimiento del lenguaje JavaScript, más allá de los sustantivos
+y fragmentos de oraciones que hemos visto hasta ahora,
+hasta el punto en que podamos expresar alguna prosa significativa.
 
-== Expressions and statements ==
+== Expresiones y declaraciones ==
 
-(((grammar)))(((syntax)))(((code,structure
-of)))(((grammar)))(((JavaScript,syntax)))In
-link:01_values.html#values[Chapter 1], we made some values and then
-applied operators to them to get new values. Creating values like this
-is an essential part of every JavaScript program, but it is only
-a part.
+(((gramática)))(((sintaxis)))(((código,
+estructura de)))(((gramática)))(((JavaScript,sintaxis)))En el
+link:01_values.html#values[Capítulo 1], creamos algunos valores y después
+les aplicamos operadores para obtener nuevos valores. Crear valores de esta forma
+es una parte esencial de cada programa de JavaScript, pero esto es sólo
+una parte.
 
-(((literal expression)))A fragment of code that produces a value is
-called an _((expression))_. Every value that is written literally
-(such as `22` or `"psychoanalysis"`) is an expression. An expression
-between ((parentheses)) is also an expression, as is a ((binary
-operator)) applied to two expressions or a unary operator applied to
-one.
+(((expresión literal)))Un fragmento de código que produce un valor es
+llamado una _((expresión))_. Cada valor que se escribe literalmente
+(tal como `22` o `"psicoanálisis"`) es una expresión. Una expresión
+entre ((paréntesis)) es también una expresión, como un ((operador
+binario)) aplicado a dos expresiones o un operador unario aplicado a
+una expresion.
 
-(((nesting,of expressions)))(((human language)))This shows part of the
-beauty of a language-based interface. Expressions can nest in a way
-very similar to the way subsentences in human languages are nested—a
-subsentence can contain its own subsentences, and so on. This allows
-us to combine expressions to express arbitrarily complex computations.
+(((anidado de instrucciones)))(((lenguage humano)))Esto muestra parte de la
+belleza de una interfaz basada en el lenguaje. Las expresiones se pueden anidar
+en una forma muy similar a la forma de sub-frases en la que las lenguas humanas
+son anidadas, y las sub-frases pueden contener sus propias sub-frases, etc.
+Esto nos permite combinar expresiones para expresar cálculos
+arbitrariamente complejos.
 
-(((statement)))(((semicolon)))(((program)))If an expression
-corresponds to a sentence fragment, a JavaScript _statement_
-corresponds to a full sentence in a human language. A program is
-simply a list of statements.
+(((declaración)))(((punto y coma)))(((programa)))Si una expresión
+corresponde a un fragmento de frase, una _declaración_ en JavaScript
+corresponde a una frase completa en un lenguaje humano. Un programa es
+simplemente una lista de declaraciones.
 
-(((syntax)))The simplest kind of statement is an expression with a
-semicolon after it. This is a program:
+(((syntax)))El tipo más simple de declaración es una expresión con un
+punto y coma después de ella. Esto es un programa:
 
 [source,javascript]
 ----
@@ -55,133 +56,134 @@ semicolon after it. This is a program:
 !false;
 ----
 
-It is a useless program, though. An ((expression)) can be content to
-just produce a value, which can then be used by the enclosing
-expression. A ((statement)) stands on its own and amounts to something
-only if it affects the world. It could display something on the
-screen—that counts as changing the world—or it could change the
-internal state of the machine in a way that will affect the statements
-that come after it. These changes are called _((side effect))s_. The
-statements in the previous example just produce the values `1` and
-`true` and then immediately throw them away. This leaves no impression
-on the world at all. When executing the program, nothing observable
-happens.
+Sin embargo, es un programa inútil. Una ((expresión)) puede estar presente para
+sólo producir un valor, que puede entonces ser utilizado por la expresión que
+la contiene. Una ((declaración)) existe por sí sola y que equivale a algo
+sólo si afecta al mundo. Podría mostrar algo en la
+pantalla -que cuenta como cambiar el mundo_ o podría cambiar el
+estado interno de la máquina de estados de manera que afectará las
+declaraciones que vienen despues de ella. Estos cambios se
+llaman _((efectos colaterale))s_. Las declaraciones en el ejemplo anterior solo
+producen los valores `1` y `verdadero` y los desechan inmediatamente.
+Esto no deja ningún cambio en el mundo en absoluto. Al ejecutar el programa,
+nada observable sucede.
 
-(((programming style)))(((automatic semicolon
-insertion)))(((semicolon)))In some cases, JavaScript allows you to
-omit the semicolon at the end of a statement. In other cases, it has
-to be there, or the next ((line)) will be treated as part of the same
-statement. The rules for when it can be safely omitted are somewhat
-complex and error-prone. In this book, every statement that needs a
-semicolon will always be terminated by one. I recommend you do the
-same in your own programs, at least until you've learned more about
-subtleties involved in leaving out semicolons.
+(((estilos de programación)))(((inserción automática de punto
+y coma)))(((punto y coma)))En algunos casos, JavaScript te permite
+omitir el punto y coma al final de una declaración. En otros casos, tiene que
+estar allí, o la siguiente ((linea)) será tratada como parte de la misma
+declaración. Las reglas para cuando se puede omitir con seguridad son algo
+complejas y propensas a errores. En este libro, cada declaración que necesite un
+punto y coma siempre será terminada por un punto y coma4. Te recomiendo que hagas lo
+mismo en tus propios programas, al menos hasta que hayas aprendido más sobre
+sutilezas involucradas en omitir el punto y coma.
 
 == Variables ==
 
-(((syntax)))(((variable,definition)))(((side effect)))(((memory)))How
-does a program keep an internal ((state))? How does it remember
-things? We have seen how to produce new values from old values, but
-this does not change the old values, and the new value has to be
-immediately used or it will dissipate again. To catch and hold values,
-JavaScript provides a thing called a _variable_.
+(((sintaxis)))(((variable, definición)))(((efecto secundario)))(((memoria))) ¿Cómo
+mantiene un programa su ((estado)) interno? ¿Cómo recuerda algo?
+Hemos visto cómo producir nuevos valores de viejos valores, pero
+esto no cambia los valores antiguos, y el nuevo valor tiene que ser
+inmediatamente utilizado o se disipará de nuevo. Para atrapar y mantener los valores,
+JavaScript proporciona una cosa llamada _variable_.
 
 [source,javascript]
 ----
-var caught = 5 * 5;
+var atrapado = 5 * 5;
 ----
 
-(((var keyword)))And that gives us our second kind of ((statement)).
-The special word (_((keyword))_) `var` indicates that this sentence is
-going to define a variable. It is followed by the name of the variable
-and, if we want to immediately give it a value, by an `=` operator and
-an expression.
+(((palabra clave var)))Y eso nos da nuestra segunda clase de ((declaración)).
+La palabra especial(_((palabra clave))_ o _((keyword))_) `var` indica que
+esta frase va a definir una variable. Es seguida por el nombre de la variable
+y, si queremos dar de inmediato un valor, con un operador de `=` y
+una expresión.
 
-The previous statement creates a variable called `caught` and uses it
-to grab hold of the number that is produced by multiplying 5 by 5.
+La declaración anterior crea una variable llamada `atrapado` y se usa
+para retener el número que se produce al multiplicar 5 por 5.
 
-After a variable has been defined, its name can be used as an
-((expression)). The value of such an expression is the value the
-variable currently holds. Here's an example:
+Después de que una variable se ha definido, su nombre puede ser usado como una
+((expresión)). El valor de esa expresión es el valor que la
+variable alberga actualmente. He aquí un ejemplo:
 
 [source,javascript]
 ----
-var ten = 10;
-console.log(ten * ten);
+var diez = 10;
+console.log(diez * diez);
 // → 100
 ----
 
-(((underscore character)))(((dollar
-sign)))(((variable,naming)))Variable names can be any word that isn't
-a reserved word (such as `var`). They may not include spaces.
-Digits can also be part of variable names—`catch22` is a valid name,
-for example—but the name must not start with a digit. A variable name
-cannot include punctuation, except for the characters `$` and `_`.
+(((carácter guión bajo)))(((signo de
+dólar)))(((variable,naming)))Los nombres de variables pueden ser cualquier
+palabra que no sea una palabra clave (tal como `var`). Estos no pueden incluir
+espacios. Los dígitos también pueden ser parte de la variable nombre —`catch22`
+es un nombre válido, por ejemplo-, pero el nombre no debe comenzar con un dígito.
+Un nombre de variable no puede incluir puntuación, a excepción de los caracteres
+`$` y `_`.
 
-(((= operator)))(((assignment)))(((variable,assignment)))When a
-variable points at a value, that does not mean it is tied to that
-value forever. The `=` operator can be used at any time on existing
-variables to disconnect them from their current value and have them
-point to a new one.
+(((operador =)))(((asignación)))(((variable,asiganción))Cuando una
+variable apunta a un valor, eso no quiere decir que está ligada a ese
+valor para siempre. El operador `=` se puede utilizar en cualquier momento
+en variables existentes para desconectarlas de su valor actual y apuntarlas
+a uno nuevo.
 
 [source,javascript]
 ----
-var mood = "light";
-console.log(mood);
-// → light
-mood = "dark";
-console.log(mood);
-// → dark
+var tono = "claro";
+console.log(tono);
+// → claro
+tono = "oscuro";
+console.log(tono);
+// → oscuro
 ----
 
-(((variable,model of)))(((tentacle (analogy))))You should
-imagine variables as tentacles, rather than boxes. They do not
-_contain_ values; they _grasp_ them—two variables can refer to the
-same value. A program can access only the values that it still has a
-hold on. When you need to remember something, you grow a tentacle to
-hold on to it or you reattach one of your existing tentacles to it.
+(((variable,modelo de)))(((tentáculo (analogía)))) Podrías
+imaginar  las variables como tentáculos, en lugar de la cajas. Estas no
+_contienen_ valores; los _agarran_; dos variables pueden referirse al
+mismo valor. Un programa puede acceder sólo los valores que todavía mantiene detenidos.
+Cuando necesitas recordar algo, haces crecer un tentáculo para
+agarrarlo o cambias unos de tus tentáculos existentes para agarrarlo.
 
 image::img/octopus.jpg[alt="Variables as tentacles"]
 
-Let's look at an example. To remember the number of dollars that Luigi
-still owes you, you create a variable. And then when he pays back $35,
-you give this variable a new value.
+Veamos un ejemplo. Para recordar el número de dólares que Luigi
+aún te debe, se crea una variable. Y luego, cuando te paga $35,
+le das a esta variable un valor nuevo.
 
 [source,javascript]
 ----
-var luigisDebt = 140;
-luigisDebt = luigisDebt - 35;
-console.log(luigisDebt);
+var deudaDeLuigi = 140;
+deudaDeLuigi = deudaDeLuigi - 35;
+console.log(deudaDeLuigi);
 // → 105
 ----
 
-(((undefined)))When you define a variable without giving it a value,
-the tentacle has nothing to grasp, so it ends in thin air. If you ask
-for the value of an empty variable, you'll get the value `undefined`.
+(((indefinido)))Cuando se define una variable sin darle un valor,
+el tentáculo no tiene nada que sostener, por lo que termina en el aire. Si preguntas
+por el valor de una variable vacía, obtendrás el valor `undefined` (indefinido).
 
-(((var keyword)))A single `var` statement may define multiple
-variables. The definitions must be separated by commas.
+(((var keyword)))Una sola declaración `var` puede definir múltiples
+variables. Las definiciones deben estar separadas por comas.
 
 [source,javascript]
 ----
-var one = 1, two = 2;
-console.log(one + two);
+var uno = 1, dos = 2;
+console.log(uno + dos);
 // → 3
 ----
 
-== Keywords and reserved words ==
+== Palabras clave y palabras reservadas ==
 
-(((syntax)))(((implements (reserved word))))(((interface (reserved
-word))))(((let keyword)))(((package (reserved word))))(((private
-(reserved word))))(((protected (reserved word))))(((public (reserved
-word))))(((static (reserved word))))(((void operator)))(((yield
-(reserved word))))(((reserved word)))(((variable,naming)))Words with
-a special meaning, such as `var`, are _((keyword))s_, and they may not
-be used as variable names. There are also a number of words that are
-“reserved for use” in ((future)) versions of JavaScript. These are also
-officially not allowed to be used as variable names, though some
-JavaScript environments do allow them. The full list of keywords and
-reserved words is rather long.
+(((sintaxis)))(((implements (palabra reservada))))(((interface (palabra
+reservada))))(((let (palabra reservada))))(((package (palabra reservada))))(((private
+(palabra reservada))))(((protected (palabra reservada))))(((public (palabra
+reservada))))(((static (palabra reservada))))(((operador vacío)))(((yield
+(palabra reservada))))(((palabra reservada)))(((variable, nombrado)))Palabras con
+un significado especial, como `var`, son _((palabras clave))_, y no pueden ser
+utilizadas como nombres de variables. También hay un número de palabras que son
+“reservadas para uso” en ((futuras)) versiones de JavaScript. Estas también
+están oficialmente no permitidas como nombres de variables, aunque algunos
+entornos de JavaScript las permiten. La lista completa de palabras clave y
+palabras reservadas es bastante larga.
 
 [source,text/plain]
 ----
@@ -193,98 +195,97 @@ protected public return static super switch this
 throw true try typeof var void while with yield
 ----
 
-Don't worry about memorizing these, but remember that this might be
-the problem when a variable definition does not work as expected.
+No te preocupes por memorizarlas, pero recuerda que esto podría ser
+el problema cuando una definición de variable no funcione como se esperaba.
 
-== The environment ==
+== El entorno ==
 
-(((standard environment)))The collection of variables and their values
-that exist at a given time is called the _((environment))_. When a
-program starts up, this environment is not empty. It always contains
-variables that are part of the language ((standard)), and most of the
-time, it has variables that provide ways to interact with the
-surrounding system. For example, in a ((browser)), there are variables
-and functions to inspect and influence the currently loaded website
-and to read ((mouse)) and ((keyboard)) input.
+(((entorno estándar)))La colección de variables y sus valores
+que existe en un momento dado se llama el _((entorno))_. Cuando un
+programa se pone en marcha, este entorno no está vacío. Siempre contiene
+variables que forman parte del lenguaje ((estándar)), y la mayoría del
+tiempo, contiene variables que proporcionan formas de interactuar con el
+sistema que lo contiene. Por ejemplo, en un ((navegador)), existen variables
+y funciones para inspeccionar e influir en la página web cargada en ese momento
+y leer entrada del ((ratón)) y del ((teclado)).
 
-== Functions ==
+== Funciones ==
 
-indexsee:[application (of functions),function application]
-indexsee:[invoking (of functions),function application]
-indexsee:[calling (of functions),function application]
-(((output)))(((function)))(((function,application)))(((alert
-function)))(((message box)))A lot of the values provided in the
-default environment have the type _((function))_. A function is a
-piece of program wrapped in a value. Such values can be _applied_ in
-order to run the wrapped program. For example, in a ((browser))
-environment, the variable `alert` holds a function that shows a little
-((dialog box)) with a message. It is used like this:
+indexsee:[aplicación (de funciones),función de aplicación]
+indexsee:[invocación (de funciones),función de aplicación]
+indexsee:[llamado (de funciones),función de aplicación]
+(((salida)))(((función)))(((función,aplicación)))(((función
+alert)))(((caja de mensaje)))Una gran cantidad de los valores proporcionados en el
+entorno por defecto tienen el tipo _((function))_. Una función(function) es un
+pedazo de programa encerrado en un valor. Tales valores pueden ser _aplicados_ con
+el fin de ejecutar el programa envuelto. Por ejemplo, en un entorno de
+((navegador)), la variable `alert` contiene una función que muestra un pequeño
+((cuadro de diálogo)) con un mensaje. Se utiliza como sigue:
 
 [source,javascript]
 ----
-alert("Good morning!");
+alert("¡Good Morning!");
 ----
 
 image::img/alert.png[alt="An alert dialog",width="8cm"]
 
-(((parameter)))(((function,application)))Executing a function is
-called _invoking_, _calling_, or _applying_ it. You can call a
-function by putting ((parentheses)) after an expression that produces a
-function value. Usually you'll directly use the name of the variable
-that holds the function. The values between the parentheses are given to
-the program inside the function. In the example, the `alert` function
-uses the string that we give it as the text to show in the dialog box.
-Values given to functions are called _((argument))s_. The `alert`
-function needs only one of them, but other functions might need a
-different number or different types of arguments.
+(((parametro)))(((función,aplicación)))La ejecución de una función es denominada
+_invocar_, _llamar_, o _aplicar_ la función. Puedes llamar a una
+función poniendo ((paréntesis)) después de una expresión que produce un
+valor de la función. Por lo general, se usa directamente el nombre de la variable
+que contiene la función. Los valores entre paréntesis se le pasan a
+el programa dentro de la función. En el ejemplo, la función `alert`
+utiliza la cadena que le damos como el texto que se mostrará en el cuadro de diálogo.
+Los valores dados a las funciones se denominan _((argumento))s_. La función `alert`
+necesita solo uno, pero otras funciones pueden necesitar un
+número diferente o diferentes tipos de argumentos.
 
-== The console.log function ==
+== La función console.log ==
 
-(((JavaScript console)))(((developer
-tools)))(((Node.js)))(((console.log)))(((output)))The `alert` function
-can be useful as an output device when experimenting, but clicking
-away all those little windows will get on your nerves. In past
-examples, we've used `console.log` to output values. Most JavaScript
-systems (including all modern web ((browser))s and Node.js) provide a
-`console.log` function that writes out its arguments to _some_ text
-output device. In browsers, the output lands in the ((JavaScript
-console)). This part of the browser interface is hidden by default,
-but most browsers open it when you press F12 or, on Mac, when you
-press Command-Option-I. If that does not work, search through the
-menus for an item named “web console” or “developer tools”.
+(((consola de JavaScript)))(((developer
+tools)))(((Node.js)))(((console.log)))(((salida)))(((output)))La función `alert`
+puede ser útil para imprimir cuando estamos experimentando, pero quitar del camino
+todas esas pequeñas ventanas puede desesperarte. En ejemplos pasados, hemos usado
+`console.log` para devolver valores. La mayoría sistemas JavaScript (incluyendo a
+todos los ((navegador))es web modernos y a Node.js) nos dan una función `console.log`
+que imprime sus argumentos en _algún_ dispositivo de salida de texto. En los navegadores
+la salida queda en la ((consola de JavaScript)). Esta parte del navegador está
+escondida por defecto, pero la mayoría de los navegadores la abren cuando presionas
+F12 o, en Mac, cuando presionas Command-Option-I. Si esto no funciona, busca en los
+menús un item llamado "Consola Web" o "Herramientas de Desarrollador".
+
 
 ifdef::interactive_target[]
 
-When running the examples, or your own code, on the pages of this
-book, `console.log` output will be shown after the example, instead of
-in the browser's JavaScript console.
+Cuando corras los ejemplos, o tu propio código, en las páginas de este libro,
+la salida de `console.log` será mostrada después del ejemplo, en vez de en la
+consola de JavaScript del navegador.
 
 endif::interactive_target[]
 
 [source,javascript]
 ----
 var x = 30;
-console.log("the value of x is", x);
-// → the value of x is 30
+console.log("el valor de x es", x);
+// → el valor de x es 30
 ----
 
-(((object)))Though ((variable)) names cannot contain ((period
-character))s, `console.log` clearly has one. This is because
-`console.log` isn't a simple variable. It is actually an expression
-that retrieves the `log` ((property)) from the value held by the
-`console` variable. We will find out exactly what this means in
-link:04_data.html#properties[Chapter 4].
+(((objeto)))Aunque los nombres de ((variable)) no pueden contener
+el ((caracter punto)), `console.log` claramente tiene uno. Esto es
+porque `console.log` no es una variable simple. Es en realidad una
+expresión que trae la propiedad `log` del valor mantenido por la
+variable `console`. Veremos que significa exactamente en el
+link:04_data.html#properties[Capítulo 4].
 
 [[return_values]]
-== Return values ==
+== Valores de Retorno ==
 
-(((comparison,of numbers)))(((return value)))(((Math.max
-function)))(((maximum)))Showing a dialog box or writing text to
-the screen is a _((side effect))_. A lot of functions are useful
-because of the side effects they produce. Functions may also produce
-values, and in that case, they don't need to have a side effect to be
-useful. For example, the function `Math.max` takes any number of
-number values and gives back the greatest.
+(((comparación,de números)))(((valor de retorno)))(((función
+Math.max)))(((máximo)))Mostrar un cuadro de diálogo o escribir texto
+en la pantalla es un _((efecto secundario))_. Muchas funciones son útiles porque
+producen valores, y en ese caso, no necesitan tener un efecto secundario para
+ser útiles. Por ejemplo, la función `Math.max` toma un número indeterminado de
+números y regresa el más grande.
 
 [source,javascript]
 ----
@@ -292,12 +293,12 @@ console.log(Math.max(2, 4));
 // → 4
 ----
 
-(((function,application)))(((minimum)))(((Math.min
-function)))When a function produces a value, it is said to _return_
-that value. Anything that produces a value is an ((expression)) in
-JavaScript, which means function calls can be used within larger
-expressions. Here a call to `Math.min`, which is the opposite of
-`Math.max`, is used as an input to the plus operator:
+(((función,aplicación)))(((minimo)))(((función
+Math.min))) Cuando una función produce un valor, se dice que _regresa_
+ese valor. Cualquier cosa que produce un valor es una ((expresión)) en
+JavaScript, lo que significa que puede ser usada dentro de expresiones
+más grandes. Aquí, una llamada a `Math.min`, que es lo opuesto a
+`Math.max`, es usada como entrada de un operador de suma:
 
 [source,javascript]
 ----
@@ -305,29 +306,29 @@ console.log(Math.min(2, 4) + 100);
 // → 102
 ----
 
-The link:03_functions.html#functions[next chapter] explains how to
-write your own functions.
+El link:03_functions.html#functions[próximo capítulo] explica como escribir
+tus propias funciones.
 
-== prompt and confirm ==
+== Pedir información y confirmar ==
 
-(((dialog box)))(((input)))(((browser)))(((confirm function)))Browser
-environments contain other functions besides `alert` for popping up
-windows. You can ask the user an OK/Cancel question using
-`confirm`. This returns a Boolean: `true` if the user clicks OK and
-`false` if the user clicks Cancel.
+(((cuadro de diálogo)))(((entrada)))(((navegador)))(((función confirm)))Los
+entornos de navegador tienen otras funciones más allá de `alert` para mostrar
+ventanas. Puedes preguntar al usuario una cuestión estilo OK/Cancelar usando
+`confirm`. Esto regresa un Booleano: `true` si el usuario hace click en OK y
+`false` si el usuario presiona en Cancelar.
 
 [source,javascript]
 ----
-confirm("Shall we, then?");
+confirm("¿Entonces, deberíamos?");
 ----
 
 image::img/confirm.png[alt="A confirm dialog",width="8cm"]
 
-(((input)))(((prompt function)))(((text input)))The `prompt` function
-can be used to ask an “open” question. The first argument is the
-question, the second one is the text that the user starts with. A line
-of text can be typed into the dialog window, and the function will
-return this text as a string.
+(((entrada)))(((función prompt)))(((entrada de texto)))La función `prompt`
+puede ser usada para hacer una pregunta "abierta". El primer argumento
+es la pregunta, el segundo es un texto con el que usuario inicia. Se puede
+escribir una línea de texto en el cuadro de diálogo, y la función regresará
+este texto como una cadena.
 
 [source,javascript]
 ----
@@ -336,123 +337,115 @@ prompt("Tell me everything you know.", "...");
 
 image::img/prompt.png[alt="An prompt dialog",width="8cm"]
 
-These two functions aren't used much in modern web programming, mostly
-because you have no control over the way the resulting windows look,
-but they are useful for toy programs and experiments.
+Estas dos funciones no son usadas mucho en la programación web moderna,
+principalmente porque no tienes control sobre la forma en que las ventanas
+resultantes se verán, pero son útiles para programas de prueba y experimentos.
 
-== Control flow ==
+== Control de flujo ==
 
-(((execution order)))(((program)))(((control flow)))When your program
-contains more than one ((statement)), the statements are executed,
-predictably, from top to bottom. As a basic example, this program has
-two statements. The first one asks the user for a number, and the
-second, which is executed afterward, shows the ((square)) of that
-number.
+(((orden de ejecución)))(((programa)))(((control de flujo)))Cuando tu
+programa contiene más de una ((sentencia)), las sentencias son ejecutadas (fácil de predecir), de arriba hacia abajo. Como un ejemplo básico, este programa
+tiene dos sentencias. La primera le pide un número al usuario, y la
+segunda, que se ejecuta después, muestra el ((cuadrado)) de ese número
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
-alert("Your number is the square root of " +
-      theNumber * theNumber);
+var elNumero = Number(prompt("Dame un número", ""));
+alert("Tú número es la raíz cuadrada de " +
+      elNumero * elNumero);
 ----
 
-(((number,conversion to)))(((type coercion)))(((Number
-function)))(((String function)))(((Boolean
-function)))(((Boolean,conversion to)))The function `Number` converts a
-value to a number. We need that conversion because the result of
-`prompt` is a string value, and we want a number. There are similar
-functions called `String` and `Boolean` that convert values to those
-types.
+(((number,conversión a)))(((conversión de tipos)))(((función
+Number)))(((función String)))(((función Boolean)))(((Boolean,
+conversión a))) La función `Numero` convierte un valor a un número.
+Necesitamos esa conversión porque el resultado de `prompt` es un valor
+de cadena de texto (string), y queremos un número. Hay funciones similares
+llamadas `String` y `Boolean` que convierten valores a estos tipos.
 
-Here is the rather trivial schematic representation of straight
-control flow:
+Aquí está la trivial representación esquemática de un flojo de control recto.
 
 image::img/controlflow-straight.svg[alt="Trivial control flow",width="4cm"]
 
-== Conditional execution ==
+== Ejecución Condicional ==
 
-(((Boolean)))(((control flow)))Executing statements in straight-line
-order isn't the only option we have. An alternative is _((conditional
-execution))_, where we choose between two different routes based on a
-Boolean value, like this:
+(((Booleano)))(((flujo de control)))Ejecutar sentencia en línea recta no es
+la íunica opción que tenemos. Una alternativa es la _((ejecución condicional))_,
+en dondne escogemos entre dos rutas diferentes basados en un valor Booleano,
+como el siguiente:
 
 image::img/controlflow-if.svg[alt="Conditional control flow",width="4cm"]
 
-(((syntax)))(((Number function)))(((if keyword)))Conditional execution
-is written with the `if` keyword in JavaScript. In the simple case, we
-just want some code to be executed if, and only if, a certain
-condition holds. For example, in the previous program, we might want
-to show the square of the input only if the input is actually a
-number.
+(((sintaxis)))(((función Number)))(((if, palabra clave)))La ejecución condicional
+se escribe con la palabra clave `if` en JavaScript. En el caso sencillo,
+queremos que algo de código se ejecute si, y sólo si, cierta condición se cumple.
+Por ejemplo, en el programa previo, podríamos querer mostrar el cuadrado de
+la entrada sólo si la entrada es un número.
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
-if (!isNaN(theNumber))
-  alert("Your number is the square root of " +
-        theNumber * theNumber);
+var elNumero = Number(prompt("Dame un número", ""));
+if (!isNaN(elNumero))
+  alert("Tu número es la raíz cuadrada de " +
+        elNumero * elNumero);
 ----
+Con esta modificación, si le das "queso", no se mostrará ninguna salida.
 
-With this modification, if you enter “cheese”, no output will be shown.
+La palabra clave `if` ejecuta o salta una sentencia dependiendo del valor
+de una expresión Booleana. La expresión de decisión se escribe después de
+la palabra clave, entre ((parántesis)), seguida por una sentencia a ejecutar.
 
-The keyword `if` executes or skips a statement depending on the value
-of a Boolean expression. The deciding expression is written after the
-keyword, between ((parentheses)), followed by the statement to execute.
+(((función isNaN)))La función `isNaN` es una función estándar de JavaScript
+que regresa `true` sólo si el argumento que le diste es `NaN`. Resulta que
+la función Number regresa `NaN` cuando le das una cadena que no 
+“a menos que  `elNumero` no sea un número, has esto”.
 
-(((isNaN function)))The `isNaN` function is a standard JavaScript
-function that returns `true` only if the argument it is given is
-`NaN`. The `Number` function happens to return `NaN` when you give it
-a string that doesn't represent a valid number. Thus, the condition
-translates to “unless `theNumber` is not-a-number, do this”.
-
-(((else keyword)))You often won't just have code that executes when a
-condition holds true, but also code that handles the other case. This
-alternate path is represented by the second arrow in the
-diagram. The `else` keyword can be used, together with `if`, to create
-two separate, alternative execution paths.
+(((palabra clave else)))A menudo no sólo tendrás código que se ejecute cuando
+una condición sea verdadera, sino también que maneje el otro caso. Este camino
+alternativo es representado por la segunda flecha en el diagrama. La palabra
+clave `else` puede ser usada, junto con `if`, para crear dos rutas de ejecución
+separadas y alternativas.
 
 [source,javascript]
 ----
-var theNumber = Number(prompt("Pick a number", ""));
-if (!isNaN(theNumber))
-  alert("Your number is the square root of " +
-        theNumber * theNumber);
+var elNumero = Number(prompt("Dame un número", ""));
+if (!isNaN(elNumero))
+  alert("Tu número es la raíz cuadrada de " +
+        elNumero * elNumero);
 else
-  alert("Hey. Why didn't you give me a number?");
+  alert("Hey. ¿Por qué no me diste un número?");
 ----
 
-(((if keyword,chaining)))If we have more than two paths to choose
-from, multiple `if`/`else` pairs can be “chained” together. Here's an
-example:
+(((palabra clave if ,encadenado)))Si tenemos más de dos caminos a escoger,
+varios pares de `if`/`else` pueden ser "encadenados". Aquí hay un ejemplo:
 
 [source,javascript]
 ----
-var num = Number(prompt("Pick a number", "0"));
+var num = Number(prompt("Dame un número", "0"));
 
 if (num < 10)
-  alert("Small");
+  alert("Chico");
 else if (num < 100)
-  alert("Medium");
+  alert("Mediano");
 else
-  alert("Large");
+  alert("Grande");
 ----
 
-The program will first check whether `num` is less than 10. If it is,
-it chooses that branch, shows `"Small"`, and is done. If it isn't, it
-takes the `else` branch, which itself contains a second `if`. If the
-second condition (`< 100`) holds, that means the number is between 10
-and 100, and `"Medium"` is shown. If it doesn't, the second, and last,
-`else` branch is chosen.
+El programa primero checará sí `num` es menor que 10. Si lo es, escoge 
+ese camino, muestra `"Chico"` y termina. Si no lo es, toma el el branch
+`else`, que en sí mismo contiene un segundo `if`. Si la segunda condición
+(`< 100`) se cumple, significa que el número está entre 10 y 100, y se
+muestra `"Mediano"`. Si no lo es, el segundo y último `else` es escogido.
 
-The flow chart for this program looks something like this:
+El diagrama de flujo para este programa es algo así:
 
 image::img/controlflow-nested-if.svg[alt="Nested if control flow",width="4cm"]
 
-[[loops]]
-== while and do loops ==
+[[bucles]]
+==  bucles while y do ==
 
-(((even number)))Consider a program that prints all even numbers from
-0 to 12. One way to write this is as follows:
+(((número par)))Piensa en un programa que imprima todos
+los números primos del 1 al 12. Una manera de escribirlo
+sería como sigue:
 
 [source,javascript]
 ----
@@ -465,423 +458,424 @@ console.log(10);
 console.log(12);
 ----
 
-(((control flow)))That works, but the idea of writing a program is to
-make something _less_ work, not more. If we needed all even numbers
-less than 1,000, the previous would be unworkable. What we need is a
-way to repeat some code. This form of control flow is called a
-_((loop))_:
+(((control de flujo)))Eso funciona, pero la idea de escribir un programa es
+trabajar _menos_, no más. Si necesitamos todos los números menores que
+1,000, lo anterior sería imposible de trabajar. Lo que necesitamos es una
+forma de repetir algo de código. Esta forma de control de flujo es llamada _((bucle))_:
 
 image::img/controlflow-loop.svg[alt="Loop control flow",width="4cm"]
 
-(((syntax)))(((counter variable)))Looping control flow allows us to go
-back to some point in the program where we were before and repeat it
-with our current program state. If we combine this with a variable
-that counts, we can do something like this:
+(((sintaxis)))(((variable contador)))El control de flujo por bucles nos
+permite regresar a cierto punto en el progrma en el que estuvimos antes
+y repetirlo con nuestro estado actual. Si combinamos esto con una variable
+que mantenga una cuenta, podemos hacer algo como lo siguiente:
 
 [source,javascript]
 ----
-var number = 0;
-while (number <= 12) {
-  console.log(number);
-  number = number + 2;
+var numero = 0;
+while (numero <= 12) {
+  console.log(numero);
+  numero = numero + 2;
 }
 // → 0
 // → 2
 //   … etcetera
 ----
 
-(((while loop)))(((Boolean)))A ((statement)) starting with the
-keyword `while` creates a loop. The word `while` is followed by an
-((expression)) in ((parentheses)) and then a statement, much like `if`.
-The loop executes that statement as long as the expression produces a
-value that is `true` when converted to Boolean type.
+(((bucle while)))(((Booleano)))Una ((sentencia)) que comienza con la palabra
+clave `while` crea un bucle. Después de `while` viene una ((expresión)) en
+((paréntesis)) y después una sentencia, muy parecido a el `if`. El bucle
+ejecuta la sentencia mientras la expresión produzca un valor que sea
+`true` cuando se convierta a un tipo Booleano.
 
-(((grouping)))((({} (block))))(((block)))In this loop, we want to both
-print the current number and add two to our variable. Whenever we need
-to execute multiple ((statement))s inside a loop, we wrap them in
-((curly braces)) (`{` and `}`). Braces do for statements what
-((parentheses)) do for expressions: they group them together, making
-them count as a single statement. A sequence of statements wrapped in
-braces is called a _block_.
+(((agrupamiento)))((({} (bloque))))(((bloque)))En este bucle, queremos
+tanto imprimir el número como sumar dos a nuestra variable. Cuando necesitamos
+ejecutar múltiples ((sentencia))s dentro de un bucle, lo encerramos
+en ((llaves)) (`{` y `}`). Las llaves hacen por las sentencias lo que
+los ((paréntesis)) hacen por las expresiones: las agrupan, haciéndolos
+valer por una sola sentencia. Una secuencia de sentencias encerradas
+en llaves es llamada un _bloque_.
 
-(((programming style)))Many JavaScript programmers wrap every single
-loop or `if` body in braces. They do this both for the sake of
-consistency and to avoid having to add or remove braces when changing
-the number of statements in the body later. In this book, I will write
-most single-statement bodies without braces, since I value brevity.
-You are free to go with whichever style you prefer.
+(((estilo de programación)))Muchos programadores de JavaScript encierran
+cada cuerpo de un bucle o `if` en llaves. Lo hacen en nombre de la consistencia
+y para evitar tener que añadir o quitar las llaves cuando el número de
+sentencias en el cuerpo cambie. En este libro escribiré la mayoría de los
+cuerpos de una sola sentencia sin bloques, porque valoro la brevedad.
+Tú eres libre de usar el estilo que prefieras.
 
-(((comparison)))(((state)))The variable `number` demonstrates the way
-a ((variable)) can track the progress of a program. Every time the
-loop repeats, `number` is incremented by `2`. Then, at the beginning
-of every repetition, it is compared with the number `12` to decide
-whether the program has done all the work it intended to do.
+(((comparación)))(((estado)))La variable número demuestra la forma en que
+una ((variable)) puede dar seguimiento al progreso de un programa.
+Cada vez que el bucle se repite, `numero` se incrementa en `2`. Entonces,
+al principio de cada repetición. es comparada con el número `12` para decidir
+si el programa ha hecho todo el trabajo que tenía que hacer.
 
-(((exponentiation)))As an example that actually does something useful,
-we can now write a program that calculates and shows the value of
-2^10^ (2 to the 10th power). We use two variables: one to keep
-track of our result and one to count how often we have multiplied this
-result by 2. The loop tests whether the second variable has reached 10
-yet and then updates both variables.
+(((exponenciación)))Como un ejemplo que hace realmente algo útil,
+podemos escribir un programa que calcula y mustra el valor de 2^10
+(dos a la décima potencia). Usamos dos varianles: una para mantener el
+resultado y una para contar cuantas veces hemos multiplicado este
+resultado por dos. El bucle verifica si la segunda variable ha llegado
+a 10 y entonces actualiza las dos variables.
 
 [source,javascript]
 ----
-var result = 1;
-var counter = 0;
-while (counter < 10) {
-  result = result * 2;
-  counter = counter + 1;
+var resultado = 1;
+var contador = 0;
+while (contador < 10) {
+  resultado = resultado * 2;
+  contador = contador + 1;
 }
-console.log(result);
+console.log(resultado);
 // → 1024
 ----
 
-The counter could also start at `1` and check for `<= 10`, but, for
-reasons that will become apparent in
-link:04_data.html#array_indexing[Chapter 4], it is a good idea to get
-used to counting from 0.
+El contador pudo también empezar en `1` y verificar que `<=10`, pero,
+por razones que se aclararán en el
+link:04_data.html#array_indexing[Capítulo 4], es una buena idea acostumbrarse
+a contar desde 0.
 
-(((loop body)))(((do loop)))(((control flow)))The `do` loop is a
-control structure similar to the `while` loop. It differs only on one
-point: a `do` loop always executes its body at least once, and it
-starts testing whether it should stop only after that first execution.
-To reflect this, the test appears after the body of the loop:
+(((cuerpo del bucle)))(((bucle do)))(((control de flujo)))El bucle `do` es una
+estructura de control similar al bucle `while`. Se diferencia en sólo
+un punto: un bucle `do` siempre ejecuta su cuerpo por lo menos una vez y
+empieza a verificar si debería para sólo después de la primera ejecución.
+Para reflejar esto, la condición aprece después del cuerpo del bucle:
 
 [source,javascript]
 ----
 do {
-  var yourName = prompt("Who are you?");
-} while (!yourName);
-console.log(yourName);
+  var tuNombre = prompt("¿Quién eres?");
+} while (!tuNombre);
+console.log(tuNombre);
 ----
 
-(((Boolean,conversion to)))(((! operator)))This program will
-force you to enter a name. It will ask again and again until it gets
-something that is not an empty string. Applying the `!` operator will
-convert a value to Boolean type before negating it, and all strings
-except `""` convert to `true`. This means the loop continues going round
-until you provide a name that is not the empty string.
+(((Booleano,conversión a)))(((operador !)))Este programa te obligará a
+introducir un nombre. Preguntará una y otra vez hasta que obtenga algo que
+no sea una cadena vacía. Aplicar el operador `!` convierte un valor a Booleano
+negándolo y todas las cadenas excepto `""` se convierten a `true`. Esto significa
+qie el bucle continúa corriendo hasta que des un nombre que no sea una cadena vacía.
 
-== Indenting Code ==
+== Indentando código ==
 
-(((block)))(((code structure)))(((whitespace)))(((programming
-style)))You've probably noticed the spaces I put in front of some
-statements. In JavaScript, these are not required—the computer will
-accept the program just fine without them. In fact, even the ((line))
-breaks in programs are optional. You could write a program as a single
-long line if you felt like it. The role of the ((indentation)) inside
-blocks is to make the structure of the code stand out. In complex
-code, where new blocks are opened inside other blocks, it can become
-hard to see where one block ends and another begins. With proper
-indentation, the visual shape of a program corresponds to the shape of
-the blocks inside it. I like to use two spaces for every open block,
-but tastes differ—some people use four spaces, and some people use
-((tab character))s.
+(((bloque)))(((estructura del código)))(((espacio en blanco)))(((estilo de
+programción))) Probablemente has notado los espacios que pongo en frente
+de algunas sentencias. En JavaScript, no son requeridos, la computadora
+aceptaré el programa bien sin ellos. De hecho, incluso los saltos de ((línea))
+en los programas son opcionales. Puedes escribir un programa en una sola línea
+si así lo prefieres. El rol de la ((indentación)) dentro de los
+bloques es hacer notar la estructura del código. En código complejo,
+en dónde nuevos bloques son abiertos dentro de otros bloques, puede ser difícil
+de ver en dónde termina uno y empieza otro. Con la indentación correcta,
+la forma visual del programa se corresponde con la forma de los bloques dentro
+de él. A mí me gusta usar dos espacios por cada bloque abierto, pero los gustos
+varían; algunas personas usan cuatro espacios, y algunas
+otras usan el ((carácter tab)).
 
-== for loops ==
+== Bucles for ==
 
-(((syntax)))(((while loop)))(((counter variable)))Many loops follow
-the pattern seen in the previous `while` examples. First, a “counter”
-variable is created to track the progress of the loop. Then comes a
-`while` loop, whose test expression usually checks whether the counter
-has reached some boundary yet. At the end of the loop body, the
-counter is updated to track progress.
+(((sintaxis)))(((bucle while)))(((variable contador)))Muchos bucles siguen el
+patrón de los ejemplos previos del `while`. Primero, una variable “contador”
+es creada para dar seguimiento al progreso del bucle. Entonces viene el 
+bucle `while`, cuya expresión condicional normamelte verifica si el 
+contador ha alcanzafo cierto límite. El final del cuerpo del bucle, el
+contador es actualizado para dar seguimiento al progreso.
 
-(((for loop)))(((loop)))Because this pattern is so common, JavaScript and
-similar languages provide a slightly shorter and more comprehensive
-form, the `for` loop.
+(((bucle for)))(((bucle)))Debido a que este patrón es tan común, JavaScript
+y otros lenguajes similares proveen una versión un poco más corta y más
+completa, el bucle `for`.
+
 
 [source,javascript]
 ----
-for (var number = 0; number <= 12; number = number + 2)
-  console.log(number);
+for (var numero = 0; numero <= 12; numero = numero + 2)
+  console.log(numero);
 // → 0
 // → 2
-//   … etcetera
+//   … etc.
 ----
 
-(((control flow)))(((state)))This program is exactly equivalent to the
-link:02_program_structure.html#loops[earlier] even-number-printing
-example. The only change is that all the ((statement))s that are
-related to the “state” of the loop are now grouped together.
+(((control de flujo)))(((estado)))Este programa es exactamente equivalente
+a el link:02_program_structure.html#loops[ejemplo previo] de impresión
+de números pares. El único cambio es que todas las ((sentencia))s que están
+relacionadas con el "estado" del bucle están agrupadas.
 
-The ((parentheses)) after a `for` keyword must contain two
-((semicolon))s. The part before the first semicolon _initializes_ the
-loop, usually by defining a ((variable)). The second part is the
-((expression)) that _checks_ whether the loop must continue. The final
-part _updates_ the state of the loop after every iteration. In most
-cases, this is shorter and clearer than a `while` construct.
+Los ((paréntesis)) después de una palabra clave `for` tienen que contener
+dos ((punto y coma)). La parte que está antes del primer punto y coma
+_inicializa_ el bucle, normalmente al definir una ((variable)). La segunda parte es la ((expresión)) que verifica si el bucle tiene que continuar.
+La parte final _actualiza_ el estado del bucle antes de cada iteración. En
+la mayoría de los casos, esto es más corto y claro que una construcción con
+`while`.
 
-(((exponentiation)))Here is the code that computes 2^10^, using `for`
-instead of `while`:
+(((exponenciación)))Aquí está un código que calcula 2^10^, usando el `for`
+en vez del `while`.
 
 [source,javascript]
 ----
-var result = 1;
-for (var counter = 0; counter < 10; counter = counter + 1)
-  result = result * 2;
-console.log(result);
+var resultado = 1;
+for (var contador = 0; contador < 10; contador = contador + 1)
+  resultado = resultado * 2;
+console.log(resultado);
 // → 1024
 ----
 
-(((programming style)))(((indentation)))Note that even though no block
-is opened with a `{`, the statement in the loop is still indented two
-spaces to make it clear that it “belongs” to the line before it.
+(((estilo de programación)))(((indentación)))Nota que incluso aunque no se
+abrió ningún bloque con un `{`, la sentencia del bucle está indentada dos
+espacios para dejar claro que "pertenece" al la línea que está antes de
+ella.
 
-== Breaking Out of a Loop ==
+== Forzando la salida de un bucle ==
 
-(((loop,termination of)))(((break keyword)))Having the loop's
-condition produce `false` is not the only way a loop can finish. There
-is a special statement called `break` that has the effect of
-immediately jumping out of the enclosing loop.
+(((bucle, terminación de)))(((palabra clave break)))Hacer que la condición del bucle produzca `false` no es la única forma de que un bucle termine.
+Existe una una sentencia especial llamada `break` que tiene el 
+efecto de salir inmediatamente del bucle que la esté encerrando.
 
-This program illustrates the `break` statement. It finds the first number
-that is both greater than or equal to 20 and divisible by 7.
+El siguiente programa ilustra la sentencia `break`. Encuentra el primer
+número que es más grande o igual que 20 y divisible por 7.
 
 [source,javascript]
 ----
-for (var current = 20; ; current++) {
-  if (current % 7 == 0)
+for (var actual = 20; ; actual++) {
+  if (actual % 7 == 0)
     break;
 }
-console.log(current);
+console.log(actual);
 // → 21
 ----
 
-(((remainder operator)))(((% operator)))Using the remainder
-(`%`) operator is an easy way to test whether a number is divisible by
-another number. If it is, the remainder of their division is zero.
+(((operador sobrante)))(((operador %)))Usar el operador de sobrante o
+módulo (`%`) es una forma fácil de probar si un número es divisible por
+otro. Si lo es, el sobrante de la división es cero.
 
-(((for loop)))The `for` construct in the example does not have a part
-that checks for the end of the loop. This means that the loop will
-never stop unless the `break` statement inside is executed.
+(((bucle for)))La construcción `for` en este ejemplo no tiene la parte
+que verifica si el bucle debe terminar. Esto significa que el loop nunca
+terminará hasta que la sentencia `break` que está adentro sea ejecutada.
 
-If you were to leave out that `break` statement or accidentally write
-a condition that always produces `true`, your program would get stuck
-in an _((infinite loop))_. A program stuck in an infinite loop will
-never finish running, which is usually a bad thing.
+Si dejaras afuera esa sentencia `break` o accidentalmente escribieras una
+condición que siempre produzca `true`, tu programa se quedaría atorado en
+un _((bucle infinito))_. Un programa que se queda en un bucle infinito
+nunca terminará de correr, y eso usualmente es malo.
 
 ifdef::interactive_target[]
 
-If you create an infinite loop in one of the examples on these pages,
-you'll usually be asked whether you want to stop the script after a
-few seconds. If that fails, you will have to close the tab that you're
-working in, or on some browsers close your whole browser, in order to
-recover.
+Si creas un bucle infinito en uno de los ejemplos de estas páginas,
+usualmente se te preguntará si quieres detener el script después de unos
+cuantos segundos. Si eso falla, tendrás que cerrar la pestaña en la que
+estás trabajando, o, en otros nevagadores, cerrar el navegador entero para
+recuperarte.
 
 endif::interactive_target[]
 
-(((continue keyword)))The `continue` keyword is similar to `break`, in
-that it influences the progress of a loop. When `continue` is
-encountered in a loop body, control jumps out of the body and
-continues with the loop's next iteration.
+(((palabra clave continue)))La palabra clave `continue` es similar a
+`break` en que influencia el progreso del bucle. Cuando se encuentra
+`continue` en el cuerpo de un bucle, el control sale del curpo del
+bucle inmediatamente y continúa en la próxima iteración del bucle.
 
-== Updating variables succinctly ==
+== Actualizando variables sucintamente ==
 
-(((assignment)))(((+= operator)))(((-= operator)))(((/=
-operator)))(((*= operator)))(((state)))(((side effect)))Especially
-when looping, a program often needs to “update” a variable to hold a
-value based on that variable's previous value.
-
-// test: no
-
-[source,javascript]
-----
-counter = counter + 1;
-----
-
-JavaScript provides a shortcut for this:
+(((asiganción)))(((operador +=)))(((operador -=)))(((operador
+/=)))(((operador \*=)))(((estado)))(((efecto secundario)))Especialmente
+cuando estamos en un bucle, un programa necesita "actualizar" una variable
+para mantener un valor basado en el valor previo de esa variable.
 
 // test: no
 
 [source,javascript]
 ----
-counter += 1;
+contador = contador + 1;
 ----
 
-Similar shortcuts work for many other operators, such as `result *= 2` to
-double `result` or `counter -= 1` to count downward.
-
-This allows us to shorten our counting example a little more.
-
-[source,javascript]
-----
-for (var number = 0; number <= 12; number += 2)
-  console.log(number);
-----
-
-(((++ operator)))(((-- operator)))For `counter += 1` and `counter -=
-1`, there are even shorter equivalents: `counter++` and `counter--`.
-
-== Dispatching on a value with switch ==
-
-(((syntax)))(((conditional execution)))(((dispatching)))(((if
-keyword,chaining)))It is common for code to look like this:
+JavaScript nos da un atajo para esto:
 
 // test: no
 
 [source,javascript]
 ----
-if (variable == "value1") action1();
-else if (variable == "value2") action2();
-else if (variable == "value3") action3();
-else defaultAction();
+contador += 1;
 ----
 
-(((colon character)))(((switch keyword)))There is a construct called
-`switch` that is intended to solve such a “dispatch” in a more direct
-way. Unfortunately, the syntax JavaScript uses for this (which it
-inherited from the C/Java line of programming languages) is somewhat
-awkward—a chain of `if` statements often looks better. Here is an
-example:
+Atajos similares funcionan igual para muchos otros operadores, como
+`resultado *= 2` para duplicar `resultado` o `counter -= 1` para restar uno.
+
+Esto nos permite acortar nuestro ejemplo de la cuenta un poco más.
 
 [source,javascript]
 ----
-switch (prompt("What is the weather like?")) {
-  case "rainy":
-    console.log("Remember to bring an umbrella.");
+for (var numero = 0; numero <= 12; numero += 2)
+  console.log(numero);
+----
+
+(((operador ++)))(((operador --)))Para `contador += 1` y `contador -= 1`,
+hay incluso equivalentes más cortos: `contador+=` y `contador--`.
+
+== Despachando sobre un valor con switch ==
+
+(((sintaxis)))(((ejecución condicional)))(((despachando)))(((palabra clave if,
+encadenamiento)))Es común ver código así:
+
+// test: no
+
+[source,javascript]
+----
+if (variable == "valor1") accion1();
+else if (variable == "valor2") accion2();
+else if (variable == "valor3") accion3();
+else accionDefault();
+----
+
+(((caracter punto y coma)))(((palabra clave switch)))Existe una estructura
+llamada `switch` que está hecha para resolver este "despachado" de un modo
+más directo. Desafortunadamente, la sintaxis que JavaScript usa para
+esto (que es heredada de la línea de lenguajes de programación de C o Java)
+es un poco incómoda; una cadena de sentencias `if` a menudo luce mejor.
+Aquí hay un ejemplo:
+
+[source,javascript]
+----
+switch (prompt("¿Cómo está el clima?")) {
+  case "lluvioso":
+    console.log("Recuerda llevar un paraguas.");
     break;
-  case "sunny":
-    console.log("Dress lightly.");
-  case "cloudy":
-    console.log("Go outside.");
+  case "soleado":
+    console.log("Viste ligero.");
+  case "nublado":
+    console.log("Sal a la calle.");
     break;
   default:
-    console.log("Unknown weather type!");
+    console.log("Tipo de Clima desconocido.");
     break;
 }
 ----
 
-(((fallthrough)))(((comparison)))(((break keyword)))(((case
-keyword)))(((default keyword)))You may put any number of `case` labels
-inside the block opened by `switch`. The program will jump to the
-label that corresponds to the value that `switch` was given or to
-`default` if no matching value is found. It starts executing
-statements there, even if they're under another label, until it
-reaches a `break` statement. In some cases, such as the `"sunny"` case
-in the example, this can be used to share some code between cases (it
-recommends going outside for both sunny and cloudy weather). But
-beware: it is easy to forget such a `break`, which will cause the
-program to execute code you do not want executed.
+(((fallthrough)))(((comparación)))(((palabra clave break)))(((palabra calve
+case)))(((palabra clave default))) Puedes poner cualquier cantidad
+de etiquetas `case` dentro del bloque `switch` abierto. El programa
+saltará a la etiqueta que corresponda al valor que se le dio al
+`switch` o a `default` si no se encuentra valor que corresponda.
+Se empiezan a ejecutar las sentencias desde ahí, incluso si están
+bajo otra etiqueta, hasta que se llegue a una sentencia `breal`.
+En algunos casos, como en el caso de `"soleado"` en el ejemplo, esto
+puede ser usado para compartir código entre casos (recomienda
+salir a la calle tanto para clima soleado como para nublado). Pero
+cuidado: es fácil olvidar el `break`, lo cuál causará que el programa
+ejecute código que no quieres que se ejecute.
 
-== Capitalization ==
+== Capitalización ==
 
-(((capitalization)))(((variable,naming)))(((whitespace)))Variable
-names may not contain spaces, yet it is often helpful to use multiple
-words to clearly describe what the variable represents. These are
-pretty much your choices for writing a variable name with several
-words in it:
+(((capitalización)))(((variable, nombrado)))(((espacio en blanco)))Los
+nombres de variable no pueden contener espacios, pero aún así es útil
+ocupar varias palabras para describir claramente lo que esa variable
+representa. Estas son tus elecciones para escribir un nombre
+de variable con varias palabras:
 
 ----
-fuzzylittleturtle
-fuzzy_little_turtle
-FuzzyLittleTurtle
-fuzzyLittleTurtle
+toortuguitadifusa
+tortuguita_difusa
+TortuguitaDifusa
+tortuguitaDifusa
 ----
 
-(((camel case)))(((programming style)))(((underscore character)))The
-first style can be hard to read. Personally, I like the look of the
-underscores, though that style is a little painful to type. The
-((standard)) JavaScript functions, and most JavaScript programmers,
-follow the bottom style—they capitalize every word except the first.
-It is not hard to get used to little things like that, and code with
-mixed naming styles can be jarring to read, so we will just follow
-this ((convention)).
+(((camel case)))(((estilo de programación)))(((carácter guión bajo)))El
+primer estilo puede ser difícil de leer. Personalmente, me gusta como
+luce con los guiones bajos, aunque es un poco difícil de escribir. Las
+funciones ((estándar)) de JavaScript, y la mayoría de los programadores
+de JavaScript, siguen el último estilo; capitalizan cada palabra excepto la
+primera. No es difícil acostumbrarse a pequeñas cosas como esas y código
+con estilos de nombrado mezclados puede ser desagradable de leer,
+así que simplemente seguiremos esta ((convención)).
 
-(((Number function)))(((constructor)))In a few cases, such as the
-`Number` function, the first letter of a variable is also capitalized.
-This was done to mark this function as a constructor. What a
-constructor is will become clear in
-link:06_object.html#constructors[Chapter 6]. For now, the important
-thing is not to be bothered by this apparent lack of ((consistency)).
+(((función Number)))(((constructor)))En algunos casos, como en el
+de la función `Number`, la primera letra de una variable también es
+mayúscula. Esto fue hecho para marcar la función como un constructor.
+Lo que es un constructor, quedará claro en el
+link:06_object.html#constructors[Capítulo 6]. Por ahora, lo importante
+es no preocuparse por esta aparente falta de ((consistencia)).
 
-== Comments ==
+== Comentarios ==
 
-(((readability)))Often, raw code does not convey all the information
-you want a program to convey to human readers, or it conveys it in
-such a cryptic way that people might not understand it. At other
-times, you might just feel poetic or want to include some thoughts as
-part of your program. This is what _((comment))s_ are for.
+(((legibilidad)))A menudo, el código por sí mismo no transmite toda la
+información que quieres que un programa transmita para los lectores
+humanos, o la transmite de un modo tan críptico que las personas
+podrían no entenderlo. En otras ocasiones, simplemente puedieras
+sentirte poético o quisieras incluir algunos pensamientos como parte
+del programa. Para eso son los _((comentario))s_.
 
-(((slash character)))(((line comment)))A comment is a piece of text
-that is part of a program but is completely ignored by the computer.
-JavaScript has two ways of writing comments. To write a single-line
-comment, you can use two slash characters (`//`) and then the comment
-text after it.
+(((carácter diagonal)))(((comentario de línea)))Un comentario es una
+pieza de texto que es parte del programa pero es completamente ignorado
+por la computadora. JavaScript tiene dos formas para escribir comentarios.
+Para escribir un comentario de una línea, puedes usar dos diagonales ('//')
+con el texto después.
 
 // test: no
 
 [source,javascript]
 ----
-var accountBalance = calculateBalance(account);
-// It's a green hollow where a river sings
-accountBalance.adjust();
-// Madly catching white tatters in the grass.
-var report = new Report();
-// Where the sun on the proud mountain rings:
-addToReport(accountBalance, report);
-// It's a little valley, foaming like light in a glass.
+var balandeDeCuenta = calcularBalance(cuenta);
+// Es en un claro de bosque donde canta un río.
+balandeDeCuenta.ajustar();
+// Cuelgan enloquecidamente de la hierbas harapos
+var reporte = new Reporte();
+// De plata; donde el sol de la orgullosa montaña
+agregaAReporte(balandeDeCuenta, reporte);
+// Luce: Es un pequeño valle espumoso de luz.
 ----
 
-(((block comment)))A `//` comment goes only to the end of the line. A
-section of text between `/*` and `*/` will be ignored, regardless of
-whether it contains line breaks. This is often useful for adding
-blocks of information about a file or a chunk of program.
+(((comentario de bloque)))Un `//` sólo es válido hasta el fin de la línea.
+Una sección de texto entre `/*` y '*/' será ignorada, sin importar si
+contiene saltos de línea. Esto es útil a menudo para añadir bloques de
+información acerca de un archivo o un pedazo de un programa.
 
 [source,javascript]
 ----
 /*
- I first found this number scrawled on the back of one of
- my notebooks a few years ago. Since then, it has often
- dropped by, showing up in phone numbers and the serial
- numbers of products that I've bought. It obviously likes
- me, so I've decided to keep it.
+ Primero, encontré este número garabateado en la parte trasera de 
+ una de mis libretas hace unos cuantos años. Desde entonces,
+ a menudo ha aparecido de la nada, apareciendo en números de
+ teléfono y números de serie de productos que he comprado. 
+ Obviamente le gusto, así que decidí conservarlo.
 */
-var myNumber = 11213;
+var miNumero = 11213;
 ----
 
-== Summary ==
+== Sumario ==
 
-You now know that a program is built out of statements, which
-themselves sometimes contain more statements. Statements tend to
-contain expressions, which themselves can be built out of smaller
-expressions.
+Ya sabes que un programa está construido de sentencias, que
+a su vez pueden contener más sentencias algunas veces. Las 
+sentencias normalmente contienen expresiones, que a su vez pueden
+contener expresiones más pequeñas.
 
-Putting statements after one another gives you a program that is
-executed from top to bottom. You can introduce disturbances in the
-flow of control by using conditional (`if`, `else`, and `switch`) and
-looping (`while`, `do`, and `for`) statements.
+Colocar una sentencia tras otras te da un programa que es ejecutado
+de arriba hacia abajo. Puedes introducir disturbios en el flujo de
+control usando sentencias condicionales (`if`, `else`, and `switch`) y
+de bucle (`while`, `do`, and `for`).
 
-Variables can be used to file pieces of data under a name, and they
-are useful for tracking state in your program. The environment is the
-set of variables that are defined. JavaScript systems
-always put a number of useful standard variables into your
-environment.
+Las variables pueden ser usadas para guardar piezas de información bajo un
+nombre, y son útiles para llevar registro del estado del programa.
+El entorno es el conjunto de variables que están definidas. Los sistemas
+de JavaScript siempre colocan varias variables estándar útiles en
+tu entorno.
 
-Functions are special values that encapsulate a piece of program. You
-can invoke them by writing `functionName(argument1, argument2)`. Such
-a function call is an expression, and may produce a value.
+Las funciones son valores especiales que encapsulan un pedazo del programa.
+Puedes invocar una escribiendo `nombreDeLaFuncion(argumento1, argumento2)`.
+Esta llamada a la función es una expresión, y podría producir un valor.
 
-== Exercises ==
+== Ejercicios ==
 
-(((exercises)))If you are unsure how to try your solutions to
-exercises, refer to the link:00_intro.html#intro[introduction].
+(((ejercicios)))Si no estás seguro de cómo probar tus soluciones a los
+ejercicios, visita la link:00_intro.html#intro[introducción]
 
-Each exercise starts with a problem description. Read that and try to
-solve the exercise. If you run into problems, consider reading the
-hints (!interactive after the exercise!)(!book at the link:hints.html#hints[end of the book]!).
-Full solutions to the exercises are not included in this
-book, but you can find them online at
+Cada ejercicio empieza con una descripción del problema. Léela e intenta
+resolver el ejercicio. Si tienes problemas, considera leer las pistas
+(!interactive después del ejercicio!)(!book al link:hints.html#hints[final del libro]!).
+Las soluciones completas a los ejercicios no están incluidas en este
+libro, pero puedes encontrarlas en línea en
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_].
-If you want to learn something from the exercises, I recommend looking
-at the solutions only after you've solved the exercise, or at least
-after you've attacked it long and hard enough to have a slight
-headache.
+Si quieres aprender a partir de los ejercicios, recomiendo mirar las soluciones
+sólo después de que hayas resuelto el ejercicio, o al menos lo hayas
+atacado con el tiempo y esfuerzo suficientes para tener un pequeño dolor
+de cabeza.
 
-=== Looping a triangle ===
+=== Iterando un triángulo ===
 
-(((triangle (exercise))))Write a ((loop)) that makes seven calls to
-`console.log` to output the following triangle:
+(((triángulo (ejercicio))))Escribe un ((bucle)) que haga siete
+llamadas a `console.log` para producir el siguiente triángulo:
 
 ----
 #
@@ -893,8 +887,8 @@ headache.
 #######
 ----
 
-It may be useful to know that you can find the length of a string by
-writing `.length` after it.
+Puede ser útil saber que puedes encontrar la longitud de una cadena
+de texto escribiendo `.length` después de ella.
 
 [source,javascript]
 ----
@@ -905,128 +899,136 @@ console.log(abc.length);
 
 ifdef::interactive_target[]
 
-Most exercises contain a piece of code that you can modify to solve
-the exercise. Remember that you can click code blocks to edit them.
+La mayoría de los ejercicios contienen una porción de código 
+que puedes modificar para resolver el ejercicio. Recuerda que puedes hacer
+click en los bloques de código para editarlos.
 
 [source,javascript]
 ----
-// Your code here.
+// Tu código aquí:
 ----
 endif::interactive_target[]
 
 !!hint!!
 
-(((triangle (exercise))))You can start with a program that simply
-prints out the numbers 1 to 7, which you can derive by making a few
-modifications to the
-link:02_program_structure.html#loops[even number printing example]
-given earlier in the chapter, where the `for` loop was introduced.
+(((triángulo (exercise))))Puedes empezar con un programa que
+simplemente imprima los números 1 a 7, el cuál puede derivarse
+de hacer unas cuantas modificaciones al
+link:02_program_structure.html#loops[ejemplo de impresión de
+los números pares] dado antes en este capítulo,
+en dónde se introdujo el bucle `for`.
 
-Now consider the equivalence between numbers and strings of hash
-characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go
-from `"#"` to `"##"` by adding a character (`+= "#"`). Thus, your
-solution can closely follow the number-printing program.
+Ahora considera la equivalencia entre números y cadenas de símbolos
+de numeral. Puedes ir de uno a dos añadiendo uno (`+=1`). Puedes
+ir de `"#"` a `"##"` añadiendo un carácter (`+= "#"`). Así, tu solución
+puede seguir de cerca el programa de impresión de números.
 
 !!hint!!
 
 === FizzBuzz ===
 
-(((FizzBuzz (exercise))))(((loop)))(((conditional execution)))Write a
-program that uses `console.log` to print all the numbers from 1 to
-100, with two exceptions. For numbers divisible by 3, print `"Fizz"`
-instead of the number, and for numbers divisible by 5 (and not 3),
-print `"Buzz"` instead.
+(((FizzBuzz (ejercicio))))(((bucle)))(((ejecución condicional)))Escribe
+un programa que use `console.log` para imprimir todos los números
+del 1 al 100, con dos excepciones. Para números divisibles por 3, 
+imprime `"Fizz"` en vez del número y para números divisibles por 5
+(pero no por 3), imprime `"Buzz"`.
 
-When you have that working, modify your program to print `"FizzBuzz"`,
-for numbers that are divisible by both 3 and 5 (and still print
-`"Fizz"` or `"Buzz"` for numbers divisible by only one of those).
+Cuando tengas eso funcionando, modifica tu programa para imprimir
+`"FizzBuzz"`, para números que sean divisibles tanto por 3 como por 5
+(y que siga imprimiendo `"Fizz"` o `"Buzz"` para números divisibles por
+sólo uno de ellos).
 
-(This is actually an ((interview question)) that has been claimed to
-weed out a significant percentage of programmer candidates. So if you
-solved it, you're now allowed to feel good about yourself.)
+(Esta es en realidad una ((pregunta de entrevista)) de la que se dice
+que elimina a un porcentaje significativo de programadores candidatos.
+Así que si lo resolviste, puedes sentirte bien contigo mismo.)
 
 ifdef::interactive_target[]
+
 [source,javascript]
 ----
-// Your code here.
+// Tu código aquí:
+----
+
+endif::interactive_target[]
+
+!!hint!!
+
+(((FizzBuzz (ejercicio))))(((operador sobrante)))(((operador %)))Recorrer
+los números es claramente un trabajo para un bucle y seleccionar
+qué imprimir es asunto de ejecución condicional. Recuerda el truco
+de usar el operador sobrante (`%`) para verificar si un número es divisible
+por otro (tiene un sobrante de cero).
+
+En la primera versión, hay tres posibles salidas para cada número, 
+así que tendrás que crear una cadena de `if`/`else if`/`else`.
+
+(((operador ||)))(((palabra clave if keyword,encadenado)))La segunda versión
+del programa tiene una solución obvia y una inteligente. El camino simple
+es añadir otra "rama" para probar la condición dada. Para el método
+inteligente, construye una cadena que contenga la palabra o las palabras
+que se van a devolver, e imprime esta palabra o el número si no hay palabra,
+probablemente haciendo un uso elegante del operador `||`.
+
+!!hint!!
+
+=== Tablero de Ajedrez ===
+
+(((tablero de ajedrez (exercise))))(((bucle)))(((anidado,de bucles)))(((caracter
+de nueva línea)))Escribe un programa que cree un cadena de texto que
+represente una cuadrícula de 8x8, usando el salto de línea como separador.
+En cada posición de la cuadrícula está o un espacio o un carácter "#".
+Los caracteres deberían formar un tablero de ajedrez.
+
+Pasar esta cadena a `console.log` debería mostrar algo como esto:
+
+----
+ # # # #
+# # # #
+ # # # #
+# # # #
+ # # # #
+# # # #
+ # # # #
+# # # #
+----
+
+Cuando tengas un programa que genere este patrón, defina
+una ((variable)) `tamano = 8` y cambia el programa de tal manera
+que trabaje para cualquier `tamano`, produciendo una cuadrícula
+del ancho y alto dado.
+
+ifdef::interactive_target[]
+
+[source,javascript]
+----
+// Tu código aquí:
 ----
 endif::interactive_target[]
 
 !!hint!!
 
-(((FizzBuzz (exercise))))(((remainder operator)))(((% operator)))Going
-over the numbers is clearly a looping job, and selecting what to print
-is a matter of conditional execution. Remember the trick of using the
-remainder (`%`) operator for checking whether a number is divisible by
-another number (has a remainder of zero).
+(((tablero de ajedrez (ejercicio))))La cadena puede ser construida
+empezando con una vacía (`""`) y agregando caracteres repetidamente.
+Un carácter de nueva línea se escribe `"\n"`.
 
-In the first version, there are three possible outcomes for every
-number, so you'll have to create an `if`/`else if`/`else` chain.
+Usa `console.log` para inspeccionar la salida de tu programa.
 
-(((|| operator)))(((if keyword,chaining)))The second version of the
-program has a straightforward solution and a clever one. The simple
-way is to add another “branch” to precisely test the given condition.
-For the clever method, build up a string containing the word or words
-to output, and print either this word or the number if there is no
-word, potentially by making elegant use of the `||` operator.
+(((anidado,de bucles)))Para trabajar con dos ((dimensiones)), necesitarás
+un ((bucle)) adentro de un bucle. Coloca ((llaves)) alrededor de los
+cuerpos de los dos bucles para hacer fácil ver dónde empiezan y dónde
+terminan. Intenta indentar propieamente los cuerpos. El orden de los
+bucles debe seguir el orden en el que construimos la cadena (línea por
+línea, de izquierda a derecha, de arriba hacia abajo). Así que el bucle
+de afuera maneja la línea y el bucle interno maneja los caracteres en
+una línea.
 
-!!hint!!
+(((variable contador)))(((operador sobrante)))(((operador %)))Necesitarás
+dos variables para dar seguimiento al progreso. Para saber si debes poner
+un espacio o un símbolo de número en una posición dada, puedes probar si
+la suma de los contadores es par (`%2`)
 
-=== Chess board ===
-
-(((chess board (exercise))))(((loop)))(((nesting,of loops)))(((newline
-character)))Write a program that creates a string that represents an
-8×8 grid, using newline characters to separate lines. At each position
-of the grid there is either a space or a “#” character. The characters
-should form a chess board.
-
-Passing this string to `console.log` should show something like this:
-
-----
- # # # #
-# # # # 
- # # # #
-# # # # 
- # # # #
-# # # # 
- # # # #
-# # # # 
-----
-
-When you have a program that generates this pattern, define a
-((variable)) `size = 8` and change the program so that it works for
-any `size`, outputting a grid of the given width and height.
-
-ifdef::interactive_target[]
-[source,javascript]
-----
-// Your code here.
-----
-endif::interactive_target[]
-
-!!hint!!
-
-(((chess board (exercise))))The string can be built by starting with
-an empty one (`""`) and repeatedly adding characters. A newline
-character is written `"\n"`.
-
-Use `console.log` to inspect the output of your program.
-
-(((nesting,of loops)))To work with two ((dimensions)), you will need a
-((loop)) inside of a loop. Put ((curly braces)) around the bodies of
-both loops to make it easy to see where they start and end. Try to
-properly indent these bodies. The order of the loops must follow the
-order in which we build up the string (line by line, left to right,
-top to bottom). So the outer loop handles the lines and the inner loop
-handles the characters on a line.
-
-(((counter variable)))(((remainder operator)))(((% operator)))You'll
-need two variables to track your progress. To know whether to put a
-space or a hash sign at a given position, you could test whether the
-sum of the two counters is even (`% 2`).
-
-Terminating a line by adding a newline character happens after the
-line has been built up, so do this after the inner loop but inside of
-the outer loop.
+Terminar una línea al añadir un carácter de nueva línea sucede después de
+que la línea ha sido construida, así que haz esto después del bucle interno
+pero dentro del bucle externo.
 
 !!hint!!

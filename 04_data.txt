@@ -4,136 +4,133 @@
 :load_files: ["code/jacques_journal.js", "code/chapter/04_data.js"]
 :zip: node/html
 
-= Data Structures: Objects and Arrays =
+= Estructuras de Datos: Objetos y Arreglos =
 
 [chapterquote="true"]
 [quote, Charles Babbage, Passages from the Life of a Philosopher (1864)]
 ____
-On two occasions I have been asked, ‘Pray,
-Mr. Babbage, if you put into the machine wrong figures, will the right
-answers come out?’ [...] I am not able rightly to apprehend the kind
-of confusion of ideas that could provoke such a question.
+En dos ocasiones me han preguntado “Disculpe, Sr. Babbage, si introduce los
+números incorrectos en la máquina, ¿van a salir las respuestas correctas?”
+[...] No puedo terminar de comprender el tipo de confusión de ideas que
+podrían provocar esta pregunta.
 ____
 
-(((Babbage+++,+++ Charles)))(((object)))(((data structure)))Numbers, Booleans, and strings are the
-bricks that ((data)) structures are built from. But you can't make
-much of a house out of a single brick. _Objects_ allow us to group
-values—including other objects—together and thus build more complex
-structures.
+(((Babbage+++,+++ Charles)))(((objeto)))(((estructura de datos)))Números, Booleanos
+y cadenas son los ladrillos de los que están hechas las estructuras de ((datos)).
+Pero no podrás construir mucha casa de un solo ladrillo. Los _objetos_ nos
+permiten agrupar valores, incluyendo otros objetos, permitiéndonos construir
+estructuras más complejas.
 
-The programs we have built so far have been seriously hampered by the
-fact that they were operating only on simple data types. This chapter
-will add a basic understanding of data structures to your toolkit. By
-the end of it, you'll know enough to start writing some useful
-programs.
+Los programas que hemos construido hasta ahora han sido seriamente limitados
+debido al hecho de que estaban operando únicamente en tipos de datos simples. Este
+capítulo agregará a tu caja de herramientas un entendimiento básico de las
+estructuras de datos. Al finalizarlo, sabrás lo suficiente para empezar a escribir
+algunos programas de utilidad.
 
-The chapter will work through a more or less realistic programming
-example, introducing concepts as they apply to the problem at hand.
-The example code will often build on functions and variables that were
-introduced earlier in the text.
+El capítulo trabajará a lo largo de un ejemplo de programación más o menos
+realista, introduciendo conceptos conforme apliquen al problema en cuestión.
+El código de ejemplo muchas veces construirá sobre funciones y variables que
+fueron presentadas previamente en el texto.
 
 ifdef::book_target[]
 
-(((sandbox)))The online coding sandbox for the book
+(((sandbox)))El sandbox de programación en línea para el libro
 (http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
-provides a way to run code in the context of a specific chapter. If
-you decide to work through the examples in another environment, be
-sure to first download the full code for this chapter from the
-sandbox page.
+proporciona una manera de correr el código en el contexto de un capítulo en
+específico. Si decides trabajar en los ejemplos en otro entorno, asegúrate de
+descargar primero el código completo de este capítulo desde la página del
+sandbox.
 
 endif::book_target[]
 
-== The weresquirrel ==
+== El hombre ardilla ==
 
-(((weresquirrel example)))(((lycanthropy)))Every now and then, usually
-between eight and ten in the evening, ((Jacques)) finds himself
-transforming into a small furry rodent with a bushy tail.
+(((hombre ardilla, ejemplo)))(((licántropo)))De vez en cuando, comúnmente
+entre las ocho y las diez de la noche, ((Jacques))  se transforma en
+un pequeño y peludo roedor con una frondosa cola.
 
-On one hand, Jacques is quite glad that he doesn't have classic
-lycanthropy. Turning into a squirrel tends to cause fewer problems
-than turning into a wolf. Instead of having to worry about
-accidentally eating the neighbor (_that_ would be awkward), he worries
-about being eaten by the neighbor's cat. After two occasions where he
-woke up on a precariously thin branch in the crown of an oak, naked
-and disoriented, he has taken to locking the doors and windows of his
-room at night and putting a few walnuts on the floor to keep himself
-busy.
+Por un lado, Jacques esta bastante contento de no tener la clásica licantropía.
+Convertirse en una ardilla suele causar menos problemas que convertirse en un
+lobo. En vez de tener que preocuparse por comerse accidentalmente a un vecino
+(_eso_ sería penoso), le preocupa el ser deborado por el gato del vecino.
+Después de un par de ocasiones donde se despertó, en una
+delgada rama en la cima de un roble, desnudo y desorientado, se ha asegurado
+de cerrar puertas y ventanas de su cuarto por las noches y poner algunas
+bellotas en el suelo para mantenerse ocupado.
 
 image::img/weresquirrel.png[alt="The weresquirrel"]
 
-That takes care of the cat and oak problems. But Jacques still suffers
-from his condition. The irregular occurrences of the transformation
-make him suspect that they might be triggered by something.
-For a while, he believed that it happened only on days when he
-had touched trees. So he stopped touching trees entirely and even
-avoided going near them. But the problem persisted.
+Eso resuelve los problemas del gato y el roble. Pero Jacques aún sufre de su
+enfermedad. Las ocurrencias irregulares de la transformación le hacen
+sospechar que pudieran ser detonadas por algo. Por algún tiempo, creyó que
+sucedía sólo en los dias que había tocado árboles. Así que dejó de tocar árboles
+de manera definitiva e incluso evitó acercarse a ellos. Pero el problema
+presistió.
 
-(((journal)))Switching to a more scientific approach, Jacques intends
-to start keeping a daily log of everything he did that day and whether
-he changed form. With this data he hopes to narrow down the conditions
-that trigger the transformations.
+(((diario)))Cambiando a una perspectiva más científica, Jacques intenta
+empezar un registro diario de todo lo que hizo ese día y si tuvo una
+transformación. Con estos datos espera limitar las condiciones que disparan las
+transformaciones.
 
-The first thing he does is design a data structure to store this
-information.
+Lo primero que hace es diseñar una estructura de datos para almacenar esta
+información.
 
-== Data sets ==
+== Conjuntos de datos ==
 
-(((data structure)))To work with a chunk of digital data, we'll first
-have to find a way to represent it in our machine's ((memory)). Say,
-as a simple example, that we want to represent a ((collection)) of
-numbers: 2, 3, 5, 7, and 11.
+(((estructuras de datos)))Para trabajar con un pedazo de datos digitales, primero
+tendremos que encontrar una forma de representarlo en la ((memoria)) de nuestra
+máquina. Digamos, como un pequeño ejemplo, que queremos representar una
+((colección)) de números: 2, 3, 5, 7 y 11.
 
-(((string)))We could get creative with strings—after all, strings
-can be any length, so we can put a lot of data into them—and use `"2 3
-5 7 11"` as our representation. But this is awkward. You'd have to
-somehow extract the digits and convert them back to numbers to access
-them.
+(((cadena)))Podríamos ponernos creativos usando cadenas; después de todo, las
+cadenas pueden ser de cualquier longitud, así que podemos poner mucha
+información en ellas; y usar `"2 3 5 7 11"` como nuestra representación. Pero
+esto es incómodo. De alguna forma tendrías que extraer los dígitos y convertirlos
+de vuelta a números para acceder a ellos.
 
-(((array,creation)))((([] (array))))Fortunately, JavaScript
-provides a data type specifically for storing sequences of values. It
-is called an _array_ and is written as a list of values between
-((square brackets)), separated by commas.
+(((array, creación)))((([] (array))))Afortunadamente, Javascript proporciona un
+tipo de dato específico para almacenar secuencias de valores. Se le llama
+_arreglo_ (array) y se escribe como una lista de valores entre ((corchetes)), separados
+por comas.
 
 [source,javascript]
 ----
-var listOfNumbers = [2, 3, 5, 7, 11];
-console.log(listOfNumbers[1]);
+var listaDeNumeros = [2, 3, 5, 7, 11];
+console.log(listaDeNumeros[1]);
 // → 3
-console.log(listOfNumbers[1 - 1]);
+console.log(listaDeNumeros[1 - 1]);
 // → 2
 ----
 
-((([] (subscript))))(((array,indexing)))The notation for getting
-at the elements inside an array also uses ((square brackets)). A pair
-of square brackets immediately after an expression, with another
-expression inside of them, will look up the element in the left-hand
-expression that corresponds to the _((index))_ given by the expression
-in the brackets.
+((([] (subscript))))(((array,indexado)))La notación para obtener los elementos
+dentro de un arreglo también utiliza ((corchetes)). Un par de corchetes
+inmediatamente después de una expresión, con otra expresión dentro de los
+corchetes, buscará el elemento en la expresión de la izquierda que corresponda
+al  _((índice))_ dado por la expresión en corchetes.
 
 [[array_indexing]]
-The first index of an array is zero, not one. So the first element can
-be read with `listOfNumbers[0]`. If you don't have a programming
-background, this convention might take some getting used to. But
-((zero-based counting)) has a long tradition in technology, and as
-long as this convention is followed consistently (which it is, in
-JavaScript), it works well.
+El primer índice de un arreglo es cero, no uno. Así que el primer elemento puede
+leerse usando `listaDeNumeros[0]`. Si no tienes antecedentes en programación,
+acostumbrarte a esta convención puede tomarte algún tiempo. Pero el
+((conteo con base cero)) tiene una larga tradición en tecnología y mientras la
+convención se siga de manera consistente (que se ha hecho en Javascript),
+funciona bien.
 
 [[properties]]
-== Properties ==
+== Propiedades ==
 
-(((Math object)))(((Math.max function)))(((length property,for
-string)))(((object,property)))(((period character)))We've seen a few
-suspicious-looking expressions like `myString.length` (to get the
-length of a string) and `Math.max` (the maximum function) in past
-examples. These are expressions that access a _((property))_ of some
-value. In the first case, we access the `length` property of the value
-in `myString`. In the second, we access the property named `max` in
-the `Math` object (which is a collection of mathematics-related values
-and functions).
+(((objeto Math)))(((función Math.max)))(((propiedad length, para
+cadenas)))(((object,propiedad)))(((carácter punto)))Hemos visto algunas expresiones
+sospechosas como `myString.length` (para obtener la longitud de una cadena) y
+`Math.max` (la función máximo) en ejemplos pasados. Estas son expresiones que
+acceden una _((propiedad))_ de algún valor. En el primer caso, accedemos a la
+propiedad `length` de el valor en `myString`. En el segundo, accedemos a la
+propiedad llamada `max` en el objeto `Math` (que es una colección de valores y
+funciones relacionadas con las matemáticas).
 
-(((property)))(((null)))(((undefined)))Almost all JavaScript values
-have properties. The exceptions are `null` and `undefined`. If you try
-to access a property on one of these nonvalues, you get an error.
+(((propiedad)))(((null)))(((undefined)))Casi todos los valores de JavaScript tienen
+propiedades. Las excepciones son `null` y `undefined`. Si intentas acceder una
+propiedad de alguno de estos valores inválidos recibirás un error.
 
 // test: no
 
@@ -143,45 +140,42 @@ null.length;
 // → TypeError: Cannot read property 'length' of null
 ----
 
-indexsee:[dot character,period character]
-((([] (subscript))))(((period character)))(((square
-brackets)))(((computed property)))The two most common ways to access
-properties in JavaScript are with a dot and with square brackets. Both
-`value.x` and `value[x]` access a ((property)) on ++value++—but not
-necessarily the same property. The difference is in how `x` is
-interpreted. When using a dot, the part after the dot must be a valid
-variable name, and it directly names the property. When using square
-brackets, the expression between the brackets is _evaluated_ to get
-the property name. Whereas `value.x` fetches the property of `value`
-named “x”, `value[x]` tries to evaluate the expression `x` and uses
-the result as the property name.
+indexsee:[carácter punto]
+((([] (subscript))))(((carácter punto)))(((corchetes)))(((propiedad
+calculada)))Las dos maneras comunes de acceder a propiedades
+en Javascript son con un punto y con corchetes. Ambas `valor.x` y `valor[x]`
+acceden a una ((propiedad)) en ++valor++, pero no necesariamente la misma propiedad.
+La diferencia radica en cómo se interpreta `x`. Cuando usamos un punto, la parte
+después del punto debe ser un nombre de variable válido y nombra de manera
+directa a la propiedad. Cuando usamos corchetes, la expresión dentro de los
+corchetes es _evaluada_ para obtener el nombre de la propiedad. Mientras que
+`valor.x` busca la propiedad de `valor` llamada “x”, `valor[x]` intenta evaluar
+la expresión `x` y usa el resultado como el nombre de la propiedad.
 
-So if you know that the property you are interested in is called
-“length”, you say `value.length`. If you want to extract the property
-named by the value held in the variable `i`, you say `value[i]`. And
-because property names can be any string, if you want to access a
-property named “2” or “John Doe”, you must use square brackets:
-`value[2]` or `value["John Doe"]`. This is the case even though you
-know the precise name of the property in advance, because neither “2”
-nor “John Doe” is a valid variable name and so cannot be accessed
-through dot notation.
+Así que si sabes que la propiedad que te interesa se llama “length”, usas
+`valor.length`. Si deseas extraer la propiedad nombrada por el valor almacenado
+en la variable `i`, usas `valor[i]`. Y debido a que el nombre de las propiedades
+puede ser cualquier cadena, si quieres accesar una propiedad llamada “2” o
+“Fulano”, debes utilizar corchetes:`valor[2]` or `valor["Fulano de Tal"]`. Así lo
+harías incluso si conoces el nombre preciso de la propiedad de antemano, ya que
+ni “2” ni “Fulano de Tal” son nombres válidos de variables y por lo tanto no puede
+accederse a traves de la notación con punto.
 
-(((array)))(((length property,for array)))(((array,length
-of)))The elements in an array are stored in properties. Because the
-names of these properties are numbers and we often need to get their
-name from a variable, we have to use the bracket syntax to access
-them. The `length` property of an array tells us how many elements it
-contains. This property name is a valid variable name, and we know its
-name in advance, so to find the length of an array, you typically
-write `array.length` because that is easier to write than
-`array["length"]`.
+(((arreglo)))(((propiedad length,para arreglo)))(((arreglo,longitud
+de)))Los elementos en un arreglo se almacenan en propiedades. Debido a que los
+nombres de estas propiedades son números y usualmente necesitamos obtener su
+nombre de una variable, tenemos que usar la sintaxis de corchetes para accesarlos.
+La propiedad `length` (longitud) de un arreglo nos dice cuantos elementos contiene. Este
+nombre de propiedad es un nombre de variable válido, y conocemos su nombre por
+anticipado, así que para encontrar la longitud de un arreglo, comúnmente
+escribiremos `arreglo.length` ya que es más fácil de escribir que `arreglo["length"]`.
 
 [[methods]]
-== Methods ==
+== Métodos ==
 
-(((function,as property)))(((method)))(((string)))Both string and
-array objects contain, in addition to the `length` property, a number
-of properties that refer to function values.
+(((función,como propiedad)))(((método)))(((cadena)))Ambos objetos, las cadenas y
+los arreglos contienen, adicionalmente a la propiedad `length` (longitud), varias
+propiedades que refieren a valores que son funciones.
 
 [source,javascript]
 ----
@@ -192,25 +186,24 @@ console.log(doh.toUpperCase());
 // → DOH
 ----
 
-(((case conversion)))(((toUpperCase method)))(((toLowerCase
-method)))Every string has a `toUpperCase` property. When called, it
-will return a copy of the string, in which all letters have been
-converted to uppercase. There is also `toLowerCase`. You can guess
-what that does.
+(((conversión de mayúsculas y minúsculas)))(((método toUpperCase)))(((método
+toLowerCase)))Todas las cadenas tienen una propiedad `toUpperCase`. Cuando es invocada,
+regresará una copia de la cadena en la que todas las letras han sido convertidas
+a mayúsculas. También existe `toLowerCase`. Puedes adivinar que es lo que hace.
 
-(((this)))Interestingly, even though the call to `toUpperCase` does
-not pass any arguments, the function somehow has access to the string
-`"Doh"`, the value whose property we called. How this works is
-described in link:06_object.html#obj_methods[Chapter 6].
+(((this)))Es interesante que, aunque la función `toUpperCase` no
+recibe ningún argumento, delaguna forma accede a la cadena `"Doh"`, el
+valor en que se llamó la función. Esto funciona como se describe en
+el link:06_object.html#obj_methods[Capítulo 6].
 
-Properties that contain functions are generally called _methods_ of
-the value they belong to. As in, “++toUpperCase++ is a method of a
-string”.
+Las propiedades que contienen funciones genralmente son llamadas _métodos_
+del valor al que pertenecen. Así, "++toUpperCase++ es un método de una cadena".
 
 [[array_methods]]
-(((collection)))(((array)))(((string)))(((push
-method)))(((pop method)))(((join method)))This example demonstrates
-some methods that array objects have:
+(((colección)))(((array)))(((cadena)))(((método
+push)))(((método
+pop)))(((método join)))Este ejemplo demuestra
+algunos métodos que los objetos arrays tienen:
 
 [source,javascript]
 ----
@@ -227,235 +220,232 @@ console.log(mack);
 // → ["Mack", "the"]
 ----
 
-The `push` method can be used to add values to the end of an array.
-The `pop` method does the opposite: it removes the value at the end of
-the array and returns it. An array of strings can be flattened to a
-single string with the `join` method. The argument given to `join`
-determines the text that is glued between the array's elements.
+El método `push` puede ser usado para añadir valores al final de un
+array. El método `pop` hace lo contrario: elimina el valor al final
+del array y lo regresa. Un array de cadenas puede ser transformado a
+una sola cadena con el método `join`. El argumento que se da a `join`
+determina el texto que se usa entre los elementos del array.
 
-== Objects ==
+== Objetos ==
 
-(((journal)))(((weresquirrel example)))(((array)))(((record)))Back to the weresquirrel. A set of daily log
-entries can be represented as an array. But the entries do not consist
-of just a number or a string—each entry needs to store a list of
-activities and a Boolean value that indicates whether Jacques turned
-into a squirrel. Ideally, we would like to group these values together
-into a single value and then put these grouped values into an array of
-log entries.
+(((diario)))(((ejemplo del hombre ardilla)))(((array)))(((registro)))De
+regreso con el hombre ardilla. Un conjunto de entradas diaras de registro
+pueden ser representadas como un array. Pero las entradas no consisten
+de sólo un número o una cadena, cada entrada necesita guarda una lista de
+actividades y un valor Booleano que indica si Jacques se convirtió en
+ardilla. Idealmente, nos gustaría agrupar estos valores juntos en un solo
+valor y poner estos valores agrupados en un array de entradas del registro.
 
-(((syntax)))(((object)))(((property)))(((curly braces)))((({}
-(object))))Values of the type _object_ are arbitrary collections of
-properties, and we can add or remove these properties as we please.
-One way to create an object is by using a curly brace notation.
+(((sintaxis)))(((objeto)))(((propiedad)))(((llaves)))((({}
+(objeto))))Los valores del tipo _objeto_ son colecciones arbitrarias
+de propiedades, y podemos añadir o remover estas propiedades a placer.
+Una manera de crear un objeto es usando la notación de llaves.
 
 [source,javascript]
 ----
-var day1 = {
-  squirrel: false,
-  events: ["work", "touched tree", "pizza", "running",
-           "television"]
+var dia1 = {
+  ardilla: false,
+  eventos: ["trabajo", "toqué un arbol", "pizza", "correr",
+           "televisión"]
 };
-console.log(day1.squirrel);
+console.log(dia1.ardilla);
 // → false
-console.log(day1.wolf);
+console.log(dia1.lobo);
 // → undefined
-day1.wolf = false;
-console.log(day1.wolf);
+dia1.lobo = false;
+console.log(dia1.lobo);
 // → false
 ----
 
-(((quoting,of object properties)))(((colon character)))Inside the
-curly braces, we can give a list of properties separated by commas.
-Each property is written as a name, followed by a colon, followed by
-an expression that provides a value for the property. Spaces and line
-breaks are not significant. When an object spans multiple lines,
-indenting it like in the previous example improves readability.
-Properties whose names are not valid variable names or valid numbers
-have to be quoted.
+(((entrecomillado,de propiedades de objetos)))(((carácter dos puntos)))Dentro
+de las llaves, podemos dar una lista de propiedades separadas por comas.
+Cada propiedad está escritra como un nombre seguido por dos puntos, seguidos
+pos una expresión que le asigna el valor a esa propiedad. Los espacios
+y saltos de línea no son afectan. Cunado un objeto tiene múltiples líneas,
+indentarlas como en el ejemplo previo mejora la legibilidad. Las propiedades
+que tengan nombres que no sean nombres de variable válidos o números válidos
+tienen que estar entrecomilladas.
 
 [source,javascript]
 ----
-var descriptions = {
-  work: "Went to work",
-  "touched tree": "Touched a tree"
+var descripciones = {
+  trabajo: "Fui al trabajo",
+  "toqué un arbol": "Toqué el arbol del vecino"
 };
 ----
 
-This means that ((curly braces)) have _two_ meanings in JavaScript. At
-the start of a statement, they start a block of statements. In any
-other position, they describe an object. Fortunately, it is almost
-never useful to start a statement with a curly-brace object, and in
-typical programs, there is no ambiguity between these two uses.
+Esto significa que las ((llaves)) tienen _dos_ significados en JavaScript.
+Al principio de una sentencia, empiezan un bloque de sentencia. En cualquier
+otra posición, describen un objeto. Afortunadamente, casi nunca es útil
+empezar una sentencia con un objeto declarado con llaves, y en programas típicos,
+no hay ambigüedad entre esos dos usos.
 
-(((undefined)))Reading a property that doesn't exist will produce the
-value `undefined`, which happens the first time we try to read the `wolf`
-property in the previous example.
+(((undefined)))Al leer una propiedad que no existe se produce el
+valor `undefined`, es lo que pasa la primera vez que intentamos leer
+la propiedad `lobo` en el ejemplo previo.
 
-(((property,assignment)))(((mutability)))(((= operator)))It is
-possible to assign a value to a property expression with the `=`
-operator. This will replace the property's value if it already existed
-or create a new property on the object if it didn't.
+(((propiedad,asignación)))(((mutabilidad)))(((= operador)))Es posible asignar
+un valor a una expresión de propiedad con el operador `=`. Esto
+reemplazará el valor de la propiedad si ya existía o creará una nueva propiedad
+en el objeto si no.
 
-(((tentacle (analogy))))(((property,model of)))To briefly return to
-our tentacle model of ((variable)) bindings—property bindings are
-similar. They _grasp_ values, but other variables and properties might
-be holding onto those same values. You may think of objects as
-octopuses with any number of tentacles, each of which has a name
-inscribed on it.
+(((tentáculo (analogía))))(((propiedad,modelo de)))Para regresar brevemente a nuestro
+modelo de tentáculos para asignaciones de ((variable)), la asignación de 
+propiedades es parecida. Estas _agarran_ valores, pero otras variables y
+propiedades pudieran estar agarrando estos mismos valores. Puedes pensar
+que los objetos son pulpos con un número indefinido de tentáculos, cada uno
+de los cuales tiene un nombre escrito en él.
 
-image::img/octopus-object.jpg[alt="Artist's representation of an object"]
+image::img/octopus-object.jpg[alt="Representación de un objeto de un artista."]
 
-(((delete operator)))(((property,deletion)))The `delete` operator cuts
-off a tentacle from such an octopus. It is a unary operator that, when
-applied to a property access expression, will remove the named
-property from the object. This is not a common thing to do, but it is
-possible.
+(((operador delete)))(((propiedad,borrado)))El operador `delete` le corta un 
+tentáculo a este pulpo. Es un operador unario que, cuando es aplicado a una
+expresión de acceso a una propiedad, eliminará la propiedad nombrada del objeto.
+Esto no es algo que se haga comúnmente, pero es posible.
 
 [source,javascript]
 ----
-var anObject = {left: 1, right: 2};
-console.log(anObject.left);
+var unObjeto = {izq: 1, der: 2};
+console.log(unObjeto.izq);
 // → 1
-delete anObject.left;
-console.log(anObject.left);
+delete unObjeto.izq;
+console.log(unObjeto.izq);
 // → undefined
-console.log("left" in anObject);
+console.log("izq" in unObjeto);
 // → false
-console.log("right" in anObject);
+console.log("der" in unObjeto);
 // → true
 ----
 
-(((in operator)))(((property,testing for)))(((object)))The binary
-`in` operator, when applied to a string and an object, returns a
-Boolean value that indicates whether that object has that property.
-The difference between setting a property to `undefined` and actually
-deleting it is that, in the first case, the object still _has_ the
-property (it just doesn't have a very interesting value), whereas in
-the second case the property is no longer present and `in` will return
+(((operador in)))(((propiedad, haciendo pruebas para)))(((objeto)))El operador binario
+`in`, cuando se aplica a una cadena y un objeto, devuelve un valor Booleano
+que indica si el objeto tiene esa propiedad. La diferencia entre asignarle
+`undefined` a una propiedad y borrarla de verdad es que, en el primer caso,
+el objeto aún _tiene_ la propiedad (simplemente no tiene un valor muy interesante),
+mientras que en el segundo caso, la propiedad no está presente e `in` devolverá
 `false`.
 
-(((array)))(((collection)))Arrays, then, are just a kind of
-object specialized for storing sequences of things. If you evaluate
-`typeof [1, 2]`, this produces `"object"`. You can see them as long,
-flat octopuses with all their arms in a neat row, labeled with
-numbers.
+(((array)))(((colección)))Los arrays son solamente un tipo de objeto
+especializado en almacenar secuencias de cosas. Si evaluas `typeof [1, 2]`,
+se prodcue `"object"`. Puedes verlos como pulpos largos y planos con
+todos sus tentáculos en una fila limpia, etiquetados con números.
 
 image::img/octopus-array.jpg[alt="Artist's representation of an array"]
 
-(((journal)))(((weresquirrel example)))So we can represent Jacques’
-journal as an array of objects.
+(((diario)))(((ejemplo del hombre ardilla)))Así que podemos representar el
+diario de Jacques coomo un array de objetos.
 
 [source,javascript]
 ----
-var journal = [
-  {events: ["work", "touched tree", "pizza",
-            "running", "television"],
-   squirrel: false},
-  {events: ["work", "ice cream", "cauliflower",
-            "lasagna", "touched tree", "brushed teeth"],
-   squirrel: false},
-  {events: ["weekend", "cycling", "break",
-            "peanuts", "beer"],
-   squirrel: true},
-  /* and so on... */
+var diario = [
+  {eventos: ["trabajo", "tocar un arbol", "pizza",
+            "correr", "televisión"],
+   ardilla: false},
+  {eventos: ["trabajo", "helado", "coliflor",
+            "lasagna", "tocar un arbol", "lavarse los dientes"],
+   ardilla: false},
+  {eventos: ["fin de seamana", "bicicleta", "descanso",
+            "cacahuates", "cerveza"],
+   ardilla: true},
+  /* y continúa... */
 ];
 ----
 
-== Mutability ==
+== Mutabilidad ==
 
-We will get to actual programming _real_ soon now. But first, there's
-one last piece of theory to understand.
+Nos meteremos en la programación de verdad pronto. Pero primero,
+hay una última pieza de teoría que entender.
 
-(((mutability)))(((side effect)))(((number)))(((string)))(((Boolean)))(((object)))We've seen that object
-values can be modified. The types of values discussed in earlier
-chapters, such as numbers, strings, and Booleans, are all
-__immutable__—it is impossible to change an existing value of those
-types. You can combine them and derive new values from them, but when
-you take a specific string value, that value will always remain the
-same. The text inside it cannot be changed. If you have reference to a
-string that contains `"cat"`, it is not possible for other code to
-change a character in _that_ string to make it spell `"rat"`.
+(((mutabilidad)))(((efecto secundario)))(((número)))(((cadena)))(((Booleano)))(((objeto)))Hemos
+visto que los valores objeto pueden ser modificados. Los tipos de
+valores de los que platicamos en capítulos anteriores, como números,
+cadenas, Booleanos son todos __inmutables__; es imposible cambiar un 
+valor existente de esos tipos. Puedes combinarlos y derivar nuevos valores de
+ellos, pero cuando tomas un valor cadena específico, ese valor siempre
+permanecerá igual. El texto que está adentro no puede ser cambiado. Si
+tienes una referencia a una cadena que contiene `"cat"`, no se posible
+para el código cambiar un caráctes en _esa_ cadena para hacerlo decir `"rat"`.
 
-With objects, on the other hand, the content of a value _can_ be
-modified by changing its properties.
+Con los objeto, por otro lado, el contenido de un valor _puede_ ser
+modificado al cambiar sus propiedades.
 
-(((object,identity)))(((identitiy)))(((memory)))When we have two
-numbers, 120 and 120, we can consider them precisely the same number,
-whether or not they refer to the same physical bits. But with objects,
-there is a difference between having two references to the same object
-and having two different objects that contain the same properties.
-Consider the following code:
+(((objeto,identidad)))(((identidad)))(((memoria)))Cuando tenemos dos
+números,, 120 y 120, podemos considerar que son precisamente el mismo número
+independientemente si se refieren o no a los mismos bits físicos. Pero
+con los objetos, hay una diferencia entre tener la dos referencias al mismo objeto y tener dos objetos que contienen las mismas propiedades.
+Considera el siguiente código:
 
 [source,javascript]
 ----
-var object1 = {value: 10};
-var object2 = object1;
-var object3 = {value: 10};
+var objeto1 = {valor: 10};
+var objeto2 = objeto1;
+var objeto3 = {valor: 10};
 
-console.log(object1 == object2);
+console.log(objeto1 == objeto2);
 // → true
-console.log(object1 == object3);
+console.log(objeto1 == objeto3);
 // → false
 
-object1.value = 15;
-console.log(object2.value);
+objeto1.valor = 15;
+console.log(objeto2.valor);
 // → 15
-console.log(object3.value);
+console.log(objeto3.valor);
 // → 10
 ----
 
-(((tentacle (analogy))))(((variable,model of)))The `object1` and
-`object2` variables grasp the _same_ object, which is why changing
-`object1` also changes the value of `object2`. The variable `object3`
-points to a different object, which initially contains the same
-properties as `object1` but lives a separate life.
+(((tentáculo (analogía))))(((variable,modelo de)))Las variables
+`objeto1` y `objeto2` agarran el _mismo_ objeto, ésta es la razón
+de que al cambiar `objeto1` también se cambia el valor del `objeto2`.
+La variable `objeto3` apunta a un objeto diferente, que inicialmente
+contiene las mismas propiedades que el `objeto1` pero vive una vida
+separada.
 
-(((== operator)))(((comparison,of objects)))(((deep
-comparison)))JavaScript's `==` operator, when comparing objects, will
-return `true` only if both objects are precisely the same value.
-Comparing different objects will return `false`, even if they have
-identical contents. There is no “deep” comparison operation built into
-JavaScript, which looks at object's contents, but it is possible to
-write it yourself (which will be one of the
-link:04_data.html#exercise_deep_compare[exercises] at the end of this
-chapter).
+(((operador ==)))(((comparación,de objetos)))(((comparación
+profunda)))El operador `==` de JavaScript, cuando compara objetos
+regresará `true` sólo si los dos objetos son precisamente el mismo
+valor. Comparar diferentes objetos regresará `false`, incluso si
+tienen contenidos idénticos. No existe comparación "profunda" construida en
+JavaScript, la cual se basa en el contenido de los objetos, pero puedes
+escribirla tú mismo (que será uno de los
+link:04_data.html#exercise_deep_compare[ejercicios] al final de este capítulo).
 
-== The lycanthrope's log ==
+== El registro del licántropo ==
 
-(((weresquirrel example)))(((lycanthropy)))(((addEntry function)))So
-Jacques starts up his JavaScript interpreter and sets up the
-environment he needs to keep his ((journal)).
+(((ejemplo del hombre ardilla)))(((licantropía)))(((función agregarEntrada)))Así,
+Jacques inicia su intérprete de JavaScript y configura el entorno
+que necesita para llevar su ((diario)).
 
 // include_code
 
 [source,javascript]
 ----
-var journal = [];
+var diario = [];
 
-function addEntry(events, didITurnIntoASquirrel) {
-  journal.push({
-    events: events,
-    squirrel: didITurnIntoASquirrel
+function agregarEntrada(eventos, meVolviArdilla) {
+  diario.push({
+    eventos: eventos,
+    ardilla: meVolviArdilla
   });
 }
 ----
 
-And then, every evening at ten—or sometimes the next morning, after
-climbing down from the top shelf of his bookcase—he records the day.
+Y después, cada noche a las 10, o algunas veces la mañana siguiente,
+después de haber bajado de la parte superior de su librero, registra
+el día.
 
 [source,javascript]
 ----
-addEntry(["work", "touched tree", "pizza", "running",
-          "television"], false);
-addEntry(["work", "ice cream", "cauliflower", "lasagna",
-          "touched tree", "brushed teeth"], false);
-addEntry(["weekend", "cycling", "break", "peanuts",
-          "beer"], true);
+agregarEntrada(["trabajo", "toqué un árbol", "pizza", "correr",
+          "televisión"], false);
+agregarEntrada(["trabajo", "helado", "coliflor", "lasagna",
+          "toqué un árbol", "me lavé los dientes"], false);
+agregarEntrada(["fin de semana", "bicicleta", "descanso", "cacachuates",
+          "cerveza"], true);
 ----
 
-Once he has enough data points, he intends to compute the
-((correlation)) between his squirrelification and each of the day's
-events and ideally learn something useful from those correlations.
+Una vez que tiene suficientes datos, quiere calcular la ((correlación))
+entre su ardillamiento y cada uno de los eventos e, idealmente, aprender
+algo útil de esas correlaciones.
 
 (((correlation)))_Correlation_ is a measure of ((dependence)) between
 ((variable))s (“variables” in the statistical sense, not the
@@ -642,7 +632,7 @@ function storePhi(event, phi) {
 }
 
 storePhi("pizza", 0.069);
-storePhi("touched tree", -0.081);
+storePhi("toqué un árbol", -0.081);
 console.log("pizza" in map);
 // → true
 console.log(map["touched tree"]);
@@ -987,7 +977,7 @@ the entries to Jacques’ journal.
 
 [source,javascript]
 ----
-addEntry(["work", "touched tree", "pizza", "running",
+addEntry(["work", "touched tree", "pizza", "correr",
           "television"], false);
 ----
 

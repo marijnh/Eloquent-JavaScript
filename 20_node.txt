@@ -180,7 +180,7 @@ an error (any other code).
 
 (((command line)))(((argv property)))To find the command-line arguments given to
 your script, you can read `process.argv`, which is an array of
-strings. Note that it also includes the name of the `node` commands
+strings. Note that it also includes the name of the `node` command
 and your script name, so the actual arguments start at index 2. If
 `showargv.js` simply contains the statement
 `console.log(process.argv)`, you could run it like this:

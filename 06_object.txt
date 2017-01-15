@@ -870,7 +870,7 @@ pile.height = 100;
 ----
 
 (((defineProperty function)))((({}
-(object))))(((getter)))(((setter)))In object literal, the `get` or
+(object))))(((getter)))(((setter)))In an object literal, the `get` or
 `set` notation for properties allows you to specify a function to be
 run when the property is read or written. You can also add such a
 property to an existing object, for example a prototype, using the

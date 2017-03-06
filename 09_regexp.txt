@@ -1078,7 +1078,7 @@ Unicode standard considers whitespace, including things like the
 ((implementation))s in other programming languages have syntax to
 match specific ((Unicode)) character categories, such as “all
 uppercase letters”, “all punctuation”, or “control characters”. There
-are plans to add support for such categories JavaScript, but it
+are plans to add support for such categories to JavaScript, but it
 unfortunately looks like they won't be realized in the near ((future)).
 
 [[summary_regexp]]

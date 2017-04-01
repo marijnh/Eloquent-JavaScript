@@ -347,9 +347,19 @@ blockquote footer:before {
 }
 
 
-div.image img {
+div.image {
   max-width: 640px;
-  margin-left: 30px;
+  margin: 0 30px;
+}
+
+@media screen and (max-width: 500px) {
+  div.image {
+    margin: 0;
+  }
+}
+
+div.image img {
+  max-width: 100%;
 }
 
 div.solution:before {

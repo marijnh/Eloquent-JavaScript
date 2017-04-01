@@ -53,6 +53,8 @@ pre {
   padding: 5px 0 5px 15px;
   line-height: 1.35;
   margin: 1rem 0;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 pre[data-language=javascript] {

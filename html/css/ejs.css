@@ -30,6 +30,7 @@ article {
   max-width: 35em;
   padding: 2em 1em 5em;
   position: relative;
+  overflow-wrap: break-word;
 }
 
 nav {

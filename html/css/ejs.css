@@ -302,7 +302,7 @@ blockquote footer:before {
 
 .sandbox-open-menu div {
   cursor: pointer;
-  padding: 0 10px;
+  padding: 5px 10px;
 }
 
 .sandbox-open-menu div:hover {

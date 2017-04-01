@@ -354,6 +354,12 @@ blockquote footer:before {
   border-radius: 5px;
 }
 
+@media screen and (max-width: 800px) {
+  .sandboxhint {
+    right: 5px;
+  }
+}
+
 .sandboxhint:before {
   position: absolute;
   width: 0; height: 0;

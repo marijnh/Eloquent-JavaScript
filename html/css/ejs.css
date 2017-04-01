@@ -28,7 +28,7 @@ body {
 article {
   margin: 0 auto;
   max-width: 35em;
-  padding: 2em 0.75em 5em 0.75em;
+  padding: 2em 1em 5em;
   position: relative;
 }
 
@@ -68,6 +68,16 @@ p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3
   right: -25px;
 }
 
+@media screen and (max-width: 800px) {
+  p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3:hover a.h_ident:after {
+    right: 5px;
+  }
+
+  blockquote p:hover a.p_ident:after {
+    right: -15px;
+  }
+}
+
 
 code, pre, .CodeMirror {
   font-size: 18px;
@@ -98,6 +108,13 @@ h3 {
 pre.cm-s-default, p, h2, h3 {
   margin-right: -30px;
   padding-right: 30px;
+}
+
+@media screen and (max-width: 800px) {
+  pre.cm-s-default, p, h2, h3 {
+    margin-right: 0;
+    padding-right: 0;
+  }
 }
 
 a, a:visited, a:active {

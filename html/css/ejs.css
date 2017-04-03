@@ -326,6 +326,7 @@ blockquote footer:before {
   height: auto;
   line-height: 1.35;
   border-top: 1px solid #4ab;
+  overflow-wrap: normal;
 }
 .CodeMirror-scroll {
   max-height: 700px;

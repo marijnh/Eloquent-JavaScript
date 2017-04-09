@@ -136,7 +136,7 @@ output.push({
      file: "code/solutions/22_1_pathfinding.js",
      number: 1,
      type: "js",
-     code: "function findPath(a, b) {\n  // Your code here...\n}\n\nvar graph = treeGraph(4, 4);\nvar root = graph[0], leaf = graph[graph.length - 1];\nconsole.log(findPath(root, leaf).length);\n// → 3\n\nleaf.connect(root);\nconsole.log(findPath(root, leaf).length);\n// → 1\n",
+     code: "function findPath(a, b) {\n  // Your code here...\n}\n\nvar graph = treeGraph(4, 4);\nvar root = graph[0], leaf = graph[graph.length - 1];\nconsole.log(findPath(root, leaf).length);\n// → 4\n\nleaf.connect(root);\nconsole.log(findPath(root, leaf).length);\n// → 2\n",
      solution: fs.readFileSync("code/solutions/22_1_pathfinding.js", "utf8")
     },
     {name: "Timing",

@@ -68,7 +68,7 @@ p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3
   color: #888;
   font-size: 17px;
   position: absolute;
-  right: -25px;
+  right: -10px;
 }
 
 @media screen and (max-width: 800px) {

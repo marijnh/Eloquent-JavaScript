@@ -377,7 +377,7 @@ This function is then used to add a simple attribution to a quote.
     for (var i = 1; i < arguments.length; i++) {
       var child = arguments[i];
       if (typeof child == "string")
-        child = document.createTextNode(child);
+        child = document.createTextNode(new String(child));
       node.appendChild(child);
     }
     return node;

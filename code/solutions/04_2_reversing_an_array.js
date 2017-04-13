@@ -6,12 +6,10 @@ function reverseArray(array) {
 }
 
 function reverseArrayInPlace(array) {
-  for (var i = 0; i < Math.floor(array.length / 2); i++) {
-    var old = array[i];
-    array[i] = array[array.length - 1 - i];
-    array[array.length - 1 - i] = old;
+  for(var i = 0; i < array.length - 1; i++){
+    array.unshift(array[i + 1]);
+    array.splice((i + 2), 1);
   }
-  return array;
 }
 
 console.log(reverseArray(["A", "B", "C"]));

@@ -11,7 +11,7 @@ StretchCell.prototype.minHeight = function() {
   return Math.max(this.height, this.inner.minHeight());
 };
 StretchCell.prototype.draw = function(width, height) {
-  return this.inner.draw(width, height);
+  return this.inner.draw(this.minWidth(), this.minHeight());
 };
 
 var sc = new StretchCell(new TextCell("abc"), 1, 2);

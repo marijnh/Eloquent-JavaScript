@@ -290,10 +290,12 @@
     this.div = div;
   };
 
-  var safari = /Safari\//.test(navigator.userAgent);
-
   Output.prototype = {
-    clear: function() { this.div.innerHTML = ""; },
+    clear: function() {
+      var clone = this.div.cloneNode(false);
+      this.div.parentNode.replaceChild(clone, this.div);
+      this.div = clone;
+    },
     out: function(type, args) {
       var wrap = document.createElement("pre");
       wrap.className = "sandbox-output-" + type;
@@ -306,8 +308,6 @@
           wrap.appendChild(represent(arg, 58));
       }
       this.div.appendChild(wrap);
-      if (safari)
-        setTimeout(function() { this.div.style.minHeight = ".1em"; }.bind(this), 50);
     }
   };
 

@@ -9,7 +9,7 @@ ancestry.forEach(function(person) {
 });
 
 var differences = ancestry.filter(function(person) {
-  return byName[person.mother] != null;
+	return typeof byName[ person.mother ] !== 'undefined';
 }).map(function(person) {
   return person.born - byName[person.mother].born;
 });

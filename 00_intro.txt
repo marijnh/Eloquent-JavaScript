@@ -217,7 +217,7 @@ Here is the same program in JavaScript:
 
 [source,javascript]
 ----
-var total = 0, count = 1;
+var total = 0, count = 0;
 while (count <= 10) {
   total += count;
   count += 1;

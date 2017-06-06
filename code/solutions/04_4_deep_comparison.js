@@ -10,9 +10,9 @@ function deepEqual(a, b) {
   for (var prop in a)
     propsInA += 1;
 
-  for (var prop in b) {
+  for (var key in b) {
     propsInB += 1;
-    if (!(prop in a) || !deepEqual(a[prop], b[prop]))
+    if (!(key in a) || !deepEqual(a[key], b[key]))
       return false;
   }
 

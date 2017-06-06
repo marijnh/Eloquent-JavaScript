@@ -1,5 +1,5 @@
 function range(start, end, step) {
-  if (step == null) step = 1;
+  if (step == undefined) step = 1;
   var array = [];
 
   if (step > 0) {

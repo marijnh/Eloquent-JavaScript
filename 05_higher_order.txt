@@ -561,7 +561,7 @@ straightforward than `filter` and `map`, so pay close attention.
 [source,javascript]
 ----
 function reduce(array, combine, start) {
-  var current = start;
+  var current = start || 0;
   for (var i = 0; i < array.length; i++)
     current = combine(current, array[i]);
   return current;

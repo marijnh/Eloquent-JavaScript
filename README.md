@@ -1,3 +1,14 @@
+# TODO
+
+[x] print
+[x] placeImage
+[x] overlay -- centered image
+[ ] emptyScene -- width and height
+[ ] animate -- function that takes single arg -> image -> image
+[ ] image
+
+
+
 # Eloquent JavaScript
 
 These are the sources used to build the second edition of Eloquent

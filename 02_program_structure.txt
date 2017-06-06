@@ -4,16 +4,7 @@
 
 = Program Structure =
 
-[chapterquote="true"]
-[quote, _why, Why's (Poignant) Guide to Ruby]
-____
-And my heart glows bright red under my
-filmy, translucent skin and they have to administer 10cc of JavaScript
-to get me to come back. (I respond well to toxins in the blood.) Man,
-that stuff will kick the peaches right out your gills!
-____
-
-(((why)))(((Poignant Guide)))In this chapter, we will start to do
+In this chapter, we will start to do
 things that can actually be called _programming_. We will expand our
 command of the JavaScript language beyond the nouns and sentence
 fragments we've seen so far, to the point where we can
@@ -107,7 +98,7 @@ variable currently holds. Here's an example:
 [source,javascript]
 ----
 var ten = 10;
-console.log(ten * ten);
+print(ten * ten);
 // → 100
 ----
 
@@ -118,54 +109,13 @@ Digits can also be part of variable names—`catch22` is a valid name,
 for example—but the name must not start with a digit. A variable name
 cannot include punctuation, except for the characters `$` and `_`.
 
-(((= operator)))(((assignment)))(((variable,assignment)))When a
-variable points at a value, that does not mean it is tied to that
-value forever. The `=` operator can be used at any time on existing
-variables to disconnect them from their current value and have them
-point to a new one.
-
-[source,javascript]
-----
-var mood = "light";
-console.log(mood);
-// → light
-mood = "dark";
-console.log(mood);
-// → dark
-----
-
-(((variable,model of)))(((tentacle (analogy))))You should
-imagine variables as tentacles, rather than boxes. They do not
-_contain_ values; they _grasp_ them—two variables can refer to the
-same value. A program can access only the values that it still has a
-hold on. When you need to remember something, you grow a tentacle to
-hold on to it or you reattach one of your existing tentacles to it.
-
-image::img/octopus.jpg[alt="Variables as tentacles"]
-
-Let's look at an example. To remember the number of dollars that Luigi
-still owes you, you create a variable. And then when he pays back $35,
-you give this variable a new value.
-
-[source,javascript]
-----
-var luigisDebt = 140;
-luigisDebt = luigisDebt - 35;
-console.log(luigisDebt);
-// → 105
-----
-
-(((undefined)))When you define a variable without giving it a value,
-the tentacle has nothing to grasp, so it ends in thin air. If you ask
-for the value of an empty variable, you'll get the value `undefined`.
-
 (((var keyword)))A single `var` statement may define multiple
 variables. The definitions must be separated by commas.
 
 [source,javascript]
 ----
 var one = 1, two = 2;
-console.log(one + two);
+print(one + two);
 // → 3
 ----
 
@@ -238,7 +188,9 @@ Values given to functions are called _((argument))s_. The `alert`
 function needs only one of them, but other functions might need a
 different number or different types of arguments.
 
-== The console.log function ==
+== The print function ==
+
+TODO(dbp 2016-01-21): Rewrite this for our print!
 
 (((JavaScript console)))(((developer
 tools)))(((Node.js)))(((console.log)))(((output)))The `alert` function
@@ -448,119 +400,7 @@ The flow chart for this program looks something like this:
 
 image::img/controlflow-nested-if.svg[alt="Nested if control flow",width="4cm"]
 
-[[loops]]
-== while and do loops ==
 
-(((even number)))Consider a program that prints all even numbers from
-0 to 12. One way to write this is as follows:
-
-[source,javascript]
-----
-console.log(0);
-console.log(2);
-console.log(4);
-console.log(6);
-console.log(8);
-console.log(10);
-console.log(12);
-----
-
-(((control flow)))That works, but the idea of writing a program is to
-make something _less_ work, not more. If we needed all even numbers
-less than 1,000, the previous would be unworkable. What we need is a
-way to repeat some code. This form of control flow is called a
-_((loop))_:
-
-image::img/controlflow-loop.svg[alt="Loop control flow",width="4cm"]
-
-(((syntax)))(((counter variable)))Looping control flow allows us to go
-back to some point in the program where we were before and repeat it
-with our current program state. If we combine this with a variable
-that counts, we can do something like this:
-
-[source,javascript]
-----
-var number = 0;
-while (number <= 12) {
-  console.log(number);
-  number = number + 2;
-}
-// → 0
-// → 2
-//   … etcetera
-----
-
-(((while loop)))(((Boolean)))A ((statement)) starting with the
-keyword `while` creates a loop. The word `while` is followed by an
-((expression)) in ((parentheses)) and then a statement, much like `if`.
-The loop executes that statement as long as the expression produces a
-value that is `true` when converted to Boolean type.
-
-(((grouping)))((({} (block))))(((block)))In this loop, we want to both
-print the current number and add two to our variable. Whenever we need
-to execute multiple ((statement))s inside a loop, we wrap them in
-((curly braces)) (`{` and `}`). Braces do for statements what
-((parentheses)) do for expressions: they group them together, making
-them count as a single statement. A sequence of statements wrapped in
-braces is called a _block_.
-
-(((programming style)))Many JavaScript programmers wrap every single
-loop or `if` body in braces. They do this both for the sake of
-consistency and to avoid having to add or remove braces when changing
-the number of statements in the body later. In this book, I will write
-most single-statement bodies without braces, since I value brevity.
-You are free to go with whichever style you prefer.
-
-(((comparison)))(((state)))The variable `number` demonstrates the way
-a ((variable)) can track the progress of a program. Every time the
-loop repeats, `number` is incremented by `2`. Then, at the beginning
-of every repetition, it is compared with the number `12` to decide
-whether the program has done all the work it intended to do.
-
-(((exponentiation)))As an example that actually does something useful,
-we can now write a program that calculates and shows the value of
-2^10^ (2 to the 10th power). We use two variables: one to keep
-track of our result and one to count how often we have multiplied this
-result by 2. The loop tests whether the second variable has reached 10
-yet and then updates both variables.
-
-[source,javascript]
-----
-var result = 1;
-var counter = 0;
-while (counter < 10) {
-  result = result * 2;
-  counter = counter + 1;
-}
-console.log(result);
-// → 1024
-----
-
-The counter could also start at `1` and check for `<= 10`, but, for
-reasons that will become apparent in
-link:04_data.html#array_indexing[Chapter 4], it is a good idea to get
-used to counting from 0.
-
-(((loop body)))(((do loop)))(((control flow)))The `do` loop is a
-control structure similar to the `while` loop. It differs only on one
-point: a `do` loop always executes its body at least once, and it
-starts testing whether it should stop only after that first execution.
-To reflect this, the test appears after the body of the loop:
-
-[source,javascript]
-----
-do {
-  var yourName = prompt("Who are you?");
-} while (!yourName);
-console.log(yourName);
-----
-
-(((Boolean,conversion to)))(((! operator)))This program will
-force you to enter a name. It will ask again and again until it gets
-something that is not an empty string. Applying the `!` operator will
-convert a value to Boolean type before negating it, and all strings
-except `""` convert to `true`. This means the loop continues going round
-until you provide a name that is not the empty string.
 
 == Indenting Code ==
 
@@ -578,140 +418,6 @@ the blocks inside it. I like to use two spaces for every open block,
 but tastes differ—some people use four spaces, and some people use
 ((tab character))s.
 
-== for loops ==
-
-(((syntax)))(((while loop)))(((counter variable)))Many loops follow
-the pattern seen in the previous `while` examples. First, a “counter”
-variable is created to track the progress of the loop. Then comes a
-`while` loop, whose test expression usually checks whether the counter
-has reached some boundary yet. At the end of the loop body, the
-counter is updated to track progress.
-
-(((for loop)))(((loop)))Because this pattern is so common, JavaScript and
-similar languages provide a slightly shorter and more comprehensive
-form, the `for` loop.
-
-[source,javascript]
-----
-for (var number = 0; number <= 12; number = number + 2)
-  console.log(number);
-// → 0
-// → 2
-//   … etcetera
-----
-
-(((control flow)))(((state)))This program is exactly equivalent to the
-link:02_program_structure.html#loops[earlier] even-number-printing
-example. The only change is that all the ((statement))s that are
-related to the “state” of the loop are now grouped together.
-
-The ((parentheses)) after a `for` keyword must contain two
-((semicolon))s. The part before the first semicolon _initializes_ the
-loop, usually by defining a ((variable)). The second part is the
-((expression)) that _checks_ whether the loop must continue. The final
-part _updates_ the state of the loop after every iteration. In most
-cases, this is shorter and clearer than a `while` construct.
-
-(((exponentiation)))Here is the code that computes 2^10^, using `for`
-instead of `while`:
-
-[source,javascript]
-----
-var result = 1;
-for (var counter = 0; counter < 10; counter = counter + 1)
-  result = result * 2;
-console.log(result);
-// → 1024
-----
-
-(((programming style)))(((indentation)))Note that even though no block
-is opened with a `{`, the statement in the loop is still indented two
-spaces to make it clear that it “belongs” to the line before it.
-
-== Breaking Out of a Loop ==
-
-(((loop,termination of)))(((break keyword)))Having the loop's
-condition produce `false` is not the only way a loop can finish. There
-is a special statement called `break` that has the effect of
-immediately jumping out of the enclosing loop.
-
-This program illustrates the `break` statement. It finds the first number
-that is both greater than or equal to 20 and divisible by 7.
-
-[source,javascript]
-----
-for (var current = 20; ; current++) {
-  if (current % 7 == 0)
-    break;
-}
-console.log(current);
-// → 21
-----
-
-(((remainder operator)))(((% operator)))Using the remainder
-(`%`) operator is an easy way to test whether a number is divisible by
-another number. If it is, the remainder of their division is zero.
-
-(((for loop)))The `for` construct in the example does not have a part
-that checks for the end of the loop. This means that the loop will
-never stop unless the `break` statement inside is executed.
-
-If you were to leave out that `break` statement or accidentally write
-a condition that always produces `true`, your program would get stuck
-in an _((infinite loop))_. A program stuck in an infinite loop will
-never finish running, which is usually a bad thing.
-
-ifdef::interactive_target[]
-
-If you create an infinite loop in one of the examples on these pages,
-you'll usually be asked whether you want to stop the script after a
-few seconds. If that fails, you will have to close the tab that you're
-working in, or on some browsers close your whole browser, in order to
-recover.
-
-endif::interactive_target[]
-
-(((continue keyword)))The `continue` keyword is similar to `break`, in
-that it influences the progress of a loop. When `continue` is
-encountered in a loop body, control jumps out of the body and
-continues with the loop's next iteration.
-
-== Updating variables succinctly ==
-
-(((assignment)))(((+= operator)))(((-= operator)))(((/=
-operator)))(((*= operator)))(((state)))(((side effect)))Especially
-when looping, a program often needs to “update” a variable to hold a
-value based on that variable's previous value.
-
-// test: no
-
-[source,javascript]
-----
-counter = counter + 1;
-----
-
-JavaScript provides a shortcut for this:
-
-// test: no
-
-[source,javascript]
-----
-counter += 1;
-----
-
-Similar shortcuts work for many other operators, such as `result *= 2` to
-double `result` or `counter -= 1` to count downward.
-
-This allows us to shorten our counting example a little more.
-
-[source,javascript]
-----
-for (var number = 0; number <= 12; number += 2)
-  console.log(number);
-----
-
-(((++ operator)))(((-- operator)))For `counter += 1` and `counter -=
-1`, there are even shorter equivalents: `counter++` and `counter--`.
 
 == Dispatching on a value with switch ==
 
@@ -849,8 +555,7 @@ expressions.
 
 Putting statements after one another gives you a program that is
 executed from top to bottom. You can introduce disturbances in the
-flow of control by using conditional (`if`, `else`, and `switch`) and
-looping (`while`, `do`, and `for`) statements.
+flow of control by using conditional (`if`, `else`, and `switch`) statements.
 
 Variables can be used to file pieces of data under a name, and they
 are useful for tracking state in your program. The environment is the
@@ -861,172 +566,3 @@ environment.
 Functions are special values that encapsulate a piece of program. You
 can invoke them by writing `functionName(argument1, argument2)`. Such
 a function call is an expression, and may produce a value.
-
-== Exercises ==
-
-(((exercises)))If you are unsure how to try your solutions to
-exercises, refer to the link:00_intro.html#intro[introduction].
-
-Each exercise starts with a problem description. Read that and try to
-solve the exercise. If you run into problems, consider reading the
-hints (!interactive after the exercise!)(!book at the link:hints.html#hints[end of the book]!).
-Full solutions to the exercises are not included in this
-book, but you can find them online at
-http://eloquentjavascript.net/code[_eloquentjavascript.net/code_].
-If you want to learn something from the exercises, I recommend looking
-at the solutions only after you've solved the exercise, or at least
-after you've attacked it long and hard enough to have a slight
-headache.
-
-=== Looping a triangle ===
-
-(((triangle (exercise))))Write a ((loop)) that makes seven calls to
-`console.log` to output the following triangle:
-
-----
-#
-##
-###
-####
-#####
-######
-#######
-----
-
-It may be useful to know that you can find the length of a string by
-writing `.length` after it.
-
-[source,javascript]
-----
-var abc = "abc";
-console.log(abc.length);
-// → 3
-----
-
-ifdef::interactive_target[]
-
-Most exercises contain a piece of code that you can modify to solve
-the exercise. Remember that you can click code blocks to edit them.
-
-[source,javascript]
-----
-// Your code here.
-----
-endif::interactive_target[]
-
-!!hint!!
-
-(((triangle (exercise))))You can start with a program that simply
-prints out the numbers 1 to 7, which you can derive by making a few
-modifications to the
-link:02_program_structure.html#loops[even number printing example]
-given earlier in the chapter, where the `for` loop was introduced.
-
-Now consider the equivalence between numbers and strings of hash
-characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go
-from `"#"` to `"##"` by adding a character (`+= "#"`). Thus, your
-solution can closely follow the number-printing program.
-
-!!hint!!
-
-=== FizzBuzz ===
-
-(((FizzBuzz (exercise))))(((loop)))(((conditional execution)))Write a
-program that uses `console.log` to print all the numbers from 1 to
-100, with two exceptions. For numbers divisible by 3, print `"Fizz"`
-instead of the number, and for numbers divisible by 5 (and not 3),
-print `"Buzz"` instead.
-
-When you have that working, modify your program to print `"FizzBuzz"`,
-for numbers that are divisible by both 3 and 5 (and still print
-`"Fizz"` or `"Buzz"` for numbers divisible by only one of those).
-
-(This is actually an ((interview question)) that has been claimed to
-weed out a significant percentage of programmer candidates. So if you
-solved it, you're now allowed to feel good about yourself.)
-
-ifdef::interactive_target[]
-[source,javascript]
-----
-// Your code here.
-----
-endif::interactive_target[]
-
-!!hint!!
-
-(((FizzBuzz (exercise))))(((remainder operator)))(((% operator)))Going
-over the numbers is clearly a looping job, and selecting what to print
-is a matter of conditional execution. Remember the trick of using the
-remainder (`%`) operator for checking whether a number is divisible by
-another number (has a remainder of zero).
-
-In the first version, there are three possible outcomes for every
-number, so you'll have to create an `if`/`else if`/`else` chain.
-
-(((|| operator)))(((if keyword,chaining)))The second version of the
-program has a straightforward solution and a clever one. The simple
-way is to add another “branch” to precisely test the given condition.
-For the clever method, build up a string containing the word or words
-to output, and print either this word or the number if there is no
-word, potentially by making elegant use of the `||` operator.
-
-!!hint!!
-
-=== Chess board ===
-
-(((chess board (exercise))))(((loop)))(((nesting,of loops)))(((newline
-character)))Write a program that creates a string that represents an
-8×8 grid, using newline characters to separate lines. At each position
-of the grid there is either a space or a “#” character. The characters
-should form a chess board.
-
-Passing this string to `console.log` should show something like this:
-
-----
- # # # #
-# # # # 
- # # # #
-# # # # 
- # # # #
-# # # # 
- # # # #
-# # # # 
-----
-
-When you have a program that generates this pattern, define a
-((variable)) `size = 8` and change the program so that it works for
-any `size`, outputting a grid of the given width and height.
-
-ifdef::interactive_target[]
-[source,javascript]
-----
-// Your code here.
-----
-endif::interactive_target[]
-
-!!hint!!
-
-(((chess board (exercise))))The string can be built by starting with
-an empty one (`""`) and repeatedly adding characters. A newline
-character is written `"\n"`.
-
-Use `console.log` to inspect the output of your program.
-
-(((nesting,of loops)))To work with two ((dimensions)), you will need a
-((loop)) inside of a loop. Put ((curly braces)) around the bodies of
-both loops to make it easy to see where they start and end. Try to
-properly indent these bodies. The order of the loops must follow the
-order in which we build up the string (line by line, left to right,
-top to bottom). So the outer loop handles the lines and the inner loop
-handles the characters on a line.
-
-(((counter variable)))(((remainder operator)))(((% operator)))You'll
-need two variables to track your progress. To know whether to put a
-space or a hash sign at a given position, you could test whether the
-sum of the two counters is even (`% 2`).
-
-Terminating a line by adding a newline character happens after the
-line has been built up, so do this after the inner loop but inside of
-the outer loop.
-
-!!hint!!

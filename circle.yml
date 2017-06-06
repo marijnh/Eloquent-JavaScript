@@ -1,0 +1,15 @@
+dependencies:
+  override:
+    - npm install --production
+    - sudo pip install awscli
+
+test:
+  override:
+    - echo 0
+
+deployment:
+  aws:
+    branch: master
+    commands:
+      - make html
+      - aws s3 sync --acl public-read --follow-symlinks html s3://tlcjs.org

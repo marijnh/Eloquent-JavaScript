@@ -8,5 +8,5 @@ console.log(parse("# hello\nx"));
 
 console.log(parse("a # one\n   # two\n()"));
 // → {type: "apply",
-//    operator: {type: "word", name: "x"},
+//    operator: {type: "word", name: "a"},
 //    args: []}

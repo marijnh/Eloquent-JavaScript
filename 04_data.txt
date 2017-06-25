@@ -97,10 +97,10 @@ is called an _array_ and is written as a list of values between
 [source,javascript]
 ----
 var listOfNumbers = [2, 3, 5, 7, 11];
-console.log(listOfNumbers[1]);
+console.log(listOfNumbers[2]);
+// → 5
+console.log(listOfNumbers[2 - 1]);
 // → 3
-console.log(listOfNumbers[1 - 1]);
-// → 2
 ----
 
 ((([] (subscript))))(((array,indexing)))The notation for getting

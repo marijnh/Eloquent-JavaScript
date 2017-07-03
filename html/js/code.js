@@ -171,7 +171,10 @@ addEventListener("load", function() {
     sandbox = new SandBox({
       loadFiles: hasIncludes(val, context.include) ? [] : context.include,
       place: type == "html" &&
-        function(node) { outnode.parentNode.insertBefore(node, outnode); }
+        function(node) {
+          var out = document.querySelector(".sandbox-output");
+          out.parentNode.insertBefore(node, out);
+        }
     }, function(box) {
       output.clear();
       if (type == "html")

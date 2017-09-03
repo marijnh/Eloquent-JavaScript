@@ -3,6 +3,12 @@
 
 function urlToPath(url) {
   var path = require("url").parse(url).pathname;
-  var decoded = decodeURIComponent(path);
-  return "." + decoded.replace(/(\/|\\)\.\.(\/|\\|$)/g, "/");
+  var result = "." + decodeURIComponent(path);
+  for (;;) {
+    // Remove any instances of '/../' or similar
+    var simplified = result.replace(/(\/|\\)\.\.(\/|\\|$)/, "/");
+    // Keep doing this until it no longer changes the string
+    if (simplified == result) return result
+    result = simplified
+  }
 }

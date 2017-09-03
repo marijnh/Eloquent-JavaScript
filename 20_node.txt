@@ -1146,14 +1146,13 @@ system might be used to do bad things to your machine.
 (((replace method)))(((file server example)))(((leak)))(((period
 character)))(((slash character)))(((backslash
 character)))(((decodeURIComponent function)))It is enough to strip out
-all occurrences of two dots that have a slash, a backslash, or
-the end of the string on both sides. Using the `replace` method with a
-((regular expression)) is the easiest way to do this. Do not forget
-the `g` flag on the expression, or `replace` will  replace only a
-single instance, and people could still get around this safety measure
-by including additional double dots in their paths! Also make sure you
-do the replace _after_ decoding the string, or it would be possible to
-foil the check by encoding a dot or a slash.
+all occurrences of two dots that have a slash, a backslash, or the end
+of the string on both sides. Using the `replace` method with a
+((regular expression)) is the easiest way to do this. But since such
+instances may overlap (as in `"/../../f"`), you may have to apply
+`replace` multiple times, until the string no longer changes. Also
+make sure you do the replace _after_ decoding the string, or it would
+be possible to foil the check by encoding a dot or a slash.
 
 (((path,file system)))(((slash character)))Another potentially
 worrying case is when paths start with a slash, which are interpreted as

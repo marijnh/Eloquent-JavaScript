@@ -855,10 +855,10 @@ function respondErrorOrNothing(respond) {
 
 (((204 (HTTP status code))))(((body (HTTP))))When an ((HTTP))
 ((response)) does not contain any data, the status code 204
-“no content” can be used to indicate this. Since we need to provide
-callbacks that either report an error or return a 204 response in a
-few different situations, I wrote a `respondErrorOrNothing` function
-that creates such a callback.
+ (“no content”) can be used to indicate this. Since we need to
+provide callbacks that either report an error or return a 204 response
+in a few different situations, I wrote a `respondErrorOrNothing`
+function that creates such a callback.
 
 (((file server example)))(((Node.js)))(((PUT method)))This is the
 handler for `PUT` requests:

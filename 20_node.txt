@@ -746,7 +746,7 @@ where the server script lives, you'll be able to use `require("mime")` to
 get access to the library:
 
 ----
-$ npm install mime
+$ npm install mime@1.4.0
 npm http GET https://registry.npmjs.org/mime
 npm http 304 https://registry.npmjs.org/mime
 mime@1.2.11 node_modules/mime

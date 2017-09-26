@@ -1,4 +1,9 @@
 let fs = require("fs"), mold = new (require("mold"))
+let CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
+require("codemirror/mode/javascript/javascript.js")
+require("codemirror/mode/xml/xml.js")
+require("codemirror/mode/css/css.js")
+require("codemirror/mode/htmlmixed/htmlmixed.js")
 
 let tokens = require("./markdown").parse(fs.readFileSync(process.argv[2], "utf8"), {})
 
@@ -7,11 +12,50 @@ function escapeChar(ch) {
 }
 function escape(str) { return str.replace(/[<>&"]/g, escapeChar) }
 
+function hashContent(token, firstLast) {
+  let text = ""
+  if (token.children) {
+    for (let i = 0; i < token.children.length; i++)
+      if (token.children[i].type == "text") text += token.children[i].content
+  } else {
+    text = token.content
+  }
+  if (firstLast) text = startAndEnd(text)
+
+  let sum = require("crypto").createHash("sha1")
+  sum.update(text)
+  return sum.digest("base64").slice(0, 10)
+}
+
+function startAndEnd(text) {
+  var words = text.split(/\W+/);
+  if (!words[0]) words.shift();
+  if (!words[words.length - 1]) words.pop();
+  if (words.length <= 6) return words.join(" ");
+  return words.slice(0, 3).join(" ") + " " + words.slice(words.length - 3).join(" ");
+}
+
+function highlight(lang, text) {
+  if (lang == "html") lang = "text/html"
+  let result = ""
+  CodeMirror.runMode(text, lang, (text, style) => {
+    let esc = escape(text)
+    result += style ? `<span class="${style.replace(/^|\s+/g, "$&cm-")}">${esc}</span>` : esc
+  })
+  return result
+}
+
 let renderer = {
   code_inline(token) { return `<code>${escape(token.content)}</code>` },
 
-  // FIXME languages
-  fence(token) { return `\n\n<pre>${escape(token.content)}</pre>` },
+  fence(token) {
+    let focus = false, sandbox = null, lang = token.info.replace(/\s*\b(focus|sandbox-\w+)\b/g, (_, word) => {
+      if (word == "focus") focus = true
+      else sandbox = word.slice(8)
+      return ""
+    }) || "javascript"
+    return `\n\n<pre class="snippet cm-s-default" data-language=${lang} ${focus ? " data-focus=true" : ""}${sandbox ? ` data-sandbox="${sandbox}"` : ""}id="c_${hashContent(token)}">${highlight(lang, token.content)}</pre>`
+  },
 
   hardbreak() { return "<br>" },
 
@@ -19,11 +63,11 @@ let renderer = {
 
   text(token) { return escape(token.content) },
 
-  paragraph_open() { return "\n\n<p>" },
+  paragraph_open(token, array, index) { return `\n\n<p id="p_${hashContent(array[index + 1], true)}">` },
 
   paragraph_close() { return "</p>" },
 
-  heading_open(token) { return `\n\n<${token.tag}>` },
+  heading_open(token, array, index) { return `\n\n<${token.tag} id="h_${hashContent(array[index + 1])}">` },
 
   heading_close(token) { return `</${token.tag}>` },
 
@@ -50,14 +94,15 @@ let renderer = {
 }
 
 function render(token) {
-  let f = renderer[token.type]
-  if (!f) throw new Error("No render function for " + token.type)
-  return f(token)
 }
 
 function renderArray(tokens) {
   let result = ""
-  for (let i = 0; i < tokens.length; i++) result += render(tokens[i])
+  for (let i = 0; i < tokens.length; i++) {
+    let token = tokens[i], f = renderer[token.type]
+    if (!f) throw new Error("No render function for " + token.type)
+    result += f(token, tokens, i)
+  }
   return result
 }
 

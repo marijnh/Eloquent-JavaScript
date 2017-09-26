@@ -9,16 +9,14 @@
     "url": "git://github.com/marijnh/Eloquent-JavaScript.git"
   },
   "dependencies": {
-    "acorn": "0.3",
-    "codemirror": "4",
+    "acorn": "^5.1.0",
+    "codemirror": "^5.25.0",
     "jszip": "^2.5.0",
-    "uglify-js": "2"
+    "uglify-js": "^2.0.0"
   },
   "devDependencies": {
-    "contextify": "kkoopa/contextify",
-    "jsdom": "0.10",
-    "canvas": "git://github.com/learnboost/node-canvas",
-    "promise": "6",
-    "jszip": "2"
+    "canvas": "^1.6.7",
+    "jsdom": "^11.2.0",
+    "promise": "^8.0.1"
   }
 }

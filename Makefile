@@ -21,8 +21,8 @@ html/js/acorn_codemirror.js: node_modules/codemirror/lib/codemirror.js \
 	                     node_modules/codemirror/mode/xml/xml.js \
 	                     node_modules/codemirror/mode/htmlmixed/htmlmixed.js \
 	                     node_modules/codemirror/addon/edit/matchbrackets.js \
-	                     node_modules/acorn/acorn.js \
-	                     node_modules/acorn/util/walk.js
+	                     node_modules/acorn/dist/acorn.js \
+	                     node_modules/acorn/dist/walk.js
 	node_modules/.bin/uglifyjs $? -m -o $@
 
 img/generated/%.png: img/%.svg

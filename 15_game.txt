@@ -219,7 +219,8 @@ Level.prototype.isFinished = function() {
 
 == Actors ==
 
-[[vector]] (((Vector type)))(((coordinates)))To store the position and
+[[vector]]
+(((Vector type)))(((coordinates)))To store the position and
 size of an actor, we will return to our trusty `Vector` type, which
 groups an x-coordinate and a y-coordinate into an object.
 

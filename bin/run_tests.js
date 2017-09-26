@@ -241,7 +241,8 @@ function nextSandbox() {
       report(e);
     }
   } else {
-    require("jsdom").env({
+    let {JSDOM} = require("jsdom")
+    new JSDOM({
       url: "http://eloquentjavascript.net/" + file + "#" + i,
       html: sandbox.html || "<!doctype html><body></body>",
       src: [baseCode],

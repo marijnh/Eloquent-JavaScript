@@ -23,10 +23,10 @@ text = text
     return "\n{{figure, url: " + JSON.stringify(url) + ", " + meta.replace(/="/g, ": \"") + "}}"
   })
   .replace(/\n(\[chapterquote=.*?\]\n)?\[quote, ([^\]]+)\]\n____\n([^]*?)____\n/g, function(_, chapter, author, content) {
-    let match = /([^,]+), (.+)/.exec(author), source = null
-    if (match) { source = match[2]; author = match[1] }
+    let match = /([^,]+), (.+)/.exec(author), title = null
+    if (match) { title = match[2]; author = match[1] }
     return "\n{{quote" + (chapter ? ", chapter: true" : "") + ", author: " + JSON.stringify(author) +
-      (source ? ", source: " + JSON.stringify(source) : "") + "\n\n" + content + "\n}}\n"
+      (title ? ", title: " + JSON.stringify(title) : "") + "\n\n" + content + "\n}}\n"
   })
   .replace(/\n\n+((?:(?!\n\n)[^])*?\(\(\((?:(?!\n\n)[^])*)/g, function(_, para) {
     let terms = []
@@ -63,5 +63,9 @@ text = text
   .replace(/__((?:(?!\n\n)[^])+)__/g, function(_, text) {
     return "_" + text + "_"
   })
+  .replace(/\n\[\[(.*?)\]\]\n/g, function(_, name) {
+    return `\n{{id ${/\W/.test(name) ? JSON.stringify(name) : name}}}\n`
+  })
+  .replace(/\[sic]/, "\\[sic]")
 
 console.log(text)

@@ -32,9 +32,9 @@ function parseBlockMeta(state, startLine, endLine) {
   if (single = /\}\}\s*/.exec(content)) {
     let data = parseData(content.slice(0, single.index))
     if (!data) return false
-    let token = state.push("meta", null, 0)
+    let token = state.push("meta_" + data._, null, 0)
     token.map = [startLine, startLine + 1]
-    token.attrs = [["data", data]]
+    token.data = data
     state.line++
     return true
   }
@@ -54,17 +54,17 @@ function parseBlockMeta(state, startLine, endLine) {
     }
   }
 
-  let token = state.push("meta_open", null, 1)
+  let token = state.push("meta_" + data._ + "_open", null, 1)
   token.map = [startLine, line + 1]
-  token.attrs = [["data", data]]
+  token.data = data
   state.md.block.tokenize(state, startLine + 1, line)
-  state.push("meta_close", null, -1)
+  state.push("meta_" + data._ + "_close", null, -1).data = data
   state.line = line + 1
 
   return true
 }
 
-function parseInlineMeta(state) {
+function parseInlineMeta(state, silent) {
   if (state.src.charCodeAt(state.pos) != 91) return false // '['
 
   let max = state.posMax
@@ -91,16 +91,16 @@ function parseInlineMeta(state) {
 
   state.pos++
   state.posMax = end
-  state.push("meta_open", null, 1).attrs = [["data", data]]
+  if (!silent) state.push("meta_" + data._ + "_open", null, 1).data = data
   state.md.inline.tokenize(state)
-  state.push("meta_close", null, -1)
+  if (!silent) state.push("meta_" + data._ + "_close", null, -1).data = data
   state.pos = metaEnd + 1
   state.posMax = max
 
   return true
 }
 
-function parseIndexTerm(state) {
+function parseIndexTerm(state, silent) {
   let max = state.posMax
   // Check for opening '(('
   if (state.pos >= max + 4 || state.src.charCodeAt(state.pos) != 40 || state.src.charCodeAt(state.pos + 1) != 40) return false
@@ -113,19 +113,19 @@ function parseIndexTerm(state) {
 
   let term = state.src.slice(start, end)
 
-  state.push("meta", null, 0).attrs = [["data", {_: "index", args: [term]}]]
+  if (!silent) state.push("meta_index", null, 0).data = {_: "index", args: [term]}
   state.pending += term
   state.pos = end + 2
   return true
 }
 
-let TERMINATOR_RE = /[\n!#$%&*+\-:<=>@[\\\]^_`{}~]|\(\(/
+let TERMINATOR_RE = /[\n!#$%&*+\-:<=>@\[\\\]^_`{}~]|\(\(/
 
-function newText(state) {
-  let len = state.src.slice(state.pos).search(TERMINATOR_RE)
+function newText(state, silent) {
+  let len = state.src.slice(state.pos, state.posMax).search(TERMINATOR_RE)
   if (len == 0) return false
-  if (len == -1) len = state.src.length - state.pos
-  state.pending += state.src.slice(state.pos, state.pos + len)
+  if (len == -1) len = state.posMax - state.pos
+  if (!silent) state.pending += state.src.slice(state.pos, state.pos + len)
   state.pos += len
   return true
 }

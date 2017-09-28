@@ -10,17 +10,17 @@
   <script src="js/ejs.js"></script>
   <<if $in.chap_num || $in.load_files>>
   <script>
-    <<if $in.chap_num>>var chapNum = <<t chap_num>>;<</if>>
-    <<if $in.load_files>>var sandboxLoadFiles = <<t JSON.stringify($in.load_files)>>;<</if>>
+    <<if $in.chap_num>>var chapNum = <<h chap_num>>;<</if>>
+    <<if $in.load_files>>var sandboxLoadFiles = <<h JSON.stringify($in.load_files)>>;<</if>>
   </script>
   <</if>>
 </head>
 
 <article>
 <nav>
-  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a><</if>>
+  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
   <a href="index.html" title="cover">◆</a>
-  <<if $in.next_link>><a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
+  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
 </nav>
 
 <h1<<if $in.id>> id="<<t $in.id>>"<</if>>><<if $in.chap_num>><div class=chap_num>Chapter <<t $in.chap_num>></div><</if>><<t $in.title>></h1>
@@ -28,8 +28,8 @@
 <<h $in.content>>
 
 <nav>
-  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a><</if>>
-  <a href="index.html" title="cover">◆</a>
-  <<if $in.next_link>><a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
+  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
+  <a href="index.html" title="cover">◆</a> 
+  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
 </nav>
 </article>

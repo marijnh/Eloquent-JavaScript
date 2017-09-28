@@ -1,39 +1,21 @@
 let fs = require("fs"), mold = new (require("mold"))
+let {transformTokens} = require("./transform")
 let CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
 require("codemirror/mode/javascript/javascript.js")
 require("codemirror/mode/xml/xml.js")
 require("codemirror/mode/css/css.js")
 require("codemirror/mode/htmlmixed/htmlmixed.js")
 
-let tokens = require("./markdown").parse(fs.readFileSync(process.argv[2], "utf8"), {})
+let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(process.argv[2], "utf8"), {}), {
+  defined: ["interactive", "html"],
+  ids: true,
+  index: false
+})
 
 function escapeChar(ch) {
   return ch == "<" ? "&lt;" : ch == ">" ? "&gt;" : ch == "&" ? "&amp;" : "&quot;"
 }
 function escape(str) { return str.replace(/[<>&"]/g, escapeChar) }
-
-function hashContent(token, firstLast) {
-  let text = ""
-  if (token.children) {
-    for (let i = 0; i < token.children.length; i++)
-      if (token.children[i].type == "text") text += token.children[i].content
-  } else {
-    text = token.content
-  }
-  if (firstLast) text = startAndEnd(text)
-
-  let sum = require("crypto").createHash("sha1")
-  sum.update(text)
-  return sum.digest("base64").slice(0, 10)
-}
-
-function startAndEnd(text) {
-  var words = text.split(/\W+/);
-  if (!words[0]) words.shift();
-  if (!words[words.length - 1]) words.pop();
-  if (words.length <= 6) return words.join(" ");
-  return words.slice(0, 3).join(" ") + " " + words.slice(words.length - 3).join(" ");
-}
 
 function highlight(lang, text) {
   if (lang == "html") lang = "text/html"
@@ -45,6 +27,14 @@ function highlight(lang, text) {
   return result
 }
 
+function anchor(token) {
+  return token.hashID ? `<a class="${token.hashID.charAt(0)}_ident" id="${token.hashID}" href="#${token.hashID}"></a>` : ""
+}
+
+function attrs(token) {
+  return token.attrs ? token.attrs.map(([name, val]) => ` ${name}="${escape(val)}"`).join("") : ""
+}
+
 let renderer = {
   code_inline(token) { return `<code>${escape(token.content)}</code>` },
 
@@ -54,7 +44,7 @@ let renderer = {
       else sandbox = word.slice(8)
       return ""
     }) || "javascript"
-    return `\n\n<pre class="snippet cm-s-default" data-language=${lang} ${focus ? " data-focus=true" : ""}${sandbox ? ` data-sandbox="${sandbox}"` : ""}id="c_${hashContent(token)}">${highlight(lang, token.content)}</pre>`
+    return `\n\n<pre${attrs(token)} class="snippet cm-s-default" data-language=${lang} ${focus ? " data-focus=true" : ""}${sandbox ? ` data-sandbox="${sandbox}"` : ""}>${anchor(token)}${highlight(lang, token.content)}</pre>`
   },
 
   hardbreak() { return "<br>" },
@@ -63,11 +53,11 @@ let renderer = {
 
   text(token) { return escape(token.content) },
 
-  paragraph_open(token, array, index) { return `\n\n<p id="p_${hashContent(array[index + 1], true)}">` },
+  paragraph_open(token) { return `\n\n<p${attrs(token)}>${anchor(token)}` },
 
   paragraph_close() { return "</p>" },
 
-  heading_open(token, array, index) { return `\n\n<${token.tag} id="h_${hashContent(array[index + 1])}">` },
+  heading_open(token) { return `\n\n<${token.tag}${attrs(token)}>${anchor(token)}` },
 
   heading_close(token) { return `</${token.tag}>` },
 
@@ -88,12 +78,18 @@ let renderer = {
 
   inline(token) { return renderArray(token.children) },
 
-  meta() { return "" },
-  meta_open() { return "" },
-  meta_close() { return "" }
-}
+  meta_figure(token) {
+    let {url, alt} = token.data
+    return `<div class="image"${attrs(token)}><img src="${escape(url)}" alt="${escape(alt)}"></div>`
+  },
 
-function render(token) {
+  meta_quote_open() { return "\n\n<blockquote>" },
+
+  meta_quote_close(token) {
+    let {author, title} = token.data
+    return (author ? `\n\n<footer>${escape(author)}${title ? `, <cite>${escape(title)}</cite>` : ""}` : "") +
+      "\n\n</blockquote>"
+  }
 }
 
 function renderArray(tokens) {
@@ -101,25 +97,13 @@ function renderArray(tokens) {
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i], f = renderer[token.type]
     if (!f) throw new Error("No render function for " + token.type)
-    result += f(token, tokens, i)
+    result += f(token)
   }
   return result
 }
 
-let args = {}
-for (let i = 0; i < tokens.length; i++) {
-  let tok = tokens[i]
-  if (tok.type == "meta" && tok.attrGet("data")._ == "meta") {
-    let data = tok.attrGet("data")
-    for (let prop in data) args[prop] = data[prop]
-  } else if (tok.tag == "h1") {
-    if (tokens[i + 2].tag != "h1") throw new Error("Complex H1 not supported")
-    args.title = tokens[i + 1].children[0].content
-    tokens.splice(i--, 3)
-  }
-}
-args.content = renderArray(tokens)
+metadata.content = renderArray(tokens)
 
 let template = mold.bake("chapter", fs.readFileSync(__dirname + "/chapter.html", "utf8"))
 
-console.log(template(args))
+console.log(template(metadata))

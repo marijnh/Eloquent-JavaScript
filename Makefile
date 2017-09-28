@@ -13,7 +13,7 @@ html/%.html: %.md
 	node src/build_code.js $<
 
 html/js/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) code/solutions/* bin/chapter_info.js
-	node bin/chapter_info.js > html/js/chapter_info.js
+	node src/chapter_info.js > html/js/chapter_info.js
 
 html/js/acorn_codemirror.js: node_modules/codemirror/lib/codemirror.js \
 	                     node_modules/codemirror/mode/javascript/javascript.js \

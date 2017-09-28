@@ -10,23 +10,21 @@ function processIndexTerm(term) {
 
 text = text
   .replace(/^(:\w+:\s*.+\n)+/, function(meta) {
-    let re = /(?:^|\n):(\w+):\s*(.+)/g, m
-    let tag = "{{meta"
-    while (m = re.exec(meta))
-      tag += ", " + m[1] + ": " + m[2]
-    return tag + "}}\n"
+    let re = /(?:^|\n):(\w+):\s*(.+)/g, m, props = []
+    while (m = re.exec(meta)) props.push(m[1] + ": " + m[2])
+    return `{{meta {${props.join(", ")}}}}`
   })
   .replace(/\n(=+) (.*?) =+\n/g, function(_, depth, title) {
     return "\n" + "#".repeat(depth.length) + " " + title + "\n"
   })
   .replace(/\nimage::([^\]]+)\[(.*?)\]/g, function(_, url, meta) {
-    return "\n{{figure, url: " + JSON.stringify(url) + ", " + meta.replace(/="/g, ": \"") + "}}"
+    return "\n{{figure {url: " + JSON.stringify(url) + ", " + meta.replace(/="/g, ": \"") + "}}}"
   })
   .replace(/\n(\[chapterquote=.*?\]\n)?\[quote, ([^\]]+)\]\n____\n([^]*?)____\n/g, function(_, chapter, author, content) {
     let match = /([^,]+), (.+)/.exec(author), title = null
     if (match) { title = match[2]; author = match[1] }
-    return "\n{{quote" + (chapter ? ", chapter: true" : "") + ", author: " + JSON.stringify(author) +
-      (title ? ", title: " + JSON.stringify(title) : "") + "\n\n" + content + "\n}}\n"
+    return "\n{{quote {" + (chapter ? "chapter: true, " : "") + "author: " + JSON.stringify(author) +
+      (title ? ", title: " + JSON.stringify(title) : "") + "}\n\n" + content + "\n}}\n"
   })
   .replace(/\n\n+((?:(?!\n\n)[^])*?\(\(\((?:(?!\n\n)[^])*)/g, function(_, para) {
     let terms = []

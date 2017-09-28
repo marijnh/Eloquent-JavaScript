@@ -64,16 +64,16 @@ exports.transformTokens = function(tokens, options) {
   for (let i = 0; i < tokens.length; i++) {
     let tok = tokens[i], type = tok.type
     if (type == "meta_meta") {
-      for (let prop in tok.data) if (prop != "_") meta[prop] = tok.data[prop]
+      for (let prop in tok.args[0]) if (prop != "_") meta[prop] = tok.args[0][prop]
     } else if (type == "meta_id") {
       for (let j = i + 1; j < tokens.length; j++) if (tokens[j].tag) {
-        ;(tokens[j].attrs || (tokens[j].attrs = [])).push(["id", tok.data.args[0]])
+        ;(tokens[j].attrs || (tokens[j].attrs = [])).push(["id", tok.args[0]])
         break
       }
     } else if (type == "meta_if_open") {
-      let tag = tok.data.args[0]
+      let tag = tok.args[0]
       if (options.defined.indexOf(tag) == -1) {
-        for (let j = i + 1; j < tokens.length; j++) if (tokens[j].type == "meta_if_close" && tokens[j].data.args[0] == tag) {
+        for (let j = i + 1; j < tokens.length; j++) if (tokens[j].type == "meta_if_close" && tokens[j].args[0] == tag) {
           i = j
           break
         }

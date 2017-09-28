@@ -79,14 +79,14 @@ let renderer = {
   inline(token) { return renderArray(token.children) },
 
   meta_figure(token) {
-    let {url, alt} = token.data
+    let {url, alt} = token.args[0]
     return `<div class="image"${attrs(token)}><img src="${escape(url)}" alt="${escape(alt)}"></div>`
   },
 
   meta_quote_open() { return "\n\n<blockquote>" },
 
   meta_quote_close(token) {
-    let {author, title} = token.data
+    let {author, title} = token.args[0]
     return (author ? `\n\n<footer>${escape(author)}${title ? `, <cite>${escape(title)}</cite>` : ""}` : "") +
       "\n\n</blockquote>"
   }

@@ -2,20 +2,15 @@ const PJSON = require("./pseudo_json")
 const markdownIt = require("markdown-it")
 
 function parseData(str) {
-  let tag = /^\s*(\w+)\s*(,\s*)?/.exec(str), obj
+  let tag = /^\s*(\w+)\s*?/.exec(str), args
   if (!tag) return null
   if (tag[0].length == str.length) {
-    obj = {}
-  } else if (tag[2]) {
-    try { obj = PJSON.parse("{" + str.slice(tag[0].length) + "}") }
-    catch(_) { return null }
+    args = []
   } else {
-    obj = {}
-    try { obj.args = PJSON.parse("[" + str.slice(tag[0].length) + "]") }
+    try { args = PJSON.parse("[" + str.slice(tag[0].length) + "]") }
     catch(_) { return null }
   }
-  obj._ = tag[1]
-  return obj
+  return {tag: tag[1], args}
 }
 
 function parseBlockMeta(state, startLine, endLine) {
@@ -29,12 +24,12 @@ function parseBlockMeta(state, startLine, endLine) {
 
   let content = state.src.slice(pos + 2, max), single
 
-  if (single = /\}\}\s*/.exec(content)) {
+  if (single = /\}\}\s*$/.exec(content)) {
     let data = parseData(content.slice(0, single.index))
     if (!data) return false
-    let token = state.push("meta_" + data._, null, 0)
+    let token = state.push("meta_" + data.tag, null, 0)
     token.map = [startLine, startLine + 1]
-    token.data = data
+    token.args = data.args
     state.line++
     return true
   }
@@ -54,11 +49,11 @@ function parseBlockMeta(state, startLine, endLine) {
     }
   }
 
-  let token = state.push("meta_" + data._ + "_open", null, 1)
+  let token = state.push("meta_" + data.tag + "_open", null, 1)
   token.map = [startLine, line + 1]
-  token.data = data
+  token.args = data.args
   state.md.block.tokenize(state, startLine + 1, line)
-  state.push("meta_" + data._ + "_close", null, -1).data = data
+  state.push("meta_" + data.tag + "_close", null, -1).args = data.args
   state.line = line + 1
 
   return true
@@ -91,9 +86,9 @@ function parseInlineMeta(state, silent) {
 
   state.pos++
   state.posMax = end
-  if (!silent) state.push("meta_" + data._ + "_open", null, 1).data = data
+  if (!silent) state.push("meta_" + data.tag + "_open", null, 1).args = data.args
   state.md.inline.tokenize(state)
-  if (!silent) state.push("meta_" + data._ + "_close", null, -1).data = data
+  if (!silent) state.push("meta_" + data.tag + "_close", null, -1).args = data.args
   state.pos = metaEnd + 1
   state.posMax = max
 
@@ -113,7 +108,7 @@ function parseIndexTerm(state, silent) {
 
   let term = state.src.slice(start, end)
 
-  if (!silent) state.push("meta_index", null, 0).data = {_: "index", args: [term]}
+  if (!silent) state.push("meta_index", null, 0).args = [term]
   state.pending += term
   state.pos = end + 2
   return true

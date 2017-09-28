@@ -8,9 +8,9 @@ html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/acorn_codemirror.js 
       code/skillsharing.zip code/solutions/20_4_a_public_space_on_the_web.zip html/js/chapter_info.js \
       $(patsubst img/%.svg,img/generated/%.png,$(SVGS))
 
-html/%.html: %.txt asciidoc_html.conf
-	PATH=node_modules/codemirror/bin:$(PATH) asciidoc -f asciidoc_html.conf --backend=html5 -o - $< | node bin/addmarks > $@
-	node bin/build_code.js $<
+html/%.html: %.md
+	node src/render_html.js $< > $@
+	node src/build_code.js $<
 
 html/js/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) code/solutions/* bin/chapter_info.js
 	node bin/chapter_info.js > html/js/chapter_info.js

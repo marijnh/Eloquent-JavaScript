@@ -37,13 +37,14 @@ function parseBlockMeta(state, startLine, endLine) {
   let data = parseData(content)
   if (!data) return false
 
-  let line = startLine + 1, depth = 0
+  let line = startLine + 1, close = data.tag + "}}", open = new RegExp("^\\{\\{" + data.tag + "(\\s|$)"), depth = 0
   for (; line < endLine; line++) {
     if (line == endLine) throw new SyntaxError("Unterminated meta block")
     let start = state.bMarks[line] + state.tShift[line]
-    let after = state.src.slice(start, start + 2)
-    if (after == "{{" && !/\}\}\s*$/.test(state.src.slice(start, state.eMarks[line]))) depth++
-    else if (after == "}}") {
+    let lineText = state.src.slice(start, state.eMarks[line])
+    if (open.test(lineText)) {
+      depth++
+    } else if (lineText ==  close) {
       if (depth) depth--
       else break
     }

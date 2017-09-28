@@ -64,7 +64,7 @@ exports.transformTokens = function(tokens, options) {
   for (let i = 0; i < tokens.length; i++) {
     let tok = tokens[i], type = tok.type
     if (type == "meta_meta") {
-      for (let prop in tok.args[0]) if (prop != "_") meta[prop] = tok.args[0][prop]
+      for (let prop in tok.args[0]) meta[prop] = tok.args[0][prop]
     } else if (type == "meta_id") {
       for (let j = i + 1; j < tokens.length; j++) if (tokens[j].tag) {
         ;(tokens[j].attrs || (tokens[j].attrs = [])).push(["id", tok.args[0]])

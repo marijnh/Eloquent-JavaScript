@@ -8,31 +8,40 @@ function processIndexTerm(term) {
   return terms.length == 1 ? terms[0] : "[" + terms.join(", ") + "]"
 }
 
+function maybeQuote(value) {
+  return /\W/.test(value) ? JSON.stringify(value) : value
+}
+
 text = text
   .replace(/^(:\w+:\s*.+\n)+/, function(meta) {
     let re = /(?:^|\n):(\w+):\s*(.+)/g, m, props = []
-    while (m = re.exec(meta)) props.push(m[1] + ": " + m[2])
-    return `{{meta {${props.join(", ")}}}}`
+    while (m = re.exec(meta)) props.push(m[1] + ": " + (m[1] == "load_files" ? m[2] : maybeQuote(m[2])))
+    return `{{meta {${props.join(", ")}}}}\n`
   })
   .replace(/\n(=+) (.*?) =+\n/g, function(_, depth, title) {
     return "\n" + "#".repeat(depth.length) + " " + title + "\n"
   })
-  .replace(/\nimage::([^\]]+)\[(.*?)\]/g, function(_, url, meta) {
-    return "\n{{figure {url: " + JSON.stringify(url) + ", " + meta.replace(/="/g, ": \"") + "}}}"
+  .replace(/\nimage::([^\[]+)\[(.*?)\]\n/g, function(_, url, meta) {
+    return "\n{{figure {url: " + JSON.stringify(url) + ", " + meta.replace(/="/g, ": \"") + "}}}\n"
   })
-  .replace(/\n(\[chapterquote=.*?\]\n)?\[quote, ([^\]]+)\]\n____\n([^]*?)____\n/g, function(_, chapter, author, content) {
-    let match = /([^,]+), (.+)/.exec(author), title = null
-    if (match) { title = match[2]; author = match[1] }
-    return "\n{{quote {" + (chapter ? "chapter: true, " : "") + "author: " + JSON.stringify(author) +
-      (title ? ", title: " + JSON.stringify(title) : "") + "}\n\n" + content + "\n}}\n"
+  .replace(/\n(\[chapterquote=.*?\]\n)?(?:\[quote,\s*([^\]]+)\]\n)?___+\n([^]*?)___+\n/g, function(_, chapter, author, content) {
+    let props = []
+    if (author) {
+      let match = /([^,]+), (.+)/.exec(author), title = null
+      if (match) props.push(`author: ${JSON.stringify(match[1])}`, `title: ${JSON.stringify(match[2])}`)
+      else props.push(`author: ${JSON.stringify(author)}`)
+    }
+    if (chapter) props.push("chapter: true")
+    return `\n{{quote${props.length ? " {" + props.join(", ") + "}" : ""}\n\n${content}\nquote}}\n`
   })
-  .replace(/\n\n+((?:(?!\n\n)[^])*?\(\(\((?:(?!\n\n)[^])*)/g, function(_, para) {
+  .replace(/\n\n+((?:(?!\n\n)[^])*?\(\(\((?:(?!\n\n)[^])*)/g, function(all, para) {
     let terms = []
     para = para.replace(/\(\(\(((?:\([^\)]*\)|[^])*?)\)\)\)/g, function(_, content) {
       terms.push(content)
       return ""
     }).replace(/^\s*/, "")
-    return "\n\n{{index " + terms.map(processIndexTerm).join(", ") + "}}\n\n" + para
+    if (terms.length) return "\n\n{{index " + terms.map(processIndexTerm).join(", ") + "}}\n\n" + para
+    else return all
   })
   .replace(/\bindexsee:\[(.*?),\s*(.*?)\]\s*/g, function(_, term, ref) {
     return "{{indexsee " + processIndexTerm(term) + ", " + processIndexTerm(ref) + "}}\n\n"
@@ -44,8 +53,8 @@ text = text
     if (sandbox) params.push("sandbox-" + sandbox)
     return "\n```" + params.join(" ") + "\n" + content + "\n```\n"
   })
-  .replace(/\n\/\/ (?:(start_code)|test: (.*)|include_code (.*))/g, function(_, startCode, test, includeCode) {
-    if (startCode) return "\n{{startCode}}"
+  .replace(/\n\/\/ (?:(start_code(?: (.*))?)|test: (.*)|include_code (.*))/g, function(_, startCode, startCodeParam, test, includeCode) {
+    if (startCode) return `\n{{startCode${startCodeParam ? " " + JSON.stringify(startCodeParam) : ""}}}`
     if (test) return "\n{{test " + test + "}}"
     return "\n{{includeCode " + JSON.stringify(includeCode) + "}}"
   })
@@ -53,7 +62,7 @@ text = text
     return "[" + content + "](" + url + ")"
   })
   .replace(/\nifdef::(\w+?)_target\[\]\n([^]*?)\nendif::.*/g, function(_, type, content) {
-    return "\n{{if " + type + "\n" + content + "\n}}"
+    return "\n{{if " + type + "\n" + content + "\nif}}"
   })
   .replace(/\+\+(?! |\))((?:(?!\n\n)[^])+)\+\+/g, function(_, text) {
     return "_" + text + "_"
@@ -62,7 +71,10 @@ text = text
     return "_" + text + "_"
   })
   .replace(/\n\[\[(.*?)\]\]\n/g, function(_, name) {
-    return `\n{{id ${/\W/.test(name) ? JSON.stringify(name) : name}}}\n`
+    return `\n{{id ${maybeQuote(name)}}}\n`
+  })
+  .replace(/\n!!hint!!\n([^]+?)\n!!hint!!/g, function(_, content) {
+    return `\n{{hint\n${content}\nhint}}`
   })
   .replace(/\[sic]/, "\\[sic]")
 

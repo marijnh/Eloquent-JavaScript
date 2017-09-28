@@ -10,7 +10,7 @@
   <script src="js/ejs.js"></script>
   <<if $in.chap_num || $in.load_files>>
   <script>
-    <<if $in.chap_num>>var chapNum = <<h chap_num>>;<</if>>
+    <<if $in.chap_num>>var chapNum = <<h $in.chap_num>>;<</if>>
     <<if $in.load_files>>var sandboxLoadFiles = <<h JSON.stringify($in.load_files)>>;<</if>>
   </script>
   <</if>>

@@ -14,6 +14,9 @@
     "hjson": "^3.1.0",
     "jszip": "^2.5.0",
     "markdown-it": "^8.4.0",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
+    "mold-template": "^2.0.1",
     "uglify-js": "^2.0.0"
   },
   "devDependencies": {

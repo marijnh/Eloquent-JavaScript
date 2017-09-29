@@ -1,5 +1,5 @@
 const PJSON = require("./pseudo_json")
-let fs = require("fs"), mold = new (require("mold"))
+let fs = require("fs"), mold = new (require("mold-template"))
 let {transformTokens} = require("./transform")
 let CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
 require("codemirror/mode/javascript/javascript.js")
@@ -37,8 +37,6 @@ function attrs(token) {
 }
 
 let renderer = {
-  code_inline(token) { return `<code>${escape(token.content)}</code>` },
-
   fence(token) {
     let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
     let lang = config.lang || "javascript"
@@ -46,44 +44,45 @@ let renderer = {
   },
 
   hardbreak() { return "<br>" },
-
   softbreak() { return " " },
 
   text(token) { return escape(token.content) },
 
   paragraph_open(token) { return `\n\n<p${attrs(token)}>${anchor(token)}` },
-
   paragraph_close() { return "</p>" },
 
   heading_open(token) { return `\n\n<${token.tag}${attrs(token)}>${anchor(token)}` },
-
   heading_close(token) { return `</${token.tag}>` },
 
   bullet_list_open(token) { return `\n\n<ul${attrs(token)}>` },
-
   bullet_list_close() { return `</ul>` },
 
   ordered_list_open(token) { return `\n\n<ol${attrs(token)}>` },
-
   ordered_list_close() { return `\n\n</ol>` },
 
   list_item_open() { return "\n\n<li>" },
-
   list_item_close() { return "</li>" },
 
-  strong_open() { return "<strong>" },
+  html_block(token) { return token.content },
 
+  code_inline(token) { return `<code>${escape(token.content)}</code>` },
+
+  strong_open() { return "<strong>" },
   strong_close() { return "</strong>" },
 
   em_open() { return "<em>" },
-
   em_close() { return "</em>" },
+
+  sub_open() { return "<sub>" },
+  sub_close() { return "</sub>" },
+
+  sup_open() { return "<sup>" },
+  sup_close() { return "</sup>" },
 
   link_open(token) {
     let alt = token.attrGet("alt"), href= token.attrGet("href")
     return `<a href="${escape(href)}"${alt ? ` alt="${escape(alt)}"` : ""}>`
   },
-
   link_close() { return "</a>" },
 
   inline(token) { return renderArray(token.children) },
@@ -94,7 +93,6 @@ let renderer = {
   },
 
   meta_quote_open() { return "\n\n<blockquote>" },
-
   meta_quote_close(token) {
     let {author, title} = token.args[0] || {}
     return (author ? `\n\n<footer>${escape(author)}${title ? `, <cite>${escape(title)}</cite>` : ""}` : "") +
@@ -102,7 +100,6 @@ let renderer = {
   },
 
   meta_hint_open() { return "\n\n<div class=solution><div class=solution-text>" },
-
   meta_hint_close() { return "\n\n</div></div>" }
 }
 

@@ -87,9 +87,11 @@ function parseInlineMeta(state, silent) {
 
   state.pos++
   state.posMax = end
-  if (!silent) state.push("meta_" + data.tag + "_open", null, 1).args = data.args
-  state.md.inline.tokenize(state)
-  if (!silent) state.push("meta_" + data.tag + "_close", null, -1).args = data.args
+  if (!silent) {
+    state.push("meta_" + data.tag + "_open", null, 1).args = data.args
+    state.md.inline.tokenize(state)
+    state.push("meta_" + data.tag + "_close", null, -1).args = data.args
+  }
   state.pos = metaEnd + 1
   state.posMax = max
 
@@ -133,4 +135,7 @@ function plugin(md) {
   md.inline.ruler.before("strikethrough", "index_term", parseIndexTerm)
 }
 
-module.exports = markdownIt().use(plugin)
+module.exports = markdownIt({html: true})
+  .use(plugin)
+  .use(require("markdown-it-sup"))
+  .use(require("markdown-it-sub"))

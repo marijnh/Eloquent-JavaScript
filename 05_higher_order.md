@@ -475,7 +475,7 @@ console.log(JSON.parse(string).born);
 The variable `ANCESTRY_FILE`, available in
 the ((sandbox)) for this chapter and in
 http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
-the website(!book (http://eloquentjavascript.net/code#5[_eloquentjavascript.net/code#5_])!), contains the
+the website[(http://eloquentjavascript.net/code#5[_eloquentjavascript.net/code#5_])]{if book}, contains the
 content of my ((JSON)) file as a string. Let's decode it and see how
 many people it contains.
 

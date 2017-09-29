@@ -520,7 +520,6 @@ _ϕ_ can be computed using the following formula, where _n_ refers to the table:
 
 {{if html
 
-```{lang: null}
 <div>
 <style scoped="scoped">sub { font-size: 60%; }</style>
 <table style="border-collapse: collapse; margin-left: 1em;"><tr>
@@ -533,24 +532,23 @@ _ϕ_ can be computed using the following formula, where _n_ refers to the table:
   </td>
 </tr></table>
 </div>
-```
 
 if}}
 
 {{if tex
 
-pass:[\begin{equation}\varphi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}\end{equation}]
+[\begin{equation}\varphi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}n_{\bullet1}n_{\bullet0}}}\end{equation}]{latex}
 
 if}}
 
-The notation (!html _n_~01~!)(!tex pass:[$n_{01}$]!) indicates the
+The notation [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex} indicates the
 number of measurements where the first variable (squirrelness) is false
 (0) and the second variable (pizza) is true (1). In this
-example, (!html _n_~01~!)(!tex pass:[$n_{01}$]!) is 9.
+example, [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex} is 9.
 
-The value (!html _n_~1•~!)(!tex pass:[$n_{1\bullet}$]!) refers to the
+The value [_n_~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} refers to the
 sum of all measurements where the first variable is true, which is 5
-in the example table. Likewise, (!html _n_~•0~!)(!tex pass:[$n_{\bullet0}$]!)
+in the example table. Likewise, [_n_~•0~]{if html}[[$n_{\bullet0}$]{latex}]{if tex}
 refers to the sum of the measurements where the second variable is false.
 
 {{index correlation, "phi coefficient"}}
@@ -558,7 +556,7 @@ refers to the sum of the measurements where the second variable is false.
 So for the pizza table, the part
 above the division line (the dividend) would be 1×76 - 4×9 = 40, and
 the part below it (the divisor) would be the square root of
-5×85×10×80, or (!html √340000!)(!tex pass:[$\sqrt{340000}$]!). This
+5×85×10×80, or [√340000]{if html}[[$\sqrt{340000}$]{latex}]{if tex}. This
 comes out to _ϕ_ ≈ 0.069, which is tiny. Eating ((pizza)) does not
 appear to have influence on the transformations.
 
@@ -605,7 +603,7 @@ This is simply a direct
 translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is the
 square root function, as provided by the `Math` object in a standard
 JavaScript environment. We have to sum two fields from the table to
-get fields like (!html n~1•~!)(!tex pass:[$n_{1\bullet}$]!) because
+get fields like [n~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} because
 the sums of rows or columns are not stored directly in our data
 structure.
 
@@ -613,7 +611,7 @@ structure.
 
 Jacques kept his journal for three months. The
 resulting ((data set)) is available in the coding sandbox for this
-chapter(!book (http://eloquentjavascript.net/code#4[_eloquentjavascript.net/code#4_])!),
+chapter[(http://eloquentjavascript.net/code#4[_eloquentjavascript.net/code#4_])]{if book},
 where it is stored in the `JOURNAL` variable, and in a downloadable
 http://eloquentjavascript.net/code/jacques_journal.js[file].
 

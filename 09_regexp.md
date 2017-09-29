@@ -236,7 +236,7 @@ console.log(/'\d*'/.test("''"));
 // → true
 ```
 
-{{index "pass:[*] operator", asterisk}}
+{{index "* operator", asterisk}}
 
 The star (`*`) has a similar
 meaning but also allows the pattern to match zero times. Something

@@ -45,12 +45,21 @@ function smartQuotes(tokens, i) {
     .slice(from, to)
 }
 
+function handleIf(tokens, i, options) {
+  let tag = tokens[i].args[0]
+  if (options.defined.indexOf(tag) > -1) return i
+  for (let j = i + 1; j < tokens.length; j++) if (tokens[j].type == "meta_if_close" && tokens[j].args[0] == tag)
+    return j
+}
+
 function transformInline(tokens, options) {
   let result = []
   for (let i = 0; i < tokens.length; i++) {
     let tok = tokens[i], type = tok.type
-    if (options.index === false && type == "meta_index") {
+    if (type == "meta_if_close" || (options.index === false && type == "meta_index")) {
       // Drop
+    } else if (type == "meta_if_open") {
+      i = handleIf(tokens, i, options)
     } else {
       if (type == "text" && /[\'\"]/.test(tok.content)) tok.content = smartQuotes(tokens, i)
       result.push(tok)
@@ -71,13 +80,7 @@ exports.transformTokens = function(tokens, options) {
         break
       }
     } else if (type == "meta_if_open") {
-      let tag = tok.args[0]
-      if (options.defined.indexOf(tag) == -1) {
-        for (let j = i + 1; j < tokens.length; j++) if (tokens[j].type == "meta_if_close" && tokens[j].args[0] == tag) {
-          i = j
-          break
-        }
-      }
+      i = handleIf(tokens, i, options)
     } else if (type == "meta_if_close" || (options.index === false && (type == "meta_indexsee" || type == "meta_index"))) {
       // Drop
     } else if (tok.tag == "h1") {

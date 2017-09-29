@@ -813,7 +813,7 @@ The source data for the table of
 mountains that we are trying to build is available in the `MOUNTAINS`
 variable in the ((sandbox)) and also
 http://eloquentjavascript.net/code/mountains.js[downloadable] from the
-website(!book (http://eloquentjavascript.net/code#6[_eloquentjavascript.net/code#6_])!).
+website[(http://eloquentjavascript.net/code#6[_eloquentjavascript.net/code#6_])]{if book}.
 
 {{index "table example"}}
 
@@ -1188,7 +1188,7 @@ constructor can be done with the `Object.defineProperty` function. To
 compute the distance from (0, 0) to (x, y), you can use the
 Pythagorean theorem, which says that the square of the distance we are
 looking for is equal to the square of the x-coordinate plus the square
-of the y-coordinate. Thus, (!html √(x^2^ + y^2^pass:[)]!)(!tex pass:[$\sqrt{x^2 + y^2}$]!)
+of the y-coordinate. Thus, [√(x^2^ + y^2^)]{if html}[[$\sqrt{x^2 + y^2}$]{latex}]{if tex}
 is the number you want, and `Math.sqrt` is the way you compute a square
 root in JavaScript.
 

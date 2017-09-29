@@ -32,9 +32,9 @@ central organizer.
 
 {{figure {url: "img/unicycle.svg", alt: "The unicycling meetup"}}}
 
-(!interactive Just like in the [previous chapter](20_node.html#node), the
+[Just like in the [previous chapter](20_node.html#node), the
 code in this chapter is written for Node.js, and running it directly
-in the HTML page that you are looking at is unlikely to work. !)The
+in the HTML page that you are looking at is unlikely to work.]{if interactive}The
 full code for the project can be ((download))ed from
 http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code/skillsharing.zip_].
 

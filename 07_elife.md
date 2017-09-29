@@ -1046,7 +1046,7 @@ var valley = new LifelikeWorld(
 {{index animation, simulation}}
 
 Let's see what happens if we run this.
-(!book These snapshots illustrate a typical run of this world.!)
+[These snapshots illustrate a typical run of this world.]{if book}
 
 {{if interactive
 

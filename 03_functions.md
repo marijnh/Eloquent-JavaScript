@@ -208,7 +208,7 @@ var landscape = function() {
 };
 
 console.log(landscape());
-// → __/''''\_____/'\_
+// → ___/''''\______/'\_
 ```
 
 {{index [function, scope], scope}}

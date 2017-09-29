@@ -77,6 +77,9 @@ text = text
   .replace(/\n!!hint!!\n([^]+?)\n!!hint!!/g, function(_, content) {
     return `\n{{hint\n${content}\nhint}}`
   })
+  .replace(/\(!(html|book|tex|interactive) ([^]*?)\s?!\)/g, function(_, tag, content) {
+    return `[${content}]{if ${tag}}`
+  })
   .replace(/\[sic]/, "\\[sic]")
 
 console.log(text)

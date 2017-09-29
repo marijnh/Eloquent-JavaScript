@@ -1114,7 +1114,7 @@ cells (`<td>`).
 The same
 source data that was used in [Chapter 6](06_object.html#mountains)
 is again available in the `MOUNTAINS` variable in the sandbox. It can also be http://eloquentjavascript.net/code/mountains.js[downloaded]
-from the website(!book (http://eloquentjavascript.net/code#13[_eloquentjavascript.net/code#13_])!).
+from the website[(http://eloquentjavascript.net/code#13[_eloquentjavascript.net/code#13_])]{if book}.
 
 Write a function `buildTable` that, given an array of objects that all
 have the same set of properties, builds up a DOM structure

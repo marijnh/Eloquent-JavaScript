@@ -668,7 +668,7 @@ call `Math.sin` and `Math.cos` to create the corresponding point. But with that 
 the dots are more likely to appear near the center of the circle. 
 There are other ways around that, but they're more complicated than the previous loop.
 
-We now have a functioning paint program.(!interactive  Run the code below to try it.!)
+We now have a functioning paint program.[ Run the code below to try it.]{if interactive}
 
 {{if interactive
 

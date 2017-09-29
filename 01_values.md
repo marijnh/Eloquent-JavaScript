@@ -176,7 +176,7 @@ number from them. Here is what they look like in JavaScript:
 100 + 4 * 11
 ```
 
-{{index [operator, application], asterisk, "plus character", "pass:[*] operator", "+ operator"}}
+{{index [operator, application], asterisk, "plus character", "* operator", "+ operator"}}
 
 The `+` and `*`
 symbols are called _operators_. The first stands for addition, and the
@@ -406,7 +406,7 @@ possible to represent them as a sequence of numbers. When comparing
 strings, JavaScript goes over them from left to right, comparing the
 numeric codes of the characters one by one.
 
-{{index equality, ">= operator", "pass:[<=] operator", "== operator", "!= operator"}}
+{{index equality, ">= operator", "<= operator", "== operator", "!= operator"}}
 
 Other similar operators are `>=` (greater
 than or equal to), `<=` (less than or equal to), `==` (equal to), and
@@ -546,7 +546,7 @@ console.log(false == 0)
 // → true
 ```
 
-{{index "+ operator", arithmetic, "pass:[*] operator", "- operator"}}
+{{index "+ operator", arithmetic, "* operator", "- operator"}}
 
 When an operator is applied to the “wrong” type of value,
 JavaScript will quietly convert that value to the type it wants, using

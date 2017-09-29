@@ -1548,8 +1548,8 @@ going from zero to more than a whole circle, and fill it.
 
 To model the ball's position
 and ((speed)), you can use the `Vector` type from
-[Chapter 15](15_game.html#vector)(!interactive (which is available on this
-page)!). Give it a starting speed, preferably one that is not purely
+[Chapter 15](15_game.html#vector)[(which is available on this
+page)]{if interactive}. Give it a starting speed, preferably one that is not purely
 vertical or horizontal, and every ((frame)), multiply that speed with
 the amount of time that elapsed. When the ball gets too close to a
 vertical wall, invert the x component in its speed. Likewise, invert

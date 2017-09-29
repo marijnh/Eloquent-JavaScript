@@ -38,7 +38,7 @@ from the side, and do lots of jumping onto and over things.
 
 Our
 ((game)) will be roughly based on
-http://www.lessmilk.com/games/10[Dark Blue](!book  (_www.lessmilk.com/games/10_)!) by Thomas Palef. I chose this game
+http://www.lessmilk.com/games/10[Dark Blue][ (_www.lessmilk.com/games/10_)]{if book} by Thomas Palef. I chose this game
 because it is both entertaining and minimalist, and because it can be built
 without too much ((code)). It looks like this:
 
@@ -1269,8 +1269,8 @@ and output in general in [Chapter 20](20_node.html#node).
 {{index game, "GAME_LEVELS data set"}}
 
 There is a set of
-((level)) plans available in the `GAME_LEVELS` variable (!book (downloadable from
-http://eloquentjavascript.net/code#15[_eloquentjavascript.net/code#15_])!).
+((level)) plans available in the `GAME_LEVELS` variable [(downloadable from
+http://eloquentjavascript.net/code#15[_eloquentjavascript.net/code#15_])]{if book}.
 This page feeds them to `runGame`, starting an actual game:
 
 // start_code

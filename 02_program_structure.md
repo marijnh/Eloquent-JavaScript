@@ -940,7 +940,7 @@ exercises, refer to the [introduction](00_intro.html#intro).
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the
-hints (!interactive after the exercise!)(!book at the [end of the book](hints.html#hints)!).
+hints [after the exercise]{if interactive}[at the [end of the book](hints.html#hints)]{if book}.
 Full solutions to the exercises are not included in this
 book, but you can find them online at
 http://eloquentjavascript.net/code[_eloquentjavascript.net/code_].

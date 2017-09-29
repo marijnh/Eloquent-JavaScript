@@ -2,6 +2,7 @@
 // of the code in the source for a chapter as possible, without
 // requiring excessive annotation.
 
+const PJSON = require("./pseudo_json")
 let fs = require("fs")
 let acorn = require("acorn")
 
@@ -40,17 +41,16 @@ function pos(index) {
 
 let sandboxes = {}, anonId = 0
 
-let re = /((?:{{.*?}}\s*)*)```(.*)\n([^]*?\n)```/g, m
+let re = /\n```(.*)\n([^]*?\n)```/g, m
 while (m = re.exec(input)) {
-  let [_, meta, params, snippet] = m, hasConf = /\{\{test (.*?)\}\}/.exec(meta)
-  let sandboxId
-  params.replace(/\s*\b(?:sandbox-(\w+)|focus)/, function(_, box) { if (box) sandboxId = box; return "" })
-  let type = params || "javascript", config = hasConf ? hasConf[1] : ""
+  let [_, params, snippet] = m
+  params = /\S/.test(params) ? PJSON.parse(params) : {}
+  let config = params.test || "", type = params.lang || "javascript"
+  let sandboxId = params.sandbox || (type == "javascript" ? "null" : "box" + (++anonId))
   let where = pos(m.index)
 
   if (type != "javascript" && type != "text/html") continue
 
-  if (!sandboxId) sandboxId = type == "javascript" ? "null" : "box" + (++anonId)
   let sandbox = sandboxes[sandboxId]
   if (!sandbox)
     sandbox = sandboxes[sandboxId] = {code: ""}
@@ -232,14 +232,14 @@ function fakeRequire(str) {
   return require(str)
 }
 
-let i = 0, boxes = Object.keys(sandboxes).map(function(k) { return sandboxes[k] })
+let i = 0, boxes = Object.keys(sandboxes).map(k => sandboxes[k])
 function nextSandbox() {
   if (i == boxes.length) return
   let sandbox = boxes[i]
   i++
   if (chapNum < 12 || chapNum >= 20) { // Language-only
     try {
-      (new Function("console, require, module", baseCode + sandbox.code))(_console, chapNum >= 20 && fakeRequire, {})
+      ;(new Function("console, require, module", baseCode + sandbox.code))(_console, chapNum >= 20 && fakeRequire, {})
       nextSandbox()
     } catch(e) {
       report(e)

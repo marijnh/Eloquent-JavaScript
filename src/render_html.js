@@ -1,3 +1,4 @@
+const PJSON = require("./pseudo_json")
 let fs = require("fs"), mold = new (require("mold"))
 let {transformTokens} = require("./transform")
 let CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
@@ -39,12 +40,9 @@ let renderer = {
   code_inline(token) { return `<code>${escape(token.content)}</code>` },
 
   fence(token) {
-    let focus = false, sandbox = null, lang = token.info.replace(/\s*\b(focus|sandbox-\w+)\b/g, (_, word) => {
-      if (word == "focus") focus = true
-      else sandbox = word.slice(8)
-      return ""
-    }) || "javascript"
-    return `\n\n<pre${attrs(token)} class="snippet cm-s-default" data-language=${lang} ${focus ? " data-focus=true" : ""}${sandbox ? ` data-sandbox="${sandbox}"` : ""}>${anchor(token)}${highlight(lang, token.content)}</pre>`
+    let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
+    let lang = config.lang || "javascript"
+    return `\n\n<pre${attrs(token)} class="snippet cm-s-default" data-language=${lang} ${config.focus ? " data-focus=true" : ""}${config.sandbox ? ` data-sandbox="${config.sandbox}"` : ""}>${anchor(token)}${highlight(lang, token.content)}</pre>`
   },
 
   hardbreak() { return "<br>" },

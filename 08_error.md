@@ -103,9 +103,7 @@ _little_ more strict by enabling _strict mode_. This is done by
 putting the string `"use strict"` at the top of a file or a function
 body. Here's an example:
 
-{{test error "ReferenceError: counter is not defined"}}
-
-```
+```{test: "error \"ReferenceError: counter is not defined\""}
 function canYouSpotTheProblem() {
   "use strict";
   for (counter = 0; counter < 10; counter++)
@@ -154,9 +152,7 @@ So the bogus call to `Person` succeeded but returned an
 undefined value and created the global variable `name`. In strict
 mode, the result is different.
 
-{{test error "TypeError: Cannot set property 'name' of undefined"}}
-
-```
+```{test: "error \"TypeError: Cannot set property 'name' of undefined\""}
 "use strict";
 function Person(name) { this.name = name; }
 // Oops, forgot 'new'
@@ -195,9 +191,7 @@ that automates testing your actual program.
 
 As an example, we once again use the `Vector` type.
 
-// include_code
-
-```
+```{includeCode: true}
 function Vector(x, y) {
   this.x = x;
   this.y = y;
@@ -309,7 +303,7 @@ additional information about what the program is doing. In this case,
 we want `n` to take the values `13`, `1`, and then `0`. Let's write
 out its value at the start of the loop.
 
-```null
+```{lang: null}
 13
 1.3
 0.13
@@ -373,9 +367,7 @@ What should it return if the user inputs _orange_?
 One option is to make it return a special value. Common
 choices for such values are `null` and `undefined`.
 
-{{test no}}
-
-```
+```{test: no}
 function promptNumber(question) {
   var result = Number(prompt(question, ""));
   if (isNaN(result)) return null;
@@ -509,9 +501,7 @@ function, `withContext`, wants to make sure that, during its
 execution, the top-level variable `context` holds a specific context
 value. After it finishes, it restores this variable to its old value.
 
-// include_code
-
-```
+```{includeCode: true}
 var context = null;
 
 function withContext(newContext, body) {
@@ -537,9 +527,7 @@ code after trying to run the code in the `try` block”. If a function
 has to clean something up, the cleanup code should usually be put into
 a `finally` block.
 
-// include_code
-
-```
+```{includeCode: true}
 function withContext(newContext, body) {
   var oldContext = context;
   context = newContext;
@@ -558,9 +546,7 @@ result of `body` (which we want to return) in a variable. Even if we
 return directly from the `try` block, the `finally` block will be run.
 Now we can do this and be safe:
 
-{{test no}}
-
-```
+```{test: no}
 try {
   withContext(5, function() {
     if (context < 10)
@@ -633,9 +619,7 @@ somewhere that is causing an exception. Here is an example, which
 _attempts_ to keep on calling `promptDirection` until it gets a valid
 answer:
 
-{{test no}}
-
-```
+```{test: no}
 for (;;) {
   try {
     var dir = promtDirection("Where?"); // ← typo!
@@ -683,9 +667,7 @@ message) to make a programmatic decision. As soon as someone changes
 Rather, let's define a new
 type of error and use `instanceof` to identify it.
 
-// include_code
-
-```
+```{includeCode: true}
 function InputError(message) {
   this.message = message;
   this.stack = (new Error()).stack;
@@ -714,9 +696,7 @@ object's `stack` property as its own.
 Now `promptDirection` can throw such an
 error.
 
-// include_code
-
-```
+```{includeCode: true}
 function promptDirection(question) {
   var result = prompt(question, "");
   if (result.toLowerCase() == "left") return "L";
@@ -729,9 +709,7 @@ function promptDirection(question) {
 
 And the loop can catch it more carefully.
 
-{{test no}}
-
-```
+```{test: no}
 for (;;) {
   try {
     var dir = promptDirection("Where?");
@@ -833,9 +811,7 @@ are trying to handle.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 function MultiplicatorUnitFailure() {}
 
 function primitiveMultiply(a, b) {
@@ -878,9 +854,7 @@ hint}}
 Consider the following (rather contrived)
 object:
 
-// include_code
-
-```
+```{includeCode: true}
 var box = {
   locked: true,
   unlock: function() { this.locked = false; },

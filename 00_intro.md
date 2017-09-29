@@ -166,7 +166,7 @@ In the
 beginning, at the birth of computing, there were no programming
 languages. Programs looked something like this:
 
-```null
+```{lang: null}
 00110001 00000000 00000000
 00110001 00000001 00000001
 00110011 00000001 00000010
@@ -202,7 +202,7 @@ something in terms of job satisfaction.
 Each line of the previous program contains a
 single instruction. It could be written in English like this:
 
-```text/plain
+```{lang: "text/plain"}
 1. Store the number 0 in memory location 0.
 2. Store the number 1 in memory location 1.
 3. Store the value of memory location 1 in memory location 2.
@@ -222,7 +222,7 @@ more readable than the soup of bits, it is still rather unpleasant. It
 might help to use names instead of numbers for the instructions and
 memory locations.
 
-```text/plain
+```{lang: "text/plain"}
  Set “total” to 0.
  Set “count” to 1.
 [loop]
@@ -291,9 +291,7 @@ operations `range` and `sum` available, which respectively create a
 ((collection)) of numbers within a range and compute the sum of a
 collection of numbers:
 
-{{startCode}}
-
-```
+```{startCode: true}
 console.log(sum(range(1, 10)));
 // → 55
 ```

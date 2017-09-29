@@ -37,7 +37,7 @@ have only 2, and the weight of each increases by a factor of 2 from
 right to left. Here are the bits that make up the number 13, with the
 weights of the digits shown below them:
 
-```null
+```{lang: null}
    0   0   0   0   1   1   0   1
  128  64  32  16   8   4   2   1
 ```
@@ -287,7 +287,7 @@ backslash means a ((tab character)). Take the following string:
 
 The actual text contained is this:
 
-```null
+```{lang: null}
 This is the first line
 And this is the second
 ```

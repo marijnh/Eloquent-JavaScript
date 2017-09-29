@@ -149,9 +149,7 @@ Almost all JavaScript values
 have properties. The exceptions are `null` and `undefined`. If you try
 to access a property on one of these nonvalues, you get an error.
 
-{{test no}}
-
-```
+```{test: no}
 null.length;
 // → TypeError: Cannot read property 'length' of null
 ```
@@ -469,9 +467,7 @@ So
 Jacques starts up his JavaScript interpreter and sets up the
 environment he needs to keep his ((journal)).
 
-// include_code
-
-```
+```{includeCode: true}
 var journal = [];
 
 function addEntry(events, didITurnIntoASquirrel) {
@@ -524,7 +520,7 @@ _ϕ_ can be computed using the following formula, where _n_ refers to the table:
 
 {{if html
 
-```null
+```{lang: null}
 <div>
 <style scoped="scoped">sub { font-size: 60%; }</style>
 <table style="border-collapse: collapse; margin-left: 1em;"><tr>
@@ -590,10 +586,7 @@ index 2 of the array.
 This is the function that
 computes the _ϕ_ coefficient from such an array:
 
-{{test clip}}
-{{includeCode "strip_log"}}
-
-```
+```{includeCode: strip_log, test: clip}
 function phi(table) {
   return (table[3] * table[0] - table[2] * table[1]) /
     Math.sqrt((table[2] + table[3]) *
@@ -631,9 +624,7 @@ To extract a two-by-two
 all the entries and tally up how many times the event occurs in
 relation to squirrel transformations.
 
-{{includeCode "strip_log"}}
-
-```
+```{includeCode: strip_log}
 function hasEvent(event, entry) {
   return entry.events.indexOf(event) != -1;
 }
@@ -750,10 +741,7 @@ coefficients for all the event types we have seen so far. Whenever we
 run across a type that isn't in the `phis` object yet, we compute its
 correlation and add it to the object.
 
-{{test clip}}
-{{includeCode "strip_log"}}
-
-```
+```{includeCode: strip_log, test: clip}
 function gatherCorrelations(journal) {
   var phis = {};
   for (var entry = 0; entry < journal.length; entry++) {
@@ -776,9 +764,7 @@ console.log(correlations.pizza);
 
 Let's see what came out.
 
-{{test no}}
-
-```
+```{test: no}
 for (var event in correlations)
   console.log(event + ": " + correlations[event]);
 // → carrot:   0.0140970969
@@ -797,10 +783,7 @@ squirrel-lycanthropy. It _does_ seem to occur somewhat more often on
 weekends, however. Let's filter the results to show only correlations
 greater than 0.1 or less than -0.1.
 
-{{startCode}}
-{{test no}}
-
-```
+```{startCode: "// test: no", test: no}
 for (var event in correlations) {
   var correlation = correlations[event];
   if (correlation > 0.1 || correlation < -0.1)
@@ -822,9 +805,7 @@ a significant negative effect.
 
 Interesting. Let's try something.
 
-{{includeCode "strip_log"}}
-
-```
+```{includeCode: strip_log}
 for (var i = 0; i < JOURNAL.length; i++) {
   var entry = JOURNAL[i];
   if (hasEvent("peanuts", entry) &&
@@ -1135,9 +1116,7 @@ JavaScript number—is available as `Math.PI`. (There is an old
 programming tradition of writing the names of ((constant)) values in
 all caps.)
 
-{{test no}}
-
-```
+```{test: no}
 function randomPointOnCircle(radius) {
   var angle = Math.random() * 2 * Math.PI;
   return {x: radius * Math.cos(angle),
@@ -1158,9 +1137,7 @@ uses `Math.random`. This is a function that returns a new
 pseudorandom number between zero (inclusive) and one (exclusive)
 every time you call it.
 
-{{test no}}
-
-```
+```{test: no}
 console.log(Math.random());
 // → 0.36993729369714856
 console.log(Math.random());
@@ -1188,9 +1165,7 @@ number instead of a fractional one, we can use `Math.floor` (which
 rounds down to the nearest whole number) on the result of
 `Math.random`.
 
-{{test no}}
-
-```
+```{test: no}
 console.log(Math.floor(Math.random() * 10));
 // → 2
 ```
@@ -1216,9 +1191,7 @@ JavaScript. Each global variable is present as a ((property)) of this
 object. In ((browser))s, the global scope object is stored in the
 `window` variable.
 
-{{test no}}
-
-```
+```{test: no}
 var myVar = 10;
 console.log("myVar" in window);
 // → true
@@ -1259,9 +1232,7 @@ a given name. The same keyword can also be used in a `for` loop
 The [introduction](00_intro.html#intro) of this book alluded to the
 following as a nice way to compute the sum of a range of numbers:
 
-{{test no}}
-
-```
+```{test: no}
 console.log(sum(range(1, 10)));
 ```
 
@@ -1287,9 +1258,7 @@ behavior. The function call `range(1, 10, 2)` should return `[1, 3, 5,
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(range(1, 10));
@@ -1361,9 +1330,7 @@ expect to be useful in more situations? Which one is more efficient?
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(reverseArray(["A", "B", "C"]));
@@ -1415,9 +1382,7 @@ common data structure is the _list_ (not to be confused with the
 array). A list is a nested set of objects, with the first object
 holding a reference to the second, the second to the third, and so on.
 
-// include_code
-
-```
+```{includeCode: true}
 var list = {
   value: 1,
   rest: {
@@ -1460,9 +1425,7 @@ of `nth`.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(arrayToList([10, 20]));
@@ -1539,9 +1502,7 @@ a historical accident, `typeof null` also produces `"object"`.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 var obj = {here: {is: "an"}, object: 2};

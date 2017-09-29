@@ -48,7 +48,7 @@ the underlying system to give our code a chance to react
 to events as they occur. Browsers do this by allowing us to register
 functions as _handlers_ for specific events.
 
-```text/html
+```{lang: "text/html"}
 <p>Click this document to activate the handler.</p>
 <script>
   addEventListener("click", function() {
@@ -75,7 +75,7 @@ equivalent to the `window` object. Every ((DOM)) element has its own
 `addEventListener` method, which allows you to listen specifically on
 that element.
 
-```text/html
+```{lang: "text/html"}
 <button>Click me</button>
 <p>No handler here.</p>
 <script>
@@ -107,7 +107,7 @@ The `removeEventListener` method,
 called with arguments similar to as `addEventListener`, removes a
 handler.
 
-```text/html
+```{lang: "text/html"}
 <button>Act-once button</button>
 <script>
   var button = document.querySelector("button");
@@ -135,7 +135,7 @@ the _((event object))_. This object gives us additional information
 about the event. For example, if we want to know _which_ ((mouse
 button)) was pressed, we can look at the event object's `which` property.
 
-```text/html
+```{lang: "text/html"}
 <button>Click me any way you want</button>
 <script>
   var button = document.querySelector("button");
@@ -198,7 +198,7 @@ with the right mouse button, the handler for the button calls
 from running. When the button is clicked with another ((mouse
 button)), both handlers will run.
 
-```text/html
+```{lang: "text/html"}
 <p>A paragraph with a <button>button</button>.</p>
 <script>
   var para = document.querySelector("p");
@@ -228,7 +228,7 @@ register a single click handler on the outer node and have it use the
 `target` property to figure out whether a button was clicked, rather
 than register individual handlers on all of the buttons.
 
-```text/html
+```{lang: "text/html"}
 <button>A</button>
 <button>B</button>
 <button>C</button>
@@ -265,7 +265,7 @@ shortcuts or ((context menu)). It can also be used to obnoxiously
 interfere with the behavior that users expect. For example, here is a
 link that cannot be followed:
 
-```text/html
+```{lang: "text/html"}
 <a href="https://developer.mozilla.org/">MDN</a>
 <script>
   var link = document.querySelector("a");
@@ -291,7 +291,7 @@ Chrome, for example, ((keyboard)) shortcuts to close the current tab
 When a key on the keyboard is pressed, your browser fires a
 `"keydown"` event. When it is released, a `"keyup"` event fires.
 
-```text/html focus
+```{lang: "text/html", focus: true}
 <p>This page turns violet when you hold the V key.</p>
 <script>
   addEventListener("keydown", function(event) {
@@ -353,7 +353,7 @@ you can also find out whether these keys are held down by looking
 at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of
 keyboard and mouse events.
 
-```text/html focus
+```{lang: "text/html", focus: true}
 <p>Press Ctrl-Space to continue.</p>
 <script>
   addEventListener("keydown", function(event) {
@@ -377,7 +377,7 @@ be interpreted as a ((Unicode)) character code. We can use the
 `String.fromCharCode` function to turn this code into an
 actual single-((character)) ((string)).
 
-```text/html focus
+```{lang: "text/html", focus: true}
 <p>Focus this page and type something.</p>
 <script>
   addEventListener("keypress", function(event) {
@@ -437,7 +437,7 @@ time you click the document, it adds a dot under your mouse
 pointer. See [Chapter 19](19_paint.html#paint) for a less primitive
 drawing program.
 
-```text/html
+```{lang: "text/html"}
 <style>
   body {
     height: 200px;
@@ -485,7 +485,7 @@ As an example, the following program displays a
 bar and sets up event handlers so that dragging to the left or right
 on this bar makes it narrower or wider:
 
-```text/html
+```{lang: "text/html"}
 <p>Drag the bar to change its width:</p>
 <div style="background: orange; width: 60px; height: 20px">
 </div>
@@ -575,7 +575,7 @@ outside of our target node. Only in that case does this event actually
 represent a _crossing over_ from outside to inside the node (or the
 other way around).
 
-```text/html
+```{lang: "text/html"}
 <p>Hover over this <strong>paragraph</strong>.</p>
 <script>
   var para = document.querySelector("p");
@@ -604,7 +604,7 @@ example shows. But when your hover effect involves doing something
 more complicated than changing a style on the target node, you must use the trick
 with `"mouseover"` and `"mouseout"` events.
 
-```text/html
+```{lang: "text/html"}
 <style>
   p:hover { color: red }
 </style>
@@ -625,7 +625,7 @@ highlighting part of a table of contents or showing a page number).
 The following example draws a ((progress bar)) in the top-right corner of
 the document and updates it to fill up as you scroll down:
 
-```text/html
+```{lang: "text/html"}
 <style>
   .progress {
     border: 1px solid blue;
@@ -700,7 +700,7 @@ The following example
 displays help text for the ((text field)) that currently has
 focus:
 
-```text/html
+```{lang: "text/html"}
 <p>Name: <input type="text" data-help="Your full name"></p>
 <p>Age: <input type="text" data-help="Age in years"></p>
 <p id="help"></p>
@@ -821,9 +821,7 @@ Imagine that squaring a number is a heavy, long-running computation
 that we want to perform in a background ((thread)). This code spawns a
 worker, sends it a few messages, and outputs the responses.
 
-{{test no}}
-
-```
+```{test: no}
 var squareWorker = new Worker("code/squareworker.js");
 squareWorker.addEventListener("message", function(event) {
   console.log("The worker responded:", event.data);
@@ -852,7 +850,7 @@ be called later. But instead of calling the function at the next
 redraw, it waits for a given amount of milliseconds. This page
 turns from blue to yellow after two seconds:
 
-```text/html
+```{lang: "text/html"}
 <script>
   document.body.style.background = "blue";
   setTimeout(function() {
@@ -930,7 +928,7 @@ previous timeout (if any) so that when events occur close together
 (closer than our timeout delay), the timeout from the previous event
 will be canceled.
 
-```text/html
+```{lang: "text/html"}
 <textarea>Type something here...</textarea>
 <script>
   var textarea = document.querySelector("textarea");
@@ -960,7 +958,7 @@ events, not just afterward. For example, we might want to respond to
 `"mousemove"` events by showing the current coordinates of the mouse,
 but only every 250 milliseconds.
 
-```text/html
+```{lang: "text/html"}
 <script>
   function displayCoords(event) {
     document.body.textContent =
@@ -1036,9 +1034,7 @@ loopholes.)
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <input type="text">
 <script>
   var field = document.querySelector("input");
@@ -1067,7 +1063,7 @@ identifies only  the key pressed. If you decide to handle `"keypress"`
 instead, which identifies the actual character typed, you have to make
 sure you test for both cases. One way to do that would be this:
 
-```null
+```{lang: null}
 /[qwx]/i.test(String.fromCharCode(event.charCode))
 ```
 
@@ -1104,9 +1100,7 @@ position every time a `"mousemove"` event occurs.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <style>
   .trail { /* className for the trail elements */
     position: absolute;
@@ -1181,9 +1175,7 @@ differently.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <div id="wrapper">
   <div data-tabname="one">Tab one</div>
   <div data-tabname="two">Tab two</div>

@@ -78,8 +78,7 @@ exports.transformTokens = function(tokens, options) {
           break
         }
       }
-    } else if (type == "meta_if_close" || type == "meta_startCode" || type == "meta_includeCode" || type == "meta_test" ||
-               (options.index === false && (type == "meta_indexsee" || type == "meta_index"))) {
+    } else if (type == "meta_if_close" || (options.index === false && (type == "meta_indexsee" || type == "meta_index"))) {
       // Drop
     } else if (tok.tag == "h1") {
       if (tokens[i + 1].children.length != 1) throw new Error("Complex H1 not supported")

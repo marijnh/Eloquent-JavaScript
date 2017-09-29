@@ -198,7 +198,7 @@ officially not allowed to be used as variable names, though some
 JavaScript environments do allow them. The full list of keywords and
 reserved words is rather long.
 
-```text/plain
+```{lang: "text/plain"}
 break case catch class const continue debugger
 default delete do else enum export extends false
 finally for function if implements import in
@@ -749,17 +749,13 @@ Especially
 when looping, a program often needs to “update” a variable to hold a
 value based on that variable's previous value.
 
-{{test no}}
-
-```
+```{test: no}
 counter = counter + 1;
 ```
 
 JavaScript provides a shortcut for this:
 
-{{test no}}
-
-```
+```{test: no}
 counter += 1;
 ```
 
@@ -784,9 +780,7 @@ For `counter += 1` and `counter -=
 
 It is common for code to look like this:
 
-{{test no}}
-
-```
+```{test: no}
 if (variable == "value1") action1();
 else if (variable == "value2") action2();
 else if (variable == "value3") action3();
@@ -841,7 +835,7 @@ words to clearly describe what the variable represents. These are
 pretty much your choices for writing a variable name with several
 words in it:
 
-```null
+```{lang: null}
 fuzzylittleturtle
 fuzzy_little_turtle
 FuzzyLittleTurtle
@@ -886,9 +880,7 @@ JavaScript has two ways of writing comments. To write a single-line
 comment, you can use two slash characters (`//`) and then the comment
 text after it.
 
-{{test no}}
-
-```
+```{test: no}
 var accountBalance = calculateBalance(account);
 // It's a green hollow where a river sings
 accountBalance.adjust();
@@ -964,7 +956,7 @@ headache.
 Write a ((loop)) that makes seven calls to
 `console.log` to output the following triangle:
 
-```null
+```{lang: null}
 #
 ##
 ###
@@ -1069,7 +1061,7 @@ should form a chess board.
 
 Passing this string to `console.log` should show something like this:
 
-```null
+```{lang: null}
  # # # #
 # # # # 
  # # # #

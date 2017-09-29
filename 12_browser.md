@@ -127,7 +127,7 @@ to request documents over the ((network)).
 Each ((document)) on the Web is named by a _Uniform Resource
 Locator_ (URL), which looks something like this:
 
-```null
+```{lang: null}
   http://eloquentjavascript.net/12_browser.html
  |      |                      |               |
  protocol       server               path
@@ -176,7 +176,7 @@ describing things such as links, paragraphs, and headings.
 
 A simple HTML document looks like this:
 
-```text/html
+```{lang: "text/html"}
 <!doctype html>
 <html>
   <head>
@@ -267,7 +267,7 @@ same way.
 
 The following document will be treated just like the one shown previously:
 
-```text/html
+```{lang: "text/html"}
 <!doctype html>
 
 <title>My home page</title>
@@ -308,7 +308,7 @@ In the context of this
 book, the most important ((HTML)) tag is `<script>`. This tag allows
 us to include a piece of JavaScript in a document.
 
-```text/html
+```{lang: "text/html"}
 <h1>Testing alert</h1>
 <script>alert("hello!");</script>
 ```
@@ -326,7 +326,7 @@ is often impractical. The `<script>` tag can be given an `src`
 attribute in order to fetch a script file (a text file containing a
 JavaScript program) from a URL.
 
-```text/html
+```{lang: "text/html"}
 <h1>Testing alert</h1>
 <script src="code/hello.js"></script>
 ```
@@ -350,7 +350,7 @@ contain a JavaScript program. The `<button>` tag shown next (which shows up
 as a button) has an `onclick` attribute, whose content will be run
 whenever the button is clicked.
 
-```text/html
+```{lang: "text/html"}
 <button onclick="alert('Boom!');">DO NOT PRESS</button>
 ```
 

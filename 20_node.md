@@ -161,7 +161,7 @@ console.log(message);
 You can then run `node` from the ((command line)) like this to execute
 the program:
 
-```null
+```{lang: null}
 $ node hello.js
 Hello world
 ```
@@ -179,7 +179,7 @@ If you run `node` without
 giving it a file, it provides you with a prompt at which you can type
 JavaScript code and immediately see the result.
 
-```null
+```{lang: null}
 $ node
 > 1 + 1
 2
@@ -208,7 +208,7 @@ and your script name, so the actual arguments start at index 2. If
 `showargv.js` simply contains the statement
 `console.log(process.argv)`, you could run it like this:
 
-```null
+```{lang: null}
 $ node showargv.js one --and two
 ["node", "/home/marijn/showargv.js", "one", "--and", "two"]
 ```
@@ -313,7 +313,7 @@ result back into a string.
 
 We can now call our tool like this:
 
-```null
+```{lang: null}
 $ node main.js JavaScript
 Of{fXhwnuy
 ```
@@ -336,7 +336,7 @@ For example, one module you will find on NPM is
 out of text characters. The following  transcript shows how to ((install))
 and use it:
 
-```null
+```{lang: null}
 $ npm install figlet
 npm GET https://registry.npmjs.org/figlet
 npm 200 https://registry.npmjs.org/figlet
@@ -706,9 +706,7 @@ default encoding (UTF-8).
 The following piece of code, if run while the uppercasing server is
 running, will send a request to that server and write out the response it gets:
 
-{{test no}}
-
-```
+```{test: no}
 var http = require("http");
 var request = http.request({
   hostname: "localhost",
@@ -766,9 +764,7 @@ We'll build
 the program piece by piece, using an object called `methods` to store
 the functions that handle the various HTTP methods.
 
-{{includeCode ">code/file_server.js"}}
-
-```
+```{includeCode: ">code/file_server.js"}
 var http = require("http"), fs = require("fs");
 
 var methods = Object.create(null);
@@ -817,9 +813,7 @@ something like `/file.txt`, decodes that to get rid of the `%20`-style
 escape codes, and prefixes a single dot to produce a path relative to
 the current directory.
 
-{{includeCode ">code/file_server.js"}}
-
-```
+```{includeCode: ">code/file_server.js"}
 function urlToPath(url) {
   var path = require("url").parse(url).pathname;
   return "." + decodeURIComponent(path);
@@ -853,7 +847,7 @@ If you run the following `npm` command in the directory
 where the server script lives, you'll be able to use `require("mime")` to
 get access to the library:
 
-```null
+```{lang: null}
 $ npm install mime@1.4.0
 npm http GET https://registry.npmjs.org/mime
 npm http 304 https://registry.npmjs.org/mime
@@ -867,9 +861,7 @@ does not exist, the correct HTTP error code to return is 404. We will
 use `fs.stat`, which looks up information on a file, to find out both
 whether the ((file)) exists and whether it is a ((directory)).
 
-{{includeCode ">code/file_server.js"}}
-
-```
+```{includeCode: ">code/file_server.js"}
 methods.GET = function(path, respond) {
   fs.stat(path, function(error, stats) {
     if (error && error.code == "ENOENT")
@@ -931,9 +923,7 @@ content type that the `"mime"` module gives us for the file's name.
 The code to
 handle `DELETE` requests is slightly simpler.
 
-{{includeCode ">code/file_server.js"}}
-
-```
+```{includeCode: ">code/file_server.js"}
 methods.DELETE = function(path, respond) {
   fs.stat(path, function(error, stats) {
     if (error && error.code == "ENOENT")
@@ -957,9 +947,7 @@ that the request's objective is already fulfilled. The ((HTTP))
 standard encourages people to make requests _idempotent_, which means
 that applying them multiple times does not produce a different result.
 
-{{includeCode ">code/file_server.js"}}
-
-```
+```{includeCode: ">code/file_server.js"}
 function respondErrorOrNothing(respond) {
   return function(error) {
     if (error)
@@ -984,9 +972,7 @@ function that creates such a callback.
 This is the
 handler for `PUT` requests:
 
-{{includeCode ">code/file_server.js"}}
-
-```
+```{includeCode: ">code/file_server.js"}
 methods.PUT = function(path, respond, request) {
   var outStream = fs.createWriteStream(path);
   outStream.on("error", function(error) {
@@ -1027,7 +1013,7 @@ widely available on ((Unix))-like systems, can be used to make ((HTTP))
 that `-X` is used to set the request's ((method)) and `-d` is used to include
 a request body.
 
-```null
+```{lang: null}
 $ curl http://localhost:8000/file.txt
 File not found
 $ curl -X PUT -d hello http://localhost:8000/file.txt
@@ -1128,9 +1114,7 @@ with `code` and `body` properties, will become the final result of the
 chain of ((promise))s, and it will be used to determine what kind of
 ((response)) to send to the client.
 
-{{test no}}
-
-```
+```{test: no}
 methods.GET = function(path) {
   return inspectPath(path).then(function(stats) {
     if (!stats) // Does not exist
@@ -1227,7 +1211,7 @@ function reads a whole stream and calls a callback function with the
 result, using the usual pattern of passing any errors it encounters as
 the first argument to the callback:
 
-```text/javascript
+```{lang: "text/javascript"}
 function readStreamAsString(stream, callback) {
   var data = "";
   stream.on("data", function(chunk) {
@@ -1276,7 +1260,7 @@ functions can be relative—they may contain `"../"` to go up a
 directory. What happens when a client sends requests to URLs like the
 ones shown here?
 
-```null
+```{lang: null}
 http://myhostname:8000/../.config/config/google-chrome/Default/Web%20Data
 http://myhostname:8000/../.ssh/id_dsa
 http://myhostname:8000/../../../etc/passwd

@@ -121,9 +121,7 @@ level ((editor)).
 
 A simple level would look like this:
 
-// include_code
-
-```
+```{includeCode: true}
 var simpleLevelPlan = [
   "                      ",
   "                      ",
@@ -172,9 +170,7 @@ The following ((constructor)) builds a ((level))
 object. Its argument should be the array of strings that define the
 level.
 
-// include_code
-
-```
+```{includeCode: true}
 function Level(plan) {
   this.width = plan[0].length;
   this.height = plan.length;
@@ -237,9 +233,7 @@ shown. (Immediately resetting or advancing the level would look
 cheap.) This method can be used to find out whether a ((level)) is
 finished:
 
-// include_code
-
-```
+```{includeCode: true}
 Level.prototype.isFinished = function() {
   return this.status != null && this.finishDelay < 0;
 };
@@ -254,9 +248,7 @@ To store the position and
 size of an actor, we will return to our trusty `Vector` type, which
 groups an x-coordinate and a y-coordinate into an object.
 
-// include_code
-
-```
+```{includeCode: true}
 function Vector(x, y) {
   this.x = x; this.y = y;
 }
@@ -281,9 +273,7 @@ In the previous section, the `actorChars` object was used by
 the `Level` constructor to associate characters with constructor
 functions. The object looks like this:
 
-// include_code
-
-```
+```{includeCode: true}
 var actorChars = {
   "@": Player,
   "o": Coin,
@@ -304,9 +294,7 @@ The player type is built with the
 following constructor. It has a property `speed` that stores its current
 speed, which will help simulate momentum and gravity.
 
-// include_code
-
-```
+```{includeCode: true}
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.5));
   this.size = new Vector(0.8, 1.5);
@@ -332,9 +320,7 @@ does not, it will invert its speed and continue in the other direction
 method that does the actual moving will be written
 [later](15_game.html#actors).
 
-// include_code
-
-```
+```{includeCode: true}
 function Lava(pos, ch) {
   this.pos = pos;
   this.size = new Vector(1, 1);
@@ -360,9 +346,7 @@ property that tracks the ((phase)) of the bouncing motion. Together,
 these determine the coin's actual position (stored in the `pos`
 property).
 
-// include_code
-
-```
+```{includeCode: true}
 function Coin(pos) {
   this.basePos = this.pos = pos.plus(new Vector(0.2, 0.1));
   this.size = new Vector(0.6, 0.6);
@@ -389,9 +373,7 @@ by that number to give the coin a random starting position on the wave.
 
 We have now written all the parts needed to represent the state of a level.
 
-{{includeCode "strip_log"}}
-
-```
+```{includeCode: strip_log}
 var simpleLevel = new Level(simpleLevelPlan);
 console.log(simpleLevel.width, "by", simpleLevel.height);
 // → 22 by 9
@@ -463,9 +445,7 @@ more verbose programs.
 The following helper function provides a short way to
 create an element and give it a class:
 
-// include_code
-
-```
+```{includeCode: true}
 function elt(name, className) {
   var elt = document.createElement(name);
   if (className) elt.className = className;
@@ -476,9 +456,7 @@ function elt(name, className) {
 A display is created by giving it a parent element to which it should
 append itself and a ((level)) object.
 
-// include_code
-
-```
+```{includeCode: true}
 function DOMDisplay(parent, level) {
   this.wrap = parent.appendChild(elt("div", "game"));
   this.level = level;
@@ -512,9 +490,7 @@ will have to scale these coordinates up—everything in the game would be ridicu
 small at a single pixel per square. The `scale` variable gives the
 number of pixels that a single unit takes up on the screen.
 
-// include_code
-
-```
+```{includeCode: true}
 var scale = 20;
 
 DOMDisplay.prototype.drawBackground = function() {
@@ -542,7 +518,7 @@ are used as class names for the table cell (`<td>`) elements. The
 following CSS helps the resulting table look like the background we
 want:
 
-```text/css
+```{lang: "text/css"}
 .background    { background: rgb(52, 166, 251);
                  table-layout: fixed;
                  border-spacing: 0;              }
@@ -575,9 +551,7 @@ setting that element's position and size based on the actor's properties. The
 values have to be multiplied by `scale` to go from game units to
 pixels.
 
-// include_code
-
-```
+```{includeCode: true}
 DOMDisplay.prototype.drawActors = function() {
   var wrap = elt("div");
   this.level.actors.forEach(function(actor) {
@@ -601,7 +575,7 @@ absolute position. Their type name is used as an extra class to give
 them a color. We don't have to define the `lava` class again because we reuse
 the class for the lava grid squares which we defined earlier.
 
-```text/css
+```{lang: "text/css"}
 .actor  { position: absolute;            }
 .coin   { background: rgb(241, 229, 89); }
 .player { background: rgb(64, 64, 64);   }
@@ -620,9 +594,7 @@ elements when their actors vanish. Since there will typically be only
 a handful of actors in the game, redrawing all of them is not
 expensive.
 
-// include_code
-
-```
+```{includeCode: true}
 DOMDisplay.prototype.drawFrame = function() {
   if (this.actorLayer)
     this.wrap.removeChild(this.actorLayer);
@@ -640,7 +612,7 @@ actor slightly differently when the game is won or lost by adding a
 ((CSS)) rule that takes effect only  when the player has an ((ancestor
 element)) with a given class.
 
-```text/css
+```{lang: "text/css"}
 .lost .player {
   background: rgb(160, 64, 64);
 }
@@ -670,7 +642,7 @@ anything that sticks out of the element's box is not visible. We also give the o
 position so that the actors inside it are positioned relative to
 the level's top-left corner.
 
-```text/css
+```{lang: "text/css"}
 .game {
   overflow: hidden;
   max-width: 600px;
@@ -686,9 +658,7 @@ player's position and update the wrapping element's scroll position.
 We change the scroll position by manipulating that element's `scrollLeft` 
 and `scrollTop` properties when the player is too close to the edge.
 
-// include_code
-
-```
+```{includeCode: true}
 DOMDisplay.prototype.scrollPlayerIntoView = function() {
   var width = this.wrap.clientWidth;
   var height = this.wrap.clientHeight;
@@ -742,9 +712,7 @@ the screen where you can move around without causing any scrolling.
 Finally, we'll need a way to clear a displayed level,
 to be used when the game moves to the next level or resets a level.
 
-// include_code
-
-```
+```{includeCode: true}
 DOMDisplay.prototype.clear = function() {
   this.wrap.parentNode.removeChild(this.wrap);
 };
@@ -754,7 +722,7 @@ DOMDisplay.prototype.clear = function() {
 
 We are now able to display our tiny level.
 
-```text/html
+```{lang: "text/html"}
 <link rel="stylesheet" href="css/game.css">
 
 <script>
@@ -828,9 +796,7 @@ This
 method tells us whether a ((rectangle)) (specified by a position and a
 size) overlaps with any nonempty space on the background grid:
 
-// include_code
-
-```
+```{includeCode: true}
 Level.prototype.obstacleAt = function(pos, size) {
   var xStart = Math.floor(pos.x);
   var xEnd = Math.ceil(pos.x + size.x);
@@ -880,9 +846,7 @@ dying—is activated.
 This method scans the array of actors,
 looking for an actor that overlaps the one given as an argument:
 
-// include_code
-
-```
+```{includeCode: true}
 Level.prototype.actorAt = function(actor) {
   for (var i = 0; i < this.actors.length; i++) {
     var other = this.actors[i];
@@ -906,9 +870,7 @@ on the `Level` type gives all actors in the level a chance to move.
 Its `step` argument is the ((time)) step in seconds. The `keys` object
 contains information about the arrow keys the player has pressed.
 
-// include_code
-
-```
+```{includeCode: true}
 var maxStep = 0.05;
 
 Level.prototype.animate = function(step, keys) {
@@ -947,9 +909,7 @@ method, which takes as arguments the time step, the level object, and
 the `keys` object. Here is one, for the `Lava` actor type,
 which ignores the `keys` object:
 
-// include_code
-
-```
+```{includeCode: true}
 Lava.prototype.act = function(step, level) {
   var newPos = this.pos.plus(this.speed.times(step));
   if (!level.obstacleAt(newPos, this.size))
@@ -978,9 +938,7 @@ wobble. They ignore collisions since they are simply wobbling around
 inside of their own square, and collisions with the ((player)) will be
 handled by the _player_'s `act` method.
 
-// include_code
-
-```
+```{includeCode: true}
 var wobbleSpeed = 8, wobbleDist = 0.07;
 
 Coin.prototype.act = function(step) {
@@ -1004,9 +962,7 @@ hitting the floor should not prevent horizontal motion, and hitting a
 wall should not stop falling or jumping motion. This method implements
 the horizontal part:
 
-// include_code
-
-```
+```{includeCode: true}
 var playerXSpeed = 7;
 
 Player.prototype.moveX = function(step, level, keys) {
@@ -1035,9 +991,7 @@ Otherwise, the object updates its position.
 Vertical motion works in a similar way but has to simulate
 ((jumping)) and ((gravity)).
 
-// include_code
-
-```
+```{includeCode: true}
 var gravity = 30;
 var jumpSpeed = 17;
 
@@ -1078,9 +1032,7 @@ is reset to zero.
 
 The actual `act` method looks like this:
 
-// include_code
-
-```
+```{includeCode: true}
 Player.prototype.act = function(step, level, keys) {
   this.moveX(step, level, keys);
   this.moveY(step, level, keys);
@@ -1116,9 +1068,7 @@ reducing the height of the player object.
 And here is the method that handles
 collisions between the player and other objects:
 
-// include_code
-
-```
+```{includeCode: true}
 Level.prototype.playerTouched = function(type, actor) {
   if (type == "lava" && this.status == null) {
     this.status = "lost";
@@ -1168,9 +1118,7 @@ It registers event handlers for `"keydown"` and `"keyup"` events and,
 when the key code in the event is present in the set of codes that it
 is tracking, updates the object.
 
-// include_code
-
-```
+```{includeCode: true}
 var arrowCodes = {37: "left", 38: "up", 39: "right"};
 
 function trackKeys(codes) {
@@ -1215,9 +1163,7 @@ simply call `runAnimation`, giving it a function that expects a time
 difference as an argument and draws a single frame. When the frame
 function returns the value `false`, the animation stops.
 
-// include_code
-
-```
+```{includeCode: true}
 function runAnimation(frameFunc) {
   var lastTime = null;
   function frame(time) {
@@ -1257,9 +1203,7 @@ lets the user play through it. When the level is finished (lost or
 won), `runLevel` clears the display, stops the ((animation)), and, if an
 `andThen` function was given, calls that function with the level's status.
 
-// include_code
-
-```
+```{includeCode: true}
 var arrows = trackKeys(arrowCodes);
 
 function runLevel(level, Display, andThen) {
@@ -1285,9 +1229,7 @@ completed, we move on to the next level. This can be expressed by the
 following function, which takes an array of level plans (arrays of
 strings) and a ((display)) constructor:
 
-// include_code
-
-```
+```{includeCode: true}
 function runGame(plans, Display) {
   function startLevel(n) {
     runLevel(new Level(plans[n]), Display, function(status) {
@@ -1331,11 +1273,11 @@ There is a set of
 http://eloquentjavascript.net/code#15[_eloquentjavascript.net/code#15_])!).
 This page feeds them to `runGame`, starting an actual game:
 
-{{startCode}}
+// start_code
 
 [sandbox="null"]
 [focus="yes"]
-```text/html
+```{lang: "text/html"}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -1369,10 +1311,10 @@ player start with three.
 
 {{if interactive
 
-{{test no}}
+// test: no
 
 [focus="yes"]
-```text/html
+```{lang: "text/html"}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -1453,10 +1395,10 @@ finished.
 
 {{if interactive
 
-{{test no}}
+// test: no
 
 [focus="yes"]
-```text/html
+```{lang: "text/html"}
 <link rel="stylesheet" href="css/game.css">
 
 <body>

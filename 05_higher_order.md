@@ -423,7 +423,7 @@ computer-readable format.
 The file I created looks something like
 this:
 
-```application/json
+```{lang: "application/json"}
 [
   {"name": "Emma de Milliano", "sex": "f",
    "born": 1876, "died": 1956,
@@ -479,9 +479,7 @@ the website(!book (http://eloquentjavascript.net/code#5[_eloquentjavascript.net/
 content of my ((JSON)) file as a string. Let's decode it and see how
 many people it contains.
 
-{{includeCode "strip_log"}}
-
-```
+```{includeCode: strip_log}
 var ancestry = JSON.parse(ANCESTRY_FILE);
 console.log(ancestry.length);
 // → 39
@@ -561,9 +559,7 @@ from the returned values. The new array will have the same length as
 the input array, but its content will have been “mapped” to a new form
 by the function.
 
-{{test join}}
-
-```
+```{test: join}
 function map(array, transform) {
   var mapped = [];
   for (var i = 0; i < array.length; i++)
@@ -638,9 +634,7 @@ as its start value and start reducing at the second element.
 To use `reduce` to find my most
 ancient known ancestor, we can write something like this:
 
-{{test no}}
-
-```
+```{test: no}
 console.log(ancestry.reduce(function(min, cur) {
   if (cur.born < min.born) return cur;
   else return min;
@@ -657,9 +651,7 @@ have written the previous example (finding the person with the
 earliest year of birth) without higher-order functions. The code is
 not that much worse.
 
-{{test no}}
-
-```
+```{test: no}
 var min = ancestry[0];
 for (var i = 1; i < ancestry.length; i++) {
   var cur = ancestry[i];
@@ -681,9 +673,7 @@ functions start to shine when you need to _compose_ functions. As an
 example, let's write code that finds the average age for men and for
 women in the data set.
 
-{{test clip}}
-
-```
+```{test: clip}
 function average(array) {
   function plus(a, b) { return a + b; }
   return array.reduce(plus) / array.length;
@@ -787,9 +777,7 @@ To be able to go from a parent's name to the actual object that
 represents this person, we first build up an object that associates
 names with people.
 
-{{includeCode "strip_log"}}
-
-```
+```{includeCode: strip_log}
 var byName = {};
 ancestry.forEach(function(person) {
   byName[person.name] = person;
@@ -837,9 +825,7 @@ function to combine values from the two parents of a given person, and
 a default value, `reduceAncestors` condenses a value from a family
 tree.
 
-// include_code
-
-```
+```{includeCode: true}
 function reduceAncestors(person, f, defaultValue) {
   function valueFor(person) {
     if (person == null)
@@ -864,11 +850,7 @@ We can then use this to compute the amount of ((DNA)) my
 ((grandfather)) shared with Pauwels van Haverbeke and divide that by
 four.
 
-{{startCode "bottom_lines: 2"}}
-{{test clip}}
-{{includeCode "top_lines: 6"}}
-
-```
+```{startCode: "bottom_lines: 2", includeCode: "top_lines: 6", test: clip}
 function sharedDNA(person, fromMother, fromFather) {
   if (person.name == "Pauwels van Haverbeke")
     return 1;
@@ -902,9 +884,7 @@ the abstract part of the program for other cases. For example, the
 following code finds the percentage of a person's known ancestors who
 lived past 70 (by lineage, so people may be counted multiple times):
 
-{{test clip}}
-
-```
+```{test: clip}
 function countAncestors(person, test) {
   function combine(current, fromMother, fromFather) {
     var thisOneCounts = current != person && test(current);
@@ -1006,9 +986,7 @@ array that has all the elements of the input arrays.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 var arrays = [[1, 2, 3], [4, 5], [6]];
 // Your code here.
 // → [1, 2, 3, 4, 5, 6]
@@ -1034,10 +1012,7 @@ here.
 
 {{if interactive
 
-{{test no}}
-// include_code
-
-```
+```{includeCode: true, test: no}
 function average(array) {
   function plus(a, b) { return a + b; }
   return array.reduce(plus) / array.length;
@@ -1088,9 +1063,7 @@ and rounding it up, as in `Math.ceil(person.died / 100)`.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 function average(array) {
   function plus(a, b) { return a + b; }
   return array.reduce(plus) / array.length;
@@ -1162,9 +1135,7 @@ rather than being a method.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(every([NaN, NaN, NaN], isNaN));

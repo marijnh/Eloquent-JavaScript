@@ -56,7 +56,7 @@ back to the trade-offs that you must consider when deciding which
 
 This is an HTML document with a simple SVG ((picture)) in it:
 
-```text/html sandbox-svg
+```{lang: "text/html", sandbox: "svg"}
 <p>Normal HTML here.</p>
 <svg xmlns="http://www.w3.org/2000/svg">
   <circle r="50" cx="50" cy="50" fill="red"/>
@@ -86,7 +86,7 @@ These tags create ((DOM)) elements, just like ((HTML)) tags. For
 example, this changes the `<circle>` element to be ((color))ed cyan
 instead:
 
-```sandbox-svg
+```{sandbox: "svg"}
 var circle = document.querySelector("circle");
 circle.setAttribute("fill", "cyan");
 ```
@@ -126,7 +126,7 @@ JavaScript.
 A ((context)) is created
 through the `getContext` method on the `<canvas>` element.
 
-```text/html
+```{lang: "text/html"}
 <p>Before canvas.</p>
 <canvas width="120" height="60"></canvas>
 <p>After canvas.</p>
@@ -192,7 +192,7 @@ determines the color used for a stroked line. The width of that line
 is determined by the `lineWidth` property, which may contain any
 positive number.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -229,7 +229,7 @@ approach to describing such a path. It is done entirely through
 passed around. Instead, if you want to do something with a path, you
 make a sequence of method calls to describe its shape.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -269,7 +269,7 @@ end are in the same position) before it can be filled. If the path is not
 already closed, a line is added from its end to its
 start, and the shape enclosed by the completed path is filled.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -317,7 +317,7 @@ direction of the line at its start and end points will be such that it
 aligns with the line from there to the control point. The following
 example illustrates this:
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -356,7 +356,7 @@ similar kind of curve. Instead of a single ((control point)), this one
 has two—one for each of the ((line))'s endpoints. Here is a similar sketch to
 illustrate the behavior of such a curve:
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -403,7 +403,7 @@ that it forms part of a circle with the given radius. The `arcTo` method then dr
 the rounded part, as well as a line from the starting position to the
 start of the rounded part.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -451,7 +451,7 @@ the point to the right of the circle's center and goes clockwise from
 there. You can use a start of 0 and an end bigger than 2π (say, 7)
 to draw a full circle.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -491,9 +491,7 @@ their customer satisfaction ((survey)) results.
 The `results` variable contains an array of objects that represent the
 survey responses.
 
-// include_code
-
-```sandbox-pie
+```{sandbox: "pie", includeCode: true}
 var results = [
   {name: "Satisfied", count: 1043, color: "lightblue"},
   {name: "Neutral", count: 563, color: "lightgreen"},
@@ -511,7 +509,7 @@ a full circle (2π) by the total number of responses and then
 multiplying that number (the angle per response) by the number of
 people who picked a given choice.
 
-```text/html sandbox-pie
+```{lang: "text/html", sandbox: "pie"}
 <canvas width="200" height="200"></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -555,7 +553,7 @@ the methods `fillText` and `strokeText`. The latter can be useful for
 outlining letters, but usually `fillText` is what you need. It will
 fill the given ((text)) with the current `fillColor`.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -610,7 +608,7 @@ from this picture because the browser may not have fetched it yet. To
 deal with this, we register a `"load"` event handler and do the
 drawing after the image has loaded.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -661,7 +659,7 @@ _((sprite))_, each subpicture, is 24 ((pixel))s wide and 30 pixels
 high. The following code loads the image and then sets up an interval
 (repeated timer) to draw the next _((frame))_:
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -708,7 +706,7 @@ Calling the `scale` method will cause
 anything drawn after it to be scaled. This method takes two parameters, one to
 set a horizontal scale and one to set a vertical scale.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -781,9 +779,7 @@ in which transformations are applied matters.
 To flip a picture around the vertical line at a given x
 position, we can do the following:
 
-// include_code
-
-```
+```{includeCode: true}
 function flipHorizontally(context, around) {
   context.translate(around, 0);
   context.scale(-1, 1);
@@ -815,7 +811,7 @@ appear exactly where it should.
 We can now draw a mirrored character at position (100,0) by flipping
 the world around the character's vertical center.
 
-```text/html
+```{lang: "text/html"}
 <canvas></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -868,7 +864,7 @@ itself twice—first rotated to the left and then rotated to the
 right. Every call reduces the length of the branch drawn, and the
 recursion stops when the length drops below 8.
 
-```text/html
+```{lang: "text/html"}
 <canvas width="600" height="300"></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -934,9 +930,7 @@ uses that to decide which ((animation)) ((frame)) to use. And finally,
 it keeps a `flipPlayer` property so that even when the player is
 standing still, it keeps facing the direction it last moved in.
 
-// include_code
-
-```sandbox-game
+```{sandbox: "game", includeCode: true}
 function CanvasDisplay(parent, level) {
   this.canvas = document.createElement("canvas");
   this.canvas.width = Math.min(600, level.width * scale);
@@ -972,9 +966,7 @@ does not use it. Our new `drawFrame` function uses the counter to track time
 so that it can switch between ((animation)) ((frame))s based on the
 current time.
 
-// include_code
-
-```sandbox-game
+```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.drawFrame = function(step) {
   this.animationTime += step;
 
@@ -1007,9 +999,7 @@ The `updateViewport` method is similar to
 player is too close to the edge of the screen and moves the
 ((viewport)) when this is the case.
 
-// include_code
-
-```sandbox-game
+```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.updateViewport = function() {
   var view = this.viewport, margin = view.width / 3;
   var player = this.level.player;
@@ -1040,9 +1030,7 @@ When ((clearing)) the display, we'll use a slightly different
 ((color)) depending on whether the game is won (brighter) or lost
 (darker).
 
-// include_code
-
-```sandbox-game
+```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.clearDisplay = function() {
   if (this.level.status == "won")
     this.cx.fillStyle = "rgb(68, 191, 255)";
@@ -1062,9 +1050,7 @@ background, we run through the tiles that are visible in the current
 viewport, using the same trick used in `obstacleAt` in the
 [previous chapter](15_game.html#viewport).
 
-// include_code
-
-```sandbox-game
+```{sandbox: "game", includeCode: true}
 var otherSprites = document.createElement("img");
 otherSprites.src = "img/sprites.png";
 
@@ -1138,9 +1124,7 @@ Because the
 pixels, to allow some space for feet and arms—the method has to adjust
 the x-coordinate and width by a given amount (`playerXOverlap`).
 
-// include_code
-
-```sandbox-game
+```{sandbox: "game", includeCode: true}
 var playerSprites = document.createElement("img");
 playerSprites.src = "img/player.png";
 var playerXOverlap = 4;
@@ -1173,9 +1157,7 @@ CanvasDisplay.prototype.drawPlayer = function(x, y, width,
 The `drawPlayer` method is called by `drawActors`, which is responsible for
 drawing all the actors in the game.
 
-// include_code
-
-```sandbox-game
+```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.drawActors = function() {
   this.level.actors.forEach(function(actor) {
     var width = actor.size.x * scale;
@@ -1212,11 +1194,11 @@ level. We could also have used `translate` for this. Either way works.
 The tiny document
 shown next plugs the new display into `runGame`:
 
-{{startCode}}
+// start_code
 
 [sandbox="game"]
 [focus="yes"]
-```text/html
+```{lang: "text/html"}
 <body>
   <script>
     runGame(GAME_LEVELS, CanvasDisplay);
@@ -1380,9 +1362,7 @@ to make the code needlessly hard to read and modify.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <canvas width="600" height="200"></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -1455,9 +1435,7 @@ previous exercise.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <canvas width="600" height="300"></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");
@@ -1499,9 +1477,7 @@ but rather move the text out to the side of the pie by a given number of pixels.
 The ((angle)) of this line is `currentAngle + 0.5 * sliceAngle`. The
 following code finds a position on this line, 120 pixels from the center:
 
-{{test no}}
-
-```
+```{test: no}
 var middleAngle = currentAngle + 0.5 * sliceAngle;
 var textX = Math.cos(middleAngle) * 120 + centerX;
 var textY = Math.sin(middleAngle) * 120 + centerY;
@@ -1536,9 +1512,7 @@ bouncing ((ball)) in it. The ball moves at a constant
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <canvas width="400" height="400"></canvas>
 <script>
   var cx = document.querySelector("canvas").getContext("2d");

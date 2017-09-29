@@ -439,9 +439,7 @@ code in a function, with that function's scope becoming our module
 The following is a minimal
 implementation of `require`:
 
-{{test wrap}}
-
-```
+```{test: wrap}
 function require(name) {
   var code = new Function("exports", readFile(name));
   var exports = {};
@@ -479,9 +477,7 @@ When using this pattern, a ((module)) typically
 starts with a few variable declarations that load the modules it
 depends on.
 
-{{test no}}
-
-```
+```{test: no}
 var weekDay = require("weekDay");
 var today = require("today");
 
@@ -519,10 +515,7 @@ property `exports`. This property initially points at the empty object
 created by `require` but can be overwritten with another value in
 order to export something else.
 
-{{test wrap}}
-// include_code
-
-```
+```{includeCode: true, test: wrap}
 function require(name) {
   if (name in require.cache)
     return require.cache[name];
@@ -591,9 +584,7 @@ have been loaded. That is what the Asynchronous Module Definition
 Our trivial program with dependencies would look
 like this in AMD:
 
-{{test no}}
-
-```
+```{test: no}
 define(["weekDay", "today"], function(weekDay, today) {
   console.log(weekDay.name(today.dayNumber()));
 });
@@ -646,9 +637,7 @@ The `getModule` function, when given a name, will return such an
 object and ensure that the module is scheduled to be loaded. It uses
 a ((cache)) object to avoid loading the same module twice.
 
-// include_code
-
-```
+```{includeCode: true}
 var defineCache = Object.create(null);
 var currentMod = null;
 
@@ -690,9 +679,7 @@ actual work only once, when the last dependency has finished loading. It is
 also called immediately, from `define` itself, in case there are no
 dependencies that need to be loaded.
 
-// include_code
-
-```
+```{includeCode: true}
 function define(depNames, moduleFunction) {
   var myMod = currentMod;
   var deps = depNames.map(getModule);
@@ -878,9 +865,7 @@ loader system.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(month.name(2));
@@ -913,7 +898,7 @@ with a way to separate the code into modules. To refresh your memory,
 these are the functions and types defined in that chapter, in order of
 appearance:
 
-```null
+```{lang: null}
 Vector
 Grid
 directions
@@ -955,7 +940,7 @@ largely a matter of ((taste)).
 Here is what I came up with. I've put parentheses around internal
 functions.
 
-```null
+```{lang: null}
 Module "grid"
   Vector
   Grid

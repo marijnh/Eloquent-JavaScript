@@ -48,9 +48,7 @@ freely cut such corners.
 We can define a world with a _plan_, an array of
 strings that lays out the world's grid using one character per square.
 
-// include_code
-
-```
+```{includeCode: true}
 var plan = ["############################",
             "#      #    #      o      ##",
             "#                          #",
@@ -91,9 +89,7 @@ identified by their x- and y-coordinates. We use a simple type,
 [previous chapter](06_object.html#exercise_vector)), to represent
 these coordinate pairs.
 
-// include_code
-
-```
+```{includeCode: true}
 function Vector(x, y) {
   this.x = x;
   this.y = y;
@@ -151,9 +147,7 @@ array of the given length.
 This code defines the `Grid` object, with some basic
 methods:
 
-// include_code
-
-```
+```{includeCode: true}
 function Grid(width, height) {
   this.space = new Array(width * height);
   this.width = width;
@@ -208,9 +202,7 @@ their ((compass direction))s: `"n"` for north, `"ne"` for northeast,
 and so on. Here's the object we will use to map from direction names
 to coordinate offsets:
 
-// include_code
-
-```
+```{includeCode: true}
 var directions = {
   "n":  new Vector( 0, -1),
   "ne": new Vector( 1, -1),
@@ -242,9 +234,7 @@ Here is a
 simple, stupid critter that just follows its nose until it hits an
 obstacle and then bounces off in a random open direction:
 
-// include_code
-
-```
+```{includeCode: true}
 function randomElement(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
@@ -300,9 +290,7 @@ means. It contains a constructor for every character—except for the
 space character, which always refers to `null`, the value we'll use to
 represent empty space.
 
-// include_code
-
-```
+```{includeCode: true}
 function elementFromChar(legend, ch) {
   if (ch == " ")
     return null;
@@ -339,9 +327,7 @@ implementing the world's `toString` method. This method builds up a
 maplike string from the world's current state by performing a
 two-dimensional loop over the squares on the grid.
 
-// include_code
-
-```
+```{includeCode: true}
 function charFromElement(element) {
   if (element == null)
     return " ";
@@ -368,9 +354,7 @@ A ((wall)) is
 a simple object—it is used only for taking up space and has no
 `act` method.
 
-// include_code
-
-```
+```{includeCode: true}
 function Wall() {}
 ```
 
@@ -381,10 +365,7 @@ instance based on the plan from link:07_elife.html#plan[earlier in the
 chapter] and then calling `toString` on it, we get a string very
 similar to the plan we put in.
 
-{{includeCode "strip_log"}}
-{{test trim}}
-
-```
+```{includeCode: strip_log, test: trim}
 var world = new World(plan, {"#": Wall,
                              "o": BouncingCritter});
 console.log(world.toString());
@@ -488,9 +469,7 @@ argument. For example, here is a `forEach` method for our `Grid` type,
 which calls a given function for each element in the grid that isn't
 null or undefined:
 
-// include_code
-
-```
+```{includeCode: true}
 Grid.prototype.forEach = function(f, context) {
   for (var y = 0; y < this.height; y++) {
     for (var x = 0; x < this.width; x++) {
@@ -523,9 +502,7 @@ move _again_ when we reach that square. Thus, we have to keep an array
 of critters that have already had their turn and ignore them when we
 see them again.
 
-// include_code
-
-```
+```{includeCode: true}
 World.prototype.turn = function() {
   var acted = [];
   this.grid.forEach(function(critter, vector) {
@@ -614,9 +591,7 @@ interface easier to spot.
 {{id view}}
 The one missing part, the `View` type, looks like this:
 
-// include_code
-
-```
+```{includeCode: true}
 function View(world, vector) {
   this.world = world;
   this.vector = vector;
@@ -672,7 +647,7 @@ for (var i = 0; i < 5; i++) {
 The first two maps that are displayed will look something like this
 (depending on the random direction the critters picked):
 
-```null
+```{lang: null}
 ############################  ############################
 #      #    #             ##  #      #    #             ##
 #                   o      #  #                          #
@@ -704,9 +679,7 @@ way to observe a world, though. That's why the sandbox provides an
 animation, moving three turns per second, until you hit the stop
 button.
 
-{{test no}}
-
-```
+```{test: no}
 animateWorld(world);
 // → … life!
 ```
@@ -741,9 +714,7 @@ means one 45-degree turn clockwise from north, giving `"ne"`.
 Similarly, `dirPlus("s", -2)` means 90 degrees counterclockwise from
 south, which is east.
 
-// include_code
-
-```
+```{includeCode: true}
 function dirPlus(dir, n) {
   var index = directionNames.indexOf(dir);
   return directionNames[(index + n + 8) % 8];
@@ -795,9 +766,7 @@ critters and can't find an empty square.
 
 This small world demonstrates the wall-following creatures:
 
-{{test no}}
-
-```
+```{test: no}
 animateWorld(new World(
   ["############",
    "#     #    #",
@@ -852,9 +821,7 @@ the `letAct` method. The new `letAct` method delegates the work of
 actually performing an action to various functions stored in the
 `actionTypes` object.
 
-// include_code
-
-```
+```{includeCode: true}
 function LifelikeWorld(map, legend) {
   World.call(this, map, legend);
 }
@@ -898,9 +865,7 @@ The simplest action a creature can perform is
 `"grow"`, used by ((plant))s. When an action object like `{type:
 "grow"}` is returned, the following handler method will be called:
 
-// include_code
-
-```
+```{includeCode: true}
 actionTypes.grow = function(critter) {
   critter.energy += 0.5;
   return true;
@@ -912,9 +877,7 @@ Growing always succeeds and adds half a point to the plant's
 
 Moving is more involved.
 
-// include_code
-
-```
+```{includeCode: true}
 actionTypes.move = function(critter, vector, action) {
   var dest = this.checkDestination(action, vector);
   if (dest == null ||
@@ -941,9 +904,7 @@ Otherwise, it moves the critter and subtracts the energy cost.
 
 In addition to moving, critters can eat.
 
-// include_code
-
-```
+```{includeCode: true}
 actionTypes.eat = function(critter, vector, action) {
   var dest = this.checkDestination(action, vector);
   var atDest = dest != null && this.grid.get(dest);
@@ -967,9 +928,7 @@ transferred to the eater, and the victim is removed from the grid.
 
 And finally, we allow our critters to reproduce.
 
-// include_code
-
-```
+```{includeCode: true}
 actionTypes.reproduce = function(critter, vector, action) {
   var baby = elementFromChar(this.legend,
                              critter.originChar);
@@ -1008,9 +967,7 @@ the critters from the old world into it, but they would just die
 since they don't have an ((energy)) property. So let's make new ones.
 First we'll write a ((plant)), which is a rather simple life-form.
 
-// include_code
-
-```
+```{includeCode: true}
 function Plant() {
   this.energy = 3 + Math.random() * 4;
 }
@@ -1038,9 +995,7 @@ reproduce, it simply grows until it reaches energy level 20.
 We
 now define a plant eater.
 
-// include_code
-
-```
+```{includeCode: true}
 function PlantEater() {
   this.energy = 20;
 }
@@ -1068,9 +1023,7 @@ our new world. Imagine the following map as a grassy valley with a herd of
 ((herbivore))s in it, some boulders, and lush ((plant)) life
 everywhere.
 
-// include_code
-
-```
+```{includeCode: true}
 var valley = new LifelikeWorld(
   ["############################",
    "#####                 ######",
@@ -1097,10 +1050,7 @@ Let's see what happens if we run this.
 
 {{if interactive
 
-{{startCode}}
-{{test no}}
-
-```
+```{startCode: "// test: no", test: no}
 animateWorld(valley);
 ```
 
@@ -1108,7 +1058,7 @@ if}}
 
 {{if book
 
-```null
+```{lang: null}
 ############################  ############################
 #####                 ######  ##### **              ######
 ##   ***   O             *##  ##  ** *            O     ##
@@ -1192,9 +1142,7 @@ world. See how it fares. Tweak it some more if necessary.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here
 function SmartPlantEater() {}
 
@@ -1272,9 +1220,7 @@ population needed to sustain a small predator population.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here
 function Tiger() {}
 

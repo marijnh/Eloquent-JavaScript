@@ -76,7 +76,7 @@ function parseStr(stream) {
     let next = stream.next
     stream.pos++
     if (next == 34 && !escaped) break
-    else if (isNaN(next)) stream.error("Unterminated string")
+    else if (isNaN(next)) stream.err("Unterminated string")
     escaped = next == 92
   }
   stream.space()
@@ -91,6 +91,7 @@ function parseWord(stream, prop) {
     else break
   }
   let word = stream.str.slice(start, stream.pos)
+  if (!word) stream.err("Expected word")
   stream.space()
   if (/^(?:0x[\da-f]+|\d*(?:\.\d*)?(?:[eE][+\-]?\d+)?)$/i.test(word)) return JSON.parse(word)
   if (!prop) {

@@ -62,7 +62,7 @@ put them anywhere in a page. Such fields cannot be ((submit))ted
 (only a form as a whole can), but when responding to input with
 JavaScript, we often do not want to submit our fields normally anyway.
 
-```text/html
+```{lang: "text/html"}
 <p><input type="text" value="abc"> (text)</p>
 <p><input type="password" value="abc"> (password)</p>
 <p><input type="checkbox" checked> (checkbox)</p>
@@ -92,7 +92,7 @@ requires a matching `</textarea>` closing tag and uses the text
 between those two, instead of using its `value` attribute, as starting
 text.
 
-```text/html
+```{lang: "text/html"}
 <textarea>
 one
 two
@@ -106,7 +106,7 @@ Finally, the `<select>` tag is used to
 create a field that allows the user to select from a number of
 predefined options.
 
-```text/html
+```{lang: "text/html"}
 <select>
   <option>Pancakes</option>
   <option>Pudding</option>
@@ -155,7 +155,7 @@ The first moves focus to the DOM element it is called on, and the second
 removes focus. The value in `document.activeElement` corresponds to
 the currently focused element.
 
-```text/html
+```{lang: "text/html"}
 <input type="text">
 <script>
   document.querySelector("input").focus();
@@ -178,7 +178,7 @@ to achieve. This makes it possible for the browser to disable the
 behavior when it is not appropriate, such as when the user has focused
 something else.
 
-```text/html focus
+```{lang: "text/html", focus: true}
 <input type="text" autofocus>
 ```
 
@@ -190,7 +190,7 @@ order in which elements receive focus with the `tabindex` attribute.
 The following example document will let focus jump from the text input to
 the OK button, rather than going through the help link first:
 
-```text/html focus
+```{lang: "text/html", focus: true}
 <input type="text" tabindex=1> <a href=".">(help)</a>
 <button onclick="console.log('ok')" tabindex=2>OK</button>
 ```
@@ -209,7 +209,7 @@ All ((form)) ((field))s can be _disabled_
 through their `disabled` attribute, which also exists as a property on
 the element's DOM object.
 
-```text/html
+```{lang: "text/html"}
 <button>I'm all right</button>
 <button disabled>I'm out</button>
 ```
@@ -252,7 +252,7 @@ accessing the form's `elements` property, which acts both as an
 array-like object (accessible by number) and a ((map)) (accessible by
 name).
 
-```text/html
+```{lang: "text/html"}
 <form action="example/submit.html">
   Name: <input type="text" name="name"><br>
   Password: <input type="password" name="password"><br>
@@ -285,7 +285,7 @@ that happens, a `"submit"` event is fired. This event can be handled
 by JavaScript, and the handler can prevent the default behavior by
 calling `preventDefault` on the event object.
 
-```text/html
+```{lang: "text/html"}
 <form action="example/submit.html">
   Value: <input type="text" name="value">
   <button type="submit">Save</button>
@@ -340,7 +340,7 @@ trouble spelling his name. The following code wires up a `<textarea>` tag
 with an event handler that, when you press F2, inserts the string
 “Khasekhemwy” for you.
 
-```text/html
+```{lang: "text/html"}
 <textarea></textarea>
 <script>
   var textarea = document.querySelector("textarea");
@@ -382,7 +382,7 @@ the field's content.
 The following example  shows a text field and a counter showing the current
 length of the text entered:
 
-```text/html
+```{lang: "text/html"}
 <input type="text"> length: <span id="length">0</span>
 <script>
   var text = document.querySelector("input");
@@ -401,7 +401,7 @@ A ((checkbox)) field is a
 simple binary toggle. Its value can be extracted or changed through
 its `checked` property, which holds a Boolean value.
 
-```text/html
+```{lang: "text/html"}
 <input type="checkbox" id="purple">
 <label for="purple">Make this page purple</label>
 <script>
@@ -427,7 +427,7 @@ similar to a checkbox, but it's implicitly linked to other radio buttons
 with the same `name` attribute so that only one of them can be active
 at any time.
 
-```text/html
+```{lang: "text/html"}
 Color:
 <input type="radio" name="color" value="mediumpurple"> Purple
 <input type="radio" name="color" value="lightgreen"> Green
@@ -470,7 +470,7 @@ akin to a list of checkboxes, rather than radio boxes. When given the
 `multiple` attribute, a `<select>` tag will allow the user to select
 any number of options, rather than just a single option.
 
-```text/html
+```{lang: "text/html"}
 <select multiple>
   <option>Pancakes</option>
   <option>Pudding</option>
@@ -524,7 +524,7 @@ the selected values from a `multiple` select field and uses them to
 compose a binary number from individual bits. Hold Ctrl (or Command
 on a Mac) to select multiple options.
 
-```text/html
+```{lang: "text/html"}
 <select multiple>
   <option value="1">0001</option>
   <option value="2">0010</option>
@@ -562,7 +562,7 @@ A file field usually looks like a button labeled with something like
 “choose file” or “browse”, with information about the chosen file next
 to it.
 
-```text/html
+```{lang: "text/html"}
 <input type="file">
 <script>
   var input = document.querySelector("input");
@@ -602,7 +602,7 @@ asynchronous to avoid freezing the document. You can think of the
 `FileReader` constructor as being similar to `XMLHttpRequest` but for
 files.
 
-```text/html
+```{lang: "text/html"}
 <input type="file" multiple>
 <script>
   var input = document.querySelector("input");
@@ -730,9 +730,7 @@ is encoded as ((JSON)) and stored in `localStorage`. The user can
 select a note from a `<select>` field and change that note's text in
 a `<textarea>`. A note can be added by clicking a button.
 
-{{startCode}}
-
-```text/html
+```{lang: "text/html", startCode: true}
 Notes: <select id="list"></select>
 <button onclick="addNote()">new</button><br>
 <textarea id="currentnote" style="width: 100%; height: 10em">
@@ -863,9 +861,7 @@ raised, to a string and display it after the text field.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <textarea id="code">return "hi";</textarea>
 <button id="button">Run</button>
 <pre id="output"></pre>
@@ -918,9 +914,7 @@ clicked, replace the text field's current value with it.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <input type="text" id="field">
 <div id="suggestions" style="cursor: pointer"></div>
 
@@ -1009,9 +1003,7 @@ generation.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <div id="grid"></div>
 <button id="next">Next generation</button>
 

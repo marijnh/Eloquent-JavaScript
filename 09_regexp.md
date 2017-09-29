@@ -397,9 +397,7 @@ object type for representing ((date))s—or rather, points in ((time)).
 It is called `Date`. If you simply create a date object using `new`,
 you get the current date and time.
 
-{{test no}}
-
-```
+```{test: no}
 console.log(new Date());
 // → Wed Dec 04 2013 14:24:57 GMT+0100 (CET)
 ```
@@ -784,9 +782,7 @@ It isn't hard to use `replace` to
 write a function that removes all ((comment))s from a piece of
 JavaScript ((code)). Here is a first attempt:
 
-{{test wrap}}
-
-```
+```{test: wrap}
 function stripComments(code) {
   return code.replace(/\/\/.*|\/\*[^]*\*\//g, "");
 }
@@ -834,9 +830,7 @@ And that is exactly what we want in this case. By having the star
 match the smallest stretch of characters that brings us to a `*/`,
 we consume one block comment and nothing more.
 
-{{test wrap}}
-
-```
+```{test: wrap}
 function stripComments(code) {
   return code.replace(/\/\/.*|\/\*[^]*?\*\//g, "");
 }
@@ -1041,7 +1035,7 @@ not actually write that program here, just the part that reads the
 ((configuration)) file. Sorry to disappoint.) The configuration file
 looks like this:
 
-```text/plain
+```{lang: "text/plain"}
 searchengine=http://www.google.com/search?q=$1
 spitefulness=9.7
 
@@ -1346,9 +1340,7 @@ kinds of quote usage and craft a call to the `replace` method that
 does the proper replacement.
 
 {{if interactive
-{{test no}}
-
-```
+```{test: no}
 var text = "'I'm the cook,' he said, 'it's my job.'";
 // Change this call.
 console.log(text.replace(/A/g, "B"));
@@ -1394,9 +1386,7 @@ dot, but the number cannot be a dot alone. That is, `.5` and `5.`
 are valid JavaScript numbers, but a lone dot _isn't_.
 
 {{if interactive
-{{test no}}
-
-```
+```{test: no}
 // Fill in this regular expression.
 var number = /^...$/;
 

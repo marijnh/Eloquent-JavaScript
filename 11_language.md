@@ -75,7 +75,7 @@ JavaScript, by putting ((parentheses)) after an expression and having
 any number of ((argument))s between those parentheses, separated by
 commas.
 
-```null
+```{lang: null}
 do(define(x, 10),
    if(>(x, 5),
       print("large"),
@@ -110,7 +110,7 @@ refers to an array of argument expressions.
 
 The `>(x, 5)` part of the previous program would be represented like this:
 
-```application/json
+```{lang: "application/json"}
 {
   type: "apply",
   operator: {type: "word", name: ">"},
@@ -166,9 +166,7 @@ that ends the list of arguments.
 
 This is the first part of the parser:
 
-// include_code
-
-```
+```{includeCode: true}
 function parseExpression(program) {
   program = skipSpace(program);
   var match, expr;
@@ -217,9 +215,7 @@ from the program string and pass that, along with the object for the
 expression, to `parseApply`, which checks whether the expression is an
 application. If so, it parses a parenthesized list of arguments.
 
-// include_code
-
-```
+```{includeCode: true}
 function parseApply(expr, program) {
   program = skipSpace(program);
   if (program[0] != "(")
@@ -267,10 +263,7 @@ verifies that it has reached the end of the input string after parsing
 the expression (an Egg program is a single expression), and that
 gives us the program's data structure.
 
-{{includeCode "strip_log"}}
-{{test join}}
-
-```
+```{includeCode: strip_log, test: join}
 function parse(program) {
   var result = parseExpression(program);
   if (skipSpace(result.rest).length > 0)
@@ -302,9 +295,7 @@ give it a syntax tree and an environment object that associates names
 with values, and it will evaluate the expression that the tree
 represents and return the value that this produces.
 
-// include_code
-
-```
+```{includeCode: true}
 function evaluate(expr, env) {
   switch(expr.type) {
     case "value":
@@ -380,9 +371,7 @@ is used to define special syntax in Egg. It associates words with
 functions that evaluate such special forms. It is currently empty.
 Let's add some forms.
 
-// include_code
-
-```
+```{includeCode: true}
 specialForms["if"] = function(args, env) {
   if (args.length != 3)
     throw new SyntaxError("Bad number of args to if");
@@ -420,9 +409,7 @@ depending on the value of the first.
 
 The `while` form is similar.
 
-// include_code
-
-```
+```{includeCode: true}
 specialForms["while"] = function(args, env) {
   if (args.length != 2)
     throw new SyntaxError("Bad number of args to while");
@@ -440,9 +427,7 @@ Another basic building block is `do`, which executes all its arguments
 from top to bottom. Its value is the value produced by the last
 argument.
 
-// include_code
-
-```
+```{includeCode: true}
 specialForms["do"] = function(args, env) {
   var value = false;
   args.forEach(function(arg) {
@@ -461,9 +446,7 @@ that word as its second argument. Since `define`, like everything, is
 an expression, it must return a value. We'll make it return the value
 that was assigned (just like JavaScript's `=` operator).
 
-// include_code
-
-```
+```{includeCode: true}
 specialForms["define"] = function(args, env) {
   if (args.length != 2 || args[0].type != "word")
     throw new SyntaxError("Bad use of define");
@@ -488,9 +471,7 @@ have access to ((Boolean)) values. Since there are only two
 Boolean values, we do not need special syntax for them. We simply bind
 two variables to the values `true` and `false` and use those.
 
-// include_code
-
-```
+```{includeCode: true}
 var topEnv = Object.create(null);
 
 topEnv["true"] = true;
@@ -513,9 +494,7 @@ function values to the ((environment)). In the interest of keeping the
 code short, we'll use `new Function` to synthesize a bunch of operator
 functions in a loop, rather than defining them all individually.
 
-// include_code
-
-```
+```{includeCode: true}
 ["+", "-", "*", "/", "==", "<", ">"].forEach(function(op) {
   topEnv[op] = new Function("a, b", "return a " + op + " b;");
 });
@@ -524,9 +503,7 @@ functions in a loop, rather than defining them all individually.
 A way to ((output)) values is also very useful, so we'll wrap
 `console.log` in a function and call it `print`.
 
-// include_code
-
-```
+```{includeCode: true}
 topEnv["print"] = function(value) {
   console.log(value);
   return value;
@@ -540,9 +517,7 @@ to write simple programs. The following `run` function provides a
 convenient way to write and run them. It creates a fresh environment
 and parses and evaluates the strings we give it as a single program.
 
-// include_code
-
-```
+```{includeCode: true}
 function run() {
   var env = Object.create(topEnv);
   var program = Array.prototype.slice
@@ -589,9 +564,7 @@ Fortunately, it is not hard to add a `fun` construct, which treats its
 last argument as the function's body and treats all the arguments before that as
 the names of the function's arguments.
 
-// include_code
-
-```
+```{includeCode: true}
 specialForms["fun"] = function(args, env) {
   if (!args.length)
     throw new SyntaxError("Functions need a body");
@@ -629,9 +602,7 @@ created by the `fun` form creates this local environment and adds the
 argument variables to it. It then evaluates the function body in this
 environment and returns the result.
 
-{{startCode}}
-
-```
+```{startCode: true}
 run("do(define(plusOne, fun(a, +(a, 1))),",
     "   print(plusOne(10)))");
 // → 11
@@ -714,7 +685,7 @@ robotic ((dinosaur)) and need to program its ((behavior)). JavaScript
 might not be the most effective way to do this. You might instead opt
 for a language that looks like this:
 
-```null
+```{lang: null}
 behavior walk
   perform when
     destination ahead
@@ -752,9 +723,7 @@ element from an array.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Modify these definitions...
 
 topEnv["array"] = "...";
@@ -851,9 +820,7 @@ comments like they are ((whitespace)) so that all the points where
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // This is the old skipSpace. Modify it...
 function skipSpace(string) {
   var first = string.search(/\S/);
@@ -919,9 +886,7 @@ object. Also remember that scopes do not derive from
 `Object.prototype`, so if you want to call `hasOwnProperty` on them,
 you have to use this clumsy expression:
 
-{{test no}}
-
-```
+```{test: no}
 Object.prototype.hasOwnProperty.call(scope, name);
 ```
 
@@ -930,9 +895,7 @@ and then calls it on a scope object.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 specialForms["set"] = function(args, env) {
   // Your code here.
 };

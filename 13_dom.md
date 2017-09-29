@@ -25,7 +25,7 @@ Tags such as `<body>` and `</body>` enclose other ((tag))s, which in
 turn contain other tags or ((text)). Here's the example document from
 the [previous chapter](12_browser.html#browser):
 
-```text/html sandbox-homepage
+```{lang: "text/html", sandbox: "homepage"}
 <!doctype html>
 <html>
   <head>
@@ -207,7 +207,7 @@ are often useful. The following recursive function scans a document for ((text n
 containing a given string and returns `true` when it has found one:
 
 {{id talksAbout}}
-```sandbox-homepage
+```{sandbox: "homepage"}
 function talksAbout(node, string) {
   if (node.nodeType == document.ELEMENT_NODE) {
     for (var i = 0; i < node.childNodes.length; i++) {
@@ -254,7 +254,7 @@ we don't want to say something like “Get the second child of the sixth
 child of the document body”. It'd be better if we could say “Get the
 first link in the document”. And we can.
 
-```sandbox-homepage
+```{sandbox: "homepage"}
 var link = document.body.getElementsByTagName("a")[0];
 console.log(link.href);
 ```
@@ -272,7 +272,7 @@ To find a specific
 _single_ node, you can give it an `id` attribute and use
 `document.getElementById` instead.
 
-```text/html
+```{lang: "text/html"}
 <p>My ostrich Gertrude:</p>
 <p><img id="gertrude" src="img/ostrich.png"></p>
 
@@ -303,7 +303,7 @@ at the end of the list of children, or `insertBefore`, which inserts
 the node given as the first argument before the node given as the second
 argument.
 
-```text/html
+```{lang: "text/html"}
 <p>One</p>
 <p>Two</p>
 <p>Three</p>
@@ -345,7 +345,7 @@ This involves not only removing the images
 but adding a new text node to replace them. For this, we use the
 `document.createTextNode` method.
 
-```text/html
+```{lang: "text/html"}
 <p>The <img src="img/cat.png" alt="Cat"> in the
   <img src="img/hat.png" alt="Hat">.</p>
 
@@ -410,7 +410,7 @@ following example defines a utility `elt`, which creates an element
 node and treats the rest of its arguments as children to that node.
 This function is then used to add a simple attribution to a quote.
 
-```text/html
+```{lang: "text/html"}
 <blockquote id="quote">
   No book can ever be finished. While working on it we learn
   just enough to find it immature the moment we turn away
@@ -464,7 +464,7 @@ attributes will not be present as a property on the element's node.
 Instead, you'll have to use the `getAttribute` and `setAttribute`
 methods to work with them.
 
-```text/html
+```{lang: "text/html"}
 <p data-classified="secret">The launch code is 00000000.</p>
 <p data-classified="unclassified">I have two feet.</p>
 
@@ -489,9 +489,7 @@ tags (“preformatted”, used for code and similar plaintext) with a
 `data-language` attribute and crudely tries to highlight the
 ((keyword))s for that language.
 
-// include_code
-
-```sandbox-highlight
+```{sandbox: "highlight", includeCode: true}
 function highlightCode(node, keywords) {
   var text = node.textContent;
   node.textContent = ""; // Clear the node
@@ -534,9 +532,7 @@ the `<pre>` elements that have a `data-language` attribute and
 calling `highlightCode` on each one with the correct regular
 expression for the language.
 
-// include_code
-
-```sandbox-highlight
+```{sandbox: "highlight", includeCode: true}
 var languages = {
   javascript: /\b(function|return|var)\b/g /* … etc */
 };
@@ -556,7 +552,7 @@ function highlightAllCode() {
 
 Here is an example:
 
-```text/html sandbox-highlight
+```{lang: "text/html", sandbox: "highlight"}
 <p>Here it is, the identity function:</p>
 <pre data-language="javascript">
 function id(x) { return x; }
@@ -613,7 +609,7 @@ corresponds to the smallest dot that your screen can display.
 Similarly, `clientWidth` and `clientHeight` give you the size of the
 space _inside_ the element, ignoring border width.
 
-```text/html
+```{lang: "text/html"}
 <p style="border: 3px solid red">
   I'm boxed in
 </p>
@@ -667,9 +663,7 @@ consequently run really slowly. The following code shows an example of
 this. It contains two different programs that build up a line of _X_
 characters 2,000 pixels wide and measures the time each one takes.
 
-{{test nonumbers}}
-
-```text/html
+```{lang: "text/html", test: nonumbers}
 <p><span id="one"></span></p>
 <p><span id="two"></span></p>
 
@@ -716,7 +710,7 @@ the default styling associated with an element, such as the text color
 or underline, can be changed by us. Here is an example using the `style`
 property:
 
-```text/html
+```{lang: "text/html"}
 <p><a href=".">Normal link</a></p>
 <p><a href="." style="color: green">Green link</a></p>
 ```
@@ -743,7 +737,7 @@ There are a lot of aspects that can be
 influenced by styling. For example, the `display` property controls
 whether an element is displayed as a block or an inline element.
 
-```text/html
+```{lang: "text/html"}
 This text is displayed <strong>inline</strong>,
 <strong style="display: block">as a block</strong>, and
 <strong style="display: none">not at all</strong>.
@@ -773,7 +767,7 @@ possible style properties. The values of these properties are strings,
 which we can write to in order to change a particular aspect of the
 element's style.
 
-```text/html
+```{lang: "text/html"}
 <p id="para" style="color: purple">
   Pretty text
 </p>
@@ -804,7 +798,7 @@ for _Cascading Style Sheets_. A _((style sheet))_ is a set of
 rules for how to style elements in a document. It can be given
 inside a `<style>` tag.
 
-```text/html
+```{lang: "text/html"}
 <style>
   strong {
     font-style: italic;
@@ -841,7 +835,7 @@ to target things other than ((tag)) names in CSS rules. A rule for
 A rule for `#xyz` applies to the element with an `id` attribute of
 `"xyz"` (which should be unique within the document).
 
-```text/css
+```{lang: "text/css"}
 .subtle {
   color: gray;
   font-size: 80%;
@@ -896,7 +890,7 @@ both on the `document` object and on element nodes, takes a selector
 string and returns an ((array-like object)) containing all the
 elements that it matches.
 
-```text/html
+```{lang: "text/html"}
 <p>And if you go chasing
   <span class="animal">rabbits</span></p>
 <p>And you know you're going to fall</p>
@@ -953,7 +947,7 @@ relative to the document if no such enclosing element exists.
 We can use this to create an ((animation)). The following document 
 displays a picture of a cat that floats around in an ((ellipse)):
 
-```text/html
+```{lang: "text/html"}
 <p style="text-align: center">
   <img src="img/cat.png" style="position: relative">
 </p>
@@ -1093,7 +1087,7 @@ We built plaintext ((table))s in
 quite a bit easier. An ((HTML)) table is built with the following tag
 structure:
 
-```text/html
+```{lang: "text/html"}
 <table>
   <tr>
     <th>name</th>
@@ -1142,9 +1136,7 @@ working, right-align cells containing numbers by setting their
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <style>
   /* Defines a cleaner look for tables */
   table  { border-collapse: collapse; }
@@ -1199,9 +1191,7 @@ method to compensate for this.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <h1>Heading with a <span>span</span> element.</h1>
 <p>A paragraph with <span>one</span>, <span>two</span>
   spans.</p>
@@ -1272,9 +1262,7 @@ pixels to the position values.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <img src="img/cat.png" id="cat" style="position: absolute">
 <img src="img/hat.png" id="hat" style="position: absolute">
 

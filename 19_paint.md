@@ -97,9 +97,7 @@ element with the given name and ((attribute))s and appends all
 further arguments it gets as child nodes, automatically converting
 strings to ((text node))s.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 function elt(name, attributes) {
   var node = document.createElement(name);
   if (attributes) {
@@ -130,9 +128,7 @@ the DOM element it is given as an argument. Because we want to build our
 program piece by piece, we define an object called `controls`, which will
 hold functions to initialize the various controls below the image.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 var controls = Object.create(null);
 
 function createPaint(parent) {
@@ -173,9 +169,7 @@ have to hard-code them all in one place and can add more tools later.
 This object associates the names of the tools with the function that
 should be called when they are selected and the canvas is clicked.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 var tools = Object.create(null);
 
 controls.tool = function(cx) {
@@ -218,9 +212,7 @@ on mouse events are also relative to this corner, so we can subtract
 the top-left corner of the canvas from them to get a position relative
 to that corner.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 function relativePos(event, element) {
   var rect = element.getBoundingClientRect();
   return {x: Math.floor(event.clientX - rect.left),
@@ -235,9 +227,7 @@ Several of the drawing tools need to listen for
 `trackDrag` function takes care of the event registration and
 unregistration for such situations. 
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 function trackDrag(onMove, onEnd) {
   function end(event) {
     removeEventListener("mousemove", onMove);
@@ -260,9 +250,7 @@ is not needed.
 The line tool uses these two helpers to do the actual
 drawing.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 tools.Line = function(event, cx, onEnd) {
   cx.lineCap = "round";
 
@@ -303,9 +291,7 @@ argument, so when using the line tool, that argument will hold
 argument is there to allow us to implement the erase tool on top of
 the line tool with very little additional code.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 tools.Erase = function(event, cx) {
   cx.globalCompositeOperation = "destination-out";
   tools.Line(event, cx, function() {
@@ -367,9 +353,7 @@ This is what a color picker may look like:
 
 if}}
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 controls.color = function(cx) {
   var input = elt("input", {type: "color"});
   input.addEventListener("change", function() {
@@ -388,9 +372,7 @@ value.
 
 The field for configuring the ((brush)) size works similarly.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 controls.brushSize = function(cx) {
   var select = elt("select");
   var sizes = [1, 2, 3, 5, 8, 12, 25, 35, 50, 75, 100];
@@ -422,7 +404,7 @@ URLs, data URLs don't point at a resource but rather contain the entire
 ((resource)) in them. This is a data URL containing a 
 simple HTML document:
 
-```null
+```{lang: null}
 data:text/html,<h1 style="color:red">Hello!</h1>
 ```
 
@@ -441,9 +423,7 @@ quite a lot of data into a link and would be noticeably slow.
 Instead, we rig the link to update its `href` attribute whenever it is
 focused with the keyboard or the mouse is moved over it.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 controls.save = function(cx) {
   var link = elt("a", {href: "/"}, "Save");
   function update() {
@@ -519,9 +499,7 @@ controls are used to load images from local files and from URLs.
 We'll need the following helper function, which tries to load an image
 file from a ((URL)) and replace the contents of the canvas with it:
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 function loadImageURL(cx, url) {
   var image = document.createElement("img");
   image.addEventListener("load", function() {
@@ -556,9 +534,7 @@ method we used there, such reader objects also have a method called
 ((file)) that the user chose as a data URL and pass it to
 `loadImageURL` to put it into the canvas.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 controls.openFile = function(cx) {
   var input = elt("input", {type: "file"});
   input.addEventListener("change", function() {
@@ -582,9 +558,7 @@ the field in a form and respond when the form is submitted, either
 because the user pressed Enter or because they clicked the load
 ((button)).
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 controls.openURL = function(cx) {
   var input = elt("input", {type: "text"});
   var form = elt("form", null,
@@ -608,9 +582,7 @@ needs, but it could still use a few more tools.
 We can easily add a ((text)) ((tool)) that
 uses `prompt` to ask the user which string it should draw.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 tools.Text = function(event, cx) {
   var text = prompt("Text:", "");
   if (text) {
@@ -634,9 +606,7 @@ This one draws dots in random locations under the ((brush)) as long as
 the mouse is held down, creating denser or less dense speckling
 based on how fast or slow the mouse moves.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 tools.Spray = function(event, cx) {
   var radius = cx.lineWidth / 2;
   var area = radius * radius * Math.PI;
@@ -671,9 +641,7 @@ function computes the ((area)) of the current brush and divides that
 by 30. To find a random position under the brush, the `randomPointInRadius`
 function is used.
 
-// include_code
-
-```sandbox-paint
+```{sandbox: "paint", includeCode: true}
 function randomPointInRadius(radius) {
   for (;;) {
     var x = Math.random() * 2 - 1;
@@ -704,9 +672,7 @@ We now have a functioning paint program.(!interactive  Run the code below to try
 
 {{if interactive
 
-{{startCode}}
-
-```text/html sandbox-paint
+```{lang: "text/html", sandbox: "paint", startCode: true}
 <link rel="stylesheet" href="css/paint.css">
 
 <body>
@@ -752,9 +718,7 @@ to the correct pixel values.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <script>
   tools.Rectangle = function(event, cx) {
     // Your code here.
@@ -832,9 +796,7 @@ This example retrieves the numbers for a single pixel from a canvas
 once when the canvas is blank (all pixels are transparent black) and
 once when the pixel has been colored red.
 
-{{test no}}
-
-```
+```{test: no}
 function pixelAt(cx, x, y) {
   var data = cx.getImageData(x, y, 1, 1);
   console.log(data.data);
@@ -879,9 +841,7 @@ report such errors with an `alert` dialog.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <script>
   tools["Pick color"] = function(event, cx) {
     // Your code here.
@@ -989,9 +949,7 @@ been looked at.
 
 {{if interactive
 
-{{test no}}
-
-```text/html
+```{lang: "text/html", test: no}
 <script>
   tools["Flood fill"] = function(event, cx) {
     // Your code here.

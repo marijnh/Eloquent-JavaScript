@@ -31,7 +31,7 @@ and tries to open a ((TCP)) ((connection)) to it on ((port)) 80, the
 default port for ((HTTP)) traffic. If the ((server)) exists and
 accepts the connection, the browser sends something like this:
 
-```http
+```{lang: http}
 GET /17_http.html HTTP/1.1
 Host: eloquentjavascript.net
 User-Agent: Your browser's name
@@ -39,7 +39,7 @@ User-Agent: Your browser's name
 
 Then the server responds, through that same connection.
 
-```http
+```{lang: http}
 HTTP/1.1 200 OK
 Content-Length: 65585
 Content-Type: text/html
@@ -57,7 +57,7 @@ line and displays it as an ((HTML)) document.
 The information sent by the client is called the
 _((request))_. It starts with this line:
 
-```http
+```{lang: http}
 GET /17_http.html HTTP/1.1
 ```
 
@@ -93,7 +93,7 @@ The server's ((response)) will start with a version
 as well, followed by the status of the response, first as a
 three-digit status code and then as a human-readable string.
 
-```http
+```{lang: http}
 HTTP/1.1 200 OK
 ```
 
@@ -114,7 +114,7 @@ any number of _((header))s_. These are lines in the form “name: value”
 that specify extra information about the request or response. These
 headers were part of the example ((response)):
 
-```null
+```{lang: null}
 Content-Length: 65585
 Content-Type: text/html
 Last-Modified: Wed, 09 Apr 2014 10:48:09 GMT
@@ -168,7 +168,7 @@ HTML pages may include _((form))s_, which allow
 the user to fill out information and send it to the server. This is an
 example of a form:
 
-```text/html
+```{lang: "text/html"}
 <form method="GET" action="example/message.html">
   <p>Name: <input type="text" name="name"></p>
   <p>Message:<br><textarea name="message"></textarea></p>
@@ -186,7 +186,7 @@ those fields will be encoded into a _((query string))_. When the
 query string is tacked onto the `action` URL, and the browser makes a
 `GET` request to that URL.
 
-```text/html
+```{lang: "text/html"}
 GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
 ```
 
@@ -226,7 +226,7 @@ of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request m
 ((form)) will use the `POST` method and put the ((query string)) in
 body of the request, rather than adding it to the URL.
 
-```http
+```{lang: http}
 POST /example/message.html HTTP/1.1
 Content-length: 24
 Content-type: application/x-www-form-urlencoded
@@ -296,9 +296,7 @@ To make a simple
 ((request)), we create a request object with the `XMLHttpRequest`
 constructor and call its `open` and `send` methods.
 
-{{test trim}}
-
-```
+```{test: trim}
 var req = new XMLHttpRequest();
 req.open("GET", "example/data.txt", false);
 req.send(null);
@@ -335,9 +333,7 @@ object. The ((status code)) is accessible through the `status`
 property, and the human-readable status text is accessible through `statusText`.
 Headers can be read with `getResponseHeader`.
 
-{{test no}}
-
-```
+```{test: no}
 var req = new XMLHttpRequest();
 req.open("GET", "example/data.txt", false);
 req.send(null);
@@ -429,7 +425,7 @@ object. Its `documentElement` property refers to the outer tag of the
 XML document. In the following document (_example/fruit.xml_), that
 would be the `<fruits>` tag:
 
-```application/xml
+```{lang: "application/xml"}
 <fruits>
   <fruit name="banana" color="yellow"/>
   <fruit name="lemon" color="yellow"/>
@@ -439,9 +435,7 @@ would be the `<fruits>` tag:
 
 We can retrieve such a file like this:
 
-{{test no}}
-
-```
+```{test: no}
 var req = new XMLHttpRequest();
 req.open("GET", "example/fruit.xml", false);
 req.send(null);
@@ -496,7 +490,7 @@ include a ((header)) like this in their ((response)) to explicitly
 indicate to browsers that it is okay for the request to come from
 other domains:
 
-```null
+```{lang: null}
 Access-Control-Allow-Origin: *
 ```
 
@@ -511,9 +505,7 @@ module system, we used a hypothetical function called
 that function with the contents of the file when it had finished
 fetching it. Here's a simple implementation of that function:
 
-// include_code
-
-```
+```{includeCode: true}
 function backgroundReadFile(url, callback) {
   var req = new XMLHttpRequest();
   req.open("GET", url, true);
@@ -576,9 +568,7 @@ exception will _not_ be caught because the call to
 `try` block, and the function it was given won't be called until
 later.
 
-{{test no}}
-
-```
+```{test: no}
 try {
   backgroundReadFile("example/data.txt", function(text) {
     if (text != "expected")
@@ -599,9 +589,7 @@ can use the convention that if the request fails, an additional
 argument describing the problem is passed to the regular callback
 function. Here's an example:
 
-// include_code
-
-```
+```{includeCode: true}
 function getURL(url, callback) {
   var req = new XMLHttpRequest();
   req.open("GET", url, true);
@@ -690,9 +678,7 @@ Once again, here is our wrapper for `GET`
 requests, this time returning a promise. We'll simply call it `get`
 this time.
 
-// include_code
-
-```
+```{includeCode: true}
 function get(url) {
   return new Promise(function(succeed, fail) {
     var req = new XMLHttpRequest();
@@ -749,9 +735,7 @@ This means you can use `then` to
 transform the result of a promise. For example, this returns a promise
 whose result is the content of the given URL, parsed as ((JSON)):
 
-// include_code
-
-```
+```{includeCode: true}
 function getJSON(url) {
   return get(url).then(JSON.parse);
 }
@@ -778,7 +762,7 @@ the spouse of _example/bert.json_. And if something goes wrong, we
 want to remove the _loading_ text and show an error message instead.
 Here is how that might be done with ((promise))s:
 
-```text/html
+```{lang: "text/html"}
 <script>
   function showMessage(msg) {
     var elt = document.createElement("div");
@@ -974,9 +958,7 @@ and see what happens.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 ```
 
@@ -1022,9 +1004,7 @@ of your promise.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 function all(promises) {
   return new Promise(function(success, fail) {
     // Your code here.

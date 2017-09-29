@@ -275,9 +275,7 @@ function value in a new place, pass it as an argument to a function,
 and so on. Similarly, a variable that holds a function is still just a
 regular variable and can be assigned a new value, like so:
 
-{{test no}}
-
-```
+```{test: no}
 var launchMissiles = function(value) {
   missileSystem.launch("now");
 };
@@ -380,7 +378,7 @@ line 4. The line after that calls `console.log` again.
 
 We could show the flow of control schematically like this:
 
-```null
+```{lang: null}
 top
    greet
         console.log
@@ -414,9 +412,7 @@ back-and-forth between two functions. Rather, it _would_ be infinite,
 if the computer had an infinite stack. As it is, we will run out of
 space, or “blow the stack”.
 
-{{test no}}
-
-```
+```{test: no}
 function chicken() {
   return egg();
 }
@@ -465,9 +461,7 @@ can be called either with two arguments or with a single argument, in
 which case the exponent is assumed to be two, and the function behaves
 like `square`.
 
-{{test wrap}}
-
-```
+```{test: wrap}
 function power(base, exponent) {
   if (exponent == undefined)
     exponent = 2;
@@ -589,9 +583,7 @@ _recursive_. Recursion allows some functions to be written in a
 different style. Take, for example, this alternative implementation of
 `power`:
 
-{{test wrap}}
-
-```
+```{test: wrap}
 function power(base, exponent) {
   if (exponent == 0)
     return 1;
@@ -730,7 +722,7 @@ To better understand how this function produces the
 effect we're looking for, let's look at all the calls to `find` that
 are made when searching for a solution for the number 13.
 
-```null
+```{lang: null}
 find(1, "1")
   find(6, "(1 + 5)")
     find(11, "((1 + 5) + 5)")
@@ -794,7 +786,7 @@ the numbers of cows and chickens on a farm, with the words `Cows` and
 `Chickens` after them, and zeros padded before both numbers so that
 they are always three digits long.
 
-```null
+```{lang: null}
 007 Cows
 011 Chickens
 ```
@@ -993,9 +985,7 @@ takes two arguments and returns their minimum.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(min(0, 10));
@@ -1047,9 +1037,7 @@ Why? Can you think of a way to fix this?
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(isEven(50));
@@ -1108,9 +1096,7 @@ Rewrite `countBs` to make use of this new function.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(countBs("BBC"));

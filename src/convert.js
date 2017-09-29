@@ -46,17 +46,18 @@ text = text
   .replace(/\bindexsee:\[(.*?),\s*(.*?)\]\s*/g, function(_, term, ref) {
     return "{{indexsee " + processIndexTerm(term) + ", " + processIndexTerm(ref) + "}}\n\n"
   })
-  .replace(/\n(?:\[sandbox="(.*?)"\]\n)?(?:\[source,(.*?)\]\n)?(\[focus=.*?\]\n)?(?:---+|\+\+\++)\n([^]*?)\n(?:---+|\+\+\++)\n/g, function(_, sandbox, type, focus, content) {
-    let params = []
-    if (type != "javascript") params.push(type || "null")
-    if (focus) params.push("focus")
-    if (sandbox) params.push("sandbox-" + sandbox)
-    return "\n```" + params.join(" ") + "\n" + content + "\n```\n"
-  })
-  .replace(/\n\/\/ (?:(start_code(?: (.*))?)|test: (.*)|include_code (.*))/g, function(_, startCode, startCodeParam, test, includeCode) {
-    if (startCode) return `\n{{startCode${startCodeParam ? " " + JSON.stringify(startCodeParam) : ""}}}`
-    if (test) return "\n{{test " + test + "}}"
-    return "\n{{includeCode " + JSON.stringify(includeCode) + "}}"
+  .replace(/\n((?:\/\/ .*\s*)*)(?:\[sandbox="(.*?)"\]\n)?(?:\[source,(.*?)\]\n)?(\[focus=.*?\]\n)?(?:---+|\+\+\++)\n([^]*?)\n(?:---+|\+\+\++)\n/g, function(_, comments, sandbox, type, focus, content) {
+    let params = [], m
+    if (type != "javascript") params.push(`lang: ${maybeQuote(type || "null")}`)
+    if (focus) params.push("focus: true")
+    if (sandbox) params.push("sandbox: " + JSON.stringify(sandbox))
+    if (m = /\/\/ start_code\s*(.*)/.exec(comments))
+      params.push(`startCode: ${maybeQuote(m[1] || "true")}`)
+    if (m = /\/\/ include_code\s*(.*)/.exec(comments))
+      params.push(`includeCode: ${maybeQuote(m[1] || "true")}`)
+    if (m = /\/\/ test:\s*(.*)/.exec(comments))
+      params.push(`test: ${maybeQuote(m[1])}`)
+    return `\n\`\`\`${params.length ? `{${params.join(", ")}}` : ""}\n${content}\n\`\`\`\n`
   })
   .replace(/\blink:([^\[]+)\[(.*?)\]/g, function(_, url, content) {
     return "[" + content + "](" + url + ")"

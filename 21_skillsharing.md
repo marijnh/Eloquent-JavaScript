@@ -154,7 +154,7 @@ the client-side system.
 A `GET` request to `/talks` returns a JSON document
 like this:
 
-```application/json
+```{lang: "application/json"}
 {"serverTime": 1405438911833,
  "talks": [{"title": "Unituning",
             "presenter": "Carlos",
@@ -188,7 +188,7 @@ console.log("/talks/" + encodeURIComponent("How to Idle"));
 A request to create a talk about idling might look something like
 this:
 
-```http
+```{lang: http}
 PUT /talks/How%20to%20Idle HTTP/1.1
 Content-Type: application/json
 Content-Length: 92
@@ -206,7 +206,7 @@ Adding a ((comment)) to a talk is done with a `POST`
 request to a URL like `/talks/Unituning/comments`, with a JSON object
 that has `author` and `message` properties as the body of the request.
 
-```http
+```{lang: http}
 POST /talks/Unituning/comments HTTP/1.1
 Content-Type: application/json
 Content-Length: 72
@@ -246,7 +246,7 @@ receives was created. The client can then simply store this time and pass it
 along in its next polling request to make sure that it receives
 exactly the updates that it has not seen before.
 
-```null
+```{lang: null}
 GET /talks?changesSince=1405438911833 HTTP/1.1
 
 (time passes)
@@ -321,9 +321,7 @@ will write one ourselves to illustrate the principle.
 This is
 `router.js`, which we will later `require` from our server module:
 
-{{includeCode ">code/skillsharing/router.js"}}
-
-```
+```{includeCode: ">code/skillsharing/router.js"}
 var Router = module.exports = function() {
   this.routes = [];
 };
@@ -396,9 +394,7 @@ create a server that serves _only_ files. We want to first check for
 requests that we handle specially, though, so we wrap it in another
 function.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 var http = require("http");
 var Router = require("./router");
 var ecstatic = require("ecstatic");
@@ -417,9 +413,7 @@ http.createServer(function(request, response) {
 The `respond` and `respondJSON` helper functions are used throughout the
 server code to send off responses with a single function call.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 function respond(response, status, data, type) {
   response.writeHead(status, {
     "Content-Type": type || "text/plain"
@@ -447,9 +441,7 @@ The handler for requests
 that `GET` a single talk must look up the talk and respond either with
 the talk's JSON data or with a 404 error response.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 var talks = Object.create(null);
 
 router.add("GET", /^\/talks\/([^\/]+)$/,
@@ -466,9 +458,7 @@ router.add("GET", /^\/talks\/([^\/]+)$/,
 Deleting a talk is done by removing it from the
 `talks` object.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 router.add("DELETE", /^\/talks\/([^\/]+)$/,
            function(request, response, title) {
   if (title in talks) {
@@ -492,9 +482,7 @@ the content of ((JSON))-encoded request bodies, we define a
 function called `readStreamAsJSON`, which reads all content from a stream,
 parses it as JSON, and then calls a callback function.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 function readStreamAsJSON(stream, callback) {
   var data = "";
   stream.on("data", function(chunk) {
@@ -529,9 +517,7 @@ stores an object that represents the new talk in the `talks` object,
 possibly ((overwriting)) an existing talk with this title, and again
 calls `registerChange`.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 router.add("PUT", /^\/talks\/([^\/]+)$/,
            function(request, response, title) {
   readStreamAsJSON(request, function(error, talk) {
@@ -560,9 +546,7 @@ a ((talk)) works similarly. We use `readStreamAsJSON` to
 get the content of the request, validate the resulting data, and store
 it as a comment when it looks valid.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
            function(request, response, title) {
   readStreamAsJSON(request, function(error, comment) {
@@ -599,9 +583,7 @@ There will be various situations in which we have to send a list of
 talks to the client, so we first define a small helper function that
 attaches the `serverTime` field to such responses.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 function sendTalks(talks, response) {
   respondJSON(response, 200, {
     serverTime: Date.now(),
@@ -620,9 +602,7 @@ also parse the query part of a URL. The object it returns will have a
 `query` property, which holds another object that maps parameter names to
 values.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 router.add("GET", /^\/talks$/, function(request, response) {
   var query = require("url").parse(request.url, true).query;
   if (query.changesSince == null) {
@@ -658,9 +638,7 @@ empty array, the server does not yet have anything to send back to the
 client, so it stores the response object (using `waitForChanges`) to
 be responded to at a later time.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 var waiting = [];
 
 function waitForChanges(since, response) {
@@ -704,9 +682,7 @@ time, in an array called `changes`. When a change occurs, that means
 there is new data, so all waiting requests can be responded to
 immediately.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 var changes = [];
 
 function registerChange(title) {
@@ -724,9 +700,7 @@ talks that no longer exist. When building that array, `getChangedTalks` has to e
 doesn't include the same talk twice since there might have been
 multiple changes to a talk since the given time.
 
-{{includeCode ">code/skillsharing/skillsharing_server.js"}}
-
-```
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 function getChangedTalks(since) {
   var found = [];
   function alreadySeen(title) {
@@ -775,9 +749,7 @@ Thus, if we want a page to show up when a browser is pointed at our
 server, we should put it in `public/index.html`. This is how our index
 file starts:
 
-{{includeCode ">code/skillsharing/public/index.html"}}
-
-```text/html
+```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html"}
 <!doctype html>
 
 <title>Skill Sharing</title>
@@ -807,9 +779,7 @@ in when it receives talks from the server.
 Next comes the form that is used to create a new
 talk.
 
-{{includeCode ">code/skillsharing/public/index.html"}}
-
-```text/html
+```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html"}
 <form id="newtalk">
   <h3>Submit a talk</h3>
   Title: <input type="text" style="width: 40em" name="title">
@@ -831,9 +801,7 @@ Next comes a rather mysterious
 block, which has its `display` style set to `none`, preventing it from
 actually showing up on the page. Can you guess what it is for?
 
-{{includeCode ">code/skillsharing/public/index.html"}}
-
-```text/html
+```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html"}
 <div id="template" style="display: none">
   <div class="talk">
     <h2>{{title}}</h2>
@@ -874,10 +842,7 @@ double braces with the values of a specific talk.
 Finally, the HTML document includes the script
 file that contains the client-side code.
 
-{{test never}}
-{{includeCode ">code/skillsharing/public/index.html"}}
-
-```text/html
+```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html", test: never}
 <script src="skillsharing_client.js"></script>
 ```
 
@@ -892,9 +857,7 @@ again define a small wrapper around `XMLHttpRequest`, which accepts an
 object to configure the request as well as a callback to call when the
 request finishes.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function request(options, callback) {
   var req = new XMLHttpRequest();
   req.open(options.method || "GET", options.pathname, true);
@@ -917,10 +880,7 @@ The initial request ((display))s the talks it
 receives on the screen and starts the long-polling process by calling
 `waitForChanges`.
 
-{{test no}}
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 var lastServerTime = 0;
 
 request({pathname: "talks"}, function(error, response) {
@@ -951,9 +911,7 @@ don't want to have our page just sit there, doing nothing without
 explanation. So we define a simple function called `reportError`, which at
 least shows the user a dialog that tells them something went wrong.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function reportError(error) {
   if (error)
     alert(error.toString());
@@ -985,10 +943,7 @@ The function `displayTalks` is used both to build up the initial
 `shownTalks` object, which associates talk titles with DOM nodes, to
 remember the talks it currently has on the screen.
 
-{{test no}}
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 var talkDiv = document.querySelector("#talks");
 var shownTalks = Object.create(null);
 
@@ -1028,9 +983,7 @@ of the element with ID `"template"`. Using the `querySelector` method
 makes this easy. There were templates named `"talk"` and `"comment"` in
 the HTML page.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function instantiateTemplate(name, values) {
   function instantiateText(text) {
     return text.replace(/\{\{(\w+)\}\}/g, function(_, name) {
@@ -1074,9 +1027,7 @@ value of _values_’ `title` property.
 This is a crude approach to templating, but it
 is enough to implement `drawTalk`.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function drawTalk(talk) {
   var node = instantiateTemplate("talk", talk);
   var comments = node.querySelector(".comments");
@@ -1115,9 +1066,7 @@ to delete a talk or add a comment. These will need to build up
 ((URL))s that refer to talks with a given title, for which we define
 the `talkURL` helper function.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function talkURL(title) {
   return "talks/" + encodeURIComponent(title);
 }
@@ -1128,9 +1077,7 @@ function talkURL(title) {
 The `deleteTalk` function fires off a `DELETE` 
 request and reports the error when that fails.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function deleteTalk(title) {
   request({pathname: talkURL(title), method: "DELETE"},
           reportError);
@@ -1143,9 +1090,7 @@ Adding a ((comment)) requires building up a JSON
 representation of the comment and submitting that as part of a `POST`
 request.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function addComment(title, comment) {
   var comment = {author: nameField.value, message: comment};
   request({pathname: talkURL(title) + "/comments",
@@ -1163,10 +1108,7 @@ field at the top of the page that allows the user to specify their
 name. We also wire up that field to `localStorage` so that it does
 not have to be filled in again every time the page is reloaded.
 
-{{test no}}
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 var nameField = document.querySelector("#name");
 
 nameField.value = localStorage.getItem("name") || "";
@@ -1184,10 +1126,7 @@ handler. This handler prevents the event's default effect (which would
 cause a page reload), clears the form, and fires off a `PUT` request
 to create the talk.
 
-{{test no}}
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 var talkForm = document.querySelector("#newtalk");
 
 talkForm.addEventListener("submit", function(event) {
@@ -1217,9 +1156,7 @@ Given the mechanism that we implemented in our server and the way we
 defined `displayTalks` to handle updates of talks that are already on
 the page, the actual long polling is surprisingly simple.
 
-{{includeCode ">code/skillsharing/public/skillsharing_client.js"}}
-
-```
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
 function waitForChanges() {
   request({pathname: "talks?changesSince=" + lastServerTime},
           function(error, response) {
@@ -1361,7 +1298,7 @@ comment for every element in the array.
 
 It could look like this:
 
-```text/html
+```{lang: "text/html"}
 <div class="comments">
   <div class="comment" template-repeat="comments">
     <span class="name">{{author}}</span>: {{message}}

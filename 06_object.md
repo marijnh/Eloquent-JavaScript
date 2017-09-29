@@ -99,10 +99,7 @@ method—looked up as a property and immediately called, as in
 _object.method()_—the special variable `this` in its body will point
 to the object that it was called on.
 
-{{test join}}
-{{includeCode "top_lines:6"}}
-
-```
+```{includeCode: "top_lines:6", test: join}
 function speak(line) {
   console.log("The " + this.type + " rabbit says '" +
               line + "'");
@@ -270,9 +267,7 @@ for rabbits. It is a convention to capitalize the names of
 constructors so that they are easily distinguished from other
 functions.
 
-{{includeCode "top_lines:6"}}
-
-```
+```{includeCode: "top_lines:6"}
 function Rabbit(type) {
   this.type = type;
 }
@@ -292,9 +287,7 @@ default holds a plain, empty object that derives from
 have this object as its ((prototype)). So to add a `speak` method to
 rabbits created with the `Rabbit` constructor, we can simply do this:
 
-{{includeCode "top_lines:4"}}
-
-```
+```{includeCode: "top_lines:4"}
 Rabbit.prototype.speak = function(line) {
   console.log("The " + this.type + " rabbit says '" +
               line + "'");
@@ -408,9 +401,7 @@ object as a way to associate values with names by creating properties
 for the names and giving them the corresponding value as their value.
 Here's an example from [Chapter 4](04_data.html#object_map):
 
-// include_code
-
-```
+```{includeCode: true}
 var map = {};
 function storePhi(event, phi) {
   map[event] = phi;
@@ -588,7 +579,7 @@ that, given an array of arrays of ((table)) cells, builds up a string
 that contains a nicely laid out table—meaning that the columns are
 straight and the rows are aligned. Something like this:
 
-```text/plain
+```{lang: "text/plain"}
 name         height country
 ------------ ------ -------------
 Kilimanjaro    5895 Tanzania
@@ -642,9 +633,7 @@ arrays of minimum column widths and row heights for a grid of cells.
 The `rows` variable will hold an array of arrays, with each inner array
 representing a row of cells.
 
-// include_code
-
-```
+```{includeCode: true}
 function rowHeights(rows) {
   return rows.map(function(row) {
     return row.reduce(function(max, cell) {
@@ -691,9 +680,7 @@ out the width of the widest cell at that index.
 Here's the code to draw a
 table:
 
-// include_code
-
-```
+```{includeCode: true}
 function drawTable(rows) {
   var heights = rowHeights(rows);
   var widths = colWidths(rows);
@@ -757,9 +744,7 @@ cuts up a string at every occurrence of its argument and returns an
 array of the pieces. The `minWidth` method finds the maximum line
 width in this array.
 
-// include_code
-
-```
+```{includeCode: true}
 function repeat(string, times) {
   var result = "";
   for (var i = 0; i < times; i++)
@@ -837,9 +822,7 @@ contains the column names, by underlining the cells with a series of
 dash characters. No problem—we simply write a cell type that handles
 underlining.
 
-// include_code
-
-```
+```{includeCode: true}
 function UnderlinedCell(inner) {
   this.inner = inner;
 }
@@ -874,9 +857,7 @@ line full of dashes to it.
 Having an underlining mechanism, we can now
 write a function that builds up a grid of cells from our data set.
 
-{{test wrap, trailing}}
-
-```
+```{test: "wrap, trailing"}
 function dataTable(data) {
   var keys = Object.keys(data[0]);
   var headers = keys.map(function(name) {
@@ -1000,9 +981,7 @@ We could simply write a whole new ((constructor))
 with all three methods in its prototype. But prototypes may themselves
 have prototypes, and this allows us to do something clever.
 
-// include_code
-
-```
+```{includeCode: true}
 function RTextCell(text) {
   TextCell.call(this, text);
 }
@@ -1045,10 +1024,7 @@ Now, if we slightly adjust the `dataTable`
 function to use _RTextCell_s for cells whose value is a number, we
 get the table we were aiming for.
 
-{{startCode "bottom_lines: 1"}}
-{{includeCode "strip_log"}}
-
-```
+```{startCode: "bottom_lines: 1", includeCode: strip_log}
 function dataTable(data) {
   var keys = Object.keys(data[0]);
   var headers = keys.map(function(name) {
@@ -1186,9 +1162,7 @@ the origin (0, 0).
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 console.log(new Vector(1, 2).plus(new Vector(2, 3)));
@@ -1234,9 +1208,7 @@ naturally be smaller.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 var sc = new StretchCell(new TextCell("abc"), 1, 2);
@@ -1289,9 +1261,7 @@ instead.
 
 {{if interactive
 
-{{test no}}
-
-```
+```{test: no}
 // Your code here.
 
 logFive(new ArraySeq([1, 2]));

@@ -2,6 +2,7 @@
 // their starting code, and collects it into a big JSON object
 // together with the solution code.
 
+const PJSON = require("./pseudo_json")
 var fs = require("fs");
 
 var output = [], failed = false;
@@ -180,11 +181,11 @@ function guessType(code) {
 }
 
 function getStartCode(text, includes) {
-  var found = /\{\{startCode(.*?)\}\}(?:\s|\{\{.*)*\n```.*\n([^]*?\n)```/.exec(text);
-  if (!found) return "";
+  var found = /\n```(.*?\bstartCode:.*)\n([^]*?\n)```/.exec(text);
+  if (!found) return ""
 
   var snippet = found[2].replace(/(\n|^)\s*\/\/ →.*\n/g, "$1");
-  var directive = found[1], m;
+  var directive = String(PJSON.parse(found[1]).startCode), m;
   if (m = directive.match(/top_lines:\s*(\d+)/))
     snippet = snippet.split("\n").slice(0, Number(m[1])).join("\n") + "\n";
   if (m = directive.match(/bottom_lines:\s*(\d+)/)) {

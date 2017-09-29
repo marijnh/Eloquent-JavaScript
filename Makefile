@@ -12,7 +12,7 @@ html/%.html: %.md
 	node src/render_html.js $< > $@
 	node src/build_code.js $<
 
-html/js/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).txt) code/solutions/* src/chapter_info.js
+html/js/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) code/solutions/* src/chapter_info.js
 	node src/chapter_info.js > html/js/chapter_info.js
 
 html/js/acorn_codemirror.js: node_modules/codemirror/lib/codemirror.js \
@@ -40,8 +40,6 @@ code/solutions/20_4_a_public_space_on_the_web.zip: $(wildcard code/solutions/20_
 	cd code/solutions; zip 20_4_a_public_space_on_the_web.zip 20_4_a_public_space_on_the_web/*
 
 test: html
-	@for F in $(CHAPTERS); do echo Testing $$F:; node bin/run_tests.js $$F.txt; done
-	@! grep '[a-zA-Z0-9]_[—“”‘’]\|[—“”‘’]_[a-zA-Z0-9]\|[a-zA-Z0-9]`—\|[a-zA-Z0-9]`[a-zA-Z0-9]' *.txt
-	@! grep '(!book\|(!html|(!interactive|(!tex' html/*.html nostarch/*.tex
+	@for F in $(CHAPTERS); do echo Testing $$F:; node src/run_tests.js $$F.md; done
 	@node src/check_links.js
 	@echo Done.

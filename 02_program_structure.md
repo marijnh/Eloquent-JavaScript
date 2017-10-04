@@ -4,59 +4,56 @@
 
 {{quote {author: "_why", title: "Why's (Poignant) Guide to Ruby", chapter: true}
 
-And my heart glows bright red under my
-filmy, translucent skin and they have to administer 10cc of JavaScript
-to get me to come back. (I respond well to toxins in the blood.) Man,
-that stuff will kick the peaches right out your gills!
+And my heart glows bright red under my filmy, translucent skin and
+they have to administer 10cc of JavaScript to get me to come back. (I
+respond well to toxins in the blood.) Man, that stuff will kick the
+peaches right out your gills!
 
 quote}}
 
 {{index why, "Poignant Guide"}}
 
-In this chapter, we will start to do
-things that can actually be called _programming_. We will expand our
-command of the JavaScript language beyond the nouns and sentence
-fragments we've seen so far, to the point where we can
-express some meaningful prose.
+In this chapter, we will start to do things that can actually be
+called _programming_. We will expand our command of the JavaScript
+language beyond the nouns and sentence fragments we've seen so far, to
+the point where we can express meaningful prose.
 
 ## Expressions and statements
 
 {{index grammar, syntax, [code, "structure of"], grammar, [JavaScript, syntax]}}
 
-In
-[Chapter 1](01_values.html#values), we made some values and then
-applied operators to them to get new values. Creating values like this
-is an essential part of every JavaScript program, but it is only
-a part.
+In [Chapter 1](01_values.html#values), we made some values and applied
+operators to them to get new values. Creating values like this is the
+main substance of any JavaScript program. But that substance has to be
+framed in a larger structure to be useful. So that's what we'll get to
+next.
 
 {{index "literal expression"}}
 
-A fragment of code that produces a value is
-called an _((expression))_. Every value that is written literally
-(such as `22` or `"psychoanalysis"`) is an expression. An expression
-between ((parentheses)) is also an expression, as is a ((binary
-operator)) applied to two expressions or a unary operator applied to
-one.
+A fragment of code that produces a value is called an
+_((expression))_. Every value that is written literally (such as `22`
+or `"psychoanalysis"`) is an expression. An expression between
+((parentheses)) is also an expression, as is a ((binary operator))
+applied to two expressions or a ((unary operator)) applied to one.
 
 {{index [nesting, "of expressions"], "human language"}}
 
-This shows part of the
-beauty of a language-based interface. Expressions can nest in a way
-very similar to the way subsentences in human languages are nested—a
-subsentence can contain its own subsentences, and so on. This allows
-us to combine expressions to express arbitrarily complex computations.
+This shows part of the beauty of a language-based interface.
+Expressions can contain other expressions in a way very similar to the
+way subsentences in human languages are nested—a subsentence can
+contain its own subsentences, and so on. This allows us to build
+expressions that describe arbitrarily complex computations.
 
 {{index statement, semicolon, program}}
 
-If an expression
-corresponds to a sentence fragment, a JavaScript _statement_
-corresponds to a full sentence in a human language. A program is
-simply a list of statements.
+If an expression corresponds to a sentence fragment, a JavaScript
+_statement_ corresponds to a full sentence. A program is a list of
+statements.
 
 {{index syntax}}
 
-The simplest kind of statement is an expression with a
-semicolon after it. This is a program:
+The simplest kind of statement is an expression with a semicolon after
+it. This is a program:
 
 ```
 1;
@@ -65,81 +62,71 @@ semicolon after it. This is a program:
 
 It is a useless program, though. An ((expression)) can be content to
 just produce a value, which can then be used by the enclosing
-expression. A ((statement)) stands on its own and amounts to something
-only if it affects the world. It could display something on the
-screen—that counts as changing the world—or it could change the
+expression. A ((statement)) stands on its own, so it amounts to
+something only if it affects the world. It could display something on
+the screen—that counts as changing the world—or it could change the
 internal state of the machine in a way that will affect the statements
 that come after it. These changes are called _((side effect))s_. The
 statements in the previous example just produce the values `1` and
 `true` and then immediately throw them away. This leaves no impression
-on the world at all. When executing the program, nothing observable
+on the world at all. When you run this program, nothing observable
 happens.
 
 {{index "programming style", "automatic semicolon insertion", semicolon}}
 
-In some cases, JavaScript allows you to
-omit the semicolon at the end of a statement. In other cases, it has
-to be there, or the next ((line)) will be treated as part of the same
-statement. The rules for when it can be safely omitted are somewhat
-complex and error-prone. In this book, every statement that needs a
-semicolon will always be terminated by one. I recommend you do the
-same in your own programs, at least until you've learned more about
-subtleties involved in leaving out semicolons.
+In some cases, JavaScript allows you to omit the semicolon at the end
+of a statement. In other cases, it has to be there, or the next
+((line)) will be treated as part of the same statement. The rules for
+when it can be safely omitted are somewhat complex and error-prone. In
+this book, every statement that needs a semicolon will always get one.
+I recommend you do the same in your own programs, at least until
+you've learned more about the subtleties involved in leaving out
+semicolons.
 
-## Variables
+## Bindings
 
-{{index syntax, [variable, definition], "side effect", memory}}
+{{indexsee variable, binding}}
+{{index syntax, [binding, definition], "side effect", memory}}
 
-How
-does a program keep an internal ((state))? How does it remember
+How does a program keep an internal ((state))? How does it remember
 things? We have seen how to produce new values from old values, but
 this does not change the old values, and the new value has to be
 immediately used or it will dissipate again. To catch and hold values,
-JavaScript provides a thing called a _variable_.
+JavaScript provides a thing called a _binding_, or _variable_.
 
 ```
-var caught = 5 * 5;
+let caught = 5 * 5;
 ```
 
-{{index "var keyword"}}
+{{index "let keyword"}}
 
-And that gives us our second kind of ((statement)).
-The special word (_((keyword))_) `var` indicates that this sentence is
-going to define a variable. It is followed by the name of the variable
-and, if we want to immediately give it a value, by an `=` operator and
-an expression.
+So that's a a second kind of ((statement)). The special word
+(_((keyword))_) `let` indicates that this sentence is going to define
+a binding. It is followed by the name of the binding and, if we want
+to immediately give it a value, by an `=` operator and an expression.
 
-The previous statement creates a variable called `caught` and uses it
+The previous statement creates a binding called `caught` and uses it
 to grab hold of the number that is produced by multiplying 5 by 5.
 
-After a variable has been defined, its name can be used as an
+After a binding has been defined, its name can be used as an
 ((expression)). The value of such an expression is the value the
-variable currently holds. Here's an example:
+binding currently holds. Here's an example:
 
 ```
-var ten = 10;
+let ten = 10;
 console.log(ten * ten);
 // → 100
 ```
 
-{{index "underscore character", "dollar sign", [variable, naming]}}
+{{index "= operator", assignment, [binding, assignment]}}
 
-Variable names can be any word that isn't
-a reserved word (such as `var`). They may not include spaces.
-Digits can also be part of variable names—`catch22` is a valid name,
-for example—but the name must not start with a digit. A variable name
-cannot include punctuation, except for the characters `$` and `_`.
-
-{{index "= operator", assignment, [variable, assignment]}}
-
-When a
-variable points at a value, that does not mean it is tied to that
-value forever. The `=` operator can be used at any time on existing
-variables to disconnect them from their current value and have them
-point to a new one.
+When a binding points at a value, that does not mean it is tied to
+that value forever. The `=` operator can be used at any time on
+existing bindings to disconnect them from their current value and have
+them point to a new one.
 
 ```
-var mood = "light";
+let mood = "light";
 console.log(mood);
 // → light
 mood = "dark";
@@ -147,23 +134,22 @@ console.log(mood);
 // → dark
 ```
 
-{{index [variable, "model of"], "tentacle (analogy)"}}
+{{index [binding, "model of"], "tentacle (analogy)"}}
 
-You should
-imagine variables as tentacles, rather than boxes. They do not
-_contain_ values; they _grasp_ them—two variables can refer to the
+You should imagine bindings as tentacles, rather than boxes. They do
+not _contain_ values; they _grasp_ them—two bindings can refer to the
 same value. A program can access only the values that it still has a
 hold on. When you need to remember something, you grow a tentacle to
 hold on to it or you reattach one of your existing tentacles to it.
 
-{{figure {url: "img/octopus.jpg", alt: "Variables as tentacles"}}}
+{{figure {url: "img/octopus.jpg", alt: "Bindings as tentacles"}}}
 
-Let's look at an example. To remember the number of dollars that Luigi
-still owes you, you create a variable. And then when he pays back $35,
-you give this variable a new value.
+Let's look at another example. To remember the number of dollars that
+Luigi still owes you, you create a binding. And then when he pays back
+$35, you give this binding a new value.
 
 ```
-var luigisDebt = 140;
+let luigisDebt = 140;
 luigisDebt = luigisDebt - 35;
 console.log(luigisDebt);
 // → 105
@@ -171,109 +157,136 @@ console.log(luigisDebt);
 
 {{index undefined}}
 
-When you define a variable without giving it a value,
-the tentacle has nothing to grasp, so it ends in thin air. If you ask
-for the value of an empty variable, you'll get the value `undefined`.
+When you define a binding without giving it a value, the tentacle has
+nothing to grasp, so it ends in thin air. If you ask for the value of
+an empty binding, you'll get the value `undefined`.
 
-{{index "var keyword"}}
+{{index "let keyword"}}
 
-A single `var` statement may define multiple
-variables. The definitions must be separated by commas.
+A single `let` statement may define multiple bindings. The
+definitions must be separated by commas.
 
 ```
-var one = 1, two = 2;
+let one = 1, two = 2;
 console.log(one + two);
 // → 3
 ```
 
-## Keywords and reserved words
+The words `var` and `const` can also be used to create bindings, in a
+way similar to `let`.
 
-{{index syntax, "implements (reserved word)", "interface (reserved word)", "let keyword", "package (reserved word)", "private (reserved word)", "protected (reserved word)", "public (reserved word)", "static (reserved word)", "void operator", "yield (reserved word)", "reserved word", [variable, naming]}}
-
-Words with
-a special meaning, such as `var`, are _((keyword))s_, and they may not
-be used as variable names. There are also a number of words that are
-“reserved for use” in ((future)) versions of JavaScript. These are also
-officially not allowed to be used as variable names, though some
-JavaScript environments do allow them. The full list of keywords and
-reserved words is rather long.
-
-```{lang: "text/plain"}
-break case catch class const continue debugger
-default delete do else enum export extends false
-finally for function if implements import in
-instanceof interface let new null package private
-protected public return static super switch this
-throw true try typeof var void while with yield
+```
+var name = "Ayda";
+const greeting = "Hello ";
+console.log(greeting + name);
+// → Hello Ayda
 ```
 
-Don't worry about memorizing these, but remember that this might be
-the problem when a variable definition does not work as expected.
+{{index "var keyword"}}
+
+The first, `var` (short for "variable"), is the way bindings were
+declared in pre-2015 JavaScript. We'll get back to the precise way it
+differs from `let` in the [next chapter](03_functions.html). For now,
+remember that it mostly does the same thing, but we'll rarely use it
+in this book because it has some confusing properties.
+
+{{index "const keyword", naming}}
+
+The word `const` stands for _((constant))_. It defines a constant
+binding, which can not be made to point at a new thing. This is very
+useful for giving names to values so that you can easily refer to them
+later.
+
+## Binding names
+
+{{index "underscore character", "dollar sign", [binding, naming]}}
+
+Binding names can be any word that isn't reserved for some other
+purpose (such as `let`). Digits can be part of binding names—`catch22`
+is a valid name, for example—but the name must not start with a digit.
+A binding name can include dollar signs (`$`) or undescores (`_`), but
+no other punctuation or special characters.
+
+{{index syntax, "implements (reserved word)", "interface (reserved word)", "package (reserved word)", "private (reserved word)", "protected (reserved word)", "public (reserved word)", "static (reserved word)", "void operator", "yield (reserved word)", "enum (reserved word)", "reserved word", [binding, naming]}}
+
+Words with a special meaning, such as `const`, are _((keyword))s_, and
+they may not be used as binding names. There are also a number of
+words that are "reserved for use" in ((future)) versions of
+JavaScript, which also can't be used as binding names. The full list
+of keywords and reserved words is rather long.
+
+```{lang: "text/plain"}
+break case catch class const continue debugger default
+delete do else enum export extends false finally for
+function if implements import interface in instanceof let
+new package private protected public return static super
+switch this throw true try typeof var void while with yield
+```
+
+Don't worry about memorizing these. When creating a binding produces
+an unexpected ((syntax error)), see if you're trying to define a
+reserved word.
 
 ## The environment
 
 {{index "standard environment"}}
 
-The collection of variables and their values
-that exist at a given time is called the _((environment))_. When a
-program starts up, this environment is not empty. It always contains
-variables that are part of the language ((standard)), and most of the
-time, it has variables that provide ways to interact with the
-surrounding system. For example, in a ((browser)), there are variables
-and functions to inspect and influence the currently loaded website
-and to read ((mouse)) and ((keyboard)) input.
+The collection of bindings and their values that exist at a given time
+is called the _((environment))_. When a program starts up, this
+environment is not empty. It always contains bindings that are part of
+the language ((standard)), and most of the time, it has bindings that
+provide ways to interact with the surrounding system. For example, in
+a ((browser)), there are functions to interact with the currently
+loaded website and to read ((mouse)) and ((keyboard)) input.
 
 ## Functions
 
-{{index output, function, [function, application], "alert function", "message box"}}
-
 {{indexsee "application (of functions)", "function application"}}
-
 {{indexsee "invoking (of functions)", "function application"}}
-
 {{indexsee "calling (of functions)", "function application"}}
+{{index output, function, [function, application]}}
 
-A lot of the values provided in the
-default environment have the type _((function))_. A function is a
-piece of program wrapped in a value. Such values can be _applied_ in
-order to run the wrapped program. For example, in a ((browser))
-environment, the variable `alert` holds a function that shows a little
-((dialog box)) with a message. It is used like this:
+A lot of the values provided in the default environment have the type
+_((function))_. A function is a piece of program wrapped in a value.
+Such values can be _applied_ in order to run the wrapped program. For
+example, in a ((browser)) environment, the binding `prompt` holds a
+function that shows a little ((dialog box)) asking for user input. It
+is used like this:
 
 ```
-alert("Good morning!");
+prompt("Enter passcode");
 ```
 
-{{figure {url: "img/alert.png", alt: "An alert dialog",width: "8cm"}}}
+{{figure {url: "img/prompt.png", alt: "An prompt dialog",width: "8cm"}}}
 
 {{index parameter, [function, application]}}
 
-Executing a function is
-called _invoking_, _calling_, or _applying_ it. You can call a
-function by putting ((parentheses)) after an expression that produces a
-function value. Usually you'll directly use the name of the variable
-that holds the function. The values between the parentheses are given to
-the program inside the function. In the example, the `alert` function
-uses the string that we give it as the text to show in the dialog box.
-Values given to functions are called _((argument))s_. The `alert`
-function needs only one of them, but other functions might need a
-different number or different types of arguments.
+Executing a function is called _invoking_, _calling_, or _applying_
+it. You can call a function by putting ((parentheses)) after an
+expression that produces a function value. Usually you'll directly use
+the name of the binding that holds the function. The values between
+the parentheses are given to the program inside the function. In the
+example, the `prompt` function uses the string that we give it as the
+text to show in the dialog box. Values given to functions are called
+_((argument))s_. Different functions might need a different number or
+different types of arguments.
+
+The `prompt` function isn't used much in modern web programming,
+mostly because you have no control over the way the resulting dialog
+looks, but can be helpful in toy programs and experiments.
 
 ## The console.log function
 
 {{index "JavaScript console", "developer tools", "Node.js", "console.log", output}}
 
-The `alert` function
-can be useful as an output device when experimenting, but clicking
-away all those little windows will get on your nerves. In past
-examples, we've used `console.log` to output values. Most JavaScript
-systems (including all modern web ((browser))s and Node.js) provide a
-`console.log` function that writes out its arguments to _some_ text
-output device. In browsers, the output lands in the ((JavaScript
-console)). This part of the browser interface is hidden by default,
-but most browsers open it when you press F12 or, on Mac, when you
-press Command-Option-I. If that does not work, search through the
-menus for an item named “web console” or “developer tools”.
+In previous examples, we've used `console.log` to output values. Most
+JavaScript systems (including all modern web ((browser))s and Node.js)
+provide a `console.log` function that writes out its arguments to
+_some_ text output device. In browsers, the output lands in the
+((JavaScript console)). This part of the browser interface is hidden
+by default, but most browsers open it when you press F12 or, on Mac,
+when you press Command-Option-I. If that does not work, search through
+the menus for an item named "developer tools" or similar.
 
 {{if interactive
 
@@ -284,31 +297,31 @@ in the browser's JavaScript console.
 if}}
 
 ```
-var x = 30;
+let x = 30;
 console.log("the value of x is", x);
 // → the value of x is 30
 ```
 
 {{index object}}
 
-Though ((variable)) names cannot contain ((period
-character))s, `console.log` clearly has one. This is because
-`console.log` isn't a simple variable. It is actually an expression
-that retrieves the `log` ((property)) from the value held by the
-`console` variable. We will find out exactly what this means in
-[Chapter 4](04_data.html#properties).
+Though binding names cannot contain ((period character))s,
+`console.log` does have one. This is because `console.log` isn't a
+simple binding. It is actually an expression that retrieves the `log`
+((property)) from the value held by the `console` binding. We will
+find out exactly what this means in [Chapter
+4](04_data.html#properties).
 
 {{id return_values}}
 ## Return values
 
 {{index [comparison, "of numbers"], "return value", "Math.max function", maximum}}
 
-Showing a dialog box or writing text to
-the screen is a _((side effect))_. A lot of functions are useful
-because of the side effects they produce. Functions may also produce
-values, and in that case, they don't need to have a side effect to be
-useful. For example, the function `Math.max` takes any number of
-number values and gives back the greatest.
+Showing a dialog box or writing text to the screen is a _((side
+effect))_. A lot of functions are useful because of the side effects
+they produce. Functions may also produce values, and in that case,
+they don't need to have a side effect to be useful. For example, the
+function `Math.max` takes any amount of number arguments and gives
+back the greatest.
 
 ```
 console.log(Math.max(2, 4));
@@ -317,11 +330,11 @@ console.log(Math.max(2, 4));
 
 {{index [function, application], minimum, "Math.min function"}}
 
-When a function produces a value, it is said to _return_
-that value. Anything that produces a value is an ((expression)) in
-JavaScript, which means function calls can be used within larger
-expressions. Here a call to `Math.min`, which is the opposite of
-`Math.max`, is used as an input to the plus operator:
+When a function produces a value, it is said to _return_ that value.
+Anything that produces a value is an ((expression)) in JavaScript,
+which means function calls can be used within larger expressions. Here
+a call to `Math.min`, which is the opposite of `Math.max`, is used as
+part of a plus expression:
 
 ```
 console.log(Math.min(2, 4) + 100);
@@ -331,143 +344,119 @@ console.log(Math.min(2, 4) + 100);
 The [next chapter](03_functions.html#functions) explains how to
 write your own functions.
 
-## prompt and confirm
-
-{{index "dialog box", input, browser, "confirm function"}}
-
-Browser
-environments contain other functions besides `alert` for popping up
-windows. You can ask the user an OK/Cancel question using
-`confirm`. This returns a Boolean: `true` if the user clicks OK and
-`false` if the user clicks Cancel.
-
-```
-confirm("Shall we, then?");
-```
-
-{{figure {url: "img/confirm.png", alt: "A confirm dialog",width: "8cm"}}}
-
-{{index input, "prompt function", "text input"}}
-
-The `prompt` function
-can be used to ask an “open” question. The first argument is the
-question, the second one is the text that the user starts with. A line
-of text can be typed into the dialog window, and the function will
-return this text as a string.
-
-```
-prompt("Tell me everything you know.", "...");
-```
-
-{{figure {url: "img/prompt.png", alt: "An prompt dialog",width: "8cm"}}}
-
-These two functions aren't used much in modern web programming, mostly
-because you have no control over the way the resulting windows look,
-but they are useful for toy programs and experiments.
-
 ## Control flow
 
 {{index "execution order", program, "control flow"}}
 
-When your program
-contains more than one ((statement)), the statements are executed,
-predictably, from top to bottom. As a basic example, this program has
-two statements. The first one asks the user for a number, and the
-second, which is executed afterward, shows the ((square)) of that
-number.
+When your program contains more than one ((statement)), the statements
+are executed as if they are a story, from top to bottom. This example
+program has two statements. The first one asks the user for a number,
+and the second, which is executed afterward, shows the ((square)) of
+that number.
 
 ```
-var theNumber = Number(prompt("Pick a number", ""));
-alert("Your number is the square root of " +
-      theNumber * theNumber);
+let theNumber = Number(prompt("Pick a number"));
+console.log("Your number is the square root of " +
+            theNumber * theNumber);
 ```
 
 {{index [number, "conversion to"], "type coercion", "Number function", "String function", "Boolean function", [Boolean, "conversion to"]}}
 
-The function `Number` converts a
-value to a number. We need that conversion because the result of
-`prompt` is a string value, and we want a number. There are similar
-functions called `String` and `Boolean` that convert values to those
-types.
+The function `Number` converts a value to a number. We need that
+conversion because the result of `prompt` is a string value, and we
+want a number. There are similar functions called `String` and
+`Boolean` that convert values to those types.
 
 Here is the rather trivial schematic representation of straight
 control flow:
 
-{{figure {url: "img/controlflow-straight.svg", alt: "Trivial control flow",width: "4cm"}}}
+{{figure {url: "img/controlflow-straight.svg", alt: "Trivial control flow", width: "4cm"}}}
 
 ## Conditional execution
 
 {{index Boolean, "control flow"}}
 
-Executing statements in straight-line
-order isn't the only option we have. An alternative is _((conditional
-execution))_, where we choose between two different routes based on a
-Boolean value, like this:
+Not all programs are straight roads. We may, for example, want to
+create a branching road, where the program takes the right branch
+based on the situation at hand. This is called _((conditional
+execution))_, and looks like this:
 
 {{figure {url: "img/controlflow-if.svg", alt: "Conditional control flow",width: "4cm"}}}
 
 {{index syntax, "Number function", "if keyword"}}
 
-Conditional execution
-is written with the `if` keyword in JavaScript. In the simple case, we
-just want some code to be executed if, and only if, a certain
-condition holds. For example, in the previous program, we might want
-to show the square of the input only if the input is actually a
-number.
+Conditional execution is written with the `if` keyword in JavaScript.
+In the simple case, we want some code to be executed if, and only if,
+a certain condition holds. For example, in the previous example
+program, we might want to show the square of the input only if the
+input is actually a number.
 
 ```
-var theNumber = Number(prompt("Pick a number", ""));
-if (!isNaN(theNumber))
-  alert("Your number is the square root of " +
-        theNumber * theNumber);
+let theNumber = Number(prompt("Pick a number"));
+if (!isNaN(theNumber)) {
+  console.log("Your number is the square root of " +
+              theNumber * theNumber);
+}
 ```
 
-With this modification, if you enter “cheese”, no output will be shown.
+With this modification, if you enter "parrot", no output will be shown.
 
-The keyword `if` executes or skips a statement depending on the value
+The `if` keyword executes or skips a statement depending on the value
 of a Boolean expression. The deciding expression is written after the
-keyword, between ((parentheses)), followed by the statement to execute.
+keyword, between ((parentheses)), followed by the statement to
+execute.
 
 {{index "isNaN function"}}
 
-The `isNaN` function is a standard JavaScript
-function that returns `true` only if the argument it is given is
-`NaN`. The `Number` function happens to return `NaN` when you give it
-a string that doesn't represent a valid number. Thus, the condition
-translates to “unless `theNumber` is not-a-number, do this”.
+The `isNaN` function is a standard JavaScript function that returns
+`true` only if the argument it is given is `NaN`. The `Number`
+function happens to return `NaN` when you give it a string that
+doesn't represent a valid number. Thus, the condition translates to
+"unless `theNumber` is not-a-number, do this".
 
 {{index "else keyword"}}
 
-You often won't just have code that executes when a
-condition holds true, but also code that handles the other case. This
-alternate path is represented by the second arrow in the
-diagram. The `else` keyword can be used, together with `if`, to create
-two separate, alternative execution paths.
+You often won't just have code that executes when a condition holds
+true, but also code that handles the other case. This alternate path
+is represented by the second arrow in the diagram. The `else` keyword
+can be used, together with `if`, to create two separate, alternative
+execution paths.
 
 ```
-var theNumber = Number(prompt("Pick a number", ""));
-if (!isNaN(theNumber))
-  alert("Your number is the square root of " +
-        theNumber * theNumber);
-else
-  alert("Hey. Why didn't you give me a number?");
+let theNumber = Number(prompt("Pick a number"));
+if (!isNaN(theNumber)) {
+  console.log("Your number is the square root of " +
+              theNumber * theNumber);
+} else {
+  console.log("Hey. Why didn't you give me a number?");
+}
 ```
+
+{{index grouping, "{} (block)"}}
+
+The statements below the `if` or `else` branches are wrapped in
+((curly braces)) (`{` and `}) in this example. Those can be used to
+group statements into a single statement, called a _((block))_. You
+could also have omitted them in this case, since they only hold a
+single statement, but to avoid having to think about whether they are
+needed or not, most JavaScript programmers use them in every wrapped
+statement like this. We'll mostly follow that convention in this book.
 
 {{index ["if keyword", chaining]}}
 
-If we have more than two paths to choose
-from, multiple `if`/`else` pairs can be “chained” together. Here's an
-example:
+If we have more than two paths to choose from, multiple `if`/`else`
+pairs can be “chained” together. Here's an example:
 
 ```
-var num = Number(prompt("Pick a number", "0"));
+let num = Number(prompt("Pick a number"));
 
-if (num < 10)
-  alert("Small");
-else if (num < 100)
-  alert("Medium");
-else
-  alert("Large");
+if (num < 10) {
+  console.log("Small");
+} else if (num < 100) {
+  console.log("Medium");
+} else {
+  console.log("Large");
+}
 ```
 
 The program will first check whether `num` is less than 10. If it is,
@@ -477,17 +466,15 @@ second condition (`< 100`) holds, that means the number is between 10
 and 100, and `"Medium"` is shown. If it doesn't, the second, and last,
 `else` branch is chosen.
 
-The flow chart for this program looks something like this:
+The schema for this program looks something like this:
 
-{{figure {url: "img/controlflow-nested-if.svg", alt: "Nested if control flow",width: "4cm"}}}
+{{figure {url: "img/controlflow-nested-if.svg", alt: "Nested if control flow", width: "4cm"}}}
 
 {{id loops}}
 ## while and do loops
 
-{{index "even number"}}
-
-Consider a program that prints all even numbers from
-0 to 12. One way to write this is as follows:
+Consider a program that outputs all ((even number))s from 0 to 12. One
+way to write this is as follows:
 
 ```
 console.log(0);
@@ -501,23 +488,22 @@ console.log(12);
 
 {{index "control flow"}}
 
-That works, but the idea of writing a program is to
-make something _less_ work, not more. If we needed all even numbers
-less than 1,000, the previous would be unworkable. What we need is a
-way to repeat some code. This form of control flow is called a
-_((loop))_:
+That works, but the idea of writing a program is to make something
+_less_ work, not more. If we needed all even numbers less than 1,000,
+this approach would be unworkable. What we need is a way to repeat
+some code. This form of control flow is called a _((loop))_:
 
 {{figure {url: "img/controlflow-loop.svg", alt: "Loop control flow",width: "4cm"}}}
 
 {{index syntax, "counter variable"}}
 
-Looping control flow allows us to go
-back to some point in the program where we were before and repeat it
-with our current program state. If we combine this with a variable
-that counts, we can do something like this:
+Looping control flow allows us to go back to some point in the program
+where we were before and repeat it with our current program state. If
+we combine this with a binding that counts, we can do something like
+this:
 
 ```
-var number = 0;
+let number = 0;
 while (number <= 12) {
   console.log(number);
   number = number + 2;
@@ -529,51 +515,32 @@ while (number <= 12) {
 
 {{index "while loop", Boolean}}
 
-A ((statement)) starting with the
-keyword `while` creates a loop. The word `while` is followed by an
-((expression)) in ((parentheses)) and then a statement, much like `if`.
-The loop executes that statement as long as the expression produces a
-value that is `true` when converted to Boolean type.
-
-{{index grouping, "{} (block)", block}}
-
-In this loop, we want to both
-print the current number and add two to our variable. Whenever we need
-to execute multiple ((statement))s inside a loop, we wrap them in
-((curly braces)) (`{` and `}`). Braces do for statements what
-((parentheses)) do for expressions: they group them together, making
-them count as a single statement. A sequence of statements wrapped in
-braces is called a _block_.
-
-{{index "programming style"}}
-
-Many JavaScript programmers wrap every single
-loop or `if` body in braces. They do this both for the sake of
-consistency and to avoid having to add or remove braces when changing
-the number of statements in the body later. In this book, I will write
-most single-statement bodies without braces, since I value brevity.
-You are free to go with whichever style you prefer.
+A ((statement)) starting with the keyword `while` creates a loop. The
+word `while` is followed by an ((expression)) in ((parentheses)) and
+then a statement, much like `if`. The loop executes that statement as
+long as the expression produces a value that gives `true` when
+converted to Boolean.
 
 {{index comparison, state}}
 
-The variable `number` demonstrates the way
-a ((variable)) can track the progress of a program. Every time the
-loop repeats, `number` is incremented by `2`. Then, at the beginning
-of every repetition, it is compared with the number `12` to decide
-whether the program has done all the work it intended to do.
+The `number` binding demonstrates the way a ((binding)) can track the
+progress of a program. Every time the loop repeats, `number` gets a
+value that is 2 more than its previous value. At the beginning of
+every repetition, it is compared with the number 12 to decide whether
+the program's work is finished.
 
 {{index exponentiation}}
 
-As an example that actually does something useful,
-we can now write a program that calculates and shows the value of
-2^10^ (2 to the 10th power). We use two variables: one to keep
-track of our result and one to count how often we have multiplied this
-result by 2. The loop tests whether the second variable has reached 10
-yet and then updates both variables.
+As an example that actually does something useful, we can now write a
+program that calculates and shows the value of 2^10^ (2 to the 10thn
+power). We use two bindings: one to keep track of our result and one
+to count how often we have multiplied this result by 2. The loop tests
+whether the second binding has reached 10 yet and then updates both
+bindings.
 
 ```
-var result = 1;
-var counter = 0;
+let result = 1;
+let counter = 0;
 while (counter < 10) {
   result = result * 2;
   counter = counter + 1;
@@ -582,72 +549,88 @@ console.log(result);
 // → 1024
 ```
 
-The counter could also start at `1` and check for `<= 10`, but, for
-reasons that will become apparent in
-[Chapter 4](04_data.html#array_indexing), it is a good idea to get
-used to counting from 0.
+The counter could also have started at `1` and checked for `<= 10`,
+but, for reasons that will become apparent in [Chapter
+4](04_data.html#array_indexing), it is a good idea to get used to
+counting from 0.
 
 {{index "loop body", "do loop", "control flow"}}
 
-The `do` loop is a
-control structure similar to the `while` loop. It differs only on one
-point: a `do` loop always executes its body at least once, and it
-starts testing whether it should stop only after that first execution.
-To reflect this, the test appears after the body of the loop:
+The `do` loop is a control structure similar to the `while` loop. It
+differs only on one point: a `do` loop always executes its body at
+least once, and it starts testing whether it should stop only after
+that first execution. To reflect this, the test appears after the body
+of the loop:
 
 ```
+let yourName;
 do {
-  var yourName = prompt("Who are you?");
+  yourName = prompt("Who are you?");
 } while (!yourName);
 console.log(yourName);
 ```
 
 {{index [Boolean, "conversion to"], "! operator"}}
 
-This program will
-force you to enter a name. It will ask again and again until it gets
-something that is not an empty string. Applying the `!` operator will
-convert a value to Boolean type before negating it, and all strings
-except `""` convert to `true`. This means the loop continues going round
-until you provide a name that is not the empty string.
+This program will force you to enter a name. It will ask again and
+again until it gets something that is not an empty string. Applying
+the `!` operator will convert a value to Boolean type before negating
+it, and all strings except `""` convert to `true`. This means the loop
+continues going round until you provide a name that is not the empty
+string.
 
 ## Indenting Code
 
-{{index block, "code structure", whitespace, "programming style"}}
+{{index "code structure", whitespace, "programming style"}}
 
-You've probably noticed the spaces I put in front of some
-statements. In JavaScript, these are not required—the computer will
-accept the program just fine without them. In fact, even the ((line))
-breaks in programs are optional. You could write a program as a single
-long line if you felt like it. The role of the ((indentation)) inside
-blocks is to make the structure of the code stand out. In complex
-code, where new blocks are opened inside other blocks, it can become
-hard to see where one block ends and another begins. With proper
-indentation, the visual shape of a program corresponds to the shape of
-the blocks inside it. I like to use two spaces for every open block,
-but tastes differ—some people use four spaces, and some people use
-((tab character))s.
+In the examples, I've been adding spaces in front of statements that
+are part of some larger statement. These are not required—the computer
+will accept the program just fine without them. In fact, even the
+((line)) breaks in programs are optional. You could write a program as
+a single long line if you felt like it.
+
+The role of this ((indentation)) inside ((block))s is to make the
+structure of the code stand out. In code where new blocks are opened
+inside other blocks, it can become hard to see where one block ends
+and another begins. With proper indentation, the visual shape of a
+program corresponds to the shape of the blocks inside it. I like to
+use two spaces for every open block, but tastes differ—some people use
+four spaces, and some people use ((tab character))s. The important
+thing is that each new block adds the same amount of space.
+
+```
+if (false != true) {
+  console.log("That makes sense.");
+  if (1 < 2) {
+    console.log("No surprise there.");
+  }
+}
+```
+
+Most code ((editor)) programs[ (including the one in this book)]{if
+interactive} will help by automatically indenting new lines the proper
+amount.
 
 ## for loops
 
 {{index syntax, "while loop", "counter variable"}}
 
-Many loops follow
-the pattern seen in the previous `while` examples. First, a “counter”
-variable is created to track the progress of the loop. Then comes a
-`while` loop, whose test expression usually checks whether the counter
-has reached some boundary yet. At the end of the loop body, the
-counter is updated to track progress.
+Many loops follow the pattern seen in the previous `while` examples.
+First, a “counter” binding is created to track the progress of the
+loop. Then comes a `while` loop, whose test expression usually checks
+whether the counter has reached some boundary yet. At the end of the
+loop body, the counter is updated to track progress.
 
 {{index "for loop", loop}}
 
-Because this pattern is so common, JavaScript and
-similar languages provide a slightly shorter and more comprehensive
-form, the `for` loop.
+Because this pattern is so common, JavaScript and similar languages
+provide a slightly shorter and more comprehensive form, the `for`
+loop.
 
 ```
-for (var number = 0; number <= 12; number = number + 2)
+for (let number = 0; number <= 12; number = number + 2) {
   console.log(number);
+}
 // → 0
 // → 2
 //   … etcetera
@@ -662,19 +645,18 @@ related to the “state” of the loop are now grouped together.
 
 The ((parentheses)) after a `for` keyword must contain two
 ((semicolon))s. The part before the first semicolon _initializes_ the
-loop, usually by defining a ((variable)). The second part is the
+loop, usually by defining a ((binding)). The second part is the
 ((expression)) that _checks_ whether the loop must continue. The final
 part _updates_ the state of the loop after every iteration. In most
 cases, this is shorter and clearer than a `while` construct.
 
 {{index exponentiation}}
 
-Here is the code that computes 2^10^, using `for`
-instead of `while`:
+This is the code that computes 2^10^, using `for` instead of `while`:
 
 ```
-var result = 1;
-for (var counter = 0; counter < 10; counter = counter + 1)
+let result = 1;
+for (let counter = 0; counter < 10; counter = counter + 1)
   result = result * 2;
 console.log(result);
 // → 1024
@@ -682,26 +664,24 @@ console.log(result);
 
 {{index "programming style", indentation}}
 
-Note that even though no block
-is opened with a `{`, the statement in the loop is still indented two
-spaces to make it clear that it “belongs” to the line before it.
+Note that even though in this example no block is opened with a `{`,
+the statement in the loop is still indented two spaces to make it
+clear that it “belongs” to the line before it.
 
 ## Breaking Out of a Loop
 
 {{index [loop, "termination of"], "break keyword"}}
 
-Having the loop's
-condition produce `false` is not the only way a loop can finish. There
-is a special statement called `break` that has the effect of
-immediately jumping out of the enclosing loop.
+Having the looping condition produce `false` is not the only way a
+loop can finish. There is a special statement called `break` that has
+the effect of immediately jumping out of the enclosing loop.
 
 This program illustrates the `break` statement. It finds the first number
 that is both greater than or equal to 20 and divisible by 7.
 
 ```
-for (var current = 20; ; current++) {
-  if (current % 7 == 0)
-    break;
+for (let current = 20; ; current = current + 1) {
+  if (current % 7 == 0) break;
 }
 console.log(current);
 // → 21
@@ -709,15 +689,15 @@ console.log(current);
 
 {{index "remainder operator", "% operator"}}
 
-Using the remainder
-(`%`) operator is an easy way to test whether a number is divisible by
-another number. If it is, the remainder of their division is zero.
+Using the remainder (`%`) operator is an easy way to test whether a
+number is divisible by another number. If it is, the remainder of
+their division is zero.
 
 {{index "for loop"}}
 
-The `for` construct in the example does not have a part
-that checks for the end of the loop. This means that the loop will
-never stop unless the `break` statement inside is executed.
+The `for` construct in the example does not have a part that checks
+for the end of the loop. This means that the loop will never stop
+unless the `break` statement inside is executed.
 
 If you were to leave out that `break` statement or accidentally write
 a condition that always produces `true`, your program would get stuck
@@ -736,18 +716,17 @@ if}}
 
 {{index "continue keyword"}}
 
-The `continue` keyword is similar to `break`, in
-that it influences the progress of a loop. When `continue` is
-encountered in a loop body, control jumps out of the body and
-continues with the loop's next iteration.
+The `continue` keyword is similar to `break`, in that it influences
+the progress of a loop. When `continue` is encountered in a loop body,
+control jumps out of the body and continues with the loop's next
+iteration.
 
-## Updating variables succinctly
+## Updating bindings succinctly
 
 {{index assignment, "+= operator", "-= operator", "/= operator", "*= operator", state, "side effect"}}
 
-Especially
-when looping, a program often needs to “update” a variable to hold a
-value based on that variable's previous value.
+Especially when looping, a program often needs to “update” a binding
+to hold a value based on that binding's previous value.
 
 ```{test: no}
 counter = counter + 1;
@@ -759,42 +738,41 @@ JavaScript provides a shortcut for this:
 counter += 1;
 ```
 
-Similar shortcuts work for many other operators, such as `result *= 2` to
-double `result` or `counter -= 1` to count downward.
+Similar shortcuts work for many other operators, such as `result *= 2`
+to double `result` or `counter -= 1` to count downward.
 
 This allows us to shorten our counting example a little more.
 
 ```
-for (var number = 0; number <= 12; number += 2)
+for (let number = 0; number <= 12; number += 2)
   console.log(number);
 ```
 
 {{index "++ operator", "-- operator"}}
 
-For `counter += 1` and `counter -=
-1`, there are even shorter equivalents: `counter++` and `counter--`.
+For `counter += 1` and `counter -= 1`, there are even shorter
+equivalents: `counter++` and `counter--`.
 
 ## Dispatching on a value with switch
 
 {{index syntax, "conditional execution", dispatching, ["if keyword", chaining]}}
 
-It is common for code to look like this:
+It is not uncommon for code to look like this:
 
 ```{test: no}
-if (variable == "value1") action1();
-else if (variable == "value2") action2();
-else if (variable == "value3") action3();
+if (x == "value1") action1();
+else if (x == "value2") action2();
+else if (x == "value3") action3();
 else defaultAction();
 ```
 
 {{index "colon character", "switch keyword"}}
 
-There is a construct called
-`switch` that is intended to solve such a “dispatch” in a more direct
-way. Unfortunately, the syntax JavaScript uses for this (which it
-inherited from the C/Java line of programming languages) is somewhat
-awkward—a chain of `if` statements often looks better. Here is an
-example:
+There is a construct called `switch` that is intended to express such
+a "dispatch" in a more direct way. Unfortunately, the syntax
+JavaScript uses for this (which it inherited from the C/Java line of
+programming languages) is somewhat awkward—a chain of `if` statements
+may look better. Here is an example:
 
 ```
 switch (prompt("What is the weather like?")) {
@@ -814,25 +792,23 @@ switch (prompt("What is the weather like?")) {
 
 {{index fallthrough, comparison, "break keyword", "case keyword", "default keyword"}}
 
-You may put any number of `case` labels
-inside the block opened by `switch`. The program will jump to the
-label that corresponds to the value that `switch` was given or to
-`default` if no matching value is found. It starts executing
-statements there, even if they're under another label, until it
-reaches a `break` statement. In some cases, such as the `"sunny"` case
-in the example, this can be used to share some code between cases (it
-recommends going outside for both sunny and cloudy weather). But
-beware: it is easy to forget such a `break`, which will cause the
-program to execute code you do not want executed.
+You may put any number of `case` labels inside the block opened by
+`switch`. The program will jump to the label that corresponds to the
+value that `switch` was given or to `default` if no matching value is
+found. It starts executing statements there, even those under another
+label, until it reaches a `break` statement. In some cases, such as
+the `"sunny"` case in the example, this can be used to share some code
+between cases (it recommends going outside for both sunny and cloudy
+weather). But beware: it is easy to forget such a `break`, which will
+cause the program to execute code you do not want executed.
 
 ## Capitalization
 
-{{index capitalization, [variable, naming], whitespace}}
+{{index capitalization, [binding, naming], whitespace}}
 
-Variable
-names may not contain spaces, yet it is often helpful to use multiple
-words to clearly describe what the variable represents. These are
-pretty much your choices for writing a variable name with several
+Binding names may not contain spaces, yet it is often helpful to use
+multiple words to clearly describe what the binding represents. These
+are pretty much your choices for writing a binding name with several
 words in it:
 
 ```{lang: null}
@@ -844,48 +820,45 @@ fuzzyLittleTurtle
 
 {{index "camel case", "programming style", "underscore character"}}
 
-The
-first style can be hard to read. Personally, I like the look of the
+The first style can be hard to read. I rather like the look of the
 underscores, though that style is a little painful to type. The
 ((standard)) JavaScript functions, and most JavaScript programmers,
 follow the bottom style—they capitalize every word except the first.
 It is not hard to get used to little things like that, and code with
-mixed naming styles can be jarring to read, so we will just follow
-this ((convention)).
+mixed naming styles can be jarring to read, so we follow this
+((convention)).
 
 {{index "Number function", constructor}}
 
-In a few cases, such as the
-`Number` function, the first letter of a variable is also capitalized.
-This was done to mark this function as a constructor. What a
-constructor is will become clear in
-[Chapter 6](06_object.html#constructors). For now, the important
-thing is not to be bothered by this apparent lack of ((consistency)).
+In a few cases, such as the `Number` function, the first letter of a
+binding is also capitalized. This was done to mark this function as a
+constructor. What a constructor is will become clear in [Chapter
+6](06_object.html#constructors). For now, the important thing is not
+to be bothered by this apparent lack of ((consistency)).
 
 ## Comments
 
 {{index readability}}
 
-Often, raw code does not convey all the information
-you want a program to convey to human readers, or it conveys it in
-such a cryptic way that people might not understand it. At other
-times, you might just feel poetic or want to include some thoughts as
-part of your program. This is what _((comment))s_ are for.
+Often, raw code does not convey all the information you want a program
+to convey to human readers, or it conveys it in such a cryptic way
+that people might not understand it. At other times, you might just
+want to include some related thoughts as part of your program. This is
+what _((comment))s_ are for.
 
 {{index "slash character", "line comment"}}
 
-A comment is a piece of text
-that is part of a program but is completely ignored by the computer.
-JavaScript has two ways of writing comments. To write a single-line
-comment, you can use two slash characters (`//`) and then the comment
-text after it.
+A comment is a piece of text that is part of a program but is
+completely ignored by the computer. JavaScript has two ways of writing
+comments. To write a single-line comment, you can use two slash
+characters (`//`) and then the comment text after it.
 
 ```{test: no}
-var accountBalance = calculateBalance(account);
+let accountBalance = calculateBalance(account);
 // It's a green hollow where a river sings
 accountBalance.adjust();
 // Madly catching white tatters in the grass.
-var report = new Report();
+let report = new Report();
 // Where the sun on the proud mountain rings:
 addToReport(accountBalance, report);
 // It's a little valley, foaming like light in a glass.
@@ -893,8 +866,8 @@ addToReport(accountBalance, report);
 
 {{index "block comment"}}
 
-A `//` comment goes only to the end of the line. A
-section of text between `/*` and `*/` will be ignored, regardless of
+A `//` comment goes only to the end of the line. A section of text
+between `/*` and `*/` will be ignored in its entirety, regardless of
 whether it contains line breaks. This is often useful for adding
 blocks of information about a file or a chunk of program.
 
@@ -906,7 +879,7 @@ blocks of information about a file or a chunk of program.
  numbers of products that I've bought. It obviously likes
  me, so I've decided to keep it.
 */
-var myNumber = 11213;
+const myNumber = 11213;
 ```
 
 ## Summary
@@ -921,11 +894,10 @@ executed from top to bottom. You can introduce disturbances in the
 flow of control by using conditional (`if`, `else`, and `switch`) and
 looping (`while`, `do`, and `for`) statements.
 
-Variables can be used to file pieces of data under a name, and they
-are useful for tracking state in your program. The environment is the
-set of variables that are defined. JavaScript systems
-always put a number of useful standard variables into your
-environment.
+Bindings can be used to file pieces of data under a name, and they are
+useful for tracking state in your program. The environment is the set
+of bindings that are defined. JavaScript systems always put a number
+of useful standard bindings into your environment.
 
 Functions are special values that encapsulate a piece of program. You
 can invoke them by writing `functionName(argument1, argument2)`. Such
@@ -935,26 +907,25 @@ a function call is an expression, and may produce a value.
 
 {{index exercises}}
 
-If you are unsure how to try your solutions to
-exercises, refer to the [introduction](00_intro.html#intro).
+If you are unsure how to try your solutions to exercises, refer to the
+[introduction](00_intro.html#intro).
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the
-hints [after the exercise]{if interactive}[at the [end of the book](hints.html#hints)]{if book}.
-Full solutions to the exercises are not included in this
-book, but you can find them online at
-http://eloquentjavascript.net/code[_eloquentjavascript.net/code_].
-If you want to learn something from the exercises, I recommend looking
-at the solutions only after you've solved the exercise, or at least
-after you've attacked it long and hard enough to have a slight
-headache.
+hints [after the exercise]{if interactive}[at the [end of the
+book](hints.html#hints)]{if book}. Full solutions to the exercises are
+not included in this book, but you can find them online at
+http://eloquentjavascript.net/code[_eloquentjavascript.net/code_]. If
+you want to learn something from the exercises, I recommend looking at
+the solutions only after you've solved the exercise, or at least after
+you've attacked it long and hard enough to have a slight headache.
 
 ### Looping a triangle
 
 {{index "triangle (exercise)"}}
 
-Write a ((loop)) that makes seven calls to
-`console.log` to output the following triangle:
+Write a ((loop)) that makes seven calls to `console.log` to output the
+following triangle:
 
 ```{lang: null}
 #
@@ -970,7 +941,7 @@ It may be useful to know that you can find the length of a string by
 writing `.length` after it.
 
 ```
-var abc = "abc";
+let abc = "abc";
 console.log(abc.length);
 // → 3
 ```
@@ -989,11 +960,10 @@ if}}
 
 {{index "triangle (exercise)"}}
 
-You can start with a program that simply
-prints out the numbers 1 to 7, which you can derive by making a few
-modifications to the
-[even number printing example](02_program_structure.html#loops)
-given earlier in the chapter, where the `for` loop was introduced.
+You can start with a program that simply prints out the numbers 1 to
+7, which you can derive by making a few modifications to the [even
+number printing example](02_program_structure.html#loops) given
+earlier in the chapter, where the `for` loop was introduced.
 
 Now consider the equivalence between numbers and strings of hash
 characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go
@@ -1006,11 +976,10 @@ hint}}
 
 {{index "FizzBuzz (exercise)", loop, "conditional execution"}}
 
-Write a
-program that uses `console.log` to print all the numbers from 1 to
-100, with two exceptions. For numbers divisible by 3, print `"Fizz"`
-instead of the number, and for numbers divisible by 5 (and not 3),
-print `"Buzz"` instead.
+Write a program that uses `console.log` to print all the numbers from
+1 to 100, with two exceptions. For numbers divisible by 3, print
+`"Fizz"` instead of the number, and for numbers divisible by 5 (and
+not 3), print `"Buzz"` instead.
 
 When you have that working, modify your program to print `"FizzBuzz"`,
 for numbers that are divisible by both 3 and 5 (and still print
@@ -1018,7 +987,7 @@ for numbers that are divisible by both 3 and 5 (and still print
 
 (This is actually an ((interview question)) that has been claimed to
 weed out a significant percentage of programmer candidates. So if you
-solved it, you're now allowed to feel good about yourself.)
+solved it, your labor market value just went up.)
 
 {{if interactive
 ```
@@ -1030,23 +999,22 @@ if}}
 
 {{index "FizzBuzz (exercise)", "remainder operator", "% operator"}}
 
-Going
-over the numbers is clearly a looping job, and selecting what to print
-is a matter of conditional execution. Remember the trick of using the
-remainder (`%`) operator for checking whether a number is divisible by
-another number (has a remainder of zero).
+Going over the numbers is clearly a looping job, and selecting what to
+print is a matter of conditional execution. Remember the trick of
+using the remainder (`%`) operator for checking whether a number is
+divisible by another number (has a remainder of zero).
 
 In the first version, there are three possible outcomes for every
 number, so you'll have to create an `if`/`else if`/`else` chain.
 
 {{index "|| operator", ["if keyword", chaining]}}
 
-The second version of the
-program has a straightforward solution and a clever one. The simple
-way is to add another “branch” to precisely test the given condition.
-For the clever method, build up a string containing the word or words
-to output, and print either this word or the number if there is no
-word, potentially by making elegant use of the `||` operator.
+The second version of the program has a straightforward solution and a
+clever one. The simple way is to add another conditional “branch” to
+precisely test the given condition. For the clever method, build up a
+string containing the word or words to output, and print either this
+word or the number if there is no word, potentially by making elegant
+use of the `||` operator.
 
 hint}}
 
@@ -1054,10 +1022,10 @@ hint}}
 
 {{index "chess board (exercise)", loop, [nesting, "of loops"], "newline character"}}
 
-Write a program that creates a string that represents an
-8×8 grid, using newline characters to separate lines. At each position
-of the grid there is either a space or a “#” character. The characters
-should form a chess board.
+Write a program that creates a string that represents an 8×8 grid,
+using newline characters to separate lines. At each position of the
+grid there is either a space or a “#” character. The characters should
+form a chess board.
 
 Passing this string to `console.log` should show something like this:
 
@@ -1073,7 +1041,7 @@ Passing this string to `console.log` should show something like this:
 ```
 
 When you have a program that generates this pattern, define a
-((variable)) `size = 8` and change the program so that it works for
+((binding)) `size = 8` and change the program so that it works for
 any `size`, outputting a grid of the given width and height.
 
 {{if interactive
@@ -1086,32 +1054,29 @@ if}}
 
 {{index "chess board (exercise)"}}
 
-The string can be built by starting with
-an empty one (`""`) and repeatedly adding characters. A newline
-character is written `"\n"`.
+The string can be built by starting with an empty one (`""`) and
+repeatedly adding characters. A newline character is written `"\n"`.
 
 Use `console.log` to inspect the output of your program.
 
 {{index [nesting, "of loops"]}}
 
-To work with two ((dimensions)), you will need a
-((loop)) inside of a loop. Put ((curly braces)) around the bodies of
-both loops to make it easy to see where they start and end. Try to
-properly indent these bodies. The order of the loops must follow the
-order in which we build up the string (line by line, left to right,
-top to bottom). So the outer loop handles the lines and the inner loop
-handles the characters on a line.
+To work with two ((dimensions)), you will need a ((loop)) inside of a
+loop. Put ((curly braces)) around the bodies of both loops to make it
+easy to see where they start and end. Try to properly indent these
+bodies. The order of the loops must follow the order in which we build
+up the string (line by line, left to right, top to bottom). So the
+outer loop handles the lines and the inner loop handles the characters
+on a line.
 
 {{index "counter variable", "remainder operator", "% operator"}}
 
-You'll
-need two variables to track your progress. To know whether to put a
-space or a hash sign at a given position, you could test whether the
-sum of the two counters is even (`% 2`).
+You'll need two bindings to track your progress. To know whether to
+put a space or a hash sign at a given position, you could test whether
+the sum of the two counters is even (`% 2`).
 
 Terminating a line by adding a newline character happens after the
 line has been built up, so do this after the inner loop but inside of
 the outer loop.
 
 hint}}
-

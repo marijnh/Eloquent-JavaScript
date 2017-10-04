@@ -356,12 +356,8 @@ console.log(typeof "x")
 {{id "console.log"}}
 
 We will use `console.log` in example code to indicate that we want to
-see the result of evaluating something. When you run such code, the
-value produced will be shown somewhere, though where exactly depends
-on the JavaScript environment you use to run it. In a browser, it goes
-to the JavaScript console, which is hidden by default. [When running
-example code in this book, it will be shown below the code.]{if
-interactive}
+see the result of evaluating something. More about that in the [next
+chapter](02_program_structure.html).
 
 {{index negation, "- operator", "binary operator", "unary operator"}}
 
@@ -682,4 +678,3 @@ This gives you enough information to use JavaScript as a pocket
 calculator, but not much more. The [next
 chapter](02_program_structure.html#program_structure) will start tying
 these expressions together into basic programs.
-

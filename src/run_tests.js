@@ -62,7 +62,7 @@ while (m = re.exec(input)) {
     snippet = stripped.javascript
   }
   try {
-    acorn.parse(snippet, {strictSemicolons: chapNum != 1})
+    acorn.parse(snippet, {onInsertedSemicolon: chapNum == 1 ? null : () => { throw new Error("Missing semicolon") }})
   } catch(e) {
     console.log("parse error at " + where + ": " + e.toString())
   }

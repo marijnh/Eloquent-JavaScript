@@ -238,9 +238,9 @@ The next basic data type is the _((string))_. Strings are used to
 represent text. They are written by enclosing their content in quotes.
 
 ```
-"Down on the sea"
-'Lie on the ocean'
-`Float on the ocean`
+`Down on the sea`
+"Lie on the ocean"
+'Float on the ocean'
 ```
 
 You can use single quotes, double quotes, or backticks to mark

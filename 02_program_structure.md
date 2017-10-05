@@ -391,7 +391,7 @@ a certain condition holds. For example, in the previous example
 program, we might want to show the square of the input only if the
 input is actually a number.
 
-```
+```{test: wrap}
 let theNumber = Number(prompt("Pick a number"));
 if (!isNaN(theNumber)) {
   console.log("Your number is the square root of " +
@@ -422,7 +422,7 @@ is represented by the second arrow in the diagram. The `else` keyword
 can be used, together with `if`, to create two separate, alternative
 execution paths.
 
-```
+```{test: wrap}
 let theNumber = Number(prompt("Pick a number"));
 if (!isNaN(theNumber)) {
   console.log("Your number is the square root of " +
@@ -654,7 +654,7 @@ cases, this is shorter and clearer than a `while` construct.
 
 This is the code that computes 2^10^, using `for` instead of `while`:
 
-```
+```{test: wrap}
 let result = 1;
 for (let counter = 0; counter < 10; counter = counter + 1)
   result = result * 2;
@@ -681,9 +681,11 @@ that is both greater than or equal to 20 and divisible by 7.
 
 ```
 for (let current = 20; ; current = current + 1) {
-  if (current % 7 == 0) break;
+  if (current % 7 == 0) {
+    console.log(current);
+    break;
+  }
 }
-console.log(current);
 // → 21
 ```
 

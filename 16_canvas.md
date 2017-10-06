@@ -2,7 +2,7 @@
 
 # Drawing on Canvas
 
-{{quote {author: "M.C. Escher,cited by Bruno Ernst in The Magic Mirror of M.C. Escher", chapter: true}
+{{quote {author: "M.C. Escher", title: "cited by Bruno Ernst in The Magic Mirror of M.C. Escher", chapter: true}
 
 Drawing is deception.
 

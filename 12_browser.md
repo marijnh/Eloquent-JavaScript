@@ -2,13 +2,7 @@
 
 # JavaScript and the Browser
 
-{{quote {author: "Douglas Crockford,The JavaScript Programming Language (video lecture)", chapter: true}
-
-The browser is a really hostile programming environment.
-
-quote}}
-
-{{index "Crockford, Douglas", [JavaScript, "history of"], "World Wide Web"}}
+{{index [JavaScript, "history of"], "World Wide Web"}}
 
 The next part of this book will talk about web browsers. Without
 web ((browser))s, there would be no JavaScript. And even if there

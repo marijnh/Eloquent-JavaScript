@@ -2,10 +2,22 @@
 
 # Project: A Programming Language
 
+{{if interactive
+
 {{quote {author: "Hal Abelson and Gerald Sussman", title: "Structure and Interpretation of Computer Programs", chapter: true}
 
 The evaluator, which determines the meaning of expressions in a
 programming language, is just another program.
+
+quote}}
+
+if}}
+
+{{quote {author: "Grace Hopper", title: "quoted in Grace Hopper: Navy Admiral and Computer Pioneer", chapter: true }
+
+I had a running compiler and nobody would touch it. They carefully
+told me, computers could only do arithmetic; they could not do
+programs.
 
 quote}}
 

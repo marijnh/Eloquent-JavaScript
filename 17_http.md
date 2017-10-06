@@ -2,7 +2,7 @@
 
 # HTTP
 
-{{quote {author: "Tim Berners-Lee,The World Wide Web: A very short personal history", chapter: true}
+{{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A very short personal history", chapter: true}
 
 The dream behind the Web is of a common information space in which we
 communicate by sharing information. Its universality is essential: the

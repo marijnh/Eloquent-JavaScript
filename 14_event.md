@@ -2,7 +2,7 @@
 
 # Handling Events
 
-{{quote {author: "Marcus Aurelius,Meditations", chapter: true}
+{{quote {author: "Marcus Aurelius", title: Meditations, chapter: true}
 
 You have power over your mind—not
 outside events. Realize this, and you will find strength.

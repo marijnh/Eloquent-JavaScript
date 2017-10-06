@@ -2,7 +2,7 @@
 
 # Project: A Platform Game
 
-{{quote {author: "Iain Banks,The Player of Games"}
+{{quote {author: "Iain Banks", title: "The Player of Games"}
 
 All reality is a game.
 

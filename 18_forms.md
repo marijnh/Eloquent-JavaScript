@@ -2,7 +2,7 @@
 
 # Forms and Form Fields
 
-{{quote {author: "Mephistopheles,in Goethe's Faust", chapter: true}
+{{quote {author: "Mephistopheles", title: "in Goethe's Faust", chapter: true}
 
 I shall this very day, at Doctor's feast, +
 My bounden service duly pay thee. +

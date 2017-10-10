@@ -484,11 +484,11 @@ console.log(power(2, 6));
 
 {{index "console.log"}}
 
-In the [next chapter](04_data.html#arguments_object), we will see a
-way in which a function body can get at the exact list of arguments
-that were passed. This is helpful because it makes it possible for a
-function to accept any number of arguments. For example, `console.log`
-makes use of this—it outputs all of the values it is given.
+In the [next chapter](04_data.html#rest_parameters), we will see a way
+in which a function body can get at the whole list of arguments it was
+passed. This is helpful because it makes it possible for a function to
+accept any number of arguments. For example, `console.log` makes use
+of this—it outputs all of the values it is given.
 
 ```
 console.log("C", "O", 2);
@@ -1055,11 +1055,10 @@ hint}}
 
 ### Bean counting
 
-{{index "bean counting (exercise)", "charAt method", [string, indexing], "zero-based counting"}}
+{{index "bean counting (exercise)", [string, indexing], "zero-based counting"}}
 
 You can get the Nth character, or letter, from a string by writing
-`"string".charAt(N)`, similar to how you get its length with
-`"s".length`. The returned value will be a string containing only one
+`"string"[N]`. The returned value will be a string containing only one
 character (for example, `"b"`). The first character has position zero,
 which causes the last one to be found at position `string.length - 1`.
 In other words, a two-character string has length 2, and its

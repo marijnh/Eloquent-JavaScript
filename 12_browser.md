@@ -211,7 +211,7 @@ HTML documents have a head and a body.
 The head contains information _about_ the document, and the body
 contains the document itself. In this case, we first declared that the
 title of this document is “My home page” and then gave a document
-containing a heading (`<h1>`, meaning “heading 1”—_<h2>_ to `<h6>`
+containing a heading (`<h1>`, meaning “heading 1”—_`<h2>`_ to `<h6>`
 produce more minor headings) and two ((paragraph))s (`<p>`).
 
 {{index "href attribute", "a (HTML tag)"}}

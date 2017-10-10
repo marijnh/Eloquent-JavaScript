@@ -15,6 +15,7 @@ let baseCode = "let alert = function() {}, prompt = function() { return 'x' }, c
 let meta = /\{\{meta (.*?)\}\}\n/.exec(input)
 let include = /\bload_files: (\[[^\]]+\])/.exec(meta ? meta[1] : "")
 if (include) JSON.parse(include[1]).forEach(function(fileName) {
+  if (fileName == "code/chapter/" + file.replace(/md/, "js")) return
   let text = fs.readFileSync("html/" + fileName)
   if (!/\/\/ test: no/.test(text))
     baseCode += text

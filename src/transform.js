@@ -38,9 +38,9 @@ function smartQuotes(tokens, i) {
   }
 
   return text
-    .replace(/([\w\.!?\)])'/g, "$1’")
+    .replace(/([\w\.,!?\)])'/g, "$1’")
     .replace(/'(\w)/g, "‘$1")
-    .replace(/([\w\.!?\)])"/g, "$1”")
+    .replace(/([\w\.,!?\)])"/g, "$1”")
     .replace(/"(\w)/g, "“$1")
     .slice(from, to)
 }

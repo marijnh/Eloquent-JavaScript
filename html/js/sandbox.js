@@ -263,23 +263,17 @@
       WhileStatement: loop,
       DoWhileStatement: loop
     })
-    let tryPos = 0
+    let tryPos = 0, catchPos = ast.end
     for (let i = strict ? 1 : 0; i < ast.body.length; i++) {
       let stat = ast.body[i]
       if (stat.type != "FunctionDeclaration") {
-        tryPos = stat.start
-        break
+        if (tryPos == 0) tryPos = stat.start
+        catchPos = stat.end
       }
+      if (stat.type == "VariableDeclaration" && stat.kind != "var")
+        patches.push({from: stat.start, to: stat.start + stat.kind.length, text: "var"})
     }
     patches.push({from: tryPos, text: "try{"})
-    let catchPos = ast.end
-    for (let i = ast.body.length - 1; i >= 0; i--) {
-      let stat = ast.body[i]
-      if (stat.type != "FunctionDeclaration") {
-        catchPos = stat.end
-        break
-      }
-    }
     patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"})
     patches.sort(function(a, b) { return a.from - b.from })
     let out = "", pos = 0

@@ -530,7 +530,7 @@ if}}
 (If at this point you're putting the book down to focus on a terrible
 flashback to 10th grade math class—hold on! I do not intend to torture
 you with endless pages of cryptic notation—just this one formula for
-now. And even with that one, all we do is turn it in JavaScript.)
+now. And even with that one, all we do is turn it into JavaScript.)
 
 The notation [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex} indicates
 the number of measurements where the first variable (squirrelness) is

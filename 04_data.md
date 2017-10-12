@@ -238,7 +238,7 @@ and returning it.
 
 These somewhat silly names are the traditional terms for operations on
 a _((stack))_. A stack is an abstract concept of a ((data structure))
-that allows you to push values into it an pop them out again in the
+that allows you to push values into it and pop them out again in the
 opposite order—the thing that was added last is removed first. These
 are common in programming—you might remember the function ((call
 stack)) from [the previous chapter](03_functions.html#stack), which is

@@ -11,8 +11,8 @@ function range(start, end, step = start < end ? 1 : -1) {
 
 function sum(array) {
   let total = 0;
-  for (let i = 0; i < array.length; i++) {
-    total += array[i];
+  for (let value of array) {
+    total += value;
   }
   return total;
 }

@@ -652,6 +652,40 @@ The only step remaining is to find a correlation for every type of
 event that was recorded and see whether anything stands out. How
 should we store these correlations once we compute them?
 
+## Array loops
+
+{{index "for loop", loop, [array, iteration]}}
+
+In the `tableFor` function, there's a loop like this:
+
+```
+for (let i = 0; i < journal.length; i++) {
+  let entry = journal[i];
+  // Do something with entry
+}
+```
+
+This kind of loop is common in classical JavaScript—going over arrays
+one element at a time something you tend to need a lot, and to do that
+you'd run a counter over the length of the array and pick out each
+element in turn.
+
+There is a simpler way to write such loops.
+
+```
+for (let entry of journal) {
+  console.log(`Day ${i}: ${entry.events.length} events.`)
+}
+```
+
+{{index "for/of loop"}}
+
+When a `for` loops looks like this, with the word `of` after a
+variable definition, it will loop over the elements of the value given
+after `of`. This works not only for arrays, but also for some other
+data structures. We'll discuss _how_ it works in [Chapter
+6](06_object.html).
+
 ## Objects as maps
 
 {{index "weresquirrel example", array}}
@@ -695,23 +729,36 @@ There are a few potential problems with using objects like this, which
 we will discuss in [Chapter 6](06_object.html#prototypes), but for the
 time being, we won't worry about those.
 
-{{index "for/in loop", "for loop", [object, "looping over"]}}
+{{index "Object.keys function"}}
 
 What if we want to find all the events for which we have stored a
-coefficient? The property names don't form a predictable series, like
-they would in an array, so we cannot use a normal `for` loop.
-JavaScript provides a loop construct specifically for going over the
-properties of an object. It looks a little like a normal `for` loop
-but distinguishes itself by the use of the word `in`.
+coefficient? To loop over such an object, we first need to find out
+what its properties are called. That can be done with the
+`Object.keys` function:
 
 ```
-for (let event in map) {
+for (let event of Object.keys(map)) {
   console.log(`Correlation for '${event}': ${map[event]}`);
 }
 // → Correlation for 'pizza': 0.069
 // → Correlation for 'touched tree': -0.081
 ```
 
+{{index "Object.entries function"}}
+
+Since you often need both the property names and their values, there's
+also an `Object.entries` function, which returns an array of pairs
+describing the properties, where each pair is a two-element array
+containing the propery name and its value.
+
+```
+console.log(Object.entries({a: 1, b: 2}));
+// → [["a", 1], ["b", 2]]
+
+for (let prop of Object.entries(map)) {
+  console.log(`Correlation for '${prop[0]}': ${prop[1]}`);
+}
+```
 {{id analysis}}
 
 ## The final analysis
@@ -734,10 +781,8 @@ condition expression in the inner loop would be interpreted as
 ```{includeCode: strip_log, test: clip}
 function gatherCorrelations(journal) {
   let phis = {};
-  for (let entry = 0; entry < journal.length; entry++) {
-    let events = journal[entry].events;
-    for (let i = 0; i < events.length; i++) {
-      let event = events[i];
+  for (let entry of journal) {
+    for (let event of entry.events) {
       if (!(event in phis)) {
         phis[event] = phi(tableFor(event, journal));
       }
@@ -756,7 +801,7 @@ console.log(correlations.pizza);
 Let's see what came out.
 
 ```{test: no}
-for (let event in correlations) {
+for (let event of Object.keys(correlations)) {
   console.log(event + ": " + correlations[event]);
 }
 // → carrot:   0.0140970969
@@ -776,7 +821,7 @@ the results to show only correlations greater than 0.1 or less than
 -0.1.
 
 ```{startCode: "// test: no", test: no}
-for (let event in correlations) {
+for (let event of Object.keys(correlations)) {
   let correlation = correlations[event];
   if (correlation > 0.1 || correlation < -0.1) {
     console.log(event + ": " + correlation);
@@ -799,8 +844,7 @@ a significant negative effect.
 Interesting. Let's try something.
 
 ```{includeCode: strip_log}
-for (let i = 0; i < JOURNAL.length; i++) {
-  let entry = JOURNAL[i];
+for (let entry of JOURNAL) {
   if (hasEvent("peanuts", entry) &&
      !hasEvent("brushed teeth", entry)) {
     entry.events.push("peanut teeth");
@@ -1001,8 +1045,8 @@ last ((parameter)), like this:
 ```
 function max(...numbers) {
   let result = -Infinity;
-  for (let i = 0; i < numbers.length; i++) {
-    if (numbers[i] > result) result = numbers[i];
+  for (let number of numbers) {
+    if (number > result) result = number;
   }
   return result;
 }
@@ -1196,10 +1240,12 @@ There _are_ some named properties in arrays, such as `length` and a
 number of methods. Methods are functions that live in properties and
 (usually) act on the value they are a property of.
 
-Objects can also serve as maps, associating values with names. The `in`
-operator can be used to find out whether an object contains a property with
-a given name. The same keyword can also be used in a `for` loop
-(`for (let name in object)`) to loop over an object's properties.
+You can iterate over arrays using a special kind of `for` loop (`for
+(let element of array)`).
+
+Objects can also serve as maps, associating values with names. The
+`in` operator can be used to find out whether an object contains a
+property with a given name.
 
 ## Exercises
 

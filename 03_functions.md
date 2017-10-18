@@ -330,6 +330,13 @@ const square1 = (x) => { return x * x; };
 const square2 = x => x * x;
 ```
 
+if you have no arguments at all, you can use empty ((parentheses)) 
+```
+const num = 25;
+const squareOfNum = () => num * num 
+```
+
+
 {{index verbosity}}
 
 Arrow functions are a relatively recent addition to the language, and

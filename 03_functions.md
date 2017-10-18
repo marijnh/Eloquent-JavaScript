@@ -330,6 +330,15 @@ const square1 = (x) => { return x * x; };
 const square2 = x => x * x;
 ```
 
+When an arrow function has no parameters at all, its parameter list is
+just an empty set of ((parentheses)).
+
+```
+const horn = () => {
+  console.log("Toot")
+};
+```
+
 {{index verbosity}}
 
 Arrow functions are a relatively recent addition to the language, and

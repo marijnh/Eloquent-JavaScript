@@ -275,7 +275,7 @@
     }
     patches.push({from: tryPos, text: "try{"})
     patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"})
-    patches.sort(function(a, b) { return a.from - b.from })
+    patches.sort(function(a, b) { return a.from - b.from || (a.to || a.from) - (b.to || b.from)})
     let out = "", pos = 0
     for (let i = 0; i < patches.length; ++i) {
       let patch = patches[i]

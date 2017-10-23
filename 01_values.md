@@ -288,13 +288,14 @@ character is written like "\n"._” can be expressed:
 "A newline character is written like \"\\n\"."
 ```
 
+{{id unicode}}
 {{index [string, representation], Unicode, character}}
 
 Strings, too, have to be modeled as a series of bits to be able to
 exist inside the computer. The way JavaScript does this is based on
 the _((Unicode))_ standard. This standard assigns a number to
 virtually every character you would ever need, including characters
-from Greek, Arabic, Japanese, Tamil, and so on. If we have a number
+from Greek, Arabic, Japanese, Armenian, and so on. If we have a number
 for every character, a string can be described by a sequence of
 numbers.
 

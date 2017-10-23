@@ -939,6 +939,8 @@ following triangle:
 #######
 ```
 
+{{index [string, length]}}
+
 It may be useful to know that you can find the length of a string by
 writing `.length` after it.
 

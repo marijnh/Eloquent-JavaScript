@@ -1,4 +1,4 @@
-{{meta {chap_num: 18, prev_link: 17_http, next_link: 19_paint, load_files: ["code/promise.js"]}}}
+{{meta {chap_num: 18, prev_link: 17_http, next_link: 19_paint}}}
 
 # Forms and Form Fields
 

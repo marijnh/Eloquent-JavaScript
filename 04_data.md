@@ -652,6 +652,8 @@ The only step remaining is to find a correlation for every type of
 event that was recorded and see whether anything stands out. How
 should we store these correlations once we compute them?
 
+{{id for_of_loop}}
+
 ## Array loops
 
 {{index "for loop", loop, [array, iteration]}}
@@ -682,8 +684,8 @@ for (let entry of journal) {
 
 When a `for` loops looks like this, with the word `of` after a
 variable definition, it will loop over the elements of the value given
-after `of`. This works not only for arrays, but also for some other
-data structures. We'll discuss _how_ it works in [Chapter
+after `of`. This works not only for arrays, but also for strings and
+some other data structures. We'll discuss _how_ it works in [Chapter
 6](06_object.html).
 
 ## Objects as maps
@@ -812,7 +814,7 @@ for (let event of Object.keys(correlations)) {
 // and so on...
 ```
 
-{{index "for/in loop"}}
+{{index "Object.keys function"}}
 
 Most correlations seem to lie close to zero. Eating carrots, bread, or
 pudding apparently does not trigger squirrel-lycanthropy. It _does_
@@ -1037,7 +1039,7 @@ It can be useful for a function to accept any number of ((argument))s.
 For example, `Math.max` computes the maximum of _all_ the arguments it
 is given.
 
-{{indexsee "period character", "max example"}}
+{{indexsee "period character", "max example", spread}}
 
 To write such a function, you put three dots before the function's
 last ((parameter)), like this:
@@ -1058,6 +1060,21 @@ When such a function is called the _((rest parameter))_ is bound to an
 array containing all further arguments. If there are other parameters
 before it, their values aren't part of that array. But if it's the
 first parameter, as in `max`, it will hold all arguments.
+
+{{index "function application"}}
+
+You can use a similar three-dot notation to _call_ a function with an
+array of arguments.
+
+```
+let numbers = [5, 1, 7];
+console.log(max(...numbers));
+// → 7
+```
+
+This "((spread))s" out the array into the function call, passing its
+elements as separate arguments. It is possible to include an array
+like that along with other arguments, as in `max(9, ...numbers, 2)`.
 
 ## The Math object
 
@@ -1197,12 +1214,14 @@ function phi([n00, n01, n10, n11]) {
 This also works for ((binding))s created with `let`, `var`, or
 `const`. If you know the value you are binding is an array, you can
 use ((square brackets)) to "look inside" of the value, binding its
-content.
+content. This works well with `Object.entries`, for example.
 
 ```
-let [a, b, c] = [1, 2, 3];
-console.log(b);
-// → 2
+for (let [name, value] in {x: 0, y: 1}) {
+  console.log(name, value);
+}
+// → x 0
+// → y 1
 ```
 
 {{index object, "curly braces"}}
@@ -1543,11 +1562,11 @@ compare properties only when _both_ arguments are objects. In all
 other cases you can just immediately return the result of applying
 `===`.
 
-{{index "for/in loop", "in operator"}}
+{{index "Object.keys method", "in operator"}}
 
-Use a `for`/`in` loop to go over the properties. You need to test
-whether both objects have the same set of property names and whether
-those properties have identical values. The first test can be done by
+Use `Object.keys` to go over the properties. You need to test whether
+both objects have the same set of property names and whether those
+properties have identical values. The first test can be done by
 counting the properties in both objects and returning false if the
 numbers of properties are different. If they're the same, then go over
 the properties of one object, and for each of them, verify that the

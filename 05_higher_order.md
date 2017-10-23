@@ -1,4 +1,4 @@
-{{meta {chap_num: 5, prev_link: 04_data, next_link: 06_object, load_files: ["code/ancestry.js", "code/chapter/05_higher_order.js", "code/intro.js"], zip: "node/html"}}}
+{{meta {chap_num: 5, prev_link: 04_data, next_link: 06_object, load_files: ["code/scripts.js", "code/chapter/05_higher_order.js", "code/intro.js"], zip: "node/html"}}}
 
 # Higher-Order Functions
 
@@ -6,12 +6,11 @@
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-Tzu-li and Tzu-ssu were
-boasting about the size of their latest programs. ‘Two-hundred
-thousand lines,’ said Tzu-li, ‘not counting comments!’ Tzu-ssu
-responded, ‘Pssh, mine is almost a *million* lines already.’ Master
-Yuan-Ma said, ‘My best program has five hundred lines.’ Hearing this,
-Tzu-li and Tzu-ssu were enlightened.
+Tzu-li and Tzu-ssu were boasting about the size of their latest
+programs. 'Two-hundred thousand lines,' said Tzu-li, 'not counting
+comments!' Tzu-ssu responded, 'Pssh, mine is almost a *million* lines
+already.' Master Yuan-Ma said, 'My best program has five hundred
+lines.' Hearing this, Tzu-li and Tzu-ssu were enlightened.
 
 quote}}
 
@@ -21,30 +20,29 @@ if}}
 
 {{index "Hoare, C.A.R."}}
 
-There are two ways of constructing a software
-design: One way is to make it so simple that there are obviously no
-deficiencies, and the other way is to make it so complicated that
-there are no obvious deficiencies.
+There are two ways of constructing a software design: One way is to
+make it so simple that there are obviously no deficiencies, and the
+other way is to make it so complicated that there are no obvious
+deficiencies.
 
 quote}}
 
 {{index "program size"}}
 
-A large program is a costly program, and not just
-because of the time it takes to build. Size almost always involves
-((complexity)), and complexity confuses programmers. Confused
-programmers, in turn, tend to introduce mistakes (_((bug))s_) into
-programs. A large program also provides a lot of space for these bugs
-to hide, making them hard to find.
+A large program is a costly program, and not just because of the time
+it takes to build. Size almost always involves ((complexity)), and
+complexity confuses programmers. Confused programmers, in turn, tend
+to put mistakes (_((bug))s_) into programs. A large program then
+provides a lot of space for these bugs to hide, making them hard to
+find.
 
 {{index "summing example"}}
 
-Let's briefly go back to the final two example
-programs in the introduction. The first is self-contained and six
-lines long.
+Let's briefly go back to the final two example programs in the
+introduction. The first is self-contained and six lines long.
 
 ```
-var total = 0, count = 1;
+let total = 0, count = 1;
 while (count <= 10) {
   total += count;
   count += 1;
@@ -62,16 +60,16 @@ Which one is more likely to contain a bug?
 
 {{index "program size"}}
 
-If we count the size of the definitions of `sum` and
-`range`, the second program is also big—even bigger than the first.
-But still, I'd argue that it is more likely to be correct.
+If we count the size of the definitions of `sum` and `range`, the
+second program is also big—even bigger than the first. But still, I'd
+argue that it is more likely to be correct.
 
 {{index abstraction, "domain-specific language"}}
 
-It is more likely to
-be correct because the solution is expressed in a ((vocabulary)) that
-corresponds to the problem being solved. Summing a range of
-numbers isn't about loops and counters. It is about ranges and sums.
+It is more likely to be correct because the solution is expressed in a
+((vocabulary)) that corresponds to the problem being solved. Summing a
+range of numbers isn't about loops and counters. It is about ranges
+and sums.
 
 The definitions of this vocabulary (the functions `sum` and `range`)
 will still involve loops, counters, and other incidental details. But
@@ -86,15 +84,14 @@ ability to talk about problems at a higher (or more abstract) level.
 
 {{index "recipe analogy", "pea soup"}}
 
-As an analogy, compare these two
-recipes for pea soup:
+As an analogy, compare these two recipes for pea soup:
 
 {{quote
 
 Put 1 cup of dried peas per person into a container. Add water until
-the peas are well covered. Leave the peas in water for at least 12 hours.
-Take the peas out of the water and put them in a cooking pan. Add 4
-cups of water per person. Cover the pan and keep the peas
+the peas are well covered. Leave the peas in water for at least 12
+hours. Take the peas out of the water and put them in a cooking pan.
+Add 4 cups of water per person. Cover the pan and keep the peas
 simmering for two hours. Take half an onion per person. Cut it into
 pieces with a knife. Add it to the peas. Take a stalk of celery per
 person. Cut it into pieces with a knife. Add it to the peas. Take a
@@ -117,9 +114,9 @@ quote}}
 
 {{index vocabulary}}
 
-The second is shorter and easier to interpret. But
-you do need to understand a few more cooking-related words—_soak_,
-_simmer_, _chop_, and, I guess, _vegetable_.
+The second is shorter and easier to interpret. But you do need to
+understand a few more cooking-related words—_soak_, _simmer_, _chop_,
+and, I guess, _vegetable_.
 
 When programming, we can't rely on all the words we need to be waiting
 for us in the dictionary. Thus, you might fall into the pattern of the
@@ -128,172 +125,107 @@ one by one, blind to the higher-level concepts that they express.
 
 {{index abstraction}}
 
-It has to become second nature, for a programmer, to
-notice when a concept is begging to be abstracted into a new word.
+It is a useful skill for, in programming, to notice when you are
+working at too low a level of abstraction.
 
 ## Abstracting array traversal
 
 {{index array}}
 
-Plain functions, as we've seen them so far, are a good
-way to build abstractions. But sometimes they fall short.
+Plain functions, as we've seen them so far, are a good way to build
+abstractions. But sometimes they fall short.
 
 {{index "for loop"}}
 
-In the [previous chapter](04_data.html#data), this
-type of `for` ((loop)) made several appearances:
+It is common for a program to do something a given number of times.
+You can write a `for` ((loop)) for that, like this:
 
 ```
-var array = [1, 2, 3];
-for (var i = 0; i < array.length; i++) {
-  var current = array[i];
-  console.log(current);
+for (let i = 0; i < 10; i++) {
+  console.log(i);
 }
 ```
 
-{{index ["length property", "for array"], [array, indexing], readability}}
-
-It's trying to say, “For
-each element in the array, log it to the console”. But it uses a
-roundabout way that involves a counter variable `i`, a check against
-the array's length, and an extra variable declaration to pick out the
-current element. Apart from being a bit of an eyesore, this provides a
-lot of space for potential mistakes. We might accidentally reuse the
-`i` variable, misspell `length` as `lenght`, confuse the `i` and `current`
-variables, and so on.
-
-So let's try to abstract this into a function. Can you think of a way?
-
-Well, it's easy to write a function that goes over an array and calls
-`console.log` on every element.
+Can we abstract "doing something _N_ times" as a function? Well, it's
+easy to write a function that calls `console.log` _N_ times.
 
 ```
-function logEach(array) {
-  for (var i = 0; i < array.length; i++)
-    console.log(array[i]);
+function repeatLog(n) {
+  for (let i = 0; i < n; i++) {
+    console.log(i);
+  }
 }
 ```
 
 {{index [function, "higher-order"], loop, [array, traversal], [function, "as value"], "forEach method"}}
 
-{{id forEach}}
 {{indexsee "higher-order function", "function, higher-order"}}
 
-But what
-if we want to do something other than logging the elements? Since
-“doing something” can be represented as a function and functions are
-just values, we can pass our action as a function value.
+But what if we want to do something other than logging the numbers?
+Since "doing something" can be represented as a function and functions
+are just values, we can pass our action as a function value.
 
 ```
-function forEach(array, action) {
-  for (var i = 0; i < array.length; i++)
-    action(array[i]);
+function repeat(n, action) {
+  for (let i = 0; i < n; i++) {
+    action(i);
+  }
 }
 
-forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
-// → Wampeter
-// → Foma
-// → Granfalloon
+repeat(3, console.log);
+// → 0
+// → 1
+// → 2
 ```
 
-(In some browsers, calling `console.log` in this way does not work.
-You can use `alert` instead of `console.log` if this example fails to
-work.)
+That function is a small abstraction that makes it possible to express
+repetition more clearly.
 
-Often, you don't pass a predefined function to `forEach` but create
-a function value on the spot instead.
+You don't have to pass a predefined function to `repeat`. Often, you'd
+want to create a function value on the spot instead.
 
 ```
-var numbers = [1, 2, 3, 4, 5], sum = 0;
-forEach(numbers, function(number) {
-  sum += number;
+let message = "Wow";
+repeat(5, n => {
+  message += "!";
 });
-console.log(sum);
-// → 15
+console.log(message);
+// → Wow!!!!!
 ```
 
 {{index "loop body", "curly braces"}}
 
-This looks quite a lot like the
-classical `for` loop, with its body written as a block below it.
-However, now the body is inside the function value, as well as
-inside the ((parentheses)) of the call to `forEach`. This is why it
-has to be closed with the closing brace _and_ closing parenthesis.
-
-{{index "local variable", parameter}}
-
-Using this pattern, we can
-specify a variable name for the current element (`number`), rather
-than having to pick it out of the array manually.
-
-{{index [array, methods], [function, "higher-order"], "forEach method", array}}
-
-In fact, we don't need to write `forEach`
-ourselves. It is available as a standard method on arrays. Since the
-array is already provided as the thing the method acts on, `forEach`
-takes only one required argument: the function to be executed for each
-element.
-
-To illustrate how helpful this is, let's look back at a function
-from [the previous chapter](04_data.html#analysis). It contains two
-array-traversing ((loop))s.
-
-```
-function gatherCorrelations(journal) {
-  var phis = {};
-  for (var entry = 0; entry < journal.length; entry++) {
-    var events = journal[entry].events;
-    for (var i = 0; i < events.length; i++) {
-      var event = events[i];
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
-    }
-  }
-  return phis;
-}
-```
-
-{{index "forEach method"}}
-
-Working with `forEach` makes it slightly shorter
-and quite a bit cleaner.
-
-```
-function gatherCorrelations(journal) {
-  var phis = {};
-  journal.forEach(function(entry) {
-    entry.events.forEach(function(event) {
-      if (!(event in phis))
-        phis[event] = phi(tableFor(event, journal));
-    });
-  });
-  return phis;
-}
-```
+This is structured a little like a `for` loop—it starts by describing
+the kind of loop, and then provides a body. However, the body is now
+written as a function value, which is wrapped in the ((parentheses))
+of the call to `forEach`. This is why it has to be closed with the
+closing brace _and_ closing parenthesis. In cases like this, where the
+body is a single small expression, you could also omit the curly
+braces and write the loop on a single line.
 
 ## Higher-order functions
 
 {{index [function, "higher-order"], [function, "as value"]}}
 
-Functions that
-operate on other functions, either by taking them as arguments or by
-returning them, are called _higher-order functions_. If you have
-already accepted the fact that functions are regular values, there is
-nothing particularly remarkable about the fact that such functions
-exist. The term comes from ((mathematics)), where the distinction
-between functions and other values is taken more seriously.
+Functions that operate on other functions, either by taking them as
+arguments or by returning them, are called _higher-order functions_.
+If you have already accepted the fact that functions are regular
+values, there is nothing particularly remarkable about the fact that
+such functions exist. The term comes from ((mathematics)), where the
+distinction between functions and other values is taken more
+seriously.
 
 {{index abstraction}}
 
-Higher-order functions allow us to abstract over
-_actions_, not just values. They come in several forms. For example,
-you can have functions that create new functions.
+Higher-order functions allow us to abstract over _actions_, not just
+values. They come in several forms. For example, you can have
+functions that create new functions.
 
 ```
 function greaterThan(n) {
-  return function(m) { return m > n; };
+  return m => m > n;
 }
-var greaterThan10 = greaterThan(10);
+let greaterThan10 = greaterThan(10);
 console.log(greaterThan10(11));
 // → true
 ```
@@ -302,30 +234,28 @@ And you can have functions that change other functions.
 
 ```
 function noisy(f) {
-  return function(arg) {
-    console.log("calling with", arg);
-    var val = f(arg);
-    console.log("called with", arg, "- got", val);
-    return val;
+  return (...args) => {
+    console.log("calling with", args);
+    let result = f(...args);
+    console.log("called with", args, ", returned", result);
+    return result;
   };
 }
-noisy(Boolean)(0);
-// → calling with 0
-// → called with 0 - got false
+noisy(Math.min)(3, 2, 1);
+// → calling with [3, 2, 1]
+// → called with [3, 2, 1] , returned 1
 ```
 
-You can even write functions that provide new types of ((control flow)).
+You can even write functions that provide new types of ((control
+flow)).
 
 ```
 function unless(test, then) {
   if (!test) then();
 }
-function repeat(times, body) {
-  for (var i = 0; i < times; i++) body(i);
-}
 
-repeat(3, function(n) {
-  unless(n % 2, function() {
+repeat(3, n => {
+  unless(n % 2, () => {
     console.log(n, "is even");
   });
 });
@@ -333,202 +263,112 @@ repeat(3, function(n) {
 // → 2 is even
 ```
 
-{{index "inner function", [nesting, "of functions"], "{} (block)", "local variable", closure}}
+{{index [array, methods], [array, iteration], "forEach method"}}
 
-The ((lexical scoping))
-rules that we discussed in [Chapter 3](03_functions.html#scoping)
-work to our advantage when using functions in this way. In the previous example, the `n` variable is a ((parameter)) to the outer function.
-Because the inner function lives inside the environment of the outer
-one, it can use `n`. The bodies of such inner functions can access the
-variables around them. They can play a role similar to the `{}` blocks
-used in regular loops and conditional statements. An important
-difference is that variables declared inside inner functions do not
-end up in the environment of the outer function. And that is usually a
-good thing.
-
-## Passing along arguments
-
-{{index [function, wrapping], "arguments object"}}
-
-The `noisy` function
-defined earlier, which wraps its argument in another function, has a rather
-serious deficit.
+There is a built-in array method, `forEach` that provides something
+like a `for`/`of` loop as a higher-order function.
 
 ```
-function noisy(f) {
-  return function(arg) {
-    console.log("calling with", arg);
-    var val = f(arg);
-    console.log("called with", arg, "- got", val);
-    return val;
-  };
+["A", "B"].forEach(console.log);
+// → A
+// → B
+```
+
+## Script data set
+
+One area where higher-order functions shine is data processing. In
+order to process data, we'll need some data. This chapter will use a
+((data set)) about ((writing system))s—such as Latin, Cyrillic, and
+Arabic.
+
+Remember ((Unicode)) from [Chapter 1](01_values.html#unicode), the
+system that assigns a number to each character in written language.
+Most of these characters are associated with a script. The standard
+contains 140 different scripts. 81 of those are still in use today.
+
+Though I can only fluently read Latin characters, I appreciate the
+fact that people are writing texts in at least 80 other writing
+systems, many of which I wouldn't even recognize. For example, here's
+a sample of ((Tamil)) handwriting.
+
+{{figure {url: "img/tamil.png", alt: "Tamil handwriting"}}}
+
+{{index "SCRIPTS data set"}}
+
+The example ((data set)) contains information about the 140 scripts
+defined in Unicode. It is available in the coding sandbox for this
+chapter[
+([_eloquentjavascript.net/code#5_](http://eloquentjavascript.net/code#5)]{if
+book} as the `SCRIPTS` binding. This binding contains an array of
+objects, each of which describes a script.
+
+```{type: "application/json"}
+{
+  name: "Coptic",
+  ranges: [[994, 1008], [11392, 11508], [11513, 11520]],
+  direction: "ltr",
+  year: -200,
+  living: false,
+  link: "https://en.wikipedia.org/wiki/Coptic_alphabet"
 }
 ```
 
-If `f` takes more than one ((parameter)), it gets only the first one.
-We could add a bunch of arguments to the inner function (`arg1`,
-`arg2`, and so on) and pass them all to `f`, but it is not clear how many
-would be enough. This solution would also deprive `f` of the
-information in `arguments.length`. Since we'd always pass the same
-number of arguments, it wouldn't know how many arguments were
-originally given.
+Such an object tells you the name of the script, the Unicode ranges
+assigned to it, the direction in which it is written, the
+(approximate) origin time, whether it is still in use, and a link to
+more information. Direction may be `"ltr"` for left-to-right, `"rtl"`
+for right-to-left (the way Arabic and Hebrew text are written), or
+`"ttb"` for top-to-bottom (as with Mongolian writing).
 
-{{index "apply method", "array-like object", [function, application]}}
+{{index "slice method"}}
 
-For
-these kinds of situations, JavaScript functions have an `apply`
-method. You pass it an array (or array-like object) of arguments, and
-it will call the function with those arguments.
+The `ranges` property contains an array of Unicode character
+((range))s, each of which is a two-element array containing a lower
+and upper bound. Any character codes within these ranges are assigned
+to the script. The lower ((bound)) is inclusive (code 994 is a Coptic
+character) and the upper bound non-inclusive (code 1008 isn't). When
+working with ranges, dealing with the boundaries can be confusing, so
+I recommend to just do what the `slice` method on arrays and strings
+does whenever possible, using an inclusive lower bound and exclusive
+upper bound.
 
-```
-function transparentWrapping(f) {
-  return function() {
-    return f.apply(null, arguments);
-  };
-}
-```
-
-{{index null}}
-
-That's a useless function, but it shows the pattern we are
-interested in—the function it returns passes all of the given
-arguments, and only those arguments, to `f`. It does this by passing
-its own `arguments` object to `apply`. The first argument to `apply`,
-for which we are passing `null` here, can be used to simulate a
-((method)) call. We will come back to that in the
-[next chapter](06_object.html#call_method).
-
-## JSON
-
-{{index array, [function, "higher-order"], "forEach method", "data set"}}
-
-Higher-order functions that somehow apply a function to the
-elements of an array are widely used in JavaScript. The `forEach`
-method is the most primitive such function. There are a number of
-other variants available as methods on arrays. To familiarize
-ourselves with them, let's play around with another data set.
-
-{{index "ancestry example"}}
-
-A few years ago, someone crawled through a lot
-of archives and put together a book on the history of my family name
-(Haverbeke—meaning Oatbrook). I opened it hoping to find
-knights, pirates, and alchemists ... but the book turns out to be
-mostly full of Flemish ((farmer))s. For my amusement, I extracted the
-information on my direct ancestors and put it into a
-computer-readable format.
-
-{{index "data format", JSON}}
-
-The file I created looks something like
-this:
-
-```{lang: "application/json"}
-[
-  {"name": "Emma de Milliano", "sex": "f",
-   "born": 1876, "died": 1956,
-   "father": "Petrus de Milliano",
-   "mother": "Sophia van Damme"},
-  {"name": "Carolus Haverbeke", "sex": "m",
-   "born": 1832, "died": 1905,
-   "father": "Carel Haverbeke",
-   "mother": "Maria van Brussel"},
-  … and so on
-]
-```
-
-{{index "World Wide Web"}}
-
-{{indexsee "JavaScript Object Notation", JSON}}
-
-This format is called JSON (pronounced “Jason”),
-which stands for JavaScript Object Notation. It is widely used as a
-data storage and communication format on the Web.
-
-{{index array, object, [quoting, "in JSON"], comment}}
-
-JSON is similar to
-JavaScript's way of writing arrays and objects, with a few
-restrictions. All property names have to be surrounded by double quotes, and
-only simple data expressions are allowed—no function calls, 
-variables, or anything that involves actual computation. Comments are not
-allowed in JSON.
-
-{{index "JSON.stringify function", "JSON.parse function", serialization, deserialization, parsing}}
-
-JavaScript
-gives us functions, `JSON.stringify` and `JSON.parse`, that convert
-data to and from this format. The first takes a JavaScript value and
-returns a JSON-encoded string. The second takes such a string and
-converts it to the value it encodes.
-
-```
-var string = JSON.stringify({name: "X", born: 1980});
-console.log(string);
-// → {"name":"X","born":1980}
-console.log(JSON.parse(string).born);
-// → 1980
-```
-
-{{index "ANCESTRY_FILE data set"}}
-
-The variable `ANCESTRY_FILE`, available in
-the ((sandbox)) for this chapter and in
-http://eloquentjavascript.net/code/ancestry.js[a downloadable file] on
-the website[(http://eloquentjavascript.net/code#5[_eloquentjavascript.net/code#5_])]{if book}, contains the
-content of my ((JSON)) file as a string. Let's decode it and see how
-many people it contains.
-
-```{includeCode: strip_log}
-var ancestry = JSON.parse(ANCESTRY_FILE);
-console.log(ancestry.length);
-// → 39
-```
-
-## Filtering an array
+## Filtering arrays
 
 {{index [array, methods], [array, filtering], "filter method", [function, "higher-order"], "predicate function"}}
 
-To find
-the people in the ancestry data set who were young in 1924, the
+To find the scripts in the data set that are still in use, the
 following function might be helpful. It filters out the elements in an
 array that don't pass a test.
 
 ```
 function filter(array, test) {
-  var passed = [];
-  for (var i = 0; i < array.length; i++) {
-    if (test(array[i]))
-      passed.push(array[i]);
+  let passed = [];
+  for (let element of array) {
+    if (test(element)) {
+      passed.push(element);
+    }
   }
   return passed;
 }
 
-console.log(filter(ancestry, function(person) {
-  return person.born > 1900 && person.born < 1925;
-}));
-// → [{name: "Philibert Haverbeke", …}, …]
+console.log(filter(SCRIPTS, script => script.living));
+// → [{name: "Adlam", …}, …]
 ```
 
 {{index [function, "as value"], [function, application]}}
 
-This uses the
-argument named `test`, a function value, to fill in a “gap” in the
-computation. The `test` function is called for each element, and its
-return value determines whether an element is included in the returned
-array.
+This uses the argument named `test`, a function value, to fill in a
+“gap” in the computation. The `test` function is called for each
+element, and its return value determines whether an element is
+included in the returned array. 
 
-{{index "ancestry example"}}
-
-Three people in the file were alive and young in
-1924: my grandfather, grandmother, and great-aunt.
+This finds and collects the 81 living scripts in the data set.
 
 {{index "filter method", "pure function", "side effect"}}
 
-Note how the
-`filter` function, rather than deleting elements from the existing
-array, builds up a new array with only the elements that pass the
-test. This function is _pure_. It does not modify the array it is
+Note how the `filter` function, rather than deleting elements from the
+existing array, builds up a new array with only the elements that pass
+the test. This function is _pure_. It does not modify the array it is
 given.
 
 Like `forEach`, `filter` is also a ((standard)) method on arrays. The
@@ -536,72 +376,58 @@ example defined the function only in order to show what it does
 internally. From now on, we'll use it like this instead:
 
 ```
-console.log(ancestry.filter(function(person) {
-  return person.father == "Carel Haverbeke";
-}));
-// → [{name: "Carolus Haverbeke", …}]
+console.log(SCRIPTS.filter(s => s.direction == "ttb"));
+// → [{name: "Mongolian", …}]
 ```
 
 ## Transforming with map
 
-{{index [array, methods], "map method", "ancestry example"}}
+{{index [array, methods], "map method"}}
 
-Say we
-have an array of objects representing people, produced by filtering
-the `ancestry` array somehow. But we want an array of names, which is
-easier to read.
+Say we have an array of objects representing scripts, produced by
+filtering the `SCRIPTS` array somehow. But we want an array of names,
+which is easier to inspect.
 
 {{index [function, "higher-order"]}}
 
-The `map` method transforms an array by
-applying a function to all of its elements and building a new array
-from the returned values. The new array will have the same length as
-the input array, but its content will have been “mapped” to a new form
-by the function.
+The `map` method transforms an array by applying a function to all of
+its elements and building a new array from the returned values. The
+new array will have the same length as the input array, but its
+content will have been “mapped” to a new form by the function.
 
 ```{test: join}
 function map(array, transform) {
-  var mapped = [];
-  for (var i = 0; i < array.length; i++)
-    mapped.push(transform(array[i]));
+  let mapped = [];
+  for (let element of array) {
+    mapped.push(transform(element));
+  }
   return mapped;
 }
 
-var overNinety = ancestry.filter(function(person) {
-  return person.died - person.born > 90;
-});
-console.log(map(overNinety, function(person) {
-  return person.name;
-}));
-// → ["Clara Aernoudts", "Emile Haverbeke",
-//    "Maria Haverbeke"]
+let rtlScripts = SCRIPTS.filter(s => s.direction == "rtl");
+console.log(map(rtlScripts, s => s.name));
+// → ["Adlam", "Arabic", "Imperial Aramaic", …]
 ```
-
-Interestingly, the people who lived to at least 90 years of age are the
-same three people who we saw before—the people who were young in the
-1920s, which happens to be the most recent generation in my data set.
-I guess ((medicine)) has come a long way.
 
 Like `forEach` and `filter`, `map` is also a standard method on
 arrays.
 
 ## Summarizing with reduce
 
-{{index [array, methods], "summing example", "reduce method", "ancestry example"}}
+{{index [array, methods], "summing example", "reduce method"}}
 
-Another common pattern of computation on arrays is computing
-a single value from them. Our recurring example, summing a collection
-of numbers, is an instance of this. Another example would be finding
-the person with the earliest year of birth in the data set.
+Another common pattern of computation on arrays is computing a single
+value from them. Our recurring example, summing a collection of
+numbers, is an instance of this. Another example would be finding the
+script with the most characters in the data set.
 
 {{index [function, "higher-order"], "fold function"}}
 
-The higher-order
-operation that represents this pattern is called _reduce_ (or
-sometimes _fold_). You can think of it as folding up the array, one
-element at a time. When summing numbers, you'd start with the number
-zero and, for each element, combine it with the current sum by adding
-the two.
+The higher-order operation that represents this pattern is called
+_reduce_ (or sometimes _fold_). You can think of it as folding up the
+array, one element at a time. When summing numbers, you'd start with
+the number zero and, for each element, combine it with the current sum
+by adding.
 
 The parameters to the `reduce` function are, apart from the array, a
 combining function and a start value. This function is a little less
@@ -609,370 +435,345 @@ straightforward than `filter` and `map`, so pay close attention.
 
 ```
 function reduce(array, combine, start) {
-  var current = start;
-  for (var i = 0; i < array.length; i++)
-    current = combine(current, array[i]);
+  let current = start;
+  for (let element of array) {
+    current = combine(current, element);
+  }
   return current;
 }
 
-console.log(reduce([1, 2, 3, 4], function(a, b) {
-  return a + b;
-}, 0));
+console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));
 // → 10
 ```
 
-{{index "reduce method"}}
+{{index "reduce method", "SCRIPTS data set"}}
 
-The standard array method `reduce`, which of course
-corresponds to this function, has an added convenience. If your array
-contains at least one element, you are allowed to leave off the
-`start` argument. The method will take the first element of the array
-as its start value and start reducing at the second element.
+The standard array method `reduce`, which of course corresponds to
+this function, has an added convenience. If your array contains at
+least one element, you are allowed to leave off the `start` argument.
+The method will take the first element of the array as its start value
+and start reducing at the second element.
 
-{{index "ancestry example", minimum}}
-
-To use `reduce` to find my most
-ancient known ancestor, we can write something like this:
-
-```{test: no}
-console.log(ancestry.reduce(function(min, cur) {
-  if (cur.born < min.born) return cur;
-  else return min;
-}));
-// → {name: "Pauwels van Haverbeke", born: 1535, …}
 ```
+console.log([1, 2, 3, 4].reduce((a, b) => a + b));
+// → 10
+```
+
+{{index maximum, "characterCount function"}}
+
+To use `reduce` (twice) to find the script with the most characters,
+we can write something like this:
+
+```
+function characterCount(script) {
+  return script.ranges.reduce((count, [from, to]) => {
+    return count + (to - from);
+  }, 0);
+}
+
+console.log(SCRIPTS.reduce((a, b) => {
+  return characterCount(a) < characterCount(b) ? b : a
+}))
+// → {name: "Han", …}
+```
+
+The `characterCount` function reduces the ranges assigned to a script
+by summing their sizes. Note the use of destructuring in the parameter
+list of the reducer function. The second call to `reduce` then uses
+this to find the largest script by repeatedly comparing two scripts
+and returning the larger one.
+
+The Han script has over 89 thousand characters assigned to it in the
+Unicode standard, making it by far the biggest writing system in the
+data set. Han is a script (sometimes) used for Chinese, Japanese, and
+Korean text. Those languages share a lot of characters, though they
+tend to write them somewhat differently. The (US based) Unicode
+consortium decided to treat them as a single writing system in order
+to save character codes. This is called "Han unification" and still
+makes some people very angry.
 
 ## Composability
 
-{{index loop, minimum, "ancestry example"}}
+{{index loop, maximum}}
 
-Consider how we would
-have written the previous example (finding the person with the
-earliest year of birth) without higher-order functions. The code is
-not that much worse.
+Consider how we would have written the previous example (finding the
+biggest script) without higher-order functions. The code is not that
+much worse.
 
 ```{test: no}
-var min = ancestry[0];
-for (var i = 1; i < ancestry.length; i++) {
-  var cur = ancestry[i];
-  if (cur.born < min.born)
-    min = cur;
+let biggest = null;
+for (let script of SCRIPTS) {
+  if (biggest == null ||
+      characterCount(biggest) < characterCount(script)) {
+    biggest = script;
+  }
 }
-console.log(min);
-// → {name: "Pauwels van Haverbeke", born: 1535, …}
+console.log(biggest);
+// → {name: "Han", …}
 ```
 
-There are a few more ((variable))s, and the program is two lines
+There are a few more ((binding))s, and the program is four lines
 longer but still quite easy to understand.
 
-{{index "average function", composability, [function, "higher-order"]}}
+{{index "average function", composability, [function, "higher-order"], "filter method", "map method", "reduce method"}}
 
 {{id average_function}}
-Higher-order
-functions start to shine when you need to _compose_ functions. As an
-example, let's write code that finds the average age for men and for
-women in the data set.
 
-```{test: clip}
+Higher-order functions start to shine when you need to _compose_
+operations. As an example, let's write code that finds the average
+year of origin for left-to-right and right-to-left scripts in the data
+set.
+
+```
 function average(array) {
-  function plus(a, b) { return a + b; }
-  return array.reduce(plus) / array.length;
+  return array.reduce((a, b) => a + b) / array.length;
 }
-function age(p) { return p.died - p.born; }
-function male(p) { return p.sex == "m"; }
-function female(p) { return p.sex == "f"; }
 
-console.log(average(ancestry.filter(male).map(age)));
-// → 61.67
-console.log(average(ancestry.filter(female).map(age)));
-// → 54.56
+console.log(Math.round(average(
+  SCRIPTS.filter(s => s.living).map(s => s.year))));
+// → 1185
+console.log(Math.round(average(
+  SCRIPTS.filter(s => !s.living).map(s => s.year))));
+// → 219
 ```
 
-{{index "plus function", "+ operator", [function, "as value"]}}
+So the dead scrips in Unicode are, on average, older than the living
+ones. This is not a terribly meaningful or surprising statistic. But I
+hope you'll agree that the code used to compute it is easy to read.
+You can see it as a pipeline: we start with all scripts, filter out
+the living (or dead) ones, take the years from those, average them,
+and round the result.
 
-(It's a bit
-silly that we have to define `plus` as a function, but operators in
-JavaScript, unlike functions, are not values, so you can't pass them
-as arguments.)
+You could definitely also write this computation as one big ((loop)).
 
-{{index abstraction, vocabulary}}
+```
+let sum = 0, count = 0;
+for (let script in SCRIPTS) {
+  if (script.living) {
+    sum += script.year;
+    count += 1;
+  }
+}
+console.log(Math.round(sum / count));
+// → 1185
+```
 
-Instead of tangling the logic into a
-big ((loop)), it is neatly composed into the concepts we are
-interested in—determining sex, computing age, and averaging numbers. We
-can apply these one by one to get the result we are looking for.
+But it is harder to see what was being computed and how. And because
+intermediate results aren't represented as coherent values, it'd be a
+lot harder to extract something like `average` into a separate
+function.
 
-This is _fabulous_ for writing clear code. Unfortunately, this clarity
-comes at a cost.
+{{index efficiency}}
 
-## The cost
+In terms of what the computer is actually doing, these two approaches
+are also quite different. The first will build up new ((array))s when
+running `filter` and `map`, whereas the second only computes some
+numbers, doing less work. You can usually afford the readable
+approach, but if you're processing huge arrays, and doing so many
+times, the more awkward loop style might be worth the extra speed.
 
-{{index efficiency, optimization}}
+## Strings and character codes
 
-In the happy land of elegant code
-and pretty rainbows, there lives a spoil-sport monster called
-_inefficiency_.
+{{index "SCRIPTS data set"}}
 
-{{index elegance, [array, creation], "pure function", composability}}
+One use of the data set would be figuring out what script a piece of
+text is using. Let's go through an example that does this.
 
-A program that processes an array is most
-elegantly expressed as a sequence of cleanly separated steps that each
-do something with the array and produce a new array. But building up
-all those intermediate arrays is somewhat expensive.
+Remember that each script has an array of character code ranges
+associated with it. So given a character code, we could use a function
+like this to find the corresponding script (if any):
 
-{{index readability, [function, application], "forEach method", [function, "as value"]}}
-
-Likewise, passing a function to
-`forEach` and letting that method handle the array iteration for us is
-convenient and easy to read. But function calls in JavaScript are
-costly compared to simple loop bodies.
-
-{{index abstraction}}
-
-And so it goes with a lot of techniques that help
-improve the clarity of a program. Abstractions add layers between the
-raw things the computer is doing and the concepts we are working with
-and thus cause the machine to perform more work. This is not an iron
-law—there are programming languages that have better support for
-building abstractions without adding inefficiencies, and even in
-JavaScript, an experienced programmer can find ways to write abstract
-code that is still fast. But it is a problem that comes up a lot.
-
-{{index profiling}}
-
-Fortunately, most computers are insanely fast. If you
-are processing a modest set of data or doing something that has
-to happen only on a human time scale (say, every time the user clicks a
-button), then it _does not matter_ whether you wrote a pretty solution
-that takes half a millisecond or a super-optimized solution that takes
-a tenth of a millisecond.
-
-{{index [nesting, "of loops"], "inner loop", complexity}}
-
-It is helpful to
-roughly keep track of how often a piece of your program is going to
-run. If you have a ((loop)) inside a loop (either directly or through
-the outer loop calling a function that ends up performing the inner
-loop), the code inside the inner loop will end up running _N__×__M__
-times, where _N_ is the number of times the outer loop repeats and
-_M_ is the number of times the inner loop repeats within each iteration
-of the outer loop. If that inner loop contains another loop that makes
-_P_ rounds, its body will run __M__×__N__×__P_ times, and so on. This
-can add up to large numbers, and when a program is slow, the problem
-can often be traced to only a small part of the code, which sits inside an inner loop.
-
-## Great-great-great-great-...
-
-{{index "ancestry example"}}
-
-My ((grandfather)), Philibert Haverbeke, is
-included in the data file. By starting with him, I can trace my
-lineage to find out whether the most ancient person in the data,
-Pauwels van Haverbeke, is my direct ancestor. And if he is, I would
-like to know how much ((DNA)) I theoretically share with him.
-
-{{index "byName object", map, "data structure", [object, "as map"]}}
-
-To be able to go from a parent's name to the actual object that
-represents this person, we first build up an object that associates
-names with people.
+{{index "some method", "predicate function", [array, methods]}}
 
 ```{includeCode: strip_log}
-var byName = {};
-ancestry.forEach(function(person) {
-  byName[person.name] = person;
-});
-
-console.log(byName["Philibert Haverbeke"]);
-// → {name: "Philibert Haverbeke", …}
-```
-
-Now, the problem is not entirely as simple as following the `father`
-properties and counting how many we need to reach Pauwels. There are
-several cases in the family ((tree)) where people married their second
-cousins (tiny villages and all that). This causes the branches of the
-family tree to rejoin in a few places, which means I share more than
-1/2^_G_^ of my genes with this person, where _G_ for the number of
-generations between Pauwels and me. This formula comes from the idea
-that each generation splits the gene pool in two.
-
-{{index "reduce method", "data structure"}}
-
-A reasonable way to think about
-this problem is to look at it as being analogous to `reduce`, which
-condenses an array to a single value by repeatedly combining
-values, left to right. In this case, we also want to condense our data
-structure to a single value but in a way that follows family
-lines. The _shape_ of the data is that of a family tree, rather than a
-flat list.
-
-The way we want to reduce this shape is by computing a value for a
-given person by combining values from their ancestors. This can be
-done recursively: if we are interested in person _A_, we have to
-compute the values for _A__’s parents, which in turn requires us to
-compute the value for __A_’s grandparents, and so on. In principle,
-that'd require us to look at an infinite number of people, but since
-our data set is finite, we have to stop somewhere. We'll allow a
-((default value)) to be given to our reduction function, which will be
-used for people who are not in the data. In our case, that value is
-simply zero, on the assumption that people not in the list don't share
-DNA with the ancestor we are looking at.
-
-{{index recursion, "reduceAncestors function"}}
-
-Given a person, a
-function to combine values from the two parents of a given person, and
-a default value, `reduceAncestors` condenses a value from a family
-tree.
-
-```{includeCode: true}
-function reduceAncestors(person, f, defaultValue) {
-  function valueFor(person) {
-    if (person == null)
-      return defaultValue;
-    else
-      return f(person, valueFor(byName[person.mother]),
-                       valueFor(byName[person.father]));
+function characterScript(code) {
+  for (let script of SCRIPTS) {
+    if (script.ranges.some(([from, to]) => code >= from &&
+                                           code < to)) {
+      return script;
+    }
   }
-  return valueFor(person);
+  return null;
 }
+
+console.log(characterScript(121));
+// → {name: "Latin", …}
 ```
 
-{{index [function, "higher-order"]}}
+The `some` method on arrays is another higher-order function. It takes
+a test function and tells you if that function returns true for any of
+the elements in the array.
 
-The inner function (`valueFor`) handles a
-single person. Through the ((magic)) of recursion, it can simply call
-itself to handle the father and the mother of this person. The
-results, along with the person object itself, are passed to `f`, which
-returns the actual value for this person.
+But how do we get the character codes in a string?
 
-We can then use this to compute the amount of ((DNA)) my
-((grandfather)) shared with Pauwels van Haverbeke and divide that by
-four.
+In [Chapter 1](01_values.html) I mentioned that JavaScript ((string))s
+are encoded as a sequence of 16-bit number called _((code unit))s_. A
+((Unicode)) ((character)) code was initially supposed to fit within
+such a unit (which gives you a little over 65 thousand characters).
+When it became clear that that wasn't going to be enough, many people
+balked at the need to use more memory per character. To address these
+concerns, ((UTF-16)), the format used by JavaScript strings, was
+invented. It describes some character using a single 16-bit code unit,
+and others using a pair of two such units.
 
-```{startCode: "bottom_lines: 2", includeCode: "top_lines: 6", test: clip}
-function sharedDNA(person, fromMother, fromFather) {
-  if (person.name == "Pauwels van Haverbeke")
-    return 1;
-  else
-    return (fromMother + fromFather) / 2;
-}
-var ph = byName["Philibert Haverbeke"];
-console.log(reduceAncestors(ph, sharedDNA, 0) / 4);
-// → 0.00049
+{{index error}}
+
+UTF-16 is generally considered a bad idea now. It seems almost
+intentionally designed to invite mistakes. It's easy to write programs
+that pretends code units and characters are the same thing. And if
+your language doesn't use two-unit characters, that will appear to
+work just fine. But as soon as someone tries to use such a program
+with some less common ((Chinese characters)), it breaks. Fortunately,
+with the advent of ((Emoji)), everybody has started using two-unit
+characters, and the burden of dealing with such problems is more
+fairly distributed.
+
+{{index [string, length], [string, indexing], "charCodeAt method"}}
+
+Unfortunately, obvious operations on JavaScript strings, such as
+getting their length through the `length` property and accessing their
+content using square brackets, deal only with code units.
+
+```{test: no}
+// Two Emoji characters, horse and shoe
+let horseShoe = "🐴👟";
+console.log(horseShoe.length);
+// → 4
+console.log(horseShoe[0]);
+// → (Invalid half-character)
+console.log(horseShoe.charCodeAt(0));
+// → 55357 (Code of the half-character)
+console.log(horseShoe.codePointAt(0));
+// → 128052 (Actual code for horse Emoji)
 ```
 
-The person with the name Pauwels van Haverbeke obviously shared 100 percent
-of his DNA with Pauwels van Haverbeke (there are no people who share
-names in the data set), so the function returns 1 for him. All other
-people share the average of the amounts that their parents share.
+{{index "codePointAt method"}}
 
-So, statistically speaking, I share about 0.05 percent of my ((DNA)) with
-this 16th-century person. It should be noted that this is only a
-statistical approximation, not an exact amount. It is a rather small
-number, but given how much genetic material we carry (about 3 billion
-base pairs), there's still probably some aspect in the biological
-machine that is me that originates with Pauwels.
+Note that JavaScript's `charCodeAt` method gives you a code unit, not
+a full character code. The `codePointAt` method, added later, does
+give a full Unicode character. So we could use that to get characters
+from a string. But the argument passed to `codePointAt` is still an
+index into the sequence of code units. So to run over all characters
+in a string, we'd still need to deal with the question of whether a
+charcter takes up one or two code units.
 
-{{index "ancestry example", "reduceAncestors function", abstraction}}
+{{index "for/of loop", character}}
 
-We could also have computed this number
-without relying on `reduceAncestors`. But separating the general
-approach (condensing a family tree) from the specific case (computing
-shared DNA) can improve the clarity of the code and allows us to reuse
-the abstract part of the program for other cases. For example, the
-following code finds the percentage of a person's known ancestors who
-lived past 70 (by lineage, so people may be counted multiple times):
+In the [previous chapter](04_data.html#for_of_loop), I mentioned that
+a `for`/`of` loop can also be used on strings. Like `codePointAt`,
+this type of loop was introduced at a time where people were acutely
+aware of the problems with UTF-16. And when you use it to loop over a
+string, it gives you real characters, not code units.
 
-```{test: clip}
-function countAncestors(person, test) {
-  function combine(current, fromMother, fromFather) {
-    var thisOneCounts = current != person && test(current);
-    return fromMother + fromFather + (thisOneCounts ? 1 : 0);
+```
+let roseDragon = "🌹🐉";
+for (let char of roseDragon) {
+  console.log(char);
+}
+// → 🌹
+// → 🐉
+```
+
+If we have a character (which will be a string of one or two code
+units), we can use `codePointAt(0)` to get its code.
+
+## Recognizing text
+
+{{index "SCRIPTS data set", "countBy function", array}}
+
+We have a `characterScript` function and a way to correctly loop over
+characters. The next step would be to count the characters that belong
+to each script. The following counting abstraction will be useful
+there.
+
+```{includeCode: strip_log}
+function countBy(items, groupName) {
+  let counts = [];
+  for (let item of items) {
+    let name = groupName(item);
+    let known = counts.findIndex(c => c.name == name);
+    if (known == -1) {
+      counts.push({name, count: 1});
+    } else {
+      counts[known].count++;
+    }
   }
-  return reduceAncestors(person, combine, 0);
-}
-function longLivingPercentage(person) {
-  var all = countAncestors(person, function(person) {
-    return true;
-  });
-  var longLiving = countAncestors(person, function(person) {
-    return (person.died - person.born) >= 70;
-  });
-  return longLiving / all;
-}
-console.log(longLivingPercentage(byName["Emile Haverbeke"]));
-// → 0.129
-```
-
-Such numbers are not to be taken too seriously, given that
-our data set contains a rather arbitrary collection of people. But the
-code illustrates the fact that `reduceAncestors` gives us a useful
-piece of ((vocabulary)) for working with the family tree data
-structure.
-
-## Binding
-
-{{index "bind method", "partial application", [function, application]}}
-
-The `bind` method, which all
-functions have, creates a new function that will call the original
-function but with some of the arguments already fixed.
-
-{{index "filter method", [function, "as value"]}}
-
-The following code shows an
-example of `bind` in use. It defines a function `isInSet` that
-tells us whether a person is in a given set of strings. To call
-`filter` in order to collect those person objects whose names are in a
-specific set, we can either write a function expression that makes a
-call to `isInSet` with our set as its first argument or _partially
-apply_ the `isInSet` function.
-
-```
-var theSet = ["Carel Haverbeke", "Maria van Brussel",
-              "Donald Duck"];
-function isInSet(set, person) {
-  return set.indexOf(person.name) > -1;
+  return counts;
 }
 
-console.log(ancestry.filter(function(person) {
-  return isInSet(theSet, person);
-}));
-// → [{name: "Maria van Brussel", …},
-//    {name: "Carel Haverbeke", …}]
-console.log(ancestry.filter(isInSet.bind(null, theSet)));
-// → … same result
+console.log(countBy([1, 2, 3, 4, 5], n => n > 2));
+// → [{name: false, count: 2}, {name: true, count: 3}]
 ```
 
-The call to `bind` returns a function that will call `isInSet` with
-`theSet` as first argument, followed by any remaining arguments given
-to the bound function.
+The `countBy` function expects a collection (anything that we can loop
+over with `for`/`of`) and a grouping function. It returns an array of
+objects, each of which names a group and tells you the amount of
+elements that were found in that group.
 
-{{index null}}
+{{index "findIndex method", "indexOf method"}}
 
-The first argument, where the example passes `null`, is used
-for ((method call))s, similar to the first argument to `apply`. I'll
-describe this in more detail in the
-[next chapter](06_object.html#call_method).
+It uses a new array method `findIndex`. This method is somewhat like
+`indexOf`, but instead of looking for a specific value, it looks for
+the first value for which the given function returns true. Like
+`indexOf`, it returns -1 when no such element is found.
+
+{{index "textScripts function", "Chinese characters"}}
+
+Using that, we can write the function that tells us which scripts are
+used in a piece of text.
+
+```{includeCode: strip_log}
+function textScripts(text) {
+  let scripts = countBy(text, char => {
+    let script = characterScript(char.codePointAt(0));
+    return script ? script.name : "none";
+  }).filter(({name}) => name != "none");
+
+  let total = scripts.reduce((n, {count}) => n + count, 0);
+  if (total == 0) return "No scripts found";
+
+  return scripts.map(({name, count}) => {
+    return `${Math.round(count * 100 / total)}% ${name}`;
+  }).join(", ");
+}
+
+console.log(textScripts('英國狗說“woof”，但俄羅斯狗說“тяв”'));
+// → 59% Han, 24% Latin, 18% Cyrillic
+```
+
+{{index "characterScript function", "filter method"}}
+
+The function first counts the characters by name, using
+`characterScript` to assign them a name, and falling back to the
+string `"none"` for characters that aren't part of any script. The
+`filter` call then drops the entry for `"none"` from the resulting
+array, since we aren't interested in that.
+
+{{index "reduce method", "map method", "join method", [array, methods]}}
+
+To be able to compute ((percentage))s, we first need the total amount
+of characters that belong to a script, which we can compute with the
+`reduce` method. If no such characters are found, the function returns
+a specific string. Otherwise, it transforms the counting entries into
+readable strings with `map`. Finally, it turns the resulting array
+into a single string with the `join` method, which will insert the
+string it is given in between each of the elements of the array.
 
 ## Summary
 
 Being able to pass function values to other functions is not just a
-gimmick but a deeply useful aspect of JavaScript. It allows us to
-write computations with “gaps” in them as functions and have the code
-that calls these functions fill in those gaps by providing function
-values that describe the missing computations.
+gimmick—it's a deeply useful aspect of JavaScript. It allows us to
+write functions that model computations with “gaps” in them. The code
+that calls these functions can fill in the gaps by providing function
+values.
 
-Arrays provide a number of useful higher-order methods—`forEach`
-to do something with each element in an array, `filter` to build a new
-array with some elements filtered out, `map` to build a new array
-where each element has been put through a function, and `reduce` to
-combine all an array's elements into a single value.
-
-Functions have an `apply` method that can be used to call them with an
-array specifying their arguments. They also have a `bind` method,
-which is used to create a partially applied version of the function.
+Arrays provide a number of useful higher-order methods—`forEach` to
+loop over the elements in an array, `filter` to build a new array with
+some elements filtered out, `map` to build a new array where each
+element has been put through a function, `reduce` to combine all an
+array's elements into a single value, `some` to see whether any
+element matches a given predicate function, and `findIndex` to find
+the position of the first element that matches a predicate.
 
 ## Exercises
 
@@ -980,186 +781,138 @@ which is used to create a partially applied version of the function.
 
 {{index "flattening (exercise)", "reduce method", "concat method", array}}
 
-Use the `reduce` method in combination with
-the `concat` method to “flatten” an array of arrays into a single
-array that has all the elements of the input arrays.
+Use the `reduce` method in combination with the `concat` method to
+“flatten” an array of arrays into a single array that has all the
+elements of the input arrays.
 
 {{if interactive
 
 ```{test: no}
-var arrays = [[1, 2, 3], [4, 5], [6]];
+let arrays = [[1, 2, 3], [4, 5], [6]];
 // Your code here.
 // → [1, 2, 3, 4, 5, 6]
 ```
 if}}
 
-### Mother-child age difference
+### Your own loop
 
-{{index "ancestry example", "age difference (exercise)", "average function"}}
+{{index "your own loop (example)", "for loop"}}
 
-Using the example data set from this chapter, compute the
-average age difference between mothers and children (the age of the
-mother when the child is born). You can use the `average` function
-defined [earlier](05_higher_order.html#average_function) in this
-chapter.
-
-{{index "byName object"}}
-
-Note that not all the mothers mentioned in the data
-are themselves present in the array. The `byName` object, which makes
-it easy to find a person's object from their name, might be useful
-here.
-
-{{if interactive
-
-```{includeCode: true, test: no}
-function average(array) {
-  function plus(a, b) { return a + b; }
-  return array.reduce(plus) / array.length;
-}
-
-var byName = {};
-ancestry.forEach(function(person) {
-  byName[person.name] = person;
-});
-
-// Your code here.
-
-// → 31.2
-```
-if}}
-
-{{hint
-
-{{index "age difference (exercise)", "filter method", "map method", null, "average function"}}
-
-Because not all elements in
-the `ancestry` array produce useful data (we can't compute the age
-difference unless we know the birth date of the mother), we will have
-to apply `filter` in some manner before calling `average`. You could
-do it as a first pass, by defining a `hasKnownMother` function and
-filtering on that first. Alternatively, you could start by calling
-`map` and in your mapping function return either the age difference
-or `null` if no mother is known. Then, you can call `filter` to remove
-the `null` elements before passing the array to `average`.
-
-hint}}
-
-### Historical life expectancy
-
-{{index "life expectancy (exercise)"}}
-
-When we looked up all the people in
-our data set that lived more than 90 years, only the latest
-generation in the data came out. Let's take a closer look at that
-phenomenon.
-
-{{index "average function"}}
-
-Compute and output the average age of the people
-in the ancestry data set per century. A person is assigned to a
-((century)) by taking their year of death, dividing it by 100,
-and rounding it up, as in `Math.ceil(person.died / 100)`.
-
-{{if interactive
-
-```{test: no}
-function average(array) {
-  function plus(a, b) { return a + b; }
-  return array.reduce(plus) / array.length;
-}
-
-// Your code here.
-
-// → 16: 43.5
-//   17: 51.2
-//   18: 52.8
-//   19: 54.8
-//   20: 84.7
-//   21: 94
-```
-if}}
-
-{{hint
-
-{{index "life expectancy (exercise)"}}
-
-The essence of this example lies in
-((grouping)) the elements of a collection by some aspect of
-theirs—splitting the array of ancestors into smaller arrays with the
-ancestors for each century.
-
-{{index array, map, [object, "as map"]}}
-
-During the grouping
-process, keep an object that associates ((century)) names (numbers)
-with arrays of either person objects or ages. Since we do not know in
-advance what categories we will find, we'll have to create them on the
-fly. For each person, after computing their century, we test whether
-that century was already known. If not, add an array for it. Then add
-the person (or age) to the array for the proper century.
-
-{{index "for/in loop", "average function"}}
-
-Finally, a `for`/`in` loop can
-be used to print the average ages for the individual centuries.
-
-hint}}
-
-{{index grouping, map, [object, "as map"], "groupBy function"}}
-
-For
-bonus points, write a function `groupBy` that abstracts the grouping
-operation. It should accept as arguments an array and a function that
-computes the group for an element in the array and returns an object
-that maps group names to arrays of group members.
-
-### Every and then some
-
-{{index "predicate function", "every and some (exercise)", "every method", "some method", [array, methods], "&& operator", "|| operator"}}
-
-Arrays also come with the standard methods `every` and
-`some`. Both take a predicate function that, when called with an array
-element as argument, returns true or false. Just like `&&` 
-returns a true value only when the expressions on both sides are true,
-`every` returns true only when the predicate returns true for _all_
-elements of the array. Similarly, `some` returns true as soon as the
-predicate returns true for _any_ of the elements. They do not process
-more elements than necessary—for example, if `some` finds that the
-predicate holds for the first element of the array, it will not look
-at the values after that.
-
-Write two functions, `every` and `some`, that behave like these
-methods, except that they take the array as their first argument
-rather than being a method.
+Write a higher-order function `loop` that provides a way to something
+like a `for` loop statement. It takes a value, a test function, an
+update function, and a body function. Each iteration, it first runs
+the test function on the current loop value, and stops if that returns
+false. Then, it calls the body function, giving it the current value.
+And finally, it calls the update function to create a new value, and
+starts from the beginning.
 
 {{if interactive
 
 ```{test: no}
 // Your code here.
 
-console.log(every([NaN, NaN, NaN], isNaN));
+loop(3, n => n > 0, n => n - 1, console.log);
+// → 3
+// → 2
+// → 1
+```
+
+if}}
+
+### Everything
+
+{{index "predicate function", "everything (exercise)", "every method", "some method", [array, methods], "&& operator", "|| operator"}}
+
+Analogous to the `some` method, arrays also have an `every` method.
+This one returns true when the given function returns true for _every_
+element in the array. In a way, `some` is a variant of the `||`
+operator that can act on arrays, and `every` acts like the `&&`
+operator.
+
+Implement `every` as a function that takes an array and a predicate
+function as parameters. Write two versions, one using a loop and one
+using the `some` method.
+
+{{if interactive
+
+```{test: no}
+function every(array, test) {
+  // Your code here.
+}
+
+console.log(every([1, 3, 5], n => n < 10));
 // → true
-console.log(every([NaN, NaN, 4], isNaN));
+console.log(every([2, 4, 16], n => n < 10));
 // → false
-console.log(some([NaN, 3, 4], isNaN));
+console.log(every([], n => n < 10));
 // → true
-console.log(some([2, 3, 4], isNaN));
-// → false
+```
+
+if}}
+
+{{hint
+
+{{index "everything (exercise)", "short-circuit evaluation", "return keyword"}}
+
+Like the `&&` operator, the `every` method can stop evaluating further
+elements as soon as it has found one that doesn't match. So the
+loop-based version can jump out of the loop—with `break` or
+`return`—as soon as it runs into an element for which the predicate
+function returns false. If the loop runs to its end without finding
+such an element, we know that all elements matched and we should
+return true.
+
+To build `every` on top of `some`, we can apply "((De Morgan's
+laws))", which state that `a && b` equals `!(!a || !b)`. This can be
+generalized to arrays, where all elements in the array match if there
+is no element in the array that does not match.
+
+hint}}
+
+### Dominant writing direction
+
+{{index "SCRIPTS data set", "direction (writing)", "groupBy function", "dominant direction (exercise)"}}
+
+Write a function that computes the dominant writing direction in a
+string of text. Remember that each script object has a `direction`
+property that can be `"ltr"` (left-to-right), `"rtl"` (right-to-left),
+or `"ttb"` (top-to-bottom).
+
+{{index "characterScript function", "countBy function"}}
+
+The dominant direction is the direction of a majority of the
+characters which have a script associated with them. The
+`characterScript` and `countBy` functions defined earlier in the
+chapter are probably useful here.
+
+{{if interactive
+
+```
+function dominantDirection(text) {
+  // Your code here.
+}
+
+console.log(dominantDirection("Hello!"));
+// → ltr
+console.log(dominantDirection("Hey, مساء الخير"));
+// → rtl
 ```
 if}}
 
 {{hint
 
-{{index "every and some (exercise)", "short-circuit evaluation", "return keyword"}}
+{{index "dominant direction (exercise)", "textScripts function", "filter method", "characterScript function"}}
 
-The functions can follow a similar pattern to the
-[definition](05_higher_order.html#forEach) of `forEach` at the
-start of the chapter, except that they must return immediately (with
-the right value) when the predicate function returns false—or true.
-Don't forget to put another `return` statement after the loop so that
-the function also returns the correct value when it reaches the end of
-the array.
+Your solution might look a lot like the first half of the
+`textScripts` example. You again have to count characters by a
+criteria based on `characterScript`, and then filter out the part of
+the result that refers to uninteresting (script-less characters).
+
+{{index "reduce method"}}
+
+Finding the direction with the highest character count can be done
+with `reduce`. If it's not clear how, refer back to the example
+earlier in the chapter, where `reduce` was used to find the script
+with the most characters.
 
 hint}}
-

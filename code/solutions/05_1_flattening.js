@@ -1,7 +1,4 @@
-var arrays = [[1, 2, 3], [4, 5], [6]];
+let arrays = [[1, 2, 3], [4, 5], [6]];
 
-console.log(arrays.reduce(function(flat, current) {
-  return flat.concat(current);
-}, []));
-
+console.log(arrays.reduce((flat, current) => flat.concat(current), []));
 // → [1, 2, 3, 4, 5, 6]

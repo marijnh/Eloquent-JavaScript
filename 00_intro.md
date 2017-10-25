@@ -399,8 +399,7 @@ Web browsers are not the only platforms on
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
 use JavaScript as their scripting and query language. Several
 platforms for desktop and server programming, most notably the
-((Node.js)) project (the subject of link:20_node.html#node[Chapter
-20]) are providing a powerful environment for programming JavaScript
+((Node.js)) project (the subject of [Chapter 20](20_node.html#node)) are providing a powerful environment for programming JavaScript
 outside of the browser.
 
 ## Code, and what to do with it
@@ -455,7 +454,7 @@ JavaScript environment. But code in later chapters is mostly written
 for a specific environment (the browser or Node.js) and can run only
 there. In addition, many chapters define bigger programs, and the
 pieces of code that appear in them depend on each other or on external
-files. The http://eloquentjavascript.net/code[sandbox] on the website
+files. The [sandbox](http://eloquentjavascript.net/code) on the website
 provides links to Zip files containing all of the scripts and data
 files necessary to run the code for a given chapter.
 

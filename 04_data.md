@@ -14,14 +14,14 @@ quote}}
 {{index "Babbage, Charles", object, "data structure"}}
 
 Numbers, Booleans, and strings are the atoms that ((data)) structures
-are built from. But most types of information require more than one
-atom. _Objects_ allow us to group values—including other
+are built from. Many types of information require more than one
+atom, though. _Objects_ allow us to group values—including other
 objects—together to build more complex structures.
 
 The programs we have built so far have been limited by the fact that
-they were operating only on simple data types. This chapter will add a
-basic understanding of data structures to your toolkit. By the end of
-it, you'll know enough to start writing some useful programs.
+they were operating only on simple data types. This chapter will
+introduce basic data structures. By the end of it, you'll know enough
+to start writing useful programs.
 
 The chapter will work through a more or less realistic programming
 example, introducing concepts as they apply to the problem at hand.
@@ -48,14 +48,13 @@ Every now and then, usually between eight and ten in the evening,
 a bushy tail.
 
 On one hand, Jacques is quite glad that he doesn't have classic
-lycanthropy. Turning into a squirrel tends to cause fewer problems
-than turning into a wolf. Instead of having to worry about
-accidentally eating the neighbor (_that_ would be awkward), he worries
-about being eaten by the neighbor's cat. After two occasions where he
-woke up on a precariously thin branch in the crown of an oak, naked
-and disoriented, he has taken to locking the doors and windows of his
-room at night and putting a few walnuts on the floor to keep himself
-busy.
+lycanthropy. Turning into a squirrel does cause fewer problems than
+turning into a wolf. Instead of having to worry about accidentally
+eating the neighbor (_that_ would be awkward), he worries about being
+eaten by the neighbor's cat. After two occasions where he woke up on a
+precariously thin branch in the crown of an oak, naked and
+disoriented, he has taken to locking the doors and windows of his room
+at night and putting a few walnuts on the floor to keep himself busy.
 
 {{figure {url: "img/weresquirrel.png", alt: "The weresquirrel"}}}
 
@@ -63,8 +62,8 @@ That takes care of the cat and tree problems. But Jacques would prefer
 to get rid of his condition entirely. The irregular occurrences of the
 transformation make him suspect that they might be triggered by
 something. For a while, he believed that it happened only on days when
-he had gone near acorns. But avoiding acorns and oak trees did not
-cause the problem to stop.
+he had been near oak trees. But avoiding oak trees did not cause the
+problem to stop.
 
 {{index journal}}
 
@@ -86,7 +85,7 @@ we want to represent a ((collection)) of numbers: 2, 3, 5, 7, and 11.
 
 {{index string}}
 
-We could get creative with strings—after all, strings can be any
+We could get creative with strings—after all, strings can have any
 length, so we can put a lot of data into them—and use `"2 3 5 7 11"`
 as our representation. But this is awkward. You'd have to somehow
 extract the digits and convert them back to numbers to access them.
@@ -101,6 +100,8 @@ of values between ((square brackets)), separated by commas.
 let listOfNumbers = [2, 3, 5, 7, 11];
 console.log(listOfNumbers[2]);
 // → 5
+console.log(listOfNumbers[0]);
+// → 2
 console.log(listOfNumbers[2 - 1]);
 // → 3
 ```
@@ -119,8 +120,8 @@ _((index))_ given by the expression in the brackets.
 The first index of an array is zero, not one. So the first element is
 read with `listOfNumbers[0]`. This convention takes some getting used
 to. Zero-based counting has a long tradition in technology, and in
-certain ways makes a lot of sense. You can think of the index as the
-amount of items to skip, counting from the start of the array.
+certain ways makes a lot of sense. Think of the index as the amount of
+items to skip, counting from the start of the array.
 
 {{id properties}}
 
@@ -150,20 +151,20 @@ null.length;
 {{indexsee "dot character", "period character"}}
 {{index "[] (subscript)", "period character", "square brackets", "computed property"}}
 
-The two most common ways to access properties in JavaScript are with a
-dot and with square brackets. Both `value.x` and `value[x]` access a
-((property)) on _value_—but not necessarily the same property. The
+The two main ways to access properties in JavaScript are with a dot
+and with square brackets. Both `value.x` and `value[x]` access a
+((property)) on `value`—but not necessarily the same property. The
 difference is in how `x` is interpreted. When using a dot, the word
-after the dot is the name of the property. When using square brackets,
-the expression between the brackets is _evaluated_ to get the property
-name. Whereas `value.x` fetches the property of `value` named “x”,
-`value[x]` tries to evaluate the expression `x` and uses the result as
-the property name.
+after the dot is the literal name of the property. When using square
+brackets, the expression between the brackets is _evaluated_ to get
+the property name. Whereas `value.x` fetches the property of `value`
+named “x”, `value[x]` tries to evaluate the expression `x` and uses
+the result as the property name.
 
 So if you know that the property you are interested in is called
 “length”, you say `value.length`. If you want to extract the property
 named by the value held in the binding `i`, you say `value[i]`.
-Property names can be any string, an the dot notation only allows
+Property names can be any string, and the dot notation only allows
 names that look like valid binding names, so if you want to access a
 property named “2” or “John Doe”, you must use square brackets:
 `value[2]` or `value["John Doe"]`.
@@ -178,7 +179,7 @@ anyway, you have to use the bracket notation to get at them.
 The `length` property of an array tells us how many elements it has.
 This property name is a valid binding name, and we know its name in
 advance, so to find the length of an array, you typically write
-`array.length` because that is easier to write than `array["length"]`.
+`array.length` because it is easier to write than `array["length"]`.
 
 {{id methods}}
 ## Methods
@@ -199,7 +200,7 @@ console.log(doh.toUpperCase());
 {{index "case conversion", "toUpperCase method", "toLowerCase method"}}
 
 Every string has a `toUpperCase` property. When called, it will return
-a copy of the string, in which all letters have been converted to
+a copy of the string in which all letters have been converted to
 uppercase. There is also `toLowerCase`, going the other way.
 
 {{index this}}
@@ -237,8 +238,8 @@ The `push` method adds values to the end of an array, and the the
 and returning it.
 
 These somewhat silly names are the traditional terms for operations on
-a _((stack))_. A stack is an abstract concept of a ((data structure))
-that allows you to push values into it and pop them out again in the
+a _((stack))_. A stack, in programming, is a ((data structure)) that
+allows you to push values into it and pop them out again in the
 opposite order—the thing that was added last is removed first. These
 are common in programming—you might remember the function ((call
 stack)) from [the previous chapter](03_functions.html#stack), which is
@@ -251,11 +252,11 @@ an instance of the same idea.
 Back to the weresquirrel. A set of daily log entries can be
 represented as an array. But the entries do not consist of just a
 number or a string—each entry needs to store a list of activities and
-a Boolean value that indicates whether Jacques turned into a squirrel.
-Ideally, we would like to group these together into a single value and
-then put those grouped values into an array of log entries.
+a Boolean value that indicates whether Jacques turned into a squirrel
+or not. Ideally, we would like to group these together into a single
+value and then put those grouped values into an array of log entries.
 
-{{index syntax, property, "curly braces", "{} (object)"}}o
+{{index syntax, property, "curly braces", "{} (object)"}}
 
 Values of the type _((object))_ are arbitrary collections of
 properties. One way to create an object is by using curly brace
@@ -293,14 +294,14 @@ let descriptions = {
 This means that ((curly braces)) have _two_ meanings in JavaScript. At
 the start of a ((statement)), they start a ((block)) of statements. In
 any other position, they describe an object. Fortunately, it is almost
-never useful to start a statement with a curly-brace object, so that
-in typical programs, there is no ambiguity between these two uses.
+never useful to start a statement with a curly-brace object, so
+ambiguity between these two uses is rare.
 
 {{index undefined}}
 
 Reading a property that doesn't exist will produce the value
 `undefined`, which happens the first time we try to read the `wolf`
-property in the previous example.
+property.
 
 {{index [property, assignment], mutability, "= operator"}}
 
@@ -314,7 +315,7 @@ To briefly return to our tentacle model of ((binding))s—property
 bindings are similar. They _grasp_ values, but other bindings and
 properties might be holding onto those same values. You may think of
 objects as octopuses with any number of tentacles, each of which has a
-name inscribed on it.
+name tattooed on it.
 
 {{figure {url: "img/octopus-object.jpg", alt: "Artist's representation of an object"}}}
 
@@ -347,10 +348,21 @@ that, in the first case, the object still _has_ the property (it just
 doesn't have a very interesting value), whereas in the second case the
 property is no longer present and `in` will return `false`.
 
+{{index "Object.keys function"}}
+
+To find out what properties an object has, you can use the
+`Object.keys` function. You give it an object, and it returns an array
+of strings—the object's property names.
+
+```
+console.log(Object.keys({x: 0, y: 0, z: 2}));
+// → ["x", "y", "z"]
+```
+
 {{index array, collection}}
 
 Arrays, then, are just a kind of object specialized for storing
-sequences of things. If you evaluate `typeof [1, 2]`, this produces
+sequences of things. If you evaluate `typeof []`, it produces
 `"object"`. You can see them as long, flat octopuses with all their
 arms in a neat row, labeled with numbers.
 
@@ -472,15 +484,16 @@ addEntry(["weekend", "cycling", "break", "peanuts",
           "beer"], true);
 ```
 
-Once he has enough data points, he intends to use statistics to find
-out which of these events may be related to the squirrelifications.
+Once he has enough data points, Jacques intends to use statistics to
+find out which of these events may be related to the
+squirrelifications.
 
 {{index correlation}}
 
 _Correlation_ is a measure of ((dependence)) between statistical
 variables. A statistical variable is not quite the same as a
 programming variable. In statistics you typically have a set of
-_measurements_, and each variable was measured for every measurement.
+_measurements_, and each variable is measured for every measurement.
 Correlation between variables is usually expressed as a value that
 ranges from -1 to 1. Zero correlation means the variables are not
 related, whereas a correlation of one indicates that the two are
@@ -496,8 +509,9 @@ is a ((frequency table)) containing the amount of times the different
 combinations of the variables were observed. The output of the formula
 is a number between -1 and 1 that describes the correlation.
 
-We could take the event of eating ((pizza)) and put that in a table
-like this:
+We could take the event of eating ((pizza)) and put that in a
+frequency table like this, where each number indicates the amount of
+times that combination occurred in our measurements:
 
 {{figure {url: "img/pizza-squirrel.svg", alt: "Eating pizza versus turning into a squirrel", width: "7cm"}}}
 
@@ -605,22 +619,18 @@ chapter[ ([_eloquentjavascript.net/code#4_](http://eloquentjavascript.net/code#4
 book}, where it is stored in the `JOURNAL` binding, and in a
 downloadable [file](http://eloquentjavascript.net/code/jacques_journal.js).
 
-{{index "tableFor function", "hasEvent function"}}
+{{index "tableFor function"}}
 
 To extract a two-by-two ((table)) for a specific event from the
 journal, we must loop over all the entries and tally how many times
 the event occurs in relation to squirrel transformations.
 
 ```{includeCode: strip_log}
-function hasEvent(event, entry) {
-  return entry.events.indexOf(event) != -1;
-}
-
 function tableFor(event, journal) {
   let table = [0, 0, 0, 0];
   for (let i = 0; i < journal.length; i++) {
     let entry = journal[i], index = 0;
-    if (hasEvent(event, entry)) index += 1;
+    if (entry.events.includes(event)) index += 1;
     if (entry.squirrel) index += 2;
     table[index] += 1;
   }
@@ -631,13 +641,12 @@ console.log(tableFor("pizza", JOURNAL));
 // → [76, 9, 4, 1]
 ```
 
-{{index [array, searching], "indexOf method"}}
+{{index [array, searching], "includes method"}}
 
-The `hasEvent` function tests whether an entry contains a given event.
-Arrays have an `indexOf` method that tries to find a given value (in
-this case, the event name) in the array and returns the index at which
-it was found or -1 if it wasn't found. So if the call to `indexOf`
-doesn't return -1, then we know the event was found in the entry.
+Arrays have an `includes` method that checks whether a given value
+exists in the array. The function uses that to determine whether the
+event name it is interested in is part of the event array for a given
+entry.
 
 {{index [array, indexing]}}
 
@@ -649,8 +658,7 @@ box in the table.
 
 We now have the tools we need to compute individual ((correlation))s.
 The only step remaining is to find a correlation for every type of
-event that was recorded and see whether anything stands out. How
-should we store these correlations once we compute them?
+event that was recorded and see whether anything stands out.
 
 {{id for_of_loop}}
 
@@ -661,22 +669,22 @@ should we store these correlations once we compute them?
 In the `tableFor` function, there's a loop like this:
 
 ```
-for (let i = 0; i < journal.length; i++) {
-  let entry = journal[i];
+for (let i = 0; i < JOURNAL.length; i++) {
+  let entry = JOURNAL[i];
   // Do something with entry
 }
 ```
 
 This kind of loop is common in classical JavaScript—going over arrays
-one element at a time something you tend to need a lot, and to do that
+one element at a time is something that comes up a lot, and to do that
 you'd run a counter over the length of the array and pick out each
 element in turn.
 
 There is a simpler way to write such loops.
 
 ```
-for (let entry of journal) {
-  console.log(`Day ${i}: ${entry.events.length} events.`)
+for (let entry of JOURNAL) {
+  console.log(`${entry.events.length} events.`)
 }
 ```
 
@@ -688,123 +696,43 @@ after `of`. This works not only for arrays, but also for strings and
 some other data structures. We'll discuss _how_ it works in [Chapter
 6](06_object.html).
 
-## Objects as maps
-
-{{index "weresquirrel example", array}}
-
-One possible way is to store all the ((correlation))s in an array,
-using objects with `name` and `value` properties. But that makes
-looking up the correlation for a given event somewhat cumbersome:
-you'd have to loop over the whole array to find the object with the
-right `name`. We could wrap this lookup process in a function, but we
-would still be writing more code, and the computer would be doing more
-work than necessary.
-
-{{index object, "square brackets", [object, "as map"], "in operator"}}
-
-{{id object_map}}
-
-A better way is to use object properties named after the event types.
-We can use the square bracket access notation to create and read the
-properties and can use the `in` operator to test whether a given
-property exists.
-
-```
-let map = {};
-function storePhi(event, phi) {
-  map[event] = phi;
-}
-
-storePhi("pizza", 0.069);
-storePhi("touched tree", -0.081);
-console.log("pizza" in map);
-// → true
-console.log(map["touched tree"]);
-// → -0.081
-```
-
-A _((map))_ ((data structure)) is a way to go from values in one
-domain (in this case, event names) to corresponding values in another
-domain (in this case, _ϕ_ coefficients).
-
-There are a few potential problems with using objects like this, which
-we will discuss in [Chapter 6](06_object.html#prototypes), but for the
-time being, we won't worry about those.
-
-{{index "Object.keys function"}}
-
-What if we want to find all the events for which we have stored a
-coefficient? To loop over such an object, we first need to find out
-what its properties are called. That can be done with the
-`Object.keys` function:
-
-```
-for (let event of Object.keys(map)) {
-  console.log(`Correlation for '${event}': ${map[event]}`);
-}
-// → Correlation for 'pizza': 0.069
-// → Correlation for 'touched tree': -0.081
-```
-
-{{index "Object.entries function"}}
-
-Since you often need both the property names and their values, there's
-also an `Object.entries` function, which returns an array of pairs
-describing the properties, where each pair is a two-element array
-containing the propery name and its value.
-
-```
-console.log(Object.entries({a: 1, b: 2}));
-// → [["a", 1], ["b", 2]]
-
-for (let prop of Object.entries(map)) {
-  console.log(`Correlation for '${prop[0]}': ${prop[1]}`);
-}
-```
 {{id analysis}}
 
 ## The final analysis
 
-{{index journal, "weresquirrel example", "gatherCorrelations function"}}
+{{index journal, "weresquirrel example", "journalEvents function"}}
 
-To list all the types of events that are present in the data set, we
-process each entry in turn and loop over its events. The object `phis`
-will be filled with correlation coefficients for all the event types
-we see. So whenever we run across a type that isn't in the `phis`
-object yet, we compute its correlation and add it to the object.
+We need to compute a correlation for every type of event that occurs
+in the data set. To do that, we first need to _find_ every type of
+event.
 
-{{index "in operator", "! operator"}}
+{{index "includes method", "push method"}}
 
-Because the `!` operator has a higher ((precedence)) than the `in`
-operator, `event in phis` has to be wrapped in parentheses, or the
-condition expression in the inner loop would be interpreted as
-`(!event) in phis`, which isn't what we want.
-
-```{includeCode: strip_log, test: clip}
-function gatherCorrelations(journal) {
-  let phis = {};
+```{includeCode: "strip_log", test: join}
+function journalEvents(journal) {
+  let events = []
   for (let entry of journal) {
     for (let event of entry.events) {
-      if (!(event in phis)) {
-        phis[event] = phi(tableFor(event, journal));
+      if (!events.includes(event)) {
+        events.push(event);
       }
     }
   }
-  return phis;
+  return events;
 }
 
-let correlations = gatherCorrelations(JOURNAL);
-console.log(correlations.pizza);
-// → 0.068599434
+console.log(journalEvents(JOURNAL));
+// → ["carrot", "exercise", "weekend", "bread", …]
 ```
 
-{{index correlation}}
+By going over all the events, and adding those that aren't already in
+there to the `events` array, this collects every type of event.
 
-Let's see what came out.
+Using that, we can see all the ((correlation))s.
 
 ```{test: no}
-for (let event of Object.keys(correlations)) {
-  console.log(event + ": " + correlations[event]);
+for (let event of journalEvents(JOURNAL)) {
+  console.log(event + ":", phi(tableFor(event, JOURNAL)));
 }
 // → carrot:   0.0140970969
 // → exercise: 0.0685994341
@@ -814,19 +742,16 @@ for (let event of Object.keys(correlations)) {
 // and so on...
 ```
 
-{{index "Object.keys function"}}
-
 Most correlations seem to lie close to zero. Eating carrots, bread, or
 pudding apparently does not trigger squirrel-lycanthropy. It _does_
-seem to occur somewhat more often on weekends, however. Let's filter
-the results to show only correlations greater than 0.1 or less than
--0.1.
+seem to occur somewhat more often on weekends. Let's filter the
+results to show only correlations greater than 0.1 or less than -0.1.
 
-```{startCode: "// test: no", test: no}
-for (let event of Object.keys(correlations)) {
-  let correlation = correlations[event];
+```{test: no}
+for (let event of journalEvents(JOURNAL)) {
+  let correlation = phi(tableFor(event, JOURNAL));
   if (correlation > 0.1 || correlation < -0.1) {
-    console.log(event + ": " + correlation);
+    console.log(event + ":", correlation);
   }
 }
 // → weekend:        0.1371988681
@@ -847,8 +772,8 @@ Interesting. Let's try something.
 
 ```{includeCode: strip_log}
 for (let entry of JOURNAL) {
-  if (hasEvent("peanuts", entry) &&
-     !hasEvent("brushed teeth", entry)) {
+  if (entry.events.includes("peanuts") &&
+     !entry.events.includes("brushed teeth")) {
     entry.events.push("peanut teeth");
   }
 }
@@ -856,21 +781,21 @@ console.log(phi(tableFor("peanut teeth", JOURNAL)));
 // → 1
 ```
 
-That's a pretty clear result. The phenomenon occurs precisely when
+That's a very clear result. The phenomenon occurs precisely when
 Jacques eats ((peanuts)) and fails to brush his teeth. If only he
 weren't such a slob about dental hygiene, he'd have never even noticed
 his affliction.
 
 Knowing this, Jacques stops eating peanuts altogether and finds that
-this puts an end to his transformations.
+his transformations don't come back.
 
 {{index "weresquirrel example"}}
 
-For a few years, things go great for Jacques. But then he loses his
-job. Because he lives in a nasty country where being without job means
-being without medical services, he is forced to take employment with a
-((circus)) where he performs as _The Incredible Squirrelman_,
-stuffing his mouth with peanut butter before every show.
+For a few years, things go great for Jacques. But at some point he
+loses his job. Because he lives in a nasty country where being without
+job means being without medical services, he is forced to take
+employment with a ((circus)) where he performs as _The Incredible
+Squirrelman_, stuffing his mouth with peanut butter before every show.
 
 One day, fed up with this pitiful existence, Jacques fails to change
 back into his human form, hops through a crack in the circus tent, and
@@ -914,9 +839,11 @@ adds it to the front instead of the back of the queue.
 
 {{index [array, searching], "indexOf method", "lastIndexOf method"}}
 
-The `indexOf` method has a sibling called `lastIndexOf`, which starts
-searching for the given element at the end of the array instead of the
-front.
+To search for a specific value, arrays provide an `indexOf` method. It
+goes through the array from the start to the end, and returns the
+index at which the requested value was found—or -1 if it wasn't found.
+To search from the end instead of the start, there's a similar method
+called `lastIndexOf`.
 
 ```
 console.log([1, 2, 3, 2, 1].indexOf(2));
@@ -963,6 +890,8 @@ function remove(array, index) {
 console.log(remove(["a", "b", "c", "d", "e"], 2));
 // → ["a", "b", "d", "e"]
 ```
+
+You can use the three-dot operator
 
 ## Strings and their properties
 
@@ -1019,7 +948,8 @@ console.log("  okay \n ".trim());
 
 We have already seen the string type's `length` property. Accessing
 the individual characters in a string looks like accessing array
-elements.
+elements (with a caveat that we'll discuss in [Chapter
+5](05_higher_order.html#code_points)).
 
 ```
 let string = "abc";
@@ -1075,6 +1005,17 @@ console.log(max(...numbers));
 This "((spread))s" out the array into the function call, passing its
 elements as separate arguments. It is possible to include an array
 like that along with other arguments, as in `max(9, ...numbers, 2)`.
+
+{{index array}}
+
+Array notation using ((square brackets)) similarly allows this
+operator to spread another array into the new array:
+
+```
+let words = ["never", "fully"];
+console.log(["will", ...words, "understand"]);
+// → ["will", "never", "fully", "understand"]
+```
 
 ## The Math object
 
@@ -1153,7 +1094,7 @@ console.log(Math.random());
 Though computers are deterministic machines—they always react the same
 way if given the same input—it is possible to have them produce
 numbers that appear random. To do this, the machine keeps some hidden
-value that represents "randomness", and whenever you ask for a new
+value that represents the randomness, and whenever you ask for a new
 random number, it'll perform some complicated computations on this
 hidden value to create a new value. It stores this new value, and
 returns some number derived from it. That way, it can produce ever
@@ -1203,26 +1144,20 @@ binding pointing at our array, but we'd much prefer to have bindings
 for the _elements_ of the array. I.e. `let n00 = table[0]`, and so on.
 Fortunately, there is a more succinct way to do this in JavaScript.
 
+```
 function phi([n00, n01, n10, n11]) {
   return (n11 * n00 - n10 * n01) /
     Math.sqrt((n10 + n11) * (n00 + n01) *
               (n01 + n11) * (n00 + n10));
 }
+```
 
 {{index "let keyword", "var keyword", "const keyword"}}
 
 This also works for ((binding))s created with `let`, `var`, or
 `const`. If you know the value you are binding is an array, you can
 use ((square brackets)) to "look inside" of the value, binding its
-content. This works well with `Object.entries`, for example.
-
-```
-for (let [name, value] in {x: 0, y: 1}) {
-  console.log(name, value);
-}
-// → x 0
-// → y 1
-```
+content.
 
 {{index object, "curly braces"}}
 
@@ -1249,22 +1184,18 @@ bag, instead of wrapping our arms around all of the individual things
 and trying to hold on to them separately.
 
 Most values in JavaScript have properties, the exceptions being `null`
-and `undefined`. Properties are accessed using `value.propName` or
-`value["propName"]`. Objects tend to use names for their properties
+and `undefined`. Properties are accessed using `value.prop` or
+`value["prop"]`. Objects tend to use names for their properties
 and store more or less a fixed set of them. Arrays, on the other hand,
-usually contain varying numbers of conceptually identical values and
+usually contain varying amounts of conceptually identical values and
 use numbers (starting from 0) as the names of their properties.
 
 There _are_ some named properties in arrays, such as `length` and a
 number of methods. Methods are functions that live in properties and
 (usually) act on the value they are a property of.
 
-You can iterate over arrays using a special kind of `for` loop (`for
-(let element of array)`).
-
-Objects can also serve as maps, associating values with names. The
-`in` operator can be used to find out whether an object contains a
-property with a given name.
+You can iterate over arrays using a special kind of `for` loop—`for
+(let element of array)`.
 
 ## Exercises
 
@@ -1537,6 +1468,11 @@ should do a deep comparison. But you have to take one silly exception
 into account: by a historical accident, `typeof null` also produces
 `"object"`.
 
+{{index "Object.keys function"}}
+
+The `Object.keys` function will be useful when you need to go over the
+properties of objects to compare them one by one.
+
 {{if interactive
 
 ```{test: no}
@@ -1562,21 +1498,22 @@ compare properties only when _both_ arguments are objects. In all
 other cases you can just immediately return the result of applying
 `===`.
 
-{{index "Object.keys method", "in operator"}}
+{{index "Object.keys method"}}
 
 Use `Object.keys` to go over the properties. You need to test whether
 both objects have the same set of property names and whether those
-properties have identical values. The first test can be done by
-counting the properties in both objects and returning false if the
-numbers of properties are different. If they're the same, then go over
-the properties of one object, and for each of them, verify that the
-other object also has the property. The values of the properties are
-compared by a recursive call to `deepEqual`.
+properties have identical values. One way to do that is to ensure that
+both objects have the same number of properties (the lengths of the
+property lists are the same). And then, when looping over one of the
+object's properties in order to compare them, always first make sure
+the other actually has a property by that name. If they have the same
+number of properties, and all properties in one also exist in the
+other, they have the same set of property names.
 
 {{index "return value"}}
 
 Returning the correct value from the function is best done by
-immediately returning false when a mismatch is noticed and returning
+immediately returning false when a mismatch is found and returning
 true at the end of the function.
 
 hint}}

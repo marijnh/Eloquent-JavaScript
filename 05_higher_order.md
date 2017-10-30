@@ -604,6 +604,8 @@ The `some` method on arrays is another higher-order function. It takes
 a test function and tells you if that function returns true for any of
 the elements in the array.
 
+{{id code_points}}
+
 But how do we get the character codes in a string?
 
 In [Chapter 1](01_values.html) I mentioned that JavaScript ((string))s

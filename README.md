@@ -1,6 +1,6 @@
 # Eloquent JavaScript
 
-These are the sources used to build the second edition of Eloquent
+These are the sources used to build the third edition of Eloquent
 JavaScript (http://eloquentjavascript.net).
 
 Feedback welcome, in the form of issues and pull requests.

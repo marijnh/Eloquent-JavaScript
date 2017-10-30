@@ -2,6 +2,15 @@
 
 # Modules
 
+{{quote {author: "Barbara Liskov", title: "A design methodology for reliable software systems", chapter: true}
+
+Any user of a computer system is aware that current systems are
+unreliable because of errors in their software components. While
+system designers and implementers recognize the need for reliable
+software, they have been unable to produce it.
+
+quote}}
+
 {{if interactive
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}

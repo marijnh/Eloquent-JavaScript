@@ -11,6 +11,14 @@ the banana and the entire jungle.
 
 quote}}
 
+{{quote {author: "Barbara Liskov and Stephen Zilles", title: "Programming with Abstract Data Types", chapter: true}
+
+An abstract data type is realized by writing a special kind of program
+[…] which defines the type in terms of the operations which can be
+performed on it.
+
+quote}}
+
 {{index "Armstrong, Joe", object, "holy war"}}
 
 When a programmer

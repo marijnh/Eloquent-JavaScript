@@ -320,7 +320,7 @@ blockquote footer:before {
 .cm-s-default .cm-comment {color: #740;}
 .cm-s-default .cm-string, .sandbox-output-string {color: #700;}
 .cm-s-default .cm-string-2 {color: #740;}
-.cm-s-default .cm-tag {color: #170;}
+.cm-s-default .cm-tag, .sandbox-output-symbol {color: #170;}
 
 .CodeMirror {
   height: auto;

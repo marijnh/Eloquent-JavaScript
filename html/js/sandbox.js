@@ -328,6 +328,7 @@
     if (typeof val == "boolean") return span("bool", String(val))
     if (typeof val == "number") return span("number", String(val))
     if (typeof val == "string") return span("string", JSON.stringify(val))
+    if (typeof val == "symbol") return span("symbol", String(val))
     if (val == null) return span("null", String(val))
     if (Array.isArray(val)) return representArray(val, space)
     else return representObj(val, space)

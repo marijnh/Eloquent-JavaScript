@@ -272,6 +272,8 @@
       }
       if (stat.type == "VariableDeclaration" && stat.kind != "var")
         patches.push({from: stat.start, to: stat.start + stat.kind.length, text: "var"})
+      if (stat.type == "ClassDeclaration")
+        patches.push({from: stat.start, text: "var " + stat.id.name + " = "})
     }
     patches.push({from: tryPos, text: "try{"})
     patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"})

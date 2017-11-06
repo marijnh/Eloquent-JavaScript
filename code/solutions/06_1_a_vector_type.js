@@ -1,21 +1,21 @@
-function Vector(x, y) {
-  this.x = x;
-  this.y = y;
-}
+class Vector {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
-Vector.prototype.plus = function(other) {
-  return new Vector(this.x + other.x, this.y + other.y);
-};
+  plus(other) {
+    return new Vector(this.x + other.x, this.y + other.y);
+  }
 
-Vector.prototype.minus = function(other) {
-  return new Vector(this.x - other.x, this.y - other.y);
-};
+  minus(other) {
+    return new Vector(this.x - other.x, this.y - other.y);
+  }
 
-Object.defineProperty(Vector.prototype, "length", {
-  get: function() {
+  get length() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
-});
+}
 
 console.log(new Vector(1, 2).plus(new Vector(2, 3)));
 // → Vector{x: 3, y: 5}

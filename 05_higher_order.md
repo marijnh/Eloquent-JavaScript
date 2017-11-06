@@ -548,7 +548,7 @@ You could definitely also write this computation as one big ((loop)).
 
 ```
 let sum = 0, count = 0;
-for (let script in SCRIPTS) {
+for (let script of SCRIPTS) {
   if (script.living) {
     sum += script.year;
     count += 1;

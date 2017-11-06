@@ -1,5 +1,6 @@
-let fs = require("fs")
+const fs = require("fs")
 const PJSON = require("./pseudo_json")
+const varify = require("./varify")
 
 let file = process.argv[2]
 let input = fs.readFileSync(file, "utf8")
@@ -11,7 +12,7 @@ let defaultFile = "code/chapter/" + file.replace(".md", ".js")
 while (m = included.exec(input)) {
   let [_, params, snippet] = m, directive = String(PJSON.parse(params).includeCode)
   let file = defaultFile
-  snippet = snippet.replace(/(\n|^)\s*\/\/ →.*\n/g, "$1")
+  snippet = varify(snippet.replace(/(\n|^)\s*\/\/ →.*\n/g, "$1"))
   if (directive.indexOf("strip_log") > -1)
     snippet = snippet.replace(/(\n|^)\s*console\.log\(.*\);\n/g, "$1")
   if (m = directive.match(/top_lines:\s*(\d+)/))

@@ -590,7 +590,7 @@ console.log(sym == Symbol("sym"));
 // → false
 Rabbit.prototype[sym] = 55;
 console.log(blackRabbit[sym]);
-// → 55;
+// → 55
 ```
 
 The string you pass to `Symbol` is included when you convert it to a
@@ -801,7 +801,7 @@ property is written to, using a _((setter))_.
 ```{test: no}
 class Temperature {
   constructor(celsius) {
-    this.celsius = celsius
+    this.celsius = celsius;
   }
   get fahrenheit() {
     return this.celsius * 1.8 + 32;

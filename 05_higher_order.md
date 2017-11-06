@@ -269,7 +269,7 @@ There is a built-in array method, `forEach` that provides something
 like a `for`/`of` loop as a higher-order function.
 
 ```
-["A", "B"].forEach(console.log);
+["A", "B"].forEach(l => console.log(l));
 // → A
 // → B
 ```
@@ -302,7 +302,8 @@ chapter[
 book} as the `SCRIPTS` binding. This binding contains an array of
 objects, each of which describes a script.
 
-```{type: "application/json"}
+
+```{lang: "application/json"}
 {
   name: "Coptic",
   ranges: [[994, 1008], [11392, 11508], [11513, 11520]],
@@ -395,7 +396,7 @@ its elements and building a new array from the returned values. The
 new array will have the same length as the input array, but its
 content will have been “mapped” to a new form by the function.
 
-```{test: join}
+```
 function map(array, transform) {
   let mapped = [];
   for (let element of array) {
@@ -472,8 +473,8 @@ function characterCount(script) {
 }
 
 console.log(SCRIPTS.reduce((a, b) => {
-  return characterCount(a) < characterCount(b) ? b : a
-}))
+  return characterCount(a) < characterCount(b) ? b : a;
+}));
 // → {name: "Han", …}
 ```
 
@@ -534,12 +535,12 @@ console.log(Math.round(average(
 // → 1185
 console.log(Math.round(average(
   SCRIPTS.filter(s => !s.living).map(s => s.year))));
-// → 219
+// → 209
 ```
 
 So the dead scrips in Unicode are, on average, older than the living
 ones. This is not a terribly meaningful or surprising statistic. But I
-hope you'll agree that the code used to compute it is easy to read.
+hope you'll agree that the code used to compute it isn't hard to read.
 You can see it as a pipeline: we start with all scripts, filter out
 the living (or dead) ones, take the years from those, average them,
 and round the result.
@@ -547,14 +548,14 @@ and round the result.
 You could definitely also write this computation as one big ((loop)).
 
 ```
-let sum = 0, count = 0;
+let total = 0, count = 0;
 for (let script of SCRIPTS) {
   if (script.living) {
-    sum += script.year;
+    total += script.year;
     count += 1;
   }
 }
-console.log(Math.round(sum / count));
+console.log(Math.round(total / count));
 // → 1185
 ```
 
@@ -889,7 +890,7 @@ chapter are probably useful here.
 
 {{if interactive
 
-```
+```{test: no}
 function dominantDirection(text) {
   // Your code here.
 }

@@ -335,7 +335,7 @@ just an empty set of ((parentheses)).
 
 ```
 const horn = () => {
-  console.log("Toot")
+  console.log("Toot");
 };
 ```
 

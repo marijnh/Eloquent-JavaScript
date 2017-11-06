@@ -5,6 +5,7 @@
 const PJSON = require("./pseudo_json")
 let fs = require("fs")
 let acorn = require("acorn")
+let varify = require("./varify")
 
 let file = process.argv[2]
 let chapNum = Number(file.match(/^\d*/)[0])
@@ -67,6 +68,7 @@ while (m = re.exec(input)) {
   } catch(e) {
     console.log("parse error at " + where + ": " + e.toString())
   }
+  snippet = varify(snippet)
   if (/\bno\b/.test(config)) continue
   if (m = config.match(/\berror "([^"]+)"/)) snippet = wrapForError(snippet, m[1])
   else if (/\/\/ →/.test(snippet)) snippet = wrapTestOutput(snippet, config)

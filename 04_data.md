@@ -684,7 +684,7 @@ There is a simpler way to write such loops.
 
 ```
 for (let entry of JOURNAL) {
-  console.log(`${entry.events.length} events.`)
+  console.log(`${entry.events.length} events.`);
 }
 ```
 
@@ -708,9 +708,9 @@ event.
 
 {{index "includes method", "push method"}}
 
-```{includeCode: "strip_log", test: join}
+```{includeCode: "strip_log"}
 function journalEvents(journal) {
-  let events = []
+  let events = [];
   for (let entry of journal) {
     for (let event of entry.events) {
       if (!events.includes(event)) {

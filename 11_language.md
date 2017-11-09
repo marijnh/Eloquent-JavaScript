@@ -940,4 +940,3 @@ reached (`Object.getPrototypeOf` returns null) and we haven't found
 the variable yet, it doesn't exist, and an error should be thrown.
 
 hint}}
-

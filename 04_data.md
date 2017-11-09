@@ -406,7 +406,7 @@ to change a character in your string to make it spell `"rat"`.
 With objects, on the other hand, the content of a value _can_ be
 modified by changing its properties.
 
-{{index [object, identity], identity, memory}}
+{{index [object, identity], identity, memory, mutability}}
 
 When we have two numbers, 120 and 120, we can consider them precisely
 the same number, whether or not they refer to the same physical bits.
@@ -891,7 +891,8 @@ console.log(remove(["a", "b", "c", "d", "e"], 2));
 // → ["a", "b", "d", "e"]
 ```
 
-You can use the three-dot operator
+If you pass `concat` an argument that is not an array, that value will
+be added to the new array as if it was a one-element array.
 
 ## Strings and their properties
 

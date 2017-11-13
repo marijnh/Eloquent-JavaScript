@@ -50,24 +50,31 @@ graph will be the world that our robot moves through.
 
 That array of strings isn't very easy to work with. Instead, we'll
 typically want to find the destinations that we can reach from a given
-place. Let's convert the list of roads to a map that, for each place,
-tells us what can be reached from there.
+place. Let's convert the list of roads to a data structure that, for
+each place, tells us what can be reached from there.
 
 ```{includeCode: true}
-let roadsFrom = Object.create(null);
-function storeRoad(from, to) {
-  if (roadsFrom[from] == null) {
-    roadsFrom[from] = [to];
-  } else {
-    roadsFrom[from].push(to);
+function buildGraph(edges) {
+  let graph = Object.create(null);
+  function addEdge(from, to) {
+    if (graph[from] == null) {
+      graph[from] = [to];
+    } else {
+      graph[from].push(to);
+    }
   }
+  for (let [from, to] of edges.map(r => r.split("-"))) {
+    addEdge(from, to);
+    addEdge(to, from);
+  }
+  return graph;
 }
-for (let road of roads) {
-  let [from, to] = road.split("-");
-  storeRoad(from, to);
-  storeRoad(to, from);
-}
+
+const roadsFrom = buildGraph(roads);
 ```
+
+Given a an array of edges, `buildGraph` creates a map object that, for
+each node, stores an array of connected nodes.
 
 {{index "split method"}}
 

@@ -47,11 +47,11 @@ field's style. These are some commonly used `<input>` types:
 
 {{table {cols: [1,5]}}}
 
-`text`     | A single-line ((text field))
-`password` | Same as `text` but hides the text that is typed
-`checkbox` | An on/off switch
-`radio`    | (Part of) a ((multiple-choice)) field
-`file`     | Allows the user to choose a file from their computer
+| `text`     | A single-line ((text field))
+| `password` | Same as `text` but hides the text that is typed
+| `checkbox` | An on/off switch
+| `radio`    | (Part of) a ((multiple-choice)) field
+| `file`     | Allows the user to choose a file from their computer
 
 {{index "value attribute", "checked attribute", "form (HTML tag)"}}
 

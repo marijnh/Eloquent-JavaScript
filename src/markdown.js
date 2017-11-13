@@ -60,6 +60,40 @@ function parseBlockMeta(state, startLine, endLine) {
   return true
 }
 
+function parseBlockTable(state, startLine, endLine) {
+  if (state.sCount[startLine] - state.blkIndent >= 4) return false
+
+  let line = startLine, lines = []
+  for (; line < endLine; line++) {
+    let start = state.bMarks[line] + state.tShift[line]
+    let lineText = state.src.slice(start, state.eMarks[line])
+    if (!/\S/.test(lineText)) break
+    if (lineText[0] != "|") return false
+    lines.push(lineText.slice(1))
+  }
+
+  if (!lines.length) return false
+
+  state.push("table_open", "table", 1).map = [startLine, line]
+  for (let i = 0; i < lines.length; i++) {
+    state.push("tr_open", "tr", 1).map = [startLine + i, startLine + i + 1]
+    let m, content = /((?:[^`|]|`.*?`)+)\|?/g
+    while (m = content.exec(lines[i])) {
+      state.push("td_open", "td", 1).map = [startLine + i, startLine + i + 1]
+      let inline = state.push("inline", "", 0)
+      inline.content = m[1].trim()
+      inline.map = [startLine + i, startLine + i + 1]
+      inline.children = []
+      state.push("td_close", "td", -1)
+    }
+    state.push("tr_close", "tr", -1)
+  }
+  state.push("table_close", "table", -1)
+  state.line = line + 1
+
+  return true
+}
+
 function parseInlineMeta(state, silent) {
   if (state.src.charCodeAt(state.pos) != 91) return false // '['
 
@@ -130,6 +164,7 @@ function newText(state, silent) {
 
 function plugin(md) {
   md.block.ruler.before("code", "meta", parseBlockMeta)
+  md.block.ruler.before("code", "table", parseBlockTable)
   md.inline.ruler.before("link", "meta", parseInlineMeta)
   md.inline.ruler.at("text", newText)
   md.inline.ruler.before("strikethrough", "index_term", parseIndexTerm)
@@ -139,4 +174,3 @@ module.exports = markdownIt({html: true})
   .use(plugin)
   .use(require("markdown-it-sup"))
   .use(require("markdown-it-sub"))
-  .use(require("markdown-it-synapse-table"))

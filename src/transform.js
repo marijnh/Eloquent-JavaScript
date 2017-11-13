@@ -68,6 +68,10 @@ function transformInline(tokens, options) {
   return result
 }
 
+function nextTag(tokens, i) {
+  for (let j = i + 1; j < tokens.length; j++) if (tokens[j].tag) return tokens[j];
+}
+
 exports.transformTokens = function(tokens, options) {
   let meta = {}, result = []
   for (let i = 0; i < tokens.length; i++) {
@@ -75,10 +79,10 @@ exports.transformTokens = function(tokens, options) {
     if (type == "meta_meta") {
       for (let prop in tok.args[0]) meta[prop] = tok.args[0][prop]
     } else if (type == "meta_id") {
-      for (let j = i + 1; j < tokens.length; j++) if (tokens[j].tag) {
-        ;(tokens[j].attrs || (tokens[j].attrs = [])).push(["id", tok.args[0]])
-        break
-      }
+      let next = nextTag(tokens, i)
+      ;(next.attrs || (next.attrs = [])).push(["id", tok.args[0]])
+    } else if (type == "meta_table") {
+      nextTag(tokens, i).tableData = tok.args[0]
     } else if (type == "meta_if_open") {
       i = handleIf(tokens, i, options)
     } else if (type == "meta_if_close" || (options.index === false && (type == "meta_indexsee" || type == "meta_index"))) {

@@ -4,9 +4,8 @@
 
 {{quote {author: "Jamie Zawinski", chapter: true}
 
-Some people, when confronted with a
-problem, think ‘I know, I'll use regular expressions.’ Now they have
-two problems.
+Some people, when confronted with a problem, think ‘I know, I'll use
+regular expressions.’ Now they have two problems.
 
 quote}}
 
@@ -24,11 +23,11 @@ if}}
 
 {{index "Zawinski, Jamie", evolution, adoption, integration}}
 
-Programming
-((tool))s and techniques survive and spread in a chaotic, evolutionary
-way. It's not always the pretty or brilliant ones that win but rather
-the ones that function well enough within the right niche—for example,
-by being integrated with another successful piece of technology.
+Programming ((tool))s and techniques survive and spread in a chaotic,
+evolutionary way. It's not always the pretty or brilliant ones that
+win but rather the ones that function well enough within the right
+niche—for example, by being integrated with another successful piece
+of technology.
 
 {{index "domain-specific language"}}
 
@@ -57,8 +56,8 @@ written as a literal value by enclosing the pattern in forward slash
 (`/`) characters.
 
 ```
-var re1 = new RegExp("abc");
-var re2 = /abc/;
+let re1 = new RegExp("abc");
+let re2 = /abc/;
 ```
 
 Both of these regular expression objects represent the same
@@ -84,7 +83,7 @@ expressions and must be preceded by a backslash if they are meant to
 represent the character itself.
 
 ```
-var eighteenPlus = /eighteen\+/;
+let eighteenPlus = /eighteen\+/;
 ```
 
 Knowing precisely what characters to backslash-escape when writing
@@ -121,10 +120,9 @@ start), `test` will return `true`.
 
 {{index "regular expression", "indexOf method"}}
 
-Finding out whether a
-string contains _abc_ could just as well be done with a call to
-`indexOf`. Regular expressions allow us to go beyond that and express
-more complicated ((pattern))s.
+Finding out whether a string contains _abc_ could just as well be done
+with a call to `indexOf`. Regular expressions allow us to express more
+complicated ((pattern))s.
 
 Say we want to match any ((number)). In a regular expression, putting
 a ((set)) of characters between square brackets makes that part of the
@@ -156,22 +154,21 @@ same thing as `[0-9]`.
 
 {{index "newline character"}}
 
-[cols="1,5"]
-|====
-|`\d`      |Any ((digit)) character
-|`\w`      |An alphanumeric character (“((word character))”)
-|`\s`      |Any ((whitespace)) character (space, tab, newline, and similar)
-|`\D`      |A character that is _not_ a digit
-|`\W`      |A nonalphanumeric character
-|`\S`      |A nonwhitespace character
-|`.`       |Any character except for newline
-|====
+{{table {cols: [1, 5]}}}
+
+`\d`    | Any ((digit)) character
+`\w`    | An alphanumeric character (“((word character))”)
+`\s`    | Any ((whitespace)) character (space, tab, newline, and similar)
+`\D`    | A character that is _not_ a digit
+`\W`    | A nonalphanumeric character
+`\S`    | A nonwhitespace character
+`.`     | Any character except for newline
 
 So you could match a ((date)) and ((time)) format like 30-01-2003
 15:20 with the following expression:
 
 ```
-var dateTime = /\d\d-\d\d-\d\d\d\d \d\d:\d\d/;
+let dateTime = /\d\d-\d\d-\d\d\d\d \d\d:\d\d/;
 console.log(dateTime.test("30-01-2003 15:20"));
 // → true
 console.log(dateTime.test("30-jan-2003 15:20"));
@@ -203,7 +200,7 @@ character _except_ the ones in the set—you can write a caret (`^`)
 character after the opening bracket.
 
 ```
-var notBinary = /[^01]/;
+let notBinary = /[^01]/;
 console.log(notBinary.test("1100100010100110"));
 // → false
 console.log(notBinary.test("1100100010200110"));
@@ -251,7 +248,7 @@ occur zero or one time. In the following example, the _u_ character
 is allowed to occur, but the pattern also matches when it is missing.
 
 ```
-var neighbor = /neighbou?r/;
+let neighbor = /neighbou?r/;
 console.log(neighbor.test("neighbour"));
 // → true
 console.log(neighbor.test("neighbor"));
@@ -272,7 +269,7 @@ allows both single- and double-((digit)) days, months, and hours. It
 is also slightly more readable.
 
 ```
-var dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
+let dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
 console.log(dateTime.test("30-1-2003 8:45"));
 // → true
 ```
@@ -292,7 +289,7 @@ as a single element as far as the operators following it are
 concerned.
 
 ```
-var cartoonCrying = /boo+(hoo+)+/i;
+let cartoonCrying = /boo+(hoo+)+/i;
 console.log(cartoonCrying.test("Boohoooohoohooo"));
 // → true
 ```
@@ -322,7 +319,7 @@ match was found and return an object with information about the match
 otherwise.
 
 ```
-var match = /\d+/.exec("one two 100");
+let match = /\d+/.exec("one two 100");
 console.log(match);
 // → ["100"]
 console.log(match.index);
@@ -358,7 +355,7 @@ matched by the first group (the one whose opening parenthesis comes
 first in the expression), then the second group, and so on.
 
 ```
-var quotedText = /'([^']*)'/;
+let quotedText = /'([^']*)'/;
 console.log(quotedText.exec("she said 'hello'"));
 // → ["'hello'", "hello"]
 ```
@@ -462,8 +459,8 @@ object from a string.
 
 ```
 function findDate(string) {
-  var dateTime = /(\d{1,2})-(\d{1,2})-(\d{4})/;
-  var match = dateTime.exec(string);
+  let dateTime = /(\d{1,2})-(\d{1,2})-(\d{4})/;
+  let match = dateTime.exec(string);
   return new Date(Number(match[3]),
                   Number(match[2]) - 1,
                   Number(match[1]));
@@ -528,7 +525,7 @@ there is a nicer way. The ((pipe character)) (`|`) denotes a
 right. So I can say this:
 
 ```
-var animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
+let animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
 console.log(animalCount.test("15 pigs"));
 // → true
 console.log(animalCount.test("15 pigchickens"));
@@ -742,7 +739,7 @@ arguments, and its return value will be inserted into the new string.
 Here's a simple example:
 
 ```
-var s = "the cia and fbi";
+let s = "the cia and fbi";
 console.log(s.replace(/\b(fbi|cia)\b/g, function(str) {
   return str.toUpperCase();
 }));
@@ -752,7 +749,7 @@ console.log(s.replace(/\b(fbi|cia)\b/g, function(str) {
 And here's a more interesting one:
 
 ```
-var stock = "1 lemon, 2 cabbages, and 101 eggs";
+let stock = "1 lemon, 2 cabbages, and 101 eggs";
 function minusOne(match, amount, unit) {
   amount = Number(amount) - 1;
   if (amount == 1) // only one left, remove the 's'
@@ -858,9 +855,9 @@ But you can build up a string and use the `RegExp` ((constructor)) on
 that. Here's an example:
 
 ```
-var name = "harry";
-var text = "Harry is a suspicious character.";
-var regexp = new RegExp("\\b(" + name + ")\\b", "gi");
+let name = "harry";
+let text = "Harry is a suspicious character.";
+let regexp = new RegExp("\\b(" + name + ")\\b", "gi");
 console.log(text.replace(regexp, "_$1_"));
 // → _Harry_ is a suspicious character.
 ```
@@ -887,10 +884,10 @@ have a special meaning. But escaping everything that's not
 alphanumeric or ((whitespace)) is safe.
 
 ```
-var name = "dea+hl[]rd";
-var text = "This dea+hl[]rd guy is super annoying.";
-var escaped = name.replace(/[^\w\s]/g, "\\$&");
-var regexp = new RegExp("\\b(" + escaped + ")\\b", "gi");
+let name = "dea+hl[]rd";
+let text = "This dea+hl[]rd guy is super annoying.";
+let escaped = name.replace(/[^\w\s]/g, "\\$&");
+let regexp = new RegExp("\\b(" + escaped + ")\\b", "gi");
 console.log(text.replace(regexp, "_$1_"));
 // → This _dea+hl[]rd_ guy is super annoying.
 ```
@@ -942,9 +939,9 @@ would have been to just allow an extra argument to be passed to
 regular expression interface.
 
 ```
-var pattern = /y/g;
+let pattern = /y/g;
 pattern.lastIndex = 3;
-var match = pattern.exec("xyzzy");
+let match = pattern.exec("xyzzy");
 console.log(match.index);
 // → 4
 console.log(pattern.lastIndex);
@@ -967,7 +964,7 @@ cause problems. Your regular expression might be accidentally starting
 at an index that was left over from a previous call.
 
 ```
-var digit = /\d/g;
+let digit = /\d/g;
 console.log(digit.exec("here it is: 1"));
 // → ["1"]
 console.log(digit.exec("and now: 1"));
@@ -1003,9 +1000,9 @@ that gives us access to the match object in the loop body, by using
 `lastIndex` and `exec`.
 
 ```
-var input = "A string with 3 numbers in it... 42 and 88.";
-var number = /\b(\d+)\b/g;
-var match;
+let input = "A string with 3 numbers in it... 42 and 88.";
+let number = /\b(\d+)\b/g;
+let match;
 while (match = number.exec(input))
   console.log("Found", match[1], "at", match.index);
 // → Found 3 at 14
@@ -1086,11 +1083,11 @@ in a way that allows both `"\n"` and `"\r\n"` between lines.
 ```
 function parseINI(string) {
   // Start with an object to hold the top-level fields
-  var currentSection = {name: null, fields: []};
-  var categories = [currentSection];
+  let currentSection = {name: null, fields: []};
+  let categories = [currentSection];
 
   string.split(/\r?\n/).forEach(function(line) {
-    var match;
+    let match;
     if (/^\s*(;.*)?$/.test(line)) {
       return;
     } else if (match = line.match(/^\[(.*)\]$/)) {
@@ -1183,27 +1180,26 @@ unfortunately looks like they won't be realized in the near ((future)).
 Regular expressions are objects that represent patterns in strings.
 They use their own syntax to express these patterns.
 
-[cols="1,5"]
-|====
-|`/abc/`     |A sequence of characters
-|`/[abc]/`   |Any character from a set of characters
-|`/[^abc]/`  |Any character _not_ in a set of characters
-|`/[0-9]/`   |Any character in a range of characters
-|`/x+/`      |One or more occurrences of the pattern `x`
-|`/x+?/`     |One or more occurrences, nongreedy
-|`/x*/`      |Zero or more occurrences
-|`/x?/`      |Zero or one occurrence
-|`/x{2,4}/`  |Between two and four occurrences
-|`/(abc)/`   |A group
-|_/a{brvbar}b{brvbar}c/_ |Any one of several patterns
-|`/\d/`      |Any digit character
-|`/\w/`      |An alphanumeric character (“word character”)
-|`/\s/`      |Any whitespace character
-|`/./`       |Any character except newlines
-|`/\b/`      |A word boundary
-|`/^/`       |Start of input
-|`/$/`       |End of input
-|====
+{{table {cols: [1, 5]}}}
+
+`/abc/`     | A sequence of characters
+`/[abc]/`   | Any character from a set of characters
+`/[^abc]/`  | Any character _not_ in a set of characters
+`/[0-9]/`   | Any character in a range of characters
+`/x+/`      | One or more occurrences of the pattern `x`
+`/x+?/`     | One or more occurrences, nongreedy
+`/x*/`      | Zero or more occurrences
+`/x?/`      | Zero or one occurrence
+`/x{2,4}/`  | Between two and four occurrences
+`/(abc)/`   | A group
+`/a|b|c/`   | Any one of several patterns
+`/\d/`      | Any digit character
+`/\w/`      | An alphanumeric character (“word character”)
+`/\s/`      | Any whitespace character
+`/./`       | Any character except newlines
+`/\b/`      | A word boundary
+`/^/`       | Start of input
+`/$/`       | End of input
 
 A regular expression has a method `test` to test whether a given
 string matches it. It also has an `exec` method that, when a match is
@@ -1341,7 +1337,7 @@ does the proper replacement.
 
 {{if interactive
 ```{test: no}
-var text = "'I'm the cook,' he said, 'it's my job.'";
+let text = "'I'm the cook,' he said, 'it's my job.'";
 // Change this call.
 console.log(text.replace(/A/g, "B"));
 // → "I'm the cook," he said, "it's my job."
@@ -1388,7 +1384,7 @@ are valid JavaScript numbers, but a lone dot _isn't_.
 {{if interactive
 ```{test: no}
 // Fill in this regular expression.
-var number = /^...$/;
+let number = /^...$/;
 
 // Tests:
 ["1", "-1", "+15", "1.55", ".5", "5.", "1.3e2", "1E-4",

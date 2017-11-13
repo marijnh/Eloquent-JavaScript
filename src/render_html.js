@@ -63,6 +63,15 @@ let renderer = {
   list_item_open() { return "\n\n<li>" },
   list_item_close() { return "</li>" },
 
+  table_open() { return "\n\n<table>" },
+  table_close() { return "\n\n</table>" },
+  tbody_open() { return "" },
+  tbody_close() { return "" },
+  tr_open() { return "\n\n<tr>" },
+  tr_close() { return "\n\n</tr>" },
+  td_open() { return "<td>" },
+  td_close() { return "</td>" },
+
   html_block(token) { return token.content },
 
   code_inline(token) { return `<code>${escape(token.content)}</code>` },
@@ -107,7 +116,7 @@ function renderArray(tokens) {
   let result = ""
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i], f = renderer[token.type]
-    if (!f) throw new Error("No render function for " + token.type)
+    if (!f) throw new Error("No render function for " + token.type + " " + tokens.slice(i + 1).map(t => t.type).join())
     result += f(token)
   }
   return result

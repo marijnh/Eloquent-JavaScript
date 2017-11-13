@@ -665,8 +665,7 @@ console.log(okIterator.next());
 {{index "matrix example", "Matrix class", array}}
 
 Let's implement an iterable data structure. We'll build a _matrix_
-class, acting as a two-dimensional array, because we'll need one of
-those in the next chapter.
+class, acting as a two-dimensional array.
 
 ```{includeCode: true}
 class Matrix {
@@ -842,55 +841,51 @@ temperature using degrees Fahrenheit.
 
 ## Inheritance
 
-{{index inheritance, "matrix example", "out-of-bound access", precondition, "object-oriented programming"}}
+{{index inheritance, "matrix example", "object-oriented programming", "SymmetricMatrix class"}}
 
-At the moment, if you pass coordinates outside of the matrix to a
-`Matrix` object's `get` method, it will compute an incorrect array
-index—possibly that of another matrix element, possibly one at which
-there is no element in the array. So the result of doing that are
-unpredictable and won't result in a useful value. That is not
-necessarily a problem—it is generally okay for a function to misbehave
-when given bad arguments. The blame lies with whoever provided those
-arguments.
+Some matrices are known to be _symmetric_. If you mirror a symmetric
+matrix around it top-left to bottom-right diagonal, it stays the same.
+In other words, the value stored at _x_,_y_ is always the same as that
+at _y_,_x_.
 
-But imagine we are writing an application where, for simplicity, we
-want to be able to read outside of the matrix, and we always want a
-specific value to be returned when we do. We could change the
-definition of `Matrix` to provide that behavior, of course. But
-`Matrix` is currently a pleasantly minimalist class, and adding
-application-specific bells and whistles to it would kind of ruin it.
+Imagine we need a data structure like `Matrix`, but one which is
+enforces the fact that the matrix is and remains symmetrical. We could
+write it from scratch, but that would involve repeating some code very
+similar to what we already wrote.
 
 {{index overriding, prototype}}
 
 JavaScript's prototype system makes it possible to create a _new_
 class, much like the old class, but with new definitions for some of
 its properties. The prototype for the new class derives from the old
-prototype, but adds a new definition for, say, the `get` method.
+prototype, but adds a new definition for, say, the `set` method.
 
 In object-oriented programming terms, this is called
 _((inheritance))_. The new class inherits properties and behavior from
 the old class.
 
 ```{includeCode: "top_lines: 16"}
-class OpenMatrix extends Matrix {
-  constructor(width, height, defaultValue, content) {
-    super(width, height, content);
-    this.defaultValue = defaultValue;
+class SymmetricMatrix extends Matrix {
+  constructor(size, content = () => undefined) {
+    super(size, size);
+    for (let y = 0; y < this.width; y++) {
+       for (let x = 0; x <= y; x++) {
+         this.set(x, y, content(x, y));
+       }
+    }
   }
 
-  get(x, y) {
-    if (x < 0 || x >= this.width ||
-        y < 0 || y >= this.height) {
-      return this.defaultValue;
-    } else {
-      return super.get(x, y);
+  set(x, y, value) {
+    super.set(x, y, value);
+    if (x != y) {
+      super.set(y, x, value);
     }
   }
 }
 
-let matrix = new OpenMatrix(5, 5, "outside");
-console.log(matrix.get(7, 2));
-// → outside
+let matrix = new SymmetricMatrix(5, (x, y) => `${x},${y}`);
+console.log(matrix.get(3, 2));
+// → 2,3
 ```
 
 The use of the word `extends` indicates that this class shouldn't be
@@ -898,19 +893,21 @@ based on the default `Object` prototype, but on some other class. This
 is called the _((superclass))_. The derived class is the
 _((subclass)_.
 
-To initialize an `OpenMatrix` instance, the constructor starts by
-calling its superclass' constructor through the `super` keyword. This
-is necessary because if this new object is to behave (roughly) like a
-`Matrix`, it is going to need the instance properties that matrices
-have. After that, we add an additional property.
+To initialize a `SymmetricMatrix` instance, the constructor calls its
+superclass' constructor through the `super` keyword. This is necessary
+because if this new object is to behave (roughly) like a `Matrix`, it
+is going to need the instance properties that matrices have. In order
+to ensure the matrix is symmetrical, the constructor doesn't pass the
+`content` function to the superclass' constructor, but has its own
+loop, which initializes only the part below the diagonal and relies on
+the `set` method to copy those values to the other half.
 
-The `get` method again uses `super`, but this time not to call the
+The `set` method again uses `super`, but this time not to call the
 constructor, but to call a specific method from the superclass' set of
-methods. We are redefining `get`, but want to fall back to the
-original behavior in some cases. Because `this.get` refers to the
-_new_ `get` method, calling that wouldn't work. Inside class methods,
-`super` provides a way to call methods as they were defined by the
-superclass.
+methods. We are redefining `set`, but do want to use the original
+behavior. Because `this.set` refers to the _new_ `set` method, calling
+that wouldn't work. Inside class methods, `super` provides a way to
+call methods as they were defined by the superclass.
 
 Inheritance allows us to build slightly different data types from
 existing data types with relatively little work. It is a fundamental
@@ -939,11 +936,12 @@ specific class. For this, JavaScript provides a binary operator called
 `instanceof`.
 
 ```
-console.log(new OpenMatrix(2, 2) instanceof OpenMatrix);
+console.log(
+  new SymmetricMatrix(2) instanceof SymmetricMatrix);
 // → true
-console.log(new OpenMatrix(2, 2) instanceof Matrix);
+console.log(new SymmetricMatrix(2) instanceof Matrix);
 // → true
-console.log(new Matrix(2, 2) instanceof OpenMatrix);
+console.log(new Matrix(2, 2) instanceof SymmetricMatrix);
 // → false
 console.log([1] instanceof Array);
 // → true
@@ -951,8 +949,8 @@ console.log([1] instanceof Array);
 
 {{index inheritance}}
 
-The operator will see through inherited types. An `OpenMatrix` is an
-instance of `Matrix`. The operator can be applied to standard
+The operator will see through inherited types. A `SymmetricMatrix` is
+an instance of `Matrix`. The operator can be applied to standard
 constructors like `Array`. Almost every object is an instance of
 `Object`.
 

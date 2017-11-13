@@ -332,7 +332,7 @@ places when it gets one that's also the address.
 
 Let's start up a virtual world.
 
-```
+```{test: no}
 runRobot(WorldState.random(), randomRobot);
 // → Moved to Marketplace
 // → Moved to Town Hall

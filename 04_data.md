@@ -950,7 +950,7 @@ console.log("  okay \n ".trim());
 We have already seen the string type's `length` property. Accessing
 the individual characters in a string looks like accessing array
 elements (with a caveat that we'll discuss in [Chapter
-5](05_higher_order.html#code_points)).
+5](05_higher_order.html#code_units)).
 
 ```
 let string = "abc";

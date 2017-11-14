@@ -257,7 +257,7 @@ is used like this:
 prompt("Enter passcode");
 ```
 
-{{figure {url: "img/prompt.png", alt: "An prompt dialog",width: "8cm"}}}
+{{figure {url: "img/prompt.png", alt: "A prompt dialog", width: "8cm"}}}
 
 {{index parameter, [function, application]}}
 

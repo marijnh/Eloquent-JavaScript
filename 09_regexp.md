@@ -1305,10 +1305,10 @@ verify(/.../,
 function verify(regexp, yes, no) {
   // Ignore unfinished exercises
   if (regexp.source == "...") return;
-  for (let str in yes) if (!regexp.test(str)) {
+  for (let str of yes) if (!regexp.test(str)) {
     console.log(`Failure to match '${str}'`);
   }
-  for (let str in no) if (regexp.test(str)) {
+  for (let str of no) if (regexp.test(str)) {
     console.log(`Unexpected match for '${str}'`);
   }
 }
@@ -1380,13 +1380,13 @@ JavaScript numbers, but a lone dot _isn't_.
 let number = /^...$/;
 
 // Tests:
-for (let str in ["1", "-1", "+15", "1.55", ".5", "5.",
+for (let str of ["1", "-1", "+15", "1.55", ".5", "5.",
                  "1.3e2", "1E-4", "1e+12"]) {
   if (!number.test(s)) {
     console.log("Failed to match '" + s + "'");
   }
 }
-for (let str in ["1a", "+-1", "1.2.3", "1+1", "1e4.5",
+for (let str of ["1a", "+-1", "1.2.3", "1+1", "1e4.5",
                  ".5.", "1f5", "."]) {
   if (number.test(s)) {
     console.log("Incorrectly accepted '" + s + "'");

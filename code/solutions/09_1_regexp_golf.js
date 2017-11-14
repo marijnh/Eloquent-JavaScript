@@ -32,10 +32,10 @@ verify(/\b[^\We]+\b/i,
 function verify(regexp, yes, no) {
   // Ignore unfinished exercises
   if (regexp.source == "...") return;
-  for (let str in yes) if (!regexp.test(str)) {
+  for (let str of yes) if (!regexp.test(str)) {
     console.log(`Failure to match '${str}'`);
   }
-  for (let str in no) if (regexp.test(str)) {
+  for (let str of no) if (regexp.test(str)) {
     console.log(`Unexpected match for '${str}'`);
   }
 }

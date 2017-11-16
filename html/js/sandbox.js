@@ -17,60 +17,60 @@
   }
 
   let SandBox = window.SandBox = class {
-    constructor(options, callback) {
-      this.callbacks = {}
-
-      // Used to cancel existing events when new code is loaded
-      this.timeouts = []; this.intervals = []; this.frames = []; this.framePos = 0
-
-      this.loaded = new Cached(name => resolved.compute(name).then(({name, code}) => this.evalModule(name, code)))
-
-      const loaded = () => {
-        frame.removeEventListener("load", loaded)
-        this.win = frame.contentWindow
-        this.setupEnv()
-
-        const resize = () => {
-          if (this.frame.style.display != "none") this.resizeFrame()
-        }
-        this.frame.addEventListener("load", resize)
-        let resizeTimeout = null
-        const scheduleResize = () => {
-          this.win.clearTimeout(resizeTimeout)
-          this.win.__setTimeout(resize, 200)
-        }
-        this.win.addEventListener("keydown", scheduleResize)
-        this.win.addEventListener("mousedown", scheduleResize)
-
-        if (options.loadFiles) {
-          let i = 0
-          let loadNext = () => {
-            if (i == options.loadFiles.length) return callback(this)
-            let script = this.win.document.createElement("script")
-            script.src = options.loadFiles[i]
-            this.win.document.body.appendChild(script)
-            ++i
-            script.addEventListener("load", loadNext)
-          }
-          loadNext()
+    static create(options) {
+      return new Promise(done => {
+        let frame = document.createElement("iframe")
+        frame.addEventListener("load", loaded)
+        frame.src = "empty.html"
+        if (options.place) {
+          options.place(frame)
         } else {
-          callback(this)
+          frame.style.display = "none"
+          document.body.appendChild(frame)
         }
-      }
 
-      let frame = this.frame = document.createElement("iframe")
-      frame.addEventListener("load", loaded)
-      frame.src = "empty.html"
-      if (options.place) {
-        options.place(frame)
-      } else {
-        frame.style.display = "none"
-        document.body.appendChild(frame)
-      }
+        function loaded() {
+          frame.removeEventListener("load", loaded)
+          let box = new SandBox(options, frame)
 
+          promiseChain((options.loadFiles || []).map(file => () => {
+            let script = box.win.document.createElement("script")
+            script.src = file
+            box.win.document.body.appendChild(script)
+            return new Promise(done => script.addEventListener("load", done))
+          })).then(() => done(box))
+        }
+      })
+    }
+
+    constructor(options, frame) {
       this.startedAt = null
       this.extraSecs = 2
       this.output = null
+
+      this.callbacks = {}
+      // Used to cancel existing events when new code is loaded
+      this.timeouts = []; this.intervals = []; this.frames = []
+      this.framePos = 0
+
+      // Loaded CommonJS modules
+      this.loaded = new Cached(name => resolved.compute(name).then(({name, code}) => this.evalModule(name, code)))
+
+      this.frame = frame
+      this.win = frame.contentWindow
+      this.setupEnv()
+
+      const resize = () => {
+        if (this.frame.style.display != "none") this.resizeFrame()
+      }
+      this.frame.addEventListener("load", resize)
+      let resizeTimeout = null
+      const scheduleResize = () => {
+        this.win.clearTimeout(resizeTimeout)
+        this.win.__setTimeout(resize, 200)
+      }
+      this.win.addEventListener("keydown", scheduleResize)
+      this.win.addEventListener("mousedown", scheduleResize)
     }
 
     run(code, output) {
@@ -530,5 +530,13 @@
     }
     wrap.appendChild(document.createTextNode(type == "array" ? "]" : "}"))
     node.parentNode.replaceChild(wrap, node)
+  }
+
+  function promiseChain(thunks) {
+    function proceed(i, value) {
+      if (i == thunks.length) return Promise.resolve(value)
+      else return thunks[i](value).then(value => proceed(i + 1, value))
+    }
+    return proceed(0, null)
   }
 })()

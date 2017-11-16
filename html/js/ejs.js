@@ -196,12 +196,12 @@ window.addEventListener("load", function() {
       options.place = function(node) { placeFrame(node, snippet); };
       if (!forHTML) html = snippet.textContent;
     }
-    new SandBox(options, function(box) {
+    SandBox.create(options).then(box => {
       if (html != null)
         box.win.document.documentElement.innerHTML = html;
       sandboxes[name] = box;
       callback(box);
-    });
+    })
   }
 
   function resetSandbox(name) {

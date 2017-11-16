@@ -168,20 +168,20 @@ addEventListener("load", function() {
   function runCode() {
     clearSandbox();
     var val = editor.getValue(), type = context.type || guessType(val);
-    sandbox = new SandBox({
+    SandBox.create({
       loadFiles: hasIncludes(val, context.include) ? [] : context.include,
       place: type == "html" &&
         function(node) {
           var out = document.querySelector(".sandbox-output");
           out.parentNode.insertBefore(node, out);
         }
-    }, function(box) {
+    }.then(box => {
       output.clear();
       if (type == "html")
         box.setHTML(val, output);
       else
         box.run(val, output);
-    });
+    })
   }
 
   document.querySelector("#solution").addEventListener("click", function() {

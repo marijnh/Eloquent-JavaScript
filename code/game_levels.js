@@ -136,5 +136,5 @@ var GAME_LEVELS = [
    "                                                                                                              "]
 ];
 
-if (typeof module != "undefined" && module.exports)
+if (typeof module != "undefined" && module.exports && (typeof window == "undefined" || window.exports != exports))
   module.exports = GAME_LEVELS;

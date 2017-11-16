@@ -214,6 +214,8 @@
       }
 
       win.require = name => this.require(name)
+      win.module = {exports: {}}
+      win.exports = win.module.exports
     }
 
     resizeFrame() {
@@ -293,6 +295,12 @@
       ForInStatement: loop,
       WhileStatement: loop,
       DoWhileStatement: loop,
+      CallExpression(node) {
+        if (node.callee.type == "Identifier" && node.callee.name == "require" &&
+            node.arguments.length == 1 && node.arguments[0].type == "Literal" &&
+            typeof node.arguments[0].value == "string" && !dependencies.includes(node.arguments[0].value))
+          dependencies.push(node.arguments[0].value)
+      },
       ImportDeclaration(node) {
         dependencies.push(node.source.value)
         let req = "require(" + node.source.raw + ")", text
@@ -318,11 +326,22 @@
         }
         patches.push({from: node.start, to: node.end, text: text + ";"})
       },
-      CallExpression(node) {
-        if (node.callee.type == "Identifier" && node.callee.name == "require" &&
-            node.arguments.length == 1 && node.arguments[0].type == "Literal" &&
-            typeof node.arguments[0].value == "string" && !dependencies.includes(node.arguments[0].value))
-          dependencies.push(node.arguments[0].value)
+      ExportNamedDeclaration(node) {
+        if (node.source || !node.declaration)
+          patches.push({from: node.start, to: node.end, text: ""})
+        else
+          patches.push({from: node.start, to: node.declaration.start, text: ""})
+      },
+      ExportDefaultDeclaration(node) {
+        if (/Declaration/.test(node.declaration.type)) {
+          patches.push({from: node.start, to: node.declaration.start, text: ""})
+        } else {
+          patches.push({from: node.start, to: node.declaration.start, text: ";("},
+                       {from: node.declaration.end, text: ")"})
+        }
+      },
+      ExportAllDeclaration: function(node) {
+        patches.push({from: node.start, to: node.end, text: ""})
       }
     })
 
@@ -349,7 +368,6 @@
       pos = patch.to || patch.from
     }
     out += code.slice(pos, code.length)
-                      console.log(out)
     out += "\n//# sourceURL=code" + randomID()
     return {code: (strict ? '"use strict";' : "") + out, dependencies}
   }

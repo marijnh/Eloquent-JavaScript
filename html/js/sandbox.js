@@ -140,7 +140,7 @@
 
       function loadScript(i) {
         if (i == scriptTags.length) {
-          if (i) setTimeout(function() {sandbox.resizeFrame()}, 50)
+          if (i) setTimeout(() => {sandbox.resizeFrame()}, 50)
           callback && callback()
           return
         }
@@ -150,11 +150,11 @@
         sandbox.win.__c = 0
         let tag = scriptTags[i]
         if (tag.src) {
-          tag.addEventListener("load", function() { loadScript(i + 1) })
+          tag.addEventListener("load", () => { loadScript(i + 1) })
         } else {
           let id = randomID()
-          sandbox.callbacks[id] = function() { delete sandbox.callbacks[id]; loadScript(i + 1) }
-          tag.text += ";__sandbox.callbacks[" + id + "]();"
+          sandbox.callbacks[id] = () => { delete sandbox.callbacks[id]; loadScript(i + 1) }
+          tag.text += "\n;__sandbox.callbacks['" + id + "']();"
         }
         doc.body.appendChild(tag)
       }
@@ -316,7 +316,7 @@
 
     patches.push({from: tryPos, text: "try{"})
     patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"})
-    patches.sort(function(a, b) { return a.from - b.from || (a.to || a.from) - (b.to || b.from)})
+    patches.sort((a, b) => a.from - b.from || (a.to || a.from) - (b.to || b.from))
     let out = "", pos = 0
     for (let i = 0; i < patches.length; ++i) {
       let patch = patches[i]

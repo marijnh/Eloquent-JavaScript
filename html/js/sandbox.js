@@ -1,13 +1,14 @@
-(function() {"use strict"; function timeout(win, f, ms) { win.__setTimeout(f, ms) }
-  // The above is a kludge to make sure setTimeout calls are made from
-  // line 1, which is where FF will start counting for its line numbers.
+(function() {
+  "use strict"
 
   function parseStack(stack) {
     let found = [], m
-    let re = /([\w$]*)@.*?:(\d+)|\bat (?:([^\s(]+) \()?.*?:(\d+)/g
+    let re = /([\w$]*)@(.*?):(\d+)|\bat (?:([^\s(]+) \()?(.*?):(\d+)/g
     while (m = re.exec(stack)) {
-      found.push({fn: m[1] || m[3] || null,
-                  line: m[2] || m[4]})
+      let fn = m[1] || m[4] || null
+      let file = m[2] || m[5] || null
+      if (fn && /sandbox/i.test(fn) || file && /sandbox/i.test(file)) break
+      found.push({fn, file, line: m[3] || m[6]})
     }
     return found
   }
@@ -21,6 +22,8 @@
 
       // Used to cancel existing events when new code is loaded
       this.timeouts = []; this.intervals = []; this.frames = []; this.framePos = 0
+
+      this.loaded = new Cached(name => resolved.compute(name).then(({name, code}) => this.evalModule(name, code)))
 
       const loaded = () => {
         frame.removeEventListener("load", loaded)
@@ -71,12 +74,36 @@
     }
 
     run(code, output) {
-      if (output)
-        this.output = output
+      if (output) this.output = output
       this.startedAt = Date.now()
       this.extraSecs = 2
       this.win.__c = 0
-      timeout(this.win, preprocess(code, this), 0)
+      this.prepare(code).then(code => this.win.eval(code)).catch(err => this.error(err))
+    }
+
+    prepare(text) {
+      let {code, dependencies} = preprocess(text)
+      return Promise.all(dependencies.map(dep => this.loaded.compute(dep))).then(() => code)
+    }
+
+    evalModule(name, code) {
+      if (/\.json$/.test(name))
+        return this.loaded.store(name, {exports: JSON.parse(code)})
+
+      let work = findDeps(code).map(dep => this.loaded.compute(resolveRelative(name, dep)))
+      return Promise.all(work).then(() => {
+        let f = new this.win.Function("require, exports, module, __dirname, __filename",
+                                      code + "\n//# sourceURL=code" + randomID())
+        let module = this.loaded.store(name, {exports: {}})
+        f(dep => this.require(resolveRelative(name, dep)), module.exports, module, name, name)
+        return module
+      })
+    }
+
+    require(name) {
+      let found = resolved.get(name)
+      if (!found) throw new Error(`Could not load module '${name}'`)
+      return this.loaded.get(found.name).exports
     }
 
     setHTML(code, output, callback) {
@@ -101,7 +128,7 @@
           if (/["']/.test(src.charAt(0))) src = src.slice(1, src.length - 1)
           tag.src = src
         } else {
-          tag.text = preprocess(content, sandbox)
+          tag.text = preprocess(content, sandbox).code
         }
         scriptTags.push(tag)
         return ""
@@ -125,7 +152,7 @@
         if (tag.src) {
           tag.addEventListener("load", function() { loadScript(i + 1) })
         } else {
-          let id = Math.floor(Math.random() * 0xffffff)
+          let id = randomID()
           sandbox.callbacks[id] = function() { delete sandbox.callbacks[id]; loadScript(i + 1) }
           tag.text += ";__sandbox.callbacks[" + id + "]();"
         }
@@ -185,6 +212,8 @@
           this.frames.push(val)
         return val
       }
+
+      win.require = name => this.require(name)
     }
 
     resizeFrame() {
@@ -257,12 +286,21 @@
                      {from: node.body.end, text: backJump + "}"})
       }
     }
+    let dependencies = []
+
     acorn.walk.simple(ast, {
       ForStatement: loop,
       ForInStatement: loop,
       WhileStatement: loop,
-      DoWhileStatement: loop
+      DoWhileStatement: loop,
+      CallExpression(node) {
+        if (node.callee.type == "Identifier" && node.callee.name == "require" &&
+            node.arguments.length == 1 && node.arguments[0].type == "Literal" &&
+            typeof node.arguments[0].value == "string" && !dependencies.includes(node.arguments[0].value))
+          dependencies.push(node.arguments[0].value)
+      }
     })
+
     let tryPos = 0, catchPos = ast.end
     for (let i = strict ? 1 : 0; i < ast.body.length; i++) {
       let stat = ast.body[i]
@@ -275,6 +313,7 @@
       if (stat.type == "ClassDeclaration")
         patches.push({from: stat.start, text: "var " + stat.id.name + " = "})
     }
+
     patches.push({from: tryPos, text: "try{"})
     patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"})
     patches.sort(function(a, b) { return a.from - b.from || (a.to || a.from) - (b.to || b.from)})
@@ -285,20 +324,79 @@
       pos = patch.to || patch.from
     }
     out += code.slice(pos, code.length)
-    return (strict ? '"use strict";' : "") + out
+    out += "\n//# sourceURL=code" + randomID()
+    return {code: (strict ? '"use strict";' : "") + out, dependencies}
   }
 
-  let Output = SandBox.Output = function(div) {
-    this.div = div
+  function randomID() {
+    return Math.floor(Math.random() * 0xffffffff).toString(16)
   }
 
-  Output.prototype = {
-    clear: function() {
+  function findDeps(code) {
+    let deps = [], ast
+    try { ast = acorn.parse(code) }
+    catch(e) { return deps }
+    acorn.walk.simple(ast, {
+      CallExpression(node) {
+        if (node.callee.type == "Identifier" && node.callee.name == "require" &&
+            node.arguments.length == 1 && node.arguments[0].type == "Literal" &&
+            typeof node.arguments[0].value == "string" && !deps.includes(node.arguments[0].value))
+          deps.push(node.arguments[0].value)
+      }
+    })
+    return deps
+  }
+
+  function resolveRelative(base, path) {
+    if (!/\.\.?\//.test(path)) return path
+    base = base.replace(/[^\/]+$/, "")
+    let m
+    while (m = /^\.(\.)?\//.exec(path)) {
+      if (m[1]) base = base.replace(/\/[^\/]+\/$/, "/")
+      path = path.slice(m[0].length)
+    }
+    return base + path
+  }
+
+  class Cached {
+    constructor(mapping) {
+      this.mapping = mapping
+      this.work = Object.create(null)
+      this.done = Object.create(null)
+    }
+
+    compute(value) {
+      return this.work[value] || (this.work[value] = this.mapping(value).then(result => this.done[value] = result))
+    }
+
+    store(value, result) {
+      this.work[value] = Promise.resolve(result)
+      return this.done[value] = result
+    }
+
+    get(value) {
+      return this.done[value]
+    }
+  }
+
+  // Cache for loaded code and resolved unpkg redirects
+  const resolved = new Cached(name => fetch("https://unpkg.com/" + name.replace(/\/$/, "")).then(resp => {
+    if (resp.status >= 400) throw new Error(`Failed to resolve package '${name}'`)
+    let found = resp.url.replace(/.*unpkg\.com\//, "")
+    let known = resolved.get(found)
+    return known || resp.text().then(code => resolved.store(found, {name: found, code}))
+  }))
+
+  let Output = SandBox.Output = class {
+    constructor(div) { this.div = div }
+
+    clear() {
       let clone = this.div.cloneNode(false)
       this.div.parentNode.replaceChild(clone, this.div)
       this.div = clone
-    },
-    out: function(type, args) {
+    }
+
+    out(type, args) {
       let wrap = document.createElement("pre")
       wrap.className = "sandbox-output-" + type
       for (let i = 0; i < args.length; ++i) {

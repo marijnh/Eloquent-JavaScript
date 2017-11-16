@@ -274,7 +274,7 @@
     }
 
     let strict = /^(\s|\/\/.*)*["']use strict['"]/.test(code), ast
-    try { ast = acorn.parse(code) }
+    try { ast = acorn.parse(code, {sourceType: detectSourceType(code)}) }
     catch(e) { return code }
     let patches = []
     let backJump = "if (++__c % 1000 === 0) __sandbox.tick();"
@@ -293,6 +293,31 @@
       ForInStatement: loop,
       WhileStatement: loop,
       DoWhileStatement: loop,
+      ImportDeclaration(node) {
+        dependencies.push(node.source.value)
+        let req = "require(" + node.source.raw + ")", text
+        if (node.specifiers.length == 0) {
+          text = req
+        } else if (node.specifiers.length > 1 || node.specifiers[0].type == "ImportDefaultSpecifier") {
+          let name = modVar(node.source.value)
+          text = "var " + name + " = " + req
+          node.specifiers.forEach(spec => {
+            if (spec.type == "ImportDefaultSpecifier")
+              text += ", " + spec.local.name + " = " + name + ".default || " + name
+            else if (name != null)
+              text += ", " + spec.local.name + " = " + name + "." + spec.imported.name
+          })
+        } else {
+          text = "var "
+          node.specifiers.forEach(spec => {
+            if (spec.type == "ImportNamespaceSpecifier")
+              text += spec.local.name + " = " + req
+            else
+              text += spec.local.name + " = " + req + "." + spec.imported.name
+          })
+        }
+        patches.push({from: node.start, to: node.end, text: text + ";"})
+      },
       CallExpression(node) {
         if (node.callee.type == "Identifier" && node.callee.name == "require" &&
             node.arguments.length == 1 && node.arguments[0].type == "Literal" &&
@@ -324,8 +349,13 @@
       pos = patch.to || patch.from
     }
     out += code.slice(pos, code.length)
+                      console.log(out)
     out += "\n//# sourceURL=code" + randomID()
     return {code: (strict ? '"use strict";' : "") + out, dependencies}
+  }
+
+  function detectSourceType(code) {
+    return /(^|\n)\s*(im|ex)port\b/.test(code) ? "module" : "script"
   }
 
   function randomID() {

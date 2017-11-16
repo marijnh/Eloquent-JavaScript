@@ -586,6 +586,8 @@ store this number at index 2 of the array.
 
 {{index "phi coefficient", "phi function"}}
 
+{{id phi_function}}
+
 This is the function that computes the _ϕ_ coefficient from such an
 array:
 
@@ -1175,6 +1177,68 @@ console.log(name);
 Note that if the value given to such a destructuring binding is `null`
 or `undefined`, you get an error, much like you would if you'd
 directly try to access a property of those values.
+
+## JSON
+
+{{index [array, representation], [object, representation], "data format"}}
+
+Because properties only grasp their value, rather than containing it,
+objects and arrays are stored in the computer's ((memory)) as
+sequences of bits holding the _((address))es_—the place in memory—of
+their contents. So an array with another array inside of it consists
+of (at least) one memory region for the inner array, and another for
+the outer array, containing (among other things) a binary number that
+represents the position of the inner array.
+
+If you want to save data in a file for later, or send it to another
+computer over the network, you have to somehow convert these tangles
+of memory addresses to a description that can be stored or sent. You
+_could_ send over your entire computer memory along with the address
+of the value you're interested in, I suppose, but that doesn't sound
+like a good approach.
+
+{{indexsee "JavaScript Object Notation", JSON}}
+
+{{index serialization, "World Wide Web"}}
+
+What we can do _serialize_ the data. That means it is converted into a
+flat description. A popular format is called _((JSON))_ (pronounced
+“Jason”), which stands for JavaScript Object Notation. It is widely
+used as a data storage and communication format on the Web, even in
+languages other than JavaScript.
+
+{{index array, object, [quoting, "in JSON"], comment}}
+
+JSON looks similar to JavaScript's way of writing arrays and objects,
+with a few restrictions. All property names have to be surrounded by
+double quotes, and only simple data expressions are allowed—no
+function calls, bindings, or anything that involves actual
+computation. Comments are not allowed in JSON.
+
+A journal entry might look like this when represented as JSON data:
+
+```{type: "application/json"}
+{
+  "squirrel": false,
+  "events": ["work", "touched tree", "pizza", "running"]
+}
+```
+
+{{index "JSON.stringify function", "JSON.parse function", serialization, deserialization, parsing}}
+
+JavaScript gives us functions, `JSON.stringify` and `JSON.parse`, that
+convert data to and from this format. The first takes a JavaScript
+value and returns a JSON-encoded string. The second takes such a
+string and converts it to the value it encodes.
+
+```
+let string = JSON.stringify({squirel: false,
+                             events: ["weekend"]});
+console.log(string);
+// → {"squirrel":false,"events":["weekend"]}
+console.log(JSON.parse(string).events);
+// → ["weekend"]
+```
 
 ## Summary
 

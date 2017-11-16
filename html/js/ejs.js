@@ -1,230 +1,225 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", () => {
   // Fall back to pngs when svg images are not supported
   if (document.getElementsByTagName && !document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1")) {
-    var imgs = document.getElementsByTagName("img");
-    for (var i = 0, svg; i < imgs.length; i++)
+    let imgs = document.getElementsByTagName("img")
+    for (let i = 0, svg; i < imgs.length; i++)
       if (svg = /^(.*?img\/)([^.]+)\.svg$/.exec(imgs[i].src))
-        imgs[i].src = svg[1] + "generated/" + svg[2] + ".png";
+        imgs[i].src = svg[1] + "generated/" + svg[2] + ".png"
   }
 
   // If there's no ecmascript 5 support, don't try to initialize
-  if (!Object.create || !window.JSON) return;
+  if (!Object.create || !window.JSON) return
 
-  var sandboxHint = null;
+  let sandboxHint = null
   if (window.chapNum && window.chapNum < 20 && window.localStorage && !localStorage.getItem("usedSandbox")) {
-    var pres = document.getElementsByTagName("pre");
-    for (var i = 0; i < pres.length; i++) {
-      var pre = pres[i];
+    let pres = document.getElementsByTagName("pre")
+    for (let i = 0; i < pres.length; i++) {
+      let pre = pres[i]
       if (!/^(text\/)?(javascript|html)$/.test(pre.getAttribute("data-language")) ||
-          chapNum == 1 && !/console\.log/.test(pre.textContent)) continue;
+          chapNum == 1 && !/console\.log/.test(pre.textContent)) continue
       sandboxHint = elt("div", {"class": "sandboxhint"},
-                        "edit & run code by clicking it");
-      pre.insertBefore(sandboxHint, pre.firstChild);
-      break;
+                        "edit & run code by clicking it")
+      pre.insertBefore(sandboxHint, pre.firstChild)
+      break
     }
   }
 
-  document.body.addEventListener("click", function(e) {
-    for (var n = e.target; n; n = n.parentNode) {
-      if (n.className == "c_ident") return;
-      var lang = n.nodeName == "PRE" && n.getAttribute("data-language");
+  document.body.addEventListener("click", e => {
+    for (let n = e.target; n; n = n.parentNode) {
+      if (n.className == "c_ident") return
+      let lang = n.nodeName == "PRE" && n.getAttribute("data-language")
       if (/^(text\/)?(javascript|html)$/.test(lang))
-        return activateCode(n, e, lang);
+        return activateCode(n, e, lang)
       if (n.nodeName == "DIV" && n.className == "solution")
-        n.className = "solution open";
+        n.className = "solution open"
     }
-  });
+  })
 
   function elt(type, attrs) {
-    var firstChild = 1;
-    var node = document.createElement(type);
+    let firstChild = 1
+    let node = document.createElement(type)
     if (attrs && typeof attrs == "object" && attrs.nodeType == null) {
-      for (var attr in attrs) if (attrs.hasOwnProperty(attr)) {
-        if (attr == "css") node.style.cssText = attrs[attr];
-        else node.setAttribute(attr, attrs[attr]);
+      for (let attr in attrs) if (attrs.hasOwnProperty(attr)) {
+        if (attr == "css") node.style.cssText = attrs[attr]
+        else node.setAttribute(attr, attrs[attr])
       }
-      firstChild = 2;
+      firstChild = 2
     }
-    for (var i = firstChild; i < arguments.length; ++i) {
-      var child = arguments[i];
-      if (typeof child == "string") child = document.createTextNode(child);
-      node.appendChild(child);
+    for (let i = firstChild; i < arguments.length; ++i) {
+      let child = arguments[i]
+      if (typeof child == "string") child = document.createTextNode(child)
+      node.appendChild(child)
     }
-    return node;
+    return node
   }
 
-  CodeMirror.commands[CodeMirror.keyMap.default.Down = "lineDownEscape"] = function(cm) {
-    var cur = cm.getCursor();
+  CodeMirror.commands[CodeMirror.keyMap.default.Down = "lineDownEscape"] = cm => {
+    let cur = cm.getCursor()
     if (cur.line == cm.lastLine()) {
-      document.activeElement.blur();
-      return CodeMirror.Pass;
+      document.activeElement.blur()
+      return CodeMirror.Pass
     } else {
-      cm.moveV(1, "line");
+      cm.moveV(1, "line")
     }
-  };
-  CodeMirror.commands[CodeMirror.keyMap.default.Up = "lineUpEscape"] = function(cm) {
-    var cur = cm.getCursor();
+  }
+  CodeMirror.commands[CodeMirror.keyMap.default.Up = "lineUpEscape"] = cm => {
+    let cur = cm.getCursor()
     if (cur.line == cm.firstLine()) {
-      document.activeElement.blur();
-      return CodeMirror.Pass;
+      document.activeElement.blur()
+      return CodeMirror.Pass
     } else {
-      cm.moveV(-1, "line");
+      cm.moveV(-1, "line")
     }
-  };
+  }
 
-  var keyMap = {
-    Esc: function(cm) { cm.display.input.blur(); },
-    "Ctrl-Enter": function(cm) { runCode(cm.state.context); },
-    "Ctrl-`": function(cm) { closeCode(cm.state.context); },
+  let keyMap = {
+    Esc(cm) { cm.display.input.blur() },
+    "Ctrl-Enter"(cm) { runCode(cm.state.context) },
+    "Ctrl-`"(cm) { closeCode(cm.state.context) },
     "Ctrl-Q": resetSandbox
-  };
+  }
 
-  var nextID = 0;
-  var article = document.getElementsByTagName("article")[0];
+  let nextID = 0
+  let article = document.getElementsByTagName("article")[0]
 
   function activateCode(node, e, lang) {
     if (sandboxHint) {
-      sandboxHint.parentNode.removeChild(sandboxHint);
-      sandboxHint = null;
-      localStorage.setItem("usedSandbox", "true");
+      sandboxHint.parentNode.removeChild(sandboxHint)
+      sandboxHint = null
+      localStorage.setItem("usedSandbox", "true")
     }
 
-    var code = node.textContent;
-    var wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node);
-    var editor = CodeMirror(function(div) {wrap.insertBefore(div, wrap.firstChild)}, {
+    let code = node.textContent
+    let wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node)
+    let editor = CodeMirror(div => wrap.insertBefore(div, wrap.firstChild), {
       value: code,
       mode: lang,
       extraKeys: keyMap,
       matchBrackets: true,
       lineNumbers: true
-    });
-    wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px";
-    setTimeout(function() { editor.refresh(); }, 600);
+    })
+    wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px"
+    setTimeout(() => editor.refresh(), 600)
     if (e) {
-      editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"));
-      editor.focus();
+      editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"))
+      editor.focus()
     }
-    var out = wrap.appendChild(elt("div", {"class": "sandbox-output"}));
-    var menu = wrap.appendChild(elt("div", {"class": "sandbox-menu", title: "Sandbox menu..."}));
-    var sandbox = node.getAttribute("data-sandbox");
+    let out = wrap.appendChild(elt("div", {"class": "sandbox-output"}))
+    let menu = wrap.appendChild(elt("div", {"class": "sandbox-menu", title: "Sandbox menu..."}))
+    let sandbox = node.getAttribute("data-sandbox")
     if (lang == "text/html" && !sandbox) {
-      sandbox = "html" + nextID++;
-      node.setAttribute("data-sandbox", sandbox);
-      sandboxSnippets[sandbox] = node;
+      sandbox = "html" + nextID++
+      node.setAttribute("data-sandbox", sandbox)
+      sandboxSnippets[sandbox] = node
     }
-    node.style.display = "none";
+    node.style.display = "none"
 
-    var data = editor.state.context = {editor: editor,
+    let data = editor.state.context = {editor: editor,
                                        wrap: wrap,
                                        orig: node,
                                        isHTML: lang == "text/html",
-                                       sandbox: sandbox};
-    data.output = new SandBox.Output(out);
-    menu.addEventListener("click", function() { openMenu(data, menu); });
+                                       sandbox: sandbox}
+    data.output = new SandBox.Output(out)
+    menu.addEventListener("click", () => openMenu(data, menu))
   }
 
   function openMenu(data, node) {
-    var menu = elt("div", {"class": "sandbox-open-menu"});
-    var items = [["Run code (ctrl-enter)", function() { runCode(data); }],
-                 ["Revert to original code", function() { revertCode(data); }],
-                 ["Reset sandbox (ctrl-q)", function() { resetSandbox(data.sandbox); }]];
+    let menu = elt("div", {"class": "sandbox-open-menu"})
+    let items = [["Run code (ctrl-enter)", () => runCode(data)],
+                 ["Revert to original code", () => revertCode(data)],
+                 ["Reset sandbox (ctrl-q)", () => resetSandbox(data.sandbox)]]
     if (!data.isHTML || !data.sandbox)
-      items.push(["Deactivate editor (ctrl-`)", function() { closeCode(data); }]);
-    items.forEach(function(choice) {
-      menu.appendChild(elt("div", choice[0]));
-    });
+      items.push(["Deactivate editor (ctrl-`)", () => { closeCode(data) }])
+    items.forEach(choice => menu.appendChild(elt("div", choice[0])))
     function click(e) {
-      var target = e.target;
+      let target = e.target
       if (e.target.parentNode == menu) {
-        for (var i = 0; i < menu.childNodes.length; ++i)
+        for (let i = 0; i < menu.childNodes.length; ++i)
           if (target == menu.childNodes[i])
-            items[i][1]();
+            items[i][1]()
       }
-      menu.parentNode.removeChild(menu);
-      window.removeEventListener("click", click);
+      menu.parentNode.removeChild(menu)
+      window.removeEventListener("click", click)
     }
-    setTimeout(function() {
-      window.addEventListener("click", click);
-    }, 20);
-    node.offsetParent.appendChild(menu);
+    setTimeout(() => window.addEventListener("click", click), 20)
+    node.offsetParent.appendChild(menu)
   }
 
   function runCode(data) {
-    data.output.clear();
-    var val = data.editor.getValue();
-    var sb = data.sandbox;
-    getSandbox(data.sandbox, data.isHTML, function(box) {
+    data.output.clear()
+    let val = data.editor.getValue()
+    let sb = data.sandbox
+    getSandbox(data.sandbox, data.isHTML, box => {
       if (data.isHTML)
-        box.setHTML(val, data.output, function() {
+        box.setHTML(val, data.output, () => {
           if (data.orig.getAttribute("data-focus"))
-            box.win.focus();
-        });
+            box.win.focus()
+        })
       else
-        box.run(val, data.output);
-    });
+        box.run(val, data.output)
+    })
   }
 
   function closeCode(data) {
-    if (data.isHTML && data.sandbox) return;
-    data.wrap.parentNode.removeChild(data.wrap);
-    data.orig.style.display = "";
+    if (data.isHTML && data.sandbox) return
+    data.wrap.parentNode.removeChild(data.wrap)
+    data.orig.style.display = ""
   }
 
   function revertCode(data) {
-    data.editor.setValue(data.orig.textContent);
+    data.editor.setValue(data.orig.textContent)
   }
 
-  var sandboxSnippets = function() {
-    var result = {};
-    var snippets = document.getElementsByClassName("snippet");
-    for (var i = 0; i < snippets.length; i++) {
-      var snippet = snippets[i];
+  let sandboxSnippets = {}
+  {
+    let snippets = document.getElementsByClassName("snippet")
+    for (let i = 0; i < snippets.length; i++) {
+      let snippet = snippets[i]
       if (snippet.getAttribute("data-language") == "text/html" &&
           snippet.getAttribute("data-sandbox"))
-        result[snippet.getAttribute("data-sandbox")] = snippet;
+        sandboxSnippets[snippet.getAttribute("data-sandbox")] = snippet
     }
-    return result;
-  }();
+  }
 
-  var sandboxes = {};
+  let sandboxes = {}
   function getSandbox(name, forHTML, callback) {
-    name = name || "null";
-    if (sandboxes.hasOwnProperty(name)) return callback(sandboxes[name]);
-    var options = {loadFiles: window.sandboxLoadFiles}, html;
+    name = name || "null"
+    if (sandboxes.hasOwnProperty(name)) return callback(sandboxes[name])
+    let options = {loadFiles: window.sandboxLoadFiles}, html
     if (sandboxSnippets.hasOwnProperty(name)) {
-      var snippet = sandboxSnippets[name];
-      options.place = function(node) { placeFrame(node, snippet); };
-      if (!forHTML) html = snippet.textContent;
+      let snippet = sandboxSnippets[name]
+      options.place = node => placeFrame(node, snippet)
+      if (!forHTML) html = snippet.textContent
     }
     SandBox.create(options).then(box => {
       if (html != null)
-        box.win.document.documentElement.innerHTML = html;
-      sandboxes[name] = box;
-      callback(box);
+        box.win.document.documentElement.innerHTML = html
+      sandboxes[name] = box
+      callback(box)
     })
   }
 
   function resetSandbox(name) {
-    name = name || "null";
-    if (!sandboxes.hasOwnProperty(name)) return;
-    var frame = sandboxes[name].frame;
-    frame.parentNode.removeChild(frame);
-    delete sandboxes[name];
+    name = name || "null"
+    if (!sandboxes.hasOwnProperty(name)) return
+    let frame = sandboxes[name].frame
+    frame.parentNode.removeChild(frame)
+    delete sandboxes[name]
   }
 
   function placeFrame(frame, snippet) {
-    var wrap = snippet.previousSibling;
+    let wrap = snippet.previousSibling
     if (!wrap || wrap.className != "editor-wrap") {
-      var bot = snippet.getBoundingClientRect().bottom;
-      activateCode(snippet, null, "text/html");
-      wrap = snippet.previousSibling;
+      let bot = snippet.getBoundingClientRect().bottom
+      activateCode(snippet, null, "text/html")
+      wrap = snippet.previousSibling
     } else {
-      bot = wrap.getBoundingClientRect().bottom;
+      bot = wrap.getBoundingClientRect().bottom
     }
-    wrap.insertBefore(frame, wrap.childNodes[1]);
+    wrap.insertBefore(frame, wrap.childNodes[1])
     if (bot < 50) {
-      var newBot = wrap.getBoundingClientRect().bottom;
-      window.scrollBy(0, newBot - bot);
+      let newBot = wrap.getBoundingClientRect().bottom
+      window.scrollBy(0, newBot - bot)
     }
   }
-});
+})

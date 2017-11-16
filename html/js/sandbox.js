@@ -31,7 +31,7 @@
 
         function loaded() {
           frame.removeEventListener("load", loaded)
-          let box = new SandBox(options, frame)
+          let box = new SandBox(frame)
 
           promiseChain((options.loadFiles || []).map(file => () => {
             let script = box.win.document.createElement("script")
@@ -43,7 +43,7 @@
       })
     }
 
-    constructor(options, frame) {
+    constructor(frame) {
       this.startedAt = null
       this.extraSecs = 2
       this.output = null
@@ -387,7 +387,7 @@
     return known || resp.text().then(code => resolved.store(found, {name: found, code}))
   }))
 
-  let Output = SandBox.Output = class {
+  SandBox.Output = class {
     constructor(div) { this.div = div }
 
     clear() {

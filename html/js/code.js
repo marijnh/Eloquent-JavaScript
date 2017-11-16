@@ -49,21 +49,6 @@ addEventListener("load", () => {
         return chapterData[i]
   }
 
-  function getURL(url, callback) {
-    let req = new XMLHttpRequest()
-    req.open("GET", url, true)
-    req.addEventListener("load", () => {
-      if (req.status < 400)
-        callback(null, req.responseText)
-      else
-        callback(new Error("Request failed: " + req.statusText))
-    })
-    req.addEventListener("error", () => {
-      callback(new Error("Network error"))
-    })
-    req.send(null)
-  }
-
   let per = document.querySelector("#per_chapter")
   per.addEventListener("change", () => {
     selectContext(per.value)

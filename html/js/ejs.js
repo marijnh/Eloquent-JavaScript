@@ -148,7 +148,6 @@ window.addEventListener("load", () => {
   function runCode(data) {
     data.output.clear()
     let val = data.editor.getValue()
-    let sb = data.sandbox
     getSandbox(data.sandbox, data.isHTML, box => {
       if (data.isHTML)
         box.setHTML(val, data.output, () => {
@@ -208,9 +207,9 @@ window.addEventListener("load", () => {
   }
 
   function placeFrame(frame, snippet) {
-    let wrap = snippet.previousSibling
+    let wrap = snippet.previousSibling, bot
     if (!wrap || wrap.className != "editor-wrap") {
-      let bot = snippet.getBoundingClientRect().bottom
+      bot = snippet.getBoundingClientRect().bottom
       activateCode(snippet, null, "text/html")
       wrap = snippet.previousSibling
     } else {

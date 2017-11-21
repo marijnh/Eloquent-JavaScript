@@ -46,7 +46,7 @@ This network of roads forms a _((graph))_. A graph is a collection of
 points (places in the village) with lines between them (roads). This
 graph will be the world that our robot moves through.
 
-{{index "roadsFrom object"}}
+{{index "roadGraph object"}}
 
 That array of strings isn't very easy to work with. Instead, we'll
 typically want to find the destinations that we can reach from a given
@@ -70,7 +70,7 @@ function buildGraph(edges) {
   return graph;
 }
 
-const roadsFrom = buildGraph(roads);
+const roadGraph = buildGraph(roads);
 ```
 
 Given a an array of edges, `buildGraph` creates a map object that, for
@@ -146,7 +146,7 @@ class WorldState {
   }
 
   move(destination) {
-    if (!roadsFrom[this.place].includes(destination)) {
+    if (!roadGraph[this.place].includes(destination)) {
       return this;
     } else {
       let parcels = this.parcels.map(p => {
@@ -297,7 +297,7 @@ function randomPick(array) {
 }
 
 function randomRobot(state) {
-  return {direction: randomPick(roadsFrom[state.place])};
+  return {direction: randomPick(roadGraph[state.place])};
 }
 ```
 
@@ -320,10 +320,10 @@ sophisticated robot to work.
 WorldState.random = function(parcelCount = 5) {
   let parcels = [];
   for (let i = 0; i < parcelCount; i++) {
-    let address = randomPick(Object.keys(roadsFrom));
+    let address = randomPick(Object.keys(roadGraph));
     let place;
     do {
-      place = randomPick(Object.keys(roadsFrom));
+      place = randomPick(Object.keys(roadGraph));
     } while (place == address);
     parcels.push({place, address});
   }
@@ -453,11 +453,11 @@ shortest routes, if there are more than one) to the goal.
 This is a function that does this:
 
 ```{includeCode: true}
-function findRoute(from, to) {
+function findRoute(graph, from, to) {
   let work = [{at: from, route: []}];
   for (let i = 0; i < work.length; i++) {
     let {at, route} = work[i];
-    for (let place of roadsFrom[at]) {
+    for (let place of graph[at]) {
       if (place == to) return route.concat(place);
       if (!work.some(w => w.at == place)) {
         work.push({at: place, route: route.concat(place)});
@@ -505,9 +505,9 @@ function goalOrientedRobot({place, parcels}, route) {
   if (route.length == 0) {
     let parcel = parcels[0];
     if (parcel.place != place) {
-      route = findRoute(place, parcel.place);
+      route = findRoute(roadGraph, place, parcel.place);
     } else {
-      route = findRoute(place, parcel.address);
+      route = findRoute(roadGraph, place, parcel.address);
     }
   }
   return {direction: route[0], memory: route.slice(1)};

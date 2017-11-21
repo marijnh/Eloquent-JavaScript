@@ -12,6 +12,7 @@
     <link rel="cc:license" href="http://creativecommons.org/licenses/by-nc/3.0/"/>
     <meta property="cc:attributionURL">http://eloquentjavascript.net/</meta>
     <meta property="dcterms:modified">2014-09-04T10:47:00Z</meta>
+    <meta name="cover" content="image.cover.png" />
   </metadata>
   <manifest>
     <item id="titlepage" href="titlepage.xhtml" media-type="application/xhtml+xml"/>

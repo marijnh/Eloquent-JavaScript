@@ -6,18 +6,19 @@
   let active = null
 
   const places = {
-    "Alice's House": {x: 310, y: 90},
-    "Bob's House": {x: 312, y: 196},
-    "Cabin": {x: 378, y: 60},
-    "Post Office": {x: 215, y: 60},
-    "Town Hall": {x: 213, y: 200},
-    "Daria's House": {x: 170, y: 282},
-    "Ernie's House": {x: 69, y: 283},
-    "Grete's House": {x: 37, y: 193},
-    "Farm": {x: 61, y: 119},
-    "Shop": {x: 113, y: 211},
-    "Marketplace": {x: 200, y: 98}
+    "Alice's House": {x: 279, y: 100},
+    "Bob's House": {x: 295, y: 203},
+    "Cabin": {x: 372, y: 67},
+    "Daria's House": {x: 183, y: 285},
+    "Ernie's House": {x: 50, y: 283},
+    "Farm": {x: 36, y: 118},
+    "Grete's House": {x: 35, y: 187},
+    "Marketplace": {x: 162, y: 110},
+    "Post Office": {x: 205, y: 57},
+    "Shop": {x: 137, y: 212},
+    "Town Hall": {x: 202, y: 213}
   }
+  const placeKeys = Object.keys(places)
 
   const speed = 2
 
@@ -30,14 +31,14 @@
 
       let outer = (window.__sandbox ? window.__sandbox.output.div : document.body), doc = outer.ownerDocument
       this.node = outer.appendChild(doc.createElement("div"))
-      this.node.style.cssText = "position: relative; line-height: 0.1; padding-left: 10px"
+      this.node.style.cssText = "position: relative; line-height: 0.1; margin-left: 10px"
       this.map = this.node.appendChild(doc.createElement("img"))
       this.map.src = "img/village2x.png"
       this.map.style.cssText = "vertical-align: -8px"
       this.robotElt = this.node.appendChild(doc.createElement("div"))
       this.robotElt.style.cssText = `position: absolute; transition: left ${0.8 / speed}s, top ${0.8 / speed}s;`
       let robotPic = this.robotElt.appendChild(doc.createElement("img"))
-      robotPic.src = "img/robot2x.png"
+      robotPic.src = "img/robot_moving2x.gif"
       this.parcels = []
 
       this.text = this.node.appendChild(doc.createElement("span"))
@@ -57,8 +58,8 @@
 
     updateView() {
       let pos = places[this.worldState.place]
-      this.robotElt.style.top = (pos.y - this.robotElt.offsetHeight) + "px"
-      this.robotElt.style.left = (pos.x - (this.robotElt.offsetWidth / 2)) + "px"
+      this.robotElt.style.top = (pos.y - 38) + "px"
+      this.robotElt.style.left = (pos.x - 16) + "px"
 
       this.text.textContent = ` Turn ${this.turn} `
     }
@@ -70,11 +71,11 @@
         let height = heights[place] || (heights[place] = 0)
         heights[place] += 11
         let node = document.createElement("div")
-        node.style.cssText = "position: absolute; height: 10px; width: 10px; background-image: url(img/parcel2x.png); font-size: 10px; text-align: center; line-height: 10px; font-family: sans-serif"
-        node.textContent = address.charAt(0)
+        let offset = placeKeys.indexOf(address) * 10
+        node.style.cssText = "position: absolute; height: 10px; width: 10px; background-image: url(img/parcel2x.png); background-position: 0 -" + offset + "px";
         if (place == this.worldState.place) {
-          node.style.right = "-5px"
-          node.style.bottom = (24 + height) + "px"
+          node.style.left = "27px"
+          node.style.bottom = (20 + height) + "px"
           this.robotElt.appendChild(node)
         } else {
           let pos = places[place]
@@ -95,6 +96,7 @@
       if (this.worldState.parcels.length == 0) {
         this.button.remove()
         this.text.textContent = ` Finished after ${this.turn} turns`
+        this.robotElt.firstChild.src = "img/robot_idle2x.png"
       } else {
         this.schedule()
       }
@@ -108,10 +110,12 @@
       if (this.timeout == null) {
         this.schedule()
         this.button.textContent = "Stop"
+        this.robotElt.firstChild.src = "img/robot_moving2x.gif"
       } else {
         clearTimeout(this.timeout)
         this.timeout = null
         this.button.textContent = "Start"
+        this.robotElt.firstChild.src = "img/robot_idle2x.png"
       }
     }
   }

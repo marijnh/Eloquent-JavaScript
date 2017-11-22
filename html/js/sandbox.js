@@ -54,7 +54,7 @@
       this.framePos = 0
 
       // Loaded CommonJS modules
-      this.loaded = new Cached(name => resolved.compute(name).then(({name, code}) => this.evalModule(name, code)))
+      this.loaded = window.loadedModules = new Cached(name => resolved.compute(name).then(({name, code}) => this.evalModule(name, code)))
 
       this.frame = frame
       this.win = frame.contentWindow
@@ -78,11 +78,13 @@
       this.startedAt = Date.now()
       this.extraSecs = 2
       this.win.__c = 0
-      this.prepare(code).then(code => this.win.eval(code)).catch(err => this.error(err))
+      this.prepare(code)
+        .then(code => code instanceof Function ? code() : this.win.eval(code))
+        .catch(err => this.error(err))
     }
 
     prepare(text) {
-      let {code, dependencies} = preprocess(text)
+      let {code, dependencies} = preprocess(text, this)
       return Promise.all(dependencies.map(dep => this.loaded.compute(dep))).then(() => code)
     }
 
@@ -267,17 +269,19 @@
 
   function preprocess(code, sandbox) {
     if (typeof code != "string") {
-      if (code.apply)
-        return (...args) => {
-          try { return code.apply(this, args) }
+      if (code.apply) {
+        let orig = code
+        code = (...args) => {
+          try { return orig.apply(null, args) }
           catch(e) { sandbox.error(e) }
         }
-      return code
+      }
+      return {code, dependencies: []}
     }
 
     let strict = /^(\s|\/\/.*)*["']use strict['"]/.test(code), ast
     try { ast = acorn.parse(code, {sourceType: detectSourceType(code)}) }
-    catch(e) { return code }
+    catch(e) { return {code, dependencies: []} }
     let patches = []
     let backJump = "if (++__c % 1000 === 0) __sandbox.tick();"
     function loop(node) {
@@ -307,7 +311,7 @@
         if (node.specifiers.length == 0) {
           text = req
         } else if (node.specifiers.length > 1 || node.specifiers[0].type == "ImportDefaultSpecifier") {
-          let name = modVar(node.source.value)
+          let name = "m_" + node.source.value.replace(/\W+/g, "_") + "__"
           text = "var " + name + " = " + req
           node.specifiers.forEach(spec => {
             if (spec.type == "ImportDefaultSpecifier")
@@ -428,7 +432,7 @@
   }
 
   // Cache for loaded code and resolved unpkg redirects
-  const resolved = new Cached(name => fetch("https://unpkg.com/" + name.replace(/\/$/, "")).then(resp => {
+  const resolved = window.resolved = new Cached(name => fetch("https://unpkg.com/" + name.replace(/\/$/, "")).then(resp => {
     if (resp.status >= 400) throw new Error(`Failed to resolve package '${name}'`)
     let found = resp.url.replace(/.*unpkg\.com\//, "")
     let known = resolved.get(found)

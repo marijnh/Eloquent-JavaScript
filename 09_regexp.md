@@ -1061,42 +1061,40 @@ between lines.
 ```
 function parseINI(string) {
   // Start with an object to hold the top-level fields
-  return string.split(/\r?\n/).reduce((sections, line) => {
-    if (/^\s*(;.*)?$/.test(line)) return sections;
-
+  let result = {};
+  let section = result;
+  string.split(/\r?\n/).forEach(line => {
     let match;
-    if (match = line.match(/^\[(.*)\]$/)) {
-      return [...sections, {title: match[1], fields: []}];
-    } else if (match = line.match(/^(\w+)=(.*)$/)) {
-      let [_, name, value] = match;
-      let {title, fields} = sections[sections.length - 1];
-      return [...sections.slice(1),
-              {title, fields: [{name, value}, ...fields]}];
-    } else {
-      throw new Error("Line '" + line + "' is invalid.");
+    if (match = line.match(/^(\w+)=(.*)$/)) {
+      section[match[1]] = match[2];
+    } else if (match = line.match(/^\[(.*)\]$/)) {
+      section = result[match[1]] = {};
+    } else if (!/^\s*(;.*)?$/.test(line)) {
+      throw new Error("Line '" + line + "' is not valid.");
     }
-  }, [{title: null, fields: []}]);
+  });
+  return result;
 }
+
+console.log(parseINI(`
+name=Vasilis
+[address]
+city=Tessaloniki`));
+// → {name: "Vasilis", address: {city: "Tessaloniki"}}
 ```
 
 {{index "parseINI function", parsing}}
 
+The code goes over the file's lines and builds up an object.
+Properties at the top are stored directly into the object, whereas
+properties found in sections are stored in sub-objects stored under
+the section's name. The `section` binding points at the object that
+holds the current section.
 
-The code reduces the file's lines to an array of sections, starting
-with a single, untitled section.
-
-When it finds an empty line or a comment, it ignores it. The
-expression `/^\s*(;.*)?$/` recognizes such lines. Do you see how it
-works? The part between the ((parentheses)) will match comments, and
-the `?` makes sure it also matches lines containing only whitespace.
-
-If the line is not a ((comment)), it may be a section header or a
-regular option line. When it is a new section, an appropriate section
-object is added to the array. When it is an option, an object
-representing that option is added to the current (last) section.
-
-If a ((line)) matches none of these forms, the function throws an
-error.
+There are two kinds of significant lines—section headers or property
+lines. When a line is a regular property, it is stored in the current
+section. When it is a section header, a new section object is created,
+and `section` is set to point at it.
 
 {{index "caret character", "dollar sign", boundary}}
 
@@ -1114,6 +1112,13 @@ resulting object only inside an `if` statement that tests for this. To
 not break the pleasant chain of `if` forms, we assign the result of
 the match to a binding and immediately use that assignment as the test
 in the `if` statement.
+
+If a line is not a section header or a property, the function checks
+whether it is a comment or an emty line using the expression
+`/^\s*(;.*)?$/`. Do you see how it works? The part between the
+((parentheses)) will match comments, and the `?` makes sure it also
+matches lines containing only whitespace. When a line doesn't match
+any of the expected forms, the function throws an exception.
 
 ## International characters
 
@@ -1313,6 +1318,7 @@ function verify(regexp, yes, no) {
   }
 }
 ```
+
 if}}
 
 ### Quoting style

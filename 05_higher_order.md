@@ -128,7 +128,7 @@ one by one, blind to the higher-level concepts that they express.
 It is a useful skill for, in programming, to notice when you are
 working at too low a level of abstraction.
 
-## Abstracting array traversal
+## Abstracting repetition
 
 {{index array}}
 
@@ -186,7 +186,7 @@ want to create a function value on the spot instead.
 
 ```
 let message = "Wow";
-repeat(5, n => {
+repeat(5, i => {
   message += "!";
 });
 console.log(message);
@@ -198,7 +198,7 @@ console.log(message);
 This is structured a little like a `for` loop—it starts by describing
 the kind of loop, and then provides a body. However, the body is now
 written as a function value, which is wrapped in the ((parentheses))
-of the call to `forEach`. This is why it has to be closed with the
+of the call to `repeat`. This is why it has to be closed with the
 closing brace _and_ closing parenthesis. In cases like this, where the
 body is a single small expression, you could also omit the curly
 braces and write the loop on a single line.

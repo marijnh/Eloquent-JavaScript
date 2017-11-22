@@ -15,7 +15,7 @@ For OSX, you can use port or brew to install the asciidoc package.
 
 To build the PDF file:
 
-    apt-get install texlive texlive-xetex texlive-fonts-extra
+    apt-get install texlive texlive-xetex texlive-fonts-extra fonts-inconsolata
     make book.pdf
 
 To build the ePub book:

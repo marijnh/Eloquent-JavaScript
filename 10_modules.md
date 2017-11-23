@@ -1,17 +1,6 @@
-{{meta {chap_num: 10, prev_link: 09_regexp, next_link: 11_language, load_files: ["code/chapter/10_modules.js", "code/loadfile.js"]}}}
+{{meta {chap_num: 10, prev_link: 09_regexp, next_link: 11_language, load_files: ["code/loadfile.js"]}}}
 
 # Modules
-
-{{quote {author: "Barbara Liskov", title: "A design methodology for reliable software systems", chapter: true}
-
-Any user of a computer system is aware that current systems are
-unreliable because of errors in their software components. While
-system designers and implementers recognize the need for reliable
-software, they have been unable to produce it.
-
-quote}}
-
-{{if interactive
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
@@ -31,297 +20,171 @@ malleable.
 
 quote}}
 
-if}}
-
 {{index organization, "code structure"}}
 
-Every program has a shape. On
-a small scale, this shape is determined by its division into
-((function))s and the blocks inside those functions. Programmers have
-a lot of freedom in the way they structure their programs. Shape follows
-more from the ((taste)) of the programmer than from the program's
-intended functionality.
+The ideal program has a clear structure. It is easy to explain how it
+works, and what role each of the parts plays.
 
-{{index readability}}
+A typical real-world program grows organically. New pieces of
+functionaly are added as new needs come up. Structuring—and preserving
+structure—is additional work. Work which only pays off in the future,
+the _next_ time someone works with the program. So it is tempting to
+neglect it, and allow the different parts to become deeply entangled.
 
-When looking at a larger program in its entirety,
-individual functions start to blend into the background. Such a
-program can be made more readable if we have a larger unit of
-organization.
+{{index readability, reuse}}
 
-_Modules_ divide programs into clusters of code that, by _some_
-criterion, belong together. This chapter explores some of the benefits
-that such division provides and shows techniques for building
-((module))s in JavaScript.
+This causes two practical issues. Firstly, understanding such a system
+is hard. If everything can touch everything else, it is difficult to
+look at any given piece in isolation. You are forced to build up a
+holistic understanding of the whole thing. Secondly, if you need any
+of the functionlity in such a program in another context, rewriting it
+may be easier than trying to disentangle it from its context.
 
-## Why modules help
+The term "((big ball of mud))" is often used for such large,
+structureless programs. Everything sticks together, and when you try
+to pick out a piece, the whole thing comes apart and your hands get
+dirty.
 
-{{index "book analogy", organization}}
+{{index dependency}}
 
-There are a number of reasons why
-authors divide their books into ((chapter))s and sections. These
-divisions make it easier for a reader to see how the book is built up
-and to find specific parts that they are interested in. They also help
-the _author_ by providing a clear focus for every section.
+_Modules_ are an attempt to avoid these problems. They provide both a
+coarse-grained way to structure code, and a disciplined way to
+describe and limit _dependencies_—the way parts of a program rely on
+each other.
 
-The benefits of organizing a program into several ((file))s or
-((module))s are similar. Structure helps people who aren't yet
-familiar with the code find what they are looking for and makes it
-easier for the programmer to keep things that are related
-close together.
+## Modules
 
-{{index "project chapter", readability, interconnection}}
+Building a modular system requires at least two things: isolation and
+clearly defined _((dependency)) relations_.
 
-Some
-programs are even organized along the model of a traditional ((text)),
-with a well-defined order in which the reader is encouraged to go
-through the program and with lots of prose (comments) providing a coherent
-description of the code. This makes reading the program a lot less
-intimidating—reading unknown code is usually intimidating—but has the
-downside of being more work to set up. It also makes the program more
-difficult to change because prose tends to be more tightly
-interconnected than code. This style is called _((literate
-programming))_. The “project” chapters of this book can be considered
-literate programs.
+The first, isolation, is another instance of the idea of
+((interface))s that we saw in [Chapter 6](06_objects.html#interface).
+By restricting the ways in which chunks of code interact with each
+other, the system becomes more like Lego and less like mud.
 
-{{index minimalism, evolution, structure, organization}}
+Much like an object, a module provides an interface through which
+other modules can use it. The parts of the module that no other code
+needs to see are private, and not accessible to the outside world. So
+modules need their own local scope.
 
-As a
-general rule, structuring things costs energy. In the early stages of
-a project, when you are not quite sure yet what goes where or what
-kind of ((module))s the program needs at all, I endorse a minimalist,
-structureless attitude. Just put everything wherever it is convenient
-to put it until the code stabilizes. That way, you won't be wasting
-time moving pieces of the program back and forth, and you won't
-accidentally lock yourself into a structure that does not actually fit
-your program.
+The relations between modules are called dependencies. When a module
+needs a piece of program from another module, it is said to be
+dependent on that module. When this fact is clearly specified in the
+module itself, it can be used to automatically load dependencies and
+to figure out which other modules needs to be present to be able to
+use a given module.
 
-### Namespacing
+Just putting your code into different files does not satisfy these
+requirements. The files still share the same global namespace. They
+can, intentionally or accidentally, interfere with each other's
+bindings. And the dependency structure remains nebulous.
 
-{{index encapsulation, isolation, "global scope", "local scope"}}
+Designing a fitting structure for a program can be difficult. In the
+phase where you are still exploring the problem, trying out different
+things to see what works, you might want to not worry about it too
+much, since it can be a big distraction. Once you have something that
+feels solid, you can take a step back and organize it properly.
 
-Most modern ((programming language))s have a
-((scope)) level between _global_ (everyone can see it) and _local_
-(only this function can see it). JavaScript does not. Thus, by
-default, everything that needs to be visible outside of the scope of a
-top-level function is visible _everywhere_.
+## Reuse
 
-{{index "namespace pollution"}}
+{{index "version control", bug, "copy-paste programming", dependency, structure, reuse}}
 
-Namespace pollution, the problem of a lot of
-unrelated code having to share a single set of global variable names,
-was mentioned in [Chapter 4](04_data.html#namespace_pollution),
-where the `Math` object was given as an example of an object that acts
-like a module by grouping math-related functionality.
+One of the advantages of building a program out of separate pieces,
+and being actually able to run those pieces on their own, is that you
+might be able to apply the same piece in different programs.
 
-{{index [function, "as namespace"]}}
+{{index "phi function"}}
 
-Though JavaScript provides no actual
-((module)) construct yet, objects can be used to create publicly
-accessible sub((namespace))s, and functions can be used to create an
-isolated, private namespace inside of a module. Later in this chapter,
-I will discuss a way to build reasonably convenient, namespace-isolating
-modules on top of the primitive concepts that JavaScript gives us.
-
-### Reuse
-
-{{index "version control", bug, "copy-paste programming", "ini file", dependency, structure}}
-
-In a “flat” project, which isn't
-structured as a set of ((module))s, it is not apparent which parts of
-the code are needed to use a particular function. In my program for
-spying on my enemies (see [Chapter 9](09_regexp.html#ini)), I wrote
-a function for reading configuration files. If I want to use that
-function in another project, I must go and copy out the parts of the
-old program that look like they are relevant to the functionality that
-I need and paste them into my new program. Then, if I find a mistake
-in that code, I'll fix it only in whichever program that I'm working
-with at the time and forget to also fix it in the other program.
+But how do you set this up? Say I want to use the `phi` function from
+[Chapter 4](04_data.html#phi_function) in another program. If it is
+clear what it depends on (in this case, nothing), I can just copy all
+the necessary code into my new project, and use it. But, if I find a
+mistake in that code, I'll probably fix it in whichever program that
+I'm working with at the time and forget to also fix it in the other
+program.
 
 {{index duplication}}
 
-Once you have lots of such shared, duplicated pieces
-of code, you will find yourself wasting a lot of time and energy on
-moving them around and keeping them up-to-date.
+Once you have lots of shared, duplicated code, you find yourself
+wasting plenty of time and energy on moving them around and keeping
+them up-to-date.
 
-{{index reuse}}
+FIXME mention that packages are a bigger unit of organization that single modules/files
 
-Putting pieces of functionality that stand on their own
-into separate files and modules makes them easier to track, update,
-and share because all the various pieces of code that want to use the
-module load it from the same actual file.
-
-{{index dependency, library, installation, upgrading}}
-
-This
-idea gets even more powerful when the relations between modules—which
-other modules each module depends on—are explicitly stated. You can
-then automate the process of installing and upgrading external modules
-(_libraries_).
-
-{{index "package manager", download, reuse}}
-
-Taking this idea even
-further, imagine an online service that tracks and distributes
-hundreds of thousands of such libraries, allowing you to search for
-the functionality you need and, once you find it, set up your project
-to automatically download it.
-
-{{index NPM}}
+Treating modules as completely separate packages—rather than parts of
+a bigger program—makes them easier to manage. When a problem is found
+or a new feature is added, the _package_ is updated, after which the
+programs that depend on it (which are, in a way, also packages) can
+upgrade to the new version.
 
 {{id modules_npm}}
-This service exists. It is called NPM
-(http://npmjs.org[_npmjs.org_]). NPM consists of an online database of
-modules and a tool for downloading and upgrading the modules your
-program depends on. It grew out of ((Node.js)), the browserless
-JavaScript environment we will discuss in
-[Chapter 20](20_node.html#node), but can also be useful when
-programming for the browser.
 
-### Decoupling
+{{index installation, upgrading, "package manager", download, reuse,}}
 
-{{index isolation, decoupling, "backward compatibility"}}
+Working this way requires ((infrastructure)). We need a place to store
+and find packages, and a convenient way to install and upgrade them.
+In the JavaScript world, this infrastructure is provided by ((NPM))
+([_npmjs.org_](http://npmjs.org)).
 
-Another important role of modules is isolating pieces
-of code from each other, in the same way that the object interfaces
-from [Chapter 6](06_object.html#interface) do. A well-designed
-module will provide an interface for external code to use. As the
-module gets updated with ((bug)) fixes and new functionality, the
-existing ((interface)) stays the same (it is _stable_) so that other
-modules can use the new, improved version without any changes to
-themselves.
+NPM is two things: an online service where one can download (and
+upload) packages, and a program (bundled with Node.js) that helps you
+install and manage them.
 
-{{index stability}}
+At the time of writing, there are over half a million different
+packages available on NPM. A large portion of those are rubbish, I
+should mention, but almost every good, publicly available package is
+also on there. For example, an INI file parser, as we built in
+[Chapter 9](09_regexp.html), is available in the "ini" package on NPM.
 
-Note that a stable interface does not mean no new
-functions, methods, or variables are added. It just means that
-existing functionality isn't removed and its meaning is not changed.
+## Licensing
 
-{{index "implementation detail", encapsulation}}
+Having quality packages available like this, to simply download from
+the NPM ((registry)), is extremely valuable. It means that we can
+often avoid reinventing a program that a hundred people have written
+before, and get a solid, well-tested implementation at the press of a
+few keys.
 
-A good ((module))
-((interface)) should allow the module to grow without breaking the old
-interface. This means exposing as few of the module's internal
-concepts as possible while also making the “language” that the
-interface exposes powerful and flexible enough to be applicable in a
-wide range of situations.
+Software is cheap to copy, so once someone has written it,
+distributing it to other people is an efficient process. But writing
+it in the first place _is_ work, and responding to people who have
+found problems in the code, or who want to propose new features, is
+even more work.
 
-{{index [interface, design]}}
+By default, you own the copyright to the code you write, and other
+people may only use it with your permission. But because some people
+are just nice, and because publishing good software can help make you
+a little bit famous among programmers, many packages are published
+under a ((license)) that explicitly allows other people to use it.
 
-For interfaces that expose a single, focused
-concept, such as a configuration file reader, this design comes
-naturally. For others, such as a text editor, which has many different
-aspects that external code might need to access (content, styling,
-user actions, and so on), it requires careful design.
+Most code on NPM is licensed this way. Some licenses require you to
+also publish code that you build on top of the package under the same
+license. Others are less demanding, just requiring that you keep the
+license with the code as you distribute it. The JavaScript community
+mostly uses the latter type of license. But when using other people's
+packages, make sure you are aware of their license.
 
-## Using functions as namespaces
+## Improvised modules
 
-{{index namespace, [function, "as namespace"]}}
+Until 2015, the JavaScript language had no built-in module system.
+People had been building large systems in JavaScript for over a decade
+though, and they _needed_ modules.
 
-Functions are the only things in
-JavaScript that create a new ((scope)). So if we want our ((module))s
-to have their own scope, we will have to base them on functions.
+So they designed their own module systems on top of the language. You
+can use functions to create local namespaces, and objects to represent
+module interfaces.
 
-{{index "weekday example", "Date type", "getDay method"}}
-
-Consider this
-trivial module for associating names with day-of-the-week numbers, as
-returned by a `Date` object's `getDay` method:
-
-```
-var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-             "Thursday", "Friday", "Saturday"];
-function dayName(number) {
-  return names[number];
-}
-
-console.log(dayName(1));
-// → Monday
-```
-
-{{index "access control", encapsulation}}
-
-The `dayName` function is part
-of the module's ((interface)), but the `names` variable is not. We
-would prefer _not_ to spill it into the ((global scope)).
-
-We can do this:
+This is a module for going between day names and numbers (as returned
+by `Date`'s `getDay` method). Its interface consists of `weekDay.name`
+and `weekDay.number`, and it hides its local binding `names` inside a
+function scope.
 
 ```
-var dayName = function() {
-  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-               "Thursday", "Friday", "Saturday"];
-  return function(number) {
-    return names[number];
-  };
-}();
-
-console.log(dayName(3));
-// → Wednesday
-```
-
-{{index "anonymous function"}}
-
-Now `names` is a local variable in an
-(unnamed) function. This function is created and immediately called,
-and its return value (the actual `dayName` function) is stored in a
-variable. We could have pages and pages of code in this function, with
-100 local variables, and they would all be internal to our
-module—visible to the module itself but not to outside code.
-
-{{index isolation, "side effect"}}
-
-We can use a similar pattern to
-isolate code from the outside world entirely. The following module logs a
-value to the console but does not actually provide any values for
-other modules to use:
-
-```
-(function() {
-  function square(x) { return x * x; }
-  var hundred = 100;
-
-  console.log(square(hundred));
-})();
-// → 10000
-```
-
-{{index "namespace pollution"}}
-
-This code simply outputs the square of 100,
-but in the real world it could be a module that adds a method
-to some ((prototype)) or sets up a widget on a web page. It is
-wrapped in a function to prevent the variables it uses internally from
-polluting the ((global scope)).
-
-{{index parsing, "function keyword"}}
-
-Why did we wrap the namespace
-function in a pair of ((parentheses))? This has to do with a quirk in
-JavaScript's ((syntax)). If an _((expression))_ starts with the
-keyword `function`, it is a function expression. However, if a
-_((statement))_ starts with `function`, it is a function
-_declaration_, which requires a name and, not being an expression,
-cannot be called by writing parentheses after it. You can think of the
-extra wrapping parentheses as a trick to force the function to be
-interpreted as an expression.
-
-## Objects as interfaces
-
-{{index interface}}
-
-Now imagine that we want to add another function to our
-day-of-the-week module, one that goes from a day name to a
-number. We can't simply return the function anymore but must wrap the
-two functions in an object.
-
-```
-var weekDay = function() {
-  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-               "Thursday", "Friday", "Saturday"];
+let weekDay = function() {
+  const names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+                 "Thursday", "Friday", "Saturday"];
   return {
-    name: function(number) { return names[number]; },
-    number: function(name) { return names.indexOf(name); }
+    name(number) { return names[number]; },
+    number(name) { return names.indexOf(name); }
   };
 }();
 
@@ -329,89 +192,30 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 // → Sunday
 ```
 
-{{index exporting, "exports object", this}}
+This style of modules provides isolation, to a certain degree, but it
+does not declare dependencies, and it still relies on declaring global
+binding names (`weekDay`). It was widely used in Web programming for a
+long time, but is mostly obsolete.
 
-For bigger ((module))s,
-gathering all the _exported_ values into an object at the end of the
-function becomes awkward since many of the exported functions are
-likely to be big and you'd prefer to write them somewhere else, near
-related internal code. A convenient alternative is to declare an
-object (conventionally named `exports`) and add properties to that
-whenever we are defining something that needs to be exported. In the
-following example, the module function takes its interface object as
-an argument, allowing code outside of the function to create it and store
-it in a variable. (Outside of a function, `this` refers to the global
-scope object.)
-
-```
-(function(exports) {
-  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-               "Thursday", "Friday", "Saturday"];
-
-  exports.name = function(number) {
-    return names[number];
-  };
-  exports.number = function(name) {
-    return names.indexOf(name);
-  };
-})(this.weekDay = {});
-
-console.log(weekDay.name(weekDay.number("Saturday")));
-// → Saturday
-```
-
-## Detaching from the global scope
-
-{{index [variable, global]}}
-
-The previous pattern is commonly used by JavaScript
-modules intended for the ((browser)). The module will claim a single
-global variable and wrap its code in a function in order to have its
-own private ((namespace)). But this pattern still causes problems if
-multiple modules happen to claim the same name or if you want to load
-two ((version))s of a module alongside each other.
-
-{{index "module loader", "require function", CommonJS, dependency}}
-
-With a little plumbing, we
-can create a system that allows one ((module)) to directly ask for the
-((interface)) object of another module, without going through the
-global scope. Our goal is a `require` function that, when given a
-module name, will load that module's file (from disk or the Web,
-depending on the platform we are running on) and return the
-appropriate interface value.
-
-This approach solves the problems mentioned previously and has the added
-benefit of making your program's dependencies explicit, making it
-harder to accidentally make use of some module without stating that
-you need it.
-
-{{index "readFile function", "require function"}}
-
-For `require` we need two
-things. First, we want a function `readFile`, which returns the
-content of a given file as a string. (A single such function is not
-present in ((standard)) JavaScript, but different JavaScript
-environments, such as the browser and Node.js, provide their own ways
-of accessing ((file))s. For now, let's just pretend we have this
-function.) Second, we need to be able to actually execute this
-string as JavaScript code.
+If we want to make dependency relations part of the code, we'll have
+to take control of loading dependencies. Doing that involves being
+able to execute strings as code. JavaScript can do that.
 
 {{id eval}}
+
 ## Evaluating data as code
 
 {{index evaluation, interpretation}}
 
-There are several ways to take
-data (a string of code) and run it as part of the current program.
+There are several ways to take data (a string of code) and run it as
+part of the current program.
 
-{{index isolation, eval}}
+{{index isolation, eval, scope}}
 
-The most obvious way is the special operator
-`eval`, which will execute a string of code in the _current_ scope.
-This is usually a bad idea because it breaks some of the sane
-properties that scopes normally have, such as being isolated from the
-outside world.
+The most obvious way is the special operator `eval`, which will
+execute a string in the _current_ scope. This is usually a bad idea
+because it breaks some of the properties that scopes normally have,
+such as being isolated from the outside world.
 
 ```
 function evalAndReturnX(code) {
@@ -425,574 +229,469 @@ console.log(evalAndReturnX("var x = 2"));
 
 {{index "Function constructor"}}
 
-A better way of interpreting data as code is
-to use the `Function` constructor. This takes two arguments: a string
-containing a comma-separated list of argument names and a string
-containing the function's body.
+A less scary way of interpreting data as code is to use the `Function`
+constructor. This takes two arguments: a string containing a
+comma-separated list of argument names and a string containing the
+function's body.
 
 ```
-var plusOne = new Function("n", "return n + 1;");
+let plusOne = new Function("n", "return n + 1;");
 console.log(plusOne(4));
 // → 5
 ```
 
-This is precisely what we need for our modules. We can wrap a module's
-code in a function, with that function's scope becoming our module
-((scope)).
+This is precisely what we need for a module system. We can wrap a
+module's code in a function, with that function's scope becoming our
+module ((scope)).
 
-{{id commonjs}}
-## Require
+## CommonJS
 
-{{index "require function", CommonJS}}
+{{index "CommonJS modules"}}
 
-The following is a minimal
-implementation of `require`:
+The most widely used approach to bolted-on JavaScript modules is
+called _CommonJS modules_. It was popularized because Node.js uses it,
+and is the system used by most packages on NPM.
 
-```{test: wrap}
-function require(name) {
-  var code = new Function("exports", readFile(name));
-  var exports = {};
-  code(exports);
-  return exports;
-}
+The main concept in CommonJS modules is a function called `require`.
+When you call this with the module name of your dependency, it makes
+sure this module is loaded and returns its interface.
 
-console.log(require("weekDay").name(1));
-// → Monday
+Because the loader takes care of wrapping the module in a function to
+create a local scope, modules themselves can be written without any
+additional clutter. The only thing they have to do is call `require`
+to access their dependencies, and put their interface in the object
+bound to `exports`.
+
+This example module provides a date-formatting function. It uses two
+modules from NPM—`ordinal` to convert numbers to strings like `"1st"`
+and `"2nd"`, and `date-names` to get the English names for weekdays
+and months. It exports a single function, `formatDate`, which takes a
+`Date` object and a template string.
+
+The template string may contain codes that direct the format, such as
+`YYYY` for the full year and `Do` for the ordinal day of the month.
+You could give it a string like `"MMMM Do YYYY"` to get output like
+"November 22nd 2017".
+
 ```
+const ordinal = require("ordinal");
+const {days, months} = require("date-names");
 
-{{index "weekday example", "exports object", "Function constructor"}}
-
-Since the `new Function` constructor wraps the module
-code in a function, we don't have to write a wrapping ((namespace))
-function in the module file itself. And since we make `exports` an
-argument to the module function, the module does not have to declare
-it. This removes a lot of clutter from our example module.
-
-```
-var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-             "Thursday", "Friday", "Saturday"];
-
-exports.name = function(number) {
-  return names[number];
+exports.formatDate = function(date, format) {
+  return format.replace(/YYYY|M(MMM)?|Do?|dddd/g, tag => {
+    if (tag == "YYYY") return date.getFullYear();
+    if (tag == "M") return date.getMonth();
+    if (tag == "MMMM") return months[date.getMonth()];
+    if (tag == "D") return date.getDate();
+    if (tag == "Do") return ordinal(date.getDate());
+    if (tag == "dddd") return days[date.getDay()];
+  });
 };
-exports.number = function(name) {
-  return names.indexOf(name);
-};
+````
+
+Here the interface of `ordinal` is a single function, whereas
+`date-names` exports an object containing multiple things—the two we
+use are arrays of names. Destructuring is extremely useful when
+creating bindings for imported interfaces.
+
+The module adds its interface function to `exports`, so that modules
+that depend on it get access to it. We could use the module like this:
+
+```
+const {formatDate} = require("./format-date");
+
+console.log(formatDate(new Date(2017, 9, 13),
+                       "dddd the Do"));
+// → Friday the 13th
 ```
 
-{{index "require function"}}
+{{index "require function", "CommonJS modules", "readFile function"}}
 
-When using this pattern, a ((module)) typically
-starts with a few variable declarations that load the modules it
-depends on.
+{{id require}}
 
-```{test: no}
-var weekDay = require("weekDay");
-var today = require("today");
+The `require` function, in its most simple form, looks something like
+this:
 
-console.log(weekDay.name(today.dayNumber()));
-```
-
-{{index efficiency}}
-
-The simplistic implementation of `require` given previously
-has several problems. For one, it will load and run a module every
-time it is _require_d, so if several modules have the same
-dependency or a `require` call is put inside a function that will
-be called multiple times, time and energy will be wasted.
-
-{{index cache}}
-
-This can be solved by storing the modules that have already
-been loaded in an object and simply returning the existing value when
-one is loaded multiple times.
-
-{{index "exports object", exporting}}
-
-The second problem is that it is
-not possible for a module to directly export a value other than the
-`exports` object, such as a function. For example, a module might want
-to export only the constructor of the object type it defines. Right
-now, it cannot do that because `require` always uses the `exports`
-object it creates as the exported value.
-
-{{index "module object"}}
-
-The traditional solution for this is to provide
-modules with another variable, `module`, which is an object that has a
-property `exports`. This property initially points at the empty object
-created by `require` but can be overwritten with another value in
-order to export something else.
-
-```{includeCode: true, test: wrap}
+```{test: wrap, sandbox: require}
 function require(name) {
-  if (name in require.cache)
-    return require.cache[name];
-
-  var code = new Function("exports, module", readFile(name));
-  var exports = {}, module = {exports: exports};
-  code(exports, module);
-
-  require.cache[name] = module.exports;
-  return module.exports;
+  if (!(name in require.cache)) {
+    let code = readFile(name);
+    let wrapper = Function("require, exports, module", code);
+    let module = {exports: {}};
+    require.cache[name] = module;
+    wrapper(require, module.exports, module);
+  }
+  return require.cache[name].exports;
 }
 require.cache = Object.create(null);
 ```
 
-{{index "require function"}}
+Here `readFile` is a made-up function that reads a file and returns
+its contents as a string. Standard JavaScript provides no such
+functionality—but different JavaScript environments, such as the
+browser and Node.js, provide their own ways of accessing ((file))s.
+The example just pretends that `readFile` exists.
 
-We now have a module system that uses a single
-global variable (`require`) to allow modules to find and use each
-other without going through the ((global scope)).
+To avoid loading the same module multiple times, `require` keeps a
+store (cache) of already loaded modules. When called, it first checks
+if the requested module has been loaded and, if not, loads it. This
+involves reading the module's code, wrapping it in a function, and
+calling it.
 
-This style of module system is called _((CommonJS)) modules_, after
-the pseudo-((standard)) that first specified it. It is built into the
-((Node.js)) system. Real implementations do a lot more than the
-example I showed. Most importantly, they have a much more intelligent
-way of going from a module name to an actual piece of code, allowing
-both pathnames relative to the current file and module names that
-point directly to locally installed modules.
+The interface of the `ordinal` module we saw before is not an object,
+but a function. A quirk of the CommonJS modules is that, though the
+module system will create an empty interface object for you (bound to
+`exports`), you can replace that by overwriting `module.exports`. This
+is used by many modules to export a single value instead of an
+interface object.
 
-{{id amd}}
-## Slow-loading modules
+By defining `require`, `exports`, and `module` as parameters for the
+generated wrapper function (and passing the appropriate values when
+calling it), the loader makes sure that these bindings are available
+in the scope that the module's code runs in.
 
-{{index loading, "synchronous I/O", blocking, "World Wide Web"}}
+The way the string given to `require` is translated to an actual file
+name or Web address differs in different systems. When it starts with
+`"./"` or `"../"`, it is generally interpreted as relative to the
+current module's file name. So `"./format-date"` would be the file
+named `format-date.js` in the same directory.
 
-Though it is possible to use the CommonJS module style when
-writing JavaScript for the ((browser)), it is somewhat involved. The
-reason for this is that reading a file (module) from the Web is a lot
-slower than reading it from the hard disk. While a script is running
-in the browser, nothing else can happen to the website on which it
-runs, for reasons that will become clear in
-[Chapter 14](14_event.html#timeline). This means that if every
-`require` call went and fetched something from some faraway web
-server, the page would freeze for a painfully long time while loading
-its scripts.
+When it isn't a relative name, we'll be interpreting the string as the
+name of an NPM module in this book. We'll go into more detail on how
+to install and use NPM modules in [Chapter 20](20_node.html).
 
-{{index Browserify, "require function", preprocessing}}
-
-One way to
-work around this problem is to run a program like
-http://browserify.org[_Browserify_] on your code before you serve it
-on a web page. This will look for calls to `require`, resolve all
-dependencies, and gather the needed code into a single big file.
-The website itself can simply load this file to get all the modules
-it needs.
-
-{{index AMD, dependency, "asynchronous I/O"}}
-
-Another solution is to wrap the
-code that makes up your module in a function so that the ((module
-loader)) can first load its dependencies in the background and then
-call the function, initializing the ((module)), when the dependencies
-have been loaded. That is what the Asynchronous Module Definition
-(AMD) module system does.
-
-{{index "weekday example"}}
-
-Our trivial program with dependencies would look
-like this in AMD:
-
-```{test: no}
-define(["weekDay", "today"], function(weekDay, today) {
-  console.log(weekDay.name(today.dayNumber()));
-});
-```
-
-{{index "define function", "asynchronous programming"}}
-
-The `define`
-function is central to this approach. It takes first an array of
-module names and then a function that takes one argument for each
-dependency. It will load the dependencies (if they haven't already
-been loaded) in the background, allowing the page to continue working
-while the files are being fetched. Once all dependencies are loaded,
-`define` will call the function it was given, with the ((interface))s
-of those dependencies as arguments.
-
-{{index "weekday example", "define function"}}
-
-The modules that are loaded
-this way must themselves contain a call to `define`. The value used as
-their interface is whatever was returned by the function passed to
-`define`. Here is the `weekDay` module again:
+Now, instead of writing our own INI file parser, we can use one from
+NPM:
 
 ```
-define([], function() {
-  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-               "Thursday", "Friday", "Saturday"];
-  return {
-    name: function(number) { return names[number]; },
-    number: function(name) { return names.indexOf(name); }
-  };
-});
+const {parse} = require("ini");
+
+console.log(parse("x = 10\ny = 20"));
+// → {x: "10", y: "20"}
 ```
 
-{{index "define function", "backgroundReadFile function"}}
+## ECMAScript modules
 
-To be
-able to show a minimal implementation of `define`, we will pretend we
-have a `backgroundReadFile` function that takes a filename and a
-function and calls the function with the content of the file as
-soon as it has finished loading it. (link:17_http.html#getURL[Chapter
-17] will explain how to write that function.)
+CommonJS modules work quite well, and in combination with NPM they
+have allowed the JavaScript community to start sharing code on a large
+scale.
 
-For the purpose of keeping track of modules while they are being
-loaded, the implementation of `define` will use objects that describe
-the state of modules, telling us whether they are available yet and
-providing their interface when they are.
+But they remain a bit of a duct-tape hack. The notation is slightly
+awkward—the things you add to `exports` are not available in the local
+scope, and it can be hard to automatically determine which things are
+imported where, for example to automatically check whether all the
+things that imported actually exist.
 
-The `getModule` function, when given a name, will return such an
-object and ensure that the module is scheduled to be loaded. It uses
-a ((cache)) object to avoid loading the same module twice.
+This is why the JavaScript standard from 2015 introduces its own,
+different module system. These are usually called _((ES modules))_,
+where "ES" stands for ECMAScript. The main concepts of dependencies
+and interfaces remain the same, but the details differ. For one thing,
+the notation is now integrated into the language. So instead of
+calling a function to access a dependency, you use a special `import`
+keyword.
 
-```{includeCode: true}
-var defineCache = Object.create(null);
-var currentMod = null;
+```
+import ordinal from "ordinal";
+import {days, months} from "date-names";
 
-function getModule(name) {
-  if (name in defineCache)
-    return defineCache[name];
-
-  var module = {exports: null,
-                loaded: false,
-                onLoad: []};
-  defineCache[name] = module;
-  backgroundReadFile(name, function(code) {
-    currentMod = module;
-    new Function("", code)();
-  });
-  return module;
-}
+export function formatDate(date, format) { /* ... */ }
 ```
 
-{{index "define function"}}
+And similarly, the `export` keyword is used to export things. It may
+appear in front of a function, class, or binding definition.
 
-We assume the loaded file also contains a
-(single) call to `define`. The `currentMod` variable is used to tell
-this call about the module object that is currently being loaded so
-that it can update this object when it finishes loading. We will come
-back to this mechanism in a moment.
+An ES module's interface is not a single value, but a set of named
+bindings. The above module binds `formatDate` to a function. The
+binding named `default` is treated specially—it is the module's main
+exported value, and if you import a module like `ordinal` in the
+example, without braces around the binding name, you get its `default`
+binding. To create such a default export, you write `export default`
+before an expression, a function declaration, or a class declaration.
 
-{{index dependency, "Function constructor", "asynchronous programming", "event handling"}}
+```
+export default ["Winter", "Spring", "Summer", "Autumn"];
+```
 
-The `define` function itself uses
-`getModule` to fetch or create the module objects for the current
-module's dependencies. Its task is to schedule the `moduleFunction`
-(the function that contains the module's actual code) to be run
-whenever those dependencies are loaded. For this purpose, it defines a
-function `whenDepsLoaded` that is added to the `onLoad` array of all
-dependencies that are not yet loaded. This function immediately
-returns if there are still unloaded dependencies, so it will do
-actual work only once, when the last dependency has finished loading. It is
-also called immediately, from `define` itself, in case there are no
-dependencies that need to be loaded.
+It is possible to rename imported binding using the word `as`.
 
-```{includeCode: true}
-function define(depNames, moduleFunction) {
-  var myMod = currentMod;
-  var deps = depNames.map(getModule);
+```
+import {days as dayNames} from "date-names";
 
-  deps.forEach(function(mod) {
-    if (!mod.loaded)
-      mod.onLoad.push(whenDepsLoaded);
-  });
+console.log(dayNames.length);
+// → 7
+```
 
-  function whenDepsLoaded() {
-    if (!deps.every(function(m) { return m.loaded; }))
-      return;
+At the time of writing, the JavaScript community is in the process of
+adopting this module style. But this has been a slow process. It took
+years, after the format was specified, for browsers and Node.js to
+start supporting it. And though they mostly support it now, there are
+still some problems and no convention has been developed on how to,
+for example, distribute such modules through NPM.
 
-    var args = deps.map(function(m) { return m.exports; });
-    var exports = moduleFunction.apply(null, args);
-    if (myMod) {
-      myMod.exports = exports;
-      myMod.loaded = true;
-      myMod.onLoad.forEach(function(f) { f(); });
-    }
+That being said, many projects are written using ES modules, and then
+automatically converted to some other format when published. So we're
+in a transitional period in which two different module systems are
+used side-by-side.
+
+## Module design
+
+{{index [module, design], interface}}
+
+Structuring programs is one of the subtler aspects of programming. Any
+nontrivial piece of functionality can be modeled in various ways.
+Finding a way that works well requires insight and foresight.
+
+The best way to learn the value of well structured design is to read
+or work on a lot of programs and notice what works and what doesn't.
+Don't assume that a painful mess is "just the way it is". You can
+improve the structure of almost everything by putting more thought
+into it.
+
+There are various considerations to take into account when deciding
+what goes into a module and what its interface looks like. It's hard
+to say that any given way is better than other ways—there are always
+trade-offs and subjective matters of taste involved.
+
+One relevant consideration is ease of use. If you are designing
+something that is intented to be used by multiple people—or even by
+yourself, in three months when you no longer remember the specifics of
+what you made—it is helpful if your interface is simple and
+predictable.
+
+That means following existing conventions. A good example is the `ini`
+module. This module imitates the standard `JSON` object by providing
+`parse` and `stringify` (to write an INI file) functions, and, like
+`JSON`, works on strings and plain objects. So the interface is small
+and familiar, and after I've used it once, I'm likely to remember how
+to use the module without looking it up.
+
+Even if there's no standard function or widely used package to
+imitate, you can keep your modules predictable by using simple data
+structures and doing a single, focused thing. Many of the INI file
+parsing modules on NPM provide a function that directly reads such a
+file from the hard disk and parses it, for example. This makes it
+impossible to use such modules in the browser, and adds complexity for
+things that are better addressed by _composing_ the module with some
+file-reading function.
+
+Which points at another helpful aspect of module design. Focused
+modules that compute values are applicable in a wider range of
+programs than bigger modules that perform complicated actions with
+side effects. An INI file reader that insists on reading the file from
+disk is useless in a scenario where the file's content comes from some
+other source.
+
+Relatedly, a common style from the object-oriented tradition of
+programming would be an INI reader that requires you to construct an
+object of a custom class. Then, you'd "load" the INI file into that
+object. And finally you'd use methods on the class to get at its
+content. This makes using the module more awkward, since constructing
+an object and calling a method for its side effects require more code
+than just calling a single function. And it requires all code that
+interacts with the output of the module to know about that module,
+because it has to interact with a custom data type, rather than a
+plain object.
+
+Often defining new data structures is necessary—only a few different
+ones are provided by the language standard, and many types of data
+have to be complex than an array or a map. But when an array suffices,
+use an array.
+
+An example of a slightly more complex data structure is the graph from
+[Chapter 7](07_robot.html). There is no obvious single way to
+represent a graph in JavaScript. In that chapter, we used an object
+whose properties hold arrays of strings—the other nodes reachable from
+that node.
+
+There are several different path-finding packages on NPM, but none of
+them use this graph format. Most allow the graph's edges to have a
+weight, the cost or distance associated with it, which isn't possible
+in our representation.
+
+For example, there's the `dijkstrajs` package. A well-known approach
+to path finding, quite similar to our `findRoute` function, is called
+"Dijkstra's algorithm", after the person who first wrote it down. The
+`js` suffix is often added to package names to indicate the fact that
+they are written in JavaScript. This `dijkstrajs` package uses a graph
+format similar to ours, but instead of arrays, it uses objects whose
+property values are numbers—the weights of the edges.
+
+So if we wanted to use that package, we'd have to make sure that our
+graph was stored in the format it expects.
+
+```
+const {find_path} = require("dijkstrajs");
+
+let graph = {};
+for (let node of Object.keys(roadGraph)) {
+  let edges = graph[node] = {};
+  for (let dest of roadGraph[node]) {
+    edges[dest] = 1;
   }
-  whenDepsLoaded();
 }
+
+console.log(find_path(graph, "Post Office", "Cabin"));
+// → ["Post Office", "Alice's House", "Cabin"]
 ```
 
-{{index "define function"}}
-
-When all dependencies are available,
-`whenDepsLoaded` calls the function that holds the module, giving it
-the dependencies’ interfaces as arguments.
-
-The first thing `define` does is store the value that `currentMod` had
-when it was called in a variable `myMod`. Remember that `getModule`,
-just before evaluating the code for a module, stored the corresponding
-module object in `currentMod`. This allows `whenDepsLoaded` to store
-the return value of the module function in that module's `exports`
-property, set the module's `loaded` property to true, and call all the
-functions that are waiting for the module to load.
-
-{{index "asynchronous programming"}}
-
-This code is a lot harder to follow than
-the `require` function. Its execution does not follow a simple,
-predictable path. Instead, multiple operations are set up to happen at
-some unspecified time in the ((future)), which obscures the way the
-code executes.
-
-A real ((AMD)) implementation is, again, quite a lot more clever about
-resolving module names to actual URLs and generally more robust than
-the one shown previously. The _((RequireJS))_ (http://requirejs.org[_requirejs.org_]) project provides
-a popular implementation of this style of ((module loader)).
-
-## Interface design
-
-{{index [interface, design]}}
-
-Designing interfaces for modules and object
-types is one of the subtler aspects of programming. Any nontrivial
-piece of functionality can be modeled in various ways. Finding a way that
-works well requires insight and foresight.
-
-The best way to learn the value of good interface design is to use
-lots of interfaces—some good, some bad. Experience will teach
-you what works and what doesn't. Never assume that a painful interface
-is “just the way it is”. Fix it, or wrap it in a new interface that
-works better for you.
-
-### Predictability
-
-{{index documentation, predictability, convention}}
-
-If programmers
-can predict the way your interface works, they (or you) won't get
-sidetracked as often by the need to look up how to use it. Thus, try
-to follow conventions. When there is another module or part of the
-standard JavaScript environment that does something similar to what
-you are implementing, it might be a good idea to make your interface
-resemble the existing interface. That way, it'll feel familiar to
-people who know the existing interface.
-
-{{index cleverness}}
-
-Another area where predictability is important is the
-actual _behavior_ of your code. It can be tempting to make an
-unnecessarily clever interface with the justification that it's more
-convenient to use. For example, you could accept all kinds of
-different types and combinations of arguments and do the “right
-thing” for all of them. Or you could provide dozens of specialized
-convenience functions that provide slightly different flavors of your
-module's functionality. These might make code that builds on your
-interface slightly shorter, but they will also make it much harder for
-people to build a clear ((mental model)) of the module's behavior.
-
-### Composability
-
-{{index composability}}
-
-In your interfaces, try to use the simplest ((data
-structure))s possible and make functions do a single, clear thing.
-Whenever practical, make them ((pure function))s (see
-[Chapter 3](03_functions.html#pure)).
-
-{{index "array-like object"}}
-
-For example, it is not uncommon for modules to
-provide their own array-like collection objects, with their own
-interface for counting and extracting elements. Such objects won't
-have `map` or `forEach` methods, and any existing function that
-expects a real array won't be able to work with them. This is an
-example of poor _composability_—the module cannot be easily composed
-with other code.
-
-{{index encapsulation, "spell-check example"}}
-
-One example would be a
-module for spell-checking text, which we might need when we want to
-write a text editor. The spell-checker could be made to operate
-directly on whichever complicated ((data structure))s the editor uses
-and directly call internal functions in the editor to have the user
-choose between spelling suggestions. If we go that way, the module
-cannot be used with any other programs. On the other hand, if we
-define the spell-checking interface so that you can pass it a simple
-string and it will return the position in the string where it found a
-possible misspelling, along with an array of suggested corrections,
-then we have an interface that could also be composed with other
-systems because strings and arrays are always available in
-JavaScript.
-
-### Layered interfaces
-
-{{index simplicity, complexity, layering, "interface design"}}
-
-When designing an interface for a complex piece of
-functionality—sending email, for example—you often run into a dilemma.
-On the one hand, you do not want to overload the user of your
-interface with details. They shouldn't have to study your interface
-for 20 minutes before they can send an email. On the other hand, you
-do not want to hide all the details either—when people need to do
-complicated things with your module, they should be able to.
-
-Often the solution is to provide two interfaces: a detailed
-_low-level_ one for complex situations and a simple _high-level_ one
-for routine use. The second can usually be built easily using the
-tools provided by the first. In the email module, the high-level
-interface could just be a function that takes a message, a sender
-address, and a receiver address and then sends the email. The low-level
-interface would allow full control over email headers, attachments,
-HTML mail, and so on.
+This can be a barrier to composition—if various packages are using
+different data formats to describe similar things, it is difficult to
+combine them. Therefore, if you want to design for composability, find
+out what data structures other people are using, and if possible,
+follow their example.
 
 ## Summary
 
 Modules provide structure to bigger programs by separating the code
-into different files and namespaces. Giving these modules well-defined
-interfaces makes them easier to use and reuse
-and makes it possible to continue using them as the module
-itself evolves.
+into pieces with clear interfaces and dependencies. The interface is
+the part of the module that's visible from other modules, and the
+dependencies are the other modules that it makes use of.
 
-Though the JavaScript language is characteristically unhelpful
-when it comes to modules, the flexible functions and objects it
-provides make it possible to define rather nice module systems.
-Function scopes can be used as internal namespaces for the module, and
-objects can be used to store sets of exported values.
+Because the JavaScript language historically did not provide a module
+system, the CommonJS system was built on top of it. It recently did
+become a built-in module system, which now coexist uneasily with
+the CommonJS system.
 
-There are two popular, well-defined approaches to such modules. One is
-called _CommonJS Modules_ and revolves around a `require` function
-that fetches a module by name and returns its interface. The other is
-called _AMD_ and uses a `define` function that takes an array of
-module names and a function and, after loading the modules, runs the
-function with their interfaces as arguments.
+NPM is a repository of JavaScript packages. A package acts like a
+module that can be distributed separately. You can get all kinds of
+useful (and useless) packages from NPM.
 
 ## Exercises
 
-### Month names
+### A modular robot
 
-{{index "Date type", "weekday example", "month name (exercise)"}}
+{{index "modular robot (exercise)", module, robot, NPM}}
 
-Write a
-simple module similar to the `weekDay` module that can convert month
-numbers (zero-based, as in the `Date` type) to names and can convert names back
-to numbers. Give it its own namespace since it will need an internal
-array of month names, and use plain JavaScript, without any module
-loader system.
+These are the bindings that the project from [Chapter
+7](07_robot.html) creates:
+
+```{type: "text/plain"}
+roads
+buildGraph
+roadGraph
+VillageState
+runRobot
+randomPick
+randomRobot
+mailRoute
+routeRobot
+findRoute
+goalOrientedRobot
+```
+
+If you were to write that project as a modular program, what modules
+would you create? Which module would depend on which other module, and
+what would their interfaces look like?
+
+Which pieces are likely to be available pre-written on NPM? Would you
+prefer to use an NPM package or to write them yourself?
+
+{{hint
+
+{{index "modular robot (exercise)"}}
+
+Here's what I would have done (but again, there is no single _proper_
+way to design modules):
+
+The code used to build the road graph lives in the `graph` module.
+Because I'd rather use `dijkstrajs` from NPM than our own path-finding
+code, we'll make this build the kind of graph data that `dijkstajs`
+expects. This module exports a single function, `buildGraph`. I'd have
+`buildGraph` accept an array of two-element arrays, rather than
+strings containing dashes, to make the module less dependent on the
+input format.
+
+The `roads` module contains the raw road data (the `roads` array) and
+the `roadGraph` variable. This module depends on `./graph` and exports
+the road graph.
+
+The `VillageState` class lives in the `state` module. It depends on
+the `./roads` module, because it needs to be able to verify that a
+given road exists. It also needs `randomPick`. Since that is a
+three-line function, we could just put it into the `state` module as
+an internal helper function. But `randomRobot` needs it to. So we'd
+have to either duplicate it, or put it into its own module. It so
+happens that this function exists on NPM in the `random-item` package,
+so a good solution is to just make both modules depend on that. We
+could add the `runRobot` function to this module as well, since it's
+small and closely related to state management. The module exports both
+the `VillageState` class and the `runRobot` function.
+
+Finally, the robots, along with the values they depend on such as
+`mailRoute`, could go into an `example-robots` module, which depends
+on `./roads` and exports the robot functions. To make it possible for
+the `goalOrientedRobot` to do route-finding, this module also depends
+on `dijkstrajs`.
+
+By offloading some work to NPM modules, the code became a little
+smaller. Each individual module does something rather simple, and can
+be read on its own. Dividing code into modules also often suggests
+further improvements to the program's design. In this case, it seems a
+little odd that the `VillageState` and the robots depend on a specific
+road graph. It might be a better idea to make the graph an argument to
+the state's constructor and to make the robots read it from the state
+object—this reduces dependencies (which is always good) and makes it
+possible to run simulations on different maps (which is even better).
+
+Is it a good idea to use NPM modules for things that we could have
+written ourselves? In principle, yes—for non-trivial things like the
+path-finding function you are likely to make mistakes and waste time
+writing them yourself. For tiny functions like `random-item`, writing
+them yourself is easy enough. But adding them wherever you need them
+does tend to muddle up your modules a little.
+
+However, you should also not underestimate the work involved in
+_finding_ an appropriate NPM package. And even if you find one, it
+might not work well, or be missing some feature that you need. On top
+of that, depending on NPM packages means you have to make sure they
+are installed, you have to distributing them with your program, and
+you might have to periodically upgrade them.
+
+So again, this is a trade-off, and you might decide either way
+depending on how much the packages help you.
+
+hint}}
+
+### Roads module
+
+{{index "roads module (exercise)"}}
+
+Write a ((CommonJS module)), based on the example from [Chapter
+7](07_robot.html), which contains the array of roads and exports the
+graph data structure representing them as `roadGraph`. It should
+depend on a module `./graph`, which exports a function `buildGraph`
+that is used to build the graph. This function expects an array of
+two-element arrays (the start and end points of the roads).
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Add dependencies and exports
 
-console.log(month.name(2));
-// → March
-console.log(month.number("November"));
-// → 10
+const roads = [
+  "Alice's House-Bob's House",   "Alice's House-Cabin",
+  "Alice's House-Post Office",   "Bob's House-Town Hall",
+  "Daria's House-Ernie's House", "Daria's House-Town Hall",
+  "Ernie's House-Grete's House", "Grete's House-Farm",
+  "Grete's House-Shop",          "Marketplace-Farm",
+  "Marketplace-Post Office",     "Marketplace-Shop",
+  "Marketplace-Town Hall",       "Shop-Town Hall"
+];
 ```
-if}}
 
 {{hint
 
-{{index "month name (exercise)"}}
+{{index "roads module (exercise)"}}
 
-This follows the `weekDay` module almost
-exactly. A function expression, called immediately, wraps the variable
-that holds the array of names, along with the two functions that must
-be exported. The functions are put in an object and returned. The
-returned interface object is stored in the `month` variable.
+Since this is a ((CommonJS module)), you have to use `require` to
+import the graph module. That was described as exporting a
+`buildGraph` function, which you can pick out of its interface object
+with a destructuring `const` declaration.
 
-hint}}
-
-### A return to electronic life
-
-{{index "electronic life", module}}
-
-Hoping that
-[Chapter 7](07_elife.html#elife) is still somewhat fresh in your
-mind, think back to the system designed in that chapter and come up
-with a way to separate the code into modules. To refresh your memory,
-these are the functions and types defined in that chapter, in order of
-appearance:
-
-```{lang: null}
-Vector
-Grid
-directions
-directionNames
-randomElement
-BouncingCritter
-elementFromChar
-World
-charFromElement
-Wall
-View
-WallFollower
-dirPlus
-LifelikeWorld
-Plant
-PlantEater
-SmartPlantEater
-Tiger
-```
-
-{{index "book analogy"}}
-
-Don't exaggerate and create too many modules. A book
-that starts a new chapter for every page would probably get on your
-nerves, if only because of all the space wasted on titles. Similarly,
-having to open 10 files to read a tiny project isn't helpful. Aim for
-three to five modules.
-
-{{index encapsulation}}
-
-You can choose to have some functions become
-internal to their module and thus inaccessible to other modules.
-
-There is no single correct solution here. Module organization is
-largely a matter of ((taste)).
-
-{{hint
-
-Here is what I came up with. I've put parentheses around internal
-functions.
-
-```{lang: null}
-Module "grid"
-  Vector
-  Grid
-  directions
-  directionNames
-
-Module "world"
-  (randomElement)
-  (elementFromChar)
-  (charFromElement)
-  View
-  World
-  LifelikeWorld
-  directions [reexported]
-
-Module "simple_ecosystem"
-  (randomElement) [duplicated]
-  (dirPlus)
-  Wall
-  BouncingCritter
-  WallFollower
-
-Module "ecosystem"
-  Wall [duplicated]
-  Plant
-  PlantEater
-  SmartPlantEater
-  Tiger
-```
-
-{{index exporting}}
-
-I have reexported the `directions` array from the
-`grid` module from `world` so that modules built on that (the
-ecosystems) don't have to know or worry about the existence of the
-`grid` module.
-
-{{index duplication}}
-
-I also duplicated two generic and tiny helper values
-(`randomElement` and `Wall`) since they are used as internal details
-in different contexts and do not belong in the interfaces for these
-modules.
+To export `roadGraph`, you add a property to the `exports` object.
+Because that takes a data structure that doesn't precisely match
+`roads`, you must move the splitting of the road strings into your
+module, and pass the result to `roadGraph`.
 
 hint}}
 
@@ -1000,36 +699,35 @@ hint}}
 
 {{index dependency, "circular dependency", "require function"}}
 
-A
-tricky subject in dependency management is circular dependencies,
-where module A depends on B, and B also depends on A. Many module
-systems simply forbid this. ((CommonJS)) modules allow a limited form:
-it works as long as the modules do not replace their default `exports`
-object with another value and start accessing each other's
-interface only after they finish loading.
+A circular dependency is a situation where module A depends on B, and
+B also, directly or indirectly, depends on A. Many module systems
+simply forbid this because, whichever order you choose for loading
+such modules, you can't make sure that each module's dependencies have
+been loaded before it runs.
 
-Can you think of a way in which support for this feature could be
-implemented? Look back to the definition of `require` and consider
-what the function would have to do to allow this.
+((CommonJS modules)) allow a limited form of cyclic dependencies. As
+long as the modules do not replace their default `exports` object, and
+don't access each other's interface until after they finish loading,
+cyclic dependencies are okay.
+
+The `require` function given [earlier in this
+chapter](10_modules.html#require) supports this type of dependency
+cycles. Can you see how it handles them? What would go wrong when a
+module in a cycle _does_ replace its default `exports` object?
 
 {{hint
 
 {{index overriding, "circular dependency", "exports object"}}
 
-The trick
-is to add the `exports` object created for a module to `require`'s
-((cache)) _before_ actually running the module. This means the module
-will not yet have had a chance to override `module.exports`, so we do
-not know whether it may want to export some other value. After
-loading, the cache object is overridden with `module.exports`, which
-may be a different value.
+The trick is that `require` adds modules to its cache _before_ it
+starts loading the module. That way, if any `require` call from inside
+the module tries to load it again, it is already known, and the
+current interface will be returned, rather than trying to load the
+module again, which would eventually overflow the stack.
 
-But if in the course of loading the module, a second module is loaded
-that asks for the first module, its default `exports` object, which is likely
-still empty at this point, will be in the cache, and the second module
-will receive a reference to it. If it doesn't try to do anything with
-the object until the first module has finished loading, things will
-work.
+If a module overwrites its `module.exports` value, any other module
+that has already loaded it before it finished loading will have gotten
+hold of the default interface object, rather than the proper interface
+value.
 
 hint}}
-

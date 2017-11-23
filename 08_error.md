@@ -622,8 +622,10 @@ When an exception makes it all the way to the bottom of the stack
 without being caught, it gets handled by the environment. What this
 means differs between environments. In browsers, a description of the
 error typically gets written to the JavaScript console (reachable
-through the browser's Tools or Developer menu). In Node, which is more
-careful about data corruption, the whole process is stopped.
+through the browser's Tools or Developer menu). Node.js, the
+browserless JavaScript environment we will discuss in [Chapter
+20](20_node.html), is more careful about data corruption. It aborts
+the whole process when an unhandled exception occurs.
 
 {{index crash, "error handling"}}
 

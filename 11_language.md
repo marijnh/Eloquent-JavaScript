@@ -13,14 +13,6 @@ quote}}
 
 if}}
 
-{{quote {author: "Grace Hopper", title: "quoted in Grace Hopper: Navy Admiral and Computer Pioneer", chapter: true }
-
-I had a running compiler and nobody would touch it. They carefully
-told me, computers could only do arithmetic; they could not do
-programs.
-
-quote}}
-
 {{if interactive
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
@@ -34,9 +26,8 @@ if}}
 
 {{index "Abelson, Hal", "Sussman, Gerald", SICP, "project chapter"}}
 
-Building your own
-((programming language)) is surprisingly easy (as long as you do not
-aim too high) and very enlightening.
+Building your own ((programming language)) is surprisingly easy (as
+long as you do not aim too high) and very enlightening.
 
 The main thing I want to show in this chapter is that there is no
 ((magic)) involved in building your own language. I've often felt that

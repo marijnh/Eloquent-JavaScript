@@ -127,19 +127,19 @@ entire jungle.
 
 quote}}
 
-Instead, let's condense the world's state down to the minimal set of
+Instead, let's condense the village's state down to the minimal set of
 values that define it. There's the robot's current location and the
 collection of undelivered parcels, each of which has a current
 location and a destination address. That's it.
 
-{{index "WorldState class", "persistent data structure"}}
+{{index "VillageState class", "persistent data structure"}}
 
 And while we're at it, let's make it so that we don't _change_ this
 state when the robot moves, but rather compute a _new_ state for the
 situation after the move.
 
 ```{includeCode: true}
-class WorldState {
+class VillageState {
   constructor(place, parcels) {
     this.place = place;
     this.parcels = parcels;
@@ -153,7 +153,7 @@ class WorldState {
         if (p.place != this.place) return p;
         return {place: destination, address: p.address};
       }).filter(p => p.place != p.address);
-      return new WorldState(destination, parcels);
+      return new VillageState(destination, parcels);
     }
   }
 }
@@ -174,11 +174,11 @@ the set of undelivered parcels. The call to `map` takes care of the
 moving, and the call to `filter` does the delivering.
 
 Parcel objects also aren't changed when they are moved, but recreated.
-The `move` method gives us a new world state, but leaves the old one
+The `move` method gives us a new village state, but leaves the old one
 entirely intact.
 
 ```
-let first = new WorldState(
+let first = new VillageState(
   "Post Office",
   [{place: "Post Office", address: "Alice's House"}]
 );
@@ -250,7 +250,7 @@ book, we will also be using changeable ones.
 
 A delivery ((robot)) looks at the world, and decides in which
 direction it wants to move. As such, we could say that a robot is a
-function that takes a `WorldState` object and returns the name of a
+function that takes a `VillageState` object and returns the name of a
 nearby place.
 
 {{index "runRobot function"}}
@@ -317,7 +317,7 @@ We'll need a way to create a new state with some parcels, to put this
 sophisticated robot to work.
 
 ```{includeCode: true}
-WorldState.random = function(parcelCount = 5) {
+VillageState.random = function(parcelCount = 5) {
   let parcels = [];
   for (let i = 0; i < parcelCount; i++) {
     let address = randomPick(Object.keys(roadGraph));
@@ -327,7 +327,7 @@ WorldState.random = function(parcelCount = 5) {
     } while (place == address);
     parcels.push({place, address});
   }
-  return new WorldState("Post Office", parcels);
+  return new VillageState("Post Office", parcels);
 };
 ```
 
@@ -340,7 +340,7 @@ places when it gets one that's also the address.
 Let's start up a virtual world.
 
 ```{test: no}
-runRobot(WorldState.random(), randomRobot);
+runRobot(VillageState.random(), randomRobot);
 // → Moved to Marketplace
 // → Moved to Town Hall
 // → …
@@ -358,7 +358,7 @@ programming environment. This will run the simulation, but instead of
 outputting text, it shows you the robot moving around the village map.
 
 ```{test: no}
-runRobotAnimation(WorldState.random(), randomRobot);
+runRobotAnimation(VillageState.random(), randomRobot);
 ```
 
 The way `runRobotAnimation` is implemented will remain a mystery for
@@ -409,7 +409,7 @@ This robot is a lot faster already. It'll take a maximum of 26 turns
 {{if interactive
 
 ```{test: no}
-runRobotAnimation(WorldState.random(), routeRobot, []);
+runRobotAnimation(VillageState.random(), routeRobot, []);
 ```
 
 if}}
@@ -528,7 +528,7 @@ delivered, so it creates a route towards the delivery address instead.
 Let's see how it does.
 
 ```{test: no}
-runRobotAnimation(WorldState.random(),
+runRobotAnimation(VillageState.random(),
                   goalOrientedRobot, []);
 ```
 
@@ -598,7 +598,7 @@ If you solved the previous exercise, you might want to use your
 ```{test: no}
 // Your code here
 
-runRobotAnimation(WorldState.random(), yourRobot, memory);
+runRobotAnimation(VillageState.random(), yourRobot, memory);
 ```
 
 if}}

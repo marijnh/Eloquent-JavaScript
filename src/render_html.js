@@ -116,7 +116,7 @@ function renderArray(tokens) {
   let result = ""
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i], f = renderer[token.type]
-    if (!f) throw new Error("No render function for " + token.type + " " + tokens.slice(i + 1).map(t => t.type).join())
+    if (!f) throw new Error("No render function for " + token.type)
     result += f(token)
   }
   return result

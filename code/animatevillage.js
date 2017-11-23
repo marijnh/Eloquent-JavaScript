@@ -69,12 +69,12 @@
       let heights = {}
       for (let {place, address} of this.worldState.parcels) {
         let height = heights[place] || (heights[place] = 0)
-        heights[place] += 11
+        heights[place] += 14
         let node = document.createElement("div")
-        let offset = placeKeys.indexOf(address) * 10
-        node.style.cssText = "position: absolute; height: 10px; width: 10px; background-image: url(img/parcel2x.png); background-position: 0 -" + offset + "px";
+        let offset = placeKeys.indexOf(address) * 16
+        node.style.cssText = "position: absolute; height: 16px; width: 16px; background-image: url(img/parcel2x.png); background-position: 0 -" + offset + "px";
         if (place == this.worldState.place) {
-          node.style.left = "27px"
+          node.style.left = "25px"
           node.style.bottom = (20 + height) + "px"
           this.robotElt.appendChild(node)
         } else {

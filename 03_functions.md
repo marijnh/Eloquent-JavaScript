@@ -637,7 +637,7 @@ can be paralyzing.
 {{index "premature optimization"}}
 
 Therefore, always start by writing something that's correct and easy
-to understand. If you're worried that it's too slow—which is usually
+to understand. If you're worried that it's too slow—which it usually
 isn't, since most code simply isn't executed often enough to take any
 significant amount of time—you can measure afterwards, and improve it
 if necessary.

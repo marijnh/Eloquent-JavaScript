@@ -247,9 +247,9 @@ These are usually called _((test runners))_.
 Some code is easier to test than other code. Generally, the more
 external objects that it interacts with, the harder it is to set up
 the context in which to test it. The style of programming shown in the
-[previous chapter](07_robot.html), which uses self-contained
-persistent values rather than changing objects, tends to produce code
-that's easy to test.
+[previous chapter](robot), which uses self-contained persistent values
+rather than changing objects, tends to produce code that's easy to
+test.
 
 ## Debugging
 
@@ -442,8 +442,8 @@ from a function: it jumps out of not just the current function but
 also out of its callers, all the way down to the first call that
 started the current execution. This is called _((unwinding the
 stack))_. You may remember the stack of function calls that was
-mentioned in [Chapter 3](03_functions.html#stack). An exception zooms
-down this stack, throwing away all the call contexts it encounters.
+mentioned in [Chapter ?](functions#stack). An exception zooms down
+this stack, throwing away all the call contexts it encounters.
 
 {{index "error handling", syntax, "catch keyword"}}
 
@@ -624,8 +624,8 @@ means differs between environments. In browsers, a description of the
 error typically gets written to the JavaScript console (reachable
 through the browser's Tools or Developer menu). Node.js, the
 browserless JavaScript environment we will discuss in [Chapter
-20](20_node.html), is more careful about data corruption. It aborts
-the whole process when an unhandled exception occurs.
+?](node), is more careful about data corruption. It aborts the whole
+process when an unhandled exception occurs.
 
 {{index crash, "error handling"}}
 
@@ -860,10 +860,10 @@ when it is not an instance of `MultiplicatorUnitFailure` and ensure
 the call is retried when it is.
 
 To do the retrying, you can either use a loop that breaks only when a
-call succeeds—as in the [`look` example](08_error.html#look) earlier
-in this chapter—or use ((recursion)) and hope you don't get a string
-of failures so long that it overflows the stack (which is a pretty
-safe bet).
+call succeeds—as in the [`look` example](error#look) earlier in this
+chapter—or use ((recursion)) and hope you don't get a string of
+failures so long that it overflows the stack (which is a pretty safe
+bet).
 
 hint}}
 

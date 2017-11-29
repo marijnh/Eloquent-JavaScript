@@ -14,7 +14,7 @@ quote}}
 {{index "Goethe, Johann Wolfgang von", Mephistopheles, "page reload", form}}
 
 Forms were introduced briefly in the
-[previous chapter](17_http.html#http_forms) as a way to
+[previous chapter](http#http_forms) as a way to
 _((submit))_ information provided by the user over ((HTTP)). They were
 designed for a pre-JavaScript Web, assuming that interaction with the
 server always happens by navigating to a new page.
@@ -640,7 +640,7 @@ also fire an `"error"` event when reading the file fails for any
 reason. The error object itself will end up in the reader's `error`
 property. If you don't want to remember the details of yet another
 inconsistent asynchronous interface, you could wrap it in a `Promise` (see
-[Chapter 17](17_http.html#promises)) like this:
+[Chapter ?](http#promises)) like this:
 
 ```
 function readFile(file) {
@@ -681,7 +681,7 @@ remember something between sessions, you cannot use JavaScript
 ((variable))s since those are thrown away every time a page is
 closed. You could set up a server, connect it to the Internet, and
 have your application store something there. We will see how to do
-that in [Chapter 20](20_node.html#node). But this adds a lot of
+that in [Chapter ?](node). But this adds a lot of
 extra work and complexity. Sometimes it is enough to just keep the
 data in the ((browser)). But how?
 
@@ -854,7 +854,7 @@ that allows people to type and run pieces of JavaScript code.
 
 Put a button next to a `<textarea>`
 field, which, when pressed, uses the `Function` constructor we saw in
-[Chapter 10](10_modules.html#eval) to wrap the text in a function
+[Chapter ?](modules#eval) to wrap the text in a function
 and call it. Convert the return value of the function, or any error it
 raised, to a string and display it after the text field.
 
@@ -1023,7 +1023,7 @@ computation of a ((generation)) as a ((pure function)), which takes
 one ((grid)) and produces a new grid that represents the next turn.
 
 Representing the grid can be done in any of the ways shown in Chapters
-[7](07_elife.html#grid) and [15](15_game.html#level). Counting
+[?](elife#grid) and [?](game#level). Counting
 live ((neighbor))s can be done with two nested loops, looping over
 adjacent coordinates. Take care not to count cells outside of the
 field and to ignore the cell in the center, whose neighbors we are
@@ -1045,7 +1045,7 @@ corresponds to so that it is easy to find out which cell to change.
 
 To draw the grid
 of checkboxes, you either can use  a `<table>` element (see
-[Chapter 13](13_dom.html#exercise_table)) or simply put them all in
+[Chapter ?](dom#exercise_table)) or simply put them all in
 the same element and put `<br>` (line break) elements between the
 rows.
 

@@ -393,7 +393,7 @@ a key event originates depends on the element that has ((focus)) when
 the key is pressed. Normal nodes cannot have focus (unless you give
 them a `tabindex` attribute), but things such as ((link))s, buttons, and
 form fields can. We'll come back to form ((field))s in
-[Chapter 18](18_forms.html#forms). When nothing in particular has
+[Chapter ?](forms). When nothing in particular has
 focus, `document.body` acts as the target node of key events.
 
 ## Mouse clicks
@@ -432,10 +432,10 @@ top-left corner of the document.
 {{index "border-radius (CSS)", "absolute positioning", "drawing program example"}}
 
 {{id mouse_drawing}}
-The following implements a primitive drawing program. Every
-time you click the document, it adds a dot under your mouse
-pointer. See [Chapter 19](19_paint.html#paint) for a less primitive
-drawing program.
+
+The following implements a primitive drawing program. Every time you
+click the document, it adds a dot under your mouse pointer. See
+[Chapter ?](paint) for a less primitive drawing program.
 
 ```{lang: "text/html"}
 <style>
@@ -773,10 +773,9 @@ weight loss ads.
 
 {{index "requestAnimationFrame function", "event handling", timeline, "script (HTML tag)"}}
 
-There are various
-things that can cause a script to start executing. Reading a
-`<script>` tag is one such thing. An event firing is another.
-[Chapter 13](13_dom.html#animationFrame) discussed the
+There are various things that can cause a script to start executing.
+Reading a `<script>` tag is one such thing. An event firing is
+another. [Chapter ?](dom#animationFrame) discussed the
 `requestAnimationFrame` function, which schedules a function to be
 called before the next page redraw. That is yet another way in which a
 script can start running.
@@ -1083,12 +1082,12 @@ follow the mouse pointer as you moved it across the page.
 
 {{index "absolute positioning", "background (CSS)"}}
 
-In this exercise, I
-want you to implement a mouse trail. Use absolutely positioned `<div>`
-elements with a fixed size and background color (refer to the
-[code](14_event.html#mouse_drawing) in the “Mouse Clicks”
-section for an example). Create a bunch of such elements and, when the
-mouse moves, display them in the wake of the mouse pointer.
+In this exercise, I want you to implement a mouse trail. Use
+absolutely positioned `<div>` elements with a fixed size and
+background color (refer to the [code](event#mouse_drawing) in the
+“Mouse Clicks” section for an example). Create a bunch of such
+elements and, when the mouse moves, display them in the wake of the
+mouse pointer.
 
 {{index "mousemove event"}}
 

@@ -10,13 +10,13 @@ quote}}
 
 {{index "Escher, M.C.", CSS, "transform (CSS)"}}
 
-Browsers give us
-several ways to display ((graphics)). The simplest way is to use styles to
-position and color regular ((DOM)) elements. This can
-get you quite far, as the game in the [previous chapter](15_game.html#game)
-showed. By adding partially transparent background ((image))s to the
-nodes, we can make them look exactly the way we want. It is even
-possible to rotate or skew nodes by using the `transform` style.
+Browsers give us several ways to display ((graphics)). The simplest
+way is to use styles to position and color regular ((DOM)) elements.
+This can get you quite far, as the game in the [previous
+chapter](game) showed. By adding partially transparent background
+((image))s to the nodes, we can make them look exactly the way we
+want. It is even possible to rotate or skew nodes by using the
+`transform` style.
 
 But we'd be using the DOM for something that it wasn't originally
 designed for. Some tasks, such as drawing a ((line)) between
@@ -50,7 +50,7 @@ with the shape in a new position.
 
 This book will not go into ((SVG)) in detail, but I will briefly 
  explain how it works. At the
-[end of the chapter](16_canvas.html#graphics_tradeoffs), I'll come
+[end of the chapter](canvas#graphics_tradeoffs), I'll come
 back to the trade-offs that you must consider when deciding which
 ((drawing)) mechanism is appropriate for a given application.
 
@@ -583,7 +583,7 @@ or `"center"` and the vertical position by setting `textBaseline` to
 
 We will come back to our pie chart, and the
 problem of ((label))ing the slices, in the
-[exercises](16_canvas.html#exercise_pie_chart) at the end of the
+[exercises](canvas#exercise_pie_chart) at the end of the
 chapter.
 
 ## Images
@@ -909,7 +909,7 @@ tree.
 
 We now know enough about ((canvas)) drawing to
 start working on a ((canvas))-based ((display)) system for the
-((game)) from the [previous chapter](15_game.html#game). The new
+((game)) from the [previous chapter](game). The new
 display will no longer be showing just colored boxes. Instead, we'll
 use `drawImage` to draw pictures that represent the game's elements.
 
@@ -917,7 +917,7 @@ use `drawImage` to draw pictures that represent the game's elements.
 
 We will define an object
 type `CanvasDisplay`, supporting the same ((interface)) as
-`DOMDisplay` from [Chapter 15](15_game.html#domdisplay), namely, the
+`DOMDisplay` from [Chapter ?](game#domdisplay), namely, the
 methods `drawFrame` and `clear`.
 
 {{index state}}
@@ -961,7 +961,7 @@ CanvasDisplay.prototype.clear = function() {
 
 The `animationTime` counter is the reason we
 passed the step size to `drawFrame` in
-[Chapter 15](15_game.html#domdisplay), even though `DOMDisplay`
+[Chapter ?](game#domdisplay), even though `DOMDisplay`
 does not use it. Our new `drawFrame` function uses the counter to track time
 so that it can switch between ((animation)) ((frame))s based on the
 current time.
@@ -983,7 +983,7 @@ Other than tracking time, the method updates the
 ((viewport)) for the current player position, fills the whole canvas
 with a background color, and draws the ((background)) and ((actor))s
 onto that. Note that this is different from the approach in
-[Chapter 15](15_game.html#domdisplay), where we drew the background
+[Chapter ?](game#domdisplay), where we drew the background
 once and scrolled the wrapping DOM element to move it.
 
 {{index clearing}}
@@ -1048,7 +1048,7 @@ CanvasDisplay.prototype.clearDisplay = function() {
 To draw the
 background, we run through the tiles that are visible in the current
 viewport, using the same trick used in `obstacleAt` in the
-[previous chapter](15_game.html#viewport).
+[previous chapter](game#viewport).
 
 ```{sandbox: "game", includeCode: true}
 var otherSprites = document.createElement("img");
@@ -1276,7 +1276,7 @@ techniques. For example, you might draw a ((graph)) with ((SVG)) or
 
 For nondemanding applications, it really doesn't matter
 much which interface you choose. The
-[second display](16_canvas.html#canvasdisplay) we built for our
+[second display](canvas#canvasdisplay) we built for our
 game in this chapter could have been implemented using any of these
 three ((graphics)) technologies since it does not need to draw text,
 handle mouse interaction, or work with an extraordinarily large amount
@@ -1349,7 +1349,7 @@ Write a program that draws the following
 
 When drawing the last two, you may want to refer to the
 explanation of `Math.cos` and `Math.sin` in
-[Chapter 13](13_dom.html#sin_cos), which describes how to get
+[Chapter ?](dom#sin_cos), which describes how to get
 coordinates on a circle using these functions.
 
 {{index readability, "hard-coding"}}
@@ -1422,7 +1422,7 @@ hint}}
 
 {{index label, text, "pie chart example"}}
 
-[Earlier](16_canvas.html#pie_chart) in the chapter, we
+[Earlier](canvas#pie_chart) in the chapter, we
 saw an example program that drew a pie chart. Modify this program so
 that the name of each category is shown next to the slice that
 represents it. Try to find a pleasing-looking way to automatically
@@ -1505,8 +1505,8 @@ hint}}
 
 Use
 the `requestAnimationFrame` technique that we saw in
-[Chapter 13](13_dom.html#animationFrame) and
-[Chapter 15](15_game.html#runAnimation) to draw a ((box)) with a
+[Chapter ?](dom#animationFrame) and
+[Chapter ?](game#runAnimation) to draw a ((box)) with a
 bouncing ((ball)) in it. The ball moves at a constant
 ((speed)) and bounces off the box's sides when it hits them.
 
@@ -1548,7 +1548,7 @@ going from zero to more than a whole circle, and fill it.
 
 To model the ball's position
 and ((speed)), you can use the `Vector` type from
-[Chapter 15](15_game.html#vector)[(which is available on this
+[Chapter ?](game#vector)[(which is available on this
 page)]{if interactive}. Give it a starting speed, preferably one that is not purely
 vertical or horizontal, and every ((frame)), multiply that speed with
 the amount of time that elapsed. When the ball gets too close to a

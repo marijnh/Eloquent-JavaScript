@@ -67,7 +67,7 @@ The ((game)) consists of a fixed
 overlaid on that background. Each field on the grid is either empty,
 solid, or ((lava)). The moving elements are the player, coins, and
 certain pieces of lava. Unlike the artificial life simulation from
-[Chapter 7](07_elife.html#elife), the positions of these elements
+[Chapter ?](elife), the positions of these elements
 are not constrained to the grid—their coordinates may be fractional,
 allowing smooth ((motion)).
 
@@ -99,13 +99,13 @@ In games and other programs that have to animate
 ((efficiency)) is important. Although the ((DOM)) was not originally
 designed for high-performance graphics, it is actually better at this
 than you would expect. You saw some ((animation))s in
-[Chapter 13](13_dom.html#animation). On a modern machine, a simple
+[Chapter ?](dom#animation). On a modern machine, a simple
 game like this performs well, even if we don't think about
 ((optimization)) much.
 
 {{index canvas}}
 
-In the [next chapter](16_canvas.html#canvas), we will
+In the [next chapter](canvas), we will
 explore another ((browser)) technology, the `<canvas>` tag, which
 provides a more traditional way to draw graphics, working in terms of
 shapes and ((pixel))s rather than ((DOM)) elements.
@@ -114,7 +114,7 @@ shapes and ((pixel))s rather than ((DOM)) elements.
 
 {{index dimensions}}
 
-In [Chapter 7](07_elife.html#plan) we used arrays
+In [Chapter ?](elife#plan) we used arrays
 of strings to describe a two-dimensional ((grid)). We can do the same
 here. It will allow us to design ((level))s without first building a
 level ((editor)).
@@ -318,7 +318,7 @@ property, it will jump back to its start position (dripping). If it
 does not, it will invert its speed and continue in the other direction
 (bouncing). The constructor only sets up the necessary properties. The
 method that does the actual moving will be written
-[later](15_game.html#actors).
+[later](game#actors).
 
 ```{includeCode: true}
 function Lava(pos, ch) {
@@ -357,9 +357,8 @@ Coin.prototype.type = "coin";
 
 {{index "Math.random function", "random number", "Math.sin function", sine, wave}}
 
-In
-[Chapter 13](13_dom.html#sin_cos), we saw that `Math.sin` gives us
-the y-coordinate of a point on a circle. That coordinate goes back and
+In [Chapter ?](dom#sin_cos), we saw that `Math.sin` gives us the
+y-coordinate of a point on a circle. That coordinate goes back and
 forth in a smooth wave form as we move along the circle, which makes
 the sine function useful for modeling a wavy motion.
 
@@ -414,13 +413,12 @@ that they need to be modified often, as the program evolves.
 
 {{index graphics, encapsulation, graphics}}
 
-There is one thing that
-we _will_ encapsulate in this chapter, and that is the ((drawing))
-subsystem. The reason for this is that we will ((display)) the same
-game in a different way in the link:16_canvas.html#canvasdisplay[next
-chapter]. By putting the drawing behind an interface, we can simply
-load the same game program there and plug in a new display
-((module)).
+There is one thing that we _will_ encapsulate in this chapter, and
+that is the ((drawing)) subsystem. The reason for this is that we will
+((display)) the same game in a different way in the [next
+chapter](canvas#canvasdisplay). By putting the drawing behind an
+interface, we can simply load the same game program there and plug in
+a new display ((module)).
 
 {{id domdisplay}}
 ## Drawing
@@ -1150,7 +1148,7 @@ property to determine whether the key state should be updated to true
 
 The
 `requestAnimationFrame` function, which we saw in
-[Chapter 13](13_dom.html#animationFrame), provides a good way to
+[Chapter ?](dom#animationFrame), provides a good way to
 animate a game. But its interface is quite primitive—using it requires
 us to track the time at which our function was called the last time
 around and call `requestAnimationFrame` again after every frame.
@@ -1189,7 +1187,7 @@ suspended until the tab or window is shown again. In this case, the difference
 between `lastTime` and `time` will be the entire time in which the
 page was hidden. Advancing the game by that much in a single step will
 look silly and might be a lot of work (remember the time-splitting in
-the [`animate` method](15_game.html#actors)).
+the [`animate` method](game#actors)).
 
 The function also converts the time steps to seconds, which are an
 easier quantity to think about than milliseconds.
@@ -1247,10 +1245,9 @@ function runGame(plans, Display) {
 
 {{index [function, "higher-order"], [function, "as value"]}}
 
-These functions show
-a peculiar style of programming. Both `runAnimation` and `runLevel`
-are higher-order functions but are not in the style we saw in
-[Chapter 5](05_higher_order.html#higher_order). The function
+These functions show a peculiar style of programming. Both
+`runAnimation` and `runLevel` are higher-order functions but are not
+in the style we saw in [Chapter ?](higher_order). The function
 argument is used to arrange things to happen at some time in the
 future, and neither of the functions returns anything useful. Their
 task is, in a way, to schedule actions. Wrapping these actions in
@@ -1263,8 +1260,8 @@ This programming
 style is usually called _asynchronous_ programming. Event handling is
 also an instance of this style, and we will see much more of it when working
 with tasks that can take an arbitrary amount of ((time)), such as
-((network)) requests in [Chapter 17](17_http.html#http) and input
-and output in general in [Chapter 20](20_node.html#node).
+((network)) requests in [Chapter ?](http) and input
+and output in general in [Chapter ?](node).
 
 {{index game, "GAME_LEVELS data set"}}
 

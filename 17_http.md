@@ -2,20 +2,10 @@
 
 # HTTP
 
-{{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A very short personal history", chapter: true}
-
-The dream behind the Web is of a common information space in which we
-communicate by sharing information. Its universality is essential: the
-fact that a hypertext link can point to anything, be it personal,
-local or global, be it draft or highly polished.
-
-quote}}
-
-{{index "Berners-Lee, Tim", "World Wide Web", HTTP}}
 
 The
 _Hypertext Transfer Protocol_, already mentioned in
-[Chapter 12](12_browser.html#web), is the mechanism through which
+[Chapter ?](browser#web), is the mechanism through which
 data is requested and provided on the ((World Wide Web)). This chapter
 describes the ((protocol)) in more detail and explains the way ((browser))
 JavaScript has access to it.
@@ -242,7 +232,7 @@ such as a browser, knows that it shouldn't blindly make `POST`
 requests but will often implicitly make `GET` requests—for example, to
 prefetch a resource it believes the user will soon need.
 
-The [next chapter](18_forms.html#forms) will return to forms
+The [next chapter](forms) will return to forms
 and talk about how we can script them with JavaScript.
 
 {{id xmlhttprequest}}
@@ -404,11 +394,11 @@ req.send(null);
 {{index "asynchronous programming", "callback function"}}
 
 Just like the use
-of `requestAnimationFrame` in [Chapter 15](15_game.html#game), this
+of `requestAnimationFrame` in [Chapter ?](game), this
 forces us to use an asynchronous style of programming, wrapping the
 things that have to be done after the request in a function and
 arranging for that to be called at the appropriate time. We will come
-back to this [later](17_http.html#promises).
+back to this [later](http#promises).
 
 ## Fetching XML Data
 
@@ -418,7 +408,7 @@ When the
 resource retrieved by an `XMLHttpRequest` object is an ((XML))
 document, the object's `responseXML` property will hold a parsed
 representation of this document. This representation works much like
-the ((DOM)) discussed in [Chapter 13](13_dom.html#dom), except that
+the ((DOM)) discussed in [Chapter ?](dom), except that
 it doesn't have HTML-specific functionality like the `style` property.
 The object that `responseXML` holds corresponds to the `document`
 object. Its `documentElement` property refers to the outer tag of the
@@ -499,7 +489,7 @@ Access-Control-Allow-Origin: *
 {{index HTTP, XMLHttpRequest, "backgroundReadFile function"}}
 
 In
-[Chapter 10](10_modules.html#amd), in our implementation of the AMD
+[Chapter ?](modules#amd), in our implementation of the AMD
 module system, we used a hypothetical function called
 `backgroundReadFile`. It took a filename and a function and called
 that function with the contents of the file when it had finished
@@ -635,175 +625,7 @@ will still (unless you wrap each handling function in its own
 `try/catch` block) land at the top level and abort your chain of
 actions.
 
-{{id promises}}
-## Promises
-
-{{index promise, "asynchronous programming", "callback function", readability, "uncaught exception"}}
-
-For complicated
-projects, writing asynchronous code in plain callback style is hard to
-do correctly. It is easy to forget to check for an error or to allow
-an unexpected exception to cut the program short in a crude way.
-Additionally, arranging for correct error handling when the error has
-to flow through multiple callback functions and `catch` blocks is
-tedious.
-
-{{index future, "ECMAScript 6"}}
-
-There have been a lot of attempts to
-solve this with extra abstractions. One of the more successful ones is
-called _promises_. Promises wrap an asynchronous action in an object,
-which can be passed around and told to do certain things when the
-action finishes or fails. This interface is set to become part of the next
-version of the JavaScript language but can already be used as a
-library.
-
-The ((interface)) for promises isn't entirely intuitive, but it is 
-powerful. This chapter will only roughly describe it. You can find a more thorough
-treatment at
-https://www.promisejs.org/[_www.promisejs.org_].
-
-{{index "Promise constructor"}}
-
-To create a promise object, we call the
-`Promise` constructor, giving it a function that initializes the
-asynchronous action. The constructor calls that function, passing it
-two arguments, which are themselves functions. The first should be
-called when the action finishes successfully, and the second should be called when it
-fails.
-
-{{index HTTP, "get function"}}
-
-Once again, here is our wrapper for `GET`
-requests, this time returning a promise. We'll simply call it `get`
-this time.
-
-```{includeCode: true}
-function get(url) {
-  return new Promise(function(succeed, fail) {
-    var req = new XMLHttpRequest();
-    req.open("GET", url, true);
-    req.addEventListener("load", function() {
-      if (req.status < 400)
-        succeed(req.responseText);
-      else
-        fail(new Error("Request failed: " + req.statusText));
-    });
-    req.addEventListener("error", function() {
-      fail(new Error("Network error"));
-    });
-    req.send(null);
-  });
-}
-```
-
-Note that the ((interface)) to the function itself is now a lot
-simpler. You give it a URL, and it returns a ((promise)). That promise
-acts as a _handle_ to the request's outcome. It has a `then` method
-that you can call with two functions: one to handle success and one
-to handle failure.
-
-```
-get("example/data.txt").then(function(text) {
-  console.log("data.txt: " + text);
-}, function(error) {
-  console.log("Failed to fetch data.txt: " + error);
-});
-```
-
-{{index chaining}}
-
-So far, this is just another way to express the same
-thing we already expressed. It is only when you need to chain
-actions together that promises make a significant difference.
-
-{{index "then method"}}
-
-Calling `then` produces a new ((promise)), whose
-result (the value passed to success handlers) depends on the return
-value of the first function we passed to `then`. This function may
-return another promise to indicate that more asynchronous work is
-being done. In this case, the promise returned by `then` itself will
-wait for the promise returned by the handler function, succeeding or
-failing with the same value when it is resolved. When the handler
-function returns a nonpromise value, the promise returned by `then`
-immediately succeeds with that value as its result.
-
-{{index "then method", chaining}}
-
-This means you can use `then` to
-transform the result of a promise. For example, this returns a promise
-whose result is the content of the given URL, parsed as ((JSON)):
-
-```{includeCode: true}
-function getJSON(url) {
-  return get(url).then(JSON.parse);
-}
-```
-
-{{index "error handling"}}
-
-That last call to `then` did not specify a failure
-handler. This is allowed. The error will be passed to the promise
-returned by `then`, which is exactly what we want—`getJSON` does not
-know what to do when something goes wrong, but hopefully its caller 
-does.
-
-As an example that shows the use of ((promise))s, we will build a
-program that fetches a number of JSON files from the server and,
-while it is doing that, shows the word _loading_. The JSON files
-contain information about people, with links to files that represent
-other people in properties such as `father`, `mother`, or `spouse`.
-
-{{index "error message", JSON}}
-
-We want to get the name of the mother of
-the spouse of _example/bert.json_. And if something goes wrong, we
-want to remove the _loading_ text and show an error message instead.
-Here is how that might be done with ((promise))s:
-
-```{lang: "text/html"}
-<script>
-  function showMessage(msg) {
-    var elt = document.createElement("div");
-    elt.textContent = msg;
-    return document.body.appendChild(elt);
-  }
-
-  var loading = showMessage("Loading...");
-  getJSON("example/bert.json").then(function(bert) {
-    return getJSON(bert.spouse);
-  }).then(function(spouse) {
-    return getJSON(spouse.mother);
-  }).then(function(mother) {
-    showMessage("The name is " + mother.name);
-  }).catch(function(error) {
-    showMessage(String(error));
-  }).then(function() {
-    document.body.removeChild(loading);
-  });
-</script>
-```
-
-{{index "error handling", "catch method", "then method", readability, "program size"}}
-
-The resulting program is
-relatively compact and readable. The `catch` method is similar to
-`then`, except that it only expects a failure handler and will pass
-through the result unmodified in case of success. Much like with the
-`catch` clause for the `try` statement, control will continue as
-normal after the failure is caught. That way, the final `then`, which
-removes the loading message, is always executed, even if something
-went wrong.
-
-{{index "asynchronous programming", "domain-specific language"}}
-
-You can
-think of the promise interface as implementing its own language for
-asynchronous ((control flow)). The extra method calls and function
-expressions needed to achieve this make the code look somewhat
-awkward but not remotely as awkward as it would look if we took care
-of all the error handling ourselves.
+FIXME promise section removed here
 
 ## Appreciating HTTP
 
@@ -896,8 +718,8 @@ responses may contain headers that provide additional information.
 Browsers make `GET` requests to fetch the resources needed to display
 a web page. A web page may also contain forms, which allow information
 entered by the user to be sent along in the request made when the form
-is submitted. You will learn more about that in the link:18_forms.html#forms[next
-chapter].
+is submitted. You will learn more about that in the [next
+chapter](forms).
 
 The interface through which browser JavaScript can make HTTP requests
 is called `XMLHttpRequest`. You can usually ignore the “XML” part of

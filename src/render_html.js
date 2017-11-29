@@ -13,6 +13,11 @@ let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFile
   index: false
 })
 
+let chapters = fs.readdirSync(__dirname + "/..")
+    .filter(file => /^\d{2}_\w+\.md$/.test(file))
+    .sort()
+    .map(file => /^\d{2}_(\w+)\.md$/.exec(file)[1])
+
 function escapeChar(ch) {
   return ch == "<" ? "&lt;" : ch == ">" ? "&gt;" : ch == "&" ? "&amp;" : "&quot;"
 }
@@ -36,6 +41,8 @@ function attrs(token) {
   return token.attrs ? token.attrs.map(([name, val]) => ` ${name}="${escape(String(val))}"`).join("") : ""
 }
 
+let linkedChapter = null
+
 let renderer = {
   fence(token) {
     let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
@@ -46,7 +53,11 @@ let renderer = {
   hardbreak() { return "<br>" },
   softbreak() { return " " },
 
-  text(token) { return escape(token.content) },
+  text(token) {
+    let {content} = token
+    if (linkedChapter != null) content = content.replace(/\?/g, linkedChapter)
+    return escape(content)
+  },
 
   paragraph_open(token) { return `\n\n<p${attrs(token)}>${anchor(token)}` },
   paragraph_close() { return "</p>" },
@@ -90,9 +101,15 @@ let renderer = {
 
   link_open(token) {
     let alt = token.attrGet("alt"), href= token.attrGet("href")
+    let maybeChapter = /^(\w+)(#.*)?$/.exec(href)
+    if (maybeChapter && chapters.includes(maybeChapter[1])) {
+      let n = chapters.indexOf(maybeChapter[1])
+      href = (n < 10 ? "0" : "") + n + "_" + maybeChapter[1] + ".html" + (maybeChapter[2] || "")
+      linkedChapter = n
+    }
     return `<a href="${escape(href)}"${alt ? ` alt="${escape(alt)}"` : ""}>`
   },
-  link_close() { return "</a>" },
+  link_close() { linkedChapter = null; return "</a>" },
 
   inline(token) { return renderArray(token.children) },
 

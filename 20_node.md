@@ -4,22 +4,22 @@
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-A student asked ‘The
-programmers of old used only simple machines and no programming
-languages, yet they made beautiful programs. Why do we use complicated
-machines and programming languages?’. Fu-Tzu replied ‘The builders of
-old used only sticks and clay, yet they made beautiful huts.’
+A student asked ‘The programmers of old used only simple machines and
+no programming languages, yet they made beautiful programs. Why do we
+use complicated machines and programming languages?’. Fu-Tzu replied
+‘The builders of old used only sticks and clay, yet they made
+beautiful huts.’
 
 quote}}
 
 {{index "command line", "Yuan-Ma", "Book of Programming"}}
 
-So far, you
-have learned the JavaScript language and used it within a single
-environment: the browser. This chapter and the [next one](21_skillsharing.html#skillsharing) will briefly introduce
-you to ((Node.js)), a program that allows you to apply your JavaScript
-skills outside of the browser. With it, you can build anything from
-simple command-line tools to dynamic HTTP ((server))s.
+So far, you have learned the JavaScript language and used it within a
+single environment: the browser. This chapter and the [next
+one](skillsharing) will briefly introduce you to
+((Node.js)), a program that allows you to apply your JavaScript skills
+outside of the browser. With it, you can build anything from simple
+command-line tools to dynamic HTTP ((server))s.
 
 These chapters aim to teach you the important ideas that Node.js
 builds on and to give you enough information to write some useful
@@ -63,7 +63,7 @@ stands for input/output).
 Node was initially conceived for the purpose of making
 _asynchronous_ I/O easy and convenient. We have seen asynchronous
 interfaces before, such as a browser's `XMLHttpRequest` object,
-discussed in [Chapter 17](17_http.html#xmlhttprequest). An asynchronous
+discussed in [Chapter ?](http#xmlhttprequest). An asynchronous
 interface allows the script to continue running while it does its
 work and calls a callback function when it's done. This is the way
 Node does all its I/O.
@@ -78,72 +78,6 @@ with two inconsistent interfaces. In 2009, when Node was being
 designed, people were already doing callback-based I/O in the browser,
 so the ((community)) around the language was used to an ((asynchronous
 programming)) style.
-
-## Asynchronicity
-
-I'll try to illustrate synchronous versus asynchronous
-I/O with a small example, where a program needs to fetch two resources
-from the Internet and then do some simple processing with the result.
-
-{{index "synchronous I/O"}}
-
-In a synchronous environment, the obvious way to
-perform this task is to make the requests one after the other. This method has the
-drawback that the second request will be started only when the first
-has finished. The total time taken will be at least the sum of the two
-response times. This is not an effective use of the machine, which
-will be mostly idle when it is transmitting and receiving data over
-the ((network)).
-
-{{index parallelism}}
-
-The solution to this problem, in a synchronous
-system, is to start additional ((thread))s of control. (Refer to
-[Chapter 14](14_event.html#timeline) for a previous discussion of
-threads.) A second thread could start the second request, and then
-both threads wait for their results to come back, after which they
-resynchronize to combine their results.
-
-{{index CPU, blocking, "synchronous I/O", "asynchronous I/O", timeline, "callback function"}}
-
-In the following diagram,
-the thick lines represent time the program spends running normally,
-and the thin lines represent time spent waiting for I/O. In the
-synchronous model, the time taken by I/O is _part_ of the timeline for
-a given thread of control. In the asynchronous model, starting an I/O
-action conceptually causes a _split_ in the timeline. The thread that
-initiated the I/O continues running, and the I/O itself is done
-alongside it, finally calling a callback function when it is finished.
-
-{{figure {url: "img/control-io.svg", alt: "Control flow for synchronous and asynchronous I/O",width: "8cm"}}}
-
-{{index "control flow", "asynchronous programming"}}
-
-Another way to express
-this difference is that waiting for I/O to finish is _implicit_ in the
-synchronous model, while it is _explicit_, directly under our
-control, in the asynchronous one. But asynchronicity cuts both ways. It
-makes expressing programs that do not fit the straight-line
-model of control easier, but it also makes expressing
-programs that do follow a straight line more awkward.
-
-{{index verbosity}}
-
-In [Chapter 17](17_http.html#promises), I already
-touched on the fact that all those callbacks add quite a lot of
-noise and indirection to a program. Whether this style of
-asynchronicity is a good idea in general can be debated. In any case,
-it takes some getting used to.
-
-{{index "asynchronous programming", parallelism}}
-
-But for a
-JavaScript-based system, I would argue that callback-style
-asynchronicity is a sensible choice. One of the strengths of
-JavaScript is its simplicity, and trying to add multiple ((thread))s
-of control to it would add a lot of complexity. Though callbacks don't tend
-to lead to simple _code_, as a _concept_, they're pleasantly
-simple yet powerful enough to write high-performance web servers.
 
 ## The node command
 
@@ -239,7 +173,7 @@ built-in functionality, you have to ask the module system for it.
 
 The ((CommonJS)) module system,
 based on the `require` function, was described in
-[Chapter 10](10_modules.html#commonjs). This system is built into
+[Chapter ?](modules#commonjs). This system is built into
 Node and is used to load anything from built-in ((module))s to
 downloaded libraries to files that are part of your own program.
 
@@ -323,7 +257,7 @@ Of{fXhwnuy
 {{index NPM, "Node.js", "npm program", library}}
 
 NPM, which was
-briefly discussed in [Chapter 10](10_modules.html#modules_npm), is
+briefly discussed in [Chapter ?](modules#modules_npm), is
 an online repository of JavaScript ((module))s, many of which are
 specifically written for Node. When you install Node on your computer,
 you also get a program called `npm`, which provides a convenient
@@ -546,7 +480,7 @@ tells us to what URL the request was made.
 
 To send something back, you call methods on the `response`
 object. The first, `writeHead`, will write out the ((response))
-((header))s (see [Chapter 17](17_http.html#headers)). You give it
+((header))s (see [Chapter ?](http#headers)). You give it
 the status code (200 for “OK” in this case) and an object that
 contains header values. Here we tell the client that we will be
 sending back an HTML document.
@@ -577,7 +511,7 @@ example—it looks at the request's
 ((method)) (the `method` property) to see what action the client is
 trying to perform and at the request's ((URL)) to find out which
 resource this action is being performed on. You'll see a more advanced
-server [later in this chapter](20_node.html#file_server).
+server [later in this chapter](node#file_server).
 
 {{index "http module", "request function"}}
 
@@ -1070,7 +1004,7 @@ program can handle, and crashing is the right response.
 {{index "denodeify function", "readFile function", "promise module", "error handling"}}
 
 Another approach is to use ((promise))s,
-which were introduced in [Chapter 17](17_http.html#promises). Those
+which were introduced in [Chapter ?](http#promises). Those
 catch exceptions raised by callback functions and propagate them as
 failures. It is possible to load a promise library in Node and use
 that to manage your asynchronous control. Few Node libraries
@@ -1177,7 +1111,7 @@ them at the appropriate time, when the I/O you asked for has finished.
 {{index "Accept header", "content negotiation (exercise)"}}
 
 In
-[Chapter 17](17_http.html#exercise_accept), the first exercise was
+[Chapter ?](http#exercise_accept), the first exercise was
 to make several requests to
 http://eloquentjavascript.net/author[_eloquentjavascript.net/author_],
 asking for different types of content by passing different `Accept`
@@ -1234,7 +1168,7 @@ hint}}
 
 For easy remote access to some
 files, I might get into the habit of having the
-[file server](20_node.html#file_server) defined in this chapter
+[file server](node#file_server) defined in this chapter
 running on my machine, in the `/home/marijn/public` directory. Then,
 one day, I find that someone has gained access to all the
 ((password))s I stored in my ((browser)).
@@ -1355,10 +1289,10 @@ website.
 {{index XMLHttpRequest}}
 
 Use an HTML ((form))
-([Chapter 18](18_forms.html#forms)) to edit the content of the
+([Chapter ?](forms)) to edit the content of the
 files that make up the website, allowing the user to update them on
 the server by using HTTP requests as described in
-[Chapter 17](17_http.html#http).
+[Chapter ?](http).
 
 Start by making only a single file editable. Then make it so that the
 user can select which file to edit. Use the fact that our file server

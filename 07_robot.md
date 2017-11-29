@@ -362,9 +362,9 @@ runRobotAnimation(VillageState.random(), randomRobot);
 ```
 
 The way `runRobotAnimation` is implemented will remain a mystery for
-now, but after you've read the [later chapters](13_dom.html#dom) of
-this book, which discuss JavaScript integration in web browsers,
-you'll be able to guess how it works.
+now, but after you've read the [later chapters](dom) of this book,
+which discuss JavaScript integration in web browsers, you'll be able
+to guess how it works.
 
 if}}
 

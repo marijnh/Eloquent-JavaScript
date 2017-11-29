@@ -174,7 +174,7 @@ console.log(dateTime.test("30-jan-2003 15:20"));
 That looks completely awful, doesn't it? Half of it is backslashes,
 producing a background noise that makes it hard to spot the actual
 ((pattern)) expressed. We'll see a slightly improved version of this
-expression [later](09_regexp.html#date_regexp_counted).
+expression [later](regexp#date_regexp_counted).
 
 {{index [escaping, "in regexps"], "regular expression", set}}
 
@@ -1050,7 +1050,7 @@ top.
 
 Since the format has to be processed ((line)) by line, splitting up
 the file into separate lines is a good start. We used
-`string.split("\n")` to do this in [Chapter 6](06_object.html#split).
+`string.split("\n")` to do this in [Chapter ?](object#split).
 Some operating systems, however, use not just a newline character to
 separate lines but a carriage return character followed by a newline
 (`"\r\n"`). Given that the `split` method also allows a regular
@@ -1143,9 +1143,9 @@ whitespace, including things like the ((nonbreaking space)) and the
 ((Mongolian vowel separator)).
 
 Another problem is that, by default, regular expressions work on code
-units, as discussed in [Chapter 5](05_higher_order.html#code_units),
-not actual characters. This means that characters that are composed of
-two code units behave strangely.
+units, as discussed in [Chapter ?](higher_order#code_units), not
+actual characters. This means that characters that are composed of two
+code units behave strangely.
 
 ```
 console.log(/🍎{3}/.test("🍎🍎🍎"));
@@ -1270,9 +1270,8 @@ make it any smaller.
  6. A word longer than six letters
  7. A word without the letter _e_
 
-Refer to the table in the [chapter
-summary](09_regexp.html#summary_regexp) for help. Test each solution
-with a few test strings.
+Refer to the table in the [chapter summary](regexp#summary_regexp) for
+help. Test each solution with a few test strings.
 
 {{if interactive
 ```

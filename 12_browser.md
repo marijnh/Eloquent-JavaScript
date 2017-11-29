@@ -1,5 +1,16 @@
 {{meta {chap_num: 12, prev_link: 11_language, next_link: 13_dom}}}
 
+{{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A very short personal history", chapter: true}
+
+The dream behind the Web is of a common information space in which we
+communicate by sharing information. Its universality is essential: the
+fact that a hypertext link can point to anything, be it personal,
+local or global, be it draft or highly polished.
+
+quote}}
+
+{{index "Berners-Lee, Tim", "World Wide Web", HTTP}}
+
 # JavaScript and the Browser
 
 {{index [JavaScript, "history of"], "World Wide Web"}}
@@ -154,8 +165,7 @@ _eloquentjavascript.net_ refers to. Then, using the ((HTTP)) protocol,
 it makes a connection to the server at that address and asks for the
 resource _/12_browser.html_.
 
-We will take a closer look at the HTTP protocol in
-[Chapter 17](17_http.html#http).
+We will take a closer look at the HTTP protocol in [Chapter ?](http).
 
 ## HTML
 

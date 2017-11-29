@@ -58,9 +58,9 @@ Building a modular system requires at least two things: isolation and
 clearly defined _((dependency)) relations_.
 
 The first, isolation, is another instance of the idea of
-((interface))s that we saw in [Chapter 6](06_objects.html#interface).
-By restricting the ways in which chunks of code interact with each
-other, the system becomes more like Lego and less like mud.
+((interface))s that we saw in [Chapter ?](objects#interface). By
+restricting the ways in which chunks of code interact with each other,
+the system becomes more like Lego and less like mud.
 
 Much like an object, a module provides an interface through which
 other modules can use it. The parts of the module that no other code
@@ -96,7 +96,7 @@ might be able to apply the same piece in different programs.
 {{index "phi function"}}
 
 But how do you set this up? Say I want to use the `phi` function from
-[Chapter 4](04_data.html#phi_function) in another program. If it is
+[Chapter ?](data#phi_function) in another program. If it is
 clear what it depends on (in this case, nothing), I can just copy all
 the necessary code into my new project, and use it. But, if I find a
 mistake in that code, I'll probably fix it in whichever program that
@@ -134,7 +134,7 @@ At the time of writing, there are over half a million different
 packages available on NPM. A large portion of those are rubbish, I
 should mention, but almost every good, publicly available package is
 also on there. For example, an INI file parser, as we built in
-[Chapter 9](09_regexp.html), is available in the "ini" package on NPM.
+[Chapter ?](regexp), is available in the "ini" package on NPM.
 
 ## Licensing
 
@@ -358,7 +358,7 @@ named `format-date.js` in the same directory.
 
 When it isn't a relative name, we'll be interpreting the string as the
 name of an NPM module in this book. We'll go into more detail on how
-to install and use NPM modules in [Chapter 20](20_node.html).
+to install and use NPM modules in [Chapter ?](node).
 
 Now, instead of writing our own INI file parser, we can use one from
 NPM:
@@ -498,7 +498,7 @@ have to be complex than an array or a map. But when an array suffices,
 use an array.
 
 An example of a slightly more complex data structure is the graph from
-[Chapter 7](07_robot.html). There is no obvious single way to
+[Chapter ?](robot). There is no obvious single way to
 represent a graph in JavaScript. In that chapter, we used an object
 whose properties hold arrays of strings—the other nodes reachable from
 that node.
@@ -562,8 +562,8 @@ useful (and useless) packages from NPM.
 
 {{index "modular robot (exercise)", module, robot, NPM}}
 
-These are the bindings that the project from [Chapter
-7](07_robot.html) creates:
+These are the bindings that the project from [Chapter ?](robot)
+creates:
 
 ```{type: "text/plain"}
 roads
@@ -657,11 +657,11 @@ hint}}
 {{index "roads module (exercise)"}}
 
 Write a ((CommonJS module)), based on the example from [Chapter
-7](07_robot.html), which contains the array of roads and exports the
-graph data structure representing them as `roadGraph`. It should
-depend on a module `./graph`, which exports a function `buildGraph`
-that is used to build the graph. This function expects an array of
-two-element arrays (the start and end points of the roads).
+?](robot), which contains the array of roads and exports the graph
+data structure representing them as `roadGraph`. It should depend on a
+module `./graph`, which exports a function `buildGraph` that is used
+to build the graph. This function expects an array of two-element
+arrays (the start and end points of the roads).
 
 {{if interactive
 
@@ -711,9 +711,9 @@ don't access each other's interface until after they finish loading,
 cyclic dependencies are okay.
 
 The `require` function given [earlier in this
-chapter](10_modules.html#require) supports this type of dependency
-cycles. Can you see how it handles them? What would go wrong when a
-module in a cycle _does_ replace its default `exports` object?
+chapter](modules#require) supports this type of dependency cycles. Can
+you see how it handles them? What would go wrong when a module in a
+cycle _does_ replace its default `exports` object?
 
 {{hint
 

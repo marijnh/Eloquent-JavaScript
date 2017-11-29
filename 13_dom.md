@@ -6,7 +6,7 @@
 
 When you open a web page in your browser, the browser
 retrieves the page's ((HTML)) text and parses it, much like the way
-our parser from [Chapter 11](11_language.html#parsing) parsed
+our parser from [Chapter ?](language#parsing) parsed
 programs. The browser builds up a model of the document's
 ((structure)) and then uses this model to draw the page on the screen.
 
@@ -23,7 +23,7 @@ updated to reflect the changes.
 You can imagine an ((HTML)) document as a nested set of ((box))es.
 Tags such as `<body>` and `</body>` enclose other ((tag))s, which in
 turn contain other tags or ((text)). Here's the example document from
-the [previous chapter](12_browser.html#browser):
+the [previous chapter](browser):
 
 ```{lang: "text/html", sandbox: "homepage"}
 <!doctype html>
@@ -64,7 +64,7 @@ representing the `<html>` tag. It also provides the properties `head` and
 {{index [nesting, "of objects"]}}
 
 Think back to the ((syntax tree))s from
-[Chapter 11](11_language.html#parsing) for a moment. Their
+[Chapter ?](language#parsing) for a moment. Their
 structures are strikingly similar to the structure of a browser's
 document. Each _((node))_ may refer to other nodes, _children_, which
 in turn may have their own children. This shape is typical of nested
@@ -90,11 +90,10 @@ array.
 
 {{index "leaf node", "Egg language"}}
 
-A typical tree has different kinds of
-((node))s. The syntax tree for link:11_language.html#language[the Egg
-language] had variables, values, and application nodes. Application
-nodes always have children, whereas variables and values are _leaves_, or
-nodes without children.
+A typical tree has different kinds of ((node))s. The syntax tree for
+[the Egg language](language) had variables, values, and application
+nodes. Application nodes always have children, whereas variables and
+values are _leaves_, or nodes without children.
 
 {{index "body property"}}
 
@@ -1083,7 +1082,7 @@ element's style directly through its `style` property.
 {{index "table (HTML tag)"}}
 
 We built plaintext ((table))s in
-[Chapter 6](06_object.html#tables). HTML makes laying out tables
+[Chapter ?](object#tables). HTML makes laying out tables
 quite a bit easier. An ((HTML)) table is built with the following tag
 structure:
 
@@ -1112,7 +1111,7 @@ cells (`<td>`).
 {{index download, "MOUNTAINS data set", "table example"}}
 
 The same
-source data that was used in [Chapter 6](06_object.html#mountains)
+source data that was used in [Chapter ?](object#mountains)
 is again available in the `MOUNTAINS` variable in the sandbox. It can also be http://eloquentjavascript.net/code/mountains.js[downloaded]
 from the website[(http://eloquentjavascript.net/code#13[_eloquentjavascript.net/code#13_])]{if book}.
 
@@ -1218,7 +1217,7 @@ if}}
 
 The solution is most
 easily expressed with a recursive function, similar to the
-[`talksAbout` function](13_dom.html#talksAbout) defined earlier in
+[`talksAbout` function](dom#talksAbout) defined earlier in
 this chapter.
 
 {{index concatenation, "concat method", closure}}
@@ -1246,7 +1245,7 @@ hint}}
 {{index "cat's hat (exercise)"}}
 
 Extend the cat ((animation)) defined
-[earlier](13_dom.html#animation) so that both the cat and his hat
+[earlier](dom#animation) so that both the cat and his hat
 (`<img src="img/hat.png">`) orbit at opposite sides of the ellipse.
 
 Or make the hat circle around the cat. Or alter the animation in some

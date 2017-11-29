@@ -298,12 +298,12 @@ console.log(sum(range(1, 10)));
 
 {{index readability}}
 
-The moral of this story is that the same program can
-be expressed in long and short, unreadable and readable ways. The
-first version of the program was extremely obscure, whereas this last
-one is almost English: `log` the `sum` of the `range` of numbers from
-1 to 10. (We will see in [later chapters](04_data.html#data) how to
-build operations like `sum` and `range`.)
+The moral of this story is that the same program can be expressed in
+long and short, unreadable and readable ways. The first version of the
+program was extremely obscure, whereas this last one is almost
+English: `log` the `sum` of the `range` of numbers from 1 to 10. (We
+will see in [later chapters](data) how to build operations like `sum`
+and `range`.)
 
 {{index ["programming language", "power of"], composability}}
 
@@ -372,7 +372,7 @@ them out to you.
 This flexibility also
 has its advantages, though. It leaves space for a lot of techniques
 that are impossible in more rigid languages, and as you will see (for
-example in [Chapter 10](10_modules.html#modules)) it
+example in [Chapter ?](modules#modules)) it
 can be used to overcome some of JavaScript's shortcomings. After
 ((learning)) the language properly and working with it for a while, I have
 learned to actually _like_ JavaScript.
@@ -399,7 +399,7 @@ Web browsers are not the only platforms on
 which JavaScript is used. Some databases, such as MongoDB and CouchDB,
 use JavaScript as their scripting and query language. Several
 platforms for desktop and server programming, most notably the
-((Node.js)) project (the subject of [Chapter 20](20_node.html#node)) are providing a powerful environment for programming JavaScript
+((Node.js)) project (the subject of [Chapter ?](node)) are providing a powerful environment for programming JavaScript
 outside of the browser.
 
 ## Code, and what to do with it
@@ -468,50 +468,47 @@ JavaScript in.
 
 Throughout the book, there are five _project chapters_, which describe
 larger example programs to give you a taste of real programming. In
-order of appearance, we will work through building an
-[artificial life simulation](07_elife.html#elife), a
-[programming language](11_language.html#language), a
-[platform game](15_game.html#game), a
-[paint program](19_paint.html#paint), and a
-[dynamic website](21_skillsharing.html#skillsharing).
+order of appearance, we will work through building a [robot](robot), a
+[programming language](language), a [platform game](game), a [paint
+program](paint), and a [dynamic website](skillsharing).
 
 The language part of the book starts with four chapters to introduce
 the basic structure of the JavaScript language. They introduce
-[control structures](02_program_structure.html#program_structure)
+[control structures](program_structure)
 (such as the `while` word you saw in this introduction),
-[functions](03_functions.html#functions) (writing your own
-operations), and [data structures](04_data.html#data). After these,
+[functions](functions) (writing your own
+operations), and [data structures](data). After these,
 you will be able to write simple programs. Next, Chapters
-[5](05_higher_order.html#higher_order) and
-[6](06_object.html#object) introduce techniques to use functions
+[5](higher_order) and
+[6](object) introduce techniques to use functions
 and objects to write more _abstract_ code and thus keep complexity
 under control.
 
-After a [first project chapter](07_elife.html#elife), the first
+After a [first project chapter](robot), the first
 part of the book continues with chapters on
-[error handling and fixing](08_error.html#error), on
-[regular expressions](09_regexp.html#regexp) (an important tool for
+[error handling and fixing](error), on
+[regular expressions](regexp) (an important tool for
 working with text data), and on
-[modularity](10_modules.html#modules)—another weapon against
-complexity. The [second project chapter](11_language.html#language)
+[modularity](modules)—another weapon against
+complexity. The [second project chapter](language)
 concludes the first part of the book.
 
-The second part, Chapters [12](12_browser.html#browser) to
-[19](19_paint.html#paint), describes the tools that browser
+The second part, Chapters [?](browser) to
+[?](paint), describes the tools that browser
 JavaScript has access to. You'll learn to display things on the screen
-(Chapters [13](13_dom.html#dom) and
-[16](16_canvas.html#canvas)), respond to user input (Chapters
-[14](14_event.html#event) and [18](18_forms.html#forms)), and
-communicate over the network ([Chapter 17](17_http.html#http)).
+(Chapters [?](dom) and
+[?](canvas)), respond to user input (Chapters
+[?](event) and [?](forms)), and
+communicate over the network ([Chapter ?](http)).
 There are again two project chapters in this part.
 
-After that, [Chapter 20](20_node.html#node) describes Node.js, and
-[Chapter 21](21_skillsharing.html#skillsharing) builds a simple web
+After that, [Chapter ?](node) describes Node.js, and
+[Chapter ?](skillsharing) builds a simple web
 system using that tool.
 
 {{if commercial
 
-Finally, [Chapter 22](22_fast.html#fast) describes some of the
+Finally, [Chapter ?](fast) describes some of the
 considerations that come up when optimizing JavaScript programs for
 speed.
 

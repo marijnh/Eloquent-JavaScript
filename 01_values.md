@@ -319,7 +319,7 @@ produce the string `"concatenate"`:
 ```
 
 Strings also have a number of associated functions (_methods_) which
-we will come back to in [Chapter 4](04_data.html#methods).
+we will come back to in [Chapter ?](data#methods).
 
 {{{index interpolation, backtick}}}
 
@@ -358,7 +358,7 @@ console.log(typeof "x")
 
 We will use `console.log` in example code to indicate that we want to
 see the result of evaluating something. More about that in the [next
-chapter](02_program_structure.html).
+chapter](program_structure).
 
 {{index negation, "- operator", "binary operator", "unary operator"}}
 
@@ -677,5 +677,5 @@ logically, and `typeof` to find a value's type) and a ternary operator
 
 This gives you enough information to use JavaScript as a pocket
 calculator, but not much more. The [next
-chapter](02_program_structure.html#program_structure) will start tying
+chapter](program_structure) will start tying
 these expressions together into basic programs.

@@ -135,9 +135,9 @@ again.
 {{index parsing}}
 
 Contrast this to the parser we wrote for the configuration file format
-in [Chapter 9](09_regexp.html#ini), which had a simple structure: it
-split the input into lines and handled those lines one at a time.
-There were only a few simple forms that a line was allowed to have.
+in [Chapter ?](regexp#ini), which had a simple structure: it split the
+input into lines and handled those lines one at a time. There were
+only a few simple forms that a line was allowed to have.
 
 {{index recursion, [nesting, "of expressions"]}}
 
@@ -342,8 +342,8 @@ a normal call, we evaluate the operator, verify that it is a function,
 and call it with the evaluated arguments.
 
 We use plain JavaScript function values to represent Egg's function
-values. We will come back to this [later](11_language.html#egg_fun),
-when the special form called `fun` is defined.
+values. We will come back to this [later](language#egg_fun), when the
+special form called `fun` is defined.
 
 {{index readability, "evaluate function", recursion, parsing}}
 

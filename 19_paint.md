@@ -85,14 +85,14 @@ calls in order to find the DOM elements that it needs to act on.
 It would be nice if the DOM structure for each part of our
 interface is defined close to the JavaScript code that drives it.
 Thus, I've chosen to do all creation of DOM nodes in JavaScript. As we
-saw in [Chapter 13](13_dom.html#standard), the built-in interface
+saw in [Chapter ?](dom#standard), the built-in interface
 for building up a DOM structure is horrendously verbose. If we are
 going to do a lot of DOM construction, we need a helper function.
 
 {{index "elt function"}}
 
 This helper function is an extended version of the
-`elt` function from [Chapter 13](13_dom.html#elt). It creates an
+`elt` function from [Chapter ?](dom#elt). It creates an
 element with the given name and ((attribute))s and appends all
 further arguments it gets as child nodes, automatically converting
 strings to ((text node))s.
@@ -205,7 +205,7 @@ tool is the ((line tool)), which allows the user to draw lines with
 the ((mouse)). To put the line ends in the right place, we
 need to be able to find the canvas-relative ((coordinates)) that a
 given mouse event corresponds to. The `getBoundingClientRect` method,
-briefly mentioned in [Chapter 13](13_dom.html#boundingRect), can
+briefly mentioned in [Chapter ?](dom#boundingRect), can
 help us here. It tells us where an element is shown, relative to the
 top-left corner of the screen. The `clientX` and `clientY` properties
 on mouse events are also relative to this corner, so we can subtract
@@ -331,7 +331,7 @@ add controls for those two settings.
 {{index "color picker", "HTML5 form fields", "date field", "time field", "email field", "number field", compatibility}}
 
 In
-[Chapter 18](18_forms.html#forms), I discussed a number of
+[Chapter ?](forms), I discussed a number of
 different form ((field))s. Color fields were not among those.
 Traditionally, browsers don't have built-in support for color
 pickers, but in the past few years, a number of new form field types have
@@ -461,7 +461,7 @@ again run into the subtleties of browser ((sandbox))ing. When an
 ((image)) is loaded from a URL on another ((domain)), if the server's
 response doesn't include a header that tells the browser the
 resource may be used from other domains (see
-[Chapter 17](17_http.html#http_sandbox)), then the ((canvas)) will
+[Chapter ?](http#http_sandbox)), then the ((canvas)) will
 contain information that the _user_ may look at but that the
 _script_ may not.
 
@@ -528,7 +528,7 @@ size.
 
 The control for loading
 a local file uses the `FileReader` technique from
-[Chapter 18](18_forms.html#filereader). Apart from the `readAsText`
+[Chapter ?](forms#filereader). Apart from the `readAsText`
 method we used there, such reader objects also have a method called
 `readAsDataURL`, which is exactly what we need here. We load the
 ((file)) that the user chose as a data URL and pass it to
@@ -693,7 +693,7 @@ add a few more features as exercises.
 
 Define a ((tool))
 called `Rectangle` that fills a rectangle (see the `fillRect` method
-from [Chapter 16](16_canvas.html#fill_stroke)) with the current
+from [Chapter ?](canvas#fill_stroke)) with the current
 color. The rectangle should span from the point where the user pressed
 the ((mouse)) button to the point where they released it. Note that
 the latter might be above or to the left of the former.
@@ -710,7 +710,7 @@ until the mouse button is released?
 
 If nothing comes to mind, think back to the `position:
 absolute` style discussed in
-[Chapter 13](13_dom.html#animation), which can be used to overlay a
+[Chapter ?](dom#animation), which can be used to overlay a
 node on the rest of the document. The `pageX` and `pageY` properties
 of a mouse event can be used to position an element precisely under
 the mouse, by setting the `left`, `top`, `width`, and `height` styles
@@ -829,7 +829,7 @@ to the color under the mouse cursor.
 
 Remember that these properties accept any color that
 CSS understands, which includes the `rgb(R, G, B)` style you saw in
-[Chapter 15](15_game.html#game_css).
+[Chapter ?](game#game_css).
 
 {{index "cross-domain request", sandbox, "getImageData method"}}
 
@@ -909,7 +909,7 @@ You will once again need
 probably a good idea to fetch the whole image in one go and then pick
 out pixel data from the resulting array. The pixels are organized in
 this array in a similar way to the ((grid)) elements in
-[Chapter 7](07_elife.html#grid), one row at a time, except that
+[Chapter ?](elife#grid), one row at a time, except that
 each pixel is represented by four values. The first value for the
 pixel at (_x_,_y_) is at position (_x_ + _y_ × width) × 4.
 
@@ -927,7 +927,7 @@ left, or right, as long as new same-colored pixels can be found. But
 you won't find all pixels in a group on the first walk. Rather, you
 have to do something similar to the backtracking done by the regular
 expression matcher, described in
-[Chapter 9](09_regexp.html#backtracking). Whenever more than one
+[Chapter ?](regexp#backtracking). Whenever more than one
 possible direction to proceed is seen, you must store all the
 directions you do not take immediately and look at them later, when
 you finish your current walk.

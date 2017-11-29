@@ -32,10 +32,10 @@ central organizer.
 
 {{figure {url: "img/unicycle.svg", alt: "The unicycling meetup"}}}
 
-[Just like in the [previous chapter](20_node.html#node), the
-code in this chapter is written for Node.js, and running it directly
-in the HTML page that you are looking at is unlikely to work.]{if interactive}The
-full code for the project can be ((download))ed from
+[Just like in the [previous chapter](node), the code in this chapter
+is written for Node.js, and running it directly in the HTML page that
+you are looking at is unlikely to work.]{if interactive}The full code
+for the project can be ((download))ed from
 http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code/skillsharing.zip_].
 
 ## Design
@@ -143,7 +143,7 @@ the ((HTTP)) ((interface)) over which they communicate.
 {{index [path, URL]}}
 
 We will base our interface on ((JSON)), and like in the file server
-from [Chapter 20](20_node.html#file_server), we'll try to make good use
+from [Chapter ?](node#file_server), we'll try to make good use
 of HTTP ((method))s. The interface is centered around the `/talks` path.
 Paths that do not start with `/talks` will be used for
 serving ((static file))s—the HTML and JavaScript code that implements
@@ -164,7 +164,7 @@ like this:
 
 The `serverTime` field will be used to make reliable ((long polling))
 possible. I will return to it
-[later](21_skillsharing.html#poll_time).
+[later](skillsharing#poll_time).
 
 {{index "PUT method", URL}}
 
@@ -375,7 +375,7 @@ contains `%20`-style codes.
 When a request matches none of the request types defined in our
 router, the server must interpret it as a request for a file in
 the `public` directory. It would be possible to use the file server
-defined in [Chapter 20](20_node.html#file_server) to serve such
+defined in [Chapter ?](node#file_server) to serve such
 files, but we neither need nor want to support `PUT` and
 `DELETE` requests on files, and we would like to have advanced
 features such as support for caching. So let's use a solid, well-tested
@@ -472,7 +472,7 @@ router.add("DELETE", /^\/talks\/([^\/]+)$/,
 {{index "long polling", "registerChange function"}}
 
 The `registerChange` function, which we
-will define [later](21_skillsharing.html#registerChange), notifies
+will define [later](skillsharing#registerChange), notifies
 waiting long-polling requests about the change.
 
 {{index "readStreamAsJSON function", "body (HTTP)"}}
@@ -825,7 +825,7 @@ actually showing up on the page. Can you guess what it is for?
 Creating complicated ((DOM)) structures with
 JavaScript code produces ugly code. You can make the code slightly better by
 introducing helper functions like the `elt` function from
-[Chapter 13](13_dom.html#elt), but the result will still look worse
+[Chapter ?](dom#elt), but the result will still look worse
 than HTML, which can be thought of as a ((domain-specific language))
 for expressing DOM structures.
 
@@ -1391,7 +1391,7 @@ Thus, the server
 would have to be revised to accept comments, new talks, and deleted
 talks through `POST` requests, whose bodies aren't JSON but rather
 use the URL-encoded format that HTML forms use (see
-[Chapter 17](18_forms.html#forms)). These requests would have to
+[Chapter ?](forms)). These requests would have to
 return the full new page so that users see the new state of the site
 after they make a change. This would not be too hard to engineer and
 could be implemented alongside the “clean” HTTP interface.

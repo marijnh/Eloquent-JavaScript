@@ -22,7 +22,7 @@ the point where we can express meaningful prose.
 
 {{index grammar, syntax, [code, "structure of"], grammar, [JavaScript, syntax]}}
 
-In [Chapter 1](01_values.html#values), we made some values and applied
+In [Chapter ?](values), we made some values and applied
 operators to them to get new values. Creating values like this is the
 main substance of any JavaScript program. But that substance has to be
 framed in a larger structure to be useful. So that's what we'll get to
@@ -186,7 +186,7 @@ console.log(greeting + name);
 
 The first, `var` (short for "variable"), is the way bindings were
 declared in pre-2015 JavaScript. We'll get back to the precise way it
-differs from `let` in the [next chapter](03_functions.html). For now,
+differs from `let` in the [next chapter](functions). For now,
 remember that it mostly does the same thing, but we'll rarely use it
 in this book because it has some confusing properties.
 
@@ -309,7 +309,7 @@ Though binding names cannot contain ((period character))s,
 simple binding. It is actually an expression that retrieves the `log`
 ((property)) from the value held by the `console` binding. We will
 find out exactly what this means in [Chapter
-4](04_data.html#properties).
+?](data#properties).
 
 {{id return_values}}
 ## Return values
@@ -341,8 +341,8 @@ console.log(Math.min(2, 4) + 100);
 // → 102
 ```
 
-The [next chapter](03_functions.html#functions) explains how to
-write your own functions.
+The [next chapter](functions) explains how to write your own
+functions.
 
 ## Control flow
 
@@ -551,7 +551,7 @@ console.log(result);
 
 The counter could also have started at `1` and checked for `<= 10`,
 but, for reasons that will become apparent in [Chapter
-4](04_data.html#array_indexing), it is a good idea to get used to
+?](data#array_indexing), it is a good idea to get used to
 counting from 0.
 
 {{index "loop body", "do loop", "control flow"}}
@@ -639,7 +639,7 @@ for (let number = 0; number <= 12; number = number + 2) {
 {{index "control flow", state}}
 
 This program is exactly equivalent to the
-[earlier](02_program_structure.html#loops) even-number-printing
+[earlier](program_structure#loops) even-number-printing
 example. The only change is that all the ((statement))s that are
 related to the “state” of the loop are now grouped together.
 
@@ -835,7 +835,7 @@ mixed naming styles can be jarring to read, so we follow this
 In a few cases, such as the `Number` function, the first letter of a
 binding is also capitalized. This was done to mark this function as a
 constructor. What a constructor is will become clear in [Chapter
-6](06_object.html#constructors). For now, the important thing is not
+?](object#constructors). For now, the important thing is not
 to be bothered by this apparent lack of ((consistency)).
 
 ## Comments
@@ -910,7 +910,7 @@ a function call is an expression, and may produce a value.
 {{index exercises}}
 
 If you are unsure how to try your solutions to exercises, refer to the
-[introduction](00_intro.html#intro).
+[introduction](intro).
 
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the
@@ -966,7 +966,7 @@ if}}
 
 You can start with a program that simply prints out the numbers 1 to
 7, which you can derive by making a few modifications to the [even
-number printing example](02_program_structure.html#loops) given
+number printing example](program_structure#loops) given
 earlier in the chapter, where the `for` loop was introduced.
 
 Now consider the equivalence between numbers and strings of hash

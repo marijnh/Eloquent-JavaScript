@@ -185,6 +185,12 @@ You don't have to pass a predefined function to `repeat`. Often, you'd
 want to create a function value on the spot instead.
 
 ```
+function repeat(n, action) {
+  for (let i = 0; i < n; i++) {
+    action(i);
+  }
+}
+
 let message = "Wow";
 repeat(5, i => {
   message += "!";

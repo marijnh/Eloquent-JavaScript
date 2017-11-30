@@ -165,7 +165,7 @@ But what if we want to do something other than logging the numbers?
 Since "doing something" can be represented as a function and functions
 are just values, we can pass our action as a function value.
 
-```
+```{includeCode: "top_lines: 5"}
 function repeat(n, action) {
   for (let i = 0; i < n; i++) {
     action(i);

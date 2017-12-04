@@ -522,8 +522,7 @@ longer but still quite easy to understand.
 
 Higher-order functions start to shine when you need to _compose_
 operations. As an example, let's write code that finds the average
-year of origin for left-to-right and right-to-left scripts in the data
-set.
+year of origin for living and dead scripts in the data set.
 
 ```
 function average(array) {

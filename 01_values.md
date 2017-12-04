@@ -321,7 +321,7 @@ produce the string `"concatenate"`:
 Strings also have a number of associated functions (_methods_) which
 we will come back to in [Chapter ?](data#methods).
 
-{{{index interpolation, backtick}}}
+{{index interpolation, backtick}}
 
 Strings written with single or double quotes behave very much the
 same—the only difference is in which type of quote you need to escape

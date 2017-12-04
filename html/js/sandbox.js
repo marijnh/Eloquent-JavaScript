@@ -356,8 +356,11 @@
         if (tryPos == 0) tryPos = stat.start
         catchPos = stat.end
       }
-      if (stat.type == "VariableDeclaration" && stat.kind != "var")
+      if (stat.type == "VariableDeclaration" && stat.kind != "var") {
+        let found = findAssignmentsTo(stat.declarations, ast)
+        if (found) patches.push({from: 0, text: `throw new TypeError("invalid assignment to const '${found}'");`})
         patches.push({from: stat.start, to: stat.start + stat.kind.length, text: "var"})
+      }
       if (stat.type == "ClassDeclaration")
         patches.push({from: stat.start, text: "var " + stat.id.name + " = "})
     }
@@ -374,6 +377,27 @@
     out += code.slice(pos, code.length)
     out += "\n//# sourceURL=code" + randomID()
     return {code: (strict ? '"use strict";' : "") + out, dependencies}
+  }
+
+  function findAssignmentsTo(decls, ast) {
+    let found = null
+    for (let i = 0; i < decls.length; i++)
+      acorn.walk.simple(decls[i].id, {
+        VariablePattern(node) { if (findAssignments(node.name, ast)) found = node.name }
+      }, null, null, "Pattern")
+    return found
+  }
+
+  function findAssignments(name, ast) {
+    let found = false
+    acorn.walk.ancestor(ast, {
+      AssignmentExpression(node, ancestors) {
+        if (node.left.type != "Identifier" || node.left.name != name) return
+        for (let i = 2; i < ancestors.length; i++) if (/Statement|Declaration/.test(ancestors[i].type)) return
+        found = true
+      }
+    })
+    return found
   }
 
   function detectSourceType(code) {

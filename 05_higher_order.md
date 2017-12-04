@@ -808,6 +808,9 @@ false. Then, it calls the body function, giving it the current value.
 And finally, it calls the update function to create a new value, and
 starts from the beginning.
 
+When defining the function, you may use a regular loop to do the
+actual looping.
+
 {{if interactive
 
 ```{test: no}

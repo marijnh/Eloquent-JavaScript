@@ -1105,6 +1105,8 @@ hint}}
 
 {{index "list (exercise)", interface, "iterator interface"}}
 
+{{id list_iterator}}
+
 Make the `List` class from the previous exercise iterable. Refer back
 to the section about the iterator interface earlier in the chapter if
 you aren't clear on the exact form of the interface anymore.

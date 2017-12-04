@@ -215,6 +215,8 @@
         return val
       }
 
+      win.addEventListener("unhandledrejection", e => this.error(e.reason))
+
       win.require = name => this.require(name)
       win.module = {exports: {}}
       win.exports = win.module.exports

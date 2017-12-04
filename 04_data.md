@@ -359,6 +359,16 @@ console.log(Object.keys({x: 0, y: 0, z: 2}));
 // → ["x", "y", "z"]
 ```
 
+You can use `Object.assign` to copy the properties from one object
+into another.
+
+```
+let objectA = {a: 1, b: 2};
+Object.assign(objectA, {b: 3, c: 4});
+console.log(objectA);
+// → {a: 1, b: 3, c: 4}
+```
+
 {{index array, collection}}
 
 Arrays, then, are just a kind of object specialized for storing
@@ -1562,7 +1572,7 @@ compare properties only when _both_ arguments are objects. In all
 other cases you can just immediately return the result of applying
 `===`.
 
-{{index "Object.keys method"}}
+{{index "Object.keys function"}}
 
 Use `Object.keys` to go over the properties. You need to test whether
 both objects have the same set of property names and whether those

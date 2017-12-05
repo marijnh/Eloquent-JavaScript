@@ -1,5 +1,3 @@
-{{meta {chap_num: 9, prev_link: 08_error, next_link: 10_modules}}}
-
 # Regular Expressions
 
 {{quote {author: "Jamie Zawinski", chapter: true}

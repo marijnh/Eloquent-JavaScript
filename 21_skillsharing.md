@@ -1,4 +1,4 @@
-{{meta {chap_num: 21, prev_link: 20_node, code_links: "[\"code/skillsharing.zip\"]"}}}
+{{meta {code_links: "[\"code/skillsharing.zip\"]"}}}
 
 # Project: Skill-Sharing Website
 

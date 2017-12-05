@@ -1,4 +1,4 @@
-{{meta {chap_num: 8, prev_link: 07_robot, next_link: 09_regexp, load_files: ["code/chapter/08_error.js"]}}}
+{{meta {load_files: ["code/chapter/08_error.js"]}}}
 
 # Bugs and Errors
 

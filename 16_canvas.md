@@ -1,4 +1,4 @@
-{{meta {chap_num: 16, prev_link: 15_game, next_link: 17_http, load_files: ["code/chapter/15_game.js", "code/game_levels.js", "code/chapter/16_canvas.js"], zip: "html include=[\"img/player.png\", \"img/sprites.png\"]"}}}
+{{meta {load_files: ["code/chapter/15_game.js", "code/game_levels.js", "code/chapter/16_canvas.js"], zip: "html include=[\"img/player.png\", \"img/sprites.png\"]"}}}
 
 # Drawing on Canvas
 

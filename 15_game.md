@@ -1,4 +1,4 @@
-{{meta {chap_num: 15, prev_link: 14_event, next_link: 16_canvas, load_files: ["code/chapter/15_game.js", "code/game_levels.js"], zip: "html include=[\"css/game.css\"]"}}}
+{{meta {load_files: ["code/chapter/15_game.js", "code/game_levels.js"], zip: "html include=[\"css/game.css\"]"}}}
 
 # Project: A Platform Game
 

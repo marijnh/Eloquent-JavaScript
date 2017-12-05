@@ -1,4 +1,4 @@
-{{meta {chap_num: 10, prev_link: 09_regexp, next_link: 11_language, load_files: ["code/loadfile.js"]}}}
+{{meta {load_files: ["code/loadfile.js"]}}}
 
 # Modules
 

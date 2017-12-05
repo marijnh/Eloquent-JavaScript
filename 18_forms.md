@@ -1,5 +1,3 @@
-{{meta {chap_num: 18, prev_link: 17_http, next_link: 19_paint}}}
-
 # Forms and Form Fields
 
 {{quote {author: "Mephistopheles", title: "in Goethe's Faust", chapter: true}

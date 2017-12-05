@@ -1,4 +1,4 @@
-{{meta {chap_num: 17, prev_link: 16_canvas, next_link: 18_forms, load_files: ["code/chapter/17_http.js"]}}}
+{{meta {load_files: ["code/chapter/17_http.js"]}}}
 
 # HTTP
 

@@ -1,5 +1,3 @@
-{{meta {chap_num: 2, prev_link: 01_values, next_link: 03_functions}}}
-
 # Program Structure
 
 {{quote {author: "_why", title: "Why's (Poignant) Guide to Ruby", chapter: true}

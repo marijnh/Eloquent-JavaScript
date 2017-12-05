@@ -1,4 +1,4 @@
-{{meta {chap_num: 20, prev_link: 19_paint, next_link: 21_skillsharing, code_links: "[\"code/file_server.js\", \"code/file_server_promises.js\"]"}}}
+{{meta {code_links: "[\"code/file_server.js\", \"code/file_server_promises.js\"]"}}}
 
 # Node.js
 

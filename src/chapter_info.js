@@ -16,12 +16,12 @@ dir.forEach(function(file) {
   if (!match) return;
   var text = fs.readFileSync(file, "utf8");
 
-  let meta = /{{meta (.*)}}/.exec(text)[1]
+  let meta = (/{{meta (.*)}}/.exec(text) || {1: "{}"})[1]
   var includes = /\bload_files: (\[.*?\])/.exec(meta)
   if (includes) includes = JSON.parse(includes[1]);
   var chapter = {number: +chapNum,
                  id: match[1],
-                 title: text.match(/\n# (.*?)\n/)[1],
+                 title: text.match(/(?:^|\n)# (.*?)\n/)[1],
                  start_code: getStartCode(text, includes),
                  exercises: [],
                  include: includes};

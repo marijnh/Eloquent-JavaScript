@@ -1,5 +1,3 @@
-{{meta {chap_num: 11, prev_link: 10_modules, next_link: 12_language, load_files: []}}}
-
 # Asynchronous Programming
 
 A processor is...

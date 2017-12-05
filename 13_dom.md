@@ -1,4 +1,4 @@
-{{meta {chap_num: 13, prev_link: 12_browser, next_link: 14_event, load_files: ["code/mountains.js", "code/chapter/13_dom.js"]}}}
+{{meta {load_files: ["code/mountains.js", "code/chapter/13_dom.js"]}}}
 
 # The Document Object Model
 

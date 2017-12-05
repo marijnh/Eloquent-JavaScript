@@ -1,4 +1,4 @@
-{{meta {chap_num: 6, prev_link: 05_higher_order, next_link: 07_robot, load_files: ["code/chapter/06_object.js"], zip: "node/html"}}}
+{{meta {load_files: ["code/chapter/06_object.js"], zip: "node/html"}}}
 
 # The Secret Life of Objects
 

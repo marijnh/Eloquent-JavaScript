@@ -1,4 +1,4 @@
-{{meta {chap_num: 1, prev_link: 00_intro, next_link: 02_program_structure, docid: values}}}
+{{meta {docid: values}}}
 
 # Values, Types, and Operators
 

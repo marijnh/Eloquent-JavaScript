@@ -1,4 +1,4 @@
-{{meta {chap_num: 11, prev_link: 10_modules, next_link: 12_browser, load_files: ["code/chapter/11_language.js"], zip: "node/html"}}}
+{{meta {load_files: ["code/chapter/11_language.js"], zip: "node/html"}}}
 
 # Project: A Programming Language
 

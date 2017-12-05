@@ -1,5 +1,3 @@
-{{meta {chap_num: 3, prev_link: 02_program_structure, next_link: 04_data}}}
-
 # Functions
 
 {{quote {author: "Donald Knuth", chapter: true}

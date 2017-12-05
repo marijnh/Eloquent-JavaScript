@@ -7,7 +7,9 @@ require("codemirror/mode/xml/xml.js")
 require("codemirror/mode/css/css.js")
 require("codemirror/mode/htmlmixed/htmlmixed.js")
 
-let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(process.argv[2], "utf8"), {}), {
+let file = process.argv[2]
+
+let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
   defined: ["interactive", "html"],
   ids: true,
   index: false
@@ -104,7 +106,7 @@ let renderer = {
     let maybeChapter = /^(\w+)(#.*)?$/.exec(href)
     if (maybeChapter && chapters.includes(maybeChapter[1])) {
       let n = chapters.indexOf(maybeChapter[1])
-      href = (n < 10 ? "0" : "") + n + "_" + maybeChapter[1] + ".html" + (maybeChapter[2] || "")
+      href = pad(n) + "_" + maybeChapter[1] + ".html" + (maybeChapter[2] || "")
       linkedChapter = n
     }
     return `<a href="${escape(href)}"${alt ? ` alt="${escape(alt)}"` : ""}>`
@@ -139,7 +141,17 @@ function renderArray(tokens) {
   return result
 }
 
+function pad(n) {
+  return (n < 10 ? "0" : "") + n
+}
+
 metadata.content = renderArray(tokens)
+let chapter = /^\d{2}_([^\.]+)/.exec(file), index
+if (chapter && (index = chapters.indexOf(chapter[1])) > -1) {
+  metadata.chap_num = index
+  if (index > 0) metadata.prev_link = `${pad(index - 1)}_${chapters[index - 1]}`
+  if (index < chapters.length - 1) metadata.next_link = `${pad(index + 1)}_${chapters[index + 1]}`
+}
 
 let template = mold.bake("chapter", fs.readFileSync(__dirname + "/chapter.html", "utf8"))
 

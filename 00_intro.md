@@ -1,4 +1,4 @@
-{{meta {next_link: 01_values, load_files: ["code/intro.js"]}}}
+{{meta {load_files: ["code/intro.js"]}}}
 
 # Introduction
 

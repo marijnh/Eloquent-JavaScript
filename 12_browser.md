@@ -1,5 +1,3 @@
-{{meta {chap_num: 12, prev_link: 11_language, next_link: 13_dom}}}
-
 {{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A very short personal history", chapter: true}
 
 The dream behind the Web is of a common information space in which we

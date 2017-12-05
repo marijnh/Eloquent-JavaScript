@@ -1,4 +1,4 @@
-{{meta {chap_num: 4, prev_link: 03_functions, next_link: 05_higher_order, load_files: ["code/jacques_journal.js", "code/chapter/04_data.js"], zip: "node/html"}}}
+{{meta {load_files: ["code/jacques_journal.js", "code/chapter/04_data.js"], zip: "node/html"}}}
 
 # Data Structures: Objects and Arrays
 

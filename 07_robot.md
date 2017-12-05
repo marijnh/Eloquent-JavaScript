@@ -1,4 +1,4 @@
-{{meta {chap_num: 7, prev_link: 06_object, next_link: 08_error, load_files: ["code/chapter/07_robot.js", "code/animatevillage.js"], zip: html}}}
+{{meta {load_files: ["code/chapter/07_robot.js", "code/animatevillage.js"], zip: html}}}
 
 # Project: A Robot
 

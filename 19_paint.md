@@ -1,4 +1,4 @@
-{{meta {chap_num: 19, prev_link: 18_forms, next_link: 20_node, load_files: ["code/chapter/19_paint.js"], zip: "html include=[\"css/paint.css\"]"}}}
+{{meta {load_files: ["code/chapter/19_paint.js"], zip: "html include=[\"css/paint.css\"]"}}}
 
 # Project: A Paint Program
 

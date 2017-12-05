@@ -1,4 +1,4 @@
-{{meta {chap_num: 5, prev_link: 04_data, next_link: 06_object, load_files: ["code/scripts.js", "code/chapter/05_higher_order.js", "code/intro.js"], zip: "node/html"}}}
+{{meta {load_files: ["code/scripts.js", "code/chapter/05_higher_order.js", "code/intro.js"], zip: "node/html"}}}
 
 # Higher-Order Functions
 

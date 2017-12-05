@@ -1,5 +1,3 @@
-{{meta {chap_num: 14, prev_link: 13_dom, next_link: 15_game}}}
-
 # Handling Events
 
 {{quote {author: "Marcus Aurelius", title: Meditations, chapter: true}

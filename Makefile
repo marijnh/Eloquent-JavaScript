@@ -1,6 +1,4 @@
-CHAPTERS := 00_intro 01_values 02_program_structure 03_functions 04_data 05_higher_order 06_object \
-  07_robot 08_error 09_regexp 10_modules 11_language 12_browser 13_dom 14_event 15_game 16_canvas \
-  17_http 18_forms 19_paint 20_node 21_skillsharing
+CHAPTERS := $(basename $(shell ls [0-9][0-9]_*.md) .md)
 
 SVGS := $(wildcard img/*.svg)
 

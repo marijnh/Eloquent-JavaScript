@@ -713,8 +713,8 @@ all([]).then(array => {
   console.log("This should be []:", array);
 });
 function soon(val) {
-  return new Promise(accept => {
-    setTimeout(() => accept(val), Math.random() * 500);
+  return new Promise(resolve => {
+    setTimeout(() => resolve(val), Math.random() * 500);
   });
 }
 all([soon(1), soon(2), soon(3)]).then(array => {

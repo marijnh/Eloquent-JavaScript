@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/loadfile.js"]}}}
+{{meta {load_files: ["code/packages_chapter_10.js", "code/chapter/07_robot.js"]}}}
 
 # Modules
 

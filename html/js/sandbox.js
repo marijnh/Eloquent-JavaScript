@@ -218,6 +218,7 @@
       win.addEventListener("unhandledrejection", e => this.error(e.reason))
 
       win.require = name => this.require(name)
+      win.require.preload = (name, code) => resolved.store(name, {name, code})
       win.module = {exports: {}}
       win.exports = win.module.exports
     }
@@ -458,7 +459,7 @@
   }
 
   // Cache for loaded code and resolved unpkg redirects
-  const resolved = window.resolved = new Cached(name => fetch("https://unpkg.com/" + name.replace(/\/$/, "")).then(resp => {
+  const resolved = new Cached(name => fetch("https://unpkg.com/" + name.replace(/\/$/, "")).then(resp => {
     if (resp.status >= 400) throw new Error(`Failed to resolve package '${name}'`)
     let found = resp.url.replace(/.*unpkg\.com\//, "")
     let known = resolved.get(found)

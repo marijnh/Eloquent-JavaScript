@@ -44,7 +44,7 @@ expressions will make you a more effective programmer.
 
 ## Creating a regular expression
 
-{{index ["regular expression", creation], "RegExp constructor", "literal expression", "slash character"}}
+{{index ["regular expression", creation], "RegExp class", "literal expression", "slash character"}}
 
 A regular expression is a type of object. It can either be constructed
 with the `RegExp` constructor or written as a literal value by
@@ -58,7 +58,7 @@ let re2 = /abc/;
 Both of these regular expression objects represent the same
 ((pattern)): an _a_ character followed by a _b_ followed by a _c_.
 
-{{index "backslash character", "RegExp constructor"}}
+{{index "backslash character", "RegExp class"}}
 
 When using the `RegExp` constructor, the pattern is written as a
 normal string, so the usual rules apply for backslashes.
@@ -370,7 +370,7 @@ store date and ((time)) values in JavaScript.
 
 ## The date type
 
-{{index constructor, "Date constructor"}}
+{{index constructor, "Date class"}}
 
 JavaScript has a standard object type for representing ((date))s—or
 rather, points in ((time)). It is called `Date`. If you simply create
@@ -381,7 +381,7 @@ console.log(new Date());
 // → Mon Nov 13 2017 16:19:11 GMT+0100 (CET)
 ```
 
-{{index "Date constructor"}}
+{{index "Date class"}}
 
 You can also create an object for a specific time.
 
@@ -416,7 +416,7 @@ console.log(new Date(1387407600000));
 // → Thu Dec 19 2013 00:00:00 GMT+0100 (CET)
 ```
 
-{{index "Date.now function", "Date constructor"}}
+{{index "Date.now function", "Date class"}}
 
 If you give the `Date` constructor a single argument, that argument is
 treated as such a millisecond count. You can get the current
@@ -812,7 +812,7 @@ nongreedy variant first.
 
 ## Dynamically creating RegExp objects
 
-{{index ["regular expression", creation], "underscore character", "RegExp constructor"}}
+{{index ["regular expression", creation], "underscore character", "RegExp class"}}
 
 There are cases where you might not know the exact ((pattern)) you
 need to match against when you are writing your code. Say you want to
@@ -999,7 +999,7 @@ perform the match at the start of each iteration, save its result in a
 {{id ini}}
 ## Parsing an INI file
 
-{{index comment, "file format", "enemies example", "ini file"}}
+{{index comment, "file format", "enemies example", "INI file"}}
 
 To conclude the chapter, we'll look at a problem that calls for
 ((regular expression))s. Imagine we are writing a program to

@@ -683,7 +683,7 @@ if}}
 
 ### Building Promise.all
 
-{{index "Promise constructor", "Promise.all function", "building Promise.all (exercise)"}}
+{{index "Promise class", "Promise.all function", "building Promise.all (exercise)"}}
 
 Given an array of ((promise))s, `Promise.all` returns a promise that
 waits for all of the promises in the array to finish. It then
@@ -733,7 +733,7 @@ if}}
 
 {{hint
 
-{{index "Promise.all function", "Promise constructor", "then method", "building Promise.all (exercise)"}}
+{{index "Promise.all function", "Promise class", "then method", "building Promise.all (exercise)"}}
 
 The function passed to the `Promise` constructor will have to call
 `then` on each of the promises in the given array. When one of them

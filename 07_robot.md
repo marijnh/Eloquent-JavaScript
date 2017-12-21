@@ -450,6 +450,8 @@ shortest routes, if there are more than one) to the goal.
 
 {{index "findRoute function"}}
 
+{{id findRoute}}
+
 This is a function that does this:
 
 ```{includeCode: true}

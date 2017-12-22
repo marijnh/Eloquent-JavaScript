@@ -167,7 +167,7 @@ food under the name `"food caches"`, which could hold an array of
 names that point at other pieces of data, describing the actual cache.
 To look up a food cache, it could run code like this:
 
-```
+```{includeCode: "top_lines: 1"}
 import {readStorage} from "crow-tech";
 
 readStorage("food caches", caches => {
@@ -203,7 +203,7 @@ fourth and last argument.
 ```
 import {makeRequest} from "crow-tech";
 
-makeRequest("Churchtower", "note",
+makeRequest("Cow Pasture", "note",
             "Let's all caw loudly at 7PM", () => {
   console.log("The note has been delivered.")
 });
@@ -218,7 +218,7 @@ nest-computer, but on all nests that can receive messages of this
 type. We'll just assume that a crow flies over and installs our
 handlers code on all connected nests.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 import {defineRequestType, me} from "crow-tech";
 
 defineRequestType("note", (content, source, done) => {
@@ -404,7 +404,7 @@ the second is the actual result value, if the action did not fail.
 These can be translated to promise resolution and rejection by our
 wrapper.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 import {makeRequest} from "crow-tech";
 
 class Timeout extends Error {};
@@ -424,6 +424,7 @@ function request(target, type, content) {
         else reject(new Timeout("Timed out"));
       }, 250);
     }
+    attempt(1);
   })
 }
 ```
@@ -453,7 +454,7 @@ wrapper for `defineRequestType`, which allows the handler function to
 return a promise or even a plain value, and wires that up to the
 callback for us.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 function requestType(name, handler) {
   defineRequestType(name, (content, source, callback) => {
     try {
@@ -493,7 +494,7 @@ values that these promises produced (in the same order as the original
 array). If any promise is rejected, the result of `Promise.all` is
 itself rejected.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 import {neighbors} from "crow-tech";
 
 requestType("ping", () => "pong");
@@ -528,7 +529,7 @@ request that is automatically forwarded to all neighbors. These
 neighbors then in turn forward it to all their neighbors, until the
 whole network has received the message.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 const gossip = [];
 
 function sendGossip(message, exceptFor=null) {
@@ -567,7 +568,7 @@ network with a piece of information until all nodes have it.
 We can call `sendGossip` see a message flow through the village.
 
 ```
-sendGossip("Kids with airgun in the park. Beware!");
+sendGossip("Kids with airgun in the park.");
 ```
 
 if}}
@@ -593,7 +594,7 @@ given message has already been received, we now check whether the new
 set of neighbors for a given nest matches the current set we have for
 it.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 const connections = new Map;
 connections.set(me, neighbors);
 
@@ -635,7 +636,7 @@ returns the next step in the route. That next nest will itself, using
 its current information about the network, decide where _it_ sends the
 message.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 function findRoute(to) {
   let work = [{at: me, via: null}];
   for (let i = 0; i < work.length; i++) {
@@ -658,7 +659,7 @@ to a neighbor that is closer to the target, using the `"route"`
 request type, which will cause that neighbor to repeat the same
 behavior.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 function routeRequest(target, type, content) {
   if (neighbors.includes(target)) {
     return request(target, type, content);
@@ -680,7 +681,7 @@ We can now send a message to the nest in the church tower, which is
 four network hops removed.
 
 ```
-routeRequest("Church Tower", "note", "Incoming Jackdaws!");
+routeRequest("Church Tower", "note", "Incoming jackdaws!");
 ```
 
 if}}
@@ -703,7 +704,7 @@ To retrieve a given piece of information that it doesn't itself have,
 a computer might consult random other computers in the network until
 it finds one that has it.
 
-```{includeCode: true, allNodes: true}
+```{includeCode: true, meta: allNodes}
 requestType("storage", name => storage(name))
 
 function findInStorage(name) {
@@ -785,6 +786,14 @@ before their name. When such a function is called, it returns a
 promise. When the function body returns something, that promise is
 resolved. If it throws an exception, the promise is rejected.
 
+{{if interactive
+
+```
+findInStorage("events on 2017-12-21").then(console.log);
+```
+
+if}}
+
 Inside an `async` function, the word `await` can be put in front of an
 expression (which should usually be a promise) to wait for that
 expression to resolve, and only then continue the execution of the
@@ -839,7 +848,7 @@ functions. The iterator for a list object (from the exercise in
 [Chapter ?](object#list_iterator)) can be written with this generator:
 
 ```
-List[Symbol.iterator] = function*() {
+List.prototype[Symbol.iterator] = function*() {
   for (let node = this; node != List.empty;
        node = node.rest) {
     yield node.value;
@@ -946,7 +955,7 @@ async function chicks(year) {
   let list = "";
   await Promise.all(network().map(async name => {
     list += `${name}: ${
-      await anyStorage(name, `chicks in ${year}`);
+      await anyStorage(name, `chicks in ${year}`)
     }\n`;
   }));
   return list;
@@ -969,7 +978,7 @@ output, listing the nest that was slowest to respond.
 chicks(2017).then(console.log);
 ```
 
-}}
+if}}
 
 Can you work out why?
 
@@ -1045,6 +1054,9 @@ around long enough that you may assume that every nest has a
 
 Next, write the same function again without using `async` and `await`.
 
+Do request failures properly show up as rejections of the returned
+promise in both versions? How?
+
 {{if interactive
 
 ```{test: no}
@@ -1053,10 +1065,10 @@ async function locateScalpel() {
 }
 
 function locateScalpel2() {
-
+  // Your code here.
 }
 
-locateScalpel.then(console.log);
+locateScalpel().then(console.log);
 // → Butcher's Shop
 ```
 
@@ -1070,18 +1082,25 @@ the current nest's name, and returning the name when it finds a
 matching value. In the `async` function, a regular `for` or `while`
 loop can be used.
 
-To do the same in a plain function, you will have create your own
-promise with the `Promise` constructor, and use a recursive inner
-function to model the loop. It can call `then` on the promise that
-fetches the storage data, and, depending on the result, either resolve
-its own promise or call the recursive function again to start the next
-iteration.
+To do the same in a plain function, you will have to build your loop
+using a recursive function. The easiest way to do this is to have that
+function return a promise by calling `then` on the promise that
+retrieves the storage value. Depending on whether that value matches
+the name of the current nest, the handler returns that value or a
+further promise created by calling the loop function again.
 
-Make sure that when a request to another nest's storage fails, you
-reject your promise, so that errors don't disappear. (Note how this
-happens automatically in the `async` version, where a rejected promise
-will cause an exception which then automatically rejects the
-function's own promise.)
+Don't forget to start the loop by calling the recursive function once
+from the main function.
+
+In the `async` function, rejected promises are converted to exceptions
+by `await`. When an `async` function throws an exception, its promise
+is rejects. So that works.
+
+If you implemented the non-`async` function as outlined above, the way
+`then` works also automatically causes a failure to end up in the
+returned promise. If a request fails, the handler passed to `then`
+isn't called, and the promise it returns is rejected with the same
+reason.
 
 hint}}
 
@@ -1113,7 +1132,7 @@ function Promise_all(promises) {
 }
 
 // Test code.
-all([]).then(array => {
+Promise_all([]).then(array => {
   console.log("This should be []:", array);
 });
 function soon(val) {
@@ -1121,10 +1140,10 @@ function soon(val) {
     setTimeout(() => resolve(val), Math.random() * 500);
   });
 }
-all([soon(1), soon(2), soon(3)]).then(array => {
+Promise_all([soon(1), soon(2), soon(3)]).then(array => {
   console.log("This should be [1, 2, 3]:", array);
 });
-all([soon(1), Promise.reject("X"), soon(3)]).then(array => {
+Promise_all([soon(1), Promise.reject("X"), soon(3)]).then(array => {
   console.log("We should not get here");
 }).catch(error => {
   if (error != "X") {

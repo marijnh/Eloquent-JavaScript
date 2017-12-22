@@ -14,7 +14,7 @@ function Promise_all(promises) {
 }
 
 // Test code.
-all([]).then(array => {
+Promise_all([]).then(array => {
   console.log("This should be []:", array);
 });
 function soon(val) {
@@ -22,10 +22,10 @@ function soon(val) {
     setTimeout(() => resolve(val), Math.random() * 500);
   });
 }
-all([soon(1), soon(2), soon(3)]).then(array => {
+Promise_all([soon(1), soon(2), soon(3)]).then(array => {
   console.log("This should be [1, 2, 3]:", array);
 });
-all([soon(1), Promise.reject("X"), soon(3)]).then(array => {
+Promise_all([soon(1), Promise.reject("X"), soon(3)]).then(array => {
   console.log("We should not get here");
 }).catch(error => {
   if (error != "X") {

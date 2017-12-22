@@ -38,7 +38,10 @@
             script.src = file
             box.win.document.body.appendChild(script)
             return new Promise(done => script.addEventListener("load", done))
-          })).then(() => done(box))
+          })).then(() => {
+            if (box.notify.onLoad) box.notify.onLoad()
+            done(box)
+          })
         }
       })
     }
@@ -47,6 +50,8 @@
       this.startedAt = null
       this.extraSecs = 2
       this.output = null
+      this.handleDeps = true
+      this.notify = {}
 
       this.callbacks = {}
       // Used to cancel existing events when new code is loaded
@@ -73,19 +78,24 @@
       this.win.addEventListener("mousedown", scheduleResize)
     }
 
-    run(code, output) {
+    run(code, output, meta) {
       if (output) this.output = output
       this.startedAt = Date.now()
       this.extraSecs = 2
       this.win.__c = 0
       this.prepare(code)
-        .then(code => code instanceof Function ? code() : this.win.eval(code))
+        .then(code => {
+          if (code instanceof Function) return code()
+          let value = this.win.eval(code)
+          if (this.notify.onRun) this.notify.onRun(code, meta)
+          return value
+        })
         .catch(err => this.error(err))
     }
 
     prepare(text) {
       let {code, dependencies} = preprocess(text, this)
-      return Promise.all(dependencies.map(dep => this.loaded.compute(dep))).then(() => code)
+      return (this.handleDeps ? Promise.all(dependencies.map(dep => this.loaded.compute(dep))) : Promise.resolve([])).then(() => code)
     }
 
     evalModule(name, code) {

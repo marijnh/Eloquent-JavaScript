@@ -49,7 +49,7 @@ let renderer = {
   fence(token) {
     let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
     let lang = config.lang || "javascript"
-    return `\n\n<pre${attrs(token)} class="snippet cm-s-default" data-language=${lang} ${config.focus ? " data-focus=true" : ""}${config.sandbox ? ` data-sandbox="${config.sandbox}"` : ""}>${anchor(token)}${highlight(lang, token.content.trim())}</pre>`
+    return `\n\n<pre${attrs(token)} class="snippet cm-s-default" data-language=${lang} ${config.focus ? " data-focus=true" : ""}${config.sandbox ? ` data-sandbox="${config.sandbox}"` : ""}${config.meta ? ` data-meta="${config.meta}"` : ""}>${anchor(token)}${highlight(lang, token.content.trim())}</pre>`
   },
 
   hardbreak() { return "<br>" },

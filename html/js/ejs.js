@@ -118,7 +118,8 @@ window.addEventListener("load", () => {
                                        wrap: wrap,
                                        orig: node,
                                        isHTML: lang == "text/html",
-                                       sandbox: sandbox}
+                                       sandbox: sandbox,
+                                       meta: node.getAttribute("data-meta")}
     data.output = new SandBox.Output(out)
     menu.addEventListener("click", () => openMenu(data, menu))
   }
@@ -155,7 +156,7 @@ window.addEventListener("load", () => {
             box.win.focus()
         })
       else
-        box.run(val, data.output)
+        box.run(val, data.output, data.meta)
     })
   }
 

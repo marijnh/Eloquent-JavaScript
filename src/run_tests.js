@@ -64,7 +64,9 @@ while (m = re.exec(input)) {
     snippet = stripped.javascript
   }
   try {
-    acorn.parse(snippet, {onInsertedSemicolon: chapNum == 1 ? null : () => { throw new Error("Missing semicolon") }})
+    acorn.parse(snippet, {onInsertedSemicolon: chapNum == 1 ? null : () => { throw new Error("Missing semicolon") },
+                          sourceType: "module",
+                          ecmaVersion: 8})
   } catch(e) {
     console.log("parse error at " + where + ": " + e.toString())
   }
@@ -267,4 +269,4 @@ function nextSandbox() {
     })
   }
 }
-nextSandbox()
+if (chapNum != 11) nextSandbox()

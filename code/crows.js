@@ -5,13 +5,19 @@
   if (typeof __sandbox != "undefined") {
     __sandbox.handleDeps = false
     __sandbox.notify.onLoad = () => {
+      // Kludge to make sure some functions are delayed until the
+      // nodes have been running for 500ms, to give them a chance to
+      // propagate network information.
       let waitFor = Date.now() + 500
-      let routeRequest = window.routeRequest
-      window.routeRequest = function(target, type, content) {
-        let wait = waitFor - Date.now()
-        if (wait <= 0) return routeRequest(target, type, content)
-        return new Promise(ok => setTimeout(ok, wait)).then(() => routeRequest(target, type, content))
+      function wrapWaiting(f) {
+        return function(...args) {
+          let wait = waitFor - Date.now()
+          if (wait <= 0) return f(...args)
+          return new Promise(ok => setTimeout(ok, wait)).then(() => f(...args))
+        }
       }
+      for (let n of ["routeRequest", "findInStorage", "chicks"])
+        window[n] = wrapWaiting(window[n])
     }
     __sandbox.notify.onRun = (code, meta) => {
       if (meta != "allNodes") return

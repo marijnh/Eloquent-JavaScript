@@ -235,7 +235,7 @@ part of the current program.
 The most obvious way is the special operator `eval`, which will
 execute a string in the _current_ ((scope)). This is usually a bad idea
 because it breaks some of the properties that scopes normally have,
-such as it being easily predictable which variable a given name refers
+such as it being easily predictable which binding a given name refers
 to.
 
 ```
@@ -667,7 +667,7 @@ strings containing dashes, to make the module less dependent on the
 input format.
 
 The `roads` module contains the raw road data (the `roads` array) and
-the `roadGraph` variable. This module depends on `./graph` and exports
+the `roadGraph` binding. This module depends on `./graph` and exports
 the road graph.
 
 {{index "random-item package"}}

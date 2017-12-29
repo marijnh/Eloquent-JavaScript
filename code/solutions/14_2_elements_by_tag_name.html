@@ -6,15 +6,14 @@
 
 <script>
   function byTagName(node, tagName) {
-    var found = [];
+    let found = [];
     tagName = tagName.toUpperCase();
 
     function explore(node) {
-      for (var i = 0; i < node.childNodes.length; i++) {
-        var child = node.childNodes[i];
+      for (let i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
         if (child.nodeType == document.ELEMENT_NODE) {
-          if (child.nodeName == tagName)
-            found.push(child);
+          if (child.nodeName == tagName) found.push(child);
           explore(child);
         }
       }
@@ -28,7 +27,7 @@
   // → 1
   console.log(byTagName(document.body, "span").length);
   // → 3
-  var para = document.querySelector("p");
+  let para = document.querySelector("p");
   console.log(byTagName(para, "span").length);
   // → 2
 </script>

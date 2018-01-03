@@ -12,7 +12,6 @@ var allSolutions = fs.readdirSync("code/solutions/").filter(function(file) { ret
 var dir = fs.readdirSync(".");
 dir.sort();
 dir.forEach(function(file) {
-  console.log("look at", file)
   var match = /^((\d+).*).md$/.exec(file), chapNum = match && match[2];
   if (!match) return;
   var text = fs.readFileSync(file, "utf8");

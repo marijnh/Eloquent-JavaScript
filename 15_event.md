@@ -1054,24 +1054,17 @@ nodes are also in there and should not get their own tabs.
 
 {{index "TEXT_NODE code", "nodeType property"}}
 
-To work around this, start by building up a real array of all the
-children in the wrapper that have a `nodeType` of 1.
+To work around this, you could start by building up an array of tabs,
+so that you have easy access to them. To implement the styling of the
+buttons, you could also store objects containing the tab panel
+alongside its button.
 
-{{index "event handling", closure}}
+I recommend writing a separate function for changing tabs. You can
+either store the previously selected tab, and only change the styles
+needed to hide that and show the new one, or you can just update the
+style of all tabs every time a new tab is selected.
 
-When registering event handlers on
-the buttons, the handler functions will need to know which tab element
-is associated with the button. If they are created in a normal loop,
-you can access the loop index binding from inside the function, but
-it won't give you the correct number because that binding will have
-been further changed by the loop.
-
-{{index "forEach method", "local binding", loop}}
-
-A simple workaround is to use the `forEach` method and create the
-handler functions from inside the function passed to `forEach`. The
-loop index, which is passed as a second argument to that function,
-will be a normal local binding there and won't be overwritten by
-further iterations.
+You might want to call this function immediately, to make the
+interface start with the first tab visible.
 
 hint}}

@@ -1,12 +1,4 @@
 window.addEventListener("load", () => {
-  // Fall back to pngs when svg images are not supported
-  if (document.getElementsByTagName && !document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1")) {
-    let imgs = document.getElementsByTagName("img")
-    for (let i = 0, svg; i < imgs.length; i++)
-      if (svg = /^(.*?img\/)([^.]+)\.svg$/.exec(imgs[i].src))
-        imgs[i].src = svg[1] + "generated/" + svg[2] + ".png"
-  }
-
   // If there's no ecmascript 5 support, don't try to initialize
   if (!Object.create || !window.JSON) return
 

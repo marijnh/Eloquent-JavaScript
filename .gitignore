@@ -20,7 +20,6 @@
 /node_modules
 .tern-port
 /toc.txt
-/img/generated/*
 /img/cover.xcf
 /epub/[012]*.xhtml
 /epub/hints.xhtml

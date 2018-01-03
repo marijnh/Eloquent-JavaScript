@@ -8,5 +8,4 @@ Feedback welcome, in the form of issues and pull requests.
 ## Building
 
     npm install
-    apt-get install inkscape
     make html

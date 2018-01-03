@@ -956,6 +956,17 @@ console.log("  okay \n ".trim());
 // → okay
 ```
 
+{{index "repeat method"}}
+
+A string can be repeated with the `repeat` method, which creates a new
+string containing multiple copies of the original string, glued
+together.
+
+```
+console.log("LA".repeat(3));
+// → LALALA
+```
+
 {{index ["length property", "for string"], [string, indexing]}}
 
 We have already seen the string type's `length` property. Accessing

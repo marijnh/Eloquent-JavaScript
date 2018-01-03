@@ -1012,7 +1012,7 @@ result of the `await` expression.
 
 ## The event loop
 
-{{index "asynchronous programming", scheduling, "event loop"}}
+{{index "asynchronous programming", scheduling, "event loop", timeline}}
 
 Asynchronous programs are executed piece by piece. Each piece may
 start some actions, and schedule code to be executed when the action

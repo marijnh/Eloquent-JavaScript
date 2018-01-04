@@ -996,15 +996,15 @@ existing class, _inheriting_ part of its behavior.
 
 ### A vector type
 
-{{index dimensions, "Vector type", coordinates, "vector (exercise)"}}
+{{index dimensions, "Vec class", coordinates, "vector (exercise)"}}
 
-Write a ((class)) `Vector` that represents a vector in two-dimensional
+Write a ((class)) `Vec` that represents a vector in two-dimensional
 space. It takes `x` and `y` parameters (numbers), which it should save
 to properties of the same name.
 
 {{index addition, subtraction}}
 
-Give the `Vector` prototype two methods, `plus` and `minus`, that take
+Give the `Vec` prototype two methods, `plus` and `minus`, that take
 another vector as a parameter and return a new vector that has the sum
 or difference of the two vectors’ (the one in `this` and the
 parameter) _x_ and _y_ values.
@@ -1018,11 +1018,11 @@ the origin (0, 0).
 ```{test: no}
 // Your code here.
 
-console.log(new Vector(1, 2).plus(new Vector(2, 3)));
-// → Vector{x: 3, y: 5}
-console.log(new Vector(1, 2).minus(new Vector(2, 3)));
-// → Vector{x: -1, y: -1}
-console.log(new Vector(3, 4).length);
+console.log(new Vec(1, 2).plus(new Vec(2, 3)));
+// → Vec{x: 3, y: 5}
+console.log(new Vec(1, 2).minus(new Vec(2, 3)));
+// → Vec{x: -1, y: -1}
+console.log(new Vec(3, 4).length);
 // → 5
 ```
 if}}

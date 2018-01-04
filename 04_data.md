@@ -406,12 +406,13 @@ one more piece of theory to understand.
 
 We saw that object values can be modified. The types of values
 discussed in earlier chapters, such as numbers, strings, and Booleans,
-are all _immutable_—it is impossible to change an existing value of
-those types. You can combine them and derive new values from them, but
-when you take a specific string value, that value will always remain
-the same. The text inside it cannot be changed. If you have reference
-to a string that contains `"cat"`, it is not possible for other code
-to change a character in your string to make it spell `"rat"`.
+are all _((immutable))_—it is impossible to change an existing value
+of those types. You can combine them and derive new values from them,
+but when you take a specific string value, that value will always
+remain the same. The text inside it cannot be changed. If you have
+reference to a string that contains `"cat"`, it is not possible for
+other code to change a character in your string to make it spell
+`"rat"`.
 
 With objects, on the other hand, the content of a value _can_ be
 modified by changing its properties.

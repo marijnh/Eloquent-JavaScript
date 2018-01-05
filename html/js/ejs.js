@@ -144,8 +144,10 @@ window.addEventListener("load", () => {
     getSandbox(data.sandbox, data.isHTML, box => {
       if (data.isHTML)
         box.setHTML(val, data.output, () => {
-          if (data.orig.getAttribute("data-focus"))
+          if (data.orig.getAttribute("data-focus")) {
             box.win.focus()
+            box.win.document.body.focus()
+          }
         })
       else
         box.run(val, data.output, data.meta)

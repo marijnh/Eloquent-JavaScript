@@ -378,9 +378,9 @@
         patches.push({from: stat.start, text: "var " + stat.id.name + " = "})
     }
 
-    patches.push({from: tryPos, text: "try{"})
-    patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}"})
-    patches.sort((a, b) => a.from - b.from || (a.to || a.from) - (b.to || b.from))
+    patches.push({from: tryPos, text: "try{", priority: 10})
+    patches.push({from: catchPos, text: "}catch(e){__sandbox.error(e);}", priority: -10})
+    patches.sort((a, b) => a.from - b.from || (a.to || a.from) - (b.to || b.from) || (b.priority || 0) - (a.priority || 0))
     let out = "", pos = 0
     for (let i = 0; i < patches.length; ++i) {
       let patch = patches[i]

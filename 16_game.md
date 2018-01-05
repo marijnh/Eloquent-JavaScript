@@ -10,9 +10,9 @@ quote}}
 
 {{index "Banks, Ian", "project chapter", simulation}}
 
-My initial fascination with computers, like that of many nerdy kids,
-had a lot to do with computer ((game))s. I was drawn into the tiny
-simulated ((world))s that I could manipulate and in which stories
+Much of my initial fascination with computers, like that of many nerdy
+kids, had a lot to do with computer ((game))s. I was drawn into the
+tiny simulated ((world))s that I could manipulate and in which stories
 (sort of) unfolded—more, I suppose, because of the way I could project
 my ((imagination)) into them than because of the possibilities they
 actually offered.
@@ -120,7 +120,7 @@ The plan for a small level might look like this:
 ```{includeCode: true}
 var simpleLevelPlan = `
 ......................
-......................
+..#................#..
 ..#..............=.#..
 ..#.........o.o....#..
 ..#.@......#####...#..
@@ -420,7 +420,7 @@ const levelChars = {
   ".": "empty", "#": "wall", "+": "lava",
   "@": Player, "o": Coin,
   "=": Lava, "|": Lava, "v": Lava
-}
+};
 ```
 
 We have written all the parts needed to create a `Level` instance.
@@ -871,26 +871,29 @@ is touching lava.
 ```{includeCode: true}
 State.prototype.update = function(time, keys) {
   let actors = this.actors
-    .map(actor => actor.update(time, this.level, keys));
-  let player = actors.find(a => a.type == "player");
+    .map(actor => actor.update(time, this, keys));
+  let newState = new State(this.level, actors, this.status);
 
-  if (this.status != "playing") {
-    return new State(this.level, actors, this.status)
-  } else if (this.level.touches(player.pos, player.size,
-                                "lava")) {
+  if (newState.status != "playing") return newState;
+
+  let player = actors.find(a => a.type == "player");
+  if (this.level.touches(player.pos, player.size, "lava")) {
     return new State(this.level, actors, "lost");
-  } else {
-    let handled = handleCollisions(actors, player);
-    return new State(this.level, handled.actors,
-                     handled.status);
   }
-}
+
+  for (let actor of actors) {
+    if (actor != player && overlap(actor, player)) {
+      newState = actor.collide(newState);
+    }
+  }
+  return newState;
+};
 ```
 
 It is passed a time step and a data structure that tells it which keys
 are being held down. The first thing it does is call the `update`
 method on all actors, producing an array of updated actors. The actors
-also get the time step, the keys, and the level, so that they can base
+also get the time step, the keys, and the state, so that they can base
 their update on those. Only the player will actually read keys, since
 that's the only actor that's controlled by the keyboard.
 
@@ -898,9 +901,11 @@ If the game is already over, no further processing has to be done (the
 game can't be won after being lost, or vice-versa). Otherwise, the
 method tests whether the player is touching background lava. If so,
 the game is lost and we're done. Finally, if the game really is still
-going on, the `handleCollisions` function is called to check if the
-player is touching a lava actor or a coin. It'll return an updated
-array of actors (with collected coins removed) and a new status.
+going on, it sees if any other actors overlap the player.
+
+Overlap between actors is detected with the `overlap` function. It
+takes two actor objects and returns true when they touch—which is the
+case when they overlap both along the x axis and along the y axis.
 
 ```{includeCode: true}
 function overlap(actor1, actor2) {
@@ -909,26 +914,25 @@ function overlap(actor1, actor2) {
          actor1.pos.y + actor1.size.y > actor2.pos.y &&
          actor1.pos.y < actor2.pos.y + actor2.size.y;
 }
-
-function handleCollisions(actors, player) {
-  let status = "playing";
-  for (let actor of actors) {
-    if (actor == player || !overlap(actor, player)) {
-      // Do nothing
-    } else if (actor.type == "coin") {
-      actors = actors.filter(a => a != actor);
-      if (!actors.some(a => a.type == "coin")) status = "won";
-    } else if (actor.type == "lava") {
-      status = "lost";
-    }
-  }
-  return {actors, status};
-}
 ```
 
-Collisions between actors can be checked with the `overlap` function.
-It takes two actor objects and returns true when they touch—which is
-the case when they overlap both along the x axis and along the y axis.
+If any actor does overlap, its `collide` method gets a chance to
+update the state. Touching a lava actor sets the game status to
+`"lost"`, coins vanish when you touch them, and set the status to
+`"won"` when this was the last coin.
+
+```{includeCode: true}
+Lava.prototype.collide = function(state) {
+  return new State(state.level, state.actors, "lost");
+};
+
+Coin.prototype.collide = function(state) {
+  let filtered = state.actors.filter(a => a != this);
+  let status = state.status;
+  if (!filtered.some(a => a.type == "coin")) status = "won";
+  return new State(state.level, filtered, status);
+};
+```
 
 {{id actors}}
 
@@ -937,13 +941,13 @@ the case when they overlap both along the x axis and along the y axis.
 {{index actor, "Lava type", lava}}
 
 Actor objects' `update` methods take as arguments the time step, the
-level object, and a `keys` object. The one for the `Lava` actor type
+state object, and a `keys` object. The one for the `Lava` actor type
 ignores the `keys` object.
 
 ```{includeCode: true}
-Lava.prototype.update = function(time, level) {
+Lava.prototype.update = function(time, state) {
   let newPos = this.pos.plus(this.speed.times(time));
-  if (!level.touches(newPos, this.size, "wall")) {
+  if (!state.level.touches(newPos, this.size, "wall")) {
     return new Lava(newPos, this.speed, this.reset);
   } else if (this.reset) {
     return new Lava(this.reset, this.speed, this.reset);
@@ -997,20 +1001,20 @@ const playerXSpeed = 7;
 const gravity = 30;
 const jumpSpeed = 17;
 
-Player.prototype.update = function(time, level, keys) {
+Player.prototype.update = function(time, state, keys) {
   let xSpeed = 0;
   if (keys.ArrowLeft) xSpeed -= playerXSpeed;
   if (keys.ArrowRight) xSpeed += playerXSpeed;
 
   let pos = this.pos;
   let movedX = pos.plus(new Vec(xSpeed * time, 0));
-  if (!level.touches(movedX, this.size, "wall")) {
+  if (!state.level.touches(movedX, this.size, "wall")) {
     pos = movedX;
   }
 
   let ySpeed = this.ySpeed + time * gravity;
   let movedY = pos.plus(new Vec(0, ySpeed * time));
-  if (!level.touches(movedY, this.size, "wall")) {
+  if (!state.level.touches(movedY, this.size, "wall")) {
     pos = movedY;
   } else if (keys.ArrowUp && ySpeed > 0) {
     ySpeed = -jumpSpeed;
@@ -1202,7 +1206,7 @@ returns a promise, which resolves when the user finished the game.
 {{index game, "GAME_LEVELS data set"}}
 
 There is a set of ((level)) plans available in the `GAME_LEVELS`
-variable [(downloadable from
+binding [(downloadable from
 [_eloquentjavascript.net/code#16_](http://eloquentjavascript.net/code#16)]{if
 book}. This page feeds them to `runGame`, starting an actual game:
 
@@ -1228,39 +1232,31 @@ if}}
 
 {{index "lives (exercise)", game}}
 
-It's traditional for ((platform game))s
-to have the player start with a limited number of _lives_ and
-subtract one life each time they die. When the player is out of lives, the game
-restarts from the beginning.
+It's traditional for ((platform game))s to have the player start with
+a limited number of _lives_ and subtract one life each time they die.
+When the player is out of lives, the game restarts from the beginning.
 
 {{index "runGame function"}}
 
-Adjust `runGame` to implement lives. Have the
-player start with three.
+Adjust `runGame` to implement lives. Have the player start with three.
+Output the current amount of lives (using `console.log`) every time a
+level starts.
 
 {{if interactive
 
-// test: no
-
-[focus="yes"]
-```{lang: "text/html"}
+```{lang: "text/html", test: no, focus: yes}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
 <script>
   // The old runGame function. Modify it...
-  function runGame(plans, Display) {
-    function startLevel(n) {
-      runLevel(new Level(plans[n]), Display, function(status) {
-        if (status == "lost")
-          startLevel(n);
-        else if (n < plans.length - 1)
-          startLevel(n + 1);
-        else
-          console.log("You win!");
-      });
+  async function runGame(plans, Display) {
+    for (let level = 0; level < plans.length;) {
+      let status = await runLevel(new Level(plans[level]),
+                                  Display);
+      if (status == "won") level++;
     }
-    startLevel(0);
+    console.log("You've won!");
   }
   runGame(GAME_LEVELS, DOMDisplay);
 </script>
@@ -1269,81 +1265,63 @@ player start with three.
 
 if}}
 
-{{hint
-
-{{index "lives (exercise)", "runGame function"}}
-
-The most obvious solution
-would be to make `lives` a variable that lives in `runGame` and is
-thus visible to the `startLevel` ((closure)).
-
-Another approach, which fits nicely with the spirit of the rest of the
-function, would be to add a second ((parameter)) to `startLevel` that
-gives the number of lives. When the whole ((state)) of a system is stored
-in the arguments to a ((function)), calling that function provides an
-elegant way to transition to a new state.
-
-In any case, when a ((level)) is lost, there should now be two
-possible state transitions. If that was the last life, we go back to
-level zero with the starting amount of lives. If not, we repeat the
-current level with one less life remaining.
-
-hint}}
-
 ### Pausing the game
 
 {{index "pausing (exercise)", "escape key", keyboard}}
 
-Make it possible
-to pause (suspend) and unpause the game by pressing the Esc key.
+Make it possible to pause (suspend) and unpause the game by pressing
+the Esc key.
 
 {{index "runLevel function", "event handling"}}
 
-This can be done by
-changing the `runLevel` function to use another keyboard event
-handler and interrupting or resuming the animation whenever the
-Esc key is hit.
+This can be done by changing the `runLevel` function to use another
+keyboard event handler and interrupting or resuming the animation
+whenever the Esc key is hit.
 
 {{index "runAnimation function"}}
 
-The `runAnimation` interface may not look
-like it is suitable for this at first glance, but it is, if you
-rearrange the way `runLevel` calls it.
+The `runAnimation` interface may not look like it is suitable for this
+at first glance, but it is, if you rearrange the way `runLevel` calls
+it.
 
-{{index [variable, global], "trackKeys function"}}
+{{index [binding, global], "trackKeys function"}}
 
-When you have that
-working, there is something else you could try. The way we have been
-registering keyboard event handlers is somewhat problematic. The
-`arrows` object is currently a global variable, and its event handlers
-are kept around even when no game is running. You could say they _((leak))_ out of
-our system. Extend `trackKeys` to provide a way to
-unregister its handlers, and then change `runLevel` to register its
-handlers when it starts and unregister them again when it is
-finished.
+When you have that working, there is something else you could try. The
+way we have been registering keyboard event handlers is somewhat
+problematic. The `arrows` object is currently a global binding, and
+its event handlers are kept around even when no game is running. You
+could say they _((leak))_ out of our system. Extend `trackKeys` to
+provide a way to unregister its handlers, and then change `runLevel`
+to register its handlers when it starts and unregister them again when
+it is finished.
 
 {{if interactive
 
-// test: no
-
-[focus="yes"]
-```{lang: "text/html"}
+```{lang: "text/html", focus: yes, test: no}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
 <script>
   // The old runLevel function. Modify this...
-  function runLevel(level, Display, andThen) {
-    var display = new Display(document.body, level);
-    runAnimation(function(step) {
-      level.animate(step, arrows);
-      display.drawFrame(step);
-      if (level.isFinished()) {
-        display.clear();
-        if (andThen)
-          andThen(level.status);
-        return false;
-      }
+  function runLevel(level, Display) {
+    let display = new Display(document.body, level);
+    let state = State.start(level);
+    let ending = 1;
+    return new Promise(resolve => {
+      runAnimation(time => {
+        state = state.update(time, arrowKeys);
+        display.drawState(state);
+        if (state.status == "playing") {
+          return true;
+        } else if (ending > 0) {
+          ending -= time;
+          return true;
+        } else {
+          display.clear();
+          resolve(state.status);
+          return false;
+        }
+      });
     });
   }
   runGame(GAME_LEVELS, DOMDisplay);
@@ -1357,16 +1335,15 @@ if}}
 
 {{index "pausing (exercise)"}}
 
-An ((animation)) can be interrupted by
-returning `false` from the function given to `runAnimation`. It can be
-continued by calling `runAnimation` again.
+An ((animation)) can be interrupted by returning `false` from the
+function given to `runAnimation`. It can be continued by calling
+`runAnimation` again.
 
 {{index closure}}
 
-To communicate that the animation should be
-interrupted to the function passed to `runAnimation` so that it can
-return `false`, you can use a variable that both the event handler and
-that function have access to.
+So we need to communicate the fact that we are pausing the game to the
+function given to `runAnimation`. For that, you can use a binding that
+both the event handler and that function have access to.
 
 {{index "event handling", "removeEventListener method", [function, "as value"]}}
 
@@ -1383,3 +1360,88 @@ unregistering directly.
 
 hint}}
 
+### A monster
+
+{{index "monster (exercise)"}}
+
+It is traditional for platform games to have enemies that you can jump
+on top of to defeat. This exercise asks you to add such an actor type
+to the game.
+
+We'll call it a monster. Monsters move only horizontally. You can make
+them move in the direction of the player, or bounce back and forth
+like horizontal lava, or have any movement pattern you want. The class
+doesn't have to handle falling, but it should make sure the monster
+doesn't walk into walls.
+
+When a monster touches the player, the effect depends on whether the
+player is jumping on top of them or not. You can approximate this by
+checking whether the player's bottom is near the monster's top. If
+this is the case, the monster disappears. If not, the game is lost.
+
+{{if interactive
+
+```{test: no, lang: "text/html", focus: yes}
+<link rel="stylesheet" href="css/game.css">
+<style>.monster { background: purple }</style>
+
+<body>
+  <script>
+    // Complete the constructor, update, and collide methods
+    class Monster {
+      constructor(pos, /* ... */) {}
+
+      get type() { return "monster"; }
+
+      static create(pos) {
+        return new Monster(pos.plus(new Vec(0, -1)));
+      }
+
+      update(time, state) {}
+
+      collide(state) {}
+    }
+
+    Monster.prototype.size = new Vec(1.2, 2);
+
+    levelChars["M"] = Monster;
+
+    runLevel(new Level(`
+..................................
+.################################.
+.#..............................#.
+.#..............................#.
+.#..............................#.
+.#...........................o..#.
+.#..@...........................#.
+.##########..............########.
+..........#..o..o..o..o..#........
+..........#...........M..#........
+..........################........
+..................................
+`), DOMDisplay);
+  </script>
+</body>
+```
+
+if}}
+
+{{hint
+
+{{index "monster (exercise)", "persistent data structure"}}
+
+If you want to implement a type of motion that is stateful, such as
+bouncing, make sure you store the necessary state in the actor
+object—include is as constructor argument and add it as a property.
+
+Remember that `update` should return a _new_ object, rather than
+changing the old one.
+
+When handling ((collision)), find the player in `state.actors` and
+compare its position to the monster's position. To get the _bottom_ of
+the player, you have to add its vertical size to its vertical
+position. The creation of an updated state will resemble either
+`Coin`'s `collide` method (removing the actor) or `Lava`'s (changing
+the status to `"lost"`), depending on the player position.
+
+hint}}

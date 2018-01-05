@@ -2,14 +2,14 @@
 
 <base href="http://eloquentjavascript.net/">
 <script src="code/game_levels.js"></script>
-<script src="code/chapter/15_game.js"></script>
+<script src="code/chapter/16_game.js"></script>
 
 <link rel="stylesheet" href="css/game.css">
 
 <body>
 <script>
   // To know when to stop and restart the animation, a level that is
-  // being displayed may be in three states:
+  // being displayed may be in three `running` states:
   //
   // * "yes":     Running normally.
   // * "no":      Paused, animation isn't running
@@ -24,64 +24,68 @@
   // The animation function, when state is "pausing", will set the state
   // to "no" and return false to stop the animation.
 
-  function runLevel(level, Display, andThen) {
-    var display = new Display(document.body, level);
-    var running = "yes";
-    function handleKey(event) {
-      if (event.keyCode == 27) {
+  function runLevel(level, Display) {
+    let display = new Display(document.body, level);
+    let state = State.start(level);
+    let ending = 1;
+    let running = "yes";
+
+    return new Promise(resolve => {
+      function escHandler(event) {
+        if (event.key != "Escape") return;
+        event.preventDefault();
         if (running == "no") {
           running = "yes";
-          runAnimation(animation);
-        } else if (running == "pausing") {
-          running = "yes";
+          runAnimation(frame);
         } else if (running == "yes") {
           running = "pausing";
+        } else {
+          running = "yes";
         }
       }
-    }
-    addEventListener("keydown", handleKey);
-    var arrows = trackKeys(arrowCodes);
+      addEventListener("keydown", escHandler);
+      let arrowKeys = trackKeys(["ArrowLeft", "ArrowRight", "ArrowUp"]);
 
-    function animation(step) {
-      if (running == "pausing") {
-        running = "no";
-        return false;
-      }
+      function frame(time) {
+        if (running == "pausing") {
+          running = "no";
+          return false;
+        }
 
-      level.animate(step, arrows);
-      display.drawFrame(step);
-      if (level.isFinished()) {
-        display.clear();
-        // Here we remove all our event handlers
-        removeEventListener("keydown", handleKey);
-        arrows.unregister(); // (see change to trackKeys below)
-        if (andThen)
-          andThen(level.status);
-        return false;
+        state = state.update(time, arrowKeys);
+        display.drawState(state);
+        if (state.status == "playing") {
+          return true;
+        } else if (ending > 0) {
+          ending -= time;
+          return true;
+        } else {
+          display.clear();
+          removeEventListener("keydown", escHandler);
+          arrowKeys.unregister();
+          resolve(state.status);
+          return false;
+        }
       }
-    }
-    runAnimation(animation);
+      runAnimation(frame);
+    });
   }
 
-  function trackKeys(codes) {
-    var pressed = Object.create(null);
-    function handler(event) {
-      if (codes.hasOwnProperty(event.keyCode)) {
-        var state = event.type == "keydown";
-        pressed[codes[event.keyCode]] = state;
+  function trackKeys(keys) {
+    let down = Object.create(null);
+    function track(event) {
+      if (keys.includes(event.key)) {
+        down[event.key] = event.type == "keydown";
         event.preventDefault();
       }
     }
-    addEventListener("keydown", handler);
-    addEventListener("keyup", handler);
-
-    // This is new -- it allows runLevel to clean up its handlers
-    pressed.unregister = function() {
-      removeEventListener("keydown", handler);
-      removeEventListener("keyup", handler);
+    addEventListener("keydown", track);
+    addEventListener("keyup", track);
+    down.unregister = () => {
+      removeEventListener("keydown", track);
+      removeEventListener("keyup", track);
     };
-    // End of new code
-    return pressed;
+    return down;
   }
 
   runGame(GAME_LEVELS, DOMDisplay);

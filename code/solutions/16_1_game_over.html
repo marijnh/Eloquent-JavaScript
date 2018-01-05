@@ -2,30 +2,27 @@
 
 <base href="http://eloquentjavascript.net/">
 <script src="code/game_levels.js"></script>
-<script src="code/chapter/15_game.js"></script>
+<script src="code/chapter/16_game.js"></script>
 
 <link rel="stylesheet" href="css/game.css">
 
 <body>
 <script>
-  function runGame(plans, Display) {
-    function startLevel(n, lives) {
-      runLevel(new Level(plans[n]), Display, function(status) {
-        if (status == "lost") {
-          if (lives > 0) {
-            startLevel(n, lives - 1);
-          } else {
-            console.log("Game over");
-            startLevel(0, 3);
-          }     
-        } else if (n < plans.length - 1) {
-          startLevel(n + 1, lives);
-        } else {
-          console.log("You win!");
-        }
-      });
+  // The old runGame function. Modify it...
+  async function runGame(plans, Display) {
+    let lives = 3;
+    for (let level = 0; level < plans.length && lives > 0;) {
+      console.log(`Level ${level + 1}, lives: ${lives}`);
+      let status = await runLevel(new Level(plans[level]),
+                                  Display);
+      if (status == "won") level++;
+      else lives--;
     }
-    startLevel(0, 3);
+    if (lives > 0) {
+      console.log("You've won!");
+    } else {
+      console.log("Game over");
+    }
   }
   runGame(GAME_LEVELS, DOMDisplay);
 </script>

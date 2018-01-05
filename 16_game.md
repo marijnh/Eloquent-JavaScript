@@ -11,8 +11,8 @@ quote}}
 {{index "Banks, Ian", "project chapter", simulation}}
 
 Much of my initial fascination with computers, like that of many nerdy
-kids, had a lot to do with computer ((game))s. I was drawn into the
-tiny simulated ((world))s that I could manipulate and in which stories
+kids, had to do with computer ((game))s. I was drawn into the tiny
+simulated ((world))s that I could manipulate and in which stories
 (sort of) unfolded—more, I suppose, because of the way I could project
 my ((imagination)) into them than because of the possibilities they
 actually offered.
@@ -154,7 +154,7 @@ restored to its starting position, and the player may try again.
 
 ## Reading a level
 
-{{index "Level type"}}
+{{index "Level class"}}
 
 The following ((class)) stores a ((level)) object. Its argument should
 be the string that defines the level.
@@ -231,6 +231,10 @@ class State {
   static start(level) {
     return new State(level, level.startActors, "playing");
   }
+
+  get player() {
+    return this.actors.find(a => a.type == "player");
+  }
 }
 ```
 
@@ -297,20 +301,21 @@ behavior is very different. Let's define these classes—without
 
 {{index simulation, "Player class"}}
 
-The player class has a property `ySpeed` that stores its current
-vertical speed, which will help simulate momentum and gravity.
+The player class has a property `speed` that stores its current speed,
+to simulate momentum and gravity.
 
 ```{includeCode: true}
 class Player {
-  constructor(pos, ySpeed) {
+  constructor(pos, speed) {
     this.pos = pos;
-    this.ySpeed = ySpeed;
+    this.speed = speed;
   }
 
   get type() { return "player"; }
 
   static create(pos) {
-    return new Player(pos.plus(new Vec(0, -0.5)), 0);
+    return new Player(pos.plus(new Vec(0, -0.5)),
+                      new Vec(0, 0));
   }
 }
 
@@ -329,7 +334,7 @@ would create and return a new `Vec` object every time the property is
 read, which would be wasteful. (Strings, being ((immutable)), don't
 have to be recreated every time they are evaluated.)
 
-{{index "Lava type", bouncing}}
+{{index "Lava class", bouncing}}
 
 When constructing a `Lava` actor, we need to initialize the object
 differently depending on the character it is based on. Dynamic lava
@@ -365,7 +370,7 @@ class Lava {
 Lava.prototype.size = new Vec(1, 1);
 ```
 
-{{index "Coin type", animation}}
+{{index "Coin class", animation}}
 
 `Coin` actors are relatively simple. They mostly just sit in their
 place. But to liven up the game a little, they are given a "wobble", a
@@ -531,7 +536,7 @@ Actors are redrawn every time the display is updated with a given
 state. The `actorLayer` property will be used to track the element
 that holds the actors so that they can be easily removed and replaced.
 
-{{index scaling, "DOMDisplay type"}}
+{{index scaling, "DOMDisplay class"}}
 
 Our ((coordinates)) and sizes are tracked in units relative to the
 ((grid)) size, where a size or distance of 1 means 1 grid unit. When
@@ -713,7 +718,7 @@ DOMDisplay.prototype.scrollPlayerIntoView = function(state) {
   let left = this.dom.scrollLeft, right = left + width;
   let top = this.dom.scrollTop, bottom = top + height;
 
-  let player = state.actors.find(a => a.type == "player");
+  let player = state.player;
   let center = player.pos.plus(player.size.times(0.5))
                          .times(scale);
 
@@ -827,6 +832,8 @@ steps.
 
 {{index obstacle, "touches method", "collision detection"}}
 
+{{id touches}}
+
 This method tells us whether a ((rectangle)) (specified by a position
 and a size) touches a grid element of the given type.
 
@@ -876,7 +883,7 @@ State.prototype.update = function(time, keys) {
 
   if (newState.status != "playing") return newState;
 
-  let player = actors.find(a => a.type == "player");
+  let player = newState.player;
   if (this.level.touches(player.pos, player.size, "lava")) {
     return new State(this.level, actors, "lost");
   }
@@ -938,7 +945,7 @@ Coin.prototype.collide = function(state) {
 
 ## Actor updates
 
-{{index actor, "Lava type", lava}}
+{{index actor, "Lava class", lava}}
 
 Actor objects' `update` methods take as arguments the time step, the
 state object, and a `keys` object. The one for the `Lava` actor type
@@ -957,7 +964,7 @@ Lava.prototype.update = function(time, state) {
 };
 ```
 
-{{index bouncing, multiplication, "Vector type", "collision detection"}}
+{{index bouncing, multiplication, "Vect class", "collision detection"}}
 
 It computes a new position by adding the product of the ((time)) step
 and the current speed to its old position. If no obstacle blocks that
@@ -967,7 +974,7 @@ position, to which it jumps back when it hits something. Bouncing lava
 inverts its speed by multiplying it by -1, so that it starts moving in
 the opposite direction.
 
-{{index "Coin type", coin, wave}}
+{{index "Coin class", coin, wave}}
 
 Coins use their `act` method to wobble. They ignore collisions since
 they are simply wobbling around inside of their own square.
@@ -990,7 +997,7 @@ argument to `Math.sin` to find the new position on the ((wave)). The
 coin's current position is then computed from its base position and an
 offset based on this wave.
 
-{{index "collision detection", "Player type"}}
+{{index "collision detection", "Player class"}}
 
 That leaves the ((player)) itself. Player motion is handled separately
 per ((axis)) because hitting the floor should not prevent horizontal
@@ -1012,7 +1019,7 @@ Player.prototype.update = function(time, state, keys) {
     pos = movedX;
   }
 
-  let ySpeed = this.ySpeed + time * gravity;
+  let ySpeed = this.speed.y + time * gravity;
   let movedY = pos.plus(new Vec(0, ySpeed * time));
   if (!state.level.touches(movedY, this.size, "wall")) {
     pos = movedY;
@@ -1021,7 +1028,7 @@ Player.prototype.update = function(time, state, keys) {
   } else {
     ySpeed = 0;
   }
-  return new Player(pos, ySpeed);
+  return new Player(pos, new Vec(xSpeed, ySpeed));
 };
 ```
 

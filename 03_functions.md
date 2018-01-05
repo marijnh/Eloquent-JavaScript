@@ -344,6 +344,7 @@ verbose. We'll be using a lot of them in [Chapter
 ?](higher_order).
 
 {{id stack}}
+
 ## The call stack
 
 {{indexsee stack, "call stack"}}

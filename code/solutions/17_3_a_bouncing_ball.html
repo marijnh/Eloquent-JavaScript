@@ -2,20 +2,21 @@
 
 <canvas width="400" height="400"></canvas>
 <script>
-  var cx = document.querySelector("canvas").getContext("2d");
+  let cx = document.querySelector("canvas").getContext("2d");
 
-  var lastTime = null;
+  let lastTime = null;
   function frame(time) {
-    if (lastTime != null)
+    if (lastTime != null) {
       updateAnimation(Math.min(100, time - lastTime) / 1000);
+    }
     lastTime = time;
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 
-  var x = 100, y = 300;
-  var radius = 10;
-  var speedX = 100, speedY = 60;
+  let x = 100, y = 300;
+  let radius = 10;
+  let speedX = 100, speedY = 60;
 
   function updateAnimation(step) {
     cx.clearRect(0, 0, 400, 400);
@@ -25,10 +26,8 @@
     
     x += step * speedX;
     y += step * speedY;
-    if (x < 25 + radius || x > 375 - radius)
-      speedX = -speedX;
-    if (y < 25 + radius || y > 375 - radius)
-      speedY = -speedY;
+    if (x < 25 + radius || x > 375 - radius) speedX = -speedX;
+    if (y < 25 + radius || y > 375 - radius) speedY = -speedY;
     cx.fillStyle = "red";
     cx.beginPath();
     cx.arc(x, y, radius, 0, 7);

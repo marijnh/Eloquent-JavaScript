@@ -2,7 +2,7 @@
 
 <canvas width="600" height="200"></canvas>
 <script>
-  var cx = document.querySelector("canvas").getContext("2d");
+  let cx = document.querySelector("canvas").getContext("2d");
 
   function parallelogram(x, y) {
     cx.beginPath();
@@ -27,7 +27,7 @@
   function zigzag(x, y) {
     cx.beginPath();
     cx.moveTo(x, y);
-    for (var i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
       cx.lineTo(x + 80, y + i * 8 + 4);
       cx.lineTo(x, y + i * 8 + 8);
     }
@@ -36,12 +36,12 @@
   zigzag(240, 20);
 
   function spiral(x, y) {
-    var radius = 50, xCenter = x + radius, yCenter = y + radius;
+    let radius = 50, xCenter = x + radius, yCenter = y + radius;
     cx.beginPath();
     cx.moveTo(xCenter, yCenter);
-    for (var i = 0; i < 300; i++) {
-      var angle = i * Math.PI / 30;
-      var dist = radius * i / 300;
+    for (let i = 0; i < 300; i++) {
+      let angle = i * Math.PI / 30;
+      let dist = radius * i / 300;
       cx.lineTo(xCenter + Math.cos(angle) * dist,
                 yCenter + Math.sin(angle) * dist);
     }
@@ -50,11 +50,11 @@
   spiral(340, 20);
 
   function star(x, y) {
-    var radius = 50, xCenter = x + radius, yCenter = y + radius;
+    let radius = 50, xCenter = x + radius, yCenter = y + radius;
     cx.beginPath();
     cx.moveTo(xCenter + radius, yCenter);
-    for (var i = 1; i <= 8; i++) {
-      var angle = i * Math.PI / 4;
+    for (let i = 1; i <= 8; i++) {
+      let angle = i * Math.PI / 4;
       cx.quadraticCurveTo(xCenter, yCenter,
                           xCenter + Math.cos(angle) * radius,
                           yCenter + Math.sin(angle) * radius);

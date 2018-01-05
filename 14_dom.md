@@ -2,6 +2,8 @@
 
 # The Document Object Model
 
+// FIXME custom elements, better transitions, maybe `children`, templates, problems with obvious usage
+
 {{index drawing, parsing}}
 
 When you open a web page in your browser, the browser retrieves the

@@ -1,5 +1,11 @@
 {{meta {load_files: ["code/crows.js", "code/chapter/11_async.js"]}}}
 
+{{quote {author: "William S. Burroughs", title: "Naked Lunch", chapter: true}
+
+Your mind will answer most questions if you learn to relax and wait for the answer.
+
+quote}}
+
 # Asynchronous Programming
 
 The central part of a computer, the part that carries out the

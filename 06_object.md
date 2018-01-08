@@ -864,7 +864,7 @@ In object-oriented programming terms, this is called
 _((inheritance))_. The new class inherits properties and behavior from
 the old class.
 
-```{includeCode: "top_lines: 16"}
+```{includeCode: "top_lines: 17"}
 class SymmetricMatrix extends Matrix {
   constructor(size, content = () => undefined) {
     super(size, size);

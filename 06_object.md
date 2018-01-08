@@ -45,7 +45,7 @@ precise implementation.
 
 {{index "public properties", "private properties", "access control"}}
 
-Such pieces of program are typically modeled using ((object))s. Their
+Such program pieces are typically modeled using ((object))s. Their
 interface consists of a specific set of ((method))s and properties.
 Properties that are part of the interface are called _public_. The
 others, that outside code should not be touching, are called

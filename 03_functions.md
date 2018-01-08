@@ -521,8 +521,8 @@ function wrapValue(n) {
   return () => local;
 }
 
-var wrap1 = wrapValue(1);
-var wrap2 = wrapValue(2);
+let wrap1 = wrapValue(1);
+let wrap2 = wrapValue(2);
 console.log(wrap1());
 // → 1
 console.log(wrap2());
@@ -550,7 +550,7 @@ function multiplier(factor) {
   return number => number * factor;
 }
 
-var twice = multiplier(2);
+let twice = multiplier(2);
 console.log(twice(5));
 // → 10
 ```

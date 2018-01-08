@@ -611,9 +611,8 @@ if}}
 
 The main limitation of `goalOrientedRobot` is that it only considers
 one parcel at a time. It will often walk back and forth across the
-village because the it need parcel it happens to be looking at happens
-to be at the other side of the map, even if there are others much
-closer.
+village because the parcel it happens to be looking at happens to be
+at the other side of the map, even if there are others much closer.
 
 One possible solution would be to compute routes for all packages, and
 then take the shortest one. Even better results can be obtained by, if

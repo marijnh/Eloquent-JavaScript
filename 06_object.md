@@ -664,6 +664,8 @@ console.log(okIterator.next());
 
 {{index "matrix example", "Matrix class", array}}
 
+{{id matrix}}
+
 Let's implement an iterable data structure. We'll build a _matrix_
 class, acting as a two-dimensional array.
 

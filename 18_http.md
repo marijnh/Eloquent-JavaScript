@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/chapter/17_http.js"]}}}
+{{meta {load_files: ["code/chapter/18_http.js"]}}}
 
 # HTTP and Forms
 
@@ -12,12 +12,12 @@ JavaScript has access to it.
 
 {{index "IP address"}}
 
-If you type _eloquentjavascript.net/17_http.html_ into
-your browser's ((address bar)), the ((browser)) first looks up the
-((address)) of the server associated with _eloquentjavascript.net_
-and tries to open a ((TCP)) ((connection)) to it on ((port)) 80, the
-default port for ((HTTP)) traffic. If the ((server)) exists and
-accepts the connection, the browser sends something like this:
+If you type _eloquentjavascript.net/18_http.html_ into your browser's
+((address bar)), the ((browser)) first looks up the ((address)) of the
+server associated with _eloquentjavascript.net_ and tries to open a
+((TCP)) ((connection)) to it on ((port)) 80, the default port for
+((HTTP)) traffic. If the ((server)) exists and accepts the connection,
+the browser might send something like this:
 
 ```{lang: http}
 GET /17_http.html HTTP/1.1
@@ -31,19 +31,20 @@ Then the server responds, through that same connection.
 HTTP/1.1 200 OK
 Content-Length: 65585
 Content-Type: text/html
-Last-Modified: Wed, 09 Apr 2014 10:48:09 GMT
+Last-Modified: Mon, 08 Jan 2018 10:29:45 GMT
 
 <!doctype html>
 ... the rest of the document
 ```
 
-The browser then takes the part of the ((response)) after the blank
-line and displays it as an ((HTML)) document.
+The browser takes the part of the ((response)) after the blank line,
+its _body_ (not to be confused with the HTML `<body>` tag), and
+displays it as an ((HTML)) document.
 
 {{index HTTP}}
 
-The information sent by the client is called the
-_((request))_. It starts with this line:
+The information sent by the client is called the _((request))_. It
+starts with this line:
 
 ```{lang: http}
 GET /17_http.html HTTP/1.1
@@ -51,35 +52,42 @@ GET /17_http.html HTTP/1.1
 
 {{index "DELETE method", "PUT method", "GET method"}}
 
-The first word is
-the _((method))_ of the ((request)). `GET` means that we want to _get_
-the specified resource. Other common methods are `DELETE` to delete a
-resource, `PUT` to replace it, and `POST` to send information to it.
-Note that the ((server)) is not obliged to carry out every request it
-gets. If you walk up to a random website and tell it to `DELETE` its
-main page, it'll probably refuse.
+The first word is the _((method))_ of the ((request)). `GET` means
+that we want to _get_ the specified resource. Other common methods are
+`DELETE` to delete a resource, `PUT` to replace it, and `POST` to send
+information to it. Note that the ((server)) is not obliged to carry
+out every request it gets. If you walk up to a random website and tell
+it to `DELETE` its main page, it'll probably refuse.
 
-{{index [path, URL], Twitter}}
+{{index [path, URL], GitHub}}
 
-The part after the ((method)) name is the path of the
-((resource)) the request applies to. In the simplest case, a resource
-is simply a ((file)) on the ((server)), but the protocol doesn't
-require it to be. A resource may be anything that can be transferred _as if_
-it is a file. Many servers generate the responses they produce on the
-fly. For example, if you open
-http://twitter.com/marijnjh[_twitter.com/marijnjh_], the server looks
-in its database for a user named _marijnjh_, and if it finds one, it
+The part after the ((method)) name is the path of the ((resource)) the
+request applies to. In the simplest case, a resource is simply a
+((file)) on the ((server)), but the protocol doesn't require it to be.
+A resource may be anything that can be transferred _as if_ it is a
+file. Many servers generate the responses they produce on the fly. For
+example, if you open
+[_github.com/marijnh_](https://github.com/marijnh), the server looks
+in its database for a user named "marijnh", and if it finds one, it
 will generate a profile page for that user.
 
 After the resource path, the first line of the request mentions
-`HTTP/1.1` to indicate the ((version)) of the ((HTTP)) ((protocol))
-it is using.
+`HTTP/1.1` to indicate the ((version)) of the ((HTTP)) ((protocol)) it
+is using.
+
+In practice, many sites use HTTP version 2, which supports the same
+concepts as version 1.1, but is, for performance reasons, a lot more
+complicated. Browsers will automatically switch to the appropriate
+protocol version when talking to a given server, and the outcome of a
+request is the same regardless which version is used. Because version
+1.1 is more straightforward and easier to play around with, we'll
+focus on that.
 
 {{index "status code"}}
 
-The server's ((response)) will start with a version
-as well, followed by the status of the response, first as a
-three-digit status code and then as a human-readable string.
+The server's ((response)) will start with a version as well, followed
+by the status of the response, first as a three-digit status code and
+then as a human-readable string.
 
 ```{lang: http}
 HTTP/1.1 200 OK
@@ -90,71 +98,66 @@ HTTP/1.1 200 OK
 Status codes starting with a 2 indicate that the request succeeded.
 Codes starting with 4 mean there was something wrong with the
 ((request)). 404 is probably the most famous HTTP status code—it means
-that the resource that was requested could not be found. Codes that
-start with 5 mean an error happened on the ((server)) and the request
-is not to blame.
+that the resource could not be found. Codes that start with 5 mean an
+error happened on the ((server)) and the request is not to blame.
 
 {{index HTTP}}
 
 {{id headers}}
-The first line of a request or response may be followed by
-any number of _((header))s_. These are lines in the form “name: value”
-that specify extra information about the request or response. These
-headers were part of the example ((response)):
+
+The first line of a request or response may be followed by any number
+of _((header))s_. These are lines in the form `name: value` that
+specify extra information about the request or response. These headers
+were part of the example ((response)):
 
 ```{lang: null}
 Content-Length: 65585
 Content-Type: text/html
-Last-Modified: Wed, 09 Apr 2014 10:48:09 GMT
+Last-Modified: Thu, 04 Jan 2018 14:05:30 GMT
 ```
 
 {{index "Content-Length header", "Content-Type header", "Last-Modified header"}}
 
-This tells us the size and type of the response document. In
-this case, it is an HTML document of 65,585 bytes. It also tells us when
+This tells us the size and type of the response document. In this
+case, it is an HTML document of 65,585 bytes. It also tells us when
 that document was last modified.
 
 {{index "Host header", domain}}
 
-For the most part, a client or server 
-decides which ((header))s to include in a ((request)) or ((response)), 
-though a few headers are required. For example, the `Host` header,
-which specifies the hostname, should be included in a request
-because a ((server)) might be serving multiple hostnames on a single
-((IP address)), and without that header, the server won't know which host the
-client is trying to talk to.
+For the most part, a client or server decides which ((header))s to
+include in a ((request)) or ((response)), though a few headers are
+required. For example, the `Host` header, which specifies the
+hostname, should be included in a request because a ((server)) might
+be serving multiple hostnames on a single ((IP address)), and without
+that header, the server won't know which host the client is trying to
+talk to.
 
 {{index "GET method", "DELETE method", "PUT method", "POST method", "body (HTTP)"}}
 
-After the headers, both requests and
-responses may include a blank line followed by a _body_, which
-contains the data being sent. `GET` and `DELETE` requests don't send
-along any data, but `PUT` and `POST` requests do.
-Similarly, some response types, such as error responses, do not
-require a body.
+After the headers, both requests and responses may include a blank
+line followed by the body, which contains the data being sent. `GET`
+and `DELETE` requests don't send along any data, but `PUT` and `POST`
+requests do. Similarly, some response types, such as error responses,
+do not require a body.
 
 ## Browsers and HTTP
 
 {{index HTTP}}
 
-As we saw in the example, a ((browser)) will make a request
-when we enter a ((URL)) in its ((address bar)). When the resulting
-HTML page references other files, such as ((image))s and JavaScript
-((file))s, those are also fetched.
+As we saw in the example, a ((browser)) will make a request when we
+enter a ((URL)) in its ((address bar)). When the resulting HTML page
+references other files, such as ((image))s and JavaScript ((file))s,
+those are also retrieved.
 
 {{index parallelism, "GET method"}}
 
-A moderately complicated ((website)) can easily
-include anywhere from 10 to 200 ((resource))s. To be able to
-fetch those quickly, browsers will make several requests
-simultaneously, rather than waiting for the responses one at a time.
-Such documents are always fetched using `GET`
-((request))s.
+A moderately complicated ((website)) can easily include anywhere from
+10 to 200 ((resource))s. To be able to fetch those quickly, browsers
+will make several `GET` requests simultaneously, rather than waiting
+for the responses one at a time.
 
-{{id http_forms}}
-HTML pages may include _((form))s_, which allow
-the user to fill out information and send it to the server. This is an
-example of a form:
+HTML pages may include _((form))s_, which allow the user to fill out
+information and send it to the server. This is an example of a form:
 
 ```{lang: "text/html"}
 <form method="GET" action="example/message.html">
@@ -166,51 +169,53 @@ example of a form:
 
 {{index form, "method attribute", "GET method"}}
 
-This code describes a form with two
-((field))s: a small one asking for a name and a larger one to write a
-message in. When you click the Send ((button)), the information in
-those fields will be encoded into a _((query string))_. When the
-`<form>` element's `method` attribute is `GET` (or is omitted), that
-query string is tacked onto the `action` URL, and the browser makes a
-`GET` request to that URL.
+This code describes a form with two ((field))s: a small one asking for
+a name and a larger one to write a message in. When you click the Send
+((button)), the form is _submitted_, meaning that the content of its
+field is packed into an HTTP request and the browser navigates to the
+result of that request.
 
-```{lang: "text/html"}
+When the `<form>` element's `method` attribute is `GET` (or is
+omitted), the information in the form is added to the end of the
+`action` URL as a _((query string))_. The browser might then make a
+request to this URL:
+
+```{lang: null}
 GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
 ```
 
 {{index "ampersand character"}}
 
-The start of a ((query string)) is indicated
-by a ((question mark)). After that follow pairs of names and values,
-corresponding to the `name` attribute on the form field elements and
-the content of those elements, respectively. An ampersand character (`&`) is used to separate
-the pairs.
+The ((question mark)) indicates the end of the path part of the URL
+and the start of the query. After that follow pairs of names and
+values, corresponding to the `name` attribute on the form field
+elements and the content of those elements, respectively. An ampersand
+character (`&`) is used to separate the pairs.
 
-{{index [escaping, "in URLs"], "hexadecimal number", "percent sign", "URL encoding", "encodeURIComponent function", "decodeURIComponent function"}}
+{{index [escaping, "in URLs"], "hexadecimal number", "encodeURIComponent function", "decodeURIComponent function"}}
 
-The actual message encoded
-in the previous URL is “Yes?”, even though the question mark is replaced
-by a strange code. Some characters in query strings must be
-escaped. The question mark, represented as `%3F`, is one of those.
-There seems to be an unwritten rule that every format needs its
-own way of escaping characters. This one, called _URL
-encoding_, uses a percent sign followed by two hexadecimal digits
-that encode the character code. In this case, 3F, which is 63 in
-decimal notation, is the code of a question mark character. JavaScript
-provides the `encodeURIComponent` and `decodeURIComponent` functions
-to encode and decode this format.
+The actual message encoded in the URL is "Yes?", but the question mark
+is replaced by a strange code. Some characters in query strings must
+be escaped. The question mark, represented as `%3F`, is one of those.
+There seems to be an unwritten rule that every format needs its own
+way of escaping characters. This one, called _((URL encoding))_, uses
+a ((percent sign)) followed by two hexadecimal digits that encode the
+character code. In this case, 3F, which is 63 in decimal notation, is
+the code of a question mark character. JavaScript provides the
+`encodeURIComponent` and `decodeURIComponent` functions to encode and
+decode this format.
 
 ```
-console.log(encodeURIComponent("Hello & goodbye"));
-// → Hello%20%26%20goodbye
-console.log(decodeURIComponent("Hello%20%26%20goodbye"));
-// → Hello & goodbye
+console.log(encodeURIComponent("Yes?"));
+// → Yes%3F
+console.log(decodeURIComponent("Yes%3F"));
+// → Yes?
 ```
 
 {{index "body (HTTP)", "POST method"}}
 
-If we change the `method` attribute
-of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request made to submit the
+If we change the `method` attribute of the HTML form in the example we
+saw earlier to `POST`, the ((HTTP)) request made to submit the
 ((form)) will use the `POST` method and put the ((query string)) in
 body of the request, rather than adding it to the URL.
 
@@ -222,426 +227,168 @@ Content-type: application/x-www-form-urlencoded
 name=Jean&message=Yes%3F
 ```
 
-By convention, the `GET` method is used for requests that do not have
-side effects, such as doing a search. Requests that change something on
-the server, such as creating a new account or posting a message, should
-be expressed with other methods, such as `POST`. Client-side software,
-such as a browser, knows that it shouldn't blindly make `POST`
-requests but will often implicitly make `GET` requests—for example, to
-prefetch a resource it believes the user will soon need.
+`GET` requests should be used for requests that do not have ((side
+effect))s, but simply ask for information. Requests that change
+something on the server, for example creating a new account or posting
+a message, should be expressed with other methods, such as `POST`.
+Client-side software, for example a browser, knows that it shouldn't
+blindly make `POST` requests but will often implicitly make `GET`
+requests—for example to prefetch a resource it believes the user will
+soon need.
 
-The [next chapter](forms) will return to forms
-and talk about how we can script them with JavaScript.
+We'll come back to forms and how to interact with them from JavaScript
+[later in the chapter](http#forms).
 
-{{id xmlhttprequest}}
-## XMLHttpRequest
+{{id fetch}}
 
-{{index capitalization, XMLHttpRequest}}
+## Fetch
 
-The ((interface)) through
-which browser JavaScript can make HTTP requests is called
-`XMLHttpRequest` (note the inconsistent capitalization). It was
-designed by ((Microsoft)), for its ((Internet Explorer))
-((browser)), in the late 1990s. During this time, the ((XML)) file format 
-was _very_ popular in the world of ((business software))—a world where 
-Microsoft has always been at home. In fact, it was so popular that the
-acronym XML was tacked onto the front of the name of an interface for
-((HTTP)), which is in no way tied to XML.
+{{index "fetch function", "Promise class"}}
 
-{{index modularity, [interface, design]}}
+The ((interface)) through which browser JavaScript can make HTTP
+requests is called `fetch`. Since it is relatively new, it
+conveniently uses promises (which is rare for browser interfaces).
 
-The name isn't completely
-nonsensical, though. The interface allows you to parse response documents as
-XML if you want. Conflating two distinct concepts (making a request
-and ((parsing)) the response) into a single thing is terrible design,
-of course, but so it goes.
+```{test: no}
+fetch("example/data.txt").then(response => {
+  console.log(response.status);
+  // → 200
+  console.log(response.headers.get("Content-Type"));
+  // → text/plain
+});
+```
 
-When the `XMLHttpRequest` interface was added to Internet Explorer, it
-allowed people to do things with JavaScript that had been very hard
-before. For example, websites started showing lists of suggestions
-when the user was typing something into a text field. The script would
-send the text to the server over ((HTTP)) as the user typed. The ((server)),
-which had some ((database)) of possible inputs, would
-match the database entries against the partial input and send back possible
-((completion))s to show the user. This was
-considered spectacular—people were used to waiting for a full page reload
-for every interaction with a website.
+{{index "Response class", "status property", "headers property"}}
 
-{{index compatibility, Firefox, XMLHttpRequest}}
+Calling `fetch` returns a promise that resolves to a `Response` object
+holding information about the server's response, such as its status
+code and its headers. The headers are wrapped in a `Map`-like object
+that treats its keys (the header names) as case-insensitive, because
+header names are not supposed to be case sensitive. This means that
+`headers.get("Content-Type")` and `headers.get("content-TYPE")` will
+return the same value.
 
-The other
-significant browser at that time, ((Mozilla)) (later Firefox), did not
-want to be left behind. To allow people to do similarly neat things in
-_its_ browser, Mozilla copied the interface, including the bogus name.
-The next generation of ((browser))s followed this example, and today
-`XMLHttpRequest` is a de facto standard ((interface)).
+Note that the promise returned by `fetch` resolves successfully even
+if the server responded with an error code. It _might_ also be
+rejected, if there is a network error or the ((server)) that the
+request is addressed to can not be found.
 
-## Sending a request
+{{index [path, URL], "relative URL"}}
 
-{{index "open method", "send method", XMLHttpRequest}}
+The first argument to `fetch` is the URL that should be requested.
+What that ((URL)) doesn't start with a protocol name (such as _http:_)
+it is treated as relative, which means that it is interpreted relative
+to the current document. When they start with a slash (/), they
+replace the current path, which is the part after the server name.
+When they do not, the part of the current path up to and including its
+last ((slash character)) is put in front of the relative URL.
 
-To make a simple
-((request)), we create a request object with the `XMLHttpRequest`
-constructor and call its `open` and `send` methods.
+{{index "text method", "body (HTTP)", "Promise class"}}
 
-```{test: trim}
-var req = new XMLHttpRequest();
-req.open("GET", "example/data.txt", false);
-req.send(null);
-console.log(req.responseText);
+To get at the actual content of a response, you can use its `text`
+method. Because the initial promise is resolved as soon as the
+response's headers have been received, and reading the response body
+might take a while longer, this again returns a promise.
+
+```{test: no}
+fetch("example/data.txt")
+  .then(resp => resp.text())
+  .then(text => console.log(text));
 // → This is the content of data.txt
 ```
 
-{{index [path, URL], "open method", "relative URL", "slash character"}}
+{{index "json method"}}
 
-The `open`
-method configures the request. In this case, we choose to make a `GET`
-request for the _example/data.txt_ file. ((URL))s that don't start
-with a protocol name (such as _http:_) are relative, which means that
-they are interpreted relative to the current document. When they start
-with a slash (/), they replace the current path, which is the part after the
-server name. When they do not, the part of the current path up to
-and including its last slash character is put in front of the relative
-URL.
+There is a similar method, called `json`, which returns a promise that
+resolves to the value you get when parsing the body as ((JSON)), or
+rejects if it's not valid JSON.
 
-{{index "send method", "GET method", "body (HTTP)", "responseText property"}}
+{{index "GET method", "body (HTTP)", "DELETE method", "method property"}}
 
-After opening the request, we can send it with the `send`
-method. The argument to send is the request body. For `GET` requests,
-we can pass `null`. If the third argument to `open` was `false`, `send`
-will return only  after the response to our request was received. We
-can read the request object's `responseText` property to get the
-response body.
-
-{{index "status property", "statusText property", header, "getResponseHeader method"}}
-
-The other
-information included in the response can also be extracted from this
-object. The ((status code)) is accessible through the `status`
-property, and the human-readable status text is accessible through `statusText`.
-Headers can be read with `getResponseHeader`.
+By default, `fetch` uses the `GET` method to make its request, and
+does not include a request body. You can configure it differently by
+passing an object with extra options as a second argument. For
+example, this request tries to delete `example/data.txt`.
 
 ```{test: no}
-var req = new XMLHttpRequest();
-req.open("GET", "example/data.txt", false);
-req.send(null);
-console.log(req.status, req.statusText);
-// → 200 OK
-console.log(req.getResponseHeader("content-type"));
-// → text/plain
-```
-
-{{index "case sensitivity", capitalization}}
-
-Header names are
-case-insensitive. They are usually written with a capital letter at
-the start of each word, such as “Content-Type”, but “content-type” and
-“cOnTeNt-TyPe” refer to the same header.
-
-{{index "Host header", "setRequestHeader method"}}
-
-The browser will
-automatically add some request ((header))s, such as “Host” and those
-needed for the server to figure out the size of the body. But you can
-add your own headers with the `setRequestHeader` method. This is 
-needed only for advanced uses and requires the cooperation of the
-((server)) you are talking to—a server is free to ignore headers it
-does not know how to handle.
-
-## Asynchronous Requests
-
-{{index XMLHttpRequest, "event handling", blocking, "synchronous I/O", "responseText property", "send method"}}
-
-In the examples we
-saw, the request has finished when the call to `send` returns. This is
-convenient because it means properties such as `responseText` are
-available immediately. But it also means that our program is suspended
-as long as the ((browser)) and server are communicating. When the
-((connection)) is bad, the server is slow, or the file is big, that
-might take quite a while. Worse, because no event handlers can fire
-while our program is suspended, the whole document will become
-unresponsive.
-
-{{index XMLHttpRequest, "open method", "asynchronous I/O"}}
-
-If we pass
-`true` as the third argument to `open`, the request is _asynchronous_.
-This means that when we call `send`, the only thing that happens right
-away is that the request is scheduled to be sent. Our program can
-continue, and the browser will take care of the sending and receiving
-of data in the background.
-
-But as long as the request is running, we won't be able to access the
-response. We need a mechanism that will notify us when the data is
-available.
-
-{{index "event handling", "load event"}}
-
-For this, we must listen for the
-`"load"` event on the request object.
-
-```
-var req = new XMLHttpRequest();
-req.open("GET", "example/data.txt", true);
-req.addEventListener("load", function() {
-  console.log("Done:", req.status);
+fetch("example/data.txt", {method: "DELETE"}).then(resp => {
+  console.log(resp.status);
+  // → 405
 });
-req.send(null);
 ```
 
-{{index "asynchronous programming", "callback function"}}
+{{index "405 (HTTP status code)"}}
 
-Just like the use
-of `requestAnimationFrame` in [Chapter ?](game), this
-forces us to use an asynchronous style of programming, wrapping the
-things that have to be done after the request in a function and
-arranging for that to be called at the appropriate time. We will come
-back to this [later](http#promises).
+The 405 status code means "method not allowed", an HTTP server's way
+of saying "I can't do that".
 
-## Fetching XML Data
+{{index "Range header", "body property", "headers property"}}
 
-{{index "documentElement property", "responseXML property"}}
-
-When the
-resource retrieved by an `XMLHttpRequest` object is an ((XML))
-document, the object's `responseXML` property will hold a parsed
-representation of this document. This representation works much like
-the ((DOM)) discussed in [Chapter ?](dom), except that
-it doesn't have HTML-specific functionality like the `style` property.
-The object that `responseXML` holds corresponds to the `document`
-object. Its `documentElement` property refers to the outer tag of the
-XML document. In the following document (_example/fruit.xml_), that
-would be the `<fruits>` tag:
-
-```{lang: "application/xml"}
-<fruits>
-  <fruit name="banana" color="yellow"/>
-  <fruit name="lemon" color="yellow"/>
-  <fruit name="cherry" color="red"/>
-</fruits>
-```
-
-We can retrieve such a file like this:
+To add a request body, you can include a `body` option. And to set
+headers, you'd use the `headers` option. For example, this request
+includes a `Range` header, which instructs the server to only return a
+part of a response.
 
 ```{test: no}
-var req = new XMLHttpRequest();
-req.open("GET", "example/fruit.xml", false);
-req.send(null);
-console.log(req.responseXML.querySelectorAll("fruit").length);
-// → 3
+fetch("example/data.txt", {headers: {Range: "bytes: 8-19"}})
+  .then(resp => resp.text())
+  .then(console.log);
+// → This is the
 ```
 
-{{index "data format"}}
-
-XML documents can be used to exchange structured
-information with the server. Their form—tags nested inside other
-tags—lends itself well to storing most types of data, or at least
-better than flat text files. The DOM interface is rather clumsy for
-extracting information, though, and ((XML)) documents tend to be
-verbose. It is often a better idea to communicate using ((JSON)) data,
-which is easier to read and write, both for programs and for humans.
-
-```
-var req = new XMLHttpRequest();
-req.open("GET", "example/fruit.json", false);
-req.send(null);
-console.log(JSON.parse(req.responseText));
-// → {banana: "yellow", lemon: "yellow", cherry: "red"}
-```
+The browser will automatically add some request ((header))s, such as
+"Host" and those needed for the server to figure out the size of the
+body. But adding your own headers is often useful to include things
+like authentication information or the tell the server which file
+format you'd like to receive.
 
 {{id http_sandbox}}
+
 ## HTTP sandboxing
 
 {{index sandbox}}
 
-Making ((HTTP)) requests in web page scripts once
-again raises concerns about ((security)). The person who controls the
-script might not have the same interests as the person on whose
-computer it is running. More specifically, if I visit _themafia.org_,
-I do not want its scripts to be able to make a request to
-_mybank.com_, using identifying information from my ((browser)), with
-instructions to transfer all my money to some random ((mafia))
-account.
+Making ((HTTP)) requests in web page scripts once again raises
+concerns about ((security)). The person who controls the script might
+not have the same interests as the person on whose computer it is
+running. More specifically, if I visit _themafia.org_, I do not want
+its scripts to be able to make a request to _mybank.com_, using
+identifying information from my ((browser)), with instructions to
+transfer all my money to some random account.
 
-It is possible for ((website))s to protect themselves against such
-((attack))s, but that requires effort, and many websites fail to do it.
 For this reason, browsers protect us by disallowing scripts to make
 HTTP requests to other _((domain))s_ (names such as _themafia.org_ and
 _mybank.com_).
 
 {{index "Access-Control-Allow-Origin header", "cross-domain request"}}
 
-This
-can be an annoying problem when building systems that want to access
-several domains for legitimate reasons. Fortunately, ((server))s can
-include a ((header)) like this in their ((response)) to explicitly
-indicate to browsers that it is okay for the request to come from
-other domains:
+This can be an annoying problem when building systems that want to
+access several domains for legitimate reasons. Fortunately,
+((server))s can include a ((header)) like this in their ((response))
+to explicitly indicate to browsers that it is okay for the request to
+come from other domains:
 
 ```{lang: null}
 Access-Control-Allow-Origin: *
 ```
 
-## Abstracting requests
-
-{{index HTTP, XMLHttpRequest, "backgroundReadFile function"}}
-
-In
-[Chapter ?](modules#amd), in our implementation of the AMD
-module system, we used a hypothetical function called
-`backgroundReadFile`. It took a filename and a function and called
-that function with the contents of the file when it had finished
-fetching it. Here's a simple implementation of that function:
-
-```{includeCode: true}
-function backgroundReadFile(url, callback) {
-  var req = new XMLHttpRequest();
-  req.open("GET", url, true);
-  req.addEventListener("load", function() {
-    if (req.status < 400)
-      callback(req.responseText);
-  });
-  req.send(null);
-}
-```
-
-{{index XMLHttpRequest}}
-
-This simple ((abstraction)) makes it easier to use
-`XMLHttpRequest` for simple `GET` requests. If you are writing a
-program that has to make HTTP requests, it is a good idea to use a
-helper function so that you don't end up repeating the ugly
-`XMLHttpRequest` pattern all through your code.
-
-{{index [function, "as value"], "callback function"}}
-
-The function argument's
-name, `callback`, is a term that is often used to describe functions
-like this. A callback function is given to other code to provide that
-code with a way to “call us back” later.
-
-{{index library}}
-
-It is not hard to write an HTTP utility function, tailored to what your
-application is doing. The previous one does only `GET` requests and
-doesn't give us control over the headers or the request body. You
-could write another variant for `POST` requests or a more generic one
-that supports various kinds of requests. Many JavaScript libraries
-also provide wrappers for `XMLHttpRequest`.
-
-{{index "user experience", "error response"}}
-
-The main problem with the previous
-wrapper is its handling of ((failure)). When the request returns
-a ((status code)) that indicates an error (400 and up), it does
-nothing. This might be okay, in some circumstances, but imagine we put
-a “loading” indicator on the page to indicate that we are fetching
-information. If the request fails because the server crashed or the
-((connection)) is briefly interrupted, the page will just sit there,
-misleadingly looking like it is doing something. The user will wait
-for a while, get impatient, and consider the site uselessly flaky.
-
-We should also have an option to be notified when the request fails
-so that we can take appropriate action. For example, we could remove the
-“loading” message and inform the user that something went wrong.
-
-{{index "exception handling", "callback function", "error handling", "asynchronous programming", "try keyword", stack}}
-
-Error handling in asynchronous code is even 
-trickier than error handling in synchronous code. Because we often need
-to defer part of our work, putting it in a callback function, the
-scope of a `try` block becomes meaningless. In the following code, the
-exception will _not_ be caught because the call to
-`backgroundReadFile` returns immediately. Control then leaves the
-`try` block, and the function it was given won't be called until
-later.
-
-```{test: no}
-try {
-  backgroundReadFile("example/data.txt", function(text) {
-    if (text != "expected")
-      throw new Error("That was unexpected");
-  });
-} catch (e) {
-  console.log("Hello from the catch block");
-}
-```
-
-{{index HTTP, "getURL function", exception}}
-
-{{id getURL}}
-To handle failing
-requests, we have to allow an additional function to be passed to our
-wrapper and call that when a request goes wrong. Alternatively, we
-can use the convention that if the request fails, an additional
-argument describing the problem is passed to the regular callback
-function. Here's an example:
-
-```{includeCode: true}
-function getURL(url, callback) {
-  var req = new XMLHttpRequest();
-  req.open("GET", url, true);
-  req.addEventListener("load", function() {
-    if (req.status < 400)
-      callback(req.responseText);
-    else
-      callback(null, new Error("Request failed: " +
-                               req.statusText));
-  });
-  req.addEventListener("error", function() {
-    callback(null, new Error("Network error"));
-  });
-  req.send(null);
-}
-```
-
-{{index "error event"}}
-
-We have added a handler for the `"error"` event,
-which will be signaled when the request fails entirely. We also call
-the ((callback function)) with an error argument when the request
-completes with a ((status code)) that indicates an error.
-
-Code using `getURL` must then check whether an error was given and, if
-it finds one, handle it.
-
-```
-getURL("data/nonsense.txt", function(content, error) {
-  if (error != null)
-    console.log("Failed to fetch nonsense.txt: " + error);
-  else
-    console.log("nonsense.txt: " + content);
-});
-```
-
-{{index "uncaught exception", "exception handling", "try keyword"}}
-
-This
-does not help when it comes to exceptions. When chaining several
-asynchronous actions together, an exception at any point of the chain
-will still (unless you wrap each handling function in its own
-`try/catch` block) land at the top level and abort your chain of
-actions.
-
-FIXME promise section removed here
-
 ## Appreciating HTTP
 
 {{index client, HTTP}}
 
-When building a system that requires
-((communication)) between a JavaScript program running in the
-((browser)) (client-side) and a program on a ((server)) (server-side),
-there are several different ways to model this communication.
+When building a system that requires ((communication)) between a
+JavaScript program running in the ((browser)) (client-side) and a
+program on a ((server)) (server-side), there are several different
+ways to model this communication.
 
 {{index network, abstraction}}
 
-A commonly used model is that of
-_((remote procedure call))s_. In this model, communication follows the
-patterns of normal function calls, except that the function is
-actually running on another machine. Calling it involves making a
-request to the server that includes the function's name and arguments.
-The response to that request contains the returned value.
+A commonly used model is that of _((remote procedure call))s_. In this
+model, communication follows the patterns of normal function calls,
+except that the function is actually running on another machine.
+Calling it involves making a request to the server that includes the
+function's name and arguments. The response to that request contains
+the returned value.
 
 When thinking in terms of remote procedure calls, HTTP is just a
 vehicle for communication, and you will most likely write an
@@ -649,90 +396,81 @@ abstraction layer that hides it entirely.
 
 {{index "media type", "document format"}}
 
-Another approach is to build your
-communication around the concept of ((resource))s and ((HTTP))
-((method))s. Instead of a remote procedure called `addUser`, you use a
-`PUT` request to `/users/larry`. Instead of encoding that user's
-properties in function arguments, you define a document format or use
-an existing format that represents a user. The body of the `PUT` request
-to create a new resource is then simply such a document. A resource is
-fetched by making a `GET`
-request to the resource's URL (for example, `/user/larry`), which
-returns the document representing the resource.
+Another approach is to build your communication around the concept of
+((resource))s and ((HTTP)) ((method))s. Instead of a remote procedure
+called `addUser`, you use a `PUT` request to `/users/larry`. Instead
+of encoding that user's properties in function arguments, you define a
+JSON document format (or use an existing format) that represents a
+user. The body of the `PUT` request to create a new resource is then
+such a document. A resource is fetched by making a `GET` request to
+the resource's URL (for example, `/user/larry`), which again returns
+the document representing the resource.
 
 This second approach makes it easier to use some of the features that
 HTTP provides, such as support for caching resources (keeping a copy
-on the client side). It can also help the coherence of your interface
-since resources are easier to reason about than a jumble of functions.
+on the client for fast access). It can also provide a helpful set of
+principles to design your interface around.
 
 ## Security and HTTPS
 
 {{index "man-in-the-middle", security, HTTPS}}
 
-Data traveling over
-the Internet tends to follow a long, dangerous road. To get
-to its destination, it must hop through anything from coffee-shop Wi-Fi
-((network))s to networks controlled by various companies and states.
-At any point along its route it may be inspected or even modified.
+Data traveling over the Internet tends to follow a long, dangerous
+road. To get to its destination, it must hop through anything from
+coffee-shop Wi-Fi to ((network))s controlled by various companies and
+states. At any point along its route it may be inspected or even
+modified.
 
 {{index tampering}}
 
-If it is important that something remain secret,
-such as the ((password)) to your ((email)) account, or that it arrive
-at its destination unmodified, such as the account number you transfer
-money to from your bank's website, plain HTTP is not good enough.
+If it is important that something remain secret, such as the
+((password)) to your ((email)) account, or that it arrive at its
+destination unmodified, such as the account number you transfer money
+to from your bank's website, plain HTTP is not good enough.
 
 {{index cryptography, encryption}}
 
 {{indexsee "Secure HTTP", HTTPS}}
 
-The secure ((HTTP)) protocol, whose
-((URL))s start with _https://_, wraps HTTP traffic in a way that makes
-it harder to read and tamper with. First, the client verifies that the
-server is who it claims to be by requiring that server to prove that it has a
-cryptographic ((certificate)) issued by a certificate authority that
-the ((browser)) recognizes. Next, all data going over the
-((connection)) is encrypted in a way that should prevent eavesdropping
-and tampering.
+The secure ((HTTP)) protocol, whose ((URL))s start with _https://_,
+wraps HTTP traffic in a way that makes it harder to read and tamper
+with. Before exchanging data, the client verifies that the server is
+who it claims to be, by asking it to prove that it has a cryptographic
+((certificate)) issued by a certificate authority that the ((browser))
+recognizes. Next, all data going over the ((connection)) is encrypted
+in a way that should prevent eavesdropping and tampering.
 
-Thus, when it works right, ((HTTPS)) prevents both the
-someone impersonating the website you were trying to talk to and the
-someone snooping on your communication. It is not
-perfect, and there have been various incidents where HTTPS failed because of
-forged or stolen certificates and broken software. Still, plain
-HTTP is trivial to mess with, whereas breaking HTTPS requires the kind
-of effort that only states or sophisticated criminal organizations can
-hope to make.
+Thus, when it works right, ((HTTPS)) prevents both the someone
+impersonating the website you were trying to talk to and the someone
+snooping on your communication. It is not perfect, and there have been
+various incidents where HTTPS failed because of forged or stolen
+certificates and broken software, but it is a _lot_ safer than plain
+HTTP.
 
+{{id forms}}
 
+## Form fields
 
-
-
-## Forms and Form Fields
-
-Forms were introduced briefly in the
-[previous chapter](http#http_forms) as a way to
-_((submit))_ information provided by the user over ((HTTP)). They were
-designed for a pre-JavaScript Web, assuming that interaction with the
-server always happens by navigating to a new page.
+Forms were originally designed for the pre-JavaScript Web, to allow
+web sites to send user-submitted information in an HTTP request. This
+design assumes that interaction with the server always happens by
+navigating to a new page.
 
 But their elements are part of the ((DOM)) like the rest of the page,
 and the DOM elements that represent form ((field))s support a number
 of properties and events that are not present on other elements. These
-make it possible to inspect and control such input fields with JavaScript programs
-and do things such as adding functionality to a traditional form or using forms
-and fields as building blocks in a JavaScript application.
-
-## Fields
+make it possible to inspect and control such input fields with
+JavaScript programs and do things such as adding new functionality to
+a form or using forms and fields as building blocks in a JavaScript
+application.
 
 {{index "form (HTML tag)"}}
 
-A web form consists of any number of input
-((field))s grouped in a `<form>` tag. HTML allows a number of
-different styles of fields, ranging from simple on/off checkboxes to
-drop-down menus and fields for text input. This book won't try to
-comprehensively discuss all field types, but we will start with a rough
-overview.
+A web form consists of any number of input ((field))s grouped in a
+`<form>` tag. HTML allows several different styles of fields, ranging
+from simple on/off checkboxes to drop-down menus and fields for text
+input. This book won't try to comprehensively discuss all field types,
+but we will start with a rough overview.
 
 {{index "input (HTML tag)", "type attribute"}}
 
@@ -752,11 +490,11 @@ field's style. These are some commonly used `<input>` types:
 
 {{index "value attribute", "checked attribute", "form (HTML tag)"}}
 
-Form
-fields do not necessarily have to appear in a `<form>` tag. You can
-put them anywhere in a page. Such fields cannot be ((submit))ted
-(only a form as a whole can), but when responding to input with
-JavaScript, we often do not want to submit our fields normally anyway.
+Form fields do not necessarily have to appear in a `<form>` tag. You
+can put them anywhere in a page. Such form-less fields cannot be
+((submit))ted (only a form as a whole can), but when responding to
+input with JavaScript, we often don't want to submit our fields
+normally anyway.
 
 ```{lang: "text/html"}
 <p><input type="text" value="abc"> (text)</p>
@@ -777,16 +515,15 @@ The fields created with this HTML code look like this:
 if}}
 
 The JavaScript interface for such elements differs with the type of
-the element. We'll go over each of them later in the chapter.
+the element.
 
 {{index "textarea (HTML tag)", "text field"}}
 
-Multiline text fields have
-their own tag, `<textarea>`, mostly because using an attribute to
-specify a multiline starting value would be awkward. The `<textarea>`
-requires a matching `</textarea>` closing tag and uses the text
-between those two, instead of using its `value` attribute, as starting
-text.
+Multiline text fields have their own tag, `<textarea>`, mostly because
+using an attribute to specify a multiline starting value would be
+awkward. The `<textarea>` requires a matching `</textarea>` closing
+tag and uses the text between those two, instead of `value` attribute,
+as starting text.
 
 ```{lang: "text/html"}
 <textarea>
@@ -820,8 +557,8 @@ if}}
 
 {{index "change event"}}
 
-Whenever the value of a form field changes, it fires
-a `"change"` event.
+Whenever the value of a form field changes, it will fire a `"change"`
+event.
 
 ## Focus
 
@@ -829,10 +566,9 @@ a `"change"` event.
 
 {{indexsee "keyboard focus", focus}}
 
-Unlike most elements in an HTML document,
-form fields can get _keyboard ((focus))_. When clicked—or activated in
-some other way—they become the currently active element, the main
-recipient of keyboard ((input)).
+Unlike most elements in HTML documents, form fields can get _keyboard
+((focus))_. When clicked or activated in some other way they become
+the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
@@ -865,14 +601,13 @@ the currently focused element.
 
 {{index "autofocus attribute"}}
 
-For some pages, the user is expected to
-want to interact with a form field immediately.
-JavaScript can be used to ((focus)) this field when the document is
-loaded, but HTML also provides the `autofocus` attribute, which
-produces the same effect but lets the browser know what we are trying
-to achieve. This makes it possible for the browser to disable the
-behavior when it is not appropriate, such as when the user has focused
-something else.
+For some pages, the user is expected to want to interact with a form
+field immediately. JavaScript can be used to ((focus)) this field when
+the document is loaded, but HTML also provides the `autofocus`
+attribute, which produces the same effect while letting the browser
+know what we are trying to achieve. This allows the browser to disable
+the behavior when it is not appropriate, such as when the user has
+focused something else.
 
 ```{lang: "text/html", focus: true}
 <input type="text" autofocus>
@@ -893,9 +628,10 @@ the OK button, rather than going through the help link first:
 
 {{index "tabindex attribute"}}
 
-By default, most types of HTML elements cannot
-be focused. But you can add a `tabindex` attribute to any element,
-which will make it focusable.
+By default, most types of HTML elements cannot be focused. But you can
+add a `tabindex` attribute to any element, which will make it
+focusable. Similarly, a `tabindex` of -1 makes tabbing skip over an
+element, even if it is normally focusable.
 
 ## Disabled fields
 
@@ -955,7 +691,7 @@ name).
   <button type="submit">Log in</button>
 </form>
 <script>
-  var form = document.querySelector("form");
+  let form = document.querySelector("form");
   console.log(form.elements[1].type);
   // → password
   console.log(form.elements.password.type);
@@ -973,13 +709,12 @@ focused has the same effect.
 
 {{index "submit event", "event handling", "preventDefault method", "page reload", "GET method", "POST method"}}
 
-Submitting
-a ((form)) normally means that the
-((browser)) navigates to the page indicated by the form's `action`
-attribute, using either a `GET` or a `POST` ((request)). But before
-that happens, a `"submit"` event is fired. This event can be handled
-by JavaScript, and the handler can prevent the default behavior by
-calling `preventDefault` on the event object.
+Submitting a ((form)) normally means that the ((browser)) navigates to
+the page indicated by the form's `action` attribute, using either a
+`GET` or a `POST` ((request)). But before that happens, a `"submit"`
+event is fired. This event can be handled by JavaScript. The handler
+can prevent the default behavior by calling `preventDefault` on the
+event object.
 
 ```{lang: "text/html"}
 <form action="example/submit.html">
@@ -987,8 +722,8 @@ calling `preventDefault` on the event object.
   <button type="submit">Save</button>
 </form>
 <script>
-  var form = document.querySelector("form");
-  form.addEventListener("submit", function(event) {
+  let form = document.querySelector("form");
+  form.addEventListener("submit", event => {
     console.log("Saving value", form.elements.value.value);
     event.preventDefault();
   });
@@ -997,14 +732,13 @@ calling `preventDefault` on the event object.
 
 {{index "submit event", validation, XMLHttpRequest}}
 
-Intercepting
-`"submit"` events in JavaScript has various uses. We can write code to
-verify that the values the user entered make sense and immediately
-show an error message instead of submitting the form when they don't.
-Or we can disable the regular way of submitting the form entirely, as
-in the previous example, and have our program handle the input, possibly
-using `XMLHttpRequest` to send it over to a server without reloading
-the page.
+Intercepting `"submit"` events in JavaScript has various uses. We can
+write code to verify that the values the user entered make sense and
+immediately show an error message instead of submitting the form when
+they don't. Or we can disable the regular way of submitting the form
+entirely, as in the example, and have our program handle the input,
+possibly using `fetch` to send it to a server without reloading the
+page.
 
 ## Text fields
 
@@ -1034,13 +768,13 @@ As an example, imagine you
 are writing an article about Khasekhemwy but have some
 trouble spelling his name. The following code wires up a `<textarea>` tag
 with an event handler that, when you press F2, inserts the string
-“Khasekhemwy” for you.
+"Khasekhemwy" for you.
 
 ```{lang: "text/html"}
 <textarea></textarea>
 <script>
-  var textarea = document.querySelector("textarea");
-  textarea.addEventListener("keydown", function(event) {
+  let textarea = document.querySelector("textarea");
+  textarea.addEventListener("keydown", event => {
     // The key code for F2 happens to be 113
     if (event.keyCode == 113) {
       replaceSelection(textarea, "Khasekhemwy");
@@ -1048,12 +782,12 @@ with an event handler that, when you press F2, inserts the string
     }
   });
   function replaceSelection(field, word) {
-    var from = field.selectionStart, to = field.selectionEnd;
+    let from = field.selectionStart, to = field.selectionEnd;
     field.value = field.value.slice(0, from) + word +
                   field.value.slice(to);
     // Put the cursor after the word
-    field.selectionStart = field.selectionEnd =
-      from + word.length;
+    field.selectionStart = from + word.length;
+    field.selectionEnd = from + word.length;
   }
 </script>
 ```
@@ -1075,15 +809,15 @@ a handler for the `"input"` event instead, which fires for every
 time the user types a character, deletes text, or otherwise manipulates
 the field's content.
 
-The following example  shows a text field and a counter showing the current
-length of the text entered:
+The following example shows a text field and a counter showing the
+current length of the text in the field:
 
 ```{lang: "text/html"}
 <input type="text"> length: <span id="length">0</span>
 <script>
-  var text = document.querySelector("input");
-  var output = document.querySelector("#length");
-  text.addEventListener("input", function() {
+  let text = document.querySelector("input");
+  let output = document.querySelector("#length");
+  text.addEventListener("input", () => {
     output.textContent = text.value.length;
   });
 </script>
@@ -1093,16 +827,17 @@ length of the text entered:
 
 {{index "input (HTML tag)", "checked attribute"}}
 
-A ((checkbox)) field is a
-simple binary toggle. Its value can be extracted or changed through
-its `checked` property, which holds a Boolean value.
+A ((checkbox)) field is a simple binary toggle. Its value can be
+extracted or changed through its `checked` property which holds a
+Boolean value.
 
 ```{lang: "text/html"}
-<input type="checkbox" id="purple">
-<label for="purple">Make this page purple</label>
+<label>
+  <input type="checkbox" id="purple"> Make this page purple
+</label>
 <script>
-  var checkbox = document.querySelector("#purple");
-  checkbox.addEventListener("change", function() {
+  let checkbox = document.querySelector("#purple");
+  checkbox.addEventListener("change", () => {
     document.body.style.background =
       checkbox.checked ? "mediumpurple" : "";
   });
@@ -1111,17 +846,16 @@ its `checked` property, which holds a Boolean value.
 
 {{index "for attribute", "id attribute", focus, "label (HTML tag)", labeling}}
 
-The `<label>` tag is used to associate a piece of
-text with an input ((field)). Its `for` attribute should refer to the
-`id` of the field. Clicking the label will activate the field, which focuses
-it and toggles its value when it is a checkbox or radio button.
+The `<label>` tag associates a piece of document with an input
+((field)). Clicking anywhere on the label will activate the field,
+which focuses it and toggles its value when it is a checkbox or radio
+button.
 
 {{index "input (HTML tag)", "multiple-choice"}}
 
-A ((radio button)) is
-similar to a checkbox, but it's implicitly linked to other radio buttons
-with the same `name` attribute so that only one of them can be active
-at any time.
+A ((radio button)) is similar to a checkbox, but it's implicitly
+linked to other radio buttons with the same `name` attribute so that
+only one of them can be active at any time.
 
 ```{lang: "text/html"}
 Color:
@@ -1129,26 +863,20 @@ Color:
 <input type="radio" name="color" value="lightgreen"> Green
 <input type="radio" name="color" value="lightblue"> Blue
 <script>
-  var buttons = document.getElementsByName("color");
-  function setColor(event) {
-    document.body.style.background = event.target.value;
+  let buttons = document.querySelectorAll("[name=color]");
+  for (let button of Array.from(buttons)) {
+    button.addEventListener("change", () => {
+      document.body.style.background = button.value;
+    });
   }
-  for (var i = 0; i < buttons.length; i++)
-    buttons[i].addEventListener("change", setColor);
 </script>
 ```
 
-{{index "getElementsByName method", "name attribute", "array-like object", "event handling", "target property"}}
+{{index "name attribute", "querySelectorAll method"}}
 
-The
-`document.getElementsByName` method gives us all elements with a given
-`name` attribute. The example loops over those (with a regular `for`
-loop, not `forEach`, because the returned collection is not a real
-array) and registers an event handler for each element. Remember that
-event objects have a `target` property referring to the element that
-triggered the event. This is often useful in event handlers like this
-one, which will be called on different elements and need some way to
-access the current target.
+The ((square brackets)) in the CSS query given to `querySelectorAll`
+are used to query elements for a matching attribute. In this case, it
+selects elements whose `name` attribute is `"color"`.
 
 ## Select fields
 
@@ -1187,23 +915,14 @@ shows the options only when you open it.
 
 if}}
 
-{{index "size attribute"}}
-
-The `size` attribute to the
-`<select>` tag is used to set the number of options that are visible at 
-the same time, which gives you explicit control over the drop-down's appearance. For example,
-setting the `size` attribute to `"3"` will make the field show three lines, whether it
-has the `multiple` option enabled or not.
-
 {{index "option (HTML tag)", "value attribute"}}
 
-Each `<option>` tag has a
-value. This value can be defined with a `value` attribute, but when
-that is not given, the ((text)) inside the option will count as the
-option's value. The `value` property of a `<select>` element reflects
-the currently selected option. For a `multiple` field, though, this
-property doesn't mean much since it will give the value of only _one_
-of the currently selected options.
+Each `<option>` tag has a value. This value can be defined with a
+`value` attribute, but when that is not given, the ((text)) inside the
+option will count as its value. The `value` property of a `<select>`
+element reflects the currently selected option. For a `multiple`
+field, though, this property doesn't mean much since it will give the
+value of only _one_ of the currently selected options.
 
 {{index "select (HTML tag)", "options property", "selected attribute"}}
 
@@ -1228,14 +947,14 @@ on a Mac) to select multiple options.
   <option value="8">1000</option>
 </select> = <span id="output">0</span>
 <script>
-  var select = document.querySelector("select");
-  var output = document.querySelector("#output");
-  select.addEventListener("change", function() {
-    var number = 0;
-    for (var i = 0; i < select.options.length; i++) {
-      var option = select.options[i];
-      if (option.selected)
+  let select = document.querySelector("select");
+  let output = document.querySelector("#output");
+  select.addEventListener("change", () => {
+    let number = 0;
+    for (let option of Array.from(select.options)) {
+      if (option.selected) {
         number += Number(option.value);
+      }
     }
     output.textContent = number;
   });
@@ -1255,19 +974,18 @@ computer, but if the user selects a file in such a field, the browser
 interprets that action to mean that the script may read the file.
 
 A file field usually looks like a button labeled with something like
-“choose file” or “browse”, with information about the chosen file next
+"choose file" or "browse", with information about the chosen file next
 to it.
 
 ```{lang: "text/html"}
 <input type="file">
 <script>
-  var input = document.querySelector("input");
-  input.addEventListener("change", function() {
+  let input = document.querySelector("input");
+  input.addEventListener("change", () => {
     if (input.files.length > 0) {
-      var file = input.files[0];
+      let file = input.files[0];
       console.log("You chose", file.name);
-      if (file.type)
-        console.log("It has type", file.type);
+      if (file.type) console.log("It has type", file.type);
     }
   });
 </script>
@@ -1284,110 +1002,89 @@ select multiple files at the same time.
 
 {{index "File type"}}
 
-Objects in the `files` property have properties such as
-`name` (the filename), `size` (the file's size in bytes), and `type`
-(the media type of the file, such as `text/plain` or `image/jpeg`).
+Objects in the `files` object have properties such as `name` (the
+filename), `size` (the file's size in bytes), and `type` (the media
+type of the file, such as `text/plain` or `image/jpeg`).
 
 {{index "asynchronous programming", "file reading", "FileReader type"}}
 
 {{id filereader}}
-What it does not have is a property that contains the content
-of the file. Getting at that is a little more involved. Since reading
-a file from disk can take time, the interface will have to be
-asynchronous to avoid freezing the document. You can think of the
-`FileReader` constructor as being similar to `XMLHttpRequest` but for
-files.
+
+What it does not have is a property that contains the content of the
+file. Getting at that is a little more involved. Since reading a file
+from disk can take time, the interface will have to be asynchronous to
+avoid freezing the document.
 
 ```{lang: "text/html"}
 <input type="file" multiple>
 <script>
-  var input = document.querySelector("input");
-  input.addEventListener("change", function() {
-    Array.prototype.forEach.call(input.files, function(file) {
-      var reader = new FileReader();
-      reader.addEventListener("load", function() {
+  let input = document.querySelector("input");
+  input.addEventListener("change", () => {
+    for (let file of Array.from(input.files)) {
+      let reader = new FileReader();
+      reader.addEventListener("load", () => {
         console.log("File", file.name, "starts with",
                     reader.result.slice(0, 20));
       });
       reader.readAsText(file);
-    });
+    }
   });
 </script>
 ```
 
 {{index "FileReader type", "load event", "readAsText method", "result property"}}
 
-Reading a file is done by creating a `FileReader` object,
-registering a `"load"` event handler for it, and calling its
-`readAsText` method, giving it the file we want to read. Once loading
-finishes, the reader's `result` property contains the file's content.
+Reading a file is done by creating a `FileReader` object, registering
+a `"load"` event handler for it, and calling its `readAsText` method,
+giving it the file we want to read. Once loading finishes, the
+reader's `result` property contains the file's content.
 
-{{index "forEach method", "array-like object", closure}}
+{{index "error event", "FileReader type", "Promise class"}}
 
-The example
-uses `Array.prototype.forEach` to iterate over the array since in a
-normal loop it would be awkward to get the correct `file` and `reader`
-objects from the event handler. The variables would be shared by all
-iterations of the loop.
-
-{{index "error event", "FileReader type", promise}}
-
-_FileReader_s
-also fire an `"error"` event when reading the file fails for any
-reason. The error object itself will end up in the reader's `error`
-property. If you don't want to remember the details of yet another
-inconsistent asynchronous interface, you could wrap it in a `Promise` (see
-[Chapter ?](http#promises)) like this:
+_FileReader_s also fire an `"error"` event when reading the file fails
+for any reason. The error object itself will end up in the reader's
+`error` property. This interface was designed before promises became
+part of the language. You could wrap it in a promise like this:
 
 ```
-function readFile(file) {
-  return new Promise(function(succeed, fail) {
-    var reader = new FileReader();
-    reader.addEventListener("load", function() {
-      succeed(reader.result);
-    });
-    reader.addEventListener("error", function() {
-      fail(reader.error);
-    });
+function readFileText(file) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+    reader.addEventListener(
+      "load", () => resolve(reader.result));
+    reader.addEventListener(
+      "error", () => reject(reader.error));
     reader.readAsText(file);
   });
 }
 ```
 
-{{index "slice method", "Blob type"}}
-
-It is possible to read only part of a
-file by calling `slice` on it and passing the result (a
-so-called _blob_ object) to the file reader.
-
 ## Storing data client-side
 
 {{index "web application"}}
 
-Simple ((HTML)) pages with a bit of JavaScript
-can be a great medium for “((mini application))s”—small helper programs
-that automate everyday things. By connecting a few form ((field))s
-with event handlers, you can do anything from converting between
-degrees Celsius and Fahrenheit to computing passwords from a master
-password and a website name.
+Simple ((HTML)) pages with a bit of JavaScript can be a great medium
+for "((mini application))s"—small helper programs that automate
+everyday things. By connecting a few form ((field))s with event
+handlers, you can do anything from converting between degrees Celsius
+and Fahrenheit to computing passwords from a master password and a
+website name.
 
 {{index persistence, memory}}
 
-When such an application needs to
-remember something between sessions, you cannot use JavaScript
-((variable))s since those are thrown away every time a page is
-closed. You could set up a server, connect it to the Internet, and
-have your application store something there. We will see how to do
-that in [Chapter ?](node). But this adds a lot of
-extra work and complexity. Sometimes it is enough to just keep the
-data in the ((browser)). But how?
+When such an application needs to remember something between sessions,
+you cannot use JavaScript ((binding))s since those are thrown away
+every time a page is closed. You could set up a server, connect it to
+the Internet, and have your application store something there. We will
+see how to do that in [Chapter ?](node). But this adds a lot of extra
+work and complexity. Sometimes it is enough to just keep the data in
+the ((browser)). But how?
 
 {{index "localStorage object", "setItem method", "getItem method", "removeItem method"}}
 
-You can store string data in a way
-that survives ((page reload))s by putting it in the `localStorage`
-object. This object allows you to file string values under names (also
-strings), as in this example:
+You can store data in a way that survives ((page reload))s by putting
+it in the `localStorage` object. This object allows you to file string
+values under names (also strings), as in this example:
 
 ```
 localStorage.setItem("username", "marijn");
@@ -1411,108 +1108,109 @@ that same site.
 
 {{index "localStorage object"}}
 
-Browsers also enforce a limit on the size of
-the data a site can store in `localStorage`, typically on the order of
-a few megabytes. That restriction, along with the fact that filling up
-people's ((hard drive))s with junk is not really profitable, prevents
-this feature from eating up too much space.
+Browsers do enforce a limit on the size of the data a site can store
+in `localStorage`. That restriction, along with the fact that filling
+up people's ((hard drive))s with junk is not really profitable,
+prevents this feature from eating up too much space.
 
 {{index "localStorage object", "note-taking example", "select (HTML tag)", "button (HTML tag)", "textarea (HTML tag)"}}
 
-The following code 
-implements a simple note-taking application. It keeps the user's notes
-as an object, associating note titles with content strings. This object
-is encoded as ((JSON)) and stored in `localStorage`. The user can
-select a note from a `<select>` field and change that note's text in
-a `<textarea>`. A note can be added by clicking a button.
+The following code implements a crude note-taking application. It
+keeps a set of named notes, and allows the user to select one, edit
+it, and create a new note.
 
 ```{lang: "text/html", startCode: true}
-Notes: <select id="list"></select>
-<button onclick="addNote()">new</button><br>
-<textarea id="currentnote" style="width: 100%; height: 10em">
-</textarea>
+Notes: <select></select> <button>Add</button><br>
+<textarea style="width: 100%"></textarea>
 
 <script>
-  var list = document.querySelector("#list");
-  function addToList(name) {
-    var option = document.createElement("option");
-    option.textContent = name;
-    list.appendChild(option);
-  }
+  let list = document.querySelector("select");
+  let note = document.querySelector("textarea");
 
-  // Initialize the list from localStorage
-  var notes = JSON.parse(localStorage.getItem("notes")) ||
-              {"shopping list": ""};
-  for (var name in notes)
-    if (notes.hasOwnProperty(name))
-      addToList(name);
-
-  function saveToStorage() {
-    localStorage.setItem("notes", JSON.stringify(notes));
-  }
-
-  var current = document.querySelector("#currentnote");
-  current.value = notes[list.value];
-
-  list.addEventListener("change", function() {
-    current.value = notes[list.value];
-  });
-  current.addEventListener("change", function() {
-    notes[list.value] = current.value;
-    saveToStorage();
-  });
-
-  function addNote() {
-    var name = prompt("Note name", "");
-    if (!name) return;
-    if (!notes.hasOwnProperty(name)) {
-      notes[name] = "";
-      addToList(name);
-      saveToStorage();
+  let state;
+  function setState(newState) {
+    list.textContent = "";
+    for (let name of Object.keys(newState.notes)) {
+      let option = document.createElement("option");
+      option.textContent = name;
+      if (newState.selected == name) option.selected = true;
+      list.appendChild(option);
     }
-    list.value = name;
-    current.value = notes[name];
+    note.value = newState.notes[newState.selected];
+
+    localStorage.setItem("Notes", JSON.stringify(newState));
+    state = newState;
   }
+  setState(JSON.parse(localStorage.getItem("Notes")) || {
+    notes: {"shopping list": "Carrots\nRaisins"},
+    selected: "shopping list"
+  });
+
+  list.addEventListener("change", () => {
+    setState({notes: state.notes, selected: list.value});
+  });
+  note.addEventListener("change", () => {
+    setState({
+      notes: Object.assign({}, state.notes,
+                           {[state.selected]: note.value}),
+      selected: state.selected
+    });
+  });
+  document.querySelector("button")
+    .addEventListener("click", () => {
+      let name = prompt("Note name");
+      if (name) setState({
+        notes: Object.assign({}, state.notes, {[name]: ""}),
+        selected: name
+      });
+    });
 </script>
 ```
 
 {{index "getItem method", JSON, "|| operator", "default value"}}
 
-The
-script initializes the `notes` variable to the value stored in
-`localStorage` or, if that is missing, to a simple object with only an
-empty `"shopping list"` note in it. Reading a field that does not
+The script gets its starting state from the `"Notes"` value stored in
+`localStorage` or, if that is missing, it creates an example state
+that only has a shopping list in it. Reading a field that does not
 exist from `localStorage` will yield `null`. Passing `null` to
-`JSON.parse` will make it parse the string `"null"` and return
-`null`. Thus, the `||` operator can be used to provide a default value
-in a situation like this.
+`JSON.parse` will make it parse the string `"null"` and return `null`.
+Thus, the `||` operator can be used to provide a default value in a
+situation like this.
 
-{{index optimization, "localStorage object", "setItem method"}}
+The `setState` method makes sure the DOM is showing a given state, and
+stores the new state to `localStorage`. Event handlers call that to
+update to a new state. This is somewhat inefficient—the option
+elements are recreated every time something changes, for example. The
+alternative would be to "manually" fix the DOM to be consistent with
+the state on every change.
 
-Whenever the note data changes (when a new note is added or
-an existing note changed), the `saveToStorage` function is called to
-update the storage field. If this application was intended to handle
-thousands of notes, rather than a handful, this would be too
-expensive, and we'd have to come up with a more complicated way to
-store them, such as giving each note its own storage field.
+That would work fine for a trivial application like this, but quickly
+turns into an error-prone mess for bigger programs with more
+complicated interfaces. Doing this kind of interface ((update))s
+without doing a lot of redundant work is the tricky part. We could
+have compared the old list of note names to the new, and avoid
+rebuilding the list of options if it is the same, for example. There
+are various libraries and ((framework))s that aim to making this easy,
+most of which require you to create your HTML elements in a
+library-specific way so that that ((library)) can automatically
+determine what needs to change and what doesn't.
 
-{{index "change event"}}
+{{index "Object.assign function", object, property, "computed property"}}
 
-When the user adds a new note, the code must update
-the text field explicitly, even though the `<select>` field has a
-`"change"` handler that does the same thing. This is necessary because
-`"change"` events fire only when the _user_ changes the field's value,
-not when a script does it.
+The use of `Object.assign` in the example is intended to create a new
+object that is a clone of the old `state.notes`, but with one property
+added or overwritten. Remember that `Object.assign` takes its first
+argument, and then adds all properties from further arguments to it.
+Thus, giving it an empty object will cause it to create a fresh
+object. The ((square brackets)) notation in the third argument is used
+to create a property whose names is based on some dynamic value.
 
 {{index "sessionStorage object"}}
 
-There is another object similar to
-`localStorage` called `sessionStorage`. The difference between the two
-is that the content of `sessionStorage` is forgotten at the end of
-each ((session)), which for most ((browser))s means whenever the
-browser is closed.
-
-## Summary
+There is another object, similar to `localStorage`, called
+`sessionStorage`. The difference between the two is that the content
+of `sessionStorage` is forgotten at the end of each ((session)), which
+for most ((browser))s means whenever the browser is closed.
 
 ## Summary
 
@@ -1523,48 +1221,34 @@ resource. The _server_ then decides what to do with the request and
 responds with a status code and a response body. Both requests and
 responses may contain headers that provide additional information.
 
+The interface through which browser JavaScript can make HTTP requests
+is called `fetch`. Making a request looks like this:
+
+```
+fetch("/18_http.html").then(r => r.text()).then(text => {
+  console.log(`The page starts with ${text.slice(0, 15)}`);
+});
+```
+
 Browsers make `GET` requests to fetch the resources needed to display
 a web page. A web page may also contain forms, which allow information
-entered by the user to be sent along in the request made when the form
-is submitted. You will learn more about that in the [next
-chapter](forms).
-
-The interface through which browser JavaScript can make HTTP requests
-is called `XMLHttpRequest`. You can usually ignore the “XML” part of
-that name (but you still have to type it). There are two ways in which
-it can be used—synchronous, which blocks everything until the request
-finishes, and asynchronous, which requires an event handler to notice
-that the response came in. In almost all cases, asynchronous is
-preferable. Making a request looks like this:
-
-```
-var req = new XMLHttpRequest();
-req.open("GET", "example/data.txt", true);
-req.addEventListener("load", function() {
-  console.log(req.status);
-});
-req.send(null);
-```
-
-Asynchronous programming is tricky. _Promises_ are an interface that
-makes it slightly easier by helping route error conditions and
-exceptions to the right handler and by abstracting away some of the more
-repetitive and error-prone elements in this style of programming.
+entered by the user to be sent as a request for a new page when the
+form is submitted.
 
 HTML can express various types of form fields, such as text fields,
 checkboxes, multiple-choice fields, and file pickers.
 
 Such fields can be inspected and manipulated with JavaScript. They
-fire the `"change"` event when changed, the `"input"` event when text is
-typed, and  various keyboard events. These events allow us to
-notice when the user is interacting with the fields. Properties like `value`
-(for text and select fields) or `checked` (for checkboxes and radio
-buttons) are used to read or set the field's content.
+fire the `"change"` event when changed, the `"input"` event when text
+is typed, and receive keyboard events when they have keyboard focus.
+Properties like `value` (for text and select fields) or `checked` (for
+checkboxes and radio buttons) are used to read or set the field's
+content.
 
-When a form is submitted, its `"submit"` event fires. A JavaScript
-handler can call `preventDefault` on that event to prevent the submission from
-happening. Form field elements do not have to be wrapped in `<form>`
-tags.
+When a form is submitted, a `"submit"` event is fired on it. A
+JavaScript handler can call `preventDefault` on that event to prevent
+the submission from happening. Form field elements may also occur
+outside of a form tag.
 
 When the user has selected a file from their local file system in a
 file picker field, the `FileReader` interface can be used to access
@@ -1572,25 +1256,76 @@ the content of this file from a JavaScript program.
 
 The `localStorage` and `sessionStorage` objects can be used to save
 information in a way that survives page reloads. The first saves the
-data forever (or until the user decides to clear it), and the second saves
-it until the browser is closed.
+data forever (or until the user decides to clear it), and the second
+saves it until the browser is closed.
 
 ## Exercises
+
+### Content negotiation
+
+{{index "Accept header", "media type", "document format", "content negotiation (exercise)"}}
+
+One of the things that HTTP can do is called _content negotiation_.
+The `Accept` request header is used to tell the server what type of
+document the client would like to get. Many servers ignore this
+header, but when a server knows of various ways to encode a resource,
+it can look at this header and send the one that the client prefers.
+
+{{index "MIME type"}}
+
+The URL
+[_eloquentjavascript.net/author_](https://eloquentjavascript.net/author)
+is configured to respond with either plaintext, HTML, or JSON,
+depending on what the client asks for. These formats are identified by
+the standardized _((media type))s_ `text/plain`, `text/html`, and
+`application/json`.
+
+{{index "headers property", "fetch function"}}
+
+Send requests to fetch all three formats of this resource. Use the
+`headers` property in an options object passed to `fetch` to set the
+header named `Accept` to one of the media types given earlier.
+
+Finally, try asking for the media type `application/rainbows+unicorns`
+and see what happens.
+
+{{if interactive
+
+```{test: no}
+// Your code here.
+```
+
+if}}
+
+{{hint
+
+{{index "content negotiation (exercise)"}}
+
+Base your code on the `fetch` examples [earlier in the
+chapter](http#fetch).
+
+{{index "406 (HTTP status code)", "Accept header"}}
+
+Asking for a bogus media type will return a response with code 406,
+"Not acceptable", which is the code a server should return when it
+can't fulfill the `Accept` header.
+
+hint}}
 
 ### A JavaScript workbench
 
 {{index "JavaScript console", "workbench (exercise)"}}
 
-Build an interface
-that allows people to type and run pieces of JavaScript code.
+Build an interface that allows people to type and run pieces of
+JavaScript code.
 
 {{index "textarea (HTML tag)", "button (HTML tag)", "Function constructor", "error message"}}
 
-Put a button next to a `<textarea>`
-field, which, when pressed, uses the `Function` constructor we saw in
-[Chapter ?](modules#eval) to wrap the text in a function
-and call it. Convert the return value of the function, or any error it
-raised, to a string and display it after the text field.
+Put a button next to a `<textarea>` field, which, when pressed, uses
+the `Function` constructor we saw in [Chapter ?](modules#eval) to wrap
+the text in a function and call it. Convert the return value of the
+function, or any error it raised, to a string and display it after the
+text field.
 
 {{if interactive
 
@@ -1610,89 +1345,25 @@ if}}
 
 {{index "click event", "mousedown event", "Function constructor", "workbench (exercise)"}}
 
-Use `document.querySelector`
-or `document.getElementById` to get access to the elements defined in
-your HTML. An event handler for `"click"` or `"mousedown"` events on
-the button can get the `value` property of the text field and call
-`new Function` on it.
+Use `document.querySelector` or `document.getElementById` to get
+access to the elements defined in your HTML. An event handler for
+`"click"` or `"mousedown"` events on the button can get the `value`
+property of the text field and call `new Function` on it.
 
 {{index "try keyword", "exception handling"}}
 
-Make sure you wrap both the
-call to `new Function` and the call to its result in a `try` block so
-that you can catch exceptions that it produces. In this case, we
-really don't know what type of exception we are looking for, so catch
-everything.
+Make sure you wrap both the call to `new Function` and the call to its
+result in a `try` block so that you can catch exceptions that it
+produces. In this case, we really don't know what type of exception we
+are looking for, so catch everything.
 
 {{index "textContent property", output, text, "createTextNode method", "newline character"}}
 
-The `textContent` property of the
-output element can be used to fill it with a string message. Or, if
-you want to keep the old content around, create a new text node using
-`document.createTextNode` and append it to the element. Remember to
-add a newline character to the end so that not all output appears on
-a single line.
-
-hint}}
-
-### Autocompletion
-
-{{index completion, "autocompletion (exercise)"}}
-
-Extend a ((text field))
-so that when the user types, a list of suggested values is shown below
-the field. You have an array of possible values available and should show those
-that start with the text that was typed. When a ((suggestion)) is
-clicked, replace the text field's current value with it.
-
-{{if interactive
-
-```{lang: "text/html", test: no}
-<input type="text" id="field">
-<div id="suggestions" style="cursor: pointer"></div>
-
-<script>
-  // Builds up an array with global variable names, like
-  // 'alert', 'document', and 'scrollTo'
-  var terms = [];
-  for (var name in window)
-    terms.push(name);
-
-  // Your code here.
-</script>
-```
-
-if}}
-
-{{hint
-
-{{index "input event", "autocompletion (exercise)"}}
-
-The best event for
-updating the suggestion list is `"input"` since that will fire
-immediately when the content of the field is changed.
-
-{{index "indexOf method", "textContent property"}}
-
-Then loop over the array
-of terms and see whether they start with the given string. For example, you
-could call `indexOf` and see whether the result is zero. For each matching
-string, add an element to the suggestions `<div>`. You should probably
-also empty that each time you start updating the suggestions, for
-example by setting its `textContent` to the empty string.
-
-{{index "click event", mouse, "target property"}}
-
-You could either add
-a `"click"` event handler to every suggestion element or add a single
-one to the outer `<div>` that holds them and look at the `target`
-property of the event to find out which suggestion was clicked.
-
-{{index attribute}}
-
-To get the suggestion text out of a DOM node, you could
-look at its `textContent` or set an attribute to explicitly store the
-text when you create the element.
+The `textContent` property of the output element can be used to fill
+it with a string message. Or, if you want to keep the old content
+around, create a new text node using `document.createTextNode` and
+append it to the element. Remember to add a newline character to the
+end so that not all output appears on a single line.
 
 hint}}
 
@@ -1701,38 +1372,36 @@ hint}}
 {{index "game of life (exercise)", "artificial life", "Conway's Game of Life"}}
 
 Conway's Game of Life is a simple ((simulation)) that creates
-artificial “life” on a ((grid)), each cell of which is either live or
+artificial "life" on a ((grid)), each cell of which is either live or
 not. Each ((generation)) (turn), the following rules are applied:
 
 * Any live ((cell)) with fewer than two or more than three live
   ((neighbor))s dies.
 
-* Any live cell with two or three live neighbors lives on to the
-  next generation.
+* Any live cell with two or three live neighbors lives on to the next
+  generation.
 
-* Any dead cell with exactly three live neighbors becomes a live
-  cell.
+* Any dead cell with exactly three live neighbors becomes a live cell.
 
 A neighbor is defined as any adjacent cell, including diagonally
 adjacent ones.
 
 {{index "pure function"}}
 
-Note that these rules are applied to the whole grid
-at once, not one square at a time. That means the counting of
-neighbors is based on the situation at the start of the generation,
-and changes happening to neighbor cells during this generation should not
-influence the new state of a given cell.
+Note that these rules are applied to the whole grid at once, not one
+square at a time. That means the counting of neighbors is based on the
+situation at the start of the generation, and changes happening to
+neighbor cells during this generation should not influence the new
+state of a given cell.
 
 {{index "Math.random function"}}
 
-Implement this game using whichever ((data
-structure)) you find appropriate. Use `Math.random` to populate the
-grid with a random pattern initially. Display it as a grid of
-((checkbox)) ((field))s, with a ((button)) next to it to advance to
-the next ((generation)). When the user checks or unchecks the
-checkboxes, their changes should be included when computing the next
-generation.
+Implement this game using whichever ((data structure)) you find
+appropriate. Use `Math.random` to populate the grid with a random
+pattern initially. Display it as a grid of ((checkbox)) ((field))s,
+with a ((button)) next to it to advance to the next ((generation)).
+When the user checks or unchecks the checkboxes, their changes should
+be included when computing the next generation.
 
 {{if interactive
 
@@ -1751,25 +1420,24 @@ if}}
 
 {{index "game of life (exercise)"}}
 
-To solve the problem of having the
-changes conceptually happen at the same time, try to see the
-computation of a ((generation)) as a ((pure function)), which takes
-one ((grid)) and produces a new grid that represents the next turn.
+To solve the problem of having the changes conceptually happen at the
+same time, try to see the computation of a ((generation)) as a ((pure
+function)), which takes one ((grid)) and produces a new grid that
+represents the next turn.
 
-Representing the grid can be done in any of the ways shown in Chapters
-[?](elife#grid) and [?](game#level). Counting
-live ((neighbor))s can be done with two nested loops, looping over
-adjacent coordinates. Take care not to count cells outside of the
-field and to ignore the cell in the center, whose neighbors we are
-counting.
+Representing the matrix can be done in the way shown in [Chapter
+?](object#matrix). You can count live ((neighbor))s with two nested
+loops, looping over adjacent coordinates in both dimensions. Take care
+not to count cells outside of the field and to ignore the cell in the
+center, whose neighbors we are counting.
 
 {{index "event handling", "change event"}}
 
-Making changes to ((checkbox))es
-take effect on the next generation can be done in two ways. An event
-handler could notice these changes and update the current grid to
-reflect them, or you could generate a fresh grid from the values in
-the checkboxes before computing the next turn.
+Making changes to ((checkbox))es take effect on the next generation
+can be done in two ways. An event handler could notice these changes
+and update the current grid to reflect them, or you could generate a
+fresh grid from the values in the checkboxes before computing the next
+turn.
 
 If you choose to go with event handlers, you might want to attach
 ((attribute))s that identify the position that each checkbox
@@ -1777,10 +1445,8 @@ corresponds to so that it is easy to find out which cell to change.
 
 {{index drawing, "table (HTML tag)", "br (HTML tag)"}}
 
-To draw the grid
-of checkboxes, you either can use  a `<table>` element (see
-[Chapter ?](dom#exercise_table)) or simply put them all in
-the same element and put `<br>` (line break) elements between the
-rows.
+To draw the grid of checkboxes, you can either use a `<table>` element
+(see [Chapter ?](dom#exercise_table)) or simply put them all in the
+same element and put `<br>` (line break) elements between the rows.
 
 hint}}

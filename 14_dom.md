@@ -1,5 +1,11 @@
 {{meta {load_files: ["code/chapter/13_dom.js"]}}}
 
+{{quote {author: "Friedrich Nietzsche", title: "Beyond Good and Evil", chapter: true}
+
+Too bad! Same old story! Once you've finished building your house you notice you've accidentally learned something that you really should have known—before you started.
+
+quote}}
+
 # The Document Object Model
 
 // FIXME custom elements, better transitions, maybe `children`, templates, problems with obvious usage

@@ -14,8 +14,8 @@ quote}}
 {{index "Yuan-Ma", "Book of Programming", "binary data", data, bit, memory}}
 
 Inside the computer's world, there is only data. You can read data,
-modify data, create new data—but anything that isn't data can not be
-talked about. All this data is stored as long sequences of bits and is
+modify data, create new data—but that which isn't data can not be
+mentioned. All this data is stored as long sequences of bits and is
 thus fundamentally alike.
 
 {{index CD, signal}}
@@ -28,19 +28,18 @@ to a sequence of zeros and ones and thus represented in bits.
 
 {{index "binary number", radix, "decimal number"}}
 
-For example, think about how you might show the number 13 in bits. It
-works the same way you write decimal numbers, but instead of 10
-different ((digit))s, you have only 2, and the weight of each
-increases by a factor of 2 from right to left. Here are the bits that
-make up the number 13, with the weights of the digits shown below
-them:
+For example, we can express the number 13 in bits. It works the same
+way as a decimal number, but instead of 10 different ((digit))s, you
+have only 2, and the weight of each increases by a factor of 2 from
+right to left. Here are the bits that make up the number 13, with the
+weights of the digits shown below them:
 
 ```{lang: null}
    0   0   0   0   1   1   0   1
  128  64  32  16   8   4   2   1
 ```
 
-So that's the binary number 00001101, or 8 + 4 + 1, which equals 13.
+So that's the binary number 00001101, or 8 + 4 + 1, or 13.
 
 ## Values
 
@@ -52,7 +51,7 @@ storage (the hard disk or equivalent) tends to have yet a few orders
 of magnitude more.
 
 To be able to work with such quantities of bits without getting lost,
-you can separate them into chunks that represent pieces of
+we must separate them into chunks that represent pieces of
 information. In a JavaScript environment, those chunks are called
 _((value))s_. Though all values are made of bits, they play different
 roles. Every value has a ((type)) that determines its role. Some
@@ -97,17 +96,17 @@ JavaScript uses a fixed number of bits, namely 64 of them, to store a
 single number value. There are only so many patterns you can make with
 64 bits, which means that the amount of different numbers that can be
 represented is limited. For _N_ decimal ((digit))s, the amount of
-numbers that can be represented is 10^_N_^. Similarly, given 64 binary
+numbers that can be represented is 10^N^. Similarly, given 64 binary
 digits, you can represent 2^64^ different numbers, which is about 18
 quintillion (an 18 with 18 zeros after it). This is a lot.
 
 Computer memory used to be a lot smaller, and people tended to use
 groups of 8 or 16 bits to represent their numbers. It was easy to
 accidentally _((overflow))_ such small numbers—to end up with a number
-that did not fit into the given amount of bits. Today, even personal
-computers have plenty of memory, so you are free to use 64-bit chunks,
-which means you need to worry about overflow only when dealing with
-truly astronomical numbers.
+that did not fit into the given amount of bits. Today, even computers
+that fit in your pocket have plenty of memory, so you are free to use
+64-bit chunks, and you need to worry about overflow only when dealing
+with truly astronomical numbers.
 
 {{index sign, "floating-point number", "fractional number", "sign bit"}}
 
@@ -116,8 +115,8 @@ though. Those bits also store negative numbers, so one bit indicates
 the sign of the number. A bigger issue is that nonwhole numbers must
 also be represented. To do this, some of the bits are used to store
 the position of the decimal point. The actual maximum whole number
-that can be stored is more in the range of 9 quadrillion (15 zeros),
-which is still pleasantly huge.
+that can be stored is more in the range of 9 quadrillion (15
+zeros)—which is still pleasantly huge.
 
 {{index [number, notation]}}
 
@@ -130,7 +129,7 @@ Fractional numbers are written by using a dot.
 {{index exponent, "scientific notation", [number, notation]}}
 
 For very big or very small numbers, you may also use scientific
-notation by adding an “e” (for “exponent”), followed by the exponent
+notation by adding an "e" (for "exponent"), followed by the exponent
 of the number:
 
 ```
@@ -172,7 +171,7 @@ a new value.
 
 {{index grouping, parentheses, precedence}}
 
-Does the example mean “add 4 and 100, and multiply the result by 11”,
+Does the example mean "add 4 and 100, and multiply the result by 11",
 or is the multiplication done before the adding? As you might have
 guessed, the multiplication happens first. But as in mathematics, you
 can change this by wrapping the addition in parentheses.
@@ -223,15 +222,16 @@ next special number: `NaN`.
 
 {{index NaN, "not a number", "division by zero"}}
 
-`NaN` stands for “not a number”, even though it _is_ a value of the
+`NaN` stands for "not a number", even though it _is_ a value of the
 number type. You'll get this result when you, for example, try to
 calculate `0 / 0` (zero divided by zero), `Infinity - Infinity`, or
-any number of other numeric operations that don't yield a precise,
-meaningful result.
+any number of other numeric operations that don't yield a meaningful
+result.
 
 ## Strings
 
 {{indexsee "grave accent", backtick}}
+
 {{index syntax, text, character, [string, notation], "single-quote character", "double-quote character", "quotation mark", backtick}}
 
 The next basic data type is the _((string))_. Strings are used to
@@ -281,8 +281,8 @@ And this is the second
 There are, of course, situations where you want a backslash in a
 string to be just a backslash, not a special code. If two backslashes
 follow each other, they will collapse together, and only one will be
-left in the resulting string value. This is how the string “_A newline
-character is written like "\n"._” can be expressed:
+left in the resulting string value. This is how the string "_A newline
+character is written like `"`\n`"`._" can be expressed:
 
 ```
 "A newline character is written like \"\\n\"."
@@ -305,7 +305,7 @@ And that's what JavaScript does. But there's a gotcha, namely that
 JavaScript's representation uses 16 bits per number, and there are
 more than 2^16^ different characters in Unicode (about twice as many,
 at this point). So some characters, such as many emoji, take up two
-“characters” in JavaScript strings.
+"characters" in JavaScript strings.
 
 {{index "+ operator", concatenation}}
 
@@ -318,14 +318,15 @@ produce the string `"concatenate"`:
 "con" + "cat" + "e" + "nate"
 ```
 
-Strings also have a number of associated functions (_methods_) which
-we will come back to in [Chapter ?](data#methods).
+String values have a number of associated functions (_methods_), that
+can be used to perform other operations on them. We'll come back to
+these in [Chapter ?](data#methods).
 
 {{index interpolation, backtick}}
 
 Strings written with single or double quotes behave very much the
 same—the only difference is in which type of quote you need to escape
-in side of them. Backtick-quoted strings, usually called _((template
+inside of them. Backtick-quoted strings, usually called _((template
 literals))_, can do a few more tricks. Apart from being able to span
 lines, they can also embed other values.
 
@@ -335,7 +336,7 @@ lines, they can also embed other values.
 
 When you write something inside `${}` in a template literal, its
 result will be computed, converted to a string, and included at that
-position. The example produces "half of 100 is 50".
+position. The example produces "_half of 100 is 50_".
 
 ## Unary operators
 
@@ -377,10 +378,10 @@ console.log(- (10 - 2))
 
 {{index Boolean, operator, true, false, bit}}
 
-Often, you will need a value that simply distinguishes between two
-possibilities, like “yes” and “no” or “on” and “off”. For this,
-JavaScript has a _Boolean_ type, which has just two values: true and
-false (which are written simply as those words).
+It is often useful to have a value that distinguishes between only two
+possibilities, like "yes" and "no" or "on" and "off". For this
+purpose, JavaScript has a _Boolean_ type, which has just two values:
+true and false, which are written as those words.
 
 ### Comparison
 
@@ -397,8 +398,8 @@ console.log(3 < 2)
 
 {{index [comparison, "of numbers"], "> operator", "< operator", "greater than", "less than"}}
 
-The `>` and `<` signs are the traditional symbols for “is greater
-than” and “is less than”, respectively. They are binary operators.
+The `>` and `<` signs are the traditional symbols for "is greater
+than" and "is less than", respectively. They are binary operators.
 Applying them results in a Boolean value that indicates whether they
 hold true in this case.
 
@@ -411,12 +412,12 @@ console.log("Aardvark" < "Zoroaster")
 
 {{index [comparison, "of strings"]}}
 
-The way strings are ordered is more or less alphabetic: uppercase
-letters are always “less” than lowercase ones, so `"Z" < "a"` is true,
-and non-alphabetic characters (!, -, and so on) are also included in
-the ordering. When comparing strings, JavaScript goes over the
-characters from left to right, comparing the ((Unicode)) codes of the
-characters one by one.
+The way strings are ordered is roughly alphabetic, but not really what
+you'd expect to see in a dictionary: uppercase letters are always
+"less" than lowercase ones, so `"Z" < "a"`, and non-alphabetic
+characters (!, -, and so on) are also included in the ordering. When
+comparing strings, JavaScript goes over the characters from left to
+right, comparing the ((Unicode)) codes one by one.
 
 {{index equality, ">= operator", "<= operator", "== operator", "!= operator"}}
 
@@ -433,7 +434,7 @@ console.log("Apple" == "Orange")
 {{index [comparison, "of NaN"], NaN}}
 
 There is only one value in JavaScript that is not equal to itself, and
-that is `NaN`, which stands for “not a number”.
+that is `NaN` ("not a number").
 
 ```
 console.log(NaN == NaN)
@@ -450,7 +451,7 @@ computations.
 
 There are also some operations that can be applied to Boolean values
 themselves. JavaScript supports three logical operators: _and_, _or_,
-and _not_. These can be used to “reason” about Booleans.
+and _not_. These can be used to "reason" about Booleans.
 
 {{index "&& operator", "logical and"}}
 
@@ -511,17 +512,17 @@ console.log(false ? 1 : 2);
 
 This one is called the _conditional_ operator (or sometimes just
 _ternary_ operator since it is the only such operator in the
-language). The value on the left of the question mark “picks” which of
+language). The value on the left of the question mark "picks" which of
 the other two values will come out. When it is true, it chooses the
 middle value, and when it is false, the value on the right.
 
-## Undefined values
+## Empty values
 
 {{index undefined, null}}
 
 There are two special values, written `null` and `undefined`, that are
-used to denote the absence of a meaningful value. They are themselves
-values, but they carry no information.
+used to denote the absence of a _meaningful_ value. They are
+themselves values, but they carry no information.
 
 Many operations in the language that don't produce a meaningful value
 (you'll see some later) yield `undefined` simply because they have to
@@ -555,7 +556,7 @@ console.log(false == 0)
 
 {{index "+ operator", arithmetic, "* operator", "- operator"}}
 
-When an operator is applied to the “wrong” type of value, JavaScript
+When an operator is applied to the "wrong" type of value, JavaScript
 will quietly convert that value to the type it needs, using a set of
 rules that often aren't what you want or expect. This is called
 _((type coercion))_. The `null` in the first expression becomes `0`,
@@ -567,10 +568,10 @@ to string).
 {{index "type coercion", [number, "conversion to"]}}
 
 When something that doesn't map to a number in an obvious way (such as
-`"five"` or `undefined`) is converted to a number, the value `NaN` is
-produced. Further arithmetic operations on `NaN` keep producing `NaN`,
-so if you find yourself getting one of those in an unexpected place,
-look for accidental type conversions.
+`"five"` or `undefined`) is converted to a number, you get the value
+`NaN`. Further arithmetic operations on `NaN` keep producing `NaN`, so
+if you find yourself getting one of those in an unexpected place, look
+for accidental type conversions.
 
 {{index null, undefined, [comparison, "of undefined values"], "== operator"}}
 
@@ -590,9 +591,9 @@ console.log(null == 0);
 // → false
 ```
 
-That last piece of behavior is often useful. When you want to test
-whether a value has a real value instead of `null` or `undefined`, you
-can simply compare it to `null` with the `==` (or `!=`) operator.
+That behavior is often useful. When you want to test whether a value
+has a real value instead of `null` or `undefined`, you can compare it
+to `null` with the `==` (or `!=`) operator.
 
 {{index "type coercion", [Boolean, "conversion to"], "=== operator", "!== operator", comparison}}
 
@@ -600,12 +601,11 @@ But what if you want to test whether something refers to the precise
 value `false`? The rules for converting strings and numbers to Boolean
 values state that `0`, `NaN`, and the empty string (`""`) count as
 `false`, while all the other values count as `true`. Because of this,
-expressions like `0 == false` and `"" == false` are also true. For
-cases like this, where you do _not_ want any automatic type
-conversions to happen, there are two extra operators: `===` and `!==`.
-The first tests whether a value is precisely equal to the other, and
-the second tests whether it is not precisely equal. So `"" === false`
-is false as expected.
+expressions like `0 == false` and `"" == false` are also true. When
+you do _not_ want any automatic type conversions to happen, there are
+two additional operators: `===` and `!==`. The first tests whether a
+value is _precisely_ equal to the other, and the second tests whether
+it is not precisely equal. So `"" === false` is false as expected.
 
 I recommend using the three-character comparison operators defensively to
 prevent unexpected type conversions from tripping you up. But when you're
@@ -632,8 +632,8 @@ and does something analogous for values of other types.
 ```
 console.log(null || "user")
 // → user
-console.log("Karl" || "user")
-// → Karl
+console.log("Agnes" || "user")
+// → Agnes
 ```
 
 {{index "default value"}}

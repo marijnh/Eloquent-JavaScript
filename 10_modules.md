@@ -214,7 +214,7 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 This style of modules provides ((isolation)), to a certain degree, but
 it does not declare dependencies. Instead, it just puts its
 ((interface)) into the ((global scope)), and expects its dependencies,
-if any, to do the same. This approach was widely used in Web
+if any, to do the same. This approach was widely used in web
 programming for a long time, but is mostly obsolete now.
 
 If we want to make dependency relations part of the code, we'll have
@@ -388,7 +388,7 @@ available in the ((scope)) that the module's code runs in.
 {{index resolution, "relative path"}}
 
 The way the string given to `require` is translated to an actual file
-name or Web address differs in different systems. When it starts with
+name or web address differs in different systems. When it starts with
 `"./"` or `"../"`, it is generally interpreted as relative to the
 current module's file name. So `"./format-date"` would be the file
 named `format-date.js` in the same directory.

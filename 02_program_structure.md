@@ -11,20 +11,19 @@ quote}}
 
 {{index why, "Poignant Guide"}}
 
-In this chapter, we will start to do things that can actually be
-called _programming_. We will expand our command of the JavaScript
-language beyond the nouns and sentence fragments we've seen so far, to
-the point where we can express meaningful prose.
+In this chapter, we start to do things that can actually be called
+_programming_. We will expand our command of the JavaScript language
+beyond the nouns and sentence fragments we've seen so far, to the
+point where we can express meaningful prose.
 
 ## Expressions and statements
 
 {{index grammar, syntax, [code, "structure of"], grammar, [JavaScript, syntax]}}
 
-In [Chapter ?](values), we made some values and applied
-operators to them to get new values. Creating values like this is the
-main substance of any JavaScript program. But that substance has to be
-framed in a larger structure to be useful. So that's what we'll get to
-next.
+In [Chapter ?](values), we made values and applied operators to them
+to get new values. Creating values like this is the main substance of
+any JavaScript program. But that substance has to be framed in a
+larger structure to be useful. So that's what we'll get to next.
 
 {{index "literal expression"}}
 
@@ -59,27 +58,25 @@ it. This is a program:
 ```
 
 It is a useless program, though. An ((expression)) can be content to
-just produce a value, which can then be used by the enclosing
-expression. A ((statement)) stands on its own, so it amounts to
-something only if it affects the world. It could display something on
-the screen—that counts as changing the world—or it could change the
-internal state of the machine in a way that will affect the statements
-that come after it. These changes are called _((side effect))s_. The
-statements in the previous example just produce the values `1` and
-`true` and then immediately throw them away. This leaves no impression
-on the world at all. When you run this program, nothing observable
-happens.
+just produce a value, which can then be used by the enclosing code. A
+((statement)) stands on its own, so it amounts to something only if it
+affects the world. It could display something on the screen—that
+counts as changing the world—or it could change the internal state of
+the machine in a way that will affect the statements that come after
+it. These changes are called _((side effect))s_. The statements in the
+previous example just produce the values `1` and `true` and then
+immediately throw them away. This leaves no impression on the world at
+all. When you run this program, nothing observable happens.
 
 {{index "programming style", "automatic semicolon insertion", semicolon}}
 
 In some cases, JavaScript allows you to omit the semicolon at the end
 of a statement. In other cases, it has to be there, or the next
 ((line)) will be treated as part of the same statement. The rules for
-when it can be safely omitted are somewhat complex and error-prone. In
-this book, every statement that needs a semicolon will always get one.
-I recommend you do the same in your own programs, at least until
-you've learned more about the subtleties involved in leaving out
-semicolons.
+when it can be safely omitted are somewhat complex and error-prone. So
+in this book, every statement that needs a semicolon will always get
+one. I recommend you do the same, at least until you've learned more
+about the subtleties of missing semicolons.
 
 ## Bindings
 
@@ -98,7 +95,7 @@ let caught = 5 * 5;
 
 {{index "let keyword"}}
 
-So that's a a second kind of ((statement)). The special word
+That's a a second kind of ((statement)). The special word
 (_((keyword))_) `let` indicates that this sentence is going to define
 a binding. It is followed by the name of the binding and, if we want
 to immediately give it a value, by an `=` operator and an expression.
@@ -136,7 +133,7 @@ console.log(mood);
 
 You should imagine bindings as tentacles, rather than boxes. They do
 not _contain_ values; they _grasp_ them—two bindings can refer to the
-same value. A program can access only the values that it still has a
+same value. A program can only access the values that it still has a
 hold on. When you need to remember something, you grow a tentacle to
 hold on to it or you reattach one of your existing tentacles to it.
 
@@ -191,9 +188,9 @@ in this book because it has some confusing properties.
 {{index "const keyword", naming}}
 
 The word `const` stands for _((constant))_. It defines a constant
-binding, which can not be made to point at a new thing. This is very
-useful for giving names to values so that you can easily refer to them
-later.
+binding, which can not be made to point at a new thing. This is useful
+for bindings that give a name to a value so that you can easily refer
+to them later, but which are not going to ever change.
 
 ## Binding names
 
@@ -202,7 +199,7 @@ later.
 Binding names can be any word that isn't reserved for some other
 purpose (such as `let`). Digits can be part of binding names—`catch22`
 is a valid name, for example—but the name must not start with a digit.
-A binding name can include dollar signs (`$`) or undescores (`_`), but
+A binding name may include dollar signs (`$`) or undescores (`_`), but
 no other punctuation or special characters.
 
 {{index syntax, "implements (reserved word)", "interface (reserved word)", "package (reserved word)", "private (reserved word)", "protected (reserved word)", "public (reserved word)", "static (reserved word)", "void operator", "yield (reserved word)", "enum (reserved word)", "reserved word", [binding, naming]}}
@@ -232,10 +229,10 @@ reserved word.
 The collection of bindings and their values that exist at a given time
 is called the _((environment))_. When a program starts up, this
 environment is not empty. It always contains bindings that are part of
-the language ((standard)), and most of the time, it has bindings that
-provide ways to interact with the surrounding system. For example, in
-a ((browser)), there are functions to interact with the currently
-loaded website and to read ((mouse)) and ((keyboard)) input.
+the language ((standard)), and most of the time, it also has bindings
+that provide ways to interact with the surrounding system. For
+example, in a ((browser)), there are functions to interact with the
+currently loaded website and to read ((mouse)) and ((keyboard)) input.
 
 ## Functions
 
@@ -277,22 +274,20 @@ looks, but can be helpful in toy programs and experiments.
 
 {{index "JavaScript console", "developer tools", "Node.js", "console.log", output}}
 
-In previous examples, we've used `console.log` to output values. Most
-JavaScript systems (including all modern web ((browser))s and Node.js)
-provide a `console.log` function that writes out its arguments to
-_some_ text output device. In browsers, the output lands in the
-((JavaScript console)). This part of the browser interface is hidden
-by default, but most browsers open it when you press F12 or, on Mac,
-when you press Command-Option-I. If that does not work, search through
-the menus for an item named "developer tools" or similar.
+In examples, I used `console.log` to output values. Most JavaScript
+systems (including all modern web ((browser))s and Node.js) provide a
+`console.log` function that writes out its arguments to _some_ text
+output device. In browsers, the output lands in the ((JavaScript
+console)). This part of the browser interface is hidden by default,
+but most browsers open it when you press F12 or, on Mac, when you
+press Command-Option-I. If that does not work, search through the
+menus for an item named "developer tools" or similar.
 
 {{if interactive
 
-When running the examples, or your own code, on the pages of this
+When running the examples (or your own code) on the pages of this
 book, `console.log` output will be shown after the example, instead of
 in the browser's JavaScript console.
-
-if}}
 
 ```
 let x = 30;
@@ -300,14 +295,15 @@ console.log("the value of x is", x);
 // → the value of x is 30
 ```
 
+if}}
+
 {{index object}}
 
 Though binding names cannot contain ((period character))s,
 `console.log` does have one. This is because `console.log` isn't a
 simple binding. It is actually an expression that retrieves the `log`
 ((property)) from the value held by the `console` binding. We will
-find out exactly what this means in [Chapter
-?](data#properties).
+find out exactly what this means in [Chapter ?](data#properties).
 
 {{id return_values}}
 ## Return values
@@ -316,8 +312,8 @@ find out exactly what this means in [Chapter
 
 Showing a dialog box or writing text to the screen is a _((side
 effect))_. A lot of functions are useful because of the side effects
-they produce. Functions may also produce values, and in that case,
-they don't need to have a side effect to be useful. For example, the
+they produce. Functions may also produce values, in which case they
+don't need to have a side effect to be useful. For example, the
 function `Math.max` takes any amount of number arguments and gives
 back the greatest.
 
@@ -349,8 +345,8 @@ functions.
 When your program contains more than one ((statement)), the statements
 are executed as if they are a story, from top to bottom. This example
 program has two statements. The first one asks the user for a number,
-and the second, which is executed afterward, shows the ((square)) of
-that number.
+and the second, which is executed after the first, shows the
+((square)) of that number.
 
 ```
 let theNumber = Number(prompt("Pick a number"));
@@ -365,7 +361,7 @@ conversion because the result of `prompt` is a string value, and we
 want a number. There are similar functions called `String` and
 `Boolean` that convert values to those types.
 
-Here is the rather trivial schematic representation of straight
+Here is the rather trivial schematic representation of straight-line
 control flow:
 
 {{figure {url: "img/controlflow-straight.svg", alt: "Trivial control flow", width: "4cm"}}}
@@ -375,19 +371,18 @@ control flow:
 {{index Boolean, "control flow"}}
 
 Not all programs are straight roads. We may, for example, want to
-create a branching road, where the program takes the right branch
+create a branching road, where the program takes the proper branch
 based on the situation at hand. This is called _((conditional
-execution))_, and looks like this:
+execution))_.
 
 {{figure {url: "img/controlflow-if.svg", alt: "Conditional control flow",width: "4cm"}}}
 
 {{index syntax, "Number function", "if keyword"}}
 
-Conditional execution is written with the `if` keyword in JavaScript.
+Conditional execution is created with the `if` keyword in JavaScript.
 In the simple case, we want some code to be executed if, and only if,
-a certain condition holds. For example, in the previous example
-program, we might want to show the square of the input only if the
-input is actually a number.
+a certain condition holds. We might, for example, want to show the
+square of the input only if the input is actually a number.
 
 ```{test: wrap}
 let theNumber = Number(prompt("Pick a number"));
@@ -397,7 +392,7 @@ if (!isNaN(theNumber)) {
 }
 ```
 
-With this modification, if you enter "parrot", no output will be shown.
+With this modification, if you enter "parrot", no output is shown.
 
 The `if` keyword executes or skips a statement depending on the value
 of a Boolean expression. The deciding expression is written after the
@@ -411,6 +406,22 @@ The `isNaN` function is a standard JavaScript function that returns
 function happens to return `NaN` when you give it a string that
 doesn't represent a valid number. Thus, the condition translates to
 "unless `theNumber` is not-a-number, do this".
+
+{{index grouping, "{} (block)"}}
+
+The statement below the `if` is wrapped in ((curly braces)) (`{` and
+`}`) in this example. Those can be used to group any number of
+statements into a single statement, called a _((block))_. You could
+also have omitted them in this case, since they only hold a single
+statement, but to avoid having to think about whether they are needed
+or not, most JavaScript programmers use them in every wrapped
+statement like this. We'll mostly follow that convention in this book,
+except for the occasional one-liner.
+
+```
+if (1 + 1 == 2) console.log("It's true");
+// → It's true
+```
 
 {{index "else keyword"}}
 
@@ -429,16 +440,6 @@ if (!isNaN(theNumber)) {
   console.log("Hey. Why didn't you give me a number?");
 }
 ```
-
-{{index grouping, "{} (block)"}}
-
-The statements below the `if` or `else` branches are wrapped in
-((curly braces)) (`{` and `}) in this example. Those can be used to
-group statements into a single statement, called a _((block))_. You
-could also have omitted them in this case, since they only hold a
-single statement, but to avoid having to think about whether they are
-needed or not, most JavaScript programmers use them in every wrapped
-statement like this. We'll mostly follow that convention in this book.
 
 {{index ["if keyword", chaining]}}
 
@@ -461,7 +462,7 @@ The program will first check whether `num` is less than 10. If it is,
 it chooses that branch, shows `"Small"`, and is done. If it isn't, it
 takes the `else` branch, which itself contains a second `if`. If the
 second condition (`< 100`) holds, that means the number is between 10
-and 100, and `"Medium"` is shown. If it doesn't, the second, and last,
+and 100, and `"Medium"` is shown. If it doesn't, the second and last
 `else` branch is chosen.
 
 The schema for this program looks something like this:
@@ -515,9 +516,9 @@ while (number <= 12) {
 
 A ((statement)) starting with the keyword `while` creates a loop. The
 word `while` is followed by an ((expression)) in ((parentheses)) and
-then a statement, much like `if`. The loop executes that statement as
-long as the expression produces a value that gives `true` when
-converted to Boolean.
+then a statement, much like `if`. The loop keeps entering that
+statement as long as the expression produces a value that gives `true`
+when converted to Boolean.
 
 {{index comparison, state}}
 
@@ -530,11 +531,11 @@ the program's work is finished.
 {{index exponentiation}}
 
 As an example that actually does something useful, we can now write a
-program that calculates and shows the value of 2^10^ (2 to the 10thn
+program that calculates and shows the value of 2^10^ (2 to the 10th
 power). We use two bindings: one to keep track of our result and one
 to count how often we have multiplied this result by 2. The loop tests
-whether the second binding has reached 10 yet and then updates both
-bindings.
+whether the second binding has reached 10 yet and, if not, updates
+both bindings.
 
 ```
 let result = 1;
@@ -554,7 +555,7 @@ counting from 0.
 
 {{index "loop body", "do loop", "control flow"}}
 
-The `do` loop is a control structure similar to the `while` loop. It
+A `do` loop is a control structure similar to a `while` loop. It
 differs only on one point: a `do` loop always executes its body at
 least once, and it starts testing whether it should stop only after
 that first execution. To reflect this, the test appears after the body
@@ -574,8 +575,7 @@ This program will force you to enter a name. It will ask again and
 again until it gets something that is not an empty string. Applying
 the `!` operator will convert a value to Boolean type before negating
 it, and all strings except `""` convert to `true`. This means the loop
-continues going round until you provide a name that is not the empty
-string.
+continues going round until you provide a non-empty name.
 
 ## Indenting Code
 
@@ -613,11 +613,11 @@ amount.
 
 {{index syntax, "while loop", "counter variable"}}
 
-Many loops follow the pattern seen in the previous `while` examples.
-First, a “counter” binding is created to track the progress of the
-loop. Then comes a `while` loop, whose test expression usually checks
-whether the counter has reached some boundary yet. At the end of the
-loop body, the counter is updated to track progress.
+Many loops follow the pattern seen in the `while` examples. First, a
+“counter” binding is created to track the progress of the loop. Then
+comes a `while` loop, whose test expression usually checks whether the
+counter has reached its end value. At the end of the loop body, the
+counter is updated to track progress.
 
 {{index "for loop", loop}}
 
@@ -637,9 +637,9 @@ for (let number = 0; number <= 12; number = number + 2) {
 {{index "control flow", state}}
 
 This program is exactly equivalent to the
-[earlier](program_structure#loops) even-number-printing
-example. The only change is that all the ((statement))s that are
-related to the “state” of the loop are now grouped together.
+[earlier](program_structure#loops) even-number-printing example. The
+only change is that all the ((statement))s that are related to the
+“state” of the loop are grouped together after `for`.
 
 The ((parentheses)) after a `for` keyword must contain two
 ((semicolon))s. The part before the first semicolon _initializes_ the
@@ -654,17 +654,12 @@ This is the code that computes 2^10^, using `for` instead of `while`:
 
 ```{test: wrap}
 let result = 1;
-for (let counter = 0; counter < 10; counter = counter + 1)
+for (let counter = 0; counter < 10; counter = counter + 1) {
   result = result * 2;
+}
 console.log(result);
 // → 1024
 ```
-
-{{index "programming style", indentation}}
-
-Note that even though in this example no block is opened with a `{`,
-the statement in the loop is still indented two spaces to make it
-clear that it “belongs” to the line before it.
 
 ## Breaking Out of a Loop
 
@@ -699,10 +694,10 @@ The `for` construct in the example does not have a part that checks
 for the end of the loop. This means that the loop will never stop
 unless the `break` statement inside is executed.
 
-If you were to leave out that `break` statement or accidentally write
-a condition that always produces `true`, your program would get stuck
-in an _((infinite loop))_. A program stuck in an infinite loop will
-never finish running, which is usually a bad thing.
+If you were to remove that `break` statement or you accidentally write
+an end condition that always produces `true`, your program would get
+stuck in an _((infinite loop))_. A program stuck in an infinite loop
+will never finish running, which is usually a bad thing.
 
 {{if interactive
 
@@ -744,8 +739,9 @@ to double `result` or `counter -= 1` to count downward.
 This allows us to shorten our counting example a little more.
 
 ```
-for (let number = 0; number <= 12; number += 2)
+for (let number = 0; number <= 12; number += 2) {
   console.log(number);
+}
 ```
 
 {{index "++ operator", "-- operator"}}
@@ -793,14 +789,15 @@ switch (prompt("What is the weather like?")) {
 {{index fallthrough, comparison, "break keyword", "case keyword", "default keyword"}}
 
 You may put any number of `case` labels inside the block opened by
-`switch`. The program will jump to the label that corresponds to the
-value that `switch` was given or to `default` if no matching value is
-found. It starts executing statements there, even those under another
-label, until it reaches a `break` statement. In some cases, such as
-the `"sunny"` case in the example, this can be used to share some code
-between cases (it recommends going outside for both sunny and cloudy
-weather). But beware: it is easy to forget such a `break`, which will
-cause the program to execute code you do not want executed.
+`switch`. The program will start executing at the label that
+corresponds to the value that `switch` was given, or at `default` if
+no matching value is found. It will continue executing, even across
+other labels, until it reaches a `break` statement. In some cases,
+such as the `"sunny"` case in the example, this can be used to share
+some code between cases (it recommends going outside for both sunny
+and cloudy weather). But be careful—it is easy to forget such a
+`break`, which will cause the program to execute code you do not want
+executed.
 
 ## Capitalization
 
@@ -868,16 +865,16 @@ addToReport(accountBalance, report);
 
 A `//` comment goes only to the end of the line. A section of text
 between `/*` and `*/` will be ignored in its entirety, regardless of
-whether it contains line breaks. This is often useful for adding
-blocks of information about a file or a chunk of program.
+whether it contains line breaks. This is useful for adding blocks of
+information about a file or a chunk of program.
 
 ```
 /*
- I first found this number scrawled on the back of one of
- my notebooks a few years ago. Since then, it has often
- dropped by, showing up in phone numbers and the serial
- numbers of products that I've bought. It obviously likes
- me, so I've decided to keep it.
+  I first found this number scrawled on the back of one of
+  an old notebook. Since then, it has often dropped by,
+  showing up in phone numbers and the serial numbers of
+  products that I've bought. It obviously likes me, so I've
+  decided to keep it.
 */
 const myNumber = 11213;
 ```
@@ -963,10 +960,10 @@ if}}
 
 {{index "triangle (exercise)"}}
 
-You can start with a program that simply prints out the numbers 1 to
-7, which you can derive by making a few modifications to the [even
-number printing example](program_structure#loops) given
-earlier in the chapter, where the `for` loop was introduced.
+You can start with a program that prints out the numbers 1 to 7, which
+you can derive by making a few modifications to the [even number
+printing example](program_structure#loops) given earlier in the
+chapter, where the `for` loop was introduced.
 
 Now consider the equivalence between numbers and strings of hash
 characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go
@@ -1016,8 +1013,8 @@ The second version of the program has a straightforward solution and a
 clever one. The simple way is to add another conditional “branch” to
 precisely test the given condition. For the clever method, build up a
 string containing the word or words to output, and print either this
-word or the number if there is no word, potentially by making elegant
-use of the `||` operator.
+word or the number if there is no word, potentially by making good use
+of the `||` operator.
 
 hint}}
 
@@ -1060,8 +1057,6 @@ if}}
 The string can be built by starting with an empty one (`""`) and
 repeatedly adding characters. A newline character is written `"\n"`.
 
-Use `console.log` to inspect the output of your program.
-
 {{index [nesting, "of loops"]}}
 
 To work with two ((dimensions)), you will need a ((loop)) inside of a
@@ -1078,7 +1073,7 @@ You'll need two bindings to track your progress. To know whether to
 put a space or a hash sign at a given position, you could test whether
 the sum of the two counters is even (`% 2`).
 
-Terminating a line by adding a newline character happens after the
+Terminating a line by adding a newline character must happen after the
 line has been built up, so do this after the inner loop but inside of
 the outer loop.
 

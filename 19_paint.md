@@ -2,11 +2,11 @@
 
 # Project: A Paint Program
 
-{{quote {author: "Joan Miro,"}
+{{quote {author: "Joan Miro", chapter: true}
 
-I look at the many colors before me. I look at
-my blank canvas. Then, I try to apply colors like words that shape
-poems, like notes that shape music.
+I look at the many colors before me. I look at my blank canvas. Then,
+I try to apply colors like words that shape poems, like notes that
+shape music.
 
 quote}}
 

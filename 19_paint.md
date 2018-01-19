@@ -22,7 +22,7 @@ grid of colored squares. You can use it to open image ((file))s,
 scribble on them with your mouse or other pointer device, and save
 them. This is what it will look like:
 
-FIXME new screenshot
+{{figure {url: "img/pixel_editor.png", alt: "The pixel editor interface, with colored pixels at the top and a number of controls below that", width: "8cm"}}}
 
 Painting on a computer is great. You don't need to worry about
 materials, ((skill)), or talent. You just start smearing.
@@ -468,7 +468,7 @@ the user interacts with it.
 
 Depending on the browser, the color picker might look like this:
 
-{{figure {url: "img/color-field.png", alt: "A color field",width: "6cm"}}}
+{{figure {url: "img/color-field.png", alt: "A color field", width: "6cm"}}}
 
 if}}
 

@@ -8,7 +8,7 @@ quote}}
 
 # The Document Object Model
 
-// FIXME custom elements, better transitions, maybe `children`, templates, problems with obvious usage
+// FIXME better transitions, maybe `children`, fragments, problems with obvious usage
 
 {{index drawing, parsing}}
 
@@ -161,10 +161,10 @@ numbers to access the child nodes. But it is an instance of the
 
 Then there are issues that are simply poor design. For example, there
 is no way to create a new node and immediately add children or
-attributes to it. Instead, you have to first create it, then add the
-children one by one, and finally set the attributes one by one, using
-side effects. Code that interacts heavily with the DOM tends to get
-long, repetitive, and ugly.
+((attribute))s to it. Instead, you have to first create it, then add
+the children one by one, and finally set the attributes one by one,
+using side effects. Code that interacts heavily with the DOM tends to
+get long, repetitive, and ugly.
 
 {{index library}}
 
@@ -454,7 +454,7 @@ through a ((property)) of the same name on the element's ((DOM))
 object. This is the case for a limited set of commonly used standard
 attributes.
 
-{{index "data attribute", "getAttribute method", "setAttribute method"}}
+{{index "data attribute", "getAttribute method", "setAttribute method", attribute}}
 
 But HTML allows you to set any attribute you want on nodes. This can
 be useful because it allows you to store extra information in a

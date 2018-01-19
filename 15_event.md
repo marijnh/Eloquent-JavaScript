@@ -9,6 +9,8 @@ quote}}
 
 {{index stoicism, "Marcus Aurelius", input, timeline, "control flow"}}
 
+// FIXME mention touch event handling
+
 Some programs work with direct user input, such as mouse and keyboard.
 That kind of input isn't available as a whole at the start of your
 program—it comes in piece by piece, and the program is expected to
@@ -93,6 +95,9 @@ has only one `onclick` attribute, so you can register only one handler
 per node that way. The `addEventListener` method allows you to add any
 number of handlers, so you won't accidentally replace a handler that
 has already been registered.
+
+Handlers for most event types can be attached through attributes like
+this, the event name with `on` prefixed.
 
 {{index "removeEventListener method"}}
 

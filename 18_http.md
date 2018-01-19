@@ -199,11 +199,11 @@ is replaced by a strange code. Some characters in query strings must
 be escaped. The question mark, represented as `%3F`, is one of those.
 There seems to be an unwritten rule that every format needs its own
 way of escaping characters. This one, called _((URL encoding))_, uses
-a ((percent sign)) followed by two hexadecimal digits that encode the
-character code. In this case, 3F, which is 63 in decimal notation, is
-the code of a question mark character. JavaScript provides the
-`encodeURIComponent` and `decodeURIComponent` functions to encode and
-decode this format.
+a ((percent sign)) followed by two hexadecimal (base 16) digits that
+encode the character code. In this case, 3F, which is 63 in decimal
+notation, is the code of a question mark character. JavaScript
+provides the `encodeURIComponent` and `decodeURIComponent` functions
+to encode and decode this format.
 
 ```
 console.log(encodeURIComponent("Yes?"));

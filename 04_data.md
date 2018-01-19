@@ -1143,7 +1143,9 @@ expression will produce, with equal chance, any number from 0 through
 {{index "Math.ceil function", "Math.round function"}}
 
 There are also the functions `Math.ceil` (for "ceiling", which rounds
-up to a whole number) and `Math.round` (to the nearest whole number).
+up to a whole number), `Math.round` (to the nearest whole number), and
+`Math.abs`, which takes the absolute value of a number, meaning it
+negates negative values but leaves positive ones as they are.
 
 ## Destructuring
 

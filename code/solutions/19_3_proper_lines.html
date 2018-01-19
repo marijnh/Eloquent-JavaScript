@@ -1,0 +1,49 @@
+<!doctype html>
+
+<base href="http://eloquentjavascript.net/">
+<script src="code/chapter/19_paint.js"></script>
+
+<div></div>
+<script>
+  function drawLine(picture, from, to, color) {
+    if (Math.abs(from.x - to.x) > Math.abs(from.y - to.y)) {
+      if (from.x > to.x) [from, to] = [to, from];
+      let slope = (to.y - from.y) / (to.x - from.x);
+      for (let {x, y} = from; x <= to.x; x++) {
+        picture.setPixel(x, Math.round(y), color);
+        y += slope;
+      }
+    } else {
+      if (from.y > to.y) [from, to] = [to, from];
+      let slope = (to.x - from.x) / (to.y - from.y);
+      for (let {x, y} = from; y <= to.y; y++) {
+        picture.setPixel(Math.round(x), y, color);
+        x += slope;
+      }
+    }
+  }
+
+  function draw(pos, state, dispatch) {
+    function connect(newPos, state) {
+      let picture = state.picture.copy();
+      drawLine(picture, pos, newPos, state.color);
+      pos = newPos;
+      dispatch({picture});
+    }
+    connect(pos, state);
+    return connect;
+  }
+
+  function line(pos, state, dispatch) {
+    return end => {
+      let picture = state.picture.copy();
+      drawLine(picture, pos, end, state.color);
+      dispatch({picture});
+    };
+  }
+
+  let dom = startPixelEditor({
+    tools: {draw, line, fill, rectangle, pick}
+  });
+  document.querySelector("div").appendChild(dom);
+</script>

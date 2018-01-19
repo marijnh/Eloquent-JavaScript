@@ -19,8 +19,8 @@ just that.
 Our application will be a ((pixel)) ((drawing)) program, where you can
 modify a picture pixel by pixel by manipulating a zoomed-in view, a
 grid of colored squares. You can use it to open image ((file))s,
-scribble on them with your mouse, and save them. This is what it will
-look like:
+scribble on them with your mouse or other pointer device, and save
+them. This is what it will look like:
 
 FIXME new screenshot
 
@@ -246,13 +246,13 @@ This allows this style of registering event handlers:
 
 The first component we'll define is the part of the interface that
 displays the picture as a grid of colored boxes. The component is
-responsible for displaying a picture, and for communicating mouse
+responsible for displaying a picture, and for communicating pointer
 events on that picture to the rest of the application.
 
 As such, we can define it as a component that doesn't know about the
 whole application state but shows one piece—the picture. Similarly,
 because it doesn't know how the application works, it can not directly
-dispatch state updates. Rather, when responding to mouse events, it
+dispatch state updates. Rather, when responding to pointer events, it
 calls a callback provided by the code that created it, which will
 handle the application-specific parts.
 
@@ -260,9 +260,10 @@ handle the application-specific parts.
 const scale = 10;
 
 class PictureCanvas {
-  constructor(picture, mouseDown) {
+  constructor(picture, pointerDown) {
     this.dom = elt("canvas", {
-      onmousedown: event => this.mouseDown(event, mouseDown)
+      onmousedown: event => this.mouse(event, pointerDown),
+      ontouchstart: event => this.touch(event, pointerDown)
     });
     drawPicture(picture, this.dom, scale);
   }
@@ -311,29 +312,28 @@ the mouse is moved to a different pixel while the button is being
 held.
 
 ```{includeCode: true}
-PictureCanvas.prototype.mouseDown = function(downEvent,
-                                             onMouseDown) {
+PictureCanvas.prototype.mouse = function(downEvent, onDown) {
+  if (downEvent.button != 0) return;
   let rect = this.dom.getBoundingClientRect();
-  let pos = mousePosition(downEvent, rect, scale);
-  let onMouseMove = onMouseDown(pos);
-  if (!onMouseMove) return;
+  let pos = pointerPosition(downEvent, rect);
+  let onMove = onDown(pos);
+  if (!onMove) return;
   let move = moveEvent => {
     if (moveEvent.buttons == 0) {
       this.dom.removeEventListener("mousemove", move);
     } else {
-      let newPos = mousePosition(moveEvent, rect, scale);
+      let newPos = pointerPosition(moveEvent, rect);
       if (newPos.x == pos.x && newPos.y == pos.y) return;
       pos = newPos;
-      onMouseMove(newPos);
-      moveEvent.preventDefault();
+      onMove(newPos);
     }
   };
   this.dom.addEventListener("mousemove", move);
 };
 
-function mousePosition(event, rect, scale) {
-  return {x: Math.floor((event.clientX - rect.left) / scale),
-          y: Math.floor((event.clientY - rect.top) / scale)};
+function pointerPosition(pos, rect) {
+  return {x: Math.floor((pos.clientX - rect.left) / scale),
+          y: Math.floor((pos.clientY - rect.top) / scale)};
 }
 ```
 
@@ -344,6 +344,32 @@ Since we know the size of the pixels, and we can use
 screen, it is possible to go from mouse event coordinates (`clientX`
 and `clientY`) to picture coordinates. These are always rounded down,
 so that they refer to a specific pixel.
+
+For touch events, we have to do something similar, but using different
+events, and making sure we call `preventDefault` on the `"touchstart"`
+event to prevent ((panning)).
+
+```{includeCode: true}
+PictureCanvas.prototype.touch = function(startEvent, onDown) {
+  let rect = this.dom.getBoundingClientRect();
+  let pos = pointerPosition(startEvent.touches[0], rect);
+  let onMove = onDown(pos);
+  startEvent.preventDefault();
+  if (!onMove) return;
+  let move = moveEvent => {
+    let newPos = pointerPosition(moveEvent.touches[0], rect);
+    if (newPos.x == pos.x && newPos.y == pos.y) return;
+    pos = newPos;
+    onMove(newPos);
+  };
+  let end = () => {
+    this.dom.removeEventListener("touchmove", move);
+    this.dom.removeEventListener("touchend", end);
+  };
+  this.dom.addEventListener("touchmove", move);
+  this.dom.addEventListener("touchend", end);
+};
+```
 
 ## The application
 
@@ -359,8 +385,8 @@ picture. They will be provided as an array of component constructors.
 _Tools_ are things like drawing pixels or filling in an area. The
 application shows the set of available tools as a `<select>` field.
 The currently selected tool determines what happens when the user
-interacts with the picture with the mouse. They are provided as an
-object that maps the names that appear in the drop-down field to
+interacts with the picture with a pointer device. They are provided as
+an object that maps the names that appear in the drop-down field to
 functions that implement the tool. Such function take a pixel
 position, a current application state, and a `dispatch` function, and
 may return a move handler function which gets the same arguments.
@@ -392,10 +418,10 @@ class PixelEditor {
 }
 ```
 
-The mouse click handler given to `PictureCanvas` calls the currently
+The pointer down handler given to `PictureCanvas` calls the currently
 selected tool with the appropriate arguments, and, if that returns a
-mouse move handler, adapts that to also receive the state and the
-dispatch function.
+move handler, adapts that to also receive the state and the dispatch
+function.
 
 {{index "reduce method"}}
 
@@ -488,8 +514,8 @@ drags over the picture.
 
 Let's define some more tools. To draw larger shapes it can be useful
 to be able to quickly create rectangles. The `rectangle` tool draws a
-rectangle between the point where you pressed the mouse button down
-and the point to where you dragged.
+rectangle between the point where you started dragging and the point
+where you dragged to.
 
 ```{includeCode: true}
 function rectangle(start, state, dispatch) {
@@ -511,16 +537,16 @@ function rectangle(start, state, dispatch) {
 }
 ```
 
-An important detail in this implementation is that when the mouse is
-dragged, the rectangle is redrawn on the picture from the _original_
-state. That way, you can make the rectangle larger and smaller again
-while drawing it, without any intermediate rectangles sticking around.
-This is one of the reasons why immutable picture objects help—we'll
-see another reason later.
+An important detail in this implementation is that when dragging, the
+rectangle is redrawn on the picture from the _original_ state. That
+way, you can make the rectangle larger and smaller again while drawing
+it, without any intermediate rectangles sticking around. This is one
+of the reasons why immutable picture objects help—we'll see another
+reason later.
 
 Implementing flood fill is somewhat more involved. This is a tool that
-fills the pixel under the mouse and all adjacent pixels that have the
-same color. "Adjacent" means directly horizontally or vertically
+fills the pixel under the pointer and all adjacent pixels that have
+the same color. "Adjacent" means directly horizontally or vertically
 adjacent, not diagonally. The image illustrates the set of pixels
 colored when the flood fill tool is used at the marked pixel:
 
@@ -1002,9 +1028,8 @@ hint}}
 ### Circles
 
 Define a new tool called `circle` that draws a filled circle when you
-drag with the mouse. The center of the circle lies at the point where
-the mouse button was pressed, and its radius is determined by the
-distance it is dragged.
+drag. The center of the circle lies at the point where the drag
+starts, and its radius is determined by the distance the user drags.
 
 {{if interactive
 
@@ -1028,10 +1053,10 @@ if}}
 
 You can take some inspiration from the `rectangle` tool. Like that
 tool, you'll want to keep drawing on the _starting_ picture, rather
-than the current picture, when the mouse moves.
+than the current picture, when the pointer is moved.
 
 To figure out which pixels to color, you can use the Pythagorean
-theorem. First figure out the distance between the current mouse
+theorem. First figure out the distance between the current pointer
 position and the start position by taking the square root
 (`Math.sqrt`) of the square (`Math.pow(x, 2)`) of the difference in
 x-coordinate plus the square of the difference in y-coordinate. Then
@@ -1057,8 +1082,8 @@ with gaps between them, because the `"mousemove"` events did not fire
 quickly enough to hit every pixel.
 
 Improve the `draw` tool to make it draw a full line. This means you
-have to the mouse motion handler remember the previous mouse position,
-and connect that to the current one.
+have to make the motion handler function remember the previous
+position, and connect that to the current one.
 
 Diagonally adjacent pixels count as a connected line in this case. So
 a slanted line should look like the picture on the left, not the
@@ -1068,7 +1093,7 @@ picture on the right.
 
 Since we'll be writing code that draws a line between two arbitrary
 points anyway, go ahead and use that to also define a `line` tool,
-which draws a straight line between the start and end of a mouse drag.
+which draws a straight line between the start and end of a drag.
 
 {{if interactive
 

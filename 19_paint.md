@@ -31,9 +31,9 @@ materials, ((skill)), or talent. You just start smearing.
 
 {{index drawing, "select (HTML tag)", "canvas (HTML tag)", component}}
 
-The interface for the drawing program shows a big `<canvas>` element
-on top, with a number of form ((field))s below it. The user draws on
-the ((picture)) by selecting a tool from a `<select>` field and then
+The interface for the application shows a big `<canvas>` element on
+top, with a number of form ((field))s below it. The user draws on the
+((picture)) by selecting a tool from a `<select>` field and then
 clicking or dragging across the canvas. There are ((tool))s for
 drawing single pixels or rectangles, for filling an area, and for
 picking a color from the picture.
@@ -350,7 +350,8 @@ events, and making sure we call `preventDefault` on the `"touchstart"`
 event to prevent ((panning)).
 
 ```{includeCode: true}
-PictureCanvas.prototype.touch = function(startEvent, onDown) {
+PictureCanvas.prototype.touch = function(startEvent,
+                                         onDown) {
   let rect = this.dom.getBoundingClientRect();
   let pos = pointerPosition(startEvent.touches[0], rect);
   let onMove = onDown(pos);
@@ -876,8 +877,8 @@ const baseControls = [ToolSelect, ColorSelect, SaveButton,
                       LoadButton, UndoButton];
 
 function startPixelEditor({state=startState,
-                         tools=baseTools,
-                         controls=baseControls}) {
+                           tools=baseTools,
+                           controls=baseControls}) {
   let app = new PixelEditor(state, {
     tools,
     controls,
@@ -1022,6 +1023,77 @@ them out.
 
 When the key event matches a shortcut, call `preventDefault` on it and
 dispatch the appropriate update.
+
+hint}}
+
+### Efficient drawing
+
+During regular drawing, the majority of work that our application does
+happens in `drawPicture`. Creating a new state and updating the rest
+of the DOM isn't very expensive, but repainting all the pixels is
+quite a bit of work.
+
+Find a way to make the `setState` method of `PictureCanvas` faster by
+redrawing only the pixels that actually changed.
+
+Remember that `drawPicture` is also used by the save button, so if you
+change it, either make sure the changes don't break the old use, or
+create a new version with a different name.
+
+Also note that changing the size of a `<canvas>` element clears it,
+making it entirely transparent again.
+
+{{if interactive
+
+```{test: no, lang: "text/html"}
+<div></div>
+<script>
+  // Change this method
+  PictureCanvas.prototype.setState = function(picture) {
+    if (this.picture == picture) return;
+    this.picture = picture;
+    drawPicture(this.picture, this.dom, scale);
+  }
+
+  // You may want to use or change this as well
+  function drawPicture(picture, canvas, scale) {
+    canvas.width = picture.width * scale;
+    canvas.height = picture.height * scale;
+    let cx = canvas.getContext("2d");
+
+    for (let y = 0; y < picture.height; y++) {
+      for (let x = 0; x < picture.width; x++) {
+        cx.fillStyle = picture.pixel(x, y);
+        cx.fillRect(x * scale, y * scale, scale, scale);
+      }
+    }
+  }
+
+  document.querySelector("div")
+    .appendChild(startPixelEditor({}));
+</script>
+```
+
+if}}
+
+{{hint
+
+This exercise is a good example of how immutable data structures can
+make code _faster_. Because we have both the old and the new picture,
+we can compare them and only redraw the pixels that changed color,
+saving over 99% of the drawing work in most cases.
+
+You can either write a new function `updatePicture`, or have
+`drawPicture` take an extra argument, which may be either undefined or
+a picture. For each pixel, it checks whether a previous picture was
+passed, and if that previous picture has the same color at this
+position, and skips the pixel when that is the case.
+
+Because the canvas gets cleared when we change its size, you should
+also avoid touching its `width` and `height` properties when the old
+and the new picture have the same size. If they do not, you can set
+the binding holding the old picture to null, because you shouldn't
+skip any pixels after you've changed the canvas size.
 
 hint}}
 

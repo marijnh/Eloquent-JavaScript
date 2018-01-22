@@ -201,8 +201,8 @@ it annoying, it will also necessarily be ineffective, since it takes
 too much time to exhaustively test everything every time you make a
 change.
 
-Computers are good at repetetive tasks, and testing is the ideal
-repetetive task. Automated testing is the process of writing a program
+Computers are good at repetitive tasks, and testing is the ideal
+repetitive task. Automated testing is the process of writing a program
 that tests another program. Writing tests is a bit more work than
 testing manually, but once you've done it you gain a kind of
 superpower: it only takes you a few seconds to verify that your
@@ -832,7 +832,7 @@ Make sure you handle only the exceptions you are trying to handle.
 {{if interactive
 
 ```{test: no}
-class MultiplicatorUnitFailure extends Error () {}
+class MultiplicatorUnitFailure extends Error {}
 
 function primitiveMultiply(a, b) {
   if (Math.random() < 0.2)

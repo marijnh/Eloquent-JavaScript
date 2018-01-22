@@ -104,8 +104,8 @@ If you're thinking in terms of ((object-oriented programming)), your
 first impulse is probably to start defining objects for the various
 elements in the world. A ((class)) for the robot, one for a parcel,
 maybe one for places. These could then hold properties that describe
-their current state, such as the pile of parcels at a location, which
-we could change when updating the world.
+their current ((state)), such as the pile of parcels at a location,
+which we could change when updating the world.
 
 This is wrong.
 
@@ -127,9 +127,9 @@ entire jungle.
 
 quote}}
 
-Instead, let's condense the village's state down to the minimal set of
-values that define it. There's the robot's current location and the
-collection of undelivered parcels, each of which has a current
+Instead, let's condense the village's ((state)) down to the minimal
+set of values that define it. There's the robot's current location and
+the collection of undelivered parcels, each of which has a current
 location and a destination address. That's it.
 
 {{index "VillageState class", "persistent data structure"}}

@@ -218,7 +218,7 @@ in the exercises of [Chapter ?](object#exercise_vector).
 
 As the game runs, actors will end up in different places or even
 disappear entirely (as coins do when collected). We'll use a `State`
-class to track the state of a running game.
+class to track the ((state)) of a running game.
 
 ```{includeCode: true}
 class State {
@@ -635,7 +635,7 @@ defined earlier.
 .player { background: rgb(64, 64, 64);   }
 ```
 
-{{index graphics, optimization, efficiency}}
+{{index graphics, optimization, efficiency, state}}
 
 When it updates the display, the `drawState` method first removes the
 old actor graphics, if any, and then redraws them in their new

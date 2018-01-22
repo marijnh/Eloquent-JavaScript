@@ -1006,7 +1006,7 @@ Objects in the `files` object have properties such as `name` (the
 filename), `size` (the file's size in bytes), and `type` (the media
 type of the file, such as `text/plain` or `image/jpeg`).
 
-{{index "asynchronous programming", "file reading", "FileReader type"}}
+{{index "asynchronous programming", "file reading", "FileReader class"}}
 
 {{id filereader}}
 
@@ -1032,14 +1032,14 @@ avoid freezing the document.
 </script>
 ```
 
-{{index "FileReader type", "load event", "readAsText method", "result property"}}
+{{index "FileReader class", "load event", "readAsText method", "result property"}}
 
 Reading a file is done by creating a `FileReader` object, registering
 a `"load"` event handler for it, and calling its `readAsText` method,
 giving it the file we want to read. Once loading finishes, the
 reader's `result` property contains the file's content.
 
-{{index "error event", "FileReader type", "Promise class"}}
+{{index "error event", "FileReader class", "Promise class"}}
 
 _FileReader_s also fire an `"error"` event when reading the file fails
 for any reason. The error object itself will end up in the reader's

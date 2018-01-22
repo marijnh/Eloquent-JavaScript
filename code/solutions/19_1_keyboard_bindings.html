@@ -20,7 +20,7 @@
       this.controls = controls.map(
         Control => new Control(state, config));
       this.dom = elt("div", {
-        tabIndex: "0",
+        tabIndex: 0,
         onkeydown: event => this.keyDown(event, config)
       }, this.canvas.dom, elt("br"),
          ...this.controls.reduce(

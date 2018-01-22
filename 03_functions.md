@@ -1062,7 +1062,7 @@ hint}}
 
 ### Bean counting
 
-{{index "bean counting (exercise)", [string, indexing], "zero-based counting"}}
+{{index "bean counting (exercise)", [string, indexing], "zero-based counting", ["length property", "for string"]}}
 
 You can get the Nth character, or letter, from a string by writing
 `"string"[N]`. The returned value will be a string containing only one

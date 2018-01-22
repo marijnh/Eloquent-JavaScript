@@ -21,7 +21,7 @@ react to it as it occurs.
 {{index polling, button, "real-time"}}
 
 Imagine an interface where the only way to find out whether a key on
-the keyboard is being pressed is to read the current state of that
+the ((keyboard)) is being pressed is to read the current state of that
 key. To be able to react to keypresses, you would have to constantly
 read the key's state so that you'd catch it before it's released
 again. It would be dangerous to perform other time-intensive
@@ -187,7 +187,7 @@ the event. This can be useful when, for example, you have a button
 inside another clickable element and you don't want clicks on the
 button to activate the outer element's click behavior.
 
-{{index "mousedown event"}}
+{{index "mousedown event", "pointer event"}}
 
 The following example registers `"mousedown"` handlers on both a
 button and the paragraph around it. When clicked with the right mouse

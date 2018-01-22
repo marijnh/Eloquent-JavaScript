@@ -1140,7 +1140,7 @@ equal to zero and below 10. Since `Math.floor` rounds down, this
 expression will produce, with equal chance, any number from 0 through
 9.
 
-{{index "Math.ceil function", "Math.round function"}}
+{{index "Math.ceil function", "Math.round function", "Math.abs function", "absolute value"}}
 
 There are also the functions `Math.ceil` (for "ceiling", which rounds
 up to a whole number), `Math.round` (to the nearest whole number), and

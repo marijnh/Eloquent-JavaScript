@@ -268,6 +268,8 @@ module's code in a function, and use that function's scope as module
 
 ## CommonJS
 
+{{id commonjs}}
+
 {{index "CommonJS modules"}}
 
 The most widely used approach to bolted-on JavaScript modules is
@@ -396,6 +398,8 @@ named `format-date.js` in the same directory.
 When it isn't a relative name, we'll be interpreting the string as the
 name of an NPM module in this book. We'll go into more detail on how
 to install and use NPM modules in [Chapter ?](node).
+
+{{id modules_ini}}
 
 {{index "ini package"}}
 
@@ -624,6 +628,8 @@ useful (and useless) packages from NPM.
 ### A modular robot
 
 {{index "modular robot (exercise)", module, robot, NPM}}
+
+{{id modular_robot}}
 
 These are the bindings that the project from [Chapter ?](robot)
 creates:

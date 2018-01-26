@@ -17,7 +17,7 @@ while (m = included.exec(input)) {
     snippet = snippet.replace(/(\n|^)\s*console\.log\(.*\);\n/g, "$1")
   if (m = directive.match(/top_lines:\s*(\d+)/))
     snippet = snippet.split("\n").slice(0, Number(m[1])).join("\n") + "\n"
-  if (m = directive.match(/\s>(\S+)/))
+  if (m = directive.match(/(?:\s|^)>(\S+)/))
     file = m[1]
   if (file in files)
     files[file].push(snippet)

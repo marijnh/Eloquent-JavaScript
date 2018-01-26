@@ -88,13 +88,12 @@ the example programs and ((exercises)). Learning is hard work, but
 everything you learn is yours and will make subsequent learning
 easier.
 
-{{quote {author: "Joseph Weizenbaum", title: "Computer Power and Human Reason"}
+{{quote {author: "Ursula K. Le Guin", title: "The Left Hand of Darkness"}
 
-{{index "Weizenbaum, Joseph"}}
+{{index "Le Guin, Ursula K."}}
 
-The computer programmer is a creator of
-universes for which he \[sic] alone is responsible. Universes of virtually
-unlimited complexity can be created in the form of computer programs.
+When action grows unprofitable, gather information; when information
+grows unprofitable, sleep.
 
 quote}}
 

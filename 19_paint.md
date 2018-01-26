@@ -215,13 +215,12 @@ function reduceState(state, update) {
 This rather cumbersome pattern, in which `Object.assign` is used to
 first add the properties of `state` to an empty object, and then
 overwrite some of those with the properties from `update`, is common
-in JavaScript code that uses ((immutable)) objects. There is work
-underway to ((standard))ize a notation in which the triple-dot
-operator can be used in object expressions to add all properties from
-another object. With that addition, you could write `{...state,
-...update}`. But at the time of writing this hasn't officially been
-added to the language yet, and the notation doesn't yet work in all
-browsers.
+in JavaScript code that uses ((immutable)) objects. A more convenient
+notation for this, in which the triple-dot operator can be used in
+object expressions to add all properties from another object, is in
+the final stages of being standardized. With that addition, you could
+write `{...state, ...update}`. But at the time of writing this doesn't
+yet work in all browsers.
 
 ## DOM building
 

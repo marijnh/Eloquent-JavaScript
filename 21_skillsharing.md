@@ -4,181 +4,167 @@
 
 {{index "skill-sharing project", meetup, "project chapter"}}
 
-A
-_((skill-sharing))_ meeting is an event where people with a shared
+A _((skill-sharing))_ meeting is an event where people with a shared
 interest come together and give small, informal presentations about
 things they know. At a ((gardening)) skill-sharing meeting, someone
-might explain how to cultivate ((celery)). Or in a
-programming-oriented skill-sharing group, you could drop by and tell
-everybody about Node.js.
+might explain how to cultivate ((celery)). Or in a programming
+skill-sharing group, you could drop by and tell people about Node.js.
 
 {{index learning, "users’ group"}}
 
-Such meetups, also often called
-_users’ groups_ when they are about computers, are a great way to
-broaden your horizon, learn about new developments, or simply meet
-people with similar interests. Many large cities have a JavaScript
-meetup. They are typically free to attend, and I've found the ones
-I've visited to be friendly and welcoming.
+Such meetups—also often called _users’ groups_ when they are about
+computers—are a great way to broaden your horizon, learn about new
+developments, or simply meet people with similar interests. Many
+larger cities have a JavaScript meetup. They are typically free to
+attend, and I've found the ones I've visited to be friendly and
+welcoming.
 
-In this final project chapter, our goal is to set up a ((website))
-for managing ((talk))s given at a skill-sharing meeting. Imagine a
-small group of people meeting up regularly in a member’s
-office to talk about ((unicycling)). The problem is that when the previous
-organizer of the meetings moved to another town, nobody stepped
-forward to take over this task. We want a system that will let the
-participants propose and discuss talks among themselves, without a
-central organizer.
+In this final project chapter, our goal is to set up a ((website)) for
+managing ((talk))s given at a skill-sharing meeting. Imagine a small
+group of people meeting up regularly in the office of one of the
+members to talk about ((unicycling)). The previous organizer of the
+meetings moved to another town, and nobody stepped forward to take
+over this task. We want a system that will let the participants
+propose and discuss talks among themselves, without a central
+organizer.
 
 {{figure {url: "img/unicycle.svg", alt: "The unicycling meetup"}}}
 
-[Just like in the [previous chapter](node), the code in this chapter
-is written for Node.js, and running it directly in the HTML page that
-you are looking at is unlikely to work.]{if interactive}The full code
-for the project can be ((download))ed from
-http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code/skillsharing.zip_].
+[Just like in the [previous chapter](node), some of the code in this
+chapter is written for Node.js, and running it directly in the HTML
+page that you are looking at is unlikely to work.]{if interactive} The
+full code for the project can be ((download))ed from
+[_eloquentjavascript.net/code/skillsharing.zip_](http://eloquentjavascript.net/code/skillsharing.zip).
 
 ## Design
 
 {{index "skill-sharing project", persistence}}
 
-There is a _((server))_
-part to this project, written for ((Node.js)), and a _((client))_
-part, written for the ((browser)). The server stores the system's data
-and provides it to the client. It also serves the HTML and JavaScript
-files that implement the client-side system.
+There is a _((server))_ part to this project, written for ((Node.js)),
+and a _((client))_ part, written for the ((browser)). The server
+stores the system's data and provides it to the client. It also serves
+the files that implement the client-side system.
 
 The server keeps a list of ((talk))s proposed for the next meeting,
 and the client shows this list. Each talk has a presenter name, a
 title, a summary, and a list of ((comment))s associated with it. The
 client allows users to propose new talks (adding them to the list),
-delete talks, and comment on existing talks. Whenever the user
-makes such a change, the client makes an ((HTTP)) ((request)) to tell
-the server about it.
+delete talks, and comment on existing talks. Whenever the user makes
+such a change, the client makes an ((HTTP)) ((request)) to tell the
+server about it.
 
 {{figure {url: "img/skillsharing.png", alt: "Screenshot of the skill-sharing website",width: "10cm"}}}
 
 {{index "live view", "user experience", "pushing data", connection}}
 
-The application will be set up to show a _live_
-view of the current proposed talks and their comments. Whenever
-someone, somewhere, submits a new talk or adds a comment, all people
-who have the page open in their browsers should immediately see the
-change. This poses a bit of a challenge since there is no way for a
-web server to open up a connection to a client, nor is there a good
-way to know which clients currently are looking at a given website.
+The application will be set up to show a _live_ view of the current
+proposed talks and their comments. Whenever someone, somewhere,
+submits a new talk or adds a comment, all people who have the page
+open in their browsers should immediately see the change. This poses a
+bit of a challenge. There is no way for a web server to open a
+connection to a client, nor is there a good way to know which clients
+currently are looking at a given website.
 
 {{index "Node.js"}}
 
-A common solution to this problem is called _((long
-polling))_, which happens to be one of the motivations for Node's
-design.
+A common solution to this problem is called _((long polling))_, which
+happens to be one of the motivations for Node's design.
 
 ## Long polling
 
 {{index firewall, router, notification, "long polling"}}
 
-To be
-able to immediately notify a client that something changed, we need a
-((connection)) to that client. Since web ((browser))s do not
+To be able to immediately notify a client that something changed, we
+need a ((connection)) to that client. Since web ((browser))s do not
 traditionally accept connections and clients are usually behind
 devices that would block such connections anyway, having the server
 initiate this connection is not practical.
 
 We can arrange for the client to open the connection and keep it
-around so that the server can use it to send information when it
-needs to do so.
+around so that the server can use it to send information when it needs
+to do so.
 
-But an ((HTTP)) request allows only a simple flow of information,
-where the client sends a request, the server comes back with a single
-response, and that is it. There is a technology called _((web
-sockets))_, supported by modern browsers, which makes it possible to
-open ((connection))s for arbitrary data exchange. But using them
-properly is somewhat tricky.
+But an ((HTTP)) request allows only a simple flow of information: the
+client sends a request, the server comes back with a single response,
+and that is it. There is a technology called _((web sockets))_,
+supported by modern browsers, which makes it possible to open
+((connection))s for arbitrary data exchange. But using them properly
+is somewhat tricky.
 
-In this chapter, we will use a relatively simple technique, ((long
-polling)), where clients continuously ask the server for new information
-using regular HTTP requests, and the server simply stalls its answer
-when it has nothing new to report.
+In this chapter, we will use a simpler technique—((long
+polling))—where clients continuously ask the server for new
+information using regular HTTP requests, and the server stalls its
+answer when it has nothing new to report.
 
 {{index "live view"}}
 
-As long as the client makes sure it constantly has a
-polling request open, it will receive information from the server
-immediately. For example, if Alice has our skill-sharing application
-open in her browser, that browser will have made a request for
-updates and be waiting for a response to that request. When Bob
-submits a talk on Extreme Downhill Unicycling, the
-server will notice that Alice is waiting for updates and send
-information about the new talk as a response to her pending request.
-Alice's browser will receive the data and update the screen to show
-the talk.
+As long as the client makes sure it constantly has a polling request
+open, it will receive information from the server quickly after it
+becomes available. For example, if Alice has our skill-sharing
+application open in her browser, that browser will have made a request
+for updates and be waiting for a response to that request. When Bob
+submits a talk on Extreme Downhill Unicycling, the server will notice
+that Alice is waiting for updates and send information about the new
+talk as a response to her pending request. Alice's browser will
+receive the data and update the screen to show the talk.
 
 {{index robustness, timeout}}
 
-To prevent connections from timing out
-(being aborted because of a lack of activity), ((long-polling)) techniques
-usually set a maximum time for each request, after which the server
-will respond anyway, even though it has nothing to report, and the
-client will start a new request. Periodically restarting the request
-also makes the technique more robust, allowing clients to recover from
-temporary ((connection)) failures or server problems.
+To prevent connections from timing out (being aborted because of a
+lack of activity), ((long-polling)) techniques usually set a maximum
+time for each request, after which the server will respond anyway,
+even though it has nothing to report, and the client will start a new
+request. Periodically restarting the request also makes the technique
+more robust, allowing clients to recover from temporary ((connection))
+failures or server problems.
 
 {{index "Node.js"}}
 
-A busy server that is using long polling may have
-thousands of waiting requests, and thus ((TCP)) connections, open.
-Node, which makes it easy to manage many connections without creating
-a separate thread of control for each one, is a good fit for such a
-system.
+A busy server that is using long polling may have thousands of waiting
+requests, and thus ((TCP)) connections, open. Node, which makes it
+easy to manage many connections without creating a separate thread of
+control for each one, is a good fit for such a system.
 
 ## HTTP interface
 
 {{index "skill-sharing project"}}
 
-Before we start fleshing out either the
-server or the client, let's think about the point where they touch:
-the ((HTTP)) ((interface)) over which they communicate.
+Before we start designing either the server or the client, let's think
+about the point where they touch: the ((HTTP)) ((interface)) over
+which they communicate.
 
 {{index [path, URL]}}
 
 We will base our interface on ((JSON)), and like in the file server
-from [Chapter ?](node#file_server), we'll try to make good use
-of HTTP ((method))s. The interface is centered around the `/talks` path.
-Paths that do not start with `/talks` will be used for
-serving ((static file))s—the HTML and JavaScript code that implements
-the client-side system.
+from [Chapter ?](node#file_server), we'll try to make good use of HTTP
+((method))s and ((header))s. The interface is centered around the
+`/talks` path. Paths that do not start with `/talks` will be used for
+serving ((static file))s—the HTML and JavaScript code for the
+client-side system.
 
 {{index "GET method"}}
 
-A `GET` request to `/talks` returns a JSON document
-like this:
+A `GET` request to `/talks` returns a JSON document like this:
 
 ```{lang: "application/json"}
-{"serverTime": 1405438911833,
- "talks": [{"title": "Unituning",
-            "presenter": "Carlos",
-            "summary": "Modifying your cycle for extra style",
-            "comment": []}]}
+[{"title": "Unituning",
+  "presenter": "Carlos",
+  "summary": "Modifying your cycle for extra style",
+  "comment": []}]}
 ```
-
-The `serverTime` field will be used to make reliable ((long polling))
-possible. I will return to it
-[later](skillsharing#poll_time).
 
 {{index "PUT method", URL}}
 
-Creating a new talk is done by making a `PUT`
-request to a URL like `/talks/Unituning`, where the part after the
-second slash is the title of the talk. The `PUT` request's body should
-contain a ((JSON)) object that has `presenter` and `summary`
-properties.
+Creating a new talk is done by making a `PUT` request to a URL like
+`/talks/Unituning`, where the part after the second slash is the title
+of the talk. The `PUT` request's body should contain a ((JSON)) object
+that has `presenter` and `summary` properties.
 
 {{index "encodeURIComponent function", [escaping, "in URLs"], whitespace}}
 
-Since talk titles may contain spaces and other
-characters that may not appear normally in a URL, title strings must be encoded
-with the `encodeURIComponent` function when building up such a URL.
+Since talk titles may contain spaces and other characters that may not
+appear normally in a URL, title strings must be encoded with the
+`encodeURIComponent` function when building up such a URL.
 
 ```
 console.log("/talks/" + encodeURIComponent("How to Idle"));
@@ -202,9 +188,9 @@ representation of a talk and `DELETE` requests to delete a talk.
 
 {{index "POST method"}}
 
-Adding a ((comment)) to a talk is done with a `POST`
-request to a URL like `/talks/Unituning/comments`, with a JSON object
-that has `author` and `message` properties as the body of the request.
+Adding a ((comment)) to a talk is done with a `POST` request to a URL
+like `/talks/Unituning/comments`, with a JSON body that has `author`
+and `message` properties.
 
 ```{lang: http}
 POST /talks/Unituning/comments HTTP/1.1
@@ -215,1033 +201,865 @@ Content-Length: 72
  "message": "Will you talk about raising a cycle?"}
 ```
 
-{{index "query string", timeout}}
+{{index "query string", timeout, "ETag header", "If-None-Match header"}}
 
-To support ((long polling)), `GET`
-requests to `/talks` may include a query parameter called `changesSince`,
-which is used to indicate that the client is interested in updates
-that happened since a given point in time. When there are such
-changes, they are immediately returned. When there aren't, the response is
-delayed until something happens or until a given time period (we will use
-90 seconds) has elapsed.
+To support ((long polling)), `GET` requests to `/talks` may include
+extra headers that inform the server to delay the response if no new
+information is available. We'll use a pair of headers normally
+intended to manage caching: `ETag` and `If-None-Match`.
 
-{{index "Unix time", "Date.now function", synchronization}}
+{{index "304 (HTTP status code)"}}
 
-{{id poll_time}}
-The time
-must be indicated as the number of milliseconds elapsed since the
-start of 1970, the same type of number that is returned by
-`Date.now()`. To ensure that it receives all updates and
-doesn't receive the same update more than once, the client must pass
-the time at which it last received information from the server. The
-server's clock might not be exactly in sync with the client's clock,
-and even if it were, it would be impossible for the client to know the
-precise time at which the server sent a response because
-transferring data over the ((network)) takes time.
+Servers may include an `ETag` ("entity tag") header in a response. Its
+value is a string that identifies the current version of the resource.
+Clients, when they later request that resource again, may make a
+_((conditional request))_ by including an `If-None-Match` header whose
+value holds that same string. If the resource hasn't changed, the
+server will respond with status code 304, which means "not modified",
+telling the client that its cached version is still current. If the
+tag does not match, the server will respond as normal.
 
-This is the reason for the existence of the `serverTime` property in
-responses sent to `GET` requests to `/talks`. That property tells the client the
-precise time, from the server's perspective, at which the data it
-receives was created. The client can then simply store this time and pass it
-along in its next polling request to make sure that it receives
-exactly the updates that it has not seen before.
+{{index "Prefer header"}}
+
+We need something like this, where the client can tell the server
+which version of the list of talks it has, and the server only
+responds when that list has changed. But instead of immediately
+returning a 304 response, the server should stall the response, and
+only return when something new is available or a given amount of time
+has elapsed. To distinguish long polling requests from normal
+conditional requests, we give them another header `Prefer: wait=90`,
+which tells the server that the client is willing wait up to 90
+seconds for the response.
+
+So the server keeps a version number that it updates every time the
+talks change, and uses that as the `ETag` value. And clients can make
+requests like this to be notified when the talks change:
 
 ```{lang: null}
-GET /talks?changesSince=1405438911833 HTTP/1.1
+GET /talks HTTP/1.1
+If-None-Match: "4"
+Prefer: wait=90
 
 (time passes)
 
 HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 95
+ETag: "5"
+Content-Length: 295
 
-{"serverTime": 1405438913401,
- "talks": [{"title": "Unituning",
-            "deleted": true}]}
+[....]
 ```
-
-When a talk has been changed, has been newly created, or has a comment added,
-the full representation of the talk is included in the response to
-the client's next polling request. When a talk is deleted, only its title and the
-property `deleted` are included. The client can then add talks with
-titles it has not seen before to its display, update talks that it was
-already showing, and remove those that were deleted.
 
 {{index security}}
 
-The protocol described in this chapter does not do any
-((access control)). Everybody can comment, modify talks, and even
-delete them. Since the Internet is filled with ((hooligan))s, putting
-such a system online without further protection is likely to end in
-disaster.
-
-{{index authorization, forwarding}}
-
-A simple solution would be to put
-the system behind a _((reverse proxy))_, which is an HTTP server that
-accepts connections from outside the system and forwards them to HTTP
-servers that are running locally. Such a ((proxy)) can be configured
-to require a username and password, and you could make sure only the
-participants in the skill-sharing group have this ((password)).
+The protocol described here does not do any ((access control)).
+Everybody can comment, modify talks, and even delete them. (Since the
+Internet is full of ((hooligan))s, putting such a system online
+without further protection probably wouldn't end well.)
 
 ## The server
 
 {{index "skill-sharing project"}}
 
-Let's start by writing the ((server))-side
-part of the program. The code in this section runs on ((Node.js)).
+Let's start by writing the ((server))-side part of the program. The
+code in this section runs on ((Node.js)).
 
 ### Routing
 
 {{index "createServer function", [path, URL]}}
 
-Our server will use
-`http.createServer` to start an HTTP server. In the function that
-handles a new request, we must distinguish between the various kinds
-of requests (as determined by the ((method)) and the path) that we
-support. This can be done with a long chain of `if` statements, but
-there is a nicer way.
+Our server will use `createServer` to start an HTTP server. In the
+function that handles a new request, we must distinguish between the
+various kinds of requests (as determined by the ((method)) and the
+path) that we support. This can be done with a long chain of `if`
+statements, but there is a nicer way.
 
 {{index dispatching}}
 
-A _((router))_ is a component that helps dispatch a
-request to the function that can handle it. You can tell the router, for
-example, that `PUT` requests with a path that
-matches the regular expression `/^\/talks\/([^\/]+)$/` (which matches `/talks/`
-followed by a talk title) can be handled by a given function. In
-addition, it can help extract the meaningful parts of the path, in this
-case the talk title, wrapped in parentheses in the ((regular
-expression)) and pass those to the handler function.
+A _((router))_ is a component that helps dispatch a request to the
+function that can handle it. You can tell the router, for example,
+that `PUT` requests with a path that matches the regular expression
+`/^\/talks\/([^\/]+)$/` (`/talks/` followed by a talk title) can be
+handled by a given function. In addition, it can help extract the
+meaningful parts of the path, in this case the talk title, wrapped in
+parentheses in the ((regular expression)) and pass those to the
+handler function.
 
 There are a number of good router packages on ((NPM)), but here we
 will write one ourselves to illustrate the principle.
 
-{{index "require function", "Router type", module}}
+{{index "require function", "Router class", module}}
 
-This is
-`router.js`, which we will later `require` from our server module:
+This is `router.js`, which we will later `require` from our server
+module:
 
 ```{includeCode: ">code/skillsharing/router.js"}
-var Router = module.exports = function() {
-  this.routes = [];
-};
+const {parse} = require("url");
 
-Router.prototype.add = function(method, url, handler) {
-  this.routes.push({method: method,
-                    url: url,
-                    handler: handler});
-};
+module.exports = class Router {
+  constructor() {
+    this.routes = [];
+  }
+  add(method, url, handler) {
+    this.routes.push({method, url, handler});
+  }
+  resolve(context, request) {
+    let path = parse(request.url).pathname;
 
-Router.prototype.resolve = function(request, response) {
-  var path = require("url").parse(request.url).pathname;
-
-  return this.routes.some(function(route) {
-    var match = route.url.exec(path);
-    if (!match || route.method != request.method)
-      return false;
-
-    var urlParts = match.slice(1).map(decodeURIComponent);
-    route.handler.apply(null, [request, response]
-                                .concat(urlParts));
-    return true;
-  });
+    for (let {method, url, handler} of this.routes) {
+      let match = url.exec(path);
+      if (!match || request.method != method) continue;
+      let urlParts = match.slice(1).map(decodeURIComponent);
+      return handler(context, ...urlParts, request);
+    }
+    return null;
+  }
 };
 ```
 
-{{index "Router type"}}
+{{index "Router class"}}
 
-The module exports the `Router` constructor. A router
-object allows new handlers to be registered with the `add` method and
-can resolve requests with its `resolve` method.
+The module exports the `Router` class. A router object allows new
+handlers to be registered with the `add` method and can resolve
+requests with its `resolve` method.
 
 {{index "some method"}}
 
-The latter will return a Boolean that indicates
-whether a handler was found. The `some` method on the
-array of routes will try the routes one at a time (in the order in
-which they were defined) and stop, returning `true`, when a matching
-one is found.
+The latter will return a response when a handler was found, and `null`
+otherwise. It tries the routes one at a time (in the order in which
+they were defined) until a matching one is found.
 
 {{index "capture group", "decodeURIComponent function", [escaping, "in URLs"]}}
 
-The handler functions are called with the `request` and
-`response` objects. When the ((regular expression)) that matches the
-URL contains any groups, the strings they match are passed to the handler
-as extra arguments. These strings have to be URL-decoded since the raw URL
-contains `%20`-style codes.
+The handler functions are called with the the `context` value (which
+will be the server instance in our case), match string for any groups
+they defined in their ((regular expression)), and the request object.
+The strings have to be URL-decoded since the raw URL may contain
+`%20`-style codes.
 
 ### Serving files
 
 When a request matches none of the request types defined in our
-router, the server must interpret it as a request for a file in
-the `public` directory. It would be possible to use the file server
-defined in [Chapter ?](node#file_server) to serve such
-files, but we neither need nor want to support `PUT` and
-`DELETE` requests on files, and we would like to have advanced
-features such as support for caching. So let's use a solid, well-tested
-((static file)) server from ((NPM)) instead.
+router, the server must interpret it as a request for a file in the
+`public` directory. It would be possible to use the file server
+defined in [Chapter ?](node#file_server) to serve such files, but we
+neither need nor want to support `PUT` and `DELETE` requests on files,
+and we would like to have advanced features such as support for
+caching. So let's use a solid, well-tested ((static file)) server from
+((NPM)) instead.
 
-{{index "createServer function", "ecstatic module"}}
+{{index "createServer function", "ecstatic package"}}
 
-I opted for
-`ecstatic`. This isn't the only such server on NPM, but it works
-well and fits our purposes. The `ecstatic` module exports a function
-that can be called with a configuration object to produce a request
-handler function. We use the `root` option to tell the server where it
-should look for files. The handler function accepts `request` and
-`response` parameters and can be passed directly to `createServer` to
-create a server that serves _only_ files. We want to first check for
-requests that we handle specially, though, so we wrap it in another
-function.
-
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-var http = require("http");
-var Router = require("./router");
-var ecstatic = require("ecstatic");
-
-var fileServer = ecstatic({root: "./public"});
-var router = new Router();
-
-http.createServer(function(request, response) {
-  if (!router.resolve(request, response))
-    fileServer(request, response);
-}).listen(8000);
-```
-
-{{index JSON}}
-
-The `respond` and `respondJSON` helper functions are used throughout the
-server code to send off responses with a single function call.
+I opted for `ecstatic`. This isn't the only such server on NPM, but it
+works well and fits our purposes. The `ecstatic` package exports a
+function that can be called with a configuration object to produce a
+request handler function. We use the `root` option to tell the server
+where it should look for files. The handler function accepts `request`
+and `response` parameters and can be passed directly to `createServer`
+to create a server that serves _only_ files. We want to first check
+for requests that we handle specially, though, so we wrap it in
+another function.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-function respond(response, status, data, type) {
-  response.writeHead(status, {
-    "Content-Type": type || "text/plain"
-  });
-  response.end(data);
-}
+const {createServer} = require("http");
+const Router = require("./router");
+const ecstatic = require("ecstatic");
 
-function respondJSON(response, status, data) {
-  respond(response, status, JSON.stringify(data),
-          "application/json");
+const router = new Router();
+const defaultHeaders = {"Content-Type": "text/plain"};
+
+class SkillShareServer {
+  constructor(talks) {
+    this.talks = talks;
+    this.version = 0;
+    this.waiting = [];
+
+    let fileServer = ecstatic({root: "./public"});
+    this.server = createServer((request, response) => {
+      let resolved = router.resolve(this, request);
+      if (resolved) {
+        resolved.catch(error => {
+          if (error.status != null) return error;
+          return {body: String(error), status: 500};
+        }).then(({body, status=200, headers=defaultHeaders}) => {
+          response.writeHead(status, headers);
+          response.end(body);
+        });
+      } else {
+        fileServer(request, response);
+      }
+    });
+  }
+  start(port) {
+    this.server.listen(port);
+  }
+  stop() {
+    this.server.close();
+  }
 }
 ```
+
+This uses a similar convention as the file server from the [previous
+chapter](node) for responses—handlers return promises that resolve to
+objects that describe the response.
 
 ### Talks as resources
 
-The server keeps the ((talk))s that have been proposed in an object
-called `talks`, whose property names are the talk titles. These will
-be exposed as HTTP ((resource))s under `/talks/[title]`, so we need to
-add handlers to our router that implement the various methods that
-clients can use to work with them.
+The ((talk))s that have been proposed are stored in the `talks`
+property of the server, an object whose property names are the talk
+titles. These will be exposed as HTTP ((resource))s under
+`/talks/[title]`, so we need to add handlers to our router that
+implement the various methods that clients can use to work with them.
 
 {{index "GET method", "404 (HTTP status code)"}}
 
-The handler for requests
-that `GET` a single talk must look up the talk and respond either with
-the talk's JSON data or with a 404 error response.
+The handler for requests that `GET` a single talk must look up the
+talk and respond either with the talk's JSON data or with a 404 error
+response.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-var talks = Object.create(null);
+const talkPath = /^\/talks\/([^\/]+)$/;
 
-router.add("GET", /^\/talks\/([^\/]+)$/,
-           function(request, response, title) {
-  if (title in talks)
-    respondJSON(response, 200, talks[title]);
-  else
-    respond(response, 404, "No talk '" + title + "' found");
+router.add("GET", talkPath, async (server, title) => {
+  if (title in server.talks) {
+    return {body: JSON.stringify(server.talks[title]),
+            headers: {"Content-Type": "application/json"}};
+  } else {
+    return {status: 404, body: `No talk '${title}' found`};
+  }
 });
 ```
 
 {{index "DELETE method"}}
 
-Deleting a talk is done by removing it from the
-`talks` object.
+Deleting a talk is done by removing it from the `talks` object.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-router.add("DELETE", /^\/talks\/([^\/]+)$/,
-           function(request, response, title) {
-  if (title in talks) {
-    delete talks[title];
-    registerChange(title);
+router.add("DELETE", talkPath, async (server, title) => {
+  if (title in server.talks) {
+    delete server.talks[title];
+    server.updated();
   }
-  respond(response, 204, null);
+  return {status: 204};
 });
 ```
 
-{{index "long polling", "registerChange function"}}
+{{index "long polling", "updated method"}}
 
-The `registerChange` function, which we
-will define [later](skillsharing#registerChange), notifies
-waiting long-polling requests about the change.
+The `updated` function, which we will define
+[later](skillsharing#updated), notifies waiting long-polling requests
+about the change.
 
 {{index "readStreamAsJSON function", "body (HTTP)"}}
 
-To retrieve
-the content of ((JSON))-encoded request bodies, we define a
-function called `readStreamAsJSON`, which reads all content from a stream,
-parses it as JSON, and then calls a callback function.
+To retrieve the content of a request body, we define a function called
+`readStream`, which reads all content from a stream and returns a
+promise that resolves to a string.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-function readStreamAsJSON(stream, callback) {
-  var data = "";
-  stream.on("data", function(chunk) {
-    data += chunk;
-  });
-  stream.on("end", function() {
-    var result, error;
-    try { result = JSON.parse(data); }
-    catch (e) { error = e; }
-    callback(error, result);
-  });
-  stream.on("error", function(error) {
-    callback(error);
+function readStream(stream) {
+  return new Promise((resolve, reject) => {
+    let data = "";
+    stream.on("error", reject);
+    stream.on("data", chunk => data += chunk.toString());
+    stream.on("end", () => resolve(data));
   });
 }
 ```
 
 {{index validation, input, "PUT method"}}
 
-One handler that
-needs to read JSON responses is the `PUT` handler, which is used to create new
-((talk))s. It has to check whether the data it was given has
-`presenter` and `summary` properties, which are strings. Any data
-coming from outside the system might be nonsense, and we don't want to
-corrupt our internal data model, or even ((crash)), when bad requests
-come in.
+One handler that needs to read request bodies is the `PUT` handler,
+which is used to create new ((talk))s. It has to check whether the
+data it was given has `presenter` and `summary` properties which are
+strings. Any data coming from outside the system might be nonsense,
+and we don't want to corrupt our internal data model, or even
+((crash)), when bad requests come in.
 
 {{index "registerChange function"}}
 
-If the data looks valid, the handler
-stores an object that represents the new talk in the `talks` object,
-possibly ((overwriting)) an existing talk with this title, and again
-calls `registerChange`.
+If the data looks valid, the handler stores an object that represents
+the new talk in the `talks` object, possibly ((overwriting)) an
+existing talk with this title, and again calls `registerChange`.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-router.add("PUT", /^\/talks\/([^\/]+)$/,
-           function(request, response, title) {
-  readStreamAsJSON(request, function(error, talk) {
-    if (error) {
-      respond(response, 400, error.toString());
-    } else if (!talk ||
-               typeof talk.presenter != "string" ||
-               typeof talk.summary != "string") {
-      respond(response, 400, "Bad talk data");
-    } else {
-      talks[title] = {title: title,
-                      presenter: talk.presenter,
-                      summary: talk.summary,
-                      comments: []};
-      registerChange(title);
-      respond(response, 204, null);
-    }
-  });
+router.add("PUT", talkPath,
+           async (server, title, request) => {
+  let requestBody = await readStream(request);
+  let talk;
+  try { talk = JSON.parse(requestBody); }
+  catch (_) { return {status: 400, body: "Invalid JSON"}; }
+
+  if (!talk ||
+      typeof talk.presenter != "string" ||
+      typeof talk.summary != "string") {
+    return {status: 400, body: "Bad talk data"};
+  }
+  server.talks[title] = {title,
+                         presenter: talk.presenter,
+                         summary: talk.summary,
+                         comments: []};
+  server.updated();
+  return {status: 204};
 });
 ```
 
-{{index validation, "readStreamAsJSON function"}}
+{{index validation, "readStream function"}}
 
-Adding a ((comment)) to
-a ((talk)) works similarly. We use `readStreamAsJSON` to
-get the content of the request, validate the resulting data, and store
-it as a comment when it looks valid.
+Adding a ((comment)) to a ((talk)) works similarly. We use
+`readStream` to get the content of the request, validate the resulting
+data, and store it as a comment when it looks valid.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
-           function(request, response, title) {
-  readStreamAsJSON(request, function(error, comment) {
-    if (error) {
-      respond(response, 400, error.toString());
-    } else if (!comment ||
-               typeof comment.author != "string" ||
-               typeof comment.message != "string") {
-      respond(response, 400, "Bad comment data");
-    } else if (title in talks) {
-      talks[title].comments.push(comment);
-      registerChange(title);
-      respond(response, 204, null);
-    } else {
-      respond(response, 404, "No talk '" + title + "' found");
-    }
-  });
+           async (server, title, request) => {
+  let requestBody = await readStream(request);
+  let comment;
+  try { comment = JSON.parse(requestBody); }
+  catch (_) { return {status: 400, body: "Invalid JSON"}; }
+
+  if (!comment ||
+      typeof comment.author != "string" ||
+      typeof comment.message != "string") {
+    return {status: 400, body: "Bad comment data"};
+  } else if (title in server.talks) {
+    server.talks[title].comments.push(comment);
+    server.updated();
+    return {status: 204};
+  } else {
+    return {status: 404, body: `No talk '${title}' found`};
+  }
 });
 ```
 
 {{index "404 (HTTP status code)"}}
 
-Trying to add a comment to a nonexistent
-talk should return a 404 error, of course.
+Trying to add a comment to a nonexistent talk returns a 404 error.
 
 ### Long-polling support
 
 The most interesting aspect of the server is the part that handles
 ((long polling)). When a `GET` request comes in for `/talks`, it can
-be either a simple request for all talks or a request for
-updates, with a `changesSince` parameter.
+be either a simple request for all talks or a long-polling request.
 
-There will be various situations in which we have to send a list of
-talks to the client, so we first define a small helper function that
-attaches the `serverTime` field to such responses.
+{{index "talkResponse method", "ETag header"}}
+
+There will be multiple places in which we have to send a list of talks
+to the client, so we first define a helper method that builds up such
+a list and includes an `ETag` header in the response.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-function sendTalks(talks, response) {
-  respondJSON(response, 200, {
-    serverTime: Date.now(),
-    talks: talks
-  });
-}
+SkillShareServer.prototype.talkResponse = function(talks) {
+  let list = [];
+  for (let title of Object.keys(this.talks)) {
+    list.push(this.talks[title]);
+  }
+  return {
+    body: JSON.stringify(list),
+    headers: {"Content-Type": "application/json",
+              "ETag": `"${this.version}"`}
+  };
+};
 ```
 
 {{index "query string", "url module", parsing}}
 
-The handler itself
-needs to look at the query parameters in the request's URL to see
-whether a `changesSince` parameter is given. If you give the `"url"` module's
-`parse` function a second argument of `true`, it will
-also parse the query part of a URL. The object it returns will have a
-`query` property, which holds another object that maps parameter names to
-values.
+The handler itself needs to look at the request headers to see whether
+`If-None-Match` and `Prefer` headers are present. Node stores headers,
+whose names are specified to be case-insensitive, under their
+lowercase names.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-router.add("GET", /^\/talks$/, function(request, response) {
-  var query = require("url").parse(request.url, true).query;
-  if (query.changesSince == null) {
-    var list = [];
-    for (var title in talks)
-      list.push(talks[title]);
-    sendTalks(list, response);
+router.add("GET", /^\/talks$/, async (server, request) => {
+  let tag = /"(.*)"/.exec(request.headers["if-none-match"]);
+  let wait = /\bwait=(\d+)/.exec(request.headers["prefer"]);
+  if (!tag || tag[1] != server.version) {
+    return server.talkResponse();
+  } else if (!wait) {
+    return {status: 304};
   } else {
-    var since = Number(query.changesSince);
-    if (isNaN(since)) {
-      respond(response, 400, "Invalid parameter");
-    } else {
-      var changed = getChangedTalks(since);
-      if (changed.length > 0)
-         sendTalks(changed, response);
-      else
-        waitForChanges(since, response);
-    }
+    return server.waitForChanges(Number(wait[1]));
   }
 });
 ```
 
-When the `changesSince` parameter is missing, the handler simply
-builds up a list of all talks and returns that.
+{{index "long polling", "waitForChanges method", "If-None-Match header", "Prefer header"}}
 
-{{index "long polling", validation}}
+If no tag was given, or a tag was given that doesn't match the
+server's current version, the handler responds with the list of talks.
+If the request is conditional and the talks did not change, we consult
+the `Prefer` header to see if we should delay the response or respond
+right away.
 
-Otherwise, the `changesSince`
-parameter first has to be checked to make sure that it is a valid
-number. The `getChangedTalks` function, to be defined shortly, returns
-an array of changed talks since a given point in time. If it returns an
-empty array, the server does not yet have anything to send back to the
-client, so it stores the response object (using `waitForChanges`) to
-be responded to at a later time.
+{{index "304 (HTTP status code)", "setTimeout function", timeout}}
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-var waiting = [];
-
-function waitForChanges(since, response) {
-  var waiter = {since: since, response: response};
-  waiting.push(waiter);
-  setTimeout(function() {
-    var found = waiting.indexOf(waiter);
-    if (found > -1) {
-      waiting.splice(found, 1);
-      sendTalks([], response);
-    }
-  }, 90 * 1000);
-}
-```
-
-{{index "splice method", [array, methods], [array, indexing], "indexOf method"}}
-
-The `splice` method is used to cut a piece out of an array.
-You give it an index and a number of elements, and it _mutates_ the
-array, removing that many elements after the given index. In this
-case, we remove a single element, the object that tracks the waiting
-response, whose index we found by calling `indexOf`. If you pass
-additional arguments to `splice`, their values will be inserted into
-the array at the given position, replacing the removed elements.
-
-{{index "setTimeout function", timeout}}
-
-When a response object is stored
-in the `waiting` array, a timeout is immediately set. After 90
-seconds, this timeout sees whether the request is still waiting and, if it
-is, sends an empty response and removes it from the `waiting` array.
-
-{{index "registerChange function"}}
-
-{{id registerChange}}
-To be able to find exactly those talks
-that have been changed since a given point in time, we need to keep
-track of the ((history)) of changes. Registering a change with
-`registerChange` will remember that change, along with the current
-time, in an array called `changes`. When a change occurs, that means
-there is new data, so all waiting requests can be responded to
-immediately.
+A ((callback function)) for delayed requests is stored in the server's
+`waiting` array, so that they can be notified when something happens.
+The `waitForChanges` method also immediately sets a timer to respond
+normally, with a 304 status, when the request has waited long enough.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-var changes = [];
-
-function registerChange(title) {
-  changes.push({title: title, time: Date.now()});
-  waiting.forEach(function(waiter) {
-    sendTalks(getChangedTalks(waiter.since), waiter.response);
+SkillShareServer.prototype.waitForChanges = function(time) {
+  return new Promise(resolve => {
+    this.waiting.push(resolve);
+    setTimeout(() => {
+      if (!this.waiting.includes(resolve)) return;
+      this.waiting = this.waiting.filter(r => r != resolve);
+      resolve({status: 304});
+    }, time * 1000);
   });
-  waiting = [];
 }
 ```
 
-Finally, `getChangedTalks` uses the `changes` array to build up an
-array of changed talks, including objects with a `deleted` property for
-talks that no longer exist. When building that array, `getChangedTalks` has to ensure that it
-doesn't include the same talk twice since there might have been
-multiple changes to a talk since the given time.
+{{index "updated method"}}
+
+{{id updated}}
+
+Registering a change with `updated` will increase the `version` field
+and wake up all waiting requests.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-function getChangedTalks(since) {
-  var found = [];
-  function alreadySeen(title) {
-    return found.some(function(f) {return f.title == title;});
-  }
-  for (var i = changes.length - 1; i >= 0; i--) {
-    var change = changes[i];
-    if (change.time <= since)
-      break;
-    else if (alreadySeen(change.title))
-      continue;
-    else if (change.title in talks)
-      found.push(talks[change.title]);
-    else
-      found.push({title: change.title, deleted: true});
-  }
-  return found;
-}
+SkillShareServer.prototype.updated = function() {
+  this.version++;
+  let response = this.talkResponse();
+  this.waiting.forEach(resolve => resolve(response));
+  this.waiting = [];
+};
 ```
 
-That concludes the server code. Running the program defined so far
-will get you a server running on port 8000, which serves files from
-the `public` subdirectory alongside a talk-managing interface under
-the `/talks` URL.
+That concludes the server code. If we create an instance of
+`SkillShareServer` and start it on port 8000, the resulting ((HTTP))
+server serves files from the `public` subdirectory alongside a
+talk-managing interface under the `/talks` URL.
+
+```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+new SkillShareServer(Object.create(null)).start(8000);
+```
 
 ## The client
 
 {{index "skill-sharing project"}}
 
-The ((client))-side part of the
-talk-managing website consists of three files: an HTML page, a style
-sheet, and a JavaScript file.
+The ((client))-side part of the talk-managing website consists of
+three files: a tiny HTML page, a style sheet, and a JavaScript file.
 
 ### HTML
 
 {{index "index.html"}}
 
-It is a widely used convention for web servers to try
-to serve a file named `index.html` when a request is made directly
-to a path that corresponds to a directory. The ((file server)) module
-we use, `ecstatic`, supports this convention. When a request is made
-to the path `/`, the server looks for the file `./public/index.html` (`./public`
-being the root we gave it) and returns that file if found.
+It is a widely used convention for web servers to try to serve a file
+named `index.html` when a request is made directly to a path that
+corresponds to a directory. The ((file server)) module we use,
+`ecstatic`, supports this convention. When a request is made to the
+path `/`, the server looks for the file `./public/index.html`
+(`./public` being the root we gave it) and returns that file if found.
 
 Thus, if we want a page to show up when a browser is pointed at our
-server, we should put it in `public/index.html`. This is how our index
-file starts:
+server, we should put it in `public/index.html`. This is our index
+file:
 
 ```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html"}
 <!doctype html>
-
+<meta charset="utf-8">
 <title>Skill Sharing</title>
 <link rel="stylesheet" href="skillsharing.css">
 
-<h1>Skill sharing</h1>
+<h1>Skill Sharing</h1>
 
-<p>Your name: <input type="text" id="name"></p>
-
-<div id="talks"></div>
-```
-
-It defines the document ((title)) and includes a ((style sheet)),
-which defines a few styles to, among other things, add a border around
-talks. Then it adds a heading and a name field. The user is expected
-to put their name in the latter so that it can be attached to talks
-and comments they submit.
-
-{{index "id attribute", initialization}}
-
-The `<div>` element with the ID
-`"talks"` will contain the current list of talks. The script fills the list
-in when it receives talks from the server.
-
-{{index "form (HTML tag)"}}
-
-Next comes the form that is used to create a new
-talk.
-
-```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html"}
-<form id="newtalk">
-  <h3>Submit a talk</h3>
-  Title: <input type="text" style="width: 40em" name="title">
-  <br>
-  Summary: <input type="text" style="width: 40em" name="summary">
-  <button type="submit">Send</button>
-</form>
-```
-
-{{index "submit event"}}
-
-The script will add a `"submit"` event handler to
-this form, from which it can make the HTTP request that tells the
-server about the talk.
-
-{{index "display (CSS)", "hidden element"}}
-
-Next comes a rather mysterious
-block, which has its `display` style set to `none`, preventing it from
-actually showing up on the page. Can you guess what it is for?
-
-```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html"}
-<div id="template" style="display: none">
-  <div class="talk">
-    <h2>{{title}}</h2>
-    <div>by <span class="name">{{presenter}}</span></div>
-    <p>{{summary}}</p>
-    <div class="comments"></div>
-    <form>
-      <input type="text" name="comment">
-      <button type="submit">Add comment</button>
-      <button type="button" class="del">Delete talk</button>
-    </form>
-  </div>
-  <div class="comment">
-    <span class="name">{{author}}</span>: {{message}}
-  </div>
-</div>
-```
-
-{{index "elt function"}}
-
-Creating complicated ((DOM)) structures with
-JavaScript code produces ugly code. You can make the code slightly better by
-introducing helper functions like the `elt` function from
-[Chapter ?](dom#elt), but the result will still look worse
-than HTML, which can be thought of as a ((domain-specific language))
-for expressing DOM structures.
-
-{{index [DOM, construction], template}}
-
-To create DOM structures for the
-talks, our program will define a simple _templating_ system,
-which uses hidden DOM structures included in the document to
-instantiate new DOM structures, replacing the ((placeholder))s between
-double braces with the values of a specific talk.
-
-{{index "script (HTML tag)"}}
-
-Finally, the HTML document includes the script
-file that contains the client-side code.
-
-```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html", test: never}
 <script src="skillsharing_client.js"></script>
 ```
 
-### Starting up
+It defines the document ((title)) and includes a ((style sheet)),
+which defines a few styles to, among other things, make sure there is
+some space between talks.
 
-{{index initialization, XMLHttpRequest}}
+Finally, it adds a heading at the top of the page and loads the script
+that contains the ((client))-side application.
 
-The first thing the client has
-to do when the page is loaded is ask the server for the current set
-of talks. Since we are going to make a lot of HTTP requests, we will
-again define a small wrapper around `XMLHttpRequest`, which accepts an
-object to configure the request as well as a callback to call when the
-request finishes.
+### Actions
 
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
-function request(options, callback) {
-  var req = new XMLHttpRequest();
-  req.open(options.method || "GET", options.pathname, true);
-  req.addEventListener("load", function() {
-    if (req.status < 400)
-      callback(null, req.responseText);
-    else
-      callback(new Error("Request failed: " + req.statusText));
-  });
-  req.addEventListener("error", function() {
-    callback(new Error("Network error"));
-  });
-  req.send(options.body || null);
-}
-```
+The application state consists of the list of talks and the name of
+the user, and we'll store it in a `{talks, user}` object. We don't
+allow the user interface to directly manipulate the state or send off
+HTTP requests. Rather, it may emit _actions_, which describe what the
+user is trying to do.
 
-{{index "long polling"}}
+{{index "handleAction function"}}
 
-The initial request ((display))s the talks it
-receives on the screen and starts the long-polling process by calling
-`waitForChanges`.
+The `handleAction` function takes such an action and makes it happen.
+Because our state updates are so simple, state changes are handled in
+the same function—there's no separate ((reducer)) function.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
-var lastServerTime = 0;
-
-request({pathname: "talks"}, function(error, response) {
-  if (error) {
-    reportError(error);
-  } else {
-    response = JSON.parse(response);
-    displayTalks(response.talks);
-    lastServerTime = response.serverTime;
-    waitForChanges();
+function handleAction(state, action) {
+  if (action.type == "setUser") {
+    localStorage.setItem("userName", action.user);
+    return Object.assign({}, state, {user: action.user});
+  } else if (action.type == "setTalks") {
+    return Object.assign({}, state, {talks: action.talks});
+  } else if (action.type == "newTalk") {
+    fetchOK(talkURL(action.title), {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        presenter: state.user,
+        summary: action.summary
+      })
+    }).catch(reportError);
+  } else if (action.type == "deleteTalk") {
+    fetchOK(talkURL(action.talk), {method: "DELETE"})
+      .catch(reportError);
+  } else if (action.type == "newComment") {
+    fetchOK(talkURL(action.talk) + "/comments", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        author: state.user,
+        message: action.message
+      })
+    }).catch(reportError);
   }
-});
-```
-
-{{index synchronization}}
-
-The `lastServerTime` variable is used to track
-the ((time)) of the last update that was received from the server.
-After the initial request, the client's view of the talks corresponds
-to the view that the server had when it responded to that request.
-Thus, the `serverTime` property included in the response provides an
-appropriate initial value for `lastServerTime`.
-
-{{index "error handling", "user experience"}}
-
-When the request fails, we
-don't want to have our page just sit there, doing nothing without
-explanation. So we define a simple function called `reportError`, which at
-least shows the user a dialog that tells them something went wrong.
-
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
-function reportError(error) {
-  if (error)
-    alert(error.toString());
+  return state;
 }
 ```
 
-{{index "callback function"}}
+{{index "localStorage object"}}
 
-The function checks whether there _is_ an
-actual error, and it alerts only when there is one. That way, we can also
-directly pass this function to `request` for requests where we can ignore the
-response. This makes sure that if the request fails, the error is reported
-to the user.
+We'll store the user's name in `localStorage`, so that it can be
+restored when the page is loaded.
 
-### Displaying talks
+{{index "fetch function", "status property"}}
 
-{{index synchronization, "live view"}}
-
-To be able to update the view of
-the talks when changes come in, the client must keep track of the
-talks that it is currently showing. That way, when a new version of a
-((talk)) that is already on the screen comes in, the talk can be replaced
-(in place) with its updated form. Similarly, when information comes in
-that a talk is being deleted, the right DOM element can be removed
-from the document.
-
-The function `displayTalks` is used both to build up the initial
-((display)) and to update it when something changes. It will use the
-`shownTalks` object, which associates talk titles with DOM nodes, to
-remember the talks it currently has on the screen.
+The actions that need to involve the server make network requests,
+using `fetch`, to the HTTP interface we described earlier. We use a
+wrapper function, `fetchOK`, which makes sure the returned promise is
+rejected when the server returns an error code.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
-var talkDiv = document.querySelector("#talks");
-var shownTalks = Object.create(null);
-
-function displayTalks(talks) {
-  talks.forEach(function(talk) {
-    var shown = shownTalks[talk.title];
-    if (talk.deleted) {
-      if (shown) {
-        talkDiv.removeChild(shown);
-        delete shownTalks[talk.title];
-      }
-    } else {
-      var node = drawTalk(talk);
-      if (shown)
-        talkDiv.replaceChild(node, shown);
-      else
-        talkDiv.appendChild(node);
-      shownTalks[talk.title] = node;
-    }
+function fetchOK(url, options) {
+  return fetch(url, options).then(response => {
+    if (response.status < 400) return response;
+    else throw new Error(response.statusText);
   });
 }
 ```
 
-{{index "drawTalk function", instantiation}}
+{{index "talkURL function", "encodeURIComponent function"}}
 
-Building up the DOM
-structure for talks is done using the ((template))s that were included
-in the HTML document. First, we must define `instantiateTemplate`,
-which looks up and fills in a template.
+This helper function is used to build up a ((URL)) for a talks with a
+given title.
 
-{{index "class attribute", "querySelector method"}}
-
-The `name` parameter is the
-template's name. To look up the template element, we search for an
-element whose class name matches the template name, which is a child
-of the element with ID `"template"`. Using the `querySelector` method
-makes this easy. There were templates named `"talk"` and `"comment"` in
-the HTML page.
-
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
-function instantiateTemplate(name, values) {
-  function instantiateText(text) {
-    return text.replace(/\{\{(\w+)\}\}/g, function(_, name) {
-      return values[name];
-    });
-  }
-  function instantiate(node) {
-    if (node.nodeType == document.ELEMENT_NODE) {
-      var copy = node.cloneNode();
-      for (var i = 0; i < node.childNodes.length; i++)
-        copy.appendChild(instantiate(node.childNodes[i]));
-      return copy;
-    } else if (node.nodeType == document.TEXT_NODE) {
-      return document.createTextNode(
-               instantiateText(node.nodeValue));
-    } else {
-      return node;
-    }
-  }
-
-  var template = document.querySelector("#template ." + name);
-  return instantiate(template);
-}
-```
-
-{{index copying, recursion, "cloneNode method", cloning}}
-
-The
-`cloneNode` method, which all ((DOM)) nodes have, creates a copy of a
-node. It won't copy the node's child nodes unless `true` is given as
-a first argument. The `instantiate` function recursively builds up a
-copy of the template, filling in the template as it goes.
-
-The second argument to `instantiateTemplate` should be an object,
-whose properties hold the strings that are to be filled into the
-template. A ((placeholder)) like `{{title}}` will be replaced with the
-value of _values_’ `title` property.
-
-{{index "drawTalk function"}}
-
-This is a crude approach to templating, but it
-is enough to implement `drawTalk`.
-
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
-function drawTalk(talk) {
-  var node = instantiateTemplate("talk", talk);
-  var comments = node.querySelector(".comments");
-  talk.comments.forEach(function(comment) {
-    comments.appendChild(
-      instantiateTemplate("comment", comment));
-  });
-
-  node.querySelector("button.del").addEventListener(
-    "click", deleteTalk.bind(null, talk.title));
-
-  var form = node.querySelector("form");
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
-    addComment(talk.title, form.elements.comment.value);
-    form.reset();
-  });
-  return node;
-}
-```
-
-{{index "event handling"}}
-
-After instantiating the `"talk"` template, there
-are various things that need to be patched up. First, the ((comment))s
-have to be filled in by repeatedly instantiating the `"comment"`
-template and appending the results to the node with class
-`"comments"`. Next, event handlers have to be attached to the button
-that deletes the task and the form that adds a new comment.
-
-### Updating the server
-
-The event handlers registered by `drawTalk` call the function
-`deleteTalk` and `addComment` to perform the actual actions required
-to delete a talk or add a comment. These will need to build up
-((URL))s that refer to talks with a given title, for which we define
-the `talkURL` helper function.
-
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function talkURL(title) {
   return "talks/" + encodeURIComponent(title);
 }
 ```
 
-{{index "DELETE method"}}
+{{index "error handling", "user experience", "reportError function"}}
 
-The `deleteTalk` function fires off a `DELETE` 
-request and reports the error when that fails.
+When the request fails, we don't want to have our page just sit there,
+doing nothing without explanation. So we define a function called
+`reportError`, which at least shows the user a dialog that tells them
+something went wrong.
 
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
-function deleteTalk(title) {
-  request({pathname: talkURL(title), method: "DELETE"},
-          reportError);
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
+function reportError(error) {
+  alert(String(error));
 }
 ```
 
-{{index "POST method"}}
+### Rendering components
 
-Adding a ((comment)) requires building up a JSON
-representation of the comment and submitting that as part of a `POST`
+{{index "renderUserField function"}}
+
+We'll use an approach similar to the one we saw in [Chapter ?](paint),
+splitting the application into components. But since some of the
+components either never need to update or are always full redrawn when
+updated, we'll define those not as classes, but as functions that
+directly return a DOM node. For example, here is a component that
+shows the field where the user can enter their name:
+
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
+function renderUserField(name, dispatch) {
+  return elt("label", {}, "Your name: ", elt("input", {
+    type: "text",
+    value: name,
+    onchange(event) {
+      dispatch({type: "setUser", user: event.target.value});
+    }
+  }));
+}
+```
+
+{{index "elt function"}}
+
+To construct DOM elements, we'll use the `elt` function from [Chapter
+?](paint) again.
+
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no, hidden: true}
+function elt(type, props, ...children) {
+  let dom = document.createElement(type);
+  if (props) Object.assign(dom, props);
+  for (let child of children) {
+    if (typeof child != "string") dom.appendChild(child);
+    else dom.appendChild(document.createTextNode(child));
+  }
+  return dom;
+}
+```
+
+{{index "renderTalk function"}}
+
+A similar function is used to render talks, which include a list of
+comments and a form for adding a new ((comment)).
+
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
+function renderTalk(talk, dispatch) {
+  return elt(
+    "section", {className: "talk"},
+    elt("h2", null, talk.title, " ", elt("button", {
+      type: "button",
+      onclick() {
+        dispatch({type: "deleteTalk", talk: talk.title});
+      }
+    }, "Delete")),
+    elt("div", null, "by ",
+        elt("strong", null, talk.presenter)),
+    elt("p", null, talk.summary),
+    ...talk.comments.map(renderComment),
+    elt("form", {
+      onsubmit(event) {
+        event.preventDefault();
+        let form = event.target;
+        dispatch({type: "newComment",
+                  talk: talk.title,
+                  message: form.elements.comment.value});
+        form.reset();
+      }
+    }, elt("input", {type: "text", name: "comment"}), " ",
+       elt("button", {type: "submit"}, "Add comment")));
+}
+```
+
+{{index "submit event"}}
+
+The `"submit"` event handler calls `form.reset` to clear the form's
+content after creating a `"newComment"` action.
+
+When creating moderately complex pieces of DOM, this style of
+programming starts to look rather messy. There's a widely used
+(non-standard) JavaScript extension called _((JSX))_ that lets you
+write HTML directly in your scripts, which can make such code prettier
+(depending on what you consider pretty). Before you can actually run
+such code, you have to run a program on your script to converts the
+pseudo-HTML into JavaScript function calls much like the ones we use
+here.
+
+Comments are simpler to render.
+
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
+function renderComment(comment) {
+  return elt("p", {className: "comment"},
+             elt("strong", null, comment.author),
+             ": ", comment.message);
+}
+```
+
+{{index "form (HTML tag)", "renderTalkForm function"}}
+
+And finally, the form that the user can use to create a new talk is
+rendered like this.
+
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
+function renderTalkForm(dispatch) {
+  let title = elt("input", {type: "text"});
+  let summary = elt("input", {type: "text"});
+  return elt("form", {
+    onsubmit(event) {
+      event.preventDefault();
+      dispatch({type: "newTalk",
+                title: title.value,
+                summary: summary.value});
+      event.target.reset();
+    }
+  }, elt("h3", null, "Submit a talk"),
+     elt("label", null, "Title: ", title),
+     elt("label", null, "Summary: ", summary),
+     elt("button", {type: "submit"}, "Submit"));
+}
+```
+
+### Polling
+
+{{index "pollTalks function", "long polling", "If-None-Match header", "Prefer header", "fetch function"}}
+
+To start the app, we need the current list of talks. Since the initial
+load is closely related to the long polling process—the `ETag` from
+the load must be used when polling—we'll write a function that keeps
+polling the server for `/talks`, and calls a ((callback function))
+when a new set of talks is available.
+
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
+async function pollTalks(update) {
+  let tag = undefined;
+  for (;;) {
+    let response;
+    try {
+      response = await fetchOK("/talks", {
+        headers: tag && {"If-None-Match": tag,
+                         "Prefer": "wait=90"}
+      });
+    } catch (e) {
+      console.log("Request failed: " + e);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      continue;
+    }
+    if (response.status == 304) continue;
+    update(await response.json());
+    tag = response.headers.get("ETag");
+  }
+}
+```
+
+{{index "async function"}}
+
+This is an `async` function, to make looping and waiting for the
+request easier. It runs an infinite loop that, on each iteration,
+retrieves the list of talks—either normally or, if this isn't the
+first request, with the headers included that make it a long polling
 request.
 
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
-function addComment(title, comment) {
-  var comment = {author: nameField.value, message: comment};
-  request({pathname: talkURL(title) + "/comments",
-           body: JSON.stringify(comment),
-           method: "POST"},
-          reportError);
-}
-```
+{{index "error handling", "Promise class", "setTimeout function"}}
 
-{{index "localStorage object", persistence}}
+When a request fails, the function waits a moment, and then tries
+again. This way, if your network connection goes away for a while and
+then comes back, the application can recover and continue updating.
+The promise resolved via `setTimeout` is a way to force the `async`
+function to wait.
 
-The `nameField` variable used to
-set the comment's `author` property is a reference to the `<input>`
-field at the top of the page that allows the user to specify their
-name. We also wire up that field to `localStorage` so that it does
-not have to be filled in again every time the page is reloaded.
+{{index "304 (HTTP status code)", "ETag header"}}
 
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
-var nameField = document.querySelector("#name");
+When the server gives back a 304 response, that means a long polling
+request timed out, so the function should just immediately start the
+next request. If the response is a normal 200 response, its body is
+read as ((JSON)) and passed to the callback, and its `ETag` header
+value stored for the next iteration.
 
-nameField.value = localStorage.getItem("name") || "";
+### The application
 
-nameField.addEventListener("change", function() {
-  localStorage.setItem("name", nameField.value);
-});
-```
+{{index "SkillShareApp class"}}
 
-{{index "submit event", "form (HTML tag)", "PUT method"}}
-
-The form at the
-bottom of the page, for proposing a new talk, gets a `"submit"` event
-handler. This handler prevents the event's default effect (which would
-cause a page reload), clears the form, and fires off a `PUT` request
-to create the talk.
+The following component ties the whole user interface together.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
-var talkForm = document.querySelector("#newtalk");
+class SkillShareApp {
+  constructor(state, dispatch) {
+    this.dispatch = dispatch;
+    this.talkDOM = elt("div", {className: "talks"});
+    this.dom = elt("div", null,
+                   renderUserField(state.user, dispatch),
+                   this.talkDOM,
+                   renderTalkForm(dispatch));
+    this.setState(state);
+  }
 
-talkForm.addEventListener("submit", function(event) {
-  event.preventDefault();
-  request({pathname: talkURL(talkForm.elements.title.value),
-           method: "PUT",
-           body: JSON.stringify({
-             presenter: nameField.value,
-             summary: talkForm.elements.summary.value
-           })}, reportError);
-  talkForm.reset();
-});
-```
-
-### Noticing changes
-
-{{index "long polling", synchronization}}
-
-I should point out that the
-various functions that change the state of the application by creating
-or deleting talks or adding a comment do absolutely nothing to
-ensure that the changes they make are visible on the screen. They simply 
-tell the server and rely on the long-polling mechanism to
-trigger the appropriate updates to the page.
-
-Given the mechanism that we implemented in our server and the way we
-defined `displayTalks` to handle updates of talks that are already on
-the page, the actual long polling is surprisingly simple.
-
-```{includeCode: ">code/skillsharing/public/skillsharing_client.js"}
-function waitForChanges() {
-  request({pathname: "talks?changesSince=" + lastServerTime},
-          function(error, response) {
-    if (error) {
-      setTimeout(waitForChanges, 2500);
-      console.error(error.stack);
-    } else {
-      response = JSON.parse(response);
-      displayTalks(response.talks);
-      lastServerTime = response.serverTime;
-      waitForChanges();
+  setState(state) {
+    if (state.talks != this.talks) {
+      this.talkDOM.textContent = "";
+      for (let talk of state.talks) {
+        this.talkDOM.appendChild(
+          renderTalk(talk, this.dispatch));
+      }
+      this.talks = state.talks;
     }
-  });
+  }
 }
 ```
 
-{{index "long polling", "error handling", recovery}}
+{{index synchronization, "live view"}}
 
-This function is
-called once when the program starts up and then keeps calling itself
-to ensure that a polling request is always active. When the request
-fails, we don't call `reportError` since popping up a dialog every
-time we fail to reach the server would get annoying when the
-server is down. Instead, the error is written to the console (to ease
-debugging), and another attempt is made 2.5 seconds later.
+When the talks change, this component redraws all of them. This is
+simple, but also very crude. We'll get back to that in the exercises.
 
-When the request succeeds, the new data is put onto the screen, and
-`lastServerTime` is updated to reflect the fact that we received data
-corresponding to this new point in time. The request is immediately
-restarted to wait for the next update.
+We can start the application like this:
+
+```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
+function runApp() {
+  let user = localStorage.getItem("userName") || "Anon";
+  let state, app;
+  function dispatch(action) {
+    state = handleAction(state, action);
+    app.setState(state);
+  }
+
+  pollTalks(talks => {
+    if (!app) {
+      state = {user, talks};
+      app = new SkillShareApp(state, dispatch);
+      document.body.appendChild(app.dom);
+    } else {
+      dispatch({type: "setTalks", talks});
+    }
+  }).catch(reportError);
+}
+
+runApp();
+```
 
 If you run the server and open two browser windows for
-http://localhost:8000/[_localhost:8000/_] next to each other, you can
+[_localhost:8000_](http://localhost:8000/) next to each other, you can
 see that the actions you perform in one window are immediately visible
 in the other.
 
 ## Exercises
 
-{{index "Node.js"}}
+{{index "Node.js", NPM}}
 
-The following exercises will involve modifying the system
-defined in this chapter. To work on them, make sure you ((download))
-the code first
-(http://eloquentjavascript.net/code/skillsharing.zip[_eloquentjavascript.net/code/skillsharing.zip_])
-and have Node installed (http://nodejs.org[_nodejs.org_]).
+The following exercises will involve modifying the system defined in
+this chapter. To work on them, make sure you ((download)) the code
+first
+([_eloquentjavascript.net/code/skillsharing.zip_](http://eloquentjavascript.net/code/skillsharing.zip))
+and have Node installed (http://nodejs.org[_nodejs.org_]), and install
+the project's dependency with `npm install`.
 
 ### Disk persistence
 
 {{index "data loss", persistence}}
 
-The skill-sharing server keeps its
-data purely in ((memory)). This means that when it ((crash))es or is
-restarted for any reason, all talks and comments are lost.
+The skill-sharing server keeps its data purely in ((memory)). This
+means that when it ((crash))es or is restarted for any reason, all
+talks and comments are lost.
 
 {{index "hard drive"}}
 
-Extend the server so that it stores the talk data to
-disk and automatically reloads the data when it is restarted. Do not worry
+Extend the server so that it stores the talk data to disk and
+automatically reloads the data when it is restarted. Do not worry
 about efficiency—do the simplest thing that works.
 
 {{hint
 
 {{index "file system", "writeFile function", "registerChange function", persistence}}
 
-The simplest solution I can come up with
-is to encode the whole `talks` object as ((JSON)) and dump it
-to a file with `fs.writeFile`. There is already a function
-(`registerChange`) that is called every time the server's data
-changes. It can be extended to write the new data to disk.
+The simplest solution I can come up with is to encode the whole
+`talks` object as ((JSON)) and dump it to a file with `writeFile`.
+There is already a method (`updated`) that is called every time the
+server's data changes. It can be extended to write the new data to
+disk.
 
 {{index "readFile function"}}
 
-Pick a ((file))name, for example
-`./talks.json`. When the server starts, it can try to read that
-file with `fs.readFile`, and if that succeeds, the server can use the
-file's contents as its starting data.
+Pick a ((file))name, for example `./talks.json`. When the server
+starts, it can try to read that file with `readFile`, and if that
+succeeds, the server can use the file's contents as its starting data.
 
 {{index prototype, "JSON.parse function"}}
 
-Beware, though. The `talks`
-object started as a prototype-less object so that the `in`
-operator could be sanely used. `JSON.parse` will return regular
-objects with `Object.prototype` as their prototype. If you use JSON as
-your file format, you'll have to copy the properties of the object
-returned by `JSON.parse` into a new, prototype-less object.
+Beware, though. The `talks` object started as a prototype-less object
+so that the `in` operator could reliably be used. `JSON.parse` will
+return regular objects with `Object.prototype` as their prototype. If
+you use JSON as your file format, you'll have to copy the properties
+of the object returned by `JSON.parse` into a new, prototype-less
+object.
 
 hint}}
 
@@ -1249,160 +1067,40 @@ hint}}
 
 {{index "comment field reset (exercise)", template, state}}
 
-The
-wholesale redrawing of talks works pretty well because you usually
+The wholesale redrawing of talks works pretty well because you usually
 can't tell the difference between a DOM node and its identical
 replacement. But there are exceptions. If you start typing something
-in the comment ((field)) for a talk in one browser window and then,
-in another, add a comment to that talk, the field in the first window
+in the comment ((field)) for a talk in one browser window and then, in
+another, add a comment to that talk, the field in the first window
 will be redrawn, removing both its content and its ((focus)).
 
-In a heated discussion, where multiple people are adding comments to a
-single talk, this would be very annoying. Can you come up with a way
-to avoid it?
+In a heated discussion, where multiple people are adding comments at
+the same time, this would be very annoying. Can you come up with a way
+to solve it?
 
 {{hint
 
-{{index "comment field reset (exercise)", template}}
+{{index "comment field reset (exercise)", template, "setState method"}}
 
-The ad hoc approach
-is to simply store the state of a talk's comment field (its content and
-whether it is ((focus))ed) before redrawing the talk and then
-((reset)) the ((field)) to its old state afterward.
+The best way to do this is probably to make talks component objects,
+with a `setState` method, so that they can be updated to show a
+modified version of the talk. During normal operation, the only way a
+talk can be changed is by adding more comments, so the `setState`
+method can be relatively simple.
 
-{{index recursion, [comparison, "of DOM nodes"]}}
+The difficult part is that, when a changed list of talks comes in, we
+have to reconcile the existing list of DOM components with the talks
+on the new list—deleting components whose talk was deleted, and
+updating components whose talk changed.
 
-Another solution would be
-to not simply replace the old DOM structure with the new one but
-recursively compare them, node by node, and update only  the parts that
-actually changed. This is a lot harder to implement, but it's more general and
-continues working even if we add another text field.
+{{index synchronization, "live view"}}
 
-hint}}
-
-### Better templates
-
-{{index "conditional execution", repetition, template}}
-
-Most
-templating systems do more than just fill in some strings. At the very
-least, they also allow conditional inclusion of parts of the template,
-analogous to `if` statements, and repetition of parts of a template,
-similar to a loop.
-
-If we were able to repeat a piece of template for each element in an
-array, we would not need the second template (`"comment"`). Rather, we
-could specify the `"talk"` template to ((loop)) over the array held in
-a talk's `comments` property and render the nodes that make up a
-comment for every element in the array.
-
-It could look like this:
-
-```{lang: "text/html"}
-<div class="comments">
-  <div class="comment" template-repeat="comments">
-    <span class="name">{{author}}</span>: {{message}}
-  </div>
-</div>
-```
-
-{{index "template-repeat attribute"}}
-
-The idea is that whenever a node
-with a `template-repeat` attribute is found during template
-instantiation, the instantiating code loops over the array held in the
-property named by that attribute. For each element in the array, it
-adds an instance of the node. The template's context (the `values`
-variable in `instantiateTemplate`) would, during this loop, point at
-the current element of the array so that `{{author}}` would be looked up
-in the comment object rather than in the original context (the talk).
-
-{{index "drawTalk function", "instantiateTemplate function"}}
-
-Rewrite
-`instantiateTemplate` to implement this and then change the templates
-to use this feature and remove the explicit rendering of comments from
-the `drawTalk` function.
-
-How would you add conditional instantiation of nodes, making it
-possible to omit parts of the template when a given value is true or
-false?
-
-{{hint
-
-{{index template, repetition, "instantiateTemplate function", recursion, "template-repeat attribute"}}
-
-You
-could change `instantiateTemplate` so that its inner function
-takes not just a node but also a current context as an argument. You can
-then, when looping over a node's child nodes, check whether the child
-has a `template-repeat` attribute. If it does, don't instantiate it
-once but instead loop over the array indicated by the attribute's
-value and instantiate it once for every element in the array, passing
-the current array element as context.
-
-Conditionals can be implemented in a similar way, with attributes
-called, for example, `template-when` and `template-unless`, which
-cause a node to be instantiated only when a given property is true (or
-false).
+To do this, it might be helpful to keep a data structure that stores
+the talk components under the talk titles, so that you can easily
+figure out whether a component exists for a given talk. You can then
+loop over the new array of talks, and for each of them, either
+synchronize an existing component or create a new one. To delete
+components for deleted talks, you'll have to also loop over the
+components, and check whether the corresponding talks still exist.
 
 hint}}
-
-### The unscriptables
-
-{{index "skill-sharing project", [JavaScript, "absence of"]}}
-
-When someone
-visits our website with a ((browser)) that has JavaScript disabled or
-is simply not capable of displaying JavaScript, they will get a
-completely broken, inoperable page. This is not nice.
-
-Some types of ((web application))s really can't be done without
-JavaScript. For others, you just don't have the ((budget)) or patience
-to bother about clients that can't run scripts. But for pages with a
-wide audience, it is polite to support scriptless users.
-
-{{index "graceful degradation"}}
-
-Try to think of a way the skill-sharing
-website could be set up to preserve basic functionality when run
-without JavaScript. The automatic updates will have to go, and people
-will have to refresh their page the old-fashioned way. But being able
-to see existing talks, create new ones, and submit comments would be
-nice.
-
-Don't feel obliged to actually implement this. Outlining a solution is
-enough. Does the revised approach strike you as more or less elegant
-than what we did initially?
-
-{{hint
-
-{{index "form (HTML tag)", "page reload"}}
-
-Two central aspects of the
-approach taken in this chapter—a clean HTTP interface and client-side
-template rendering—don't work without JavaScript. Normal HTML forms
-can send `GET` and `POST` requests but not `PUT` or `DELETE` requests
-and can send their data only  to a fixed URL.
-
-{{index "query string", "POST method", "URL encoding"}}
-
-Thus, the server
-would have to be revised to accept comments, new talks, and deleted
-talks through `POST` requests, whose bodies aren't JSON but rather
-use the URL-encoded format that HTML forms use (see
-[Chapter ?](forms)). These requests would have to
-return the full new page so that users see the new state of the site
-after they make a change. This would not be too hard to engineer and
-could be implemented alongside the “clean” HTTP interface.
-
-{{index template}}
-
-The code for rendering talks would have to be duplicated
-on the server. The `index.html` file, rather than being a static file,
-would have to be generated dynamically by adding a handler for it to
-the router. That way, it already includes the current talks and
-comments when it gets served.
-
-hint}}
-

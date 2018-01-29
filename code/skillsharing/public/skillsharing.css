@@ -1,11 +1,13 @@
-#talks {
-  margin-bottom: 25px;
+.talk {
+  margin: 40px 0;
 }
 
-.talk {
-  margin-bottom: 5px;
-  padding: 8px;
-  border: 1px solid silver;
+h2 button {
+  vertical-align: bottom;
+}
+
+h3 {
+  margin: 0.5em 0;
 }
 
 .name {
@@ -19,4 +21,9 @@
 .talk h2 {
   margin: 0;
   font-size: 130%;
+}
+
+label input {
+  display: block;
+  width: 30em;
 }

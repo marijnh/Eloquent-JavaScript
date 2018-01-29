@@ -404,10 +404,10 @@ are optional and taken to be zero when not given.
 {{index "getTime method"}}
 
 Timestamps are stored as the number of milliseconds since the start of
-1970, using negative numbers for times before 1970 (following a
-convention set by “((Unix time))”, which was invented around that
-time). The `getTime` method on a date object returns this number. It
-is big, as you can imagine.
+1970, in the UTC ((time zone)), using negative numbers for times
+before 1970 (following a convention set by “((Unix time))”, which was
+invented around that time). The `getTime` method on a date object
+returns this number. It is big, as you can imagine.
 
 ```
 console.log(new Date(2013, 11, 19).getTime());

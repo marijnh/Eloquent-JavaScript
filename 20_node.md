@@ -114,9 +114,9 @@ $ node
 $
 ```
 
-{{index "process object", "global scope", [variable, global], "exit method", "status code"}}
+{{index "process object", "global scope", [binding, global], "exit method", "status code"}}
 
-The `process` variable, just like the `console` variable, is available
+The `process` binding, just like the `console` binding, is available
 globally in Node. It provides various ways to inspect and manipulate
 the current program. The `exit` method ends the process and can be
 given an exit status code, which tells the program that started `node`
@@ -136,9 +136,9 @@ $ node showargv.js one --and two
 ["node", "/tmp/showargv.js", "one", "--and", "two"]
 ```
 
-{{index [variable, global]}}
+{{index [binding, global]}}
 
-All the ((standard)) JavaScript global variables, such as `Array`,
+All the ((standard)) JavaScript global bindings, such as `Array`,
 `Math`, and `JSON`, are also present in Node's environment.
 Browser-related functionality, such as `document` and `prompt`, is
 absent.
@@ -147,7 +147,7 @@ absent.
 
 {{index "Node.js", "global scope", "module loader"}}
 
-Beyond the few variables I mentioned, such as `console` and `process`,
+Beyond the few bindings I mentioned, such as `console` and `process`,
 Node puts little functionality in the global scope. If you want to
 access built-in functionality, you have to ask the module system for
 it.
@@ -501,7 +501,7 @@ request to your server. It will respond with a small HTML page.
 
 The function passed as argument to `createServer` is called every time
 a client connects to the server. The `request` and `response`
-variables are objects representing the incoming and outgoing data. The
+bindings are objects representing the incoming and outgoing data. The
 first contains information about the ((request)), such as its `url`
 property, which tells us to what URL the request was made.
 
@@ -622,8 +622,8 @@ one piece at a time, rather than in one shot as with `writeFile`.
 {{index "createServer function", "request function", "event handling", "readable stream"}}
 
 Readable ((stream))s are a little more involved. Both the `request`
-variable that was passed to the HTTP server's callback function and
-the `response` variable passed to the HTTP client are readable
+binding that was passed to the HTTP server's callback function and
+the `response` binding passed to the HTTP client are readable
 streams. (A server reads requests and then writes responses, whereas a
 client first writes a request and then reads a response.) Reading from
 a stream is done using event handlers, rather than methods.
@@ -661,7 +661,7 @@ createServer((request, response) => {
 
 {{index "Buffer class", "toString method"}}
 
-The `chunk` variable passed to the data handler will be a binary
+The `chunk` value passed to the data handler will be a binary
 `Buffer`. We can convert this to string by decoding it as UTF-8
 encoded characters with its `toString` method..
 
@@ -791,13 +791,13 @@ decodes that to get rid of the `%20`-style escape codes, and resolves
 it relative to the program's working directory.
 
 ```{includeCode: ">code/file_server.js"}
-const {parse: parseURL} = require("url");
+const {parse} = require("url");
 const {resolve} = require("path");
 
 const baseDirectory = process.cwd() + "/";
 
 function urlPath(url) {
-  let {pathname} = parseURL(url);
+  let {pathname} = parse(url);
   let path = resolve(decodeURIComponent(pathname).slice(1));
   if (!path.startsWith(baseDirectory)) {
     throw {status: 403, body: "Forbidden"};

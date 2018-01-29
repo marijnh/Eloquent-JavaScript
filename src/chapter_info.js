@@ -116,13 +116,6 @@ dir.forEach(function(file) {
      type: "js",
      code: nodeInfo,
      solution: fs.readFileSync("code/solutions/21_2_comment_field_resets.js", "utf8")
-    },
-    {name: "Better templates",
-     file: "code/solutions/21_3_better_templates.js",
-     number: 3,
-     type: "js",
-     code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/21_3_better_templates.js", "utf8")
     }
   ];
 

@@ -1,28 +1,25 @@
 // This isn't a stand-alone file, only a redefinition of a few
 // fragments from skillsharing/skillsharing_server.js
 
-var fs = require("fs");
+const {readFileSync, writeFile} = require("fs");
 
-var talks = loadTalks();
+const fileName = "./talks.json";
 
 function loadTalks() {
-  var result = Object.create(null), json;
+  var json;
   try {
-    json = JSON.parse(fs.readFileSync("./talks.json", "utf8"));
+    json = JSON.parse(readFileSync(fileName, "utf8"));
   } catch (e) {
     json = {};
   }
-  for (var title in json)
-    result[title] = json[title];
-  return result;
+  return Object.assign(Object.create(null), json);
 }
 
-function registerChange(title) {
-  changes.push({title: title, time: Date.now()});
-  waiting.forEach(function(waiter) {
-    sendTalks(getChangedTalks(waiter.since), waiter.response);
-  });
-  waiting = [];
+SkillShareServer.prototype.updated = function() {
+  this.version++;
+  let response = this.talkResponse();
+  this.waiting.forEach(resolve => resolve(response));
+  this.waiting = [];
 
-  fs.writeFile("./talks.json", JSON.stringify(talks));
-}
+  writeFile(fileName, JSON.stringify(this.talks));
+};

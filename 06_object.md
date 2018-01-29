@@ -370,6 +370,17 @@ inconvenient when you want to save a non-function value in there—but
 you can still create such properties by directly manipulating the
 prototype after you've defined the class.
 
+Like `function`, `class` can be used both in statement and in
+expression positions. When used as an expression, it doesn't define a
+binding, but just produces the class as a value. The class name can be
+omitted in that case.
+
+```
+let object = (new class { getWord() { return "hello"; } });
+console.log(object.getWord());
+// → hello
+```
+
 ## Overriding derived properties
 
 {{index "shared property", overriding}}

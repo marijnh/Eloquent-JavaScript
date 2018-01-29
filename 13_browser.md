@@ -184,7 +184,7 @@ A short HTML document might look like this:
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf8">
+    <meta charset="utf-8">
     <title>My home page</title>
   </head>
   <body>
@@ -270,7 +270,7 @@ The following document will be treated just like the one shown previously:
 
 ```{lang: "text/html"}
 <!doctype html>
-<meta charset=utf8>
+<meta charset=utf-8>
 
 <title>My home page</title>
 

@@ -1017,7 +1017,7 @@ The following exercises will involve modifying the system defined in
 this chapter. To work on them, make sure you ((download)) the code
 first
 ([_eloquentjavascript.net/code/skillsharing.zip_](http://eloquentjavascript.net/code/skillsharing.zip))
-and have Node installed (http://nodejs.org[_nodejs.org_]), and install
+and have Node installed [_nodejs.org_](http://nodejs.org), and install
 the project's dependency with `npm install`.
 
 ### Disk persistence

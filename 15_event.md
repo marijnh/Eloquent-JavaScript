@@ -9,8 +9,6 @@ quote}}
 
 {{index stoicism, "Marcus Aurelius", input, timeline, "control flow"}}
 
-// FIXME mention touch event handling
-
 Some programs work with direct user input, such as mouse and keyboard.
 That kind of input isn't available as a whole at the start of your
 program—it comes in piece by piece, and the program is expected to
@@ -367,9 +365,16 @@ To notice when something was typed, elements that you can type into,
 such as the `<input>` and `<textarea>` tags, fire `"input"` events
 whenever the user changed their content. To get the actual content
 that was typed, it is best to directly read it from the page. [Chapter
-?](forms) will show how.
+?](http#forms) will show how.
 
-## Mouse clicks
+## Pointer events
+
+There are currently two widely used ways to point at things on a
+screen: mice (including devices that act like mice, such as touchpads
+and trackballs) and touchscreens. These produce different kinds of
+events.
+
+### Mouse clicks
 
 {{index "mousedown event", "mouseup event", "mouse cursor"}}
 
@@ -433,7 +438,7 @@ click the document, it adds a dot under your mouse pointer. See
 </script>
 ```
 
-## Mouse motion
+### Mouse motion
 
 {{index "mousemove event"}}
 
@@ -503,6 +508,72 @@ and its code. Note that the order of these codes is different from the
 one used by `button`, where the middle button came before the right
 one. As mentioned, consistency isn't really a strong point of the
 browser's programming interface.
+
+### Touch events
+
+{{index touch, "mousedown event", "mouseup event", "click event"}}
+
+The style of graphical browser that we use was designed with mouse
+interfaces in mind, at a time where touchscreens were very rare. To
+make the Web "work" on early touchscreen phones, browsers for those
+devices pretended, to a certain extent, that touch events were mouse
+events. If you tap your screen, you'll get `"mousedown"`, `"mouseup"`,
+and `"click"` events.
+
+But this illusion isn't very robust. A touchscreen works differently
+from a mouse: it doesn't have multiple buttons, you can't track the
+finger when it isn't on the screen (to simulate `"mousemove"`), and it
+allows multiple fingers to be on the screen at the same time.
+
+Mouse events only cover touch interaction in straightforward cases—if
+you add a `"click"` handler to a button, touch users will still be
+able to use it. But something like the resizeable bar in the last
+example does not work on a touchscreen.
+
+{{index "touchstart event", "touchmove event", "touchend event"}}
+
+There are separate event types fired by touch interaction. When a
+finger starts touching the screen, you get a `"touchstart"` event.
+When it is moved while touching, `"touchmove"` events fire. And
+finally, when it stops touching the screen, you'll see a `"touchend"`
+event.
+
+{{index "touches property", "clientX property", "clientY property", "pageX property", "pageY property"}}
+
+Because many touchscreens can detect multiple fingers at the same
+time, these events don't have a single set of coordinates associated
+with them. Rather, their ((event object))s have a `touches` property,
+which holds an ((array-like object)) of points, each of which has its
+own `clientX`, `clientY`, `pageX`, and `pageY` properties.
+
+You could do something like this to show red circles around every
+touching finger.
+
+```{lang: "text/html"}
+<style>
+  dot { position: absolute; display: block;
+        border: 2px solid red; border-radius: 50px;
+        height: 100px; width: 100px; }
+</style>
+<p>Touch this page</p>
+<script>
+  function update(event) {
+    for (let dot; dot = document.querySelector("dot");) {
+      dot.remove();
+    }
+    for (let i = 0; i < event.touches.length; i++) {
+      let {pageX, pageY} = event.touches[i];
+      let dot = document.createElement("dot");
+      dot.style.left = (pageX - 50) + "px";
+      dot.style.top = (pageY - 50) + "px";
+      document.body.appendChild(dot);
+    }
+  }
+  addEventListener("touchstart", update);
+  addEventListener("touchmove", update);
+  addEventListener("touchend", update);
+</script>
+```
 
 ## Scroll events
 

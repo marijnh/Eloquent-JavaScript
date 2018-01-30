@@ -575,6 +575,13 @@ touching finger.
 </script>
 ```
 
+{{index "preventDefault method"}}
+
+You'll usually want to call `preventDefault` in touch event handlers,
+to override the browser's default behavior (which may include
+scrolling the page on swiping) and to prevent the mouse events from
+being fired, for which you may also have registered a handler.
+
 ## Scroll events
 
 {{index scrolling, "scroll event", "event handling"}}
@@ -929,7 +936,8 @@ prevent the browser's default handling of the event
 
 Pressing a key fires `"keydown"` and `"keyup"` events. Pressing a
 mouse button fires `"mousedown"`, `"mouseup"`, and `"click"` events.
-Moving the mouse fires `"mousemove"` events.
+Moving the mouse fires `"mousemove"` events. Touchscreen interaction
+will result in `"touchstart"`, `"touchmove"`, and `"touchend"` events.
 
 Scrolling can be detected with the `"scroll"` event, and focus changes
 can be detected with the `"focus"` and `"blur"` events. When the

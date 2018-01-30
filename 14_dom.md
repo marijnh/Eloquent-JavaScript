@@ -852,7 +852,7 @@ exists.
 We can use this to create an ((animation)). The following document
 displays a picture of a cat that floats around in an ((ellipse)):
 
-```{lang: "text/html"}
+```{lang: "text/html", startCode: true}
 <p style="text-align: center">
   <img src="img/cat.png" style="position: relative">
 </p>

@@ -744,13 +744,13 @@ a map of the current network ((graph)).
 {{index pathfinding}}
 
 A thing you can do with graphs is finding routes in them, as we saw in
-[Chapter ?][robot]. If we have a route towards a message's
+[Chapter ?](robot). If we have a route towards a message's
 destination, we know in which direction to send it.
 
 {{index "findRoute function"}}
 
 This `findRoute` function, which greatly resembles the `findRoute`
-from [Chapter ?][robot#findRoute], searches for a way to reach a given
+from [Chapter ?](robot#findRoute), searches for a way to reach a given
 node in the network. But instead of returning the whole route, it just
 returns the next step. That next nest will itself, using its current
 information about the network, decide where _it_ sends the message.
@@ -924,7 +924,7 @@ resolved. If it throws an exception, the promise is rejected.
 
 {{if interactive
 
-```
+```{startCode: true}
 findInStorage("events on 2017-12-21").then(console.log);
 ```
 

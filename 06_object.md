@@ -810,7 +810,7 @@ Whenever someone reads from this object's `size` property, the
 associated method is called. You can do a similar thing when a
 property is written to, using a _((setter))_.
 
-```{test: no}
+```{test: no, startCode: true}
 class Temperature {
   constructor(celsius) {
     this.celsius = celsius;

@@ -281,6 +281,7 @@
   }
 
   function preprocess(code, sandbox) {
+    if (!/\n$/.test(code)) code += "\n"
     if (typeof code != "string") {
       if (code.apply) {
         let orig = code

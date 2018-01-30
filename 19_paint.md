@@ -993,7 +993,7 @@ as argument. If you don't provide a `tools` property, for example,
 
 And this is how we get an actual editor on the screen:
 
-```{lang: "text/html"}
+```{lang: "text/html", startCode: true}
 <div></div>
 <script>
   document.querySelector("div")

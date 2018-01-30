@@ -529,7 +529,7 @@ delivered, so it creates a route towards the delivery address instead.
 
 Let's see how it does.
 
-```{test: no}
+```{test: no, startCode: true}
 runRobotAnimation(VillageState.random(),
                   goalOrientedRobot, []);
 ```

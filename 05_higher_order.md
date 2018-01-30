@@ -724,7 +724,7 @@ the first value for which the given function returns true. Like
 Using that, we can write the function that tells us which scripts are
 used in a piece of text.
 
-```{includeCode: strip_log}
+```{includeCode: strip_log, startCode: true}
 function textScripts(text) {
   let scripts = countBy(text, char => {
     let script = characterScript(char.codePointAt(0));

@@ -753,7 +753,7 @@ pudding apparently does not trigger squirrel-lycanthropy. It _does_
 seem to occur somewhat more often on weekends. Let's filter the
 results to show only correlations greater than 0.1 or less than -0.1.
 
-```{test: no}
+```{test: no, startCode: true}
 for (let event of journalEvents(JOURNAL)) {
   let correlation = phi(tableFor(event, JOURNAL));
   if (correlation > 0.1 || correlation < -0.1) {

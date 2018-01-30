@@ -1056,7 +1056,7 @@ expression as its argument, we can split on a regular expression like
 `/\r?\n/` to split in a way that allows both `"\n"` and `"\r\n"`
 between lines.
 
-```
+```{startCode: true}
 function parseINI(string) {
   // Start with an object to hold the top-level fields
   let result = {};

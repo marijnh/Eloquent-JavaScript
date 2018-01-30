@@ -453,7 +453,7 @@ As an example, the following program displays a bar and sets up event
 handlers so that dragging to the left or right on this bar makes it
 narrower or wider:
 
-```{lang: "text/html"}
+```{lang: "text/html", startCode: true}
 <p>Drag the bar to change its width:</p>
 <div style="background: orange; width: 60px; height: 20px">
 </div>

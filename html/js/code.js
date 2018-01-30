@@ -161,6 +161,7 @@ addEventListener("load", () => {
           out.parentNode.insertBefore(node, out)
         }
     }).then(box => {
+      sandbox = box
       output.clear()
       if (type == "html")
         box.setHTML(val, output)

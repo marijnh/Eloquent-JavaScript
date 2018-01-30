@@ -28,8 +28,6 @@ over this task. We want a system that will let the participants
 propose and discuss talks among themselves, without a central
 organizer.
 
-{{figure {url: "img/unicycle.svg", alt: "The unicycling meetup"}}}
-
 [Just like in the [previous chapter](node), some of the code in this
 chapter is written for Node.js, and running it directly in the HTML
 page that you are looking at is unlikely to work.]{if interactive} The
@@ -53,17 +51,19 @@ delete talks, and comment on existing talks. Whenever the user makes
 such a change, the client makes an ((HTTP)) ((request)) to tell the
 server about it.
 
+FIXME: update the screenshot
+
 {{figure {url: "img/skillsharing.png", alt: "Screenshot of the skill-sharing website",width: "10cm"}}}
 
 {{index "live view", "user experience", "pushing data", connection}}
 
-The application will be set up to show a _live_ view of the current
-proposed talks and their comments. Whenever someone, somewhere,
-submits a new talk or adds a comment, all people who have the page
-open in their browsers should immediately see the change. This poses a
-bit of a challenge. There is no way for a web server to open a
-connection to a client, nor is there a good way to know which clients
-currently are looking at a given website.
+The ((application)) will be set up to show a _live_ view of the
+current proposed talks and their comments. Whenever someone,
+somewhere, submits a new talk or adds a comment, all people who have
+the page open in their browsers should immediately see the change.
+This poses a bit of a challenge. There is no way for a web server to
+open a connection to a client, nor is there a good way to know which
+clients currently are looking at a given website.
 
 {{index "Node.js"}}
 

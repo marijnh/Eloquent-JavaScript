@@ -16,9 +16,9 @@ The material from the previous chapters gives you all the elements you
 need to build a basic ((web application)). In this chapter, we will do
 just that.
 
-Our application will be a ((pixel)) ((drawing)) program, where you can
-modify a picture pixel by pixel by manipulating a zoomed-in view, a
-grid of colored squares. You can use it to open image ((file))s,
+Our ((application)) will be a ((pixel)) ((drawing)) program, where you
+can modify a picture pixel by pixel by manipulating a zoomed-in view,
+a grid of colored squares. You can use it to open image ((file))s,
 scribble on them with your mouse or other pointer device, and save
 them. This is what it will look like:
 

@@ -11,122 +11,16 @@
 
 <article>
 
-<h1>Errata<div style="font-size: 70%"><a class="subtlelink" href="index.html">Eloquent JavaScript</a></div></h2>
+<h1>Errata<div style="font-size: 70%"><a class="subtlelink" href="index.html">Eloquent JavaScript</a>, 3nd Edition</div></h2>
 
-<p>These are the known mistakes in the <strong>second edition</strong>
+<p>These are the known mistakes in the <strong>third edition</strong>
 of the book. For errata in the first edition,
 see <a href="http://eloquentjavascript.net/1st_edition/errata.html">this
+page</a>. For the second edition,
+see <a href="http://eloquentjavascript.net/2nd_edition/errata.html">this
 page</a>. To report a problem that is not listed
 here, <a href="mailto:marijnh@gmail.com">send me an email</a>.</p>
 
-<p>Issues whose section title is followed by a superscript number are
-only present up to the print denoted by that number. I.e. those
-followed by ² were fixed in the third print.</p>
-
-<h2>Introduction</h2>
-
-<p><strong>Page 4</strong> (Why Language Matters¹): The sentence “You
-can probably imagine how how tedious…” duplicates the
-word <em>how</em>.</p>
-
-<h2>Chapter 2</h2>
-
-<p><strong>Page 32</strong> (while and do Loops²): The <code>var
-name</code> example unintentionally exits the loop when the dialog is
-canceled, because browsers have a built-in global
-variable <code>name</code> whose values are implicitly converted to
-strings.</p>
-
-<h2>Chapter 8</h2>
-
-<p><strong>Page 140</strong> (Programmer Mistakes): In the third
-paragraph, the text reads “though several functions”, which should be
-“th<strong>r</strong>ough several functions”.
-
-<h2>Chapter 9</h2>
-
-<p><strong>Page 157</strong> (Repeating Parts of a Pattern³): The
-paragraph at the top of the page claims that <code>{,5}</code> is equivalent to
-<code>{0,5}</code> in a regular expression. This is not the case (you
-have to include the zero).</p>
-
-<p><strong>Page 159</strong> (The Date Type¹):
-The <code>findDate</code> function produces the wrong months. The
-second argument given to <code>new Date</code> should
-be <code>Number(match[2]) - 1</code>, subtracting one to compensate
-for the fact that months start at zero in this interface.</p>
-
-<p><strong>Page 162</strong> (Backtracking²): The regular expression
-should have another <code>+</code> sign after the <code>[\da-f]</code>
-group to match what it is described as matching. The diagram for the
-expression is similarly missing an arrow looping back around the
-corresponding box.</p>
-
-<h2>Chapter 10</h2>
-
-<p><strong>Page 185</strong> (Slow-Loading Modules¹): In the code
-snippet for <code>define</code>, the second use of
-the <code>every</code> method is incorrect. The call should be
-to <code>myMod.onLoad.forEach</code> instead.</p>
-
-<h2>Chapter 11</h2>
-
-<p><strong>Page 192</strong> (Parsing¹): The example Egg program has
-its parentheses distributed incorrectly. One closing parentheses from
-the second line should be moved to the end of the last line.</p>
-
-<h2>Chapter 12</h2>
-
-<p><strong>Page 209</strong> (The Web²): In the third paragraph I claim
-that the U in “URL” stands for <em>Universal</em>, whereas it actually
-stands for <em>Uniform</em>.</p>
-
-<h2>Chapter 14</h2>
-
-<p><strong>Page 242</strong> (Mouse Motion¹): The example
-uses <code>event.which</code> to detect mouse button release. This
-only works in Chrome and Safari. See
-the <a href="14_event.html#c_xBQPHox4ts">updated code</a>
-and <a href="14_event.html#p_fndkFYbayW">comment</a> for a better
-way.</p>
-
-<h2>Chapter 16</h2>
-
-<p><strong>Page 281</strong> (Curves¹): The text refers to
-the <code>bezierCurve</code> method. This method is actually
-called <code>bezierCurveTo</code> (as in the example code).</p>
-
-<p><strong>Page 282</strong> (Curves¹): Where it says the picture shows
-a line from the left of the circle to the left of the quarter circle,
-it should definitely say <em>right</em> in both instances.</p>
-
-<h2>Chapter 17</h2>
-
-<p><strong>Page 312</strong> (Summary¹): The code example uses
-the <code>statusCode</code> property. This does not exist, since the
-property is actually called <code>status</code>.</p>
-
-<h2>Chapter 18</h2>
-
-<p><strong>Page 316</strong> (Fields²): The <code>checked</code>
-attribute in the <code>file</code> field at the bottom of the example
-doesn't mean anything, and should not be there.</p>
-
-<p><strong>Page 327</strong> (Summary¹): “When the user has selected
-a <em>field</em>” should be “When the user has selected
-a <em>file</em>”.
-
-<h2>Chapter 21</h2>
-
-<p><strong>Page 377</strong> (Long-Polling Support³): In the second
-paragraph the <code>changesSince</code> parameter is incorrectly
-referred to as <code>changeSince</code> (singular).</p>
-
-<h2>Exercise Hints</h2>
-
-<p><strong>Page 409</strong> (Reversing an Array): The
-example <code>for</code> loop near the bottom of the page
-says <code>\textgreater{}</code> where it should
-say <code>&gt;</code>.
+<p><em>No errata yet, since the book isn't in print yet.</em></p>
 
 </article>

@@ -56,8 +56,6 @@ precariously thin branch in the crown of an oak, naked and
 disoriented, he has taken to locking the doors and windows of his room
 at night and putting a few walnuts on the floor to keep himself busy.
 
-{{figure {url: "img/weresquirrel.png", alt: "The weresquirrel"}}}
-
 That takes care of the cat and tree problems. But Jacques would prefer
 to get rid of his condition entirely. The irregular occurrences of the
 transformation make him suspect that they might be triggered by
@@ -317,8 +315,6 @@ properties might be holding onto those same values. You may think of
 objects as octopuses with any number of tentacles, each of which has a
 name tattooed on it.
 
-{{figure {url: "img/octopus-object.jpg", alt: "Artist's representation of an object"}}}
-
 {{index "delete operator", [property, deletion]}}
 
 The `delete` operator cuts off a tentacle from such an octopus. It is
@@ -375,8 +371,6 @@ Arrays, then, are just a kind of object specialized for storing
 sequences of things. If you evaluate `typeof []`, it produces
 `"object"`. You can see them as long, flat octopuses with all their
 arms in a neat row, labeled with numbers.
-
-{{figure {url: "img/octopus-array.jpg", alt: "Artist's representation of an array"}}}
 
 {{index journal, "weresquirrel example"}}
 

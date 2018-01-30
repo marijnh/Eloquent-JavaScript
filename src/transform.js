@@ -1,7 +1,9 @@
-function childrenText(children) {
+function childrenText(token) {
   let text = ""
-  for (let i = 0; i < children.length; i++)
-    if (children[i].type == "text") text += children[i].content
+  for (let i = 0; i < token.children.length; i++) {
+    let child = token.children[i];
+    if (child.type == "text" || child.type == "code_inlin") text += child.content
+  }
   return text
 }
 
@@ -16,7 +18,7 @@ function startAndEnd(text) {
   if (!words[0]) words.shift();
   if (!words[words.length - 1]) words.pop();
   if (words.length <= 6) return words.join(" ");
-  return words.slice(0, 3).join(" ") + " " + words.slice(words.length - 3).join(" ");
+  return words.slice(0, 3).concat(words.slice(words.length - 3)).join(" ");
 }
 
 function tokenText(token) {

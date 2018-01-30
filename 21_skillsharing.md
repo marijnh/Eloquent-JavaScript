@@ -51,8 +51,6 @@ delete talks, and comment on existing talks. Whenever the user makes
 such a change, the client makes an ((HTTP)) ((request)) to tell the
 server about it.
 
-FIXME: update the screenshot
-
 {{figure {url: "img/skillsharing.png", alt: "Screenshot of the skill-sharing website",width: "10cm"}}}
 
 {{index "live view", "user experience", "pushing data", connection}}
@@ -100,12 +98,12 @@ answer when it has nothing new to report.
 
 As long as the client makes sure it constantly has a polling request
 open, it will receive information from the server quickly after it
-becomes available. For example, if Alice has our skill-sharing
+becomes available. For example, if Fatma has our skill-sharing
 application open in her browser, that browser will have made a request
-for updates and be waiting for a response to that request. When Bob
+for updates and be waiting for a response to that request. When Iman
 submits a talk on Extreme Downhill Unicycling, the server will notice
-that Alice is waiting for updates and send information about the new
-talk as a response to her pending request. Alice's browser will
+that Fatma is waiting for updates and send information about the new
+talk as a response to her pending request. Fatma's browser will
 receive the data and update the screen to show the talk.
 
 {{index robustness, timeout}}
@@ -148,7 +146,7 @@ A `GET` request to `/talks` returns a JSON document like this:
 
 ```{lang: "application/json"}
 [{"title": "Unituning",
-  "presenter": "Carlos",
+  "presenter": "Jamal",
   "summary": "Modifying your cycle for extra style",
   "comment": []}]}
 ```
@@ -179,7 +177,7 @@ PUT /talks/How%20to%20Idle HTTP/1.1
 Content-Type: application/json
 Content-Length: 92
 
-{"presenter": "Dana",
+{"presenter": "Maureen",
  "summary": "Standing still on a unicycle"}
 ```
 
@@ -197,7 +195,7 @@ POST /talks/Unituning/comments HTTP/1.1
 Content-Type: application/json
 Content-Length: 72
 
-{"author": "Alice",
+{"author": "Iman",
  "message": "Will you talk about raising a cycle?"}
 ```
 
@@ -882,7 +880,7 @@ function renderTalkForm(dispatch) {
                 summary: summary.value});
       event.target.reset();
     }
-  }, elt("h3", null, "Submit a talk"),
+  }, elt("h3", null, "Submit a Talk"),
      elt("label", null, "Title: ", title),
      elt("label", null, "Summary: ", summary),
      elt("button", {type: "submit"}, "Submit"));

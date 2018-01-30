@@ -1,29 +1,11 @@
-.talk {
-  margin: 40px 0;
-}
+.talk { margin: 40px 0; }
 
-h2 button {
-  vertical-align: bottom;
-}
+.comment { font-style: italic; margin: 0; }
+.comment strong { font-style: normal; }
 
-h3 {
-  margin: 0.5em 0;
-}
+.talk h2 { font-size: 130%; margin-bottom: 0; }
+.talk h2 button { vertical-align: bottom; }
 
-.name {
-  font-weight: bold;
-}
+h1, h3 { margin-bottom: 0.33em; }
 
-.comment {
-  font-style: italic;
-}
-
-.talk h2 {
-  margin: 0;
-  font-size: 130%;
-}
-
-label input {
-  display: block;
-  width: 30em;
-}
+label input { display: block; width: 30em; }

@@ -15,7 +15,7 @@
       fill: url(#leafgrad);
     }
     .boxtext {
-      font-size: 20px;
+      font-size: 18px;
       font-family: "PT Mono";
       stroke: none;
       fill: black;

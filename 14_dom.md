@@ -1,14 +1,12 @@
-{{meta {load_files: ["code/chapter/13_dom.js"]}}}
-
 {{quote {author: "Friedrich Nietzsche", title: "Beyond Good and Evil", chapter: true}
 
-Too bad! Same old story! Once you've finished building your house you notice you've accidentally learned something that you really should have known—before you started.
+Too bad! Same old story! Once you've finished building your house you
+notice you've accidentally learned something that you really should
+have known—before you started.
 
 quote}}
 
 # The Document Object Model
-
-// FIXME better transitions, maybe `children`, fragments, problems with obvious usage
 
 {{index drawing, parsing}}
 
@@ -64,8 +62,8 @@ the _Document Object Model_, or ((DOM)) for short.
 
 The global binding `document` gives us access to these objects. Its
 `documentElement` property refers to the object representing the
-`<html>` tag. Since every document has a head and a body, it also has
-`head` and `body` properties, pointing at those elements.
+`<html>` tag. Since every HTML document has a head and a body, it also
+has `head` and `body` properties, pointing at those elements.
 
 ## Trees
 
@@ -102,21 +100,20 @@ values are _leaves_, or nodes without children.
 
 {{index "body property"}}
 
-The same goes for the DOM. Nodes for regular _((element))s_, which
-represent ((HTML)) tags, determine the structure of the document.
+The same goes for the DOM. Nodes for _((element))s_, the thing
+represented by ((HTML)) tags, determine the structure of the document.
 These can have ((child node))s. An example of such a node is
 `document.body`. Some of these children can be ((leaf node))s, such as
-pieces of ((text)) or ((comment))s (comments are written between
-`<!--` and `-->` in HTML).
+pieces of ((text)) or ((comment)) nodes.
 
-{{index "text node", "ELEMENT_NODE code", "COMMENT_NODE code", "TEXT_NODE code", "nodeType property"}}
+{{index "text node", element, "ELEMENT_NODE code", "COMMENT_NODE code", "TEXT_NODE code", "nodeType property"}}
 
 Each DOM node object has a `nodeType` property, which contains a code
-(a number) that identifies the type of node. Regular elements have the
-value 1, which is also defined as the constant property
+(a number) that identifies the type of node. Elements have code 1,
+which is also defined as the constant property
 `document.ELEMENT_NODE`. Text nodes, representing a section of text in
-the document, have the value 3 (`document.TEXT_NODE`). Comments have
-the value 8 (`document.COMMENT_NODE`).
+the document, get code 3 (`document.TEXT_NODE`). Comments have code 8
+(`document.COMMENT_NODE`).
 
 Another way to visualize our document ((tree)) is as follows:
 
@@ -135,9 +132,9 @@ Using cryptic numeric codes to represent node types is not a very
 JavaScript-like thing to do. Later in this chapter, we'll see that
 other parts of the ((DOM)) interface also feel cumbersome and alien.
 The reason for this is that the DOM wasn't designed for just
-JavaScript. Rather, it tries to define a language-neutral
-((interface)) that can be used in other systems as well—not just HTML
-but also ((XML)), which is a generic ((data format)) with an HTML-like
+JavaScript. Rather, it tries to be a language-neutral ((interface))
+that can be used in other systems as well—not just for HTML but also
+for ((XML)), which is a generic ((data format)) with an HTML-like
 syntax.
 
 {{index consistency, integration}}
@@ -185,7 +182,7 @@ following diagram illustrates these:
 {{index "child node", "parentNode property", "childNodes property"}}
 
 Although the diagram shows only one link of each type, every node has
-a `parentNode` property that points to the node it is part ofx.
+a `parentNode` property that points to the node it is part of.
 Likewise, every element node (node type 1) has a `childNodes` property
 that points to an ((array-like object)) holding its children.
 
@@ -201,12 +198,19 @@ same parent that appear immediately before or after the node itself.
 For a first child, `previousSibling` will be null, and for a last
 child, `nextSibling` will be null.
 
+{{index "children property", "text node", element}}
+
+There's also the `children` property, which is like `childNodes`, but
+which only contains element (type 1) children, not other types of
+child nodes. This can be useful when you aren't interested in text
+nodes.
+
 {{index "talksAbout function", recursion, [nesting, "of objects"]}}
 
 When dealing with a nested data structure like this one, recursive
-functions are often useful. The following recursive function scans a
-document for ((text node))s containing a given string and returns
-`true` when it has found one:
+functions are often useful. The following function scans a document
+for ((text node))s containing a given string and returns `true` when
+it has found one:
 
 {{id talksAbout}}
 
@@ -231,12 +235,13 @@ console.log(talksAbout(document.body, "book"));
 {{index "childNodes property", "array-like object"}}
 
 Because `childNodes` is not a real array, we can not loop over it with
-`for`/`of`, and have to use an old-fashioned index loop.
+`for`/`of` and have to run over the index range using a regular `for`
+loop.
 
 {{index "nodeValue property"}}
 
-The `nodeValue` property of a text node refers to the string of text
-that it represents.
+The `nodeValue` property of a text node holds the string of text that
+it represents.
 
 ## Finding elements
 
@@ -244,14 +249,14 @@ that it represents.
 
 Navigating these ((link))s among parents, children, and siblings is
 often useful. But if we want to find a specific node in the document,
-reaching it by starting at `document.body` and blindly following a
-fixed path of links is a bad idea. Doing so bakes assumptions into our
-program about the precise structure of the document—a structure you
-might want to change later. Another complicating factor is that text
-nodes are created even for the ((whitespace)) between nodes. The
-example document's body tag does not have just three children (`<h1>`
-and two `<p>` elements) but actually has seven: those three, plus the
-spaces before, after, and between them.
+reaching it by starting at `document.body` and following a fixed path
+of links is a bad idea. Doing so bakes assumptions into our program
+about the precise structure of the document—a structure you might want
+to change later. Another complicating factor is that text nodes are
+created even for the ((whitespace)) between nodes. The example
+document's body tag does not have just three children (`<h1>` and two
+`<p>` elements) but actually has seven: those three, plus the spaces
+before, after, and between them.
 
 {{index searching, "href attribute", "getElementsByTagName method"}}
 
@@ -300,11 +305,11 @@ node and retrieves all elements that have the given string in their
 
 Almost everything about the ((DOM)) data structure can be changed. The
 shape of the document tree can be modified by changing parent-child
-relationships in the data structure. Nodes have a `remove` method to
-remove them from their current parent node. To add a child node to an
-element node, we can use `appendChild`, which puts it at the end of
-the list of children, or `insertBefore`, which inserts the node given
-as the first argument before the node given as the second argument.
+relationships. Nodes have a `remove` method to remove them from their
+current parent node. To add a child node to an element node, we can
+use `appendChild`, which puts it at the end of the list of children,
+or `insertBefore`, which inserts the node given as the first argument
+before the node given as the second argument.
 
 ```{lang: "text/html"}
 <p>One</p>
@@ -318,9 +323,9 @@ as the first argument before the node given as the second argument.
 ```
 
 A node can exist in the document in only one place. Thus, inserting
-paragraph "Three" in front of paragraph "One" will first remove it
+paragraph _Three_ in front of paragraph _One_ will first remove it
 from the end of the document and then insert it at the front,
-resulting in "Three/One/Two". All operations that insert a node
+resulting in _Three_/_One_/_Two_. All operations that insert a node
 somewhere will, as a ((side effect)), cause it to be removed from its
 current position (if it has one).
 
@@ -336,16 +341,16 @@ the _new_ node as their first argument.
 
 {{index "alt attribute", "img (HTML tag)"}}
 
-In the next example, we want to write a script that replaces all
-((image))s (`<img>` tags) in the document with the text held in their
-`alt` attributes, which specifies an alternative textual
-representation of the image.
+As an example, we want to write a script that replaces all ((image))s
+(`<img>` tags) in the document with the text held in their `alt`
+attributes, which specifies an alternative textual representation of
+the image.
 
 {{index "createTextNode method"}}
 
 This involves not only removing the images but adding a new text node
-to replace them. For this, we can use the `document.createTextNode`
-method.
+to replace them. Text nodes are created with the
+`document.createTextNode` method.
 
 ```{lang: "text/html"}
 <p>The <img src="img/cat.png" alt="Cat"> in the
@@ -369,20 +374,18 @@ method.
 
 {{index "text node"}}
 
-Given a string, `createTextNode` gives us a type 3 DOM node (text
-node), which we can insert into the document to make it show up on the
-screen.
+Given a string, `createTextNode` gives us a type text node, which we
+can insert into the document to make it show up on the screen.
 
 {{index "live data structure", "getElementsByTagName method", "childNodes property"}}
 
-The loop that goes over the images starts at the end of the list of
-nodes. This is necessary because the node list returned by a method
-like `getElementsByTagName` (or a property like `childNodes`) is
-_live_. That is, it is updated as the document changes. If we started
-from the front, removing the first image would cause the list to lose
-its first element so that the second time the loop repeats, where `i`
-is 1, it would stop because the length of the collection is now also
-1.
+The loop that goes over the images starts at the end of the list. This
+is necessary because the node list returned by a method like
+`getElementsByTagName` (or a property like `childNodes`) is _live_.
+That is, it is updated as the document changes. If we started from the
+front, removing the first image would cause the list to lose its first
+element so that the second time the loop repeats, where `i` is 1, it
+would stop because the length of the collection is now also 1.
 
 {{index "slice method"}}
 
@@ -392,14 +395,14 @@ you can convert the collection to a real array by calling
 
 ```
 let arrayish = {0: "one", 1: "two", length: 2};
-let real = Array.from(arrayish);
-console.log(real.map(s => s.toUpperCase()));
+let array = Array.from(arrayish);
+console.log(array.map(s => s.toUpperCase()));
 // → ["ONE", "TWO"]
 ```
 
 {{index "createElement method"}}
 
-To create regular ((element)) nodes (type 1), you can use the
+To create ((element)) nodes (type 1), you can use the
 `document.createElement` method. This method takes a tag name and
 returns a new empty node of the given type.
 
@@ -460,8 +463,8 @@ But HTML allows you to set any attribute you want on nodes. This can
 be useful because it allows you to store extra information in a
 document. If you make up your own attribute names, though, such
 attributes will not be present as a property on the element's node.
-Instead, you'll have to use the `getAttribute` and `setAttribute`
-methods to work with them.
+Instead, you have to use the `getAttribute` and `setAttribute` methods
+to work with them.
 
 ```{lang: "text/html"}
 <p data-classified="secret">The launch code is 00000000.</p>
@@ -482,8 +485,8 @@ It is recommended to prefix the names of such made-up attributes with
 
 {{index "getAttribute method", "setAttribute method", "className property", "class attribute"}}
 
-There is one commonly used attribute, `class`, which is a ((keyword))
-in the JavaScript language. For historical reasons—some old JavaScript
+There is a commonly used attribute, `class`, which is a ((keyword)) in
+the JavaScript language. For historical reasons—some old JavaScript
 implementations could not handle property names that matched
 keywords—the property used to access this attribute is called
 `className`. You can also access it under its real name, `"class"`, by
@@ -497,9 +500,8 @@ You may have noticed that different types of elements are laid out
 differently. Some, such as paragraphs (`<p>`) or headings (`<h1>`),
 take up the whole width of the document and are rendered on separate
 lines. These are called _block_ elements. Others, such as links
-(`<a>`) or the `<strong>` element used in the previous example, are
-rendered on the same line with their surrounding text. Such elements
-are called _inline_ elements.
+(`<a>`) or the `<strong>` element, are rendered on the same line with
+their surrounding text. Such elements are called _inline_ elements.
 
 {{index drawing}}
 
@@ -549,7 +551,7 @@ the screen is the `getBoundingClientRect` method. It returns an object
 with `top`, `bottom`, `left`, and `right` properties, indicating the
 pixel positions of the sides of the element relative to the top left
 of the screen. If you want them relative to the whole document, you
-must add the current scroll position, found under the global
+must add the current scroll position, which you can find in the
 `pageXOffset` and `pageYOffset` bindings.
 
 {{index "offsetHeight property", "getBoundingClientRect method", drawing, laziness, performance, efficiency}}
@@ -558,11 +560,11 @@ Laying out a document can be quite a lot of work. In the interest of
 speed, browser engines do not immediately re-layout a document every
 time it is changed but rather wait as long as they can. When a
 JavaScript program that changed the document finishes running, the
-browser will have to compute a new layout in order to display the
-changed document on the screen. When a program _asks_ for the position
-or size of something by reading properties such as `offsetHeight` or
-calling `getBoundingClientRect`, providing correct information also
-requires computing a ((layout)).
+browser will have to compute a new layout in order to draw the changed
+document to the screen. When a program _asks_ for the position or size
+of something by reading properties such as `offsetHeight` or calling
+`getBoundingClientRect`, providing correct information also requires
+computing a ((layout)).
 
 {{index "side effect", optimization, benchmark}}
 
@@ -596,9 +598,7 @@ one takes.
     let target = document.getElementById("two");
     target.appendChild(document.createTextNode("XXXXX"));
     let total = Math.ceil(2000 / (target.offsetWidth / 5));
-    for (let i = 5; i < total; i++) {
-      target.appendChild(document.createTextNode("X"));
-    }
+    target.firstChild.nodeValue = "X".repeat(total);
   });
   // → clever took 1 ms
 </script>
@@ -608,8 +608,8 @@ one takes.
 
 {{index "block element", "inline element", style, "strong (HTML tag)", "a (HTML tag)", underline}}
 
-We have seen that different HTML elements display different behavior.
-Some are displayed as blocks, others inline. Some add styling, such as
+We have seen that different HTML elements are drawn differently. Some
+are displayed as blocks, others inline. Some add styling, such as
 `<strong>` making its content ((bold)) and `<a>` making it blue and
 underlining it.
 
@@ -694,7 +694,7 @@ Some style property names contain dashes, such as `font-family`.
 Because such property names are awkward to work with in JavaScript
 (you'd have to say `style["font-family"]`), the property names in the
 `style` object for such properties have their dashes removed and the
-letters that follow them capitalized (`style.fontFamily`).
+letters after them capitalized (`style.fontFamily`).
 
 ## Cascading styles
 
@@ -720,18 +720,18 @@ elements in a document. It can be given inside a `<style>` tag.
 
 The _((cascading))_ in the name refers to the fact that multiple such
 rules are combined to produce the final style for an element. In the
-previous example, the default styling for `<strong>` tags, which gives
-them `font-weight: bold`, is overlaid by the rule in the `<style>`
-tag, which adds `font-style` and `color`.
+example, the default styling for `<strong>` tags, which gives them
+`font-weight: bold`, is overlaid by the rule in the `<style>` tag,
+which adds `font-style` and `color`.
 
 {{index "style (HTML tag)", "style attribute"}}
 
 When multiple rules define a value for the same property, the most
 recently read rule gets a higher ((precedence)) and wins. So if the
-rule in the `<style>` tag included `font-weight: normal`, conflicting
-with the default `font-weight` rule, the text would be normal, _not_
-bold. Styles in a `style` attribute applied directly to the node have
-the highest precedence and always win.
+rule in the `<style>` tag included `font-weight: normal`,
+contradicting the default `font-weight` rule, the text would be
+normal, _not_ bold. Styles in a `style` attribute applied directly to
+the node have the highest precedence and always win.
 
 {{index uniqueness, "class attribute", "id attribute"}}
 
@@ -757,8 +757,8 @@ p.a.b#main {
 
 {{index "rule (CSS)"}}
 
-The ((precedence)) rule favoring the most recently defined rule holds
-true only when the rules have the same _((specificity))_. A rule's
+The ((precedence)) rule favoring the most recently defined rule
+applies only when the rules have the same _((specificity))_. A rule's
 specificity is a measure of how precisely it describes matching
 elements, determined by the number and kind (tag, class, or ID) of
 element aspects it requires. For example, a rule that targets `p.a` is
@@ -902,7 +902,7 @@ If we just updated the DOM in a loop, the page would freeze and
 nothing would show up on the screen. Browsers do not update their
 display while a JavaScript program is running, nor do they allow any
 interaction with the page. This is why we need
-_requestAnimationFrame_—it lets the browser know that we are done for
+`requestAnimationFrame`—it lets the browser know that we are done for
 now, and it can go ahead and do the things that browsers do, such as
 updating the screen and responding to user actions.
 
@@ -933,15 +933,15 @@ interpret their argument as the position on this circle, with zero
 denoting the point on the far right of the circle, going clockwise
 until 2π (about 6.28) has taken us around the whole circle. `Math.cos`
 tells you the x-coordinate of the point that corresponds to the given
-position around the circle, while `Math.sin` yields the y-coordinate.
-Positions (or angles) greater than 2π or less than 0 are valid—the
-rotation repeats so that _a_+2π refers to the same ((angle)) as _a_.
+position, while `Math.sin` yields the y-coordinate. Positions (or
+angles) greater than 2π or less than 0 are valid—the rotation repeats
+so that _a_+2π refers to the same ((angle)) as _a_.
 
 {{index "PI constant", radian}}
 
-This unit for measuring angles is called radian—here a full circle is
-2π radians, instead of 360 degrees. The constant π is available as
-`Math.PI` in JavaScript.
+This unit for measuring angles is called radian—a full circle is 2π
+radians, similar to how it is 360 degrees when measuring in degrees.
+The constant π is available as `Math.PI` in JavaScript.
 
 {{figure {url: "img/cos_sin.svg", alt: "Using cosine and sine to compute coordinates",width: "6cm"}}}
 
@@ -967,11 +967,10 @@ regardless of its unit.
 
 ## Summary
 
-JavaScript programs may inspect and interfere with the current
-document that a browser is displaying through a data structure called
-the DOM. This data structure represents the browser's model of the
-document, and a JavaScript program can modify it to change the visible
-document.
+JavaScript programs may inspect, and interfere with, the document that
+the browser is displaying through a data structure called the DOM.
+This data structure represents the browser's model of the document,
+and a JavaScript program can modify it to change the visible document.
 
 The DOM is organized like a tree, in which elements are arranged
 hierarchically according to the structure of the document. The objects
@@ -1089,9 +1088,9 @@ that takes a node and a string (the tag name) as arguments and returns
 an array containing all descendant element nodes with the given tag
 name.
 
-{{index "tagName property", capitalization, "toLowerCase method", "toUpperCase method"}}
+{{index "nodeName property", capitalization, "toLowerCase method", "toUpperCase method"}}
 
-To find the tag name of an element, use its `tagName` property. But
+To find the tag name of an element, use its `nodeName` property. But
 note that this will return the tag name in all uppercase. Use the
 `toLowerCase` or `toUpperCase` string method to compensate for this.
 

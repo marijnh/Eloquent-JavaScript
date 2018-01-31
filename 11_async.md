@@ -13,12 +13,12 @@ individual steps that make up our programs, is called the
 _((processor))_. The programs we have seen so far are things that will
 keep the processor busy until they have finished their work. The speed
 at which something like a loop that manipulates numbers can be
-executed depends entirely on the speed of the processor.
+executed depends pretty much entirely on the speed of the processor.
 
 But many programs interact with things outside of the processor. For
 example, they may communicate over a computer ((network)) or request
-data from the ((hard disk)), which is a lot slower than getting it
-from ((memory)).
+data from the ((hard disk))—which is a lot slower than getting it from
+((memory)).
 
 When such a thing is happening, it would be a shame to let the
 processor sit idle. There might be some other work it could do in the
@@ -31,22 +31,21 @@ progress while it is waiting for a network request.
 
 {{index "synchronous programming"}}
 
-In a _synchronous_ programming model, you pretend that things happen
-instantaneously. When you call a function that performs a long-running
-action, it only returns when the action has finished, giving you the
-result, _as if_ it appeared immediately, but secretly stopping your
-program while it was waiting.
+In a _synchronous_ programming model, that things happen one at a
+time. When you call a function that performs a long-running action, it
+only returns when the action has finished and has the result, stopping
+your program while it waits.
 
 {{index "asynchronous programming"}}
 
-An _asynchronous_ model dispenses with this pretend-instantaneousness.
-When you start an action, your program continues to run. When the
-action finishes, your program is informed and gets access to the
-result of the action (for example, the data read from disk).
+An _asynchronous_ model allows multiple things to happen at the same
+time. When you start an action, your program continues to run. When
+the action finishes, the program is informed and gets access to the
+result (for example, the data read from disk).
 
 We can compare synchronous and asynchronous programming using a small
-example: a program that needs to fetch two resources from the Internet
-and then do some processing with the result.
+example: a program that fetches two resources from the ((network)) and
+then combines results.
 
 {{index "synchronous programming"}}
 
@@ -104,30 +103,30 @@ Most people are aware of the fact that ((crow))s are very smart birds.
 They can use tools, plan ahead, recognize people, remember facts, and
 even communicate these facts among each other.
 
-What most people don't know is that they are capable of much
-more—which they keep well hidden from us. I've been told by a
-reputable, if somewhat eccentric, expert on ((corvid))s that crow
+What most people don't know is that they are capable of a lot more
+things that they keep well hidden from us. I've been told by a
+reputable (if somewhat eccentric) expert on ((corvid))s that crow
 technology is not far behind human technology, and they are catching
 up.
 
-For one thing, they have developed the ability to construct computing
-devices. These are not electronic, as human computing devices are, but
-operate through the actions of tiny insects, a species closely related
-to the ((termite)), that has developed a ((symbiotic relationship))
-with the crows. The birds provide them with food, and in return the
-insects build and operate their complex colonies which, with the help
-of the living creatures inside them, perform computations.
+For example, they have the ability to construct computing devices.
+These are not electronic, as human computing devices are, but operate
+through the actions of tiny insects, a species closely related to the
+((termite)), that has developed a ((symbiotic relationship)) with the
+crows. The birds provide them with food, and in return the insects
+build and operate their complex colonies which, with the help of the
+living creatures inside them, perform computations.
 
 Such colonies are usually located in big, long-lived nests. The birds
 and insects work together to build a network of bulbous clay
 structures, hidden between the twigs of the nest, in which the insects
 live.
 
-To communicate with other devices, these colonies use light signals.
+To communicate with other devices, these machines use light signals.
 The crows embed pieces of reflective material in special communication
-structures, and the insects aim these to reflect light at another
-nest, encoding data as a sequence of quick flashes. This means that
-only nests that have an unbroken visual connection can communicate.
+stalks, and the insects aim these to reflect light at another nest,
+encoding data as a sequence of quick flashes. This means that only
+nests that have an unbroken visual connection can communicate.
 
 This is a schema of the crow nest network in the village of
 ((Hières-sur-Amby)) on the banks of the river Rhône.
@@ -157,9 +156,9 @@ thousand milliseconds) and then calls a function.
 setTimeout(() => console.log("Tick"), 500);
 ```
 
-"Waiting" is not generally a very important type of work, but it can
-be useful when doing something like updating an animation or checking
-if something is taking longer than a given amount of ((time)).
+Waiting is not generally a very important type of work, but it can be
+useful when doing something like updating an animation or checking if
+something is taking longer than a given amount of ((time)).
 
 Performing multiple asynchronous actions in a row using callbacks
 means that you have to keep creating new functions that handle the
@@ -192,7 +191,7 @@ readStorage("food caches", caches => {
 });
 ```
 
-(All binding names and strings have been translated from crow-language
+(All binding names and strings have been translated from crow language
 to English.)
 
 This style of programming is workable, but the indentation level

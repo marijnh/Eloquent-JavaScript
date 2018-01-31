@@ -722,11 +722,11 @@ a link), a `"beforeunload"` event fires. The main use of this event is
 to prevent the user from accidentally losing work by closing a
 document. Preventing the page from unloading is not, as you might
 expect, done with the `preventDefault` method. Instead, it is done by
-returning a string from the handler. The string will be used in a
-dialog that asks the user if they want to stay on the page or leave
-it. This mechanism ensures that a user is able to leave the page, even
-if it is running a ((malicious script)) that would prefer to keep them
-there forever and force them to look at dodgy weight loss ads.
+returning a non-null value from the handler. When you do that, the
+browser will show the user a dialog asking if are sure they want to
+leave the page. This mechanism ensures that a user is able to leave,
+even on malicious pages that would prefer to keep them there forever
+and force them to look at dodgy weight loss ads.
 
 {{id timeline}}
 

@@ -281,7 +281,6 @@
   }
 
   function preprocess(code, sandbox) {
-    if (!/\n$/.test(code)) code += "\n"
     if (typeof code != "string") {
       if (code.apply) {
         let orig = code
@@ -293,6 +292,7 @@
       return {code, dependencies: []}
     }
 
+    if (!/\n$/.test(code)) code += "\n"
     let strict = /^(\s|\/\/.*)*["']use strict['"]/.test(code), ast
     try { ast = acorn.parse(code, {sourceType: detectSourceType(code)}) }
     catch(e) { return {code, dependencies: []} }

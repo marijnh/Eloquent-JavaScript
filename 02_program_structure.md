@@ -199,7 +199,7 @@ to them later, but which are not going to ever change.
 Binding names can be any word that isn't reserved for some other
 purpose (such as `let`). Digits can be part of binding names—`catch22`
 is a valid name, for example—but the name must not start with a digit.
-A binding name may include dollar signs (`$`) or undescores (`_`), but
+A binding name may include dollar signs (`$`) or underscores (`_`), but
 no other punctuation or special characters.
 
 {{index syntax, "implements (reserved word)", "interface (reserved word)", "package (reserved word)", "private (reserved word)", "protected (reserved word)", "public (reserved word)", "static (reserved word)", "void operator", "yield (reserved word)", "enum (reserved word)", "reserved word", [binding, naming]}}

@@ -451,9 +451,9 @@ After a [first project chapter](robot), the first part of the book
 continues with chapters on [error handling and fixing](error), on
 [regular expressions](regexp) (an important tool for working with
 text), on [modularity](modules) (another defense against complexity),
-and on [asynchronous programming(async) (dealing with events that take
-time). The [second project chapter](language) concludes the first part
-of the book.
+and on [asynchronous programming](async) (dealing with events that
+take time). The [second project chapter](language) concludes the first
+part of the book.
 
 The second part, Chapters [?](browser) to [?](paint), describes the
 tools that browser JavaScript has access to. You'll learn to display

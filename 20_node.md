@@ -607,7 +607,7 @@ and the request object that was returned from `http.request`.
 Writable streams are a widely used concept in Node. Such objects have
 a `write` method, which can be passed a string or a `Buffer` object,
 to write something to the stream. Their `end` method also optionally
-takes a value two write to the stream, and will close the steam after
+takes a value to write to the stream, and will close the steam after
 writing—or right away if none is given. Both of these methods can also
 be given a callback as an additional argument, which they will call
 when the writing to or closing of the stream has finished.

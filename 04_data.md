@@ -1218,11 +1218,11 @@ like a good approach.
 
 {{index serialization, "World Wide Web"}}
 
-What we can do _serialize_ the data. That means it is converted into a
-flat description. A popular format is called _((JSON))_ (pronounced
-“Jason”), which stands for JavaScript Object Notation. It is widely
-used as a data storage and communication format on the Web, even in
-languages other than JavaScript.
+What we can do is _serialize_ the data. That means it is converted
+into a flat description. A popular format is called _((JSON))_
+(pronounced “Jason”), which stands for JavaScript Object Notation. It
+is widely used as a data storage and communication format on the Web,
+even in languages other than JavaScript.
 
 {{index array, object, [quoting, "in JSON"], comment}}
 

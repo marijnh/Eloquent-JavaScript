@@ -73,7 +73,7 @@ function buildGraph(edges) {
 const roadGraph = buildGraph(roads);
 ```
 
-Given a an array of edges, `buildGraph` creates a map object that, for
+Given an array of edges, `buildGraph` creates a map object that, for
 each node, stores an array of connected nodes.
 
 {{index "split method"}}

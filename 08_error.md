@@ -173,17 +173,16 @@ returns a random element from an array? One thing about types is that
 they require their own complexity to describe some code. In this case,
 you'd need a _((type variable))_ _T_, which can stand in for any type,
 at which point you can give `randomPick` a type like `([T]) → T`
-(function from array of _T_s to a _T_).
+(function from array of *T*s to a *T*).
 
-{{index "type checking"}}
+{{index "type checking", TypeScript}}
 
 When the types of a program are known, it is possible for the computer
 to _check_ them for you, pointing out mistakes before the program is
 run. There are several JavaScript dialects that add types to the
 language and check them. The most popular one is called
-[((TypeScript))](https://www.typescriptlang.org/). If you are
-interested in adding more rigor to your programs, I recommend you give
-it a try.
+[TypeScript](https://www.typescriptlang.org/). If you are interested
+in adding more rigor to your programs, I recommend you give it a try.
 
 In this book, we'll continue using raw, dangerous, untyped JavaScript
 code.

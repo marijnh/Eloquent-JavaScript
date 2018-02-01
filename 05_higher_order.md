@@ -657,7 +657,7 @@ give a full Unicode character. So we could use that to get characters
 from a string. But the argument passed to `codePointAt` is still an
 index into the sequence of code units. So to run over all characters
 in a string, we'd still need to deal with the question of whether a
-charcter takes up one or two code units.
+character takes up one or two code units.
 
 {{index "for/of loop", character}}
 

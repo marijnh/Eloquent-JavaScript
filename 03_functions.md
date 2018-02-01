@@ -125,7 +125,7 @@ what's going on in the global environment.
 
 Bindings declared with `let` and `const` are in fact local to the
 _((block))_ that they are declared in, so if you create one of those
-inside of a loop, the code before and after the loop can not "see" it.
+inside of a loop, the code before and after the loop cannot "see" it.
 In pre-2015 JavaScript, only functions created new scopes, so
 old-style bindings, created with the `var` keyword, are visible
 throughout the whole function that they appear in—or throughout the

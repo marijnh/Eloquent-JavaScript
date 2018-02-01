@@ -500,7 +500,7 @@ Our code doesn't handle the situation where there are no more work
 items on the work list, because we know that our graph is _connected_,
 meaning that every location can be reached from all other locations.
 We'll always be able to find a route between two points, and the
-search can not fail.
+search can't fail.
 
 ```{includeCode: true}
 function goalOrientedRobot({place, parcels}, route) {

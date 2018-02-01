@@ -14,7 +14,7 @@ quote}}
 {{index "Yuan-Ma", "Book of Programming", "binary data", data, bit, memory}}
 
 Inside the computer's world, there is only data. You can read data,
-modify data, create new data—but that which isn't data can not be
+modify data, create new data—but that which isn't data cannot be
 mentioned. All this data is stored as long sequences of bits and is
 thus fundamentally alike.
 

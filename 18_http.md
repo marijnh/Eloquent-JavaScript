@@ -271,7 +271,7 @@ return the same value.
 Note that the promise returned by `fetch` resolves successfully even
 if the server responded with an error code. It _might_ also be
 rejected, if there is a network error or the ((server)) that the
-request is addressed to can not be found.
+request is addressed to can't be found.
 
 {{index [path, URL], "relative URL"}}
 

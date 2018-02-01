@@ -188,7 +188,7 @@ in this book because it has some confusing properties.
 {{index "const keyword", naming}}
 
 The word `const` stands for _((constant))_. It defines a constant
-binding, which can not be made to point at a new thing. This is useful
+binding, which cannot be made to point at a new thing. This is useful
 for bindings that give a name to a value so that you can easily refer
 to them later, but which are not going to ever change.
 

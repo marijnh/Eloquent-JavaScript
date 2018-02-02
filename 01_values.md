@@ -301,11 +301,11 @@ numbers.
 
 {{index "UTF-16", emoji}}
 
-And that's what JavaScript does. But there's a gotcha, namely that
+And that's what JavaScript does. But there's a complication:
 JavaScript's representation uses 16 bits per number, and there are
 more than 2^16^ different characters in Unicode (about twice as many,
 at this point). So some characters, such as many emoji, take up two
-"characters" in JavaScript strings.
+"character positions" in JavaScript strings.
 
 {{index "+ operator", concatenation}}
 

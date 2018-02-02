@@ -1249,7 +1249,7 @@ value and returns a JSON-encoded string. The second takes such a
 string and converts it to the value it encodes.
 
 ```
-let string = JSON.stringify({squirel: false,
+let string = JSON.stringify({squirrel: false,
                              events: ["weekend"]});
 console.log(string);
 // → {"squirrel":false,"events":["weekend"]}

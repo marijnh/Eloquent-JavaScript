@@ -371,8 +371,10 @@
         catchPos = stat.end
       }
       if (stat.type == "VariableDeclaration" && stat.kind != "var") {
-        let found = findAssignmentsTo(stat.declarations, ast)
-        if (found) patches.push({from: 0, text: `throw new TypeError("invalid assignment to const '${found}'");`})
+        if (stat.kind == "const") {
+          let found = findAssignmentsTo(stat.declarations, ast)
+          if (found) patches.push({from: 0, text: `throw new TypeError("invalid assignment to const '${found}'");`})
+        }
         patches.push({from: stat.start, to: stat.start + stat.kind.length, text: "var"})
       }
       if (stat.type == "ClassDeclaration")

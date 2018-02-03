@@ -95,7 +95,7 @@ let caught = 5 * 5;
 
 {{index "let keyword"}}
 
-That's a a second kind of ((statement)). The special word
+That's a second kind of ((statement)). The special word
 (_((keyword))_) `let` indicates that this sentence is going to define
 a binding. It is followed by the name of the binding and, if we want
 to immediately give it a value, by an `=` operator and an expression.

@@ -599,9 +599,9 @@ console.log(power(2, 3));
 {{index loop, readability, mathematics}}
 
 This is rather close to the way mathematicians define exponentiation
-and arguably describes the concept in a more clearly way than the
-looping variant does. The function calls itself multiple times with
-ever smaller exponents to achieve the repeated multiplication.
+and arguably describes the concept more clearly than the looping
+variant does. The function calls itself multiple times with ever
+smaller exponents to achieve the repeated multiplication.
 
 {{index [function, application], efficiency}}
 

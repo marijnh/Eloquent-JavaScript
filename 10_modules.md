@@ -60,7 +60,7 @@ to use (its _((interface))_).
 {{index "big ball of mud"}}
 
 Module interfaces have a lot in common with object interfaces, as we
-saw them in [Chapter ?](objects#interface). They make part of the
+saw them in [Chapter ?](object#interface). They make part of the
 module available to the outside world, and keep the rest private. By
 restricting the ways in which modules interact with each other, the
 system becomes more like ((Lego)), where pieces interact through

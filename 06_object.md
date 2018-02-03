@@ -334,8 +334,9 @@ through it but is not its _own_ prototype.
 ## Class notation
 
 So JavaScript ((class))es are ((constructor)) functions with a
-((prototype)) property. That how they work, and until 2015, that's how
-you had to write them. These days, we have a less awkward notation.
+((prototype)) property. That is how they work, and until 2015, that
+was how you had to write them. These days, we have a less awkward
+notation.
 
 ```{includeCode: true}
 class Rabbit {

@@ -608,21 +608,21 @@ the elements in the array.
 
 But how do we get the character codes in a string?
 
-In [Chapter ?](values) I mentioned that JavaScript ((string))s
-are encoded as a sequence of 16-bit number called _((code unit))s_. A
+In [Chapter ?](values) I mentioned that JavaScript ((string))s are
+encoded as a sequence of 16-bit numbers called _((code unit))s_. A
 ((Unicode)) ((character)) code was initially supposed to fit within
 such a unit (which gives you a little over 65 thousand characters).
 When it became clear that that wasn't going to be enough, many people
 balked at the need to use more memory per character. To address these
 concerns, ((UTF-16)), the format used by JavaScript strings, was
-invented. It describes some character using a single 16-bit code unit,
-and others using a pair of two such units.
+invented. It describes some characters using a single 16-bit code
+unit, and others using a pair of two such units.
 
 {{index error}}
 
 UTF-16 is generally considered a bad idea now. It seems almost
 intentionally designed to invite mistakes. It's easy to write programs
-that pretends code units and characters are the same thing. And if
+that pretend code units and characters are the same thing. And if
 your language doesn't use two-unit characters, that will appear to
 work just fine. But as soon as someone tries to use such a program
 with some less common ((Chinese characters)), it breaks. Fortunately,

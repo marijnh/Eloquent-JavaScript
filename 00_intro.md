@@ -3,7 +3,7 @@
 # Introduction
 
 This is a book about instructing ((computer))s. Computers are about as
-common a screwdrivers today. But they are quite a bit more complex
+common as screwdrivers today. But they are quite a bit more complex
 than screwdrivers, and making them do the precise thing you want them
 to do isn't always easy.
 

@@ -87,9 +87,11 @@ exports.transformTokens = function(tokens, options) {
       nextTag(tokens, i).tableData = tok.args[0]
     } else if (type == "meta_if_open") {
       i = handleIf(tokens, i, options)
+    } else if (type == "meta_hint_open" && options.strip === "hints") {
+      do { i++ } while (tokens[i].type != "meta_hint_close")
     } else if (type == "meta_if_close" || (options.index === false && (type == "meta_indexsee" || type == "meta_index"))) {
       // Drop
-    } else if (tok.tag == "h1") {
+    } else if (tok.tag == "h1" && options.takeTitle) {
       if (tokens[i + 1].children.length != 1) throw new Error("Complex H1 not supported")
       meta.title = tokens[i + 1].children[0].content
       i += 2

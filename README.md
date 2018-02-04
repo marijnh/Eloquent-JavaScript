@@ -9,3 +9,8 @@ Feedback welcome, in the form of issues and pull requests.
 
     npm install
     make html
+
+To build the PDF file:
+
+    apt-get install texlive texlive-xetex texlive-fonts-extra
+    make book.pdf

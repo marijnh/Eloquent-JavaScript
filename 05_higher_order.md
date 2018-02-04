@@ -739,7 +739,7 @@ function textScripts(text) {
   }).join(", ");
 }
 
-console.log(textScripts('英國狗說“woof”，但俄羅斯狗說“тяв”'));
+console.log(textScripts('英国的狗说“woof”, 俄罗斯的狗说“тяв”'));
 // → 59% Han, 24% Latin, 18% Cyrillic
 ```
 

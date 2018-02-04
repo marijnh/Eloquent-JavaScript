@@ -11,7 +11,7 @@ let file = process.argv[2]
 
 let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
   defined: ["interactive", "html"],
-  ids: true,
+  takeTitle: true,
   index: false
 })
 

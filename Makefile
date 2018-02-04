@@ -34,3 +34,13 @@ test: html
 	@for F in $(CHAPTERS); do echo Testing $$F:; node src/run_tests.js $$F.md; done
 	@node src/check_links.js
 	@echo Done.
+
+book.pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/book.tex $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
+	#cd pdf && sh build.sh book > /dev/null
+	mv pdf/book.pdf .	
+
+img/generated/%.pdf: img/%.svg
+	inkscape --export-pdf=$@ $<
+
+pdf/%.tex: %.md
+	node src/render_latex.js $< > $@

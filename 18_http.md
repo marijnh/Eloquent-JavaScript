@@ -2,6 +2,15 @@
 
 # HTTP and Forms
 
+{{quote {author: "Roy Fielding", title: "Architectural Styles and the Design of Network-based Software Architectures", chapter: true}
+
+Communication must be stateless in nature [...] such that each request
+from client to server must contain all of the information necessary to
+understand the request, and cannot take advantage of any stored
+context on the server.
+
+quote}}
+
 The _Hypertext Transfer Protocol_, already mentioned in [Chapter
 ?](browser#web), is the mechanism through which data is requested and
 provided on the ((World Wide Web)). This chapter describes the

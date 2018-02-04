@@ -740,7 +740,7 @@ function textScripts(text) {
 }
 
 console.log(textScripts('英国的狗说“woof”, 俄罗斯的狗说“тяв”'));
-// → 59% Han, 24% Latin, 18% Cyrillic
+// → 61% Han, 22% Latin, 17% Cyrillic
 ```
 
 {{index "characterScript function", "filter method"}}

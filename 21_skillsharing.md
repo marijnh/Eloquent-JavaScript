@@ -2,6 +2,12 @@
 
 # Project: Skill-Sharing Website
 
+{{quote {author: "Margaret Fuller", chapter: true}
+	
+If you have knowledge, let others light their candles at it.
+
+quote}}
+
 {{index "skill-sharing project", meetup, "project chapter"}}
 
 A _((skill-sharing))_ meeting is an event where people with a shared

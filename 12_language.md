@@ -2,27 +2,12 @@
 
 # Project: A Programming Language
 
-{{if interactive
-
 {{quote {author: "Hal Abelson and Gerald Sussman", title: "Structure and Interpretation of Computer Programs", chapter: true}
 
 The evaluator, which determines the meaning of expressions in a
 programming language, is just another program.
 
 quote}}
-
-if}}
-
-{{if interactive
-
-{{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
-
-When a student asked the master about the nature of the cycle of Data
-and Control, Yuan-Ma replied ‘Think of a compiler, compiling itself.’
-
-quote}}
-
-if}}
 
 {{index "Abelson, Hal", "Sussman, Gerald", SICP, "project chapter"}}
 

@@ -1,12 +1,15 @@
 {{meta {load_files: ["code/crows.js", "code/chapter/11_async.js"]}}}
 
-{{quote {author: "William S. Burroughs", title: "Naked Lunch", chapter: true}
+# Asynchronous Programming
 
-Your mind will answer most questions if you learn to relax and wait for the answer.
+{{quote {author: "Laozi", title: "Tao Te Ching", chapter: true}
+
+Who can wait quietly while the mud settles?\
+Who can remain still until the moment of action?
 
 quote}}
 
-# Asynchronous Programming
+{{index "Laozi"}}
 
 The central part of a computer, the part that carries out the
 individual steps that make up our programs, is called the

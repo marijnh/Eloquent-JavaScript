@@ -116,9 +116,9 @@ application tends to leave you with a collection of interconnected
 objects that each have their own internal, changing state. Such
 programs are often hard to understand and thus easy to break.
 
-{{index "Jou Armstrong"}}
+{{index "Joe Armstrong"}}
 
-{{quote {author: "Joe Armstrong", title: "interviewed in Coders at Work", chapter: true}
+{{quote {author: "Joe Armstrong", title: "interviewed in Coders at Work"}
 
 The problem with object-oriented languages is they’ve got all this
 implicit environment that they carry around with them. You wanted a

@@ -5,10 +5,10 @@ let file, noStarch = false
 for (let arg of process.argv.slice(2)) {
   if (arg == "--nostarch") noStarch = true
   else if (file) throw new Error("Multiple input files")
-  else file = arg
+  else file = arg == "-" ? "/dev/stdin" : arg
 }
 if (!file) throw new Error("No input file")
-let chapter = /^\d{2}_([^\.]+)/.exec(file)
+let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
 
 let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
   defined: ["book", "tex"],

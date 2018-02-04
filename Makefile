@@ -35,9 +35,12 @@ test: html
 	@node src/check_links.js
 	@echo Done.
 
-book.pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/book.tex $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
+book.pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex pdf/book.tex $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
 	#cd pdf && sh build.sh book > /dev/null
 	mv pdf/book.pdf .	
+
+pdf/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.js
+	node src/extract_hints.js | node src/render_latex.js - > $@
 
 img/generated/%.pdf: img/%.svg
 	inkscape --export-pdf=$@ $<

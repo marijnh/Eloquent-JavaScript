@@ -6,6 +6,7 @@
 /pdf/hints.tex
 /pdf/book.*
 /pdf/book_mobile.*
+/pdf/*.log
 /book.pdf
 /book_mobile.pdf
 /html/[012]*.html

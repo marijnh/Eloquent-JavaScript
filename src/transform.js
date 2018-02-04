@@ -26,7 +26,7 @@ function tokenText(token) {
   else if (token.type == "softbreak") return " "
 }
 
-function smartQuotes(tokens, i) {
+function smartQuotes(tokens, i, tex) {
   let text = tokens[i].content, from = 0
   for (let j = i - 1, tt; j >= 0; j--) if (tt = tokenText(tokens[j])) {
     text = tt + text
@@ -39,12 +39,13 @@ function smartQuotes(tokens, i) {
     break
   }
 
-  return text
-    .replace(/([\w\.,!?\)])'/g, "$1’")
-    .replace(/'(\w)/g, "‘$1")
-    .replace(/([\w\.,!?\)])"/g, "$1”")
-    .replace(/"(\w)/g, "“$1")
+  let quoted = text
+    .replace(/([\w\.,!?\)`])'/g, "$1’")
+    .replace(/'(\w|\(\(|`)/g, "‘$1")
+    .replace(/([\w\.,!?\)`])"/g, "$1”")
+    .replace(/"(\w|\(\(|`)/g, "“$1")
     .slice(from, to)
+  return tex ? quoted.replace(/‘/g, "`").replace(/’/g, "'").replace(/“/g, "``").replace(/”/g, "''") : quoted
 }
 
 function handleIf(tokens, i, options) {
@@ -54,7 +55,16 @@ function handleIf(tokens, i, options) {
     return j
 }
 
-function transformInline(tokens, options) {
+const titleCaseSmallWords = "a an the at by for in of on to up and as but with or nor if console.log".split(" ");
+
+function capitalizeTitle(text) {
+  return text.split(" ")
+    .map(word => titleCaseSmallWords.includes(word) ? word : word[0].toUpperCase() + word.slice(1))
+    .join(" ")
+}
+
+function transformInline(tokens, options, prevType) {
+  let capitalize = options.capitalizeTitles && prevType == "heading_open"
   let result = []
   for (let i = 0; i < tokens.length; i++) {
     let tok = tokens[i], type = tok.type
@@ -63,7 +73,8 @@ function transformInline(tokens, options) {
     } else if (type == "meta_if_open") {
       i = handleIf(tokens, i, options)
     } else {
-      if (type == "text" && /[\'\"]/.test(tok.content)) tok.content = smartQuotes(tokens, i)
+      if (type == "text" && /[\'\"]/.test(tok.content)) tok.content = smartQuotes(tokens, i, options.texQuotes)
+      if (capitalize) tok.content = capitalizeTitle(tok.content)
       result.push(tok)
     }
   }
@@ -103,7 +114,7 @@ exports.transformTokens = function(tokens, options) {
       else if (type == "fence")
         tok.hashID = "c_" + hash(tok.content)
 
-      if (tok.children) tok.children = transformInline(tok.children, options)
+      if (tok.children) tok.children = transformInline(tok.children, options, tokens[i - 1].type)
 
       result.push(tok)
     }

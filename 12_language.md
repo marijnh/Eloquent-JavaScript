@@ -743,7 +743,7 @@ hint}}
 
 {{index closure, [function, scope], "closure in egg (exercise)"}}
 
-The way we have defined `fun` allows functions in Egg to “close over”
+The way we have defined `fun` allows functions in Egg to "close over"
 the surrounding scope, allowing the function's body to use local
 values that were visible at the time the function was defined, just
 like JavaScript functions do.
@@ -828,8 +828,8 @@ Make sure your solution handles multiple comments in a row, with
 potentially ((whitespace)) between or after them.
 
 A ((regular expression)) is probably the easiest way to solve this.
-Write something that matches “whitespace or a comment, zero or more
-times”. Use the `exec` or `match` method and look at the length of the
+Write something that matches "whitespace or a comment, zero or more
+times". Use the `exec` or `match` method and look at the length of the
 first element in the returned array (the whole match) to find out how
 many characters to slice off.
 

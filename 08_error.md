@@ -331,7 +331,7 @@ Let's write out its value at the start of the loop.
 
 _Right_. Dividing 13 by 10 does not produce a whole number. Instead of
 `n /= base`, what we actually want is `n = Math.floor(n / base)` so
-that the number is properly “shifted” to the right.
+that the number is properly "shifted" to the right.
 
 {{index "JavaScript console", "debugger statement"}}
 
@@ -449,7 +449,7 @@ this stack, throwing away all the call contexts it encounters.
 If exceptions always zoomed right down to the bottom of the stack,
 they would not be of much use. They'd just provide a novel way to blow
 up your program. Their power lies in the fact that you can set
-“obstacles” along the stack to _catch_ the exception as it is zooming
+"obstacles" along the stack to _catch_ the exception as it is zooming
 down. Once you've caught an exception, you can do something with it to
 address the problem, and then continue to run the program.
 
@@ -575,8 +575,8 @@ there is no problem.
 But that isn't always practical. So there is another feature that
 `try` statements have. They may be followed by a `finally` block
 either instead of or in addition to a `catch` block. A `finally` block
-means “No matter _what_ happens, run this code after trying to run the
-code in the `try` block”. If a function has to clean something up, the
+means "No matter _what_ happens, run this code after trying to run the
+code in the `try` block". If a function has to clean something up, the
 cleanup code should usually be put into a `finally` block.
 
 ```{includeCode: true}

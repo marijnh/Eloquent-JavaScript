@@ -4,8 +4,8 @@
 
 {{quote {author: "Charles Babbage", title: "Passages from the Life of a Philosopher (1864)", chapter: true}
 
-On two occasions I have been asked, ‘Pray, Mr. Babbage, if you put
-into the machine wrong figures, will the right answers come out?’
+On two occasions I have been asked, 'Pray, Mr. Babbage, if you put
+into the machine wrong figures, will the right answers come out?'
 [...] I am not able rightly to apprehend the kind of confusion of
 ideas that could provoke such a question.
 
@@ -156,15 +156,15 @@ difference is in how `x` is interpreted. When using a dot, the word
 after the dot is the literal name of the property. When using square
 brackets, the expression between the brackets is _evaluated_ to get
 the property name. Whereas `value.x` fetches the property of `value`
-named “x”, `value[x]` tries to evaluate the expression `x` and uses
+named "x", `value[x]` tries to evaluate the expression `x` and uses
 the result as the property name.
 
 So if you know that the property you are interested in is called
-“length”, you say `value.length`. If you want to extract the property
+"length", you say `value.length`. If you want to extract the property
 named by the value held in the binding `i`, you say `value[i]`.
 Property names can be any string, and the dot notation only allows
 names that look like valid binding names, so if you want to access a
-property named “2” or “John Doe”, you must use square brackets:
+property named "2" or "John Doe", you must use square brackets:
 `value[2]` or `value["John Doe"]`.
 
 The elements in an ((array)) are stored as the array's properties, using
@@ -209,8 +209,8 @@ value whose property we called. How this works is described in
 [Chapter ?](object#obj_methods).
 
 Properties that contain functions are generally called _methods_ of
-the value they belong to. As in, “_toUpperCase_ is a method of a
-string”.
+the value they belong to. As in, "_toUpperCase_ is a method of a
+string".
 
 {{id array_methods}}
 
@@ -374,7 +374,7 @@ arms in a neat row, labeled with numbers.
 
 {{index journal, "weresquirrel example"}}
 
-So we can represent Jacques’ journal as an array of objects.
+So we can represent Jacques' journal as an array of objects.
 
 ```{test: wrap}
 let journal = [
@@ -448,7 +448,7 @@ contains the same properties as `object1` but lives a separate life.
 JavaScript's `==` operator, when comparing objects, will return `true`
 only if both objects are precisely the same value. Comparing different
 objects will return `false`, even if they have identical contents.
-There is no “deep” comparison operation built into JavaScript, which
+There is no "deep" comparison operation built into JavaScript, which
 looks at object's contents, but it is possible to write it yourself
 (which will be one of the [exercises](data#exercise_deep_compare) at
 the end of this chapter).
@@ -1220,7 +1220,7 @@ like a good approach.
 
 What we can do is _serialize_ the data. That means it is converted
 into a flat description. A popular format is called _((JSON))_
-(pronounced “Jason”), which stands for JavaScript Object Notation. It
+(pronounced "Jason"), which stands for JavaScript Object Notation. It
 is widely used as a data storage and communication format on the Web,
 even in languages other than JavaScript.
 
@@ -1305,7 +1305,7 @@ whether it does indeed return 55.
 {{index "optional argument"}}
 
 As a bonus assignment, modify your `range` function to take an
-optional third argument that indicates the “step” value used to build
+optional third argument that indicates the "step" value used to build
 up the array. If no step is given, the array elements go up by
 increments of one, corresponding to the old behavior. The function
 call `range(1, 10, 2)` should return `[1, 3, 5, 7, 9]`. Make sure it
@@ -1518,7 +1518,7 @@ list and the loop is finished.
 {{index recursion}}
 
 The recursive version of `nth` will, similarly, look at an ever
-smaller part of the “tail” of the list and at the same time count down
+smaller part of the "tail" of the list and at the same time count down
 the index until it reaches zero, at which point it can return the
 `value` property of the node it is looking at. To get the zeroeth
 element of a list, you simply take the `value` property of its head

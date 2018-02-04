@@ -359,7 +359,7 @@ console.log(filter(SCRIPTS, script => script.living));
 {{index [function, "as value"], [function, application]}}
 
 This uses the argument named `test`, a function value, to fill in a
-“gap” in the computation. The `test` function is called for each
+"gap" in the computation. The `test` function is called for each
 element, and its return value determines whether an element is
 included in the returned array. 
 
@@ -394,7 +394,7 @@ which is easier to inspect.
 The `map` method transforms an array by applying a function to all of
 its elements and building a new array from the returned values. The
 new array will have the same length as the input array, but its
-content will have been “mapped” to a new form by the function.
+content will have been "mapped" to a new form by the function.
 
 ```
 function map(array, transform) {
@@ -739,7 +739,7 @@ function textScripts(text) {
   }).join(", ");
 }
 
-console.log(textScripts('英国的狗说“woof”, 俄罗斯的狗说“тяв”'));
+console.log(textScripts('英国的狗说"woof", 俄罗斯的狗说"тяв"'));
 // → 61% Han, 22% Latin, 17% Cyrillic
 ```
 
@@ -765,7 +765,7 @@ string it is given in between each of the elements of the array.
 
 Being able to pass function values to other functions is not just a
 gimmick—it's a deeply useful aspect of JavaScript. It allows us to
-write functions that model computations with “gaps” in them. The code
+write functions that model computations with "gaps" in them. The code
 that calls these functions can fill in the gaps by providing function
 values.
 
@@ -784,7 +784,7 @@ the position of the first element that matches a predicate.
 {{index "flattening (exercise)", "reduce method", "concat method", array}}
 
 Use the `reduce` method in combination with the `concat` method to
-“flatten” an array of arrays into a single array that has all the
+"flatten" an array of arrays into a single array that has all the
 elements of the input arrays.
 
 {{if interactive

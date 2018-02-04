@@ -21,6 +21,7 @@
 .tern-port
 /toc.txt
 /img/cover.xcf
+/img/generated/*
 /epub/[012]*.xhtml
 /epub/hints.xhtml
 /epub/img/*

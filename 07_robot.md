@@ -11,7 +11,7 @@ quote}}
 
 {{index "artificial intelligence", "Dijkstra, Edsger", "project chapter", "reading code", "writing code"}}
 
-In “project” chapters, I'll stop pummeling you with new theory for a
+In "project" chapters, I'll stop pummeling you with new theory for a
 brief moment and instead work through a program with you. Theory is
 indispensable when learning to program, but it is best accompanied by
 reading and understanding nontrivial programs.
@@ -120,7 +120,7 @@ programs are often hard to understand and thus easy to break.
 
 {{quote {author: "Joe Armstrong", title: "interviewed in Coders at Work"}
 
-The problem with object-oriented languages is they’ve got all this
+The problem with object-oriented languages is they've got all this
 implicit environment that they carry around with them. You wanted a
 banana but what you got was a gorilla holding the banana and the
 entire jungle.

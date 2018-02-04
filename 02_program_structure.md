@@ -444,7 +444,7 @@ if (!isNaN(theNumber)) {
 {{index ["if keyword", chaining]}}
 
 If we have more than two paths to choose from, multiple `if`/`else`
-pairs can be “chained” together. Here's an example:
+pairs can be "chained" together. Here's an example:
 
 ```
 let num = Number(prompt("Pick a number"));
@@ -614,7 +614,7 @@ amount.
 {{index syntax, "while loop", "counter variable"}}
 
 Many loops follow the pattern seen in the `while` examples. First, a
-“counter” binding is created to track the progress of the loop. Then
+"counter" binding is created to track the progress of the loop. Then
 comes a `while` loop, whose test expression usually checks whether the
 counter has reached its end value. At the end of the loop body, the
 counter is updated to track progress.
@@ -639,7 +639,7 @@ for (let number = 0; number <= 12; number = number + 2) {
 This program is exactly equivalent to the
 [earlier](program_structure#loops) even-number-printing example. The
 only change is that all the ((statement))s that are related to the
-“state” of the loop are grouped together after `for`.
+"state" of the loop are grouped together after `for`.
 
 The ((parentheses)) after a `for` keyword must contain two
 ((semicolon))s. The part before the first semicolon _initializes_ the
@@ -720,7 +720,7 @@ iteration.
 
 {{index assignment, "+= operator", "-= operator", "/= operator", "*= operator", state, "side effect"}}
 
-Especially when looping, a program often needs to “update” a binding
+Especially when looping, a program often needs to "update" a binding
 to hold a value based on that binding's previous value.
 
 ```{test: no}
@@ -1010,7 +1010,7 @@ number, so you'll have to create an `if`/`else if`/`else` chain.
 {{index "|| operator", ["if keyword", chaining]}}
 
 The second version of the program has a straightforward solution and a
-clever one. The simple way is to add another conditional “branch” to
+clever one. The simple way is to add another conditional "branch" to
 precisely test the given condition. For the clever method, build up a
 string containing the word or words to output, and print either this
 word or the number if there is no word, potentially by making good use
@@ -1024,7 +1024,7 @@ hint}}
 
 Write a program that creates a string that represents an 8×8 grid,
 using newline characters to separate lines. At each position of the
-grid there is either a space or a “#” character. The characters should
+grid there is either a space or a "#" character. The characters should
 form a chess board.
 
 Passing this string to `console.log` should show something like this:

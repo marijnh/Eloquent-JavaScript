@@ -493,7 +493,7 @@ it uses simple ((DOM)) elements to show the level.
 
 We will be using a ((style sheet)) to set the actual colors and other
 fixed properties of the elements that make up the game. It would also
-be possible to directly assign to the elements’ `style` property when
+be possible to directly assign to the elements' `style` property when
 we create them, but that would produce more verbose programs.
 
 {{index "class attribute"}}

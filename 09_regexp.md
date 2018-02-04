@@ -2,8 +2,8 @@
 
 {{quote {author: "Jamie Zawinski", chapter: true}
 
-Some people, when confronted with a problem, think ‘I know, I'll use
-regular expressions.’ Now they have two problems.
+Some people, when confronted with a problem, think 'I know, I'll use
+regular expressions.' Now they have two problems.
 
 quote}}
 
@@ -11,9 +11,9 @@ quote}}
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-Yuan-Ma said, ‘When you cut against the grain of the wood, much
+Yuan-Ma said, 'When you cut against the grain of the wood, much
 strength is needed. When you program against the grain of a problem,
-much code is needed.’
+much code is needed.'
 
 quote}}
 
@@ -149,7 +149,7 @@ as `[0-9]`.
 {{table {cols: [1, 5]}}}
 
 | `\d`    | Any ((digit)) character
-| `\w`    | An alphanumeric character (“((word character))”)
+| `\w`    | An alphanumeric character ("((word character))")
 | `\s`    | Any ((whitespace)) character (space, tab, newline, and similar)
 | `\D`    | A character that is _not_ a digit
 | `\W`    | A nonalphanumeric character
@@ -229,7 +229,7 @@ any suitable text to match.
 
 {{index "British English", "American English", "question mark"}}
 
-A question mark makes a part of a pattern “((optional))”, meaning it
+A question mark makes a part of a pattern "((optional))", meaning it
 may occur zero or one time. In the following example, the _u_
 character is allowed to occur, but the pattern also matches when it is
 missing.
@@ -405,7 +405,7 @@ are optional and taken to be zero when not given.
 
 Timestamps are stored as the number of milliseconds since the start of
 1970, in the UTC ((time zone)), using negative numbers for times
-before 1970 (following a convention set by “((Unix time))”, which was
+before 1970 (following a convention set by "((Unix time))", which was
 invented around that time). The `getTime` method on a date object
 returns this number. It is big, as you can imagine.
 
@@ -547,9 +547,9 @@ progress through the flow chart would look like this:
    single space character. There is a space here, not a digit, so we
    must take the second path.
 
- - We are now at position 6 (the start of “pigs”) and at the three-way
-   branch in the diagram. We don't see “cow” or “chicken” here, but we
-   do see “pig”, so we take that branch.
+ - We are now at position 6 (the start of "pigs") and at the three-way
+   branch in the diagram. We don't see "cow" or "chicken" here, but we
+   do see "pig", so we take that branch.
 
  - At position 9, after the three-way branch, one path skips the _s_
    box and goes straight to the final word boundary, while the other
@@ -1126,8 +1126,8 @@ Because of JavaScript's initial simplistic implementation and the fact
 that this simplistic approach was later set in stone as ((standard))
 behavior, JavaScript's regular expressions are rather dumb about
 characters that do not appear in the English language. For example, as
-far as JavaScript's regular expressions are concerned, a “((word
-character))” is only one of the 26 characters in the Latin alphabet
+far as JavaScript's regular expressions are concerned, a "((word
+character))" is only one of the 26 characters in the Latin alphabet
 (uppercase or lowercase) and, for some reason, the underscore
 character. Things like _é_ or _β_, which most definitely are word
 characters, will not match `\w` (and _will_ match uppercase `\W`, the
@@ -1168,8 +1168,8 @@ might cause problems for existing code that depends on it.
 
 Some ((regular expression)) ((implementation))s in other programming
 languages have syntax to match specific ((Unicode)) character
-categories, such as “all uppercase letters”, “all punctuation”, or
-“control characters”. There are plans to add support for such
+categories, such as "all uppercase letters", "all punctuation", or
+"control characters". There are plans to add support for such
 categories to JavaScript in the ((future)), but we're not quite there
 yet.
 
@@ -1194,7 +1194,7 @@ They use their own language to express these patterns.
 | `/(abc)/`   | A group
 | `/a|b|c/`   | Any one of several patterns
 | `/\d/`      | Any digit character
-| `/\w/`      | An alphanumeric character (“word character”)
+| `/\w/`      | An alphanumeric character ("word character")
 | `/\s/`      | Any whitespace character
 | `/./`       | Any character except newlines
 | `/\b/`      | A word boundary

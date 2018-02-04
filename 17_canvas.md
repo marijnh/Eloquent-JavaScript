@@ -1216,7 +1216,7 @@ that with canvas.
 
 {{index performance, optimization}}
 
-But ((canvas))’s ((pixel))-oriented approach can be an advantage when
+But ((canvas))'s ((pixel))-oriented approach can be an advantage when
 drawing a huge amount of tiny elements. The fact that it does not
 build up a data structure but only repeatedly draws onto the same
 pixel surface gives canvas a lower cost per shape.

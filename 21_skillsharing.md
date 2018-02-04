@@ -16,9 +16,9 @@ things they know. At a ((gardening)) skill-sharing meeting, someone
 might explain how to cultivate ((celery)). Or in a programming
 skill-sharing group, you could drop by and tell people about Node.js.
 
-{{index learning, "users’ group"}}
+{{index learning, "users' group"}}
 
-Such meetups—also often called _users’ groups_ when they are about
+Such meetups—also often called _users' groups_ when they are about
 computers—are a great way to broaden your horizon, learn about new
 developments, or simply meet people with similar interests. Many
 larger cities have a JavaScript meetup. They are typically free to

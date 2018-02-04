@@ -246,7 +246,7 @@ A property like `speak(line)` in an object expression is a shorthand
 for defining methods. It creates a property called `speak` and gives
 it a function as its value.
 
-The “proto” rabbit acts as a container for the properties that are
+The "proto" rabbit acts as a container for the properties that are
 shared by all rabbits. An individual rabbit object, like the killer
 rabbit, contains properties that apply only to itself—in this case its
 type—and derives shared properties from its prototype.
@@ -267,6 +267,8 @@ Prototypes are useful for defining properties for which all instances
 of a class share the same value, such as ((method))s. Properties that
 differ per instance, such as our rabbits' `type` ((property)), need to
 be stored directly in the objects themselves.
+
+{{id constructors}}
 
 So in order to create an instance of a given class, you have to make
 an object that derives from the proper prototype, but you _also_ have
@@ -441,7 +443,7 @@ Calling `toString` on an array gives a result similar to calling
 `.join(",")` on it—it puts commas between the values in the array.
 Directly calling `Object.prototype.toString` with an array produces a
 different string. That function doesn't know about arrays, so it
-simply puts the word “object” and the name of the type between square
+simply puts the word "object" and the name of the type between square
 brackets.
 
 ```
@@ -1020,7 +1022,7 @@ to properties of the same name.
 
 Give the `Vec` prototype two methods, `plus` and `minus`, that take
 another vector as a parameter and return a new vector that has the sum
-or difference of the two vectors’ (the one in `this` and the
+or difference of the two vectors' (the one in `this` and the
 parameter) _x_ and _y_ values.
 
 Add a ((getter)) property `length` to the prototype that computes the

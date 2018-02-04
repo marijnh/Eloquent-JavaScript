@@ -393,18 +393,18 @@ function. In the other case, it jumps to the end of the program.
 
 The place where the computer stores this context is the _((call
 stack))_. Every time a function is called, the current context is
-stored on top of this “stack”. When the function returns, it removes
+stored on top of this "stack". When the function returns, it removes
 the top context from the stack and uses it to continue execution.
 
 {{index "infinite loop", "stack overflow", recursion}}
 
 Storing this stack requires space in the computer's memory. When the
-stack grows too big, the computer will fail with a message like “out
-of stack space” or “too much recursion”. The following code
+stack grows too big, the computer will fail with a message like "out
+of stack space" or "too much recursion". The following code
 illustrates this by asking the computer a really hard question, which
 causes an infinite back-and-forth between two functions. Rather, it
 _would_ be infinite, if the computer had an infinite stack. As it is,
-we will run out of space, or “blow the stack”.
+we will run out of space, or "blow the stack".
 
 ```{test: no}
 function chicken() {
@@ -507,7 +507,7 @@ console.log("C", "O", 2);
 {{index "call stack", "local binding", [function, "as value"], scope}}
 
 The ability to treat functions as values, combined with the fact that
-local bindings are “re-created” every time a function is called,
+local bindings are "re-created" every time a function is called,
 brings up an interesting question. What happens to local bindings when
 the function call that created them is no longer active?
 
@@ -536,7 +536,7 @@ can't trample on one another's local bindings.
 
 This feature—being able to reference a specific instance of local
 bindings in an enclosing function—is called _((closure))_. A function
-that “closes over” some local bindings is called _a_ closure. This
+that "closes over" some local bindings is called _a_ closure. This
 behavior not only frees you from having to worry about lifetimes of
 bindings but also allows for some creative use of function values.
 
@@ -645,7 +645,7 @@ if necessary.
 Recursion is not always just a inefficient alternative to looping.
 Some problems are really easier to solve with recursion than with
 loops. Most often these are problems that require exploring or
-processing several “branches”, each of which might branch out again
+processing several "branches", each of which might branch out again
 into more branches.
 
 {{id recursive_puzzle}}
@@ -883,7 +883,7 @@ and so on.
 
 A useful principle is not to add cleverness unless you are absolutely
 sure you're going to need it. It can be tempting to write general
-“((framework))s” for every bit of functionality you come across.
+"((framework))s" for every bit of functionality you come across.
 Resist that urge. You won't get any real work done, you'll just end up
 writing a lot of code that you'll never use.
 
@@ -1072,12 +1072,12 @@ In other words, a two-character string has length 2, and its
 characters have positions 0 and 1.
 
 Write a function `countBs` that takes a string as its only argument
-and returns a number that indicates how many uppercase “B” characters
+and returns a number that indicates how many uppercase "B" characters
 there are in the string.
 
 Next, write a function called `countChar` that behaves like `countBs`,
 except it takes a second argument that indicates the character that is
-to be counted (rather than counting only uppercase “B” characters).
+to be counted (rather than counting only uppercase "B" characters).
 Rewrite `countBs` to make use of this new function.
 
 {{if interactive

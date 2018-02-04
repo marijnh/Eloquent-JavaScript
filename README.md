@@ -12,5 +12,5 @@ Feedback welcome, in the form of issues and pull requests.
 
 To build the PDF file:
 
-    apt-get install texlive texlive-xetex texlive-fonts-extra
+    apt-get install texlive texlive-xetex texlive-fonts-extra fonts-symbola
     make book.pdf

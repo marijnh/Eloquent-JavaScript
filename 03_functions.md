@@ -159,11 +159,12 @@ const halve = function(n) {
 };
 
 let n = 10;
-console.log(halve(n * 2));
-// → 10
+console.log(halve(100));
+// → 50
 ```
 
 {{id scoping}}
+
 ## Nested scope
 
 {{index [nesting, "of functions"], [nesting, "of scope"], scope, "inner function", "lexical scoping"}}

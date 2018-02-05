@@ -6,7 +6,7 @@ const {readFileSync, writeFile} = require("fs");
 const fileName = "./talks.json";
 
 function loadTalks() {
-  var json;
+  let json;
   try {
     json = JSON.parse(readFileSync(fileName, "utf8"));
   } catch (e) {

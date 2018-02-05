@@ -1,5 +1,5 @@
 function withBoxUnlocked(body) {
-  var locked = box.locked;
+  let locked = box.locked;
   if (!locked) {
     return body();
   }

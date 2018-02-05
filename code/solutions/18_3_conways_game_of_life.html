@@ -42,7 +42,7 @@
   // x,y position, counting all fields that have a cell but are not the
   // center field.
   function countNeighbors(grid, x, y) {
-    var count = 0;
+    let count = 0;
     for (let y1 = Math.max(0, y - 1); y1 <= Math.min(height - 1, y + 1); y1++) {
       for (let x1 = Math.max(0, x - 1); x1 <= Math.min(width - 1, x + 1); x1++) {
         if ((x1 != x || y1 != y) && grid[x1 + y1 * width]) {

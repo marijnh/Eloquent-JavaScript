@@ -24,7 +24,7 @@ data from the ((hard disk))—which is a lot slower than getting it from
 ((memory)).
 
 When such a thing is happening, it would be a shame to let the
-processor sit idle. There might be some other work it could do in the
+processor sit idle—there might be some other work it could do in the
 meantime. In part, this is handled by your operating system, which
 will switch the processor between multiple running programs. But that
 doesn't help when we want a _single_ program to be able to make
@@ -34,10 +34,10 @@ progress while it is waiting for a network request.
 
 {{index "synchronous programming"}}
 
-In a _synchronous_ programming model, that things happen one at a
-time. When you call a function that performs a long-running action, it
-only returns when the action has finished and has the result, stopping
-your program while it waits.
+In a _synchronous_ programming model, things happen one at a time.
+When you call a function that performs a long-running action, it only
+returns when the action has finished and it can return the result.
+This stops your program for the time the action takes.
 
 {{index "asynchronous programming"}}
 
@@ -77,7 +77,7 @@ waiting for the network. In the synchronous model, the time taken by
 the network is _part_ of the timeline for a given thread of control.
 In the asynchronous model, starting an network action conceptually
 causes a _split_ in the timeline. The program that initiated the
-action continues running, and the action itself is done alongside it,
+action continues running, and the action happens alongside it,
 notifying the program when it is finished.
 
 {{figure {url: "img/control-io.svg", alt: "Control flow for synchronous and asynchronous programming",width: "8cm"}}}
@@ -93,24 +93,23 @@ not fit the straight-line model of control easier, but it can also
 make expressing programs that do follow a straight line more awkward.
 We'll see some ways to address this awkwardness later in the chapter.
 
-Both of the big JavaScript programming platforms—((browser))s and
-((Node.js))—make operations that might take a while asynchronous,
+Both of the important JavaScript programming platforms—((browser))s
+and ((Node.js))—make operations that might take a while asynchronous,
 rather than relying on ((thread))s. Since programming with threads is
 notoriously hard (understanding what a program does is much more
-difficult when it's doing multiple things at once), I think that this
-is a good decision.
+difficult when it's doing multiple things at once), this is generally
+considered a good thing.
 
 ## Crow tech
 
 Most people are aware of the fact that ((crow))s are very smart birds.
-They can use tools, plan ahead, recognize people, remember facts, and
-even communicate these facts among each other.
+They can use tools, plan ahead, remember things, and even communicate
+these things among themselves.
 
-What most people don't know is that they are capable of a lot more
-things that they keep well hidden from us. I've been told by a
-reputable (if somewhat eccentric) expert on ((corvid))s that crow
-technology is not far behind human technology, and they are catching
-up.
+What most people don't know is that they are capable of many things
+that they keep well hidden from us. I've been told by a reputable (if
+somewhat eccentric) expert on ((corvid))s that crow technology is not
+far behind human technology, and they are catching up.
 
 For example, they have the ability to construct computing devices.
 These are not electronic, as human computing devices are, but operate
@@ -123,7 +122,7 @@ living creatures inside them, perform computations.
 Such colonies are usually located in big, long-lived nests. The birds
 and insects work together to build a network of bulbous clay
 structures, hidden between the twigs of the nest, in which the insects
-live.
+live and work.
 
 To communicate with other devices, these machines use light signals.
 The crows embed pieces of reflective material in special communication
@@ -131,8 +130,9 @@ stalks, and the insects aim these to reflect light at another nest,
 encoding data as a sequence of quick flashes. This means that only
 nests that have an unbroken visual connection can communicate.
 
-This is a schema of the crow nest network in the village of
-((Hières-sur-Amby)) on the banks of the river Rhône.
+Our friend the corvid expert has mapped the network of crow nests in
+the village of ((Hières-sur-Amby)), on the banks of the river Rhône.
+This map shows the nests and their connections.
 
 {{figure {url: "img/Hieres-sur-Amby.png", alt: "A network of crow nests in a small village"}}}
 
@@ -179,16 +179,17 @@ Storage bulbs store pieces of ((JSON))-encodable data under names. A
 ((crow)) might store information about the places where it's hidden
 away food under the name `"food caches"`, which could hold an array of
 names that point at other pieces of data, describing the actual cache.
-To look up a food ((cache)), the bird could run code like this:
+To look up a food ((cache)) in the storage bulbs of the _Big Oak_
+nest, a crow could run code like this:
 
 {{index "readStorage function"}}
 
 ```{includeCode: "top_lines: 1"}
-import {readStorage} from "crow-tech";
+import {bigOak} from "crow-tech";
 
-readStorage("food caches", caches => {
+bigOak.readStorage("food caches", caches => {
   let firstCache = caches[0];
-  readStorage(firstCache, info => {
+  bigOak.readStorage(firstCache, info => {
     console.log(info);
   });
 });
@@ -200,9 +201,9 @@ to English.)
 This style of programming is workable, but the indentation level
 increases with each asynchronous action, because you end up in another
 function. Doing more complicated things, like running multiple actions
-at the same time, can get positively awkward.
+at the same time, can get a little awkward.
 
-Crow nest computers are designed to communicate using
+Crow nest computers are built to communicate using
 ((request))-((response)) pairs. That means one nest sends a message to
 another nest, which then immediately sends a message back, confirming
 receipt and possibly including a reply to a question asked in the
@@ -213,19 +214,17 @@ handled. Our code can define handlers for specific request types, and
 when such a request comes in, the handler is called to produce a
 response.
 
-{{index "crow-tech module", "makeRequest function"}}
+{{index "crow-tech module", "send method"}}
 
 The interface exported by the `"crow-tech"` module provides
-callback-based functions for communication. The `makeRequest` function
-sends off a request. It expects the name of the target nest, the type
-of the request, and the content of the request as its first three
+callback-based functions for communication. Nests have a `send` method
+that sends off a request. It expects the name of the target nest, the
+type of the request, and the content of the request as its first three
 arguments, and a function to call when a response comes in as its
 fourth and last argument.
 
 ```
-import {makeRequest} from "crow-tech";
-
-makeRequest("Cow Pasture", "note", "Let's caw loudly at 7PM",
+bigOak.send("Cow Pasture", "note", "Let's caw loudly at 7PM",
             () => console.log("Note delivered."));
 ```
 
@@ -235,24 +234,16 @@ just on this nest-computer, but on all nests that can receive messages
 of this type. We'll just assume that a crow flies over and installs
 our handler code on all connected nests.
 
-{{index "defineRequestType function", "me binding"}}
+{{index "defineRequestType function"}}
 
-```{includeCode: true, meta: allNodes}
-import {defineRequestType, me} from "crow-tech";
+```{includeCode: true}
+import {defineRequestType} from "crow-tech";
 
-defineRequestType("note", (content, source, done) => {
-  console.log(`${me} received note: ${content}`);
+defineRequestType("note", (nest, content, source, done) => {
+  console.log(`${nest.name} received note: ${content}`);
   done();
 });
 ```
-
-{{if interactive
-
-Since the code snippets that define network-wide things run on all
-nests, if you add extra code to them and run them, don't be surprised
-that your code runs multiple times in different places.
-
-if}}
 
 The `defineRequestType` function defines a new type of request. The
 example adds support for `"note"` requests, which just send a note to
@@ -268,14 +259,14 @@ have used the function's ((return value)) as the response value, but
 that would mean that a request handler can't itself perform
 asynchronous actions. A function doing asynchronous work typically
 returns before the work is done, having arranged for a callback to be
-called when it completes. So we need some asynchronous way—in this
-case, another ((callback function))—to signal when a response is
+called when it completes. So we need some asynchronous mechanism—in
+this case, another ((callback function))—to signal when a response is
 available.
 
 In a way, asyncronicity is _contagious_. Any function that calls a
 function that works asynchronously must itself be asynchronous, using
-a callback or similar mechanism to deliver its result. Using callback
-is somewhat more involved and quite a bit more error-prone than simply
+a callback or similar mechanism to deliver its result. Calling
+callback is somewhat more involved and error-prone than simply
 returning a value, so needing to structure large parts of your program
 that way is not great.
 
@@ -297,8 +288,8 @@ happens.
 
 The easiest way to create a promise is by calling `Promise.resolve`.
 This function ensures that the value you give it is wrapped in a
-promise. If it's already a promise, it is simply returned, and
-otherwise, you get a new promise that immediately finishes with your
+promise. If it's already a promise it is simply returned, and
+otherwise you get a new promise that immediately finishes with your
 value as its result.
 
 ```
@@ -315,9 +306,10 @@ resolves and produces a value. You can add multiple callbacks to a
 single promise, and even if you add them after the promise has already
 _resolved_ (finished), they will be called.
 
-But that's not all `then` does. It returns another promise, which
-resolves to the value that the handler returns or, if the handler
-returns a promise, waits for that one and then resolves to its result.
+But that's not all the `then` method does. It returns another promise,
+which resolves to the value that the handler returns or, if the
+handler returns a promise, waits for that one and then resolves to its
+result.
 
 It is useful to think of promises as a device to move values into an
 asynchronous reality. A normal value is simply there. A promised value
@@ -328,10 +320,12 @@ available.
 
 {{index "Promise class"}}
 
-To define a promise, you can use `Promise` as a constructor. It has a
+To create a promise, you can use `Promise` as a constructor. It has a
 somewhat odd interface—the constructor expects a function as argument,
 which it immediately calls, passing it a function that it can use to
-resolve the promise.
+resolve the promise. It works this way, instead of for example with a
+`resolve` method, so that only the code that created the promise can
+resolve it.
 
 {{index "storage function"}}
 
@@ -339,13 +333,14 @@ This is how you'd create a promise-based interface for the
 `readStorage` function.
 
 ```{includeCode: "top_lines: 5"}
-function storage(name) {
+function storage(nest, name) {
   return new Promise(resolve => {
-    readStorage(name, result => resolve(result));
+    nest.readStorage(name, result => resolve(result));
   });
 }
 
-storage("enemies").then(value => console.log("Got", value));
+storage(bigOak, "enemies")
+  .then(value => console.log("Got", value));
 ```
 
 This asynchronous function returns a meaningful value. This is the
@@ -379,15 +374,15 @@ functions they call, are caught and given to the right function.
 
 {{index "rejecting (a promise)", "resolving (a promise)", "then method"}}
 
-Promises make this easier. They can both resolve (finish successfully)
-or reject (fail), and `then` handlers are only called when the action
-is successful, and rejections are automatically propagated to the new
-promise that is returned by `then`. And when a handler throws an
-exception, this automatically causes the promise produced by its
-`then` call to be rejected. So if any element in a chain of
-asynchronous actions fails, the outcome of the whole chain is marked
-as rejected, and no regular handlers are called beyond the point where
-it failed.
+Promises make this easier. They can be either resolved (the action
+finished successfully) or rejected (it failed). Resolve handlers (as
+registered with `then`) are only called when the action is successful,
+and rejections are automatically propagated to the new promise that is
+returned by `then`. When a handler throws an exception, this
+automatically causes the promise produced by its `then` call to be
+rejected. So if any element in a chain of asynchronous actions fails,
+the outcome of the whole chain is marked as rejected, and no regular
+handlers are called beyond the point where it failed.
 
 {{index "Promsise.reject function", "Promise class"}}
 
@@ -404,10 +399,10 @@ immediately-rejected promise.
 To explicitly handle such rejections, promises have a `catch` method,
 which registers a handler that is called when the promise is rejected,
 similar to how `then` handlers handle normal resolution. It also very
-much like `then` in that it returns a new promise, which succeeds to
-the promise's value if it resolves normally, and to the result of the
-`catch` handler otherwise. If a `catch` handler throws an error, the
-new promise is also rejected.
+much like `then` in that it returns a new promise, which resolves to
+the original promise's value if it resolves normally, and to the
+result of the `catch` handler otherwise. If a `catch` handler throws
+an error, the new promise is also rejected.
 
 {{index "then method"}}
 
@@ -426,9 +421,8 @@ each link has a success handler or a rejection handler (or both)
 associated with it. Handlers that don't match the type of outcome
 (success or failure) are ignored. But those that do match are called,
 and their outcome determines what kind of value comes next—success
-when it returns a regular value, rejection when it throws an
-exception, and the outcome of a promise when it returns a one of
-those.
+when it returns a non-promise value, rejection when it throws an
+exception, and the outcome of a promise when it returns one of those.
 
 {{index "uncaught exception", "exception handling"}}
 
@@ -442,14 +436,14 @@ handled, and will report this as an error.
 
 Occasionally, there isn't enough light for the ((crow))s' mirror
 systems to transmit a signal or something is blocking the path of the
-signal. So it is possible for a signal to be sent, but never received.
+signal. It is possible for a signal to be sent, but never received.
 
-{{index "makeRequest function", error, timeout}}
+{{index "send method", error, timeout}}
 
-As it is, that will just cause the callback given to `makeRequest` to
-never be called, which will probably cause the program to fail without
-even noticing it. It would be nice if, after a given period of not
-getting a response, a request would _time out_ and report failure.
+As it is, that will just cause the callback given to `send` to never
+be called, which will probably cause the program to fail without even
+noticing it. It would be nice if, after a given period of not getting
+a response, a request would _time out_ and report failure.
 
 Often, transmission failures are random accidents, like a car's
 headlight interfering with the light signals, and simply retrying the
@@ -460,34 +454,32 @@ times before it gives up.
 {{index "Promise class", "callback function", interface}}
 
 And, since we've established that promises are a nice thing, we'll
-also make this function return a promise. In terms of what they can
-express, callbacks and promises are equivalent, so callback-based
+also make our request function return a promise. In terms of what they
+can express, callbacks and promises are equivalent, so callback-based
 functions can be wrapped to expose a promise-based interface (and
 vice-versa).
 
 Even when a ((request)) and its ((response)) are successfully
 delivered, the response may indicate failure. For example if the
 request tries to use a request type that hasn't been defined or the
-handler throws an error. To support this, `makeRequest` and
+handler throws an error. To support this, `send` and
 `defineRequestType` follow the convention that the first argument
 passed to callbacks is the failure reason, if any, and the second is
-the actual result value, if the action did not fail.
+the actual result value.
 
 These can be translated to promise resolution and rejection by our
 wrapper.
 
 {{index "Timeout class", "request function", retry}}
 
-```{includeCode: true, meta: allNodes}
-import {makeRequest} from "crow-tech";
+```{includeCode: true}
+class Timeout extends Error {}
 
-class Timeout extends Error {};
-
-function request(target, type, content) {
+function request(nest, target, type, content) {
   return new Promise((resolve, reject) => {
     let done = false;
     function attempt(n) {
-      makeRequest(target, type, content, (failed, value) => {
+      nest.send(target, type, content, (failed, value) => {
         done = true;
         if (failed) reject(failed);
         else resolve(value);
@@ -516,10 +508,10 @@ request finished, are ignored.
 To build an asynchronous ((loop)), for the retries, we need to use a
 recursive function—a regular loop doesn't allow us to stop and wait
 for an asynchronous action. The `attempt` function makes a single
-attempt to send a request. It also sets a timeout that, after 250
-milliseconds, if no response has come back yet, either starts the next
-attempt or, if this was the fourth attempt, rejects the promise with
-an instance of `Timeout` as the reason.
+attempt to send a request. It also sets a timeout that, if no response
+has come back for 250 milliseconds, either starts the next attempt or,
+if this was the fourth attempt, rejects the promise with an instance
+of `Timeout` as the reason.
 
 {{index idempotence}}
 
@@ -531,7 +523,7 @@ We'll write our handlers with that problem in mind—duplicate messages
 should be harmless.
 
 In general, we will not be building a world-class, robust network
-today. But that's okay, crows don't have very high expectations yet,
+today. But that's okay—crows don't have very high expectations yet,
 when it comes to computing.
 
 {{index "defineRequestType function", "requestType function"}}
@@ -541,14 +533,15 @@ also define a wrapper for `defineRequestType` which allows the handler
 function to return a promise or even a plain value, and wires that up
 to the callback for us.
 
-```{includeCode: true, meta: allNodes}
+```{includeCode: true}
 function requestType(name, handler) {
-  defineRequestType(name, (content, source, callback) => {
+  defineRequestType(name, (nest, content, source,
+                           callback) => {
     try {
-      Promise.resolve(handler(content, source))
+      Promise.resolve(handler(nest, content, source))
         .then(response => callback(null, response),
               failure => callback(failure));
-    } catch(exception) {
+    } catch (exception) {
       callback(exception);
     }
   });
@@ -572,10 +565,10 @@ and thus less error-prone.
 
 ## Collections of promises
 
-{{index "neighbors binding", "ping request"}}
+{{index "neighbors property", "ping request"}}
 
 Each nest computer keeps an array of other nests within transmission
-distance in its `neighbors` binding. To check which of those are
+distance in its `neighbors` property. To check which of those are
 currently reachable, you could write a function that tries to send a
 `"ping"` request (a request that simply asks for a response) to each
 of them, and see which ones come back.
@@ -589,18 +582,17 @@ values that these promises produced (in the same order as the original
 array). If any promise is rejected, the result of `Promise.all` is
 itself rejected.
 
-```{includeCode: true, meta: allNodes}
-import {neighbors} from "crow-tech";
-
+```{includeCode: true}
 requestType("ping", () => "pong");
 
-function availableNeighbors() {
-  let requests = neighbors.map(neighbor => {
-    return request(neighbor, "ping")
+function availableNeighbors(nest) {
+  let requests = nest.neighbors.map(neighbor => {
+    return request(nest, neighbor, "ping")
       .then(() => true, () => false);
   });
-  return Promise.all(requests)
-    .then(result => neighbors.filter((_, i) => result[i]));
+  return Promise.all(requests).then(result => {
+    return nest.neighbors.filter((_, i) => result[i]);
+  });
 }
 ```
 
@@ -632,32 +624,41 @@ whole network has received the message.
 
 {{index "sendGossip function"}}
 
-```{includeCode: true, meta: allNodes}
-const gossip = [];
+```{includeCode: true}
+import {everywhere} from "crow-tech";
 
-function sendGossip(message, exceptFor=null) {
-  gossip.push(message);
-  for (let neighbor of neighbors) {
-    if (neighbor != exceptFor) {
-      request(neighbor, "gossip", message);
-    }
+everywhere(nest => {
+  nest.state.gossip = [];
+});
+
+function sendGossip(nest, message, exceptFor=null) {
+  nest.state.gossip.push(message);
+  for (let neighbor of nest.neighbors) {
+    if (neighbor == exceptFor) continue;
+    request(nest, neighbor, "gossip", message);
   }
 }
 
-requestType("gossip", (message, source) => {
-  if (gossip.includes(message)) return;
-  console.log(`${me} received gossip '${message}' from ${
-              source}`);
-  sendGossip(message, source);
+requestType("gossip", (nest, message, source) => {
+  if (nest.state.gossip.includes(message)) return;
+  console.log(`${nest.name} received gossip '${
+               message}' from ${source}`);
+  sendGossip(nest, message, source);
 });
 ```
 
+{{index "everywhere function", "gossip property"}}
+
 To avoid sending the same message around the network forever, each
-nest keeps an array of gossip strings that it has already seen. When
-it receives a duplicate, which is very likely to happen with everybody
-blindly resending these, it ignores it. But when it receives a new
-message, it excitedly tells all its neighbors, except for the one who
-originally sent it the message.
+nest keeps an array of gossip strings that it has already seen. To
+define this array, we use the `everywhere` function—which runs code on
+every nest—to add a property to the nest's `state` object, which is
+where we'll keep nest-local ((state)).
+
+When a nest receives a duplicate gossip message, which is very likely
+to happen with everybody blindly resending these, it ignores it. But
+when it receives a new message, it excitedly tells all its neighbors,
+except for the one who originally sent it the message.
 
 This will cause a new piece of gossip to spread through the network
 like an ink stain in water. Even when some connections aren't
@@ -674,7 +675,7 @@ network with a piece of information until all nodes have it.
 We can call `sendGossip` to see a message flow through the village.
 
 ```
-sendGossip("Kids with airgun in the park.");
+sendGossip(bigOak, "Kids with airgun in the park");
 ```
 
 if}}
@@ -697,39 +698,44 @@ know which neighboring nest gets it closer to its destination. Sending
 it in the wrong direction will not do much good.
 
 Since each nest only knows about its direct neighbors, it doesn't have
-the information it needs. We must somehow spread the information about
-these connections to all nests. Preferably in a way that allows it to
-change over time, if nests are abandoned or new nests are built.
+the information it needs to compute a route. We must somehow spread
+the information about these connections to all nests. Preferably in a
+way that allows it to change over time, when nests are abandoned or
+new nests are built.
 
 {{index flooding}}
 
-We can use flooding for that again, but instead of checking whether a
-given message has already been received, we now check whether the new
-set of neighbors for a given nest matches the current set we have for
-it.
+We can use flooding again, but instead of checking whether a given
+message has already been received, we now check whether the new set of
+neighbors for a given nest matches the current set we have for it.
 
 {{index "broadcastConnections function", "connections binding"}}
 
-```{includeCode: true, meta: allNodes}
-const connections = new Map;
-connections.set(me, neighbors);
-
-requestType("connections", ({from, neighbors}, source) => {
-  if (JSON.stringify(connections.get(from)) ==
+```{includeCode: true}
+requestType("connections", (nest, {name, neighbors},
+                            source) => {
+  let connections = nest.state.connections;
+  if (JSON.stringify(connections.get(name)) ==
       JSON.stringify(neighbors)) return;
-  connections.set(from, neighbors);
-  broadcastConnections(from, source);
+  connections.set(name, neighbors);
+  broadcastConnections(nest, name, source);
 });
 
-function broadcastConnections(from, exceptFor=null) {
-  for (let neighbor of neighbors) {
-    if (neighbor != exceptFor) {
-      request(neighbor, "connections",
-              {from, neighbors: connections.get(from)});
-    }
+function broadcastConnections(nest, name, exceptFor=null) {
+  for (let neighbor of nest.neighbors) {
+    if (neighbor == exceptFor) continue;
+    request(nest, neighbor, "connections", {
+      name,
+      neighbors: nest.state.connections.get(name)
+    });
   }
 }
-broadcastConnections(me);
+
+everywhere(nest => {
+  nest.state.connections = new Map;
+  nest.state.connections.set(nest.name, nest.neighbors);
+  broadcastConnections(nest, nest.name);
+});
 ```
 
 {{index JSON, "== operator"}}
@@ -740,8 +746,8 @@ which is not what we need here. Comparing the JSON strings is a crude
 but effective way to compare their content.
 
 The nodes immediately start broadcasting their connections, which
-should, unless some nests are completely unreachable, give every nest
-a map of the current network ((graph)).
+should, unless some nests are completely unreachable, quickly give
+every nest a map of the current network ((graph)).
 
 {{index pathfinding}}
 
@@ -757,9 +763,9 @@ node in the network. But instead of returning the whole route, it just
 returns the next step. That next nest will itself, using its current
 information about the network, decide where _it_ sends the message.
 
-```{includeCode: true, meta: allNodes}
-function findRoute(to) {
-  let work = [{at: me, via: null}];
+```{includeCode: true}
+function findRoute(from, to, connections) {
+  let work = [{at: from, via: null}];
   for (let i = 0; i < work.length; i++) {
     let {at, via} = work[i];
     for (let next of connections.get(at) || []) {
@@ -781,19 +787,21 @@ cause that neighbor to repeat the same behavior.
 
 {{index "routeRequest function"}}
 
-```{includeCode: true, meta: allNodes}
-function routeRequest(target, type, content) {
-  if (neighbors.includes(target)) {
-    return request(target, type, content);
+```{includeCode: true}
+function routeRequest(nest, target, type, content) {
+  if (nest.neighbors.includes(target)) {
+    return request(nest, target, type, content);
   } else {
-    let via = findRoute(target);
+    let via = findRoute(nest.name, target,
+                        nest.state.connections);
     if (!via) throw new Error(`No route to ${target}`);
-    return request(via, "route", {target, type, content});
+    return request(nest, via, "route",
+                   {target, type, content});
   }
 }
 
-requestType("route", ({target, type, content}) => {
-  return routeRequest(target, type, content);
+requestType("route", (nest, {target, type, content}) => {
+  return routeRequest(nest, target, type, content);
 });
 ```
 
@@ -803,7 +811,8 @@ We can now send a message to the nest in the church tower, which is
 four network hops removed.
 
 ```
-routeRequest("Church Tower", "note", "Incoming jackdaws!");
+routeRequest(bigOak, "Church Tower", "note",
+             "Incoming jackdaws!");
 ```
 
 if}}
@@ -812,8 +821,7 @@ if}}
 
 We've constructed several ((layer))s of functionality on top of a
 primitive communication system, in order to make it convenient to use.
-This is a very crude, simplified model of how real computer networks
-work.
+This is a nice (simplified) model of how real computer networks work.
 
 {{index error}}
 
@@ -829,27 +837,27 @@ nests. That way, if a hawk destroys a nest, the information isn't
 lost.
 
 To retrieve a given piece of information that it doesn't have in its
-own storage bulb, a nest computer might consult random other computers
-in the network until it finds one that has it.
+own storage bulb, a nest computer might consult random other nests in
+the network until it finds one that has it.
 
 {{index "findInStorage function", "network function"}}
 
-```{includeCode: true, meta: allNodes}
-requestType("storage", name => storage(name));
+```{includeCode: true}
+requestType("storage", (nest, name) => storage(nest, name));
 
-function findInStorage(name) {
-  return storage(name).then(found => {
+function findInStorage(nest, name) {
+  return storage(nest, name).then(found => {
     if (found != null) return found;
-    else return findInRemoteStorage(name);
+    else return findInRemoteStorage(nest, name);
   });
 }
 
-function network() {
-  return Array.from(connections.keys());
+function network(nest) {
+  return Array.from(nest.state.connections.keys());
 }
 
-function findInRemoteStorage(name) {
-  let sources = network().filter(n => n != me);
+function findInRemoteStorage(nest, name) {
+  let sources = network(nest).filter(n => n != nest.name);
   function next() {
     if (sources.length == 0) {
       return Promise.reject(new Error("Not found"));
@@ -857,7 +865,7 @@ function findInRemoteStorage(name) {
       let source = sources[Math.floor(Math.random() *
                                       sources.length)];
       sources = sources.filter(n => n != source);
-      return routeRequest(source, "storage", name)
+      return routeRequest(nest, source, "storage", name)
         .then(value => value != null ? value : next(), next);
     }
   }
@@ -898,17 +906,18 @@ that _looks_ synchronous.
 We can rewrite `findInStorage` like this:
 
 ```
-async function findInStorage(name) {
-  let local = await storage(name);
-  if (local == null) return local;
+async function findInStorage(nest, name) {
+  let local = await storage(nest, name);
+  if (local != null) return local;
 
-  let sources = network().filter(n => n != me);
+  let sources = network(nest).filter(n => n != nest.name);
   while (sources.length > 0) {
     let source = sources[Math.floor(Math.random() *
                                     sources.length)];
     sources = sources.filter(n => n != source);
     try {
-      let ok = await routeRequest(source, "storage", name);
+      let ok = await routeRequest(nest, source, "storage",
+                                  name);
       if (ok != null) return ok;
     } catch(_) {}
   }
@@ -927,7 +936,8 @@ resolved. If it throws an exception, the promise is rejected.
 {{if interactive
 
 ```{startCode: true}
-findInStorage("events on 2017-12-21").then(console.log);
+findInStorage(bigOak, "events on 2017-12-21")
+  .then(console.log);
 ```
 
 if}}
@@ -935,9 +945,8 @@ if}}
 {{index "await keyword", "control flow"}}
 
 Inside an `async` function, the word `await` can be put in front of an
-expression (which should usually be a promise) to wait for that
-expression to resolve, and only then continue the execution of the
-function.
+expression (which produces a promise) to wait for that promise to
+resolve, and only then continue the execution of the function.
 
 So such a function no longer, like a regular JavaScript function, runs
 from start to completion in one go. Instead, it can be _frozen_ at any
@@ -959,8 +968,8 @@ functions, which are similar, but without the promises.
 
 When you define a function with `function*` (placing as asterisk after
 the word `function`), it becomes a generator. When you call a
-generator, it returns an ((iterator)), which we saw in [Chapter
-?](object).
+generator, it returns an ((iterator)), which we already saw in
+[Chapter ?](object).
 
 ```
 function* powers(n) {
@@ -980,11 +989,12 @@ for (let power of powers(3)) {
 
 {{index "next method", "yield keyword"}}
 
-Initially, the function is frozen at its start. Every time you call
-`next` on the iterator, the function runs until it finds a `yield`
-expression, which pauses it and causes the yielded value to become the
-next value produced by the iterator, or returns. When the function
-returns (the one in the example never does), the iterator is done.
+Initially, after `powers` is called, the function is frozen at its
+start. Every time you call `next` on the iterator, the function runs
+until it hits a `yield` expression, which pauses it and causes the
+yielded value to become the next value produced by the iterator. When
+the function returns (the one in the example never does), the iterator
+is done.
 
 Writing iterators is often much easier when you use generator
 functions. The iterator for a list object (from the exercise in
@@ -1059,11 +1069,11 @@ try {
 No matter how closely together events, such as timeouts or incoming
 requests, happen, a JavaScript environment will only run one program
 at a time. You can think of this as it running a big loop _around_
-your program, called the event loop. When there's nothing to be done,
-that loop is stopped. But as soon as events come in, they are added to
-a queue and the corresponding code is executed one after the other.
-Because no two things run at the same time, slow-running code might
-delay the handling of other events.
+your program, called the _event loop_. When there's nothing to be
+done, that loop is stopped. But as soon as events come in, they are
+added to a queue and the corresponding code is executed one after the
+other. Because no two things run at the same time, slow-running code
+might delay the handling of other events.
 
 This example sets a timeout, but then dallies until after the
 timeout's intended point of time, causing the timeout to be late.
@@ -1112,16 +1122,16 @@ enumerates the counts from all the nests for a given year.
 {{index "anyStorage function", "chicks function"}}
 
 ```{includeCode: true}
-function anyStorage(nest, name) {
-  if (nest == me) return storage(name);
-  else return routeRequest(nest, "storage", name);
+function anyStorage(nest, source, name) {
+  if (source == nest.name) return storage(nest, name);
+  else return routeRequest(nest, source, "storage", name);
 }
 
-async function chicks(year) {
+async function chicks(nest, year) {
   let list = "";
-  await Promise.all(network().map(async name => {
+  await Promise.all(network(nest).map(async name => {
     list += `${name}: ${
-      await anyStorage(name, `chicks in ${year}`)
+      await anyStorage(nest, name, `chicks in ${year}`)
     }\n`;
   }));
   return list;
@@ -1146,7 +1156,7 @@ output, listing the nest that was slowest to respond.
 {{if interactive
 
 ```
-chicks(2017).then(console.log);
+chicks(bigOak, 2017).then(console.log);
 ```
 
 if}}
@@ -1164,11 +1174,11 @@ value plus the added string.
 
 But between the time where the statement starts executing and the time
 where it finishes there's an `await` expression, which means there's
-an asyncronous gap there. The `computers.map` expression runs before
-anything has been added to the list, so each of the `+=` operators
-starts from an empty list and end up, when its storage retrieval
-finishes, setting `list` to a single-line list—the result of adding
-the line it built to the empty string.
+an asyncronous gap there. The `map` expression runs before anything
+has been added to the list, so each of the `+=` operators starts from
+an empty list and end up, when its storage retrieval finishes, setting
+`list` to a single-line list—the result of adding the line it built to
+the empty string.
 
 {{index "side effect"}}
 
@@ -1181,11 +1191,12 @@ values.
 {{index "chicks function"}}
 
 ```
-async function chicks(year) {
-  return (await Promise.all(network().map(async name => {
-    return name + ":" +
-      await anyStorage(name, `chicks in ${year}`);
-  }))).join("\n");
+async function chicks(nest, year) {
+  let lines = network(nest).map(async name => {
+    return name + ": " +
+      await anyStorage(nest, name, `chicks in ${year}`);
+  });
+  return (await Promise.all(lines)).join("\n");
 }
 ```
 
@@ -1216,7 +1227,7 @@ is synchronous.
 
 {{index "scalpel (exercise)"}}
 
-The village crows own an old scalpel, that they occasionally use on
+The village crows own an old scalpel that they occasionally use on
 special misions—say, to cut through screen doors or packaging. To be
 able to quickly track it down, every time the scalpel is moved to
 another nest, an entry is added to the storage of both the nest that
@@ -1245,15 +1256,15 @@ promise in both versions? How?
 {{if interactive
 
 ```{test: no}
-async function locateScalpel() {
+async function locateScalpel(nest) {
   // Your code here.
 }
 
-function locateScalpel2() {
+function locateScalpel2(nest) {
   // Your code here.
 }
 
-locateScalpel().then(console.log);
+locateScalpel(nest).then(console.log);
 // → Butcher's Shop
 ```
 
@@ -1334,13 +1345,15 @@ function soon(val) {
 Promise_all([soon(1), soon(2), soon(3)]).then(array => {
   console.log("This should be [1, 2, 3]:", array);
 });
-Promise_all([soon(1), Promise.reject("X"), soon(3)]).then(array => {
-  console.log("We should not get here");
-}).catch(error => {
-  if (error != "X") {
-    console.log("Unexpected failure:", error);
-  }
-});
+Promise_all([soon(1), Promise.reject("X"), soon(3)])
+  .then(array => {
+    console.log("We should not get here");
+  })
+  .catch(error => {
+    if (error != "X") {
+      console.log("Unexpected failure:", error);
+    }
+  });
 ```
 
 if}}
@@ -1365,8 +1378,8 @@ the situation where the input array is empty (and thus no promise will
 ever resolve) into account.
 
 Handling failure requires some thought but turns out to be extremely
-simple. Just pass the failure function of the wrapping promise to each
-of the promises in the array as a `catch` handler so that a failure in
-one of them triggers the failure of the whole wrapper.
+simple. Just pass the `reject` function of the wrapping promise to
+each of the promises in the array as a `catch` handler so that a
+failure in one of them triggers the failure of the whole wrapper.
 
 hint}}

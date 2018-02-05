@@ -1,23 +1,23 @@
-async function locateScalpel() {
-  let nest = me;
+async function locateScalpel(nest) {
+  let current = nest.name;
   for (;;) {
-    let nextNest = await anyStorage(nest, "scalpel");
-    if (nextNest == nest) return nest;
-    nest = nextNest;
+    let next = await anyStorage(nest, current, "scalpel");
+    if (next == current) return current;
+    current = next;
   }
 }
 
-function locateScalpel2() {
-  function loop(nest) {
-    return anyStorage(nest, "scalpel").then(nextNest => {
-      if (nextNest == nest) return nest;
-      else return loop(nextNest);
+function locateScalpel2(nest) {
+  function loop(current) {
+    return anyStorage(nest, current, "scalpel").then(next => {
+      if (next == current) return current;
+      else return loop(next);
     });
   }
-  return loop(me);
+  return loop(nest.name);
 }
 
-locateScalpel().then(console.log);
+locateScalpel(bigOak).then(console.log);
 // → Butcher's Shop
-locateScalpel2().then(console.log);
+locateScalpel2(bigOak).then(console.log);
 // → Butcher's Shop

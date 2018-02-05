@@ -471,7 +471,7 @@ function addEntry(events, squirrel) {
 {{index "curly braces", "{} (object)"}}
 
 Note that the object added to the journal looks a little odd. Instead
-of declaring properies like `events: events`, it just gives a
+of declaring properties like `events: events`, it just gives a
 ((property)) name. This is a short-hand that means the same thing—if a
 property name in object notation isn't followed by a colon, its value
 is the value of the binding with the same name in the current scope.

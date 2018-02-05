@@ -73,30 +73,23 @@ dir.forEach(function(file) {
 
   var nodeInfo = "// Node exercises can not be ran in the browser,\n// but you can look at their solution here.\n";
   if (chapter.number == 20) chapter.exercises = [
-    {name: "Content negotiation, again",
-     file: "code/solutions/20_1_content_negotiation_again.js",
+    {name: "Search tool",
+     file: "code/solutions/20_1_search_tool.js",
      number: 1,
      type: "js",
      code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/20_1_content_negotiation_again.js", "utf8")
+     solution: fs.readFileSync("code/solutions/20_1_search_tool.js", "utf8")
     },
-    {name: "Fixing a leak",
-     file: "code/solutions/20_2_fixing_a_leak.js",
+    {name: "Directory creation",
+     file: "code/solutions/20_2_directory_creation.js",
      number: 2,
      type: "js",
      code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/20_2_fixing_a_leak.js", "utf8")
-    },
-    {name: "Creating directories",
-     file: "code/solutions/20_3_creating_directories.js",
-     number: 3,
-     type: "js",
-     code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/20_3_creating_directories.js", "utf8")
+     solution: fs.readFileSync("code/solutions/20_2_directory_creation.js", "utf8")
     },
     {name: "A public space on the web",
-     file: "code/solutions/20_4_a_public_space_on_the_web.zip",
-     number: 4,
+     file: "code/solutions/20_3_a_public_space_on_the_web.zip",
+     number: 3,
      type: "js",
      code: nodeInfo,
      solution: "// This solutions consists of multiple files. Download it\n// though the link below.\n"

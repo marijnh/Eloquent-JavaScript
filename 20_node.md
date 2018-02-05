@@ -794,12 +794,13 @@ it relative to the program's working directory.
 const {parse} = require("url");
 const {resolve} = require("path");
 
-const baseDirectory = process.cwd() + "/";
+const baseDirectory = process.cwd();
 
 function urlPath(url) {
   let {pathname} = parse(url);
   let path = resolve(decodeURIComponent(pathname).slice(1));
-  if (!path.startsWith(baseDirectory)) {
+  if (path != baseDirectory &&
+      !path.startsWith(baseDirectory + "/")) {
     throw {status: 403, body: "Forbidden"};
   }
   return path;
@@ -862,7 +863,7 @@ and whether it is a ((directory)).
 ```{includeCode: ">code/file_server.js"}
 const {createReadStream} = require("fs");
 const {stat, readdir} = require("mz/fs");
-const {getType} = require("mime");
+const mime = require("mime");
 
 methods.GET = async function(request) {
   let path = urlPath(request.url);
@@ -874,10 +875,10 @@ methods.GET = async function(request) {
     else return {status: 404, body: "File not found"};
   }
   if (stats.isDirectory()) {
-    return {body: await readdir(path).join("\n")};
+    return {body: (await readdir(path)).join("\n")};
   } else {
     return {body: createReadStream(path),
-            type: getType(path)};
+            type: mime.getType(path)};
   }
 };
 ```
@@ -1122,6 +1123,24 @@ a directory by calling `mkdir` from the `fs` module. `MKCOL` is not a
 widely used HTTP method, but it does exist for this same purpose in
 the _((WebDAV))_ standard, which specifies a set of conventions on top
 of ((HTTP)) that make it suitable for creating documents.
+
+```{hidden: true, includeCode: ">code/file_server.js"}
+const {mkdir} = require("mz/fs");
+
+methods.MKCOL = async function(request) {
+  let path = urlPath(request.url);
+  let stats;
+  try {
+    stats = await stat(path);
+  } catch (error) {
+    if (error.code != "ENOENT") throw error;
+    await mkdir(path);
+    return {status: 204};
+  }
+  if (stats.isDirectory()) return {status: 204};
+  else return {status: 400, body: "Not a directory"};
+};
+```
 
 {{hint
 

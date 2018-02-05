@@ -864,10 +864,10 @@ matrix around it top-left to bottom-right diagonal, it stays the same.
 In other words, the value stored at _x_,_y_ is always the same as that
 at _y_,_x_.
 
-Imagine we need a data structure like `Matrix`, but one which is
-enforces the fact that the matrix is and remains symmetrical. We could
-write it from scratch, but that would involve repeating some code very
-similar to what we already wrote.
+Imagine we need a data structure like `Matrix`, but one which enforces
+the fact that the matrix is and remains symmetrical. We could write it
+from scratch, but that would involve repeating some code very similar
+to what we already wrote.
 
 {{index overriding, prototype}}
 

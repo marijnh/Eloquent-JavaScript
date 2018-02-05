@@ -90,6 +90,17 @@ window.addEventListener("load", () => {
       matchBrackets: true,
       lineNumbers: true
     })
+    let pollingScroll = null
+    function pollScroll() {
+      if (document.activeElement != editor.getInputField()) return
+      let rect = editor.getWrapperElement().getBoundingClientRect()
+      if (rect.bottom < 0 || rect.top > innerHeight) editor.getInputField().blur()
+      else pollingScroll = setTimeout(pollScroll, 500)
+    }
+    editor.on("focus", () => {
+      clearTimeout(pollingScroll)
+      pollingScroll = setTimeout(pollScroll, 500)
+    })
     wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px"
     setTimeout(() => editor.refresh(), 600)
     if (e) {

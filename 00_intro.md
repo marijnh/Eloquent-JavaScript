@@ -21,9 +21,9 @@ programming is fundamentally tedious and frustrating.
 
 Fortunately, if you can get over that, and maybe even enjoy the rigor
 of thinking in terms that dumb machines can deal with, programming can
-be very rewarding. It allows you make things that would take _forever_
-to do by hand happen in seconds. It is a way to make your computer
-tool do things that it couldn't do before. And it provides a wonderful
+be very rewarding. It allows you to do things that would take
+_forever_ by hand in seconds. It is a way to make your computer tool
+do things that it couldn't do before. And it provides a wonderful
 exercise in abstract thinking.
 
 Most programming is done with ((programming language))s. A programming

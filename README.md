@@ -14,3 +14,9 @@ To build the PDF file:
 
     apt-get install texlive texlive-xetex texlive-fonts-extra fonts-symbola
     make book.pdf
+
+## GSB 
+
+    git clone https://github.com/justinriddiough/Eloquent-JavaScript.git
+    
+    git checkout -b 3rd-YourName origin/3rd

@@ -449,7 +449,7 @@ readFile("file.txt", "utf8")
 
 {{index "synchronous programming", "fs package", "readFileSync function"}}
 
-Sometimes you don't need asynchroniticy, and it just gets in the way.
+Sometimes you don't need asynchronicity, and it just gets in the way.
 Many of the functions in `fs` also have a synchronous variant, which
 has the same name with `Sync` added to the end. For example, the
 synchronous version of `readFile` is called `readFileSync`.

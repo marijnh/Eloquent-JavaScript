@@ -448,7 +448,7 @@ console.log(getDate("30-1-2003"));
 {{index destructuring, "underscore character"}}
 
 The `_` (underscore) binding is ignored, and only used to "skip" the
-full match element in the array returned by `match`.
+full match element in the array returned by `exec`.
 
 ## Word and string boundaries
 
@@ -1112,7 +1112,7 @@ the match to a binding and immediately use that assignment as the test
 in the `if` statement.
 
 If a line is not a section header or a property, the function checks
-whether it is a comment or an emty line using the expression
+whether it is a comment or an empty line using the expression
 `/^\s*(;.*)?$/`. Do you see how it works? The part between the
 ((parentheses)) will match comments, and the `?` makes sure it also
 matches lines containing only whitespace. When a line doesn't match

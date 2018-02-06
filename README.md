@@ -20,3 +20,10 @@ To build the PDF file:
     git clone https://github.com/justinriddiough/Eloquent-JavaScript.git
     
     git checkout -b 3rd-YourName origin/3rd
+
+Commits
+
+    #$CHAPTER Title
+    
+    example
+    #3 Updating the javascript thing to do this other stuff

@@ -306,7 +306,7 @@ the `scale` constant.
 
 {{index "setState method", efficiency}}
 
-To avoid unneccesary work, the component keeps track of its current
+To avoid unnecessary work, the component keeps track of its current
 picture, and only does a redraw when `setState` is given a new
 picture.
 

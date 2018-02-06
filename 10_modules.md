@@ -16,7 +16,7 @@ works, and each part plays a clear role.
 {{index "organic growth"}}
 
 A typical real-world program grows organically. New pieces of
-functionaly are added as new needs come up. Structuring—and preserving
+functionality are added as new needs come up. Structuring—and preserving
 structure—is additional work. Work which only pays off in the future,
 the _next_ time someone works with the program. So it is tempting to
 neglect it, and allow the parts of the program to become deeply
@@ -495,7 +495,7 @@ is". You can improve the structure of almost everything by putting
 more thought into it.
 
 One aspect of module design is ease of use. If you are designing
-something that is intented to be used by multiple people—or even by
+something that is intended to be used by multiple people—or even by
 yourself, in three months when you no longer remember the specifics of
 what you made—it is helpful if your ((interface)) is simple and
 predictable.

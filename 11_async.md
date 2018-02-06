@@ -136,7 +136,7 @@ This map shows the nests and their connections.
 
 {{figure {url: "img/Hieres-sur-Amby.png", alt: "A network of crow nests in a small village"}}}
 
-In an estounding example of ((convergent evolution)), crow computers
+In an astounding example of ((convergent evolution)), crow computers
 run JavaScript. In this chapter we'll write some basic networking
 functions for them.
 
@@ -263,7 +263,7 @@ called when it completes. So we need some asynchronous mechanism—in
 this case, another ((callback function))—to signal when a response is
 available.
 
-In a way, asyncronicity is _contagious_. Any function that calls a
+In a way, asynchronicity is _contagious_. Any function that calls a
 function that works asynchronously must itself be asynchronous, using
 a callback or similar mechanism to deliver its result. Calling
 callback is somewhat more involved and error-prone than simply
@@ -384,7 +384,7 @@ rejected. So if any element in a chain of asynchronous actions fails,
 the outcome of the whole chain is marked as rejected, and no regular
 handlers are called beyond the point where it failed.
 
-{{index "Promsise.reject function", "Promise class"}}
+{{index "Promise.reject function", "Promise class"}}
 
 Much like resolving a promise provides a value, rejecting one also
 provides one, usually called the _reason_ of the rejection. When an
@@ -740,7 +740,7 @@ everywhere(nest => {
 
 {{index JSON, "== operator"}}
 
-The comparson uses `JSON.stringify` because `==`, on objects or
+The comparison uses `JSON.stringify` because `==`, on objects or
 arrays, will only return true when the two are the exact same value,
 which is not what we need here. Comparing the JSON strings is a crude
 but effective way to compare their content.
@@ -1174,7 +1174,7 @@ value plus the added string.
 
 But between the time where the statement starts executing and the time
 where it finishes there's an `await` expression, which means there's
-an asyncronous gap there. The `map` expression runs before anything
+an asynchronous gap there. The `map` expression runs before anything
 has been added to the list, so each of the `+=` operators starts from
 an empty list and end up, when its storage retrieval finishes, setting
 `list` to a single-line list—the result of adding the line it built to
@@ -1228,7 +1228,7 @@ is synchronous.
 {{index "scalpel (exercise)"}}
 
 The village crows own an old scalpel that they occasionally use on
-special misions—say, to cut through screen doors or packaging. To be
+special missions—say, to cut through screen doors or packaging. To be
 able to quickly track it down, every time the scalpel is moved to
 another nest, an entry is added to the storage of both the nest that
 had it and the nest that took it, under `"scalpel"`, pointing at its

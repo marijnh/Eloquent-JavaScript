@@ -283,7 +283,7 @@ but after picking up the relevant parcel.
 
 What is the dumbest strategy that could possibly work? The robot could
 just walk in a random direction every turn. That means that, with
-great likelyhood, it will eventually run into all parcels, and then
+great likelihood, it will eventually run into all parcels, and then
 also at some point reach the place where they should be delivered.
 
 {{index "randomPick function", "randomRobot function"}}

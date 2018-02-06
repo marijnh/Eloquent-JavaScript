@@ -999,7 +999,7 @@ size—both the binding and the style of the balloon in the DOM, so that
 you can call it from your event handler, and possibly also once when
 starting, to set the initial size.
 
-{{index "replaceChild method", "textContent propery"}}
+{{index "replaceChild method", "textContent property"}}
 
 You can change the balloon to an explosion by replacing the text node
 with another one (using `replaceChild`), or by setting the

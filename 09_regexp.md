@@ -690,7 +690,7 @@ want to swap these names and remove the comma to get a simple
 ```
 console.log(
   "Liskov, Barbara\nMcCarthy, John\nWadler, Philip"
-    .replace(/([\w ]+), ([\w ]+)/g, "$2 $1"));
+    .replace(/(\w+), (\w+)/g, "$2 $1"));
 // → Barbara Liskov
 //   John McCarthy
 //   Philip Wadler

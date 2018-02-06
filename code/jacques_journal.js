@@ -1,4 +1,4 @@
-const JOURNAL = [
+var JOURNAL = [
   {"events":["carrot","exercise","weekend"],"squirrel":false},
   {"events":["bread","pudding","brushed teeth","weekend","touched tree"],"squirrel":false},
   {"events":["carrot","nachos","brushed teeth","cycling","weekend"],"squirrel":false},

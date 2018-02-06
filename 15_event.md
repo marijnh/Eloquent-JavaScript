@@ -138,9 +138,9 @@ information about the event. For example, if we want to know _which_
   button.addEventListener("mousedown", event => {
     if (event.button == 0) {
       console.log("Left button");
-    } else if (event.which == 1) {
+    } else if (event.button == 1) {
       console.log("Middle button");
-    } else if (event.which == 2) {
+    } else if (event.button == 2) {
       console.log("Right button");
     }
   });

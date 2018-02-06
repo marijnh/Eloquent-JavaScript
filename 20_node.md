@@ -494,7 +494,7 @@ server.listen(8000);
 
 If you run this script on your own machine, you can point your web
 ((browser)) at
-http://localhost:8000/hello[_http://localhost:8000/hello_] to make a
+[_http://localhost:8000/hello_](http://localhost:8000/hello) to make a
 request to your server. It will respond with a small HTML page.
 
 {{index "createServer function", HTTP}}

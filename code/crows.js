@@ -125,7 +125,7 @@
     }
   }
 
-  if (typeof window != "undefine") {
+  if (typeof window != "undefined") {
     window.require = name => {
       if (name != "crow-tech") throw new Error("Crow nests can only require \"crow-tech\"")
       return exports

@@ -1119,3 +1119,5 @@ const SCRIPTS = [
 // `require('./path/to/jaques_journal.js')` will get you the array.
 if (typeof module != "undefined" && module.exports && (typeof window == "undefined" || window.exports != exports))
   module.exports = SCRIPTS;
+if (typeof global != "undefined" && !global.SCRIPTS)
+  global.SCRIPTS = SCRIPTS;

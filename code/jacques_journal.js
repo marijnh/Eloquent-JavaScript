@@ -95,3 +95,5 @@ const JOURNAL = [
 // `require('./path/to/jaques_journal.js')` will get you the array.
 if (typeof module != "undefined" && module.exports && (typeof window == "undefined" || window.exports != exports))
   module.exports = JOURNAL;
+if (typeof global != "undefined" && !global.JOURNAL)
+  global.JOURNAL = JOURNAL;

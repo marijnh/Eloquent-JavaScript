@@ -62,12 +62,12 @@ total time taken will be at least the sum of the two response times.
 
 The solution to this problem, in a synchronous system, is to start
 additional ((thread))s of control. A thread is another running program
-whose execution the operating system may interleave with other
-programs—since most modern computers contain multiple processors,
-multiple threads may even run at the same time, on different
-processor. A second thread could start the second request, and then
-both threads wait for their results to come back, after which they
-resynchronize to combine their results.
+whose execution may be interleaved with other programs by the
+operating system—since most modern computers contain multiple
+processors, multiple threads may even run at the same time, on
+different processor. A second thread could start the second request,
+and then both threads wait for their results to come back, after which
+they resynchronize to combine their results.
 
 {{index CPU, blocking, "asynchronous programming", timeline, "callback function"}}
 

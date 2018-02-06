@@ -537,7 +537,7 @@ console.log(Math.round(average(
 // → 209
 ```
 
-So the dead scrips in Unicode are, on average, older than the living
+So the dead scripts in Unicode are, on average, older than the living
 ones. This is not a terribly meaningful or surprising statistic. But I
 hope you'll agree that the code used to compute it isn't hard to read.
 You can see it as a pipeline: we start with all scripts, filter out

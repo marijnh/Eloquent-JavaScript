@@ -3,7 +3,7 @@ const {statSync, readdirSync, readFileSync} = require("fs");
 let searchTerm = new RegExp(process.argv[2]);
 
 for (let arg of process.argv.slice(3)) {
-  search(arg, Math.min);
+  search(arg);
 }
 
 function search(file) {

@@ -951,6 +951,18 @@ console.log("  okay \n ".trim());
 // → okay
 ```
 
+{{id split}}
+
+You can split a string on every occurrence of another string with
+`split`, and join it together again with `join`.
+
+```
+let sentence = "Secretarybirds specialize in stomping";
+let words = sentence.split(" ");
+console.log(words.join(". "));
+// → Secretarybirds. specialize. in. stomping
+```
+
 {{index "repeat method"}}
 
 A string can be repeated with the `repeat` method, which creates a new

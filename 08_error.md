@@ -596,9 +596,9 @@ function transfer(from, amount) {
 }
 ```
 
-This version of the function tracks it progress, and if, when leaving,
-it notices that it was aborted at a point where it had created an
-inconsistent program state, it repairs the damage it did.
+This version of the function tracks its progress, and if, when
+leaving, it notices that it was aborted at a point where it had
+created an inconsistent program state, it repairs the damage it did.
 
 Note that, even though the `finally` code is run when an exception
 leaves the `try` block, it does not interfere with the exception.

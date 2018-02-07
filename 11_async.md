@@ -248,8 +248,8 @@ defineRequestType("note", (nest, content, source, done) => {
 The `defineRequestType` function defines a new type of request. The
 example adds support for `"note"` requests, which just send a note to
 a given nest. Our implementation just calls `console.log` so that we
-can verify that the request arrived. The `name` binding holds the name
-of this nest.
+can verify that the request arrived. The `name` property holds the
+name of the nest.
 
 {{index "asynchronous programming"}}
 

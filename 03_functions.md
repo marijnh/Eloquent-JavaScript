@@ -425,12 +425,13 @@ console.log(chicken() + " came first.");
 The following code is allowed and executes without any problem:
 
 ```
+function square(x) { return x * x; }
 console.log(square(4, true, "hedgehog"));
 // → 16
 ```
 
-We defined `square` with only one ((parameter)). Yet when you call it
-like this, it doesn't complain. It ignores the extra arguments and
+We define `square` with only one ((parameter)). Yet when you call it
+with three, it doesn't complain. It ignores the extra arguments and
 computes the square of the first one.
 
 {{index undefined}}

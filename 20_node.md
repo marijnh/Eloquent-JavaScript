@@ -262,10 +262,10 @@ $ node
 After running `npm install`, ((NPM)) will have created a directory
 called `node_modules`. Inside that directory will be an `ini`
 directory, which contains the ((library)). When we run `node` and call
-`require("figlet")`, this library is loaded, and we can call its
-`text` method to draw some big letters.
+`require("ini")`, this library is loaded, and we can call its `parse`
+property to parse a configuration file.
 
-By default NPM installs packages into the current directory, rather
+By default NPM installs packages under the current directory, rather
 than in a central place. If you are used to other package managers,
 this may seem unusual, but it has advantages—it puts each application
 in full control of the packages it installs, and makes it easier to

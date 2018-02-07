@@ -46,9 +46,9 @@ So that's the binary number 00001101, or 8 + 4 + 1, or 13.
 {{index memory, "volatile data storage", "hard drive"}}
 
 Imagine a sea of bits. An ocean of them. A typical modern computer has
-more than 30 billion bits in its volatile data storage. Nonvolatile
-storage (the hard disk or equivalent) tends to have yet a few orders
-of magnitude more.
+more than 30 billion bits in its volatile data storage (working
+memory). Nonvolatile storage (the hard disk or equivalent) tends to
+have yet a few orders of magnitude more.
 
 To be able to work with such quantities of bits without getting lost,
 we must separate them into chunks that represent pieces of

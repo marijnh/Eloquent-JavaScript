@@ -349,7 +349,7 @@ The ((DOM)) node where a key event originates depends on the element
 that has ((focus)) when the key is pressed. Normal nodes cannot have
 focus (unless you give them a `tabindex` attribute), but things such
 as ((link))s, buttons, and form fields can. We'll come back to form
-((field))s in [Chapter ?](forms). When nothing in particular has
+((field))s in [Chapter ?](http#forms). When nothing in particular has
 focus, `document.body` acts as the target node of key events.
 
 When the user is typing text, using key events to figure out what is

@@ -185,6 +185,12 @@ You don't have to pass a predefined function to `repeat`. Often, you'd
 want to create a function value on the spot instead.
 
 ```
+function repeat(n, action) {
+  for (let i = 0; i < n; i++) {
+    action(i);
+  }
+}
+
 let message = "Wow";
 repeat(5, i => {
   message += "!";
@@ -693,11 +699,11 @@ function countBy(items, groupName) {
   let counts = [];
   for (let item of items) {
     let name = groupName(item);
-    let known = counts.findIndex(c => c.name == name);
-    if (known == -1) {
+    let indexOfName = counts.findIndex(c => c.name == name);
+    if (indexOfName == -1) {
       counts.push({name, count: 1});
     } else {
-      counts[known].count++;
+      counts[indexOfName].count++;
     }
   }
   return counts;

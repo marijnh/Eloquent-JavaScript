@@ -1039,10 +1039,9 @@ widely used format, usually called an _INI_ file) are as follows:
 
 - Anything else is invalid.
 
-Our task is to convert a string like this into an array of objects,
-each with a `name` property and an array of settings. We'll need one
-such object for each section and one for the global settings at the
-top.
+Our task is to convert a string like this into an object whose
+properties hold strings for sectionless settings and sub-objects for
+settings, with those sub-objects holding the section's settings.
 
 {{index "carriage return", "line break", "newline character"}}
 
@@ -1084,10 +1083,9 @@ city=Tessaloniki`));
 {{index "parseINI function", parsing}}
 
 The code goes over the file's lines and builds up an object.
-Properties at the top are stored directly into the object, whereas
-properties found in sections are stored in sub-objects stored under
-the section's name. The `section` binding points at the object that
-holds the current section.
+Properties at the top are stored directly into that object, whereas
+properties found in sections are stored in a separate section object.
+The `section` binding points at the object for the current section.
 
 There are two kinds of significant lines—section headers or property
 lines. When a line is a regular property, it is stored in the current

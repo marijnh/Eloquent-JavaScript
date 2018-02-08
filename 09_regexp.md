@@ -1188,7 +1188,7 @@ They use their own language to express these patterns.
 | `/x+?/`     | One or more occurrences, nongreedy
 | `/x*/`      | Zero or more occurrences
 | `/x?/`      | Zero or one occurrence
-| `/x{2,4}/`  | Between two and four occurrences
+| `/x{2,4}/`  | Two to four occurrences
 | `/(abc)/`   | A group
 | `/a|b|c/`   | Any one of several patterns
 | `/\d/`      | Any digit character

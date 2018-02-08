@@ -764,7 +764,7 @@ server.
 
 When a request handler's promise is rejected, the `catch` call
 translates the error into a response object, if it isn't already, so
-that the server can send back an error response to informs the client
+that the server can send back an error response to inform the client
 that it failed to handle the request.
 
 {{index "200 (HTTP status code)", "Content-Type header"}}

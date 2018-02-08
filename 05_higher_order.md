@@ -612,7 +612,7 @@ In [Chapter ?](values) I mentioned that JavaScript ((string))s are
 encoded as a sequence of 16-bit numbers called _((code unit))s_. A
 ((Unicode)) ((character)) code was initially supposed to fit within
 such a unit (which gives you a little over 65 thousand characters).
-When it became clear that that wasn't going to be enough, many people
+When it became clear that wasn't going to be enough, many people
 balked at the need to use more memory per character. To address these
 concerns, ((UTF-16)), the format used by JavaScript strings, was
 invented. It describes some characters using a single 16-bit code

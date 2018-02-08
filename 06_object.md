@@ -121,7 +121,7 @@ speak.call(hungryRabbit, "Burp!");
 // → The hungry rabbit says 'Burp!'
 ```
 
-You can consider `this` to be an additonal ((parameter)) that's
+You can consider `this` to be an additional ((parameter)) that's
 usually passed implicitly. Since each function has its own implicit
 `this` binding, you cannot refer to the `this` of the wrapping scope
 in a regular function defined with the `function` keyword.
@@ -807,7 +807,7 @@ console.log(varyingSize.size);
 // → 49
 ```
 
-{{index "temparature example"}}
+{{index "temperature example"}}
 
 Whenever someone reads from this object's `size` property, the
 associated method is called. You can do a similar thing when a

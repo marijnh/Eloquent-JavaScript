@@ -335,7 +335,7 @@ they were defined) until a matching one is found.
 
 {{index "capture group", "decodeURIComponent function", [escaping, "in URLs"]}}
 
-The handler functions are called with the the `context` value (which
+The handler functions are called with the `context` value (which
 will be the server instance in our case), match string for any groups
 they defined in their ((regular expression)), and the request object.
 The strings have to be URL-decoded since the raw URL may contain

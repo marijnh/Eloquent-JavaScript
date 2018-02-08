@@ -231,7 +231,7 @@ console.log(sequence);
 
 {{index collection, array, "push method", "pop method"}}
 
-The `push` method adds values to the end of an array, and the the
+The `push` method adds values to the end of an array, and the
 `pop` method does the opposite, removing the last value in the array
 and returning it.
 

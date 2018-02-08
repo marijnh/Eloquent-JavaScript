@@ -548,7 +548,7 @@ optimal.
 
 It's hard to objectively compare ((robot))s by just letting them solve
 a few scenarios. Maybe one robot just happened to get easier tasks, or
-the the kind of tasks that it is good at, whereas the other didn't.
+the kind of tasks that it is good at, whereas the other didn't.
 
 Write a function `compareRobots` which takes two robots (and their
 starting memory). It should generate a hundred tasks, and let each of

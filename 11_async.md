@@ -347,7 +347,7 @@ This asynchronous function returns a meaningful value. This is the
 main advantage of promises—they simplify the use of asynchronous
 functions. Instead of having to pass around callbacks, promise-based
 functions look similar to regular ones: they take input as arguments,
-and return their output. The only difference is that that the output
+and return their output. The only difference is that the output
 may not have resolved yet.
 
 ## Failure

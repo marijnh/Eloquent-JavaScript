@@ -1201,7 +1201,7 @@ have compared the old list of note names to the new, and avoid
 rebuilding the list of options if it is the same, for example. There
 are various libraries and ((framework))s that aim to making this easy,
 most of which require you to create your HTML elements in a
-library-specific way so that that ((library)) can automatically
+library-specific way so that ((library)) can automatically
 determine what needs to change and what doesn't.
 
 {{index "Object.assign function", object, property, "computed property"}}

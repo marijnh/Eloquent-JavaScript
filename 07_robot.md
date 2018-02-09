@@ -226,7 +226,7 @@ Why am I going out of my way to not change objects, when the language
 is obviously expecting me to?
 
 Because it helps me understand my programs better. This is about
-complexity management again. When the object in my system are fixed,
+complexity management again. When the objects in my system are fixed,
 stable things, I can consider operations on them in isolation—moving
 to Alice's house from a given start state always produces the same new
 state. When objects change over time, that adds a whole new dimension

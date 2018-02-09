@@ -1126,7 +1126,7 @@ prevents this feature from eating up too much space.
 
 The following code implements a crude note-taking application. It
 keeps a set of named notes, and allows the user to select one, edit
-it, and create a new note.
+it, and create new notes.
 
 ```{lang: "text/html", startCode: true}
 Notes: <select></select> <button>Add</button><br>
@@ -1188,21 +1188,7 @@ situation like this.
 
 The `setState` method makes sure the DOM is showing a given state, and
 stores the new state to `localStorage`. Event handlers call that to
-update to a new state. This is somewhat inefficient—the option
-elements are recreated every time something changes, for example. The
-alternative would be to "manually" fix the DOM to be consistent with
-the state on every change.
-
-That would work fine for a trivial application like this, but quickly
-turns into an error-prone mess for bigger programs with more
-complicated interfaces. Doing this kind of interface ((update))s
-without doing a lot of redundant work is the tricky part. We could
-have compared the old list of note names to the new, and avoid
-rebuilding the list of options if it is the same, for example. There
-are various libraries and ((framework))s that aim to making this easy,
-most of which require you to create your HTML elements in a
-library-specific way so that ((library)) can automatically
-determine what needs to change and what doesn't.
+update to a new state.
 
 {{index "Object.assign function", object, property, "computed property"}}
 

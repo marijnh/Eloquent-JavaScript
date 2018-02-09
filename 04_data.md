@@ -798,10 +798,10 @@ his transformations don't come back.
 {{index "weresquirrel example"}}
 
 For a few years, things go great for Jacques. But at some point he
-loses his job. Because he lives in a nasty country where being without
-job means being without medical services, he is forced to take
-employment with a ((circus)) where he performs as _The Incredible
-Squirrelman_, stuffing his mouth with peanut butter before every show.
+loses his job. Because he lives in a nasty country where having no job
+means having no medical services, he is forced to take employment with
+a ((circus)) where he performs as _The Incredible Squirrelman_,
+stuffing his mouth with peanut butter before every show.
 
 One day, fed up with this pitiful existence, Jacques fails to change
 back into his human form, hops through a crack in the circus tent, and

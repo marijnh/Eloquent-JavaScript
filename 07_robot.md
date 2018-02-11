@@ -621,50 +621,50 @@ pick up a package, instead of delivering a package.
 
 hint}}
 
-### Persistent map
+### Persistent group
 
-{{index "persistent map (exercise)", "persistent data structure", "Map class", "map (data structure)", "PMap class"}}
+{{index "persistent group (exercise)", "persistent data structure", "Set class", "set (data structure)", "Group class", "PGroup class"}}
 
 Most data structures provided in a standard JavaScript environment
 aren't very well suited for persistent use. Arrays have `slice` and
 `concat` methods, which allow us to easily create new arrays without
-damaging the old one. But `Map`, for example, has no methods for
-creating a new map with an item added or removed.
+damaging the old one. But `Set`, for example, has no methods for
+creating a new set with an item added or removed.
 
-Write a new class `PMap`, which stores a mapping from keys to other
-values, and, like `Map`, has a `get` method to retrieve a value and a
-`has` method to check if a value is present.
+Write a new class `PGroup`, similar to the `Group` class from [Chapter
+?](object#groups), which stores a set of values. Like `Group`, it has
+`add`, `delete`, and `has` methods.
 
-Its `set` method, however, should return a _new_ `PMap` instance with
-the given key added, and leave the old one unchanged. Similarly,
-`delete` creates a new instance without a key.
+Its `add` method, however, should return a _new_ `PGroup` instance
+with the given member added, and leave the old one unchanged.
+Similarly, `delete` creates a new instance without a member.
 
 The class should work for keys of any type, not just strings. It does
 _not_ have to be efficient when used with large amounts of keys.
 
 The ((constructor)) shouldn't be part of the class' ((interface))
 (though you'll definitely want to use it internally). Instead, there
-is an empty instance, `PMap.empty`, that can be used as a starting
+is an empty instance, `PGroup.empty`, that can be used as a starting
 value.
 
 {{index singleton}}
 
-Why do you only need one `PMap.empty` value, rather than having a
+Why do you only need one `PGroup.empty` value, rather than having a
 function that creates a new, empty map every time?
 
 {{if interactive
 
 ```{test: no}
-class PMap {
+class PGroup {
   // Your code here
 }
 
-let a = PMap.empty.set("a", 1);
-let ab = a.set("b", 2);
+let a = PGroup.empty.add("a");
+let ab = a.add("b");
 let b = ab.delete("a");
 
-console.log(b.get("b"));
-// → 2
+console.log(b.has("b"));
+// → true
 console.log(a.has("b"));
 // → false
 console.log(b.has("a"));
@@ -675,23 +675,29 @@ if}}
 
 {{hint
 
-{{index "persistent map (exercise)", "Map class", array}}
+{{index "persistent map (exercise)", "Set class", array, "PGroup class"}}
 
-Since this needs to work with keys that aren't strings, you can't use
-object properties to store the mapping. You could use a `Map` instance
-inside your `PMap` instance, or an array that stores a set of pairs.
+The most convenient way to represent the set of member values remains
+is still an array, since those are easy to copy.
 
-I recommend using an array, since those are easy to copy. For each key
-added to the map, the array would hold a `{key, value}` object or a
-two-element array. When looking something up, you search the array for
-the pair that contains the proper key.
+{{index "concat method", "filter method"}}
 
-The class' ((constructor)) would then take such an array as argument,
-and store it as the instance's (only) direct property. This array is
-never updated. The `set` and `delete` methods create copies of it,
-with the appropriate elements added and removed.
+When a value is added to the group, you can create a new group with a
+copy of the original array that has the value added (for example using
+`concat`). When a value is deleted, you filter it from the array.
 
-When writing `set`, make sure that you also remove old versions of the
-key, in case a key that already exists is being set.
+The class' ((constructor)) would take such an array as argument, and
+store it as the instance's (only) property. This array is never
+updated.
+
+{{index "static method"}}
+
+To add a property to a constructor that is not a method, you have to
+add it to the constructor after the class definition, as a regular
+property.
+
+You only need on `empty` instance because all empty groups are the
+same and instances of the class don't change. You can create many
+different groups from that single empty group without affecting it.
 
 hint}}

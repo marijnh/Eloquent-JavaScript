@@ -997,16 +997,15 @@ the function returns (the one in the example never does), the iterator
 is done.
 
 Writing iterators is often much easier when you use generator
-functions. The iterator for a list object (from the exercise in
-[Chapter ?](object#list_iterator)) can be written with this generator:
+functions. The iterator for a group object (from the exercise in
+[Chapter ?](object#group_iterator)) can be written with this generator:
 
-{{index "List class"}}
+{{index "Group class"}}
 
 ```
-List.prototype[Symbol.iterator] = function*() {
-  for (let node = this; node != List.empty;
-       node = node.rest) {
-    yield node.value;
+Group.prototype[Symbol.iterator] = function*() {
+  for (let i = 0; i < this.members.length; i++) {
+    yield this.members[i];
   }
 };
 ```

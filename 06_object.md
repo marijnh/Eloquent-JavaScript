@@ -1063,76 +1063,110 @@ JavaScript.
 
 hint}}
 
-### List class
+### Groups
 
-{{index "list (exercise)", interface, iterator, "static method", "List class"}}
+{{index "groups (exercise)", "Set class", "Group class", "set (data structure)"}}
 
-Rewrite the list data structure from the exercises in [Chapter
-?](data#list) as a ((class)). Give `List` objects their old
-`value` and `rest` properties, but also a `toArray` method and a
-`length` getter that returns the length of the list. Make `fromArray`
-a static method on the `List` constructor.
+{{id groups}}
 
-In order for lists to work as a class with methods, we can no longer
-represent the empty list as `null`, but have to create a special
-instance of our class that acts as the empty list placeholder, and
-compare with that instance, instead of `null`, when checking if we've
-reached the end of a list. Store this instance in `List.empty` (a
-static property).
+The standard JavaScript environment provides another data structure
+called `Set`. Like an instance of `Map`, a set holds a collection of
+values. Unlike `Map`, it does not associate other values with those—it
+just tracks which values are part of the set. A value can only be part
+of a set once—adding it again doesn't have any effect.
+
+{{index "add method", "delete method", "has method"}}
+
+Write a class called `Group` (since `Set` is already taken). Like
+`Set`, it has `add`, `delete`, and `has` methods. Its constructor
+creates an empty group, `add` adds a value to the group (but only if
+it isn't already a member), `delete` removes its argument from the
+group (it if was a member), and `has` returns a Boolean value
+indicating whether its argument is a member of the group.
+
+{{index "=== operator", "indexOf method"}}
+
+Use the `===` operator, or something equivalent such as `indexOf`, to
+determine whether two values are the same.
+
+{{index "static method"}}
+
+Give the class a static `from` method that takes an iteratable object
+as argument and creates a group that contains all the values produced
+by iterating over it.
 
 {{if interactive
 
 ```{test: no}
-class List {
+class Group {
   // Your code here.
 }
 
-console.log(List.fromArray([10, 20]));
-// → {value: 10, rest: {value: 20, rest: null}}
-console.log(List.fromArray([10, 20, 30]).toArray());
-// → [10, 20, 30]
-console.log(new List(2, List.empty).length);
-// → 1
+let group = Group.from([10, 20]);
+console.log(group.has(10));
+// → true
+console.log(group.has(30));
+// → false
+group.add(10);
+group.delete(10);
+console.log(group.has(10));
+// → false
 ```
 
 if}}
 
 {{hint
 
-{{index "list (exercise)"}}
+{{index "groups (exercise)", "Group class", "indexOf method", "includes method"}}
 
-Your class' constructor should take a value and a rest list as
-parameters, and store those in the instance.
+The easiest way to do this is to store an ((array)) of group members
+in an instance property. The `includes` or `indexOf` methods can be
+used to check whether a given value is in the array.
 
-The static `fromArray` method can be written inside the class
-declaration. The `empty` property, because it is not a function, must
-be added to the prototype afterwards—but that would have been
-necessary anyway, because we couldn't create an instance of `List`
-before we've finished defining the class.
+{{index "push method"}}
 
-The value of the empty list object is not important—when using lists
-correctly, it should not be read. The `toArray` and `length` methods
-do the right thing automatically, even on this object, if you make the
-end conditions of their loops check for `== List.empty`.
+Your class' ((constructor)) can set the member collection to an empty
+array. When `add` is called, it must check whether the given value is
+in the array, and add it, for example with `push`, otherwise.
+
+{{index "filter method"}}
+
+Deleting an element from an array, in `delete`, is slightly awkward,
+but you can use `filter` to create a new array without the value.
+Don't forget to overwrite the property holding the members with the
+newly filtered version of the array.
+
+{{index "for/of loop", "iterable interface"}}
+
+The `from` method can use a `for`/`of` loop to get the values out of
+the iterable object, and call `add` to put them into a newly created
+group.
 
 hint}}
 
-### List iteration
+### Iterable groups
 
-{{index "list (exercise)", interface, "iterator interface"}}
+{{index "groups (exercise)", interface, "iterator interface", "Group class"}}
 
-{{id list_iterator}}
+{{id group_iterator}}
 
-Make the `List` class from the previous exercise iterable. Refer back
+Make the `Group` class from the previous exercise iterable. Refer back
 to the section about the iterator interface earlier in the chapter if
 you aren't clear on the exact form of the interface anymore.
+
+If you used an array to represent the group's members, don't just
+return the iterator created by calling the `Symbol.iterator` method on
+the array. That would work, but defeats the purpose of this exercise.
+
+It is okay if your iterator behaves strangely when the group is
+modified during iteration.
 
 {{if interactive
 
 ```{test: no}
 // Your code here (and the code from the previous exercise)
 
-for (let value of List.fromArray(["a", "b", "c"])) {
+for (let value of Group.from(["a", "b", "c"])) {
   console.log(value);
 }
 // → a
@@ -1144,16 +1178,16 @@ if}}
 
 {{hint
 
-{{index "list (exercise)"}}
+{{index "groups (exercise)", "Group class", "next method"}}
 
-It is probably worthwhile to define a new class `ListIterator`.
-Iterator instances should have a property that tracks the current rest
-of the list. If that's the empty list, the `next` method can say it is
-done. If not, it should return the current element and move the
-current rest forward.
+It is probably worthwhile to define a new class `GroupIterator`.
+Iterator instances should have a property that tracks the current
+position in the group. Every time `next` is called, it checks whether
+it is done, and if not, moves past the current value and returns it.
 
-The list class itself gets a method named by `Symbol.iterator` which,
-when called, returns a new instance of the list iterator class.
+The `Group` class itself gets a method named by `Symbol.iterator`
+which, when called, returns a new instance of the iterator class for
+that group.
 
 hint}}
 

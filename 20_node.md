@@ -903,7 +903,7 @@ the `isDirectory` method tells us.
 
 {{index "readdir function"}}
 
-We use `readdir` to read the list of files in a ((directory)) and
+We use `readdir` to read the array of files in a ((directory)) and
 return it to the client. For normal files, we create a readable stream
 with `createReadStream` return that as the body, along with the
 content type that the `mime` package gives us based on the file's

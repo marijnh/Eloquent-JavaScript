@@ -49,9 +49,9 @@ and a _((client))_ part, written for the ((browser)). The server
 stores the system's data and provides it to the client. It also serves
 the files that implement the client-side system.
 
-The server keeps a list of ((talk))s proposed for the next meeting,
+The server keeps the list of ((talk))s proposed for the next meeting,
 and the client shows this list. Each talk has a presenter name, a
-title, a summary, and a list of ((comment))s associated with it. The
+title, a summary, and an array of ((comment))s associated with it. The
 client allows users to propose new talks (adding them to the list),
 delete talks, and comment on existing talks. Whenever the user makes
 such a change, the client makes an ((HTTP)) ((request)) to tell the
@@ -548,18 +548,18 @@ be either a simple request for all talks or a long-polling request.
 
 {{index "talkResponse method", "ETag header"}}
 
-There will be multiple places in which we have to send a list of talks
-to the client, so we first define a helper method that builds up such
-a list and includes an `ETag` header in the response.
+There will be multiple places in which we have to send an array of
+talks to the client, so we first define a helper method that builds up
+such an array and includes an `ETag` header in the response.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 SkillShareServer.prototype.talkResponse = function(talks) {
-  let list = [];
+  let talks = [];
   for (let title of Object.keys(this.talks)) {
-    list.push(this.talks[title]);
+    talks.push(this.talks[title]);
   }
   return {
-    body: JSON.stringify(list),
+    body: JSON.stringify(talks),
     headers: {"Content-Type": "application/json",
               "ETag": `"${this.version}"`}
   };

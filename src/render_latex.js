@@ -10,7 +10,7 @@ for (let arg of process.argv.slice(2)) {
 if (!file) throw new Error("No input file")
 let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
 
-let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
+let {tokens} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
   defined: ["book", "tex"],
   strip: "hints",
   texQuotes: true,
@@ -31,6 +31,11 @@ function escapeChar(ch) {
     default: return "\\" + ch
   }
 }
+function escape(str) {
+  return String(str).replace(/[&%$#_{}~^\\]/g, escapeChar)
+}
+function miniEscape(str) { return str.replace(/[`]/g, escapeChar) }
+
 function escapeIndexChar(ch) {
   switch (ch) {
     case "~": return "\\textasciitilde "
@@ -42,29 +47,9 @@ function escapeIndexChar(ch) {
     default: return "\\" + ch
   }
 }
-function escape(str, isIndex) {
-  if (isIndex) return str.replace(/[&%$#_{}~^\\|!@]/g, escapeIndexChar)
-  return str.replace(/[&%$#_{}~^\\]/g, escapeChar)
-}
-function miniEscape(str) { return str.replace(/[`]/g, escapeChar) }
-
 function escapeIndex(value) {
-  if (Array.isArray(value)) return value.map(escape, true).join("!")
-  return escape(String(value), true)
-}
-
-function highlight(lang, text) {
-  if (lang == "html") lang = "text/html"
-  let result = ""
-  CodeMirror.runMode(text, lang, (text, style) => {
-    let esc = escape(text)
-    result += style ? `<span class="${style.replace(/^|\s+/g, "$&cm-")}">${esc}</span>` : esc
-  })
-  return result
-}
-
-function anchor(token) {
-  return token.hashID ? `<a class="${token.hashID.charAt(0)}_ident" id="${token.hashID}" href="#${token.hashID}"></a>` : ""
+  if (Array.isArray(value)) return value.map(escapeIndex).join("!")
+  return String(value).replace(/[&%$#_{}~^\\|!@]/g, escapeIndexChar)
 }
 
 function id(token) {
@@ -103,12 +88,12 @@ let renderer = {
     if (token.tag == "h4") return `\n\n${id(token)}\\subsubsection{`
     throw new Error("Can't handle heading tag " + token.tag)
   },
-  heading_close(token) { return `}` },
+  heading_close() { return `}` },
 
-  bullet_list_open(token) { return `\n\n\\begin{itemize}` },
+  bullet_list_open() { return `\n\n\\begin{itemize}` },
   bullet_list_close() { return `\n\\end{itemize}` },
 
-  ordered_list_open(token) { return `\n\n\\begin{enumerate}` },
+  ordered_list_open() { return `\n\n\\begin{enumerate}` },
   ordered_list_close() { return `\n\\end{enumerate}` },
 
   list_item_open() { return `\n\\item ` },

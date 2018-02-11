@@ -31,12 +31,26 @@ function escapeChar(ch) {
     default: return "\\" + ch
   }
 }
-function escape(str) { return str.replace(/[&%$#_{}~^\\]/g, escapeChar) }
+function escapeIndexChar(ch) {
+  switch (ch) {
+    case "~": return "\\textasciitilde "
+    case "^": return "\\textasciicircum "
+    case "\\": return "\\textbackslash "
+    case "|": return "\\textbar{} "
+    case "@": return "\"@"
+    case "!": return "\"!"
+    default: return "\\" + ch
+  }
+}
+function escape(str, isIndex) {
+  if (isIndex) return str.replace(/[&%$#_{}~^\\|!@]/g, escapeIndexChar)
+  return str.replace(/[&%$#_{}~^\\]/g, escapeChar)
+}
 function miniEscape(str) { return str.replace(/[`]/g, escapeChar) }
 
 function escapeIndex(value) {
-  if (Array.isArray(value)) return value.map(escape).join("!")
-  return escape(String(value))
+  if (Array.isArray(value)) return value.map(item => escape(item, true)).join("!")
+  return escape(String(value), true)
 }
 
 function highlight(lang, text) {

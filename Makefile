@@ -2,6 +2,8 @@ CHAPTERS := $(basename $(shell ls [0-9][0-9]_*.md) .md)
 
 SVGS := $(wildcard img/*.svg)
 
+all: html book.pdf book_mobile.pdf
+
 html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/acorn_codemirror.js \
       code/skillsharing.zip code/solutions/20_3_a_public_space_on_the_web.zip html/js/chapter_info.js
 
@@ -38,6 +40,13 @@ test: html
 book.pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex pdf/book.tex $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
 	cd pdf && sh build.sh book > /dev/null
 	mv pdf/book.pdf .	
+
+pdf/book_mobile.tex: pdf/book.tex
+	cat pdf/book.tex | sed -e 's/makeidx}/makeidx}\n\\usepackage[a5paper, left=5mm, right=5mm]{geometry}/' | sed -e 's/setmonofont.Scale=0.8./setmonofont[Scale=0.75]/' > pdf/book_mobile.tex
+
+book_mobile.pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex pdf/book_mobile.tex $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
+	cd pdf && sh build.sh book_mobile > /dev/null
+	mv pdf/book_mobile.pdf .	
 
 pdf/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.js
 	node src/extract_hints.js | node src/render_latex.js - > $@

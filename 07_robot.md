@@ -235,7 +235,7 @@ of complexity to this kind of reasoning.
 For a small system like the one we are building in this chapter, we
 could handle a little extra complexity. But the most important limit
 on what kind of systems we can build is how much we can understand.
-Anything that making your system easier to understand makes it
+Anything that makes your system easier to understand makes it
 possible to build a more ambitious system.
 
 Unfortunately, while understanding a system built on persistent data
@@ -392,7 +392,7 @@ const mailRoute = [
 
 To implement the route-following robot, we'll need to make use of
 robot memory. The robot keeps the rest of its route in its memory, and
-drop the first element every turn.
+drops the first element every turn.
 
 ```{includeCode: true}
 function routeRobot(state, memory) {

@@ -705,8 +705,8 @@ However, you should also not underestimate the work involved in
 _finding_ an appropriate NPM package. And even if you find one, it
 might not work well, or be missing some feature that you need. On top
 of that, depending on NPM packages means you have to make sure they
-are installed, you have to distributing them with your program, and
-you might have to periodically upgrade them.
+are installed, you have to distribute them with your program, and you
+might have to periodically upgrade them.
 
 So again, this is a trade-off, and you can decide either way depending
 on how much the packages help you.

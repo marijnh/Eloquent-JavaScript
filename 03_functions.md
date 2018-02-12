@@ -644,7 +644,7 @@ if necessary.
 
 {{index "branching recursion"}}
 
-Recursion is not always just a inefficient alternative to looping.
+Recursion is not always just an inefficient alternative to looping.
 Some problems are really easier to solve with recursion than with
 loops. Most often these are problems that require exploring or
 processing several "branches", each of which might branch out again

@@ -347,6 +347,13 @@ A script tag must always be closed with `</script>`, even if it refers
 to a script file and doesn't contain any code. If you forget this, the
 rest of the page will be interpreted as part of the script.
 
+{{index "relative path", dependency}}
+
+You can load ((ES modules)) (see [Chapter ?](module#es)) in the
+browser by giving your script tag a `type="module"` attribute. Such
+modules can depend on other modules by using ((URL))s relative to
+themselves as module names in `import` declarations.
+
 {{index "button (HTML tag)", "onclick attribute"}}
 
 Some attributes can also contain a JavaScript program. The `<button>`

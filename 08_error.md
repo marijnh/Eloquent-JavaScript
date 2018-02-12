@@ -177,6 +177,8 @@ at which point you can give `randomPick` a type like `([T]) → T`
 
 {{index "type checking", TypeScript}}
 
+{{id typing}}
+
 When the types of a program are known, it is possible for the computer
 to _check_ them for you, pointing out mistakes before the program is
 run. There are several JavaScript dialects that add types to the

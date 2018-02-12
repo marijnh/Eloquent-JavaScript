@@ -11,7 +11,7 @@ quote}}
 {{index organization, "code structure", "Yuan-Ma", "Book of Programming"}}
 
 The ideal program has a clear structure. It is easy to explain how it
-works, and each part plays a clear role.
+works, and each part plays a well-defined role.
 
 {{index "organic growth"}}
 
@@ -27,9 +27,10 @@ entangled.
 This causes two practical issues. Firstly, understanding such a system
 is hard. If everything can touch everything else, it is difficult to
 look at any given piece in isolation. You are forced to build up a
-holistic understanding of the whole thing. Secondly, if you need any
-of the functionality in such a program in another context, rewriting
-it may be easier than trying to disentangle it from its context.
+holistic understanding of the whole thing. Secondly, if you want to
+use any of the functionality from such a program in another situation,
+rewriting it may be easier than trying to disentangle it from its
+context.
 
 The term "((big ball of mud))" is often used for such large,
 structureless programs. Everything sticks together, and when you try
@@ -60,10 +61,10 @@ To separate modules in that way, each needs it own private ((scope)).
 {{index dependency}}
 
 The relations between modules are called dependencies. When a module
-needs a piece from another module, it is said to be dependent on that
+needs a piece from another module, it is said to depend on that
 module. When this fact is clearly specified in the module itself, it
-can be used to automatically load dependencies and to figure out which
-other modules need to be present to be able to use a given module.
+can be used to figure out which other modules need to be present to be
+able to use a given module and to automatically load dependencies.
 
 Just putting your JavaScript code into different ((file))s does not
 satisfy these requirements. The files still share the same global
@@ -131,17 +132,17 @@ install and manage them.
 At the time of writing, there are over half a million different
 packages available on NPM. A large portion of those are rubbish, I
 should mention, but almost every good, publicly available package is
-also on there. For example, an INI file parser, as we built in
-[Chapter ?](regexp), is available in the `ini` package on NPM.
+also on there. For example, an INI file parser, similar to the one we
+built in [Chapter ?](regexp), is available under the package name
+`ini`.
 
 [Chapter ?](node) will show how to install such packages locally using
 the `npm` ((command line)) program.
 
-Having quality packages available like this, to simply download from
-the NPM ((registry)), is extremely valuable. It means that we can
-often avoid reinventing a program that a hundred people have written
-before, and get a solid, well-tested implementation at the press of a
-few keys.
+Having quality packages available for download is extremely valuable.
+It means that we can often avoid reinventing a program that a hundred
+people have written before, and get a solid, well-tested
+implementation at the press of a few keys.
 
 {{index maintenance}}
 
@@ -161,7 +162,7 @@ Most code on ((NPM)) is licensed this way. Some licenses require you
 to also publish code that you build on top of the package under the
 same license. Others are less demanding, just requiring that you keep
 the license with the code as you distribute it. The JavaScript
-community mostly uses the latter type of license. But when using other
+community mostly uses the latter type of license. When using other
 people's packages, make sure you are aware of their license.
 
 ## Improvised modules
@@ -261,22 +262,22 @@ module's code in a function, and use that function's scope as module
 {{index "CommonJS modules"}}
 
 The most widely used approach to bolted-on JavaScript modules is
-called _CommonJS modules_. It was popularized because ((Node.js)) uses
-it, and is the system used by most packages on ((NPM)).
+called _CommonJS modules_. ((Node.js)) uses it, and is the system used
+by most packages on ((NPM)).
 
 {{index "require function"}}
 
 The main concept in CommonJS modules is a function called `require`.
-When you call this with the module name of your dependency, it makes
-sure this module is loaded and returns its ((interface)).
+When you call this with the module name of a dependency, it makes sure
+the module is loaded and returns its ((interface)).
 
 {{index "exports object"}}
 
-Because the loader takes care of wrapping the module in a function to
-create a local ((scope)), modules themselves can be written without
-any additional clutter like a wrapper function. The only thing they
-have to do is call `require` to access their dependencies, and put
-their interface in the object bound to `exports`.
+Because the loader wraps the module code in a function, modules
+themselves don't have to create a wrapping function to simulate the
+local scope. The only thing they have to do is call `require` to
+access their dependencies, and put their interface in the object bound
+to `exports`.
 
 {{index "formatDate module", "Date class", "ordinal package", "date-names package"}}
 
@@ -310,9 +311,9 @@ exports.formatDate = function(date, format) {
 {{index "destructuring binding"}}
 
 The interface of `ordinal` is a single function, whereas `date-names`
-exports an object containing multiple things—the two we use are arrays
-of names. Destructuring is extremely useful when creating bindings for
-imported interfaces.
+exports an object containing multiple things—the two values we use are
+arrays of names. Destructuring is very convenient when creating
+bindings for imported interfaces.
 
 The module adds its interface function to `exports`, so that modules
 that depend on it get access to it. We could use the module like this:
@@ -347,7 +348,7 @@ function require(name) {
 }
 ```
 
-In the example, `readFile` is a made-up function that reads a file and
+In this code, `readFile` is a made-up function that reads a file and
 returns its contents as a string. Standard JavaScript provides no such
 functionality—but different JavaScript environments, such as the
 browser and Node.js, provide their own ways of accessing ((file))s.
@@ -373,7 +374,7 @@ single value instead of an interface object.
 By defining `require`, `exports`, and `module` as ((parameter))s for
 the generated wrapper function (and passing the appropriate values
 when calling it), the loader makes sure that these bindings are
-available in the ((scope)) that the module's code runs in.
+available in the module's ((scope)).
 
 {{index resolution, "relative path"}}
 
@@ -383,9 +384,10 @@ name or web address differs in different systems. When it starts with
 current module's file name. So `"./format-date"` would be the file
 named `format-date.js` in the same directory.
 
-When it isn't a relative name, we'll be interpreting the string as the
-name of an NPM module in this book. We'll go into more detail on how
-to install and use NPM modules in [Chapter ?](node).
+When the name isn't relative, Node.js will look for an installed
+package by that name. In the example code in this chapter, we'll
+interpret such names as refering to NPM packages. We'll go into more
+detail on how to install and use NPM modules in [Chapter ?](node).
 
 {{id modules_ini}}
 
@@ -411,12 +413,13 @@ scale.
 
 But they remain a bit of a duct-tape ((hack)). The ((notation)) is
 slightly awkward—the things you add to `exports` are not available in
-the local ((scope)), and it can be hard to automatically determine
-which things are imported where, for example to automatically check
-whether all the imported items actually exist in the dependency
-modules.
+the local ((scope)). And because `require` is a normal function call
+taking any kind of argument, not just a string literal, it can be hard
+to determine the dependencies of a module without running it.
 
 {{index "import keyword", dependency, "ES modules"}}
+
+{{id es}}
 
 This is why the JavaScript standard from 2015 introduces its own,
 different module system. These are usually called _((ES modules))_,
@@ -445,7 +448,7 @@ An ES module's interface is not a single value, but a set of named
 {{index "default export"}}
 
 When there is a binding named `default`, it is treated as the module's
-main exported value, and if you import a module like `ordinal` in the
+main exported value. If you import a module like `ordinal` in the
 example, without braces around the binding name, you get its `default`
 binding. Such modules can still export other bindings under different
 names alongside their `default` export.
@@ -470,14 +473,62 @@ At the time of writing, the JavaScript community is in the process of
 adopting this module style. But this has been a slow process. It took
 a few years, after the format was specified, for browsers and Node.js
 to start supporting it. And though they mostly support it now, this
-support still has issues, and no convention has been developed on how
-to, for example, distribute such modules through ((NPM)).
+support still has issues, and the discussion on how such modules
+should be distributed through ((NPM)) is still ongoing.
 
-That being said, many projects are written using ES modules, and then
-automatically converted to some other format when published. We are in
-a transitional period in which two different module systems are used
+Many projects are written using ES modules, and then automatically
+converted to some other format when published. We are in a
+transitional period in which two different module systems are used
 side-by-side, and it is useful to be able to read and write code in
 either of them.
+
+## Building and bundling
+
+{{index compilation, "type checking"}}
+
+In fact, many JavaScript projects aren't even, technically, written in
+JavaScript. There are extensions, such as the type checking
+((dialect)) mentioned in [Chapter ?](error#typing), that are widely
+used. People also often start using planned extensions to the language
+long before they have been added to the platforms that actually run
+JavaScript.
+
+To make this possible, they _compile_ their code, translating it from
+their chosen JavaScript dialect to plain old JavaScript—or even to a
+past version of JavaScript so that old ((browsers)) can run it.
+
+{{index latency, performance}}
+
+Including a modular program that consists of two hundred different
+files in a ((web page)) produces its own problems. If fetching a
+single ((file)) over the ((network)) takes 50 milliseconds, loading
+the whole program takes ten seconds, or maybe half that if can load
+several files simultaneously. Still, that's a lot of wasted time.
+Because fetching a single big file tends to be faster than fetching a
+host of tiny ones, web programmers have started using tools that roll
+their programs (which they painstakingly split into modules) back into
+a single big file before they publish it to the Web. Such tools are
+called _((bundler))s_.
+
+{{index "file size"}}
+
+And we can go further. Apart from the number of files, the _size_ of
+the files also determines how fast they can be transferred over the
+network. Thus, the JavaScript community has invented _((minifier))s_.
+These are tools that take a JavaScript program and make it smaller by
+automatically removing comments and whitespace, renaming variables,
+and replacing pieces of code with equivalent code that take up less
+space.
+
+{{index pipeline, tool}}
+
+So it is not uncommon for the code that you find in an NPM package or
+that runs on a web page to have gone through _multiple_ stages of
+transformation—converted from modern JavaScript to historic
+JavaScript, from ES module format to CommonJS, bundled, and minified.
+We won't go into the details of these tools in this book, since they
+tend to be boring and change rapidly. Just be aware that the
+JavaScript code that people run might not be the code that they wrote.
 
 ## Module design
 
@@ -485,7 +536,6 @@ either of them.
 
 Structuring programs is one of the subtler aspects of programming. Any
 nontrivial piece of functionality can be modeled in various ways.
-Finding a way that works well requires insight and foresight.
 
 Good program design is subjective—there are trade-offs involved, and
 matters of taste. The best way to learn the value of well structured
@@ -533,17 +583,16 @@ scenario where the file's content comes from some other source.
 {{index "object-oriented programming"}}
 
 Relatedly, stateful objects are sometimes useful or even necessary,
-but as a means of getting something done that could be a function,
-they tend to get in the way. Several of the INI file readers on NPM
-provide an interface style that require you to first create an object,
-then load the file into your object, and finally use specialized
-methods to get at the results. This type of thing is common in the
-object-oriented tradition, and it's terribly awkward. Instead of
-making a single function call and moving on, you have to perform the
-ritual of moving your object through various states. And because the
-data is now wrapped in a specialized object type, all code that
-interacts with it has to know about that type, creating unnecessary
-entanglement.
+but if something can be done with a function, use a function. Several
+of the INI file readers on NPM provide an interface style that require
+you to first create an object, then load the file into your object,
+and finally use specialized methods to get at the results. This type
+of thing is common in the object-oriented tradition, and it's just
+terrible. Instead of making a single function call and moving on, you
+have to perform the ritual of moving your object through various
+states. And because the data is now wrapped in a specialized object
+type, all code that interacts with it has to know about that type,
+creating unnecessary interdependencies.
 
 Often defining new data structures can't be avoided—only a few very
 basic ones are provided by the language standard, and many types of
@@ -590,9 +639,9 @@ console.log(find_path(graph, "Post Office", "Cabin"));
 ```
 
 This can be a barrier to composition—if various packages are using
-different data formats to describe similar things, it is difficult to
-combine them. Therefore, if you want to design for composability, find
-out what ((data structure))s other people are using, and when
+different data structures to describe similar things, it is difficult
+to combine them. Therefore, if you want to design for composability,
+find out what ((data structure))s other people are using, and when
 possible, follow their example.
 
 ## Summary
@@ -603,13 +652,13 @@ the part of the module that's visible from other modules, and the
 dependencies are the other modules that it makes use of.
 
 Because JavaScript historically did not provide a module system, the
-CommonJS system was built on top of it. But then, recently, it did get
+CommonJS system was built on top of it. But at some point it _did_ get
 a built-in system, which now coexist uneasily with the CommonJS
 system.
 
-NPM is a repository of JavaScript packages. A package acts like a
-module that can be distributed separately. You can get all kinds of
-useful (and useless) packages from NPM.
+A package is a chunk of code that can be distributed on its own. NPM
+is a repository of JavaScript packages. You can download all kinds of
+useful (and useless) packages from it.
 
 ## Exercises
 
@@ -699,7 +748,7 @@ written ourselves? In principle, yes—for nontrivial things like the
 pathfinding function you are likely to make mistakes and waste time
 writing them yourself. For tiny functions like `random-item`, writing
 them yourself is easy enough. But adding them wherever you need them
-does tend to muddle up your modules a little.
+does tend to clutter your modules.
 
 However, you should also not underestimate the work involved in
 _finding_ an appropriate NPM package. And even if you find one, it
@@ -752,9 +801,9 @@ import the graph module. That was described as exporting a
 with a destructuring `const` declaration.
 
 To export `roadGraph`, you add a property to the `exports` object.
-Because that takes a data structure that doesn't precisely match
-`roads`, you must move the splitting of the road strings into your
-module, and pass the result to `roadGraph`.
+Because `buildGraph` takes a data structure that doesn't precisely
+match `roads`, the splitting of the road strings must happen in your
+module.
 
 hint}}
 
@@ -783,10 +832,10 @@ cycle _does_ replace its default `exports` object?
 {{index overriding, "circular dependency", "exports object"}}
 
 The trick is that `require` adds modules to its cache _before_ it
-starts loading the module. That way, if any `require` call from inside
-the module tries to load it again, it is already known, and the
-current interface will be returned, rather than trying to load the
-module again (which would eventually overflow the stack).
+starts loading the module. That way, if any `require` call made while
+it is running tries to load it, it is already known and the current
+interface will be returned, rather than starting to load the module
+once more (which would eventually overflow the stack).
 
 If a module overwrites its `module.exports` value, any other module
 that has received its interface value before it finished loading will

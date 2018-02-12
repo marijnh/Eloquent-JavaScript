@@ -300,7 +300,7 @@ file like this:
 }
 ```
 
-{{index "npm program"}}
+{{index "npm program", tool}}
 
 When you run `npm install`, without naming a package to install, NPM
 will install all the dependencies listed in `package.json`. When you

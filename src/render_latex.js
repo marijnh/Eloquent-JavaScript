@@ -164,7 +164,7 @@ let renderer = {
     if (chapter)
       return `''}%${attribution}\n}`
     else
-      return `${attribution}\n\\end{quote}`
+      return `${attribution ? "\n" + attribution : ""}\n\\end{quote}`
   },
 
   meta_hint_open() { return "" }, // FIXME filter out entirely

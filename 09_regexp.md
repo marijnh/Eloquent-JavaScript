@@ -1146,16 +1146,16 @@ code units behave strangely.
 ```
 console.log(/🍎{3}/.test("🍎🍎🍎"));
 // → false
-console.log(/<.>/.test("<😎>"));
+console.log(/<.>/.test("<🌹>"));
 // → false
-console.log(/<.>/u.test("<😎>"));
+console.log(/<.>/u.test("<🌹>"));
 // → true
 ```
 
 The problem is that the 🍎 in the first line is treated as two code
 units, and the `{3}` part is applied only to the second one.
 Similarly, the dot matches a single code unit, not the two that the
-((emoji)) character is composed of.
+rose ((emoji)) character is composed of.
 
 You must add an `u` option (for ((Unicode))) to your regular
 expression to make it treat such characters properly. The wrong

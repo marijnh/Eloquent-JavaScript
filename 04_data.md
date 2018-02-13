@@ -951,6 +951,15 @@ console.log("  okay \n ".trim());
 // → okay
 ```
 
+The `zeroPad` function from the [previous chapter](functions) also
+exists as a method called `padStart`. It takes a desired length and a
+padding character as arguments.
+
+```
+console.log(String(6).padStart(3, "0"));
+// → 006
+```
+
 {{id split}}
 
 You can split a string on every occurrence of another string with

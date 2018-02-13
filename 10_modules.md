@@ -653,7 +653,7 @@ dependencies are the other modules that it makes use of.
 
 Because JavaScript historically did not provide a module system, the
 CommonJS system was built on top of it. But at some point it _did_ get
-a built-in system, which now coexist uneasily with the CommonJS
+a built-in system, which now coexists uneasily with the CommonJS
 system.
 
 A package is a chunk of code that can be distributed on its own. NPM
@@ -721,7 +721,7 @@ given road exists. It also needs `randomPick`. Since that is a
 three-line function, we could just put it into the `state` module as
 an internal helper function. But `randomRobot` needs it too. So we'd
 have to either duplicate it, or put it into its own module. Since this
-function happens to exists on NPM in the `random-item` package, a good
+function happens to exist on NPM in the `random-item` package, a good
 solution is to just make both modules depend on that. We can add the
 `runRobot` function to this module as well, since it's small and
 closely related to state management. The module exports both the

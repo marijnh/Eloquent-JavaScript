@@ -1255,7 +1255,7 @@ computation. Comments are not allowed in JSON.
 
 A journal entry might look like this when represented as JSON data:
 
-```{type: "application/json"}
+```{lang: "application/json"}
 {
   "squirrel": false,
   "events": ["work", "touched tree", "pizza", "running"]

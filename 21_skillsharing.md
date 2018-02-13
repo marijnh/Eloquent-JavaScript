@@ -553,7 +553,7 @@ talks to the client, so we first define a helper method that builds up
 such an array and includes an `ETag` header in the response.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-SkillShareServer.prototype.talkResponse = function(talks) {
+SkillShareServer.prototype.talkResponse = function() {
   let talks = [];
   for (let title of Object.keys(this.talks)) {
     talks.push(this.talks[title]);
@@ -612,7 +612,7 @@ SkillShareServer.prototype.waitForChanges = function(time) {
       resolve({status: 304});
     }, time * 1000);
   });
-}
+};
 ```
 
 {{index "updated method"}}

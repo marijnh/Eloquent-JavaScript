@@ -285,7 +285,7 @@ The robot simulation from [Chapter ?](#robot), as modularized in
 [Exercise 10.1](modules#modular_robot), might use a `package.json`
 file like this:
 
-```
+```{lang: "application/json"}
 {
   "author": "Marijn Haverbeke",
   "name": "eloquent-javascript-robot",
@@ -669,7 +669,7 @@ The following piece of code, when run with the uppercasing server
 active, will send a request to that server and write out the response
 it gets:
 
-```{test: no}
+```
 const {request} = require("http");
 request({
   hostname: "localhost",

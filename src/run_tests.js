@@ -9,6 +9,7 @@ let varify = require("./varify")
 
 let file = process.argv[2]
 let chapNum = Number(file.match(/^\d*/)[0])
+let doRun = ![10, 11, 20, 21].includes(chapNum)
 let input = fs.readFileSync(file, "utf8")
 
 let baseCode = "let alert = function() {}, prompt = function() { return 'x' }, confirm = function() { return true }; window = this; requestAnimationFrame = setTimeout = clearTimeout = setInterval = clearInterval = Math.min; let localStorage = {setItem: function(a, b) { this[a] = b;}, getItem: function(a) { return this[a] || null }, removeItem: function(a) { delete this[a] }};\n"
@@ -89,11 +90,11 @@ while (m = re.exec(input)) {
 function stripHTML(code) {
   let included = "", script = ""
   code = code.replace(/<script\b[^>]*?(?:\bsrc\s*=\s*('[^']+'|"[^"]+"|[^\s>]+)[^>]*)?>([\s\S]*?)<\/script>/, function(m, src, content) {
-    if (src) {
+    if (!src) {
+      script += content
+    } else if (doRun) {
       if (/["']/.test(src.charAt(0))) src = src.slice(1, src.length - 1)
       included += fs.readFileSync("html/" + src, "utf8")
-    } else {
-      script += content
     }
     return ""
   })
@@ -242,7 +243,7 @@ function nextSandbox() {
   if (i == boxes.length) return
   let sandbox = boxes[i]
   i++
-  if (chapNum < 12 || chapNum >= 20) { // Language-only
+  if (chapNum < 13 || chapNum >= 20) { // Language-only
     try {
       ;(new Function("console, require, module", baseCode + sandbox.code))(_console, chapNum >= 20 && fakeRequire, {})
       nextSandbox()
@@ -269,4 +270,4 @@ function nextSandbox() {
     })
   }
 }
-if (chapNum != 11) nextSandbox()
+if (doRun) nextSandbox()

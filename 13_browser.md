@@ -64,7 +64,7 @@ such as web pages or pictures). It specifies the way the side making
 the request should start with a line like this, naming the resource
 and the version of the protocol that it is trying to use.
 
-```{type: "text/plain"}
+```{lang: "text/plain"}
 GET /index.html HTTP/1.1
 ```
 
@@ -349,7 +349,7 @@ rest of the page will be interpreted as part of the script.
 
 {{index "relative path", dependency}}
 
-You can load ((ES modules)) (see [Chapter ?](module#es)) in the
+You can load ((ES modules)) (see [Chapter ?](modules#es)) in the
 browser by giving your script tag a `type="module"` attribute. Such
 modules can depend on other modules by using ((URL))s relative to
 themselves as module names in `import` declarations.

@@ -671,7 +671,7 @@ useful (and useless) packages from it.
 These are the bindings that the project from [Chapter ?](robot)
 creates:
 
-```{type: "text/plain"}
+```{lang: "text/plain"}
 roads
 buildGraph
 roadGraph

@@ -5,7 +5,6 @@
 \usepackage{hyperref}
 \usepackage{bookmark}
 \usepackage{ucharclasses}
-\usepackage{xeCJK}
 \usepackage{fontspec}
 \usepackage{listings}
 \usepackage{graphicx}
@@ -32,7 +31,7 @@
   ^^d0^^d1^^d2^^d3^^d4^^d5^^d6^^d7^^d8^^d9^^da^^db^^dc^^dd^^de^^df%
   ^^e0^^e1^^e2^^e3^^e4^^e5^^e6^^e7^^e8^^e9^^ea^^eb^^ec^^ed^^ee^^ef%
   ^^f0^^f1^^f2^^f3^^f4^^f5^^f6^^f7^^f8^^f9^^fa^^fb^^fc^^fd^^fe^^ff%
-  🐴👟🌹🐉🍎😎🎈💥🖌💾📁🎨🦆тяв
+  🐴👟🌹🐉🍎😎🎈💥🖌💾📁🎨🦆тяв英国俄罗斯的狗说
   ^^00}
 \lst@RestoreCatcodes
 
@@ -40,11 +39,13 @@
 \setcounter{tocdepth}{1}
 \setmonofont[Scale=0.8]{Inconsolata.otf}
 \newfontfamily{\cyrillic}{CMU Serif}
-\defaultfontfeatures[\emojifont]{Scale=1.15}
+\defaultfontfeatures[\cjkfont]{Scale=0.50}
+\newfontfamily{\cjkfont}{TW-Sung}
+\defaultfontfeatures[\emojifont]{Scale=1.15,FakeBold=1.25}
 \newfontface{\emojifont}{Symbola_hint.ttf}
 \setTransitionsFor{MiscellaneousSymbolsAndPictographs}{\emojifont}{\normalfont}{}
 \setTransitionsForCyrillics{\cyrillic}{}
-\setTransitionsFor{CJK}{\emojifont}{}
+\setTransitionsForCJK{\cjkfont}{}
 \pagestyle{plain}
 \makeatother
 

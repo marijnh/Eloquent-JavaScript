@@ -186,7 +186,7 @@ want to create a function value on the spot instead.
 
 ```
 let message = "Wow";
-repeat(5, i => {
+repeat(5, () => {
   message += "!";
 });
 console.log(message);

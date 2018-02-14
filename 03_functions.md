@@ -53,7 +53,7 @@ A function is created with an expression that starts with the keyword
 `function`. Functions have a set of _((parameter))s_ (in this case,
 only `x`) and a _body_, which contains the statements that are to be
 executed when the function is called. The function body of a function
-created this wasy must always be wrapped in braces, even when it
+created this way must always be wrapped in braces, even when it
 consists of only a single ((statement)).
 
 {{index "power example"}}

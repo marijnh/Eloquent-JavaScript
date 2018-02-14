@@ -164,7 +164,7 @@ will try to retrieve and display the ((document)) at that URL. First,
 your browser has to find out what address _eloquentjavascript.net_
 refers to. Then, using the ((HTTP)) protocol, it makes a connection to
 the server at that address and asks for the resource
-_/12_browser.html_. If all goes well, the server sends back a
+_/13_browser.html_. If all goes well, the server sends back a
 document, which your browser then displays on your screen.
 
 ## HTML

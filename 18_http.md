@@ -29,7 +29,7 @@ server associated with _eloquentjavascript.net_ and tries to open a
 the browser might send something like this:
 
 ```{lang: http}
-GET /17_http.html HTTP/1.1
+GET /18_http.html HTTP/1.1
 Host: eloquentjavascript.net
 User-Agent: Your browser's name
 ```
@@ -56,7 +56,7 @@ The information sent by the client is called the _((request))_. It
 starts with this line:
 
 ```{lang: http}
-GET /17_http.html HTTP/1.1
+GET /18_http.html HTTP/1.1
 ```
 
 {{index "DELETE method", "PUT method", "GET method"}}

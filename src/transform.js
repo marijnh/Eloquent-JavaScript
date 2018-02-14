@@ -22,8 +22,9 @@ function startAndEnd(text) {
 }
 
 function tokenText(token) {
-  if (token.type == "text") return token.content
+  if (token.type == "text" || token.type == "code_inline") return token.content
   else if (token.type == "softbreak") return " "
+  else return ""
 }
 
 function smartQuotes(tokens, i, tex) {
@@ -40,10 +41,10 @@ function smartQuotes(tokens, i, tex) {
   }
 
   let quoted = text
-    .replace(/([\w\.,!?\)`])'/g, "$1’")
-    .replace(/'(\w|\(\(|`)/g, "‘$1")
-    .replace(/([\w\.,!?\)`])"/g, "$1”")
-    .replace(/"(\w|\(\(|`)/g, "“$1")
+    .replace(/([\w\.,!?\)])'/g, "$1’")
+    .replace(/'(\w|\(\()/g, "‘$1")
+    .replace(/([\w\.,!?\)])"/g, "$1”")
+    .replace(/"(\w|\(\()/g, "“$1")
     .slice(from, to)
   return tex ? quoted.replace(/‘/g, "`").replace(/’/g, "'").replace(/“/g, "``").replace(/”/g, "''") : quoted
 }

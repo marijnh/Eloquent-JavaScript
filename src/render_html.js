@@ -125,7 +125,7 @@ let renderer = {
   meta_quote_close(token) {
     let {author, title} = token.args[0] || {}
     return (author ? `\n\n<footer>${escape(author)}${title ? `, <cite>${escape(title)}</cite>` : ""}` : "") +
-      "\n\n</blockquote>"
+      "</footer>\n\n</blockquote>"
   },
 
   meta_hint_open() { return "\n\n<div class=solution><div class=solution-text>" },

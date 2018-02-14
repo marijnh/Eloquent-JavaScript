@@ -910,7 +910,7 @@ If you are unsure how to try your solutions to exercises, refer to the
 Each exercise starts with a problem description. Read that and try to
 solve the exercise. If you run into problems, consider reading the
 hints [after the exercise]{if interactive}[at the [end of the
-book](hints.html#hints)]{if book}. Full solutions to the exercises are
+book](hints)]{if book}. Full solutions to the exercises are
 not included in this book, but you can find them online at
 [_eloquentjavascript.net/code_](http://eloquentjavascript.net/code).
 If you want to learn something from the exercises, I recommend looking

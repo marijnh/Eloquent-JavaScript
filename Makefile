@@ -42,7 +42,7 @@ book.pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex pdf/book.tex
 	mv pdf/book.pdf .	
 
 pdf/book_mobile.tex: pdf/book.tex
-	cat pdf/book.tex | sed -e 's/makeidx}/makeidx}\n\\usepackage[a5paper, left=5mm, right=5mm]{geometry}/' | sed -e 's/setmonofont.Scale=0.8./setmonofont[Scale=0.75]/' > pdf/book_mobile.tex
+	cat pdf/book.tex | sed -e 's/natbib}/natbib}\n\\usepackage[a5paper, left=5mm, right=5mm]{geometry}/' | sed -e 's/setmonofont.Scale=0.8./setmonofont[Scale=0.75]/' > pdf/book_mobile.tex
 
 book_mobile.pdf: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex pdf/book_mobile.tex $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
 	cd pdf && sh build.sh book_mobile > /dev/null

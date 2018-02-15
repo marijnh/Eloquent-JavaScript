@@ -52,6 +52,14 @@ function escapeIndex(value) {
   return String(value).replace(/[&%$#_{}~^\\|!@]/g, escapeIndexChar)
 }
 
+function escapeComplexScripts(string) {
+  return string.replace(/[^\u0000-\u0600“”‘’]+/g, m => {
+    if (/[\u0600-\u06ff]/.test(m)) m = "\\textarab{" + m + "}"
+    else if (/[\u4E00-\u9FA5]/.test(m)) m = "\\cjkfont{" + m + "}"
+    return `$<${m}>$`
+  })
+}
+
 function id(token) {
   let id = token.attrGet("id")
   return id ? `\\label{${chapter[1] + "." + id}}` : ''
@@ -62,7 +70,7 @@ let linkedChapter = null, raw = false, quote = false
 let renderer = {
   fence(token) {
     if (/\bhidden:\s*true/.test(token.info)) return ""
-    return `\n\n${id(token)}\\begin{lstlisting}\n${token.content.trimRight()}\n\\end{lstlisting}\n\\noindent`
+    return `\n\n${id(token)}\\begin{lstlisting}\n${escapeComplexScripts(token.content.trimRight())}\n\\end{lstlisting}\n\\noindent`
   },
 
   hardbreak() { return "\\break\n" },

@@ -1,13 +1,14 @@
 \documentclass[fontsize=13pt,oneside]{scrbook}
-\usepackage{scrhack}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
 \usepackage{natbib}
+\usepackage{scrhack}
+\usepackage{arabxetex}
 \usepackage{charter}
-\usepackage{hyperref}
 \usepackage{bookmark}
 \usepackage{ucharclasses}
 \usepackage{fontspec}
-\usepackage{listings}
-\usepackage{graphicx}
 \usepackage{makeidx}
 
 % epigraph is used to style chapter quotes
@@ -18,6 +19,8 @@
 \lstset{basicstyle=\ttfamily,xleftmargin=0.8em,breaklines=true,lineskip=-0.2em,aboveskip=0.8em,belowskip=0.8em}
 \renewcommand*{\chapterheadstartvskip}{\vspace*{3cm}}
 \date{}
+
+\lstset{escapeinside={$<}{>$}}
 
 \makeatletter
 \lst@InputCatcodes
@@ -31,23 +34,19 @@
   ^^d0^^d1^^d2^^d3^^d4^^d5^^d6^^d7^^d8^^d9^^da^^db^^dc^^dd^^de^^df%
   ^^e0^^e1^^e2^^e3^^e4^^e5^^e6^^e7^^e8^^e9^^ea^^eb^^ec^^ed^^ee^^ef%
   ^^f0^^f1^^f2^^f3^^f4^^f5^^f6^^f7^^f8^^f9^^fa^^fb^^fc^^fd^^fe^^ff%
-  🐴👟🌹🐉🍎😎🎈💥🖌💾📁🎨🦆тяв英国俄罗斯的狗说
+  тявΧαίρετεΑΊΡΕΤΕ
   ^^00}
 \lst@RestoreCatcodes
+\makeatother
 
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{1}
-\setmonofont[Scale=0.8]{Inconsolata.otf}
-\newfontfamily{\cyrillic}{CMU Serif}
-\defaultfontfeatures[\cjkfont]{Scale=0.50}
-\newfontfamily{\cjkfont}{TW-Sung}
-\defaultfontfeatures[\emojifont]{Scale=1.15,FakeBold=1.25}
+\setmonofont[Scale=0.8]{Inconsolata LGC}
+\defaultfontfeatures[\emojifont]{Scale=1.15}
 \newfontface{\emojifont}{Symbola_hint.ttf}
+\newfontfamily{\cjkfont}{TW-Sung}
 \setTransitionsFor{MiscellaneousSymbolsAndPictographs}{\emojifont}{\normalfont}{}
-\setTransitionsForCyrillics{\cyrillic}{}
-\setTransitionsForCJK{\cjkfont}{}
 \pagestyle{plain}
-\makeatother
 
 \graphicspath{{../}}
 \makeindex

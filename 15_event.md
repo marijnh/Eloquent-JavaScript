@@ -970,7 +970,7 @@ page.
 
 When that works, add a feature where, if you blow up the balloon past
 a certain size, it explodes. In this case, exploding means that it is
-replaced with an "💥" emoji, and the event handler is removed (so that
+replaced with an 💥 emoji, and the event handler is removed (so that
 you can't inflate or deflate the explosion).
 
 {{if interactive

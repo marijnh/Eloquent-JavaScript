@@ -1194,11 +1194,11 @@ update to a new state.
 
 The use of `Object.assign` in the example is intended to create a new
 object that is a clone of the old `state.notes`, but with one property
-added or overwritten. Remember that `Object.assign` takes its first
-argument, and then adds all properties from further arguments to it.
-Thus, giving it an empty object will cause it to create a fresh
-object. The ((square brackets)) notation in the third argument is used
-to create a property whose names is based on some dynamic value.
+added or overwritten. `Object.assign` takes its first argument, and
+add all properties from any further arguments to it. Thus, giving it
+an empty object will cause it to create a fresh object. The ((square
+brackets)) notation in the third argument is used to create a property
+whose names is based on some dynamic value.
 
 {{index "sessionStorage object"}}
 

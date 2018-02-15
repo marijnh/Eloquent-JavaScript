@@ -907,7 +907,7 @@ console.log(matrix.get(3, 2));
 The use of the word `extends` indicates that this class shouldn't be
 based on the default `Object` prototype, but on some other class. This
 is called the _((superclass))_. The derived class is the
-_((subclass)_.
+_((subclass))_.
 
 To initialize a `SymmetricMatrix` instance, the constructor calls its
 superclass' constructor through the `super` keyword. This is necessary

@@ -31,8 +31,8 @@ quote}}
 
 A large program is a costly program, and not just because of the time
 it takes to build. Size almost always involves ((complexity)), and
-complexity confuses programmers. Confused programmers, in turn, tend
-to put mistakes (_((bug))s_) into programs. A large program then
+complexity confuses programmers. Confused programmers, in turn,
+introduce mistakes (_((bug))s_) into programs. A large program then
 provides a lot of space for these bugs to hide, making them hard to
 find.
 
@@ -119,7 +119,7 @@ understand a few more cooking-related words—_soak_, _simmer_, _chop_,
 and, I guess, _vegetable_.
 
 When programming, we can't rely on all the words we need to be waiting
-for us in the dictionary. Thus, you might fall into the pattern of the
+for us in the dictionary. Thus you might fall into the pattern of the
 first recipe—work out the precise steps the computer has to perform,
 one by one, blind to the higher-level concepts that they express.
 
@@ -157,7 +157,7 @@ function repeatLog(n) {
 }
 ```
 
-{{index [function, "higher-order"], loop, [array, traversal], [function, "as value"], "forEach method"}}
+{{index [function, "higher-order"], loop, [array, traversal], [function, "as value"]}}
 
 {{indexsee "higher-order function", "function, higher-order"}}
 
@@ -178,28 +178,25 @@ repeat(3, console.log);
 // → 2
 ```
 
-That function is a small abstraction that makes it possible to express
-repetition more clearly.
-
 You don't have to pass a predefined function to `repeat`. Often, you'd
 want to create a function value on the spot instead.
 
 ```
-let message = "Wow";
+let labels = [];
 repeat(5, i => {
-  message += "!";
+  labels.push(`Unit ${i + 1}`);
 });
-console.log(message);
-// → Wow!!!!!
+console.log(labels);
+// → ["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"]
 ```
 
 {{index "loop body", "curly braces"}}
 
-This is structured a little like a `for` loop—it starts by describing
-the kind of loop, and then provides a body. However, the body is now
-written as a function value, which is wrapped in the ((parentheses))
-of the call to `repeat`. This is why it has to be closed with the
-closing brace _and_ closing parenthesis. In cases like this, where the
+This is structured a little like a `for` loop—it first describes the
+kind of loop, and then gives a body. However, the body is now written
+as a function value, which is wrapped in the ((parentheses)) of the
+call to `repeat`. This is why it has to be closed with the closing
+brace _and_ closing parenthesis. In cases like this example, where the
 body is a single small expression, you could also omit the curly
 braces and write the loop on a single line.
 
@@ -209,11 +206,10 @@ braces and write the loop on a single line.
 
 Functions that operate on other functions, either by taking them as
 arguments or by returning them, are called _higher-order functions_.
-If you have already accepted the fact that functions are regular
-values, there is nothing particularly remarkable about the fact that
-such functions exist. The term comes from ((mathematics)), where the
-distinction between functions and other values is taken more
-seriously.
+Since we have already seen that functions are regular values, there is
+nothing particularly remarkable about the fact that such functions
+exist. The term comes from ((mathematics)), where the distinction
+between functions and other values is taken more seriously.
 
 {{index abstraction}}
 
@@ -255,7 +251,7 @@ function unless(test, then) {
 }
 
 repeat(3, n => {
-  unless(n % 2, () => {
+  unless(n % 2 == 1, () => {
     console.log(n, "is even");
   });
 });
@@ -277,14 +273,15 @@ like a `for`/`of` loop as a higher-order function.
 ## Script data set
 
 One area where higher-order functions shine is data processing. In
-order to process data, we'll need some data. This chapter will use a
-((data set)) about ((writing system))s—such as Latin, Cyrillic, and
-Arabic.
+order to process data, we'll need some actual data. This chapter will
+use a ((data set)) about scripts—((writing system))s such as Latin,
+Cyrillic, or Arabic.
 
-Remember ((Unicode)) from [Chapter ?](values#unicode), the
-system that assigns a number to each character in written language.
-Most of these characters are associated with a script. The standard
-contains 140 different scripts. 81 of those are still in use today.
+Remember ((Unicode)) from [Chapter ?](values#unicode), the system that
+assigns a number to each character in written language. Most of these
+characters are associated with a specific script. The standard
+contains 140 different scripts. 81 of which are still in use today, 59
+are historic.
 
 Though I can only fluently read Latin characters, I appreciate the
 fact that people are writing texts in at least 80 other writing
@@ -295,11 +292,11 @@ a sample of ((Tamil)) handwriting.
 
 {{index "SCRIPTS data set"}}
 
-The example ((data set)) contains information about the 140 scripts
-defined in Unicode. It is available in the coding sandbox for this
-chapter[
+The example ((data set)) contains some pieces of information about the
+140 scripts defined in Unicode. It is available in the coding sandbox
+for this chapter[
 ([_eloquentjavascript.net/code#5_](http://eloquentjavascript.net/code#5)]{if
-book} as the `SCRIPTS` binding. This binding contains an array of
+book} as the `SCRIPTS` binding. The binding contains an array of
 objects, each of which describes a script.
 
 
@@ -327,11 +324,7 @@ The `ranges` property contains an array of Unicode character
 ((range))s, each of which is a two-element array containing a lower
 and upper bound. Any character codes within these ranges are assigned
 to the script. The lower ((bound)) is inclusive (code 994 is a Coptic
-character) and the upper bound non-inclusive (code 1008 isn't). When
-working with ranges, dealing with the boundaries can be confusing, so
-I recommend to just do what the `slice` method on arrays and strings
-does whenever possible, using an inclusive lower bound and exclusive
-upper bound.
+character) and the upper bound non-inclusive (code 1008 isn't).
 
 ## Filtering arrays
 
@@ -358,12 +351,9 @@ console.log(filter(SCRIPTS, script => script.living));
 
 {{index [function, "as value"], [function, application]}}
 
-This uses the argument named `test`, a function value, to fill in a
-"gap" in the computation. The `test` function is called for each
-element, and its return value determines whether an element is
-included in the returned array. 
-
-This finds and collects the 81 living scripts in the data set.
+The function uses the argument named `test`, a function value, to fill
+a "gap" in the computation—the process of deciding which elements to
+collect.
 
 {{index "filter method", "pure function", "side effect"}}
 
@@ -372,13 +362,13 @@ existing array, builds up a new array with only the elements that pass
 the test. This function is _pure_. It does not modify the array it is
 given.
 
-Like `forEach`, `filter` is also a ((standard)) method on arrays. The
-example defined the function only in order to show what it does
-internally. From now on, we'll use it like this instead:
+Like `forEach`, `filter` is a ((standard)) array method. The example
+defined the function only in order to show what it does internally.
+From now on, we'll use it like this instead:
 
 ```
 console.log(SCRIPTS.filter(s => s.direction == "ttb"));
-// → [{name: "Mongolian", …}]
+// → [{name: "Mongolian", …}, …]
 ```
 
 ## Transforming with map
@@ -394,7 +384,7 @@ which is easier to inspect.
 The `map` method transforms an array by applying a function to all of
 its elements and building a new array from the returned values. The
 new array will have the same length as the input array, but its
-content will have been "mapped" to a new form by the function.
+content will have been _mapped_ to a new form by the function.
 
 ```
 function map(array, transform) {
@@ -410,29 +400,30 @@ console.log(map(rtlScripts, s => s.name));
 // → ["Adlam", "Arabic", "Imperial Aramaic", …]
 ```
 
-Like `forEach` and `filter`, `map` is also a standard method on
-arrays.
+Like `forEach` and `filter`, `map` is a standard array method.
 
 ## Summarizing with reduce
 
 {{index [array, methods], "summing example", "reduce method"}}
 
-Another common pattern of computation on arrays is computing a single
-value from them. Our recurring example, summing a collection of
-numbers, is an instance of this. Another example would be finding the
-script with the most characters in the data set.
+Another common thing to do with arrays is computing a single value
+from them. Our recurring example, summing a collection of numbers, is
+an instance of this. Another example would be finding the script with
+the most characters.
 
-{{index [function, "higher-order"], "fold function"}}
+{{indexsee "fold", "reduce method"}}
+
+{{index [function, "higher-order"], "reduce method"}}
 
 The higher-order operation that represents this pattern is called
-_reduce_ (or sometimes _fold_). You can think of it as folding up the
-array, one element at a time. When summing numbers, you'd start with
-the number zero and, for each element, combine it with the current sum
-by adding.
+_reduce_ (sometimes also called _fold_). It builds a value by
+repeatedly taking a single element from the array and combining it
+with the previous value. When summing numbers, you'd start with the
+number zero and, for each element, add that to the sum.
 
-The parameters to the `reduce` function are, apart from the array, a
-combining function and a start value. This function is a little less
-straightforward than `filter` and `map`, so pay close attention.
+The parameters to `reduce` are, apart from the array, a combining
+function and a start value. This function is a little less
+straightforward than `filter` and `map`, so look closely.
 
 ```
 function reduce(array, combine, start) {
@@ -488,10 +479,10 @@ The Han script has over 89 thousand characters assigned to it in the
 Unicode standard, making it by far the biggest writing system in the
 data set. Han is a script (sometimes) used for Chinese, Japanese, and
 Korean text. Those languages share a lot of characters, though they
-tend to write them somewhat differently. The (US based) Unicode
-consortium decided to treat them as a single writing system in order
-to save character codes. This is called "Han unification" and still
-makes some people very angry.
+tend to write them differently. The (US based) Unicode Consortium
+decided to treat them as a single writing system in order to save
+character codes. This is called "Han unification" and still makes some
+people very angry.
 
 ## Composability
 
@@ -514,7 +505,7 @@ console.log(biggest);
 ```
 
 There are a few more ((binding))s, and the program is four lines
-longer but still quite easy to understand.
+longer. But it is still very readable.
 
 {{index "average function", composability, [function, "higher-order"], "filter method", "map method", "reduce method"}}
 
@@ -560,7 +551,7 @@ console.log(Math.round(total / count));
 
 But it is harder to see what was being computed and how. And because
 intermediate results aren't represented as coherent values, it'd be a
-lot harder to extract something like `average` into a separate
+lot more work to extract something like `average` into a separate
 function.
 
 {{index efficiency}}
@@ -570,14 +561,14 @@ are also quite different. The first will build up new ((array))s when
 running `filter` and `map`, whereas the second only computes some
 numbers, doing less work. You can usually afford the readable
 approach, but if you're processing huge arrays, and doing so many
-times, the more awkward loop style might be worth the extra speed.
+times, the less abstract style might be worth the extra speed.
 
 ## Strings and character codes
 
 {{index "SCRIPTS data set"}}
 
 One use of the data set would be figuring out what script a piece of
-text is using. Let's go through an example that does this.
+text is using. Let's go through a program that does this.
 
 Remember that each script has an array of character code ranges
 associated with it. So given a character code, we could use a function
@@ -600,33 +591,33 @@ console.log(characterScript(121));
 // → {name: "Latin", …}
 ```
 
-The `some` method on arrays is another higher-order function. It takes
-a test function and tells you if that function returns true for any of
-the elements in the array.
+The `some` method is another higher-order function. It takes a test
+function and tells you if that function returns true for any of the
+elements in the array.
 
 {{id code_units}}
 
 But how do we get the character codes in a string?
 
 In [Chapter ?](values) I mentioned that JavaScript ((string))s are
-encoded as a sequence of 16-bit numbers called _((code unit))s_. A
-((Unicode)) ((character)) code was initially supposed to fit within
-such a unit (which gives you a little over 65 thousand characters).
-When it became clear that wasn't going to be enough, many people
-balked at the need to use more memory per character. To address these
-concerns, ((UTF-16)), the format used by JavaScript strings, was
-invented. It describes some characters using a single 16-bit code
-unit, and others using a pair of two such units.
+encoded as a sequence of 16-bit numbers. These are called _((code
+unit))s_. A ((Unicode)) ((character)) code was initially supposed to
+fit within such a unit (which gives you a little over 65 thousand
+characters). When it became clear that wasn't going to be enough, many
+people balked at the need to use more memory per character. To address
+these concerns, ((UTF-16)), the format used by JavaScript strings, was
+invented. It describes most common characters using a single 16-bit
+code unit, but uses a pair of two such units for others.
 
 {{index error}}
 
-UTF-16 is generally considered a bad idea now. It seems almost
+UTF-16 is generally considered a bad idea today. It seems almost
 intentionally designed to invite mistakes. It's easy to write programs
-that pretend code units and characters are the same thing. And if
-your language doesn't use two-unit characters, that will appear to
-work just fine. But as soon as someone tries to use such a program
-with some less common ((Chinese characters)), it breaks. Fortunately,
-with the advent of ((Emoji)), everybody has started using two-unit
+that pretend code units and characters are the same thing. And if your
+language doesn't use two-unit characters, that will appear to work
+just fine. But as soon as someone tries to use such a program with
+some less common ((Chinese characters)), it breaks. Fortunately, with
+the advent of ((emoji)), everybody has started using two-unit
 characters, and the burden of dealing with such problems is more
 fairly distributed.
 
@@ -637,7 +628,7 @@ getting their length through the `length` property and accessing their
 content using square brackets, deal only with code units.
 
 ```{test: no}
-// Two Emoji characters, horse and shoe
+// Two emoji characters, horse and shoe
 let horseShoe = "🐴👟";
 console.log(horseShoe.length);
 // → 4
@@ -646,26 +637,26 @@ console.log(horseShoe[0]);
 console.log(horseShoe.charCodeAt(0));
 // → 55357 (Code of the half-character)
 console.log(horseShoe.codePointAt(0));
-// → 128052 (Actual code for horse Emoji)
+// → 128052 (Actual code for horse emoji)
 ```
 
 {{index "codePointAt method"}}
 
-Note that JavaScript's `charCodeAt` method gives you a code unit, not
-a full character code. The `codePointAt` method, added later, does
-give a full Unicode character. So we could use that to get characters
-from a string. But the argument passed to `codePointAt` is still an
-index into the sequence of code units. So to run over all characters
-in a string, we'd still need to deal with the question of whether a
+JavaScript's `charCodeAt` method gives you a code unit, not a full
+character code. The `codePointAt` method, added later, does give a
+full Unicode character. So we could use that to get characters from a
+string. But the argument passed to `codePointAt` is still an index
+into the sequence of code units. So to run over all characters in a
+string, we'd still need to deal with the question of whether a
 character takes up one or two code units.
 
 {{index "for/of loop", character}}
 
-In the [previous chapter](data#for_of_loop), I mentioned that
-a `for`/`of` loop can also be used on strings. Like `codePointAt`,
-this type of loop was introduced at a time where people were acutely
-aware of the problems with UTF-16. And when you use it to loop over a
-string, it gives you real characters, not code units.
+In the [previous chapter](data#for_of_loop), I mentioned that a
+`for`/`of` loop can also be used on strings. Like `codePointAt`, this
+type of loop was introduced at a time where people were acutely aware
+of the problems with UTF-16. When you use it to loop over a string, it
+gives you real characters, not code units.
 
 ```
 let roseDragon = "🌹🐉";
@@ -676,8 +667,8 @@ for (let char of roseDragon) {
 // → 🐉
 ```
 
-If we have a character (which will be a string of one or two code
-units), we can use `codePointAt(0)` to get its code.
+If you have a character (which will be a string of one or two code
+units), you can use `codePointAt(0)` to get its code.
 
 ## Recognizing text
 
@@ -714,15 +705,15 @@ elements that were found in that group.
 
 {{index "findIndex method", "indexOf method"}}
 
-It uses a new array method `findIndex`. This method is somewhat like
-`indexOf`, but instead of looking for a specific value, it looks for
-the first value for which the given function returns true. Like
-`indexOf`, it returns -1 when no such element is found.
+It uses another array method—`findIndex`. This method is somewhat like
+`indexOf`, but instead of looking for a specific value, it finds the
+first value for which the given function returns true. Like `indexOf`,
+it returns -1 when no such element is found.
 
 {{index "textScripts function", "Chinese characters"}}
 
-Using that, we can write the function that tells us which scripts are
-used in a piece of text.
+Using `countBy`, we can write the function that tells us which scripts
+are used in a piece of text.
 
 ```{includeCode: strip_log, startCode: true}
 function textScripts(text) {
@@ -748,34 +739,33 @@ console.log(textScripts('英国的狗说"woof", 俄罗斯的狗说"тяв"'));
 The function first counts the characters by name, using
 `characterScript` to assign them a name, and falling back to the
 string `"none"` for characters that aren't part of any script. The
-`filter` call then drops the entry for `"none"` from the resulting
-array, since we aren't interested in that.
+`filter` call drops the entry for `"none"` from the resulting array,
+since we aren't interested in those characters.
 
 {{index "reduce method", "map method", "join method", [array, methods]}}
 
 To be able to compute ((percentage))s, we first need the total amount
-of characters that belong to a script, which we can compute with the
-`reduce` method. If no such characters are found, the function returns
-a specific string. Otherwise, it transforms the counting entries into
-readable strings with `map`. Finally, it turns the resulting array
-into a single string with the `join` method, which will insert the
-string it is given in between each of the elements of the array.
+of characters that belong to a script, which we can compute with
+`reduce`. If no such characters are found, the function returns a
+specific string. Otherwise, it transforms the counting entries into
+readable strings with `map`, and then combine them with `join`.
 
 ## Summary
 
-Being able to pass function values to other functions is not just a
-gimmick—it's a deeply useful aspect of JavaScript. It allows us to
-write functions that model computations with "gaps" in them. The code
-that calls these functions can fill in the gaps by providing function
-values.
+Being able to pass function values to other functions is a deeply
+useful aspect of JavaScript. It allows us to write functions that
+model computations with "gaps" in them. The code that calls these
+functions can fill in the gaps by providing function values.
 
-Arrays provide a number of useful higher-order methods—`forEach` to
-loop over the elements in an array, `filter` to build a new array with
-some elements filtered out, `map` to build a new array where each
-element has been put through a function, `reduce` to combine all an
-array's elements into a single value, `some` to see whether any
-element matches a given predicate function, and `findIndex` to find
-the position of the first element that matches a predicate.
+Arrays provide a number of useful higher-order methods. You can use
+`forEach` to loop over the elements in an array. The `filter` method
+returns a new array with the elements that didn't pass the ((predicate
+function)) filtered out. Transforming an array by putting each element
+through a function is done with `map`. You can use `reduce` to combine
+all the elements in an array into a single value. The `some` method
+tests whether any element matches a given predicate function. And
+`findIndex` finds the position of the first element that matches a
+predicate.
 
 ## Exercises
 
@@ -785,7 +775,7 @@ the position of the first element that matches a predicate.
 
 Use the `reduce` method in combination with the `concat` method to
 "flatten" an array of arrays into a single array that has all the
-elements of the input arrays.
+elements of the original arrays.
 
 {{if interactive
 
@@ -800,15 +790,15 @@ if}}
 
 {{index "your own loop (example)", "for loop"}}
 
-Write a higher-order function `loop` that provides a way to something
-like a `for` loop statement. It takes a value, a test function, an
-update function, and a body function. Each iteration, it first runs
-the test function on the current loop value, and stops if that returns
-false. Then, it calls the body function, giving it the current value.
-And finally, it calls the update function to create a new value, and
+Write a higher-order function `loop` that provides something like a
+`for` loop statement. It takes a value, a test function, an update
+function, and a body function. Each iteration, it first runs the test
+function on the current loop value, and stops if that returns false.
+Then it calls the body function, giving it the current value. And
+finally, it calls the update function to create a new value, and
 starts from the beginning.
 
-When defining the function, you may use a regular loop to do the
+When defining the function, you can use a regular loop to do the
 actual looping.
 
 {{if interactive
@@ -830,9 +820,8 @@ if}}
 
 Analogous to the `some` method, arrays also have an `every` method.
 This one returns true when the given function returns true for _every_
-element in the array. In a way, `some` is a variant of the `||`
-operator that can act on arrays, and `every` acts like the `&&`
-operator.
+element in the array. In a way, `some` is a version of the `||`
+operator that acts on arrays, and `every` is like the `&&` operator.
 
 Implement `every` as a function that takes an array and a predicate
 function as parameters. Write two versions, one using a loop and one

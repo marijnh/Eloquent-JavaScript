@@ -289,6 +289,7 @@ character is written like `"`\n`"`._" can be expressed:
 ```
 
 {{id unicode}}
+
 {{index [string, representation], Unicode, character}}
 
 Strings, too, have to be modeled as a series of bits to be able to

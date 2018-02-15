@@ -934,9 +934,10 @@ methods.DELETE = async function(request) {
 {{index "204 (HTTP status code)", "body (HTTP)"}}
 
 When an ((HTTP)) ((response)) does not contain any data, the status
-code 204 ("no content") can be used to indicate this. Since deleting
-require any information in the response, apart from whether the
-operation succeeded, it is a sensible thing to return here.
+code 204 ("no content") can be used to indicate this. Since the
+response to deletion doesn't need to transmit any information beyond
+whether the operation succeeded, it is a sensible thing to return
+here.
 
 {{index idempotence, "error response"}}
 

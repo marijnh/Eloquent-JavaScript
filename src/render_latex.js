@@ -44,12 +44,15 @@ function escapeIndexChar(ch) {
     case "|": return "\\textbar{} "
     case "@": return "\"@"
     case "!": return "\"!"
+    case "- ": return "-@− "
+    case "--": return "--@−−"
+    case "-=": return "-=@−="
     default: return "\\" + ch
   }
 }
 function escapeIndex(value) {
   if (Array.isArray(value)) return value.map(escapeIndex).join("!")
-  return String(value).replace(/[&%$#_{}~^\\|!@]/g, escapeIndexChar)
+  return String(value).replace(/[&%$#_{}~^\\|!@]|-[ -=]/g, escapeIndexChar)
 }
 
 function escapeComplexScripts(string) {

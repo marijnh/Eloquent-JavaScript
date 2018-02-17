@@ -62,7 +62,7 @@ pre[data-language=javascript] {
   cursor: pointer;
 }
 
-p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3:hover a.h_ident:after {
+p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3:hover a.i_ident:after {
   content: "¶";
   font-family: 'Cinzel', Georgia, serif;
   color: #888;
@@ -72,7 +72,7 @@ p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3
 }
 
 @media screen and (max-width: 800px) {
-  p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3:hover a.h_ident:after {
+  p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3:hover a.i_ident:after {
     right: 5px;
   }
 

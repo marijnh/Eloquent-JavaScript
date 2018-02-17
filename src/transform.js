@@ -111,7 +111,7 @@ exports.transformTokens = function(tokens, options) {
       if (type == "paragraph_open")
         tok.hashID = "p_" + hash(startAndEnd(childrenText(tokens[i + 1])))
       else if (type == "heading_open")
-        tok.hashID = "h_" + hash(childrenText(tokens[i + 1]))
+        tok.hashID = (tok.tag == "h2" ? "h_" : "i_") + hash(childrenText(tokens[i + 1]))
       else if (type == "fence")
         tok.hashID = "c_" + hash(tok.content)
 

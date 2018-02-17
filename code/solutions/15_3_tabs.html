@@ -1,10 +1,10 @@
 <!doctype html>
 
-<div id="wrapper">
+<tab-panel>
   <div data-tabname="one">Tab one</div>
   <div data-tabname="two">Tab two</div>
   <div data-tabname="three">Tab three</div>
-</div>
+</tab-panel>
 <script>
   function asTabs(node) {
     let tabs = Array.from(node.childNodes)
@@ -31,5 +31,5 @@
     selectTab(tabs[0]);
   }
 
-  asTabs(document.querySelector("#wrapper"));
+  asTabs(document.querySelector("tab-panel"));
 </script>

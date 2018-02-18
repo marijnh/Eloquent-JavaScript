@@ -31,7 +31,7 @@ introduced earlier in the text.
 {{if book
 
 The online coding ((sandbox)) for the book
-(http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
+([_eloquentjavascript.net/code_](http://eloquentjavascript.net/code))
 provides a way to run code in the context of a specific chapter. If
 you decide to work through the examples in another environment, be
 sure to first download the full code for this chapter from the sandbox

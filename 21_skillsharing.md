@@ -480,11 +480,11 @@ strings. Any data coming from outside the system might be nonsense,
 and we don't want to corrupt our internal data model, or even
 ((crash)), when bad requests come in.
 
-{{index "registerChange function"}}
+{{index "updated method"}}
 
 If the data looks valid, the handler stores an object that represents
 the new talk in the `talks` object, possibly ((overwriting)) an
-existing talk with this title, and again calls `registerChange`.
+existing talk with this title, and again calls `updated`.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 router.add("PUT", talkPath,
@@ -1042,7 +1042,7 @@ about efficiency—do the simplest thing that works.
 
 {{hint
 
-{{index "file system", "writeFile function", "registerChange function", persistence}}
+{{index "file system", "writeFile function", "updated method", persistence}}
 
 The simplest solution I can come up with is to encode the whole
 `talks` object as ((JSON)) and dump it to a file with `writeFile`.

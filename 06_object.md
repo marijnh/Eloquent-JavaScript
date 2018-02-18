@@ -788,8 +788,8 @@ for (let {x, y, value} of matrix) {
 
 Interfaces often consist mostly of methods, but it is also okay to
 include properties that hold non-function values. For example, `Map`
-objects have a `size` property that tellsf how many keys are stored in
-it.
+objects have a `size` property that tells you how many keys are stored
+in it.
 
 It is not even necessary for such an object to compute and store such
 a property directly in the instance. Even properties that are accessed

@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/crows.js", "code/chapter/11_async.js"]}}}
+{{meta {load_files: ["code/crow-tech.js", "code/chapter/11_async.js"]}}}
 
 # Asynchronous Programming
 
@@ -185,7 +185,7 @@ nest, a crow could run code like this:
 {{index "readStorage function"}}
 
 ```{includeCode: "top_lines: 1"}
-import {bigOak} from "crow-tech";
+import {bigOak} from "./crow-tech";
 
 bigOak.readStorage("food caches", caches => {
   let firstCache = caches[0];
@@ -216,7 +216,7 @@ response.
 
 {{index "crow-tech module", "send method"}}
 
-The interface exported by the `"crow-tech"` module provides
+The interface exported by the `"./crow-tech"` module provides
 callback-based functions for communication. Nests have a `send` method
 that sends off a request. It expects the name of the target nest, the
 type of the request, and the content of the request as its first three
@@ -237,7 +237,7 @@ our handler code on all connected nests.
 {{index "defineRequestType function"}}
 
 ```{includeCode: true}
-import {defineRequestType} from "crow-tech";
+import {defineRequestType} from "./crow-tech";
 
 defineRequestType("note", (nest, content, source, done) => {
   console.log(`${nest.name} received note: ${content}`);
@@ -625,7 +625,7 @@ whole network has received the message.
 {{index "sendGossip function"}}
 
 ```{includeCode: true}
-import {everywhere} from "crow-tech";
+import {everywhere} from "./crow-tech";
 
 everywhere(nest => {
   nest.state.gossip = [];

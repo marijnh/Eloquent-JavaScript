@@ -127,41 +127,10 @@
 
   if (typeof window != "undefined") {
     window.require = name => {
-      if (name != "crow-tech") throw new Error("Crow nests can only require \"crow-tech\"")
+      if (name != "./crow-tech") throw new Error("Crow nests can only require \"./crow-tech\"")
       return exports
     }
-
-    window.List = class List {
-      constructor(value, rest) {
-        this.value = value;
-        this.rest = rest;
-      }
-
-      toArray() {
-        let array = [];
-        for (let list = this; list != List.empty; list = list.rest) {
-          array.push(list.value);
-        }
-        return array;
-      }
-
-      get length() {
-        let length = 0;
-        for (let list = this; list != List.empty; list = list.rest) {
-          length++;
-        }
-        return length;
-      }
-
-      static fromArray(array) {
-        let list = List.empty;
-        for (let i = array.length - 1; i >= 0; i--) {
-          list = new List(array[i], list);
-        }
-        return list;
-      }
-    }
-
-    List.empty = new List(undefined, undefined);
+  } else if (typeof module != "undefined" && module.exports) {
+    module.exports = exports
   }
 })()

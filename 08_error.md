@@ -17,7 +17,7 @@ programmers feel good to imagine them as little things that just
 happen to crawl into our work. In reality, of course, we put them
 there ourselves.
 
-A program is crystallized thought. You can roughly categorize bugs
+If a program is crystallized thought, you can roughly categorize bugs
 into those caused by the thoughts being confused, and those caused by
 mistakes introduced while converting a thought to code. The former
 type is generally harder to diagnose and fix than the latter.
@@ -31,8 +31,8 @@ computer, if it knew enough about what we're trying to do. But here
 JavaScript's looseness is a hindrance. Its concept of bindings and
 properties is vague enough that it will rarely catch ((typo))s before
 actually running the program. And even then, it allows you to do some
-clearly nonsensical things without complaint, such as `true *
-"monkey"`.
+clearly nonsensical things without complaint, such as computing
+`true * "monkey"`.
 
 {{index syntax}}
 
@@ -41,7 +41,7 @@ program that does not follow the language's ((grammar)) will
 immediately make the computer complain. Other things, such as calling
 something that's not a function or looking up a ((property)) on an
 ((undefined)) value, will cause an error to be reported when the
-program is running and encounters the action.
+program tries to perform the action.
 
 {{index NaN, error}}
 
@@ -85,8 +85,8 @@ with `counter` in the example, JavaScript quietly creates a global
 binding and uses that. In strict mode an ((error)) is reported
 instead. This is very helpful. It should be noted, though, that this
 doesn't work when the binding in question already exists as a global
-binding, in which case the loop will still quietly overwrite the value
-of that binding.
+binding. In that case the loop will still quietly overwrite the value
+of the binding.
 
 {{index this, "global object", undefined, "strict mode"}}
 
@@ -134,11 +134,11 @@ a problem even in non-strict mode.
 Strict mode does a few more things. It disallows giving a function
 multiple parameters with the same name and removes certain problematic
 language features entirely (such as the `with` statement, which is so
-problematic it is not further discussed in this book).
+wrong it is not further discussed in this book).
 
 {{index debugging}}
 
-In short, putting a `"use strict"` at the top of your program rarely
+In short, putting `"use strict"` at the top of your program rarely
 hurts and might help you spot a problem.
 
 ## Types
@@ -168,12 +168,13 @@ function goalOrientedRobot(state, memory) {
 There are a number of different conventions for annotating JavaScript
 programs with types.
 
-What do you think would be the type of the `randomPick` function that
-returns a random element from an array? One thing about types is that
-they require their own complexity to describe some code. In this case,
-you'd need a _((type variable))_ _T_, which can stand in for any type,
-at which point you can give `randomPick` a type like `([T]) → T`
-(function from array of *T*s to a *T*).
+One thing about types is that they need to introduce their own
+complexity to be able to describe enough code to be useful. What do
+you think would be the type of the `randomPick` function that returns
+a random element from an array? You'd need to introduce a _((type
+variable))_, _T_, which can stand in for any type, so that you can
+give `randomPick` a type like `([T]) → T` (function from an array of
+*T*s to a *T*).
 
 {{index "type checking", TypeScript}}
 
@@ -198,9 +199,8 @@ we'll have to find them the hard way: by running the program and
 seeing whether it does the right thing.
 
 Doing this by hand, again and again, is a really bad idea. Not only is
-it annoying, it will also necessarily be ineffective, since it takes
-too much time to exhaustively test everything every time you make a
-change.
+it annoying, it also tends to be ineffective, since it takes too much
+time to exhaustively test everything every time you make a change.
 
 Computers are good at repetitive tasks, and testing is the ideal
 repetitive task. Automated testing is the process of writing a program
@@ -223,10 +223,10 @@ function test(label, body) {
   if (!body()) console.log(`Failed: ${label}`);
 }
 
-test("convert Latin text to upper case", () => {
+test("convert Latin text to uppercase", () => {
   return "hello".toUpperCase() == "HELLO";
 });
-test("convert Greek text to upper case", () => {
+test("convert Greek text to uppercase", () => {
   return "Χαίρετε".toUpperCase() == "ΧΑΊΡΕΤΕ";
 });
 test("don't convert case-less characters", () => {
@@ -246,11 +246,10 @@ These are usually called _((test runners))_.
 {{index "persistent data structure"}}
 
 Some code is easier to test than other code. Generally, the more
-external objects that it interacts with, the harder it is to set up
-the context in which to test it. The style of programming shown in the
-[previous chapter](robot), which uses self-contained persistent values
-rather than changing objects, tends to produce code that's easy to
-test.
+external objects that the code interacts with, the harder it is to set
+up the context in which to test it. The style of programming shown in
+the [previous chapter](robot), which uses self-contained persistent
+values rather than changing objects, tends be easy to test.
 
 ## Debugging
 
@@ -268,10 +267,9 @@ description and that line of code, you can often see the problem.
 
 But not always. Sometimes the line that triggered the problem is
 simply the first place where a flaky value produced elsewhere gets
-used in an invalid way. And sometimes there is no error message at
-all—just an invalid result. If you have been solving the ((exercises))
-in the earlier chapters, you will probably have already experienced
-such situations.
+used in an invalid way. If you have been solving the ((exercises)) in
+earlier chapters, you will probably have already experienced such
+situations.
 
 {{index "decimal number", "binary number"}}
 
@@ -357,8 +355,8 @@ whenever it reaches such a statement.
 
 Not all problems can be prevented by the programmer, unfortunately. If
 your program communicates with the outside world in any way, it is
-possible to get malformed input, or to have the network fail, or to
-become overloaded with work.
+possible to get malformed input, to become overloaded with work, or to
+have the network fail.
 
 {{index "error recovery"}}
 
@@ -368,7 +366,7 @@ going to be used by anybody else, you usually want the program to do
 better than just crashing. Sometimes the right thing to do is take the
 bad input in stride and continue running. In other cases, it is better
 to report to the user what went wrong and then give up. But in either
-situation, the program has to actively take action in response to the
+situation, the program has to actively do something in response to the
 problem.
 
 {{index "promptInteger function", validation}}
@@ -423,8 +421,8 @@ function lastElement(array) {
 The second issue with returning special values is that it can lead to
 very awkward code. If a piece of code calls `promptNumber` 10 times,
 it has to check 10 times whether `null` was returned. And if its
-response to finding `null` is to simply return `null` itself, the
-caller will in turn have to check for it, and so on.
+response to finding `null` is to simply return `null` itself, callers
+of the function will in turn have to check for it, and so on.
 
 ## Exceptions
 
@@ -436,7 +434,7 @@ how to handle the problem. This is what _((exception handling))_ does.
 
 {{index "control flow", "raising (exception)", "throw keyword", "call stack"}}
 
-Exceptions are a mechanism that make it possible for code that runs
+Exceptions are a mechanism that makes it possible for code that runs
 into a problem to _raise_ (or _throw_) an exception. An exception can
 be any value. Raising one somewhat resembles a super-charged return
 from a function: it jumps out of not just the current function but
@@ -467,10 +465,11 @@ function promptDirection(question) {
 }
 
 function look() {
-  if (promptDirection("Which way?") == "L")
+  if (promptDirection("Which way?") == "L") {
     return "a house";
-  else
+  } else {
     return "two angry bears";
+  }
 }
 
 try {
@@ -504,7 +503,7 @@ the failing call.
 
 {{index "exception handling"}}
 
-Note that the function `look` completely ignores the possibility that
+Note that the `look` function completely ignores the possibility that
 `promptDirection` might go wrong. This is the big advantage of
 exceptions—error-handling code is necessary only at the point where
 the error occurs and at the point where it is handled. The functions
@@ -517,9 +516,9 @@ Well, almost...
 {{index "exception handling", "cleaning up"}}
 
 The effect of an exception is another kind of ((control flow)). Every
-action that might cause an exception, which is at least every function
-call and property access, might cause control to suddenly leave your
-code.
+action that might cause an exception, which is pretty much every
+function call and property access, might cause control to suddenly
+leave your code.
 
 That means that when code has several side effects, even if its
 "regular" control flow looks like they'll always all happen, an
@@ -530,7 +529,7 @@ exception might prevent some of them from taking place.
 Here is some really bad banking code.
 
 ```{includeCode: true}
-let accounts = {
+const accounts = {
   a: 100,
   b: 0,
   c: 20
@@ -577,9 +576,8 @@ there is no problem.
 But that isn't always practical. So there is another feature that
 `try` statements have. They may be followed by a `finally` block
 either instead of or in addition to a `catch` block. A `finally` block
-means "No matter _what_ happens, run this code after trying to run the
-code in the `try` block". If a function has to clean something up, the
-cleanup code should usually be put into a `finally` block.
+says "no matter _what_ happens, run this code after trying to run the
+code in the `try` block".
 
 ```{includeCode: true}
 function transfer(from, amount) {
@@ -639,7 +637,7 @@ were on the stack when the problem occurred.
 {{index "user interface"}}
 
 For problems that are _expected_ to happen during routine use,
-crashing with an unhandled exception is not a very friendly response.
+crashing with an unhandled exception is a terrible strategy.
 
 {{index syntax, [function, application], "exception handling", "Error type"}}
 
@@ -701,14 +699,14 @@ carefully about how you might be hiding information.
 
 So we want to catch a _specific_ kind of exception. We can do this by
 checking in the `catch` block whether the exception we got is the one
-we are interested in and by rethrowing it otherwise. But how do we
+we are interested in and rethrowing it otherwise. But how do we
 recognize an exception?
 
-Of course, we could compare its `message` property against the
-((error)) message we happen to expect. But that's a shaky way to write
-code—we'd be using information that's intended for human consumption
-(the message) to make a programmatic decision. As soon as someone
-changes (or translates) the message, the code will stop working.
+We could compare its `message` property against the ((error)) message
+we happen to expect. But that's a shaky way to write code—we'd be
+using information that's intended for human consumption (the message)
+to make a programmatic decision. As soon as someone changes (or
+translates) the message, the code will stop working.
 
 {{index "Error type", "instanceof operator", "promptDirection function"}}
 
@@ -790,7 +788,7 @@ for such mistakes to go unnoticed, and easier to find their cause when
 they occur.
 
 I do not recommend trying to write assertions for every possible kind
-of bad input. That'd be a lot of work, and would lead to very noisy
+of bad input. That'd be a lot of work and would lead to very noisy
 code. You'll want to reserve them for mistakes that are easy to make
 (or that you find yourself making).
 
@@ -804,7 +802,7 @@ assertions to your programs.
 Problems caused by factors outside the program's control should
 usually be handled gracefully. Sometimes, when the problem can be
 handled locally, special return values are a good way to track them.
-Otherwise, exceptions are preferable.
+Otherwise, exceptions may be preferable.
 
 Throwing an exception causes the call stack to be unwound until the
 next enclosing `try/catch` block or until the bottom of the stack. The
@@ -812,7 +810,7 @@ exception value will be given to the `catch` block that catches it,
 which should verify that it is actually the expected kind of exception
 and then do something with it. To help address the unpredictable
 control flow caused by exceptions, `finally` blocks can be used to
-ensure a piece of code is _always_ run when a block finishes.
+ensure a piece of code _always_ runs when a block finishes.
 
 ## Exercises
 
@@ -836,10 +834,11 @@ Make sure you handle only the exceptions you are trying to handle.
 class MultiplicatorUnitFailure extends Error {}
 
 function primitiveMultiply(a, b) {
-  if (Math.random() < 0.2)
+  if (Math.random() < 0.2) {
     return a * b;
-  else
+  } else {
     throw new MultiplicatorUnitFailure("Klunk");
+  }
 }
 
 function reliableMultiply(a, b) {
@@ -874,8 +873,8 @@ hint}}
 
 Consider the following (rather contrived) object:
 
-```{includeCode: true}
-let box = {
+```
+const box = {
   locked: true,
   unlock() { this.locked = false; },
   lock() { this.locked = true;  },
@@ -889,9 +888,9 @@ let box = {
 
 {{index "private property", "access control"}}
 
-It is a ((box)) with a lock. Inside is an array, but you can get at it
-only when the box is unlocked. Directly accessing the private
-`_content` property is forbidden.
+It is a ((box)) with a lock. There is an array in the box, but you can
+get at it only when the box is unlocked. Directly accessing the
+private `_content` property is forbidden.
 
 {{index "finally keyword", "exception handling"}}
 
@@ -903,6 +902,17 @@ argument function returned normally or threw an exception.
 {{if interactive
 
 ```
+const box = {
+  locked: true,
+  unlock() { this.locked = false; },
+  lock() { this.locked = true;  },
+  _content: [],
+  get content() {
+    if (this.locked) throw new Error("Locked!");
+    return this._content;
+  }
+};
+
 function withBoxUnlocked(body) {
   // Your code here.
 }
@@ -931,10 +941,9 @@ if}}
 
 {{index "locked box (exercise)", "finally keyword", "try keyword"}}
 
-This exercise calls for a `finally` block, as you may have guessed.
-Your function should first unlock the box and then call the argument
-function from inside a `try` body. The `finally` block after it should
-lock the box again.
+This exercise calls for a `finally` block. Your function should first
+unlock the box and then call the argument function from inside a `try`
+body. The `finally` block after it should lock the box again.
 
 To make sure we don't lock the box when it wasn't already locked,
 check its lock at the start of the function and unlock and lock

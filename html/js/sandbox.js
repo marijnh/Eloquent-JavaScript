@@ -81,7 +81,7 @@
     run(code, output, meta) {
       if (output) this.output = output
       this.startedAt = Date.now()
-      this.extraSecs = 2
+      this.extraSecs = typeof code == "string" && /promtDirection/.test(code) ? 0.1 : 2
       this.win.__c = 0
       this.prepare(code)
         .then(code => {

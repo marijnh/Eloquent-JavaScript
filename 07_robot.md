@@ -12,9 +12,9 @@ quote}}
 {{index "artificial intelligence", "Dijkstra, Edsger", "project chapter", "reading code", "writing code"}}
 
 In "project" chapters, I'll stop pummeling you with new theory for a
-brief moment and instead work through a program with you. Theory is
-indispensable when learning to program, but it is best accompanied by
-reading and understanding nontrivial programs.
+brief moment and instead we'll work through a program together. Theory
+is necessary to learn to program, but reading and understanding actual
+programs is just as important.
 
 Our project in this chapter is to build an ((automaton)), a little
 program that performs a task in a ((virtual world)). Our automaton
@@ -42,14 +42,14 @@ const roads = [
 
 {{figure {url: "img/village2x.png", alt: "The village of Meadowfield"}}}
 
-This network of roads forms a _((graph))_. A graph is a collection of
-points (places in the village) with lines between them (roads). This
-graph will be the world that our robot moves through.
+The network of roads in the village forms a _((graph))_. A graph is a
+collection of points (places in the village) with lines between them
+(roads). This graph will be the world that our robot moves through.
 
 {{index "roadGraph object"}}
 
-That array of strings isn't very easy to work with. Instead, we'll
-typically want to find the destinations that we can reach from a given
+The array of strings isn't very easy to work with. What we're
+interested in is the destinations that we can reach from a given
 place. Let's convert the list of roads to a data structure that, for
 each place, tells us what can be reached from there.
 
@@ -78,10 +78,9 @@ each node, stores an array of connected nodes.
 
 {{index "split method"}}
 
-Strings have a `split` method that converts it into an ((array)) of
-shorter strings, cutting on the string given as argument. Since we
-know that road strings have the form `"Start-End"`, splitting on a
-dash will produce a two-element array.
+It uses the `split` method to go from the road strings, which have the
+form `"Start-End"`, to two-element arrays containing the start and end
+as separate strings.
 
 ## The task
 
@@ -90,18 +89,18 @@ in various places, each addressed to some other place. The robot picks
 up parcels when it comes to them, and delivers them when it arrives at
 their destination.
 
-The automaton must decide, at each point, where it will go next. It
-has finished its task when all parcels have been delivered.
+The automaton must decide, at each point, where to go next. It has
+finished its task when all parcels have been delivered.
 
 {{index simulation, "virtual world"}}
 
 To be able to simulate this process, we must define a virtual world
-that can model it. This model tell us where the robot is and where the
-parcels are. When the robot has decided to move somewhere, it should
-be possible to update the model to reflect the new situation.
+that can describe it. This model tell us where the robot is and where
+the parcels are. When the robot has decided to move somewhere, we need
+to update the model to reflect the new situation.
 
 If you're thinking in terms of ((object-oriented programming)), your
-first impulse is probably to start defining objects for the various
+first impulse might be to start defining objects for the various
 elements in the world. A ((class)) for the robot, one for a parcel,
 maybe one for places. These could then hold properties that describe
 their current ((state)), such as the pile of parcels at a location,
@@ -115,17 +114,6 @@ program. Reflexively writing classes for every concept in your
 application tends to leave you with a collection of interconnected
 objects that each have their own internal, changing state. Such
 programs are often hard to understand and thus easy to break.
-
-{{index "Joe Armstrong"}}
-
-{{quote {author: "Joe Armstrong", title: "interviewed in Coders at Work"}
-
-The problem with object-oriented languages is they've got all this
-implicit environment that they carry around with them. You wanted a
-banana but what you got was a gorilla holding the banana and the
-entire jungle.
-
-quote}}
 
 Instead, let's condense the village's ((state)) down to the minimal
 set of values that define it. There's the robot's current location and
@@ -165,7 +153,7 @@ if not, it returns the old state, since this is not a valid move.
 
 {{index "map method", "filter method"}}
 
-Then, it creates a new state with the destination as the robot's
+Then, it creates a new state with the destination as the robot's new
 place. But it also needs to create a new set of parcels—parcels that
 the robot is carrying (that are at the robot's current place) need to
 be moved along to the new place. And parcels that are addressed to the
@@ -173,8 +161,8 @@ new place need to be delivered—that is, they need to be removed from
 the set of undelivered parcels. The call to `map` takes care of the
 moving, and the call to `filter` does the delivering.
 
-Parcel objects also aren't changed when they are moved, but recreated.
-The `move` method gives us a new village state, but leaves the old one
+Parcel objects aren't changed when they are moved, but recreated. The
+`move` method gives us a new village state, but leaves the old one
 entirely intact.
 
 ```
@@ -205,15 +193,15 @@ _persistent_. They behave a lot like strings and numbers, in that they
 are who they are, and stay that way, rather than containing different
 things at different times.
 
-But in JavaScript, just about everything _can_ be changed, so working
-with values that are supposed to be persistent requires some
-restraint. There _is_ a function called `Object.freeze`, which changes
-an object so that overwriting its properties is ignored. You could use
-that to make sure your objects aren't changed, if you want to be
-careful. Freezing does require the computer to do some extra work, and
-having updates ignored is just about as likely to confuse someone as
-having them go wrong. So I usually prefer to just tell people that a
-given object shouldn't be messed with, and hope they remember it.
+In JavaScript, just about everything _can_ be changed, so working with
+values that are supposed to be persistent requires some restraint.
+There is a function called `Object.freeze`, which changes an object so
+that writing to its properties is ignored. You could use that to make
+sure your objects aren't changed, if you want to be careful. Freezing
+does require the computer to do some extra work, and having updates
+ignored is just about as likely to confuse someone as having them do
+the wrong thing. So I usually prefer to just tell people that a given
+object shouldn't be messed with, and hope they remember it.
 
 ```
 let object = Object.freeze({value: 5});
@@ -225,22 +213,22 @@ console.log(object.value);
 Why am I going out of my way to not change objects, when the language
 is obviously expecting me to?
 
-Because it helps me understand my programs better. This is about
-complexity management again. When the objects in my system are fixed,
-stable things, I can consider operations on them in isolation—moving
-to Alice's house from a given start state always produces the same new
+Because it helps me understand my programs. This is about complexity
+management again. When the objects in my system are fixed, stable
+things, I can consider operations on them in isolation—moving to
+Alice's house from a given start state always produces the same new
 state. When objects change over time, that adds a whole new dimension
 of complexity to this kind of reasoning.
 
 For a small system like the one we are building in this chapter, we
-could handle a little extra complexity. But the most important limit
-on what kind of systems we can build is how much we can understand.
-Anything that makes your system easier to understand makes it
-possible to build a more ambitious system.
+could handle that bit of extra complexity. But the most important
+limit on what kind of systems we can build is how much we can
+understand. Anything that makes your code easier to understand makes
+it possible to build a more ambitious system.
 
 Unfortunately, while understanding a system built on persistent data
 structures is easier, _designing_ one, especially when your
-programming language isn't helping, can be quite a bit harder. Though
+programming language isn't helping, can be a little harder. Though
 we'll look for opportunities to use persistent data structures in this
 book, we will also be using changeable ones.
 
@@ -279,7 +267,7 @@ function runRobot(state, robot, memory) {
 Consider what a robot has to do to "solve" a given state. It must pick
 up all parcels by visiting every location that has a parcel, and
 deliver them, by visiting every location that a parcel is address to,
-but after picking up the relevant parcel.
+but only after picking up the parcel.
 
 What is the dumbest strategy that could possibly work? The robot could
 just walk in a random direction every turn. That means that, with
@@ -313,8 +301,10 @@ second argument (remember that JavaScript functions can be called with
 extra arguments without ill effects), and omits the `memory` property
 in its returned object.
 
-We'll need a way to create a new state with some parcels, to put this
-sophisticated robot to work.
+To put this sophisticated robot to work, we'll first need a way to
+create a new state with some parcels. A static method (written here by
+directly adding a property to the constructor) is a good place to put
+that functionality.
 
 ```{includeCode: true}
 VillageState.random = function(parcelCount = 5) {
@@ -335,7 +325,7 @@ VillageState.random = function(parcelCount = 5) {
 
 We don't want any parcels that are sent from the same place that they
 are addressed to. For this reason, the `do` loop keeps picking new
-places when it gets one that's also the address.
+places when it gets one that's equal to the address.
 
 Let's start up a virtual world.
 
@@ -416,7 +406,7 @@ if}}
 
 ## Pathfinding
 
-Still, you can't really call blindly following a fixed route
+Still, I wouldn't really call blindly following a fixed route
 intelligent behavior. The ((robot)) could work more efficiently if it
 adjusted its behavior to the actual work that needs to be done.
 
@@ -482,11 +472,12 @@ there. It starts with just the start position and an empty route.
 
 The search then operates by taking the next item in the list, and
 exploring that, which means that all roads going from that place are
-looked at. If one of them is the goal, a route is returned. Otherwise,
-if we haven't looked at this place before, a new item is added to the
-list. If we have looked at it before, since we are looking at short
-routes first, we've found a longer route to that place or one
-precisely as long as the existing one. So we don't need to explore it.
+looked at. If one of them is the goal, a finished route can be
+returned. Otherwise, if we haven't looked at this place before, a new
+item is added to the list. If we have looked at it before, since we
+are looking at short routes first, we've found either a longer route
+to that place or one precisely as long as the existing one, and we
+don't need to explore it.
 
 You can visually imagine this as a web of known routes crawling out
 from the start location, growing evenly on all sides (but never
@@ -618,7 +609,7 @@ at the other side of the map, even if there are others much closer.
 One possible solution would be to compute routes for all packages, and
 then take the shortest one. Even better results can be obtained by, if
 there are multiple shortest routes, preferring the ones that go to
-pick up a package, instead of delivering a package.
+pick up a package instead of delivering a package.
 
 hint}}
 
@@ -638,7 +629,7 @@ Write a new class `PGroup`, similar to the `Group` class from [Chapter
 
 Its `add` method, however, should return a _new_ `PGroup` instance
 with the given member added, and leave the old one unchanged.
-Similarly, `delete` creates a new instance without a member.
+Similarly, `delete` creates a new instance without a given member.
 
 The class should work for keys of any type, not just strings. It does
 _not_ have to be efficient when used with large amounts of keys.
@@ -687,17 +678,17 @@ When a value is added to the group, you can create a new group with a
 copy of the original array that has the value added (for example using
 `concat`). When a value is deleted, you filter it from the array.
 
-The class' ((constructor)) would take such an array as argument, and
+The class' ((constructor)) can take such an array as argument, and
 store it as the instance's (only) property. This array is never
 updated.
 
 {{index "static method"}}
 
-To add a property to a constructor that is not a method, you have to
-add it to the constructor after the class definition, as a regular
-property.
+To add a property (`empty`) to a constructor that is not a method, you
+have to add it to the constructor after the class definition, as a
+regular property.
 
-You only need on `empty` instance because all empty groups are the
+You only need one `empty` instance because all empty groups are the
 same and instances of the class don't change. You can create many
 different groups from that single empty group without affecting it.
 

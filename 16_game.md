@@ -1213,8 +1213,9 @@ returns a promise, which resolves when the user finished the game.
 {{index game, "GAME_LEVELS data set"}}
 
 There is a set of ((level)) plans available in the `GAME_LEVELS`
-binding [(downloadable from
-[_eloquentjavascript.net/code#16_](http://eloquentjavascript.net/code#16)]{if
+binding in [this chapter's
+sandbox](http://eloquentjavascript.net/code#16)[
+([_eloquentjavascript.net/code#16_](http://eloquentjavascript.net/code#16)]{if
 book}. This page feeds them to `runGame`, starting an actual game:
 
 ```{sandbox: null, focus: yes, lang: "text/html", startCode: true}

@@ -628,10 +628,12 @@ columns are not stored directly in our data structure.
 {{index "JOURNAL data set"}}
 
 Jacques kept his journal for three months. The resulting ((data set))
-is available in the coding sandbox for this
-chapter[ ([_eloquentjavascript.net/code#4_](http://eloquentjavascript.net/code#4)]{if
+is available in the [coding
+sandbox](http://eloquentjavascript.net/code#4) for this chapter[
+([_eloquentjavascript.net/code#4_](http://eloquentjavascript.net/code#4)]{if
 book}, where it is stored in the `JOURNAL` binding, and in a
-downloadable [file](http://eloquentjavascript.net/code/jacques_journal.js).
+downloadable
+[file](http://eloquentjavascript.net/code/jacques_journal.js).
 
 {{index "tableFor function"}}
 

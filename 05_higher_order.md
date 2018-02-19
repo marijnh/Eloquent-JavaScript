@@ -293,8 +293,8 @@ a sample of ((Tamil)) handwriting.
 {{index "SCRIPTS data set"}}
 
 The example ((data set)) contains some pieces of information about the
-140 scripts defined in Unicode. It is available in the coding sandbox
-for this chapter[
+140 scripts defined in Unicode. It is available in the [coding
+sandbox](http://eloquentjavascript.net/code#5) for this chapter[
 ([_eloquentjavascript.net/code#5_](http://eloquentjavascript.net/code#5)]{if
 book} as the `SCRIPTS` binding. The binding contains an array of
 objects, each of which describes a script.

@@ -374,18 +374,18 @@ blockquote footer:before {
 }
 
 
-div.image {
+figure {
   max-width: 640px;
   margin: 0 30px;
 }
 
 @media screen and (max-width: 500px) {
-  div.image {
+  figure {
     margin: 0;
   }
 }
 
-div.image img {
+figure img {
   max-width: 100%;
 }
 

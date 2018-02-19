@@ -118,7 +118,7 @@ let renderer = {
 
   meta_figure(token) {
     let {url, alt, htmlWidth: width} = token.args[0]
-    return `<div class="image"${attrs(token)}><img src="${escape(url)}" alt="${escape(alt)}"${width ? ` style="width: ${width}"` : ""}></div>`
+    return `<figure${attrs(token)}><img src="${escape(url)}" alt="${escape(alt)}"${width ? ` style="width: ${width}"` : ""}></figure>`
   },
 
   meta_quote_open() { return "\n\n<blockquote>" },

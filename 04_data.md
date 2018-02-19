@@ -407,9 +407,6 @@ same. The text inside it cannot be changed. If you have a string that
 contains `"cat"`, it is not possible for other code to change a
 character in your string to make it spell `"rat"`.
 
-_Bindings_ to such values can be changed, of course, as long as they
-are not `const`. But that is different from changing the value itself.
-
 The content of an object value _can_ be modified, by changing its
 properties.
 
@@ -444,6 +441,15 @@ The `object1` and `object2` bindings grasp the _same_ object, which
 is why changing `object1` also changes the value of `object2`. The
 binding `object3` points to a different object, which initially
 contains the same properties as `object1` but lives a separate life.
+
+{{index "const keyword", "let keyword"}}
+
+Bindings can also be changeable or constant, but this is separate from
+the way their values behave. Even though number values don't change,
+you can use a `let` ((binding)) to keep track of a changing number by
+changing the value it points at. Similarly, though a `const` binding
+to an object can itself not be changed and will continue to point at
+the same object, the _contents_ of that object might change.
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 

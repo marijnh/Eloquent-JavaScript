@@ -12,7 +12,7 @@ quote}}
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
 Yuan-Ma said, 'When you cut against the grain of the wood, much
-strength is needed. When you program against the grain of a problem,
+strength is needed. When you program against the grain of the problem,
 much code is needed.'
 
 quote}}
@@ -24,15 +24,15 @@ if}}
 Programming ((tool))s and techniques survive and spread in a chaotic,
 evolutionary way. It's not always the pretty or brilliant ones that
 win but rather the ones that function well enough within the right
-niche—for example, by being integrated with another successful piece
-of technology.
+niche or happen to be integrated with another successful piece of
+technology.
 
 {{index "domain-specific language"}}
 
 In this chapter, I will discuss one such tool, _((regular
 expression))s_. Regular expressions are a way to describe ((pattern))s
 in string data. They form a small, separate language that is part of
-JavaScript and many other languages and tools.
+JavaScript and many other languages and systems.
 
 {{index [interface, design]}}
 
@@ -48,7 +48,7 @@ expressions will make you a more effective programmer.
 
 A regular expression is a type of object. It can either be constructed
 with the `RegExp` constructor or written as a literal value by
-enclosing the pattern in forward slash (`/`) characters.
+enclosing a pattern in forward slash (`/`) characters.
 
 ```
 let re1 = new RegExp("abc");
@@ -80,12 +80,6 @@ character itself.
 let eighteenPlus = /eighteen\+/;
 ```
 
-Knowing precisely what characters to backslash-escape when writing
-regular expressions requires you to know every character with a
-special meaning. For the time being, this may not be realistic, so
-when in doubt, just put a backslash before any character that is not a
-letter, number, or ((whitespace)).
-
 ## Testing for matches
 
 {{index matching, "test method", ["regular expression", methods]}}
@@ -109,7 +103,7 @@ simply represents that sequence of characters. If _abc_ occurs
 anywhere in the string we are testing against (not just at the start),
 `test` will return `true`.
 
-## Matching a set of characters
+## Sets of characters
 
 {{index "regular expression", "indexOf method"}}
 
@@ -177,10 +171,9 @@ expression [later](regexp#date_regexp_counted).
 {{index [escaping, "in regexps"], "regular expression", set}}
 
 These backslash codes can also be used inside ((square brackets)). For
-example, `[\d.]` means any digit or a period character. But note that
-the period itself, when used between square brackets, loses its
-special meaning. The same goes for other special characters, such as
-`+`.
+example, `[\d.]` means any digit or a period character. But the period
+itself, between square brackets, loses its special meaning. The same
+goes for other special characters, such as `+`.
 
 {{index "square brackets", inversion, "caret character"}}
 
@@ -229,7 +222,7 @@ any suitable text to match.
 
 {{index "British English", "American English", "question mark"}}
 
-A question mark makes a part of a pattern "((optional))", meaning it
+A question mark makes a part of a pattern _((optional))_, meaning it
 may occur zero or one time. In the following example, the _u_
 character is allowed to occur, but the pattern also matches when it is
 missing.
@@ -271,8 +264,8 @@ times.
 {{index ["regular expression", grouping], grouping}}
 
 To use an operator like `*` or `+` on more than one element at a time,
-you can use ((parentheses)). A part of a regular expression that is
-enclosed in parentheses counts as a single element as far as the
+you have to use ((parentheses)). A part of a regular expression that
+is enclosed in parentheses counts as a single element as far as the
 operators following it are concerned.
 
 ```
@@ -365,16 +358,16 @@ extract it and construct an object that represents it, we can wrap
 parentheses around the digit patterns and directly pick the date out
 of the result of `exec`.
 
-But first, a brief detour, in which we discuss the preferred way to
-store date and ((time)) values in JavaScript.
+But first, a brief detour, in which we discuss the built-in way to
+represent date and ((time)) values in JavaScript.
 
-## The date type
+## The Date class
 
 {{index constructor, "Date class"}}
 
-JavaScript has a standard object type for representing ((date))s—or
-rather, points in ((time)). It is called `Date`. If you simply create
-a date object using `new`, you get the current date and time.
+JavaScript has a standard class for representing ((date))s—or rather,
+points in ((time)). It is called `Date`. If you simply create a date
+object using `new`, you get the current date and time.
 
 ```{test: no}
 console.log(new Date());
@@ -404,10 +397,10 @@ are optional and taken to be zero when not given.
 {{index "getTime method"}}
 
 Timestamps are stored as the number of milliseconds since the start of
-1970, in the UTC ((time zone)), using negative numbers for times
-before 1970 (following a convention set by "((Unix time))", which was
-invented around that time). The `getTime` method on a date object
-returns this number. It is big, as you can imagine.
+1970, in the UTC ((time zone)). This follows a convention set by
+"((Unix time))", which was invented around that time. You can use
+negative numbers for times before 1970. The `getTime` method on a date
+object returns this number. It is big, as you can imagine.
 
 ```
 console.log(new Date(2013, 11, 19).getTime());
@@ -427,13 +420,13 @@ millisecond count by creating a new `Date` object and calling
 
 Date objects provide methods like `getFullYear`, `getMonth`,
 `getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their
-components. There's also `getYear`, which gives you a rather useless
-two-digit year value (such as `93` or `14`).
+components. Besides `getFullYear`, there's also `getYear`, which gives
+you a rather useless two-digit year value (such as `93` or `14`).
 
 {{index "capture group", "getDate function"}}
 
 Putting ((parentheses)) around the parts of the expression that we are
-interested in, we can now easily create a date object from a string.
+interested in, we can now create a date object from a string.
 
 ```
 function getDate(string) {
@@ -447,7 +440,7 @@ console.log(getDate("30-1-2003"));
 
 {{index destructuring, "underscore character"}}
 
-The `_` (underscore) binding is ignored, and only used to "skip" the
+The `_` (underscore) binding is ignored, and only used to skip the
 full match element in the array returned by `exec`.
 
 ## Word and string boundaries
@@ -486,8 +479,8 @@ console.log(/\bcat\b/.test("concatenate"));
 
 {{index matching}}
 
-Note that a boundary marker doesn't represent an actual character. It
-just enforces that the regular expression matches only when a certain
+Note that a boundary marker doesn't match an actual character. It just
+enforces that the regular expression matches only when a certain
 condition holds at the place where it appears in the pattern.
 
 ## Choice patterns
@@ -515,26 +508,36 @@ console.log(animalCount.test("15 pigchickens"));
 
 Parentheses can be used to limit the part of the pattern that the pipe
 operator applies to, and you can put multiple such operators next to
-each other to express a choice between more than two patterns.
+each other to express a choice between more than two alternatives.
 
 ## The mechanics of matching
 
+{{index ["regular expression", matching], [matching, algorithm], searching}}
+
+Conceptually, when you use `exec` or `test` the regular expression
+engine looks for a match in your string by trying to match the
+expression first from the start of the string, then from the second
+character, and so on until it finds a match or reaches the end of the
+string. It'll either return the first match that can be found or fail
+to find any match at all.
+
 {{index ["regular expression", matching], [matching, algorithm]}}
 
-Regular expressions can be thought of as ((flow diagram))s. This is
-the diagram for the livestock expression in the previous example:
+To do the actual matching, the engine treats a regular expression
+something like a ((flow diagram)). This is the diagram for the
+livestock expression in the previous example:
 
 {{figure {url: "img/re_pigchickens.svg", alt: "Visualization of /\\b\\d+ (pig|cow|chicken)s?\\b/"}}}
 
 {{index traversal}}
 
-Our expression matches a string if we can find a path from the left
-side of the diagram to the right side. We keep a current position in
-the string, and every time we move through a box, we verify that the
-part of the string after our current position matches that box.
+Our expression matches if we can find a path from the left side of the
+diagram to the right side. We keep a current position in the string,
+and every time we move through a box, we verify that the part of the
+string after our current position matches that box.
 
-So if we try to match `"the 3 pigs"` with our regular expression, our
-progress through the flow chart would look like this:
+So if we try to match `"the 3 pigs"` from position 4, our progress
+through the flow chart would look like this:
 
  - At position 4, there is a word ((boundary)), so we can move past
    the first box.
@@ -561,30 +564,19 @@ progress through the flow chart would look like this:
    so we go through the last box and have successfully matched this
    string.
 
-{{index ["regular expression", matching], [matching, algorithm], searching}}
-
-Conceptually, a regular expression engine looks for a match in a
-string as follows: it starts at the start of the string and tries a
-match there. In this case, there _is_ a word boundary there, so it'd
-get past the first box—but there is no digit, so it'd fail at the
-second box. Then it moves on to the second character in the string and
-tries to begin a new match there... and so on, until it finds a match
-or reaches the end of the string and decides that there really is no
-match.
-
 {{id backtracking}}
 
 ## Backtracking
 
 {{index ["regular expression", backtracking], "binary number", "decimal number", "hexadecimal number", "flow diagram", [matching, algorithm], backtracking}}
 
-The regular expression `/\b([01]+b|\d+|[\da-f]+h)\b/` matches either a
-binary number followed by a _b_, a regular decimal number with no
-suffix character, or a hexadecimal number (that is, base 16, with the
-letters _a_ to _f_ standing for the digits 10 to 15) followed by an
-_h_. This is the corresponding diagram:
+The regular expression `/\b([01]+b|[\da-f]+h|\d+)\b/` matches either a
+binary number followed by a _b_, a hexadecimal number (that is, base
+16, with the letters _a_ to _f_ standing for the digits 10 to 15)
+followed by an _h_, or a regular decimal number with no suffix
+character. This is the corresponding diagram:
 
-{{figure {url: "img/re_number.svg", alt: "Visualization of /\\b([01]+b|\\d+|[\\da-f]+h)\\b/", htmlWidth: 500px}}}
+{{figure {url: "img/re_number.svg", alt: "Visualization of /\\b([01]+b|\\d+|[\\da-f]+h)\\b/"}}}
 
 {{index branching}}
 
@@ -602,8 +594,9 @@ current position (in this case, at the start of the string, just past
 the first boundary box in the diagram) so that it can go back and try
 another branch if the current one does not work out. For the string
 `"103"`, after encountering the 3 character, it will start trying the
-branch for decimal numbers. This one matches, so a match is reported
-after all.
+branch for hexadecimal numbers, which fails again because there is no
+_h_ after the number. So it tries the decimal number branch. This one
+fits, and a match is reported after all.
 
 {{index [matching, algorithm]}}
 
@@ -684,8 +677,8 @@ The real power of using regular expressions with `replace` comes from
 the fact that we can refer back to matched groups in the replacement
 string. For example, say we have a big string containing the names of
 people, one name per line, in the format `Lastname, Firstname`. If we
-want to swap these names and remove the comma to get a simple
-`Firstname Lastname` format, we can use the following code:
+want to swap these names and remove the comma to get a `Firstname
+Lastname` format, we can use the following code:
 
 ```
 console.log(
@@ -703,9 +696,9 @@ The whole match can be referred to with `$&`.
 
 {{index [function, "higher-order"], grouping, "capture group"}}
 
-It is also possible to pass a function, rather than a string, as the
-second argument to `replace`. For each replacement, the function will
-be called with the matched groups (as well as the whole match) as
+It is possible to pass a function—rather than a string—as the second
+argument to `replace`. For each replacement, the function will be
+called with the matched groups (as well as the whole match) as
 arguments, and its return value will be inserted into the new string.
 
 Here's a small example:
@@ -769,10 +762,11 @@ The part before the _or_ operator matches two slash characters
 followed by any number of non-newline characters. The part for
 multiline comments is more involved. We use `[^]` (any character that
 is not in the empty set of characters) as a way to match any
-character. We cannot just use a dot here because block comments can
-continue on a new line, and dots do not match the newline character.
+character. We cannot just use a period here because block comments can
+continue on a new line, and the period character does not match
+newline characters.
 
-But the output of the previous example appears to have gone wrong. Why?
+But the output for the last line appears to have gone wrong. Why?
 
 {{index backtracking, greed, "regular expression"}}
 
@@ -847,16 +841,14 @@ won't actually match the user's name.
 {{index "backslash character", [escaping, "in regexps"], ["regular expression", escaping]}}
 
 To work around this, we can add backslashes before any character that
-we don't trust. Adding backslashes before alphabetic characters is a
-bad idea because things like `\b` and `\n` have a special meaning. But
-escaping everything that's not alphanumeric or ((whitespace)) is safe.
+has a special meaning.
 
 ```
 let name = "dea+hl[]rd";
 let text = "This dea+hl[]rd guy is super annoying.";
-let escaped = name.replace(/[^\w\s]/g, "\\$&");
-let regexp = new RegExp("\\b(" + escaped + ")\\b", "gi");
-console.log(text.replace(regexp, "_$1_"));
+let escaped = name.replace(/[\\\[+*?(){|^$]/g, "\\$&");
+let regexp = new RegExp("\\b" + escaped + "\\b", "gi");
+console.log(text.replace(regexp, "_$&_"));
 // → This _dea+hl[]rd_ guy is super annoying.
 ```
 
@@ -901,8 +893,8 @@ Those circumstances are that the regular expression must have the
 global (`g`) or sticky (`y`) option enabled, and the match must happen
 through the `exec` method. Again, a less confusing solution would have
 been to just allow an extra argument to be passed to `exec`, but
-confusion is an essential characteristic of JavaScript's regular
-expression interface.
+confusion is an essential feature of JavaScript's regular expression
+interface.
 
 ```
 let pattern = /y/g;
@@ -923,7 +915,7 @@ in a newly constructed regular expression object.
 
 The difference between the global and the sticky options is that, when
 sticky is enabled, the match will only succeed if it starts directly
-at `lastIndex`, whereas with global, it will try to search ahead for a
+at `lastIndex`, whereas with global, it will search ahead for a
 position where a match can start.
 
 ```
@@ -972,16 +964,16 @@ want to use them.
 
 {{index "lastIndex property", "exec method", loop}}
 
-A common pattern is to scan through all occurrences of a pattern in a
-string, in a way that gives us access to the match object in the loop
-body, by using `lastIndex` and `exec`.
+A common thing to do is to scan through all occurrences of a pattern
+in a string, in a way that gives us access to the match object in the
+loop body. We can do this by using `lastIndex` and `exec`.
 
 ```
 let input = "A string with 3 numbers in it... 42 and 88.";
-let number = /\b(\d+)\b/g;
+let number = /\b\d+\b/g;
 let match;
 while (match = number.exec(input)) {
-  console.log("Found", match[1], "at", match.index);
+  console.log("Found", match[0], "at", match.index);
 }
 // → Found 3 at 14
 //   Found 42 at 33
@@ -1003,13 +995,13 @@ perform the match at the start of each iteration, save its result in a
 
 To conclude the chapter, we'll look at a problem that calls for
 ((regular expression))s. Imagine we are writing a program to
-automatically harvest information about our enemies from the
+automatically collects information about our enemies from the
 ((Internet)). (We will not actually write that program here, just the
 part that reads the ((configuration)) file. Sorry.) The configuration
 file looks like this:
 
 ```{lang: "text/plain"}
-searchengine=http://www.google.com/search?q=$1
+searchengine=https://duckduckgo.com/?q=$1
 spitefulness=9.7
 
 ; comments are preceded by a semicolon...
@@ -1019,16 +1011,16 @@ fullname=Larry Doe
 type=kindergarten bully
 website=http://www.geocities.com/CapeCanaveral/11451
 
-[gargamel]
-fullname=Gargamel
-type=evil sorcerer
-outputdir=/home/marijn/enemies/gargamel
+[davaeorn]
+fullname=Davaeorn
+type=evil wizard
+outputdir=/home/marijn/enemies/davaeorn
 ```
 
 {{index grammar}}
 
-The exact rules for this format (which is actually a
-widely used format, usually called an _INI_ file) are as follows:
+The exact rules for this format (which is a widely used format,
+usually called an _INI_ file) are as follows:
 
 - Blank lines and lines starting with semicolons are ignored.
 
@@ -1105,9 +1097,9 @@ The pattern `if (match = string.match(...))` is similar to the trick
 of using an assignment as the condition for `while`. You often aren't
 sure that your call to `match` will succeed, so you can access the
 resulting object only inside an `if` statement that tests for this. To
-not break the pleasant chain of `if` forms, we assign the result of
-the match to a binding and immediately use that assignment as the test
-in the `if` statement.
+not break the pleasant chain of `else if` forms, we assign the result
+of the match to a binding and immediately use that assignment as the
+test for the `if` statement.
 
 If a line is not a section header or a property, the function checks
 whether it is a comment or an empty line using the expression
@@ -1126,10 +1118,10 @@ behavior, JavaScript's regular expressions are rather dumb about
 characters that do not appear in the English language. For example, as
 far as JavaScript's regular expressions are concerned, a "((word
 character))" is only one of the 26 characters in the Latin alphabet
-(uppercase or lowercase) and, for some reason, the underscore
-character. Things like _é_ or _β_, which most definitely are word
-characters, will not match `\w` (and _will_ match uppercase `\W`, the
-nonword category).
+(uppercase or lowercase), decimal digits, and, for some reason, the
+underscore character. Things like _é_ or _β_, which most definitely
+are word characters, will not match `\w` (and _will_ match uppercase
+`\W`, the nonword category).
 
 {{index whitespace}}
 
@@ -1154,22 +1146,38 @@ console.log(/<.>/u.test("<🌹>"));
 
 The problem is that the 🍎 in the first line is treated as two code
 units, and the `{3}` part is applied only to the second one.
-Similarly, the dot matches a single code unit, not the two that the
-rose ((emoji)) character is composed of.
+Similarly, the dot matches a single code unit, not the two that make
+up the rose ((emoji)).
 
 You must add an `u` option (for ((Unicode))) to your regular
 expression to make it treat such characters properly. The wrong
 behavior remains the default, unfortunately, because changing that
 might cause problems for existing code that depends on it.
 
-{{index "character category"}}
+{{index "character category", [Unicode, property]}}
 
-Some ((regular expression)) ((implementation))s in other programming
-languages have syntax to match specific ((Unicode)) character
-categories, such as "all uppercase letters", "all punctuation", or
-"control characters". There are plans to add support for such
-categories to JavaScript in the ((future)), but we're not quite there
-yet.
+Though this was only just standardized and is, at the time of writing,
+not widely supported yet, it is possible to use `\p` in a regular
+expression (that must have the Unicode option enabled) to match all
+characters to which the Unicode standard assigns a given property.
+
+```{test: false}
+console.log(/\p{Script=Greek}/u.test("α"));
+// → true
+console.log(/\p{Script=Arabic}/u.test("α"));
+// → false
+console.log(/\p{Alphabetic}/u.test("α"));
+// → true
+console.log(/\p{Alphabetic}/u.test("!"));
+// → false
+```
+
+Unicode defines a number of useful properties, though finding the one
+that you need may not always be trivial. You can use the
+`\p{Property=Value}` notation to match any character that has the
+given value for that property. If the property name is left off, as in
+`\p{Name}`, the name is assumed to either be a binary property such as
+`Alphabetic`, or a category such as `Number`.
 
 {{id summary_regexp}}
 
@@ -1200,16 +1208,14 @@ They use their own language to express these patterns.
 | `/$/`       | End of input
 
 A regular expression has a method `test` to test whether a given
-string matches it. It also has an `exec` method that, when a match is
+string matches it. It also has a method `exec` that, when a match is
 found, returns an array containing all matched groups. Such an array
 has an `index` property that indicates where the match started.
 
 Strings have a `match` method to match them against a regular
 expression and a `search` method to search for one, returning only the
 starting position of the match. Their `replace` method can replace
-matches of a pattern with a replacement string. Alternatively, you can
-pass a function to `replace`, which will be used to build up a
-replacement string based on the match text and matched groups.
+matches of a pattern with a replacement string or function.
 
 Regular expressions can have options, which are written after the
 closing slash. The `i` option makes the match case insensitive. The
@@ -1217,14 +1223,13 @@ closing slash. The `i` option makes the match case insensitive. The
 causes the `replace` method to replace all instances instead of just
 the first. The `y` option makes it sticky, which means that it will
 not search ahead and skip part of the string when looking for a match.
-
-The `RegExp` constructor can be used to create a regular expression
-value from a string.
+The `u` option turns on Unicode mode, which fixes a number of problems
+around the handling of characters that take up two code units.
 
 Regular expressions are a sharp ((tool)) with an awkward handle. They
 simplify some tasks tremendously but can quickly become unmanageable
 when applied to complex problems. Part of knowing how to use them is
-resisting the urge to try to shoehorn things that they cannot sanely
+resisting the urge to try to shoehorn things that they cannot cleanly
 express into them.
 
 ## Exercises
@@ -1262,7 +1267,7 @@ make it any smaller.
  2. _pop_ and _prop_
  3. _ferret_, _ferry_, and _ferrari_
  4. Any word ending in _ious_
- 5. A whitespace character followed by a dot, comma, colon, or semicolon
+ 5. A whitespace character followed by a period, comma, colon, or semicolon
  6. A word longer than six letters
  7. A word without the letter _e_
 
@@ -1291,7 +1296,7 @@ verify(/.../,
 
 verify(/.../,
        ["bad punctuation ."],
-       ["escape the dot"]);
+       ["escape the period"]);
 
 verify(/.../,
        ["hottentottententen"],
@@ -1360,16 +1365,11 @@ hint}}
 
 ### Numbers again
 
-{{index number}}
-
-A series of ((digit))s can be matched by the simple regular expression
-`/\d+/`.
-
 {{index sign, "fractional number", syntax, minus, "plus character", exponent, "scientific notation", "period character"}}
 
-Write an expression that matches only JavaScript-style numbers. It
+Write an expression that matches only JavaScript-style ((number))s. It
 must support an optional minus _or_ plus sign in front of the number,
-the decimal dot, and exponent notation—`5e-3` or _1E10_— again with an
+the decimal dot, and exponent notation—`5e-3` or `1E10`— again with an
 optional sign in front of the exponent. Also note that it is not
 necessary for there to be digits in front of or after the dot, but the
 number cannot be a dot alone. That is, `.5` and `5.` are valid
@@ -1401,7 +1401,7 @@ if}}
 
 {{index ["regular expression", escaping], "backslash character"}}
 
-First, do not forget the backslash in front of the dot.
+First, do not forget the backslash in front of the period.
 
 Matching the optional ((sign)) in front of the ((number)), as well as
 in front of the ((exponent)), can be done with `[+\-]?` or `(\+|-|)`
@@ -1421,4 +1421,3 @@ Finally, to make the _e_ case-insensitive, either add an `i` option to
 the regular expression or use `[eE]`.
 
 hint}}
-

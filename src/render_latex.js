@@ -28,11 +28,15 @@ function escapeChar(ch) {
     case "~": return "\\textasciitilde "
     case "^": return "\\textasciicircum "
     case "\\": return "\\textbackslash "
+    case "/": return "\/\\allowbreak "
     default: return "\\" + ch
   }
 }
 function escape(str) {
-  return String(str).replace(/[&%$#_{}~^\\]/g, escapeChar)
+  return String(str).replace(/[&%$#_{}~^\\]|\w(\/)\w/g, (match, group) => {
+    if (group) return match[0] + escapeChar(group) + match[2]
+    return escapeChar(match)
+  })
 }
 function miniEscape(str) { return str.replace(/[`]/g, escapeChar) }
 

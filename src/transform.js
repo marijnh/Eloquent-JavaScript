@@ -27,7 +27,7 @@ function tokenText(token) {
   else return ""
 }
 
-function smartQuotes(tokens, i, tex) {
+function smartQuotes(tokens, i, tex, moveQuotes) {
   let text = tokens[i].content, from = 0
   for (let j = i - 1, tt; j >= 0; j--) if (tt = tokenText(tokens[j])) {
     text = tt + text
@@ -46,6 +46,7 @@ function smartQuotes(tokens, i, tex) {
     .replace(/([\w\.,!?\)])"/g, "$1”")
     .replace(/"(\w|\(\()/g, "“$1")
     .slice(from, to)
+  if (moveQuotes) quoted = quoted.replace(/”([.!?:;,]+)/g, "$1”")
   return tex ? quoted.replace(/‘/g, "`").replace(/’/g, "'").replace(/“/g, "``").replace(/”/g, "''") : quoted
 }
 
@@ -74,7 +75,7 @@ function transformInline(tokens, options, prevType) {
     } else if (type == "meta_if_open") {
       i = handleIf(tokens, i, options)
     } else {
-      if (type == "text" && /[\'\"]/.test(tok.content)) tok.content = smartQuotes(tokens, i, options.texQuotes)
+      if (type == "text" && /[\'\"]/.test(tok.content)) tok.content = smartQuotes(tokens, i, options.texQuotes, options.moveQuotes)
       if (capitalize) tok.content = capitalizeTitle(tok.content)
       result.push(tok)
     }

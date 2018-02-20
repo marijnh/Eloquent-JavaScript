@@ -14,6 +14,7 @@ let {tokens} = transformTokens(require("./markdown").parse(fs.readFileSync(file,
   defined: ["book", "tex"],
   strip: "hints",
   texQuotes: true,
+  moveQuotes: noStarch,
   capitalizeTitles: noStarch,
   index: true
 })

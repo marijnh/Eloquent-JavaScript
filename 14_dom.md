@@ -13,15 +13,15 @@ quote}}
 When you open a web page in your browser, the browser retrieves the
 page's ((HTML)) text and parses it, much like the way our parser from
 [Chapter ?](language#parsing) parsed programs. The browser builds up a
-model of the document's ((structure)) and then uses this model to draw
-the page on the screen.
+model of the document's ((structure)) and uses this model to draw the
+page on the screen.
 
 {{index "live data structure"}}
 
 This representation of the ((document)) is one of the toys that a
 JavaScript program has available in its ((sandbox)). It is a ((data
 structure)) that you can read or modify. It acts as a _live_ data
-structure: when it is modified, the page on the screen is updated to
+structure: when it's modified, the page on the screen is updated to
 reflect the changes.
 
 ## Document structure
@@ -88,31 +88,31 @@ of the ((DOM)), `document.documentElement` serves as the root.
 Trees come up a lot in computer science. In addition to representing
 recursive structures such as HTML documents or programs, they are
 often used to maintain sorted ((set))s of data because elements can
-usually be found or inserted more efficiently in a sorted tree than in
-a sorted flat array.
+usually be found or inserted more efficiently in a tree than in a flat
+array.
 
 {{index "leaf node", "Egg language"}}
 
 A typical tree has different kinds of ((node))s. The syntax tree for
 [the Egg language](language) had identifiers, values, and application
-nodes. Application nodes always have children, whereas identifiers and
-values are _leaves_, or nodes without children.
+nodes. Application nodes may have children, whereas identifiers and
+values are _leaves_, nodes without children.
 
 {{index "body property"}}
 
-The same goes for the DOM. Nodes for _((element))s_, the thing
-represented by ((HTML)) tags, determine the structure of the document.
-These can have ((child node))s. An example of such a node is
-`document.body`. Some of these children can be ((leaf node))s, such as
-pieces of ((text)) or ((comment)) nodes.
+The same goes for the DOM. Nodes for _((element))s_, which represent
+((HTML)) tags, determine the structure of the document. These can have
+((child node))s. An example of such a node is `document.body`. Some of
+these children can be ((leaf node))s, such as pieces of ((text)) or
+((comment)) nodes.
 
 {{index "text node", element, "ELEMENT_NODE code", "COMMENT_NODE code", "TEXT_NODE code", "nodeType property"}}
 
 Each DOM node object has a `nodeType` property, which contains a code
-(a number) that identifies the type of node. Elements have code 1,
-which is also defined as the constant property
-`document.ELEMENT_NODE`. Text nodes, representing a section of text in
-the document, get code 3 (`document.TEXT_NODE`). Comments have code 8
+(number) that identifies the type of node. Elements have code 1, which
+is also defined as the constant property `document.ELEMENT_NODE`. Text
+nodes, representing a section of text in the document, get code 3
+(`document.TEXT_NODE`). Comments have code 8
 (`document.COMMENT_NODE`).
 
 Another way to visualize our document ((tree)) is as follows:
@@ -159,9 +159,9 @@ numbers to access the child nodes. But it is an instance of the
 Then there are issues that are simply poor design. For example, there
 is no way to create a new node and immediately add children or
 ((attribute))s to it. Instead, you have to first create it, then add
-the children one by one, and finally set the attributes one by one,
-using side effects. Code that interacts heavily with the DOM tends to
-get long, repetitive, and ugly.
+the children and attributes one by one, using side effects. Code that
+interacts heavily with the DOM tends to get long, repetitive, and
+ugly.
 
 {{index library}}
 
@@ -250,13 +250,13 @@ it represents.
 Navigating these ((link))s among parents, children, and siblings is
 often useful. But if we want to find a specific node in the document,
 reaching it by starting at `document.body` and following a fixed path
-of links is a bad idea. Doing so bakes assumptions into our program
-about the precise structure of the document—a structure you might want
-to change later. Another complicating factor is that text nodes are
-created even for the ((whitespace)) between nodes. The example
-document's body tag does not have just three children (`<h1>` and two
-`<p>` elements) but actually has seven: those three, plus the spaces
-before, after, and between them.
+of properties is a bad idea. Doing so bakes assumptions into our
+program about the precise structure of the document—a structure you
+might want to change later. Another complicating factor is that text
+nodes are created even for the ((whitespace)) between nodes. The
+example document's body tag does not have just three children (`<h1>`
+and two `<p>` elements) but actually has seven: those three, plus the
+spaces before, after, and between them.
 
 {{index searching, "href attribute", "getElementsByTagName method"}}
 
@@ -341,10 +341,9 @@ the _new_ node as their first argument.
 
 {{index "alt attribute", "img (HTML tag)"}}
 
-As an example, we want to write a script that replaces all ((image))s
-(`<img>` tags) in the document with the text held in their `alt`
-attributes, which specifies an alternative textual representation of
-the image.
+Say we want to write a script that replaces all ((image))s (`<img>`
+tags) in the document with the text held in their `alt` attributes,
+which specifies an alternative textual representation of the image.
 
 {{index "createTextNode method"}}
 
@@ -374,8 +373,8 @@ to replace them. Text nodes are created with the
 
 {{index "text node"}}
 
-Given a string, `createTextNode` gives us a type text node, which we
-can insert into the document to make it show up on the screen.
+Given a string, `createTextNode` gives us a text node, which we can
+insert into the document to make it show up on the screen.
 
 {{index "live data structure", "getElementsByTagName method", "childNodes property"}}
 
@@ -402,9 +401,9 @@ console.log(array.map(s => s.toUpperCase()));
 
 {{index "createElement method"}}
 
-To create ((element)) nodes (type 1), you can use the
-`document.createElement` method. This method takes a tag name and
-returns a new empty node of the given type.
+To create ((element)) nodes, you can use the `document.createElement`
+method. This method takes a tag name and returns a new empty node of
+the given type.
 
 {{index "Popper, Karl", [DOM, construction], "elt function"}}
 
@@ -454,8 +453,7 @@ if}}
 
 Some element ((attribute))s, such as `href` for links, can be accessed
 through a ((property)) of the same name on the element's ((DOM))
-object. This is the case for a limited set of commonly used standard
-attributes.
+object. This is the case for a most commonly used standard attributes.
 
 {{index "data attribute", "getAttribute method", "setAttribute method", attribute}}
 
@@ -516,7 +514,7 @@ The `offsetWidth` and `offsetHeight` properties give you the space the
 element takes up in _((pixel))s_. A pixel is the basic unit of
 measurement in the browser. It traditionally corresponds to the
 smallest dot that the screen can draw, but on modern displays, which
-can draw very small dots, that may no longer be the case, and a
+can draw _very_ small dots, that may no longer be the case, and a
 browser pixel may span multiple display dots.
 
 Similarly, `clientWidth` and `clientHeight` give you the size of the
@@ -558,11 +556,11 @@ must add the current scroll position, which you can find in the
 
 Laying out a document can be quite a lot of work. In the interest of
 speed, browser engines do not immediately re-layout a document every
-time it is changed but rather wait as long as they can. When a
-JavaScript program that changed the document finishes running, the
-browser will have to compute a new layout in order to draw the changed
-document to the screen. When a program _asks_ for the position or size
-of something by reading properties such as `offsetHeight` or calling
+time you change it, but wait as long as they can. When a JavaScript
+program that changed the document finishes running, the browser will
+have to compute a new layout in order to draw the changed document to
+the screen. When a program _asks_ for the position or size of
+something by reading properties such as `offsetHeight` or calling
 `getBoundingClientRect`, providing correct information also requires
 computing a ((layout)).
 
@@ -609,9 +607,8 @@ one takes.
 {{index "block element", "inline element", style, "strong (HTML tag)", "a (HTML tag)", underline}}
 
 We have seen that different HTML elements are drawn differently. Some
-are displayed as blocks, others inline. Some add styling, such as
-`<strong>` making its content ((bold)) and `<a>` making it blue and
-underlining it.
+are displayed as blocks, others inline. Some add styling—`<strong>`
+makes its content ((bold)) and `<a>` makes it blue and underlines it.
 
 {{index "img (HTML tag)", "default behavior", "style attribute"}}
 
@@ -660,7 +657,7 @@ are not displayed inline with the text around them. The last tag is
 not displayed at all—`display: none` prevents an element from showing
 up on the screen. This is a way to hide elements. It is often
 preferable to removing them from the document entirely because it
-makes it easy to reveal them again at a later time.
+makes it easy to reveal them again later.
 
 {{if book
 
@@ -736,8 +733,8 @@ the node have the highest precedence and always win.
 {{index uniqueness, "class attribute", "id attribute"}}
 
 It is possible to target things other than ((tag)) names in CSS rules.
-A rule for `.abc` applies to all elements with `"abc"` in their class
-attributes. A rule for `#xyz` applies to the element with an `id`
+A rule for `.abc` applies to all elements with `"abc"` in their `class`
+attribute. A rule for `#xyz` applies to the element with an `id`
 attribute of `"xyz"` (which should be unique within the document).
 
 ```{lang: "text/css"}
@@ -749,8 +746,8 @@ attribute of `"xyz"` (which should be unique within the document).
   background: blue;
   color: white;
 }
-/* p elements, with classes a and b, and id main */
-p.a.b#main {
+/* p elements with id main and with classes a and b */
+p#main.a.b {
   margin-bottom: 20px;
 }
 ```
@@ -850,7 +847,7 @@ of the nearest enclosing element whose `position` property isn't
 exists.
 
 We can use this to create an ((animation)). The following document
-displays a picture of a cat that floats around in an ((ellipse)):
+displays a picture of a cat that moves around in an ((ellipse)):
 
 ```{lang: "text/html", startCode: true}
 <p style="text-align: center">
@@ -859,13 +856,13 @@ displays a picture of a cat that floats around in an ((ellipse)):
 <script>
   let cat = document.querySelector("img");
   let angle = Math.PI / 2;
-  let lastTime = null;
-  function animate(time) {
-    if (lastTime != null) angle += (time - lastTime) * 0.001;
-    lastTime = time;
+  function animate(time, lastTime) {
+    if (lastTime != null) {
+      angle += (time - lastTime) * 0.001;
+    }
     cat.style.top = (Math.sin(angle) * 20) + "px";
     cat.style.left = (Math.cos(angle) * 200) + "px";
-    requestAnimationFrame(animate);
+    requestAnimationFrame(newTime => animate(newTime, time));
   }
   requestAnimationFrame(animate);
 </script>
@@ -908,13 +905,14 @@ updating the screen and responding to user actions.
 
 {{index "smooth animation"}}
 
-Our ((animation)) function is passed the current ((time)) as an
-argument, which it compares to the time it saw before (the `lastTime`
-binding) to ensure the motion of the cat per millisecond is stable,
-and the animation moves smoothly. If it just moved a fixed amount per
-step, the motion would stutter if, for example, another heavy task
-running on the same computer were to prevent the function from running
-for a fraction of a second.
+The ((animation)) function is passed the current ((time)) as an
+argument. To to ensure the motion of the cat per millisecond is
+stable, it bases the speed at which the angle changes on the
+difference between the current time and the last time the function
+ran. If it just moved the angle by a fixed amount per step, the motion
+would stutter if, for example, another heavy task running on the same
+computer were to prevent the function from running for a fraction of a
+second.
 
 {{index "Math.cos function", "Math.sin function", cosine, sine, trigonometry}}
 
@@ -937,24 +935,23 @@ position, while `Math.sin` yields the y-coordinate. Positions (or
 angles) greater than 2π or less than 0 are valid—the rotation repeats
 so that _a_+2π refers to the same ((angle)) as _a_.
 
-{{index "PI constant", radian}}
+{{index "PI constant"}}
 
-This unit for measuring angles is called radian—a full circle is 2π
-radians, similar to how it is 360 degrees when measuring in degrees.
-The constant π is available as `Math.PI` in JavaScript.
+This unit for measuring angles is called ((radian))s—a full circle is
+2π radians, similar to how it is 360 degrees when measuring in
+degrees. The constant π is available as `Math.PI` in JavaScript.
 
 {{figure {url: "img/cos_sin.svg", alt: "Using cosine and sine to compute coordinates",width: "6cm"}}}
 
 {{index "counter variable", "Math.sin function", "top (CSS)", "Math.cos function", "left (CSS)", ellipse}}
 
 The cat animation code keeps a counter, `angle`, for the current angle
-of the animation and increments it in proportion to the elapsed time
-every time the `animate` function is called. It can then use this
-angle to compute the current position of the image element. The `top`
-style is computed with `Math.sin` and multiplied by 20, which is the
-vertical radius of our circle. The `left` style is based on `Math.cos`
-and multiplied by 200 so that the circle is much wider than it is
-high, resulting in an elliptic motion.
+of the animation and increments it every time the `animate` function
+is called. It can then use this angle to compute the current position
+of the image element. The `top` style is computed with `Math.sin` and
+multiplied by 20, which is the vertical radius of our ellipse. The
+`left` style is based on `Math.cos` and multiplied by 200 so that the
+ellipse is much wider than it is high.
 
 {{index "unit (CSS)"}}
 
@@ -967,7 +964,7 @@ regardless of its unit.
 
 ## Summary
 
-JavaScript programs may inspect, and interfere with, the document that
+JavaScript programs may inspect and interfere with the document that
 the browser is displaying through a data structure called the DOM.
 This data structure represents the browser's model of the document,
 and a JavaScript program can modify it to change the visible document.
@@ -980,8 +977,8 @@ representing elements have properties such as `parentNode` and
 The way a document is displayed can be influenced by _styling_, both
 by attaching styles to nodes directly and by defining rules that match
 certain nodes. There are many different style properties, such as
-`color` or `display`. JavaScript can manipulate an element's style
-directly through its `style` property.
+`color` or `display`. JavaScript code can manipulate an element's
+style directly through its `style` property.
 
 ## Exercises
 
@@ -1017,8 +1014,8 @@ these `<tr>` tags, we can put cell elements: either heading cells
 Given a data set of mountains, an array of objects with `name`,
 `height`, and `place` properties, generate the DOM structure for a
 table that enumerates the objects. It should have one column per key
-(derived from the first object), and one row per object, plus a header
-row with `<th>` elements at the top, listing the column names.
+and one row per object, plus a header row with `<th>` elements at the
+top, listing the column names.
 
 Write this so that the columns are automatically derived from the
 objects, by taking the property names of the first object in the data.
@@ -1059,7 +1056,7 @@ if}}
 
 {{index "createElement method", "table example", "appendChild method"}}
 
-You can `document.createElement` to create new element nodes,
+You can use `document.createElement` to create new element nodes,
 `document.createTextNode` to create text nodes, and the `appendChild`
 method to put nodes into other nodes.
 
@@ -1083,16 +1080,16 @@ hint}}
 {{index "getElementsByTagName method", recursion}}
 
 The `document.getElementsByTagName` method returns all child elements
-with a given tag name. Implement your own version of it as a function
-that takes a node and a string (the tag name) as arguments and returns
-an array containing all descendant element nodes with the given tag
-name.
+with a given tag name. Implement your own version of this as a
+function that takes a node and a string (the tag name) as arguments
+and returns an array containing all descendant element nodes with the
+given tag name.
 
 {{index "nodeName property", capitalization, "toLowerCase method", "toUpperCase method"}}
 
 To find the tag name of an element, use its `nodeName` property. But
 note that this will return the tag name in all uppercase. Use the
-`toLowerCase` or `toUpperCase` string method to compensate for this.
+`toLowerCase` or `toUpperCase` string methods to compensate for this.
 
 {{if interactive
 
@@ -1197,7 +1194,7 @@ if}}
 
 `Math.cos` and `Math.sin` measure angles in radians, where a full
 circle is 2π. For a given angle, you can get the opposite angle by
-adding half this, one time `Math.PI`. This can be useful for putting
-the hat on the opposite side of the orbit.
+adding half of this, one time `Math.PI`. This can be useful for
+putting the hat on the opposite side of the orbit.
 
 hint}}

@@ -906,7 +906,7 @@ updating the screen and responding to user actions.
 {{index "smooth animation"}}
 
 The ((animation)) function is passed the current ((time)) as an
-argument. To to ensure the motion of the cat per millisecond is
+argument. To ensure the motion of the cat per millisecond is
 stable, it bases the speed at which the angle changes on the
 difference between the current time and the last time the function
 ran. If it just moved the angle by a fixed amount per step, the motion

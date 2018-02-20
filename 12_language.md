@@ -18,14 +18,14 @@ The main thing I want to show in this chapter is that there is no
 ((magic)) involved in building your own language. I've often felt that
 some human inventions were so immensely clever and complicated that
 I'd never be able to understand them. But with a little reading and
-experimenting, things often turn out to be quite mundane.
+experimenting, they often turn out to be quite mundane.
 
 {{index "Egg language"}}
 
 We will build a programming language called Egg. It will be a tiny,
 simple language—but one that is powerful enough to express any
-computation you can think of. It will also allow simple
-((abstraction)) based on ((function))s.
+computation you can think of. It will allow simple ((abstraction))
+based on ((function))s.
 
 {{id parsing}}
 
@@ -90,8 +90,8 @@ represent. Expressions of type `"word"` are used for identifiers
 (names). Such objects have a `name` property that holds the
 identifier's name as a string. Finally, `"apply"` expressions
 represent applications. They have an `operator` property that refers
-to the expression that is being applied, and they have an `args`
-property that holds an array of argument expressions.
+to the expression that is being applied, and an `args` property that
+holds an array of argument expressions.
 
 The `>(x, 5)` part of the previous program would be represented like this:
 
@@ -112,7 +112,7 @@ Such a ((data structure)) is called a _((syntax tree))_. If you
 imagine the objects as dots and the links between them as lines
 between those dots, it has a ((tree))like shape. The fact that
 expressions contain other expressions, which in turn might contain
-more expressions, is similar to the way branches split and split
+more expressions, is similar to the way tree branches split and split
 again.
 
 {{figure {url: "img/syntax_tree.svg", alt: "The structure of a syntax tree",width: "5cm"}}}
@@ -175,21 +175,23 @@ function skipSpace(string) {
 
 {{index "skipSpace function"}}
 
-Because Egg allows any amount of ((whitespace)) between its elements,
-we have to repeatedly cut the whitespace off the start of the program
-string. That is what the `skipSpace` function helps with.
+Because Egg, like JavaScript, allows any amount of ((whitespace))
+between its elements, we have to repeatedly cut the whitespace off the
+start of the program string. That is what the `skipSpace` function
+helps with.
 
 {{index "literal expression", "SyntaxError type"}}
 
 After skipping any leading space, `parseExpression` uses three
-((regular expression))s to spot the three simple (atomic) elements
-that Egg supports: strings, numbers, and words. The parser constructs
-a different kind of data structure depending on which one matches. If
+((regular expression))s to spot the three atomic elements that Egg
+supports: strings, numbers, and words. The parser constructs a
+different kind of data structure depending on which one matches. If
 the input does not match one of these three forms, it is not a valid
 expression, and the parser throws an error. We use `SyntaxError`
 instead of `Error` as exception constructor, which is another standard
-error type, which is a little more specific—it is also the error type
-thrown when an attempt is made to run an invalid JavaScript program.
+error type, because it is a little more specific—it is also the error
+type thrown when an attempt is made to run an invalid JavaScript
+program.
 
 {{index "parseApply function"}}
 
@@ -355,7 +357,7 @@ currently empty. Let's add `if`.
 ```{includeCode: true}
 specialForms.if = (args, scope) => {
   if (args.length != 3) {
-    throw new SyntaxError("Bad number of args to if");
+    throw new SyntaxError("Wrong number of args to if");
   } else if (evaluate(args[0], scope) !== false) {
     return evaluate(args[1], scope);
   } else {
@@ -375,9 +377,9 @@ produces a value, namely the result of the second or third argument.
 
 {{index Boolean}}
 
-Egg differs from JavaScript in how it handles the condition value to
-`if`. It will not treat things like zero or the empty string as false,
-but only the precise value `false`.
+Egg also differs from JavaScript in how it handles the condition value
+to `if`. It will not treat things like zero or the empty string as
+false, only the precise value `false`.
 
 {{index "short-circuit evaluation"}}
 
@@ -392,7 +394,7 @@ The `while` form is similar.
 ```{includeCode: true}
 specialForms.while = (args, scope) => {
   if (args.length != 2) {
-    throw new SyntaxError("Bad number of args to while");
+    throw new SyntaxError("Wrong number of args to while");
   }
   while (evaluate(args[0], scope) !== false) {
     evaluate(args[1], scope);
@@ -430,7 +432,7 @@ must return a value. We'll make it return the value that was assigned
 ```{includeCode: true}
 specialForms.define = (args, scope) => {
   if (args.length != 2 || args[0].type != "word") {
-    throw new SyntaxError("Bad use of define");
+    throw new SyntaxError("Incorrect use of define");
   }
   let value = evaluate(args[1], scope);
   scope[args[0].name] = value;
@@ -449,7 +451,7 @@ represent the ((global scope)).
 
 To be able to use the `if` construct we just defined, we must have
 access to ((Boolean)) values. Since there are only two Boolean values,
-we do not need special syntax for them. We simply bind two bindings to
+we do not need special syntax for them. We simply bind two names to
 the values `true` and `false` and use those.
 
 ```{includeCode: true}
@@ -471,13 +473,13 @@ console.log(evaluate(prog, topScope));
 
 To supply basic ((arithmetic)) and ((comparison)) ((operator))s, we
 will also add some function values to the ((scope)). In the interest
-of keeping the code short, we'll use `new Function` to synthesize a
-bunch of operator functions in a loop, rather than defining them all
+of keeping the code short, we'll use `Function` to synthesize a bunch
+of operator functions in a loop, rather than defining them
 individually.
 
 ```{includeCode: true}
 for (let op of ["+", "-", "*", "/", "==", "<", ">"]) {
-  topScope[op] = new Function("a, b", `return a ${op} b;`);
+  topScope[op] = Function("a, b", `return a ${op} b;`);
 }
 ```
 
@@ -494,8 +496,8 @@ topScope.print = value => {
 {{index parsing, "run function"}}
 
 That gives us enough elementary tools to write simple programs. The
-following `run` function provides a convenient way to parse a program
-and run it in a fresh scope.
+following function provides a convenient way to parse a program and
+run it in a fresh scope.
 
 ```{includeCode: true}
 function run(program) {
@@ -538,33 +540,29 @@ A programming language without functions is a poor programming
 language indeed.
 
 Fortunately, it isn't hard to add a `fun` construct, which treats its
-last argument as the function's body and treats all the arguments
-before that as the names of the function's arguments.
+last argument as the function's body and uses all arguments before
+that as the names of the function's parameters.
 
 ```{includeCode: true}
-function argName(expr) {
-}
-
-
 specialForms.fun = (args, scope) => {
   if (!args.length) {
     throw new SyntaxError("Functions need a body");
   }
   let body = args[args.length - 1];
-  let argNames = args.slice(0, args.length - 1).map(expr => {
+  let params = args.slice(0, args.length - 1).map(expr => {
     if (expr.type != "word") {
-      throw new SyntaxError("Arg names must be words");
+      throw new SyntaxError("Parameter names must be words");
     }
     return expr.name;
   });
 
   return function() {
-    if (arguments.length != argNames.length) {
+    if (arguments.length != params.length) {
       throw new TypeError("Wrong number of arguments");
     }
     let localScope = Object.create(scope);
     for (let i = 0; i < arguments.length; i++) {
-      localScope[argNames[i]] = arguments[i];
+      localScope[params[i]] = arguments[i];
     }
     return evaluate(body, localScope);
   };
@@ -610,8 +608,9 @@ into something that can be evaluated more efficiently by doing as much
 work as possible in advance. For example, in well-designed languages
 it is obvious, for each use of a ((binding)), which binding is being
 referred to, without actually running the program. This can be used to
-avoid looking up the binding by name every time it is accessed and to
-directly fetch it from some predetermined ((memory)) location.
+avoid looking up the binding by name every time it is accessed,
+instead directly fetching it from some predetermined ((memory))
+location.
 
 Traditionally, ((compilation)) involves converting the program to
 ((machine code)), the raw format that a computer's processor can
@@ -622,9 +621,9 @@ representation can be thought of as compilation.
 
 It would be possible to write an alternative ((evaluation)) strategy
 for Egg, one that first converts the program to a JavaScript program,
-uses `new Function` to invoke the JavaScript compiler on it, and then
-runs the result. When done right, this would make Egg run very fast
-while still being quite simple to implement.
+uses `Function` to invoke the JavaScript compiler on it, and then runs
+the result. When done right, this would make Egg run very fast while
+still being quite simple to implement.
 
 If you are interested in this topic and willing to spend some time on
 it, I encourage you to try to implement such a compiler as an
@@ -653,7 +652,8 @@ get real work done.
 
 Such a language does not have to resemble a typical programming
 language. If JavaScript didn't come equipped with regular expressions,
-you could write your own parser and evaluator for such a sublanguage.
+for example, you could write your own parser and evaluator for regular
+expressions.
 
 {{index "artificial intelligence"}}
 
@@ -683,8 +683,8 @@ behavior attack
 This is what is usually called a _((domain-specific language))_, a
 language tailored to express a narrow domain of knowledge. Such a
 language can be more expressive than a general-purpose language
-because it is designed to express exactly the things that need
-expressing in its domain and nothing else.
+because it is designed to describe exactly the things that need to be
+described in its domain, and nothing else.
 
 ## Exercises
 
@@ -847,15 +847,15 @@ existing ones a new value.
 
 This ((ambiguity)) causes a problem. When you try to give a nonlocal
 binding a new value, you will end up defining a local one with the
-same name instead. (Some languages work like this by design, but I've
-always found it an awkward way to handle ((scope)).)
+same name instead. Some languages work like this by design, but I've
+always found it an awkward way to handle ((scope)).
 
 {{index "ReferenceError type"}}
 
 Add a special form `set`, similar to `define`, which gives a binding a
 new value, updating the binding in an outer scope if it doesn't
 already exist in the inner scope. If the binding is not defined at
-all, throw a `ReferenceError` (which is another standard error type).
+all, throw a `ReferenceError` (another standard error type).
 
 {{index "hasOwnProperty method", prototype, "getPrototypeOf function"}}
 

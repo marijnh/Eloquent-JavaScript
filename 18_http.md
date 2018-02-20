@@ -1343,11 +1343,11 @@ if}}
 Use `document.querySelector` or `document.getElementById` to get
 access to the elements defined in your HTML. An event handler for
 `"click"` or `"mousedown"` events on the button can get the `value`
-property of the text field and call `new Function` on it.
+property of the text field and call `Function` on it.
 
 {{index "try keyword", "exception handling"}}
 
-Make sure you wrap both the call to `new Function` and the call to its
+Make sure you wrap both the call to `Function` and the call to its
 result in a `try` block so that you can catch exceptions that it
 produces. In this case, we really don't know what type of exception we
 are looking for, so catch everything.

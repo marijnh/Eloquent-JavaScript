@@ -18,18 +18,18 @@ no one would ever have paid any attention to it.
 {{index decentralization, compatibility}}
 
 Web technology has, from the start, been decentralized, not just
-technically but also in the way it has evolved. Various browser
-vendors have added new functionality in ad hoc and sometimes poorly
-thought out ways, which then, sometimes, ended up being adopted by
-others—and finally set down as a ((standard)).
+technically but also in the way it evolved. Various browser vendors
+have added new functionality in ad hoc and sometimes poorly thought
+out ways, which then, sometimes, ended up being adopted by others—and
+finally set down as a ((standard)).
 
 This is both a blessing and a curse. On the one hand, it is empowering
 to not have a central party control a system but have it be improved
-by various parties working in loose ((collaboration)) (or,
-occasionally, open hostility). On the other hand, the haphazard way in
-which the Web was developed means that the resulting system is not
-exactly a shining example of internal ((consistency)). Some parts of
-it are downright confusing and poorly conceived.
+by various parties working in loose ((collaboration)) (or occasionally
+open hostility). On the other hand, the haphazard way in which the Web
+was developed means that the resulting system is not exactly a shining
+example of internal ((consistency)). Some parts of it are downright
+confusing and poorly conceived.
 
 ## Networks and the Internet
 
@@ -60,16 +60,16 @@ infected by malicious software.
 
 For example, the ((HTTP)) protocol (_Hypertext Transfer Protocol_) is
 a protocol for retrieving named ((resource))s (chunks of information,
-such as web pages or pictures). It specifies the way the side making
-the request should start with a line like this, naming the resource
-and the version of the protocol that it is trying to use.
+such as web pages or pictures). It specifies that the side making the
+request should start with a line like this, naming the resource and
+the version of the protocol that it is trying to use.
 
 ```{lang: "text/plain"}
 GET /index.html HTTP/1.1
 ```
 
-There's a lot more rules, about the way the requester can include more
-information in the ((request)), and the way the other side, which
+There's a lot more rules about the way the requester can include more
+information in the ((request)) and the way the other side, which
 returns the resource, packages up its content. We'll look at HTTP in a
 little more detail in [Chapter ?](http).
 
@@ -122,10 +122,9 @@ web pages in a browser. The "Web" part in the name refers to the fact
 that such pages can easily link to each other, thus connecting into a
 huge ((mesh)) that users can move through.
 
-To add content to the Web, all you need to do is connect a machine to
-the ((Internet)), and have it listen on port 80, using the ((HTTP))
-protocol to allow other computers to request documents over the
-((network)).
+To become part of the Web, all you need to do is connect a machine to
+the ((Internet)), and have it listen on port 80 with the ((HTTP))
+protocol, so that other computers can ask it for documents.
 
 {{index URL}}
 
@@ -162,8 +161,8 @@ domain name to serve web pages.
 If you type the URL we saw into your browser's ((address bar)), it
 will try to retrieve and display the ((document)) at that URL. First,
 your browser has to find out what address _eloquentjavascript.net_
-refers to. Then, using the ((HTTP)) protocol, it makes a connection to
-the server at that address and asks for the resource
+refers to. Then, using the ((HTTP)) protocol, it will make a
+connection to the server at that address and ask for the resource
 _/13_browser.html_. If all goes well, the server sends back a
 document, which your browser then displays on your screen.
 
@@ -219,9 +218,9 @@ that were in use in the past.
 HTML documents have a head and a body. The head contains information
 _about_ the document, and the body contains the document itself. In
 this case, the head declares that the title of this document is "My
-home page" and that it uses the UTF-8 encoding, which is another way
-of encoding Unicode text as binary data. The document's body contains
-a heading (`<h1>`, meaning "heading 1"—_`<h2>`_ to `<h6>` produce more
+home page" and that it uses the UTF-8 encoding, which is a way to
+encode Unicode text as binary data. The document's body contains a
+heading (`<h1>`, meaning "heading 1"—`<h2>` to `<h6>` produce more
 minor headings) and two ((paragraph))s (`<p>`).
 
 {{index "href attribute", "a (HTML tag)"}}
@@ -238,7 +237,7 @@ this case, the destination of the link is indicated with
 {{index "src attribute", "self-closing tag", "img (HTML tag)"}}
 
 Some kinds of ((tag))s do not enclose anything and thus do not need to
-be closed. The metadata tag `<meta charcode="utf8">` is an example of
+be closed. The metadata tag `<meta charset="utf-8">` is an example of
 this.
 
 {{index [escaping, "in HTML"]}}
@@ -270,8 +269,8 @@ The following document will be treated just like the one shown previously:
 
 ```{lang: "text/html"}
 <!doctype html>
-<meta charset=utf-8>
 
+<meta charset=utf-8>
 <title>My home page</title>
 
 <h1>My home page</h1>
@@ -296,7 +295,7 @@ close tags and include quotes around attributes.
 {{index browser}}
 
 I will also usually omit the ((doctype)) and `charset` declaration.
-This is not to be taken as an encouragement to these from HTML
+This is not to be taken as an encouragement to drop these from HTML
 documents. Browsers will often do ridiculous things when you forget
 them. You should consider the doctype and the `charset` metadata
 implicitly present in examples, even when they are not actually shown
@@ -358,7 +357,8 @@ themselves as module names in `import` declarations.
 
 Some attributes can also contain a JavaScript program. The `<button>`
 tag shown next (which shows up as a button) has an `onclick`
-attribute, whose content will be run whenever the button is clicked.
+attribute. The attribute's value will be run whenever the button is
+clicked.
 
 ```{lang: "text/html"}
 <button onclick="alert('Boom!');">DO NOT PRESS</button>
@@ -368,8 +368,7 @@ attribute, whose content will be run whenever the button is clicked.
 
 Note that I had to use single quotes for the string in the `onclick`
 attribute because double quotes are already used to quote the whole
-attribute. I could also have used `&quot;`, but that'd make the
-program harder to read.
+attribute. I could also have used `&quot;`.
 
 ## In the sandbox
 
@@ -436,16 +435,17 @@ writing web pages.
 Mozilla ((Firefox)), a not-for-profit offshoot of ((Netscape)),
 challenged Internet Explorer's position in the late 2000s. Because
 ((Microsoft)) was not particularly interested in staying competitive
-at the time, Firefox took quite a chunk of market share away from it.
-Around the same time, ((Google)) introduced its ((Chrome)) browser,
-and Apple's ((Safari)) browser gained popularity, leading to a
-situation where there were four major players, rather than one.
+at the time, Firefox took a lot of market share away from it. Around
+the same time, ((Google)) introduced its ((Chrome)) browser, and
+Apple's ((Safari)) browser gained popularity, leading to a situation
+where there were four major players, rather than one.
 
 {{index compatibility}}
 
 The new players had a more serious attitude toward ((standards)) and
-better ((engineering)) practices, leading to less incompatibility and
+better ((engineering)) practices, giving us less incompatibility and
 fewer ((bug))s. Microsoft, seeing its market share crumble, came
-around and adopted these attitudes. If you are starting to learn web
-development today, consider yourself lucky. The latest versions of the
-major browsers behave quite uniformly and have relatively few bugs.
+around and adopted these attitudes in its Edge browser, which replaces
+Internet Explorer. If you are starting to learn web development today,
+consider yourself lucky. The latest versions of the major browsers
+behave quite uniformly and have relatively few bugs.

@@ -35,6 +35,11 @@ function highlight(lang, text) {
   return result
 }
 
+function maybeSplitInlineCode(html) {
+  if (html.length <= 16) return html
+  return html.replace(/[.\/](?!\/)/, "$&<wbr>")
+}
+
 function anchor(token) {
   return token.hashID ? `<a class="${token.hashID.charAt(0)}_ident" id="${token.hashID}" href="#${token.hashID}"></a>` : ""
 }
@@ -88,7 +93,7 @@ let renderer = {
 
   html_block(token) { return token.content },
 
-  code_inline(token) { return `<code>${escape(token.content)}</code>` },
+  code_inline(token) { return `<code>${maybeSplitInlineCode(escape(token.content))}</code>` },
 
   strong_open() { return "<strong>" },
   strong_close() { return "</strong>" },

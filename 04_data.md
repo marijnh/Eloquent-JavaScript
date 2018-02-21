@@ -1225,9 +1225,9 @@ console.log(name);
 
 {{index null, undefined}}
 
-Note that if the value given to such a destructuring binding is `null`
-or `undefined`, you get an error, much like you would if you'd
-directly try to access a property of those values.
+Note that if you try to destructure `null` or `undefined`, you get an
+error, much like you would if you'd directly try to access a property
+of those values.
 
 ## JSON
 

@@ -761,7 +761,7 @@ and self-contained. In a regular program, where there is no need to
 split the code into small pieces, you'd declare these methods directly
 in the class instead.
 
-```
+```{includeCode: true}
 Matrix.prototype[Symbol.iterator] = function() {
   return new MatrixIterator(this);
 };

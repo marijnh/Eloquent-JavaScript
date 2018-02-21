@@ -29,7 +29,7 @@ function escapeChar(ch) {
     case "~": return "\\textasciitilde "
     case "^": return "\\textasciicircum "
     case "\\": return "\\textbackslash "
-    case "/": return "\/\\allowbreak "
+    case "/": return "\\slash "
     default: return "\\" + ch
   }
 }

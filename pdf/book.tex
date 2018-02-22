@@ -1,4 +1,4 @@
-\documentclass[fontsize=13pt,oneside]{scrbook}
+\documentclass[fontsize=13pt,oneside,headings=small]{scrbook}
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
@@ -46,6 +46,10 @@
 \newfontface{\emojifont}{Symbola_hint.ttf}
 \newfontfamily{\cjkfont}{TW-Sung}
 \setTransitionsFor{MiscellaneousSymbolsAndPictographs}{\emojifont}{\normalfont}{}
+
+\newfontfamily{\cinzel}{Cinzel}
+\setkomafont{disposition}{\bfseries\cinzel}
+
 \pagestyle{plain}
 
 \usepackage{newunicodechar}
@@ -63,6 +67,8 @@
 \author{Marijn Haverbeke}
 
 \title{Eloquent JavaScript}
+
+\subtitle{3rd edition}
 
 \maketitle
 

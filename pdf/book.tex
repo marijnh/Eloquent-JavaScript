@@ -8,6 +8,7 @@
 \usepackage{bookmark}
 \usepackage{ucharclasses}
 \usepackage{fontspec}
+\usepackage{xcolor}
 \usepackage{arabxetex}
 \usepackage{makeidx}
 
@@ -49,7 +50,8 @@
 
 \newfontfamily{\cinzel}{Cinzel}
 \setkomafont{disposition}{\bfseries\cinzel}
-\setkomafont{chapterprefix}{\small}
+\definecolor{silver-chalice}{HTML}{AAAAAA}
+\setkomafont{chapterprefix}{\small\color{silver-chalice}}
 \RedeclareSectionCommand[innerskip=0pt]{chapter}
 
 \pagestyle{plain}

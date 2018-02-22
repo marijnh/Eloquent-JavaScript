@@ -13,8 +13,8 @@ quote}}
 Much of my initial fascination with computers, like that of many nerdy
 kids, had to do with computer ((game))s. I was drawn into the tiny
 simulated ((world))s that I could manipulate and in which stories
-(sort of) unfolded—more, I suppose, because of the way I could project
-my ((imagination)) into them than because of the possibilities they
+(sort of) unfolded—more, I suppose, because of the way I projected my
+((imagination)) into them than because of the possibilities they
 actually offered.
 
 I don't wish a ((career)) in game programming on anyone. Much like the
@@ -28,7 +28,7 @@ amusing.
 This chapter will walk through the implementation of a small
 ((platform game)). Platform games (or "jump and run" games) are games
 that expect the ((player)) to move a figure through a ((world)), which
-is usually two-dimensional and viewed from the side, and jump over and
+is usually two-dimensional and viewed from the side, jumping over and
 onto things.
 
 ## The game
@@ -46,7 +46,7 @@ can be built without too much ((code)). It looks like this:
 {{index coin, lava}}
 
 The dark ((box)) represents the ((player)), whose task is to collect
-the yellow boxes (coins) while avoiding the red stuff (lava?). A
+the yellow boxes (coins) while avoiding the red stuff (lava). A
 ((level)) is completed when all coins have been collected.
 
 {{index keyboard, jumping}}
@@ -84,12 +84,12 @@ and use styling to give them a background color, size, and position.
 {{index "table (HTML tag)"}}
 
 We can represent the background as a table since it is an unchanging
-((grid)) of squares. The free-moving elements can be overlaid on top
-of that, using absolutely positioned elements.
+((grid)) of squares. The free-moving elements can be overlaid using
+absolutely positioned elements.
 
 {{index performance}}
 
-In games and other programs that have to animate ((graphics)) and
+In games and other programs that should animate ((graphics)) and
 respond to user ((input)) without noticeable delay, ((efficiency)) is
 important. Although the ((DOM)) was not originally designed for
 high-performance graphics, it is actually better at this than you
@@ -112,8 +112,7 @@ than ((DOM)) elements.
 We'll want a human-readable, human-editable way to specify levels.
 Since it is okay for everything to start out on a grid, we could use
 big strings in which each character represents an element—either a
-part of the background grid or a moving element—in which case the
-background grid element is assumed to be empty.
+part of the background grid or a moving element.
 
 The plan for a small level might look like this:
 
@@ -132,18 +131,18 @@ var simpleLevelPlan = `
 
 {{index level}}
 
-Periods are empty space, hash ("#") characters walls, and plus signs
-are lava. The ((player))'s starting position is the ((at sign)). Every
-O characters is a coins, and the equals sign (`=`) at the top is a
-block of lava that moves back and forth horizontally.
+Periods are empty space, hash ("#") characters are walls, and plus
+signs are lava. The ((player))'s starting position is the ((at sign))
+(`@`). Every O characters is a coin, and the equals sign (`=`) at the
+top is a block of lava that moves back and forth horizontally.
 
 {{index bouncing}}
 
-We'll support two other kinds of moving ((lava)): the pipe character
-(`|`) for vertically moving blobs, and `v` for _dripping_
-lava—vertically moving lava that doesn't bounce back and forth but
-only moves down, jumping back to its start position when it hits the
-floor.
+We'll support two additional kinds of moving ((lava)): the pipe
+character (`|`) creates vertically moving blobs, and `v` indicates
+_dripping_ lava—vertically moving lava that doesn't bounce back and
+forth but only moves down, jumping back to its start position when it
+hits the floor.
 
 A whole ((game)) consists of multiple ((level))s that the ((player))
 must complete. A level is completed when all ((coin))s have been
@@ -162,17 +161,20 @@ be the string that defines the level.
 ```{includeCode: true}
 class Level {
   constructor(plan) {
-    let rows = plan.trim().split("\n").map(r => r.split(""));
+    let rows = plan.trim().split("\n").map(l => [...l]);
     this.height = rows.length;
     this.width = rows[0].length;
     this.startActors = [];
 
-    this.rows = rows.map((row, y) => row.map((ch, x) => {
-      let type = levelChars[ch];
-      if (typeof type == "string") return type;
-      this.startActors.push(type.create(new Vec(x, y), ch));
-      return "empty";
-    }));
+    this.rows = rows.map((row, y) => {
+      return row.map((ch, x) => {
+        let type = levelChars[ch];
+        if (typeof type == "string") return type;
+        this.startActors.push(
+          type.create(new Vec(x, y), ch));
+        return "empty";
+      });
+    });
   }
 }
 ```
@@ -181,34 +183,34 @@ class Level {
 
 The `trim` method is used to remove ((whitespace)) at the start and
 end of the plan string. This allows our example plan to start with a
-newline, so that all the lines are below each other. The remaining
-string is split on ((newline character))s, and the lines are split on
-the empty string, which will split after every character and produce
-an array of characters.
+newline, so that all the lines are directly below each other. The
+remaining string is split on ((newline character))s, and each line is
+spread into an array, producing arrays of characters.
 
 So `rows` holds an ((array)) of arrays of characters, the rows of the
 plan. We can derive the level's width and height from these. But we
 must still separate the moving elements from the background grid.
-We'll call moving elements _actors_ and store them in an array of
+We'll call moving elements _actors_. They'll be stored in an array of
 objects. The background will be an array of arrays of strings, holding
 field types like `"empty"`, `"wall"`, or `"lava"`.
 
 {{index "map method"}}
 
-To do that we map over the rows, and then over their content. Remember
-that map passes the array index as a second argument to the mapping
-function, which are used here to know the x- and y-coordinates of a
-given character. Positions in the game will be stored as pairs of
-coordinates, with the top left being 0,0, and each background square
-being 1 unit high and wide.
+To create these arrays we map over the rows, and then over their
+content. Remember that map passes the array index as a second argument
+to the mapping function, which are used here to know the x- and
+y-coordinates of a given character. Positions in the game will be
+stored as pairs of coordinates, with the top left being 0,0, and each
+background square being 1 unit high and wide.
 
 {{index "static method"}}
 
-To interpret characters in the plan, the constructor uses a
-`levelChars` object, which holds a string for background elements or a
-class for actors. When `type` is an actor class, its static `create`
-method is used to create an object, which is added to `startActors`,
-and the mapping function returns `"empty"` for this background square.
+To interpret the characters in the plan, the `Level` constructor uses
+the `levelChars` object, which maps background elements to strings and
+actor characters to classes. When `type` is an actor class, its static
+`create` method is used to create an object, which is added to
+`startActors`, and the mapping function returns `"empty"` for this
+background square.
 
 {{index "Vec class"}}
 
@@ -249,11 +251,11 @@ creates a new state, and leaves the old one intact.
 {{index actor, "Vec class"}}
 
 Actor objects represent the current position and state of a given
-moving element in our game. Their ((interface)) consists of four
-properties. Firstly the `pos` property holds the coordinates of the
-element's top-left corner, and the `size` property holds its size.
+moving element in our game. All actor objects conform to the same
+((interface)). Their `pos` property holds the coordinates of the
+element's top-left corner, and their `size` property holds its size.
 
-Actors also have an `update` method, which is used to compute their
+Then they have have an `update` method, which is used to compute their
 new state and position after a given time step. It simulates the thing
 the actor does—moving in response to the arrow keys for the player,
 bouncing back and forth for the lava—and returns a new, updated actor
@@ -264,11 +266,11 @@ actor—`"player"`, `"coin"`, or `"lava"`. This is useful when drawing
 the game—the look of the rectangle drawn for an actor is based on its
 type.
 
-And finally, actor classes have a static `create` method that is used
-by the `Level` constructor to create an actor from a character in the
-level plan. It is given the coordinates of the character and the
-character itself, which is needed because the `Lava` class handles
-several different characters.
+Actor classes have a static `create` method that is used by the
+`Level` constructor to create an actor from a character in the level
+plan. It is given the coordinates of the character and the character
+itself, which is needed because the `Lava` class handles several
+different characters.
 
 {{id vector}}
 
@@ -296,8 +298,8 @@ useful when we need to multiply a speed vector by a time interval to
 get the distance traveled during that time.
 
 The different types of actors get their own classes, since their
-behavior is very different. Let's define these classes—without
-`update` methods for now. We'll define those later.
+behavior is very different. Let's define these classes. We'll get to
+their `update` methods later on.
 
 {{index simulation, "Player class"}}
 
@@ -328,11 +330,11 @@ appeared. This way, its bottom aligns with the bottom of the square it
 appeared in.
 
 The `size` property is the same for all instances of `Player`, so we
-want to store it on the prototype, rather than on the instances
-themselves. We could have used a ((getter)) like `type`, but that
-would create and return a new `Vec` object every time the property is
-read, which would be wasteful. (Strings, being ((immutable)), don't
-have to be recreated every time they are evaluated.)
+store it on the prototype, rather than on the instances themselves. We
+could have used a ((getter)) like `type`, but that would create and
+return a new `Vec` object every time the property is read, which would
+be wasteful. (Strings, being ((immutable)), don't have to be recreated
+every time they are evaluated.)
 
 {{index "Lava class", bouncing}}
 
@@ -416,9 +418,8 @@ random starting position on the wave.
 
 {{index map, [object, "as map"]}}
 
-The `Level` constructor consults a `levelChars` object to map
-characters to either background grid types or actor classes. We can
-now define this object.
+We can now define the `levelChars` object that maps plan characters to
+either background grid types or actor classes.
 
 ```{includeCode: true}
 const levelChars = {
@@ -428,11 +429,11 @@ const levelChars = {
 };
 ```
 
-We have written all the parts needed to create a `Level` instance.
+That gives us all the parts needed to create a `Level` instance.
 
 ```{includeCode: strip_log}
 let simpleLevel = new Level(simpleLevelPlan);
-console.log(simpleLevel.width, "by", simpleLevel.height);
+console.log(`${simpleLevel.width} by ${simpleLevel.height}`);
 // → 22 by 9
 ```
 
@@ -466,17 +467,17 @@ separation through rigorous interfaces, but others don't. Trying to
 encapsulate something that isn't a suitable boundary is a sure way to
 waste a lot of energy. When you are making this mistake, you'll
 usually notice that your interfaces are getting awkwardly large and
-detailed and that they need to be modified often, as the program
+detailed and that they need to be changed often, as the program
 evolves.
 
 {{index graphics, encapsulation, graphics}}
 
 There is one thing that we _will_ encapsulate, and that is the
-((drawing)) subsystem. The reason for this is that we will ((display))
+((drawing)) subsystem. The reason for this is that we'll ((display))
 the same game in a different way in the [next
 chapter](canvas#canvasdisplay). By putting the drawing behind an
-interface, we can simply load the same game program there and plug in
-a new display ((module)).
+interface, we can load the same game program there and plug in a new
+display ((module)).
 
 {{id domdisplay}}
 
@@ -487,11 +488,11 @@ a new display ((module)).
 The encapsulation of the ((drawing)) code is done by defining a
 _((display))_ object, which displays a given ((level)) and state. The
 display type we define in this chapter is called `DOMDisplay` because
-it uses simple ((DOM)) elements to show the level.
+it uses ((DOM)) elements to show the level.
 
 {{index "style attribute"}}
 
-We will be using a ((style sheet)) to set the actual colors and other
+We'll be using a ((style sheet)) to set the actual colors and other
 fixed properties of the elements that make up the game. It would also
 be possible to directly assign to the elements' `style` property when
 we create them, but that would produce more verbose programs.
@@ -538,12 +539,12 @@ that holds the actors so that they can be easily removed and replaced.
 
 {{index scaling, "DOMDisplay class"}}
 
-Our ((coordinates)) and sizes are tracked in units relative to the
-((grid)) size, where a size or distance of 1 means 1 grid unit. When
-setting ((pixel)) sizes, we will have to scale these coordinates
-up—everything in the game would be ridiculously small at a single
-pixel per square. The `scale` constant gives the number of pixels that
-a single unit takes up on the screen.
+Our ((coordinates)) and sizes are tracked in ((grid)) units, where a
+size or distance of 1 means 1 grid block. When setting ((pixel))
+sizes, we will have to scale these coordinates up—everything in the
+game would be ridiculously small at a single pixel per square. The
+`scale` constant gives the number of pixels that a single unit takes
+up on the screen.
 
 ```{includeCode: true}
 const scale = 20;
@@ -637,20 +638,20 @@ defined earlier.
 
 {{index graphics, optimization, efficiency, state}}
 
-When it updates the display, the `drawState` method first removes the
-old actor graphics, if any, and then redraws them in their new
-positions. It may be tempting to try to reuse the ((DOM)) elements for
-actors, but to make that work, we would need a lot of additional
-bookkeeping to associate actors with DOM elements and to make sure we
-remove elements when their actors vanish. Since there will typically
-be only a handful of actors in the game, redrawing all of them is not
-expensive.
+The `setState` method is used to make the display show a given state.
+It first removes the old actor graphics, if any, and then redraws the
+actors in their new positions. It may be tempting to try to reuse the
+((DOM)) elements for actors, but to make that work, we would need a
+lot of additional bookkeeping to associate actors with DOM elements
+and to make sure we remove elements when their actors vanish. Since
+there will typically be only a handful of actors in the game,
+redrawing all of them is not expensive.
 
 ```{includeCode: true}
-DOMDisplay.prototype.drawState = function(state) {
+DOMDisplay.prototype.setState = function(state) {
   if (this.actorLayer) this.actorLayer.remove();
-  this.actorLayer =
-    this.dom.appendChild(drawActors(state.actors));
+  this.actorLayer = drawActors(state.actors);
+  this.dom.appendChild(this.actorLayer);
   this.dom.className = `game ${state.status}`;
   this.scrollPlayerIntoView(state);
 };
@@ -683,11 +684,11 @@ white halo effect.
 
 {{index "position (CSS)", "max-width (CSS)", "overflow (CSS)", "max-height (CSS)", viewport, scrolling}}
 
-We can't assume that levels always fit in the viewport. That is why
-the `scrollPlayerIntoView` call is needed—it ensures that if the level
-is protruding outside the viewport, we scroll that viewport to make
-sure the player is near its center. The following ((CSS)) gives the
-game's wrapping ((DOM)) element a maximum size and ensures that
+We can't assume that the level always fits in the viewport. That is
+why the `scrollPlayerIntoView` call is needed—it ensures that if the
+level is protruding outside the viewport, we scroll that viewport to
+make sure the player is near its center. The following ((CSS)) gives
+the game's wrapping ((DOM)) element a maximum size and ensures that
 anything that sticks out of the element's box is not visible. We also
 give the outer element a relative position so that the actors inside
 it are positioned relative to the level's top-left corner.
@@ -768,7 +769,7 @@ We are now able to display our tiny level.
 <script>
   let simpleLevel = new Level(simpleLevelPlan);
   let display = new DOMDisplay(document.body, simpleLevel);
-  display.drawState(State.start(simpleLevel));
+  display.setState(State.start(simpleLevel));
 </script>
 ```
 
@@ -793,7 +794,7 @@ interesting aspect of the game. The basic approach, taken by most
 games like this, is to split ((time)) into small steps and, for each
 step, move the actors by a distance corresponding to their speed
 multiplied by the size of the time step. We'll measure time in
-seconds.
+seconds, so speeds are expressed in units per second.
 
 {{index obstacle, "collision detection"}}
 
@@ -801,8 +802,8 @@ Moving things is easy. The difficult part is dealing with the
 interactions between the elements. When the player hits a wall or
 floor, they should not simply move through it. The game must notice
 when a given motion causes an object to hit another object and respond
-accordingly. For walls, the motion must be stopped. For coins, the
-coin must be collected, and so on.
+accordingly. For walls, the motion must be stopped. When hitting a
+coin, it be collected. When touching lava, the game should be lost.
 
 Solving this for the general case is a big task. You can find
 libraries, usually called _((physics engine))s_, that simulate
@@ -976,8 +977,9 @@ the opposite direction.
 
 {{index "Coin class", coin, wave}}
 
-Coins use their `act` method to wobble. They ignore collisions since
-they are simply wobbling around inside of their own square.
+Coins use their `act` method to wobble. They ignore collisions with
+the grid since they are simply wobbling around inside of their own
+square.
 
 ```{includeCode: true}
 const wobbleSpeed = 8, wobbleDist = 0.07;
@@ -1012,7 +1014,6 @@ Player.prototype.update = function(time, state, keys) {
   let xSpeed = 0;
   if (keys.ArrowLeft) xSpeed -= playerXSpeed;
   if (keys.ArrowRight) xSpeed += playerXSpeed;
-
   let pos = this.pos;
   let movedX = pos.plus(new Vec(xSpeed * time, 0));
   if (!state.level.touches(movedX, this.size, "wall")) {
@@ -1036,26 +1037,27 @@ Player.prototype.update = function(time, state, keys) {
 
 The horizontal motion is computed based on the state of the left and
 right arrow keys. When there's no wall blocking the new position
-created from this motion, it is used. Otherwise, the old position is
+created by this motion, it is used. Otherwise, the old position is
 kept.
 
 {{index acceleration, physics}}
 
 Vertical motion works in a similar way but has to simulate ((jumping))
 and ((gravity)). The player's vertical speed (`ySpeed`) is first
-accelerated to account for ((gravity)). The gravity strength,
-((jumping)) speed, and pretty much all other ((constant))s in this
-game have been set by ((trial and error)). I tested various values
-until I found a combination I liked.
+accelerated to account for ((gravity)).
 
 {{index "collision detection", keyboard, jumping}}
 
-Next, we check for walls again. If we don't hit any, the new position
-is used. If there _is_ a wall, there are two possible outcomes. When
-the up arrow is pressed _and_ we are moving down (meaning the thing we
-hit is below us), the speed is set to a relatively large, negative
-value. This causes the player to jump. If that is not the case, the
-player simply bumped into something, and the speed is set to zero.
+We check for walls again. If we don't hit any, the new position is
+used. If there _is_ a wall, there are two possible outcomes. When the
+up arrow is pressed _and_ we are moving down (meaning the thing we hit
+is below us), the speed is set to a relatively large, negative value.
+This causes the player to jump. If that is not the case, the player
+simply bumped into something, and the speed is set to zero.
+
+The gravity strength, ((jumping)) speed, and pretty much all other
+((constant))s in this game have been set by ((trial and error)). I
+tested values until I found a combination I liked.
 
 ## Tracking keys
 
@@ -1155,8 +1157,8 @@ easier quantity to think about than milliseconds.
 
 {{index "callback function", "runLevel function"}}
 
-The `runLevel` function takes a `Level` object, a constructor for a
-((display)) and returns a promise. It displays the level (in
+The `runLevel` function takes a `Level` object and a ((display))
+constructor, and returns a promise. It displays the level (in
 `document.body`) and lets the user play through it. When the level is
 finished (lost or won), `runLevel` waits one more second (to let the
 user see what happens) and then clears the display, stops the
@@ -1170,7 +1172,7 @@ function runLevel(level, Display) {
   return new Promise(resolve => {
     runAnimation(time => {
       state = state.update(time, arrowKeys);
-      display.drawState(state);
+      display.setState(state);
       if (state.status == "playing") {
         return true;
       } else if (ending > 0) {
@@ -1207,8 +1209,8 @@ async function runGame(plans, Display) {
 {{index "asynchronous programming", "event handling"}}
 
 Because we made `runLevel` return a promise, `runGame` can be written
-using an `async` function, as seen in [Chapter ?](async). It also
-returns a promise, which resolves when the user finished the game.
+using an `async` function, as seen in [Chapter ?](async). It returns
+another promise, which resolves when the player finished the game.
 
 {{index game, "GAME_LEVELS data set"}}
 
@@ -1318,7 +1320,7 @@ it is finished.
     return new Promise(resolve => {
       runAnimation(time => {
         state = state.update(time, arrowKeys);
-        display.drawState(state);
+        display.setState(state);
         if (state.status == "playing") {
           return true;
         } else if (ending > 0) {
@@ -1380,7 +1382,7 @@ We'll call it a monster. Monsters move only horizontally. You can make
 them move in the direction of the player, or bounce back and forth
 like horizontal lava, or have any movement pattern you want. The class
 doesn't have to handle falling, but it should make sure the monster
-doesn't walk into walls.
+doesn't walk through walls.
 
 When a monster touches the player, the effect depends on whether the
 player is jumping on top of them or not. You can approximate this by
@@ -1440,10 +1442,10 @@ if}}
 
 If you want to implement a type of motion that is stateful, such as
 bouncing, make sure you store the necessary state in the actor
-object—include is as constructor argument and add it as a property.
+object—include it as constructor argument and add it as a property.
 
-Remember that `update` should return a _new_ object, rather than
-changing the old one.
+Remember that `update` returns a _new_ object, rather than changing
+the old one.
 
 When handling ((collision)), find the player in `state.actors` and
 compare its position to the monster's position. To get the _bottom_ of

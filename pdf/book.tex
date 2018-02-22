@@ -1,4 +1,4 @@
-\documentclass[fontsize=13pt,oneside,headings=small]{scrbook}
+\documentclass[fontsize=13pt,oneside,headings=small,chapterprefix]{scrbook}
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
@@ -49,6 +49,8 @@
 
 \newfontfamily{\cinzel}{Cinzel}
 \setkomafont{disposition}{\bfseries\cinzel}
+\setkomafont{chapterprefix}{\small}
+\RedeclareSectionCommand[innerskip=0pt]{chapter}
 
 \pagestyle{plain}
 

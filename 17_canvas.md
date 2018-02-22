@@ -13,10 +13,10 @@ quote}}
 Browsers give us several ways to display ((graphics)). The simplest
 way is to use styles to position and color regular ((DOM)) elements.
 This can get you quite far, as the game in the [previous
-chapter](game) showed. By adding partially transparent background
+chapter](game) shows. By adding partially transparent background
 ((image))s to the nodes, we can make them look exactly the way we
-want. It is even possible to rotate or skew nodes by using the
-`transform` style.
+want. It is even possible to rotate or skew nodes with the `transform`
+style.
 
 But we'd be using the DOM for something that it wasn't originally
 designed for. Some tasks, such as drawing a ((line)) between
@@ -26,10 +26,10 @@ arbitrary points, are extremely awkward to do with regular
 {{index SVG, "img (HTML tag)"}}
 
 There are two alternatives. The first is DOM-based but utilizes
-_Scalable Vector Graphics (SVG)_, rather than HTML elements. Think of
-SVG as a ((document))-markup dialect that focuses on ((shape))s rather
-than text. You can embed an SVG document in an HTML document, or you
-can include it through an `<img>` tag.
+_Scalable Vector Graphics_ (SVG), rather than HTML. Think of SVG as a
+((document))-markup dialect that focuses on ((shape))s rather than
+text. You can embed an SVG document directly in an HTML document or
+include it with an `<img>` tag.
 
 {{index clearing}}
 
@@ -81,9 +81,9 @@ The document is displayed like this:
 
 if}}
 
-These tags create ((DOM)) elements, just like ((HTML)) tags. For
-example, this changes the `<circle>` element to be ((color))ed cyan
-instead:
+These tags create ((DOM)) elements, just like ((HTML)) tags, that
+scripts can interact with. For example, this changes the `<circle>`
+element to be ((color))ed cyan instead:
 
 ```{sandbox: "svg"}
 let circle = document.querySelector("circle");
@@ -105,23 +105,23 @@ shows up as empty space in the document.
 
 The `<canvas>` tag is intended to allow different styles of
 ((drawing)). To get access to an actual drawing ((interface)), we
-first need to create a _((context))_, which is an object whose methods
-provide the drawing interface. There are currently two widely
-supported drawing styles: `"2d"` for two-dimensional graphics and
-`"webgl"` for three-dimensional graphics through the OpenGL interface.
+first need to create a _((context))_, an object whose methods provide
+the drawing interface. There are currently two widely supported
+drawing styles: `"2d"` for two-dimensional graphics and `"webgl"` for
+three-dimensional graphics through the OpenGL interface.
 
 {{index rendering, graphics, efficiency}}
 
 This book won't discuss WebGL—we'll stick to two dimensions. But if
 you are interested in three-dimensional graphics, I do encourage you
-to look into WebGL. It provides a very direct interface to modern
-graphics hardware and thus allows you to render even complicated
-scenes efficiently, using JavaScript.
+to look into WebGL. It provides a very direct interface to graphics
+hardware and allows you to render even complicated scenes efficiently,
+using JavaScript.
 
 {{index "getContext method", [canvas, context]}}
 
-A ((context)) is created through the `getContext` method on the
-`<canvas>` element.
+You create a ((context)) with the `getContext` method on the
+`<canvas>` DOM element.
 
 ```{lang: "text/html"}
 <p>Before canvas.</p>
@@ -154,7 +154,7 @@ of the top-left corner.
 
 {{id fill_stroke}}
 
-## Fill and stroke
+## Lines and surfaces
 
 {{index filling, stroking, drawing, SVG}}
 
@@ -179,9 +179,9 @@ properties of the context object.
 
 {{index filling, "fillStyle property"}}
 
-Setting `fillStyle` changes the way shapes are filled. It can be set
-to a string that specifies a ((color)). Any color understood by
-((CSS)) can also be used here.
+The `fillStyle` property controls the way shapes are filled. It can be
+set to a string that specifies a ((color)), using the color notation
+used by ((CSS)).
 
 {{index stroking, "line width", "strokeStyle property", "lineWidth property", canvas}}
 
@@ -305,10 +305,10 @@ a bit more involved to draw.
 The `quadraticCurveTo` method draws a curve to a given point. To
 determine the curvature of the line, the method is given a ((control
 point)) as well as a destination point. Imagine this control point as
-_attracting_ the line, giving the line its curve. The line won't go
-through the control point. Rather, the direction of the line at its
-start and end points will be such that it aligns with the line from
-there to the control point. The following example illustrates this:
+_attracting_ the line, giving it its curve. The line won't go through
+the control point, but its direction at the start and end points will
+be such that a straight in that direction would point towards the
+control point. The following example illustrates this:
 
 ```{lang: "text/html"}
 <canvas></canvas>
@@ -381,59 +381,15 @@ find the ((control point))s that provide the ((shape)) you are looking
 for. Sometimes you can compute them, and sometimes you'll just have to
 find a suitable value by trial and error.
 
-{{index rounding, canvas, "arcTo method", arc}}
-
-_Arcs_—fragments of a ((circle))—are easier to reason about. The
-`arcTo` method takes no less than five arguments. The first four
-arguments act somewhat like the arguments to _quadraticCurveTo_. The
-first pair provides a sort of ((control point)), and the second pair
-gives the line's destination. The fifth argument provides the
-((radius)) of the arc. The method will conceptually project a corner—a
-line going to the control point and then to the destination point—and
-round the corner's point so that it forms part of a circle with the
-given radius. The `arcTo` method then draws the rounded part, as well
-as a line from the starting position to the start of the rounded part.
-
-```{lang: "text/html"}
-<canvas></canvas>
-<script>
-  let cx = document.querySelector("canvas").getContext("2d");
-  cx.beginPath();
-  cx.moveTo(10, 10);
-  // control=(90,10) goal=(90,90) radius=20
-  cx.arcTo(90, 10, 90, 90, 20);
-  cx.moveTo(10, 10);
-  // control=(90,10) goal=(90,90) radius=80
-  cx.arcTo(90, 10, 90, 90, 80);
-  cx.stroke();
-</script>
-```
-
-{{if book
-
-This produces two rounded corners with different radii.
-
-{{figure {url: "img/canvas_arc.png", alt: "Two arcs with different radii",width: "2.3cm"}}}
-
-if}}
-
-{{index canvas, "arcTo method", "lineTo method"}}
-
-The `arcTo` method won't draw the line from the end of the rounded
-part to the goal position, though the word _to_ in its name suggests
-it does. You can follow up with a call to `lineTo` with the same goal
-coordinates to add that part of the line.
-
 {{index "arc method", arc}}
 
-To draw a ((circle)), you could use four
-calls to `arcTo` (each turning 90 degrees). But the `arc` method
-provides a simpler way. It takes a pair of ((coordinates)) for the
-arc's center, a radius, and then a start and end angle.
+The `arc` method is a way to draw a line that curves along the edge of
+a circle. It takes a pair of ((coordinates)) for the arc's center, a
+radius, and then a start and end angle.
 
 {{index pi, "Math.PI constant"}}
 
-Those last two parameters make it possible to draw only part of
+Those last two parameters make it possible to draw only part of the
 circle. The ((angle))s are measured in ((radian))s, not ((degree))s.
 This means a full ((circle)) has an angle of 2π, or `2 * Math.PI`,
 which is about 6.28. The angle starts counting at the point to the
@@ -459,8 +415,8 @@ circle.
 The resulting picture contains a ((line)) from the right of the full
 circle (first call to `arc`) to the right of the quarter-((circle))
 (second call). Like other path-drawing methods, a line drawn with
-`arc` is connected to the previous path segment by default. You can
-call `moveTo` or start a new path to avoid this.
+`arc` is connected to the previous path segment. You can call `moveTo`
+or start a new path to avoid this.
 
 {{if book
 
@@ -530,8 +486,8 @@ This draws the following chart:
 
 if}}
 
-But a chart that doesn't tell us what it means isn't very helpful. We
-need a way to draw text to the ((canvas)).
+But a chart that doesn't tell us what the slices mean isn't very
+helpful. We need a way to draw text to the ((canvas)).
 
 ## Text
 
@@ -559,7 +515,7 @@ string to select a style.
 
 {{index "fillText method", "strokeText method", "textAlign property", "textBaseline property"}}
 
-The last two arguments to `fillText` (and `strokeText`) provide the
+The last two arguments to `fillText` and `strokeText` provide the
 position at which the font is drawn. By default, they indicate the
 position of the start of the text's alphabetic baseline, which is the
 line that letters "stand" on, not counting hanging parts in letters
@@ -570,9 +526,9 @@ position by setting `textBaseline` to `"top"`, `"middle"`, or
 
 {{index "pie chart example"}}
 
-We will come back to our pie chart, and the problem of ((label))ing
-the slices, in the [exercises](canvas#exercise_pie_chart) at the end
-of the chapter.
+We'll come back to our pie chart, and the problem of ((label))ing the
+slices, in the [exercises](canvas#exercise_pie_chart) at the end of
+the chapter.
 
 ## Images
 
@@ -589,12 +545,11 @@ colored dots).
 
 The `drawImage` method allows us to draw ((pixel)) data onto a
 ((canvas)). This pixel data can originate from an `<img>` element or
-from another canvas, and neither has to be visible in the actual
-document. The following example creates a detached `<img>` element and
-loads an image file into it. But it cannot immediately start drawing
-from this picture because the browser may not have loaded it yet. To
-deal with this, we register a `"load"` event handler and do the
-drawing after the image has loaded.
+from another canvas. The following example creates a detached `<img>`
+element and loads an image file into it. But it cannot immediately
+start drawing from this picture because the browser may not have
+loaded it yet. To deal with this, we register a `"load"` event handler
+and do the drawing after the image has loaded.
 
 ```{lang: "text/html"}
 <canvas></canvas>
@@ -613,7 +568,7 @@ drawing after the image has loaded.
 {{index "drawImage method", scaling}}
 
 By default, `drawImage` will draw the image at its original size. You
-can also give it two additional arguments to dictate a different width
+can also give it two additional arguments to set a different width
 and height.
 
 When `drawImage` is given _nine_ arguments, it can be used to draw
@@ -645,7 +600,7 @@ pixels.
 
 We know that each _((sprite))_, each subpicture, is 24 ((pixel))s wide
 and 30 pixels high. The following code loads the image and then sets
-up an interval (repeated timer) to draw the next _((frame))_:
+up an interval (repeated timer) to draw the next ((frame)):
 
 ```{lang: "text/html"}
 <canvas></canvas>
@@ -788,7 +743,7 @@ the central line. The triangles are numbered to illustrate each step.
 If we draw a triangle at a positive x position, it would, by default,
 be in the place where triangle 1 is. A call to `flipHorizontally`
 first does a translation to the right, which gets us to triangle 2. It
-then scales, flipping the triangle back to position 3. This is not
+then scales, flipping the triangle over to position 3. This is not
 where it should be, if it were mirrored in the given line. The second
 `translate` call fixes this—it "cancels" the initial translation and
 makes triangle 4 appear exactly where it should.
@@ -817,7 +772,7 @@ the world around the character's vertical center.
 
 Transformations stick around. Everything else we draw after
 ((drawing)) that mirrored character would also be mirrored. That might
-be a problem.
+be inconvenient.
 
 It is possible to save the current transformation, do some drawing and
 transforming, and then restore the old transformation. This is usually
@@ -835,7 +790,7 @@ The `save` and `restore` methods on the 2D ((canvas)) context do this
 transformation ((state))s. When you call `save`, the current state is
 pushed onto the stack, and when you call `restore`, the state on top
 of the stack is taken off and used as the context's current
-transformation. You can call `resetTransform` to fully reset the
+transformation. You can also call `resetTransform` to fully reset the
 transformation.
 
 {{index "branching recursion", "fractal example", recursion}}
@@ -902,9 +857,9 @@ that represent the game's elements.
 
 {{index "CanvasDisplay class", "DOMDisplay class"}}
 
-We will define an object type `CanvasDisplay`, supporting the same
-((interface)) as `DOMDisplay` from [Chapter ?](game#domdisplay),
-namely, the methods `setState` and `clear`.
+We define another display object type called `CanvasDisplay`,
+supporting the same ((interface)) as `DOMDisplay` from [Chapter
+?](game#domdisplay), namely the methods `setState` and `clear`.
 
 {{index state}}
 
@@ -956,7 +911,7 @@ CanvasDisplay.prototype.setState = function(state) {
 
 Contrary to `DOMDisplay`, this display style _does_ have to redraw the
 background on every update. Because shapes on a canvas are just
-((pixel))s, after we draw them, there is no way to move them (or
+((pixel))s, after we draw them, there is no good way to move them (or
 remove them). The only way to update the canvas display is to clear it
 and redraw the scene. We may also have scrolled, which requires the
 background to be in a different position.
@@ -1017,8 +972,8 @@ CanvasDisplay.prototype.clearDisplay = function(status) {
 {{index "Math.floor function", "Math.ceil function", rounding}}
 
 To draw the background, we run through the tiles that are visible in
-the current viewport, using the same trick used in `touches` in the
-[previous chapter](game#touches).
+the current viewport, using the same trick used in the `touches`
+method from the [previous chapter](game#touches).
 
 ```{sandbox: "game", includeCode: true}
 let otherSprites = document.createElement("img");
@@ -1076,12 +1031,11 @@ The ((walking)) character shown earlier will be used to represent the
 player. The code that draws it needs to pick the right ((sprite)) and
 direction based on the player's current motion. The first eight
 sprites contain a walking animation. When the player is moving along a
-floor, we cycle through them based on the display's `animationTime`
-property. This is measured in seconds, and we want to switch frames 12
-times per second, so the ((time)) is multiplied by 12 first. When the
-player is standing still, we draw the ninth sprite. During jumps,
-which are recognized by the fact that the vertical speed is not zero,
-we use the tenth, rightmost sprite.
+floor, we cycle through them based on the current time. We want to
+switch frames every 60 milliseconds, so the ((time)) is divided by 60
+first. When the player is standing still, we draw the ninth sprite.
+During jumps, which are recognized by the fact that the vertical speed
+is not zero, we use the tenth, rightmost sprite.
 
 {{index "flipHorizontally function", "CanvasDisplay class"}}
 
@@ -1200,13 +1154,13 @@ blocks of text.
 {{index zooming, SVG}}
 
 SVG can be used to produce ((crisp)) ((graphics)) that look good at
-any zoom level. It is more difficult to use than plain HTML but also
-much more powerful.
+any zoom level. Contrary to HTML, it is actually designed for drawing,
+and thus more suitable for that purpose.
 
 {{index DOM, SVG, "event handling"}}
 
 Both SVG and HTML build up a ((data structure)) (the DOM) that
-represents the picture. This makes it possible to modify elements
+represents your picture. This makes it possible to modify elements
 after they are drawn. If you need to repeatedly change a small part of
 a big ((picture)) in response to what the user is doing or as part of
 an ((animation)), doing it in a canvas can be needlessly expensive.
@@ -1226,7 +1180,7 @@ pixel surface gives canvas a lower cost per shape.
 There are also effects, such as rendering a scene one pixel at a time
 (for example using a ray tracer) or postprocessing an image with
 JavaScript (blurring or distorting it), that can only be realistically
-handled by a ((pixel))-based technique.
+handled by a ((pixel))-based approach.
 
 In some cases, you may want to combine several of these techniques.
 For example, you might draw a ((graph)) with ((SVG)) or ((canvas)) but
@@ -1236,15 +1190,15 @@ of the picture.
 {{index display}}
 
 For nondemanding applications, it really doesn't matter much which
-interface you choose. The [second display](canvas#canvasdisplay) we
-built for our game in this chapter could have been implemented using
-any of these three ((graphics)) technologies since it does not need to
-draw text, handle mouse interaction, or work with an extraordinarily
-large amount of elements.
+interface you choose. The display we built for our game in this
+chapter could have been implemented using any of these three
+((graphics)) technologies since it does not need to draw text, handle
+mouse interaction, or work with an extraordinarily large amount of
+elements.
 
 ## Summary
 
-In this chapter, we discussed techniques for drawing graphics in the
+In this chapter we discussed techniques for drawing graphics in the
 browser, focusing on the `<canvas>` element.
 
 A canvas node represents an area in a document that our program may
@@ -1367,10 +1321,10 @@ around more than once, the result is a spiral.
 
 The ((star)) (5) depicted is built out of `quadraticCurveTo` lines.
 You could also draw one with straight lines. Divide a circle into
-eight pieces, or a piece for each point you want your star to have.
-Draw lines between these points, making them curve toward the center
-of the star. With `quadraticCurveTo`, you can use the center as the
-control point.
+eight pieces for a star with eight points, or however many pieces you
+want. Draw lines between these points, making them curve toward the
+center of the star. With `quadraticCurveTo`, you can use the center as
+the control point.
 
 hint}}
 
@@ -1385,11 +1339,10 @@ that drew a pie chart. Modify this program so that the name of each
 category is shown next to the slice that represents it. Try to find a
 pleasing-looking way to automatically position this text, which would
 work for other data sets as well. You may assume that categories are
-no smaller than 5 percent (that is, there won't be a bunch of tiny
-ones next to each other).
+big enough to leave ample room for their labels.
 
-You might again need `Math.sin` and `Math.cos`, as described in the
-previous exercise.
+You might again need `Math.sin` and `Math.cos`, as described in
+[Chapter ?](dom#sin_cos).
 
 {{if interactive
 
@@ -1498,14 +1451,14 @@ if}}
 
 A ((box)) is easy to draw with `strokeRect`. Define a binding that
 holds its size or define two bindings if your box's width and height
-differ. To create a round ((ball)), start a path and call _arc(x, y,
-radius, 0, 7)_, which creates an arc going from zero to more than a
+differ. To create a round ((ball)), start a path and call `arc(x, y,
+radius, 0, 7)`, which creates an arc going from zero to more than a
 whole circle. Then fill the path.
 
 {{index "collision detection", "Vec class"}}
 
 To model the ball's position and ((speed)), you can use the `Vec`
-class from [Chapter ?](game#vector)[(which is available on this
+class from [Chapter ?](game#vector)[ (which is available on this
 page)]{if interactive}. Give it a starting speed, preferably one that
 is not purely vertical or horizontal, and every ((frame)), multiply
 that speed with the amount of time that elapsed. When the ball gets
@@ -1524,13 +1477,10 @@ hint}}
 {{index optimization, "bitmap graphics", mirror}}
 
 One unfortunate thing about ((transformation))s is that they slow down
-drawing of bitmaps. For vector graphics, the effect is less serious
-since only a few points (for example, the center of a circle) need to
-be transformed, after which drawing can happen as normal. For a bitmap
-image, the position of each ((pixel)) has to be transformed, and
-though it is possible that ((browser))s will get more clever about
-this in the ((future)), this currently causes a measurable increase in
-the time it takes to draw a bitmap.
+drawing of bitmaps. The position and size of each ((pixel)) has to be
+transformed, and though it is possible that ((browser))s will get more
+clever about this in the ((future)), this currently causes a
+measurable increase in the time it takes to draw a bitmap.
 
 In a game like ours, where we are drawing only a single transformed
 sprite, this is a nonissue. But imagine that we need to draw hundreds

@@ -122,9 +122,9 @@ speak.call(hungryRabbit, "Burp!");
 // → The hungry rabbit says 'Burp!'
 ```
 
-Since each function has its own implicit `this` binding, you cannot
-refer to the `this` of the wrapping scope in a regular function
-defined with the `function` keyword.
+Since each function has its own `this` binding, whose value depends on
+the way it is called, you cannot refer to the `this` of the wrapping
+scope in a regular function defined with the `function` keyword.
 
 {{index this, "arrow function"}}
 

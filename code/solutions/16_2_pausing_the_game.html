@@ -43,7 +43,7 @@
           running = "yes";
         }
       }
-      addEventListener("keydown", escHandler);
+      window.addEventListener("keydown", escHandler);
       let arrowKeys = trackKeys(["ArrowLeft", "ArrowRight", "ArrowUp"]);
 
       function frame(time) {
@@ -61,7 +61,7 @@
           return true;
         } else {
           display.clear();
-          removeEventListener("keydown", escHandler);
+          window.removeEventListener("keydown", escHandler);
           arrowKeys.unregister();
           resolve(state.status);
           return false;
@@ -79,11 +79,11 @@
         event.preventDefault();
       }
     }
-    addEventListener("keydown", track);
-    addEventListener("keyup", track);
+    window.addEventListener("keydown", track);
+    window.addEventListener("keyup", track);
     down.unregister = () => {
-      removeEventListener("keydown", track);
-      removeEventListener("keyup", track);
+      window.removeEventListener("keydown", track);
+      window.removeEventListener("keyup", track);
     };
     return down;
   }

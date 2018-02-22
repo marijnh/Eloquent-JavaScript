@@ -1089,8 +1089,8 @@ function trackKeys(keys) {
       event.preventDefault();
     }
   }
-  addEventListener("keydown", track);
-  addEventListener("keyup", track);
+  window.addEventListener("keydown", track);
+  window.addEventListener("keyup", track);
   return down;
 }
 

@@ -23,7 +23,7 @@
   }
   let currentDot = 0;
   
-  addEventListener("mousemove", event => {
+  window.addEventListener("mousemove", event => {
     let dot = dots[currentDot];
     dot.style.left = (event.pageX - 3) + "px";
     dot.style.top = (event.pageY - 3) + "px";

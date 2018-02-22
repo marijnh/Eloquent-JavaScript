@@ -7,15 +7,13 @@
 </tab-panel>
 <script>
   function asTabs(node) {
-    let tabs = Array.from(node.childNodes)
-     .filter(n => n.nodeType == 1)
-     .map(node => {
-       let button = document.createElement("button");
-       button.textContent = node.getAttribute("data-tabname");
-       let tab = {node, button};
-       button.addEventListener("click", () => selectTab(tab));
-       return tab;
-     });
+    let tabs = Array.from(node.children).map(node => {
+      let button = document.createElement("button");
+      button.textContent = node.getAttribute("data-tabname");
+      let tab = {node, button};
+      button.addEventListener("click", () => selectTab(tab));
+      return tab;
+    });
 
     let tabList = document.createElement("div");
     for (let {button} of tabs) tabList.appendChild(button);

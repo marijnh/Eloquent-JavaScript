@@ -2,17 +2,17 @@
 
 {{quote {author: "Marcus Aurelius", title: Meditations, chapter: true}
 
-You have power over your mind—not
-outside events. Realize this, and you will find strength.
+You have power over your mind—not outside events. Realize this, and
+you will find strength.
 
 quote}}
 
 {{index stoicism, "Marcus Aurelius", input, timeline, "control flow"}}
 
-Some programs work with direct user input, such as mouse and keyboard.
-That kind of input isn't available as a whole at the start of your
-program—it comes in piece by piece, and the program is expected to
-react to it as it occurs.
+Some programs work with direct user input, such as mouse and keyboard
+actions. That kind of input isn't available as neatly organized data
+structure—it comes in piece by piece, in real time, and the program is
+expected to respond to it as it happens.
 
 ## Event handlers
 
@@ -25,29 +25,28 @@ read the key's state so that you'd catch it before it's released
 again. It would be dangerous to perform other time-intensive
 computations since you might miss a keypress.
 
-Some primitive machines do handle input like that. A step up would be
-for the hardware or operating system to notice the keypress and put it
-in a queue. A program can then periodically check the queue for new
-events and react to what it finds there.
+Some primitive machines do handle input like that. A step up from this
+would be for the hardware or operating system to notice the keypress
+and put it in a queue. A program can then periodically check the queue
+for new events and react to what it finds there.
 
 {{index responsiveness, "user experience"}}
 
 Of course, it has to remember to look at the queue, and to do it
 often, because any time between the key being pressed and the program
 noticing the event will cause the software to feel unresponsive. This
-approach is called _((polling))_. Most programmers prefer to avoid it
-when possible.
+approach is called _((polling))_. Most programmers prefer to avoid it.
 
 {{index "callback function", "event handling"}}
 
-A better mechanism is for the underlying system to give our code a
-chance to react to events as they occur. Browsers do this by allowing
-us to register functions as _handlers_ for specific events.
+A better mechanism is for the system to actively notify our code when
+an events occurs. Browsers do this by allowing us to register
+functions as _handlers_ for specific events.
 
 ```{lang: "text/html"}
 <p>Click this document to activate the handler.</p>
 <script>
-  addEventListener("click", () => {
+  window.addEventListener("click", () => {
     console.log("You knocked?");
   });
 </script>
@@ -62,12 +61,11 @@ called whenever the event described by its first argument occurs.
 
 {{index "addEventListener method", "event handling"}}
 
-Each ((browser)) event handler is registered in a context. When you
-call `addEventListener` as we did before, you are calling it as a
-method on the whole ((window)) because in the browser the ((global
-scope)) is equivalent to the `window` object. Every ((DOM)) element,
-as well as some other types of objects, has its own `addEventListener`
-method, which allows you to listen specifically on that element.
+Each ((browser)) event handler is registered in a context. We called
+`addEventListener` on the `window` object before. This method can also
+be found on ((DOM)) elements and some other types of objects. Event
+listeners are only called when the event happens in the context of the
+object they are registered on.
 
 ```{lang: "text/html"}
 <button>Click me</button>
@@ -88,18 +86,18 @@ document do not.
 
 {{index "onclick attribute", encapsulation}}
 
-Giving a node an `onclick` attribute has a similar effect. But a node
-has only one `onclick` attribute, so you can register only one handler
-per node that way. The `addEventListener` method allows you to add any
-number of handlers, so you won't accidentally replace a handler that
-has already been registered.
+Giving a node an `onclick` attribute has a similar effect. This works
+for most types of events—you can attach a handler through the
+attribute whose name is event name with `on` in front of it.
 
-Handlers for most event types can be attached through attributes like
-this, the event name with `on` prefixed.
+But a node can have only one `onclick` attribute, so you can register
+only one handler per node that way. The `addEventListener` method
+allows you to add any number of handlers, so that it is safe to add
+handlers even if there is already another handler on the element.
 
 {{index "removeEventListener method"}}
 
-The `removeEventListener` method, called with arguments similar to as
+The `removeEventListener` method, called with arguments similar to
 `addEventListener`, removes a handler.
 
 ```{lang: "text/html"}
@@ -119,7 +117,7 @@ The `removeEventListener` method, called with arguments similar to as
 The function given to `removeEventListener` has to be the exact same
 function value that was given to `addEventListener`. So to unregister
 a handler, you'll want to give the function a name (`once`, in the
-example) to be able to pass the same value to both methods.
+example) to be able to pass the same function value to both methods.
 
 ## Event objects
 
@@ -162,10 +160,10 @@ We'll discuss different types later in the chapter. The object's
 
 {{indexsee propagation, "event propagation"}}
 
-Event handlers registered on nodes with children will also receive
-some events that happen in the children. If a button inside a
-paragraph is clicked, event handlers on the paragraph will also
-receive the click event.
+For most event types, handlers registered on nodes with children will
+also receive events that happen in the children. If a button inside a
+paragraph is clicked, event handlers on the paragraph will also see
+the click event.
 
 {{index "event handling"}}
 
@@ -180,10 +178,10 @@ the event.
 {{index "stopPropagation method", "click event"}}
 
 At any point, an event handler can call the `stopPropagation` method
-on the event object to prevent handlers "further up" from receiving
-the event. This can be useful when, for example, you have a button
-inside another clickable element and you don't want clicks on the
-button to activate the outer element's click behavior.
+on the event object to prevent handlers further up from receiving the
+event. This can be useful when, for example, you have a button inside
+another clickable element and you don't want clicks on the button to
+activate the outer element's click behavior.
 
 {{index "mousedown event", "pointer event"}}
 
@@ -270,9 +268,11 @@ cannot be followed:
 </script>
 ```
 
-Try not to do such things unless you have a really good reason to. For
-people using your page, it can be unpleasant when the behavior they
-expect is broken.
+{{index usability}}
+
+Try not to do such things unless you have a really good reason to.
+It'll be unpleasant for people who use your page when expected
+behavior is broken.
 
 Depending on the browser, some events can't be intercepted at all. On
 Chrome, for example, the ((keyboard)) shortcut to close the current
@@ -282,19 +282,19 @@ tab (Ctrl-W or Command-W) cannot be handled by JavaScript.
 
 {{index keyboard, "keydown event", "keyup event", "event handling"}}
 
-When a key on the keyboard is pressed, your browser fires a
+When a key on the keyboard is pressed down, your browser fires a
 `"keydown"` event. When it is released again, you get a `"keyup"`
 event.
 
 ```{lang: "text/html", focus: true}
 <p>This page turns violet when you hold the V key.</p>
 <script>
-  addEventListener("keydown", event => {
+  window.addEventListener("keydown", event => {
     if (event.key == "v") {
       document.body.style.background = "violet";
     }
   });
-  addEventListener("keyup", event => {
+  window.addEventListener("keyup", event => {
     if (event.key == "v") {
       document.body.style.background = "";
     }
@@ -306,23 +306,22 @@ event.
 
 Despite its name, `"keydown"` fires not only when the key is
 physically pushed down. When a key is pressed and held, the event
-fires again every time the key _repeats_. Sometimes—for example if you
-want to increase the acceleration of a ((game)) character when an
-arrow key is pressed and decrease it again when the key is
-released—you have to be careful not to repeat the effect every time
-the key repeats or you'd end up with an unintentionally supersonic
-character.
+fires again every time the key _repeats_. Sometimes you have to be
+careful about this. For example if you add a button to the DOM when a
+key is pressed down, and remove it again when the key is released, you
+might accidentally add hundreds of buttons when the key is held down
+longer.
 
 {{index "key property"}}
 
-The example looked at the `key` property of the event object. This is
-how you can identify which key is being pressed or released.
-Generally, the `key` string corresponds to the thing that pressing
-that key would type, but for special keys like Enter, it holds a
-specific string that names the key (`"Enter"`, in this case). If you
-hold shift while pressing a key, that might also influence the name of
-the key—`"v"` becomes `"V"`, `"1"` may become `"!"`, if that is what
-pressing Shift-1 produces on your keyboard.
+The example looked at the `key` property of the event object to see
+which key the event is about. This property holds a string that, for
+most keys, corresponds to the thing that pressing that key would type.
+For special keys like Enter, it holds a string that names the key
+(`"Enter"`, in this case). If you hold shift while pressing a key,
+that might also influence the name of the key—`"v"` becomes `"V"`,
+`"1"` may become `"!"`, if that is what pressing Shift-1 produces on
+your keyboard.
 
 {{index "modifier key", "shift key", "control key", "alt key", "meta key", "command key", "ctrlKey property", "shiftKey property", "altKey property", "metaKey property"}}
 
@@ -335,7 +334,7 @@ properties of keyboard and mouse events.
 ```{lang: "text/html", focus: true}
 <p>Press Ctrl-Space to continue.</p>
 <script>
-  addEventListener("keydown", event => {
+  window.addEventListener("keydown", event => {
     if (event.key == " " && event.ctrlKey) {
       console.log("Continuing!");
     }
@@ -346,9 +345,9 @@ properties of keyboard and mouse events.
 {{index "button (HTML tag)", "tabindex attribute"}}
 
 The ((DOM)) node where a key event originates depends on the element
-that has ((focus)) when the key is pressed. Normal nodes cannot have
-focus (unless you give them a `tabindex` attribute), but things such
-as ((link))s, buttons, and form fields can. We'll come back to form
+that has ((focus)) when the key is pressed. Most nodes cannot have
+focus unless you give them a `tabindex` attribute, but things like
+((link))s, buttons, and form fields can. We'll come back to form
 ((field))s in [Chapter ?](http#forms). When nothing in particular has
 focus, `document.body` acts as the target node of key events.
 
@@ -364,8 +363,8 @@ characters.
 To notice when something was typed, elements that you can type into,
 such as the `<input>` and `<textarea>` tags, fire `"input"` events
 whenever the user changed their content. To get the actual content
-that was typed, it is best to directly read it from the page. [Chapter
-?](http#forms) will show how.
+that was typed, it is best to directly read it from the focused field.
+[Chapter ?](http#forms) will show how.
 
 ## Pointer events
 
@@ -378,9 +377,9 @@ events.
 
 {{index "mousedown event", "mouseup event", "mouse cursor"}}
 
-Pressing a ((mouse button)) also causes a number of events to fire.
-The `"mousedown"` and `"mouseup"` events are similar to `"keydown"`
-and `"keyup"` and fire when the button is pressed and released. These
+Pressing a ((mouse button)) causes a number of events to fire. The
+`"mousedown"` and `"mouseup"` events are similar to `"keydown"` and
+`"keyup"` and fire when the button is pressed and released. These
 happen on the DOM nodes that are immediately below the mouse pointer
 when the event occurs.
 
@@ -404,7 +403,8 @@ To get precise information about the place where a mouse event
 happened, you can look at its `clientX` and `clientY` properties,
 which contain the event's ((coordinates)) (in pixels) relative to the
 top-left corner of the window, or `pageX` and `pageY`, which are
-relative to the top-left corner of the whole document.
+relative to the top-left corner of the whole document (which may be
+different, when the window has been scrolled).
 
 {{index "border-radius (CSS)", "absolute positioning", "drawing program example"}}
 
@@ -428,7 +428,7 @@ click the document, it adds a dot under your mouse pointer. See
   }
 </style>
 <script>
-  addEventListener("click", event => {
+  window.addEventListener("click", event => {
     let dot = document.createElement("div");
     dot.className = "dot";
     dot.style.left = (event.pageX - 4) + "px";
@@ -459,22 +459,22 @@ narrower or wider:
 </div>
 <script>
   let lastX; // Tracks the last observed mouse X position
-  let rect = document.querySelector("div");
-  rect.addEventListener("mousedown", event => {
+  let bar = document.querySelector("div");
+  bar.addEventListener("mousedown", event => {
     if (event.button == 0) {
       lastX = event.clientX;
-      addEventListener("mousemove", moved);
+      window.addEventListener("mousemove", moved);
       event.preventDefault(); // Prevent selection
     }
   });
 
   function moved(event) {
     if (event.buttons == 0) {
-      removeEventListener("mousemove", moved);
+      window.removeEventListener("mousemove", moved);
     } else {
       let dist = event.clientX - lastX;
-      let newWidth = Math.max(10, rect.offsetWidth + dist);
-      rect.style.width = newWidth + "px";
+      let newWidth = Math.max(10, bar.offsetWidth + dist);
+      bar.style.width = newWidth + "px";
       lastX = event.clientX;
     }
   }
@@ -493,21 +493,23 @@ if}}
 
 Note that the `"mousemove"` handler is registered on the whole
 ((window)). Even if the mouse goes outside of the bar during resizing,
-we still want to update its size as long as the button is held.
+as long as the button is held we still want to update its size.
 
 {{index "buttons property", "button property", "bitfield"}}
 
 We must stop resizing the bar when the mouse button is released. For
-that, we must use the `buttons` property (note the plural), which
-tells us about the buttons that are currently held down. When this is
-zero, no buttons are down. When buttons are held, its value is the sum
-of the codes for those buttons—the left button has code 1, the right
+that, we can use the `buttons` property (note the plural), which tells
+us about the buttons that are currently held down. When this is zero,
+no buttons are down. When buttons are held, its value is the sum of
+the codes for those buttons—the left button has code 1, the right
 button 2, and the middle one 4. That way, you can check if a given
 button is pressed by taking the remainder of the value of `buttons`
-and its code. Note that the order of these codes is different from the
-one used by `button`, where the middle button came before the right
-one. As mentioned, consistency isn't really a strong point of the
-browser's programming interface.
+and its code.
+
+Note that the order of these codes is different from the one used by
+`button`, where the middle button came before the right one. As
+mentioned, consistency isn't really a strong point of the browser's
+programming interface.
 
 ### Touch events
 
@@ -532,7 +534,7 @@ example does not work on a touchscreen.
 
 {{index "touchstart event", "touchmove event", "touchend event"}}
 
-There are separate event types fired by touch interaction. When a
+There are specific event types fired by touch interaction. When a
 finger starts touching the screen, you get a `"touchstart"` event.
 When it is moved while touching, `"touchmove"` events fire. And
 finally, when it stops touching the screen, you'll see a `"touchend"`
@@ -569,18 +571,18 @@ touching finger.
       document.body.appendChild(dot);
     }
   }
-  addEventListener("touchstart", update);
-  addEventListener("touchmove", update);
-  addEventListener("touchend", update);
+  window.addEventListener("touchstart", update);
+  window.addEventListener("touchmove", update);
+  window.addEventListener("touchend", update);
 </script>
 ```
 
 {{index "preventDefault method"}}
 
-You'll usually want to call `preventDefault` in touch event handlers,
-to override the browser's default behavior (which may include
-scrolling the page on swiping) and to prevent the mouse events from
-being fired, for which you may also have registered a handler.
+You'll often want to call `preventDefault` in touch event handlers, to
+override the browser's default behavior (which may include scrolling
+the page on swiping) and to prevent the mouse events from being fired,
+for which you may _also_ have a handler.
 
 ## Scroll events
 
@@ -593,8 +595,8 @@ reports to your evil headquarters) or showing some indication of
 progress (by highlighting part of a table of contents or showing a
 page number).
 
-The following example draws a ((progress bar)) in the top-right corner
-of the document and updates it to fill up as you scroll down:
+The following example draws a ((progress bar)) above the document and
+updates it to fill up as you scroll down:
 
 ```{lang: "text/html"}
 <style>
@@ -612,7 +614,7 @@ of the document and updates it to fill up as you scroll down:
     "supercalifragilisticexpialidocious ".repeat(1000)));
 
   let bar = document.querySelector("#progress");
-  addEventListener("scroll", () => {
+  window.addEventListener("scroll", () => {
     let max = document.body.scrollHeight - innerHeight;
     bar.style.width = `${(pageYOffset / max) * 100}%`;
   });
@@ -623,8 +625,8 @@ of the document and updates it to fill up as you scroll down:
 
 Giving an element a `position` of `fixed` acts much like an `absolute`
 position but also prevents it from scrolling along with the rest of
-the document. The effect is to make our progress bar stay in its
-corner. It is resized to indicate the current progress. We use `%`,
+the document. The effect is to make our progress bar stay at the top.
+Its width is changed to indicate the current progress. We use `%`,
 rather than `px`, as a unit when setting the width so that the element
 is sized relative to the page width.
 
@@ -632,11 +634,10 @@ is sized relative to the page width.
 
 The global `innerHeight` binding gives us the height of the window,
 which we have to subtract from the total scrollable height—you can't
-keep scrolling when you hit the bottom of the document. (There's also
-an `innerWidth` to go along with `innerHeight`.) By dividing
-`pageYOffset`, the current scroll position, by the maximum scroll
-position and multiplying by 100, we get the percentage for the
-progress bar.
+keep scrolling when you hit the bottom of the document. There's also
+an `innerWidth`, for the window width. By dividing `pageYOffset`, the
+current scroll position, by the maximum scroll position and
+multiplying by 100, we get the percentage for the progress bar.
 
 {{index "preventDefault method"}}
 
@@ -664,7 +665,7 @@ currently has focus:
 
 ```{lang: "text/html"}
 <p>Name: <input type="text" data-help="Your full name"></p>
-<p>Age: <input type="text" data-help="Age in years"></p>
+<p>Age: <input type="text" data-help="Your age in years"></p>
 <p id="help"></p>
 
 <script>
@@ -704,9 +705,9 @@ When a page finishes loading, the `"load"` event fires on the window
 and the document body objects. This is often used to schedule
 ((initialization)) actions that require the whole ((document)) to have
 been built. Remember that the content of `<script>` tags is run
-immediately when the tag is encountered. This is often too soon, such
-as when the script needs to do something with parts of the document
-that appear after the `<script>` tag.
+immediately when the tag is encountered. This may be too soon, for
+example when the script needs to do something with parts of the
+document that appear after the `<script>` tag.
 
 {{index "event propagation", "img (HTML tag)"}}
 
@@ -724,9 +725,9 @@ document. Preventing the page from unloading is not, as you might
 expect, done with the `preventDefault` method. Instead, it is done by
 returning a non-null value from the handler. When you do that, the
 browser will show the user a dialog asking if are sure they want to
-leave the page. This mechanism ensures that a user is able to leave,
-even on malicious pages that would prefer to keep them there forever
-and force them to look at dodgy weight loss ads.
+leave the page. This mechanism ensures that a user is always able to
+leave, even on malicious pages that would prefer to keep them there
+forever and force them to look at dodgy weight loss ads.
 
 {{id timeline}}
 
@@ -735,18 +736,16 @@ and force them to look at dodgy weight loss ads.
 {{index "requestAnimationFrame function", "event handling", timeline, "script (HTML tag)"}}
 
 In the context of the event loop, as discussed in [Chapter ?](async),
-event handlers are similar to notifications of other asynchronous
-events. They are scheduled when the event occurs, but must wait for
-other scripts that are running to finish before they get a chance to
-run.
+browser event handlers behave like other asynchronous notifications.
+They are scheduled when the event occurs, but must wait for other
+scripts that are running to finish before they get a chance to run.
 
 The fact that events can only be processed when nothing else is
 running means that, if the event loop is tied up with other work, any
 interaction with the page (which happens through events) will be
 delayed until there's time to process it. So if you schedule too much
-work, either with long-running event handlers or with short-running
-ones that fire very often, the page will become slow and cumbersome to
-use.
+work, either with long-running event handlers or with lots of
+short-running ones, the page will become slow and cumbersome to use.
 
 For cases where you _really_ do want to do some time-consuming thing
 in the background without freezing the page, browsers provide
@@ -769,7 +768,7 @@ data, workers do not share their ((global scope)) or any other data
 with the main script's environment. Instead, you have to communicate
 with them by sending messages back and forth.
 
-This code spawns a worker that uses that script, sends it a few
+This code spawns a worker running that script, sends it a few
 messages, and outputs the responses.
 
 ```{test: no}
@@ -788,7 +787,7 @@ The `postMessage` function sends a message, which will cause a
 worker sends and receives messages through the `Worker` object,
 whereas the worker talks to the script that created it by sending and
 listening directly on its ((global scope)). Only values that can be
-represented as JSON can be sent as messages—and the other side will
+represented as JSON can be sent as messages—the other side will
 receive a _copy_ of them, rather than the value itself.
 
 ## Timers
@@ -797,16 +796,7 @@ receive a _copy_ of them, rather than the value itself.
 
 We saw the `setTimeout` function in [Chapter ?](async). It schedules
 another function to be called later, after a given amount of
-milliseconds. This page turns from blue to yellow after two seconds:
-
-```{lang: "text/html"}
-<script>
-  document.body.style.background = "blue";
-  setTimeout(() => {
-    document.body.style.background = "yellow";
-  }, 2000);
-</script>
-```
+milliseconds.
 
 {{index "clearTimeout function"}}
 
@@ -828,7 +818,7 @@ if (Math.random() < 0.5) { // 50% chance
 {{index "cancelAnimationFrame function", "requestAnimationFrame function"}}
 
 The `cancelAnimationFrame` function works in the same way as
-_clearTimeout_—calling it on a value returned by
+`clearTimeout`—calling it on a value returned by
 `requestAnimationFrame` will cancel that frame (assuming it hasn't
 already been called).
 
@@ -856,7 +846,7 @@ Some types of events have the potential to fire rapidly, many times in
 a row (the `"mousemove"` and `"scroll"` events, for example). When
 handling such events, you must be careful not to do anything too
 time-consuming or your handler will take up so much time that
-interaction with the document starts to feel slow and choppy.
+interaction with the document starts to feel slow.
 
 {{index "setTimeout function"}}
 
@@ -904,7 +894,7 @@ the current coordinates of the mouse, but only every 250 milliseconds.
 ```{lang: "text/html"}
 <script>
   let scheduled = null;
-  addEventListener("mousemove", event => {
+  window.addEventListener("mousemove", event => {
     if (!scheduled) {
       setTimeout(() => {
         document.body.textContent =
@@ -920,8 +910,8 @@ the current coordinates of the mouse, but only every 250 milliseconds.
 ## Summary
 
 Event handlers make it possible to detect and react to events
-happening in the world of our web page. The `addEventListener` method
-is used to register such a handler.
+happening in our web page. The `addEventListener` method is used to
+register such a handler.
 
 Each event has a type (`"keydown"`, `"focus"`, and so on) that
 identifies it. Most events are called on a specific DOM element and
@@ -943,20 +933,15 @@ Scrolling can be detected with the `"scroll"` event, and focus changes
 can be detected with the `"focus"` and `"blur"` events. When the
 document finishes loading, a `"load"` event fires on the window.
 
-Only one piece of JavaScript program can run at a time. Thus, event
-handlers and other scheduled scripts have to wait until other scripts
-finish before they get their turn.
-
 ## Exercises
 
 ### Balloon
 
 {{index "balloon (exercise)", "arrow key"}}
 
-Write a page that display a ((balloon)) (using the "balloon"
-((emoji)), 🎈). When you press the up arrow, it should inflate (grow)
-ten percent, and when you press the down arrow, it should deflate
-(shrink) 10%.
+Write a page that display a ((balloon)) (using the balloon ((emoji)),
+🎈). When you press the up arrow, it should inflate (grow) ten percent,
+and when you press the down arrow, it should deflate (shrink) 10%.
 
 {{index "font-size (CSS)"}}
 
@@ -1015,7 +1000,7 @@ In JavaScript's early days, which was the high time of ((gaudy home
 pages)) with lots of animated images, people came up with some truly
 inspiring ways to use the language.
 
-One of these was the _mouse trail_—a series of images that would
+One of these was the _mouse trail_—a series of elements that would
 follow the mouse pointer as you moved it across the page.
 
 {{index "absolute positioning", "background (CSS)"}}
@@ -1063,14 +1048,15 @@ if}}
 
 Creating the elements is best done with a loop. Append them to the
 document to make them show up. To be able to access them later in
-order to change their position, store the trail elements in an array.
+order to change their position, you'll want to store the elements in
+an array.
 
 {{index "mousemove event", [array, indexing], "remainder operator", "% operator"}}
 
 Cycling through them can be done by keeping a ((counter variable)) and
 adding 1 to it every time the `"mousemove"` event fires. The remainder
-operator (`% 10`) can then be used to get a valid array index to pick
-the element you want to position during a given event.
+operator (`% elements.length`) can then be used to get a valid array
+index to pick the element you want to position during a given event.
 
 {{index simulation, "requestAnimationFrame function"}}
 
@@ -1089,13 +1075,13 @@ hint}}
 
 {{index "tabbed interface (exercise)"}}
 
-Tabbed panels are widely used in user interfaces. They allows you to
+Tabbed panels are widely used in user interfaces. They allow you to
 select an interface panel by choosing from a number of tabs "sticking
 out" above an element.
 
 {{index "button (HTML tag)", "display (CSS)", "hidden element", "data attribute"}}
 
-In this exercise you'll implement a simple tabbed interface. Write a
+In this exercise you must implement a simple tabbed interface. Write a
 function, `asTabs`, that takes a DOM node and creates a tabbed
 interface showing the child elements of that node. It should insert a
 list of `<button>` elements at the top of the node, one for each child
@@ -1104,8 +1090,8 @@ of the child. All but one of the original children should be hidden
 (given a `display` style of `none`). The currently visible node can be
 selected by clicking the buttons.
 
-When it works, extend it to also style the currently active button
-differently.
+When that works, extend it to style the button for the currently
+selected tab differently, so that it is obvious which tab is selected.
 
 {{if interactive
 
@@ -1129,19 +1115,19 @@ if}}
 
 {{index "text node", "childNodes property", "live data structure", "tabbed interface (exercise)"}}
 
-One pitfall you'll probably run into is that you can't directly use
-the node's `childNodes` property as a collection of tab nodes. For one
+One pitfall you might run into is that you can't directly use the
+node's `childNodes` property as a collection of tab nodes. For one
 thing, when you add the buttons, they will also become child nodes and
 end up in this object because it is a live data structure. For
 another, the text nodes created for the ((whitespace)) between the
-nodes are also in there and should not get their own tabs.
+nodes are also in `childNodes`, but should not get their own tabs. You
+can use `children` instead of `childNodes` to ignore text nodes.
 
 {{index "TEXT_NODE code", "nodeType property"}}
 
-To work around this, you could start by building up an array of tabs,
-so that you have easy access to them. To implement the styling of the
-buttons, you could also store objects containing the tab panel
-alongside its button.
+You could start by building up an array of tabs, so that you have easy
+access to them. To implement the styling of the buttons, you could
+store objects that contain both tab panel and its button.
 
 I recommend writing a separate function for changing tabs. You can
 either store the previously selected tab, and only change the styles

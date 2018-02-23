@@ -9,6 +9,9 @@
 \usepackage{ucharclasses}
 \usepackage{fontspec}
 \usepackage{xcolor}
+\usepackage{color}
+\pagecolor{white}
+\usepackage{pdfpages}
 \usepackage{arabxetex}
 \usepackage{makeidx}
 
@@ -64,9 +67,15 @@
 \newunicodechar{⮪}{\emojifont{⮪}}
 
 \graphicspath{{../}}
+\definecolor{coveryellow}{rgb}{0.996,0.839,0.122}
+
 \makeindex
 
 \begin{document}
+
+\pagecolor{coveryellow}
+\includepdf{../img/cover.jpg}
+\pagecolor{white}
 
 \author{Marijn Haverbeke}
 

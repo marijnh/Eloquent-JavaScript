@@ -494,8 +494,8 @@ console.log("toString" in Object.create(null));
 // → false
 ```
 
-However, because property names are strings, this still doesn't help
-when your _key_ values are of some other type.
+Because property names must be strings, this still doesn't help when
+your _key_ values are of some other type.
 
 {{index "Map class"}}
 

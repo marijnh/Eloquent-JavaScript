@@ -85,8 +85,8 @@ After the resource path, the first line of the request mentions
 is using.
 
 In practice, many sites use HTTP version 2, which supports the same
-concepts as version 1.1, but is, for performance reasons, a lot more
-complicated. Browsers will automatically switch to the appropriate
+concepts as version 1.1, but is a lot more complicated so that it can
+be faster. Browsers will automatically switch to the appropriate
 protocol version when talking to a given server, and the outcome of a
 request is the same regardless which version is used. Because version
 1.1 is more straightforward and easier to play around with, we'll
@@ -133,19 +133,19 @@ that document was last modified.
 
 {{index "Host header", domain}}
 
-For the most part, a client or server decides which ((header))s to
-include in a ((request)) or ((response)), though a few headers are
+For most ((header))s, the client and server are free to decide whether
+to include them in a ((request)) or ((response)) or not. But a few are
 required. For example, the `Host` header, which specifies the
 hostname, should be included in a request because a ((server)) might
 be serving multiple hostnames on a single ((IP address)), and without
-that header, the server won't know which host the client is trying to
-talk to.
+that header, the server won't know which hostname the client is trying
+to talk to.
 
 {{index "GET method", "DELETE method", "PUT method", "POST method", "body (HTTP)"}}
 
 After the headers, both requests and responses may include a blank
-line followed by the body, which contains the data being sent. `GET`
-and `DELETE` requests don't send along any data, but `PUT` and `POST`
+line followed by a body, which contains the data being sent. `GET` and
+`DELETE` requests don't send along any data, but `PUT` and `POST`
 requests do. Similarly, some response types, such as error responses,
 do not require a body.
 
@@ -186,8 +186,8 @@ result of that request.
 
 When the `<form>` element's `method` attribute is `GET` (or is
 omitted), the information in the form is added to the end of the
-`action` URL as a _((query string))_. The browser might then make a
-request to this URL:
+`action` URL as a _((query string))_. The browser might make a request
+to this URL:
 
 ```{lang: null}
 GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
@@ -240,10 +240,9 @@ name=Jean&message=Yes%3F
 effect))s, but simply ask for information. Requests that change
 something on the server, for example creating a new account or posting
 a message, should be expressed with other methods, such as `POST`.
-Client-side software, for example a browser, knows that it shouldn't
-blindly make `POST` requests but will often implicitly make `GET`
-requests—for example to prefetch a resource it believes the user will
-soon need.
+Client-side software such as a browser knows that it shouldn't blindly
+make `POST` requests but will often implicitly make `GET` requests—for
+example to prefetch a resource it believes the user will soon need.
 
 We'll come back to forms and how to interact with them from JavaScript
 [later in the chapter](http#forms).
@@ -287,10 +286,10 @@ request is addressed to can't be found.
 The first argument to `fetch` is the URL that should be requested.
 What that ((URL)) doesn't start with a protocol name (such as _http:_)
 it is treated as relative, which means that it is interpreted relative
-to the current document. When they start with a slash (/), they
-replace the current path, which is the part after the server name.
-When they do not, the part of the current path up to and including its
-last ((slash character)) is put in front of the relative URL.
+to the current document. When it starts with a slash (/), it replaces
+the current path, which is the part after the server name. When it
+does not, the part of the current path up to and including its last
+((slash character)) is put in front of the relative URL.
 
 {{index "text method", "body (HTTP)", "Promise class"}}
 
@@ -333,22 +332,22 @@ of saying "I can't do that".
 
 {{index "Range header", "body property", "headers property"}}
 
-To add a request body, you can include a `body` option. And to set
-headers, you'd use the `headers` option. For example, this request
+To add a request body, you can include a `body` option. To set
+headers, there's the `headers` option. For example, this request
 includes a `Range` header, which instructs the server to only return a
 part of a response.
 
 ```{test: no}
-fetch("example/data.txt", {headers: {Range: "bytes: 8-19"}})
+fetch("example/data.txt", {headers: {Range: "bytes=8-19"}})
   .then(resp => resp.text())
   .then(console.log);
-// → This is the
+// → the content
 ```
 
 The browser will automatically add some request ((header))s, such as
 "Host" and those needed for the server to figure out the size of the
 body. But adding your own headers is often useful to include things
-like authentication information or the tell the server which file
+like authentication information or to tell the server which file
 format you'd like to receive.
 
 {{id http_sandbox}}
@@ -366,16 +365,16 @@ identifying information from my ((browser)), with instructions to
 transfer all my money to some random account.
 
 For this reason, browsers protect us by disallowing scripts to make
-HTTP requests to other _((domain))s_ (names such as _themafia.org_ and
+HTTP requests to other ((domain))s (names such as _themafia.org_ and
 _mybank.com_).
 
 {{index "Access-Control-Allow-Origin header", "cross-domain request"}}
 
-This can be an annoying problem when building systems that want to
+This can be an annoying problem when building systems that wants to
 access several domains for legitimate reasons. Fortunately,
 ((server))s can include a ((header)) like this in their ((response))
-to explicitly indicate to browsers that it is okay for the request to
-come from other domains:
+to explicitly indicate to the browser that it is okay for the request
+to come from another domain:
 
 ```{lang: null}
 Access-Control-Allow-Origin: *
@@ -417,8 +416,9 @@ the document representing the resource.
 
 This second approach makes it easier to use some of the features that
 HTTP provides, such as support for caching resources (keeping a copy
-on the client for fast access). It can also provide a helpful set of
-principles to design your interface around.
+on the client for fast access). The concepts used in HTTP, which are
+well designed, can provide a helpful set of principles to design your
+server interface around.
 
 ## Security and HTTPS
 
@@ -435,7 +435,7 @@ modified.
 If it is important that something remain secret, such as the
 ((password)) to your ((email)) account, or that it arrive at its
 destination unmodified, such as the account number you transfer money
-to from your bank's website, plain HTTP is not good enough.
+to via your bank's website, plain HTTP is not good enough.
 
 {{index cryptography, encryption}}
 
@@ -479,7 +479,7 @@ A web form consists of any number of input ((field))s grouped in a
 `<form>` tag. HTML allows several different styles of fields, ranging
 from simple on/off checkboxes to drop-down menus and fields for text
 input. This book won't try to comprehensively discuss all field types,
-but we will start with a rough overview.
+but we'll start with a rough overview.
 
 {{index "input (HTML tag)", "type attribute"}}
 
@@ -530,9 +530,9 @@ the element.
 
 Multiline text fields have their own tag, `<textarea>`, mostly because
 using an attribute to specify a multiline starting value would be
-awkward. The `<textarea>` requires a matching `</textarea>` closing
-tag and uses the text between those two, instead of `value` attribute,
-as starting text.
+awkward. The `<textarea>` tag requires a matching `</textarea>`
+closing tag and uses the text between those two, instead of the
+`value` attribute, as starting text.
 
 ```{lang: "text/html"}
 <textarea>
@@ -581,20 +581,18 @@ the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
-If a document has a
-((text field)), text typed will end up in there only  when the field is
-focused. Other fields respond differently to keyboard events. For
-example, a `<select>` menu tries to move to the option that contains
-the text the user typed and responds to the arrow keys by moving its
-selection up and down.
+Thus you can only type into a ((text field)) when it is focused. Other
+fields respond differently to keyboard events. For example, a
+`<select>` menu tries to move to the option that contains the text the
+user typed and responds to the arrow keys by moving its selection up
+and down.
 
 {{index "focus method", "blur method", "activeElement property"}}
 
-We can
-control ((focus)) from JavaScript with the `focus` and `blur` methods.
-The first moves focus to the DOM element it is called on, and the second
-removes focus. The value in `document.activeElement` corresponds to
-the currently focused element.
+We can control ((focus)) from JavaScript with the `focus` and `blur`
+methods. The first moves focus to the DOM element it is called on, and
+the second removes focus. The value in `document.activeElement`
+corresponds to the currently focused element.
 
 ```{lang: "text/html"}
 <input type="text">
@@ -614,13 +612,9 @@ For some pages, the user is expected to want to interact with a form
 field immediately. JavaScript can be used to ((focus)) this field when
 the document is loaded, but HTML also provides the `autofocus`
 attribute, which produces the same effect while letting the browser
-know what we are trying to achieve. This allows the browser to disable
-the behavior when it is not appropriate, such as when the user has
-focused something else.
-
-```{lang: "text/html", focus: true}
-<input type="text" autofocus>
-```
+know what we are trying to achieve. This gives the browser the option
+to disable the behavior when it is not appropriate, such as when the
+user has focused something else.
 
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
@@ -639,24 +633,24 @@ the OK button, rather than going through the help link first:
 
 By default, most types of HTML elements cannot be focused. But you can
 add a `tabindex` attribute to any element, which will make it
-focusable. Similarly, a `tabindex` of -1 makes tabbing skip over an
-element, even if it is normally focusable.
+focusable. A `tabindex` of -1 makes tabbing skip over an element, even
+if it is normally focusable.
 
 ## Disabled fields
 
 {{index "disabled attribute"}}
 
-All ((form)) ((field))s can be _disabled_
-through their `disabled` attribute, which also exists as a property on
-the element's DOM object.
+All ((form)) ((field))s can be _disabled_ through their `disabled`
+attribute. It is an ((attribute)) that can be specified without
+value—the fact that it is present at all disables the element.
 
 ```{lang: "text/html"}
 <button>I'm all right</button>
 <button disabled>I'm out</button>
 ```
 
-Disabled fields cannot be ((focus))ed or changed, and unlike active
-fields, they usually look gray and faded.
+Disabled fields cannot be ((focus))ed or changed, and browsers make
+them look gray and faded.
 
 {{if book
 
@@ -678,20 +672,18 @@ their action.
 
 {{index "array-like object", "form (HTML tag)", "form property", "elements property"}}
 
-When a ((field)) is contained in a
-`<form>` element, its DOM element will have a property `form` linking
-back to the form's DOM element. The `<form>` element, in turn, has a
-property called `elements` that contains an array-like collection of the fields
-inside it.
+When a ((field)) is contained in a `<form>` element, its DOM element
+will have a `form` property linking back to the form's DOM element.
+The `<form>` element, in turn, has a property called `elements` that
+contains an array-like collection of the fields inside it.
 
 {{index "elements property", "name attribute"}}
 
-The `name` attribute of a
-form field determines the way its value will be identified when the
-form is ((submit))ted. It can also be used as a property name when
-accessing the form's `elements` property, which acts both as an
-array-like object (accessible by number) and a ((map)) (accessible by
-name).
+The `name` attribute of a form field determines the way its value will
+be identified when the form is ((submit))ted. It can also be used as a
+property name when accessing the form's `elements` property, which
+acts both as an array-like object (accessible by number) and a ((map))
+(accessible by name).
 
 ```{lang: "text/html"}
 <form action="example/submit.html">
@@ -721,9 +713,9 @@ focused has the same effect.
 Submitting a ((form)) normally means that the ((browser)) navigates to
 the page indicated by the form's `action` attribute, using either a
 `GET` or a `POST` ((request)). But before that happens, a `"submit"`
-event is fired. This event can be handled by JavaScript. The handler
-can prevent the default behavior by calling `preventDefault` on the
-event object.
+event is fired. This event can be handled by JavaScript, and the
+handler can prevent the default behavior by calling `preventDefault`
+on the event object.
 
 ```{lang: "text/html"}
 <form action="example/submit.html">
@@ -743,20 +735,19 @@ event object.
 
 Intercepting `"submit"` events in JavaScript has various uses. We can
 write code to verify that the values the user entered make sense and
-immediately show an error message instead of submitting the form when
-they don't. Or we can disable the regular way of submitting the form
-entirely, as in the example, and have our program handle the input,
-possibly using `fetch` to send it to a server without reloading the
-page.
+immediately show an error message instead of submitting the form. Or
+we can disable the regular way of submitting the form entirely, as in
+the example, and have our program handle the input, possibly using
+`fetch` to send it to a server without reloading the page.
 
 ## Text fields
 
 {{index "value attribute", "input (HTML tag)", "text field", "textarea (HTML tag)"}}
 
-Fields created by `<input>` tags with a type of `text` or
-`password`, as well as `textarea` tags, share a common ((interface)).
-Their ((DOM)) elements have a `value` property that holds their
-current content as a string value. Setting this property to another string
+Fields created by `<input>` tags with a type of `text` or `password`,
+as well as `<textarea>` tags, share a common ((interface)). Their
+((DOM)) elements have a `value` property that holds their current
+content as a string value. Setting this property to another string
 changes the field's content.
 
 {{index "selectionStart property", "selectionEnd property"}}
@@ -773,10 +764,9 @@ also be written to.
 
 {{index Khasekhemwy, "textarea (HTML tag)", keyboard, "event handling"}}
 
-As an example, imagine you
-are writing an article about Khasekhemwy but have some
-trouble spelling his name. The following code wires up a `<textarea>` tag
-with an event handler that, when you press F2, inserts the string
+Imagine you are writing an article about Khasekhemwy but have some
+trouble spelling his name. The following code wires up a `<textarea>`
+tag with an event handler that, when you press F2, inserts the string
 "Khasekhemwy" for you.
 
 ```{lang: "text/html"}
@@ -836,9 +826,8 @@ current length of the text in the field:
 
 {{index "input (HTML tag)", "checked attribute"}}
 
-A ((checkbox)) field is a simple binary toggle. Its value can be
-extracted or changed through its `checked` property which holds a
-Boolean value.
+A ((checkbox)) field is a binary toggle. Its value can be extracted or
+changed through its `checked` property, which holds a Boolean value.
 
 ```{lang: "text/html"}
 <label>
@@ -868,9 +857,15 @@ only one of them can be active at any time.
 
 ```{lang: "text/html"}
 Color:
-<input type="radio" name="color" value="mediumpurple"> Purple
-<input type="radio" name="color" value="lightgreen"> Green
-<input type="radio" name="color" value="lightblue"> Blue
+<label>
+  <input type="radio" name="color" value="orange"> Orange
+</label>
+<label>
+  <input type="radio" name="color" value="lightgreen"> Green
+</label>
+<label>
+  <input type="radio" name="color" value="lightblue"> Blue
+</label>
 <script>
   let buttons = document.querySelectorAll("[name=color]");
   for (let button of Array.from(buttons)) {
@@ -884,8 +879,8 @@ Color:
 {{index "name attribute", "querySelectorAll method"}}
 
 The ((square brackets)) in the CSS query given to `querySelectorAll`
-are used to query elements for a matching attribute. In this case, it
-selects elements whose `name` attribute is `"color"`.
+are used to match attributes. It selects elements whose `name`
+attribute is `"color"`.
 
 ## Select fields
 
@@ -896,38 +891,20 @@ also allow the user to choose from a set of options. But where a radio
 button puts the layout of the options under our control, the
 appearance of a `<select>` tag is determined by the browser.
 
-{{index "multiple attribute"}}
+{{index "multiple attribute", "drop-down menu"}}
 
-Select fields also have a variant that is more
-akin to a list of checkboxes, rather than radio boxes. When given the
-`multiple` attribute, a `<select>` tag will allow the user to select
-any number of options, rather than just a single option.
-
-```{lang: "text/html"}
-<select multiple>
-  <option>Pancakes</option>
-  <option>Pudding</option>
-  <option>Ice cream</option>
-</select>
-```
-
-{{index "select (HTML tag)", "drop-down menu"}}
-
-This
-will, in most browsers, show up differently than a non-`multiple`
-select field, which is commonly drawn as a _drop-down_ control that
-shows the options only when you open it. 
-
-{{if book
-
-{{figure {url: "img/form_multi_select.png", alt: "A multiple select field",width: "5cm"}}}
-
-if}}
+Select fields also have a variant that is more akin to a list of
+checkboxes, rather than radio boxes. When given the `multiple`
+attribute, a `<select>` tag will allow the user to select any number
+of options, rather than just a single option. This will, in most
+browsers, show up differently than a normal select field, which is
+typically drawn as a _drop-down_ control that shows the options only
+when you open it.
 
 {{index "option (HTML tag)", "value attribute"}}
 
 Each `<option>` tag has a value. This value can be defined with a
-`value` attribute, but when that is not given, the ((text)) inside the
+`value` attribute. When that is not given, the ((text)) inside the
 option will count as its value. The `value` property of a `<select>`
 element reflects the currently selected option. For a `multiple`
 field, though, this property doesn't mean much since it will give the
@@ -935,18 +912,17 @@ value of only _one_ of the currently selected options.
 
 {{index "select (HTML tag)", "options property", "selected attribute"}}
 
-The `<option>` tags for a `<select>` field can be accessed
-as an array-like object through the field's `options` property. Each option
-has a property called `selected`, which indicates whether that option is
-currently selected. The property can also be written to select or
+The `<option>` tags for a `<select>` field can be accessed as an
+array-like object through the field's `options` property. Each option
+has a property called `selected`, which indicates whether that option
+is currently selected. The property can also be written to select or
 deselect an option.
 
 {{index "multiple attribute", "binary number"}}
 
-The following example extracts
-the selected values from a `multiple` select field and uses them to
-compose a binary number from individual bits. Hold Ctrl (or Command
-on a Mac) to select multiple options.
+This example extracts the selected values from a `multiple` select
+field and uses them to compose a binary number from individual bits.
+Hold Ctrl (or Command on a Mac) to select multiple options.
 
 ```{lang: "text/html"}
 <select multiple>
@@ -1021,8 +997,8 @@ type of the file, such as `text/plain` or `image/jpeg`).
 
 What it does not have is a property that contains the content of the
 file. Getting at that is a little more involved. Since reading a file
-from disk can take time, the interface will have to be asynchronous to
-avoid freezing the document.
+from disk can take time, the interface must be asynchronous to avoid
+freezing the document.
 
 ```{lang: "text/html"}
 <input type="file" multiple>
@@ -1050,7 +1026,7 @@ reader's `result` property contains the file's content.
 
 {{index "error event", "FileReader class", "Promise class"}}
 
-_FileReader_s also fire an `"error"` event when reading the file fails
+`FileReader`s also fire an `"error"` event when reading the file fails
 for any reason. The error object itself will end up in the reader's
 `error` property. This interface was designed before promises became
 part of the language. You could wrap it in a promise like this:
@@ -1072,28 +1048,27 @@ function readFileText(file) {
 
 {{index "web application"}}
 
-Simple ((HTML)) pages with a bit of JavaScript can be a great medium
-for "((mini application))s"—small helper programs that automate
-everyday things. By connecting a few form ((field))s with event
-handlers, you can do anything from converting between degrees Celsius
-and Fahrenheit to computing passwords from a master password and a
-website name.
+Simple ((HTML)) pages with a bit of JavaScript can be a great format
+for "((mini application))s"—small helper programs that automate basic
+tasks. By connecting a few form ((field))s with event handlers, you
+can do anything from converting between centimeters and inches to
+computing passwords from a master password and a website name.
 
 {{index persistence, memory}}
 
 When such an application needs to remember something between sessions,
-you cannot use JavaScript ((binding))s since those are thrown away
-every time a page is closed. You could set up a server, connect it to
-the Internet, and have your application store something there. We will
-see how to do that in [Chapter ?](node). But this adds a lot of extra
-work and complexity. Sometimes it is enough to just keep the data in
-the ((browser)). But how?
+you cannot use JavaScript ((binding))s—those are thrown away every
+time the page is closed. You could set up a server, connect it to the
+Internet, and have your application store something there. We will see
+how to do that in [Chapter ?](node). But that's a lot of extra work
+and complexity. Sometimes it is enough to just keep the data in the
+((browser)).
 
 {{index "localStorage object", "setItem method", "getItem method", "removeItem method"}}
 
-You can store data in a way that survives ((page reload))s by putting
-it in the `localStorage` object. This object allows you to file string
-values under names (also strings), as in this example:
+The `localStorage` object can be used to store data in a way that
+survives ((page reload))s. This object allows you to file string
+values under names.
 
 ```
 localStorage.setItem("username", "marijn");
@@ -1104,9 +1079,8 @@ localStorage.removeItem("username");
 
 {{index "localStorage object"}}
 
-A value in `localStorage` sticks around until
-it is overwritten, it is removed with `removeItem`, or the user clears
-their local data.
+A value in `localStorage` sticks around until it is overwritten, it is
+removed with `removeItem`, or the user clears their local data.
 
 {{index security}}
 
@@ -1120,13 +1094,13 @@ that same site.
 Browsers do enforce a limit on the size of the data a site can store
 in `localStorage`. That restriction, along with the fact that filling
 up people's ((hard drive))s with junk is not really profitable,
-prevents this feature from eating up too much space.
+prevents the feature from eating up too much space.
 
 {{index "localStorage object", "note-taking example", "select (HTML tag)", "button (HTML tag)", "textarea (HTML tag)"}}
 
 The following code implements a crude note-taking application. It
-keeps a set of named notes, and allows the user to select one, edit
-it, and create new notes.
+keeps a set of named notes, and allows the user to edit notes and
+create new ones.
 
 ```{lang: "text/html", startCode: true}
 Notes: <select></select> <button>Add</button><br>
@@ -1187,8 +1161,8 @@ Thus, the `||` operator can be used to provide a default value in a
 situation like this.
 
 The `setState` method makes sure the DOM is showing a given state, and
-stores the new state to `localStorage`. Event handlers call that to
-update to a new state.
+stores the new state to `localStorage`. Event handlers call this
+function to move to a new state.
 
 {{index "Object.assign function", object, property, "computed property"}}
 
@@ -1196,7 +1170,7 @@ The use of `Object.assign` in the example is intended to create a new
 object that is a clone of the old `state.notes`, but with one property
 added or overwritten. `Object.assign` takes its first argument, and
 add all properties from any further arguments to it. Thus, giving it
-an empty object will cause it to create a fresh object. The ((square
+an empty object will cause it to fill a fresh object. The ((square
 brackets)) notation in the third argument is used to create a property
 whose names is based on some dynamic value.
 
@@ -1204,17 +1178,17 @@ whose names is based on some dynamic value.
 
 There is another object, similar to `localStorage`, called
 `sessionStorage`. The difference between the two is that the content
-of `sessionStorage` is forgotten at the end of each ((session)), which
-for most ((browser))s means whenever the browser is closed.
+of `sessionStorage` is forgotten at the end of each _((session))_,
+which for most ((browser))s means whenever the browser is closed.
 
 ## Summary
 
-In this chapter, we saw that HTTP is a protocol for accessing
-resources over the Internet. A _client_ sends a request, which
-contains a method (usually `GET`) and a path that identifies a
-resource. The _server_ then decides what to do with the request and
-responds with a status code and a response body. Both requests and
-responses may contain headers that provide additional information.
+In this chapter, we discussed how the HTTP protocol works. A _client_
+sends a request, which contains a method (usually `GET`) and a path
+that identifies a resource. The _server_ then decides what to do with
+the request and responds with a status code and a response body. Both
+requests and responses may contain headers that provide additional
+information.
 
 The interface through which browser JavaScript can make HTTP requests
 is called `fetch`. Making a request looks like this:
@@ -1226,7 +1200,7 @@ fetch("/18_http.html").then(r => r.text()).then(text => {
 ```
 
 Browsers make `GET` requests to fetch the resources needed to display
-a web page. A web page may also contain forms, which allow information
+a web page. A page may also contain forms, which allow information
 entered by the user to be sent as a request for a new page when the
 form is submitted.
 
@@ -1278,8 +1252,8 @@ the standardized _((media type))s_ `text/plain`, `text/html`, and
 {{index "headers property", "fetch function"}}
 
 Send requests to fetch all three formats of this resource. Use the
-`headers` property in an options object passed to `fetch` to set the
-header named `Accept` to one of the media types given earlier.
+`headers` property in the options object passed to `fetch` to set the
+header named `Accept` to the desired media type.
 
 Finally, try asking for the media type `application/rainbows+unicorns`
 and see what happens.
@@ -1319,7 +1293,7 @@ JavaScript code.
 Put a button next to a `<textarea>` field, which, when pressed, uses
 the `Function` constructor we saw in [Chapter ?](modules#eval) to wrap
 the text in a function and call it. Convert the return value of the
-function, or any error it raised, to a string and display it after the
+function, or any error it raises, to a string and display it below the
 text field.
 
 {{if interactive

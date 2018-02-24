@@ -1275,7 +1275,7 @@ function locateScalpel2(nest) {
 }
 
 locateScalpel(nest).then(console.log);
-// → Butcher's Shop
+// → Butcher Shop
 ```
 
 if}}

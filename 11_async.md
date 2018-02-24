@@ -632,7 +632,7 @@ everywhere(nest => {
   nest.state.gossip = [];
 });
 
-function sendGossip(nest, message, exceptFor=null) {
+function sendGossip(nest, message, exceptFor = null) {
   nest.state.gossip.push(message);
   for (let neighbor of nest.neighbors) {
     if (neighbor == exceptFor) continue;
@@ -722,7 +722,7 @@ requestType("connections", (nest, {name, neighbors},
   broadcastConnections(nest, name, source);
 });
 
-function broadcastConnections(nest, name, exceptFor=null) {
+function broadcastConnections(nest, name, exceptFor = null) {
   for (let neighbor of nest.neighbors) {
     if (neighbor == exceptFor) continue;
     request(nest, neighbor, "connections", {

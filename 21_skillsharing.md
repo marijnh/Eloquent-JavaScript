@@ -385,7 +385,9 @@ class SkillShareServer {
         resolved.catch(error => {
           if (error.status != null) return error;
           return {body: String(error), status: 500};
-        }).then(({body, status=200, headers=defaultHeaders}) => {
+        }).then(({body,
+                  status = 200,
+                  headers = defaultHeaders}) => {
           response.writeHead(status, headers);
           response.end(body);
         });

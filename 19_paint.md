@@ -42,15 +42,15 @@ We will structure the editor interface as a number of
 _((component))s_, objects that are responsible for a piece of the
 ((DOM)), and may contain other components inside them.
 
-The ((state)) of the application consists of the picture, the selected
-tool, and the selected color. We'll set things up so that the state
-lives in a single value, and the interface components always base the
-way they look on the current state.
+The ((state)) of the application consists of the current picture, the
+selected tool, and the selected color. We'll set things up so that the
+state lives in a single value, and the interface components always
+base the way they look on the current state.
 
 To see why this is important, let's consider the
 alternative—distributing pieces of state throughout the interface. Up
-to a certain point, this is much easier to program. We can just put in
-a ((color field)), wire it up to store its value somewhere when it
+to a certain point, this is easier to program. We can just put in a
+((color field)), wire it up to store its value somewhere when it
 changes, and have all operations that need to know the current color
 look at that value.
 

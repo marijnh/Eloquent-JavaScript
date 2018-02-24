@@ -98,13 +98,16 @@ let renderer = {
   paragraph_close() { return "" },
 
   heading_open(token) {
-    if (token.tag == "h1") return `\\label{${chapter[1]}}${/^00/.test(file) || chapter[1] === "hints" ? "\\addchap" : "\\chapter"}{`
+    if (token.tag == "h1") return `${/^00/.test(file) || chapter[1] === "hints" ? "\\addchap" : "\\chapter"}{`
     if (token.tag == "h2") return `\n\n${id(token)}\\section{`
     if (token.tag == "h3") return `\n\n${id(token)}\\subsection{`
     if (token.tag == "h4") return `\n\n${id(token)}\\subsubsection{`
     throw new Error("Can't handle heading tag " + token.tag)
   },
-  heading_close() { return `}` },
+  heading_close(token) { 
+    if (token.tag == "h1") return `}\\label{${chapter[1]}}`
+    return `}` 
+  },
 
   bullet_list_open() { return `\n\n\\begin{itemize}` },
   bullet_list_close() { return `\n\\end{itemize}` },

@@ -98,7 +98,7 @@ let renderer = {
   paragraph_close() { return "" },
 
   heading_open(token) {
-    if (token.tag == "h1") return `\\label{${chapter[1]}}\\chapter${/^00/.test(file) ? "*" : ""}{`
+    if (token.tag == "h1") return `\\label{${chapter[1]}}${/^00/.test(file) || chapter[1] === "hints" ? "\\addchap" : "\\chapter"}{`
     if (token.tag == "h2") return `\n\n${id(token)}\\section{`
     if (token.tag == "h3") return `\n\n${id(token)}\\subsection{`
     if (token.tag == "h4") return `\n\n${id(token)}\\subsubsection{`

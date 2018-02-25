@@ -2,7 +2,7 @@ CHAPTERS := $(basename $(shell ls [0-9][0-9]_*.md) .md)
 
 SVGS := $(wildcard img/*.svg)
 
-all: html book.pdf book_mobile.pdf book.epub
+all: html book.pdf book_mobile.pdf book.epub book.mobi
 
 html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/acorn_codemirror.js \
       code/skillsharing.zip code/solutions/20_3_a_public_space_on_the_web.zip html/js/chapter_info.js
@@ -75,3 +75,6 @@ epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.js sr
 
 epubcheck: book.epub
 	epubcheck book.epub 2>&1 | grep -v 'img/.*\.svg'
+
+book.mobi: book.epub img/cover.jpg
+	ebook-convert book.epub book.mobi --output-profile=kindle --cover=img/cover.jpg --remove-first-image

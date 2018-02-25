@@ -37,7 +37,7 @@ function highlight(lang, text) {
 
 function maybeSplitInlineCode(html) {
   if (html.length <= 16) return html
-  return html.replace(/[.\/](?!\/)/, "$&<wbr>")
+  return html.replace(/[.\/](?!\/)/g, "$&<wbr>")
 }
 
 function anchor(token) {

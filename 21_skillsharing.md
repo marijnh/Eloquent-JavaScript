@@ -65,9 +65,9 @@ The ((application)) will be set up to show a _live_ view of the
 current proposed talks and their comments. Whenever someone,
 somewhere, submits a new talk or adds a comment, all people who have
 the page open in their browsers should immediately see the change.
-This poses a bit of a challenge. There is no way for a web server to
+This poses a bit of a challenge—there is no way for a web server to
 open a connection to a client, nor is there a good way to know which
-clients currently are looking at a given website.
+clients are currently looking at a given website.
 
 {{index "Node.js"}}
 
@@ -76,17 +76,19 @@ happens to be one of the motivations for Node's design.
 
 ## Long polling
 
-{{index firewall, router, notification, "long polling"}}
+{{index firewall, notification, "long polling", network}}
 
 To be able to immediately notify a client that something changed, we
 need a ((connection)) to that client. Since web ((browser))s do not
-traditionally accept connections and clients are usually behind
-devices that would block such connections anyway, having the server
-initiate this connection is not practical.
+traditionally accept connections and clients are often behind
+((router))s that would block such connections anyway, having the
+server initiate this connection is not practical.
 
 We can arrange for the client to open the connection and keep it
 around so that the server can use it to send information when it needs
 to do so.
+
+{{index socket}}
 
 But an ((HTTP)) request allows only a simple flow of information: the
 client sends a request, the server comes back with a single response,
@@ -95,10 +97,10 @@ supported by modern browsers, which makes it possible to open
 ((connection))s for arbitrary data exchange. But using them properly
 is somewhat tricky.
 
-In this chapter, we will use a simpler technique—((long
-polling))—where clients continuously ask the server for new
-information using regular HTTP requests, and the server stalls its
-answer when it has nothing new to report.
+In this chapter, we use a simpler technique—((long polling))—where
+clients continuously ask the server for new information using regular
+HTTP requests, and the server stalls its answer when it has nothing
+new to report.
 
 {{index "live view"}}
 
@@ -108,19 +110,19 @@ becomes available. For example, if Fatma has our skill-sharing
 application open in her browser, that browser will have made a request
 for updates and be waiting for a response to that request. When Iman
 submits a talk on Extreme Downhill Unicycling, the server will notice
-that Fatma is waiting for updates and send information about the new
-talk as a response to her pending request. Fatma's browser will
-receive the data and update the screen to show the talk.
+that Fatma is waiting for updates and send a response containing the
+new talk to her pending request. Fatma's browser will receive the data
+and update the screen to show the talk.
 
 {{index robustness, timeout}}
 
 To prevent connections from timing out (being aborted because of a
-lack of activity), ((long-polling)) techniques usually set a maximum
+lack of activity), ((long polling)) techniques usually set a maximum
 time for each request, after which the server will respond anyway,
-even though it has nothing to report, and the client will start a new
-request. Periodically restarting the request also makes the technique
-more robust, allowing clients to recover from temporary ((connection))
-failures or server problems.
+even though it has nothing to report, after which the client will
+start a new request. Periodically restarting the request also makes
+the technique more robust, allowing clients to recover from temporary
+((connection)) failures or server problems.
 
 {{index "Node.js"}}
 
@@ -139,12 +141,12 @@ which they communicate.
 
 {{index [path, URL]}}
 
-We will base our interface on ((JSON)), and like in the file server
-from [Chapter ?](node#file_server), we'll try to make good use of HTTP
-((method))s and ((header))s. The interface is centered around the
-`/talks` path. Paths that do not start with `/talks` will be used for
-serving ((static file))s—the HTML and JavaScript code for the
-client-side system.
+We will use ((JSON)) as the format of our request and response body.
+Like in the file server from [Chapter ?](node#file_server), we'll try
+to make good use of HTTP ((method))s and ((header))s. The interface is
+centered around the `/talks` path. Paths that do not start with
+`/talks` will be used for serving ((static file))s—the HTML and
+JavaScript code for the client-side system.
 
 {{index "GET method"}}
 
@@ -220,8 +222,8 @@ Clients, when they later request that resource again, may make a
 _((conditional request))_ by including an `If-None-Match` header whose
 value holds that same string. If the resource hasn't changed, the
 server will respond with status code 304, which means "not modified",
-telling the client that its cached version is still current. If the
-tag does not match, the server will respond as normal.
+telling the client that its cached version is still current. When the
+tag does not match the server responds as normal.
 
 {{index "Prefer header"}}
 
@@ -235,8 +237,8 @@ conditional requests, we give them another header `Prefer: wait=90`,
 which tells the server that the client is willing wait up to 90
 seconds for the response.
 
-So the server keeps a version number that it updates every time the
-talks change, and uses that as the `ETag` value. And clients can make
+The server will keep a version number that it updates every time the
+talks change, and uses that as the `ETag` value. Clients can make
 requests like this to be notified when the talks change:
 
 ```{lang: null}
@@ -265,7 +267,7 @@ without further protection probably wouldn't end well.)
 
 {{index "skill-sharing project"}}
 
-Let's start by writing the ((server))-side part of the program. The
+Let's start by building the ((server))-side part of the program. The
 code in this section runs on ((Node.js)).
 
 ### Routing
@@ -286,11 +288,11 @@ that `PUT` requests with a path that matches the regular expression
 `/^\/talks\/([^\/]+)$/` (`/talks/` followed by a talk title) can be
 handled by a given function. In addition, it can help extract the
 meaningful parts of the path, in this case the talk title, wrapped in
-parentheses in the ((regular expression)) and pass those to the
+parentheses in the ((regular expression)), and pass those to the
 handler function.
 
-There are a number of good router packages on ((NPM)), but here we
-will write one ourselves to illustrate the principle.
+There are a number of good router packages on ((NPM)), but here we'll
+write one ourselves to illustrate the principle.
 
 {{index "require function", "Router class", module}}
 
@@ -407,7 +409,8 @@ class SkillShareServer {
 
 This uses a similar convention as the file server from the [previous
 chapter](node) for responses—handlers return promises that resolve to
-objects that describe the response.
+objects describing the response. It wraps the server in an object that
+also holds its state.
 
 ### Talks as resources
 
@@ -452,15 +455,15 @@ router.add("DELETE", talkPath, async (server, title) => {
 
 {{index "long polling", "updated method"}}
 
-The `updated` function, which we will define
-[later](skillsharing#updated), notifies waiting long-polling requests
+The `updated` method, which we will define
+[later](skillsharing#updated), notifies waiting long polling requests
 about the change.
 
-{{index "readStreamAsJSON function", "body (HTTP)"}}
+{{index "readStream function", "body (HTTP)", stream}}
 
 To retrieve the content of a request body, we define a function called
-`readStream`, which reads all content from a stream and returns a
-promise that resolves to a string.
+`readStream`, which reads all content from a ((readable stream)) and
+returns a promise that resolves to a string.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 function readStream(stream) {
@@ -479,8 +482,8 @@ One handler that needs to read request bodies is the `PUT` handler,
 which is used to create new ((talk))s. It has to check whether the
 data it was given has `presenter` and `summary` properties which are
 strings. Any data coming from outside the system might be nonsense,
-and we don't want to corrupt our internal data model, or even
-((crash)), when bad requests come in.
+and we don't want to corrupt our internal data model or ((crash)) when
+bad requests come in.
 
 {{index "updated method"}}
 
@@ -542,11 +545,11 @@ router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
 
 Trying to add a comment to a nonexistent talk returns a 404 error.
 
-### Long-polling support
+### Long polling support
 
 The most interesting aspect of the server is the part that handles
-((long polling)). When a `GET` request comes in for `/talks`, it can
-be either a simple request for all talks or a long-polling request.
+((long polling)). When a `GET` request comes in for `/talks`, it may
+either be a regular request or a long polling request.
 
 {{index "talkResponse method", "ETag header"}}
 
@@ -597,12 +600,12 @@ If the request is conditional and the talks did not change, we consult
 the `Prefer` header to see if we should delay the response or respond
 right away.
 
-{{index "304 (HTTP status code)", "setTimeout function", timeout}}
+{{index "304 (HTTP status code)", "setTimeout function", timeout, "callback function"}}
 
-A ((callback function)) for delayed requests is stored in the server's
+Callback functions for delayed requests are stored in the server's
 `waiting` array, so that they can be notified when something happens.
 The `waitForChanges` method also immediately sets a timer to respond
-normally, with a 304 status, when the request has waited long enough.
+with a 304 status when the request has waited long enough.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 SkillShareServer.prototype.waitForChanges = function(time) {
@@ -621,8 +624,8 @@ SkillShareServer.prototype.waitForChanges = function(time) {
 
 {{id updated}}
 
-Registering a change with `updated` will increase the `version` field
-and wake up all waiting requests.
+Registering a change with `updated` increases the `version` property
+and wakes up all waiting requests.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
 SkillShareServer.prototype.updated = function() {
@@ -646,7 +649,7 @@ new SkillShareServer(Object.create(null)).start(8000);
 
 {{index "skill-sharing project"}}
 
-The ((client))-side part of the talk-managing website consists of
+The ((client))-side part of the skill-sharing website consists of
 three files: a tiny HTML page, a style sheet, and a JavaScript file.
 
 ### HTML
@@ -679,8 +682,8 @@ It defines the document ((title)) and includes a ((style sheet)),
 which defines a few styles to, among other things, make sure there is
 some space between talks.
 
-Finally, it adds a heading at the top of the page and loads the script
-that contains the ((client))-side application.
+At the bottom, it adds a heading at the top of the page and loads the
+script that contains the ((client))-side application.
 
 ### Actions
 
@@ -694,7 +697,7 @@ user is trying to do.
 
 The `handleAction` function takes such an action and makes it happen.
 Because our state updates are so simple, state changes are handled in
-the same function—there's no separate ((reducer)) function.
+the same function.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function handleAction(state, action) {
@@ -752,8 +755,8 @@ function fetchOK(url, options) {
 
 {{index "talkURL function", "encodeURIComponent function"}}
 
-This helper function is used to build up a ((URL)) for a talks with a
-given title.
+And this helper function is used to build up a ((URL)) for a talks
+with a given title.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function talkURL(title) {
@@ -780,8 +783,8 @@ function reportError(error) {
 
 We'll use an approach similar to the one we saw in [Chapter ?](paint),
 splitting the application into components. But since some of the
-components either never need to update or are always full redrawn when
-updated, we'll define those not as classes, but as functions that
+components either never need to update or are always fully redrawn
+when updated, we'll define those not as classes, but as functions that
 directly return a DOM node. For example, here is a component that
 shows the field where the user can enter their name:
 
@@ -799,8 +802,8 @@ function renderUserField(name, dispatch) {
 
 {{index "elt function"}}
 
-To construct DOM elements, we'll use the `elt` function from [Chapter
-?](paint) again.
+The `elt` function used to construct DOM elements is the one we used
+in [Chapter ?](paint).
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no, hidden: true}
 function elt(type, props, ...children) {
@@ -899,7 +902,7 @@ function renderTalkForm(dispatch) {
 
 {{index "pollTalks function", "long polling", "If-None-Match header", "Prefer header", "fetch function"}}
 
-To start the app, we need the current list of talks. Since the initial
+To start the app we need the current list of talks. Since the initial
 load is closely related to the long polling process—the `ETag` from
 the load must be used when polling—we'll write a function that keeps
 polling the server for `/talks`, and calls a ((callback function))
@@ -921,16 +924,16 @@ async function pollTalks(update) {
       continue;
     }
     if (response.status == 304) continue;
-    update(await response.json());
     tag = response.headers.get("ETag");
+    update(await response.json());
   }
 }
 ```
 
 {{index "async function"}}
 
-This is an `async` function, to make looping and waiting for the
-request easier. It runs an infinite loop that, on each iteration,
+This is an `async` function, so that looping and waiting for the
+request is easier. It runs an infinite loop that, on each iteration,
 retrieves the list of talks—either normally or, if this isn't the
 first request, with the headers included that make it a long polling
 request.
@@ -985,7 +988,7 @@ class SkillShareApp {
 {{index synchronization, "live view"}}
 
 When the talks change, this component redraws all of them. This is
-simple, but also very crude. We'll get back to that in the exercises.
+simple, but also wasteful. We'll get back to that in the exercises.
 
 We can start the application like this:
 
@@ -1024,9 +1027,9 @@ in the other.
 The following exercises will involve modifying the system defined in
 this chapter. To work on them, make sure you ((download)) the code
 first
-([_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip))
-and have Node installed [_nodejs.org_](https://nodejs.org), and install
-the project's dependency with `npm install`.
+([_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)),
+have Node installed [_nodejs.org_](https://nodejs.org), and have
+installed the project's dependency with `npm install`.
 
 ### Disk persistence
 

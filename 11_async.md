@@ -921,7 +921,7 @@ async function findInStorage(nest, name) {
       let found = await routeRequest(nest, source, "storage",
                                      name);
       if (found != null) return found;
-    } catch(_) {}
+    } catch (_) {}
   }
   throw new Error("Not found");
 }
@@ -1069,7 +1069,7 @@ try {
   setTimeout(() => {
     throw new Error("Woosh");
   }, 20);
-} catch(_) {
+} catch (_) {
   // This will not run
   console.log("Caught!");
 }

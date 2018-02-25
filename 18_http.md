@@ -988,8 +988,9 @@ select multiple files at the same time.
 {{index "File type"}}
 
 Objects in the `files` object have properties such as `name` (the
-filename), `size` (the file's size in bytes), and `type` (the media
-type of the file, such as `text/plain` or `image/jpeg`).
+filename), `size` (the file's size in bytes, which are chunks of 8
+bits), and `type` (the media type of the file, such as `text/plain` or
+`image/jpeg`).
 
 {{index "asynchronous programming", "file reading", "FileReader class"}}
 

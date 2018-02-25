@@ -46,15 +46,15 @@ further ((documentation)) for Node.js there.
 
 One of the more difficult problems with writing systems that
 communicate over the ((network)) is managing input and ((output))—that
-is, the reading and writing of data to and from the network, the
-((hard drive)), and other such devices. Moving data around takes time,
-and ((scheduling)) it cleverly can make a big difference in how
-quickly a system responds to the user or to network requests.
+is, the reading and writing of data to and from the network and ((hard
+drive)). Moving data around takes time, and ((scheduling)) it cleverly
+can make a big difference in how quickly a system responds to the user
+or to network requests.
 
-In such programs, ((asynchronous programming)) is often extremely
-helpful. It allows the program to send and receive data from and to
-multiple devices at the same time without complicated thread
-management and synchronization.
+In such programs, ((asynchronous programming)) is often helpful. It
+allows the program to send and receive data from and to multiple
+devices at the same time without complicated thread management and
+synchronization.
 
 {{index "programming language", "Node.js", standard}}
 
@@ -128,8 +128,8 @@ successfully (code zero) or encountered an error (any other code).
 To find the command-line arguments given to your script, you can read
 `process.argv`, which is an array of strings. Note that it also
 includes the name of the `node` command and your script name, so the
-actual arguments start at index 2. If `showargv.js` simply contains
-the statement `console.log(process.argv)`, you could run it like this:
+actual arguments start at index 2. If `showargv.js` contains the
+statement `console.log(process.argv)`, you could run it like this:
 
 ```{lang: null}
 $ node showargv.js one --and two
@@ -140,58 +140,55 @@ $ node showargv.js one --and two
 
 All the ((standard)) JavaScript global bindings, such as `Array`,
 `Math`, and `JSON`, are also present in Node's environment.
-Browser-related functionality, such as `document` and `prompt`, is
-absent.
+Browser-related functionality, such as `document` or `prompt`, is not.
 
 ## Modules
 
 {{index "Node.js", "global scope", "module loader"}}
 
 Beyond the few bindings I mentioned, such as `console` and `process`,
-Node puts little functionality in the global scope. If you want to
-access built-in functionality, you have to ask the module system for
-it.
+Node puts few bindings in the global scope. If you want to access
+built-in functionality, you have to ask the module system for it.
 
-{{index library, "require function"}}
+{{index "require function"}}
 
 The ((CommonJS)) module system, based on the `require` function, was
 described in [Chapter ?](modules#commonjs). This system is built into
 Node and is used to load anything from built-in ((module))s to
-downloaded libraries to files that are part of your own program.
+downloaded ((package))s to ((file))s that are part of your own
+program.
 
 {{index [path, "file system"], "relative path", resolution}}
 
 When `require` is called, Node has to resolve the given string to an
-actual ((file)) to load. Pathnames that start with `"/"`, `"./"`, or
-`"../"` are resolved relative to the current module's path, where
-`"./"` stands for the current directory, `"../"` for one directory up,
-and `"/"` for the root of the file system. So if you ask for
-`"./graph"` from the file `/tmp/robot/robot.js`, Node will try to load
-the file `/tmp/robot/graph.js`.
+actual ((file)) that it can load. Pathnames that start with `"/"`,
+`"./"`, or `"../"` are resolved relative to the current module's path,
+where `"./"` stands for the current directory, `"../"` for one
+directory up, and `"/"` for the root of the file system. So if you ask
+for `"./graph"` from the file `/tmp/robot/robot.js`, Node will try to
+load the file `/tmp/robot/graph.js`.
 
 {{index "index.js"}}
 
 The `.js` ((extension)) may be omitted, and Node will add it if such a
-file exists. On the other hand, if a required path refers to a
-((directory)), Node will try to load the file named `index.js` in that
-directory.
+file exists. If the required path refers to a ((directory)), Node will
+try to load the file named `index.js` in that directory.
 
-{{index "node_modules directory"}}
+{{index "node_modules directory", directory}}
 
 When a string that does not look like a relative or absolute path is
 given to `require`, it is assumed to refer to either a built-in
 ((module)) or a module installed in a `node_modules` directory. For
 example, `require("fs")` will give you Node's built-in file system
-module, and `require("robot")` will try to load the library found in
+module. And `require("robot")` might try to load the library found in
 `node_modules/robot/`. A common way to install such libraries is by
 using ((NPM)), which we'll come back to in a moment.
 
 {{index "require function", "Node.js", "garble example"}}
 
-To illustrate the use of `require`, let's set up a small project
-consisting of two files. The first one is called `main.js`, and
-defines a script that can be called from the ((command line)) to
-reverse a string.
+Let's set up a small project consisting of two files. The first one is
+called `main.js`, and defines a script that can be called from the
+((command line)) to reverse a string.
 
 ```
 const {reverse} = require("./reverse");
@@ -235,8 +232,8 @@ tpircSavaJ
 NPM, which was introduced in [Chapter ?](modules#modules_npm), is an
 online repository of JavaScript ((module))s, many of which are
 specifically written for Node. When you install Node on your computer,
-you also get the `npm` program, which provides a convenient interface
-to this repository.
+you also get the `npm`, which you can use to interact with this
+repository.
 
 {{index "ini package"}}
 
@@ -261,9 +258,9 @@ $ node
 
 After running `npm install`, ((NPM)) will have created a directory
 called `node_modules`. Inside that directory will be an `ini`
-directory, which contains the ((library)). When we run `node` and call
-`require("ini")`, this library is loaded, and we can call its `parse`
-property to parse a configuration file.
+directory which contains the ((library)). You can open it and look at
+the code. When we call `require("ini")`, this library is loaded, and
+we can call its `parse` property to parse a configuration file.
 
 By default NPM installs packages under the current directory, rather
 than in a central place. If you are used to other package managers,
@@ -275,14 +272,14 @@ manage versions and clean up when removing an application.
 
 {{index "package.json", dependency}}
 
-In the `npm install` example, there is a ((warning)) that the
-`package.json` file does not exist. It is recommended to create such a
-file for each project, either manually or by running `npm init`. It
-contains some information about the project, such as its name and
-((version)), and lists its dependencies.
+In the `npm install` example, you could see a ((warning)) about the
+fact that the `package.json` file did not exist. It is recommended to
+create such a file for each project, either manually or by running
+`npm init`. It contains some information about the project, such as
+its name and ((version)), and lists its dependencies.
 
 The robot simulation from [Chapter ?](#robot), as modularized in
-[Exercise 10.1](modules#modular_robot), might use a `package.json`
+[Exercise 10.1](modules#modular_robot), might have a `package.json`
 file like this:
 
 ```{lang: "application/json"}
@@ -302,30 +299,31 @@ file like this:
 
 {{index "npm program", tool}}
 
-When you run `npm install`, without naming a package to install, NPM
-will install all the dependencies listed in `package.json`. When you
+When you run `npm install` without naming a package to install, NPM
+will install the dependencies listed in `package.json`. When you
 install a specific package that is not already listed as a dependency,
 NPM will add it to `package.json`.
 
 ### Versions
 
-{{index "package.json", dependency}}
+{{index "package.json", dependency, evolution}}
 
-A `package.json` file lists both the program's own ((version)), and
+A `package.json` file lists both the program's own ((version)) and
 versions for its dependencies. Versions are a way to deal with the
-fact that packages evolve separately, and code written to work with a
-package as it existed at one point may not work with a later, modified
-version of the package.
+fact that ((package))s evolve separately, and code written to work
+with a package as it existed at one point may not work with a later,
+modified version of the package.
 
 {{index compatibility}}
 
 NPM demands that its packages follow a schema called _((semantic
 versioning))_, which encodes some information about which versions are
 _compatible_ (don't break the old interface) in the version number. A
-semantic version consists of three numbers, separated by dots. Every
-time new functionality is added, the middle number has to be
-incremented. Every time compatibility is broken, the first number has
-to be incremented.
+semantic version consists of three numbers, separated by periods, such
+as `2.3.0`. Every time new functionality is added, the middle number
+has to be incremented. Every time compatibility is broken, so that
+existing code that uses the package might not work with the new
+version, the first number has to be incremented.
 
 {{index "caret character"}}
 
@@ -338,7 +336,7 @@ than 3.0.0 is allowed.
 {{index publishing}}
 
 The `npm` command is also used to publish new packages or new versions
-of packages. If you `npm publish` in a directory that holds a
+of packages. If you `npm publish` in a ((directory)) that has a
 `package.json` file, it will publish a package with the name and
 version listed in the JSON file to the registry. Anyone can publish
 packages to NPM—though only under a new name, since it would be
@@ -347,24 +345,24 @@ somewhat scary if random people could update existing packages.
 Since the `npm` program is a piece of software that talks to an open
 system—the package registry—there is nothing unique about what it
 does. Another program, `yarn`, which can be installed from the NPM
-registry, does largely the same things as `npm`, in a slightly
-different way.
+registry, fills the same role `npm` using a somewhat different
+interface and installation strategy.
 
 This book won't delve further into the details of ((NPM)) usage. Refer
-to [_npmjs.org_](https://npmjs.org) for further documentation and for
-an easy way to search for packages.
+to [_npmjs.org_](https://npmjs.org) for further documentation and a
+way to search for packages.
 
 ## The file system module
 
 {{index directory, "fs package", "Node.js"}}
 
 One of the most commonly used built-in modules in Node is the `fs`
-module, which stands for _((file system))_. This module provides
-functions for working with ((file))s and directories.
+module, which stands for _((file system))_. It exports functions for
+working with ((file))s and directories.
 
 {{index "readFile function", "callback function"}}
 
-For example, there is a function called `readFile`, which reads a file
+For example, there is a function called `readFile` which reads a file
 and then calls a callback with the file's contents.
 
 ```
@@ -380,12 +378,12 @@ readFile("file.txt", "utf8", (error, text) => {
 The second argument to `readFile` indicates the _((character
 encoding))_ used to decode the file into a string. There are several
 ways in which ((text)) can be encoded to ((binary data)), but most
-modern systems use ((UTF-8)), so unless you have reasons to believe
-another encoding is used, passing `"utf8"` when reading a text file is
-a safe bet. If you do not pass an encoding, Node will assume you are
-interested in the binary data and will give you a `Buffer` object
-instead of a string. This is an ((array-like object)) that contains
-numbers representing the bytes in the files.
+modern systems use ((UTF-8)). So unless you have reasons to believe
+another encoding is used, pass `"utf8"` when reading a text file. If
+you do not pass an encoding, Node will assume you are interested in
+the binary data and will give you a `Buffer` object instead of a
+string. This is an ((array-like object)) that contains numbers
+representing the bytes (8-bit chunks of data) in the files.
 
 ```
 const {readFile} = require("fs");
@@ -410,10 +408,10 @@ writeFile("graffiti.txt", "Node was here", err => {
 
 {{index "Buffer class", "character encoding"}}
 
-Here, it was not necessary to specify the encoding since `writeFile`
-will assume that if it is given a string to write, rather than a
-`Buffer` object, it should write it out as text using its default
-character encoding, which is ((UTF-8)).
+Here it was not necessary to specify the encoding—`writeFile` will
+assume that when it is given a string to write, rather than a `Buffer`
+object, it should write it out as text using its default character
+encoding, which is ((UTF-8)).
 
 {{index "fs package", "readdir function", "stat function", "rename function", "unlink function"}}
 
@@ -426,20 +424,20 @@ will retrieve information about a file, `rename` will rename a file,
 {{index "asynchronous programming", "Node.js", "error handling", "callback function"}}
 
 And most of these take a callback function as last parameter, which
-they call that either with an error (the first argument), or a
-successful result (the second). As we saw in [Chapter ?](async), there
-are downsides to this style of programming—the biggest one being that
-error handling becomes awkward and error-prone.
+they call either with an error (the first argument), or a successful
+result (the second). As we saw in [Chapter ?](async), there are
+downsides to this style of programming—the biggest one being that
+error handling becomes verbose and error-prone.
 
 {{index "Promise class", "promisify function", "util package"}}
 
 Though promises have been part of JavaScript for a while, at the time
-of writing work to integrate them in Node.js is still in progress.
-There is a `promisify` in the built-in `util` module, which you can
-call on a callback-style function to create a promise-returning
-function. But since this is a little awkward, there are also packages
-on NPM like `mz`, which provide their own, promise-style version of
-built-in Node modules.
+of writing the work to integrate them in Node.js is still in progress.
+There is a `promisify` function in the built-in `util` module, which
+you can call on a callback-style function to create a
+promise-returning function. But since this is a little awkward, there
+are also packages on NPM like `mz`, which provide their own,
+promise-style version of built-in Node modules.
 
 ```
 const {readFile} = require("mz/fs");
@@ -463,9 +461,9 @@ console.log("The file contains:",
 {{index optimization, performance, blocking}}
 
 Do note that while such a synchronous operation is being performed,
-your program will be stopped entirely. If it should be responding to
-the user or to other machines on the network, being stuck on a
-synchronous action might produce annoying delays.
+your program is stopped entirely. If it should be responding to the
+user or to other machines on the network, being stuck on a synchronous
+action might produce annoying delays.
 
 ## The HTTP module
 
@@ -476,7 +474,7 @@ running ((HTTP)) ((server))s and making HTTP ((request))s.
 
 {{index "listening (TCP)", "listen method", "createServer function"}}
 
-This is all it takes to start a simple HTTP server:
+This is all it takes to start an HTTP server:
 
 ```
 const {createServer} = require("http");
@@ -500,23 +498,23 @@ request to your server. It will respond with a small HTML page.
 {{index "createServer function", HTTP}}
 
 The function passed as argument to `createServer` is called every time
-a client connects to the server. The `request` and `response`
-bindings are objects representing the incoming and outgoing data. The
-first contains information about the ((request)), such as its `url`
-property, which tells us to what URL the request was made.
+a client connects to the server. The `request` and `response` bindings
+are objects representing the incoming and outgoing data. The first
+contains information about the ((request)), such as its `url` property
+which tells us to what URL the request was made.
 
-So when you open that URL in your browser, the browser sends a request
-to your own computer. This causes the server function to run, and send
-back a response, which you can then see in the browser.
+So when you open that page in your browser, it sends a request to your
+own computer. This causes the server function to run and send back a
+response, which you can then see in the browser.
 
 {{index "200 (HTTP status code)", "Content-Type header", "writeHead method"}}
 
 To send something back, you call methods on the `response` object. The
 first, `writeHead`, will write out the ((response)) ((header))s (see
 [Chapter ?](http#headers)). You give it the status code (200 for "OK"
-in this case) and an object that contains header values. Here we use
-the `Content-Type` header to inform the client that we'll be sending
-back an HTML document.
+in this case) and an object that contains header values. The example
+sets the `Content-Type` header to inform the client that we'll be
+sending back an HTML document.
 
 {{index "writable stream", "body (HTTP)", stream, "write method", "end method"}}
 
@@ -536,15 +534,15 @@ _localhost_, which would use the default port 80.
 {{index "Node.js", kill}}
 
 When you run this script, the process just sits there and waits. When
-the script is still listening for events—in this case, network
-connections—`node` will not automatically exit after it reaches the
-end of the script. To close it, press Ctrl-C.
+a script is listening for events—in this case, network
+connections—`node` will not automatically exit when it reaches the end
+of the script. To close it, press Ctrl-C.
 
 A real web ((server)) usually does more than the one in the example—it
 looks at the request's ((method)) (the `method` property) to see what
 action the client is trying to perform and at the request's ((URL)) to
-find out which resource this action is being performed on. You'll see
-a more advanced server [later in this chapter](node#file_server).
+find out which resource this action is being performed on. We'll see a
+more advanced server [later in this chapter](node#file_server).
 
 {{index "http package", "request function"}}
 
@@ -589,10 +587,10 @@ can be used to make requests to `https:` URLs.
 
 {{index "fetch function", "Promise class", "node-fetch package"}}
 
-But making request with Node's raw functionality is rather verbose and
-error-prone. There are much more convenient wrapper packages available
-on NPM. For example `node-fetch` provides the promise-based `fetch`
-interface that we know from the browser.
+But making request with Node's raw functionality is rather verbose.
+There are much more convenient wrapper packages available on NPM. For
+example `node-fetch` provides the promise-based `fetch` interface that
+we know from the browser.
 
 ## Streams
 
@@ -605,12 +603,12 @@ and the request object that was returned from `http.request`.
 {{index "callback function", "asynchronous programming", "write method", "end method", "Buffer class"}}
 
 Writable streams are a widely used concept in Node. Such objects have
-a `write` method, which can be passed a string or a `Buffer` object,
-to write something to the stream. Their `end` method also optionally
-takes a value to write to the stream, and will close the stream after
-writing—or right away if none is given. Both of these methods can also
-be given a callback as an additional argument, which they will call
-when the writing to or closing of the stream has finished.
+a `write` method, which can be passed a string or a `Buffer` object to
+write something to the stream. Their `end` method closes the stream,
+and also optionally takes a value to write to the stream before
+closing. Both of these methods can also be given a callback as an
+additional argument, which they will call when the writing or closing
+has finished.
 
 {{index "createWriteStream function", "writeFile function"}}
 
@@ -622,10 +620,10 @@ one piece at a time, rather than in one shot as with `writeFile`.
 {{index "createServer function", "request function", "event handling", "readable stream"}}
 
 Readable ((stream))s are a little more involved. Both the `request`
-binding that was passed to the HTTP server's callback function and
-the `response` binding passed to the HTTP client are readable
-streams. (A server reads requests and then writes responses, whereas a
-client first writes a request and then reads a response.) Reading from
+binding that was passed to the HTTP server's callback and the
+`response` binding passed to the HTTP client callback are readable
+streams—a server reads requests and then writes responses, whereas a
+client first writes a request and then reads a response. Reading from
 a stream is done using event handlers, rather than methods.
 
 {{index "on method", "addEventListener method"}}
@@ -685,10 +683,10 @@ request({
 {{index "stdout property", "standard output", "writable stream", "console.log"}}
 
 The example writes to `process.stdout` (the process' standard output,
-a writable stream) instead of using `console.log`. We can't use
-`console.log` because it adds an extra newline character after each
-piece of text that it writes, which isn't appropriate here since the
-response may come in as multiple chunks.
+which is a writable stream) instead of using `console.log`. We can't
+use `console.log` because it adds an extra newline character after
+each piece of text that it writes, which isn't appropriate here since
+the response may come in as multiple chunks.
 
 {{id file_server}}
 
@@ -699,8 +697,8 @@ response may come in as multiple chunks.
 Let's combine our newfound knowledge about ((HTTP)) ((server))s and
 working with the ((file system)) to create a bridge between the two:
 an HTTP server that allows ((remote access)) to a file system. Such a
-server has all kinds of uses. It allows web applications to store and
-share data or give a group of people shared access to a bunch of
+server has all kinds of uses—it allows web applications to store and
+share data or can give a group of people shared access to a bunch of
 files.
 
 {{index [path, URL], "GET method", "PUT method", "DELETE method"}}
@@ -723,9 +721,9 @@ then a request for `/file.txt` should refer to `/tmp/public/file.txt`
 
 We'll build the program piece by piece, using an object called
 `methods` to store the functions that handle the various HTTP methods.
-Methods are `async` functions that get the request object as argument
-and return an object that describes the response, wrapped in a
-promise.
+Method handlers are `async` functions that get the request object as
+argument and return a promise that resolves to an object that
+describes the response.
 
 ```{includeCode: ">code/file_server.js"}
 const {createServer} = require("http");
@@ -739,7 +737,7 @@ createServer((request, response) => {
       if (error.status != null) return error;
       return {body: String(error), status: 500};
     })
-    .then(({body, status=200, type="text/plain"}) => {
+    .then(({body, status = 200, type = "text/plain"}) => {
        response.writeHead(status, {"Content-Type": type});
        if (body && body.pipe) body.pipe(response);
        else response.end(body);
@@ -757,8 +755,8 @@ async function notAllowed(request) {
 {{index "405 (HTTP status code)"}}
 
 This starts a server that just returns 405 error responses, which is
-the code used to indicate that a given method isn't handled by the
-server.
+the code used to indicate that the server refuses to handle a given
+method.
 
 {{index "500 (HTTP status code)", "error handling", "error response"}}
 
@@ -808,11 +806,11 @@ function urlPath(url) {
 ```
 
 As soon as you set up a program to accept network requests, you have
-to start worrying about ((security)). In this case, it is likely that
-we'll accidentally expose our whole ((file system)) to the whole
-network if we aren't careful.
+to start worrying about ((security)). In this case, if we aren't
+careful, it is likely that we'll accidentally expose our whole ((file
+system)) to the network.
 
-File paths are strings, in Node, but to map such a string to an actual
+File paths are strings in Node. To map such a string to an actual
 file, there is a nontrivial amount of interpretation going on. Paths
 may, for example, include `"../"` to refer to a parent directory. So
 one obvious source of problems would be requests for paths like
@@ -822,11 +820,12 @@ one obvious source of problems would be requests for paths like
 
 To avoid such problems, `urlPath` uses the `resolve` function from the
 `path` module, which resolves relative paths. It then verifies that
-the result is "below" the working directory, which it found with
-`process.cwd` (where "cwd" stands for "current working directory").
-When the path doesn't start with the base directory, the function
-throws an error response object, using the HTTP status code that
-indicates that access to the resource is forbidden.
+the result is _below_ the working directory. The `process.cwd`
+function (where "cwd" stands for "current working directory") can be
+used used to find this working directory. When the path doesn't start
+with the base directory, the function throws an error response object,
+using the HTTP status code that indicates that access to the resource
+is forbidden.
 
 {{index "file server example", "Node.js", "GET method"}}
 
@@ -841,13 +840,13 @@ set when returning a file's content. Since these files could be
 anything, our server can't simply return the same content type for all
 of them. ((NPM)) can help us again here. The `mime` package (content
 type indicators like `text/plain` are also called _((MIME type))s_)
-knows the correct type for a huge number of ((file extension))s.
+knows the correct type for a large number of ((file extension))s.
 
 {{index "require function", "npm program"}}
 
 The following `npm` command, in the directory where the server script
-lives, installs `mime` and `mz`. We'll use the latter as a source of
-promise-based `fs` functions.
+lives, installs specific versions of `mime` and `mz`. We'll use the
+latter as a source of promise-based `fs` functions.
 
 ```{lang: null}
 $ npm install mime@2.2.0 mz@2.7.0
@@ -886,10 +885,10 @@ methods.GET = async function(request) {
 {{index "createReadStream function", "asynchronous programming", "error handling", "ENOENT (status code)", "Error type", inheritance}}
 
 Because it has to touch the disk and thus might take a while, `stat`
-is asynchronous. Since we're using promises, rather than callback
+is asynchronous. Since we're using promises rather than callback
 style, it has to be imported from `mz/fs` instead of `fs`.
 
-When the file does not exist, `stat` will throw an error object with a
+When the file does not exist `stat` will throw an error object with a
 `code` property of `"ENOENT"`. These somewhat obscure,
 ((Unix))-inspired codes are how you recognize error types in Node.
 
@@ -905,9 +904,8 @@ the `isDirectory` method tells us.
 
 We use `readdir` to read the array of files in a ((directory)) and
 return it to the client. For normal files, we create a readable stream
-with `createReadStream` return that as the body, along with the
-content type that the `mime` package gives us based on the file's
-name.
+with `createReadStream` and return that as the body, along with the
+content type that the `mime` package gives us for the file's name.
 
 {{index "Node.js", "file server example", "DELETE method", "rmdir function", "unlink function"}}
 
@@ -936,7 +934,7 @@ methods.DELETE = async function(request) {
 When an ((HTTP)) ((response)) does not contain any data, the status
 code 204 ("no content") can be used to indicate this. Since the
 response to deletion doesn't need to transmit any information beyond
-whether the operation succeeded, it is a sensible thing to return
+whether the operation succeeded, that is a sensible thing to return
 here.
 
 {{index idempotence, "error response"}}
@@ -944,7 +942,7 @@ here.
 You may be wondering why trying to delete a nonexistent file returns a
 success status code, rather than an error. When the file that is being
 deleted is not there, you could say that the request's objective is
-already fulfilled. The ((HTTP)) standard encourages people to make
+already fulfilled. The ((HTTP)) standard encourages us to make
 requests _idempotent_, which means that making the same request
 multiple times produces the same result as making it once. In a way,
 if you try to delete something that's already gone, the effect you
@@ -986,9 +984,9 @@ outcome of calling `pipe`.
 
 When something goes wrong when opening the file `createWriteStream`
 will still return a stream, but that stream will fire an `"error"`
-event. The output stream to the request may also fail, if the network
-goes down, for example. So we wire up both streams' `"error"` events
-to reject the promise. When `pipe` is done, it will close the output
+event. The output stream to the request may also fail, for example if
+the network goes down. So we wire up both streams' `"error"` events to
+reject the promise. When `pipe` is done, it will close the output
 stream, which causes it to fire a `"finish"` event. That's the point
 where we can successfully resolve the promise (returning nothing).
 
@@ -996,7 +994,7 @@ where we can successfully resolve the promise (returning nothing).
 
 The full script for the server is available at
 [_eloquentjavascript.net/code/file_server.js_](https://eloquentjavascript.net/code/file_server.js).
-You can download that and, after installing the dependencies, run it
+You can download that and, after installing its dependencies, run it
 with Node to start your own file server. And of course, you can modify
 and extend it to solve this chapter's exercises or to experiment.
 
@@ -1032,19 +1030,20 @@ Node is a nice, small system that lets us run JavaScript in a
 nonbrowser context. It was originally designed for network tasks to
 play the role of a _node_ in a network. But it lends itself to all
 kinds of scripting tasks, and if writing JavaScript is something you
-enjoy, automating everyday tasks with Node works very well.
+enjoy, automating tasks with Node works very well.
 
-NPM provides libraries for everything you can think of (and quite a
-few things you'd probably never think of), and it allows you to fetch
-and install those libraries with the `npm` program. Node comes with a
+NPM provides packages for everything you can think of (and quite a few
+things you'd probably never think of), and it allows you to fetch and
+install those packages with the `npm` program. Node comes with a
 number of built-in modules, including the `fs` module for working with
 the file system and the `http` module for running HTTP servers and
 making HTTP requests.
 
 All input and output in Node is done asynchronously, unless you
 explicitly use a synchronous variant of a function, such as
-`fs.readFileSync`. You provide callback functions, and Node will call
-them at the appropriate time, when the I/O you asked for has finished.
+`readFileSync`. When calling such asynchronous functions you provide
+callback functions, and Node will call them with an error value and
+(if available) a result when it is ready.
 
 ## Exercises
 
@@ -1053,14 +1052,13 @@ them at the appropriate time, when the I/O you asked for has finished.
 {{index grep, search, "search tool (exercise)"}}
 
 On ((Unix)) systems, there is a command line tool called `grep` that
-can be used to quickly search through files for a ((regular
-expression)).
+can be used to quickly search files for a ((regular expression)).
 
 Write a Node script that can be run from the ((command line)) and acts
 somewhat like `grep`. It treats its first command line argument as a
-regular expression, and any further arguments as files to search for.
-It should output the names of any file whose content matches the
-regular expression to the console.
+regular expression, and any further arguments as files to search. It
+should output the names of any file whose content matches the regular
+expression.
 
 When that works, extend it so that when one of the arguments is a
 ((directory)), it searches through all files in that directory and its
@@ -1078,16 +1076,15 @@ amount, since most file systems can only read one thing at a time.
 {{index "RegExp class", "search tool (exercise)"}}
 
 Your first command line argument, the ((regular expression)), can be
-found in `process.argv[2]`, and the rest come after that. You can use
-the `RegExp` constructor to go from a string to a regular expression
-object.
+found in `process.argv[2]`. The input files come after that. You can
+use the `RegExp` constructor to go from a string to a regular
+expression object.
 
 {{index "readFileSync function"}}
 
 Doing this synchronously, with `readFileSync`, is more
-straightforward, but if you use `mz` again to get the
-promise-returning functions and write an `async` function, the code
-looks similar.
+straightforward, but if you use `mz` again to get promise-returning
+functions and write an `async` function, the code looks similar.
 
 {{index "stat function", "statSync function", "isDirectory method"}}
 
@@ -1100,8 +1097,9 @@ Exploring a directory is a branching process. You can do it either
 with a recursive function or by keeping an array of work (files that
 still need to be explored). To find the files in a directory, you can
 call `readdir` or `readdirSync` (note the strange
-capitalization—Node's file system function naming is based on standard
-Unix functions, such as `readdir`, which are all lowercase).
+capitalization—Node's file system function naming is loosely based on
+standard Unix functions, such as `readdir`, which are all lowercase,
+but then it adds `Sync` with a capital letter).
 
 To go from a file name read with `readdir` to a full path name, you
 have to combine it with the name of the directory, putting a ((slash
@@ -1119,7 +1117,7 @@ way to _create_ a ((directory)).
 
 {{index "MKCOL method", "mkdir function"}}
 
-Add support for a method `MKCOL` ("make column"), which should create
+Add support for a `MKCOL` method ("make column"), which should create
 a directory by calling `mkdir` from the `fs` module. `MKCOL` is not a
 widely used HTTP method, but it does exist for this same purpose in
 the _((WebDAV))_ standard, which specifies a set of conventions on top
@@ -1152,7 +1150,7 @@ blueprint for the `MKCOL` method. When no file is found, try to create
 a directory with `mkdir`. When a directory exists at that path, you
 can return a 204 response so that directory creation requests are
 idempotent. If a nondirectory file exists here, return an error code.
-The code 400 ("bad request") would be appropriate.
+Code 400 ("bad request") would be appropriate.
 
 hint}}
 
@@ -1186,18 +1184,18 @@ returns lists of files when reading a directory.
 
 {{index overwriting}}
 
-Don't work directly in the code on the file server, since if you make
-a mistake you are likely to damage the files there. Instead, keep your
-work outside of the publicly accessible directory and copy it there
-when testing.
+Don't work directly in the code exposed by the file server, since if
+you make a mistake you are likely to damage the files there. Instead,
+keep your work outside of the publicly accessible directory and copy
+it there when testing.
 
 {{hint
 
 {{index "file server example", "textarea (HTML tag)", "fetch function", "relative path", "public space (exercise)"}}
 
 You can create a `<textarea>` element to hold the content of the file
-that is being edited. A `GET` request, using `fetch`, can be used to
-get the current content of the file. You can use relative URLs like
+that is being edited. A `GET` request, using `fetch`, can retrieve the
+current content of the file. You can use relative URLs like
 _index.html_, instead of
 [_http://localhost:8000/index.html_](http://localhost:8000/index.html),
 to refer to files on the same server as the running script.

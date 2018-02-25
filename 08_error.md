@@ -249,7 +249,7 @@ Some code is easier to test than other code. Generally, the more
 external objects that the code interacts with, the harder it is to set
 up the context in which to test it. The style of programming shown in
 the [previous chapter](robot), which uses self-contained persistent
-values rather than changing objects, tends be easy to test.
+values rather than changing objects, tends to be easy to test.
 
 ## Debugging
 

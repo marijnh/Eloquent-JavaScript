@@ -278,7 +278,7 @@ create such a file for each project, either manually or by running
 `npm init`. It contains some information about the project, such as
 its name and ((version)), and lists its dependencies.
 
-The robot simulation from [Chapter ?](#robot), as modularized in
+The robot simulation from [Chapter ?](robot), as modularized in
 [Exercise 10.1](modules#modular_robot), might have a `package.json`
 file like this:
 

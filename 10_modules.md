@@ -122,7 +122,7 @@ be packages) can upgrade to the new ((version)).
 Working in this way requires ((infrastructure)). We need a place to
 store and find packages, and a convenient way to install and upgrade
 them. In the JavaScript world, this infrastructure is provided by
-((NPM)) ([_npmjs.org_](http://npmjs.org)).
+((NPM)) ([_npmjs.org_](https://npmjs.org)).
 
 NPM is two things: an online service where one can download (and
 upload) packages, and a program (bundled with Node.js) that helps you

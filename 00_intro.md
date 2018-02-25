@@ -402,10 +402,10 @@ if}}
 
 The easiest way to run the example code in the book, and to experiment
 with it, is to look it up in the online version of the book at
-[_eloquentjavascript.net_](http://eloquentjavascript.net/). There, you
+[_eloquentjavascript.net_](https://eloquentjavascript.net/). There, you
 can click any code example to edit and run it and to see the output it
 produces. To work on the exercises, go to
-[_eloquentjavascript.net/code_](http://eloquentjavascript.net/code),
+[_eloquentjavascript.net/code_](https://eloquentjavascript.net/code),
 which provides starting code for each coding exercise and allows you
 to look at the solutions.
 
@@ -420,7 +420,7 @@ chapters is often written for a specific environment (the browser or
 Node.js) and can run only there. In addition, many chapters define
 bigger programs, and the pieces of code that appear in them depend on
 each other or on external files. The
-[sandbox](http://eloquentjavascript.net/code) on the website provides
+[sandbox](https://eloquentjavascript.net/code) on the website provides
 links to Zip files containing all of the scripts and data files
 necessary to run the code for a given chapter.
 

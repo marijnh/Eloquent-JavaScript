@@ -38,7 +38,7 @@ organizer.
 chapter is written for Node.js, and running it directly in the HTML
 page that you are looking at is unlikely to work.]{if interactive} The
 full code for the project can be ((download))ed from
-[_eloquentjavascript.net/code/skillsharing.zip_](http://eloquentjavascript.net/code/skillsharing.zip).
+[_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
 
 ## Design
 
@@ -1024,8 +1024,8 @@ in the other.
 The following exercises will involve modifying the system defined in
 this chapter. To work on them, make sure you ((download)) the code
 first
-([_eloquentjavascript.net/code/skillsharing.zip_](http://eloquentjavascript.net/code/skillsharing.zip))
-and have Node installed [_nodejs.org_](http://nodejs.org), and install
+([_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip))
+and have Node installed [_nodejs.org_](https://nodejs.org), and install
 the project's dependency with `npm install`.
 
 ### Disk persistence

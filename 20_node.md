@@ -14,29 +14,29 @@ quote}}
 
 {{index "command line", "Yuan-Ma", "Book of Programming"}}
 
-So far, you have learned the JavaScript language and used it within a
-single environment: the browser. This chapter and the [next
-one](skillsharing) will briefly introduce you to ((Node.js)), a
-program that allows you to apply your JavaScript skills outside of the
-browser. With it, you can build anything from small command-line tools
-to dynamic HTTP ((server))s.
+So far, we have used the JavaScript language in a single environment:
+the browser. This chapter and the [next one](skillsharing) will
+briefly introduce ((Node.js)), a program that allows you to apply your
+JavaScript skills outside of the browser. With it, you can build
+anything from small command-line tools to HTTP ((server))s that power
+dynamic ((website))s.
 
-These chapters aim to teach you the important ideas that Node.js
-builds on and to give you enough information to write some useful
-programs for it. They do not try to be a complete, or even a thorough,
-treatment of Node.
+These chapters aim to teach you the main concepts that Node.js uses
+and to give you enough information to write useful programs for it.
+They do not try to be a complete, or even a thorough, treatment of the
+platform.
 
 {{if interactive
 
 Whereas you could run the code in previous chapters directly on these
-pages, since it was either raw JavaScript or written for the browser,
-the code samples in this chapter are written for Node and often won't
-run in the browser.
+pages, because it was either raw JavaScript or written for the
+browser, the code samples in this chapter are written for Node and
+often won't run in the browser.
 
 if}}
 
 If you want to follow along and run the code in this chapter, start by
-going to [_nodejs.org_](http://nodejs.org) and following the
+going to [_nodejs.org_](https://nodejs.org) and following the
 installation instructions for your operating system. You can also find
 further ((documentation)) for Node.js there.
 
@@ -351,7 +351,7 @@ registry, does largely the same things as `npm`, in a slightly
 different way.
 
 This book won't delve further into the details of ((NPM)) usage. Refer
-to [_npmjs.org_](http://npmjs.org) for further documentation and for
+to [_npmjs.org_](https://npmjs.org) for further documentation and for
 an easy way to search for packages.
 
 ## The file system module
@@ -421,7 +421,7 @@ The `fs` module contains many other useful functions: `readdir` will
 return the ((file))s in a ((directory)) as an array of strings, `stat`
 will retrieve information about a file, `rename` will rename a file,
 `unlink` will remove one, and so on. See the documentation at
-[_nodejs.org_](http://nodejs.org) for specifics.
+[_nodejs.org_](https://nodejs.org) for specifics.
 
 {{index "asynchronous programming", "Node.js", "error handling", "callback function"}}
 
@@ -995,7 +995,7 @@ where we can successfully resolve the promise (returning nothing).
 {{index download, "file server example", "Node.js"}}
 
 The full script for the server is available at
-[_eloquentjavascript.net/code/file_server.js_](http://eloquentjavascript.net/code/file_server.js).
+[_eloquentjavascript.net/code/file_server.js_](https://eloquentjavascript.net/code/file_server.js).
 You can download that and, after installing the dependencies, run it
 with Node to start your own file server. And of course, you can modify
 and extend it to solve this chapter's exercises or to experiment.

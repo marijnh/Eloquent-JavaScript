@@ -2,7 +2,7 @@ CHAPTERS := $(basename $(shell ls [0-9][0-9]_*.md) .md)
 
 SVGS := $(wildcard img/*.svg)
 
-all: html book.pdf book_mobile.pdf
+all: html book.pdf book_mobile.pdf book.epub
 
 html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/acorn_codemirror.js \
       code/skillsharing.zip code/solutions/20_3_a_public_space_on_the_web.zip html/js/chapter_info.js
@@ -58,3 +58,20 @@ img/generated/%.pdf: img/%.svg
 
 pdf/%.tex: %.md
 	node src/render_latex.js $< > $@
+
+book.epub: epub/titlepage.xhtml epub/toc.xhtml epub/hints.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) \
+           epub/content.opf.src epub/style.css src/add_images_to_epub.js
+	rm -f $@
+	grep '<img' epub/*.xhtml | sed -e 's/.*src="\([^"]*\)".*/\1/' | xargs -I{} cp --parents "{}" epub
+	node src/add_images_to_epub.js
+	cd epub; zip -X ../$@ mimetype
+	cd epub; zip -X ../$@ -r * -x mimetype -x content.opf.src
+
+epub/%.xhtml: %.md src/render_html.js
+	node src/render_html.js --epub $< > $@
+
+epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.js src/render_html.js
+	node src/extract_hints.js | node src/render_html.js --epub - > $@
+
+epubcheck: book.epub
+	epubcheck book.epub 2>&1 | grep -v 'img/.*\.svg'

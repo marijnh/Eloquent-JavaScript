@@ -27,6 +27,8 @@ deficiencies.
 
 quote}}
 
+{{figure {url: "img/chapter_picture_5.jpg", alt: "Letters from different scripts", chapter: true}}}
+
 {{index "program size"}}
 
 A large program is a costly program, and not just because of the time

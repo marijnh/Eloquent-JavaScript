@@ -163,7 +163,8 @@ let renderer = {
   inline(token) { return renderArray(token.children) },
 
   meta_figure(token) {
-    let {url, width} = token.args[0]
+    let {url, width, chapter} = token.args[0]
+    if (chapter) return "" // FIXME
     if (/\.svg$/.test(url)) url = url.replace(/^img\//, "img/generated/").replace(/\.svg$/, ".pdf")
     return `\n\n\\vskip 1.5ex\n\\includegraphics[width=${width || "10cm"}]{${url}}\n\\vskip 1.5ex`
   },

@@ -11,7 +11,11 @@ ideas that could provoke such a question.
 
 quote}}
 
-{{index "Babbage, Charles", object, "data structure"}}
+{{index "Babbage, Charles"}}
+
+{{figure {url: "img/chapter_picture_4.jpg", alt: "A weresquirrel", chapter: framed}}}
+
+{{index object, "data structure"}}
 
 Numbers, Booleans, and strings are the atoms that ((data)) structures
 are built from. Many types of information require more than one

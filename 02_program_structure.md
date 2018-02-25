@@ -11,6 +11,8 @@ quote}}
 
 {{index why, "Poignant Guide"}}
 
+{{figure {url: "img/chapter_picture_2.jpg", alt: "Tentacles holding objects", chapter: framed}}}
+
 In this chapter, we start to do things that can actually be called
 _programming_. We will expand our command of the JavaScript language
 beyond the nouns and sentence fragments we've seen so far, to the
@@ -136,8 +138,6 @@ not _contain_ values; they _grasp_ them—two bindings can refer to the
 same value. A program can only access the values that it still has a
 hold on. When you need to remember something, you grow a tentacle to
 hold on to it or you reattach one of your existing tentacles to it.
-
-{{figure {url: "img/octopus.jpg", alt: "Bindings as tentacles"}}}
 
 Let's look at another example. To remember the number of dollars that
 Luigi still owes you, you create a binding. And then when he pays back

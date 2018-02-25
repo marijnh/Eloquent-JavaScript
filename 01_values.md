@@ -11,7 +11,11 @@ essence stays invisibly below.
 
 quote}}
 
-{{index "Yuan-Ma", "Book of Programming", "binary data", data, bit, memory}}
+{{index "Yuan-Ma", "Book of Programming"}}
+
+{{figure {url: "img/chapter_picture_1.jpg", alt: "A sea of bits", chapter: framed}}}
+
+{{index "binary data", data, bit, memory}}
 
 Inside the computer's world, there is only data. You can read data,
 modify data, create new data—but that which isn't data cannot be

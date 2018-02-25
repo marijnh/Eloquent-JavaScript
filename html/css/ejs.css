@@ -379,6 +379,20 @@ figure {
   margin: 0 30px;
 }
 
+figure.chapter {
+  text-align: center;
+  margin: 3em 0 2em;
+}
+
+figure.chapter img {
+  max-width: 75%;
+}
+
+figure.framed img {
+  border-radius: 50%;
+  border: 2px solid black;
+}
+
 @media screen and (max-width: 500px) {
   figure {
     margin: 0;

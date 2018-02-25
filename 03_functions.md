@@ -8,7 +8,11 @@ build on each other, like a wall of mini stones.
 
 quote}}
 
-{{index "Knuth, Donald", function, "code structure"}}
+{{index "Knuth, Donald"}}
+
+{{figure {url: "img/chapter_picture_3.jpg", alt: "Fern leaves with a fractal shape", chapter: framed}}}
+
+{{index function, "code structure"}}
 
 Functions are the bread and butter of JavaScript programming. The
 concept of wrapping a piece of program in a value has many uses. It

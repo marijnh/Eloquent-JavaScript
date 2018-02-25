@@ -122,8 +122,9 @@ let renderer = {
   inline(token) { return renderArray(token.children) },
 
   meta_figure(token) {
-    let {url, alt} = token.args[0]
-    return `<figure${attrs(token)}><img src="${escape(url)}" alt="${escape(alt)}"></figure>`
+    let {url, alt, chapter} = token.args[0]
+    let className = !chapter ? null : "chapter" + (chapter == "true" ? "" : " " + chapter)
+    return `<figure${attrs(token)}${className ? ` class="${className}"` : ""}><img src="${escape(url)}" alt="${escape(alt)}"></figure>`
   },
 
   meta_quote_open() { return "\n\n<blockquote>" },

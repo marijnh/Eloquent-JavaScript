@@ -17,7 +17,7 @@ if (!file) throw new Error("No input file")
 let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
 
 let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
-  defined: ["interactive", "html"],
+  defined: epub ? ["book", "html"] : ["interactive", "html"],
   takeTitle: true,
   index: false
 })

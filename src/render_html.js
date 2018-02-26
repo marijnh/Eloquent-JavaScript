@@ -54,7 +54,7 @@ function anchor(token) {
   let id = token.hashID
   if (!id || id in seenIDs) return ""
   seenIDs[id] = true
-  return `<a class="${id.charAt(0)}_ident" id="${id}" href="#${id}"></a>`
+  return `<a class="${id.charAt(0)}_ident" id="${id}" href="#${id}" tabindex="-1" role="presentation"></a>`
 }
 
 function attrs(token) {

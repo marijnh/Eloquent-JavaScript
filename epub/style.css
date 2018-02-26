@@ -37,6 +37,10 @@ code, pre {
   font-family: 'PT Mono', monospace;
 }
 
+@media (max-width: 650px) {
+  pre { font-size: 10px; }
+}
+
 code {
   font-size: 18px;
   padding: 0 2px;
@@ -59,11 +63,10 @@ h3 {
   font-size: 100%;
 }
 
-span.chap_num {
+div.chap_num {
+  font-family: 'Cinzel', Georgia, serif;
   display: block;
-  font-size: 60%;
-  color: #aaa;
-  margin-top: -.7em;
+  margin-bottom: -0.8rem;
 }
 
 blockquote {

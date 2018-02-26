@@ -390,7 +390,7 @@ figure.chapter img {
 
 figure.framed img {
   border-radius: 50%;
-  border: 2px solid black;
+  border: 4px double black;
 }
 
 @media screen and (max-width: 500px) {

@@ -247,7 +247,7 @@ defineRequestType("note", (nest, content, source, done) => {
 ```
 
 The `defineRequestType` function defines a new type of request. The
-example adds support for `"note"` requests, which just send a note to
+example adds support for `"note"` requests, which just sends a note to
 a given nest. Our implementation calls `console.log` so that we can
 verify that the request arrived. Nests have a `name` property that
 holds their name.

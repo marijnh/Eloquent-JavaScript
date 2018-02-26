@@ -28,6 +28,7 @@ let chapters = fs.readdirSync(__dirname + "/..")
     .filter(file => /^\d{2}_\w+\.md$/.test(file))
     .sort()
     .map(file => /^\d{2}_(\w+)\.md$/.exec(file)[1])
+    .concat(['hints'])
 
 function escapeChar(ch) {
   return ch == "<" ? "&lt;" : ch == ">" ? "&gt;" : ch == "&" ? "&amp;" : "&quot;"
@@ -124,9 +125,12 @@ let renderer = {
     let alt = token.attrGet("alt"), href= token.attrGet("href")
     let maybeChapter = /^(\w+)(#.*)?$/.exec(href)
     if (maybeChapter && chapters.includes(maybeChapter[1])) {
-      let n = chapters.indexOf(maybeChapter[1])
-      href = pad(n) + "_" + maybeChapter[1] + (epub ? ".xhtml" : ".html") + (maybeChapter[2] || "")
-      linkedChapter = n
+      let number = ""
+      if (maybeChapter[1] != "hints") {
+        linkedChapter = chapters.indexOf(maybeChapter[1])
+        number =  pad(linkedChapter) + "_"
+      }
+      href = number + maybeChapter[1] + (epub ? ".xhtml" : ".html") + (maybeChapter[2] || "")
     }
     return `<a href="${escape(href)}"${alt ? ` alt="${escape(alt)}"` : ""}>`
   },

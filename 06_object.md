@@ -687,7 +687,7 @@ class, acting as a two-dimensional array.
 
 ```{includeCode: true}
 class Matrix {
-  constructor(width, height, content = () => undefined) {
+  constructor(width, height, content = (x, y) => undefined) {
     this.width = width;
     this.height = height;
     this.content = [];

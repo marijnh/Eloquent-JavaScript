@@ -35,7 +35,7 @@ introduced earlier in the text.
 ifdef::book_target[]
 
 (((sandbox)))The online coding sandbox for the book
-(http://eloquentjavascript.net/code[_eloquentjavascript.net/code_])
+(http://eloquentjavascript.net/2nd_edition/code[_eloquentjavascript.net/code_])
 provides a way to run code in the context of a specific chapter. If
 you decide to work through the examples in another environment, be
 sure to first download the full code for this chapter from the
@@ -566,9 +566,9 @@ structure.
 
 (((JOURNAL data set)))Jacques kept his journal for three months. The
 resulting ((data set)) is available in the coding sandbox for this
-chapter(!book (http://eloquentjavascript.net/code#4[_eloquentjavascript.net/code#4_])!),
+chapter(!book (http://eloquentjavascript.net/2nd_edition/code#4[_eloquentjavascript.net/2nd_edition/code#4_])!),
 where it is stored in the `JOURNAL` variable, and in a downloadable
-http://eloquentjavascript.net/code/jacques_journal.js[file].
+http://eloquentjavascript.net/2nd_edition/code/jacques_journal.js[file].
 
 (((tableFor function)))(((hasEvent function)))To extract a two-by-two
 ((table)) for a specific event from this journal, we must loop over

@@ -892,7 +892,7 @@ that happens, we can report success to the client with a 204 response.
 
 (((download)))(((file server example)))(((Node.js)))The full script
 for the server is available at
-http://eloquentjavascript.net/code/file_server.js[_eloquentjavascript.net/code/file_server.js_].
+http://eloquentjavascript.net/2nd_edition/code/file_server.js[_eloquentjavascript.net/2nd_edition/code/file_server.js_].
 You can download that and run it with Node to start your own file
 server. And of course, you can modify and extend it to solve this
 chapter's exercises or to experiment.
@@ -977,7 +977,7 @@ readFile("file.txt", "utf8").then(function(content) {
 (((error handling)))(((exception handling)))(((file server
 example)))For comparison, I've written another version of the file
 server based on ((promise))s, which you can find at
-http://eloquentjavascript.net/code/file_server_promises.js[_eloquentjavascript.net/code/file_server_promises.js_].
+http://eloquentjavascript.net/2nd_edition/code/file_server_promises.js[_eloquentjavascript.net/2nd_edition/code/file_server_promises.js_].
 It is slightly cleaner because functions can now _return_ their
 results, rather than having to call callbacks, and the routing of
 exceptions is implicit, rather than explicit.

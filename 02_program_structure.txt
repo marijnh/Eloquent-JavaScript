@@ -872,7 +872,7 @@ solve the exercise. If you run into problems, consider reading the
 hints (!interactive after the exercise!)(!book at the link:hints.html#hints[end of the book]!).
 Full solutions to the exercises are not included in this
 book, but you can find them online at
-http://eloquentjavascript.net/code[_eloquentjavascript.net/code_].
+http://eloquentjavascript.net/2nd_edition/code[_eloquentjavascript.net/code_].
 If you want to learn something from the exercises, I recommend looking
 at the solutions only after you've solved the exercise, or at least
 after you've attacked it long and hard enough to have a slight

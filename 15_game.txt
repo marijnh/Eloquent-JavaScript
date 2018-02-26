@@ -1204,7 +1204,7 @@ and output in general in link:20_node.html#node[Chapter 20].
 
 (((game)))(((GAME_LEVELS data set)))There is a set of
 ((level)) plans available in the `GAME_LEVELS` variable (!book (downloadable from
-http://eloquentjavascript.net/code#15[_eloquentjavascript.net/code#15_])!).
+http://eloquentjavascript.net/2nd_edition/code#15[_eloquentjavascript.net/2nd_edition/code#15_])!).
 This page feeds them to `runGame`, starting an actual game:
 
 // start_code

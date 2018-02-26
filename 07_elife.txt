@@ -645,7 +645,7 @@ The first two maps that are displayed will look something like this
 (((animation)))They move! To get a more interactive view of these
 critters crawling around and bouncing off the walls, open this chapter
 in the online version of the book at
-http://eloquentjavascript.net[_eloquentjavascript.net_].
+http://eloquentjavascript.net/2nd_edition/[_eloquentjavascript.net_].
 
 endif::book_target[]
 

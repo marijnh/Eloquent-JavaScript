@@ -7,7 +7,7 @@
   "licenses": [{"type": "MIT",
                 "url": "http://opensource.org/licenses/MIT"}],
   "bugs": "http://github.com/marijnh/Eloquent-JavaScript/issues",
-  "homepage": "http://eloquentjavascript.net/21_skillsharing.html",
+  "homepage": "http://eloquentjavascript.net/2nd_edition/21_skillsharing.html",
   "maintainers":[{"name": "Marijn Haverbeke",
                   "email": "marijnh@gmail.com",
                   "web": "http://marijnhaverbeke.nl"}],

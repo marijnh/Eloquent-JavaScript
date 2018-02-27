@@ -3,9 +3,8 @@
 # Introduction
 
 This is a book about instructing ((computer))s. Computers are about as
-common as screwdrivers today. But they are quite a bit more complex
-than screwdrivers, and making them do the precise thing you want them
-to do isn't always easy.
+common as screwdrivers today, but they are quite a bit more complex,
+and making them do the things you want them to do isn't always easy.
 
 If the task you have for your computer is a common, well-understood
 one, such as showing you your email or acting like a calculator, you
@@ -22,7 +21,7 @@ programming is fundamentally tedious and frustrating.
 Fortunately, if you can get over that, and maybe even enjoy the rigor
 of thinking in terms that dumb machines can deal with, programming can
 be very rewarding. It allows you to do things that would take
-_forever_ by hand in seconds. It is a way to make your computer tool
+_forever_ by hand, in seconds. It is a way to make your computer tool
 do things that it couldn't do before. And it provides a wonderful
 exercise in abstract thinking.
 
@@ -38,9 +37,10 @@ express ever new concepts.
 
 Language-based interfaces, which at one point were the main way in
 which people interacted with computers, have largely been replaced
-with easier, more limited interfaces. But they are still there, if you
-know where to look. One such language, JavaScript, is built into every
-modern web ((browser)) and is thus available on almost every device.
+with easier, more constrained interfaces. But they are still there, if
+you know where to look. One such language, JavaScript, is built into
+every modern web ((browser)) and is thus available on almost every
+device.
 
 {{indexsee "web browser", browser}}
 
@@ -53,10 +53,10 @@ do useful and amusing things with it.
 
 Besides explaining JavaScript, I will also introduce the basic
 principles of programming. Programming, it turns out, is hard. The
-fundamental rules are typically simple and clear. But programs built
-on top of these rules tend to become complex enough to introduce their
-own rules and complexity. You're building your own maze, in a way, and
-you might just get lost in it.
+fundamental rules are simple and clear, but programs built on top of
+these rules tend to become complex enough to introduce their own rules
+and complexity. You're building your own maze, in a way, and you might
+just get lost in it.
 
 {{index learning}}
 
@@ -68,9 +68,9 @@ require you to make additional connections.
 It is up to you to make the necessary effort. When you are struggling
 to follow the book, do not jump to any conclusions about your own
 capabilities. You are fine—you just need to keep at it. Take a break,
-reread some material, and _always_ make sure you read and understand
-the example programs and ((exercises)). Learning is hard work, but
-everything you learn is yours and will make subsequent learning
+reread some material, and make sure you read and understand the
+example programs and ((exercises)). Learning is hard work, but
+everything you learn is yours, and will make subsequent learning
 easier.
 
 {{quote {author: "Ursula K. Le Guin", title: "The Left Hand of Darkness"}
@@ -94,12 +94,12 @@ involved, and to make the whole thing tick, we have to consider the
 ways in which these parts interconnect and contribute to the operation
 of the whole.
 
-A ((computer)) is a machine built to act as a host for these
-immaterial machines. Computers themselves can do only stupidly
-straightforward things. The reason they are so useful is that they do
-these things at an incredibly high ((speed)). A program can
-ingeniously combine an enormous number of these simple actions in
-order to do very complicated things.
+A ((computer)) is a machine that acts as a host for these immaterial
+machines. Computers themselves can do only stupidly straightforward
+things. The reason they are so useful is that they do these things at
+an incredibly high ((speed)). A program can ingeniously combine an
+enormous number of these simple actions in order to do very
+complicated things.
 
 {{index [programming, "joy of"]}}
 
@@ -127,9 +127,9 @@ This is not only boring, it is also ineffective. New problems often
 require new solutions. The field of programming is young and still
 developing rapidly, and is varied enough to have space for wildly
 different approaches. There are many terrible mistakes to make in
-program design, so go ahead and make them so that you understand them
-better. A sense of what a good program looks like is developed in
-practice, not learned from a list of rules.
+program design, and you should go ahead and make them so that you
+understand them. A sense of what a good program looks like is
+developed in practice, not learned from a list of rules.
 
 ## Why language matters
 
@@ -173,18 +173,16 @@ satisfaction.
 Each line of the previous program contains a single instruction. It
 could be written in English like this:
 
-```{lang: "text/plain"}
-1. Store the number 0 in memory location 0.
-2. Store the number 1 in memory location 1.
-3. Store the value of memory location 1 in memory location 2.
-4. Subtract the number 11 from the value in memory location 2.
-5. If the value in memory location 2 is the number 0,
-   continue with instruction 9.
-6. Add the value of memory location 1 to memory location 0.
-7. Add the number 1 to the value of memory location 1.
-8. Continue with instruction 3.
-9. Output the value of memory location 0.
-```
+ 1. Store the number 0 in memory location 0.
+ 2. Store the number 1 in memory location 1.
+ 3. Store the value of memory location 1 in memory location 2.
+ 4. Subtract the number 11 from the value in memory location 2.
+ 5. If the value in memory location 2 is the number 0,
+    continue with instruction 9.
+ 6. Add the value of memory location 1 to memory location 0.
+ 7. Add the number 1 to the value of memory location 1.
+ 8. Continue with instruction 3.
+ 9. Output the value of memory location 0.
 
 {{index readability, naming, variable}}
 
@@ -234,17 +232,17 @@ console.log(total);
 // → 55
 ```
 
-{{index "while loop", loop}}
+{{index "while loop", loop, "curly braces"}}
 
 This version gives us a few more improvements. Most importantly, there
 is no need to specify the way we want the program to jump back and
-forth anymore. The `while` language construct takes care of that. It
-continues executing the block (wrapped in braces) below it as long as
-the condition it was given holds. That condition is `count <= 10`,
-which means “_count_ is less than or equal to 10”. We no longer have
-to create a temporary value and compare that to zero, which was an
+forth anymore. The `while` construct takes care of that. It continues
+executing the block (wrapped in braces) below it as long as the
+condition it was given holds. That condition is `count <= 10`, which
+means “_count_ is less than or equal to 10”. We no longer have to
+create a temporary value and compare that to zero, which was just an
 uninteresting detail. Part of the power of programming languages is
-that they take care of uninteresting details for us.
+that they can take care of uninteresting details for us.
 
 {{index "console.log"}}
 
@@ -276,10 +274,10 @@ and `range`.)
 
 A good programming language helps the programmer by allowing them to
 talk about the actions that the computer has to perform on a higher
-level. It helps omit uninteresting details, provides convenient
-building blocks (such as `while` and `console.log`), allows you to
-define your own building blocks (such as `sum` and `range`), and makes
-those blocks easy to compose.
+level. It helps omit details, provides convenient building blocks
+(such as `while` and `console.log`), allows you to define your own
+building blocks (such as `sum` and `range`), and makes those blocks
+easy to compose.
 
 ## What is JavaScript?
 
@@ -319,17 +317,17 @@ language.
 
 {{index [JavaScript, "weaknesses of"], debugging}}
 
-There are those who will say _terrible_ things about the JavaScript
-language. Many of these things are true. When I was required to write
-something in JavaScript for the first time, I quickly came to despise
-it. It would accept almost anything I typed but interpret it in a way
-that was completely different from what I meant. This had a lot to do
-with the fact that I did not have a clue what I was doing, of course,
-but there is a real issue here: JavaScript is ridiculously liberal in
-what it allows. The idea behind this design was that it would make
-programming in JavaScript easier for beginners. In actuality, it
-mostly makes finding problems in your programs harder because the
-system will not point them out to you.
+There are those who will say _terrible_ things about JavaScript. Many
+of these things are true. When I was required to write something in
+JavaScript for the first time, I quickly came to despise it. It would
+accept almost anything I typed but interpret it in a way that was
+completely different from what I meant. This had a lot to do with the
+fact that I did not have a clue what I was doing, of course, but there
+is a real issue here: JavaScript is ridiculously liberal in what it
+allows. The idea behind this design was that it would make programming
+in JavaScript easier for beginners. In actuality, it mostly makes
+finding problems in your programs harder because the system will not
+point them out to you.
 
 {{index [JavaScript, "flexibility of"], flexibility}}
 
@@ -349,9 +347,10 @@ underway on an ambitious version 4, which planned a number of radical
 improvements and extensions to the language. Changing a living, widely
 used language in such a radical way turned out to be politically
 difficult, and work on the version 4 was abandoned in 2008, leading to
-the much less ambitious version 5 coming out in 2009. Then, in 2015, a
-major update, including some of the ideas planned for version 4, was
-made. Since then we've had new, small updates every year.
+a much less ambitious version 5, which only made some uncontroversial
+improvements, coming out in 2009. Then in 2015 version 6 came out, a
+major update which included some of the ideas planned for version 4.
+Since then we've had new, small updates every year.
 
 The fact that the language is evolving means that browsers have to
 constantly keep up, and if you're using an older one, it may not
@@ -375,9 +374,9 @@ outside of the browser.
 
 Code is the text that makes up programs. Most chapters in this book
 contain quite a lot of it. I believe reading code and writing ((code))
-are indispensable parts of ((learning)) to program, so try to not just
-glance over the examples. Read them attentively and understand them.
-This may be slow and confusing at first, but I promise that you will
+are indispensable parts of ((learning)) to program. Try to not just
+glance over the examples—read them attentively and understand them.
+This may be slow and confusing at first, but I promise that you'll
 quickly get the hang of it. The same goes for the ((exercises)). Don't
 assume you understand them until you've actually written a working
 solution.
@@ -402,9 +401,9 @@ if}}
 
 The easiest way to run the example code in the book, and to experiment
 with it, is to look it up in the online version of the book at
-[_eloquentjavascript.net_](https://eloquentjavascript.net/). There, you
-can click any code example to edit and run it and to see the output it
-produces. To work on the exercises, go to
+[_eloquentjavascript.net_](https://eloquentjavascript.net/). There,
+you can click any code example to edit and run it and to see the
+output it produces. To work on the exercises, go to
 [_eloquentjavascript.net/code_](https://eloquentjavascript.net/code),
 which provides starting code for each coding exercise and allows you
 to look at the solutions.
@@ -414,7 +413,7 @@ if}}
 {{index "developer tools", "JavaScript console"}}
 
 If you want to run the programs defined in this book outside of the
-book's sandbox, some care is required. Many examples stand on their
+book's website, some care is required. Many examples stand on their
 own and should work in any JavaScript environment. But code in later
 chapters is often written for a specific environment (the browser or
 Node.js) and can run only there. In addition, many chapters define
@@ -433,27 +432,28 @@ two chapters are devoted to ((Node.js)), another environment to
 program JavaScript in.
 
 Throughout the book, there are five _project chapters_, which describe
-larger example programs to give you a taste of real programming. In
-order of appearance, we will work through building a [robot](robot), a
-[programming language](language), a [platform game](game), a [paint
-program](paint), and a [dynamic website](skillsharing).
+larger example programs to give you a taste of actual programming. In
+order of appearance, we will work through building a [delivery
+robot](robot), a [programming language](language), a [platform
+game](game), a [pixel paint program](paint), and a [dynamic
+website](skillsharing).
 
 The language part of the book starts with four chapters to introduce
 the basic structure of the JavaScript language. They introduce
 [control structures](program_structure) (such as the `while` word you
 saw in this introduction), [functions](functions) (writing your own
 building blocks), and [data structures](data). After these, you will
-be able to write simple programs. Next, Chapters [?](higher_order) and
+be able to write basic programs. Next, Chapters [?](higher_order) and
 [?](object) introduce techniques to use functions and objects to write
-more _abstract_ code and thus keep complexity under control.
+more _abstract_ code and keep complexity under control.
 
-After a [first project chapter](robot), the first part of the book
-continues with chapters on [error handling and fixing](error), on
+After a [first project chapter](robot), the language part of the book
+continues with chapters on [error handling and bug fixing](error),
 [regular expressions](regexp) (an important tool for working with
-text), on [modularity](modules) (another defense against complexity),
-and on [asynchronous programming](async) (dealing with events that
-take time). The [second project chapter](language) concludes the first
-part of the book.
+text), [modularity](modules) (another defense against complexity), and
+[asynchronous programming](async) (dealing with events that take
+time). The [second project chapter](language) concludes the first part
+of the book.
 
 The second part, Chapters [?](browser) to [?](paint), describes the
 tools that browser JavaScript has access to. You'll learn to display
@@ -463,7 +463,7 @@ user input ([Chapter ?](event)), and communicate over the network
 part.
 
 After that, [Chapter ?](node) describes Node.js, and [Chapter
-?](skillsharing) builds a small web system using that tool.
+?](skillsharing) builds a small website using that tool.
 
 {{if commercial
 

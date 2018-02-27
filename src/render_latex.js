@@ -11,7 +11,7 @@ if (!file) throw new Error("No input file")
 let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
 
 let {tokens} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
-  defined: ["book", "tex"],
+  defined: ["book", "tex"].concat(noStarch ? ["commercial"] : []),
   strip: "hints",
   texQuotes: true,
   moveQuotes: noStarch,

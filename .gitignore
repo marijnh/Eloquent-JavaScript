@@ -27,5 +27,6 @@
 /epub/hints.xhtml
 /epub/img/*
 /epub/content.opf
+/epub/toc.xhtml
 /book.epub
 /book.mobi

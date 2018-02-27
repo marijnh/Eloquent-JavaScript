@@ -65,7 +65,10 @@ book.epub: epub/titlepage.xhtml epub/toc.xhtml epub/hints.xhtml $(foreach CHAP,$
 	grep '<img' epub/*.xhtml | sed -e 's/.*src="\([^"]*\)".*/\1/' | xargs -I{} cp --parents "{}" epub
 	node src/add_images_to_epub.js
 	cd epub; zip -X ../$@ mimetype
-	cd epub; zip -X ../$@ -r * -x mimetype -x content.opf.src
+	cd epub; zip -X ../$@ -r * -x mimetype -x *.src
+
+epub/toc.xhtml: epub/toc.xhtml.src $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) epub/hints.xhtml
+	node src/generate_epub_toc.js $^ > $@
 
 epub/%.xhtml: %.md src/render_html.js
 	node src/render_html.js --epub $< > $@

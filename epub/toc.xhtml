@@ -75,29 +75,386 @@
     <!-- machine-readable TOC -->
     <nav xmlns:epub="http://www.idpf.org/2007/ops" epub:type="toc" id="toc">
       <ol>
-        <li><a href="00_intro.xhtml">Introduction</a></li>
-        <li><a href="01_values.xhtml">Values, Types, and Operators</a></li>
-        <li><a href="02_program_structure.xhtml">Program Structure</a></li>
-        <li><a href="03_functions.xhtml">Functions</a></li>
-        <li><a href="04_data.xhtml">Data Structures: Objects and Arrays</a></li>
-        <li><a href="05_higher_order.xhtml">Higher-order Functions</a></li>
-        <li><a href="06_object.xhtml">The Secret Life of Objects</a></li>
-        <li><a href="07_robot.xhtml">Project: A Robot</a></li>
-        <li><a href="08_error.xhtml">Bugs and Errors</a></li>
-        <li><a href="09_regexp.xhtml">Regular Expressions</a></li>
-        <li><a href="10_modules.xhtml">Modules</a></li>
-        <li><a href="11_async.xhtml">Asynchronous Programming</a></li>
-        <li><a href="12_language.xhtml">Project: A Programming Language</a></li>
-        <li><a href="13_browser.xhtml">JavaScript and the Browser</a></li>
-        <li><a href="14_dom.xhtml">The Document Object Model</a></li>
-        <li><a href="15_event.xhtml">Handling Events</a></li>
-        <li><a href="16_game.xhtml">Project: A Platform Game</a></li>
-        <li><a href="17_canvas.xhtml">Drawing on Canvas</a></li>
-        <li><a href="18_http.xhtml">HTTP and Forms</a></li>
-        <li><a href="19_paint.xhtml">Project: A Pixel Art Editor</a></li>
-        <li><a href="20_node.xhtml">Node.js</a></li>
-        <li><a href="21_skillsharing.xhtml">Project: Skill-Sharing Website</a></li>
-        <li><a href="hints.xhtml">Hints to the exercises</a></li>
+        <li><a href="00_intro.xhtml">Introduction</a>
+          <ol>
+            <li><a href="00_intro.xhtml#h_gxw0/HAaxt">On programming</a></li>
+            <li><a href="00_intro.xhtml#h_oAyXcPDj8N">Why language matters</a></li>
+            <li><a href="00_intro.xhtml#h_GlF1Kuv0JF">What is JavaScript?</a></li>
+            <li><a href="00_intro.xhtml#h_UmlI5uNVqn">Code, and what to do with it</a></li>
+            <li><a href="00_intro.xhtml#h_QzUnm0u8/B">Overview of this book</a></li>
+            <li><a href="00_intro.xhtml#h_BqJ9mLVGGj">Typographic conventions</a></li>
+          </ol>
+        </li>
+        <li><a href="01_values.xhtml">Values, Types, and Operators</a>
+          <ol>
+            <li><a href="01_values.xhtml#h_sVZPaxUSy/">Values</a></li>
+            <li><a href="01_values.xhtml#h_flOCH3CuFg">Numbers</a></li>
+            <li><a href="01_values.xhtml#h_OBbEvqxHHH">Strings</a></li>
+            <li><a href="01_values.xhtml#h_ygn12/ieo+">Unary operators</a></li>
+            <li><a href="01_values.xhtml#h_cTPxJxlmFR">Boolean values</a></li>
+            <li><a href="01_values.xhtml#h_FewqJ8K2E+">Empty values</a></li>
+            <li><a href="01_values.xhtml#h_AY+YGu6qyM">Automatic type conversion</a></li>
+            <li><a href="01_values.xhtml#h_ErccPg/l98">Summary</a></li>
+          </ol>
+        </li>
+        <li><a href="02_program_structure.xhtml">Program Structure</a>
+          <ol>
+            <li><a href="02_program_structure.xhtml#h_5fUOQZwwHx">Expressions and statements</a></li>
+            <li><a href="02_program_structure.xhtml#h_lnOC+GBEtu">Bindings</a></li>
+            <li><a href="02_program_structure.xhtml#h_SbWNrIYjdH">Binding names</a></li>
+            <li><a href="02_program_structure.xhtml#h_2Tc54fkIgF">The environment</a></li>
+            <li><a href="02_program_structure.xhtml#h_K5Yd6h3Axg">Functions</a></li>
+            <li><a href="02_program_structure.xhtml#h_6+Vb3XQoaa">The console.log function</a></li>
+            <li><a href="02_program_structure.xhtml#h_nULi9znEdr">Return values</a></li>
+            <li><a href="02_program_structure.xhtml#h_rDxYNPd65Z">Control flow</a></li>
+            <li><a href="02_program_structure.xhtml#h_wpz5oi2dy7">Conditional execution</a></li>
+            <li><a href="02_program_structure.xhtml#h_FaGGgUI+MM">while and do loops</a></li>
+            <li><a href="02_program_structure.xhtml#h_3I0M2f1Cmh">Indenting Code</a></li>
+            <li><a href="02_program_structure.xhtml#h_oupMC+5FKN">for loops</a></li>
+            <li><a href="02_program_structure.xhtml#h_WWKAoSPJ47">Breaking Out of a Loop</a></li>
+            <li><a href="02_program_structure.xhtml#h_1JSoOGP+6B">Updating bindings succinctly</a></li>
+            <li><a href="02_program_structure.xhtml#h_jMKsa0SXdL">Dispatching on a value with switch</a></li>
+            <li><a href="02_program_structure.xhtml#h_t54vuASjLD">Capitalization</a></li>
+            <li><a href="02_program_structure.xhtml#h_/OBuIOX390">Comments</a></li>
+            <li><a href="02_program_structure.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="02_program_structure.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="03_functions.xhtml">Functions</a>
+          <ol>
+            <li><a href="03_functions.xhtml#h_tqLFw/oazr">Defining a function</a></li>
+            <li><a href="03_functions.xhtml#h_u4j2OhpYkg">Parameters and scopes</a></li>
+            <li><a href="03_functions.xhtml#h_y6WGSsYfER">Functions as values</a></li>
+            <li><a href="03_functions.xhtml#h_H2WKvqbgVY">Declaration notation</a></li>
+            <li><a href="03_functions.xhtml#h_/G0LSjQxoo">Arrow functions</a></li>
+            <li><a href="03_functions.xhtml#h_D2Yui+mx6D">The call stack</a></li>
+            <li><a href="03_functions.xhtml#h_1pGtRjrCUp">Optional Arguments</a></li>
+            <li><a href="03_functions.xhtml#h_hOd+yVxaku">Closure</a></li>
+            <li><a href="03_functions.xhtml#h_jxl1p970Fy">Recursion</a></li>
+            <li><a href="03_functions.xhtml#h_eVDWIAuyBK">Growing functions</a></li>
+            <li><a href="03_functions.xhtml#h_EdyBGBF6y/">Functions and side effects</a></li>
+            <li><a href="03_functions.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="03_functions.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="04_data.xhtml">Data Structures: Objects and Arrays</a>
+          <ol>
+            <li><a href="04_data.xhtml#h_NvjtahQLlw">The weresquirrel</a></li>
+            <li><a href="04_data.xhtml#h_HjL/otjEJn">Data sets</a></li>
+            <li><a href="04_data.xhtml#h_vGyI2y8HA6">Properties</a></li>
+            <li><a href="04_data.xhtml#h_fkrGgDyRWc">Methods</a></li>
+            <li><a href="04_data.xhtml#h_cqg63Sxe3o">Objects</a></li>
+            <li><a href="04_data.xhtml#h_C3n45IkMhg">Mutability</a></li>
+            <li><a href="04_data.xhtml#h_qHGOoBxOeE">The lycanthrope’s log</a></li>
+            <li><a href="04_data.xhtml#h_YwedOm6SqZ">Computing correlation</a></li>
+            <li><a href="04_data.xhtml#h_4WwZLib71C">Array loops</a></li>
+            <li><a href="04_data.xhtml#h_Lg5n7mjqw/">The final analysis</a></li>
+            <li><a href="04_data.xhtml#h_GFaxee4PuU">Further arrayology</a></li>
+            <li><a href="04_data.xhtml#h_mT4YQfwHp6">Strings and their properties</a></li>
+            <li><a href="04_data.xhtml#h_hX9DkIBp9y">Rest parameters</a></li>
+            <li><a href="04_data.xhtml#h_C51DnYk8WZ">The Math object</a></li>
+            <li><a href="04_data.xhtml#h_B372u36cp6">Destructuring</a></li>
+            <li><a href="04_data.xhtml#h_AxpOdvCznQ">JSON</a></li>
+            <li><a href="04_data.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="04_data.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="05_higher_order.xhtml">Higher-Order Functions</a>
+          <ol>
+            <li><a href="05_higher_order.xhtml#h_j9ps8qrlyo">Abstraction</a></li>
+            <li><a href="05_higher_order.xhtml#h_8AV6kA9jcD">Abstracting repetition</a></li>
+            <li><a href="05_higher_order.xhtml#h_xxCc98lOBK">Higher-order functions</a></li>
+            <li><a href="05_higher_order.xhtml#h_/SVokn16u9">Script data set</a></li>
+            <li><a href="05_higher_order.xhtml#h_MM7RF32uzF">Filtering arrays</a></li>
+            <li><a href="05_higher_order.xhtml#h_lJEtQ+qjXz">Transforming with map</a></li>
+            <li><a href="05_higher_order.xhtml#h_fx3e34kT/k">Summarizing with reduce</a></li>
+            <li><a href="05_higher_order.xhtml#h_+NeFt8aXxf">Composability</a></li>
+            <li><a href="05_higher_order.xhtml#h_gQf5HZNGpM">Strings and character codes</a></li>
+            <li><a href="05_higher_order.xhtml#h_qYzPQMwIvv">Recognizing text</a></li>
+            <li><a href="05_higher_order.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="05_higher_order.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="06_object.xhtml">The Secret Life of Objects</a>
+          <ol>
+            <li><a href="06_object.xhtml#h_hn18MBjoh2">Encapsulation</a></li>
+            <li><a href="06_object.xhtml#h_fkrGgDyRWc">Methods</a></li>
+            <li><a href="06_object.xhtml#h_SumMlRB7yn">Prototypes</a></li>
+            <li><a href="06_object.xhtml#h_7RhGr+474h">Classes</a></li>
+            <li><a href="06_object.xhtml#h_hPv1gHC33s">Class notation</a></li>
+            <li><a href="06_object.xhtml#h_oUlUep3Os8">Overriding derived properties</a></li>
+            <li><a href="06_object.xhtml#h_gAcc11EHzV">Maps</a></li>
+            <li><a href="06_object.xhtml#h_mJ/JHQRHg9">Polymorphism</a></li>
+            <li><a href="06_object.xhtml#h_Iq1mTp65i3">Symbols</a></li>
+            <li><a href="06_object.xhtml#h_z2tOOXM8qO">The iterator interface</a></li>
+            <li><a href="06_object.xhtml#h_3vwredi8nD">Getters, setters, and statics</a></li>
+            <li><a href="06_object.xhtml#h_/a3bnONnws">Inheritance</a></li>
+            <li><a href="06_object.xhtml#h_Fdk67dJHwg">The instanceof operator</a></li>
+            <li><a href="06_object.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="06_object.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="07_robot.xhtml">Project: A Robot</a>
+          <ol>
+            <li><a href="07_robot.xhtml#h_UmFK5fYed8">Meadowfield</a></li>
+            <li><a href="07_robot.xhtml#h_oekYfM5x02">The task</a></li>
+            <li><a href="07_robot.xhtml#h_BgRu2ZQp4Z">Persistent data</a></li>
+            <li><a href="07_robot.xhtml#h_jjSUPDU+nv">Simulation</a></li>
+            <li><a href="07_robot.xhtml#h_Lj40iImbWq">The mail truck’s route</a></li>
+            <li><a href="07_robot.xhtml#h_oTHZwtVfKc">Pathfinding</a></li>
+            <li><a href="07_robot.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="08_error.xhtml">Bugs and Errors</a>
+          <ol>
+            <li><a href="08_error.xhtml#h_ibhqsOZvUn">Language</a></li>
+            <li><a href="08_error.xhtml#h_u1jlTq3i42">Strict mode</a></li>
+            <li><a href="08_error.xhtml#h_k7niieKEJG">Types</a></li>
+            <li><a href="08_error.xhtml#h_CCCzKyBrc1">Testing</a></li>
+            <li><a href="08_error.xhtml#h_iVsnyIAWUT">Debugging</a></li>
+            <li><a href="08_error.xhtml#h_iwwPbaBjJD">Error propagation</a></li>
+            <li><a href="08_error.xhtml#h_zT3755/aOp">Exceptions</a></li>
+            <li><a href="08_error.xhtml#h_cgoP7o2fe9">Cleaning up after exceptions</a></li>
+            <li><a href="08_error.xhtml#h_vfoJqEDazI">Selective catching</a></li>
+            <li><a href="08_error.xhtml#h_Sb9V3BEus1">Assertions</a></li>
+            <li><a href="08_error.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="08_error.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="09_regexp.xhtml">Regular Expressions</a>
+          <ol>
+            <li><a href="09_regexp.xhtml#h_5w4yGFJRYl">Creating a regular expression</a></li>
+            <li><a href="09_regexp.xhtml#h_vPyyYjMEtz">Testing for matches</a></li>
+            <li><a href="09_regexp.xhtml#h_8EFR0DU1xd">Sets of characters</a></li>
+            <li><a href="09_regexp.xhtml#h_iFI1qvUwY9">Repeating parts of a pattern</a></li>
+            <li><a href="09_regexp.xhtml#h_uICSDspz1I">Grouping subexpressions</a></li>
+            <li><a href="09_regexp.xhtml#h_CV5XL/TADP">Matches and groups</a></li>
+            <li><a href="09_regexp.xhtml#h_8U7L7LCU27">The Date class</a></li>
+            <li><a href="09_regexp.xhtml#h_26ixny78VY">Word and string boundaries</a></li>
+            <li><a href="09_regexp.xhtml#h_In3b+t6uOO">Choice patterns</a></li>
+            <li><a href="09_regexp.xhtml#h_AzxCBCKdvY">The mechanics of matching</a></li>
+            <li><a href="09_regexp.xhtml#h_NFMtGK0tD3">Backtracking</a></li>
+            <li><a href="09_regexp.xhtml#h_k0YuTOu54D">The replace method</a></li>
+            <li><a href="09_regexp.xhtml#h_kiECehz+i+">Greed</a></li>
+            <li><a href="09_regexp.xhtml#h_Rhu25fogrG">Dynamically creating RegExp objects</a></li>
+            <li><a href="09_regexp.xhtml#h_Txg7z4j/ei">The search method</a></li>
+            <li><a href="09_regexp.xhtml#h_duFTd2hqd0">The lastIndex property</a></li>
+            <li><a href="09_regexp.xhtml#h_RGsf6ah1EY">Parsing an INI file</a></li>
+            <li><a href="09_regexp.xhtml#h_+y54//b0l+">International characters</a></li>
+            <li><a href="09_regexp.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="09_regexp.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="10_modules.xhtml">Modules</a>
+          <ol>
+            <li><a href="10_modules.xhtml#h_BOlGLA/wK7">Modules</a></li>
+            <li><a href="10_modules.xhtml#h_CpmQEv+4ez">Packages</a></li>
+            <li><a href="10_modules.xhtml#h_QQ/m+TRmqd">Improvised modules</a></li>
+            <li><a href="10_modules.xhtml#h_oeOkEDaadU">Evaluating data as code</a></li>
+            <li><a href="10_modules.xhtml#h_N33QHgUxbG">CommonJS</a></li>
+            <li><a href="10_modules.xhtml#h_hF2FmOVxw7">ECMAScript modules</a></li>
+            <li><a href="10_modules.xhtml#h_zWTXAU93DC">Building and bundling</a></li>
+            <li><a href="10_modules.xhtml#h_P8pyzbI9vO">Module design</a></li>
+            <li><a href="10_modules.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="10_modules.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="11_async.xhtml">Asynchronous Programming</a>
+          <ol>
+            <li><a href="11_async.xhtml#h_HH3wvnWMnd">Asynchronicity</a></li>
+            <li><a href="11_async.xhtml#h_Lao/OEmKKI">Crow tech</a></li>
+            <li><a href="11_async.xhtml#h_n9ws/jdPpb">Callbacks</a></li>
+            <li><a href="11_async.xhtml#h_sdRy5CTAP/">Promises</a></li>
+            <li><a href="11_async.xhtml#h_FlZkkRfkN/">Failure</a></li>
+            <li><a href="11_async.xhtml#h_o8Vlf60I8f">Networks are hard</a></li>
+            <li><a href="11_async.xhtml#h_4rfkjtrFcP">Collections of promises</a></li>
+            <li><a href="11_async.xhtml#h_pi4+kiBmAy">Network flooding</a></li>
+            <li><a href="11_async.xhtml#h_qb23G8H5P9">Message routing</a></li>
+            <li><a href="11_async.xhtml#h_XvLsfAhtsE">Async functions</a></li>
+            <li><a href="11_async.xhtml#h_o+cFzGGhnz">Generators</a></li>
+            <li><a href="11_async.xhtml#h_GXDb0+eMId">The event loop</a></li>
+            <li><a href="11_async.xhtml#h_FcctcOqtcF">Asynchronous bugs</a></li>
+            <li><a href="11_async.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="11_async.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="12_language.xhtml">Project: A Programming Language</a>
+          <ol>
+            <li><a href="12_language.xhtml#h_cpTTNxAWkQ">Parsing</a></li>
+            <li><a href="12_language.xhtml#h_HlYkF24q0q">The evaluator</a></li>
+            <li><a href="12_language.xhtml#h_JOCrYKZbDr">Special forms</a></li>
+            <li><a href="12_language.xhtml#h_2Tc54fkIgF">The environment</a></li>
+            <li><a href="12_language.xhtml#h_K5Yd6h3Axg">Functions</a></li>
+            <li><a href="12_language.xhtml#h_qtdV3kKVQe">Compilation</a></li>
+            <li><a href="12_language.xhtml#h_DmDK0dWdfE">Cheating</a></li>
+            <li><a href="12_language.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="13_browser.xhtml">JavaScript and the Browser</a>
+          <ol>
+            <li><a href="13_browser.xhtml#h_MYPczIw5xZ">Networks and the Internet</a></li>
+            <li><a href="13_browser.xhtml#h_tbGTd9Llzv">The Web</a></li>
+            <li><a href="13_browser.xhtml#h_n3OM6EV/KR">HTML</a></li>
+            <li><a href="13_browser.xhtml#h_x9VDt2sTZZ">HTML and JavaScript</a></li>
+            <li><a href="13_browser.xhtml#h_xSthu5StoL">In the sandbox</a></li>
+            <li><a href="13_browser.xhtml#h_p42hxqLkOm">Compatibility and the browser wars</a></li>
+          </ol>
+        </li>
+        <li><a href="14_dom.xhtml">The Document Object Model</a>
+          <ol>
+            <li><a href="14_dom.xhtml#h_XJzHjmX32m">Document structure</a></li>
+            <li><a href="14_dom.xhtml#h_HnCB1zb0Ot">Trees</a></li>
+            <li><a href="14_dom.xhtml#h_XgjABY6Ugx">The standard</a></li>
+            <li><a href="14_dom.xhtml#h_ShZPVipWw/">Moving through the tree</a></li>
+            <li><a href="14_dom.xhtml#h_jS5BEpmLY0">Finding elements</a></li>
+            <li><a href="14_dom.xhtml#h_npiFAJENvT">Changing the document</a></li>
+            <li><a href="14_dom.xhtml#h_AlX6HES+2D">Creating nodes</a></li>
+            <li><a href="14_dom.xhtml#h_pmUmF/LHme">Attributes</a></li>
+            <li><a href="14_dom.xhtml#h_lyrY2KUDl7">Layout</a></li>
+            <li><a href="14_dom.xhtml#h_VfKBbtOqcL">Styling</a></li>
+            <li><a href="14_dom.xhtml#h_7kGsaGnBbD">Cascading styles</a></li>
+            <li><a href="14_dom.xhtml#h_5ooQzToxht">Query selectors</a></li>
+            <li><a href="14_dom.xhtml#h_MAsyozbjjZ">Positioning and animating</a></li>
+            <li><a href="14_dom.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="14_dom.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="15_event.xhtml">Handling Events</a>
+          <ol>
+            <li><a href="15_event.xhtml#h_HQoLxG2r2l">Event handlers</a></li>
+            <li><a href="15_event.xhtml#h_Kx1VwAV7ei">Events and DOM nodes</a></li>
+            <li><a href="15_event.xhtml#h_0d6qd0WrDY">Event objects</a></li>
+            <li><a href="15_event.xhtml#h_NEhx0cDpml">Propagation</a></li>
+            <li><a href="15_event.xhtml#h_GaHJsztrot">Default actions</a></li>
+            <li><a href="15_event.xhtml#h_974t15Z9oa">Key events</a></li>
+            <li><a href="15_event.xhtml#h_cF46QKpzec">Pointer events</a></li>
+            <li><a href="15_event.xhtml#h_xGSp7W5DAZ">Scroll events</a></li>
+            <li><a href="15_event.xhtml#h_NoKd+BgJRm">Focus events</a></li>
+            <li><a href="15_event.xhtml#h_NmV8RP8lpt">Load event</a></li>
+            <li><a href="15_event.xhtml#h_nX2hsbjECC">Events and the event loop</a></li>
+            <li><a href="15_event.xhtml#h_hBzQOpfNhU">Timers</a></li>
+            <li><a href="15_event.xhtml#h_AOVmaqj10I">Debouncing</a></li>
+            <li><a href="15_event.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="15_event.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="16_game.xhtml">Project: A Platform Game</a>
+          <ol>
+            <li><a href="16_game.xhtml#h_lMtTRzata0">The game</a></li>
+            <li><a href="16_game.xhtml#h_hLFu/U4fE5">The technology</a></li>
+            <li><a href="16_game.xhtml#h_7UfwmBGLOk">Levels</a></li>
+            <li><a href="16_game.xhtml#h_DeVC1tufta">Reading a level</a></li>
+            <li><a href="16_game.xhtml#h_pw0251T7gn">Actors</a></li>
+            <li><a href="16_game.xhtml#h_uCRd57RG2L">Encapsulation as a burden</a></li>
+            <li><a href="16_game.xhtml#h_neNgUMdlHQ">Drawing</a></li>
+            <li><a href="16_game.xhtml#h_zX4xC7JBQU">Motion and collision</a></li>
+            <li><a href="16_game.xhtml#h_GaxRpVIsuF">Actor updates</a></li>
+            <li><a href="16_game.xhtml#h_zKch6Si/SS">Tracking keys</a></li>
+            <li><a href="16_game.xhtml#h_/jwYTlYjAy">Running the game</a></li>
+            <li><a href="16_game.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="17_canvas.xhtml">Drawing on Canvas</a>
+          <ol>
+            <li><a href="17_canvas.xhtml#h_UPzm0CiZhQ">SVG</a></li>
+            <li><a href="17_canvas.xhtml#h_QXPPgw0nn4">The canvas element</a></li>
+            <li><a href="17_canvas.xhtml#h_Dtw0KBlBdA">Lines and surfaces</a></li>
+            <li><a href="17_canvas.xhtml#h_E+fhFyL32D">Paths</a></li>
+            <li><a href="17_canvas.xhtml#h_B8g7k6vws+">Curves</a></li>
+            <li><a href="17_canvas.xhtml#h_9yOdkmATfT">Drawing a pie chart</a></li>
+            <li><a href="17_canvas.xhtml#h_wzKMObDin3">Text</a></li>
+            <li><a href="17_canvas.xhtml#h_CehxyY/vO5">Images</a></li>
+            <li><a href="17_canvas.xhtml#h_3BwjEnWhbh">Transformation</a></li>
+            <li><a href="17_canvas.xhtml#h_Z+iS7LhRr9">Storing and clearing transformations</a></li>
+            <li><a href="17_canvas.xhtml#h_TOqgrv5vzl">Back to the game</a></li>
+            <li><a href="17_canvas.xhtml#h_T6CfghQSfx">Choosing a graphics interface</a></li>
+            <li><a href="17_canvas.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="17_canvas.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="18_http.xhtml">HTTP and Forms</a>
+          <ol>
+            <li><a href="18_http.xhtml#h_vXdZCu/Tty">The protocol</a></li>
+            <li><a href="18_http.xhtml#h_G1xxLfiYeu">Browsers and HTTP</a></li>
+            <li><a href="18_http.xhtml#h_1Iqv5okrKE">Fetch</a></li>
+            <li><a href="18_http.xhtml#h_4h3DL+zoLY">HTTP sandboxing</a></li>
+            <li><a href="18_http.xhtml#h_OJmHENDG5y">Appreciating HTTP</a></li>
+            <li><a href="18_http.xhtml#h_oDqIFugKX4">Security and HTTPS</a></li>
+            <li><a href="18_http.xhtml#h_H222GOgM6T">Form fields</a></li>
+            <li><a href="18_http.xhtml#h_/n9VuL9o/U">Focus</a></li>
+            <li><a href="18_http.xhtml#h_l2z9T1FDym">Disabled fields</a></li>
+            <li><a href="18_http.xhtml#h_R8SZxHmDt0">The form as a whole</a></li>
+            <li><a href="18_http.xhtml#h_+RaBROT23F">Text fields</a></li>
+            <li><a href="18_http.xhtml#h_axUK+XNvTN">Checkboxes and radio buttons</a></li>
+            <li><a href="18_http.xhtml#h_eaB6RprDK3">Select fields</a></li>
+            <li><a href="18_http.xhtml#h_tK84z183/8">File fields</a></li>
+            <li><a href="18_http.xhtml#h_xMhbz7W4BY">Storing data client-side</a></li>
+            <li><a href="18_http.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="18_http.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="19_paint.xhtml">Project: A Pixel Art Editor</a>
+          <ol>
+            <li><a href="19_paint.xhtml#h_kolHPu7a7g">Components</a></li>
+            <li><a href="19_paint.xhtml#h_ftf/mS/U0E">The state</a></li>
+            <li><a href="19_paint.xhtml#h_sNxHTHiM3l">DOM building</a></li>
+            <li><a href="19_paint.xhtml#h_amGIg81orI">The canvas</a></li>
+            <li><a href="19_paint.xhtml#h_bxOeMBlEZu">The application</a></li>
+            <li><a href="19_paint.xhtml#h_dRTuNLyniP">Drawing tools</a></li>
+            <li><a href="19_paint.xhtml#h_7eec4RKHJi">Saving and loading</a></li>
+            <li><a href="19_paint.xhtml#h_6z5Bscg+0R">Undo history</a></li>
+            <li><a href="19_paint.xhtml#h_rUniBhw5Qd">Let’s draw</a></li>
+            <li><a href="19_paint.xhtml#h_fAFSWeVA17">Why is this so hard</a></li>
+            <li><a href="19_paint.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="20_node.xhtml">Node.js</a>
+          <ol>
+            <li><a href="20_node.xhtml#h_ZN1g/hoEn+">Background</a></li>
+            <li><a href="20_node.xhtml#h_TUzbi7lU/0">The node command</a></li>
+            <li><a href="20_node.xhtml#h_BOlGLA/wK7">Modules</a></li>
+            <li><a href="20_node.xhtml#h_J6hW/SmL/a">Installing with NPM</a></li>
+            <li><a href="20_node.xhtml#h_o2abiQU0TD">The file system module</a></li>
+            <li><a href="20_node.xhtml#h_3O5dGIJE9F">The HTTP module</a></li>
+            <li><a href="20_node.xhtml#h_dJhdomfGgD">Streams</a></li>
+            <li><a href="20_node.xhtml#h_yAdw1Y7bgN">A file server</a></li>
+            <li><a href="20_node.xhtml#h_ErccPg/l98">Summary</a></li>
+            <li><a href="20_node.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="21_skillsharing.xhtml">Project: Skill-Sharing Website</a>
+          <ol>
+            <li><a href="21_skillsharing.xhtml#h_WbA1NnIRqT">Design</a></li>
+            <li><a href="21_skillsharing.xhtml#h_Yxu7U155Cs">Long polling</a></li>
+            <li><a href="21_skillsharing.xhtml#h_a1H+QQ9w0g">HTTP interface</a></li>
+            <li><a href="21_skillsharing.xhtml#h_wTUn7xllPe">The server</a></li>
+            <li><a href="21_skillsharing.xhtml#h_+jMNtbJ4U3">The client</a></li>
+            <li><a href="21_skillsharing.xhtml#h_TcUD2vzyMe">Exercises</a></li>
+          </ol>
+        </li>
+        <li><a href="hints.xhtml">Exercise Hints</a>
+          <ol>
+            <li><a href="hints.xhtml#h_yv/YsxU+1p">Program Structure</a></li>
+            <li><a href="hints.xhtml#h_K5Yd6h3Axg">Functions</a></li>
+            <li><a href="hints.xhtml#h_8fo1PWKaF/">Data Structures: Objects and Arrays</a></li>
+            <li><a href="hints.xhtml#h_MP4DwzuKhG">Higher-Order Functions</a></li>
+            <li><a href="hints.xhtml#h_l1u3fZ7Le8">The Secret Life of Objects</a></li>
+            <li><a href="hints.xhtml#h_3y8Pw16eRm">Project: A Robot</a></li>
+            <li><a href="hints.xhtml#h_TDQ8j1DSwi">Bugs and Errors</a></li>
+            <li><a href="hints.xhtml#h_qxQDVKNL0E">Regular Expressions</a></li>
+            <li><a href="hints.xhtml#h_BOlGLA/wK7">Modules</a></li>
+            <li><a href="hints.xhtml#h_gUjv9WYoW8">Asynchronous Programming</a></li>
+            <li><a href="hints.xhtml#h_zxkYvIMHVe">Project: A Programming Language</a></li>
+            <li><a href="hints.xhtml#h_qD/ZfQWbtO">The Document Object Model</a></li>
+            <li><a href="hints.xhtml#h_1CX34n/g8F">Handling Events</a></li>
+            <li><a href="hints.xhtml#h_i5GwIMQBGq">Project: A Platform Game</a></li>
+            <li><a href="hints.xhtml#h_qdKSz9Hpho">Drawing on Canvas</a></li>
+            <li><a href="hints.xhtml#h_R9bu06A5+x">HTTP and Forms</a></li>
+            <li><a href="hints.xhtml#h_knAuJqr7nP">Project: A Pixel Art Editor</a></li>
+            <li><a href="hints.xhtml#h_ELNJMof4Me">Node.js</a></li>
+            <li><a href="hints.xhtml#h_cjLJYEj1CX">Project: Skill-Sharing Website</a></li>
+          </ol>
+        </li>        
       </ol>
     </nav>
   </body>

@@ -277,7 +277,7 @@ enough for our purposes.
 {{index "evaluate function", evaluation, interpretation, "syntax tree", "Egg language"}}
 
 What can we do with the syntax tree for a program? Run it, of course!
-And that is what the evaluator does. You give it a syntax tree and an
+And that is what the evaluator does. You give it a syntax tree and a
 scope object that associates names with values, and it will evaluate
 the expression that the tree represents and return the value that this
 produces.

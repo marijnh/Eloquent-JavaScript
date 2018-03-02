@@ -581,12 +581,11 @@ to know what symbols are.
 
 ## Symbols
 
-When using interfaces you might run into a problem where multiple
-interfaces use the same property name to mean different things. For
-example, if I were to define an interface in which the `toString`
-method is supposed to convert the object into a piece of yarn, it
-would not be possible for an object to conform to both that interface
-and the standard use of `toString`.
+It is possible for multiple interfaces to use the same property name
+for different things. For example I could define an interface in which
+the `toString` method is supposed to convert the object into a piece
+of yarn. It would not be possible for an object to conform to both
+that interface and the standard use of `toString`.
 
 That would be a bad idea, and this problem isn't that common. Most
 JavaScript programmers simply don't think about it. But the language
@@ -602,8 +601,8 @@ newly created symbols are unique—you cannot create the same symbol
 twice.
 
 ```
-let sym = Symbol("sym");
-console.log(sym == Symbol("sym"));
+let sym = Symbol("name");
+console.log(sym == Symbol("name"));
 // → false
 Rabbit.prototype[sym] = 55;
 console.log(blackRabbit[sym]);
@@ -611,13 +610,13 @@ console.log(blackRabbit[sym]);
 ```
 
 The string you pass to `Symbol` is included when you convert it to a
-string, and is useful to make it easier to recognize a symbol when,
-for example, showing it in the console. But it has no meaning beyond
-that.
+string, and can make it easier to recognize a symbol when, for
+example, showing it in the console. But it has no meaning beyond
+that—multiple symbols may have the same name.
 
-Being useable as property names and being unique makes symbols
-suitable for defining interfaces that can peacefully live alongside
-arbitrary other properties.
+Being both unique and useable as property names makes symbols suitable
+for defining interfaces that can peacefully live alongside other
+properties, no matter what their names are.
 
 ```{includeCode: "top_lines: 1"}
 const toStringSymbol = Symbol("toString");

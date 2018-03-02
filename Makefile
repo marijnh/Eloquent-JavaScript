@@ -62,7 +62,7 @@ pdf/%.tex: %.md
 book.epub: epub/titlepage.xhtml epub/toc.xhtml epub/hints.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) \
            epub/content.opf.src epub/style.css src/add_images_to_epub.js
 	rm -f $@
-	grep '<img' epub/*.xhtml | sed -e 's/.*src="\([^"]*\)".*/\1/' | xargs -I{} cp --parents "{}" epub
+	grep '<img' epub/*.xhtml | sed -e 's/.*src="\([^"]*\)".*/\1/' | xargs -I{} rsync -R "{}" epub
 	node src/add_images_to_epub.js
 	cd epub; zip -X ../$@ mimetype
 	cd epub; zip -X ../$@ -r * -x mimetype -x *.src

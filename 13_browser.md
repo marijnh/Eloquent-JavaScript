@@ -319,7 +319,7 @@ document.
 {{index "alert function", timeline}}
 
 Such a script will run as soon as its `<script>` tag is encountered
-while the browser reads the HTML. This page will pop up an dialog when
+while the browser reads the HTML. This page will pop up a dialog when
 opened—the `alert` function resembles `prompt`, in that it pops up a
 little window, but only shows a message without asking for input.
 

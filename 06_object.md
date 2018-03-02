@@ -494,8 +494,9 @@ console.log("toString" in Object.create(null));
 // → false
 ```
 
-Because property names must be strings, this still doesn't help when
-your _key_ values are of some other type.
+Object ((property)) names must be strings. If you need a map whose
+keys can't easily be converted to strings—such as objects—you cannot
+use an object as your map.
 
 {{index "Map class"}}
 

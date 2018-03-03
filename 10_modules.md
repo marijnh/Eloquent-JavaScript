@@ -106,8 +106,8 @@ time and energy moving copies around and keeping them up-to-date.
 
 That's where _((package))s_ come in. A package is a chunk of code that
 can be distributed (copied and installed). It may contain one or more
-modules, and has information about you which other packages it depends
-on. A package also usually comes with documentation explaining what it
+modules, and has information about which other packages it depends on.
+A package also usually comes with documentation explaining what it
 does, so that people who didn't write it might still be able to use
 it.
 

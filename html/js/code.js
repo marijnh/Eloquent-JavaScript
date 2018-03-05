@@ -2,7 +2,8 @@ addEventListener("load", () => {
   let editor = CodeMirror.fromTextArea(document.querySelector("#editor"), {
     mode: "javascript",
     extraKeys: {
-      "Ctrl-Enter": runCode
+      "Ctrl-Enter": runCode,
+      "Cmd-Enter": runCode
     },
     matchBrackets: true,
     lineNumbers: true

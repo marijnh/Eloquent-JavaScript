@@ -67,6 +67,7 @@ window.addEventListener("load", () => {
   let keyMap = {
     Esc(cm) { cm.display.input.blur() },
     "Ctrl-Enter"(cm) { runCode(cm.state.context) },
+    "Cmd-Enter"(cm) { runCode(cm.state.context) },
     "Ctrl-`"(cm) { closeCode(cm.state.context) },
     "Ctrl-Q": resetSandbox
   }

@@ -95,7 +95,7 @@ finished its task when all parcels have been delivered.
 {{index simulation, "virtual world"}}
 
 To be able to simulate this process, we must define a virtual world
-that can describe it. This model tell us where the robot is and where
+that can describe it. This model tells us where the robot is and where
 the parcels are. When the robot has decided to move somewhere, we need
 to update the model to reflect the new situation.
 

@@ -254,9 +254,9 @@ holds their name.
 
 {{index "asynchronous programming"}}
 
-The third argument given to the handler, `done`, is a callback
+The fourth argument given to the handler, `done`, is a callback
 function that it must call when it is done with the request. If we had
-used the function's ((return value)) as the response value, that would
+used the handler's ((return value)) as the response value, that would
 mean that a request handler can't itself perform asynchronous actions.
 A function doing asynchronous work typically returns before the work
 is done, having arranged for a callback to be called when it

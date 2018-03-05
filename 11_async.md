@@ -65,7 +65,7 @@ additional ((thread))s of control. A thread is another running program
 whose execution may be interleaved with other programs by the
 operating system—since most modern computers contain multiple
 processors, multiple threads may even run at the same time, on
-different processor. A second thread could start the second request,
+different processors. A second thread could start the second request,
 and then both threads wait for their results to come back, after which
 they resynchronize to combine their results.
 

@@ -14,7 +14,7 @@
 
 body {
   font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
-  font-size: 20px;
+  font-size: 100%;
   line-height: 1.45;
   color: black;
   background: white;
@@ -30,19 +30,17 @@ pre {
   line-height: 1.35;
   margin: 1rem 0;
   position: relative;
-  font-size: 16px;
+  font-size: 80%;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 code, pre {
   font-family: 'PT Mono', monospace;
 }
 
-@media (max-width: 650px) {
-  pre { font-size: 10px; }
-}
-
 code {
-  font-size: 18px;
+  font-size: 90%;
   padding: 0 2px;
 }
 

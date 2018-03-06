@@ -30,7 +30,7 @@ pre {
   line-height: 1.35;
   margin: 1rem 0;
   position: relative;
-  font-size: 80%;
+  font-size: 70%;
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
@@ -40,8 +40,13 @@ code, pre {
 }
 
 code {
-  font-size: 90%;
+  font-size: 80%;
   padding: 0 2px;
+}
+
+@media (min-width: 35em) {
+  pre { font-size: 80%; }
+  code { font-size: 90%; }
 }
 
 h1, h2, h3 {

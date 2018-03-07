@@ -1186,7 +1186,7 @@ plus the added string.
 But between the time where the statement starts executing and the time
 where it finishes there's an asynchronous gap. The `map` expression
 runs before anything has been added to the list, so each of the `+=`
-operators starts from an empty string and end up, when its storage
+operators starts from an empty string and ends up, when its storage
 retrieval finishes, setting `list` to a single-line list—the result of
 adding its line to the empty string.
 

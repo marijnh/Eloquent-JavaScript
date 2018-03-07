@@ -64,8 +64,9 @@ while (m = re.exec(input)) {
     stripped = stripHTML(snippet)
     snippet = stripped.javascript
   }
+  let onSemi = chapNum == 1 || /\bnosemi/.test(config) ? null : () => { throw new Error("Missing semicolon") }
   try {
-    acorn.parse(snippet, {onInsertedSemicolon: chapNum == 1 ? null : () => { throw new Error("Missing semicolon") },
+    acorn.parse(snippet, {onInsertedSemicolon: onSemi,
                           sourceType: "module",
                           ecmaVersion: 8})
   } catch(e) {
@@ -243,7 +244,7 @@ function nextSandbox() {
   if (i == boxes.length) return
   let sandbox = boxes[i]
   i++
-  if (chapNum < 13 || chapNum >= 20) { // Language-only
+  if (chapNum < 13 || chapNum >= 20 && chapNum < 22) { // Language-only
     try {
       ;(new Function("console, require, module", baseCode + sandbox.code))(_console, chapNum >= 20 && fakeRequire, {})
       nextSandbox()

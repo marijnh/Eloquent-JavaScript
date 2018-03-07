@@ -31,11 +31,12 @@ function escapeChar(ch) {
     case "^": return "\\textasciicircum "
     case "\\": return "\\textbackslash "
     case "/": return "\\slash "
+    case '"': return "\\textquotedbl{}"
     default: return "\\" + ch
   }
 }
 function escape(str) {
-  return String(str).replace(/[&%$#_{}~^\\]|\w(\/)\w/g, (match, group) => {
+  return String(str).replace(/[&%$#_{}~^\\"]|\w(\/)\w/g, (match, group) => {
     if (group) return match[0] + escapeChar(group) + match[2]
     return escapeChar(match)
   })
@@ -79,7 +80,10 @@ let linkedChapter = null, raw = false, quote = false
 let renderer = {
   fence(token) {
     if (/\bhidden:\s*true/.test(token.info)) return ""
-    return `\n\n${id(token)}\\begin{lstlisting}\n${escapeComplexScripts(token.content.trimRight())}\n\\end{lstlisting}\n\\noindent`
+    if (noStarch)
+      return `\n\n${id(token)}\\begin{Code}\n${token.content.trimRight()}\n\\end{Code}\n`
+    else
+      return `\n\n${id(token)}\\begin{lstlisting}\n${escapeComplexScripts(token.content.trimRight())}\n\\end{lstlisting}\n\\noindent`
   },
 
   hardbreak() { return "\\break\n" },
@@ -128,7 +132,12 @@ let renderer = {
   td_open() { return "\n" },
   td_close(_, next) { return next && next.type == "td_open" ? " &" : "" },
 
-  code_inline(token) { return `\\lstinline\`${miniEscape(token.content)}\`` },
+  code_inline(token) {
+    if (noStarch)
+      return `\\texttt{${escape(token.content)}}`
+    else
+      return `\\lstinline\`${miniEscape(token.content)}\``
+  },
 
   strong_open() { return "\\textbf{" },
   strong_close() { return "}" },

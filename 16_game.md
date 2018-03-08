@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/chapter/16_game.js", "code/game_levels.js"], zip: "html include=[\"css/game.css\"]"}}}
+{{meta {load_files: ["code/chapter/16_game.js", "code/levels.js"], zip: "html include=[\"css/game.css\"]"}}}
 
 # Project: A Platform Game
 

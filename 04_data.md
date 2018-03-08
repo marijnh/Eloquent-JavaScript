@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/jacques_journal.js", "code/chapter/04_data.js"], zip: "node/html"}}}
+{{meta {load_files: ["code/journal.js", "code/chapter/04_data.js"], zip: "node/html"}}}
 
 # Data Structures: Objects and Arrays
 
@@ -637,7 +637,7 @@ sandbox](https://eloquentjavascript.net/code#4) for this chapter[
 ([_eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if
 book}, where it is stored in the `JOURNAL` binding, and in a
 downloadable
-[file](https://eloquentjavascript.net/code/jacques_journal.js).
+[file](https://eloquentjavascript.net/code/journal.js).
 
 {{index "tableFor function"}}
 

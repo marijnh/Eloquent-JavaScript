@@ -63,7 +63,7 @@ function escapeIndex(value) {
 }
 
 function escapeComplexScripts(string) {
-  return string.replace(/[^\u0000-\u0600→“”‘’]+/g, m => {
+  return string.replace(/[^\u0000-\u0600→“”—…←‘’]+/g, m => {
     if (/[\u0600-\u06ff]/.test(m)) m = "\\textarab{" + m + "}"
     else if (/[\u4E00-\u9FA5]/.test(m)) m = "\\cjkfont{" + m + "}"
     return `$<${m}>$`

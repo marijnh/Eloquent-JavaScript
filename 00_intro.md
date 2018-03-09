@@ -18,34 +18,34 @@ and making them do the things you want them to do isn't always easy.
 If the task you have for your computer is a common, well-understood
 one, such as showing you your email or acting like a calculator, you
 can open the appropriate ((application)) and get to work. But for
-unique or open ended tasks, there may not be an application.
+unique or open-ended tasks, there may not be an application.
 
-That is where _((programming))_ may come in. Programming is the act of
-constructing a program—a set of precise instructions, that tell a
+That is where ((programming)) may come in. _Programming_ is the act of
+constructing a _program_—a set of precise instructions that tell a
 computer what to do. Because computers are dumb, pedantic beasts,
 programming is fundamentally tedious and frustrating.
 
 {{index [programming, "joy of"], speed}}
 
-Fortunately, if you can get over that, and maybe even enjoy the rigor
+Fortunately, if you can get over that fact, and maybe even enjoy the rigor
 of thinking in terms that dumb machines can deal with, programming can
 be very rewarding. It allows you to do things that would take
 _forever_ by hand, in seconds. It is a way to make your computer tool
 do things that it couldn't do before. And it provides a wonderful
 exercise in abstract thinking.
 
-Most programming is done with ((programming language))s. A programming
-language is an artificially constructed language used to instruct
+Most programming is done with ((programming language))s. A _programming
+language_ is an artificially constructed language used to instruct
 computers. It is interesting that the most effective way we've found
 to communicate with a computer borrows so heavily from the way we
 communicate with each other. Like human languages, computer languages
-allow words and phrases to be combined in new ways, allowing you to
+allow words and phrases to be combined in new ways, making it possible to
 express ever new concepts.
 
 {{index [JavaScript, "availability of"], "casual computing"}}
 
-Language-based interfaces, which at one point were the main way in
-which people interacted with computers, have largely been replaced
+Language-based interfaces, which at one point were the main method of interacting
+with computers, have largely been replaced
 with easier, more constrained interfaces. But they are still there, if
 you know where to look. One such language, JavaScript, is built into
 every modern web ((browser)) and is thus available on almost every
@@ -103,7 +103,7 @@ involved, and to make the whole thing tick, we have to consider the
 ways in which these parts interconnect and contribute to the operation
 of the whole.
 
-A ((computer)) is a machine that acts as a host for these immaterial
+A ((computer)) is a physical machine that acts as a host for these immaterial
 machines. Computers themselves can do only stupidly straightforward
 things. The reason they are so useful is that they do these things at
 an incredibly high ((speed)). A program can ingeniously combine an
@@ -134,7 +134,7 @@ zone.
 
 This is not only boring, it is also ineffective. New problems often
 require new solutions. The field of programming is young and still
-developing rapidly, and is varied enough to have space for wildly
+developing rapidly, and is varied enough to have room for wildly
 different approaches. There are many terrible mistakes to make in
 program design, and you should go ahead and make them so that you
 understand them. A sense of what a good program looks like is
@@ -197,7 +197,7 @@ could be written in English like this:
 
 Although that is already more readable than the soup of bits, it is
 still rather obscure. Using names instead of numbers for the
-instructions and memory locations helps.
+instructions and memory locations helps:
 
 ```{lang: "text/plain"}
  Set “total” to 0.
@@ -222,7 +222,7 @@ of the number that we are currently looking at. The lines using
 `compare` are probably the weirdest ones. The program wants to see
 whether `count` is equal to 11 in order to decide whether it can stop
 running. Because our hypothetical machine is rather primitive, it can
-only test whether a number is zero and make a decision (or jump) based
+only test whether a number is zero and make a decision based
 on that. So it uses the memory location labeled `compare` to compute
 the value of `count - 11` and makes a decision based on that value.
 The next two lines add the value of `count` to the result and
@@ -273,7 +273,7 @@ console.log(sum(range(1, 10)));
 {{index readability}}
 
 The moral of this story is that the same program can be expressed in
-long and short, unreadable and readable ways. The first version of the
+both long and short, unreadable and readable ways. The first version of the
 program was extremely obscure, whereas this last one is almost
 English: `log` the `sum` of the `range` of numbers from 1 to 10. (We
 will see in [later chapters](data) how to define operations like `sum`
@@ -300,7 +300,7 @@ JavaScript was introduced in 1995 as a way to add programs to web
 pages in the Netscape Navigator browser. The language has since been
 adopted by all other major graphical web browsers. It has made modern
 web applications possible—applications with which you can interact
-directly, without doing a page reload for every action. But it is also
+directly without doing a page reload for every action. JavaScript is also
 used in more traditional websites to provide various forms of
 interactivity and cleverness.
 
@@ -308,7 +308,7 @@ interactivity and cleverness.
 
 It is important to note that JavaScript has almost nothing to do with
 the programming language named Java. The similar name was inspired by
-marketing considerations, rather than good judgment. When JavaScript
+marketing considerations rather than good judgment. When JavaScript
 was being introduced, the Java language was being heavily marketed and
 was gaining popularity. Someone thought it was a good idea to try to
 ride along on this success. Now we are stuck with the name.
@@ -342,7 +342,7 @@ point them out to you.
 
 This flexibility also has its advantages, though. It leaves space for
 a lot of techniques that are impossible in more rigid languages, and
-as you will see (for example in [Chapter ?](modules)) it can be used
+as you will see (for example in [Chapter ?](modules)), it can be used
 to overcome some of JavaScript's shortcomings. After ((learning)) the
 language properly and working with it for a while, I have learned to
 actually _like_ JavaScript.
@@ -358,14 +358,14 @@ used language in such a radical way turned out to be politically
 difficult, and work on the version 4 was abandoned in 2008, leading to
 a much less ambitious version 5, which only made some uncontroversial
 improvements, coming out in 2009. Then in 2015 version 6 came out, a
-major update which included some of the ideas planned for version 4.
+major update that included some of the ideas planned for version 4.
 Since then we've had new, small updates every year.
 
 The fact that the language is evolving means that browsers have to
 constantly keep up, and if you're using an older one, it may not
 support every feature. The language designers are careful to not make
 any changes that could break existing programs, so new browsers can
-still run old programs. In this book, I will use the 2017 version of
+still run old programs. In this book, I'm using the 2017 version of
 JavaScript.
 
 {{index [JavaScript, "uses of"]}}
@@ -374,15 +374,15 @@ Web browsers are not the only platforms on which JavaScript is used.
 Some databases, such as MongoDB and CouchDB, use JavaScript as their
 scripting and query language. Several platforms for desktop and server
 programming, most notably the ((Node.js)) project (the subject of
-[Chapter ?](node)) provide an environment for programming JavaScript
+[Chapter ?](node)), provide an environment for programming JavaScript
 outside of the browser.
 
 ## Code, and what to do with it
 
 {{index "reading code", "writing code"}}
 
-Code is the text that makes up programs. Most chapters in this book
-contain quite a lot of it. I believe reading code and writing ((code))
+_Code_ is the text that makes up programs. Most chapters in this book
+contain quite a lot of code. I believe reading code and writing ((code))
 are indispensable parts of ((learning)) to program. Try to not just
 glance over the examples—read them attentively and understand them.
 This may be slow and confusing at first, but I promise that you'll
@@ -422,14 +422,14 @@ if}}
 {{index "developer tools", "JavaScript console"}}
 
 If you want to run the programs defined in this book outside of the
-book's website, some care is required. Many examples stand on their
+book's website, some care will be required. Many examples stand on their
 own and should work in any JavaScript environment. But code in later
 chapters is often written for a specific environment (the browser or
 Node.js) and can run only there. In addition, many chapters define
 bigger programs, and the pieces of code that appear in them depend on
 each other or on external files. The
 [sandbox](https://eloquentjavascript.net/code) on the website provides
-links to Zip files containing all of the scripts and data files
+links to Zip files containing all the scripts and data files
 necessary to run the code for a given chapter.
 
 ## Overview of this book
@@ -447,7 +447,7 @@ robot](robot), a [programming language](language), a [platform
 game](game), a [pixel paint program](paint), and a [dynamic
 website](skillsharing).
 
-The language part of the book starts with four chapters to introduce
+The language part of the book starts with four chapters that introduce
 the basic structure of the JavaScript language. They introduce
 [control structures](program_structure) (such as the `while` word you
 saw in this introduction), [functions](functions) (writing your own

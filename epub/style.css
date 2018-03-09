@@ -133,6 +133,17 @@ table {
   margin-left: 15px;
 }
 
+sub, sup {
+  line-height: 1;
+}
+
+sub {
+  font-size: 60%;
+}
+sup {
+  font-size: 70%;
+}
+
 /* Syntax highlighting */
 .cm-keyword {color: #506;}
 .cm-atom {color: #106;}

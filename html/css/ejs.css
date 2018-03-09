@@ -160,6 +160,7 @@ ol li p {
   font-size: 60%;
   color: #aaa;
   margin-top: -.7em;
+  display: block;
 }
 
 blockquote {

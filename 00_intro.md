@@ -2,6 +2,15 @@
 
 # Introduction
 
+{{quote {author: "Ellen Ullman", title: "Close to the Machine: Technophilia and its Discontents", chapter: true}
+
+We think we are creating the system for our own purposes. We believe
+we are making it in our own image... But the computer is not really
+like us. It is a projection of a very slim part of ourselves: that
+portion devoted to logic, order, rule, and clarity.
+
+quote}}
+
 This is a book about instructing ((computer))s. Computers are about as
 common as screwdrivers today, but they are quite a bit more complex,
 and making them do the things you want them to do isn't always easy.

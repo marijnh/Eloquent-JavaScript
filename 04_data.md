@@ -536,11 +536,10 @@ If we call that table _n_, we can compute _ϕ_ using the following formula:
 {{if html
 
 <div>
-<style scoped="scoped">sub { font-size: 60%; }</style>
 <table style="border-collapse: collapse; margin-left: 1em;"><tr>
   <td style="vertical-align: middle"><em>ϕ</em> =</td>
   <td style="padding-left: .5em">
-    <div style="border-bottom: 1px solid black; padding: 0 7px;"><em>n</em><sub>11</sub><em>n</em><sub>00</sub> -
+    <div style="border-bottom: 1px solid black; padding: 0 7px;"><em>n</em><sub>11</sub><em>n</em><sub>00</sub> −
       <em>n</em><sub>10</sub><em>n</em><sub>01</sub></div>
     <div style="padding: 0 7px;">√<span style="border-top: 1px solid black; position: relative; top: 2px;">
       <span style="position: relative; top: -4px"><em>n</em><sub>1•</sub><em>n</em><sub>0•</sub><em>n</em><sub>•1</sub><em>n</em><sub>•0</sub></span>
@@ -576,7 +575,7 @@ measurements where the second variable is false.
 {{index correlation, "phi coefficient"}}
 
 So for the pizza table, the part above the division line (the
-dividend) would be 1×76 - 4×9 = 40, and the part below it (the
+dividend) would be 1×76−4×9 = 40, and the part below it (the
 divisor) would be the square root of 5×85×10×80, or [√340000]{if
 html}[[$\sqrt{340000}$]{latex}]{if tex}. This comes out to _ϕ_ ≈
 0.069, which is tiny. Eating ((pizza)) does not appear to have

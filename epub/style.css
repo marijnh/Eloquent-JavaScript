@@ -68,7 +68,6 @@ h3 {
 
 div.chap_num {
   font-family: 'Cinzel', Georgia, serif;
-  display: block;
   margin-bottom: -0.8rem;
 }
 
@@ -142,6 +141,10 @@ sub {
 }
 sup {
   font-size: 70%;
+}
+
+ol li p {
+  margin: 0;
 }
 
 /* Syntax highlighting */

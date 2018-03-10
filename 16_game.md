@@ -255,7 +255,7 @@ moving element in our game. All actor objects conform to the same
 ((interface)). Their `pos` property holds the coordinates of the
 element's top-left corner, and their `size` property holds its size.
 
-Then they have have an `update` method, which is used to compute their
+Then they have an `update` method, which is used to compute their
 new state and position after a given time step. It simulates the thing
 the actor does—moving in response to the arrow keys for the player,
 bouncing back and forth for the lava—and returns a new, updated actor

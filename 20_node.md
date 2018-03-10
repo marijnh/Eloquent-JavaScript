@@ -822,7 +822,7 @@ To avoid such problems, `urlPath` uses the `resolve` function from the
 `path` module, which resolves relative paths. It then verifies that
 the result is _below_ the working directory. The `process.cwd`
 function (where "cwd" stands for "current working directory") can be
-used used to find this working directory. When the path doesn't start
+used to find this working directory. When the path doesn't start
 with the base directory, the function throws an error response object,
 using the HTTP status code that indicates that access to the resource
 is forbidden.

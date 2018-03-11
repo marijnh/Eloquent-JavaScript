@@ -18,6 +18,7 @@ let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
 
 let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
   defined: epub ? ["book", "html"] : ["interactive", "html"],
+  strip: epub ? "hints" : "",
   takeTitle: true,
   index: false
 })

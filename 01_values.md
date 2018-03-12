@@ -24,7 +24,7 @@ thus fundamentally alike.
 
 {{index CD, signal}}
 
-Bits are any kind of two-valued things, usually described as zeros and
+_Bits_ are any kind of two-valued things, usually described as zeros and
 ones. Inside the computer, they take forms such as a high or low
 electrical charge, a strong or weak signal, or a shiny or dull spot on
 the surface of a CD. Any piece of discrete information can be reduced
@@ -49,7 +49,7 @@ So that's the binary number 00001101, or 8 + 4 + 1, or 13.
 
 {{index memory, "volatile data storage", "hard drive"}}
 
-Imagine a sea of bits. An ocean of them. A typical modern computer has
+Imagine a sea of bits—an ocean of them. A typical modern computer has
 more than 30 billion bits in its volatile data storage (working
 memory). Nonvolatile storage (the hard disk or equivalent) tends to
 have yet a few orders of magnitude more.
@@ -102,9 +102,9 @@ single number value. There are only so many patterns you can make with
 represented is limited. For _N_ decimal ((digit))s, the amount of
 numbers that can be represented is 10^N^. Similarly, given 64 binary
 digits, you can represent 2^64^ different numbers, which is about 18
-quintillion (an 18 with 18 zeros after it). This is a lot.
+quintillion (an 18 with 18 zeros after it). That's a lot.
 
-Computer memory used to be a lot smaller, and people tended to use
+Computer memory used to be much smaller, and people tended to use
 groups of 8 or 16 bits to represent their numbers. It was easy to
 accidentally _((overflow))_ such small numbers—to end up with a number
 that did not fit into the given amount of bits. Today, even computers
@@ -124,7 +124,7 @@ zeros)—which is still pleasantly huge.
 
 {{index [number, notation]}}
 
-Fractional numbers are written by using a dot.
+Fractional numbers are written by using a dot:
 
 ```
 9.81
@@ -133,7 +133,7 @@ Fractional numbers are written by using a dot.
 {{index exponent, "scientific notation", [number, notation]}}
 
 For very big or very small numbers, you may also use scientific
-notation by adding an "e" (for "exponent"), followed by the exponent
+notation by adding an _e_ (for _exponent_), followed by the exponent
 of the number:
 
 ```
@@ -175,10 +175,10 @@ a new value.
 
 {{index grouping, parentheses, precedence}}
 
-Does the example mean "add 4 and 100, and multiply the result by 11",
+But does the example mean "add 4 and 100, and multiply the result by 11,"
 or is the multiplication done before the adding? As you might have
 guessed, the multiplication happens first. But as in mathematics, you
-can change this by wrapping the addition in parentheses.
+can change this by wrapping the addition in parentheses:
 
 ```
 (100 + 4) * 11
@@ -239,7 +239,7 @@ result.
 {{index syntax, text, character, [string, notation], "single-quote character", "double-quote character", "quotation mark", backtick}}
 
 The next basic data type is the _((string))_. Strings are used to
-represent text. They are written by enclosing their content in quotes.
+represent text. They are written by enclosing their content in quotes:
 
 ```
 `Down on the sea`
@@ -257,7 +257,7 @@ Almost anything can be put between quotes, and JavaScript will make a
 string value out of it. But a few characters are more difficult. You
 can imagine how putting quotes between quotes might be hard.
 _Newlines_ (the characters you get when you press Enter) may only be
-included when the string is quoted with backtick (`` ` ``), the other
+included when the string is quoted with backtick (`` ` ``). The other
 types of strings have to stay on a single line.
 
 {{index [escaping, "in strings"], "backslash character"}}
@@ -307,10 +307,11 @@ numbers.
 {{index "UTF-16", emoji}}
 
 And that's what JavaScript does. But there's a complication:
-JavaScript's representation uses 16 bits per string element, and there
-are more than 2^16^ different characters in Unicode (about twice as
-many, at this point). So some characters, such as many emoji, take up
-two "character positions" in JavaScript strings.
+JavaScript's representation uses 16 bits per string element, which can
+fit 2^16^ different numbers. But Unicode defines more characters than
+that—about twice as many, at this point. So some characters, such as
+many emoji, take up two "character positions" in JavaScript strings.
+We'll come back to this in [Chapter ?](higher_order#code_units).
 
 {{index "+ operator", concatenation}}
 
@@ -323,7 +324,7 @@ produce the string `"concatenate"`:
 "con" + "cat" + "e" + "nate"
 ```
 
-String values have a number of associated functions (_methods_), that
+String values have a number of associated functions (_methods_) that
 can be used to perform other operations on them. We'll come back to
 these in [Chapter ?](data#methods).
 
@@ -419,7 +420,7 @@ console.log("Aardvark" < "Zoroaster")
 
 The way strings are ordered is roughly alphabetic, but not really what
 you'd expect to see in a dictionary: uppercase letters are always
-"less" than lowercase ones, so `"Z" < "a"`, and non-alphabetic
+"less" than lowercase ones, so `"Z" < "a"`, and nonalphabetic
 characters (!, -, and so on) are also included in the ordering. When
 comparing strings, JavaScript goes over the characters from left to
 right, comparing the ((Unicode)) codes one by one.
@@ -542,7 +543,7 @@ recommend treating them as mostly interchangeable.
 
 {{index NaN, "type coercion"}}
 
-In the introduction, I mentioned that JavaScript goes out of its way
+In the Introduction, I mentioned that JavaScript goes out of its way
 to accept almost any program you give it, even programs that do odd
 things. This is nicely demonstrated by the following expressions:
 
@@ -624,7 +625,7 @@ using the shorter operators.
 The logical operators `&&` and `||` handle values of different types
 in a peculiar way. They will convert the value on their left side to
 Boolean type in order to decide what to do, but depending on the
-operator and the result of that conversion, they return either the
+operator and the result of that conversion, they will return either the
 _original_ left-hand value or the right-hand value.
 
 {{index "|| operator"}}

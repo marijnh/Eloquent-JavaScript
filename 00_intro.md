@@ -44,12 +44,13 @@ express ever new concepts.
 
 {{index [JavaScript, "availability of"], "casual computing"}}
 
-Language-based interfaces, which at one point were the main method of interacting
-with computers, have largely been replaced
-with easier, more constrained interfaces. But they are still there, if
-you know where to look. One such language, JavaScript, is built into
-every modern web ((browser)) and is thus available on almost every
-device.
+At one point language-based interfaces, such as the BASIC and DOS
+prompts of the 80s and 90s, were the main method of interacting with
+computers. Those have largely been replaced with visual interfaces,
+which are easier to learn but offer less freedom. Computer languages
+are still there, if you know where to look. One such language,
+JavaScript, is built into every modern web ((browser)) and is thus
+available on almost every device.
 
 {{indexsee "web browser", browser}}
 

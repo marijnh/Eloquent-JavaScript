@@ -519,9 +519,8 @@ And we can go further. Apart from the number of files, the _size_ of
 the files also determines how fast they can be transferred over the
 network. Thus, the JavaScript community has invented _((minifier))s_.
 These are tools that take a JavaScript program and make it smaller by
-automatically removing comments and whitespace, renaming variables,
-and replacing pieces of code with equivalent code that take up less
-space.
+automatically removing comments and whitespace, renaming bindings, and
+replacing pieces of code with equivalent code that take up less space.
 
 {{index pipeline, tool}}
 

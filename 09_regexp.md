@@ -1033,7 +1033,7 @@ usually called an _INI_ file) are as follows:
 
 Our task is to convert a string like this into an object whose
 properties hold strings for sectionless settings and sub-objects for
-settings, with those sub-objects holding the section's settings.
+sections, with those sub-objects holding the section's settings.
 
 {{index "carriage return", "line break", "newline character"}}
 

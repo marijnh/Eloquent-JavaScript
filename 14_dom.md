@@ -453,7 +453,7 @@ if}}
 
 Some element ((attribute))s, such as `href` for links, can be accessed
 through a ((property)) of the same name on the element's ((DOM))
-object. This is the case for a most commonly used standard attributes.
+object. This is the case for most commonly used standard attributes.
 
 {{index "data attribute", "getAttribute method", "setAttribute method", attribute}}
 

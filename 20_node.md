@@ -551,7 +551,7 @@ in the `http` module.
 
 ```
 const {request} = require("http");
-let requestStream = http.request({
+let requestStream = request({
   hostname: "eloquentjavascript.net",
   path: "/20_node.html",
   method: "GET",
@@ -598,7 +598,7 @@ we know from the browser.
 
 We have seen two instances of writable streams in the HTTP
 examples—namely, the response object that the server could write to
-and the request object that was returned from `http.request`.
+and the request object that was returned from `request`.
 
 {{index "callback function", "asynchronous programming", "write method", "end method", "Buffer class"}}
 

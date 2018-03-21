@@ -26,7 +26,7 @@ verify(/\w{7,}/,
 
 verify(/\b[^\We]+\b/i,
        ["red platypus", "wobbling nest"],
-       ["earth bed", "learning ape"]);
+       ["earth bed", "learning ape", "BEET"]);
 
 
 function verify(regexp, yes, no) {

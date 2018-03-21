@@ -1248,11 +1248,10 @@ with the way it responds to various input strings.
 
 {{index "program size", "code golf", "regexp golf (exercise)"}}
 
-_Code
-golf_ is a term used for the game of trying to express a particular
-program in as few characters as possible. Similarly, _regexp golf_ is
-the practice of writing as tiny a regular expression as possible to
-match a given pattern, and _only_ that pattern.
+_Code golf_ is a term used for the game of trying to express a
+particular program in as few characters as possible. Similarly,
+_regexp golf_ is the practice of writing as tiny a regular expression
+as possible to match a given pattern, and _only_ that pattern.
 
 {{index boundary, matching}}
 
@@ -1269,7 +1268,7 @@ make it any smaller.
  4. Any word ending in _ious_
  5. A whitespace character followed by a period, comma, colon, or semicolon
  6. A word longer than six letters
- 7. A word without the letter _e_
+ 7. A word without the letter _e_ (or _E_)
 
 Refer to the table in the [chapter summary](regexp#summary_regexp) for
 help. Test each solution with a few test strings.
@@ -1304,7 +1303,7 @@ verify(/.../,
 
 verify(/.../,
        ["red platypus", "wobbling nest"],
-       ["earth bed", "learning ape"]);
+       ["earth bed", "learning ape", "BEET"]);
 
 
 function verify(regexp, yes, no) {

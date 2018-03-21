@@ -89,7 +89,7 @@ How does a program keep an internal ((state))? How does it remember
 things? We have seen how to produce new values from old values, but
 this does not change the old values, and the new value has to be
 immediately used or it will dissipate again. To catch and hold values,
-JavaScript provides a thing called a _binding_, or _variable_.
+JavaScript provides a thing called a _binding_, or _variable_:
 
 ```
 let caught = 5 * 5;
@@ -120,7 +120,7 @@ console.log(ten * ten);
 When a binding points at a value, that does not mean it is tied to
 that value forever. The `=` operator can be used at any time on
 existing bindings to disconnect them from their current value and have
-them point to a new one.
+them point to a new one:
 
 ```
 let mood = "light";
@@ -141,7 +141,7 @@ hold on to it or you reattach one of your existing tentacles to it.
 
 Let's look at another example. To remember the number of dollars that
 Luigi still owes you, you create a binding. And then when he pays back
-$35, you give this binding a new value.
+$35, you give this binding a new value:
 
 ```
 let luigisDebt = 140;
@@ -208,7 +208,7 @@ Words with a special meaning, such as `const`, are _((keyword))s_, and
 they may not be used as binding names. There are also a number of
 words that are "reserved for use" in ((future)) versions of
 JavaScript, which also can't be used as binding names. The full list
-of keywords and reserved words is rather long.
+of keywords and reserved words is rather long:
 
 ```{lang: "text/plain"}
 break case catch class const continue debugger default
@@ -274,14 +274,14 @@ looks, but can be helpful in toy programs and experiments.
 
 {{index "JavaScript console", "developer tools", "Node.js", "console.log", output}}
 
-In examples, I used `console.log` to output values. Most JavaScript
+In the examples, I used `console.log` to output values. Most JavaScript
 systems (including all modern web ((browser))s and Node.js) provide a
 `console.log` function that writes out its arguments to _some_ text
 output device. In browsers, the output lands in the ((JavaScript
 console)). This part of the browser interface is hidden by default,
-but most browsers open it when you press F12 or, on Mac, when you
-press Command-Option-I. If that does not work, search through the
-menus for an item named "developer tools" or similar.
+but most browsers open it when you press F12 or, on Mac, Command-Option-I.
+If that does not work, search through the menus for an item named "developer
+tools" or similar.
 
 {{if interactive
 
@@ -615,7 +615,7 @@ amount.
 
 Many loops follow the pattern seen in the `while` examples. First, a
 "counter" binding is created to track the progress of the loop. Then
-comes a `while` loop, whose test expression usually checks whether the
+comes a `while` loop, usually with a test expression that checks whether the
 counter has reached its end value. At the end of the loop body, the
 counter is updated to track progress.
 
@@ -623,7 +623,7 @@ counter is updated to track progress.
 
 Because this pattern is so common, JavaScript and similar languages
 provide a slightly shorter and more comprehensive form, the `for`
-loop.
+loop:
 
 ```
 for (let number = 0; number <= 12; number = number + 2) {
@@ -938,7 +938,7 @@ following triangle:
 {{index [string, length]}}
 
 It may be useful to know that you can find the length of a string by
-writing `.length` after it.
+writing `.length` after it:
 
 ```
 let abc = "abc";
@@ -1012,7 +1012,7 @@ number, so you'll have to create an `if`/`else if`/`else` chain.
 The second version of the program has a straightforward solution and a
 clever one. The simple way is to add another conditional "branch" to
 precisely test the given condition. For the clever method, build up a
-string containing the word or words to output, and print either this
+string containing the word or words to output and print either this
 word or the number if there is no word, potentially by making good use
 of the `||` operator.
 

@@ -1025,7 +1025,7 @@ Add the resulting table to the element with an `id` attribute of
 
 {{index "right-aligning", "text-align (CSS)"}}
 
-Once you have this working, right-align cells that containing number
+Once you have this working, right-align cells that contain number
 values by setting their `style.textAlign` property to `"right"`.
 
 {{if interactive

@@ -257,8 +257,8 @@ Almost anything can be put between quotes, and JavaScript will make a
 string value out of it. But a few characters are more difficult. You
 can imagine how putting quotes between quotes might be hard.
 _Newlines_ (the characters you get when you press Enter) may only be
-included when the string is quoted with backtick (`` ` ``). The other
-types of strings have to stay on a single line.
+included without escaping when the string is quoted with backticks
+(`` ` ``).
 
 {{index [escaping, "in strings"], "backslash character"}}
 
@@ -308,10 +308,11 @@ numbers.
 
 And that's what JavaScript does. But there's a complication:
 JavaScript's representation uses 16 bits per string element, which can
-fit 2^16^ different numbers. But Unicode defines more characters than
-that—about twice as many, at this point. So some characters, such as
-many emoji, take up two "character positions" in JavaScript strings.
-We'll come back to this in [Chapter ?](higher_order#code_units).
+describe up to 2^16^ different characters. But Unicode defines more
+characters than that—about twice as many, at this point. So some
+characters, such as many emoji, take up two "character positions" in
+JavaScript strings. We'll come back to this in [Chapter
+?](higher_order#code_units).
 
 {{index "+ operator", concatenation}}
 

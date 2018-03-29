@@ -136,8 +136,8 @@ console.log(mood);
 You should imagine bindings as tentacles, rather than boxes. They do
 not _contain_ values; they _grasp_ them—two bindings can refer to the
 same value. A program can only access the values that it still has a
-hold on. When you need to remember something, you grow a tentacle to
-hold on to it or you reattach one of your existing tentacles to it.
+reference to. When you need to remember something, you grow a tentacle
+to hold on to it or you reattach one of your existing tentacles to it.
 
 Let's look at another example. To remember the number of dollars that
 Luigi still owes you, you create a binding. And then when he pays back
@@ -188,23 +188,22 @@ in this book because it has some confusing properties.
 {{index "const keyword", naming}}
 
 The word `const` stands for _((constant))_. It defines a constant
-binding, which cannot be made to point at a new thing. This is useful
-for bindings that give a name to a value so that you can easily refer
-to them later, but which are not going to ever change.
+binding, which points at the same value for as long as it lives. This
+is useful for bindings that give a name to a value so that you can
+easily refer to it later.
 
 ## Binding names
 
 {{index "underscore character", "dollar sign", [binding, naming]}}
 
-Binding names can be any word that isn't reserved for some other
-purpose (such as `let`). Digits can be part of binding names—`catch22`
-is a valid name, for example—but the name must not start with a digit.
-A binding name may include dollar signs (`$`) or underscores (`_`), but
-no other punctuation or special characters.
+Binding names can be any word. Digits can be part of binding
+names—`catch22` is a valid name, for example—but the name must not
+start with a digit. A binding name may include dollar signs (`$`) or
+underscores (`_`), but no other punctuation or special characters.
 
 {{index syntax, "implements (reserved word)", "interface (reserved word)", "package (reserved word)", "private (reserved word)", "protected (reserved word)", "public (reserved word)", "static (reserved word)", "void operator", "yield (reserved word)", "enum (reserved word)", "reserved word", [binding, naming]}}
 
-Words with a special meaning, such as `const`, are _((keyword))s_, and
+Words with a special meaning, such as `let`, are _((keyword))s_, and
 they may not be used as binding names. There are also a number of
 words that are "reserved for use" in ((future)) versions of
 JavaScript, which also can't be used as binding names. The full list
@@ -386,7 +385,7 @@ square of the input only if the input is actually a number.
 
 ```{test: wrap}
 let theNumber = Number(prompt("Pick a number"));
-if (!isNaN(theNumber)) {
+if (!Number.isNaN(theNumber)) {
   console.log("Your number is the square root of " +
               theNumber * theNumber);
 }
@@ -399,10 +398,10 @@ of a Boolean expression. The deciding expression is written after the
 keyword, between ((parentheses)), followed by the statement to
 execute.
 
-{{index "isNaN function"}}
+{{index "Number.isNaN function"}}
 
-The `isNaN` function is a standard JavaScript function that returns
-`true` only if the argument it is given is `NaN`. The `Number`
+The `Number.isNaN` function is a standard JavaScript function that
+returns `true` only if the argument it is given is `NaN`. The `Number`
 function happens to return `NaN` when you give it a string that
 doesn't represent a valid number. Thus, the condition translates to
 "unless `theNumber` is not-a-number, do this".
@@ -433,7 +432,7 @@ execution paths.
 
 ```{test: wrap}
 let theNumber = Number(prompt("Pick a number"));
-if (!isNaN(theNumber)) {
+if (!Number.isNaN(theNumber)) {
   console.log("Your number is the square root of " +
               theNumber * theNumber);
 } else {
@@ -489,8 +488,9 @@ console.log(12);
 
 That works, but the idea of writing a program is to make something
 _less_ work, not more. If we needed all even numbers less than 1,000,
-this approach would be unworkable. What we need is a way to repeat
-some code. This form of control flow is called a _((loop))_:
+this approach would be unworkable. What we need is a way to run a
+piece of code multiple times. This form of control flow is called a
+_((loop))_:
 
 {{figure {url: "img/controlflow-loop.svg", alt: "Loop control flow",width: "4cm"}}}
 

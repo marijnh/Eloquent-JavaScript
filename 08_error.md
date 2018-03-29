@@ -383,7 +383,7 @@ such values are `null`, `undefined`, or -1.
 ```{test: no}
 function promptNumber(question) {
   let result = Number(prompt(question));
-  if (isNaN(result)) return null;
+  if (Number.isNaN(result)) return null;
   else return result;
 }
 

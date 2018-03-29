@@ -112,16 +112,16 @@ in the function itself.
 Each ((binding)) has a _((scope))_, which is the part of the program
 in which the binding is visible. For bindings defined outside of any
 function or block, the scope is the whole program—you can refer to
-them wherever you want. These are called _global_.
+such bindings wherever you want. These are called _global_.
 
 {{index "local scope", [binding, local]}}
 
 But bindings created for function ((parameter))s or declared inside a
-function can only be referenced in that function. These are called
-_local_. Every time the function is called, new instances of these
+function can only be referenced in that function, so they are known as
+_local_ bindings. Every time the function is called, new instances of these
 bindings are created. This provides some isolation between
 functions—each function call acts in its own little world (its local
-environment), and can often be understood without knowing a lot about
+environment) and can often be understood without knowing a lot about
 what's going on in the global environment.
 
 {{index "let keyword", "const keyword", "var keyword"}}
@@ -172,7 +172,7 @@ console.log(halve(100));
 
 {{index [nesting, "of functions"], [nesting, "of scope"], scope, "inner function", "lexical scoping"}}
 
-JavaScript distinguishes not just between _global_ and _local_
+JavaScript distinguishes not just _global_ and _local_
 bindings. Blocks and functions can be created inside other blocks and
 functions, producing multiple degrees of locality.
 
@@ -207,8 +207,8 @@ from the outer function. But its local bindings, such as `unit` or
 
 In short, each local scope can also see all the local scopes that
 contain it. The set of bindings visible inside a block is determined
-by the place of that block in the program text. All bindings from
-blocks _around_ it are visible—both those in blocks that enclose it
+by the place of that block in the program text. All bindings defined
+in scopes _above_ it are visible—both those in blocks that enclose it
 and those at the top level of the program. This approach to binding
 visibility is called _((lexical scoping))_.
 
@@ -216,7 +216,7 @@ visibility is called _((lexical scoping))_.
 
 {{index [function, "as value"]}}
 
-Function ((binding))s usually simply act as names for a specific piece
+A function ((binding)) usually simply acts as a name for a specific piece
 of the program. Such a binding is defined once and never changed. This
 makes it easy to confuse the function and its name.
 
@@ -260,8 +260,8 @@ function square(x) {
 {{index future, "execution order"}}
 
 This is a function _declaration_. The statement defines the binding
-`square` and points it at the given function. This is slightly easier
-to write, and doesn't require a semicolon after the function.
+`square` and points it at the given function. It is slightly easier
+to write and doesn't require a semicolon after the function.
 
 There is one subtlety with this form of function definition.
 
@@ -273,11 +273,11 @@ function future() {
 }
 ```
 
-This code works, even though the function is defined _below_ the code
+The preceding code works, even though the function is defined _below_ the code
 that uses it. Function declarations are not part of the regular
 top-to-bottom flow of control. They are conceptually moved to the top
 of their scope and can be used by all the code in that scope. This is
-sometimes useful because it gives us the freedom to order code in a
+sometimes useful because it offers the freedom to order code in a
 way that seems meaningful, without worrying about having to define all
 functions before they are used.
 
@@ -287,7 +287,7 @@ functions before they are used.
 
 There's a third notation for functions, which looks very different
 from the others. Instead of the `function` keyword, it uses an arrow
-(`=>`) made up of equals and greater than characters (not to be
+(`=>`) made up of equals and greater-than characters (not to be
 confused with the greater-than-or-equal operator, which is written
 `>=`).
 
@@ -303,14 +303,14 @@ const power = (base, exponent) => {
 
 {{index [function, body]}}
 
-The arrow comes _after_ the list of parameters, and is followed by the
+The arrow comes _after_ the list of parameters and is followed by the
 function's body. It expresses something like "this input (the
 ((parameter))s) produces this result (the body)".
 
 {{index "curly braces", "square example"}}
 
-When there is only one parameter name, the ((parentheses)) around the
-parameter list can be omitted. If the body is a single expression,
+When there is only one parameter name, you can omit the ((parentheses)) around the
+parameter list. If the body is a single expression,
 rather than a ((block)) in braces, that expression will be returned
 from the function. So these two definitions of `square` do the same
 thing:
@@ -389,7 +389,7 @@ the program.
 
 The place where the computer stores this context is the _((call
 stack))_. Every time a function is called, the current context is
-stored on top of this "stack". When a function returns, it removes the
+stored on top of this stack. When a function returns, it removes the
 top context from the stack and uses that to continue execution.
 
 {{index "infinite loop", "stack overflow", recursion}}
@@ -397,7 +397,7 @@ top context from the stack and uses that to continue execution.
 Storing this stack requires space in the computer's memory. When the
 stack grows too big, the computer will fail with a message like "out
 of stack space" or "too much recursion". The following code
-illustrates this by asking the computer a really hard question, which
+illustrates this by asking the computer a really hard question that
 causes an infinite back-and-forth between two functions. Rather, it
 _would_ be infinite, if the computer had an infinite stack. As it is,
 we will run out of space, or "blow the stack".
@@ -441,9 +441,9 @@ accidentally pass the wrong number of arguments to functions. And no
 one will tell you about it.
 
 The upside is that this behavior can be used to allow a function to be
-called with different amounts of arguments. For example this `minus`
+called with different amounts of arguments. For example, this `minus`
 function tries to imitate the `-` operator by acting on either one or
-two arguments.
+two arguments:
 
 ```
 function minus(a, b) {
@@ -468,7 +468,7 @@ will replace the argument when it is not given.
 {{index "power example"}}
 
 For example, this version of `power` makes its second argument
-optional. If you don't provide it, it will default to two and the
+optional. If you don't provide it, it will default to two, and the
 function will behave like `square`.
 
 ```{test: wrap}
@@ -503,13 +503,13 @@ console.log("C", "O", 2);
 
 {{index "call stack", "local binding", [function, "as value"], scope}}
 
-The ability to treat functions as values combined with the fact that
-local bindings are re-created every time a function is called brings
+The ability to treat functions as values, combined with the fact that
+local bindings are re-created every time a function is called, brings
 up an interesting question. What happens to local bindings when the
 function call that created them is no longer active?
 
 The following code shows an example of this. It defines a function,
-`wrapValue`, which creates a local binding. It then returns a function
+`wrapValue`, that creates a local binding. It then returns a function
 that accesses and returns this local binding.
 
 ```
@@ -541,7 +541,7 @@ ways.
 {{index "multiplier function"}}
 
 With a slight change, we can turn the previous example into a way to
-create functions that multiply by an arbitrary amount.
+create functions that multiply by an arbitrary amount:
 
 ```
 function multiplier(factor) {
@@ -566,7 +566,7 @@ their body and the environment in which they are created. When called,
 the function body sees its original environment, not the environment
 in which the call is made.
 
-In the example, `multiplier` is called, and creates an environment in
+In the example, `multiplier` is called and creates an environment in
 which its `factor` parameter is bound to 2. The function value it
 returns, which is stored in `twice`, remembers this environment. So
 when that is called, it multiplies its argument by 2.
@@ -576,7 +576,7 @@ when that is called, it multiplies its argument by 2.
 {{index "power example", "stack overflow", recursion, [function, application]}}
 
 It is perfectly okay for a function to call itself, as long as it
-doesn't do it so often it overflows the stack. A function that calls
+doesn't do it so often that it overflows the stack. A function that calls
 itself is called _recursive_. Recursion allows some functions to be
 written in a different style. Take, for example, this alternative
 implementation of `power`:
@@ -604,7 +604,7 @@ exponents to achieve the repeated multiplication.
 {{index [function, application], efficiency}}
 
 But this implementation has one problem: in typical JavaScript
-implementations, it's about 3 times slower than the looping version.
+implementations, it's about three times slower than the looping version.
 Running through a simple loop is generally cheaper than calling a
 function multiple times.
 
@@ -634,13 +634,13 @@ can be paralyzing.
 Therefore, always start by writing something that's correct and easy
 to understand. If you're worried that it's too slow—which it usually
 isn't, since most code simply isn't executed often enough to take any
-significant amount of time—you can measure afterwards, and improve it
+significant amount of time—you can measure afterwards and improve it
 if necessary.
 
 {{index "branching recursion"}}
 
 Recursion is not always just an inefficient alternative to looping.
-Some problems are really easier to solve with recursion than with
+Some problems really are easier to solve with recursion than with
 loops. Most often these are problems that require exploring or
 processing several "branches", each of which might branch out again
 into even more branches.
@@ -652,7 +652,7 @@ Consider this puzzle: by starting from the number 1 and repeatedly
 either adding 5 or multiplying by 3, an infinite amount of new numbers
 can be produced. How would you write a function that, given a number,
 tries to find a sequence of such additions and multiplications that
-produce that number?
+produces that number?
 
 For example, the number 13 could be reached by first multiplying by 3
 and then adding 5 twice, whereas the number 15 cannot be reached at
@@ -687,7 +687,7 @@ It is okay if you don't see how it works right away. Let's work
 through it, since it makes for a great exercise in recursive thinking.
 
 The inner function `find` does the actual recursing. It takes two
-((argument))s, the current number and a string that records how we
+((argument))s: The current number and a string that records how we
 reached this number. If it finds a solution, it returns a string that
 shows how to get to the target. If no solution can be found starting
 from this number, it returns `null`.
@@ -697,7 +697,7 @@ from this number, it returns `null`.
 To do this, the function performs one of three actions. If the current
 number is the target number, the current history is a way to reach
 that target, so it is returned. If the current number is greater than
-the target, there's no sense in further exploring this branch since
+the target, there's no sense in further exploring this branch because
 both adding and multiplying will only make the number bigger, so it
 returns `null`. And finally, if we're still below the target number,
 the function tries both possible paths that start from the current
@@ -729,7 +729,7 @@ find(1, "1")
 ```
 
 The indentation indicates the depth of the call stack. The first time
-`find` is called it starts by calling itself to explore the solution
+`find` is called, it starts by calling itself to explore the solution
 that starts with `(1 + 5)`. That call will further recurse to explore
 _every_ continued solution that yields a number less than or equal to
 the target number. Since it doesn't find one that hits the target, it
@@ -737,7 +737,7 @@ returns `null` back to the first call. There the `||` operator causes
 the call that explores `(1 * 3)` to happen. This search has more
 luck—its first recursive call, through yet _another_ recursive call,
 hits upon the target number. That innermost call returns a string, and
-each of the `||` operators in the intermediate calls pass that string
+each of the `||` operators in the intermediate calls passes that string
 along, ultimately returning the solution.
 
 ## Growing functions
@@ -757,7 +757,7 @@ good name for it, and put it into a function.
 
 The second way is that you find you need some functionality that you
 haven't written yet and that sounds like it deserves its own function.
-You'll start by naming the function, and you'll then write its body.
+You'll start by naming the function, and then you'll write its body.
 You might even start writing code that uses the function before you
 actually define the function itself.
 
@@ -878,10 +878,10 @@ number-formatting system that handles fractional numbers, negative
 numbers, alignment of decimal dots, padding with different characters,
 and so on.
 
-A useful principle is not to add cleverness unless you are absolutely
+A useful principle is to not add cleverness unless you are absolutely
 sure you're going to need it. It can be tempting to write general
 "((framework))s" for every bit of functionality you come across.
-Resist that urge. You won't get any real work done, you'll just be
+Resist that urge. You won't get any real work done—you'll just be
 writing code that you never use.
 
 {{id pure}}
@@ -891,7 +891,7 @@ writing code that you never use.
 
 Functions can be roughly divided into those that are called for their
 side effects and those that are called for their return value. (Though
-it is definitely also possible to have both side effects and return a
+it is definitely also possible to both have side effects and return a
 value.)
 
 {{index reuse}}

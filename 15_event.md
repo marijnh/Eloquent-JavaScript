@@ -939,7 +939,7 @@ document finishes loading, a `"load"` event fires on the window.
 
 {{index "balloon (exercise)", "arrow key"}}
 
-Write a page that display a ((balloon)) (using the balloon ((emoji)),
+Write a page that displays a ((balloon)) (using the balloon ((emoji)),
 🎈). When you press the up arrow, it should inflate (grow) ten percent,
 and when you press the down arrow, it should deflate (shrink) 10%.
 

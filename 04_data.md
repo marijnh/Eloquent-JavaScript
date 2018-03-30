@@ -164,11 +164,11 @@ named "x", `value[x]` tries to evaluate the expression `x` and uses
 the result as the property name.
 
 So if you know that the property you are interested in is called
-"name", you say `value.name`. If you want to extract the property
+_name_, you say `value.name`. If you want to extract the property
 named by the value held in the binding `i`, you say `value[i]`.
 Property names can be any string, but the dot notation only works with
 names that look like valid binding names. So if you want to access a
-property named "2" or "John Doe", you must use square brackets:
+property named _2_ or _John Doe_, you must use square brackets:
 `value[2]` or `value["John Doe"]`.
 
 The elements in an ((array)) are stored as the array's properties, using
@@ -243,7 +243,7 @@ and returning it.
 These somewhat silly names are the traditional terms for operations on
 a _((stack))_. A stack, in programming, is a ((data structure)) that
 allows you to push values into it and pop them out again in the
-opposite order, so the thing that was added last is removed first.
+opposite order, so that the thing that was added last is removed first.
 These are common in programming—you might remember the function ((call
 stack)) from [the previous chapter](functions#stack), which is an
 instance of the same idea.
@@ -284,7 +284,7 @@ console.log(day1.wolf);
 Inside the braces, there is a list of properties separated by commas.
 Each property has a name followed by a colon and a value. When an
 object is written over multiple lines, indenting it like in the
-example helps with readability. Properties whose names are not valid
+example helps with readability. Properties whose names aren't valid
 binding names or valid numbers have to be quoted.
 
 ```
@@ -457,12 +457,12 @@ the same object, the _contents_ of that object might change.
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
-When you compare objects with JavaScript's `==` operator it will
+When you compare objects with JavaScript's `==` operator, it will
 produce `true` only if both objects are precisely the same value.
 Comparing different objects will return `false`, even if they have
 identical properties. There is no "deep" comparison operation built
 into JavaScript, which compares objects by contents, but it is
-possible to write it yourself (which will be one of the
+possible to write it yourself (which is one of the
 [exercises](data#exercise_deep_compare) at the end of this chapter).
 
 ## The lycanthrope's log
@@ -559,7 +559,7 @@ if}}
 (If at this point you're putting the book down to focus on a terrible
 flashback to 10th grade math class—hold on! I do not intend to torture
 you with endless pages of cryptic notation—just this one formula for
-now. And even with that one, all we do is turn it into JavaScript.)
+now. And even with this one, all we do is turn it into JavaScript.)
 
 The notation [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex} indicates
 the number of measurements where the first variable (squirrelness) is
@@ -783,7 +783,7 @@ for (let event of journalEvents(JOURNAL)) {
 // → peanuts:        0.5902679812
 ```
 
-A-ha! There are two factors whose ((correlation)) is clearly stronger
+A-ha! There are two factors with a ((correlation)) that's clearly stronger
 than the others. Eating ((peanuts)) has a strong positive effect on
 the chance of turning into a squirrel, whereas brushing his teeth has
 a significant negative effect.
@@ -826,7 +826,7 @@ vanishes into the forest. He is never seen again.
 {{index [array, methods], method}}
 
 Before finishing the chapter, I want to introduce you to a few more
-object-related concepts. We'll start by introducing some generally
+object-related concepts. I'll start by introducing some generally
 useful array methods.
 
 {{index "push method", "pop method", "shift method", "unshift method"}}
@@ -860,7 +860,7 @@ adds it to the front instead of the back of the queue.
 {{index [array, searching], "indexOf method", "lastIndexOf method"}}
 
 To search for a specific value, arrays provide an `indexOf` method. It
-goes through the array from the start to the end, and returns the
+goes through the array from the start to the end and returns the
 index at which the requested value was found—or -1 if it wasn't found.
 To search from the end instead of the start, there's a similar method
 called `lastIndexOf`.
@@ -900,7 +900,7 @@ The `concat` method can be used to glue arrays together to create a
 new array, similar to what the `+` operator does for strings. The
 following example shows both `concat` and `slice` in action. It takes
 an array and an index, and it returns a new array that is a copy of
-the original array with the element at the given index removed.
+the original array with the element at the given index removed:
 
 ```
 function remove(array, index) {
@@ -912,7 +912,7 @@ console.log(remove(["a", "b", "c", "d", "e"], 2));
 ```
 
 If you pass `concat` an argument that is not an array, that value will
-be added to the new array as if it was a one-element array.
+be added to the new array as if it were a one-element array.
 
 ## Strings and their properties
 
@@ -1147,8 +1147,8 @@ console.log(Math.random());
 
 Though computers are deterministic machines—they always react the same
 way if given the same input—it is possible to have them produce
-numbers that appear random. To do this, the machine keeps some hidden
-value, and whenever you ask for a new random number, it'll perform
+numbers that appear random. To do that, the machine keeps some hidden
+value, and whenever you ask for a new random number, it performs
 complicated computations on this hidden value to create a new value.
 It stores a new value and returns some number derived from it. That
 way, it can produce ever new, hard-to-predict numbers in a way that
@@ -1197,7 +1197,7 @@ function phi(table) {
 
 One of the reasons this function is awkward to read is that we have a
 binding pointing at our array, but we'd much prefer to have bindings
-for the _elements_ of the array. I.e. `let n00 = table[0]`, and so on.
+for the _elements_ of the array, that is, `let n00 = table[0]` and so on.
 Fortunately, there is a succinct way to do this in JavaScript.
 
 ```
@@ -1229,14 +1229,14 @@ console.log(name);
 {{index null, undefined}}
 
 Note that if you try to destructure `null` or `undefined`, you get an
-error, much like you would if you'd directly try to access a property
+error, much as you would if you directly try to access a property
 of those values.
 
 ## JSON
 
 {{index [array, representation], [object, representation], "data format"}}
 
-Because properties only grasp their value, rather than containing it,
+Because properties only grasp their value, rather than contain it,
 objects and arrays are stored in the computer's ((memory)) as
 sequences of bits holding the _((address))es_—the place in memory—of
 their contents. So an array with another array inside of it consists
@@ -1389,7 +1389,7 @@ by writing two separate loops—one for counting up and one for counting
 down—because the comparison that checks whether the loop is finished
 needs to be `>=` rather than `<=` when counting downward.
 
-It might also be worthwhile to use a different default step, namely,
+It might also be worthwhile to use a different default step, namely
 -1, when the end of the range is smaller than the start. That way,
 `range(5, 2)` returns something meaningful, rather than getting stuck
 in an ((infinite loop)). It is possible to refer to previous
@@ -1437,9 +1437,9 @@ if}}
 There are two obvious ways to implement `reverseArray`. The first is
 to simply go over the input array from front to back and use the
 `unshift` method on the new array to insert each element at its start.
-The second is to loop over the input array backward and use the `push`
-method. Iterating over an array backward requires a (somewhat awkward)
-`for` specification like `(let i = array.length - 1; i >= 0; i--)`.
+The second is to loop over the input array backwards and use the `push`
+method. Iterating over an array backwards requires a (somewhat awkward)
+`for` specification, like `(let i = array.length - 1; i >= 0; i--)`.
 
 {{index "slice method"}}
 
@@ -1500,7 +1500,7 @@ original list is also still a valid three-element list.
 
 Write a function `arrayToList` that builds up a list structure like
 the one shown when given `[1, 2, 3]` as argument. Also write a
-`listToArray` function that produces an array from a list. Then, add a
+`listToArray` function that produces an array from a list. Then add a
 helper function `prepend`, which takes an element and a list and
 creates a new list that adds the element to the front of the input
 list, and `nth`, which takes a list and a number and returns the
@@ -1532,7 +1532,7 @@ if}}
 {{index "list (exercise)", "linked list"}}
 
 Building up a list is easier when done back to front. So `arrayToList`
-could iterate over the array backward (see previous exercise) and, for
+could iterate over the array backwards (see previous exercise) and, for
 each element, add an object to the list. You can use a local binding
 to hold the part of the list that was built so far and use an
 assignment like `list = {value: X, rest: list}` to add an element.
@@ -1570,10 +1570,10 @@ hint}}
 
 {{index "deep comparison (exercise)", comparison, "deep comparison", "== operator"}}
 
-The `==` operator compares objects by identity. But sometimes, you
-would prefer to compare the values of their actual properties.
+The `==` operator compares objects by identity. But sometimes you'd
+prefer to compare the values of their actual properties.
 
-Write a function, `deepEqual`, that takes two values and returns true
+Write a function `deepEqual` that takes two values and returns true
 only if they are the same value or are objects with the same
 properties, where the values of the properties are equal when compared
 with a recursive call to `deepEqual`.

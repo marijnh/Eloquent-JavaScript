@@ -743,7 +743,7 @@ hint}}
 
 {{index closure, [function, scope], "closure in egg (exercise)"}}
 
-The way we have defined `fun` allows functions in Egg to "close over"
+The way we have defined `fun` allows functions in Egg to reference
 the surrounding scope, allowing the function's body to use local
 values that were visible at the time the function was defined, just
 like JavaScript functions do.
@@ -771,7 +771,7 @@ mechanism causes this to work.
 Again, we are riding along on a JavaScript mechanism to get the
 equivalent feature in Egg. Special forms are passed the local scope in
 which they are evaluated so that they can evaluate their subforms in
-that scope. The function returned by `fun` closes over the `scope`
+that scope. The function returned by `fun` has access to the `scope`
 argument given to its enclosing function and uses that to create the
 function's local ((scope)) when it is called.
 

@@ -98,13 +98,13 @@ cause the function to return `undefined`. Functions that don't have a
 `return` statement at all, such as `makeNoise`, similarly return
 `undefined`.
 
-## Parameters and scopes
-
 {{index parameter, [function, application], [binding, "from parameter"]}}
 
 Parameters to a function behave like regular bindings, but their
 initial values are given by the _caller_ of the function, not the code
 in the function itself.
+
+## Bindings and scopes
 
 {{indexsee "top-level scope", "global scope"}}
 {{index "var keyword", "global scope", [binding, global], [binding, "scope of"]}}
@@ -164,6 +164,8 @@ const halve = function(n) {
 let n = 10;
 console.log(halve(100));
 // → 50
+console.log(n);
+// → 10
 ```
 
 {{id scoping}}
@@ -207,10 +209,10 @@ from the outer function. But its local bindings, such as `unit` or
 
 In short, each local scope can also see all the local scopes that
 contain it. The set of bindings visible inside a block is determined
-by the place of that block in the program text. All bindings defined
-in scopes _above_ it are visible—both those in blocks that enclose it
-and those at the top level of the program. This approach to binding
-visibility is called _((lexical scoping))_.
+by the place of that block in the program text. Each local scope can
+also see all the local scopes that contain it, and all scopes can see
+the global scope. This approach to binding visibility is called
+_((lexical scoping))_.
 
 ## Functions as values
 
@@ -226,8 +228,8 @@ But the two are different. A function value can do all the things that
 other values can do—you can use it in arbitrary ((expression))s, not
 just call it. It is possible to store a function value in a new
 binding, pass it as an argument to a function, and so on. Similarly, a
-binding that holds a function is still just a regular binding and can
-be assigned a new value, like so:
+binding that holds a function is still just a regular binding and can,
+if not constant, be assigned a new value, like so:
 
 ```{test: no}
 let launchMissiles = function() {
@@ -370,13 +372,13 @@ returns, the program reaches its end.
 We could show the flow of control schematically like this:
 
 ```{lang: null}
-top
-   greet
-        console.log
-   greet
-top
-   console.log
-top
+not in function
+   in greet
+        in console.log
+   in greet
+not in function
+   in console.log
+not in function
 ```
 
 {{index "return keyword", memory}}
@@ -390,7 +392,7 @@ the program.
 The place where the computer stores this context is the _((call
 stack))_. Every time a function is called, the current context is
 stored on top of this stack. When a function returns, it removes the
-top context from the stack and uses that to continue execution.
+top context from the stack and uses that context to continue execution.
 
 {{index "infinite loop", "stack overflow", recursion}}
 
@@ -460,15 +462,14 @@ console.log(minus(10, 5));
 {{id power}}
 {{index "optional argument", "default value", parameter, "= operator"}}
 
-Often, when a function allows you to omit some arguments, those will
-get default values when not given. If you write an `=` operator after
+If you write an `=` operator after
 a parameter, followed by an expression, the value of that expression
 will replace the argument when it is not given.
 
 {{index "power example"}}
 
 For example, this version of `power` makes its second argument
-optional. If you don't provide it, it will default to two, and the
+optional. If you don't provide it or pass the value `undefined`, it will default to two, and the
 function will behave like `square`.
 
 ```{test: wrap}
@@ -533,7 +534,7 @@ different calls can't trample on one another's local bindings.
 
 This feature—being able to reference a specific instance of a local
 binding in an enclosing scope—is called _((closure))_. A function that
-_closes over_ some local bindings is called _a_ closure. This behavior
+references bindings from local scopes around it is called _a_ closure. This behavior
 not only frees you from having to worry about lifetimes of bindings
 but also makes it possible to use function values in some creative
 ways.
@@ -563,8 +564,8 @@ needed since a parameter is itself a local binding.
 Thinking about programs like this takes some practice. A good mental
 model is to think of function values as containing both the code in
 their body and the environment in which they are created. When called,
-the function body sees its original environment, not the environment
-in which the call is made.
+the function body sees the environment in which it was created, not the
+environment in which it is called.
 
 In the example, `multiplier` is called and creates an environment in
 which its `factor` parameter is bound to 2. The function value it
@@ -779,7 +780,8 @@ always three digits long.
 011 Chickens
 ```
 
-This asks for a function of two arguments. Let's get coding.
+This asks for a function of two arguments—the number of cows and the
+number of chickens. Let's get coding.
 
 ```
 function printFarmInventory(cows, chickens) {
@@ -935,7 +937,7 @@ and give it a function as its value. Arrow functions are yet another
 way to create functions.
 
 ```
-// Create a function value f
+// Define f to hold a function value
 const f = function(a) {
   console.log(a + 2);
 };
@@ -1104,6 +1106,6 @@ variable. Once the loop has finished, the counter can be returned.
 {{index "local binding"}}
 
 Take care to make all the bindings used in the function _local_ to the
-function by using the `let` keyword.
+function by properly declaring them with the `let` or `const` keyword.
 
 hint}}

@@ -270,7 +270,7 @@ function runRobot(state, robot, memory) {
 
 Consider what a robot has to do to "solve" a given state. It must pick
 up all parcels by visiting every location that has a parcel, and
-deliver them, by visiting every location that a parcel is address to,
+deliver them, by visiting every location that a parcel is addressed to,
 but only after picking up the parcel.
 
 What is the dumbest strategy that could possibly work? The robot could

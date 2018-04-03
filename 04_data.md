@@ -13,7 +13,7 @@ quote}}
 
 {{index "Babbage, Charles"}}
 
-{{figure {url: "img/chapter_picture_4.jpg", alt: "A weresquirrel", chapter: framed}}}
+{{figure {url: "img/chapter_picture_4.jpg", alt: "Picture of a weresquirrel", chapter: framed}}}
 
 {{index object, "data structure"}}
 

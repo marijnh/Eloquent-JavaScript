@@ -12,6 +12,8 @@ quote}}
 
 {{index "Liskov, Barbara", "abstract data type"}}
 
+{{figure {url: "img/chapter_picture_6.jpg", alt: "Picture of a rabbit with its proto-rabbit", chapter: framed}}}
+
 [Chapter ?](data) introduced JavaScript's ((object))s. In programming
 culture, we have a thing called _((object-oriented programming))_, a
 set of techniques that uses objects (and related concepts) as the

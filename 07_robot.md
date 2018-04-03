@@ -9,7 +9,11 @@ relevant as the question of whether Submarines Can Swim.
 
 quote}}
 
-{{index "artificial intelligence", "Dijkstra, Edsger", "project chapter", "reading code", "writing code"}}
+{{index "artificial intelligence", "Dijkstra, Edsger"}}
+
+{{figure {url: "img/chapter_picture_7.jpg", alt: "Picture of a package-delivery robot", chapter: framed}}}
+
+{{index "project chapter", "reading code", "writing code"}}
 
 In "project" chapters, I'll stop pummeling you with new theory for a
 brief moment and instead we'll work through a program together. Theory

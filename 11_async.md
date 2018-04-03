@@ -11,6 +11,8 @@ quote}}
 
 {{index "Laozi"}}
 
+{{figure {url: "img/chapter_picture_11.jpg", alt: "Picture of two crows on a branch", chapter: framed}}}
+
 The central part of a computer, the part that carries out the
 individual steps that make up our programs, is called the
 _((processor))_. The programs we have seen so far are things that will

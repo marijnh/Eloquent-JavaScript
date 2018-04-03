@@ -11,7 +11,7 @@ quote}}
 
 {{index why, "Poignant Guide"}}
 
-{{figure {url: "img/chapter_picture_2.jpg", alt: "Tentacles holding objects", chapter: framed}}}
+{{figure {url: "img/chapter_picture_2.jpg", alt: "Picture of tentacles holding objects", chapter: framed}}}
 
 In this chapter, we start to do things that can actually be called
 _programming_. We will expand our command of the JavaScript language

@@ -8,7 +8,11 @@ Write code that is easy to delete, not easy to extend.
 
 quote}}
 
-{{index organization, "code structure", "Yuan-Ma", "Book of Programming"}}
+{{index "Yuan-Ma", "Book of Programming"}}
+
+{{figure {url: "img/chapter_picture_10.jpg", alt: "Picture of a building built from modular pieces", chapter: framed}}}
+
+{{index organization, "code structure"}}
 
 The ideal program has a crystal clear structure. It's easy to explain
 how it works, and each part plays a well-defined role.

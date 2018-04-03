@@ -10,6 +10,8 @@ definition, not smart enough to debug it.
 
 quote}}
 
+{{figure {url: "img/chapter_picture_8.jpg", alt: "Picture of a collection of bugs", chapter: framed}}}
+
 {{index "Kernighan, Brian", "Plauger, P.J.", debugging, "error handling"}}
 
 Flaws in computer programs are usually called _((bug))s_. It makes

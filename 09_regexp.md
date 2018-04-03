@@ -7,6 +7,8 @@ regular expressions.' Now they have two problems.
 
 quote}}
 
+{{index "Zawinski, Jamie"}}
+
 {{if interactive
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
@@ -19,7 +21,9 @@ quote}}
 
 if}}
 
-{{index "Zawinski, Jamie", evolution, adoption, integration}}
+{{figure {url: "img/chapter_picture_9.jpg", alt: "A railroad diagram", chapter: "square-framed"}}}
+
+{{index evolution, adoption, integration}}
 
 Programming ((tool))s and techniques survive and spread in a chaotic,
 evolutionary way. It's not always the pretty or brilliant ones that

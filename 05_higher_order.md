@@ -41,7 +41,7 @@ find.
 {{index "summing example"}}
 
 Let's briefly go back to the final two example programs in the
-introduction. The first is self-contained and six lines long.
+introduction. The first is self-contained and six lines long:
 
 ```
 let total = 0, count = 1;
@@ -52,7 +52,7 @@ while (count <= 10) {
 console.log(total);
 ```
 
-The second relies on two external functions and is one line long.
+The second relies on two external functions and is one line long:
 
 ```
 console.log(sum(range(1, 10)));
@@ -195,7 +195,7 @@ console.log(labels);
 {{index "loop body", "curly braces"}}
 
 This is structured a little like a `for` loop—it first describes the
-kind of loop, and then gives a body. However, the body is now written
+kind of loop and then provides a body. However, the body is now written
 as a function value, which is wrapped in the ((parentheses)) of the
 call to `repeat`. This is why it has to be closed with the closing
 brace _and_ closing parenthesis. In cases like this example, where the
@@ -282,7 +282,7 @@ Cyrillic, or Arabic.
 Remember ((Unicode)) from [Chapter ?](values#unicode), the system that
 assigns a number to each character in written language. Most of these
 characters are associated with a specific script. The standard
-contains 140 different scripts. 81 of which are still in use today, 59
+contains 140 different scripts—81 are still in use today, and 59
 are historic.
 
 Though I can only fluently read Latin characters, I appreciate the
@@ -326,7 +326,7 @@ The `ranges` property contains an array of Unicode character
 ((range))s, each of which is a two-element array containing a lower
 and upper bound. Any character codes within these ranges are assigned
 to the script. The lower ((bound)) is inclusive (code 994 is a Coptic
-character) and the upper bound non-inclusive (code 1008 isn't).
+character), and the upper bound non-inclusive (code 1008 isn't).
 
 ## Filtering arrays
 
@@ -334,7 +334,7 @@ character) and the upper bound non-inclusive (code 1008 isn't).
 
 To find the scripts in the data set that are still in use, the
 following function might be helpful. It filters out the elements in an
-array that don't pass a test.
+array that don't pass a test:
 
 ```
 function filter(array, test) {
@@ -425,7 +425,7 @@ number zero and, for each element, add that to the sum.
 
 The parameters to `reduce` are, apart from the array, a combining
 function and a start value. This function is a little less
-straightforward than `filter` and `map`, so look closely.
+straightforward than `filter` and `map`, so look closely:
 
 ```
 function reduce(array, combine, start) {
@@ -477,13 +477,13 @@ list of the reducer function. The second call to `reduce` then uses
 this to find the largest script by repeatedly comparing two scripts
 and returning the larger one.
 
-The Han script has over 89 thousand characters assigned to it in the
+The Han script has over 89,000 characters assigned to it in the
 Unicode standard, making it by far the biggest writing system in the
 data set. Han is a script (sometimes) used for Chinese, Japanese, and
 Korean text. Those languages share a lot of characters, though they
-tend to write them differently. The (US based) Unicode Consortium
+tend to write them differently. The (US-based) Unicode Consortium
 decided to treat them as a single writing system in order to save
-character codes. This is called "Han unification" and still makes some
+character codes. This is called _Han unification_ and still makes some
 people very angry.
 
 ## Composability
@@ -605,7 +605,7 @@ But how do we get the character codes in a string?
 In [Chapter ?](values) I mentioned that JavaScript ((string))s are
 encoded as a sequence of 16-bit numbers. These are called _((code
 unit))s_. A ((Unicode)) ((character)) code was initially supposed to
-fit within such a unit (which gives you a little over 65 thousand
+fit within such a unit (which gives you a little over 65,000
 characters). When it became clear that wasn't going to be enough, many
 people balked at the need to use more memory per character. To address
 these concerns, ((UTF-16)), the format used by JavaScript strings, was
@@ -680,7 +680,7 @@ units), you can use `codePointAt(0)` to get its code.
 We have a `characterScript` function and a way to correctly loop over
 characters. The next step would be to count the characters that belong
 to each script. The following counting abstraction will be useful
-there.
+there:
 
 ```{includeCode: strip_log}
 function countBy(items, groupName) {
@@ -751,7 +751,7 @@ To be able to compute ((percentage))s, we first need the total amount
 of characters that belong to a script, which we can compute with
 `reduce`. If no such characters are found, the function returns a
 specific string. Otherwise, it transforms the counting entries into
-readable strings with `map`, and then combine them with `join`.
+readable strings with `map` and then combines them with `join`.
 
 ## Summary
 
@@ -796,9 +796,9 @@ if}}
 Write a higher-order function `loop` that provides something like a
 `for` loop statement. It takes a value, a test function, an update
 function, and a body function. Each iteration, it first runs the test
-function on the current loop value, and stops if that returns false.
+function on the current loop value and stops if that returns false.
 Then it calls the body function, giving it the current value. And
-finally, it calls the update function to create a new value, and
+finally, it calls the update function to create a new value and
 starts from the beginning.
 
 When defining the function, you can use a regular loop to do the
@@ -859,8 +859,8 @@ function returns false. If the loop runs to its end without finding
 such an element, we know that all elements matched and we should
 return true.
 
-To build `every` on top of `some`, we can apply "((De Morgan's
-laws))", which state that `a && b` equals `!(!a || !b)`. This can be
+To build `every` on top of `some`, we can apply _((De Morgan's
+laws))_, which state that `a && b` equals `!(!a || !b)`. This can be
 generalized to arrays, where all elements in the array match if there
 is no element in the array that does not match.
 
@@ -878,7 +878,7 @@ or `"ttb"` (top-to-bottom).
 {{index "characterScript function", "countBy function"}}
 
 The dominant direction is the direction of a majority of the
-characters which have a script associated with them. The
+characters that have a script associated with them. The
 `characterScript` and `countBy` functions defined earlier in the
 chapter are probably useful here.
 
@@ -902,7 +902,7 @@ if}}
 
 Your solution might look a lot like the first half of the
 `textScripts` example. You again have to count characters by a
-criteria based on `characterScript`, and then filter out the part of
+criterion based on `characterScript`, and then filter out the part of
 the result that refers to uninteresting (script-less characters).
 
 {{index "reduce method"}}

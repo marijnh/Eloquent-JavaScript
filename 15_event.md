@@ -52,20 +52,24 @@ functions as _handlers_ for specific events.
 </script>
 ```
 
-{{index "click event", "addEventListener method"}}
+{{index "click event", "addEventListener method", "window object"}}
 
-The `addEventListener` method registers its second argument to be
-called whenever the event described by its first argument occurs.
+The `window` binding refers to a built-in object provided by the
+browser. It represents the ((browser)) window that contains the
+document. Calling its `addEventListener` method registers the second
+argument to be called whenever the event described by its first
+argument occurs.
 
 ## Events and DOM nodes
 
-{{index "addEventListener method", "event handling"}}
+{{index "addEventListener method", "event handling", "window object"}}
 
 Each ((browser)) event handler is registered in a context. We called
-`addEventListener` on the `window` object before. This method can also
-be found on ((DOM)) elements and some other types of objects. Event
-listeners are only called when the event happens in the context of the
-object they are registered on.
+`addEventListener` on the `window` object before to register a handler
+for the whole window. Such a method can also be found on ((DOM))
+elements and some other types of objects. Event listeners are only
+called when the event happens in the context of the object they are
+registered on.
 
 ```{lang: "text/html"}
 <button>Click me</button>

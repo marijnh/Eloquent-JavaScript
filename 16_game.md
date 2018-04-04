@@ -197,8 +197,8 @@ field types like `"empty"`, `"wall"`, or `"lava"`.
 {{index "map method"}}
 
 To create these arrays we map over the rows, and then over their
-content. Remember that map passes the array index as a second argument
-to the mapping function, which are used here to know the x- and
+content. Remember that `map` passes the array index as a second
+argument to the mapping function, which tells us the the x- and
 y-coordinates of a given character. Positions in the game will be
 stored as pairs of coordinates, with the top left being 0,0, and each
 background square being 1 unit high and wide.

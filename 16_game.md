@@ -803,7 +803,7 @@ interactions between the elements. When the player hits a wall or
 floor, they should not simply move through it. The game must notice
 when a given motion causes an object to hit another object and respond
 accordingly. For walls, the motion must be stopped. When hitting a
-coin, it be collected. When touching lava, the game should be lost.
+coin, it must be collected. When touching lava, the game should be lost.
 
 Solving this for the general case is a big task. You can find
 libraries, usually called _((physics engine))s_, that simulate

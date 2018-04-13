@@ -567,7 +567,7 @@ But often problems like this occur in more subtle ways. Even functions
 that don't look like they will throw an exception might do so in
 exceptional circumstances or when they contain a programmer mistake.
 
-One way to address this is to use less side effects. Again, a
+One way to address this is to use fewer side effects. Again, a
 programming style that computes new values instead of changing
 existing data helps. If a piece of code stops running in the middle of
 creating a new value, no one ever sees the half-finished value, and

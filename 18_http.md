@@ -284,7 +284,7 @@ request is addressed to can't be found.
 {{index [path, URL], "relative URL"}}
 
 The first argument to `fetch` is the URL that should be requested.
-What that ((URL)) doesn't start with a protocol name (such as _http:_)
+When that ((URL)) doesn't start with a protocol name (such as _http:_)
 it is treated as relative, which means that it is interpreted relative
 to the current document. When it starts with a slash (/), it replaces
 the current path, which is the part after the server name. When it

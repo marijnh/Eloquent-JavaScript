@@ -87,7 +87,7 @@ with `counter` in the example, JavaScript quietly creates a global
 binding and uses that. In strict mode an ((error)) is reported
 instead. This is very helpful. It should be noted, though, that this
 doesn't work when the binding in question already exists as a global
-binding. In that case the loop will still quietly overwrite the value
+binding. In that case, the loop will still quietly overwrite the value
 of the binding.
 
 {{index this, "global object", undefined, "strict mode"}}
@@ -365,7 +365,7 @@ have the network fail.
 If you're only programming for yourself, you can afford to just ignore
 such problems until they occur. But if you build something that is
 going to be used by anybody else, you usually want the program to do
-better than just crashing. Sometimes the right thing to do is take the
+better than just crash. Sometimes the right thing to do is take the
 bad input in stride and continue running. In other cases, it is better
 to report to the user what went wrong and then give up. But in either
 situation, the program has to actively do something in response to the
@@ -507,7 +507,7 @@ the failing call.
 
 Note that the `look` function completely ignores the possibility that
 `promptDirection` might go wrong. This is the big advantage of
-exceptions—error-handling code is necessary only at the point where
+exceptions: Error-handling code is necessary only at the point where
 the error occurs and at the point where it is handled. The functions
 in between can forget all about it.
 
@@ -567,7 +567,7 @@ But often problems like this occur in more subtle ways. Even functions
 that don't look like they will throw an exception might do so in
 exceptional circumstances or when they contain a programmer mistake.
 
-One way to address this is to use less side effects. Again, a
+One way to address this is to use fewer side effects. Again, a
 programming style that computes new values instead of changing
 existing data helps. If a piece of code stops running in the middle of
 creating a new value, no one ever sees the half-finished value, and
@@ -579,7 +579,7 @@ But that isn't always practical. So there is another feature that
 `try` statements have. They may be followed by a `finally` block
 either instead of or in addition to a `catch` block. A `finally` block
 says "no matter _what_ happens, run this code after trying to run the
-code in the `try` block".
+code in the `try` block."
 
 ```{includeCode: true}
 function transfer(from, amount) {
@@ -666,7 +666,7 @@ the `catch` block.
 
 But it might not be. Some other ((assumption)) might be violated, or
 you might have introduced a bug that is causing an exception. Here is
-an example, which _attempts_ to keep on calling `promptDirection`
+an example that _attempts_ to keep on calling `promptDirection`
 until it gets a valid answer:
 
 ```{test: no}
@@ -689,7 +689,7 @@ valid direction is given. _But_ we misspelled `promptDirection`, which
 will result in an "undefined variable" error. Because the `catch`
 block completely ignores its exception value (`e`), assuming it knows
 what the problem is, it wrongly treats the binding error as indicating
-bad input. Not only does this cause an infinite loop, but it also
+bad input. Not only does this cause an infinite loop, it also
 "buries" the useful error message about the misspelled binding.
 
 As a general rule, don't blanket-catch exceptions unless it is for the
@@ -731,7 +731,7 @@ function promptDirection(question) {
 The new error class extends `Error`. It doesn't define its own
 constructor, which means that it inherits the `Error` constructor,
 which expects a string message as argument. In fact, it doesn't define
-anything at all—the class is empty. `InputError` object behave like
+anything at all—the class is empty. `InputError` objects behave like
 `Error` objects, except that they have a different class by which we
 can recognize them.
 
@@ -770,7 +770,7 @@ the way it is supposed to be. They are used not to handle situations
 that can come up in normal operation, but to find programmer mistakes.
 
 If, for example, `firstElement` is described as a function that should
-never be called on empty arrays, we might write it like this.
+never be called on empty arrays, we might write it like this:
 
 ```
 function firstElement(array) {
@@ -812,7 +812,7 @@ exception value will be given to the `catch` block that catches it,
 which should verify that it is actually the expected kind of exception
 and then do something with it. To help address the unpredictable
 control flow caused by exceptions, `finally` blocks can be used to
-ensure a piece of code _always_ runs when a block finishes.
+ensure that a piece of code _always_ runs when a block finishes.
 
 ## Exercises
 
@@ -949,6 +949,6 @@ body. The `finally` block after it should lock the box again.
 
 To make sure we don't lock the box when it wasn't already locked,
 check its lock at the start of the function and unlock and lock
-it only  when it started out locked.
+it only when it started out locked.
 
 hint}}

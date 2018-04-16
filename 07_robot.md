@@ -28,8 +28,8 @@ will be a mail-delivery ((robot)) picking up and dropping off parcels.
 
 {{index "roads array"}}
 
-The village of ((Meadowfield)) isn't very big. It consists of eleven
-places with fourteen roads between them. It can be described with this
+The village of ((Meadowfield)) isn't very big. It consists of 11
+places with 14 roads between them. It can be described with this
 array of roads:
 
 ```{includeCode: true}
@@ -88,10 +88,10 @@ as separate strings.
 
 ## The task
 
-Our ((robot)) will be moving around the village. There will be parcels
+Our ((robot)) will be moving around the village. There are parcels
 in various places, each addressed to some other place. The robot picks
-up parcels when it comes to them, and delivers them when it arrives at
-their destination.
+up parcels when it comes to them and delivers them when it arrives at
+their destinations.
 
 The automaton must decide, at each point, where to go next. It has
 finished its task when all parcels have been delivered.
@@ -157,7 +157,7 @@ if not, it returns the old state, since this is not a valid move.
 
 {{index "map method", "filter method"}}
 
-Then, it creates a new state with the destination as the robot's new
+Then it creates a new state with the destination as the robot's new
 place. But it also needs to create a new set of parcels—parcels that
 the robot is carrying (that are at the robot's current place) need to
 be moved along to the new place. And parcels that are addressed to the
@@ -193,13 +193,13 @@ where the robot is at the post office and the parcel is undelivered.
 {{index "persistent data structure", mutability, "data structure"}}
 
 Data structures that don't change are called _((immutable))_ or
-_persistent_. They behave a lot like strings and numbers, in that they
+_persistent_. They behave a lot like strings and numbers in that they
 are who they are, and stay that way, rather than containing different
 things at different times.
 
 In JavaScript, just about everything _can_ be changed, so working with
 values that are supposed to be persistent requires some restraint.
-There is a function called `Object.freeze`, which changes an object so
+There is a function called `Object.freeze` that changes an object so
 that writing to its properties is ignored. You could use that to make
 sure your objects aren't changed, if you want to be careful. Freezing
 does require the computer to do some extra work, and having updates
@@ -214,7 +214,7 @@ console.log(object.value);
 // → 5
 ```
 
-Why am I going out of my way to not change objects, when the language
+Why am I going out of my way to not change objects when the language
 is obviously expecting me to?
 
 Because it helps me understand my programs. This is about complexity
@@ -230,17 +230,17 @@ limit on what kind of systems we can build is how much we can
 understand. Anything that makes your code easier to understand makes
 it possible to build a more ambitious system.
 
-Unfortunately, while understanding a system built on persistent data
+Unfortunately, although understanding a system built on persistent data
 structures is easier, _designing_ one, especially when your
-programming language isn't helping, can be a little harder. Though
-we'll look for opportunities to use persistent data structures in this
-book, we will also be using changeable ones.
+programming language isn't helping, can be a little harder. We'll
+look for opportunities to use persistent data structures in this
+book, but we'll also be using changeable ones.
 
 ## Simulation
 
 {{index simulation, "virtual world"}}
 
-A delivery ((robot)) looks at the world, and decides in which
+A delivery ((robot)) looks at the world and decides in which
 direction it wants to move. As such, we could say that a robot is a
 function that takes a `VillageState` object and returns the name of a
 nearby place.
@@ -248,7 +248,7 @@ nearby place.
 {{index "runRobot function"}}
 
 Because we want robots to be able to remember things, so that they can
-make and execute plans, we also pass them their memory, and allow them
+make and execute plans, we also pass them their memory and allow them
 to return a new memory. Thus, the thing a robot returns is an object
 containing both the direction it wants to move in and a memory value
 that will be given back to it the next time it is called.
@@ -270,12 +270,12 @@ function runRobot(state, robot, memory) {
 
 Consider what a robot has to do to "solve" a given state. It must pick
 up all parcels by visiting every location that has a parcel, and
-deliver them, by visiting every location that a parcel is addressed to,
+deliver them by visiting every location that a parcel is addressed to,
 but only after picking up the parcel.
 
 What is the dumbest strategy that could possibly work? The robot could
-just walk in a random direction every turn. That means that, with
-great likelihood, it will eventually run into all parcels, and then
+just walk in a random direction every turn. That means, with
+great likelihood, that it will eventually run into all parcels, and then
 also at some point reach the place where they should be delivered.
 
 {{index "randomPick function", "randomRobot function"}}
@@ -302,7 +302,7 @@ the array.
 
 Since this robot does not need to remember anything, it ignores its
 second argument (remember that JavaScript functions can be called with
-extra arguments without ill effects), and omits the `memory` property
+extra arguments without ill effects) and omits the `memory` property
 in its returned object.
 
 To put this sophisticated robot to work, we'll first need a way to
@@ -348,7 +348,7 @@ isn't planning ahead very well. We'll address that soon.
 
 For a more pleasant perspective on the simulation, you can use the
 `runRobotAnimation` function that's available in this chapter's
-programming environment. This will run the simulation, but instead of
+programming environment. This runs the simulation, but instead of
 outputting text, it shows you the robot moving around the village map.
 
 ```{test: no}
@@ -385,7 +385,7 @@ const mailRoute = [
 {{index "routeRobot function"}}
 
 To implement the route-following robot, we'll need to make use of
-robot memory. The robot keeps the rest of its route in its memory, and
+robot memory. The robot keeps the rest of its route in its memory and
 drops the first element every turn.
 
 ```{includeCode: true}
@@ -423,11 +423,11 @@ require some kind of route-finding function.
 
 The problem of finding a route through a ((graph)) is a typical
 _((search problem))_. We can tell whether a given solution (a route)
-is a valid solution, but we can't directly compute the solution, the
+is a valid solution, but we can't directly compute the solution the
 way we could for 2 + 2. Instead, we have to keep creating potential
 solutions until we find one that works.
 
-There is an infinite amount of possible routes through a graph. But
+The  number of possible routes through a graph is infinite. But
 when searching for a route from _A_ to _B_, we are only interested in
 the ones that start at _A_. We also don't care about routes that visit
 the same place twice—those are definitely not the most efficient route
@@ -446,7 +446,7 @@ shortest routes, if there are more than one) to the goal.
 
 {{id findRoute}}
 
-This is a function that does this:
+Here is a function that does this:
 
 ```{includeCode: true}
 function findRoute(graph, from, to) {
@@ -474,7 +474,7 @@ Therefore, the function keeps a _((work list))_. This is an array of
 places that should be explored next, along with the route that got us
 there. It starts with just the start position and an empty route.
 
-The search then operates by taking the next item in the list, and
+The search then operates by taking the next item in the list and
 exploring that, which means that all roads going from that place are
 looked at. If one of them is the goal, a finished route can be
 returned. Otherwise, if we haven't looked at this place before, a new
@@ -516,9 +516,9 @@ function goalOrientedRobot({place, parcels}, route) {
 This robot uses its memory value as a list of directions to move in,
 just like the route-following robot. Whenever that list is empty, it
 has to figure out what to do next. It takes the first undelivered
-parcel in the set and, if that hasn't been picked up yet, plots a
-route towards it. If it _has_ been picked up, it still needs to be
-delivered, so it creates a route towards the delivery address instead.
+parcel in the set and, if that parcel hasn't been picked up yet, plots a
+route towards it. If the parcel _has_ been picked up, it still needs to be
+delivered, so the robot creates a route towards the delivery address instead.
 
 {{if interactive
 
@@ -545,8 +545,8 @@ It's hard to objectively compare ((robot))s by just letting them solve
 a few scenarios. Maybe one robot just happened to get easier tasks, or
 the kind of tasks that it is good at, whereas the other didn't.
 
-Write a function `compareRobots` which takes two robots (and their
-starting memory). It should generate a hundred tasks, and let each of
+Write a function `compareRobots` that takes two robots (and their
+starting memory). It should generate 100 tasks and let each of
 the robots solve each of these tasks. When done, it should output the
 average number of steps each robot took per task.
 
@@ -611,8 +611,8 @@ village because the parcel it happens to be looking at happens to be
 at the other side of the map, even if there are others much closer.
 
 One possible solution would be to compute routes for all packages, and
-then take the shortest one. Even better results can be obtained by, if
-there are multiple shortest routes, preferring the ones that go to
+then take the shortest one. Even better results can be obtained, if
+there are multiple shortest routes, by preferring the ones that go to
 pick up a package instead of delivering a package.
 
 hint}}
@@ -673,13 +673,13 @@ if}}
 
 {{index "persistent map (exercise)", "Set class", array, "PGroup class"}}
 
-The most convenient way to represent the set of member values remains
+The most convenient way to represent the set of member values
 is still an array, since those are easy to copy.
 
 {{index "concat method", "filter method"}}
 
 When a value is added to the group, you can create a new group with a
-copy of the original array that has the value added (for example using
+copy of the original array that has the value added (for example, using
 `concat`). When a value is deleted, you filter it from the array.
 
 The class' ((constructor)) can take such an array as argument, and

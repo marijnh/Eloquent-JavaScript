@@ -635,8 +635,9 @@ Its `add` method, however, should return a _new_ `PGroup` instance
 with the given member added, and leave the old one unchanged.
 Similarly, `delete` creates a new instance without a given member.
 
-The class should work for keys of any type, not just strings. It does
-_not_ have to be efficient when used with large amounts of keys.
+The class should work for values of any type, not just strings. It
+does _not_ have to be efficient when used with large amounts of
+values.
 
 The ((constructor)) shouldn't be part of the class' ((interface))
 (though you'll definitely want to use it internally). Instead, there

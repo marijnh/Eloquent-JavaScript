@@ -465,9 +465,9 @@ word is also used for a related but rather different thing.
 
 {{index "map (data structure)", "ages example", "data structure"}}
 
-A _map_ (noun) is a data structure that associates values with other
-values. For example, you might want to map names to ages. It is
-possible to use objects for this.
+A _map_ (noun) is a data structure that associates values (the keys)
+with other values. For example, you might want to map names to ages.
+It is possible to use objects for this.
 
 ```
 let ages = {

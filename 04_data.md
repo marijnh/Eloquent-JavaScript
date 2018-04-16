@@ -419,8 +419,9 @@ properties.
 When we have two numbers, 120 and 120, we can consider them precisely
 the same number, whether or not they refer to the same physical bits.
 With objects, there is a difference between having two references to
-the same object and having two different objects that contain the same
-properties. Consider the following code:
+the same object and having two different objects that contain the same 
+properties. In the former case, we say the objects share the same identity
+or are identical. Consider the following code:
 
 ```
 let object1 = {value: 10};
@@ -457,12 +458,12 @@ the same object, the _contents_ of that object might change.
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
-When you compare objects with JavaScript's `==` operator, it will
-produce `true` only if both objects are precisely the same value.
-Comparing different objects will return `false`, even if they have
-identical properties. There is no "deep" comparison operation built
-into JavaScript, which compares objects by contents, but it is
-possible to write it yourself (which is one of the
+When you compare object bindings with JavaScript's `==` operator, it will
+produce `true` only if both bindings refer to the _same_ object. We say that
+`==` compares objects by identity. Comparing different objects will return 
+`false`, even if they have identical properties. There is no "deep" 
+comparison operation built into JavaScript, which compares objects by 
+contents, but it is possible to write it yourself (which is one of the
 [exercises](data#exercise_deep_compare) at the end of this chapter).
 
 ## The lycanthrope's log
@@ -1570,7 +1571,8 @@ hint}}
 
 {{index "deep comparison (exercise)", comparison, "deep comparison", "== operator"}}
 
-The `==` operator compares objects by identity. But sometimes you'd
+The `==` operator compares objects by identity (the `===` operator 
+does this too for that matter). But sometimes you'd
 prefer to compare the values of their actual properties.
 
 Write a function `deepEqual` that takes two values and returns true

@@ -1257,7 +1257,7 @@ Send requests to fetch all three formats of this resource. Use the
 header named `Accept` to the desired media type.
 
 Finally, try asking for the media type `application/rainbows+unicorns`
-and see what happens.
+and see which status code that produces.
 
 {{if interactive
 

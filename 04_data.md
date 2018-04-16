@@ -1580,8 +1580,8 @@ with a recursive call to `deepEqual`.
 
 {{index null, "=== operator", "typeof operator"}}
 
-To find out whether to compare two things by identity (use the `===`
-operator for that) or by looking at their properties, you can use the
+To find out whether values should be compared directly (use the `===`
+operator for that) or have their properties compared, you can use the
 `typeof` operator. If it produces `"object"` for both values, you
 should do a deep comparison. But you have to take one silly exception
 into account: because of a historical accident, `typeof null` also

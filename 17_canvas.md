@@ -491,12 +491,12 @@ helpful. We need a way to draw text to the ((canvas)).
 
 ## Text
 
-{{index stroking, filling, "fillColor property", "fillText method", "strokeText method"}}
+{{index stroking, filling, "fillStyle property", "fillText method", "strokeText method"}}
 
 A 2D canvas drawing context provides the methods `fillText` and
 `strokeText`. The latter can be useful for outlining letters, but
 usually `fillText` is what you need. It will fill the outline of the
-given ((text)) with the current `fillColor`.
+given ((text)) with the current `fillStyle`.
 
 ```{lang: "text/html"}
 <canvas></canvas>

@@ -684,14 +684,15 @@ white halo effect.
 
 {{index "position (CSS)", "max-width (CSS)", "overflow (CSS)", "max-height (CSS)", viewport, scrolling}}
 
-We can't assume that the level always fits in the viewport. That is
-why the `scrollPlayerIntoView` call is needed—it ensures that if the
-level is protruding outside the viewport, we scroll that viewport to
-make sure the player is near its center. The following ((CSS)) gives
-the game's wrapping ((DOM)) element a maximum size and ensures that
-anything that sticks out of the element's box is not visible. We also
-give the outer element a relative position so that the actors inside
-it are positioned relative to the level's top-left corner.
+We can't assume that the level always fits in the _viewport_—the
+element into which we draw the game. That is why the
+`scrollPlayerIntoView` call is needed—it ensures that if the level is
+protruding outside the viewport, we scroll that viewport to make sure
+the player is near its center. The following ((CSS)) gives the game's
+wrapping ((DOM)) element a maximum size and ensures that anything that
+sticks out of the element's box is not visible. We also give the outer
+element a relative position so that the actors inside it are
+positioned relative to the level's top-left corner.
 
 ```{lang: "text/css"}
 .game {

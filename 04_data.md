@@ -441,10 +441,11 @@ console.log(object3.value);
 
 {{index "tentacle (analogy)", [binding, "model of"]}}
 
-The `object1` and `object2` bindings grasp the _same_ object, which
-is why changing `object1` also changes the value of `object2`. The
-binding `object3` points to a different object, which initially
-contains the same properties as `object1` but lives a separate life.
+The `object1` and `object2` bindings grasp the _same_ object, which is
+why changing `object1` also changes the value of `object2`. They are
+said to have the same _identity_. The binding `object3` points to a
+different object, which initially contains the same properties as
+`object1` but lives a separate life.
 
 {{index "const keyword", "let keyword"}}
 
@@ -457,12 +458,12 @@ the same object, the _contents_ of that object might change.
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
-When you compare objects with JavaScript's `==` operator, it will
-produce `true` only if both objects are precisely the same value.
-Comparing different objects will return `false`, even if they have
-identical properties. There is no "deep" comparison operation built
-into JavaScript, which compares objects by contents, but it is
-possible to write it yourself (which is one of the
+When you compare objects with JavaScript's `==` operator, it compares
+by identity: It will produce `true` only if both objects are precisely
+the same value. Comparing different objects will return `false`, even
+if they have identical properties. There is no "deep" comparison
+operation built into JavaScript, which compares objects by contents,
+but it is possible to write it yourself (which is one of the
 [exercises](data#exercise_deep_compare) at the end of this chapter).
 
 ## The lycanthrope's log

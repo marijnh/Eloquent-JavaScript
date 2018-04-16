@@ -703,8 +703,8 @@ previous transformations.
 
 So if we translate by 10 horizontal pixels twice, everything will be
 drawn 20 pixels to the right. If we first move the center of the
-coordinate system to (50,50) and then rotate by 20 ((degree))s (0.1π
-in ((radian))s), that rotation will happen _around_ point (50,50).
+coordinate system to (50,50) and then rotate by 20 ((degree))s (about
+0.1π ((radian))s), that rotation will happen _around_ point (50,50).
 
 {{figure {url: "img/transform.svg", alt: "Stacking transformations",width: "9cm"}}}
 

@@ -373,6 +373,8 @@ console.log(SCRIPTS.filter(s => s.direction == "ttb"));
 // → [{name: "Mongolian", …}, …]
 ```
 
+{{id map}}
+
 ## Transforming with map
 
 {{index [array, methods], "map method"}}

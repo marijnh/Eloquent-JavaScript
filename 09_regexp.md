@@ -1165,7 +1165,7 @@ not widely supported yet, it is possible to use `\p` in a regular
 expression (that must have the Unicode option enabled) to match all
 characters to which the Unicode standard assigns a given property.
 
-```{test: false}
+```{test: never}
 console.log(/\p{Script=Greek}/u.test("α"));
 // → true
 console.log(/\p{Script=Arabic}/u.test("α"));

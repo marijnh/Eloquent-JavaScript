@@ -13,12 +13,12 @@ quote}}
 
 This is a book about instructing ((computer))s. Computers are about as
 common as screwdrivers today, but they are quite a bit more complex,
-and making them do the things you want them to do isn't always easy.
+and making them do what you want them to do isn't always easy.
 
 If the task you have for your computer is a common, well-understood
 one, such as showing you your email or acting like a calculator, you
 can open the appropriate ((application)) and get to work. But for
-unique or open-ended tasks, there may not be an application.
+unique or open-ended tasks, there probably is no application.
 
 That is where ((programming)) may come in. _Programming_ is the act of
 constructing a _program_—a set of precise instructions that tell a

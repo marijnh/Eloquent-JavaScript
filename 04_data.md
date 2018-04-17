@@ -153,7 +153,7 @@ null.length;
 {{indexsee "dot character", "period character"}}
 {{index "[] (subscript)", "period character", "square brackets", "computed property"}}
 
-The two typical ways to access properties in JavaScript are with a dot
+The two main ways to access properties in JavaScript are with a dot
 and with square brackets. Both `value.x` and `value[x]` access a
 ((property)) on `value`—but not necessarily the same property. The
 difference is in how `x` is interpreted. When using a dot, the word
@@ -161,12 +161,12 @@ after the dot is the literal name of the property. When using square
 brackets, the expression between the brackets is _evaluated_ to get
 the property name. Whereas `value.x` fetches the property of `value`
 named "x", `value[x]` tries to evaluate the expression `x` and uses
-the result as the property name.
+the result, converted to a string, as the property name.
 
 So if you know that the property you are interested in is called
-_name_, you say `value.name`. If you want to extract the property
+_color_, you say `value.color`. If you want to extract the property
 named by the value held in the binding `i`, you say `value[i]`.
-Property names can be any string, but the dot notation only works with
+Property names are strings. They can be any string, but the dot notation only works with
 names that look like valid binding names. So if you want to access a
 property named _2_ or _John Doe_, you must use square brackets:
 `value[2]` or `value["John Doe"]`.
@@ -322,7 +322,7 @@ name tattooed on it.
 {{index "delete operator", [property, deletion]}}
 
 The `delete` operator cuts off a tentacle from such an octopus. It is
-a unary operator that, when applied to a property access expression,
+a unary operator that, when applied to an object property,
 will remove the named property from the object. This is not a common
 thing to do, but it is possible.
 
@@ -342,7 +342,7 @@ console.log("right" in anObject);
 {{index "in operator", [property, "testing for"], object}}
 
 The binary `in` operator, when applied to a string and an object,
-tells you whether that object has that property. The difference
+tells you whether that object has a property with that name. The difference
 between setting a property to `undefined` and actually deleting it is
 that, in the first case, the object still _has_ the property (it just
 doesn't have a very interesting value), whereas in the second case the
@@ -374,7 +374,7 @@ console.log(objectA);
 Arrays, then, are just a kind of object specialized for storing
 sequences of things. If you evaluate `typeof []`, it produces
 `"object"`. You can see them as long, flat octopuses with all their
-arms in a neat row, labeled with numbers.
+tentacles in a neat row, labeled with numbers.
 
 {{index journal, "weresquirrel example"}}
 
@@ -411,8 +411,8 @@ same. The text inside it cannot be changed. If you have a string that
 contains `"cat"`, it is not possible for other code to change a
 character in your string to make it spell `"rat"`.
 
-The content of an object value _can_ be modified, by changing its
-properties.
+Objects work differently. You _can_ change their properties,
+causing a single object value to have different content at different times.
 
 {{index [object, identity], identity, memory, mutability}}
 
@@ -452,9 +452,17 @@ different object, which initially contains the same properties as
 Bindings can also be changeable or constant, but this is separate from
 the way their values behave. Even though number values don't change,
 you can use a `let` ((binding)) to keep track of a changing number by
-changing the value it points at. Similarly, though a `const` binding
-to an object can itself not be changed and will continue to point at
-the same object, the _contents_ of that object might change.
+changing the value the binding points at. Similarly, though a `const`
+binding to an object can itself not be changed and will continue to
+point at the same object, the _contents_ of that object might change.
+
+```{test: no}
+const score = {visitors: 0, home: 0};
+// This is okay
+score.visitors = 1;
+// This isn't allowed
+score = {visitors: 1, home: 1};
+```
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
@@ -861,7 +869,7 @@ adds it to the front instead of the back of the queue.
 {{index [array, searching], "indexOf method", "lastIndexOf method"}}
 
 To search for a specific value, arrays provide an `indexOf` method. It
-goes through the array from the start to the end and returns the
+searches through the array from the start to the end and returns the
 index at which the requested value was found—or -1 if it wasn't found.
 To search from the end instead of the start, there's a similar method
 called `lastIndexOf`.
@@ -898,8 +906,9 @@ entire array.
 {{index concatenation, "concat method"}}
 
 The `concat` method can be used to glue arrays together to create a
-new array, similar to what the `+` operator does for strings. The
-following example shows both `concat` and `slice` in action. It takes
+new array, similar to what the `+` operator does for strings.
+
+The following example shows both `concat` and `slice` in action. It takes
 an array and an index, and it returns a new array that is a copy of
 the original array with the element at the given index removed:
 
@@ -983,6 +992,8 @@ You can split a string on every occurrence of another string with
 ```
 let sentence = "Secretarybirds specialize in stomping";
 let words = sentence.split(" ");
+console.log(words);
+// → ["Secretarybirds", "specialize", "in", "stomping"]
 console.log(words.join(". "));
 // → Secretarybirds. specialize. in. stomping
 ```
@@ -1043,7 +1054,7 @@ console.log(max(4, 1, 9, -2));
 When such a function is called, the _((rest parameter))_ is bound to
 an array containing all further arguments. If there are other
 parameters before it, their values aren't part of that array. When, as
-in `max`, it is the first parameter, it will hold all arguments.
+in `max`, it is the only parameter, it will hold all arguments.
 
 {{index "function application"}}
 
@@ -1362,6 +1373,7 @@ console.log(range(5, 2, -1));
 console.log(sum(range(1, 10)));
 // → 55
 ```
+
 if}}
 
 {{hint
@@ -1380,7 +1392,7 @@ operator rather than `<` to check for the end of your loop.
 
 {{index "arguments object"}}
 
-To step parameter can be an optional parameter that defaults (using
+The step parameter can be an optional parameter that defaults (using
 the `=` operator) to 1.
 
 {{index "range function", "for loop"}}
@@ -1429,6 +1441,7 @@ reverseArrayInPlace(arrayValue);
 console.log(arrayValue);
 // → [5, 4, 3, 2, 1]
 ```
+
 if}}
 
 {{hint
@@ -1526,6 +1539,7 @@ console.log(prepend(10, prepend(20, null)));
 console.log(nth(arrayToList([10, 20, 30]), 1));
 // → 20
 ```
+
 if}}
 
 {{hint
@@ -1606,6 +1620,7 @@ console.log(deepEqual(obj, {here: 1, object: 2}));
 console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
 // → true
 ```
+
 if}}
 
 {{hint

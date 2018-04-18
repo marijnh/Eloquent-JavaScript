@@ -40,8 +40,8 @@ approach is called _((polling))_. Most programmers prefer to avoid it.
 {{index "callback function", "event handling"}}
 
 A better mechanism is for the system to actively notify our code when
-an events occurs. Browsers do this by allowing us to register
-functions as _handlers_ for specific events.
+an event occurs. Browsers do this by allowing us to register functions
+as _handlers_ for specific events.
 
 ```{lang: "text/html"}
 <p>Click this document to activate the handler.</p>

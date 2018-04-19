@@ -1287,7 +1287,7 @@ verify(/.../,
 
 verify(/.../,
        ["pop culture", "mad props"],
-       ["plop"]);
+       ["plop", "prrrop"]);
 
 verify(/.../,
        ["ferret", "ferry", "ferrari"],

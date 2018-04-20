@@ -422,7 +422,7 @@ the most characters.
 The higher-order operation that represents this pattern is called
 _reduce_ (sometimes also called _fold_). It builds a value by
 repeatedly taking a single element from the array and combining it
-with the previous value. When summing numbers, you'd start with the
+with the current value. When summing numbers, you'd start with the
 number zero and, for each element, add that to the sum.
 
 The parameters to `reduce` are, apart from the array, a combining
@@ -704,7 +704,8 @@ console.log(countBy([1, 2, 3, 4, 5], n => n > 2));
 ```
 
 The `countBy` function expects a collection (anything that we can loop
-over with `for`/`of`) and a grouping function. It returns an array of
+over with `for`/`of`) and a function that computes a group name for a
+given element. It returns an array of
 objects, each of which names a group and tells you the amount of
 elements that were found in that group.
 

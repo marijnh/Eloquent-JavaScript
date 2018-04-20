@@ -59,7 +59,7 @@ let re1 = new RegExp("abc");
 let re2 = /abc/;
 ```
 
-Both of these regular expression objects represent the same
+Both of those regular expression objects represent the same
 ((pattern)): an _a_ character followed by a _b_ followed by a _c_.
 
 {{index "backslash character", "RegExp class"}}
@@ -138,7 +138,7 @@ sit right next to each other in this ordering (codes 48 to 57), so
 
 {{index whitespace, "alphanumeric character", "period character"}}
 
-There are a number of common character groups that have their own
+A number of common character groups have their own
 built-in shortcuts. Digits are one of them: `\d` means the same thing
 as `[0-9]`.
 
@@ -227,7 +227,7 @@ any suitable text to match.
 {{index "British English", "American English", "question mark"}}
 
 A question mark makes a part of a pattern _((optional))_, meaning it
-may occur zero or one time. In the following example, the _u_
+may occur zero times or one time. In the following example, the _u_
 character is allowed to occur, but the pattern also matches when it is
 missing.
 
@@ -260,7 +260,7 @@ console.log(dateTime.test("30-1-2003 8:45"));
 ```
 
 You can also specify open-ended ((range))s when using ((curly braces))
-by omitting the number after the comma. So `{5,}` means five or more
+by omitting the number after the comma. So, `{5,}` means five or more
 times.
 
 ## Grouping subexpressions
@@ -460,7 +460,7 @@ second character and end at the second-to-last character.
 
 If we want to enforce that the match must span the whole string, we
 can add the markers `^` and `$`. The caret matches the start of the
-input string, while the dollar sign matches the end. So, `/^\d+$/`
+input string, whereas the dollar sign matches the end. So, `/^\d+$/`
 matches a string consisting entirely of one or more digits, `/^!/`
 matches any string that starts with an exclamation mark, and `/x^/`
 does not match any string (there cannot be an _x_ before the start of
@@ -632,7 +632,7 @@ write something like `/([01]+)+b/`.
 {{index "inner loop", [nesting, "in regexps"]}}
 
 If that tries to match some long series of zeros and ones with no
-trailing _b_ character, the matcher will first go through the inner
+trailing _b_ character, the matcher first goes through the inner
 loop until it runs out of digits. Then it notices there is no _b_, so
 it backtracks one position, goes through the outer loop once, and
 gives up again, trying to backtrack out of the inner loop once more.
@@ -645,7 +645,7 @@ will take practically forever.
 
 {{index "replace method", "regular expression"}}
 
-String values have a `replace` method, which can be used to replace
+String values have a `replace` method that can be used to replace
 part of the string with another string.
 
 ```
@@ -836,10 +836,10 @@ When creating the `\b` ((boundary)) markers, we have to use two
 backslashes because we are writing them in a normal string, not a
 slash-enclosed regular expression. The second argument to the `RegExp`
 constructor contains the options for the regular expression—in this
-case `"gi"` for global and case-insensitive.
+case, `"gi"` for global and case-insensitive.
 
 But what if the name is `"dea+hl[]rd"` because our user is a ((nerd))y
-teenager? That would result in a nonsensical regular expression, which
+teenager? That would result in a nonsensical regular expression that
 won't actually match the user's name.
 
 {{index "backslash character", [escaping, "in regexps"], ["regular expression", escaping]}}
@@ -861,7 +861,7 @@ console.log(text.replace(regexp, "_$&_"));
 {{index searching, ["regular expression", methods], "indexOf method", "search method"}}
 
 The `indexOf` method on strings cannot be called with a regular
-expression. But there is another method, `search`, which does expect a
+expression. But there is another method, `search`, that does expect a
 regular expression. Like `indexOf`, it returns the first index on
 which the expression was found, or -1 when it wasn't found.
 
@@ -1047,7 +1047,7 @@ the file into separate lines is a good start. We used
 Some operating systems, however, use not just a newline character to
 separate lines but a carriage return character followed by a newline
 (`"\r\n"`). Given that the `split` method also allows a regular
-expression as its argument, we can split on a regular expression like
+expression as its argument, we can use a regular expression like
 `/\r?\n/` to split in a way that allows both `"\n"` and `"\r\n"`
 between lines.
 
@@ -1153,7 +1153,7 @@ units, and the `{3}` part is applied only to the second one.
 Similarly, the dot matches a single code unit, not the two that make
 up the rose ((emoji)).
 
-You must add an `u` option (for ((Unicode))) to your regular
+You must add a `u` option (for ((Unicode))) to your regular
 expression to make it treat such characters properly. The wrong
 behavior remains the default, unfortunately, because changing that
 might cause problems for existing code that depends on it.
@@ -1181,7 +1181,7 @@ that you need may not always be trivial. You can use the
 `\p{Property=Value}` notation to match any character that has the
 given value for that property. If the property name is left off, as in
 `\p{Name}`, the name is assumed to either be a binary property such as
-`Alphabetic`, or a category such as `Number`.
+`Alphabetic` or a category such as `Number`.
 
 {{id summary_regexp}}
 
@@ -1222,7 +1222,7 @@ starting position of the match. Their `replace` method can replace
 matches of a pattern with a replacement string or function.
 
 Regular expressions can have options, which are written after the
-closing slash. The `i` option makes the match case insensitive. The
+closing slash. The `i` option makes the match case-insensitive. The
 `g` option makes the expression _global_, which, among other things,
 causes the `replace` method to replace all instances instead of just
 the first. The `y` option makes it sticky, which means that it will

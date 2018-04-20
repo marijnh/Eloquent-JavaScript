@@ -1051,11 +1051,11 @@ callback functions, and Node will call them with an error value and
 
 {{index grep, search, "search tool (exercise)"}}
 
-On ((Unix)) systems, there is a command line tool called `grep` that
+On ((Unix)) systems, there is a command-line tool called `grep` that
 can be used to quickly search files for a ((regular expression)).
 
 Write a Node script that can be run from the ((command line)) and acts
-somewhat like `grep`. It treats its first command line argument as a
+somewhat like `grep`. It treats its first command-line argument as a
 regular expression, and any further arguments as files to search. It
 should output the names of any file whose content matches the regular
 expression.
@@ -1075,7 +1075,7 @@ amount, since most file systems can only read one thing at a time.
 
 {{index "RegExp class", "search tool (exercise)"}}
 
-Your first command line argument, the ((regular expression)), can be
+Your first command-line argument, the ((regular expression)), can be
 found in `process.argv[2]`. The input files come after that. You can
 use the `RegExp` constructor to go from a string to a regular
 expression object.
@@ -1101,7 +1101,7 @@ capitalization—Node's file system function naming is loosely based on
 standard Unix functions, such as `readdir`, which are all lowercase,
 but then it adds `Sync` with a capital letter).
 
-To go from a file name read with `readdir` to a full path name, you
+To go from a filename read with `readdir` to a full path name, you
 have to combine it with the name of the directory, putting a ((slash
 character)) (`/`) between them.
 

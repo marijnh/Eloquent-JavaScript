@@ -1276,7 +1276,7 @@ function locateScalpel2(nest) {
   // Your code here.
 }
 
-locateScalpel(nest).then(console.log);
+locateScalpel(bigOak).then(console.log);
 // → Butcher Shop
 ```
 

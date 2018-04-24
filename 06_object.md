@@ -16,7 +16,7 @@ quote}}
 
 [Chapter ?](data) introduced JavaScript's ((object))s. In programming
 culture, we have a thing called _((object-oriented programming))_, a
-set of techniques that uses objects (and related concepts) as the
+set of techniques that use objects (and related concepts) as the
 central principle of program organization.
 
 Though no one really agrees on its precise definition, object-oriented
@@ -297,7 +297,7 @@ function, and returned at the end of the function.
 
 {{index "prototype property"}}
 
-The appropriate prototype object for a constructor is found by taking
+The prototype object used when constructing objects is found by taking
 the `prototype` property of the constructor function.
 
 {{index "rabbit example"}}
@@ -336,6 +336,15 @@ is `Function.prototype`, since constructors are functions. Its
 `prototype` _property_ holds the prototype used for instances created
 through it.
 
+```
+console.log(Object.getPrototypeOf(Rabbit) ==
+            Function.prototype);
+// → true
+console.log(Object.getPrototypeOf(weirdRabbit) ==
+            Rabbit.prototype);
+// → true
+```
+
 ## Class notation
 
 So JavaScript ((class))es are ((constructor)) functions with a
@@ -370,10 +379,11 @@ constructor definition from the previous section. It just looks nicer.
 
 {{index ["class declaration", properties]}}
 
-Class declarations only allow _methods_—properties that hold
+Class declarations currently only allow _methods_—properties that hold
 functions—to be added to the ((prototype)). This can be somewhat
-inconvenient when you want to save a non-function value in there. You
-can still create such properties by directly manipulating the
+inconvenient when you want to save a non-function value in there.
+The next version of the language will probably improve this. For now, you
+can create such properties by directly manipulating the
 prototype after you've defined the class.
 
 Like `function`, `class` can be used both in statement and in
@@ -392,9 +402,9 @@ console.log(object.getWord());
 {{index "shared property", overriding}}
 
 When you add a ((property)) to an object, whether it is present in the
-prototype or not, the property is added to the object _itself_, which
-will henceforth have it as its own property. If there _is_ a property
-by the same name in the prototype, this property will no longer affect
+prototype or not, the property is added to the object _itself_.
+If there was already a property with
+the same name in the prototype, this property will no longer affect
 the object, as it is now hidden behind the object's own property.
 
 ```
@@ -524,6 +534,8 @@ console.log(`Júlia is ${ages.get("Júlia")}`);
 // → Júlia is 62
 console.log("Is Jack's age known?", ages.has("Jack"));
 // → Is Jack's age known? false
+console.log(ages.has("toString"));
+// → false
 ```
 
 {{index interface, "set method", "get method", "has method", encapsulation}}
@@ -669,8 +681,8 @@ When called, that method should return an object that provides a
 second interface, _iterator_. This is the actual thing that iterates.
 It has a `next` method that returns the next result. That result
 should be an object with a `value` property, providing the next value,
-and a `done` property, which should be true when there are no more
-results and false otherwise.
+if there is one, and a `done` property which should be true when there
+are no more results and false otherwise.
 
 Note that the `next`, `value`, and `done` property names are plain
 strings, not symbols. Only `Symbol.iterator`, which is likely to be
@@ -697,14 +709,14 @@ class, acting as a two-dimensional array.
 
 ```{includeCode: true}
 class Matrix {
-  constructor(width, height, content = (x, y) => undefined) {
+  constructor(width, height, element = (x, y) => undefined) {
     this.width = width;
     this.height = height;
     this.content = [];
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        this.content[y * width + x] = content(x, y);
+        this.content[y * width + x] = element(x, y);
       }
     }
   }
@@ -895,10 +907,10 @@ the old class.
 
 ```{includeCode: "top_lines: 17"}
 class SymmetricMatrix extends Matrix {
-  constructor(size, content = (x, y) => undefined) {
+  constructor(size, element = (x, y) => undefined) {
     super(size, size, (x, y) => {
-      if (x < y) return content(y, x);
-      else return content(x, y);
+      if (x < y) return element(y, x);
+      else return element(x, y);
     });
   }
 
@@ -916,7 +928,7 @@ console.log(matrix.get(2, 3));
 ```
 
 The use of the word `extends` indicates that this class shouldn't be
-based on the default `Object` prototype, but on some other class. This
+directly based on the default `Object` prototype, but on some other class. This
 is called the _((superclass))_. The derived class is the
 _((subclass))_.
 

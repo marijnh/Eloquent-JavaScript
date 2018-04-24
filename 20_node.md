@@ -345,7 +345,7 @@ somewhat scary if random people could update existing packages.
 Since the `npm` program is a piece of software that talks to an open
 system—the package registry—there is nothing unique about what it
 does. Another program, `yarn`, which can be installed from the NPM
-registry, fills the same role `npm` using a somewhat different
+registry, fills the same role as `npm` using a somewhat different
 interface and installation strategy.
 
 This book won't delve further into the details of ((NPM)) usage. Refer

@@ -52,7 +52,7 @@ To keep the parser simple, strings in Egg do not support anything like
 backslash escapes. A string is simply a sequence of characters that
 are not double quotes, wrapped in double quotes. A number is a
 sequence of digits. Binding names can consist of any character that is
-not ((whitespace)) and does not have a special meaning in the syntax.
+not ((whitespace)) and that does not have a special meaning in the syntax.
 
 {{index "comma character"}}
 
@@ -474,7 +474,7 @@ console.log(evaluate(prog, topScope));
 To supply basic ((arithmetic)) and ((comparison)) ((operator))s, we
 will also add some function values to the ((scope)). In the interest
 of keeping the code short, we'll use `Function` to synthesize a bunch
-of operator functions in a loop, rather than defining them
+of operator functions in a loop, instead of defining them
 individually.
 
 ```{includeCode: true}

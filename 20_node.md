@@ -35,10 +35,11 @@ often won't run in the browser.
 
 if}}
 
-If you want to follow along and run the code in this chapter, start by
-going to [_nodejs.org_](https://nodejs.org) and following the
-installation instructions for your operating system. You can also find
-further ((documentation)) for Node.js there.
+If you want to follow along and run the code in this chapter, you'll
+need to install Node.js version 10 or higher. To do so, go to
+[_nodejs.org_](https://nodejs.org) and follow the installation
+instructions for your operating system. You can also find further
+((documentation)) for Node.js there.
 
 ## Background
 
@@ -429,18 +430,16 @@ result (the second). As we saw in [Chapter ?](async), there are
 downsides to this style of programming—the biggest one being that
 error handling becomes verbose and error-prone.
 
-{{index "Promise class", "promisify function", "util package"}}
+{{index "Promise class", "fs/promises package"}}
 
 Though promises have been part of JavaScript for a while, at the time
-of writing the work to integrate them in Node.js is still in progress.
-There is a `promisify` function in the built-in `util` module, which
-you can call on a callback-style function to create a
-promise-returning function. But since this is a little awkward, there
-are also packages on NPM like `mz`, which provide their own,
-promise-style version of built-in Node modules.
+of writing their integration into Node.js is still a work in progress.
+There is a package called `fs/promises` in the standard library since
+version 10, which exports most of the same functions as `fs`, but
+using promises rather than callback functions.
 
 ```
-const {readFile} = require("mz/fs");
+const {readFile} = require("fs/promises");
 readFile("file.txt", "utf8")
   .then(text => console.log("The file contains:", text));
 ```
@@ -845,14 +844,13 @@ knows the correct type for a large number of ((file extension))s.
 {{index "require function", "npm program"}}
 
 The following `npm` command, in the directory where the server script
-lives, installs specific versions of `mime` and `mz`. We'll use the
-latter as a source of promise-based `fs` functions.
+lives, installs a specific version of `mime`.
 
 ```{lang: null}
-$ npm install mime@2.2.0 mz@2.7.0
+$ npm install mime@2.2.0
 ```
 
-{{index "404 (HTTP status code)", "stat function", "mz package"}}
+{{index "404 (HTTP status code)", "stat function"}}
 
 When a requested file does not exist, the correct HTTP status code to
 return is 404. We'll use the `stat` function, which looks up
@@ -861,7 +859,7 @@ and whether it is a ((directory)).
 
 ```{includeCode: ">code/file_server.js"}
 const {createReadStream} = require("fs");
-const {stat, readdir} = require("mz/fs");
+const {stat, readdir} = require("fs/promises");
 const mime = require("mime");
 
 methods.GET = async function(request) {
@@ -886,7 +884,7 @@ methods.GET = async function(request) {
 
 Because it has to touch the disk and thus might take a while, `stat`
 is asynchronous. Since we're using promises rather than callback
-style, it has to be imported from `mz/fs` instead of `fs`.
+style, it has to be imported from `fs/promises` instead of `fs`.
 
 When the file does not exist `stat` will throw an error object with a
 `code` property of `"ENOENT"`. These somewhat obscure,
@@ -912,7 +910,7 @@ content type that the `mime` package gives us for the file's name.
 The code to handle `DELETE` requests is slightly simpler.
 
 ```{includeCode: ">code/file_server.js"}
-const {rmdir, unlink} = require("mz/fs");
+const {rmdir, unlink} = require("fs/promises");
 
 methods.DELETE = async function(request) {
   let path = urlPath(request.url);
@@ -1083,8 +1081,9 @@ expression object.
 {{index "readFileSync function"}}
 
 Doing this synchronously, with `readFileSync`, is more
-straightforward, but if you use `mz` again to get promise-returning
-functions and write an `async` function, the code looks similar.
+straightforward, but if you use `fs/promises` again to get
+promise-returning functions and write an `async` function, the code
+looks similar.
 
 {{index "stat function", "statSync function", "isDirectory method"}}
 
@@ -1124,7 +1123,7 @@ the _((WebDAV))_ standard, which specifies a set of conventions on top
 of ((HTTP)) that make it suitable for creating documents.
 
 ```{hidden: true, includeCode: ">code/file_server.js"}
-const {mkdir} = require("mz/fs");
+const {mkdir} = require("fs/promises");
 
 methods.MKCOL = async function(request) {
   let path = urlPath(request.url);

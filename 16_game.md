@@ -133,7 +133,7 @@ var simpleLevelPlan = `
 
 Periods are empty space, hash ("#") characters are walls, and plus
 signs are lava. The ((player))'s starting position is the ((at sign))
-(`@`). Every O characters is a coin, and the equals sign (`=`) at the
+(`@`). Every "o" character is a coin, and the equals sign (`=`) at the
 top is a block of lava that moves back and forth horizontally.
 
 {{index bouncing}}

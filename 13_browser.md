@@ -106,6 +106,12 @@ machine can be reached and is listening on that port, the connection
 is successfully created. The listening computer is called the
 _((server))_, and the connecting computer is called the _((client))_.
 
+In addition to this "client-server" paradigm, in which a server
+listens for connections from clients, TCP supports another paradigm
+(known recently as "peer-to-peer"), in which two programs that
+know each other's IP addresses and port numbers can connect to
+each other without requiring one to listen.
+
 Such a connection acts as a two-way ((pipe)) through which bits can
 flow—the machines on both ends can put data into it. Once the bits are
 successfully transmitted, they can be read out again by the machine on

@@ -135,7 +135,7 @@ console.log(mood);
 
 You should imagine bindings as tentacles, rather than boxes. They do
 not _contain_ values; they _grasp_ them—two bindings can refer to the
-same value. A program can only access the values that it still has a
+same value. A program can access only the values that it still has a
 reference to. When you need to remember something, you grow a tentacle
 to hold on to it or you reattach one of your existing tentacles to it.
 
@@ -411,7 +411,7 @@ doesn't represent a valid number. Thus, the condition translates to
 The statement below the `if` is wrapped in ((curly braces)) (`{` and
 `}`) in this example. Those can be used to group any number of
 statements into a single statement, called a _((block))_. You could
-also have omitted them in this case, since they only hold a single
+also have omitted them in this case, since they hold only a single
 statement, but to avoid having to think about whether they are needed
 or not, most JavaScript programmers use them in every wrapped
 statement like this. We'll mostly follow that convention in this book,

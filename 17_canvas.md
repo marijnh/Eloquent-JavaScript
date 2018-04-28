@@ -1179,8 +1179,8 @@ pixel surface gives canvas a lower cost per shape.
 
 There are also effects, such as rendering a scene one pixel at a time
 (for example using a ray tracer) or postprocessing an image with
-JavaScript (blurring or distorting it), that can only be realistically
-handled by a ((pixel))-based approach.
+JavaScript (blurring or distorting it), that can be realistically
+handled only by a ((pixel))-based approach.
 
 In some cases, you may want to combine several of these techniques.
 For example, you might draw a ((graph)) with ((SVG)) or ((canvas)) but

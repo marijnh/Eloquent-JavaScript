@@ -357,7 +357,7 @@ underway on an ambitious version 4, which planned a number of radical
 improvements and extensions to the language. Changing a living, widely
 used language in such a radical way turned out to be politically
 difficult, and work on the version 4 was abandoned in 2008, leading to
-a much less ambitious version 5, which only made some uncontroversial
+a much less ambitious version 5, which made only some uncontroversial
 improvements, coming out in 2009. Then in 2015 version 6 came out, a
 major update that included some of the ideas planned for version 4.
 Since then we've had new, small updates every year.

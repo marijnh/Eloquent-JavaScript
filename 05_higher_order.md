@@ -285,7 +285,7 @@ characters are associated with a specific script. The standard
 contains 140 different scripts—81 are still in use today, and 59
 are historic.
 
-Though I can only fluently read Latin characters, I appreciate the
+Though I can fluently read only Latin characters, I appreciate the
 fact that people are writing texts in at least 80 other writing
 systems, many of which I wouldn't even recognize. For example, here's
 a sample of ((Tamil)) handwriting.

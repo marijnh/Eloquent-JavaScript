@@ -379,7 +379,7 @@ constructor definition from the previous section. It just looks nicer.
 
 {{index ["class declaration", properties]}}
 
-Class declarations currently only allow _methods_—properties that hold
+Class declarations currently allow only _methods_—properties that hold
 functions—to be added to the ((prototype)). This can be somewhat
 inconvenient when you want to save a non-function value in there.
 The next version of the language will probably improve this. For now, you
@@ -549,7 +549,7 @@ simple interface to use their work.
 {{index "hasOwnProperty method", "in operator"}}
 
 If you do have a plain object that you need to treat as a map for some
-reason, it is useful to know that `Object.keys` only returns an
+reason, it is useful to know that `Object.keys` returns only an
 object's _own_ keys, not those in the prototype. As an alternative to
 the `in` operator, you can use the `hasOwnProperty` method, which
 ignores the object's prototype.
@@ -865,7 +865,7 @@ console.log(temp.celsius);
 
 The `Temperature` class allows you to read and write the temperature
 in either degrees ((Celsius)) or degrees ((Fahrenheit)), but
-internally only stores Celsius, and automatically converts to Celsius
+internally stores only Celsius, and automatically converts to Celsius
 in the `fahrenheit` getter and setter.
 
 {{index "static method"}}

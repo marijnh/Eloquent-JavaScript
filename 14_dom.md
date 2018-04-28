@@ -201,7 +201,7 @@ child, `nextSibling` will be null.
 {{index "children property", "text node", element}}
 
 There's also the `children` property, which is like `childNodes`, but
-which only contains element (type 1) children, not other types of
+which contains only element (type 1) children, not other types of
 child nodes. This can be useful when you aren't interested in text
 nodes.
 

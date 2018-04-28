@@ -444,7 +444,7 @@ console.log(getDate("30-1-2003"));
 
 {{index destructuring, "underscore character"}}
 
-The `_` (underscore) binding is ignored, and only used to skip the
+The `_` (underscore) binding is ignored, and used only to skip the
 full match element in the array returned by `exec`.
 
 ## Word and string boundaries
@@ -918,7 +918,7 @@ found, `lastIndex` is set back to zero, which is also the value it has
 in a newly constructed regular expression object.
 
 The difference between the global and the sticky options is that, when
-sticky is enabled, the match will only succeed if it starts directly
+sticky is enabled, the match will succeed only if it starts directly
 at `lastIndex`, whereas with global, it will search ahead for a
 position where a match can start.
 
@@ -1352,7 +1352,7 @@ if}}
 
 {{index "quoting style (exercise)", boundary}}
 
-The most obvious solution is to only replace quotes with a nonword
+The most obvious solution is to replace only quotes with a nonword
 character on at least one side. Something like `/\W'|'\W/`. But you
 also have to take the start and end of the line into account.
 

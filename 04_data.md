@@ -166,7 +166,7 @@ the result, converted to a string, as the property name.
 So if you know that the property you are interested in is called
 _color_, you say `value.color`. If you want to extract the property
 named by the value held in the binding `i`, you say `value[i]`.
-Property names are strings. They can be any string, but the dot notation only works with
+Property names are strings. They can be any string, but the dot notation works only with
 names that look like valid binding names. So if you want to access a
 property named _2_ or _John Doe_, you must use square brackets:
 `value[2]` or `value["John Doe"]`.

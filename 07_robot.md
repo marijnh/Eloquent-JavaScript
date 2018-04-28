@@ -428,7 +428,7 @@ way we could for 2 + 2. Instead, we have to keep creating potential
 solutions until we find one that works.
 
 The  number of possible routes through a graph is infinite. But
-when searching for a route from _A_ to _B_, we are only interested in
+when searching for a route from _A_ to _B_, we are interested only in
 the ones that start at _A_. We also don't care about routes that visit
 the same place twice—those are definitely not the most efficient route
 anywhere. So that cuts down on the amount of routes that the route
@@ -438,7 +438,7 @@ In fact, we are mostly interested in the _shortest_ route. So we want
 to make sure we look at short routes before we look at longer ones. A
 good approach would be to "grow" routes from the starting point,
 exploring every reachable place that hasn't been visited yet, until a
-route reaches the goal. That way, we'll only explore routes that are
+route reaches the goal. That way, we'll explore only routes that are
 potentially interesting, and find the shortest route (or one of the
 shortest routes, if there are more than one) to the goal.
 
@@ -605,7 +605,7 @@ if}}
 
 {{index "robot efficiency (exercise)"}}
 
-The main limitation of `goalOrientedRobot` is that it only considers
+The main limitation of `goalOrientedRobot` is that it considers only
 one parcel at a time. It will often walk back and forth across the
 village because the parcel it happens to be looking at happens to be
 at the other side of the map, even if there are others much closer.
@@ -646,7 +646,7 @@ value.
 
 {{index singleton}}
 
-Why do you only need one `PGroup.empty` value, rather than having a
+Why do you need only one `PGroup.empty` value, rather than having a
 function that creates a new, empty map every time?
 
 {{if interactive
@@ -693,7 +693,7 @@ To add a property (`empty`) to a constructor that is not a method, you
 have to add it to the constructor after the class definition, as a
 regular property.
 
-You only need one `empty` instance because all empty groups are the
+You need only one `empty` instance because all empty groups are the
 same and instances of the class don't change. You can create many
 different groups from that single empty group without affecting it.
 

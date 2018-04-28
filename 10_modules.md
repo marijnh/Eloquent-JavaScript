@@ -21,7 +21,7 @@ easy to explain, and each part plays a well-defined role.
 
 A typical real program grows organically. New pieces of functionality
 are added as new needs come up. Structuring—and preserving
-structure—is additional work, work which will only pay off in the
+structure—is additional work, work which will pay off only in the
 future, the _next_ time someone works on the program. So it is
 tempting to neglect it, and allow the parts of the program to become
 deeply entangled.
@@ -160,7 +160,7 @@ found problems in the code, or who want to propose new features, is
 even more work.
 
 By default, you own the ((copyright)) to the code you write, and other
-people may only use it with your permission. But because some people
+people may use it only with your permission. But because some people
 are just nice, and because publishing good software can help make you
 a little bit famous among programmers, many packages are published
 under a ((license)) that explicitly allows other people to use it.

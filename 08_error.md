@@ -208,7 +208,7 @@ Computers are good at repetitive tasks, and testing is the ideal
 repetitive task. Automated testing is the process of writing a program
 that tests another program. Writing tests is a bit more work than
 testing manually, but once you've done it you gain a kind of
-superpower: it only takes you a few seconds to verify that your
+superpower: it takes you only a few seconds to verify that your
 program still behaves properly in all the situations you wrote tests
 for. When you break something, you'll immediately notice, rather than
 randomly running into it at some later time.
@@ -362,7 +362,7 @@ have the network fail.
 
 {{index "error recovery"}}
 
-If you're only programming for yourself, you can afford to just ignore
+If you're programming only for yourself, you can afford to just ignore
 such problems until they occur. But if you build something that is
 going to be used by anybody else, you usually want the program to do
 better than just crash. Sometimes the right thing to do is take the

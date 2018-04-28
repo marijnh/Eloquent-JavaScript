@@ -256,8 +256,8 @@ match.
 Almost anything can be put between quotes, and JavaScript will make a
 string value out of it. But a few characters are more difficult. You
 can imagine how putting quotes between quotes might be hard.
-_Newlines_ (the characters you get when you press Enter) may only be
-included without escaping when the string is quoted with backticks
+_Newlines_ (the characters you get when you press Enter) may be
+included without escaping only when the string is quoted with backticks
 (`` ` ``).
 
 {{index [escaping, "in strings"], "backslash character"}}

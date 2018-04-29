@@ -307,7 +307,7 @@ determine the curvature of the line, the method is given a ((control
 point)) as well as a destination point. Imagine this control point as
 _attracting_ the line, giving it its curve. The line won't go through
 the control point, but its direction at the start and end points will
-be such that a straight in that direction would point towards the
+be such that a straight line in that direction would point towards the
 control point. The following example illustrates this:
 
 ```{lang: "text/html"}

@@ -64,8 +64,8 @@ argument occurs.
 
 {{index "addEventListener method", "event handling", "window object"}}
 
-Each ((browser)) event handler is registered in a context. We called
-`addEventListener` on the `window` object before to register a handler
+Each ((browser)) event handler is registered in a context. Just now we called
+`addEventListener` on the `window` object to register a handler
 for the whole window. Such a method can also be found on ((DOM))
 elements and some other types of objects. Event listeners are only
 called when the event happens in the context of the object they are

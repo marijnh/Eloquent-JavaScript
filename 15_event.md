@@ -67,8 +67,8 @@ argument occurs.
 Each ((browser)) event handler is registered in a context. In the last example we called
 `addEventListener` on the `window` object to register a handler
 for the whole window. Such a method can also be found on ((DOM))
-elements and some other types of objects. Event listeners are only
-called when the event happens in the context of the object they are
+elements and some other types of objects. Event listeners are
+called only when the event happens in the context of the object they are
 registered on.
 
 ```{lang: "text/html"}
@@ -744,7 +744,7 @@ browser event handlers behave like other asynchronous notifications.
 They are scheduled when the event occurs, but must wait for other
 scripts that are running to finish before they get a chance to run.
 
-The fact that events can only be processed when nothing else is
+The fact that events can be processed only when nothing else is
 running means that, if the event loop is tied up with other work, any
 interaction with the page (which happens through events) will be
 delayed until there's time to process it. So if you schedule too much
@@ -1134,7 +1134,7 @@ access to them. To implement the styling of the buttons, you could
 store objects that contain both tab panel and its button.
 
 I recommend writing a separate function for changing tabs. You can
-either store the previously selected tab, and only change the styles
+either store the previously selected tab, and change only the styles
 needed to hide that and show the new one, or you can just update the
 style of all tabs every time a new tab is selected.
 

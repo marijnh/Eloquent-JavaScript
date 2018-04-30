@@ -269,7 +269,7 @@ responsible for two things: showing a picture and communicating
 
 {{index "PictureCanvas class", "callback function", "scale constant", "canvas (HTML tag)", "mousedown event", "touchstart event"}}
 
-As such, we can define it as a component that only knows about the
+As such, we can define it as a component that knows about only the
 current picture, not the whole application ((state)). Because it
 doesn't know how the application as a whole works, it can not directly
 dispatch ((action))s. Rather, when responding to pointer events, it
@@ -299,7 +299,7 @@ class PictureCanvas {
 
 We draw each pixel as a 10-by-10 square, as determined by the `scale`
 constant. To avoid unnecessary work, the component keeps track of its
-current picture, and only does a redraw when `setState` is given a new
+current picture, and does a redraw only when `setState` is given a new
 picture.
 
 {{index "drawPicture function"}}
@@ -1176,7 +1176,7 @@ if}}
 
 This exercise is a good example of how ((immutable)) data structures
 can make code _faster_. Because we have both the old and the new
-picture, we can compare them and only redraw the pixels that changed
+picture, we can compare them and redraw only the pixels that changed
 color, saving over 99% of the drawing work in most cases.
 
 {{index "drawPicture function"}}

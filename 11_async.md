@@ -37,8 +37,8 @@ progress while it is waiting for a network request.
 {{index "synchronous programming"}}
 
 In a _synchronous_ programming model, things happen one at a time.
-When you call a function that performs a long-running action, it only
-returns when the action has finished and it can return the result.
+When you call a function that performs a long-running action, it
+returns only when the action has finished and it can return the result.
 This stops your program for the time the action takes.
 
 {{index "asynchronous programming"}}
@@ -54,7 +54,7 @@ then combines results.
 
 {{index "synchronous programming"}}
 
-In a synchronous environment, where the request function only returns
+In a synchronous environment, where the request function returns only
 after it has done its work, the easiest way to perform this task is to
 make the requests one after the other. This has the drawback that the
 second request will be started only when the first has finished. The
@@ -378,7 +378,7 @@ functions they call, are caught and given to the right function.
 
 Promises make this easier. They can be either resolved (the action
 finished successfully) or rejected (it failed). Resolve handlers (as
-registered with `then`) are only called when the action is successful,
+registered with `then`) are called only when the action is successful,
 and rejections are automatically propagated to the new promise that is
 returned by `then`. And when a handler throws an exception, this
 automatically causes the promise produced by its `then` call to be
@@ -500,7 +500,7 @@ function request(nest, target, type, content) {
 
 {{index "Promise class", "resolving (a promise)", "rejecting (a promise)"}}
 
-Because promises can only be resolved (or rejected) once, this will
+Because promises can be resolved (or rejected) only once, this will
 work. The first time `resolve` or `reject` is called determines the
 outcome of the promise, and any further calls, such as the timeout
 arriving after the request finishes, or a request coming back after
@@ -617,7 +617,7 @@ of the current element as a second argument to its filtering function
 
 ## Network flooding
 
-The fact that nests can only talk to their neighbors greatly inhibits
+The fact that nests can talk only to their neighbors greatly inhibits
 the usefulness of this network.
 
 For broadcasting information to the whole network, one solution is to
@@ -700,7 +700,7 @@ send a request in the direction of a faraway nest, it is necessary to
 know which neighboring nest gets it closer to its destination. Sending
 it in the wrong direction will not do much good.
 
-Since each nest only knows about its direct neighbors, it doesn't have
+Since each nest knows about only its direct neighbors, it doesn't have
 the information it needs to compute a route. We must somehow spread
 the information about these connections to all nests. Preferably in a
 way that allows it to change over time, when nests are abandoned or
@@ -744,7 +744,7 @@ everywhere(nest => {
 {{index JSON, "== operator"}}
 
 The comparison uses `JSON.stringify` because `==`, on objects or
-arrays, will only return true when the two are the exact same value,
+arrays, will return true only when the two are the exact same value,
 which is not what we need here. Comparing the JSON strings is a crude
 but effective way to compare their content.
 
@@ -1080,7 +1080,7 @@ try {
 {{index thread, queue}}
 
 No matter how closely together events—such as timeouts or incoming
-requests—happen, a JavaScript environment will only run one program at
+requests—happen, a JavaScript environment will run only one program at
 a time. You can think of this as it running a big loop _around_ your
 program, called the _event loop_. When there's nothing to be done,
 that loop is stopped. But as events come in, they are added to a queue,

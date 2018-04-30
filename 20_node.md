@@ -1067,7 +1067,7 @@ subdirectories.
 Use asynchronous or synchronous file system functions as you see fit.
 Setting things up so that multiple asynchronous actions are requested
 at the same time might speed things up a little, but not a huge
-amount, since most file systems can only read one thing at a time.
+amount, since most file systems can read only one thing at a time.
 
 {{hint
 

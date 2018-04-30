@@ -117,7 +117,7 @@ such bindings wherever you want. These are called _global_.
 {{index "local scope", [binding, local]}}
 
 But bindings created for function ((parameter))s or declared inside a
-function can only be referenced in that function, so they are known as
+function can be referenced only in that function, so they are known as
 _local_ bindings. Every time the function is called, new instances of these
 bindings are created. This provides some isolation between
 functions—each function call acts in its own little world (its local
@@ -151,7 +151,7 @@ console.log(x + z);
 
 Each ((scope)) can "look out" into the scope around it, so `x` is
 visible inside the block in the example. The exception is when
-multiple bindings have the same name—in that case, code can only see
+multiple bindings have the same name—in that case, code can see only
 the innermost one. For example, when the code inside the `halve`
 function refers to `n`, it is seeing its _own_ `n`, not the global
 `n`.

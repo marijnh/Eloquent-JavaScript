@@ -334,7 +334,7 @@ of saying "I can't do that".
 
 To add a request body, you can include a `body` option. To set
 headers, there's the `headers` option. For example, this request
-includes a `Range` header, which instructs the server to only return a
+includes a `Range` header, which instructs the server to return only
 part of a response.
 
 ```{test: no}
@@ -581,7 +581,7 @@ the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
-Thus you can only type into a ((text field)) when it is focused. Other
+Thus you can type into a ((text field)) only when it is focused. Other
 fields respond differently to keyboard events. For example, a
 `<select>` menu tries to move to the option that contains the text the
 user typed and responds to the arrow keys by moving its selection up
@@ -1087,7 +1087,7 @@ removed with `removeItem`, or the user clears their local data.
 
 Sites from different ((domain))s get different storage
 compartments. That means data stored in `localStorage` by a given
-website can, in principle, only be read (and overwritten) by scripts on
+website can, in principle, be read (and overwritten) only by scripts on
 that same site.
 
 {{index "localStorage object"}}
@@ -1155,7 +1155,7 @@ Notes: <select></select> <button>Add</button><br>
 
 The script gets its starting state from the `"Notes"` value stored in
 `localStorage` or, if that is missing, it creates an example state
-that only has a shopping list in it. Reading a field that does not
+that has only a shopping list in it. Reading a field that does not
 exist from `localStorage` will yield `null`. Passing `null` to
 `JSON.parse` will make it parse the string `"null"` and return `null`.
 Thus, the `||` operator can be used to provide a default value in a

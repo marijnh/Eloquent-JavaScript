@@ -228,10 +228,10 @@ tag does not match the server responds as normal.
 {{index "Prefer header"}}
 
 We need something like this, where the client can tell the server
-which version of the list of talks it has, and the server only
-responds when that list has changed. But instead of immediately
+which version of the list of talks it has, and the server
+responds only when that list has changed. But instead of immediately
 returning a 304 response, the server should stall the response, and
-only return when something new is available or a given amount of time
+return only when something new is available or a given amount of time
 has elapsed. To distinguish long polling requests from normal
 conditional requests, we give them another header `Prefer: wait=90`,
 which tells the server that the client is willing wait up to 90

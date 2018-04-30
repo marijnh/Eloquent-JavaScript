@@ -731,7 +731,7 @@ returning a non-null value from the handler. When you do that, the
 browser will show the user a dialog asking if are sure they want to
 leave the page. This mechanism ensures that a user is always able to
 leave, even on malicious pages that would prefer to keep them there
-forever and force them to look at dodgy weight loss ads.
+forever and force them to look at dodgy weight-loss ads.
 
 {{id timeline}}
 

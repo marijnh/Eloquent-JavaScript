@@ -19,9 +19,9 @@ no one would ever have paid any attention to it.
 
 Web technology has, from the start, been decentralized, not just
 technically but also in the way it evolved. Various browser vendors
-have added new functionality in ad hoc and sometimes poorly thought
-out ways, which then, sometimes, ended up being adopted by others—and
-finally set down as a ((standard)).
+have added new functionality in ad hoc and sometimes poorly thought-out
+ways, which then, sometimes, ended up being adopted by others—and
+finally set down as in ((standards)).
 
 This is both a blessing and a curse. On the one hand, it is empowering
 to not have a central party control a system but have it be improved
@@ -53,7 +53,7 @@ on the kind of thing that it is trying to express and on the
 
 A _network ((protocol))_ describes a style of communication over a
 ((network)). There are protocols for sending email, for fetching email,
-for sharing files, or even for controlling computers that happen to be
+for sharing files, and even for controlling computers that happen to be
 infected by malicious software.
 
 {{indexsee "Hypertext Transfer Prototol", HTTP}}
@@ -68,7 +68,7 @@ the version of the protocol that it is trying to use.
 GET /index.html HTTP/1.1
 ```
 
-There's a lot more rules about the way the requester can include more
+There are a lot more rules about the way the requester can include more
 information in the ((request)) and the way the other side, which
 returns the resource, packages up its content. We'll look at HTTP in a
 little more detail in [Chapter ?](http).
@@ -158,7 +158,7 @@ domain name to serve web pages.
 
 {{index browser}}
 
-If you type the URL we saw into your browser's ((address bar)), it
+If you type this URL into your browser's ((address bar)), the browser
 will try to retrieve and display the ((document)) at that URL. First,
 your browser has to find out what address _eloquentjavascript.net_
 refers to. Then, using the ((HTTP)) protocol, it will make a
@@ -220,8 +220,8 @@ _about_ the document, and the body contains the document itself. In
 this case, the head declares that the title of this document is "My
 home page" and that it uses the UTF-8 encoding, which is a way to
 encode Unicode text as binary data. The document's body contains a
-heading (`<h1>`, meaning "heading 1"—`<h2>` to `<h6>` produce more
-minor headings) and two ((paragraph))s (`<p>`).
+heading (`<h1>`, meaning "heading 1"—`<h2>` to `<h6>` produce
+subheadings) and two ((paragraph))s (`<p>`).
 
 {{index "href attribute", "a (HTML tag)"}}
 
@@ -247,7 +247,7 @@ even though they have a special meaning in HTML, yet another form of
 special notation has to be introduced. A plain opening angle bracket
 is written as `&lt;` ("less than"), and a closing bracket is written
 as `&gt;` ("greater than"). In HTML, an ampersand (`&`) character
-followed by a word and a semicolon (`;`) is called an _((entity))_,
+followed by a name or character code and a semicolon (`;`) is called an _((entity))_,
 and will be replaced by the character it encodes.
 
 {{index "backslash character", "ampersand character", "double-quote character"}}
@@ -298,7 +298,7 @@ I will also usually omit the ((doctype)) and `charset` declaration.
 This is not to be taken as an encouragement to drop these from HTML
 documents. Browsers will often do ridiculous things when you forget
 them. You should consider the doctype and the `charset` metadata
-implicitly present in examples, even when they are not actually shown
+to be implicitly present in examples, even when they are not actually shown
 in the text.
 
 {{id script_tag}}
@@ -337,7 +337,7 @@ program) from a URL.
 
 The _code/hello.js_ file included here contains the same
 program—`alert("hello!")`. When an HTML page references other URLs as
-part of itself, for example an image file or a script—web browsers
+part of itself—for example, an image file or a script—web browsers
 will retrieve them immediately and include them in the page.
 
 {{index "script (HTML tag)", "closing tag"}}
@@ -420,7 +420,7 @@ the market. After a few years, the balance had shifted to
 Microsoft's ((Internet Explorer)). At any point where a single
 ((browser)) was dominant, that browser's vendor would feel entitled to
 unilaterally invent new features for the Web. Since most users used
-the same browser, ((website))s would simply start using those
+the most popular browser, ((website))s would simply start using those
 features—never mind the other browsers.
 
 This was the dark age of ((compatibility)), often called the

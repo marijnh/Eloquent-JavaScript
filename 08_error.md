@@ -161,7 +161,7 @@ You could add a comment like this above the `goalOrientedRobot`
 function from the last chapter, to describe its type.
 
 ```
-// (WorldState, Array) → {direction: string, memory: Array}
+// (VillageState, Array) → {direction: string, memory: Array}
 function goalOrientedRobot(state, memory) {
   // ...
 }
@@ -603,7 +603,7 @@ leaving, it notices that it was aborted at a point where it had
 created an inconsistent program state, it repairs the damage it did.
 
 Note that, even though the `finally` code is run when an exception
-leaves the `try` block, it does not interfere with the exception.
+is thrown in the `try` block, it does not interfere with the exception.
 After the `finally` block runs, the stack continues unwinding.
 
 {{index "exception safety"}}
@@ -861,7 +861,7 @@ block. The corresponding `catch` block should rethrow the exception
 when it is not an instance of `MultiplicatorUnitFailure` and ensure
 the call is retried when it is.
 
-To do the retrying, you can either use a loop that breaks only when a
+To do the retrying, you can either use a loop that stops only when a
 call succeeds—as in the [`look` example](error#look) earlier in this
 chapter—or use ((recursion)) and hope you don't get a string of
 failures so long that it overflows the stack (which is a pretty safe

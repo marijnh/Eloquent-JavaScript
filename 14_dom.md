@@ -158,7 +158,7 @@ numbers to access the child nodes. But it is an instance of the
 
 Then there are issues that are simply poor design. For example, there
 is no way to create a new node and immediately add children or
-((attribute))s to it. Instead, you have to first create it, then add
+((attribute))s to it. Instead, you have to first create it, and then add
 the children and attributes one by one, using side effects. Code that
 interacts heavily with the DOM tends to get long, repetitive, and
 ugly.
@@ -200,8 +200,8 @@ child, `nextSibling` will be null.
 
 {{index "children property", "text node", element}}
 
-There's also the `children` property, which is like `childNodes`, but
-which only contains element (type 1) children, not other types of
+There's also the `children` property, which is like `childNodes` but
+contains only element (type 1) children, not other types of
 child nodes. This can be useful when you aren't interested in text
 nodes.
 
@@ -234,7 +234,7 @@ console.log(talksAbout(document.body, "book"));
 
 {{index "childNodes property", "array-like object"}}
 
-Because `childNodes` is not a real array, we can not loop over it with
+Because `childNodes` is not a real array, we cannot loop over it with
 `for`/`of` and have to run over the index range using a regular `for`
 loop.
 
@@ -254,7 +254,7 @@ of properties is a bad idea. Doing so bakes assumptions into our
 program about the precise structure of the document—a structure you
 might want to change later. Another complicating factor is that text
 nodes are created even for the ((whitespace)) between nodes. The
-example document's body tag does not have just three children (`<h1>`
+example document's `<body>` tag does not have just three children (`<h1>`
 and two `<p>` elements) but actually has seven: those three, plus the
 spaces before, after, and between them.
 
@@ -373,7 +373,7 @@ to replace them. Text nodes are created with the
 
 {{index "text node"}}
 
-Given a string, `createTextNode` gives us a text node, which we can
+Given a string, `createTextNode` gives us a text node that we can
 insert into the document to make it show up on the screen.
 
 {{index "live data structure", "getElementsByTagName method", "childNodes property"}}
@@ -460,7 +460,7 @@ object. This is the case for most commonly used standard attributes.
 But HTML allows you to set any attribute you want on nodes. This can
 be useful because it allows you to store extra information in a
 document. If you make up your own attribute names, though, such
-attributes will not be present as a property on the element's node.
+attributes will not be present as properties on the element's node.
 Instead, you have to use the `getAttribute` and `setAttribute` methods
 to work with them.
 
@@ -608,14 +608,14 @@ one takes.
 
 We have seen that different HTML elements are drawn differently. Some
 are displayed as blocks, others inline. Some add styling—`<strong>`
-makes its content ((bold)) and `<a>` makes it blue and underlines it.
+makes its content ((bold)), and `<a>` makes it blue and underlines it.
 
 {{index "img (HTML tag)", "default behavior", "style attribute"}}
 
 The way an `<img>` tag shows an image or an `<a>` tag causes a link to
 be followed when it is clicked is strongly tied to the element type.
-But the default styling associated with an element, such as the text
-color or underline, can be changed by us. Here is an example that uses
+But we can change the styling associated with an element, such
+as the text color or underline. Here is an example that uses
 the `style` property:
 
 ```{lang: "text/html"}
@@ -640,7 +640,7 @@ separated by ((semicolon))s, as in `"color: red; border: none"`.
 
 {{index "display (CSS)", layout}}
 
-There are a lot of aspects of the document that can be influenced by
+A lot of aspects of the document can be influenced by
 styling. For example, the `display` property controls whether an
 element is displayed as a block or an inline element.
 
@@ -699,7 +699,7 @@ letters after them capitalized (`style.fontFamily`).
 
 {{indexsee "Cascading Style Sheets", CSS}}
 
-The styling system for HTML is called ((CSS)) for _Cascading Style
+The styling system for HTML is called ((CSS)), for _Cascading Style
 Sheets_. A _((style sheet))_ is a set of rules for how to style
 elements in a document. It can be given inside a `<style>` tag.
 
@@ -906,7 +906,7 @@ updating the screen and responding to user actions.
 {{index "smooth animation"}}
 
 The ((animation)) function is passed the current ((time)) as an
-argument. To ensure the motion of the cat per millisecond is
+argument. To ensure that the motion of the cat per millisecond is
 stable, it bases the speed at which the angle changes on the
 difference between the current time and the last time the function
 ran. If it just moved the angle by a fixed amount per step, the motion
@@ -919,7 +919,7 @@ second.
 {{id sin_cos}}
 
 Moving in ((circle))s is done using the trigonometry functions
-`Math.cos` and `Math.sin`. For those of you who aren't familiar with
+`Math.cos` and `Math.sin`. For those who aren't familiar with
 these, I'll briefly introduce them since we will occasionally use them
 in this book.
 
@@ -931,7 +931,7 @@ interpret their argument as the position on this circle, with zero
 denoting the point on the far right of the circle, going clockwise
 until 2π (about 6.28) has taken us around the whole circle. `Math.cos`
 tells you the x-coordinate of the point that corresponds to the given
-position, while `Math.sin` yields the y-coordinate. Positions (or
+position, and `Math.sin` yields the y-coordinate. Positions (or
 angles) greater than 2π or less than 0 are valid—the rotation repeats
 so that _a_+2π refers to the same ((angle)) as _a_.
 
@@ -956,7 +956,7 @@ ellipse is much wider than it is high.
 {{index "unit (CSS)"}}
 
 Note that styles usually need _units_. In this case, we have to append
-`"px"` to the number to tell the browser we are counting in ((pixel))s
+`"px"` to the number to tell the browser that we are counting in ((pixel))s
 (as opposed to centimeters, "ems", or other units). This is easy to
 forget. Using numbers without units will result in your style being
 ignored—unless the number is 0, which always means the same thing,

@@ -43,7 +43,8 @@ weights of the digits shown below them:
  128  64  32  16   8   4   2   1
 ```
 
-So that's the binary number 00001101, or 8 + 4 + 1, or 13.
+So that's the binary number 00001101. Its non-zero digits stand for
+8, 4, and 1, and add up to 13.
 
 ## Values
 
@@ -66,7 +67,7 @@ functions, and so on.
 
 To create a value, you must merely invoke its name. This is
 convenient. You don't have to gather building material for your values
-or pay for them. You just call for one, and _woosh_, you have it. They
+or pay for them. You just call for one, and _whoosh_, you have it. They
 are not really created from thin air, of course. Every value has to be
 stored somewhere, and if you want to use a gigantic amount of them at
 the same time, you might run out of memory. Fortunately, this is a
@@ -96,25 +97,25 @@ number 13 to come into existence inside the computer's memory.
 
 {{index [number, representation], bit}}
 
-JavaScript uses a fixed number of bits, namely 64 of them, to store a
+JavaScript uses a fixed number of bits, 64 of them, to store a
 single number value. There are only so many patterns you can make with
-64 bits, which means that the amount of different numbers that can be
-represented is limited. For _N_ decimal ((digit))s, the amount of
-numbers that can be represented is 10^N^. Similarly, given 64 binary
+64 bits, which means that the number of different numbers that can be
+represented is limited. With _N_ decimal ((digit))s, you can represent
+10^N^ numbers. Similarly, given 64 binary
 digits, you can represent 2^64^ different numbers, which is about 18
 quintillion (an 18 with 18 zeros after it). That's a lot.
 
 Computer memory used to be much smaller, and people tended to use
 groups of 8 or 16 bits to represent their numbers. It was easy to
 accidentally _((overflow))_ such small numbers—to end up with a number
-that did not fit into the given amount of bits. Today, even computers
+that did not fit into the given number of bits. Today, even computers
 that fit in your pocket have plenty of memory, so you are free to use
 64-bit chunks, and you need to worry about overflow only when dealing
 with truly astronomical numbers.
 
 {{index sign, "floating-point number", "fractional number", "sign bit"}}
 
-Not all whole numbers below 18 quintillion fit in a JavaScript number,
+Not all whole numbers less than 18 quintillion fit in a JavaScript number,
 though. Those bits also store negative numbers, so one bit indicates
 the sign of the number. A bigger issue is that nonwhole numbers must
 also be represented. To do this, some of the bits are used to store
@@ -124,7 +125,7 @@ zeros)—which is still pleasantly huge.
 
 {{index [number, notation]}}
 
-Fractional numbers are written by using a dot:
+Fractional numbers are written by using a dot.
 
 ```
 9.81
@@ -134,7 +135,7 @@ Fractional numbers are written by using a dot:
 
 For very big or very small numbers, you may also use scientific
 notation by adding an _e_ (for _exponent_), followed by the exponent
-of the number:
+of the number.
 
 ```
 2.998e8
@@ -178,7 +179,7 @@ a new value.
 But does the example mean "add 4 and 100, and multiply the result by 11,"
 or is the multiplication done before the adding? As you might have
 guessed, the multiplication happens first. But as in mathematics, you
-can change this by wrapping the addition in parentheses:
+can change this by wrapping the addition in parentheses.
 
 ```
 (100 + 4) * 11
@@ -206,7 +207,7 @@ There is one more arithmetic operator, which you might not immediately
 recognize. The `%` symbol is used to represent the _remainder_
 operation. `X % Y` is the remainder of dividing `X` by `Y`. For
 example, `314 % 100` produces `14`, and `144 % 12` gives `0`.
-Remainder's precedence is the same as that of multiplication and
+The remainder operator's precedence is the same as that of multiplication and
 division. You'll also often see this operator referred to as _modulo_.
 
 ### Special numbers
@@ -221,7 +222,7 @@ numbers but don't behave like normal numbers.
 The first two are `Infinity` and `-Infinity`, which represent the
 positive and negative infinities. `Infinity - 1` is still `Infinity`,
 and so on. Don't put too much trust in infinity-based computation,
-though. It isn't mathematically sound, and it will quickly lead to our
+though. It isn't mathematically sound, and it will quickly lead to the
 next special number: `NaN`.
 
 {{index NaN, "not a number", "division by zero"}}
@@ -239,7 +240,7 @@ result.
 {{index syntax, text, character, [string, notation], "single-quote character", "double-quote character", "quotation mark", backtick}}
 
 The next basic data type is the _((string))_. Strings are used to
-represent text. They are written by enclosing their content in quotes:
+represent text. They are written by enclosing their content in quotes.
 
 ```
 `Down on the sea`
@@ -256,7 +257,7 @@ match.
 Almost anything can be put between quotes, and JavaScript will make a
 string value out of it. But a few characters are more difficult. You
 can imagine how putting quotes between quotes might be hard.
-_Newlines_ (the characters you get when you press Enter) may be
+_Newlines_ (the characters you get when you press Enter) can be
 included without escaping only when the string is quoted with backticks
 (`` ` ``).
 
@@ -326,7 +327,7 @@ produce the string `"concatenate"`:
 ```
 
 String values have a number of associated functions (_methods_) that
-can be used to perform other operations on them. We'll come back to
+can be used to perform other operations on them. I'll say more about
 these in [Chapter ?](data#methods).
 
 {{index interpolation, backtick}}
@@ -370,7 +371,7 @@ chapter](program_structure).
 
 {{index negation, "- operator", "binary operator", "unary operator"}}
 
-The other operators we saw all operated on two values, but `typeof`
+The other operators shown all operated on two values, but `typeof`
 takes only one. Operators that use two values are called _binary_
 operators, while those that take one are called _unary_ operators. The
 minus operator can be used both as a binary operator and as a unary
@@ -387,7 +388,7 @@ console.log(- (10 - 2))
 
 It is often useful to have a value that distinguishes between only two
 possibilities, like "yes" and "no" or "on" and "off". For this
-purpose, JavaScript has a _Boolean_ type, which has just two values:
+purpose, JavaScript has a _Boolean_ type, which has just two values,
 true and false, which are written as those words.
 
 ### Comparison
@@ -419,7 +420,7 @@ console.log("Aardvark" < "Zoroaster")
 
 {{index [comparison, "of strings"]}}
 
-The way strings are ordered is roughly alphabetic, but not really what
+The way strings are ordered is roughly alphabetic but not really what
 you'd expect to see in a dictionary: uppercase letters are always
 "less" than lowercase ones, so `"Z" < "a"`, and nonalphabetic
 characters (!, -, and so on) are also included in the ordering. When
@@ -487,7 +488,7 @@ console.log(false || false)
 {{index negation, "! operator"}}
 
 _Not_ is written as an exclamation mark (`!`). It is a unary operator
-that flips the value given to it—`!true` produces `false` and `!false`
+that flips the value given to it—`!true` produces `false`, and `!false`
 gives `true`.
 
 {{index precedence}}
@@ -518,10 +519,10 @@ console.log(false ? 1 : 2);
 ```
 
 This one is called the _conditional_ operator (or sometimes just
-_ternary_ operator since it is the only such operator in the
+the _ternary_ operator since it is the only such operator in the
 language). The value on the left of the question mark "picks" which of
 the other two values will come out. When it is true, it chooses the
-middle value, and when it is false, the value on the right.
+middle value, and when it is false, it chooses the value on the right.
 
 ## Empty values
 
@@ -536,7 +537,7 @@ Many operations in the language that don't produce a meaningful value
 yield _some_ value.
 
 The difference in meaning between `undefined` and `null` is an accident
-of JavaScript's design, and it doesn't matter most of the time. In the cases
+of JavaScript's design, and it doesn't matter most of the time. In cases
 where you actually have to concern yourself with these values, I
 recommend treating them as mostly interchangeable.
 
@@ -633,7 +634,7 @@ _original_ left-hand value or the right-hand value.
 
 The `||` operator, for example, will return the value to its left when
 that can be converted to true and will return the value on its right
-otherwise. This has the expected effect when the values are Boolean,
+otherwise. This has the expected effect when the values are Boolean
 and does something analogous for values of other types.
 
 ```
@@ -652,7 +653,7 @@ false, you'll get the replacement instead.
 
 {{index "&& operator"}}
 
-The `&&` operator works similarly, but the other way around. When the
+The `&&` operator works similarly but the other way around. When the
 value to its left is something that converts to false, it returns that
 value, and otherwise it returns the value on its right.
 
@@ -666,7 +667,7 @@ ignore `X`. This is called _((short-circuit evaluation))_.
 {{index "ternary operator", "?: operator", "conditional operator"}}
 
 The conditional operator works in a similar way. Of the second and
-third value, only the one that is selected is evaluated.
+third values, only the one that is selected is evaluated.
 
 ## Summary
 
@@ -683,6 +684,6 @@ logically, and `typeof` to find a value's type) and a ternary operator
 (`?:`) to pick one of two values based on a third value.
 
 This gives you enough information to use JavaScript as a pocket
-calculator, but not much more. The [next
+calculator but not much more. The [next
 chapter](program_structure) will start tying
 these expressions together into basic programs.

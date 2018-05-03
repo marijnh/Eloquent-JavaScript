@@ -411,10 +411,10 @@ if}}
 
 The easiest way to run the example code in the book, and to experiment
 with it, is to look it up in the online version of the book at
-[_eloquentjavascript.net_](https://eloquentjavascript.net/). There,
+[_https://eloquentjavascript.net_](https://eloquentjavascript.net/). There,
 you can click any code example to edit and run it and to see the
 output it produces. To work on the exercises, go to
-[_eloquentjavascript.net/code_](https://eloquentjavascript.net/code),
+[_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code),
 which provides starting code for each coding exercise and allows you
 to look at the solutions.
 

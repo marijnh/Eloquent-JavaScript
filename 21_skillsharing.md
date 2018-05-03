@@ -38,7 +38,7 @@ organizer.
 chapter is written for Node.js, and running it directly in the HTML
 page that you are looking at is unlikely to work.]{if interactive} The
 full code for the project can be ((download))ed from
-[_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
+[_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
 
 ## Design
 
@@ -1016,7 +1016,7 @@ runApp();
 ```
 
 If you run the server and open two browser windows for
-[_localhost:8000_](http://localhost:8000/) next to each other, you can
+[_http://localhost:8000_](http://localhost:8000/) next to each other, you can
 see that the actions you perform in one window are immediately visible
 in the other.
 
@@ -1027,8 +1027,8 @@ in the other.
 The following exercises will involve modifying the system defined in
 this chapter. To work on them, make sure you ((download)) the code
 first
-([_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)),
-have Node installed [_nodejs.org_](https://nodejs.org), and have
+([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)),
+have Node installed [_https://nodejs.org_](https://nodejs.org), and have
 installed the project's dependency with `npm install`.
 
 ### Disk persistence

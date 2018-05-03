@@ -1218,7 +1218,7 @@ another promise, which resolves when the player finished the game.
 There is a set of ((level)) plans available in the `GAME_LEVELS`
 binding in [this chapter's
 sandbox](https://eloquentjavascript.net/code#16)[
-([_eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if
+([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if
 book}. This page feeds them to `runGame`, starting an actual game:
 
 ```{sandbox: null, focus: yes, lang: "text/html", startCode: true}

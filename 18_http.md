@@ -76,7 +76,7 @@ request applies to. In the simplest case, a resource is simply a
 A resource may be anything that can be transferred _as if_ it is a
 file. Many servers generate the responses they produce on the fly. For
 example, if you open
-[_github.com/marijnh_](https://github.com/marijnh), the server looks
+[_https://github.com/marijnh_](https://github.com/marijnh), the server looks
 in its database for a user named "marijnh", and if it finds one, it
 will generate a profile page for that user.
 
@@ -1244,7 +1244,7 @@ it can look at this header and send the one that the client prefers.
 {{index "MIME type"}}
 
 The URL
-[_eloquentjavascript.net/author_](https://eloquentjavascript.net/author)
+[_http://eloquentjavascript.net/author_](http://eloquentjavascript.net/author)
 is configured to respond with either plaintext, HTML, or JSON,
 depending on what the client asks for. These formats are identified by
 the standardized _((media type))s_ `text/plain`, `text/html`, and

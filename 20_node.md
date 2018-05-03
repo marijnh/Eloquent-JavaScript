@@ -37,7 +37,7 @@ if}}
 
 If you want to follow along and run the code in this chapter, you'll
 need to install Node.js version 10 or higher. To do so, go to
-[_nodejs.org_](https://nodejs.org) and follow the installation
+[_https://nodejs.org_](https://nodejs.org) and follow the installation
 instructions for your operating system. You can also find further
 ((documentation)) for Node.js there.
 
@@ -350,7 +350,7 @@ registry, fills the same role as `npm` using a somewhat different
 interface and installation strategy.
 
 This book won't delve further into the details of ((NPM)) usage. Refer
-to [_npmjs.org_](https://npmjs.org) for further documentation and a
+to [_https://npmjs.org_](https://npmjs.org) for further documentation and a
 way to search for packages.
 
 ## The file system module
@@ -420,7 +420,7 @@ The `fs` module contains many other useful functions: `readdir` will
 return the ((file))s in a ((directory)) as an array of strings, `stat`
 will retrieve information about a file, `rename` will rename a file,
 `unlink` will remove one, and so on. See the documentation at
-[_nodejs.org_](https://nodejs.org) for specifics.
+[_https://nodejs.org_](https://nodejs.org) for specifics.
 
 {{index "asynchronous programming", "Node.js", "error handling", "callback function"}}
 
@@ -991,7 +991,7 @@ where we can successfully resolve the promise (returning nothing).
 {{index download, "file server example", "Node.js"}}
 
 The full script for the server is available at
-[_eloquentjavascript.net/code/file_server.js_](https://eloquentjavascript.net/code/file_server.js).
+[_https://eloquentjavascript.net/code/file_server.js_](https://eloquentjavascript.net/code/file_server.js).
 You can download that and, after installing its dependencies, run it
 with Node to start your own file server. And of course, you can modify
 and extend it to solve this chapter's exercises or to experiment.

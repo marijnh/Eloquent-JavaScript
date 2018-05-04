@@ -154,12 +154,12 @@ as `[0-9]`.
 | `\S`    | A nonwhitespace character
 | `.`     | Any character except for newline
 
-So you could match a ((date)) and ((time)) format like 30-01-2003
+So you could match a ((date)) and ((time)) format like 01-30-2003
 15:20 with the following expression:
 
 ```
 let dateTime = /\d\d-\d\d-\d\d\d\d \d\d:\d\d/;
-console.log(dateTime.test("30-01-2003 15:20"));
+console.log(dateTime.test("01-30-2003 15:20"));
 // → true
 console.log(dateTime.test("30-jan-2003 15:20"));
 // → false
@@ -255,7 +255,7 @@ is also slightly easier to decipher.
 
 ```
 let dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
-console.log(dateTime.test("30-1-2003 8:45"));
+console.log(dateTime.test("1-30-2003 8:45"));
 // → true
 ```
 
@@ -424,8 +424,8 @@ millisecond count by creating a new `Date` object and calling
 
 Date objects provide methods like `getFullYear`, `getMonth`,
 `getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their
-components. Besides `getFullYear`, there's also `getYear`, which gives
-you a rather useless two-digit year value (such as `93` or `14`).
+components. Besides `getFullYear` there's also `getYear`, which gives
+you the year minus 1900 (`98` or `119`), and is mostly useless.
 
 {{index "capture group", "getDate function"}}
 
@@ -434,11 +434,11 @@ interested in, we can now create a date object from a string.
 
 ```
 function getDate(string) {
-  let [_, day, month, year] =
+  let [_, month, day, year] =
     /(\d{1,2})-(\d{1,2})-(\d{4})/.exec(string);
   return new Date(year, month - 1, day);
 }
-console.log(getDate("30-1-2003"));
+console.log(getDate("1-30-2003"));
 // → Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
 ```
 
@@ -1036,8 +1036,9 @@ usually called an _INI_ file) are as follows:
 - Anything else is invalid.
 
 Our task is to convert a string like this into an object whose
-properties hold strings for sectionless settings and sub-objects for
-sections, with those sub-objects holding the section's settings.
+properties hold strings for settings written before the first
+section header and sub-objects for sections, with those sub-objects
+holding the section's settings.
 
 {{index "carriage return", "line break", "newline character"}}
 

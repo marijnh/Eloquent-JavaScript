@@ -280,7 +280,7 @@ behavior is broken.
 
 Depending on the browser, some events can't be intercepted at all. On
 Chrome, for example, the ((keyboard)) shortcut to close the current
-tab (Ctrl-W or Command-W) cannot be handled by JavaScript.
+tab ([control]{keyname}-W or [command]{keyname}-W) cannot be handled by JavaScript.
 
 ## Key events
 
@@ -321,22 +321,22 @@ longer.
 The example looked at the `key` property of the event object to see
 which key the event is about. This property holds a string that, for
 most keys, corresponds to the thing that pressing that key would type.
-For special keys like Enter, it holds a string that names the key
-(`"Enter"`, in this case). If you hold shift while pressing a key,
+For special keys like [enter]{keyname}, it holds a string that names the key
+(`"Enter"`, in this case). If you hold [shift]{keyname} while pressing a key,
 that might also influence the name of the key—`"v"` becomes `"V"`,
-`"1"` may become `"!"`, if that is what pressing Shift-1 produces on
+`"1"` may become `"!"`, if that is what pressing [shift]{keyname}-1 produces on
 your keyboard.
 
 {{index "modifier key", "shift key", "control key", "alt key", "meta key", "command key", "ctrlKey property", "shiftKey property", "altKey property", "metaKey property"}}
 
-Modifier keys such as Shift, Ctrl, Alt, and Meta (Command on Mac)
+Modifier keys such as [shift]{keyname}, [control]{keyname}, [alt]{keyname}, and [meta]{keyname} ([command]{keyname} on Mac)
 generate key events just like normal keys. But when looking for key
 combinations, you can also find out whether these keys are held down
 by looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey`
 properties of keyboard and mouse events.
 
 ```{lang: "text/html", focus: true}
-<p>Press Ctrl-Space to continue.</p>
+<p>Press Control-Space to continue.</p>
 <script>
   window.addEventListener("keydown", event => {
     if (event.key == " " && event.ctrlKey) {

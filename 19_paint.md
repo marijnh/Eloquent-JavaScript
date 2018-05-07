@@ -1032,7 +1032,7 @@ more features as exercises.
 {{index "keyboard bindings (exercise)"}}
 
 Add ((keyboard)) shortcuts to the application. The first letter of a
-tool's name selects the tool, and Ctrl-Z or Command-Z activates undo.
+tool's name selects the tool, and [control]{keyname}-Z or [command]{keyname}-Z activates undo.
 
 {{index "PixelEditor class", "tabindex attribute", "elt function", "keydown event"}}
 
@@ -1094,8 +1094,8 @@ if}}
 {{index "keyboard bindings (exercise)", "key property", "shift key"}}
 
 The `key` property of events for letter keys will be the lower case
-letter itself, if Shift isn't being held. And we're not interested in
-key events with Shift here.
+letter itself, if [shift]{keyname} isn't being held. And we're not interested in
+key events with [shift]{keyname} here.
 
 {{index "keydown event"}}
 

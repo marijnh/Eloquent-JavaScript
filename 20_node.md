@@ -535,7 +535,7 @@ _localhost_, which would use the default port 80.
 When you run this script, the process just sits there and waits. When
 a script is listening for events—in this case, network
 connections—`node` will not automatically exit when it reaches the end
-of the script. To close it, press Ctrl-C.
+of the script. To close it, press {{control}}-C.
 
 A real web ((server)) usually does more than the one in the example—it
 looks at the request's ((method)) (the `method` property) to see what

@@ -619,7 +619,7 @@ user has focused something else.
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
 Browsers traditionally also allow the user to move the focus
-through the document by pressing the Tab key. We can influence the
+through the document by pressing the [tab]{keyname} key. We can influence the
 order in which elements receive focus with the `tabindex` attribute.
 The following example document will let focus jump from the text input to
 the OK button, rather than going through the help link first:
@@ -702,10 +702,10 @@ acts both as an array-like object (accessible by number) and a ((map))
 </script>
 ```
 
-{{index "button (HTML tag)", "type attribute", submit, "Enter key"}}
+{{index "button (HTML tag)", "type attribute", submit, "enter key"}}
 
 A button with a `type` attribute of `submit` will, when pressed,
-cause the form to be submitted. Pressing Enter when a form field is
+cause the form to be submitted. Pressing [enter]{keyname} when a form field is
 focused has the same effect.
 
 {{index "submit event", "event handling", "preventDefault method", "page reload", "GET method", "POST method"}}
@@ -922,7 +922,7 @@ deselect an option.
 
 This example extracts the selected values from a `multiple` select
 field and uses them to compose a binary number from individual bits.
-Hold Ctrl (or Command on a Mac) to select multiple options.
+Hold [control]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
 
 ```{lang: "text/html"}
 <select multiple>

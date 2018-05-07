@@ -257,7 +257,7 @@ match.
 Almost anything can be put between quotes, and JavaScript will make a
 string value out of it. But a few characters are more difficult. You
 can imagine how putting quotes between quotes might be hard.
-_Newlines_ (the characters you get when you press Enter) can be
+_Newlines_ (the characters you get when you press [enter]{keyname}) can be
 included without escaping only when the string is quoted with backticks
 (`` ` ``).
 

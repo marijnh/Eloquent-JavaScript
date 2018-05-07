@@ -277,7 +277,7 @@ systems (including all modern web ((browser))s and Node.js) provide a
 `console.log` function that writes out its arguments to _some_ text
 output device. In browsers, the output lands in the ((JavaScript
 console)). This part of the browser interface is hidden by default,
-but most browsers open it when you press F12 or, on a Mac, command-option-I.
+but most browsers open it when you press F12 or, on a Mac, [command]{keyname}-[option]{keyname}-I.
 If that does not work, search through the menus for an item named Developer
 Tools or similar.
 

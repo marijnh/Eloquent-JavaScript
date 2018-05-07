@@ -10,6 +10,8 @@ quote}}
 
 {{index "skill-sharing project", meetup, "project chapter"}}
 
+{{figure {url: "img/chapter_picture_21.jpg", alt: "Picture of two unicycles", chapter: "framed"}}}
+
 A _((skill-sharing))_ meeting is an event where people with a shared
 interest come together and give small, informal presentations about
 things they know. At a ((gardening)) skill-sharing meeting, someone

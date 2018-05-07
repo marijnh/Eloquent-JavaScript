@@ -8,7 +8,11 @@ Drawing is deception.
 
 quote}}
 
-{{index "Escher, M.C.", CSS, "transform (CSS)"}}
+{{index "Escher, M.C."}}
+
+{{figure {url: "img/chapter_picture_17.jpg", alt: "Picture of a robot arm drawing on paper", chapter: "framed"}}}
+
+{{index CSS, "transform (CSS)"}}
 
 Browsers give us several ways to display ((graphics)). The simplest
 way is to use styles to position and color regular ((DOM)) elements.

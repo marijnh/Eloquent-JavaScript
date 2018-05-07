@@ -11,6 +11,10 @@ context on the server.
 
 quote}}
 
+{{index "Fielding, Roy"}}
+
+{{figure {url: "img/chapter_picture_18.jpg", alt: "Picture of a web form on a medieval scroll", chapter: "framed"}}}
+
 The _Hypertext Transfer Protocol_, already mentioned in [Chapter
 ?](browser#web), is the mechanism through which data is requested and
 provided on the ((World Wide Web)). This chapter describes the

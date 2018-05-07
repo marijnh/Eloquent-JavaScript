@@ -8,6 +8,8 @@ have known—before you started.
 
 quote}}
 
+{{figure {url: "img/chapter_picture_14.jpg", alt: "Picture of a tree with letters and scripts hanging from its branches", chapter: "framed"}}}
+
 {{index drawing, parsing}}
 
 When you open a web page in your browser, the browser retrieves the

@@ -11,6 +11,8 @@ quote}}
 
 {{index "Abelson, Hal", "Sussman, Gerald", SICP, "project chapter"}}
 
+{{figure {url: "img/chapter_picture_12.jpg", alt: "Picture of an egg with smaller eggs inside", chapter: "framed"}}}
+
 Building your own ((programming language)) is surprisingly easy (as
 long as you do not aim too high) and very enlightening.
 

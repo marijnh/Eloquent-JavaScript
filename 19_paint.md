@@ -12,6 +12,8 @@ quote}}
 
 {{index "Miro, Joan", "drawing program example", "project chapter"}}
 
+{{figure {url: "img/chapter_picture_19.jpg", alt: "Picture of a tiled mosaic", chapter: "framed"}}}
+
 The material from the previous chapters gives you all the elements you
 need to build a basic ((web application)). In this chapter, we will do
 just that.

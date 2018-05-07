@@ -10,6 +10,8 @@ quote}}
 
 {{index "Banks, Ian", "project chapter", simulation}}
 
+{{figure {url: "img/chapter_picture_16.jpg", alt: "Picture of a game character jumping over lava", chapter: "framed"}}}
+
 Much of my initial fascination with computers, like that of many nerdy
 kids, had to do with computer ((game))s. I was drawn into the tiny
 simulated ((world))s that I could manipulate and in which stories

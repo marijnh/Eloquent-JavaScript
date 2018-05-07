@@ -12,7 +12,11 @@ beautiful huts.'
 
 quote}}
 
-{{index "command line", "Yuan-Ma", "Book of Programming"}}
+{{index "Yuan-Ma", "Book of Programming"}}
+
+{{figure {url: "img/chapter_picture_20.jpg", alt: "Picture of a telephone pole", chapter: "framed"}}}
+
+{{index "command line"}}
 
 So far, we have used the JavaScript language in a single environment:
 the browser. This chapter and the [next one](skillsharing) will

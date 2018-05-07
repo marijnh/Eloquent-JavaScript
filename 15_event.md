@@ -9,6 +9,8 @@ quote}}
 
 {{index stoicism, "Marcus Aurelius", input, timeline, "control flow"}}
 
+{{figure {url: "img/chapter_picture_15.jpg", alt: "Picture a Rube Goldberg machine", chapter: "framed"}}}
+
 Some programs work with direct user input, such as mouse and keyboard
 actions. That kind of input isn't available as neatly organized data
 structure—it comes in piece by piece, in real time, and the program is

@@ -29,7 +29,7 @@ let chapters = fs.readdirSync(__dirname + "/..")
     .filter(file => /^\d{2}_\w+\.md$/.test(file))
     .sort()
     .map(file => /^\d{2}_(\w+)\.md$/.exec(file)[1])
-    .concat(['hints'])
+if (epub) chapters.push("hints")
 
 function escapeChar(ch) {
   return ch == "<" ? "&lt;" : ch == ">" ? "&gt;" : ch == "&" ? "&amp;" : "&quot;"

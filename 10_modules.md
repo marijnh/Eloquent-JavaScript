@@ -46,8 +46,8 @@ dirty.
 {{index dependency}}
 
 _Modules_ are an attempt to avoid these problems. A ((module)) is a
-piece of program that specifies which other pieces it relies on (its
-_dependencies_) and which functionality it provides for other modules
+piece of program that specifies which other pieces it relies on
+and which functionality it provides for other modules
 to use (its _((interface))_).
 
 {{index "big ball of mud"}}
@@ -175,7 +175,7 @@ people's packages, make sure you are aware of their license.
 ## Improvised modules
 
 Until 2015, the JavaScript language had no built-in module system.
-People had been building large systems in JavaScript for over a decade
+Yet people had been building large systems in JavaScript for over a decade
 though, and they _needed_ ((module))s.
 
 {{index [function, scope]}}
@@ -243,6 +243,8 @@ function evalAndReturnX(code) {
 
 console.log(evalAndReturnX("var x = 2"));
 // → 2
+console.log(x);
+// → 1
 ```
 
 {{index "Function constructor"}}
@@ -250,7 +252,8 @@ console.log(evalAndReturnX("var x = 2"));
 A less scary way of interpreting data as code is to use the `Function`
 constructor. It takes two arguments: a string containing a
 comma-separated list of argument names and a string containing the
-function body.
+function body. It wraps the code in a function value so that it gets
+its own scope and won't do odd things with other scopes.
 
 ```
 let plusOne = Function("n", "return n + 1;");
@@ -317,7 +320,7 @@ exports.formatDate = function(date, format) {
 {{index "destructuring binding"}}
 
 The interface of `ordinal` is a single function, whereas `date-names`
-exports an object containing multiple things—the two values we use are
+exports an object containing multiple things—`days` and `months` are
 arrays of names. Destructuring is very convenient when creating
 bindings for imported interfaces.
 
@@ -478,6 +481,11 @@ console.log(dayNames.length);
 // → 7
 ```
 
+Another important difference is that ES module imports happen before
+a module's script starts running. That means `import` declarations
+may not appear inside functions or blocks, and the names of
+dependencies can only be quoted strings, not arbitrary expressions.
+
 At the time of writing, the JavaScript community is in the process of
 adopting this module style. But it has been a slow process. It took
 a few years, after the format was specified, for browsers and Node.js
@@ -629,7 +637,9 @@ uses a graph format similar to ours, but instead of arrays, it uses
 objects whose property values are numbers—the weights of the edges.
 
 So if we wanted to use that package, we'd have to make sure that our
-graph was stored in the format it expects.
+graph was stored in the format it expects. All edges get the same
+weight, since our simplified model treats each road as having the
+same cost (one turn).
 
 ```
 const {find_path} = require("dijkstrajs");

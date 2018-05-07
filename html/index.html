@@ -4,9 +4,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Eloquent JavaScript</title>
   <link rel=stylesheet href="css/ejs.css">
+  <style>
+    article { display: flex; margin: 0 2em; flex-wrap: wrap; max-width: none; }
+    #cover { flex-basis: 480px; max-width: 35em; flex-grow: 1; margin-right: 3em; }
+    #contents { flex-basis: 500px; position: relative; }
+    #links { flex-basis: 500px; max-width: 35em; flex-grow: 1; }
+    li.contents-intro:before { display: none; }
+    .toc h3 { position: absolute; margin: 0; top: -2px; right: 0; font-family: inherit; font-weight: normal; font-size: 90%; }
+    @media screen and (max-width: 500px) { .toc h3 { display: none } }
+    ul.links { list-style-type: circle; }
+    img.logo { vertical-align: text-top; padding: 0px 4px; border: 0; }
+  </style>
 </head>
 
 <article>
+<div id=cover>
+
   <h1>Eloquent JavaScript<div style="font-size: 70%">3rd edition</div></h2>
 
   <p>This is a book about JavaScript, programming, and the wonders of
@@ -15,7 +28,7 @@
   copy</a> of the <em>second</em> edition. A paper third edition is
   being worked on, but it isn't clear yet when it'll be available.</p>
 
-  <p style="text-align: center; margin: 3em 0 2.5em">
+  <p style="text-align: center; margin: 2em 0">
     <img src="img/cover.jpg" alt="Cover image" style="border: 1px solid black; max-width: 100%; box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.4)">
   </p>
 
@@ -50,15 +63,11 @@
   alt="Ghostery" class=logo></a>.</p>
   </div>
 
-  <h2>Contents</h2>
+</div>
 
-  <style>
-    li.contents-intro:before { display: none; }
-    .toc h3 { position: absolute; margin: 0; top: -2px; right: 0; font-family: inherit; font-weight: normal; font-size: 90%; }
-    @media screen and (max-width: 500px) { .toc h3 { display: none } }
-    ul.links { list-style-type: circle; }
-    img.logo { vertical-align: text-top; padding: 0px 4px; border: 0; }
-  </style>
+<div id=contents>
+
+  <h2>Contents</h2>
 
   <ol class=toc>
     <li class="contents-intro"><a href="00_intro.html">Introduction</a>
@@ -94,6 +103,10 @@
     <li><a href="21_skillsharing.html">Project: Skill-Sharing Website</a>
   </ol>
 
+</div>
+
+<div id=links>
+
   <p>A paper version of Eloquent JavaScript, including an additional
   chapter, is being brought out
   by <a href="http://www.nostarch.com/ejs2">No Starch Press</a>. The
@@ -121,4 +134,5 @@
     <li><a href="https://karmazzin.gitbooks.io/eloquentjavascript_ru/content/">Русский (Russian)</a></li>
   </ul>
 
+</div>
 </article>

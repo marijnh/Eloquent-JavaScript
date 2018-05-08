@@ -12,7 +12,7 @@ quote}}
 {{figure {url: "img/chapter_picture_15.jpg", alt: "Picture a Rube Goldberg machine", chapter: "framed"}}}
 
 Some programs work with direct user input, such as mouse and keyboard
-actions. That kind of input isn't available as neatly organized data
+actions. That kind of input isn't available as a well-organized data
 structure—it comes in piece by piece, in real time, and the program is
 expected to respond to it as it happens.
 
@@ -94,7 +94,7 @@ document do not.
 
 Giving a node an `onclick` attribute has a similar effect. This works
 for most types of events—you can attach a handler through the
-attribute whose name is event name with `on` in front of it.
+attribute whose name is the event name with `on` in front of it.
 
 But a node can have only one `onclick` attribute, so you can register
 only one handler per node that way. The `addEventListener` method
@@ -121,7 +121,7 @@ The `removeEventListener` method, called with arguments similar to
 {{index [function, "as value"]}}
 
 The function given to `removeEventListener` has to be the exact same
-function value that was given to `addEventListener`. So to unregister
+function value that was given to `addEventListener`. So, to unregister
 a handler, you'll want to give the function a name (`once`, in the
 example) to be able to pass the same function value to both methods.
 
@@ -313,7 +313,7 @@ event.
 Despite its name, `"keydown"` fires not only when the key is
 physically pushed down. When a key is pressed and held, the event
 fires again every time the key _repeats_. Sometimes you have to be
-careful about this. For example if you add a button to the DOM when a
+careful about this. For example, if you add a button to the DOM when a
 key is pressed down, and remove it again when the key is released, you
 might accidentally add hundreds of buttons when the key is held down
 longer.
@@ -368,7 +368,7 @@ characters.
 
 To notice when something was typed, elements that you can type into,
 such as the `<input>` and `<textarea>` tags, fire `"input"` events
-whenever the user changed their content. To get the actual content
+whenever the user changes their content. To get the actual content
 that was typed, it is best to directly read it from the focused field.
 [Chapter ?](http#forms) will show how.
 
@@ -410,7 +410,7 @@ happened, you can look at its `clientX` and `clientY` properties,
 which contain the event's ((coordinates)) (in pixels) relative to the
 top-left corner of the window, or `pageX` and `pageY`, which are
 relative to the top-left corner of the whole document (which may be
-different, when the window has been scrolled).
+different when the window has been scrolled).
 
 {{index "border-radius (CSS)", "absolute positioning", "drawing program example"}}
 
@@ -508,7 +508,7 @@ that, we can use the `buttons` property (note the plural), which tells
 us about the buttons that are currently held down. When this is zero,
 no buttons are down. When buttons are held, its value is the sum of
 the codes for those buttons—the left button has code 1, the right
-button 2, and the middle one 4. That way, you can check if a given
+button 2, and the middle one 4. That way, you can check whether a given
 button is pressed by taking the remainder of the value of `buttons`
 and its code.
 
@@ -555,7 +555,7 @@ which holds an ((array-like object)) of points, each of which has its
 own `clientX`, `clientY`, `pageX`, and `pageY` properties.
 
 You could do something like this to show red circles around every
-touching finger.
+touching finger:
 
 ```{lang: "text/html"}
 <style>
@@ -724,16 +724,16 @@ propagate.
 
 {{index "beforeunload event", "page reload", "preventDefault method"}}
 
-When a page is closed or navigated away from (for example by following
+When a page is closed or navigated away from (for example, by following
 a link), a `"beforeunload"` event fires. The main use of this event is
 to prevent the user from accidentally losing work by closing a
 document. Preventing the page from unloading is not, as you might
 expect, done with the `preventDefault` method. Instead, it is done by
 returning a non-null value from the handler. When you do that, the
-browser will show the user a dialog asking if are sure they want to
+browser will show the user a dialog asking if they are sure they want to
 leave the page. This mechanism ensures that a user is always able to
 leave, even on malicious pages that would prefer to keep them there
-forever and force them to look at dodgy weight loss ads.
+forever and force them to look at dodgy weight-loss ads.
 
 {{id timeline}}
 
@@ -775,7 +775,7 @@ with the main script's environment. Instead, you have to communicate
 with them by sending messages back and forth.
 
 This code spawns a worker running that script, sends it a few
-messages, and outputs the responses.
+messages, and outputs the responses:
 
 ```{test: no}
 let squareWorker = new Worker("code/squareworker.js");
@@ -830,7 +830,7 @@ already been called).
 
 {{index "setInterval function", "clearInterval function", repetition}}
 
-A similar set of functions, `setInterval` and `clearInterval` are used
+A similar set of functions, `setInterval` and `clearInterval`, are used
 to set timers that should _repeat_ every _X_ milliseconds.
 
 ```
@@ -946,14 +946,14 @@ document finishes loading, a `"load"` event fires on the window.
 {{index "balloon (exercise)", "arrow key"}}
 
 Write a page that displays a ((balloon)) (using the balloon ((emoji)),
-🎈). When you press the up arrow, it should inflate (grow) ten percent,
-and when you press the down arrow, it should deflate (shrink) 10%.
+🎈). When you press the up arrow, it should inflate (grow) 10 percent,
+and when you press the down arrow, it should deflate (shrink) 10 percent.
 
 {{index "font-size (CSS)"}}
 
 You can control the size of text (emoji are text) by setting the
 `font-size` CSS property (`style.fontSize`) on its parent element.
-Remember to include a unit in the value, for example pixels (`10px`).
+Remember to include a unit in the value—for example, pixels (`10px`).
 
 The key names of the arrow keys are `"ArrowUp"` and `"ArrowDown"`.
 Make sure the keys only change the balloon, without scrolling the
@@ -980,20 +980,20 @@ if}}
 
 {{index "keydown event", "key property", "balloon (exercise)"}}
 
-You'll want to register a handler for the `"keydown"` event, and look
+You'll want to register a handler for the `"keydown"` event and look
 at `event.key` to figure out whether the up or down arrow key was
 pressed.
 
 The current size can be kept in a binding, so that you can base the
 new size on it. It'll be helpful to define a function that updates the
-size—both the binding and the style of the balloon in the DOM, so that
+size—both the binding and the style of the balloon in the DOM—so that
 you can call it from your event handler, and possibly also once when
 starting, to set the initial size.
 
 {{index "replaceChild method", "textContent property"}}
 
 You can change the balloon to an explosion by replacing the text node
-with another one (using `replaceChild`), or by setting the
+with another one (using `replaceChild`) or by setting the
 `textContent` property of its parent node to a new string.
 
 hint}}
@@ -1133,10 +1133,10 @@ can use `children` instead of `childNodes` to ignore text nodes.
 
 You could start by building up an array of tabs, so that you have easy
 access to them. To implement the styling of the buttons, you could
-store objects that contain both tab panel and its button.
+store objects that contain both the tab panel and its button.
 
 I recommend writing a separate function for changing tabs. You can
-either store the previously selected tab, and change only the styles
+either store the previously selected tab and change only the styles
 needed to hide that and show the new one, or you can just update the
 style of all tabs every time a new tab is selected.
 

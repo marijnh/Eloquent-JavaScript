@@ -470,7 +470,7 @@ console.log(Object.prototype.toString.call([1, 2]));
 
 We saw the word _map_ used in the [previous chapter](higher_order#map)
 for an operation that transforms a data structure by applying a
-function its elements. Confusing as it is, in programming the same
+function to its elements. Confusing as it is, in programming the same
 word is also used for a related but rather different thing.
 
 {{index "map (data structure)", "ages example", "data structure"}}

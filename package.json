@@ -20,7 +20,6 @@
     "uglify-js": "^2.0.0"
   },
   "devDependencies": {
-    "canvas": "^1.6.7",
     "jsdom": "^11.2.0",
     "promise": "^8.0.1"
   },

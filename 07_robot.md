@@ -347,9 +347,10 @@ isn't planning ahead very well. We'll address that soon.
 {{if interactive
 
 For a more pleasant perspective on the simulation, you can use the
-`runRobotAnimation` function that's available in this chapter's
-programming environment. This runs the simulation, but instead of
-outputting text, it shows you the robot moving around the village map.
+`runRobotAnimation` function that's available in [this chapter's
+programming environment](https://eloquentjavascript.net/code/#7).
+This runs the simulation, but instead of outputting text, it shows
+you the robot moving around the village map.
 
 ```{test: no}
 runRobotAnimation(VillageState.random(), randomRobot);

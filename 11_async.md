@@ -383,7 +383,7 @@ and rejections are automatically propagated to the new promise that is
 returned by `then`. And when a handler throws an exception, this
 automatically causes the promise produced by its `then` call to be
 rejected. So if any element in a chain of asynchronous actions fails,
-the outcome of the whole chain is marked as rejected, and no regular
+the outcome of the whole chain is marked as rejected, and no success
 handlers are called beyond the point where it failed.
 
 {{index "Promise.reject function", "Promise class"}}
@@ -425,6 +425,18 @@ associated with it. Handlers that don't match the type of outcome
 and their outcome determines what kind of value comes next—success
 when it returns a non-promise value, rejection when it throws an
 exception, and the outcome of a promise when it returns one of those.
+
+```{test: no}
+new Promise((_, reject) => reject(new Error("Fail")))
+  .then(value => console.log("Handler 1"))
+  .catch(reason => {
+    console.log("Caught failure " + reason);
+    return "nothing";
+  })
+  .then(value => console.log("Handler 2", value));
+// → Caught failure Error: Fail
+// → Handler 2 nothing
+```
 
 {{index "uncaught exception", "exception handling"}}
 
@@ -901,7 +913,8 @@ one. In a synchronous programming model, it'd be simpler to express.
 {{index "async function", "await keyword"}}
 
 The good news is that JavaScript allows you write pseudo-synchronous
-code. An `async` function is a function that implicitly returns a
+code to describe asynchronous computation. An `async` function is a
+function that implicitly returns a
 promise and that can, in its body, `await` other promises in a way
 that _looks_ synchronous.
 

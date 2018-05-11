@@ -30,7 +30,7 @@ amusing.
 This chapter will walk through the implementation of a small
 ((platform game)). Platform games (or "jump and run" games) are games
 that expect the ((player)) to move a figure through a ((world)), which
-is usually two-dimensional and viewed from the side, jumping over and
+is usually two-dimensional and viewed from the side, while jumping over and
 onto things.
 
 ## The game
@@ -55,7 +55,7 @@ the yellow boxes (coins) while avoiding the red stuff (lava). A
 
 The player can walk around with the left and right arrow keys, and
 jump with the up arrow. Jumping is a specialty of this game character.
-It can reach several times its own height and is able to change
+It can reach several times its own height and can change
 direction in midair. This may not be entirely realistic, but it helps
 give the player the feeling of being in direct control of the onscreen
 ((avatar)).
@@ -133,7 +133,7 @@ var simpleLevelPlan = `
 
 {{index level}}
 
-Periods are empty space, hash ("#") characters are walls, and plus
+Periods are empty space, hash (`#`) characters are walls, and plus
 signs are lava. The ((player))'s starting position is the ((at sign))
 (`@`). Every O character is a coin, and the equals sign (`=`) at the
 top is a block of lava that moves back and forth horizontally.
@@ -198,11 +198,11 @@ field types like `"empty"`, `"wall"`, or `"lava"`.
 
 {{index "map method"}}
 
-To create these arrays we map over the rows, and then over their
+To create these arrays, we map over the rows and then over their
 content. Remember that `map` passes the array index as a second
 argument to the mapping function, which tells us the the x- and
 y-coordinates of a given character. Positions in the game will be
-stored as pairs of coordinates, with the top left being 0,0, and each
+stored as pairs of coordinates, with the top left being 0,0 and each
 background square being 1 unit high and wide.
 
 {{index "static method"}}
@@ -629,7 +629,7 @@ To give an element more than one class, we separate the class names by
 spaces. In the ((CSS)) code shown next, the `actor` class gives the
 actors their absolute position. Their type name is used as an extra
 class to give them a color. We don't have to define the `lava` class
-again because we reuse the class for the lava grid squares which we
+again because we're reusing the class for the lava grid squares we
 defined earlier.
 
 ```{lang: "text/css"}
@@ -901,7 +901,7 @@ State.prototype.update = function(time, keys) {
 };
 ```
 
-It is passed a time step and a data structure that tells it which keys
+The method is passed a time step and a data structure that tells it which keys
 are being held down. The first thing it does is call the `update`
 method on all actors, producing an array of updated actors. The actors
 also get the time step, the keys, and the state, so that they can base
@@ -929,7 +929,7 @@ function overlap(actor1, actor2) {
 
 If any actor does overlap, its `collide` method gets a chance to
 update the state. Touching a lava actor sets the game status to
-`"lost"`, coins vanish when you touch them, and set the status to
+`"lost"`, coins vanish when you touch them and set the status to
 `"won"` when this was the last coin.
 
 ```{includeCode: true}
@@ -970,7 +970,7 @@ Lava.prototype.update = function(time, state) {
 
 {{index bouncing, multiplication, "Vect class", "collision detection"}}
 
-It computes a new position by adding the product of the ((time)) step
+This `update` method computes a new position by adding the product of the ((time)) step
 and the current speed to its old position. If no obstacle blocks that
 new position, it moves there. If there is an obstacle, the behavior
 depends on the type of the ((lava)) block—dripping lava has a `reset`
@@ -1213,7 +1213,7 @@ async function runGame(plans, Display) {
 
 Because we made `runLevel` return a promise, `runGame` can be written
 using an `async` function, as seen in [Chapter ?](async). It returns
-another promise, which resolves when the player finished the game.
+another promise, which resolves when the player finishes the game.
 
 {{index game, "GAME_LEVELS data set"}}
 

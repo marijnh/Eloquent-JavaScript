@@ -799,7 +799,7 @@ a significant negative effect.
 
 Interesting. Let's try something.
 
-```{includeCode: strip_log}
+```
 for (let entry of JOURNAL) {
   if (entry.events.includes("peanuts") &&
      !entry.events.includes("brushed teeth")) {

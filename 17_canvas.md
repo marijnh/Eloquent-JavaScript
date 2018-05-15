@@ -435,7 +435,7 @@ if}}
 {{index "pie chart example"}}
 
 Imagine you've just taken a ((job)) at EconomiCorp, Inc., and your
-first assignment is to draw a pie chart of their customer satisfaction
+first assignment is to draw a pie chart of its customer satisfaction
 ((survey)) results.
 
 The `results` binding contains an array of objects that represent the
@@ -630,7 +630,7 @@ up an interval (repeated timer) to draw the next ((frame)):
 
 {{index "remainder operator", "% operator"}}
 
-The `cycle` binding tracks our position in the ((animation)). Each
+The `cycle` binding tracks our position in the ((animation)). For each
 ((frame)), it is incremented and then clipped back to the 0 to 7 range
 by using the remainder operator. This binding is then used to compute
 the x-coordinate that the sprite for the current pose has in the
@@ -686,7 +686,7 @@ be position -100.
 {{index "drawImage method"}}
 
 So to turn a picture around, we can't simply add `cx.scale(-1, 1)`
-before the call to `drawImage` since that would move our picture
+before the call to `drawImage` because that would move our picture
 outside of the ((canvas)), where it won't be visible. You could adjust
 the ((coordinates)) given to `drawImage` to compensate for this by
 drawing the image at x position -50 instead of 0. Another solution,
@@ -782,10 +782,10 @@ It is possible to save the current transformation, do some drawing and
 transforming, and then restore the old transformation. This is usually
 the proper thing to do for a function that needs to temporarily
 transform the coordinate system. First, we save whatever
-transformation the code that called the function was using. Then, the
+transformation the code that called the function was using. Then the
 function does its thing (on top of the existing transformation),
 possibly adding more transformations. And finally, we revert to the
-transformation that we started with.
+transformation we started with.
 
 {{index "save method", "restore method"}}
 
@@ -801,7 +801,7 @@ transformation.
 
 The `branch` function in the following example illustrates what you
 can do with a function that changes the transformation and then calls
-another function (in this case itself), which continues drawing with
+a function (in this case itself), which continues drawing with
 the given transformation.
 
 This function draws a treelike shape by drawing a line, moving the
@@ -899,7 +899,7 @@ class CanvasDisplay {
 }
 ```
 
-The `setState` method first computes a new viewport, and then draws
+The `setState` method first computes a new viewport and then draws
 the game scene at the appropriate position.
 
 ```{sandbox: "game", includeCode: true}
@@ -915,7 +915,7 @@ CanvasDisplay.prototype.setState = function(state) {
 
 Contrary to `DOMDisplay`, this display style _does_ have to redraw the
 background on every update. Because shapes on a canvas are just
-((pixel))s, after we draw them, there is no good way to move them (or
+((pixel))s, after we draw them there is no good way to move them (or
 remove them). The only way to update the canvas display is to clear it
 and redraw the scene. We may also have scrolled, which requires the
 background to be in a different position.
@@ -952,8 +952,8 @@ CanvasDisplay.prototype.updateViewport = function(state) {
 
 The calls to `Math.max` and `Math.min` ensure that the viewport does
 not end up showing space outside of the level. `Math.max(x, 0)` makes
-sure the resulting number is not less than zero. `Math.min`,
-similarly, guarantees that a value stays below a given bound.
+sure the resulting number is not less than zero. `Math.min`
+similarly guarantees that a value stays below a given bound.
 
 When ((clearing)) the display, we'll use a slightly different
 ((color)) depending on whether the game is won (brighter) or lost
@@ -1158,8 +1158,8 @@ blocks of text.
 {{index zooming, SVG}}
 
 SVG can be used to produce ((crisp)) ((graphics)) that look good at
-any zoom level. Contrary to HTML, it is actually designed for drawing,
-and thus more suitable for that purpose.
+any zoom level. Unlike HTML, it is designed for drawing
+and is thus more suitable for that purpose.
 
 {{index DOM, SVG, "event handling"}}
 
@@ -1182,7 +1182,7 @@ pixel surface gives canvas a lower cost per shape.
 {{index "ray tracer"}}
 
 There are also effects, such as rendering a scene one pixel at a time
-(for example using a ray tracer) or postprocessing an image with
+(for example, using a ray tracer) or postprocessing an image with
 JavaScript (blurring or distorting it), that can be realistically
 handled only by a ((pixel))-based approach.
 
@@ -1341,11 +1341,11 @@ hint}}
 [Earlier](canvas#pie_chart) in the chapter, we saw an example program
 that drew a pie chart. Modify this program so that the name of each
 category is shown next to the slice that represents it. Try to find a
-pleasing-looking way to automatically position this text, which would
+pleasing-looking way to automatically position this text that would
 work for other data sets as well. You may assume that categories are
 big enough to leave ample room for their labels.
 
-You might again need `Math.sin` and `Math.cos`, as described in
+You might need `Math.sin` and `Math.cos` again, which are described in
 [Chapter ?](dom#sin_cos).
 
 {{if interactive
@@ -1390,7 +1390,7 @@ but rather move the text out to the side of the pie by a given number
 of pixels.
 
 The ((angle)) of this line is `currentAngle + 0.5 * sliceAngle`. The
-following code finds a position on this line, 120 pixels from the
+following code finds a position on this line 120 pixels from the
 center:
 
 ```{test: no}
@@ -1400,9 +1400,9 @@ let textY = Math.sin(middleAngle) * 120 + centerY;
 ```
 
 For `textBaseline`, the value `"middle"` is probably appropriate when
-using this approach. What to use for `textAlign` depends on the side
+using this approach. What to use for `textAlign` depends on which side
 of the circle we are on. On the left, it should be `"right"`, and on
-the right, it should be `"left"` so that the text is positioned away
+the right, it should be `"left"`, so that the text is positioned away
 from the pie.
 
 {{index "Math.cos function"}}
@@ -1464,8 +1464,8 @@ whole circle. Then fill the path.
 To model the ball's position and ((speed)), you can use the `Vec`
 class from [Chapter ?](game#vector)[ (which is available on this
 page)]{if interactive}. Give it a starting speed, preferably one that
-is not purely vertical or horizontal, and every ((frame)), multiply
-that speed with the amount of time that elapsed. When the ball gets
+is not purely vertical or horizontal, and for every ((frame)) multiply
+that speed by the amount of time that elapsed. When the ball gets
 too close to a vertical wall, invert the x component in its speed.
 Likewise, invert the y component when it hits a horizontal wall.
 
@@ -1481,9 +1481,9 @@ hint}}
 {{index optimization, "bitmap graphics", mirror}}
 
 One unfortunate thing about ((transformation))s is that they slow down
-drawing of bitmaps. The position and size of each ((pixel)) has to be
-transformed, and though it is possible that ((browser))s will get more
-clever about this in the ((future)), this currently causes a
+the drawing of bitmaps. The position and size of each ((pixel)) has to be
+transformed, and though it is possible that ((browser))s will get
+cleverer about transformation in the ((future)), they currently cause a
 measurable increase in the time it takes to draw a bitmap.
 
 In a game like ours, where we are drawing only a single transformed

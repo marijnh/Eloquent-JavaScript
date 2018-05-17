@@ -4,9 +4,9 @@
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-A student asked 'The programmers of old used only simple machines and
+A student asked, 'The programmers of old used only simple machines and
 no programming languages, yet they made beautiful programs. Why do we
-use complicated machines and programming languages?'. Fu-Tzu replied
+use complicated machines and programming languages?'. Fu-Tzu replied,
 'The builders of old used only sticks and clay, yet they made
 beautiful huts.'
 
@@ -191,8 +191,8 @@ using ((NPM)), which we'll come back to in a moment.
 
 {{index "require function", "Node.js", "garble example"}}
 
-Let's set up a small project consisting of two files. The first one is
-called `main.js`, and defines a script that can be called from the
+Let's set up a small project consisting of two files. The first one,
+called `main.js`, defines a script that can be called from the
 ((command line)) to reverse a string.
 
 ```
@@ -237,12 +237,12 @@ tpircSavaJ
 NPM, which was introduced in [Chapter ?](modules#modules_npm), is an
 online repository of JavaScript ((module))s, many of which are
 specifically written for Node. When you install Node on your computer,
-you also get the `npm`, which you can use to interact with this
+you also get the `npm` command, which you can use to interact with this
 repository.
 
 {{index "ini package"}}
 
-Its main use is ((download))ing packages. We saw the `ini` package in
+NPM's main use is ((download))ing packages. We saw the `ini` package in
 [Chapter ?](modules#modules_ini). We can use NPM to fetch and install
 that package on our computer.
 
@@ -263,7 +263,7 @@ $ node
 
 After running `npm install`, ((NPM)) will have created a directory
 called `node_modules`. Inside that directory will be an `ini`
-directory which contains the ((library)). You can open it and look at
+directory that contains the ((library)). You can open it and look at
 the code. When we call `require("ini")`, this library is loaded, and
 we can call its `parse` property to parse a configuration file.
 
@@ -367,7 +367,7 @@ working with ((file))s and directories.
 
 {{index "readFile function", "callback function"}}
 
-For example, there is a function called `readFile` which reads a file
+For example, the function called `readFile` reads a file
 and then calls a callback with the file's contents.
 
 ```
@@ -503,10 +503,10 @@ request to your server. It will respond with a small HTML page.
 The function passed as argument to `createServer` is called every time
 a client connects to the server. The `request` and `response` bindings
 are objects representing the incoming and outgoing data. The first
-contains information about the ((request)), such as its `url` property
+contains information about the ((request)), such as its `url` property,
 which tells us to what URL the request was made.
 
-So when you open that page in your browser, it sends a request to your
+So, when you open that page in your browser, it sends a request to your
 own computer. This causes the server function to run and send back a
 response, which you can then see in the browser.
 
@@ -530,7 +530,7 @@ signals the end of the response.
 {{index "listen method"}}
 
 The call to `server.listen` causes the ((server)) to start waiting for
-connections on ((port)) 8000. This is the reason you have to connect
+connections on ((port)) 8000. This is why you have to connect
 to _localhost:8000_ to speak to this server, rather than just
 _localhost_, which would use the default port 80.
 
@@ -585,14 +585,14 @@ should not contain data in their request body.
 
 {{index HTTPS, "https package", "request function"}}
 
-There's a similar `request` function in the `https` module, which
+There's a similar `request` function in the `https` module that
 can be used to make requests to `https:` URLs.
 
 {{index "fetch function", "Promise class", "node-fetch package"}}
 
-But making request with Node's raw functionality is rather verbose.
+But making requests with Node's raw functionality is rather verbose.
 There are much more convenient wrapper packages available on NPM. For
-example `node-fetch` provides the promise-based `fetch` interface that
+example, `node-fetch` provides the promise-based `fetch` interface that
 we know from the browser.
 
 ## Streams
@@ -605,10 +605,10 @@ and the request object that was returned from `request`.
 
 {{index "callback function", "asynchronous programming", "write method", "end method", "Buffer class"}}
 
-Writable streams are a widely used concept in Node. Such objects have
-a `write` method, which can be passed a string or a `Buffer` object to
-write something to the stream. Their `end` method closes the stream,
-and also optionally takes a value to write to the stream before
+_Writable streams_ are a widely used concept in Node. Such objects have
+a `write` method that can be passed a string or a `Buffer` object to
+write something to the stream. Their `end` method closes the stream
+and optionally takes a value to write to the stream before
 closing. Both of these methods can also be given a callback as an
 additional argument, which they will call when the writing or closing
 has finished.
@@ -624,7 +624,7 @@ one piece at a time, rather than in one shot as with `writeFile`.
 
 Readable ((stream))s are a little more involved. Both the `request`
 binding that was passed to the HTTP server's callback and the
-`response` binding passed to the HTTP client callback are readable
+`response` binding passed to the HTTP client's callback are readable
 streams—a server reads requests and then writes responses, whereas a
 client first writes a request and then reads a response. Reading from
 a stream is done using event handlers, rather than methods.
@@ -640,8 +640,8 @@ to be called whenever the given event occurs.
 
 Readable ((stream))s have `"data"` and `"end"` events. The first is
 fired every time data comes in, and the second is called whenever the
-stream is at its end. This model is most suited for _streaming_ data,
-which can be immediately processed, even when the whole document isn't
+stream is at its end. This model is most suited for _streaming_ data that
+can be immediately processed, even when the whole document isn't
 available yet. A file can be read as a readable stream by using the
 `createReadStream` function from `fs`.
 
@@ -663,7 +663,7 @@ createServer((request, response) => {
 {{index "Buffer class", "toString method"}}
 
 The `chunk` value passed to the data handler will be a binary
-`Buffer`. We can convert this to string by decoding it as UTF-8
+`Buffer`. We can convert this to a string by decoding it as UTF-8
 encoded characters with its `toString` method..
 
 The following piece of code, when run with the uppercasing server
@@ -701,7 +701,7 @@ Let's combine our newfound knowledge about ((HTTP)) ((server))s and
 working with the ((file system)) to create a bridge between the two:
 an HTTP server that allows ((remote access)) to a file system. Such a
 server has all kinds of uses—it allows web applications to store and
-share data or can give a group of people shared access to a bunch of
+share data or it can give a group of people shared access to a bunch of
 files.
 
 {{index [path, URL], "GET method", "PUT method", "DELETE method"}}
@@ -764,7 +764,7 @@ method.
 {{index "500 (HTTP status code)", "error handling", "error response"}}
 
 When a request handler's promise is rejected, the `catch` call
-translates the error into a response object, if it isn't already, so
+translates the error into a response object, if it isn't one already, so
 that the server can send back an error response to inform the client
 that it failed to handle the request.
 
@@ -778,7 +778,7 @@ to be plain text.
 {{index "end method", "pipe method", stream}}
 
 When the value of `body` is a ((readable stream)), it will have a
-`pipe` method, which is used to forward all content from a readable
+`pipe` method that is used to forward all content from a readable
 stream to a ((writable stream)). If not, it is assumed to be either
 `null` (no body), a string, or a buffer, and is passed directly to the
 ((response))'s `end` method.
@@ -827,7 +827,7 @@ the result is _below_ the working directory. The `process.cwd`
 function (where "cwd" stands for "current working directory") can be
 used to find this working directory. When the path doesn't start
 with the base directory, the function throws an error response object,
-using the HTTP status code that indicates that access to the resource
+using the HTTP status code indicating that access to the resource
 is forbidden.
 
 {{index "file server example", "Node.js", "GET method"}}
@@ -979,12 +979,12 @@ We don't need to check whether the file exists this time—if it does,
 we'll just overwrite it. We again use `pipe` to move data from a
 readable stream to a writable one, in this case from the request to
 the file. But since `pipe` isn't written to return a promise, we have
-to write a wrapper, `pipeStream` that creates a promise around the
+to write a wrapper, `pipeStream`, that creates a promise around the
 outcome of calling `pipe`.
 
 {{index "error event", "finish event"}}
 
-When something goes wrong when opening the file `createWriteStream`
+When something goes wrong when opening the file, `createWriteStream`
 will still return a stream, but that stream will fire an `"error"`
 event. The output stream to the request may also fail, for example if
 the network goes down. So we wire up both streams' `"error"` events to
@@ -997,15 +997,15 @@ where we can successfully resolve the promise (returning nothing).
 The full script for the server is available at
 [_https://eloquentjavascript.net/code/file_server.js_](https://eloquentjavascript.net/code/file_server.js).
 You can download that and, after installing its dependencies, run it
-with Node to start your own file server. And of course, you can modify
+with Node to start your own file server. And, of course, you can modify
 and extend it to solve this chapter's exercises or to experiment.
 
 {{index "body (HTTP)", "curl program"}}
 
 The command-line tool `curl`, widely available on ((Unix))-like
-systems (such as OS X and Linux), can be used to make ((HTTP))
+systems (such as macOS and Linux), can be used to make ((HTTP))
 ((request))s. The following session briefly tests our server. The `-X`
-option is used to set the request's ((method)) and `-d` is used to
+option is used to set the request's ((method)), and `-d` is used to
 include a request body.
 
 ```{lang: null}
@@ -1043,7 +1043,7 @@ making HTTP requests.
 
 All input and output in Node is done asynchronously, unless you
 explicitly use a synchronous variant of a function, such as
-`readFileSync`. When calling such asynchronous functions you provide
+`readFileSync`. When calling such asynchronous functions, you provide
 callback functions, and Node will call them with an error value and
 (if available) a result when it is ready.
 

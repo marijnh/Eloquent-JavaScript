@@ -94,8 +94,8 @@ to do so.
 
 But an ((HTTP)) request allows only a simple flow of information: the
 client sends a request, the server comes back with a single response,
-and that is it. There is a technology called _((web sockets))_,
-supported by modern browsers, which makes it possible to open
+and that is it. There is a technology called _((WebSockets))_,
+supported by modern browsers, that makes it possible to open
 ((connection))s for arbitrary data exchange. But using them properly
 is somewhat tricky.
 
@@ -110,7 +110,7 @@ As long as the client makes sure it constantly has a polling request
 open, it will receive information from the server quickly after it
 becomes available. For example, if Fatma has our skill-sharing
 application open in her browser, that browser will have made a request
-for updates and be waiting for a response to that request. When Iman
+for updates and will be waiting for a response to that request. When Iman
 submits a talk on Extreme Downhill Unicycling, the server will notice
 that Fatma is waiting for updates and send a response containing the
 new talk to her pending request. Fatma's browser will receive the data
@@ -225,7 +225,7 @@ _((conditional request))_ by including an `If-None-Match` header whose
 value holds that same string. If the resource hasn't changed, the
 server will respond with status code 304, which means "not modified",
 telling the client that its cached version is still current. When the
-tag does not match the server responds as normal.
+tag does not match, the server responds as normal.
 
 {{index "Prefer header"}}
 
@@ -240,7 +240,7 @@ which tells the server that the client is willing wait up to 90
 seconds for the response.
 
 The server will keep a version number that it updates every time the
-talks change, and uses that as the `ETag` value. Clients can make
+talks change, and will use that as the `ETag` value. Clients can make
 requests like this to be notified when the talks change:
 
 ```{lang: null}
@@ -340,7 +340,7 @@ they were defined) until a matching one is found.
 {{index "capture group", "decodeURIComponent function", [escaping, "in URLs"]}}
 
 The handler functions are called with the `context` value (which
-will be the server instance in our case), match string for any groups
+will be the server instance in our case), match strings for any groups
 they defined in their ((regular expression)), and the request object.
 The strings have to be URL-decoded since the raw URL may contain
 `%20`-style codes.
@@ -482,7 +482,7 @@ function readStream(stream) {
 
 One handler that needs to read request bodies is the `PUT` handler,
 which is used to create new ((talk))s. It has to check whether the
-data it was given has `presenter` and `summary` properties which are
+data it was given has `presenter` and `summary` properties, which are
 strings. Any data coming from outside the system might be nonsense,
 and we don't want to corrupt our internal data model or ((crash)) when
 bad requests come in.
@@ -692,7 +692,7 @@ script that contains the ((client))-side application.
 The application state consists of the list of talks and the name of
 the user, and we'll store it in a `{talks, user}` object. We don't
 allow the user interface to directly manipulate the state or send off
-HTTP requests. Rather, it may emit _actions_, which describe what the
+HTTP requests. Rather, it may emit _actions_ that describe what the
 user is trying to do.
 
 {{index "handleAction function"}}
@@ -742,7 +742,7 @@ restored when the page is loaded.
 {{index "fetch function", "status property"}}
 
 The actions that need to involve the server make network requests,
-using `fetch`, to the HTTP interface we described earlier. We use a
+using `fetch`, to the HTTP interface described earlier. We use a
 wrapper function, `fetchOK`, which makes sure the returned promise is
 rejected when the server returns an error code.
 
@@ -862,7 +862,7 @@ programming starts to look rather messy. There's a widely used
 (non-standard) JavaScript extension called _((JSX))_ that lets you
 write HTML directly in your scripts, which can make such code prettier
 (depending on what you consider pretty). Before you can actually run
-such code, you have to run a program on your script to converts the
+such code, you have to run a program on your script to convert the
 pseudo-HTML into JavaScript function calls much like the ones we use
 here.
 
@@ -879,7 +879,7 @@ function renderComment(comment) {
 {{index "form (HTML tag)", "renderTalkForm function"}}
 
 And finally, the form that the user can use to create a new talk is
-rendered like this.
+rendered like this:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function renderTalkForm(dispatch) {
@@ -954,7 +954,7 @@ When the server gives back a 304 response, that means a long polling
 request timed out, so the function should just immediately start the
 next request. If the response is a normal 200 response, its body is
 read as ((JSON)) and passed to the callback, and its `ETag` header
-value stored for the next iteration.
+value is stored for the next iteration.
 
 ### The application
 

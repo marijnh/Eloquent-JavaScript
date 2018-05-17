@@ -836,7 +836,7 @@ When creating the `\b` ((boundary)) markers, we have to use two
 backslashes because we are writing them in a normal string, not a
 slash-enclosed regular expression. The second argument to the `RegExp`
 constructor contains the options for the regular expression—in this
-case, `"gi"` for global and case-insensitive.
+case, `"gi"` for global and case insensitive.
 
 But what if the name is `"dea+hl[]rd"` because our user is a ((nerd))y
 teenager? That would result in a nonsensical regular expression that
@@ -1223,7 +1223,7 @@ starting position of the match. Their `replace` method can replace
 matches of a pattern with a replacement string or function.
 
 Regular expressions can have options, which are written after the
-closing slash. The `i` option makes the match case-insensitive. The
+closing slash. The `i` option makes the match case insensitive. The
 `g` option makes the expression _global_, which, among other things,
 causes the `replace` method to replace all instances instead of just
 the first. The `y` option makes it sticky, which means that it will
@@ -1421,7 +1421,7 @@ digits _or_ a dot followed by one or more digits.
 
 {{index exponent, "case sensitivity", ["regular expression", flags]}}
 
-Finally, to make the _e_ case-insensitive, either add an `i` option to
+Finally, to make the _e_ case insensitive, either add an `i` option to
 the regular expression or use `[eE]`.
 
 hint}}

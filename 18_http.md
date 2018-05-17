@@ -74,7 +74,7 @@ it to `DELETE` its main page, it'll probably refuse.
 
 {{index [path, URL], GitHub}}
 
-The part after the ((method)) name is the path of the ((resource)) the
+The part after the ((method)) name is the path of the _((resource))_ the
 request applies to. In the simplest case, a resource is simply a
 ((file)) on the ((server)), but the protocol doesn't require it to be.
 A resource may be anything that can be transferred _as if_ it is a
@@ -89,7 +89,7 @@ After the resource path, the first line of the request mentions
 is using.
 
 In practice, many sites use HTTP version 2, which supports the same
-concepts as version 1.1, but is a lot more complicated so that it can
+concepts as version 1.1 but is a lot more complicated so that it can
 be faster. Browsers will automatically switch to the appropriate
 protocol version when talking to a given server, and the outcome of a
 request is the same regardless which version is used. Because version
@@ -230,7 +230,7 @@ console.log(decodeURIComponent("Yes%3F"));
 If we change the `method` attribute of the HTML form in the example we
 saw earlier to `POST`, the ((HTTP)) request made to submit the
 ((form)) will use the `POST` method and put the ((query string)) in
-body of the request, rather than adding it to the URL.
+the body of the request, rather than adding it to the URL.
 
 ```{lang: http}
 POST /example/message.html HTTP/1.1
@@ -275,21 +275,21 @@ fetch("example/data.txt").then(response => {
 Calling `fetch` returns a promise that resolves to a `Response` object
 holding information about the server's response, such as its status
 code and its headers. The headers are wrapped in a `Map`-like object
-that treats its keys (the header names) as case-insensitive, because
+that treats its keys (the header names) as case insensitive, because
 header names are not supposed to be case sensitive. This means that
 `headers.get("Content-Type")` and `headers.get("content-TYPE")` will
 return the same value.
 
 Note that the promise returned by `fetch` resolves successfully even
 if the server responded with an error code. It _might_ also be
-rejected, if there is a network error or the ((server)) that the
+rejected, if there is a network error or if the ((server)) that the
 request is addressed to can't be found.
 
 {{index [path, URL], "relative URL"}}
 
 The first argument to `fetch` is the URL that should be requested.
 When that ((URL)) doesn't start with a protocol name (such as _http:_)
-it is treated as relative, which means that it is interpreted relative
+it is treated as _relative_, which means it is interpreted relative
 to the current document. When it starts with a slash (/), it replaces
 the current path, which is the part after the server name. When it
 does not, the part of the current path up to and including its last
@@ -317,7 +317,7 @@ rejects if it's not valid JSON.
 
 {{index "GET method", "body (HTTP)", "DELETE method", "method property"}}
 
-By default, `fetch` uses the `GET` method to make its request, and
+By default, `fetch` uses the `GET` method to make its request and
 does not include a request body. You can configure it differently by
 passing an object with extra options as a second argument. For
 example, this request tries to delete `example/data.txt`.
@@ -374,7 +374,7 @@ _mybank.com_).
 
 {{index "Access-Control-Allow-Origin header", "cross-domain request"}}
 
-This can be an annoying problem when building systems that wants to
+This can be an annoying problem when building systems that want to
 access several domains for legitimate reasons. Fortunately,
 ((server))s can include a ((header)) like this in their ((response))
 to explicitly indicate to the browser that it is okay for the request
@@ -430,7 +430,7 @@ server interface around.
 
 Data traveling over the Internet tends to follow a long, dangerous
 road. To get to its destination, it must hop through anything from
-coffee-shop Wi-Fi to ((network))s controlled by various companies and
+coffee-shop Wi-Fi hotspots to ((network))s controlled by various companies and
 states. At any point along its route it may be inspected or even
 modified.
 
@@ -445,16 +445,16 @@ to via your bank's website, plain HTTP is not good enough.
 
 {{indexsee "Secure HTTP", HTTPS}}
 
-The secure ((HTTP)) protocol, whose ((URL))s start with _https://_,
+The secure ((HTTP)) protocol, used for ((URL))s start with _https://_,
 wraps HTTP traffic in a way that makes it harder to read and tamper
 with. Before exchanging data, the client verifies that the server is
-who it claims to be, by asking it to prove that it has a cryptographic
+who it claims to be by asking it to prove that it has a cryptographic
 ((certificate)) issued by a certificate authority that the ((browser))
 recognizes. Next, all data going over the ((connection)) is encrypted
 in a way that should prevent eavesdropping and tampering.
 
-Thus, when it works right, ((HTTPS)) prevents both the someone
-impersonating the website you were trying to talk to and the someone
+Thus, when it works right, ((HTTPS)) prevents other people from
+impersonating the website you are trying to talk to and from
 snooping on your communication. It is not perfect, and there have been
 various incidents where HTTPS failed because of forged or stolen
 certificates and broken software, but it is a _lot_ safer than plain
@@ -564,7 +564,7 @@ predefined options.
 
 Such a field looks like this:
 
-{{figure {url: "img/form_select.png", alt: "A select field",width: "4cm"}}}
+{{figure {url: "img/form_select.png", alt: "A select field", width: "4cm"}}}
 
 if}}
 
@@ -636,7 +636,7 @@ the OK button, rather than going through the help link first:
 {{index "tabindex attribute"}}
 
 By default, most types of HTML elements cannot be focused. But you can
-add a `tabindex` attribute to any element, which will make it
+add a `tabindex` attribute to any element that will make it
 focusable. A `tabindex` of -1 makes tabbing skip over an element, even
 if it is normally focusable.
 
@@ -665,8 +665,8 @@ if}}
 {{index "user experience", "asynchronous programming"}}
 
 When a program is
-in the process of handling an action caused by some ((button)) or other control,
-which might require communication with the server and thus take a
+in the process of handling an action caused by some ((button)) or other control
+that might require communication with the server and thus take a
 while, it can be a good idea to
 disable the control until the action finishes. That way, when the user
 gets impatient and clicks it again, they don't accidentally repeat
@@ -1104,7 +1104,7 @@ prevents the feature from eating up too much space.
 {{index "localStorage object", "note-taking example", "select (HTML tag)", "button (HTML tag)", "textarea (HTML tag)"}}
 
 The following code implements a crude note-taking application. It
-keeps a set of named notes, and allows the user to edit notes and
+keeps a set of named notes and allows the user to edit notes and
 create new ones.
 
 ```{lang: "text/html", startCode: true}
@@ -1165,7 +1165,7 @@ exist from `localStorage` will yield `null`. Passing `null` to
 Thus, the `||` operator can be used to provide a default value in a
 situation like this.
 
-The `setState` method makes sure the DOM is showing a given state, and
+The `setState` method makes sure the DOM is showing a given state and
 stores the new state to `localStorage`. Event handlers call this
 function to move to a new state.
 
@@ -1173,11 +1173,11 @@ function to move to a new state.
 
 The use of `Object.assign` in the example is intended to create a new
 object that is a clone of the old `state.notes`, but with one property
-added or overwritten. `Object.assign` takes its first argument, and
+added or overwritten. `Object.assign` takes its first argument and
 adds all properties from any further arguments to it. Thus, giving it
 an empty object will cause it to fill a fresh object. The ((square
 brackets)) notation in the third argument is used to create a property
-whose names is based on some dynamic value.
+whose name is based on some dynamic value.
 
 {{index "sessionStorage object"}}
 
@@ -1229,7 +1229,7 @@ file picker field, the `FileReader` interface can be used to access
 the content of this file from a JavaScript program.
 
 The `localStorage` and `sessionStorage` objects can be used to save
-information in a way that survives page reloads. The first saves the
+information in a way that survives page reloads. The first object saves the
 data forever (or until the user decides to clear it), and the second
 saves it until the browser is closed.
 
@@ -1239,7 +1239,7 @@ saves it until the browser is closed.
 
 {{index "Accept header", "media type", "document format", "content negotiation (exercise)"}}
 
-One of the things that HTTP can do is called _content negotiation_.
+One of the things HTTP can do is called _content negotiation_.
 The `Accept` request header is used to tell the server what type of
 document the client would like to get. Many servers ignore this
 header, but when a server knows of various ways to encode a resource,
@@ -1295,7 +1295,7 @@ JavaScript code.
 
 {{index "textarea (HTML tag)", "button (HTML tag)", "Function constructor", "error message"}}
 
-Put a button next to a `<textarea>` field, which, when pressed, uses
+Put a button next to a `<textarea>` field that, when pressed, uses
 the `Function` constructor we saw in [Chapter ?](modules#eval) to wrap
 the text in a function and call it. Convert the return value of the
 function, or any error it raises, to a string and display it below the
@@ -1327,7 +1327,7 @@ property of the text field and call `Function` on it.
 {{index "try keyword", "exception handling"}}
 
 Make sure you wrap both the call to `Function` and the call to its
-result in a `try` block so that you can catch exceptions that it
+result in a `try` block so you can catch the exceptions it
 produces. In this case, we really don't know what type of exception we
 are looking for, so catch everything.
 
@@ -1346,7 +1346,7 @@ hint}}
 {{index "game of life (exercise)", "artificial life", "Conway's Game of Life"}}
 
 Conway's Game of Life is a simple ((simulation)) that creates
-artificial "life" on a ((grid)), each cell of which is either live or
+artificial "life" on a ((grid)), each cell of which is either alive or
 not. Each ((generation)) (turn), the following rules are applied:
 
 * Any live ((cell)) with fewer than two or more than three live
@@ -1357,7 +1357,7 @@ not. Each ((generation)) (turn), the following rules are applied:
 
 * Any dead cell with exactly three live neighbors becomes a live cell.
 
-A neighbor is defined as any adjacent cell, including diagonally
+A _neighbor_ is defined as any adjacent cell, including diagonally
 adjacent ones.
 
 {{index "pure function"}}
@@ -1407,7 +1407,7 @@ center, whose neighbors we are counting.
 
 {{index "event handling", "change event"}}
 
-Making changes to ((checkbox))es take effect on the next generation
+Ensuring that changes to ((checkbox))es take effect on the next generation
 can be done in two ways. An event handler could notice these changes
 and update the current grid to reflect them, or you could generate a
 fresh grid from the values in the checkboxes before computing the next

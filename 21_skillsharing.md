@@ -577,7 +577,7 @@ SkillShareServer.prototype.talkResponse = function() {
 
 The handler itself needs to look at the request headers to see whether
 `If-None-Match` and `Prefer` headers are present. Node stores headers,
-whose names are specified to be case-insensitive, under their
+whose names are specified to be case insensitive, under their
 lowercase names.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}

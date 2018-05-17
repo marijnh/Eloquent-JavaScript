@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "acorn": "^5.1.0",
-    "codemirror": "^5.25.0",
+    "codemirror": "^5.37.0",
     "hjson": "^3.1.0",
     "jszip": "^2.5.0",
     "markdown-it": "^8.4.0",

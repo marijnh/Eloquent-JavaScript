@@ -69,8 +69,8 @@ window.addEventListener("load", () => {
     "Ctrl-Enter"(cm) { runCode(cm.state.context) },
     "Cmd-Enter"(cm) { runCode(cm.state.context) },
     "Ctrl-`"(cm) { closeCode(cm.state.context) },
-    "Ctrl-X"(cm) { resetSandbox(cm.state.context.sandbox) },
-    "Cmd-X"(cm) { resetSandbox(cm.state.context.sandbox) }
+    "Ctrl-Esc"(cm) { resetSandbox(cm.state.context.sandbox) },
+    "Cmd-Esc"(cm) { resetSandbox(cm.state.context.sandbox) }
   }
 
   let nextID = 0
@@ -133,7 +133,7 @@ window.addEventListener("load", () => {
     let menu = elt("div", {"class": "sandbox-open-menu"})
     let items = [["Run code (ctrl/cmd-enter)", () => runCode(data)],
                  ["Revert to original code", () => revertCode(data)],
-                 ["Reset sandbox (ctrl/cmd-x)", () => resetSandbox(data.sandbox)]]
+                 ["Reset sandbox (ctrl/cmd-esc)", () => resetSandbox(data.sandbox)]]
     if (!data.isHTML || !data.sandbox)
       items.push(["Deactivate editor (ctrl-`)", () => { closeCode(data) }])
     items.forEach(choice => menu.appendChild(elt("div", choice[0])))

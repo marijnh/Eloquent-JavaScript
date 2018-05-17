@@ -42,7 +42,7 @@ area, and for picking a ((color)) from the picture.
 
 We will structure the editor interface as a number of
 _((component))s_, objects that are responsible for a piece of the
-((DOM)), and may contain other components inside them.
+((DOM)) and that may contain other components inside them.
 
 The ((state)) of the application consists of the current picture, the
 selected tool, and the selected color. We'll set things up so that the
@@ -52,7 +52,7 @@ base the way they look on the current state.
 To see why this is important, let's consider the
 alternative—distributing pieces of state throughout the interface. Up
 to a certain point, this is easier to program. We can just put in a
-((color field)), and read its value when we need to know the current
+((color field)) and read its value when we need to know the current
 color.
 
 But then we add the ((color picker))—a tool that lets you click on the
@@ -70,7 +70,7 @@ needs to know about all other parts, which is not very modular. For
 small applications like the one in this chapter, that may not be a
 problem. For bigger projects it can turn into a real nightmare.
 
-So to avoid this nightmare on principle, we're going to be very strict
+To avoid this nightmare on principle, we're going to be very strict
 about _((data flow))_. There is a state, and the interface is drawn
 based on that state. An interface component may respond to user
 actions by updating the state, at which point the components get a
@@ -82,7 +82,7 @@ In practice, each ((component)) is set up so that when it is given a
 new state, it also notifies its child components, insofar as those
 need to be updated. Setting this up is a bit of a hassle. Making this
 more convenient is the main selling point of many browser programming
-libraries. But for a small application like this we can do it without
+libraries. But for a small application like this, we can do it without
 such infrastructure.
 
 Updates to the ((state)) are represented as objects, which we'll call
@@ -94,23 +94,23 @@ themselves to this new state.
 We're taking the messy task of running a ((user interface)) and
 applying some ((structure)) to it. Though the ((DOM))-related pieces
 are still full of ((side effect))s, they are held up by a conceptually
-simple backbone—the state update cycle. The state determines what the
+simple backbone: the state update cycle. The state determines what the
 DOM looks like, and the only way DOM events can change the state is by
 dispatching actions to the state.
 
 {{index "data flow"}}
 
-There are _many_ variants of this approach, each with their own
-benefits and problems, but the central idea to them is the same: state
+There are _many_ variants of this approach, each with its own
+benefits and problems, but their central idea is the same: state
 changes should go through a single well-defined channel, not happen
 all over the place.
 
 {{index "dom property"}}
 
 Our ((component))s will be ((class))es conforming to an ((interface)).
-Their constructor is given a state, which may be the whole application
-state or some smaller value if it doesn't need access to everything,
-and uses that to build up a `dom` property, the DOM that represents
+Their constructor is given a state—which may be the whole application
+state or some smaller value if it doesn't need access to everything—and
+uses that to build up a `dom` property, the DOM that represents
 the component. Most constructors will also take some other values,
 that won't change over time, such as the function they can use to
 ((dispatch)) an action.
@@ -126,7 +126,7 @@ is of the same type as the first argument to its constructor.
 {{index "Picture class", "picture property", "tool property", "color property", "Matrix class"}}
 
 The application state will be an object with `picture`, `tool`, and
-`color` properties. The picture is itself an object, storing the
+`color` properties. The picture is itself an object that stores the
 width, height, and pixel content of the picture. The ((pixel))s are
 stored in an array, in the same way as the matrix class from [Chapter
 ?](object)—row by row, from top to bottom.
@@ -164,7 +164,7 @@ to do that, the class has a `draw` method that expects an array of
 updated pixels—objects with `x`, `y`, and `color` properties—and
 creates a new picture with those pixels overwritten. This method uses
 `slice` without arguments to copy the entire pixel array—the start of
-the slice defaults to 0 and the end to the array's length.
+the slice defaults to 0 and the end defaults to the array's length.
 
 {{index "Array constructor", "fill method", ["length property", "for array"]}}
 
@@ -190,7 +190,7 @@ in this program, it is practical enough.
 Black, where all components are zero, is written `"#000000"`, and
 bright ((pink)) looks like `"#ff00ff"`, where the red and blue
 components have the maximum value of 255, written `ff` in hexadecimal
-((digit))s (which use _a_ to _f_ as digits for 10 to 15).
+((digit))s (which use _a_ to _f_ to represent digits 10 to 15).
 
 We'll allow the interface to ((dispatch)) ((action))s as objects whose
 properties overwrite the properties of the previous ((state)). The
@@ -215,7 +215,7 @@ in JavaScript code that uses ((immutable)) objects. A more convenient
 notation for this, in which the triple-dot operator is used to include
 all properties from another object in an object expression, is in the
 final stages of being standardized. With that addition, you could
-write `{...state, ...action}` instead. At the time of writing this
+write `{...state, ...action}` instead. At the time of writing, this
 doesn't yet work in all browsers.
 
 ## DOM building
@@ -225,7 +225,7 @@ doesn't yet work in all browsers.
 One of the main things that interface components do is creating
 ((DOM)) structure. We again don't want to directly use the verbose DOM
 methods for that, so here's a slightly expanded version of the `elt`
-function.
+function:
 
 ```{includeCode: true}
 function elt(type, props, ...children) {
@@ -250,7 +250,7 @@ a click event handler.
 
 {{index "button (HTML tag)"}}
 
-This allows this style of registering event handlers:
+This allows the following style of registering event handlers:
 
 ```{lang: "text/html"}
 <body>
@@ -273,7 +273,7 @@ responsible for two things: showing a picture and communicating
 
 As such, we can define it as a component that knows about only the
 current picture, not the whole application ((state)). Because it
-doesn't know how the application as a whole works, it can not directly
+doesn't know how the application as a whole works, it cannot directly
 dispatch ((action))s. Rather, when responding to pointer events, it
 calls a callback function provided by the code that created it, which
 will handle the application-specific parts.
@@ -419,11 +419,12 @@ constructors.
 _Tools_ are things like drawing pixels or filling in an area. The
 application shows the set of available tools as a `<select>` field.
 The currently selected tool determines what happens when the user
-interacts with the picture with a pointer device. They are provided as
+interacts with the picture with a pointer device. The set of
+available tools is provided as
 an object that maps the names that appear in the drop-down field to
 functions that implement the tools. Such function get a picture
 position, a current application state, and a `dispatch` function as
-arguments. They may return a move handler function which gets called
+arguments. They may return a move handler function that gets called
 with a new position and a current state when the pointer moves to a
 different pixel.
 
@@ -492,7 +493,7 @@ can, for example, click the label to focus the field.
 
 {{index "color field", "input (HTML tag)"}}
 
-We also need to be able to change the color—so let's add a control for
+We also need to be able to change the color, so let's add a control for
 that. An HTML `<input>` element with a `type` attribute of `color`
 gives us a form field that is specialized for selecting colors. Such a
 field's value is always a CSS color code in `"#RRGGBB"` format (red,
@@ -509,7 +510,7 @@ if}}
 
 {{index "ColorSelect class", "setState method"}}
 
-This ((control)) creates such a field, and wires it up to stay
+This ((control)) creates such a field and wires it up to stay
 synchronized with the application state's `color` property.
 
 ```{includeCode: true}
@@ -535,7 +536,7 @@ will control the functionality of mouse or touch events on the canvas.
 
 The most basic tool is the draw tool, which changes any ((pixel)) you
 click or tap to the currently selected color. It dispatches an action
-that updates picture to a version in which the pointed-at pixel is
+that updates the picture to a version in which the pointed-at pixel is
 given the currently selected color.
 
 ```{includeCode: true}
@@ -555,7 +556,7 @@ the user drags or ((swipe))s over the picture.
 
 {{index "rectangle function"}}
 
-To draw larger shapes it can be useful to quickly create
+To draw larger shapes, it can be useful to quickly create
 ((rectangle))s. The `rectangle` ((tool)) draws a rectangle between the
 point where you start ((dragging)) and the point that you drag to.
 
@@ -760,7 +761,7 @@ function startLoad(dispatch) {
 To get access to a file on the user's computer, we need the user to
 select the file through a file input field. But I don't want the load
 button to look like a file input field, so we create the file input
-when the button is clicked, and then pretend that it itself was
+when the button is clicked and then pretend that it itself was
 clicked.
 
 {{index "FileReader class", "img (HTML tag)", "readAsDataURL method", "Picture class"}}
@@ -791,7 +792,7 @@ function finishLoad(file, dispatch) {
 
 To get access to the pixels, we must first draw the picture to a
 `<canvas>` element. The canvas context has a `getImageData` method
-that allows a script to read its ((pixel))s. So once the picture is on
+that allows a script to read its ((pixel))s. So, once the picture is on
 the canvas, we can access it and construct a `Picture` object.
 
 ```{includeCode: true}
@@ -995,20 +996,20 @@ At the same time, browser technology is ridiculous. You have to learn
 a large amount of silly tricks and obscure facts to master it, and the
 default programming model it provides is so problematic that most
 programmers prefer to cover it in several layers of ((abstraction))
-rather than dealing with it directly.
+rather than deal with it directly.
 
 {{index standard, evolution}}
 
 And though the situation is definitely improving, it mostly does so in
 the form of more elements being added to address shortcomings—creating
 even more ((complexity)). A feature used by a million websites can't
-really be replaced. And even if it could, it can be hard to decide
+really be replaced. And even if it could, it would be hard to decide
 what it should be replaced with.
 
 {{index "social factors", "economic factors"}}
 
 Technology never exists in a vacuum—we're constrained by our tools and
-the social, economic, and ((historic factors)) that produced them.
+the social, economic, and ((historical factors)) that produced them.
 This can be annoying, but it is generally more productive to try and
 build a good understanding of how the _existing_ technical reality
 works—and why it is the way it is—than to rage against it or hold out
@@ -1043,7 +1044,7 @@ property of 0 to the wrapping `<div>` element, so that it can receive
 keyboard ((focus)). Note that the _property_ corresponding to the
 `tabindex` _attribute_ is called `tabIndex`, with a capital I, and our
 `elt` function expects property names. Register the key event handlers
-directly on that element. This means that you have to click, touch, or
+directly on that element. This means you have to click, touch, or
 tab to the application before you can interact with it with the
 keyboard.
 
@@ -1095,7 +1096,7 @@ if}}
 
 {{index "keyboard bindings (exercise)", "key property", "shift key"}}
 
-The `key` property of events for letter keys will be the lower case
+The `key` property of events for letter keys will be the lowercase
 letter itself, if [shift]{keyname} isn't being held. And we're not interested in
 key events with [shift]{keyname} here.
 
@@ -1130,7 +1131,7 @@ redrawing only the pixels that actually changed.
 {{index "drawPicture function", compatibility}}
 
 Remember that `drawPicture` is also used by the save button, so if you
-change it, either make sure the changes don't break the old use, or
+change it, either make sure the changes don't break the old use or
 create a new version with a different name.
 
 {{index "width property", "height property"}}
@@ -1193,8 +1194,8 @@ skips the pixel when that is the case.
 
 Because the canvas gets cleared when we change its size, you should
 also avoid touching its `width` and `height` properties when the old
-and the new picture have the same size. If they do not, you can set
-the binding holding the old picture to null, because you shouldn't
+and the new picture have the same size. If they are different, you can set
+the binding holding the old picture to null after changing the canvas size, because you shouldn't
 skip any pixels after you've changed the canvas size.
 
 hint}}

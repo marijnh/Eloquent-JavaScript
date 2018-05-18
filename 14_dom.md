@@ -112,10 +112,10 @@ these children can be ((leaf node))s, such as pieces of ((text)) or
 
 Each DOM node object has a `nodeType` property, which contains a code
 (number) that identifies the type of node. Elements have code 1, which
-is also defined as the constant property `document.ELEMENT_NODE`. Text
+is also defined as the constant property `Node.ELEMENT_NODE`. Text
 nodes, representing a section of text in the document, get code 3
-(`document.TEXT_NODE`). Comments have code 8
-(`document.COMMENT_NODE`).
+(`Node.TEXT_NODE`). Comments have code 8
+(`Node.COMMENT_NODE`).
 
 Another way to visualize our document ((tree)) is as follows:
 
@@ -184,7 +184,7 @@ following diagram illustrates these:
 {{index "child node", "parentNode property", "childNodes property"}}
 
 Although the diagram shows only one link of each type, every node has
-a `parentNode` property that points to the node it is part of.
+a `parentNode` property that points to the node it is part of, if any.
 Likewise, every element node (node type 1) has a `childNodes` property
 that points to an ((array-like object)) holding its children.
 
@@ -218,14 +218,14 @@ it has found one:
 
 ```{sandbox: "homepage"}
 function talksAbout(node, string) {
-  if (node.nodeType == document.ELEMENT_NODE) {
+  if (node.nodeType == Node.ELEMENT_NODE) {
     for (let i = 0; i < node.childNodes.length; i++) {
       if (talksAbout(node.childNodes[i], string)) {
         return true;
       }
     }
     return false;
-  } else if (node.nodeType == document.TEXT_NODE) {
+  } else if (node.nodeType == Node.TEXT_NODE) {
     return node.nodeValue.indexOf(string) > -1;
   }
 }
@@ -234,11 +234,11 @@ console.log(talksAbout(document.body, "book"));
 // → true
 ```
 
-{{index "childNodes property", "array-like object"}}
+{{index "childNodes property", "array-like object", "Array.from function"}}
 
 Because `childNodes` is not a real array, we cannot loop over it with
 `for`/`of` and have to run over the index range using a regular `for`
-loop.
+loop or use `Array.from`.
 
 {{index "nodeValue property"}}
 
@@ -786,11 +786,11 @@ in style sheets to determine which elements a set of styles apply
 to—is that we can use this same mini-language as an effective way to
 find ((DOM)) elements.
 
-{{index "querySelectorAll method"}}
+{{index "querySelectorAll method", "NodeList type"}}
 
 The `querySelectorAll` method, which is defined both on the `document`
-object and on element nodes, takes a selector string and returns an
-((array-like object)) containing all the elements that it matches.
+object and on element nodes, takes a selector string and returns a
+`NodeList` containing all the elements that it matches.
 
 ```{lang: "text/html"}
 <p>And if you go chasing
@@ -1136,7 +1136,7 @@ function)) once from the outer function to start the process.
 {{index "nodeType property", "ELEMENT_NODE code"}}
 
 The recursive function must check the node type. Here we are
-interested only in node type 1 (`document.ELEMENT_NODE`). For such
+interested only in node type 1 (`Node.ELEMENT_NODE`). For such
 nodes, we must loop over their children and, for each child, see
 whether the child matches the query while also doing a recursive call
 on it to inspect its own children.

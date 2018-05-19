@@ -370,8 +370,8 @@ let blackRabbit = new Rabbit("black");
 
 The `class` keyword starts a ((class declaration)), which allows us to
 define a constructor and a set of methods all in a single place. Any
-number of methods may be written inside the declaration's ((curly
-braces)). The one named `constructor` is treated specially. It
+number of methods may be written inside the declaration's ((braces)).
+The one named `constructor` is treated specially. It
 provides the actual constructor function, which will be bound to the
 name `Rabbit`. The others are packaged into that constructor's
 prototype. Thus, the class declaration above is equivalent to the

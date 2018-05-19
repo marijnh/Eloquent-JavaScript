@@ -1053,7 +1053,7 @@ if}}
 You can build the string by starting with an empty one (`""`) and
 repeatedly adding characters. A newline character is written `"\n"`.
 
-{{index [nesting, "of loops"], "curly braces"}}
+{{index [nesting, "of loops"], braces}}
 
 To work with two ((dimensions)), you will need a ((loop)) inside of a
 loop. Put braces around the bodies of both loops to make it

@@ -259,10 +259,10 @@ a Boolean value that indicates whether Jacques turned into a squirrel
 or not. Ideally, we would like to group these together into a single
 value and then put those grouped values into an array of log entries.
 
-{{index syntax, property, "curly braces", "{} (object)"}}
+{{index syntax, property, braces, "{} (object)"}}
 
 Values of the type _((object))_ are arbitrary collections of
-properties. One way to create an object is by using curly braces as an
+properties. One way to create an object is by using braces as an
 expression.
 
 ```
@@ -294,7 +294,7 @@ let descriptions = {
 };
 ```
 
-This means that ((curly braces)) have _two_ meanings in JavaScript. At
+This means that ((braces)) have _two_ meanings in JavaScript. At
 the start of a ((statement)), they start a ((block)) of statements. In
 any other position, they describe an object. Fortunately, it is rarely
 useful to start a statement with a curly-brace object, so the
@@ -489,7 +489,7 @@ function addEntry(events, squirrel) {
 }
 ```
 
-{{index "curly braces", "{} (object)"}}
+{{index braces, "{} (object)"}}
 
 Note that the object added to the journal looks a little odd. Instead
 of declaring properties like `events: events`, it just gives a
@@ -1227,7 +1227,7 @@ This also works for ((binding))s created with `let`, `var`, or
 use ((square brackets)) to "look inside" of the value, binding its
 contents.
 
-{{index object, "curly braces"}}
+{{index object, braces}}
 
 A similar trick works for objects, using braces instead of square
 brackets.

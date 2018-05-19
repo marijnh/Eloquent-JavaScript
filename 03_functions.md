@@ -50,8 +50,8 @@ console.log(square(12));
 // → 144
 ```
 
-{{indexsee braces, "curly braces"}}
-{{index "curly braces", block, syntax, "function keyword", [function, body], [function, "as value"]}}
+{{indexsee "curly braces", braces}}
+{{index braces, block, syntax, "function keyword", [function, body], [function, "as value"]}}
 
 A function is created with an expression that starts with the keyword
 `function`. Functions have a set of _((parameter))s_ (in this case,
@@ -309,7 +309,7 @@ The arrow comes _after_ the list of parameters and is followed by the
 function's body. It expresses something like "this input (the
 ((parameter))s) produces this result (the body)".
 
-{{index "curly braces", "square example"}}
+{{index braces, "square example"}}
 
 When there is only one parameter name, you can omit the ((parentheses)) around the
 parameter list. If the body is a single expression,

@@ -239,10 +239,10 @@ console.log(neighbor.test("neighbor"));
 // → true
 ```
 
-{{index repetition, "curly braces"}}
+{{index repetition, braces}}
 
 To indicate that a pattern should occur a precise number of times, use
-curly braces. Putting `{4}` after an element, for example, requires it
+braces. Putting `{4}` after an element, for example, requires it
 to occur exactly four times. It is also possible to specify a
 ((range)) this way: `{2,4}` means the element must occur at least
 twice and at most four times.
@@ -259,7 +259,7 @@ console.log(dateTime.test("1-30-2003 8:45"));
 // → true
 ```
 
-You can also specify open-ended ((range))s when using ((curly braces))
+You can also specify open-ended ((range))s when using ((braces))
 by omitting the number after the comma. So, `{5,}` means five or more
 times.
 

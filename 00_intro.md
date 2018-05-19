@@ -244,7 +244,7 @@ console.log(total);
 // → 55
 ```
 
-{{index "while loop", loop, "curly braces"}}
+{{index "while loop", loop, braces}}
 
 This version gives us a few more improvements. Most importantly, there
 is no need to specify the way we want the program to jump back and

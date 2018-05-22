@@ -606,14 +606,12 @@ to `null` with the `==` (or `!=`) operator.
 {{index "type coercion", [Boolean, "conversion to"], "=== operator", "!== operator", comparison}}
 
 But what if you want to test whether something refers to the precise
-value `false`? The rules for converting strings and numbers to Boolean
-values state that `0`, `NaN`, and the empty string (`""`) count as
-`false`, while all the other values count as `true`. Because of this,
-expressions like `0 == false` and `"" == false` are also true. When
-you do _not_ want any automatic type conversions to happen, there are
-two additional operators: `===` and `!==`. The first tests whether a
-value is _precisely_ equal to the other, and the second tests whether
-it is not precisely equal. So `"" === false` is false as expected.
+value `false`? Expressions like `0 == false` and `"" == false` are
+also true because of automatic type conversion. When you do _not_ want
+any type conversions to happen, there are two additional operators:
+`===` and `!==`. The first tests whether a value is _precisely_ equal
+to the other, and the second tests whether it is not precisely equal.
+So `"" === false` is false as expected.
 
 I recommend using the three-character comparison operators defensively to
 prevent unexpected type conversions from tripping you up. But when you're
@@ -649,7 +647,10 @@ console.log("Agnes" || "user")
 We can use this functionality as a way to fall back on a default
 value. If you have a value that might be empty, you can put `||` after
 it with a replacement value. If the initial value can be converted to
-false, you'll get the replacement instead.
+false, you'll get the replacement instead. The rules for converting
+strings and numbers to Boolean values state that `0`, `NaN`, and the
+empty string (`""`) count as `false`, while all the other values count
+as `true`. So `0 || -1` produces `-1`, and `"" || "!?"` yields `"!?"`.
 
 {{index "&& operator"}}
 

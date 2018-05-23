@@ -62,7 +62,7 @@ give the player the feeling of being in direct control of the onscreen
 
 {{index "fractional number", discretization, "artificial life", "electronic life"}}
 
-The ((game)) consists of a fixed ((background)), laid out like a
+The ((game)) consists of a static ((background)), laid out like a
 ((grid)), with the moving elements overlaid on that background. Each
 field on the grid is either empty, solid, or ((lava)). The moving
 elements are the player, coins, and certain pieces of lava. The
@@ -119,7 +119,7 @@ part of the background grid or a moving element.
 The plan for a small level might look like this:
 
 ```{includeCode: true}
-var simpleLevelPlan = `
+let simpleLevelPlan = `
 ......................
 ..#................#..
 ..#..............=.#..
@@ -692,8 +692,8 @@ element into which we draw the game. That is why the
 protruding outside the viewport, we scroll that viewport to make sure
 the player is near its center. The following ((CSS)) gives the game's
 wrapping ((DOM)) element a maximum size and ensures that anything that
-sticks out of the element's box is not visible. We also give the outer
-element a relative position so that the actors inside it are
+sticks out of the element's box is not visible. We also give it
+a relative position so that the actors inside it are
 positioned relative to the level's top-left corner.
 
 ```{lang: "text/css"}

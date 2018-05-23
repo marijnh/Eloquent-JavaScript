@@ -7,10 +7,10 @@
   <style>
     article { display: flex; margin: 0 2em; flex-wrap: wrap; max-width: none; max-width: calc(38em + 500px); }
     #cover { flex-basis: 480px; max-width: 35em; flex-grow: 1; margin-right: 3em; }
-    #contents { flex-basis: 500px; }
-    #links { flex-basis: 100%; max-width: 35em; flex-grow: 1; }
+    #contents { flex-basis: 500px; flex-grow: 1; max-width: 35em;  }
+    #links { flex-basis: 100%; max-width: 35em; }
     li.contents-intro:before { display: none; }
-    .toc h3 { position: absolute; margin: 0; top: 1px; right: 0; font-family: inherit; font-weight: normal; font-size: 90%; }
+    .toc h3 { float: right; font-family: inherit; margin: 0; font-weight: normal; font-size: 90%; }
     @media screen and (max-width: 585px) { .toc h3 { display: none }}
     @media screen and (max-width: 500px) { #cover { margin-right: 0 } article { margin: 0 } }
     ul.links { list-style-type: circle; }
@@ -71,7 +71,7 @@
 
   <ol class=toc>
     <li class="contents-intro"><a href="00_intro.html">Introduction</a>
-    <li style="counter-reset: li; position: relative">
+    <li style="counter-reset: li">
       <h3>(Part 1: Language)</h3>
       <a href="01_values.html">Values, Types, and Operators</a>
     </li>
@@ -86,7 +86,7 @@
     <li><a href="10_modules.html">Modules</a>
     <li><a href="11_async.html">Asynchronous Programming</a>
     <li><a href="12_language.html">Project: A Programming Language</a>
-    <li style="position: relative">
+    <li>
       <h3>(Part 2: Browser)</h3>
       <a href="13_browser.html">JavaScript and the Browser</a>
     </li>
@@ -96,7 +96,7 @@
     <li><a href="17_canvas.html">Drawing on Canvas</a>
     <li><a href="18_http.html">HTTP and Forms</a>
     <li><a href="19_paint.html">Project: A Pixel Art Editor</a>
-    <li style="position: relative">
+    <li>
       <h3>(Part 3: Node)</h3>
       <a href="20_node.html">Node.js</a>
     </li>

@@ -783,8 +783,8 @@ transforming, and then restore the old transformation. This is usually
 the proper thing to do for a function that needs to temporarily
 transform the coordinate system. First, we save whatever
 transformation the code that called the function was using. Then the
-function does its thing (on top of the existing transformation),
-possibly adding more transformations. And finally, we revert to the
+function does its thing, adding more transformations on top of the
+current transformation. And finally, we revert to the
 transformation we started with.
 
 {{index "save method", "restore method"}}

@@ -67,7 +67,7 @@ GET /18_http.html HTTP/1.1
 
 The first word is the _((method))_ of the ((request)). `GET` means
 that we want to _get_ the specified resource. Other common methods are
-`DELETE` to delete a resource, `PUT` to replace it, and `POST` to send
+`DELETE` to delete a resource, `PUT` to create or replace it, and `POST` to send
 information to it. Note that the ((server)) is not obliged to carry
 out every request it gets. If you walk up to a random website and tell
 it to `DELETE` its main page, it'll probably refuse.
@@ -717,9 +717,8 @@ focused has the same effect.
 Submitting a ((form)) normally means that the ((browser)) navigates to
 the page indicated by the form's `action` attribute, using either a
 `GET` or a `POST` ((request)). But before that happens, a `"submit"`
-event is fired. This event can be handled by JavaScript, and the
-handler can prevent the default behavior by calling `preventDefault`
-on the event object.
+event is fired. You can handle this event with JavaScript, and prevent
+this default behavior by calling `preventDefault` on the event object.
 
 ```{lang: "text/html"}
 <form action="example/submit.html">
@@ -1209,7 +1208,7 @@ a web page. A page may also contain forms, which allow information
 entered by the user to be sent as a request for a new page when the
 form is submitted.
 
-HTML can express various types of form fields, such as text fields,
+HTML can represent various types of form fields, such as text fields,
 checkboxes, multiple-choice fields, and file pickers.
 
 Such fields can be inspected and manipulated with JavaScript. They
@@ -1220,8 +1219,8 @@ checkboxes and radio buttons) are used to read or set the field's
 content.
 
 When a form is submitted, a `"submit"` event is fired on it. A
-JavaScript handler can call `preventDefault` on that event to prevent
-the submission from happening. Form field elements may also occur
+JavaScript handler can call `preventDefault` on that event to disable
+the browser's default behavior. Form field elements may also occur
 outside of a form tag.
 
 When the user has selected a file from their local file system in a

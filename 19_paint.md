@@ -287,7 +287,7 @@ class PictureCanvas {
       onmousedown: event => this.mouse(event, pointerDown),
       ontouchstart: event => this.touch(event, pointerDown)
     });
-    drawPicture(picture, this.dom, scale);
+    this.setState(picture);
   }
   setState(picture) {
     if (this.picture == picture) return;
@@ -892,7 +892,10 @@ function historyUpdateState(state, action) {
 {{index "undo history"}}
 
 When the action is an undo action, the function takes the most recent
-picture from the history and makes that the current picture.
+picture from the history and makes that the current picture. It sets
+`doneAt` to zero, so that the next change is guaranteed to store the
+picture back in the history, allowing you to revert back to it another
+time if you wish.
 
 Otherwise, if the action contains a new picture and the last time we
 stored something is more than a second (1000 milliseconds) ago, the
@@ -1194,7 +1197,8 @@ skips the pixel when that is the case.
 
 Because the canvas gets cleared when we change its size, you should
 also avoid touching its `width` and `height` properties when the old
-and the new picture have the same size. If they are different, you can set
+and the new picture have the same size. If they are different, which
+will happen when a new picture has been loaded, you can set
 the binding holding the old picture to null after changing the canvas size, because you shouldn't
 skip any pixels after you've changed the canvas size.
 

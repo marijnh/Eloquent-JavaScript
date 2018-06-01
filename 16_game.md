@@ -980,7 +980,7 @@ the opposite direction.
 
 {{index "Coin class", coin, wave}}
 
-Coins use their `act` method to wobble. They ignore collisions with
+Coins use their `update` method to wobble. They ignore collisions with
 the grid since they are simply wobbling around inside of their own
 square.
 

@@ -40,7 +40,7 @@ often won't run in the browser.
 if}}
 
 If you want to follow along and run the code in this chapter, you'll
-need to install Node.js version 10 or higher. To do so, go to
+need to install Node.js version 10.1 or higher. To do so, go to
 [_https://nodejs.org_](https://nodejs.org) and follow the installation
 instructions for your operating system. You can also find further
 ((documentation)) for Node.js there.
@@ -151,8 +151,8 @@ Browser-related functionality, such as `document` or `prompt`, is not.
 
 {{index "Node.js", "global scope", "module loader"}}
 
-Beyond the few bindings I mentioned, such as `console` and `process`,
-Node puts few bindings in the global scope. If you want to access
+Beyond the bindings I mentioned, such as `console` and `process`,
+Node puts few additional bindings in the global scope. If you want to access
 built-in functionality, you have to ask the module system for it.
 
 {{index "require function"}}
@@ -344,7 +344,7 @@ The `npm` command is also used to publish new packages or new versions
 of packages. If you `npm publish` in a ((directory)) that has a
 `package.json` file, it will publish a package with the name and
 version listed in the JSON file to the registry. Anyone can publish
-packages to NPM—though only under a new name, since it would be
+packages to NPM—though only under a package name that isn't in use yet, since it would be
 somewhat scary if random people could update existing packages.
 
 Since the `npm` program is a piece of software that talks to an open
@@ -434,16 +434,16 @@ result (the second). As we saw in [Chapter ?](async), there are
 downsides to this style of programming—the biggest one being that
 error handling becomes verbose and error-prone.
 
-{{index "Promise class", "fs/promises package"}}
+{{index "Promise class", "promises package"}}
 
 Though promises have been part of JavaScript for a while, at the time
 of writing their integration into Node.js is still a work in progress.
-There is a package called `fs/promises` in the standard library since
-version 10, which exports most of the same functions as `fs`, but
+There is an object `promises` exported from the `fs` package since
+version 10.1, which contains most of the same functions as `fs`, but
 using promises rather than callback functions.
 
 ```
-const {readFile} = require("fs/promises");
+const {readFile} = require("fs").promises;
 readFile("file.txt", "utf8")
   .then(text => console.log("The file contains:", text));
 ```
@@ -489,6 +489,7 @@ let server = createServer((request, response) => {
   response.end();
 });
 server.listen(8000);
+console.log("Listening! (port 8000)");
 ```
 
 {{index port, localhost}}
@@ -863,7 +864,7 @@ and whether it is a ((directory)).
 
 ```{includeCode: ">code/file_server.js"}
 const {createReadStream} = require("fs");
-const {stat, readdir} = require("fs/promises");
+const {stat, readdir} = require("fs").promises;
 const mime = require("mime");
 
 methods.GET = async function(request) {
@@ -888,7 +889,8 @@ methods.GET = async function(request) {
 
 Because it has to touch the disk and thus might take a while, `stat`
 is asynchronous. Since we're using promises rather than callback
-style, it has to be imported from `fs/promises` instead of `fs`.
+style, it has to be imported from `promises` instead of directly from
+`fs`.
 
 When the file does not exist `stat` will throw an error object with a
 `code` property of `"ENOENT"`. These somewhat obscure,
@@ -914,7 +916,7 @@ content type that the `mime` package gives us for the file's name.
 The code to handle `DELETE` requests is slightly simpler.
 
 ```{includeCode: ">code/file_server.js"}
-const {rmdir, unlink} = require("fs/promises");
+const {rmdir, unlink} = require("fs").promises;
 
 methods.DELETE = async function(request) {
   let path = urlPath(request.url);
@@ -1085,7 +1087,7 @@ expression object.
 {{index "readFileSync function"}}
 
 Doing this synchronously, with `readFileSync`, is more
-straightforward, but if you use `fs/promises` again to get
+straightforward, but if you use `fs.promises` again to get
 promise-returning functions and write an `async` function, the code
 looks similar.
 
@@ -1127,7 +1129,7 @@ the _((WebDAV))_ standard, which specifies a set of conventions on top
 of ((HTTP)) that make it suitable for creating documents.
 
 ```{hidden: true, includeCode: ">code/file_server.js"}
-const {mkdir} = require("fs/promises");
+const {mkdir} = require("fs").promises;
 
 methods.MKCOL = async function(request) {
   let path = urlPath(request.url);

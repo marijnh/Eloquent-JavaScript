@@ -794,7 +794,7 @@ it relative to the program's working directory.
 
 ```{includeCode: ">code/file_server.js"}
 const {parse} = require("url");
-const {resolve} = require("path");
+const {resolve, sep} = require("path");
 
 const baseDirectory = process.cwd();
 
@@ -802,7 +802,7 @@ function urlPath(url) {
   let {pathname} = parse(url);
   let path = resolve(decodeURIComponent(pathname).slice(1));
   if (path != baseDirectory &&
-      !path.startsWith(baseDirectory + "/")) {
+      !path.startsWith(baseDirectory + sep)) {
     throw {status: 403, body: "Forbidden"};
   }
   return path;
@@ -820,16 +820,18 @@ may, for example, include `"../"` to refer to a parent directory. So
 one obvious source of problems would be requests for paths like
 `/../secret_file`.
 
-{{index "path package", "resolve function", "cwd function", "process object", "403 (HTTP status code)"}}
+{{index "path package", "resolve function", "cwd function", "process object", "403 (HTTP status code)", "sep binding", "backslash character", "slash character"}}
 
 To avoid such problems, `urlPath` uses the `resolve` function from the
 `path` module, which resolves relative paths. It then verifies that
 the result is _below_ the working directory. The `process.cwd`
 function (where "cwd" stands for "current working directory") can be
-used to find this working directory. When the path doesn't start
+used to find this working directory. The `sep` variable from the
+`path` package is the system's path separator—a backslash on Windows
+and a forward slash on most other systems. When the path doesn't start
 with the base directory, the function throws an error response object,
-using the HTTP status code indicating that access to the resource
-is forbidden.
+using the HTTP status code indicating that access to the resource is
+forbidden.
 
 {{index "file server example", "Node.js", "GET method"}}
 

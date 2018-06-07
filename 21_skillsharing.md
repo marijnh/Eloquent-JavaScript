@@ -3,7 +3,7 @@
 # Project: Skill-Sharing Website
 
 {{quote {author: "Margaret Fuller", chapter: true}
-	
+
 If you have knowledge, let others light their candles at it.
 
 quote}}
@@ -158,7 +158,7 @@ A `GET` request to `/talks` returns a JSON document like this:
 [{"title": "Unituning",
   "presenter": "Jamal",
   "summary": "Modifying your cycle for extra style",
-  "comment": []}]}
+  "comments": []}]}
 ```
 
 {{index "PUT method", URL}}
@@ -365,7 +365,7 @@ request handler function. We use the `root` option to tell the server
 where it should look for files. The handler function accepts `request`
 and `response` parameters and can be passed directly to `createServer`
 to create a server that serves _only_ files. We want to first check
-for requests that we handle specially, though, so we wrap it in
+for requests that we should handle specially, though, so we wrap it in
 another function.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}

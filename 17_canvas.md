@@ -863,7 +863,7 @@ that represent the game's elements.
 
 We define another display object type called `CanvasDisplay`,
 supporting the same ((interface)) as `DOMDisplay` from [Chapter
-?](game#domdisplay), namely the methods `setState` and `clear`.
+?](game#domdisplay), namely the methods `syncState` and `clear`.
 
 {{index state}}
 
@@ -899,11 +899,11 @@ class CanvasDisplay {
 }
 ```
 
-The `setState` method first computes a new viewport and then draws
+The `syncState` method first computes a new viewport and then draws
 the game scene at the appropriate position.
 
 ```{sandbox: "game", includeCode: true}
-CanvasDisplay.prototype.setState = function(state) {
+CanvasDisplay.prototype.syncState = function(state) {
   this.updateViewport(state);
   this.clearDisplay(state.status);
   this.drawBackground(state.level);

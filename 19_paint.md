@@ -115,9 +115,9 @@ the component. Most constructors will also take some other values,
 that won't change over time, such as the function they can use to
 ((dispatch)) an action.
 
-{{index "setState method"}}
+{{index "syncState method"}}
 
-Each component has a `setState` method that is used to synchronize it
+Each component has a `syncState` method that is used to synchronize it
 to a new state value. The method takes one argument, the state, which
 is of the same type as the first argument to its constructor.
 
@@ -287,9 +287,9 @@ class PictureCanvas {
       onmousedown: event => this.mouse(event, pointerDown),
       ontouchstart: event => this.touch(event, pointerDown)
     });
-    this.setState(picture);
+    this.syncState(picture);
   }
-  setState(picture) {
+  syncState(picture) {
     if (this.picture == picture) return;
     this.picture = picture;
     drawPicture(this.picture, this.dom, scale);
@@ -297,11 +297,11 @@ class PictureCanvas {
 }
 ```
 
-{{index "setState method", efficiency}}
+{{index "syncState method", efficiency}}
 
 We draw each pixel as a 10-by-10 square, as determined by the `scale`
 constant. To avoid unnecessary work, the component keeps track of its
-current picture, and does a redraw only when `setState` is given a new
+current picture, and does a redraw only when `syncState` is given a new
 picture.
 
 {{index "drawPicture function"}}
@@ -445,10 +445,10 @@ class PixelEditor {
                    ...this.controls.reduce(
                      (a, c) => a.concat(" ", c.dom), []));
   }
-  setState(state) {
+  syncState(state) {
     this.state = state;
-    this.canvas.setState(state.picture);
-    for (let ctrl of this.controls) ctrl.setState(state);
+    this.canvas.syncState(state.picture);
+    for (let ctrl of this.controls) ctrl.syncState(state);
   }
 }
 ```
@@ -457,14 +457,14 @@ The pointer handler given to `PictureCanvas` calls the currently
 selected tool with the appropriate arguments and, if that returns a
 move handler, adapts it to also receive the state.
 
-{{index "reduce method", "map method", whitespace, "setState method"}}
+{{index "reduce method", "map method", whitespace, "syncState method"}}
 
 All controls are constructed and stored in `this.controls` so that
 they can be updated when the application state changes. The call to
 `reduce` introduces spaces between the controls' DOM elements. That
 way they don't look so pressed together.
 
-{{index "select (HTML tag)", "change event", "ToolSelect class", "setState method"}}
+{{index "select (HTML tag)", "change event", "ToolSelect class", "syncState method"}}
 
 The first control is the ((tool)) selection menu. It creates a
 `<select>` element with an option for each tool, and sets up a
@@ -481,7 +481,7 @@ class ToolSelect {
     }, name)));
     this.dom = elt("label", null, "🖌 Tool: ", this.select);
   }
-  setState(state) { this.select.value = state.tool; }
+  syncState(state) { this.select.value = state.tool; }
 }
 ```
 
@@ -508,7 +508,7 @@ Depending on the browser, the color picker might look like this:
 
 if}}
 
-{{index "ColorSelect class", "setState method"}}
+{{index "ColorSelect class", "syncState method"}}
 
 This ((control)) creates such a field and wires it up to stay
 synchronized with the application state's `color` property.
@@ -523,7 +523,7 @@ class ColorSelect {
     });
     this.dom = elt("label", null, "🎨 Color: ", this.input);
   }
-  setState(state) { this.input.value = state.color; }
+  syncState(state) { this.input.value = state.color; }
 }
 ```
 
@@ -664,7 +664,7 @@ We can now test our application!
     controls: [ToolSelect, ColorSelect],
     dispatch(action) {
       state = updateState(state, action);
-      app.setState(state);
+      app.syncState(state);
     }
   });
   document.querySelector("div").appendChild(app.dom);
@@ -700,7 +700,7 @@ class SaveButton {
     link.click();
     link.remove();
   }
-  setState(state) { this.picture = state.picture; }
+  syncState(state) { this.picture = state.picture; }
 }
 ```
 
@@ -742,7 +742,7 @@ class LoadButton {
       onclick: () => startLoad(dispatch)
     }, "📁 Load");
   }
-  setState() {}
+  syncState() {}
 }
 
 function startLoad(dispatch) {
@@ -916,7 +916,7 @@ class UndoButton {
       disabled: state.done.length == 0
     }, "⮪ Undo");
   }
-  setState(state) {
+  syncState(state) {
     this.dom.disabled = state.done.length == 0;
   }
 }
@@ -955,7 +955,7 @@ function startPixelEditor({state = startState,
     controls,
     dispatch(action) {
       state = historyUpdateState(state, action);
-      app.setState(state);
+      app.syncState(state);
     }
   });
   return app.dom;
@@ -1081,10 +1081,10 @@ keys are held down.
                      ...this.controls.reduce(
                        (a, c) => a.concat(" ", c.dom), []));
     }
-    setState(state) {
+    syncState(state) {
       this.state = state;
-      this.canvas.setState(state.picture);
-      for (let ctrl of this.controls) ctrl.setState(state);
+      this.canvas.syncState(state.picture);
+      for (let ctrl of this.controls) ctrl.syncState(state);
     }
   }
 
@@ -1126,9 +1126,9 @@ in `drawPicture`. Creating a new state and updating the rest of the
 DOM isn't very expensive, but repainting all the pixels on the canvas
 is quite a bit of work.
 
-{{index "setState method", "PictureCanvas class"}}
+{{index "syncState method", "PictureCanvas class"}}
 
-Find a way to make the `setState` method of `PictureCanvas` faster by
+Find a way to make the `syncState` method of `PictureCanvas` faster by
 redrawing only the pixels that actually changed.
 
 {{index "drawPicture function", compatibility}}
@@ -1149,7 +1149,7 @@ transparent again.
 <div></div>
 <script>
   // Change this method
-  PictureCanvas.prototype.setState = function(picture) {
+  PictureCanvas.prototype.syncState = function(picture) {
     if (this.picture == picture) return;
     this.picture = picture;
     drawPicture(this.picture, this.dom, scale);

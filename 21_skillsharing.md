@@ -971,10 +971,10 @@ class SkillShareApp {
                    renderUserField(state.user, dispatch),
                    this.talkDOM,
                    renderTalkForm(dispatch));
-    this.setState(state);
+    this.syncState(state);
   }
 
-  setState(state) {
+  syncState(state) {
     if (state.talks != this.talks) {
       this.talkDOM.textContent = "";
       for (let talk of state.talks) {
@@ -1000,7 +1000,7 @@ function runApp() {
   let state, app;
   function dispatch(action) {
     state = handleAction(state, action);
-    app.setState(state);
+    app.syncState(state);
   }
 
   pollTalks(talks => {
@@ -1091,12 +1091,12 @@ to solve it?
 
 {{hint
 
-{{index "comment field reset (exercise)", template, "setState method"}}
+{{index "comment field reset (exercise)", template, "syncState method"}}
 
 The best way to do this is probably to make talks component objects,
-with a `setState` method, so that they can be updated to show a
+with a `syncState` method, so that they can be updated to show a
 modified version of the talk. During normal operation, the only way a
-talk can be changed is by adding more comments, so the `setState`
+talk can be changed is by adding more comments, so the `syncState`
 method can be relatively simple.
 
 The difficult part is that, when a changed list of talks comes in, we

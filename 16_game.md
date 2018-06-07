@@ -640,7 +640,7 @@ defined earlier.
 
 {{index graphics, optimization, efficiency, state}}
 
-The `setState` method is used to make the display show a given state.
+The `syncState` method is used to make the display show a given state.
 It first removes the old actor graphics, if any, and then redraws the
 actors in their new positions. It may be tempting to try to reuse the
 ((DOM)) elements for actors, but to make that work, we would need a
@@ -650,7 +650,7 @@ there will typically be only a handful of actors in the game,
 redrawing all of them is not expensive.
 
 ```{includeCode: true}
-DOMDisplay.prototype.setState = function(state) {
+DOMDisplay.prototype.syncState = function(state) {
   if (this.actorLayer) this.actorLayer.remove();
   this.actorLayer = drawActors(state.actors);
   this.dom.appendChild(this.actorLayer);
@@ -772,7 +772,7 @@ We are now able to display our tiny level.
 <script>
   let simpleLevel = new Level(simpleLevelPlan);
   let display = new DOMDisplay(document.body, simpleLevel);
-  display.setState(State.start(simpleLevel));
+  display.syncState(State.start(simpleLevel));
 </script>
 ```
 
@@ -1175,7 +1175,7 @@ function runLevel(level, Display) {
   return new Promise(resolve => {
     runAnimation(time => {
       state = state.update(time, arrowKeys);
-      display.setState(state);
+      display.syncState(state);
       if (state.status == "playing") {
         return true;
       } else if (ending > 0) {
@@ -1323,7 +1323,7 @@ it is finished.
     return new Promise(resolve => {
       runAnimation(time => {
         state = state.update(time, arrowKeys);
-        display.setState(state);
+        display.syncState(state);
         if (state.status == "playing") {
           return true;
         } else if (ending > 0) {

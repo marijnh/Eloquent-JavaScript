@@ -640,7 +640,7 @@ The class should work for values of any type, not just strings. It
 does _not_ have to be efficient when used with large amounts of
 values.
 
-The ((constructor)) shouldn't be part of the class' ((interface))
+The ((constructor)) shouldn't be part of the class's ((interface))
 (though you'll definitely want to use it internally). Instead, there
 is an empty instance, `PGroup.empty`, that can be used as a starting
 value.
@@ -684,7 +684,7 @@ When a value is added to the group, you can create a new group with a
 copy of the original array that has the value added (for example, using
 `concat`). When a value is deleted, you filter it from the array.
 
-The class' ((constructor)) can take such an array as argument, and
+The class's ((constructor)) can take such an array as argument, and
 store it as the instance's (only) property. This array is never
 updated.
 

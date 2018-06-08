@@ -98,7 +98,7 @@ Hello world
 
 The `console.log` method in Node does something similar to what it
 does in the browser. It prints out a piece of text. But in Node, the
-text will go to the process' ((standard output)) stream, rather than
+text will go to the process's ((standard output)) stream, rather than
 to a browser's ((JavaScript console)). When running `node` from the
 command line, that means you see the logged values in your
 ((terminal)).
@@ -686,7 +686,7 @@ request({
 
 {{index "stdout property", "standard output", "writable stream", "console.log"}}
 
-The example writes to `process.stdout` (the process' standard output,
+The example writes to `process.stdout` (the process's standard output,
 which is a writable stream) instead of using `console.log`. We can't
 use `console.log` because it adds an extra newline character after
 each piece of text that it writes, which isn't appropriate here since

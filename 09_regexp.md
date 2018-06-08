@@ -28,7 +28,7 @@ if}}
 Programming ((tool))s and techniques survive and spread in a chaotic,
 evolutionary way. It's not always the pretty or brilliant ones that
 win but rather the ones that function well enough within the right
-niche or happen to be integrated with another successful piece of
+niche or that happen to be integrated with another successful piece of
 technology.
 
 {{index "domain-specific language"}}
@@ -50,7 +50,7 @@ expressions will make you a more effective programmer.
 
 {{index ["regular expression", creation], "RegExp class", "literal expression", "slash character"}}
 
-A regular expression is a type of object. It can either be constructed
+A regular expression is a type of object. It can be either constructed
 with the `RegExp` constructor or written as a literal value by
 enclosing a pattern in forward slash (`/`) characters.
 
@@ -313,7 +313,7 @@ console.log(match.index);
 An object returned from `exec` has an `index` property that tells us
 _where_ in the string the successful match begins. Other than that,
 the object looks like (and in fact is) an array of strings, whose
-first element is the string that was matched—in the previous example,
+first element is the string that was matched. In the previous example,
 this is the sequence of ((digit))s that we were looking for.
 
 {{index [string, methods], "match method"}}
@@ -362,14 +362,14 @@ extract it and construct an object that represents it, we can wrap
 parentheses around the digit patterns and directly pick the date out
 of the result of `exec`.
 
-But first, a brief detour, in which we discuss the built-in way to
+But first we'll take a brief detour, in which we discuss the built-in way to
 represent date and ((time)) values in JavaScript.
 
 ## The Date class
 
 {{index constructor, "Date class"}}
 
-JavaScript has a standard class for representing ((date))s—or rather,
+JavaScript has a standard class for representing ((date))s—or, rather,
 points in ((time)). It is called `Date`. If you simply create a date
 object using `new`, you get the current date and time.
 
@@ -422,10 +422,10 @@ millisecond count by creating a new `Date` object and calling
 
 {{index "getFullYear method", "getMonth method", "getDate method", "getHours method", "getMinutes method", "getSeconds method", "getYear method"}}
 
-Date objects provide methods like `getFullYear`, `getMonth`,
+Date objects provide methods such as `getFullYear`, `getMonth`,
 `getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their
 components. Besides `getFullYear` there's also `getYear`, which gives
-you the year minus 1900 (`98` or `119`), and is mostly useless.
+you the year minus 1900 (`98` or `119`) and is mostly useless.
 
 {{index "capture group", "getDate function"}}
 
@@ -444,7 +444,7 @@ console.log(getDate("1-30-2003"));
 
 {{index destructuring, "underscore character"}}
 
-The `_` (underscore) binding is ignored, and used only to skip the
+The `_` (underscore) binding is ignored and used only to skip the
 full match element in the array returned by `exec`.
 
 ## Word and string boundaries
@@ -518,10 +518,10 @@ each other to express a choice between more than two alternatives.
 
 {{index ["regular expression", matching], [matching, algorithm], searching}}
 
-Conceptually, when you use `exec` or `test` the regular expression
+Conceptually, when you use `exec` or `test`, the regular expression
 engine looks for a match in your string by trying to match the
 expression first from the start of the string, then from the second
-character, and so on until it finds a match or reaches the end of the
+character, and so on, until it finds a match or reaches the end of the
 string. It'll either return the first match that can be found or fail
 to find any match at all.
 
@@ -554,9 +554,9 @@ through the flow chart would look like this:
    single space character. There is a space here, not a digit, so we
    must take the second path.
 
- - We are now at position 6 (the start of "pigs") and at the three-way
-   branch in the diagram. We don't see "cow" or "chicken" here, but we
-   do see "pig", so we take that branch.
+ - We are now at position 6 (the start of _pigs_) and at the three-way
+   branch in the diagram. We don't see _cow_ or _chicken_ here, but we
+   do see _pig_, so we take that branch.
 
  - At position 9, after the three-way branch, one path skips the _s_
    box and goes straight to the final word boundary, while the other
@@ -678,7 +678,7 @@ expression instead.
 {{index grouping, "capture group", "dollar sign", "replace method", ["regular expression", grouping]}}
 
 The real power of using regular expressions with `replace` comes from
-the fact that we can refer back to matched groups in the replacement
+the fact that we can refer to matched groups in the replacement
 string. For example, say we have a big string containing the names of
 people, one name per line, in the format `Lastname, Firstname`. If we
 want to swap these names and remove the comma to get a `Firstname
@@ -714,7 +714,7 @@ console.log(s.replace(/\b(fbi|cia)\b/g,
 // → the CIA and FBI
 ```
 
-And here's a more interesting one:
+Here's a more interesting one:
 
 ```
 let stock = "1 lemon, 2 cabbages, and 101 eggs";
@@ -737,7 +737,7 @@ is decremented by one.
 
 The `(\d+)` group ends up as the `amount` argument to the function,
 and the `(\w+)` group gets bound to `unit`. The function converts
-`amount` to a number—which always works, since it matched `\d+`—and
+`amount` to a number—which always works since it matched `\d+`—and
 makes some adjustments in case there is only one or zero left.
 
 ## Greed
@@ -1037,7 +1037,7 @@ usually called an _INI_ file) are as follows:
 
 Our task is to convert a string like this into an object whose
 properties hold strings for settings written before the first
-section header and sub-objects for sections, with those sub-objects
+section header and subobjects for sections, with those subobjects
 holding the section's settings.
 
 {{index "carriage return", "line break", "newline character"}}
@@ -1137,7 +1137,7 @@ whitespace, including things like the ((nonbreaking space)) and the
 
 Another problem is that, by default, regular expressions work on code
 units, as discussed in [Chapter ?](higher_order#code_units), not
-actual characters. This means that characters that are composed of two
+actual characters. This means characters that are composed of two
 code units behave strangely.
 
 ```
@@ -1181,7 +1181,7 @@ Unicode defines a number of useful properties, though finding the one
 that you need may not always be trivial. You can use the
 `\p{Property=Value}` notation to match any character that has the
 given value for that property. If the property name is left off, as in
-`\p{Name}`, the name is assumed to either be a binary property such as
+`\p{Name}`, the name is assumed to be either a binary property such as
 `Alphabetic` or a category such as `Number`.
 
 {{id summary_regexp}}
@@ -1354,7 +1354,7 @@ if}}
 {{index "quoting style (exercise)", boundary}}
 
 The most obvious solution is to replace only quotes with a nonword
-character on at least one side. Something like `/\W'|'\W/`. But you
+character on at least one side—something like `/\W'|'\W/`. But you
 also have to take the start and end of the line into account.
 
 {{index grouping, "replace method"}}
@@ -1373,7 +1373,7 @@ hint}}
 
 Write an expression that matches only JavaScript-style ((number))s. It
 must support an optional minus _or_ plus sign in front of the number,
-the decimal dot, and exponent notation—`5e-3` or `1E10`— again with an
+the decimal dot, and exponent notation—`5e-3` or `1E10`—again with an
 optional sign in front of the exponent. Also note that it is not
 necessary for there to be digits in front of or after the dot, but the
 number cannot be a dot alone. That is, `.5` and `5.` are valid

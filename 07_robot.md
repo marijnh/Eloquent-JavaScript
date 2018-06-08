@@ -16,7 +16,7 @@ quote}}
 {{index "project chapter", "reading code", "writing code"}}
 
 In "project" chapters, I'll stop pummeling you with new theory for a
-brief moment and instead we'll work through a program together. Theory
+brief moment, and instead we'll work through a program together. Theory
 is necessary to learn to program, but reading and understanding actual
 programs is just as important.
 
@@ -105,7 +105,7 @@ to update the model to reflect the new situation.
 
 If you're thinking in terms of ((object-oriented programming)), your
 first impulse might be to start defining objects for the various
-elements in the world. A ((class)) for the robot, one for a parcel,
+elements in the world: a ((class)) for the robot, one for a parcel,
 maybe one for places. These could then hold properties that describe
 their current ((state)), such as the pile of parcels at a location,
 which we could change when updating the world.
@@ -127,7 +127,7 @@ location and a destination address. That's it.
 {{index "VillageState class", "persistent data structure"}}
 
 And while we're at it, let's make it so that we don't _change_ this
-state when the robot moves, but rather compute a _new_ state for the
+state when the robot moves but rather compute a _new_ state for the
 situation after the move.
 
 ```{includeCode: true}
@@ -153,7 +153,7 @@ class VillageState {
 
 The `move` method is where the action happens. It first checks whether
 there is a road going from the current place to the destination, and
-if not, it returns the old state, since this is not a valid move.
+if not, it returns the old state since this is not a valid move.
 
 {{index "map method", "filter method"}}
 
@@ -165,8 +165,8 @@ new place need to be delivered—that is, they need to be removed from
 the set of undelivered parcels. The call to `map` takes care of the
 moving, and the call to `filter` does the delivering.
 
-Parcel objects aren't changed when they are moved, but recreated. The
-`move` method gives us a new village state, but leaves the old one
+Parcel objects aren't changed when they are moved but re-created. The
+`move` method gives us a new village state but leaves the old one
 entirely intact.
 
 ```
@@ -194,7 +194,7 @@ where the robot is at the post office and the parcel is undelivered.
 
 Data structures that don't change are called _((immutable))_ or
 _persistent_. They behave a lot like strings and numbers in that they
-are who they are, and stay that way, rather than containing different
+are who they are and stay that way, rather than containing different
 things at different times.
 
 In JavaScript, just about everything _can_ be changed, so working with
@@ -205,7 +205,7 @@ sure your objects aren't changed, if you want to be careful. Freezing
 does require the computer to do some extra work, and having updates
 ignored is just about as likely to confuse someone as having them do
 the wrong thing. So I usually prefer to just tell people that a given
-object shouldn't be messed with, and hope they remember it.
+object shouldn't be messed with and hope they remember it.
 
 ```
 let object = Object.freeze({value: 5});
@@ -269,13 +269,13 @@ function runRobot(state, robot, memory) {
 ```
 
 Consider what a robot has to do to "solve" a given state. It must pick
-up all parcels by visiting every location that has a parcel, and
+up all parcels by visiting every location that has a parcel and
 deliver them by visiting every location that a parcel is addressed to,
 but only after picking up the parcel.
 
 What is the dumbest strategy that could possibly work? The robot could
 just walk in a random direction every turn. That means, with
-great likelihood, that it will eventually run into all parcels, and then
+great likelihood, it will eventually run into all parcels and then
 also at some point reach the place where they should be delivered.
 
 {{index "randomPick function", "randomRobot function"}}
@@ -295,8 +295,8 @@ function randomRobot(state) {
 
 {{index "Math.random function", "Math.floor function", array}}
 
-Remember that `Math.random()` returns a number between zero and one,
-but always below one. Multiplying such a number by the length of an
+Remember that `Math.random()` returns a number between zero and
+one—but always below one. Multiplying such a number by the length of an
 array and then applying `Math.floor` to it gives us a random index for
 the array.
 
@@ -341,7 +341,7 @@ runRobot(VillageState.random(), randomRobot);
 // → Done in 63 turns
 ```
 
-It takes the robot a lot of turns to deliver the parcels, because it
+It takes the robot a lot of turns to deliver the parcels because it
 isn't planning ahead very well. We'll address that soon.
 
 {{if interactive
@@ -372,7 +372,7 @@ easy improvement would be to take a hint from the way real-world mail
 delivery works. If we find a route that passes all places in the
 village, the robot could run that route twice, at which point it is
 guaranteed to be done. Here is one such route (starting from the post
-office).
+office):
 
 ```{includeCode: true}
 const mailRoute = [
@@ -399,7 +399,7 @@ function routeRobot(state, memory) {
 ```
 
 This robot is a lot faster already. It'll take a maximum of 26 turns
-(twice the 13-step route), but usually less.
+(twice the 13-step route) but usually less.
 
 {{if interactive
 
@@ -417,8 +417,8 @@ adjusted its behavior to the actual work that needs to be done.
 
 {{index pathfinding}}
 
-To do that, it has to be able to deliberately move towards a given
-parcel, or towards the location where a parcel has to be delivered.
+To do that, it has to be able to deliberately move toward a given
+parcel or toward the location where a parcel has to be delivered.
 Doing that, even when the goal is more than one move away, will
 require some kind of route-finding function.
 
@@ -432,15 +432,15 @@ The  number of possible routes through a graph is infinite. But
 when searching for a route from _A_ to _B_, we are interested only in
 the ones that start at _A_. We also don't care about routes that visit
 the same place twice—those are definitely not the most efficient route
-anywhere. So that cuts down on the amount of routes that the route
+anywhere. So that cuts down on the number of routes that the route
 finder has to consider.
 
 In fact, we are mostly interested in the _shortest_ route. So we want
 to make sure we look at short routes before we look at longer ones. A
 good approach would be to "grow" routes from the starting point,
 exploring every reachable place that hasn't been visited yet, until a
-route reaches the goal. That way, we'll explore only routes that are
-potentially interesting, and find the shortest route (or one of the
+route reaches the goal. That way, we'll only explore routes that are
+potentially interesting, and we'll find the shortest route (or one of the
 shortest routes, if there are more than one) to the goal.
 
 {{index "findRoute function"}}
@@ -466,7 +466,7 @@ function findRoute(graph, from, to) {
 
 The exploring has to be done in the right order—the places that were
 reached first have to be explored first. We can't immediately explore
-a place as soon as we reach it, because that would mean places reached
+a place as soon as we reach it because that would mean places reached
 _from there_ would also be explored immediately, and so on, even
 though there may be other, shorter paths that haven't yet been
 explored.
@@ -476,7 +476,7 @@ places that should be explored next, along with the route that got us
 there. It starts with just the start position and an empty route.
 
 The search then operates by taking the next item in the list and
-exploring that, which means that all roads going from that place are
+exploring that, which means all roads going from that place are
 looked at. If one of them is the goal, a finished route can be
 returned. Otherwise, if we haven't looked at this place before, a new
 item is added to the list. If we have looked at it before, since we
@@ -493,7 +493,7 @@ route.
 {{index "connected graph"}}
 
 Our code doesn't handle the situation where there are no more work
-items on the work list, because we know that our graph is _connected_,
+items on the work list because we know that our graph is _connected_,
 meaning that every location can be reached from all other locations.
 We'll always be able to find a route between two points, and the
 search can't fail.
@@ -518,8 +518,8 @@ This robot uses its memory value as a list of directions to move in,
 just like the route-following robot. Whenever that list is empty, it
 has to figure out what to do next. It takes the first undelivered
 parcel in the set and, if that parcel hasn't been picked up yet, plots a
-route towards it. If the parcel _has_ been picked up, it still needs to be
-delivered, so the robot creates a route towards the delivery address instead.
+route toward it. If the parcel _has_ been picked up, it still needs to be
+delivered, so the robot creates a route toward the delivery address instead.
 
 {{if interactive
 
@@ -532,9 +532,8 @@ runRobotAnimation(VillageState.random(),
 
 if}}
 
-This robot usually finishes the task of delivering 5 parcels in around
-16 turns. Slightly better than `routeRobot`, but still definitely not
-optimal.
+This robot usually finishes the task of delivering 5 parcels in about
+16 turns. That's slightly better than `routeRobot` but still definitely not optimal.
 
 ## Exercises
 
@@ -543,7 +542,7 @@ optimal.
 {{index "measuring a robot (exercise)", testing, automation, "compareRobots function"}}
 
 It's hard to objectively compare ((robot))s by just letting them solve
-a few scenarios. Maybe one robot just happened to get easier tasks, or
+a few scenarios. Maybe one robot just happened to get easier tasks or
 the kind of tasks that it is good at, whereas the other didn't.
 
 Write a function `compareRobots` that takes two robots (and their
@@ -551,7 +550,7 @@ starting memory). It should generate 100 tasks and let each of
 the robots solve each of these tasks. When done, it should output the
 average number of steps each robot took per task.
 
-For the sake of fairness, make sure that you give each task to both
+For the sake of fairness, make sure you give each task to both
 robots, rather than generating different tasks per robot.
 
 {{if interactive
@@ -576,7 +575,7 @@ steps the robot took to complete the task.
 Your measurement function can then, in a loop, generate new states and
 count the steps each of the robots takes. When it has generated enough
 measurements, it can use `console.log` to output the average for each
-robot, which is the total amount of steps taken divided by the number
+robot, which is the total number of steps taken divided by the number
 of measurements.
 
 hint}}
@@ -611,7 +610,7 @@ one parcel at a time. It will often walk back and forth across the
 village because the parcel it happens to be looking at happens to be
 at the other side of the map, even if there are others much closer.
 
-One possible solution would be to compute routes for all packages, and
+One possible solution would be to compute routes for all packages and
 then take the shortest one. Even better results can be obtained, if
 there are multiple shortest routes, by preferring the ones that go to
 pick up a package instead of delivering a package.
@@ -633,7 +632,7 @@ Write a new class `PGroup`, similar to the `Group` class from [Chapter
 `add`, `delete`, and `has` methods.
 
 Its `add` method, however, should return a _new_ `PGroup` instance
-with the given member added, and leave the old one unchanged.
+with the given member added and leave the old one unchanged.
 Similarly, `delete` creates a new instance without a given member.
 
 The class should work for values of any type, not just strings. It
@@ -676,7 +675,7 @@ if}}
 {{index "persistent map (exercise)", "Set class", array, "PGroup class"}}
 
 The most convenient way to represent the set of member values
-is still an array, since those are easy to copy.
+is still as an array since arrays are easy to copy.
 
 {{index "concat method", "filter method"}}
 
@@ -684,7 +683,7 @@ When a value is added to the group, you can create a new group with a
 copy of the original array that has the value added (for example, using
 `concat`). When a value is deleted, you filter it from the array.
 
-The class's ((constructor)) can take such an array as argument, and
+The class's ((constructor)) can take such an array as argument and
 store it as the instance's (only) property. This array is never
 updated.
 

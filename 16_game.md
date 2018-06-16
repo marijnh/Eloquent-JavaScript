@@ -20,7 +20,7 @@ simulated ((world))s that I could manipulate and in which stories
 actually offered.
 
 I don't wish a ((career)) in game programming on anyone. Much like the
-((music)) industry, the discrepancy between the amount of eager young
+((music)) industry, the discrepancy between the number of eager young
 people wanting to work in it and the actual demand for such people
 creates a rather unhealthy environment. But writing games for fun is
 amusing.
@@ -40,7 +40,7 @@ onto things.
 Our ((game)) will be roughly based on [Dark
 Blue](http://www.lessmilk.com/games/10)[
 (_www.lessmilk.com/games/10_)]{if book} by Thomas Palef. I chose that
-game because it is both entertaining and minimalist, and because it
+game because it is both entertaining and minimalist and because it
 can be built without too much ((code)). It looks like this:
 
 {{figure {url: "img/darkblue.png", alt: "The game Dark Blue"}}}
@@ -53,11 +53,11 @@ the yellow boxes (coins) while avoiding the red stuff (lava). A
 
 {{index keyboard, jumping}}
 
-The player can walk around with the left and right arrow keys, and
+The player can walk around with the left and right arrow keys and can
 jump with the up arrow. Jumping is a specialty of this game character.
 It can reach several times its own height and can change
 direction in midair. This may not be entirely realistic, but it helps
-give the player the feeling of being in direct control of the onscreen
+give the player the feeling of being in direct control of the on-screen
 ((avatar)).
 
 {{index "fractional number", discretization, "artificial life", "electronic life"}}
@@ -135,7 +135,7 @@ let simpleLevelPlan = `
 
 Periods are empty space, hash (`#`) characters are walls, and plus
 signs are lava. The ((player))'s starting position is the ((at sign))
-(`@`). Every O character is a coin, and the equals sign (`=`) at the
+(`@`). Every O character is a coin, and the equal sign (`=`) at the
 top is a block of lava that moves back and forth horizontally.
 
 {{index bouncing}}
@@ -185,7 +185,7 @@ class Level {
 
 The `trim` method is used to remove ((whitespace)) at the start and
 end of the plan string. This allows our example plan to start with a
-newline, so that all the lines are directly below each other. The
+newline so that all the lines are directly below each other. The
 remaining string is split on ((newline character))s, and each line is
 spread into an array, producing arrays of characters.
 
@@ -194,13 +194,13 @@ plan. We can derive the level's width and height from these. But we
 must still separate the moving elements from the background grid.
 We'll call moving elements _actors_. They'll be stored in an array of
 objects. The background will be an array of arrays of strings, holding
-field types like `"empty"`, `"wall"`, or `"lava"`.
+field types such as `"empty"`, `"wall"`, or `"lava"`.
 
 {{index "map method"}}
 
 To create these arrays, we map over the rows and then over their
 content. Remember that `map` passes the array index as a second
-argument to the mapping function, which tells us the the x- and
+argument to the mapping function, which tells us the x- and
 y-coordinates of a given character. Positions in the game will be
 stored as pairs of coordinates, with the top left being 0,0 and each
 background square being 1 unit high and wide.
@@ -216,7 +216,7 @@ background square.
 
 {{index "Vec class"}}
 
-The position of the actor is stored as a `Vec` object, which is a
+The position of the actor is stored as a `Vec` object. This is a
 two-dimensional vector, an object with `x` and `y` properties, as seen
 in the exercises of [Chapter ?](object#exercise_vector).
 
@@ -246,7 +246,7 @@ The `status` property will switch to `"lost"` or `"won"` when the game
 has ended.
 
 This is again a persistent data structure—updating the game state
-creates a new state, and leaves the old one intact.
+creates a new state and leaves the old one intact.
 
 ## Actors
 
@@ -259,7 +259,7 @@ element's top-left corner, and their `size` property holds its size.
 
 Then they have an `update` method, which is used to compute their
 new state and position after a given time step. It simulates the thing
-the actor does—moving in response to the arrow keys for the player,
+the actor does—moving in response to the arrow keys for the player and
 bouncing back and forth for the lava—and returns a new, updated actor
 object.
 
@@ -299,13 +299,13 @@ The `times` method scales a vector by a given number. It will be
 useful when we need to multiply a speed vector by a time interval to
 get the distance traveled during that time.
 
-The different types of actors get their own classes, since their
+The different types of actors get their own classes since their
 behavior is very different. Let's define these classes. We'll get to
-their `update` methods later on.
+their `update` methods later.
 
 {{index simulation, "Player class"}}
 
-The player class has a property `speed` that stores its current speed,
+The player class has a property `speed` that stores its current speed
 to simulate momentum and gravity.
 
 ```{includeCode: true}
@@ -332,10 +332,10 @@ appeared. This way, its bottom aligns with the bottom of the square it
 appeared in.
 
 The `size` property is the same for all instances of `Player`, so we
-store it on the prototype, rather than on the instances themselves. We
+store it on the prototype rather than on the instances themselves. We
 could have used a ((getter)) like `type`, but that would create and
 return a new `Vec` object every time the property is read, which would
-be wasteful. (Strings, being ((immutable)), don't have to be recreated
+be wasteful. (Strings, being ((immutable)), don't have to be re-created
 every time they are evaluated.)
 
 {{index "Lava class", bouncing}}
@@ -348,7 +348,7 @@ position (dripping). If it does not, it will invert its speed and
 continue in the other direction (bouncing).
 
 The `create` method looks at the character that the `Level`
-constructor passes, and creates the appropriate lava actor.
+constructor passes and creates the appropriate lava actor.
 
 ```{includeCode: true}
 class Lava {
@@ -378,7 +378,7 @@ Lava.prototype.size = new Vec(1, 1);
 
 `Coin` actors are relatively simple. They mostly just sit in their
 place. But to liven up the game a little, they are given a "wobble", a
-slight vertical back and forth motion. To track this, a coin object
+slight vertical back-and-forth motion. To track this, a coin object
 stores a base position as well as a `wobble` property that tracks the
 ((phase)) of the bouncing motion. Together, these determine the coin's
 actual position (stored in the `pos` property).
@@ -447,7 +447,7 @@ time and motion inside them.
 {{index "programming style", "program size", complexity}}
 
 Most of the code in this chapter does not worry about
-((encapsulation)) very much, for two reasons. First, encapsulation
+((encapsulation)) very much for two reasons. First, encapsulation
 takes extra effort. It makes programs bigger and requires additional
 concepts and interfaces to be introduced. Since there is only so much
 code you can throw at a reader before their eyes glaze over, I've made
@@ -542,7 +542,7 @@ that holds the actors so that they can be easily removed and replaced.
 {{index scaling, "DOMDisplay class"}}
 
 Our ((coordinates)) and sizes are tracked in ((grid)) units, where a
-size or distance of 1 means 1 grid block. When setting ((pixel))
+size or distance of 1 means one grid block. When setting ((pixel))
 sizes, we will have to scale these coordinates up—everything in the
 game would be ridiculously small at a single pixel per square. The
 `scale` constant gives the number of pixels that a single unit takes
@@ -564,7 +564,7 @@ function drawGrid(level) {
 
 {{index "table (HTML tag)", "tr (HTML tag)", "td (HTML tag)", "spread operator"}}
 
-As mentioned before, the background is drawn as a `<table>` element.
+As mentioned, the background is drawn as a `<table>` element.
 This nicely corresponds to the structure of the `rows` property of the
 level—each row of the grid is turned into a table row (`<tr>`
 element). The strings in the grid are used as class names for the
@@ -597,7 +597,7 @@ don't want space between the ((table)) cells or padding inside them.
 {{index "background (CSS)", "rgb (CSS)", CSS}}
 
 The `background` rule sets the background color. CSS allows colors to
-be specified both as words (`white`) but also with a format such as
+be specified both as words (`white`) or with a format such as
 `rgb(R, G, B)`, where the red, green, and blue components of the color
 are separated into three numbers from 0 to 255. So, in `rgb(52, 166,
 251)`, the red component is 52, green is 166, and blue is 251. Since
@@ -688,7 +688,7 @@ white halo effect.
 
 We can't assume that the level always fits in the _viewport_—the
 element into which we draw the game. That is why the
-`scrollPlayerIntoView` call is needed—it ensures that if the level is
+`scrollPlayerIntoView` call is needed. It ensures that if the level is
 protruding outside the viewport, we scroll that viewport to make sure
 the player is near its center. The following ((CSS)) gives the game's
 wrapping ((DOM)) element a maximum size and ensures that anything that
@@ -750,9 +750,9 @@ multiply the resulting vector by our display scale.
 
 {{index validation}}
 
-Next, a series of checks verify that the player position isn't outside
+Next, a series of checks verifies that the player position isn't outside
 of the allowed range. Note that sometimes this will set nonsense
-scroll coordinates, below zero or beyond the element's scrollable
+scroll coordinates that are below zero or beyond the element's scrollable
 area. This is okay—the DOM will constrain them to acceptable values.
 Setting `scrollLeft` to -10 will cause it to become 0.
 
@@ -876,7 +876,7 @@ Squares outside of the level are always treated as `"wall"` to ensure
 that the player can't leave the world and that we won't accidentally
 try to read outside of the bounds of our `rows` array.
 
-The state `update` method uses `touches` to figure out if the player
+The state `update` method uses `touches` to figure out whether the player
 is touching lava.
 
 ```{includeCode: true}
@@ -909,14 +909,14 @@ their update on those. Only the player will actually read keys, since
 that's the only actor that's controlled by the keyboard.
 
 If the game is already over, no further processing has to be done (the
-game can't be won after being lost, or vice-versa). Otherwise, the
+game can't be won after being lost, or vice versa). Otherwise, the
 method tests whether the player is touching background lava. If so,
-the game is lost and we're done. Finally, if the game really is still
-going on, it sees if any other actors overlap the player.
+the game is lost, and we're done. Finally, if the game really is still
+going on, it sees whether any other actors overlap the player.
 
 Overlap between actors is detected with the `overlap` function. It
 takes two actor objects and returns true when they touch—which is the
-case when they overlap both along the x axis and along the y axis.
+case when they overlap both along the x-axis and along the y-axis.
 
 ```{includeCode: true}
 function overlap(actor1, actor2) {
@@ -929,8 +929,8 @@ function overlap(actor1, actor2) {
 
 If any actor does overlap, its `collide` method gets a chance to
 update the state. Touching a lava actor sets the game status to
-`"lost"`, coins vanish when you touch them and set the status to
-`"won"` when this was the last coin.
+`"lost"`. Coins vanish when you touch them and set the status to
+`"won"` when they are the last coin of the level.
 
 ```{includeCode: true}
 Lava.prototype.collide = function(state) {
@@ -975,7 +975,7 @@ and the current speed to its old position. If no obstacle blocks that
 new position, it moves there. If there is an obstacle, the behavior
 depends on the type of the ((lava)) block—dripping lava has a `reset`
 position, to which it jumps back when it hits something. Bouncing lava
-inverts its speed by multiplying it by -1, so that it starts moving in
+inverts its speed by multiplying it by -1 so that it starts moving in
 the opposite direction.
 
 {{index "Coin class", coin, wave}}
@@ -1161,7 +1161,7 @@ easier quantity to think about than milliseconds.
 {{index "callback function", "runLevel function"}}
 
 The `runLevel` function takes a `Level` object and a ((display))
-constructor, and returns a promise. It displays the level (in
+constructor and returns a promise. It displays the level (in
 `document.body`) and lets the user play through it. When the level is
 finished (lost or won), `runLevel` waits one more second (to let the
 user see what happens) and then clears the display, stops the
@@ -1212,7 +1212,7 @@ async function runGame(plans, Display) {
 {{index "asynchronous programming", "event handling"}}
 
 Because we made `runLevel` return a promise, `runGame` can be written
-using an `async` function, as seen in [Chapter ?](async). It returns
+using an `async` function, as shown in [Chapter ?](async). It returns
 another promise, which resolves when the player finishes the game.
 
 {{index game, "GAME_LEVELS data set"}}
@@ -1221,7 +1221,7 @@ There is a set of ((level)) plans available in the `GAME_LEVELS`
 binding in [this chapter's
 sandbox](https://eloquentjavascript.net/code#16)[
 ([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if
-book}. This page feeds them to `runGame`, starting an actual game:
+book}. This page feeds them to `runGame`, starting an actual game.
 
 ```{sandbox: null, focus: yes, lang: "text/html", startCode: true}
 <link rel="stylesheet" href="css/game.css">
@@ -1252,7 +1252,7 @@ When the player is out of lives, the game restarts from the beginning.
 {{index "runGame function"}}
 
 Adjust `runGame` to implement lives. Have the player start with three.
-Output the current amount of lives (using `console.log`) every time a
+Output the current number of lives (using `console.log`) every time a
 level starts.
 
 {{if interactive
@@ -1294,7 +1294,7 @@ whenever the Esc key is hit.
 {{index "runAnimation function"}}
 
 The `runAnimation` interface may not look like it is suitable for this
-at first glance, but it is, if you rearrange the way `runLevel` calls
+at first glance, but it is if you rearrange the way `runLevel` calls
 it.
 
 {{index [binding, global], "trackKeys function"}}
@@ -1304,7 +1304,7 @@ way we have been registering keyboard event handlers is somewhat
 problematic. The `arrows` object is currently a global binding, and
 its event handlers are kept around even when no game is running. You
 could say they _((leak))_ out of our system. Extend `trackKeys` to
-provide a way to unregister its handlers, and then change `runLevel`
+provide a way to unregister its handlers and then change `runLevel`
 to register its handlers when it starts and unregister them again when
 it is finished.
 
@@ -1382,7 +1382,7 @@ on top of to defeat. This exercise asks you to add such an actor type
 to the game.
 
 We'll call it a monster. Monsters move only horizontally. You can make
-them move in the direction of the player, or bounce back and forth
+them move in the direction of the player, bounce back and forth
 like horizontal lava, or have any movement pattern you want. The class
 doesn't have to handle falling, but it should make sure the monster
 doesn't walk through walls.

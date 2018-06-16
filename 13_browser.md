@@ -58,13 +58,13 @@ A _network ((protocol))_ describes a style of communication over a
 for sharing files, and even for controlling computers that happen to be
 infected by malicious software.
 
-{{indexsee "Hypertext Transfer Prototol", HTTP}}
+{{indexsee "Hypertext Transfer Protocol", HTTP}}
 
-For example, the ((HTTP)) protocol (_Hypertext Transfer Protocol_) is
+For example, the _Hypertext Transfer Protocol_ (((HTTP))) is
 a protocol for retrieving named ((resource))s (chunks of information,
 such as web pages or pictures). It specifies that the side making the
 request should start with a line like this, naming the resource and
-the version of the protocol that it is trying to use.
+the version of the protocol that it is trying to use:
 
 ```{lang: "text/plain"}
 GET /index.html HTTP/1.1
@@ -125,8 +125,8 @@ that such pages can easily link to each other, thus connecting into a
 huge ((mesh)) that users can move through.
 
 To become part of the Web, all you need to do is connect a machine to
-the ((Internet)), and have it listen on port 80 with the ((HTTP))
-protocol, so that other computers can ask it for documents.
+the ((Internet)) and have it listen on port 80 with the ((HTTP))
+protocol so that other computers can ask it for documents.
 
 {{index URL}}
 
@@ -249,14 +249,14 @@ even though they have a special meaning in HTML, yet another form of
 special notation has to be introduced. A plain opening angle bracket
 is written as `&lt;` ("less than"), and a closing bracket is written
 as `&gt;` ("greater than"). In HTML, an ampersand (`&`) character
-followed by a name or character code and a semicolon (`;`) is called an _((entity))_,
+followed by a name or character code and a semicolon (`;`) is called an _((entity))_
 and will be replaced by the character it encodes.
 
 {{index "backslash character", "ampersand character", "double-quote character"}}
 
 This is analogous to the way backslashes are used in JavaScript
 strings. Since this mechanism gives ampersand characters a special
-meaning, too, those need to be escaped as `&amp;`. Inside attribute
+meaning, too, they need to be escaped as `&amp;`. Inside attribute
 values, which are wrapped in double quotes, `&quot;` can be used to
 insert an actual quote character.
 
@@ -284,7 +284,7 @@ The following document will be treated just like the one shown previously:
 {{index "title (HTML tag)", "head (HTML tag)", "body (HTML tag)", "html (HTML tag)"}}
 
 The `<html>`, `<head>`, and `<body>` tags are gone completely. The
-browser knows the `<meta>` and `<title>` belong in the head, and that
+browser knows that `<meta>` and `<title>` belong in the head and that
 `<h1>` means the body has started. Furthermore, I am no longer
 explicitly closing the paragraphs since opening a new paragraph or
 ending the document will close them implicitly. The quotes around the
@@ -328,8 +328,7 @@ little window, but only shows a message without asking for input.
 {{index "src attribute"}}
 
 Including large programs directly in HTML documents is often
-impractical. The `<script>` tag can be given an `src` attribute in
-order to fetch a script file (a text file containing a JavaScript
+impractical. The `<script>` tag can be given an `src` attribute  to fetch a script file (a text file containing a JavaScript
 program) from a URL.
 
 ```{lang: "text/html"}
@@ -393,7 +392,7 @@ web page it was embedded in.
 Isolating a programming environment in this way is called
 _((sandbox))ing_, the idea being that the program is harmlessly
 playing in a sandbox. But you should imagine this particular kind of
-sandbox as having a cage of thick steel bars over it, so that the
+sandbox as having a cage of thick steel bars over it so that the
 programs playing in it can't actually get out.
 
 The hard part of sandboxing is allowing the programs enough room to be
@@ -417,7 +416,7 @@ government agency or ((mafia)).
 {{index Microsoft, "World Wide Web"}}
 
 In the early stages of the Web, a browser called ((Mosaic)) dominated
-the market. After a few years, the balance had shifted to
+the market. After a few years, the balance shifted to
 ((Netscape)), which was then, in turn, largely supplanted by
 Microsoft's ((Internet Explorer)). At any point where a single
 ((browser)) was dominant, that browser's vendor would feel entitled to

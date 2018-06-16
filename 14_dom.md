@@ -75,7 +75,7 @@ Think back to the ((syntax tree))s from [Chapter ?](language#parsing)
 for a moment. Their structures are strikingly similar to the structure
 of a browser's document. Each _((node))_ may refer to other nodes,
 _children_, which in turn may have their own children. This shape is
-typical of nested structures where elements can contain sub-elements
+typical of nested structures where elements can contain subelements
 that are similar to themselves.
 
 {{index "documentElement property"}}
@@ -98,7 +98,7 @@ array.
 A typical tree has different kinds of ((node))s. The syntax tree for
 [the Egg language](language) had identifiers, values, and application
 nodes. Application nodes may have children, whereas identifiers and
-values are _leaves_, nodes without children.
+values are _leaves_, or nodes without children.
 
 {{index "body property"}}
 
@@ -160,7 +160,7 @@ numbers to access the child nodes. But it is an instance of the
 
 Then there are issues that are simply poor design. For example, there
 is no way to create a new node and immediately add children or
-((attribute))s to it. Instead, you have to first create it, and then add
+((attribute))s to it. Instead, you have to first create it and then add
 the children and attributes one by one, using side effects. Code that
 interacts heavily with the DOM tends to get long, repetitive, and
 ugly.
@@ -202,7 +202,7 @@ child, `nextSibling` will be null.
 
 {{index "children property", "text node", element}}
 
-There's also the `children` property, which is like `childNodes`, but
+There's also the `children` property, which is like `childNodes` but
 contains only element (type 1) children, not other types of
 child nodes. This can be useful when you aren't interested in text
 nodes.
@@ -558,9 +558,9 @@ must add the current scroll position, which you can find in the
 
 Laying out a document can be quite a lot of work. In the interest of
 speed, browser engines do not immediately re-layout a document every
-time you change it, but wait as long as they can. When a JavaScript
+time you change it but wait as long as they can. When a JavaScript
 program that changed the document finishes running, the browser will
-have to compute a new layout in order to draw the changed document to
+have to compute a new layout to draw the changed document to
 the screen. When a program _asks_ for the position or size of
 something by reading properties such as `offsetHeight` or calling
 `getBoundingClientRect`, providing correct information also requires
@@ -687,12 +687,12 @@ a particular aspect of the element's style.
 </script>
 ```
 
-{{index "camel case", capitalization, "dash character", "font-family (CSS)"}}
+{{index "camel case", capitalization, "hyphen character", "font-family (CSS)"}}
 
-Some style property names contain dashes, such as `font-family`.
+Some style property names contain hyphens, such as `font-family`.
 Because such property names are awkward to work with in JavaScript
 (you'd have to say `style["font-family"]`), the property names in the
-`style` object for such properties have their dashes removed and the
+`style` object for such properties have their hyphens removed and the
 letters after them capitalized (`style.fontFamily`).
 
 ## Cascading styles
@@ -761,7 +761,7 @@ applies only when the rules have the same _((specificity))_. A rule's
 specificity is a measure of how precisely it describes matching
 elements, determined by the number and kind (tag, class, or ID) of
 element aspects it requires. For example, a rule that targets `p.a` is
-more specific than rules that target `p` or just `.a`, and would thus
+more specific than rules that target `p` or just `.a` and would thus
 take precedence over them.
 
 {{index "direct child node"}}
@@ -882,7 +882,7 @@ if}}
 
 Our picture is centered on the page and given a `position` of
 `relative`. We'll repeatedly update that picture's `top` and `left`
-styles in order to move it.
+styles to move it.
 
 {{index "requestAnimationFrame function", drawing, animation}}
 
@@ -897,7 +897,7 @@ which tends to produce a good-looking animation.
 
 {{index timeline, blocking}}
 
-If we just updated the DOM in a loop, the page would freeze and
+If we just updated the DOM in a loop, the page would freeze, and
 nothing would show up on the screen. Browsers do not update their
 display while a JavaScript program is running, nor do they allow any
 interaction with the page. This is why we need
@@ -1023,7 +1023,7 @@ Write this so that the columns are automatically derived from the
 objects, by taking the property names of the first object in the data.
 
 Add the resulting table to the element with an `id` attribute of
-`"mountains"`, so that it becomes visible in the document.
+`"mountains"` so that it becomes visible in the document.
 
 {{index "right-aligning", "text-align (CSS)"}}
 
@@ -1127,7 +1127,7 @@ in this chapter.
 {{index concatenation, "concat method", closure}}
 
 You could call `byTagname` itself recursively, concatenating the
-resulting arrays to produce the output. Or you can create an inner
+resulting arrays to produce the output. Or you could create an inner
 function that calls itself recursively and that has access to an array
 binding defined in the outer function, to which it can add the
 matching elements it finds. Don't forget to call the ((inner
@@ -1196,7 +1196,7 @@ if}}
 
 `Math.cos` and `Math.sin` measure angles in radians, where a full
 circle is 2π. For a given angle, you can get the opposite angle by
-adding half of this, one time `Math.PI`. This can be useful for
+adding half of this, which is `Math.PI`. This can be useful for
 putting the hat on the opposite side of the orbit.
 
 hint}}

@@ -185,7 +185,7 @@ can change this by wrapping the addition in parentheses.
 (100 + 4) * 11
 ```
 
-{{index "dash character", "slash character", division, subtraction, minus, "- operator", "/ operator"}}
+{{index "hyphen character", "slash character", division, subtraction, minus, "- operator", "/ operator"}}
 
 For subtraction, there is the `-` operator, and division can be done
 with the `/` operator.

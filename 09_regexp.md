@@ -128,9 +128,9 @@ console.log(/[0-9]/.test("in 1992"));
 // → true
 ```
 
-{{index "dash character"}}
+{{index "hyphen character"}}
 
-Within square brackets, a dash (`-`) between two characters can be
+Within square brackets, a hyphen (`-`) between two characters can be
 used to indicate a ((range)) of characters, where the ordering is
 determined by the character's ((Unicode)) number. Characters 0 to 9
 sit right next to each other in this ordering (codes 48 to 57), so

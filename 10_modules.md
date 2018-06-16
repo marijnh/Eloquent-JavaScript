@@ -723,7 +723,7 @@ Because I'd rather use `dijkstrajs` from NPM than our own pathfinding
 code, we'll make this build the kind of graph data that `dijkstajs`
 expects. This module exports a single function, `buildGraph`. I'd have
 `buildGraph` accept an array of two-element arrays, rather than
-strings containing dashes, to make the module less dependent on the
+strings containing hyphens, to make the module less dependent on the
 input format.
 
 The `roads` module contains the raw road data (the `roads` array) and

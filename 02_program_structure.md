@@ -866,11 +866,10 @@ information about a file or a chunk of program.
 
 ```
 /*
-  I first found this number scrawled on the back of one of
-  an old notebook. Since then, it has often dropped by,
-  showing up in phone numbers and the serial numbers of
-  products that I've bought. It obviously likes me, so I've
-  decided to keep it.
+  I first found this number scrawled on the back of an old notebook.
+  Since then, it has often dropped by, showing up in phone numbers
+  and the serial numbers of products that I've bought. It obviously
+  likes me, so I've decided to keep it.
 */
 const myNumber = 11213;
 ```

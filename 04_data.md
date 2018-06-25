@@ -1039,7 +1039,7 @@ is given.
 To write such a function, you put three dots before the function's
 last ((parameter)), like this:
 
-```
+```{includeCode: strip_log}
 function max(...numbers) {
   let result = -Infinity;
   for (let number of numbers) {

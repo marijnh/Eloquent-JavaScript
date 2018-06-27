@@ -23,7 +23,7 @@ skill-sharing group, you could drop by and tell people about Node.js.
 Such meetups—also often called _users' groups_ when they are about
 computers—are a great way to broaden your horizon, learn about new
 developments, or simply meet people with similar interests. Many
-larger cities have a JavaScript meetup. They are typically free to
+larger cities have JavaScript meetups. They are typically free to
 attend, and I've found the ones I've visited to be friendly and
 welcoming.
 
@@ -232,15 +232,15 @@ tag does not match, the server responds as normal.
 We need something like this, where the client can tell the server
 which version of the list of talks it has, and the server
 responds only when that list has changed. But instead of immediately
-returning a 304 response, the server should stall the response, and
+returning a 304 response, the server should stall the response and
 return only when something new is available or a given amount of time
 has elapsed. To distinguish long polling requests from normal
-conditional requests, we give them another header `Prefer: wait=90`,
-which tells the server that the client is willing wait up to 90
+conditional requests, we give them another header, `Prefer: wait=90`,
+which tells the server that the client is willing to wait up to 90
 seconds for the response.
 
 The server will keep a version number that it updates every time the
-talks change, and will use that as the `ETag` value. Clients can make
+talks change and will use that as the `ETag` value. Clients can make
 requests like this to be notified when the talks change:
 
 ```{lang: null}
@@ -289,8 +289,8 @@ function that can handle it. You can tell the router, for example,
 that `PUT` requests with a path that matches the regular expression
 `/^\/talks\/([^\/]+)$/` (`/talks/` followed by a talk title) can be
 handled by a given function. In addition, it can help extract the
-meaningful parts of the path, in this case the talk title, wrapped in
-parentheses in the ((regular expression)), and pass those to the
+meaningful parts of the path (in this case the talk title), wrapped in
+parentheses in the ((regular expression)), and pass them to the
 handler function.
 
 There are a number of good router packages on ((NPM)), but here we'll
@@ -551,7 +551,7 @@ Trying to add a comment to a nonexistent talk returns a 404 error.
 
 The most interesting aspect of the server is the part that handles
 ((long polling)). When a `GET` request comes in for `/talks`, it may
-either be a regular request or a long polling request.
+be either a regular request or a long polling request.
 
 {{index "talkResponse method", "ETag header"}}
 
@@ -596,16 +596,16 @@ router.add("GET", /^\/talks$/, async (server, request) => {
 
 {{index "long polling", "waitForChanges method", "If-None-Match header", "Prefer header"}}
 
-If no tag was given, or a tag was given that doesn't match the
+If no tag was given or a tag was given that doesn't match the
 server's current version, the handler responds with the list of talks.
 If the request is conditional and the talks did not change, we consult
-the `Prefer` header to see if we should delay the response or respond
+the `Prefer` header to see whether we should delay the response or respond
 right away.
 
 {{index "304 (HTTP status code)", "setTimeout function", timeout, "callback function"}}
 
 Callback functions for delayed requests are stored in the server's
-`waiting` array, so that they can be notified when something happens.
+`waiting` array so that they can be notified when something happens.
 The `waitForChanges` method also immediately sets a timer to respond
 with a 304 status when the request has waited long enough.
 
@@ -736,7 +736,7 @@ function handleAction(state, action) {
 
 {{index "localStorage object"}}
 
-We'll store the user's name in `localStorage`, so that it can be
+We'll store the user's name in `localStorage` so that it can be
 restored when the page is loaded.
 
 {{index "fetch function", "status property"}}
@@ -757,7 +757,7 @@ function fetchOK(url, options) {
 
 {{index "talkURL function", "encodeURIComponent function"}}
 
-And this helper function is used to build up a ((URL)) for a talks
+This helper function is used to build up a ((URL)) for a talk
 with a given title.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
@@ -786,7 +786,7 @@ function reportError(error) {
 We'll use an approach similar to the one we saw in [Chapter ?](paint),
 splitting the application into components. But since some of the
 components either never need to update or are always fully redrawn
-when updated, we'll define those not as classes, but as functions that
+when updated, we'll define those not as classes but as functions that
 directly return a DOM node. For example, here is a component that
 shows the field where the user can enter their name:
 
@@ -878,7 +878,7 @@ function renderComment(comment) {
 
 {{index "form (HTML tag)", "renderTalkForm function"}}
 
-And finally, the form that the user can use to create a new talk is
+Finally, the form that the user can use to create a new talk is
 rendered like this:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
@@ -907,7 +907,7 @@ function renderTalkForm(dispatch) {
 To start the app we need the current list of talks. Since the initial
 load is closely related to the long polling process—the `ETag` from
 the load must be used when polling—we'll write a function that keeps
-polling the server for `/talks`, and calls a ((callback function))
+polling the server for `/talks` and calls a ((callback function))
 when a new set of talks is available.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
@@ -934,7 +934,7 @@ async function pollTalks(update) {
 
 {{index "async function"}}
 
-This is an `async` function, so that looping and waiting for the
+This is an `async` function so that looping and waiting for the
 request is easier. It runs an infinite loop that, on each iteration,
 retrieves the list of talks—either normally or, if this isn't the
 first request, with the headers included that make it a long polling
@@ -942,7 +942,7 @@ request.
 
 {{index "error handling", "Promise class", "setTimeout function"}}
 
-When a request fails, the function waits a moment, and then tries
+When a request fails, the function waits a moment and then tries
 again. This way, if your network connection goes away for a while and
 then comes back, the application can recover and continue updating.
 The promise resolved via `setTimeout` is a way to force the `async`
@@ -960,7 +960,7 @@ value is stored for the next iteration.
 
 {{index "SkillShareApp class"}}
 
-The following component ties the whole user interface together.
+The following component ties the whole user interface together:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 class SkillShareApp {
@@ -990,7 +990,7 @@ class SkillShareApp {
 {{index synchronization, "live view"}}
 
 When the talks change, this component redraws all of them. This is
-simple, but also wasteful. We'll get back to that in the exercises.
+simple but also wasteful. We'll get back to that in the exercises.
 
 We can start the application like this:
 
@@ -1086,7 +1086,7 @@ another, add a comment to that talk, the field in the first window
 will be redrawn, removing both its content and its ((focus)).
 
 In a heated discussion, where multiple people are adding comments at
-the same time, this would be very annoying. Can you come up with a way
+the same time, this would be annoying. Can you come up with a way
 to solve it?
 
 {{hint
@@ -1101,17 +1101,17 @@ method can be relatively simple.
 
 The difficult part is that, when a changed list of talks comes in, we
 have to reconcile the existing list of DOM components with the talks
-on the new list—deleting components whose talk was deleted, and
+on the new list—deleting components whose talk was deleted and
 updating components whose talk changed.
 
 {{index synchronization, "live view"}}
 
 To do this, it might be helpful to keep a data structure that stores
-the talk components under the talk titles, so that you can easily
+the talk components under the talk titles so that you can easily
 figure out whether a component exists for a given talk. You can then
 loop over the new array of talks, and for each of them, either
 synchronize an existing component or create a new one. To delete
 components for deleted talks, you'll have to also loop over the
-components, and check whether the corresponding talks still exist.
+components and check whether the corresponding talks still exist.
 
 hint}}

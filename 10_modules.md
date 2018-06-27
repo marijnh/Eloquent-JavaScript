@@ -144,7 +144,7 @@ name `ini`.
 {{index "command line"}}
 
 [Chapter ?](node) will show how to install such packages locally using
-the `npm` command-line program.
+the `npm` command line program.
 
 Having quality packages available for download is extremely valuable.
 It means that we can often avoid reinventing a program that 100

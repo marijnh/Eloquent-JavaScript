@@ -92,7 +92,7 @@ In practice, many sites use HTTP version 2, which supports the same
 concepts as version 1.1 but is a lot more complicated so that it can
 be faster. Browsers will automatically switch to the appropriate
 protocol version when talking to a given server, and the outcome of a
-request is the same regardless which version is used. Because version
+request is the same regardless of which version is used. Because version
 1.1 is more straightforward and easier to play around with, we'll
 focus on that.
 
@@ -138,7 +138,7 @@ that document was last modified.
 {{index "Host header", domain}}
 
 For most ((header))s, the client and server are free to decide whether
-to include them in a ((request)) or ((response)) or not. But a few are
+to include them in a ((request)) or ((response)). But a few are
 required. For example, the `Host` header, which specifies the
 hostname, should be included in a request because a ((server)) might
 be serving multiple hostnames on a single ((IP address)), and without
@@ -200,7 +200,7 @@ GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
 {{index "ampersand character"}}
 
 The ((question mark)) indicates the end of the path part of the URL
-and the start of the query. After that follow pairs of names and
+and the start of the query. It is followed by pairs of names and
 values, corresponding to the `name` attribute on the form field
 elements and the content of those elements, respectively. An ampersand
 character (`&`) is used to separate the pairs.
@@ -241,7 +241,7 @@ name=Jean&message=Yes%3F
 ```
 
 `GET` requests should be used for requests that do not have ((side
-effect))s, but simply ask for information. Requests that change
+effect))s but simply ask for information. Requests that change
 something on the server, for example creating a new account or posting
 a message, should be expressed with other methods, such as `POST`.
 Client-side software such as a browser knows that it shouldn't blindly
@@ -275,20 +275,20 @@ fetch("example/data.txt").then(response => {
 Calling `fetch` returns a promise that resolves to a `Response` object
 holding information about the server's response, such as its status
 code and its headers. The headers are wrapped in a `Map`-like object
-that treats its keys (the header names) as case insensitive, because
-header names are not supposed to be case sensitive. This means that
+that treats its keys (the header names) as case insensitive because
+header names are not supposed to be case sensitive. This means 
 `headers.get("Content-Type")` and `headers.get("content-TYPE")` will
 return the same value.
 
 Note that the promise returned by `fetch` resolves successfully even
 if the server responded with an error code. It _might_ also be
-rejected, if there is a network error or if the ((server)) that the
+rejected if there is a network error or if the ((server)) that the
 request is addressed to can't be found.
 
 {{index [path, URL], "relative URL"}}
 
 The first argument to `fetch` is the URL that should be requested.
-When that ((URL)) doesn't start with a protocol name (such as _http:_)
+When that ((URL)) doesn't start with a protocol name (such as _http:_),
 it is treated as _relative_, which means it is interpreted relative
 to the current document. When it starts with a slash (/), it replaces
 the current path, which is the part after the server name. When it
@@ -299,7 +299,7 @@ does not, the part of the current path up to and including its last
 
 To get at the actual content of a response, you can use its `text`
 method. Because the initial promise is resolved as soon as the
-response's headers have been received, and reading the response body
+response's headers have been received and because reading the response body
 might take a while longer, this again returns a promise.
 
 ```{test: no}
@@ -311,8 +311,8 @@ fetch("example/data.txt")
 
 {{index "json method"}}
 
-There is a similar method, called `json`, which returns a promise that
-resolves to the value you get when parsing the body as ((JSON)), or
+A similar method, called `json`, returns a promise that
+resolves to the value you get when parsing the body as ((JSON)) or
 rejects if it's not valid JSON.
 
 {{index "GET method", "body (HTTP)", "DELETE method", "method property"}}
@@ -320,7 +320,7 @@ rejects if it's not valid JSON.
 By default, `fetch` uses the `GET` method to make its request and
 does not include a request body. You can configure it differently by
 passing an object with extra options as a second argument. For
-example, this request tries to delete `example/data.txt`.
+example, this request tries to delete `example/data.txt`:
 
 ```{test: no}
 fetch("example/data.txt", {method: "DELETE"}).then(resp => {
@@ -351,7 +351,7 @@ fetch("example/data.txt", {headers: {Range: "bytes=8-19"}})
 The browser will automatically add some request ((header))s, such as
 "Host" and those needed for the server to figure out the size of the
 body. But adding your own headers is often useful to include things
-like authentication information or to tell the server which file
+such as authentication information or to tell the server which file
 format you'd like to receive.
 
 {{id http_sandbox}}
@@ -430,7 +430,7 @@ server interface around.
 
 Data traveling over the Internet tends to follow a long, dangerous
 road. To get to its destination, it must hop through anything from
-coffee-shop Wi-Fi hotspots to ((network))s controlled by various companies and
+coffee shop Wi-Fi hotspots to ((network))s controlled by various companies and
 states. At any point along its route it may be inspected or even
 modified.
 
@@ -445,7 +445,7 @@ to via your bank's website, plain HTTP is not good enough.
 
 {{indexsee "Secure HTTP", HTTPS}}
 
-The secure ((HTTP)) protocol, used for ((URL))s start with _https://_,
+The secure ((HTTP)) protocol, used for ((URL))s starting with _https://_,
 wraps HTTP traffic in a way that makes it harder to read and tamper
 with. Before exchanging data, the client verifies that the server is
 who it claims to be by asking it to prove that it has a cryptographic
@@ -464,7 +464,7 @@ HTTP.
 
 ## Form fields
 
-Forms were originally designed for the pre-JavaScript Web, to allow
+Forms were originally designed for the pre-JavaScript Web to allow
 web sites to send user-submitted information in an HTTP request. This
 design assumes that interaction with the server always happens by
 navigating to a new page.
@@ -580,12 +580,12 @@ event.
 {{indexsee "keyboard focus", focus}}
 
 Unlike most elements in HTML documents, form fields can get _keyboard
-((focus))_. When clicked or activated in some other way they become
+((focus))_. When clicked or activated in some other way, they become
 the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
-Thus you can type into a ((text field)) only when it is focused. Other
+Thus, you can type into a ((text field)) only when it is focused. Other
 fields respond differently to keyboard events. For example, a
 `<select>` menu tries to move to the option that contains the text the
 user typed and responds to the arrow keys by moving its selection up
@@ -618,14 +618,14 @@ the document is loaded, but HTML also provides the `autofocus`
 attribute, which produces the same effect while letting the browser
 know what we are trying to achieve. This gives the browser the option
 to disable the behavior when it is not appropriate, such as when the
-user has focused something else.
+user has put the focus on something else.
 
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
 Browsers traditionally also allow the user to move the focus
 through the document by pressing the [tab]{keyname} key. We can influence the
 order in which elements receive focus with the `tabindex` attribute.
-The following example document will let focus jump from the text input to
+The following example document will let the focus jump from the text input to
 the OK button, rather than going through the help link first:
 
 ```{lang: "text/html", focus: true}
@@ -717,7 +717,7 @@ focused has the same effect.
 Submitting a ((form)) normally means that the ((browser)) navigates to
 the page indicated by the form's `action` attribute, using either a
 `GET` or a `POST` ((request)). But before that happens, a `"submit"`
-event is fired. You can handle this event with JavaScript, and prevent
+event is fired. You can handle this event with JavaScript and prevent
 this default behavior by calling `preventDefault` on the event object.
 
 ```{lang: "text/html"}
@@ -811,7 +811,7 @@ a handler for the `"input"` event instead, which fires for every
 time the user types a character, deletes text, or otherwise manipulates
 the field's content.
 
-The following example shows a text field and a counter showing the
+The following example shows a text field and a counter displaying the
 current length of the text in the field:
 
 ```{lang: "text/html"}
@@ -1157,7 +1157,7 @@ Notes: <select></select> <button>Add</button><br>
 {{index "getItem method", JSON, "|| operator", "default value"}}
 
 The script gets its starting state from the `"Notes"` value stored in
-`localStorage` or, if that is missing, it creates an example state
+`localStorage` or, if that is missing, creates an example state
 that has only a shopping list in it. Reading a field that does not
 exist from `localStorage` will yield `null`. Passing `null` to
 `JSON.parse` will make it parse the string `"null"` and return `null`.
@@ -1212,7 +1212,7 @@ HTML can represent various types of form fields, such as text fields,
 checkboxes, multiple-choice fields, and file pickers.
 
 Such fields can be inspected and manipulated with JavaScript. They
-fire the `"change"` event when changed, the `"input"` event when text
+fire the `"change"` event when changed, fire the `"input"` event when text
 is typed, and receive keyboard events when they have keyboard focus.
 Properties like `value` (for text and select fields) or `checked` (for
 checkboxes and radio buttons) are used to read or set the field's

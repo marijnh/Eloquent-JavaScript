@@ -17,7 +17,7 @@ quote}}
 Browsers give us several ways to display ((graphics)). The simplest
 way is to use styles to position and color regular ((DOM)) elements.
 This can get you quite far, as the game in the [previous
-chapter](game) shows. By adding partially transparent background
+chapter](game) showed. By adding partially transparent background
 ((image))s to the nodes, we can make them look exactly the way we
 want. It is even possible to rotate or skew nodes with the `transform`
 style.
@@ -118,7 +118,7 @@ three-dimensional graphics through the OpenGL interface.
 
 This book won't discuss WebGL—we'll stick to two dimensions. But if
 you are interested in three-dimensional graphics, I do encourage you
-to look into WebGL. It provides a very direct interface to graphics
+to look into WebGL. It provides a direct interface to graphics
 hardware and allows you to render even complicated scenes efficiently,
 using JavaScript.
 
@@ -177,7 +177,7 @@ and then its height. A similar method, `strokeRect`, draws the
 {{index property, state}}
 
 Neither method takes any further parameters. The color of the fill,
-thickness of the stroke, and so on are not determined by an argument
+thickness of the stroke, and so on, are not determined by an argument
 to the method (as you might reasonably expect) but rather by
 properties of the context object.
 
@@ -311,7 +311,7 @@ determine the curvature of the line, the method is given a ((control
 point)) as well as a destination point. Imagine this control point as
 _attracting_ the line, giving it its curve. The line won't go through
 the control point, but its direction at the start and end points will
-be such that a straight line in that direction would point towards the
+be such that a straight line in that direction would point toward the
 control point. The following example illustrates this:
 
 ```{lang: "text/html"}
@@ -369,7 +369,7 @@ behavior of such a curve:
 ```
 
 The two control points specify the direction at both ends of the
-curve. The further they are away from their corresponding point, the
+curve. The farther they are away from their corresponding point, the
 more the curve will "bulge" in that direction.
 
 {{if book
@@ -389,7 +389,7 @@ find a suitable value by trial and error.
 
 The `arc` method is a way to draw a line that curves along the edge of
 a circle. It takes a pair of ((coordinates)) for the arc's center, a
-radius, and then a start and end angle.
+radius, and then a start angle and end angle.
 
 {{index pi, "Math.PI constant"}}
 
@@ -523,7 +523,7 @@ The last two arguments to `fillText` and `strokeText` provide the
 position at which the font is drawn. By default, they indicate the
 position of the start of the text's alphabetic baseline, which is the
 line that letters "stand" on, not counting hanging parts in letters
-like _j_ or _p_. You can change the horizontal position by setting the
+such as _j_ or _p_. You can change the horizontal position by setting the
 `textAlign` property to `"end"` or `"center"` and the vertical
 position by setting `textBaseline` to `"top"`, `"middle"`, or
 `"bottom"`.
@@ -666,7 +666,7 @@ scale and one to set a vertical scale.
 
 {{if book
 
-Due to the call to `scale`, the circle is drawn three times as wide
+Because of the call to `scale`, the circle is drawn three times as wide
 and half as high.
 
 {{figure {url: "img/canvas_scale.png", alt: "A scaled circle",width: "6.6cm"}}}
@@ -784,7 +784,7 @@ the proper thing to do for a function that needs to temporarily
 transform the coordinate system. First, we save whatever
 transformation the code that called the function was using. Then the
 function does its thing, adding more transformations on top of the
-current transformation. And finally, we revert to the
+current transformation. Finally, we revert to the
 transformation we started with.
 
 {{index "save method", "restore method"}}
@@ -863,14 +863,14 @@ that represent the game's elements.
 
 We define another display object type called `CanvasDisplay`,
 supporting the same ((interface)) as `DOMDisplay` from [Chapter
-?](game#domdisplay), namely the methods `syncState` and `clear`.
+?](game#domdisplay), namely, the methods `syncState` and `clear`.
 
 {{index state}}
 
 This object keeps a little more information than `DOMDisplay`. Rather
 than using the scroll position of its DOM element, it tracks its own
 ((viewport)), which tells us what part of the level we are currently
-looking at. And finally, it keeps a `flipPlayer` property so that even
+looking at. Finally, it keeps a `flipPlayer` property so that even
 when the player is standing still, it keeps facing the direction it
 last moved in.
 
@@ -1016,7 +1016,7 @@ lava tile, and the sprite for a coin.
 
 {{index scaling}}
 
-Background tiles are 20 by 20 pixels, since we will use the same scale
+Background tiles are 20 by 20 pixels since we will use the same scale
 that we used in `DOMDisplay`. Thus, the offset for lava tiles is 20
 (the value of the `scale` binding), and the offset for walls is 0.
 
@@ -1044,7 +1044,7 @@ is not zero, we use the tenth, rightmost sprite.
 {{index "flipHorizontally function", "CanvasDisplay class"}}
 
 Because the ((sprite))s are slightly wider than the player object—24
-instead of 16 pixels, to allow some space for feet and arms—the method
+instead of 16 pixels to allow some space for feet and arms—the method
 has to adjust the x-coordinate and width by a given amount
 (`playerXOverlap`).
 
@@ -1175,7 +1175,7 @@ that with canvas.
 {{index performance, optimization}}
 
 But ((canvas))'s ((pixel))-oriented approach can be an advantage when
-drawing a huge amount of tiny elements. The fact that it does not
+drawing a huge number of tiny elements. The fact that it does not
 build up a data structure but only repeatedly draws onto the same
 pixel surface gives canvas a lower cost per shape.
 
@@ -1197,7 +1197,7 @@ For nondemanding applications, it really doesn't matter much which
 interface you choose. The display we built for our game in this
 chapter could have been implemented using any of these three
 ((graphics)) technologies since it does not need to draw text, handle
-mouse interaction, or work with an extraordinarily large amount of
+mouse interaction, or work with an extraordinarily large number of
 elements.
 
 ## Summary
@@ -1271,7 +1271,7 @@ how to get coordinates on a circle using these functions.
 {{index readability, "hard-coding"}}
 
 I recommend creating a function for each shape. Pass the position, and
-optionally other properties, such as the size or the number of points,
+optionally other properties such as the size or the number of points,
 as parameters. The alternative, which is to hard-code numbers all over
 your code, tends to make the code needlessly hard to read and modify.
 
@@ -1293,7 +1293,7 @@ if}}
 {{index [path, canvas], "shapes (exercise)"}}
 
 The ((trapezoid)) (1) is easiest to draw using a path. Pick suitable
-center coordinates and add each of the four corners around that.
+center coordinates and add each of the four corners around the center.
 
 {{index "flipHorizontally function", rotation}}
 

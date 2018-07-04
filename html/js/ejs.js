@@ -68,7 +68,7 @@ window.addEventListener("load", () => {
     Esc(cm) { cm.display.input.blur() },
     "Ctrl-Enter"(cm) { runCode(cm.state.context) },
     "Cmd-Enter"(cm) { runCode(cm.state.context) },
-    "Ctrl-`"(cm) { closeCode(cm.state.context) },
+    "Ctrl-'"(cm) { closeCode(cm.state.context) },
     "Ctrl-Esc"(cm) { resetSandbox(cm.state.context.sandbox) },
     "Cmd-Esc"(cm) { resetSandbox(cm.state.context.sandbox) }
   }

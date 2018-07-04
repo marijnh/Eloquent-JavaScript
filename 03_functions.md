@@ -207,12 +207,10 @@ The code inside the `ingredient` function can see the `factor` binding
 from the outer function. But its local bindings, such as `unit` or
 `ingredientAmount`, are not visible in the outer function.
 
-In short, each local scope can also see all the local scopes that
-contain it. The set of bindings visible inside a block is determined
-by the place of that block in the program text. Each local scope can
-also see all the local scopes that contain it, and all scopes can see
-the global scope. This approach to binding visibility is called
-_((lexical scoping))_.
+The set of bindings visible inside a block is determined by the place of
+that block in the program text. Each local scope can also see all the
+local scopes that contain it, and all scopes can see the global scope.
+This approach to binding visibility is called _((lexical scoping))_.
 
 ## Functions as values
 

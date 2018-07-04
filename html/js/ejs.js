@@ -68,7 +68,7 @@ window.addEventListener("load", () => {
     Esc(cm) { cm.display.input.blur() },
     "Ctrl-Enter"(cm) { runCode(cm.state.context) },
     "Cmd-Enter"(cm) { runCode(cm.state.context) },
-    "Ctrl-'"(cm) { closeCode(cm.state.context) },
+    "Ctrl-Down"(cm) { closeCode(cm.state.context) },
     "Ctrl-Esc"(cm) { resetSandbox(cm.state.context.sandbox) },
     "Cmd-Esc"(cm) { resetSandbox(cm.state.context.sandbox) }
   }
@@ -135,7 +135,7 @@ window.addEventListener("load", () => {
                  ["Revert to original code", () => revertCode(data)],
                  ["Reset sandbox (ctrl/cmd-esc)", () => resetSandbox(data.sandbox)]]
     if (!data.isHTML || !data.sandbox)
-      items.push(["Deactivate editor (ctrl-')", () => { closeCode(data) }])
+      items.push(["Deactivate editor (ctrl-down)", () => { closeCode(data) }])
     items.forEach(choice => menu.appendChild(elt("div", choice[0])))
     function click(e) {
       let target = e.target

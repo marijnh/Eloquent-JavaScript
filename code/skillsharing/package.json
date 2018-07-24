@@ -12,8 +12,8 @@
                               "url": "http://opensource.org/licenses/MIT"
                     }
           ],
-          "bugs": "http://github.com/marijnh/Eloquent-JavaScript/issues",
-          "homepage": "http://eloquentjavascript.net/21_skillsharing.html",
+          "bugs": "https://github.com/marijnh/Eloquent-JavaScript/issues",
+          "homepage": "https://eloquentjavascript.net/21_skillsharing.html",
           "maintainers": [
                     {
                               "name": "Marijn Haverbeke",

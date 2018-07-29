@@ -1247,7 +1247,7 @@ it can look at this header and send the one that the client prefers.
 {{index "MIME type"}}
 
 The URL
-[_http://eloquentjavascript.net/author_](http://eloquentjavascript.net/author)
+[_https://eloquentjavascript.net/author_](https://eloquentjavascript.net/author)
 is configured to respond with either plaintext, HTML, or JSON,
 depending on what the client asks for. These formats are identified by
 the standardized _((media type))s_ `text/plain`, `text/html`, and

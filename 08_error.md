@@ -934,10 +934,10 @@ console.log(box.locked);
 // → true
 ```
 
+if}}
+
 For extra points, make sure that if you call `withBoxUnlocked` when
 the box is already unlocked, the box stays unlocked.
-
-if}}
 
 {{hint
 

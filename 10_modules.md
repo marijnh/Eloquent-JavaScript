@@ -599,12 +599,12 @@ scenario where the file's content comes from some other source.
 
 Relatedly, stateful objects are sometimes useful or even necessary,
 but if something can be done with a function, use a function. Several
-of the INI file readers on NPM provide an interface style that require
-you to first create an object, then load the file into your object,
-and finally use specialized methods to get at the results. This type
-of thing is common in the object-oriented tradition, and it's
-terrible. Instead of making a single function call and moving on, you
-have to perform the ritual of moving your object through various
+of the INI file readers on NPM provide an interface style that
+requires you to first create an object, then load the file into your
+object, and finally use specialized methods to get at the results.
+This type of thing is common in the object-oriented tradition, and
+it's terrible. Instead of making a single function call and moving on,
+you have to perform the ritual of moving your object through various
 states. And because the data is now wrapped in a specialized object
 type, all code that interacts with it has to know about that type,
 creating unnecessary interdependencies.

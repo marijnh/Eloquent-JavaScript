@@ -1043,8 +1043,8 @@ holding the section's settings.
 {{index "carriage return", "line break", "newline character"}}
 
 Since the format has to be processed ((line)) by line, splitting up
-the file into separate lines is a good start. We used
-`string.split("\n")` to do this in [Chapter ?](data#split).
+the file into separate lines is a good start. We saw
+the `split` method in [Chapter ?](data#split).
 Some operating systems, however, use not just a newline character to
 separate lines but a carriage return character followed by a newline
 (`"\r\n"`). Given that the `split` method also allows a regular

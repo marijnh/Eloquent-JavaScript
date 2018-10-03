@@ -407,7 +407,7 @@ Coin.prototype.size = new Vec(0.6, 0.6);
 
 In [Chapter ?](dom#sin_cos), we saw that `Math.sin` gives us the
 y-coordinate of a point on a circle. That coordinate goes back and
-forth in a smooth wave form as we move along the circle, which makes
+forth in a smooth waveform as we move along the circle, which makes
 the sine function useful for modeling a wavy motion.
 
 {{index pi}}
@@ -1151,7 +1151,7 @@ second). When the browser tab or window with our page is hidden,
 `requestAnimationFrame` calls will be suspended until the tab or
 window is shown again. In this case, the difference between `lastTime`
 and `time` will be the entire time in which the page was hidden.
-Advancing the game by that much in a single step will look silly and
+Advancing the game by that much in a single step would look silly and
 might cause weird side effects, such as the player falling through the
 floor.
 

@@ -747,11 +747,11 @@ the example, and have our program handle the input, possibly using
 
 {{index "value attribute", "input (HTML tag)", "text field", "textarea (HTML tag)"}}
 
-Fields created by `<input>` tags with a type of `text` or `password`,
-as well as `<textarea>` tags, share a common ((interface)). Their
-((DOM)) elements have a `value` property that holds their current
-content as a string value. Setting this property to another string
-changes the field's content.
+Fields created by `<textarea>` tags, or `<input>` tags with a type of
+`text` or `password`, share a common ((interface)). Their ((DOM))
+elements have a `value` property that holds their current content as a
+string value. Setting this property to another string changes the
+field's content.
 
 {{index "selectionStart property", "selectionEnd property"}}
 
@@ -954,9 +954,9 @@ Hold [control]{keyname} (or [command]{keyname} on a Mac) to select multiple opti
 {{index file, "hard drive", "file system", security, "file field", "input (HTML tag)"}}
 
 File fields were originally designed as
-a way to ((upload)) files from the browser's machine through a form.
+a way to ((upload)) files from the user's machine through a form.
 In modern browsers, they also provide a way to read such files from
-JavaScript programs. The field acts as a manner of gatekeeper. The
+JavaScript programs. The field acts as a kind of gatekeeper. The
 script cannot simply start reading private files from the user's
 computer, but if the user selects a file in such a field, the browser
 interprets that action to mean that the script may read the file.

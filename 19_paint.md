@@ -415,7 +415,7 @@ constructors.
 
 {{index "br (HTML tag)", "flood fill", "select (HTML tag)", "PixelEditor class", dispatch}}
 
-_Tools_ are things like drawing pixels or filling in an area. The
+The _tools_ do things like drawing pixels or filling in an area. The
 application shows the set of available tools as a `<select>` field.
 The currently selected tool determines what happens when the user
 interacts with the picture with a pointer device. The set of
@@ -760,8 +760,8 @@ function startLoad(dispatch) {
 To get access to a file on the user's computer, we need the user to
 select the file through a file input field. But I don't want the load
 button to look like a file input field, so we create the file input
-when the button is clicked and then pretend that it itself was
-clicked.
+when the button is clicked and then pretend that this file input
+itself was clicked.
 
 {{index "FileReader class", "img (HTML tag)", "readAsDataURL method", "Picture class"}}
 
@@ -1283,7 +1283,7 @@ picture on the left, not the picture on the right.
 
 {{figure {url: "img/line-grid.svg", alt: "Two pixelated lines, one light, skipping across pixels diagonally, and one heavy, with all pixels connected horizontally or vertically", width: "6cm"}}}
 
-If we have code that draws a line between two arbitrary points, we
+Finally, if we have code that draws a line between two arbitrary points, we
 might as well use it to also define a `line` tool,
 which draws a straight line between the start and end of a drag.
 

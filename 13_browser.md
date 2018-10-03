@@ -19,7 +19,7 @@ no one would ever have paid any attention to it.
 
 {{index decentralization, compatibility}}
 
-Web technology has, from the start, been decentralized, not just
+Web technology has been decentralized from the start, not just
 technically but also in the way it evolved. Various browser vendors
 have added new functionality in ad hoc and sometimes poorly thought-out
 ways, which then, sometimes, ended up being adopted by others—and

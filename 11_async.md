@@ -831,7 +831,7 @@ routeRequest(bigOak, "Church Tower", "note",
 
 if}}
 
-{{index "[network, stack]"}}
+{{index [network, stack]}}
 
 We've constructed several ((layer))s of functionality on top of a
 primitive communication system to make it convenient to use.

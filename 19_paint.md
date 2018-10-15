@@ -18,8 +18,10 @@ The material from the previous chapters gives you all the elements you
 need to build a basic ((web application)). In this chapter, we will do
 just that.
 
+{{index [file, image]}}
+
 Our ((application)) will be a ((pixel)) ((drawing)) program, where you
-can modify a picture pixel by pixel by manipulating a zoomed-in view of it, shown as a grid of colored squares. You can use the program to open image ((file))s,
+can modify a picture pixel by pixel by manipulating a zoomed-in view of it, shown as a grid of colored squares. You can use the program to open image files,
 scribble on them with your mouse or other pointer device, and save
 them. This is what it will look like:
 
@@ -39,11 +41,15 @@ clicking, ((touch))ing, or ((dragging)) across the canvas. There are
 ((tool))s for drawing single pixels or rectangles, for filling an
 area, and for picking a ((color)) from the picture.
 
+{{index [DOM, components]}}
+
 We will structure the editor interface as a number of
 _((component))s_, objects that are responsible for a piece of the
-((DOM)) and that may contain other components inside them.
+DOM and that may contain other components inside them.
 
-The ((state)) of the application consists of the current picture, the
+{{index [state, "of application"]}}
+
+The state of the application consists of the current picture, the
 selected tool, and the selected color. We'll set things up so that the
 state lives in a single value, and the interface components always
 base the way they look on the current state.
@@ -84,14 +90,18 @@ more convenient is the main selling point of many browser programming
 libraries. But for a small application like this, we can do it without
 such infrastructure.
 
-Updates to the ((state)) are represented as objects, which we'll call
+{{index [state, transitions]}}
+
+Updates to the state are represented as objects, which we'll call
 _((action))s_. Components may create such actions and _((dispatch))_
 them—give them to a central state management function. That function
 computes the next state, after which the interface components update
 themselves to this new state.
 
+{{index [DOM, components]}}
+
 We're taking the messy task of running a ((user interface)) and
-applying some ((structure)) to it. Though the ((DOM))-related pieces
+applying some ((structure)) to it. Though the DOM-related pieces
 are still full of ((side effect))s, they are held up by a conceptually
 simple backbone: the state update cycle. The state determines what the
 DOM looks like, and the only way DOM events can change the state is by
@@ -104,9 +114,9 @@ benefits and problems, but their central idea is the same: state
 changes should go through a single well-defined channel, not happen
 all over the place.
 
-{{index "dom property"}}
+{{index "dom property", [interface, object]}}
 
-Our ((component))s will be ((class))es conforming to an ((interface)).
+Our ((component))s will be ((class))es conforming to an interface.
 Their constructor is given a state—which may be the whole application
 state or some smaller value if it doesn't need access to everything—and
 uses that to build up a `dom` property. This is the DOM element that represents
@@ -165,9 +175,9 @@ creates a new picture with those pixels overwritten. This method uses
 `slice` without arguments to copy the entire pixel array—the start of
 the slice defaults to 0, and the end defaults to the array's length.
 
-{{index "Array constructor", "fill method", ["length property", "for array"]}}
+{{index "Array constructor", "fill method", ["length property", "for array"], [array, creation]}}
 
-The `empty` method uses two pieces of ((array)) functionality that we
+The `empty` method uses two pieces of array functionality that we
 haven't seen before. The `Array` constructor can be called with a
 number to create an empty array of the given length. The `fill`
 method can then be used to fill this array with a given value. These
@@ -191,8 +201,10 @@ bright ((pink)) looks like `"#ff00ff"`, where the red and blue
 components have the maximum value of 255, written `ff` in hexadecimal
 ((digit))s (which use _a_ to _f_ to represent digits 10 to 15).
 
+{{index [state, transitions]}}
+
 We'll allow the interface to ((dispatch)) ((action))s as objects whose
-properties overwrite the properties of the previous ((state)). The
+properties overwrite the properties of the previous state. The
 color field, when the user changes it, could dispatch an object like
 `{color: field.value}`, from which this update function can compute a
 new state.
@@ -219,10 +231,10 @@ doesn't yet work in all browsers.
 
 ## DOM building
 
-{{index "createElement method", "elt function"}}
+{{index "createElement method", "elt function", [DOM, construction]}}
 
 One of the main things that interface components do is creating
-((DOM)) structure. We again don't want to directly use the verbose DOM
+DOM structure. We again don't want to directly use the verbose DOM
 methods for that, so here's a slightly expanded version of the `elt`
 function:
 
@@ -268,10 +280,10 @@ displays the picture as a grid of colored boxes. This component is
 responsible for two things: showing a picture and communicating
 ((pointer event))s on that picture to the rest of the application.
 
-{{index "PictureCanvas class", "callback function", "scale constant", "canvas (HTML tag)", "mousedown event", "touchstart event"}}
+{{index "PictureCanvas class", "callback function", "scale constant", "canvas (HTML tag)", "mousedown event", "touchstart event", [state, "of application"]}}
 
 As such, we can define it as a component that knows about only the
-current picture, not the whole application ((state)). Because it
+current picture, not the whole application state. Because it
 doesn't know how the application as a whole works, it cannot directly
 dispatch ((action))s. Rather, when responding to pointer events, it
 calls a callback function provided by the code that created it, which
@@ -456,7 +468,7 @@ The pointer handler given to `PictureCanvas` calls the currently
 selected tool with the appropriate arguments and, if that returns a
 move handler, adapts it to also receive the state.
 
-{{index "reduce method", "map method", whitespace, "syncState method"}}
+{{index "reduce method", "map method", [whitespace, "in HTML"], "syncState method"}}
 
 All controls are constructed and stored in `this.controls` so that
 they can be updated when the application state changes. The call to
@@ -579,10 +591,10 @@ function rectangle(start, state, dispatch) {
 }
 ```
 
-{{index "persistent data structure"}}
+{{index "persistent data structure", [state, persistence]}}
 
 An important detail in this implementation is that when dragging, the
-rectangle is redrawn on the picture from the _original_ ((state)).
+rectangle is redrawn on the picture from the _original_ state.
 That way, you can make the rectangle larger and smaller again while
 creating it, without the intermediate rectangles sticking around in
 the final picture. This is one of the reasons why ((immutable))
@@ -627,7 +639,7 @@ function fill({x, y}, state, dispatch) {
 }
 ```
 
-The ((array)) of drawn pixels doubles as the function's ((work list)).
+The array of drawn pixels doubles as the function's ((work list)).
 For each pixel reached, we have to see whether any adjacent pixels have the
 same color and haven't already been painted over. The loop counter
 lags behind the length of the `drawn` array as new pixels are added.
@@ -674,11 +686,11 @@ if}}
 
 ## Saving and loading
 
-{{index "SaveButton class", "drawPicture function"}}
+{{index "SaveButton class", "drawPicture function", [file, image]}}
 
 When we've drawn our masterpiece, we'll want to save it for later. We
 should add a button for ((download))ing the current picture as an
-image ((file)). This ((control)) provides that button:
+image file. This ((control)) provides that button:
 
 ```{includeCode: true}
 class SaveButton {
@@ -728,10 +740,10 @@ remove it again.
 You can do a lot with ((browser)) technology, but sometimes the way to
 do it is rather odd.
 
-{{index "LoadButton class", control}}
+{{index "LoadButton class", control, [file, image]}}
 
 And it gets worse. We'll also want to be able to load existing image
-((file))s into our application. To do that, we again define a button
+files into our application. To do that, we again define a button
 component.
 
 ```{includeCode: true}
@@ -755,7 +767,7 @@ function startLoad(dispatch) {
 }
 ```
 
-{{index "file file", "input (HTML tag)"}}
+{{index [file, access], "input (HTML tag)"}}
 
 To get access to a file on the user's computer, we need the user to
 select the file through a file input field. But I don't want the load
@@ -848,11 +860,11 @@ Half of the process of editing is making little mistakes and
 correcting them. So an important feature in a drawing
 program is an ((undo history)).
 
-{{index "persistent data structure"}}
+{{index "persistent data structure", [state, "of application"]}}
 
 To be able to undo changes, we need to store previous versions of the
 picture. Since it's an ((immutable)) value, that is easy. But it does
-require an additional field in the application ((state)).
+require an additional field in the application state.
 
 {{index "done property"}}
 
@@ -925,7 +937,7 @@ class UndoButton {
 
 {{index "PixelEditor class", "startState constant", "baseTools constant", "baseControls constant", "startPixelEditor function"}}
 
-To set up the application, we need to create a ((state)), a set of
+To set up the application, we need to create a state, a set of
 ((tool))s, a set of ((control))s, and a ((dispatch)) function. We can
 pass them to the `PixelEditor` constructor to create the main
 component. Since we'll need to create several editors in the
@@ -961,11 +973,11 @@ function startPixelEditor({state = startState,
 }
 ```
 
-{{index "destructuring binding", "= operator"}}
+{{index "destructuring binding", "= operator", [property, access]}}
 
 When destructuring an object or array, you can use `=` after a binding
-name to give the binding a ((default)) value, which is used when the
-((property)) is missing or holds `undefined`. The `startPixelEditor`
+name to give the binding a ((default value)), which is used when the
+property is missing or holds `undefined`. The `startPixelEditor`
 function makes use of this to accept an object with a number of
 optional properties as an argument. If you don't provide a `tools`
 property, for example, `tools` will be bound to `baseTools`.
@@ -1008,10 +1020,10 @@ even more ((complexity)). A feature used by a million websites can't
 really be replaced. Even if it could, it would be hard to decide
 what it should be replaced with.
 
-{{index "social factors", "economic factors"}}
+{{index "social factors", "economic factors", history}}
 
 Technology never exists in a vacuum—we're constrained by our tools and
-the social, economic, and ((historical factors)) that produced them.
+the social, economic, and historical factors that produced them.
 This can be annoying, but it is generally more productive to try to
 build a good understanding of how the _existing_ technical reality
 works—and why it is the way it is—than to rage against it or hold out

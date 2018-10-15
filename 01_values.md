@@ -48,7 +48,7 @@ So that's the binary number 00001101. Its non-zero digits stand for
 
 ## Values
 
-{{index memory, "volatile data storage", "hard drive"}}
+{{index [memory, organization], "volatile data storage", "hard drive"}}
 
 Imagine a sea of bits—an ocean of them. A typical modern computer has
 more than 30 billion bits in its volatile data storage (working
@@ -81,7 +81,7 @@ values.
 
 ## Numbers
 
-{{index syntax, number, [number, notation]}}
+{{index [syntax, number], number, [number, notation]}}
 
 Values of the _number_ type are, unsurprisingly, numeric values. In a
 JavaScript program, they are written as follows:
@@ -113,7 +113,7 @@ that fit in your pocket have plenty of memory, so you are free to use
 64-bit chunks, and you need to worry about overflow only when dealing
 with truly astronomical numbers.
 
-{{index sign, "floating-point number", "fractional number", "sign bit"}}
+{{index sign, "floating-point number", "sign bit"}}
 
 Not all whole numbers less than 18 quintillion fit in a JavaScript number,
 though. Those bits also store negative numbers, so one bit indicates
@@ -123,7 +123,7 @@ the position of the decimal point. The actual maximum whole number
 that can be stored is more in the range of 9 quadrillion (15
 zeros)—which is still pleasantly huge.
 
-{{index [number, notation]}}
+{{index [number, notation], "fractional number"}}
 
 Fractional numbers are written by using a dot.
 
@@ -157,7 +157,7 @@ approximations, not as precise values.
 
 ### Arithmetic
 
-{{index syntax, operator, "binary operator", arithmetic, addition, multiplication}}
+{{index [syntax, operator], operator, "binary operator", arithmetic, addition, multiplication}}
 
 The main thing to do with numbers is arithmetic. Arithmetic operations
 such as addition or multiplication take two number values and produce
@@ -237,7 +237,7 @@ result.
 
 {{indexsee "grave accent", backtick}}
 
-{{index syntax, text, character, [string, notation], "single-quote character", "double-quote character", "quotation mark", backtick}}
+{{index [syntax, string], text, character, [string, notation], "single-quote character", "double-quote character", "quotation mark", backtick}}
 
 The next basic data type is the _((string))_. Strings are used to
 represent text. They are written by enclosing their content in quotes.
@@ -261,7 +261,7 @@ _Newlines_ (the characters you get when you press [enter]{keyname}) can be
 included without escaping only when the string is quoted with backticks
 (`` ` ``).
 
-{{index [escaping, "in strings"], "backslash character"}}
+{{index [escaping, "in strings"], ["backslash character", "in strings"]}}
 
 To make it possible to include such characters in a string, the
 following notation is used: whenever a backslash (`\`) is found inside

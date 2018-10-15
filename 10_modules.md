@@ -12,7 +12,7 @@ quote}}
 
 {{figure {url: "img/chapter_picture_10.jpg", alt: "Picture of a building built from modular pieces", chapter: framed}}}
 
-{{index organization, "code structure"}}
+{{index organization, [code, "structure of"]}}
 
 The ideal program has a crystal-clear structure. The way it works is
 easy to explain, and each part plays a well-defined role.
@@ -43,12 +43,12 @@ dirty.
 
 ## Modules
 
-{{index dependency}}
+{{index dependency, [interface, module]}}
 
 _Modules_ are an attempt to avoid these problems. A ((module)) is a
 piece of program that specifies which other pieces it relies on
 and which functionality it provides for other modules
-to use (its _((interface))_).
+to use (its _interface_).
 
 {{index "big ball of mud"}}
 
@@ -177,11 +177,11 @@ people's packages, make sure you are aware of their license.
 Until 2015, the JavaScript language had no built-in module system.
 Yet people had been building large systems in JavaScript for more than a decade, and they _needed_ ((module))s.
 
-{{index [function, scope]}}
+{{index [function, scope], [interface, module], [object, as module]}}
 
 So they designed their own ((module system))s on top of the language.
 You can use JavaScript functions to create local scopes and
-((object))s to represent module ((interface))s.
+objects to represent module interfaces.
 
 {{index "Date class", "weekDay module"}}
 
@@ -204,11 +204,11 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 // → Sunday
 ```
 
-{{index dependency}}
+{{index dependency, [interface, module]}}
 
 This style of modules provides ((isolation)), to a certain degree, but
 it does not declare dependencies. Instead, it just puts its
-((interface)) into the ((global scope)) and expects its dependencies,
+interface into the ((global scope)) and expects its dependencies,
 if any, to do the same. For a long time this was the main approach
 used in web programming, but it is mostly obsolete now.
 
@@ -274,11 +274,11 @@ The most widely used approach to bolted-on JavaScript modules is
 called _CommonJS modules_. ((Node.js)) uses it and is the system used
 by most packages on ((NPM)).
 
-{{index "require function"}}
+{{index "require function", [interface, module]}}
 
 The main concept in CommonJS modules is a function called `require`.
 When you call this with the module name of a dependency, it makes sure
-the module is loaded and returns its ((interface)).
+the module is loaded and returns its interface.
 
 {{index "exports object"}}
 
@@ -355,10 +355,12 @@ function require(name) {
 }
 ```
 
+{{index [file, access]}}
+
 In this code, `readFile` is a made-up function that reads a file and
 returns its contents as a string. Standard JavaScript provides no such
 functionality—but different JavaScript environments, such as the
-browser and Node.js, provide their own ways of accessing ((file))s.
+browser and Node.js, provide their own ways of accessing fileos.
 The example just pretends that `readFile` exists.
 
 {{index cache, "Function constructor"}}
@@ -369,9 +371,9 @@ if the requested module has been loaded and, if not, loads it. This
 involves reading the module's code, wrapping it in a function, and
 calling it.
 
-{{index "ordinal package", "exports object", "module object"}}
+{{index "ordinal package", "exports object", "module object", [interface, module]}}
 
-The ((interface)) of the `ordinal` package we saw before is not an
+The interface of the `ordinal` package we saw before is not an
 object but a function. A quirk of the CommonJS modules is that,
 though the module system will create an empty interface object for you
 (bound to `exports`), you can replace that with any value by
@@ -449,8 +451,10 @@ Similarly, the `export` keyword is used to export things. It may
 appear in front of a function, class, or binding definition (`let`,
 `const`, or `var`).
 
+{{index [binding, exported]}}
+
 An ES module's interface is not a single value but a set of named
-((binding))s. The preceding module binds `formatDate` to a function. When
+bindings. The preceding module binds `formatDate` to a function. When
 you import from another module, you import the _binding_, not the
 value, which means an exporting module may change the value of the
 binding at any time, and the modules that import it will see its new
@@ -513,11 +517,11 @@ To make this possible, they _compile_ their code, translating it from
 their chosen JavaScript dialect to plain old JavaScript—or even to a
 past version of JavaScript—so that old ((browsers)) can run it.
 
-{{index latency, performance}}
+{{index latency, performance, [file, access], [network, speed]}}
 
 Including a modular program that consists of 200 different
 files in a ((web page)) produces its own problems. If fetching a
-single ((file)) over the ((network)) takes 50 milliseconds, loading
+single file over the network takes 50 milliseconds, loading
 the whole program takes 10 seconds, or maybe half that if you can
 load several files simultaneously. That's a lot of wasted time.
 Because fetching a single big file tends to be faster than fetching a
@@ -547,7 +551,7 @@ JavaScript code you run is often not the code as it was written.
 
 ## Module design
 
-{{index [module, design], interface, "code structure"}}
+{{index [module, design], [interface, module], [code, "structure of"]}}
 
 Structuring programs is one of the subtler aspects of programming. Any
 nontrivial piece of functionality can be modeled in various ways.
@@ -559,10 +563,12 @@ and what doesn't. Don't assume that a painful mess is "just the way it
 is". You can improve the structure of almost everything by putting
 more thought into it.
 
+{{index [interface, module]}}
+
 One aspect of module design is ease of use. If you are designing
 something that is intended to be used by multiple people—or even by
 yourself, in three months when you no longer remember the specifics of
-what you did—it is helpful if your ((interface)) is simple and
+what you did—it is helpful if your interface is simple and
 predictable.
 
 {{index "ini package", JSON}}
@@ -611,7 +617,7 @@ creating unnecessary interdependencies.
 
 Often defining new data structures can't be avoided—only a few 
 basic ones are provided by the language standard, and many types of
-data have to be more complex than an ((array)) or a map. But when an
+data have to be more complex than an array or a map. But when an
 array suffices, use an array.
 
 An example of a slightly more complex data structure is the graph from

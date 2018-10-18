@@ -197,6 +197,10 @@ blockquote footer cite {
   font-style: italic;
 }
 
+blockquote footer cite:before {
+  content: ", ";
+}
+
 blockquote footer:before {
   content: '—';
   position: absolute;

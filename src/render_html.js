@@ -148,7 +148,7 @@ let renderer = {
   meta_quote_open() { return "\n\n<blockquote>" },
   meta_quote_close(token) {
     let {author, title} = token.args[0] || {}
-    return (author ? `\n\n<footer>${escape(author)}${title ? `, <cite>${escape(title)}</cite>` : ""}</footer>` : "") +
+    return (author ? `\n\n<footer>${escape(author)}${title ? `<cite>${escape(title)}</cite>` : ""}</footer>` : "") +
       "\n\n</blockquote>"
   },
   meta_keyname_open() { return "<span class=\"keyname\">" },

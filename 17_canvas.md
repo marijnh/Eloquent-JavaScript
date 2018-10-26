@@ -590,7 +590,9 @@ a single image file and then draw only the part you need. For example,
 we have this picture containing a game character in multiple
 ((pose))s:
 
-{{figure {url: "img/player_big.png", alt: "Various poses of a game character",width: "6cm", [animation, "platform game"]}}}
+{{figure {url: "img/player_big.png", alt: "Various poses of a game character",width: "6cm"}}}
+
+{{index [animation, "platform game"]}}
 
 By alternating which pose we draw, we can show an animation that
 looks like a walking character.

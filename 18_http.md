@@ -13,7 +13,9 @@ quote}}
 
 {{index "Fielding, Roy"}}
 
-{{figure {url: "img/chapter_picture_18.jpg", alt: "Picture of a web form on a medieval scroll", chapter: "framed", [browser, environment]}}}
+{{figure {url: "img/chapter_picture_18.jpg", alt: "Picture of a web form on a medieval scroll", chapter: "framed"}}}
+
+{{index [browser, environment]}}
 
 The _Hypertext Transfer Protocol_, already mentioned in [Chapter
 ?](browser#web), is the mechanism through which data is requested and

@@ -1104,7 +1104,7 @@ and their code is executed one after the other. Because no two things
 run at the same time, slow-running code might delay the handling of
 other events.
 
-This example sets a timeout but then dallies until after the
+This example sets a timeout but then delays until after the
 timeout's intended point of time, causing the timeout to be late.
 
 ```

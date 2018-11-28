@@ -360,7 +360,7 @@ function require(name) {
 In this code, `readFile` is a made-up function that reads a file and
 returns its contents as a string. Standard JavaScript provides no such
 functionality—but different JavaScript environments, such as the
-browser and Node.js, provide their own ways of accessing fileos.
+browser and Node.js, provide their own ways of accessing files.
 The example just pretends that `readFile` exists.
 
 {{index cache, "Function constructor"}}

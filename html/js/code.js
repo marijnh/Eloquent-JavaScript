@@ -127,6 +127,7 @@ addEventListener("load", () => {
       setEditorCode(exercise.code, exercise.type)
       visible = "exercise"
       let link = document.querySelector("#download")
+      link.setAttribute("download", "solution" + value + ".js")
       if (/\.zip$/.test(exercise.file))
         link.href = exercise.file
       else

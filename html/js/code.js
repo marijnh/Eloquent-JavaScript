@@ -130,7 +130,7 @@ addEventListener("load", () => {
       if (/\.zip$/.test(exercise.file))
         link.href = exercise.file
       else
-        link.href = "data:text/plain;charset=UTF-8," + exercise.solution
+        link.href = "data:text/plain;charset=UTF-8," + encodeURIComponent(exercise.solution)
     }
     ["box", "exercise"].forEach(id => {
       document.querySelector("#" + id + "_info").style.display =

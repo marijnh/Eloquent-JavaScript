@@ -1128,7 +1128,7 @@ way to _create_ a ((directory)).
 
 {{index "MKCOL method", "mkdir function"}}
 
-Add support for the `MKCOL` method ("make column"), which should create
+Add support for the `MKCOL` method ("make collection"), which should create
 a directory by calling `mkdir` from the `fs` module. `MKCOL` is not a
 widely used HTTP method, but it does exist for this same purpose in
 the _((WebDAV))_ standard, which specifies a set of conventions on top

@@ -4,7 +4,7 @@
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
 
-  function parallelogram(x, y) {
+  function trapezoid(x, y) {
     cx.beginPath();
     cx.moveTo(x, y);
     cx.lineTo(x + 50, y);
@@ -13,7 +13,7 @@
     cx.closePath();
     cx.stroke();
   }
-  parallelogram(30, 30);
+  trapezoid(30, 30);
 
   function diamond(x, y) {
     cx.translate(x + 30, y + 30);

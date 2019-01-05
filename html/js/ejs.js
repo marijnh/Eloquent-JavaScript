@@ -83,7 +83,8 @@ window.addEventListener("load", () => {
       localStorage.setItem("usedSandbox", "true")
     }
 
-    let code = node.textContent
+    const codeId = node.firstChild.id
+    let code = localStorage.getItem(codeId) || node.textContent
     let wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node)
     let editor = CodeMirror(div => wrap.insertBefore(div, wrap.firstChild), {
       value: code,
@@ -152,6 +153,7 @@ window.addEventListener("load", () => {
   }
 
   function runCode(data) {
+    saveCode(data)
     data.output.clear()
     let val = data.editor.getValue()
     getSandbox(data.sandbox, data.isHTML, box => {
@@ -165,6 +167,11 @@ window.addEventListener("load", () => {
       else
         box.run(val, data.output, data.meta)
     })
+  }
+
+  function saveCode(data) {
+    const codeId = data.orig.firstChild.id
+    localStorage.setItem(codeId, data.editor.getValue())
   }
 
   function closeCode(data) {

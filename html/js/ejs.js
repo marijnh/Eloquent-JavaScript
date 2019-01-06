@@ -104,6 +104,7 @@ window.addEventListener("load", () => {
       clearTimeout(pollingScroll)
       pollingScroll = setTimeout(pollScroll, 500)
     })
+    editor.on("change", debounce(() => localStorage.setItem(codeId, editor.getValue()), 250))
     wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px"
     setTimeout(() => editor.refresh(), 600)
     if (e) {
@@ -153,7 +154,6 @@ window.addEventListener("load", () => {
   }
 
   function runCode(data) {
-    saveCode(data)
     data.output.clear()
     let val = data.editor.getValue()
     getSandbox(data.sandbox, data.isHTML, box => {
@@ -167,11 +167,6 @@ window.addEventListener("load", () => {
       else
         box.run(val, data.output, data.meta)
     })
-  }
-
-  function saveCode(data) {
-    const codeId = data.orig.firstChild.id
-    localStorage.setItem(codeId, data.editor.getValue())
   }
 
   function closeCode(data) {
@@ -233,6 +228,14 @@ window.addEventListener("load", () => {
     if (bot < 50) {
       let newBot = wrap.getBoundingClientRect().bottom
       window.scrollBy(0, newBot - bot)
+    }
+  }
+
+  function debounce(fn, delay = 50) {
+    let timeout
+    return () => {
+      if (timeout) clearTimeout(timeout)
+      timeout = setTimeout(() => fn.apply(null, arguments), delay)
     }
   }
 })

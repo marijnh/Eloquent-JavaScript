@@ -84,7 +84,7 @@ window.addEventListener("load", () => {
     }
 
     const codeId = node.firstChild.id
-    let code = localStorage.getItem(codeId) || node.textContent
+    let code = (window.localStorage && localStorage.getItem(codeId)) || node.textContent
     let wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node)
     let editor = CodeMirror(div => wrap.insertBefore(div, wrap.firstChild), {
       value: code,
@@ -104,7 +104,8 @@ window.addEventListener("load", () => {
       clearTimeout(pollingScroll)
       pollingScroll = setTimeout(pollScroll, 500)
     })
-    editor.on("change", debounce(() => localStorage.setItem(codeId, editor.getValue()), 250))
+    if (window.localStorage)
+      editor.on("change", debounce(() => localStorage.setItem(codeId, editor.getValue()), 250))
     wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px"
     setTimeout(() => editor.refresh(), 600)
     if (e) {

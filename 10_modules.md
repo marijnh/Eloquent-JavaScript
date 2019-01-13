@@ -68,7 +68,7 @@ module. When this fact is clearly specified in the module itself, it
 can be used to figure out which other modules need to be present to be
 able to use a given module and to automatically load dependencies.
 
-To separate modules in that way, each needs it own private ((scope)).
+To separate modules in that way, each needs its own private ((scope)).
 
 Just putting your JavaScript code into different ((file))s does not
 satisfy these requirements. The files still share the same global

@@ -361,8 +361,8 @@ collect.
 
 Note how the `filter` function, rather than deleting elements from the
 existing array, builds up a new array with only the elements that pass
-the test. This function is _pure_. It does not modify the array it is
-given.
+the test. This function does not modify the array it is
+given, but creates a new one.
 
 Like `forEach`, `filter` is a ((standard)) array method. The example
 defined the function only to show what it does internally.

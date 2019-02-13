@@ -1305,7 +1305,7 @@ it.
 
 When you have that working, there is something else you could try. The
 way we have been registering keyboard event handlers is somewhat
-problematic. The `arrows` object is currently a global binding, and
+problematic. The `arrowKeys` object is currently a global binding, and
 its event handlers are kept around even when no game is running. You
 could say they _((leak))_ out of our system. Extend `trackKeys` to
 provide a way to unregister its handlers and then change `runLevel`

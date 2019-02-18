@@ -743,7 +743,7 @@ element in the fifth row is (using zero-based indexing) stored at
 position 4 × _width_ + 2.
 
 The constructor function takes a width, a height, and an optional
-content function that will be used to fill in the initial values.
+`element` function that will be used to fill in the initial values.
 There are `get` and `set` methods to retrieve and update elements in
 the matrix.
 
@@ -944,7 +944,7 @@ superclass's constructor through the `super` keyword. This is necessary
 because if this new object is to behave (roughly) like a `Matrix`, it
 is going to need the instance properties that matrices have. 
 To ensure the matrix is symmetrical, the constructor wraps the
-`content` method to swap the coordinates for values below the
+`element` function to swap the coordinates for values below the
 diagonal.
 
 The `set` method again uses `super` but this time not to call the

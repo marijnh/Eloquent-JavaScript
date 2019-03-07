@@ -371,11 +371,10 @@ to report to the user what went wrong and then give up. But in either
 situation, the program has to actively do something in response to the
 problem.
 
-{{index "promptInteger function", validation}}
+{{index "promptNumber function", validation}}
 
-Say you have a function `promptInteger` that asks the user for a whole
-number and returns it. What should it return if the user inputs
-"orange"?
+Say you have a function `promptNumber` that asks the user for a number
+and returns it. What should it return if the user inputs "orange"?
 
 {{index null, undefined, "return value", "special return value"}}
 

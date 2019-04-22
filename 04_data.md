@@ -1578,7 +1578,7 @@ smaller part of the "tail" of the list and at the same time count down
 the index until it reaches zero, at which point it can return the
 `value` property of the node it is looking at. To get the zeroth
 element of a list, you simply take the `value` property of its head
-node. To get element _N_ + 1, you take the _N_th element of the list
+node. To get element _N_ + 1, you take the *N*th element of the list
 that's in this list's `rest` property.
 
 hint}}

@@ -6,12 +6,7 @@
   "dependencies": {
     "ecstatic": "^3.1.0"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    }
-  ],
+  "license": "MIT",
   "bugs": "https://github.com/marijnh/Eloquent-JavaScript/issues",
   "homepage": "https://eloquentjavascript.net/21_skillsharing.html",
   "maintainers": [

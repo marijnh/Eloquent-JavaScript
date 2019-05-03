@@ -1,28 +1,28 @@
 {
-          "name": "ejs-skillsharing",
-          "version": "1.0.0",
-          "main": "skillsharing_server.js",
-          "description": "Skill-sharing website example from Eloquent JavaScript",
-          "dependencies": {
-                    "ecstatic": "^3.1.0"
-          },
-          "licenses": [
-                    {
-                              "type": "MIT",
-                              "url": "https://opensource.org/licenses/MIT"
-                    }
-          ],
-          "bugs": "https://github.com/marijnh/Eloquent-JavaScript/issues",
-          "homepage": "https://eloquentjavascript.net/21_skillsharing.html",
-          "maintainers": [
-                    {
-                              "name": "Marijn Haverbeke",
-                              "email": "marijnh@gmail.com",
-                              "web": "https://marijnhaverbeke.nl/"
-                    }
-          ],
-          "repository": {
-                    "type": "git",
-                    "url": "https://github.com/marijnh/Eloquent-JavaScript.git"
-          }
+  "name": "ejs-skillsharing",
+  "version": "1.0.0",
+  "main": "skillsharing_server.js",
+  "description": "Skill-sharing website example from Eloquent JavaScript",
+  "dependencies": {
+    "ecstatic": "^3.1.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  ],
+  "bugs": "https://github.com/marijnh/Eloquent-JavaScript/issues",
+  "homepage": "https://eloquentjavascript.net/21_skillsharing.html",
+  "maintainers": [
+    {
+      "name": "Marijn Haverbeke",
+      "email": "marijnh@gmail.com",
+      "web": "https://marijnhaverbeke.nl/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marijnh/Eloquent-JavaScript.git"
+  }
 }

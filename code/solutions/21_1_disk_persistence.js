@@ -21,7 +21,9 @@ SkillShareServer.prototype.updated = function() {
   this.waiting.forEach(resolve => resolve(response));
   this.waiting = [];
 
-  writeFile(fileName, JSON.stringify(this.talks));
+  writeFile(fileName, JSON.stringify(this.talks), e => {
+    if (e) throw e;
+  });
 };
 
 // The line that starts the server must be changed to

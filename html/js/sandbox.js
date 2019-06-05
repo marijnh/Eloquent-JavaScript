@@ -194,12 +194,20 @@
 
       win.__setTimeout = win.setTimeout
       win.__setInterval = win.setInterval
-      win.setTimeout = (code, time) => {
+      win.setTimeout = (code, time, ...args) => {
+        if (args.length && typeof code != "string") {
+          let f = code
+          code = () => f(...args)
+        }
         let val = win.__setTimeout(() => this.run(code), time)
         this.timeouts.push(val)
         return val
       }
-      win.setInterval = (code, time) => {
+      win.setInterval = (code, time, ...args) => {
+        if (args.length && typeof code != "string") {
+          let f = code
+          code = () => f(...args)
+        }
         let val = win.__setInterval(() => this.run(code), time)
         this.intervals.push(val)
         return val

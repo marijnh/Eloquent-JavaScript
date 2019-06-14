@@ -437,7 +437,7 @@ node. This function is then used to add an attribution to a quote.
   document.getElementById("quote").appendChild(
     elt("footer", "—",
         elt("strong", "Karl Popper"),
-        ", preface to the second editon of ",
+        ", preface to the second edition of ",
         elt("em", "The Open Society and Its Enemies"),
         ", 1950"));
 </script>

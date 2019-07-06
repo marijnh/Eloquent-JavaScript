@@ -470,7 +470,7 @@ score = {visitors: 1, home: 1};
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
-When you compare objects with JavaScript's `==` operator, it compares
+When you compare objects with JavaScript's `===` operator, it compares
 by identity: it will produce `true` only if both objects are precisely
 the same value. Comparing different objects will return `false`, even
 if they have identical properties. There is no "deep" comparison

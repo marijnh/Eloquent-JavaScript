@@ -527,10 +527,10 @@ function average(array) {
 
 console.log(Math.round(average(
   SCRIPTS.filter(s => s.living).map(s => s.year))));
-// → 1188
+// → 1165
 console.log(Math.round(average(
   SCRIPTS.filter(s => !s.living).map(s => s.year))));
-// → 188
+// → 204
 ```
 
 So the dead scripts in Unicode are, on average, older than the living

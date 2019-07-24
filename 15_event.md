@@ -507,8 +507,8 @@ We must stop resizing the bar when the mouse button is released. For
 that, we can use the `buttons` property (note the plural), which tells
 us about the buttons that are currently held down. When this is zero,
 no buttons are down. When buttons are held, its value is the sum of
-the codes for those buttons—the left button has code 1, the right
-button 2, and the middle one 4. That way, you can check whether a given
+the codes for those buttons—the left button has code 0, the middle
+button 1, and the right one 2. That way, you can check whether a given
 button is pressed by taking the remainder of the value of `buttons`
 and its code.
 

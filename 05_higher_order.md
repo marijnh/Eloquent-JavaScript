@@ -551,7 +551,7 @@ for (let script of SCRIPTS) {
   }
 }
 console.log(Math.round(total / count));
-// → 1188
+// → 1165
 ```
 
 But it is harder to see what was being computed and how. And because

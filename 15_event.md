@@ -724,16 +724,16 @@ propagate.
 
 {{index "beforeunload event", "page reload", "preventDefault method"}}
 
-When a page is closed or navigated away from (for example, by following
-a link), a `"beforeunload"` event fires. The main use of this event is
-to prevent the user from accidentally losing work by closing a
-document. Preventing the page from unloading is not, as you might
-expect, done with the `preventDefault` method. Instead, it is done by
-returning a non-null value from the handler. When you do that, the
-browser will show the user a dialog asking if they are sure they want to
-leave the page. This mechanism ensures that a user is always able to
-leave, even on malicious pages that would prefer to keep them there
-forever and force them to look at dodgy weight-loss ads.
+When a page is closed or navigated away from (for example, by
+following a link), a `"beforeunload"` event fires. The main use of
+this event is to prevent the user from accidentally losing work by
+closing a document. If you prevent the default behavior on this event
+_and_ set the `returnValue` property on the event event object to a
+string, the browser will show the user a dialog asking if they really
+want to leave the page. That dialog might include your string, but
+because some malicious sites try to use these dialogs to confuse
+people into staying on their page to look at dodgy weight loss ads,
+most browsers no longer display them.
 
 {{id timeline}}
 

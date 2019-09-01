@@ -157,7 +157,7 @@ JavaScript code for the client-side system.
 A `GET` request to `/talks` returns a JSON document like this:
 
 ```{lang: "application/json"}
-[{"title": "Unituning",
+{[{"title": "Unituning",
   "presenter": "Jamal",
   "summary": "Modifying your cycle for extra style",
   "comments": []}]}

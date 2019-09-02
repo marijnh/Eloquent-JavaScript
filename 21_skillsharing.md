@@ -160,7 +160,7 @@ A `GET` request to `/talks` returns a JSON document like this:
 [{"title": "Unituning",
   "presenter": "Jamal",
   "summary": "Modifying your cycle for extra style",
-  "comments": []}]}
+  "comments": []}]
 ```
 
 {{index "PUT method", URL}}

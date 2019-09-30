@@ -85,7 +85,7 @@
         } catch(e) {
           callback(e)
         }
-      }, 10 * Math.floor(Math.random() * 10))
+      }, 10 + Math.floor(Math.random() * 10))
     }
 
     readStorage(name, callback) {

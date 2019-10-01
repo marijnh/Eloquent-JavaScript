@@ -334,7 +334,7 @@ little window, but only shows a message without asking for input.
 {{index "src attribute"}}
 
 Including large programs directly in HTML documents is often
-impractical. The `<script>` tag can be given an `src` attribute  to fetch a script file (a text file containing a JavaScript
+impractical. The `<script>` tag can be given a `src` attribute  to fetch a script file (a text file containing a JavaScript
 program) from a URL.
 
 ```{lang: "text/html"}

@@ -728,7 +728,7 @@ When a page is closed or navigated away from (for example, by
 following a link), a `"beforeunload"` event fires. The main use of
 this event is to prevent the user from accidentally losing work by
 closing a document. If you prevent the default behavior on this event
-_and_ set the `returnValue` property on the event event object to a
+_and_ set the `returnValue` property on the event object to a
 string, the browser will show the user a dialog asking if they really
 want to leave the page. That dialog might include your string, but
 because some malicious sites try to use these dialogs to confuse

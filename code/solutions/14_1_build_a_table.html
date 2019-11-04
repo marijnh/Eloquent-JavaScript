@@ -23,7 +23,7 @@
     let headRow = document.createElement("tr");
     fields.forEach(function(field) {
       let headCell = document.createElement("th");
-      headCell.textContent = field;
+      headCell.appendChild(document.createTextNode(field));
       headRow.appendChild(headCell);
     });
     table.appendChild(headRow);
@@ -32,7 +32,7 @@
       let row = document.createElement("tr");
       fields.forEach(function(field) {
         let cell = document.createElement("td");
-        cell.textContent = object[field];
+        cell.appendChild(document.createTextNode(object[field]));
         if (typeof object[field] == "number") {
           cell.style.textAlign = "right";
         }

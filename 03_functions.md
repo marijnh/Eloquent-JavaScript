@@ -533,8 +533,7 @@ fact that local bindings are created anew for every call, and
 different calls can't trample on one another's local bindings.
 
 This feature—being able to reference a specific instance of a local
-binding in an enclosing scope—is called _((closure))_. A function that
-references bindings from local scopes around it is called _a_ closure. This behavior
+binding in an enclosing scope—is called _((closure))_. This behavior
 not only frees you from having to worry about lifetimes of bindings
 but also makes it possible to use function values in some creative
 ways.
@@ -887,6 +886,7 @@ Resist that urge. You won't get any real work done—you'll just be
 writing code that you never use.
 
 {{id pure}}
+
 ## Functions and side effects
 
 {{index "side effect", "pure function", [function, purity]}}
@@ -983,6 +983,7 @@ console.log(min(0, 10));
 console.log(min(0, -10));
 // → -10
 ```
+
 if}}
 
 {{hint
@@ -1098,8 +1099,7 @@ if}}
 {{index "bean counting (exercise)", ["length property", "for string"], "counter variable"}}
 
 Your function will need a ((loop)) that looks at every character in
-the string. It can run an index from zero to one below its length (`<
-string.length`). If the character at the current position is the same
+the string. It can run an index from zero to one below its length (`< string.length`). If the character at the current position is the same
 as the one the function is looking for, it adds 1 to a counter
 variable. Once the loop has finished, the counter can be returned.
 

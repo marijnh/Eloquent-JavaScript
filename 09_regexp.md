@@ -147,10 +147,10 @@ as `[0-9]`.
 {{table {cols: [1, 5]}}}
 
 | `\d`    | Any ((digit)) character
-| `\w`    | An alphanumeric character ("((word character))")
+| `\w`    | An alphanumeric character or the underscore character `_` ("((word character))")
 | `\s`    | Any whitespace character (space, tab, newline, and similar)
 | `\D`    | A character that is _not_ a digit
-| `\W`    | A nonalphanumeric character
+| `\W`    | A nonalphanumeric and non-underscore character
 | `\S`    | A nonwhitespace character
 | `.`     | Any character except for newline
 

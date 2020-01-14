@@ -515,9 +515,8 @@ function request(nest, target, type, content) {
 
 Because promises can be resolved (or rejected) only once, this will
 work. The first time `resolve` or `reject` is called determines the
-outcome of the promise, and any further calls, such as the timeout
-arriving after the request finishes or a request coming back after
-another request finished, are ignored.
+outcome of the promise, and further calls caused by a request coming
+back after another request finished are ignored.
 
 {{index recursion}}
 

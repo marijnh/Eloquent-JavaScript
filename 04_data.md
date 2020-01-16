@@ -189,7 +189,7 @@ advance, so to find the length of an array, you typically write
 
 {{index [function, "as property"], method, string}}
 
-Both string and array objects contain, in addition to the `length`
+Both string and array values contain, in addition to the `length`
 property, a number of properties that hold function values.
 
 ```

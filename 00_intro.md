@@ -4,45 +4,23 @@
 
 {{quote {author: "Ellen Ullman", title: "Close to the Machine: Technophilia and its Discontents", chapter: true}
 
-We think we are creating the system for our own purposes. We believe
-we are making it in our own image... But the computer is not really
-like us. It is a projection of a very slim part of ourselves: that
-portion devoted to logic, order, rule, and clarity.
+我们以为在为我们的目的创作系统。我们以为它溶入了我们形象中……但是电脑终究不是我们。它只是我们缩影中微小的一部分：专门负责逻辑、制度、规矩、和清晰度。
 
 quote}}
 
 {{figure {url: "img/chapter_picture_00.jpg", alt: "Picture of a screwdriver and a circuit board", chapter: "framed"}}}
 
-This is a book about instructing ((computer))s. Computers are about as
-common as screwdrivers today, but they are quite a bit more complex,
-and making them do what you want them to do isn't always easy.
+这是本关于命令((电脑))的书。尽管电脑现如今随处可见，但是它们并没有看上去那么简单。尤其是让它们按照你的意思工作的时候。
 
-If the task you have for your computer is a common, well-understood
-one, such as showing you your email or acting like a calculator, you
-can open the appropriate ((application)) and get to work. But for
-unique or open-ended tasks, there probably is no application.
+如果你只是想让电脑做些稀疏平常的事情，比如查邮件、用计算器，那你只需要打开相对应的((程序))。但不是所有的问题都有相应的解决方式。
 
-That is where ((programming)) may come in. _Programming_ is the act of
-constructing a _program_—a set of precise instructions telling a
-computer what to do. Because computers are dumb, pedantic beasts,
-programming is fundamentally tedious and frustrating.
+编程这时就有用武之地了。_编程_ 是创建程序的行为 —— 一组精准的指令告诉电脑要做什么。因为电脑是无法思考的冰冷机器，所以编程从根本上来讲，是枯燥乏味的。
 
 {{index [programming, "joy of"], speed}}
 
-Fortunately, if you can get over that fact, and maybe even enjoy the rigor
-of thinking in terms that dumb machines can deal with, programming can
-be rewarding. It allows you to do things in seconds that would take
-_forever_ by hand. It is a way to make your computer tool
-do things that it couldn't do before. And it provides a wonderful
-exercise in abstract thinking.
+幸运的是，如果你克服了这个难题，或者享受严谨的思考，从而命令这些笨拙的机器，那么你会很有成就感。编程可以让你几秒钟内完成看似 _不可能完成_ 的任务。它可以让你的电脑做那些曾经做不到的事。同时它也是不错的脑力抽象思维训练。
 
-Most programming is done with ((programming language))s. A _programming
-language_ is an artificially constructed language used to instruct
-computers. It is interesting that the most effective way we've found
-to communicate with a computer borrows so heavily from the way we
-communicate with each other. Like human languages, computer languages
-allow words and phrases to be combined in new ways, making it possible to
-express ever new concepts.
+大部分的编程都需要 ((编程语言))。_编程语言_ 是人造语言，专门用来命令电脑的。我们和电脑最有效率的沟通方式其实大范围的借鉴了人类本身的沟通方式。和人类语言一样，电脑语言也是由不同的词语、短句结合起来，从而表达新的概念。
 
 {{index [JavaScript, "availability of"], "casual computing"}}
 

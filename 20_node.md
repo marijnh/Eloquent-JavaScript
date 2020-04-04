@@ -1,4 +1,4 @@
-{{meta {code_links: "[\"code/file_server.js\"]"}}}
+{{meta {code_links: ["code/file_server.js"]}}}
 
 # Node.js
 

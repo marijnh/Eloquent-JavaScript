@@ -23,7 +23,7 @@ for (let file of fs.readdirSync(".").sort()) {
                  start_code: getStartCode(text, includes),
                  exercises: [],
                  include: includes};
-  let zip = chapterZipFile(text, chapter);
+  let zip = chapterZipFile(meta, chapter);
   let extraLinks = meta.match(/\bcode_links: (\[.*?\])/);
   if (extraLinks) extraLinks = JSON.parse(extraLinks[1]);
   if (extraLinks || zip)
@@ -180,12 +180,13 @@ function getStartCode(text, includes) {
     return snippet;
 }
 
-function chapterZipFile(text, chapter) {
-  let spec = text.match(/\n:zip: (\S+)(?: include=(.*))?/);
+function chapterZipFile(meta, chapter) {
+  let spec = meta.match(/\bzip: ("(?:\\.|[^"\\])*")/);
   if (!spec) return null;
   if (!chapter.start_code) throw new Error("zip but no start code");
+  let data = /(\S+)(?:\s+include=(.*))?/.exec(JSON.parse(spec[1]))
   let name = "code/chapter/" + chapter.id + ".zip";
-  let files = (chapter.include || []).concat(spec[2] ? JSON.parse(spec[2]) : []);
+  let files = (chapter.include || []).concat(data[2] ? JSON.parse(data[2]) : []);
   let exists = fs.existsSync(name) && fs.statSync(name).mtime;
   if (exists && files.every(file => fs.statSync("html/" + file).mtime < exists))
     return name;
@@ -194,13 +195,13 @@ function chapterZipFile(text, chapter) {
   for (let file of files) {
     zip.file(chapter.id + "/" + file, fs.readFileSync("html/" + file));
   }
-  if (spec[1].indexOf("html") != -1) {
+  if (data[1].indexOf("html") != -1) {
     let html = chapter.start_code;
     if (guessType(html) != "html")
       html = prepareHTML("<body><script>\n" + html.trim() + "\n</script></body>", chapter.include);
     zip.file(chapter.id + "/index.html", html);
   }
-  if (spec[1].indexOf("node") != -1) {
+  if (data[1].indexOf("node") != -1) {
     zip.file(chapter.id + "/code/load.js", fs.readFileSync("code/load.js", "utf8"));
     let js = chapter.start_code;
     if (chapter.include) js = "// load dependencies\nrequire(\"./code/load\")(" + chapter.include.map(JSON.stringify).join(", ") + ");\n\n" + js;

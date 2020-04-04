@@ -1,4 +1,4 @@
-{{meta {code_links: "[\"code/skillsharing.zip\"]"}}}
+{{meta {code_links: ["code/skillsharing.zip"]}}}
 
 # Project: Skill-Sharing Website
 

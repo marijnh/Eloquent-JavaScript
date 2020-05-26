@@ -747,7 +747,7 @@ function broadcastConnections(nest, name, exceptFor = null) {
 }
 
 everywhere(nest => {
-  nest.state.connections = new Map;
+  nest.state.connections = new Map();
   nest.state.connections.set(nest.name, nest.neighbors);
   broadcastConnections(nest, nest.name);
 });

@@ -183,14 +183,14 @@ number to create an empty array of the given length. The `fill`
 method can then be used to fill this array with a given value. These
 are used to create an array in which all pixels have the same color.
 
-{{index "hexadecimal number", "color component", "color field", "fillColor property"}}
+{{index "hexadecimal number", "color component", "color field", "fillStyle property"}}
 
 Colors are stored as strings containing traditional ((CSS)) ((color
 code))s made up of a ((hash sign)) (`#`) followed by six hexadecimal (base-16)
 digits—two for the ((red)) component, two for the ((green))
 component, and two for the ((blue)) component. This is a somewhat
 cryptic and inconvenient way to write colors, but it is the format the
-HTML color input field uses, and it can be used in the `fillColor`
+HTML color input field uses, and it can be used in the `fillStyle`
 property of a canvas drawing context, so for the ways we'll use colors
 in this program, it is practical enough.
 

@@ -5,7 +5,7 @@
 | 2. Program Structure                   |              |              |
 | 3. Functions                           |              |              |
 | 4. Data Structures: Objects and Arrays |              |              |
-| 5. Higher-order Functions              |              |              |
+| 5. Higher-order Functions              |      efloti  |              |
 | 6. The Secret Life of Objects          |              |              |
 | 7. Project: A Robot                    |              |              |
 | 8. Bugs and Errors                     |              |              |

@@ -570,7 +570,8 @@ SkillShareServer.prototype.talkResponse = function() {
   return {
     body: JSON.stringify(talks),
     headers: {"Content-Type": "application/json",
-              "ETag": `"${this.version}"`}
+              "ETag": `"${this.version}"`,
+              "Cache-Control": "no-store"}
   };
 };
 ```

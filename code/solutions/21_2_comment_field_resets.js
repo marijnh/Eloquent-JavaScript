@@ -56,7 +56,7 @@ class SkillShareApp {
 
     for (let talk of state.talks) {
       let cmp = this.talkMap[talk.title];
-      if (cmp && cmp.talk.author == talk.author &&
+      if (cmp && cmp.talk.presenter == talk.presenter &&
           cmp.talk.summary == talk.summary) {
         cmp.syncState(talk);
       } else {

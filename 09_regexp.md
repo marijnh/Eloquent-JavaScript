@@ -1305,8 +1305,8 @@ verify(/.../,
        ["escape the period"]);
 
 verify(/.../,
-       ["hottentottententen"],
-       ["no", "hotten totten tenten"]);
+       ["Siebentausenddreihundertzweiundzwanzig"],
+       ["no", "three small words"]);
 
 verify(/.../,
        ["red platypus", "wobbling nest"],

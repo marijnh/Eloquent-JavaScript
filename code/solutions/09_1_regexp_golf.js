@@ -21,8 +21,8 @@ verify(/\s[.,:;]/,
        ["escape the dot"]);
 
 verify(/\w{7}/,
-       ["hottentottententen"],
-       ["no", "hotten totten tenten"]);
+       ["Siebentausenddreihundertzweiundzwanzig"],
+       ["no", "three small words"]);
 
 verify(/\b[^\We]+\b/i,
        ["red platypus", "wobbling nest"],

@@ -221,8 +221,8 @@ it has found one:
 ```{sandbox: "homepage"}
 function talksAbout(node, string) {
   if (node.nodeType == Node.ELEMENT_NODE) {
-    for (let i = 0; i < node.childNodes.length; i++) {
-      if (talksAbout(node.childNodes[i], string)) {
+    for (let child of node.childNodes) {
+      if (talksAbout(child, string)) {
         return true;
       }
     }
@@ -235,12 +235,6 @@ function talksAbout(node, string) {
 console.log(talksAbout(document.body, "book"));
 // → true
 ```
-
-{{index "childNodes property", "array-like object", "Array.from function"}}
-
-Because `childNodes` is not a real array, we cannot loop over it with
-`for`/`of` and have to run over the index range using a regular `for`
-loop or use `Array.from`.
 
 {{index "nodeValue property"}}
 

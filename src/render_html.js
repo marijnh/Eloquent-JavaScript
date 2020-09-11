@@ -54,7 +54,10 @@ function maybeSplitInlineCode(html) {
 const seenIDs = Object.create(null)
 function anchor(token) {
   let id = token.hashID
-  if (!id || id in seenIDs) return ""
+  if (id in seenIDs) for (let i = 1;; i++) {
+    let ext = id + "_" + i
+    if (!(ext in seenIDs)) { id = ext; break }
+  }
   seenIDs[id] = true
   return `<a class="${id.charAt(0)}_ident" id="${id}" href="#${id}" tabindex="-1" role="presentation"></a>`
 }

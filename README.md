@@ -22,7 +22,7 @@ set up is a pain):
 ## Translating
 
 Translations are very much welcome. The license this book is published
-under allows non-commercial derivations, which includes open
+under allows non-commercial derivations. Which includes open
 translations. If you do one, let me know, and I'll add a link to the
 website.
 

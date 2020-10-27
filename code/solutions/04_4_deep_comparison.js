@@ -1,18 +1,21 @@
-function deepEqual(a, b) {
-  if (a === b) return true;
-  
-  if (a == null || typeof a != "object" ||
-      b == null || typeof b != "object") return false;
+function deepEqual(value1, value2){
+    if((value1 && value2) && (value1.length == value2.length)){
 
-  let keysA = Object.keys(a), keysB = Object.keys(b);
-
-  if (keysA.length != keysB.length) return false;
-
-  for (let key of keysA) {
-    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
-  }
-
-  return true;
+       if(value1[Object.keys(value1)[0]] !== value2[Object.keys(value2)[0]]){
+            return false;
+       }
+       else{
+           if(Object.keys(value1).length>1){
+                delete value1[Object.keys(value1)[0]];
+                delete value2[Object.keys(value2)[0]];
+                return deepEqual(value1, value2);
+            }
+            else return true;
+       }
+    }
+    else if(value1 === value2) return true;
+    else {
+        return false;}
 }
 
 let obj = {here: {is: "an"}, object: 2};

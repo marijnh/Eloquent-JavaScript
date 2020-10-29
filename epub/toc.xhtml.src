@@ -42,7 +42,7 @@
     <!-- user-visible TOC -->
     <ol class="toc">
       <li class="no-number"><a href="00_intro.xhtml">Introduction</a></li>
-      <li style="counter-reset: li; position: relative">
+      <li style="position: relative">
         <a href="01_values.xhtml"><span class="parttitle">(Part 1: Language)</span>Values, Types, and Operators</a>
       </li>
       <li><a href="02_program_structure.xhtml">Program Structure</a></li>

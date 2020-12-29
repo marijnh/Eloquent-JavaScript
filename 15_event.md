@@ -508,9 +508,8 @@ that, we can use the `buttons` property (note the plural), which tells
 us about the buttons that are currently held down. When this is zero,
 no buttons are down. When buttons are held, its value is the sum of
 the codes for those buttons—the left button has code 1, the right
-button 2, and the middle one 4. That way, you can check whether a given
-button is pressed by taking the remainder of the value of `buttons`
-and its code.
+button 2, and the middle one 4. With the left and right buttons held,
+for example, the value of `buttons` will be 3.
 
 Note that the order of these codes is different from the one used by
 `button`, where the middle button came before the right one. As

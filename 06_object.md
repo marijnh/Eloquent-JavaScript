@@ -603,7 +603,7 @@ I mentioned in [Chapter ?](data#for_of_loop) that a `for`/`of` loop
 can loop over several kinds of data structures. This is another case
 of polymorphism—such loops expect the data structure to expose a
 specific interface, which arrays and strings do. And we can also add
-this interface to your own objects! But before we can do that, we need
+this interface to our own objects! But before we can do that, we need
 to know what symbols are.
 
 ## Symbols

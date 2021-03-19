@@ -417,7 +417,7 @@ the sine function useful for modeling a wavy motion.
 {{index pi}}
 
 To avoid a situation where all coins move up and down synchronously,
-the starting phase of each coin is randomized. The _((phase))_ of
+the starting phase of each coin is randomized. The period of
 `Math.sin`'s wave, the width of a wave it produces, is 2π. We multiply
 the value returned by `Math.random` by that number to give the coin a
 random starting position on the wave.

@@ -461,9 +461,9 @@ if (num < 10) {
 The program will first check whether `num` is less than 10. If it is,
 it chooses that branch, shows `"Small"`, and is done. If it isn't, it
 takes the `else` branch, which itself contains a second `if`. If the
-second condition (`< 100`) holds, that means the number is between 10
-and 100, and `"Medium"` is shown. If it doesn't, the second and last
-`else` branch is chosen.
+second condition (`< 100`) holds, that means the number is at least 10
+but below 100, and `"Medium"` is shown. If it doesn't, the second and
+last `else` branch is chosen.
 
 The schema for this program looks something like this:
 

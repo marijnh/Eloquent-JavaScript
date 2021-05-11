@@ -3,7 +3,7 @@ function range(start, end, step = start < end ? 1 : -1) {
 
   if (step > 0) {
     for (let i = start; i <= end; i += step) array.push(i);
-  } else {
+  } else if(step < 0) {
     for (let i = start; i >= end; i += step) array.push(i);
   }
   return array;

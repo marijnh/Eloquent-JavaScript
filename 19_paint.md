@@ -61,9 +61,9 @@ to a certain point, this is easier to program. We can just put in a
 color.
 
 But then we add the ((color picker))—a tool that lets you click the
-picture to select the color of a given pixel. To keep the
-color field showing the correct color, that tool would have to know
-that it exists and update it whenever it picks a new color. If
+picture to select the color of a given pixel. To keep the color field 
+showing the correct color, it would have to know the color picker 
+exists and update itself whenever that picks a new value. If
 you ever add another place that makes the color visible (maybe the
 mouse cursor could show it), you have to update your
 color-changing code to keep that synchronized.

@@ -20,7 +20,7 @@ verify(/\s[.,:;]/,
        ["bad punctuation ."],
        ["escape the dot"]);
 
-verify(/\w{7}/,
+verify(/\w{7,}/,
        ["Siebentausenddreihundertzweiundzwanzig"],
        ["no", "three small words"]);
 

@@ -6,6 +6,15 @@ function deepEqual(a, b) {
 
   let keysA = Object.keys(a), keysB = Object.keys(b);
 
+  // Compare two empty objects({} and []).
+  // Returns true only if two objects are acutally the same type
+  // {} and {} or [] and [].
+  if (keysA.length === 0 && keysB.length === 0) {
+    if ((a.length === undefined && b.length === undefined) ||
+        (a.length === 0 && b.length === 0)) return true;
+    else return false;
+  }
+
   if (keysA.length != keysB.length) return false;
 
   for (let key of keysA) {

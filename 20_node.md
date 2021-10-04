@@ -994,8 +994,8 @@ outcome of calling `pipe`.
 
 When something goes wrong when opening the file, `createWriteStream`
 will still return a stream, but that stream will fire an `"error"`
-event. The output stream to the request may also fail, for example if
-the network goes down. So we wire up both streams' `"error"` events to
+event. The stream from the request may also fail, for example if the
+network goes down. So we wire up both streams' `"error"` events to
 reject the promise. When `pipe` is done, it will close the output
 stream, which causes it to fire a `"finish"` event. That's the point
 where we can successfully resolve the promise (returning nothing).

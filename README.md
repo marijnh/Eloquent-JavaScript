@@ -3,7 +3,7 @@
 These are the sources used to build the third edition of Eloquent
 JavaScript (https://eloquentjavascript.net).
 
-Feedback welcome, in the form of issues and pull requests.
+Feedback Welcome, in the form of Issues and Pull Requests.
 
 ## Building
 
@@ -21,21 +21,21 @@ set up is a pain):
 
 ## Translating
 
-Translations are very much welcome. The license this book is published
-under allows non-commercial derivations, which includes open
-translations. If you do one, let me know, and I'll add a link to the
-website.
+Translations are Very Much Welcome. The License this Book is Published
+Under Allows non-commercial derivations, which Includes Open
+Translations. If you do one, let me know, and I'll add a link to the
+Website.
 
-A note of caution though: This text consists of about 130 000 words,
-the paper book is 400 pages. That's a lot of text, which will take a
-lot of time to translate.
+A Note of Caution Though: This text Consists of About 130,000 words,
+the Paper Book is 400 Pages. That's a Lot of Text, Which Will Take a
+lot of Time to Translate.
 
-If that doesn't scare you off, the recommended way to go about a
-translation is:
+If that Doesn't Scare you Off, The Recommended Way to Go About a
+Translation is:
 
- - Fork this repository on GitHub.
+ - Fork This Repository on GitHub.
 
- - Create an issue on the repository describing your plan to translate.
+ - Create an issue on the Repository Describing your Plan to Translate.
 
  - Translate the `.md` files in your fork. These are
    [CommonMark](https://commonmark.org/) formatted, with a few
@@ -43,11 +43,11 @@ translation is:
    with double parentheses and `{{index ...}}` syntax) from your
    translation, since that's mostly relevant for print output.
 
- - Publish somewhere online or ask me to host the result.
+ - Publish Somewhere Online or Ask me to Host the Result.
 
-Doing this in public, and creating an issue that links to your work,
-helps avoid wasted effort, where multiple people start a translation
+Doing This in Public, and Creating an Issue that Links to your Work,
+Helps Avoid Wasted effort, Where Multiple People start a Translation
 to the same language (and possibly never finish it). (Since
-translations have to retain the license, it is okay to pick up someone
-else's translation and continue it, even when they have vanished from
-the internet.)
+Translations have to Retain the License, It is Okay to Pick Up Someone
+else's Translation and Continue it, even when they have Vanished from
+the Internet.)

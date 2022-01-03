@@ -2,25 +2,29 @@
 
 # Introduction
 
-{{quote {author: "Ellen Ullman", title: "Close to the Machine: Technophilia and its Discontents", chapter: true}
-
-We think we are creating the system for our own purposes. We believe
-we are making it in our own image... But the computer is not really
-like us. It is a projection of a very slim part of ourselves: that
-portion devoted to logic, order, rule, and clarity.
+{{quote {French Translation: "Redwan Nassim", title: "React Native developer", chapter: true}
 
 quote}}
 
-{{figure {url: "img/chapter_picture_00.jpg", alt: "Picture of a screwdriver and a circuit board", chapter: "framed"}}}
+{{quote {author: "Ellen Ullman", title: "Close to the Machine: Technophilia and its Discontents", chapter: true}
 
-This is a book about instructing ((computer))s. Computers are about as
-common as screwdrivers today, but they are quite a bit more complex,
-and making them do what you want them to do isn't always easy.
+Nous pensons que nous creéons le system a nos propre fins. Nous croyons
+que nous on faisants dans notre image...Mais l'ordinateur n'est pas vraiment
+comme nous. c'est un projection d'une partie tres mince de nous-meme: c'est
+la partie devouer a la logic, ordre, regle, et clarite.
 
-If the task you have for your computer is a common, well-understood
-one, such as showing you your email or acting like a calculator, you
-can open the appropriate ((application)) and get to work. But for
-unique or open-ended tasks, there probably is no application.
+quote}}
+
+{{figure {url: "img/chapter_picture_00.jpg", alt: "picture de screwdriver et un circuit imprime", chapter: "framed"}}}
+
+ceci est un livre sur l'instruction de {{ordinateur}}s, les ordinateur
+sont a peut pret comme commun comme les tournovices aujourdhuit. mais
+un peut plus compliquer. est les faire faire ce que vous voulez n'est pas toujour simple.
+
+si la tache aue vous avez pour votre ordinateur est commune, bien compris,
+comme vous monter votre email ou agire comme une calculatrice, vous pouvez
+ouvrir une {{application}} qui fait ca et commencer a travaller, mais pour
+une tache unique et ouver, preubablement il n y aucune application
 
 That is where ((programming)) may come in. _Programming_ is the act of
 constructing a _program_—a set of precise instructions telling a
@@ -185,16 +189,16 @@ satisfaction.
 Each line of the previous program contains a single instruction. It
 could be written in English like this:
 
- 1. Store the number 0 in memory location 0.
- 2. Store the number 1 in memory location 1.
- 3. Store the value of memory location 1 in memory location 2.
- 4. Subtract the number 11 from the value in memory location 2.
- 5. If the value in memory location 2 is the number 0,
+1.  Store the number 0 in memory location 0.
+2.  Store the number 1 in memory location 1.
+3.  Store the value of memory location 1 in memory location 2.
+4.  Subtract the number 11 from the value in memory location 2.
+5.  If the value in memory location 2 is the number 0,
     continue with instruction 9.
- 6. Add the value of memory location 1 to memory location 0.
- 7. Add the number 1 to the value of memory location 1.
- 8. Continue with instruction 3.
- 9. Output the value of memory location 0.
+6.  Add the value of memory location 1 to memory location 0.
+7.  Add the number 1 to the value of memory location 1.
+8.  Continue with instruction 3.
+9.  Output the value of memory location 0.
 
 {{index readability, naming, binding}}
 

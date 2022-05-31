@@ -671,7 +671,7 @@ until it gets a valid answer:
 ```{test: no}
 for (;;) {
   try {
-    let dir = promptDirection("Where?"); // ← typo!
+    let dir = promtDirection("Where?"); // ← typo!
     console.log("You chose ", dir);
     break;
   } catch (e) {

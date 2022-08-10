@@ -207,6 +207,6 @@ function chapterZipFile(meta, chapter) {
     if (chapter.include) js = "// load dependencies\nrequire(\"./code/load\")(" + chapter.include.map(JSON.stringify).join(", ") + ");\n\n" + js;
     zip.file(chapter.id + "/run_with_node.js", js);
   }
-  fs.writeFileSync(name, zip.generate({type: "nodebuffer"}));
+  zip.generateAsync({type: "uint8array"}).then(content => fs.writeFileSync(name, content));
   return name;
 }

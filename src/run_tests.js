@@ -68,7 +68,7 @@ while (m = re.exec(input)) {
   try {
     acorn.parse(snippet, {onInsertedSemicolon: onSemi,
                           sourceType: "module",
-                          ecmaVersion: 8})
+                          ecmaVersion: 2022})
   } catch(e) {
     console.log("parse error at " + where + ": " + e.toString())
   }
@@ -182,6 +182,7 @@ let accum = "", _console = {
   },
   verify: function(string, config) {
     let clip = string.indexOf("…"), ok = false
+    accum = accum.replace(/\(Central European Standard Time\)/g, "(CET)")
     if (/\btrailing\b/.test(config)) accum = accum.replace(/\s+(\n|$)/g, "$1")
     if (/\btrim\b/.test(config)) { accum = accum.trim(); string = string.trim() }
     if (/\bnonumbers\b/.test(config)) { accum = accum.replace(/\d/g, ""); string = string.replace(/\d/g, "") }

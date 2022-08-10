@@ -2,7 +2,7 @@ let {parse} = require("acorn")
 
 module.exports = function(code) {
   let ast
-  try { ast = parse(code, {sourceType: "module"}) }
+  try { ast = parse(code, {sourceType: "module", ecmaVersion: 2022}) }
   catch(_) { return code }
 
   let patches = []

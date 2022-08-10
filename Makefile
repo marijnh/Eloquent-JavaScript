@@ -21,7 +21,7 @@ html/js/acorn_codemirror.js: node_modules/codemirror/lib/codemirror.js \
 	                     node_modules/codemirror/mode/htmlmixed/htmlmixed.js \
 	                     node_modules/codemirror/addon/edit/matchbrackets.js \
 	                     node_modules/acorn/dist/acorn.js \
-	                     node_modules/acorn/dist/walk.js
+	                     node_modules/acorn-walk/dist/walk.js
 	node_modules/.bin/uglifyjs $^ -m -o $@
 
 code/skillsharing.zip: html/21_skillsharing.html

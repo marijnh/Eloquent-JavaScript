@@ -12,19 +12,19 @@ quote}}
 
 This is a book about instructing ((computer))s. Computers are about as common as screwdrivers today, but they are quite a bit more complex, and making them do what you want them to do isn't always easy.
 
-If the task you have for your computer is a common, well-understood one, such as showing you your email or acting like a calculator, you can open the appropriate ((application)) and get to work. But for unique or open-ended tasks, there probably is no application.
+If the task you have for your computer is a common, well-understood one, such as showing you your email or acting like a calculator, you can open the appropriate ((application)) and get to work. But for unique or open-ended tasks, there often is no application.
 
 That is where ((programming)) may come in. _Programming_ is the act of constructing a _program_—a set of precise instructions telling a computer what to do. Because computers are dumb, pedantic beasts, programming is fundamentally tedious and frustrating.
 
 {{index [programming, "joy of"], speed}}
 
-Fortunately, if you can get over that fact, and maybe even enjoy the rigor of thinking in terms that dumb machines can deal with, programming can be rewarding. It allows you to do things in seconds that would take _forever_ by hand. It is a way to make your computer tool do things that it couldn't do before. And it provides a wonderful exercise in abstract thinking.
+Fortunately, if you can get over that fact, and maybe even enjoy the rigor of thinking in terms that dumb machines can deal with, programming can be rewarding. It allows you to do things in seconds that would take _forever_ by hand. It is a way to make your computer tool do things that it couldn't do before. And on top of that it makes for a wonderful game of puzzle solving and abstract thinking.
 
 Most programming is done with ((programming language))s. A _programming language_ is an artificially constructed language used to instruct computers. It is interesting that the most effective way we've found to communicate with a computer borrows so heavily from the way we communicate with each other. Like human languages, computer languages allow words and phrases to be combined in new ways, making it possible to express ever new concepts.
 
 {{index [JavaScript, "availability of"], "casual computing"}}
 
-At one point language-based interfaces, such as the BASIC and DOS prompts of the 1980s and 1990s, were the main method of interacting with computers. They have largely been replaced with visual interfaces, which are easier to learn but offer less freedom. Computer languages are still there, if you know where to look. One such language, JavaScript, is built into every modern web ((browser)) and is thus available on almost every device.
+At one point language-based interfaces, such as the BASIC and DOS prompts of the 1980s and 1990s, were the main method of interacting with computers. For routine compute use, these have largely been replaced with visual interfaces, which are easier to learn—but offer less freedom. But the languages are still there, if you know where to look. One of them, _JavaScript_, is built into every modern web ((browser))—and thus available on almost every device.
 
 {{indexsee "web browser", browser}}
 
@@ -34,13 +34,13 @@ This book will try to make you familiar enough with this language to do useful a
 
 {{index [programming, "difficulty of"]}}
 
-Besides explaining JavaScript, I will introduce the basic principles of programming. Programming, it turns out, is hard. The fundamental rules are simple and clear, but programs built on top of these rules tend to become complex enough to introduce their own rules and complexity. You're building your own maze, in a way, and you might just get lost in it.
+Besides explaining JavaScript, I will introduce the basic principles of programming. Programming, it turns out, is hard. The fundamental rules are simple and clear, but programs built on top of these rules tend to become complex enough to introduce their own rules and complexity. You're building your own maze, in a way, and you can easily get lost in it.
 
 {{index learning}}
 
 There will be times when reading this book feels terribly frustrating. If you are new to programming, there will be a lot of new material to digest. Much of this material will then be _combined_ in ways that require you to make additional connections.
 
-It is up to you to make the necessary effort. When you are struggling to follow the book, do not jump to any conclusions about your own capabilities. You are fine—you just need to keep at it. Take a break, reread some material, and make sure you read and understand the example programs and ((exercises)). Learning is hard work, but everything you learn is yours and will make subsequent learning easier.
+It is up to you to make the necessary effort. When you are struggling to follow the book, do not jump to any conclusions about your own capabilities. You are fine—you just need to keep at it. Take a break, reread some material, and make sure you read and understand the example programs and ((exercises)). Learning is hard work, but everything you learn is yours and will make further learning easier.
 
 {{quote {author: "Ursula K. Le Guin", title: "The Left Hand of Darkness"}
 
@@ -60,7 +60,7 @@ A ((computer)) is a physical machine that acts as a host for these immaterial ma
 
 A program is a building of thought. It is costless to build, it is weightless, and it grows easily under our typing hands.
 
-But without care, a program's size and ((complexity)) will grow out of control, confusing even the person who created it. Keeping programs under control is the main problem of programming. When a program works, it is beautiful. The art of programming is the skill of controlling complexity. The great program is subdued—made simple in its complexity.
+But as a program grows, so does its ((complexity)). The skill of programming is the skill of building programs that don't confuse yourself. The best programs are those that manage to do something interesting while still being easy to understand.
 
 {{index "programming style", "best practices"}}
 
@@ -68,7 +68,7 @@ Some programmers believe that this complexity is best managed by using only a sm
 
 {{index experiment}}
 
-This is not only boring, it is ineffective. New problems often require new solutions. The field of programming is young and still developing rapidly, and it is varied enough to have room for wildly different approaches. There are many terrible mistakes to make in program design, and you should go ahead and make them so that you understand them. A sense of what a good program looks like is developed in practice, not learned from a list of rules.
+This is not only boring, it is ineffective. New problems often require new solutions. The field of programming is young and still developing rapidly, and it is varied enough to have room for wildly different approaches. There are many terrible mistakes to make in program design, and you should go ahead and make them at least once so that you understand them. A sense of what a good program looks like is developed with practice, not learned from a list of rules.
 
 ## Why language matters
 
@@ -185,7 +185,7 @@ It is important to note that JavaScript has almost nothing to do with the progra
 
 {{index ECMAScript, compatibility}}
 
-After its adoption outside of Netscape, a ((standard)) document was written to describe the way the JavaScript language should work so that the various pieces of software that claimed to support JavaScript were actually talking about the same language. This is called the ECMAScript standard, after the Ecma International organization that did the standardization. In practice, the terms ECMAScript and JavaScript can be used interchangeably—they are two names for the same language.
+After its adoption outside of Netscape, a ((standard)) document was written to describe the way the JavaScript language should work so that the various pieces of software that claimed to support JavaScript could make sure they actually provided the same language. This is called the ECMAScript standard, after the Ecma International organization that did the standardization. In practice, the terms ECMAScript and JavaScript can be used interchangeably—they are two names for the same language.
 
 {{index [JavaScript, "weaknesses of"], debugging}}
 
@@ -193,13 +193,13 @@ There are those who will say _terrible_ things about JavaScript. Many of these t
 
 {{index [JavaScript, "flexibility of"], flexibility}}
 
-This flexibility also has its advantages, though. It leaves space for a lot of techniques that are impossible in more rigid languages, and as you will see (for example in [Chapter ?](modules)), it can be used to overcome some of JavaScript's shortcomings. After ((learning)) the language properly and working with it for a while, I have learned to actually _like_ JavaScript.
+This flexibility also has its advantages, though. It leaves room for techniques that are impossible in more rigid languages and makes for a pleasant, informal style of programming. After ((learning)) the language properly and working with it for a while, I have come to actually _like_ JavaScript.
 
 {{index future, [JavaScript, "versions of"], ECMAScript, "ECMAScript 6"}}
 
 There have been several versions of JavaScript. ECMAScript version 3 was the widely supported version in the time of JavaScript's ascent to dominance, roughly between 2000 and 2010. During this time, work was underway on an ambitious version 4, which planned a number of radical improvements and extensions to the language. Changing a living, widely used language in such a radical way turned out to be politically difficult, and work on the version 4 was abandoned in 2008, leading to a much less ambitious version 5, which made only some uncontroversial improvements, coming out in 2009. Then in 2015 version 6 came out, a major update that included some of the ideas planned for version 4. Since then we've had new, small updates every year.
 
-The fact that the language is evolving means that browsers have to constantly keep up, and if you're using an older browser, it may not support every feature. The language designers are careful to not make any changes that could break existing programs, so new browsers can still run old programs. In this book, I'm using the 2017 version of JavaScript.
+The fact that the language is evolving means that browsers have to constantly keep up, and if you're using an older browser, it may not support every feature. The language designers are careful to not make any changes that could break existing programs, so new browsers can still run old programs. In this book, I'm using the 2022 version of JavaScript.
 
 {{index [JavaScript, "uses of"]}}
 

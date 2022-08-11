@@ -18,7 +18,7 @@ The most obvious application of functions is defining new ((vocabulary)). Creati
 
 {{index abstraction, vocabulary}}
 
-Typical adult English speakers have some 20,000 words in their vocabulary. Few programming languages come with 20,000 commands built in. And the vocabulary that _is_ available tends to be more precisely defined, and thus less flexible, than in human language. Therefore, we usually _have_ to introduce new concepts to avoid repeating ourselves too much.
+Typical adult English speakers have some 20,000 words in their vocabulary. Few programming languages come with 20,000 commands built in. And the vocabulary that _is_ available tends to be more precisely defined, and thus less flexible, than in human language. Therefore, we _have_ to introduce new words to avoid excessive verbosity.
 
 ## Defining a function
 
@@ -40,9 +40,9 @@ console.log(square(12));
 
 A function is created with an expression that starts with the keyword `function`. Functions have a set of _((parameter))s_ (in this case, only `x`) and a _body_, which contains the statements that are to be executed when the function is called. The function body of a function created this way must always be wrapped in braces, even when it consists of only a single ((statement)).
 
-{{index "power example"}}
+{{index "roundTo example"}}
 
-A function can have multiple parameters or no parameters at all. In the following example, `makeNoise` does not list any parameter names, whereas `power` lists two:
+A function can have multiple parameters or no parameters at all. In the following example, `makeNoise` does not list any parameter names, whereas `roundTo` (which rounds `n` to the nearest multiple of `step`) lists two:
 
 ```
 const makeNoise = function() {
@@ -52,21 +52,18 @@ const makeNoise = function() {
 makeNoise();
 // → Pling!
 
-const power = function(base, exponent) {
-  let result = 1;
-  for (let count = 0; count < exponent; count++) {
-    result *= base;
-  }
-  return result;
+const roundTo = function(n, step) {
+  let remainder = n % step;
+  return n - remainder + (remainder < step / 2 ? 0 : step);
 };
 
-console.log(power(2, 10));
-// → 1024
+console.log(roundTo(23, 10));
+// → 20
 ```
 
 {{index "return value", "return keyword", undefined}}
 
-Some functions produce a value, such as `power` and `square`, and some don't, such as `makeNoise`, whose only result is a ((side effect)). A `return` statement determines the value the function returns. When control comes across such a statement, it immediately jumps out of the current function and gives the returned value to the code that called the function. A `return` keyword without an expression after it will cause the function to return `undefined`. Functions that don't have a `return` statement at all, such as `makeNoise`, similarly return `undefined`.
+Some functions produce a value, such as `roundTo` and `square`, and some don't, such as `makeNoise`, whose only result is a ((side effect)). A `return` statement determines the value the function returns. When control comes across such a statement, it immediately jumps out of the current function and gives the returned value to the code that called the function. A `return` keyword without an expression after it will cause the function to return `undefined`. Functions that don't have a `return` statement at all, such as `makeNoise`, similarly return `undefined`.
 
 {{index parameter, [function, application], [binding, "from parameter"]}}
 
@@ -201,7 +198,7 @@ function future() {
 }
 ```
 
-The preceding code works, even though the function is defined _below_ the code that uses it. Function declarations are not part of the regular top-to-bottom flow of control. They are conceptually moved to the top of their scope and can be used by all the code in that scope. This is sometimes useful because it offers the freedom to order code in a way that seems meaningful, without worrying about having to define all functions before they are used.
+The preceding code works, even though the function is defined _below_ the code that uses it. Function declarations are not part of the regular top-to-bottom flow of control. They are conceptually moved to the top of their scope and can be used by all the code in that scope. This is sometimes useful because it offers the freedom to order code in a way that seems the clearest, without worrying about having to define all functions before they are used.
 
 ## Arrow functions
 
@@ -210,12 +207,9 @@ The preceding code works, even though the function is defined _below_ the code t
 There's a third notation for functions, which looks very different from the others. Instead of the `function` keyword, it uses an arrow (`=>`) made up of an equal sign and a greater-than character (not to be confused with the greater-than-or-equal operator, which is written `>=`).
 
 ```{test: wrap}
-const power = (base, exponent) => {
-  let result = 1;
-  for (let count = 0; count < exponent; count++) {
-    result *= base;
-  }
-  return result;
+const roundTo = (n, step) => {
+  let remainder = n % step;
+  return n - remainder + (remainder < step / 2 ? 0 : step);
 };
 ```
 
@@ -334,28 +328,25 @@ console.log(minus(10, 5));
 // → 5
 ```
 
-{{id power}}
+{{id roundTo}}
 {{index "optional argument", "default value", parameter, ["= operator", "for default value"]}}
 
 If you write an `=` operator after a parameter, followed by an expression, the value of that expression will replace the argument when it is not given.
 
-{{index "power example"}}
+{{index "roundTo example"}}
 
-For example, this version of `power` makes its second argument optional. If you don't provide it or pass the value `undefined`, it will default to two, and the function will behave like `square`.
+For example, this version of `roundTo` makes its second argument optional. If you don't provide it or pass the value `undefined`, it will default to one.
 
 ```{test: wrap}
-function power(base, exponent = 2) {
-  let result = 1;
-  for (let count = 0; count < exponent; count++) {
-    result *= base;
-  }
-  return result;
-}
+function roundTo(n, step = 1) {
+  let remainder = n % step;
+  return n - remainder + (remainder < step / 2 ? 0 : step);
+};
 
-console.log(power(4));
-// → 16
-console.log(power(2, 6));
-// → 64
+console.log(roundTo(4.5));
+// → 5
+console.log(roundTo(4.5, 2));
+// → 4
 ```
 
 {{index "console.log"}}
@@ -389,7 +380,7 @@ console.log(wrap2());
 // → 2
 ```
 
-This is allowed and works as you'd hope—both instances of the binding can still be accessed. This situation is a good demonstration of the fact that local bindings are created anew for every call, and different calls can't trample on one another's local bindings.
+This is allowed and works as you'd hope—both instances of the binding can still be accessed. This situation is a good demonstration of the fact that local bindings are created anew for every call, and different calls don't affect each other's local bindings.
 
 This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about lifetimes of bindings but also makes it possible to use function values in some creative ways.
 
@@ -421,7 +412,7 @@ In the example, `multiplier` is called and creates an environment in which its `
 
 {{index "power example", "stack overflow", recursion, [function, application]}}
 
-It is perfectly okay for a function to call itself, as long as it doesn't do it so often that it overflows the stack. A function that calls itself is called _recursive_. Recursion allows some functions to be written in a different style. Take, for example, this alternative implementation of `power`:
+It is perfectly okay for a function to call itself, as long as it doesn't do it so often that it overflows the stack. A function that calls itself is called _recursive_. Recursion allows some functions to be written in a different style. Take, for example, this `power` function, which does the same as the `**` (exponentiation) operator:
 
 ```{test: wrap}
 function power(base, exponent) {
@@ -438,17 +429,17 @@ console.log(power(2, 3));
 
 {{index loop, readability, mathematics}}
 
-This is rather close to the way mathematicians define exponentiation and arguably describes the concept more clearly than the looping variant. The function calls itself multiple times with ever smaller exponents to achieve the repeated multiplication.
+This is rather close to the way mathematicians define exponentiation and arguably describes the concept more clearly than the loop we used in [Chapter ?](program_structure). The function calls itself multiple times with ever smaller exponents to achieve the repeated multiplication.
 
 {{index [function, application], efficiency}}
 
-But this implementation has one problem: in typical JavaScript implementations, it's about three times slower than the looping version. Running through a simple loop is generally cheaper than calling a function multiple times.
+But this implementation has one problem: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
 
 {{index optimization}}
 
 The dilemma of speed versus ((elegance)) is an interesting one. You can see it as a kind of continuum between human-friendliness and machine-friendliness. Almost any program can be made faster by making it bigger and more convoluted. The programmer has to decide on an appropriate balance.
 
-In the case of the `power` function, the inelegant (looping) version is still fairly simple and easy to read. It doesn't make much sense to replace it with the recursive version. Often, though, a program deals with such complex concepts that giving up some efficiency in order to make the program more straightforward is helpful.
+In the case of the `power` function, an inelegant (looping) version is still fairly simple and easy to read. It doesn't make much sense to replace it with a recursive function. Often, though, a program deals with such complex concepts that giving up some efficiency in order to make the program more straightforward is helpful.
 
 {{index profiling}}
 
@@ -456,7 +447,7 @@ Worrying about efficiency can be a distraction. It's yet another factor that com
 
 {{index "premature optimization"}}
 
-Therefore, always start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
+Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
 
 {{index "branching recursion"}}
 
@@ -479,7 +470,7 @@ function findSolution(target) {
     } else if (current > target) {
       return null;
     } else {
-      return find(current + 5, `(${history} + 5)`) ||
+      return find(current + 5, `(${history} + 5)`) ??
              find(current * 3, `(${history} * 3)`);
     }
   }
@@ -496,7 +487,7 @@ It is okay if you don't see how it works right away. Let's work through it, sinc
 
 The inner function `find` does the actual recursing. It takes two ((argument))s: the current number and a string that records how we reached this number. If it finds a solution, it returns a string that shows how to get to the target. If no solution can be found starting from this number, it returns `null`.
 
-{{index null, "|| operator", "short-circuit evaluation"}}
+{{index null, "?? operator", "short-circuit evaluation"}}
 
 To do this, the function performs one of three actions. If the current number is the target number, the current history is a way to reach that target, so it is returned. If the current number is greater than the target, there's no sense in further exploring this branch because both adding and multiplying will only make the number bigger, so it returns `null`. Finally, if we're still below the target number, the function tries both possible paths that start from the current number by calling itself twice, once for addition and once for multiplication. If the first call returns something that is not `null`, it is returned. Otherwise, the second call is returned, regardless of whether it produces a string or `null`.
 
@@ -520,7 +511,7 @@ find(1, "1")
         found!
 ```
 
-The indentation indicates the depth of the call stack. The first time `find` is called, it starts by calling itself to explore the solution that starts with `(1 + 5)`. That call will further recurse to explore _every_ continued solution that yields a number less than or equal to the target number. Since it doesn't find one that hits the target, it returns `null` back to the first call. There the `||` operator causes the call that explores `(1 * 3)` to happen. This search has more luck—its first recursive call, through yet _another_ recursive call, hits upon the target number. That innermost call returns a string, and each of the `||` operators in the intermediate calls passes that string along, ultimately returning the solution.
+The indentation indicates the depth of the call stack. The first time `find` is called, it starts by calling itself to explore the solution that starts with `(1 + 5)`. That call will further recurse to explore _every_ continued solution that yields a number less than or equal to the target number. Since it doesn't find one that hits the target, it returns `null` back to the first call. There the `??` operator causes the call that explores `(1 * 3)` to happen. This search has more luck—its first recursive call, through yet _another_ recursive call, hits upon the target number. That innermost call returns a string, and each of the `??` operators in the intermediate calls passes that string along, ultimately returning the solution.
 
 ## Growing functions
 
@@ -646,7 +637,7 @@ A _pure_ function is a specific kind of value-producing function that not only h
 
 {{index optimization, "console.log"}}
 
-Still, there's no need to feel bad when writing functions that are not pure or to wage a holy war to purge them from your code. Side effects are often useful. There'd be no way to write a pure version of `console.log`, for example, and `console.log` is good to have. Some operations are also easier to express in an efficient way when we use side effects, so computing speed can be a reason to avoid purity.
+Still, there's no need to feel bad when writing functions that are not pure. Side effects are often useful. There'd be no way to write a pure version of `console.log`, for example, and `console.log` is good to have. Some operations are also easier to express in an efficient way when we use side effects, so computing speed can be a reason to avoid purity.
 
 ## Summary
 
@@ -752,7 +743,7 @@ hint}}
 
 {{index "bean counting (exercise)", [string, indexing], "zero-based counting", ["length property", "for string"]}}
 
-You can get the Nth character, or letter, from a string by writing `"string"[N]`. The returned value will be a string containing only one character (for example, `"b"`). The first character has position 0, which causes the last one to be found at position `string.length - 1`. In other words, a two-character string has length 2, and its characters have positions 0 and 1.
+You can get the Nth character, or letter, from a string by writing `[N]` after the string (for example `string[2]`). The resulting value will be a string containing only one character (for example, `"b"`). The first character has position 0, which causes the last one to be found at position `string.length - 1`. In other words, a two-character string has length 2, and its characters have positions 0 and 1.
 
 Write a function `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase "B" characters there are in the string.
 
@@ -763,7 +754,7 @@ Next, write a function called `countChar` that behaves like `countBs`, except it
 ```{test: no}
 // Your code here.
 
-console.log(countBs("BBC"));
+console.log(countBs("BOB"));
 // → 2
 console.log(countChar("kakkerlak", "k"));
 // → 4

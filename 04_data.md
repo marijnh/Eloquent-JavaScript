@@ -34,7 +34,7 @@ Every now and then, usually between 8 p.m. and 10 p.m., ((Jacques)) finds himsel
 
 On one hand, Jacques is quite glad that he doesn't have classic lycanthropy. Turning into a squirrel does cause fewer problems than turning into a wolf. Instead of having to worry about accidentally eating the neighbor (_that_ would be awkward), he worries about being eaten by the neighbor's cat. After two occasions where he woke up on a precariously thin branch in the crown of an oak, naked and disoriented, he has taken to locking the doors and windows of his room at night and putting a few walnuts on the floor to keep himself busy.
 
-That takes care of the cat and tree problems. But Jacques would prefer to get rid of his condition entirely. The irregular occurrences of the transformation make him suspect that they might be triggered by something. For a while, he believed that it happened only on days when he had been near oak trees. But avoiding oak trees did not stop the problem.
+But Jacques would prefer to get rid of his condition entirely. The irregular occurrences of the transformation make him suspect that they might be triggered by something. For a while, he believed that it happened only on days when he had been near oak trees. But avoiding oak trees did not stop the problem.
 
 {{index journal}}
 
@@ -103,7 +103,7 @@ The elements in an ((array)) are stored as the array's properties, using numbers
 
 {{index ["length property", "for array"], [array, "length of"]}}
 
-The `length` property of an array tells us how many elements it has. This property name is a valid binding name, and we know its name in advance, so to find the length of an array, you typically write `array.length` because that's easier to write than `array["length"]`.
+Just like strings, arrays have a `length` property that tells us how many elements it has.
 
 {{id methods}}
 
@@ -192,7 +192,7 @@ let descriptions = {
 
 {{index [braces, object]}}
 
-This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they start a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem.
+This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they start a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}`, since the braces will be interpreted as a function body, and have to put a set of parentheses around the object to make it clear it is an expression.
 
 {{index undefined}}
 
@@ -417,7 +417,7 @@ This is a direct translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is
 
 {{index "JOURNAL data set"}}
 
-Jacques kept his journal for three months. The resulting ((data set)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
+Jacques kept his journal for three months. The resulting ((data set)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
 
 {{index "tableFor function"}}
 
@@ -556,13 +556,11 @@ console.log(phi(tableFor("peanut teeth", JOURNAL)));
 
 That's a strong result. The phenomenon occurs precisely when Jacques eats ((peanuts)) and fails to brush his teeth. If only he weren't such a slob about dental hygiene, he'd have never even noticed his affliction.
 
-Knowing this, Jacques stops eating peanuts altogether and finds that his transformations don't come back.
+Knowing this, Jacques stops eating peanuts altogether and finds that his transformations don't come back like that.
 
 {{index "weresquirrel example"}}
 
-For a few years, things go great for Jacques. But at some point he loses his job. Because he lives in a nasty country where having no job means having no medical services, he is forced to take employment with a ((circus)) where he performs as _The Incredible Squirrelman_, stuffing his mouth with peanut butter before every show.
-
-One day, fed up with this pitiful existence, Jacques fails to change back into his human form, hops through a crack in the circus tent, and vanishes into the forest. He is never seen again.
+But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes one last time, and lives the rest of his short but energetic life as a squirrel.
 
 ## Further arrayology
 
@@ -621,7 +619,7 @@ When the end index is not given, `slice` will take all of the elements after the
 
 {{index concatenation, "concat method"}}
 
-The `concat` method can be used to glue arrays together to create a new array, similar to what the `+` operator does for strings.
+The `concat` method can be used to append arrays together to create a new array, similar to what the `+` operator does for strings.
 
 The following example shows both `concat` and `slice` in action. It takes an array and an index, and it returns a new array that is a copy of the original array with the element at the given index removed.
 
@@ -678,6 +676,8 @@ console.log("  okay \n ".trim());
 // → okay
 ```
 
+{{id padStart}}
+
 The `zeroPad` function from the [previous chapter](functions) also exists as a method. It is called `padStart` and takes the desired length and padding character as arguments.
 
 ```
@@ -709,7 +709,7 @@ console.log("LA".repeat(3));
 
 {{index ["length property", "for string"], [string, indexing]}}
 
-We have already seen the string type's `length` property. Accessing the individual characters in a string looks like accessing array elements (with a caveat that we'll discuss in [Chapter ?](higher_order#code_units)).
+We have already seen the string type's `length` property. Accessing the individual characters in a string looks like accessing array elements (with a complication that we'll discuss in [Chapter ?](higher_order#code_units)).
 
 ```
 let string = "abc";
@@ -727,7 +727,7 @@ console.log(string[1]);
 
 It can be useful for a function to accept any number of ((argument))s. For example, `Math.max` computes the maximum of _all_ the arguments it is given.
 
-{{index "period character", "max example", spread}}
+{{index "period character", "max example", spread, [array, "of rest arguments"]}}
 
 To write such a function, you put three dots before the function's last ((parameter)), like this:
 
@@ -757,7 +757,7 @@ console.log(max(...numbers));
 
 This "((spread))s" out the array into the function call, passing its elements as separate arguments. It is possible to include an array like that along with other arguments, as in `max(9, ...numbers, 2)`.
 
-{{index [array, "of rest arguments"], "square brackets"}}
+{{index "[] (array)"}}
 
 Square bracket array notation similarly allows the triple-dot operator to spread another array into the new array.
 
@@ -765,6 +765,16 @@ Square bracket array notation similarly allows the triple-dot operator to spread
 let words = ["never", "fully"];
 console.log(["will", ...words, "understand"]);
 // → ["will", "never", "fully", "understand"]
+```
+
+{{index "{} (object)"}}
+
+This even works in curly brace objects, where it adds all properties from another object. If a propery is added multiple times, the last value to be added wins.
+
+```
+let coordinates = {x: 10, y: 0};
+console.log({...coordinates, y: 5, z: 1});
+// → {x: 10, y: 5, z: 1}
 ```
 
 ## The Math object
@@ -881,11 +891,38 @@ console.log(name);
 
 Note that if you try to destructure `null` or `undefined`, you get an error, much as you would if you directly try to access a property of those values.
 
+## Optional property access
+
+{{index "optional chaining", "period character"}}
+
+When you aren't sure that a given object exists, but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
+
+```
+function city(object) {
+  return object.address?.city;
+}
+console.log(city({address: {city: "Toronto"}}));
+// → Toronto
+console.log(city({name: "Vera"}));
+// → undefined
+```
+
+The expression `a?.b` means the same `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists, or when a variable might hold an undefined value.
+
+A similar notation can be used with square bracket access, and even with function calls, by putting `?.` in front of the parentheses or brackets.
+
+```
+console.log("string".notAMethod?.());
+// → undefined
+console.log({}.arrayProp?.[0]);
+// → undefined
+```
+
 ## JSON
 
 {{index [array, representation], [object, representation], "data format", [memory, organization]}}
 
-Because properties only grasp their value, rather than contain it, objects and arrays are stored in the computer's memory as sequences of bits holding the _((address))es_—the place in memory—of their contents. So an array with another array inside of it consists of (at least) one memory region for the inner array, and another for the outer array, containing (among other things) a binary number that represents the position of the inner array.
+Because properties only grasp their value, rather than contain it, objects and arrays are stored in the computer's memory as sequences of bits holding the _((address))es_—the place in memory—of their contents. So an array with another array inside of it consists of (at least) one memory region for the inner array, and another for the outer array, containing (among other things) a number that represents the address of the inner array.
 
 If you want to save data in a file for later or send it to another computer over the network, you have to somehow convert these tangles of memory addresses to a description that can be stored or sent. You _could_ send over your entire computer memory along with the address of the value you're interested in, I suppose, but that doesn't seem like the best approach.
 
@@ -1005,8 +1042,11 @@ Thinking back to the notes about side effects and pure functions in the [previou
 ```{test: no}
 // Your code here.
 
-console.log(reverseArray(["A", "B", "C"]));
+let myArray = ["A", "B", "C"];
+console.log(reverseArray(myArray));
 // → ["C", "B", "A"];
+console.log(myArray);
+// → ["A", "B", "C"];
 let arrayValue = [1, 2, 3, 4, 5];
 reverseArrayInPlace(arrayValue);
 console.log(arrayValue);
@@ -1023,7 +1063,7 @@ There are two obvious ways to implement `reverseArray`. The first is to simply g
 
 {{index "slice method"}}
 
-Reversing the array in place is harder. You have to be careful not to overwrite elements that you will later need. Using `reverseArray` or otherwise copying the whole array (`array.slice(0)` is a good way to copy an array) works but is cheating.
+Reversing the array in place is harder. You have to be careful not to overwrite elements that you will later need. Using `reverseArray` or otherwise copying the whole array (`array.slice()` is a good way to copy an array) works but is cheating.
 
 The trick is to _swap_ the first and last elements, then the second and second-to-last, and so on. You can do this by looping over half the length of the array (use `Math.floor` to round down—you don't need to touch the middle element in an array with an odd number of elements) and swapping the element at position `i` with the one at position `array.length - 1 - i`. You can use a local binding to briefly hold on to one of the elements, overwrite that one with its mirror image, and then put the value from the local binding in the place where the mirror image used to be.
 
@@ -1058,7 +1098,7 @@ The resulting objects form a chain, like this:
 
 A nice thing about lists is that they can share parts of their structure. For example, if I create two new values `{value: 0, rest: list}` and `{value: -1, rest: list}` (with `list` referring to the binding defined earlier), they are both independent lists, but they share the structure that makes up their last three elements. The original list is also still a valid three-element list.
 
-Write a function `arrayToList` that builds up a list structure like the one shown when given `[1, 2, 3]` as argument. Also write a `listToArray` function that produces an array from a list. Then add a helper function `prepend`, which takes an element and a list and creates a new list that adds the element to the front of the input list, and `nth`, which takes a list and a number and returns the element at the given position in the list (with zero referring to the first element) or `undefined` when there is no such element.
+Write a function `arrayToList` that builds up a list structure like the one shown when given `[1, 2, 3]` as argument. Also write a `listToArray` function that produces an array from a list. Then add the helper functions `prepend`, which takes an element and a list and creates a new list that adds the element to the front of the input list, and `nth`, which takes a list and a number and returns the element at the given position in the list (with zero referring to the first element) or `undefined` when there is no such element.
 
 {{index recursion}}
 

@@ -39,7 +39,7 @@ The simplest kind of statement is an expression with a semicolon after it. This 
 !false;
 ```
 
-It is a useless program, though. An ((expression)) can be content to just produce a value, which can then be used by the enclosing code. A ((statement)) stands on its own, so it amounts to something only if it affects the world. It could display something on the screen—that counts as changing the world—or it could change the internal state of the machine in a way that will affect the statements that come after it. These changes are called _((side effect))s_. The statements in the previous example just produce the values `1` and `true` and then immediately throw them away. This leaves no impression on the world at all. When you run this program, nothing observable happens.
+It is a useless program, though. An ((expression)) can be content to just produce a value, which can then be used by the enclosing code. A ((statement)) stands on its own, so if it doesn't affect the world, it's useless. It could display something on the screen—that counts as affecting the world—or it could change the internal state of the machine in a way that will affect the statements that come after it. These changes are called _((side effect))s_. The statements in the previous example just produce the values `1` and `true` and then immediately throw them away. This leaves no impression on the world at all. When you run this program, nothing observable happens.
 
 {{index "programming style", "automatic semicolon insertion", semicolon}}
 
@@ -121,11 +121,11 @@ console.log(greeting + name);
 
 {{index "var keyword"}}
 
-The first, `var` (short for "variable"), is the way bindings were declared in pre-2015 JavaScript. I'll get back to the precise way it differs from `let` in the [next chapter](functions). For now, remember that it mostly does the same thing, but we'll rarely use it in this book because it has some confusing properties.
+The first, `var` (short for "variable"), is the way bindings were declared in pre-2015 JavaScript. I'll get back to the precise way it differs from `let` in the [next chapter](functions). For now, remember that it mostly does the same thing, but we'll rarely use it in this book because it behaves oddly in some situations.
 
 {{index "const keyword", naming}}
 
-The word `const` stands for _((constant))_. It defines a constant binding, which points at the same value for as long as it lives. This is useful for bindings that give a name to a value so that you can easily refer to it later.
+The word `const` stands for _((constant))_. It defines a constant binding, which points at the same value for as long as it lives. This is useful for bindings that just give a name to a value so that you can easily refer to it later.
 
 ## Binding names
 
@@ -376,6 +376,10 @@ console.log(result);
 ```
 
 The counter could also have started at `1` and checked for `<= 10`, but for reasons that will become apparent in [Chapter ?](data#array_indexing), it is a good idea to get used to counting from 0.
+
+{{index "** operator"}}
+
+Note that JavaScript _does_ have an operator for exponentiation (`2 ** 10`), which could have made this code a lot shorter—but would also have ruined the example.
 
 {{index "loop body", "do loop", ["control flow", loop]}}
 

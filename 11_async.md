@@ -561,7 +561,7 @@ function findInRemoteStorage(nest, name) {
                                       sources.length)];
       sources = sources.filter(n => n != source);
       return routeRequest(nest, source, "storage", name)
-        .then(value => value != null ? value : next(),
+        .then(value => value ?? next(),
               next);
     }
   }

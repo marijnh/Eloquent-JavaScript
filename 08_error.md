@@ -73,7 +73,7 @@ console.log(name);
 
 So the bogus call to `Person` succeeded but returned an undefined value and created the global binding `name`. In strict mode, the result is different.
 
-```{test: "error \"TypeError: Cannot set property 'name' of undefined\""}
+```{test: "error \"TypeError: Cannot set properties of undefined (setting 'name')\""}
 "use strict";
 function Person(name) { this.name = name; }
 let ferdinand = Person("Ferdinand"); // forgot new

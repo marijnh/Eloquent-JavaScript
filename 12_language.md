@@ -10,7 +10,7 @@ quote}}
 
 {{index "Abelson, Hal", "Sussman, Gerald", SICP, "project chapter"}}
 
-{{figure {url: "img/chapter_picture_12.jpg", alt: "Picture of an egg with smaller eggs inside", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_12.jpg", alt: "Illustration showing an egg with holes in it, showing smaller eggs inside, which in turn have even smaller eggs in them, and so on", chapter: "framed"}}}
 
 Building your own ((programming language)) is surprisingly easy (as long as you do not aim too high) and very enlightening.
 
@@ -76,7 +76,7 @@ The `>(x, 5)` part of the previous program would be represented like this:
 
 Such a data structure is called a _((syntax tree))_. If you imagine the objects as dots and the links between them as lines between those dots, it has a ((tree))like shape. The fact that expressions contain other expressions, which in turn might contain more expressions, is similar to the way tree branches split and split again.
 
-{{figure {url: "img/syntax_tree.svg", alt: "The structure of a syntax tree",width: "5cm"}}}
+{{figure {url: "img/syntax_tree.svg", alt: "A diagram showing the structure of the syntax tree for the example program. The root is labeled 'do' and has two children, one labeled 'define' and one labeled 'if'. Those in turn have more children, describing their content.", width: "5cm"}}}
 
 {{index parsing}}
 

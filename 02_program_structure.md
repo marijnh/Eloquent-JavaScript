@@ -8,7 +8,7 @@ quote}}
 
 {{index why, "Poignant Guide"}}
 
-{{figure {url: "img/chapter_picture_2.jpg", alt: "Picture of tentacles holding objects", chapter: framed}}}
+{{figure {url: "img/chapter_picture_2.jpg", alt: "Illustration showing a number of tentacles holding chess pieces", chapter: framed}}}
 
 In this chapter, we will start to do things that can actually be called _programming_. We will expand our command of the JavaScript language beyond the nouns and sentence fragments we've seen so far, to the point where we can express meaningful prose.
 
@@ -168,7 +168,7 @@ A lot of the values provided in the default environment have the type _((functio
 prompt("Enter passcode");
 ```
 
-{{figure {url: "img/prompt.png", alt: "A prompt dialog", width: "8cm"}}}
+{{figure {url: "img/prompt.png", alt: "A prompt dialog that says 'enter passcode'", width: "8cm"}}}
 
 {{index parameter, [function, application], [parentheses, arguments]}}
 
@@ -239,7 +239,7 @@ The function `Number` converts a value to a number. We need that conversion beca
 
 Here is the rather trivial schematic representation of straight-line control flow:
 
-{{figure {url: "img/controlflow-straight.svg", alt: "Trivial control flow", width: "4cm"}}}
+{{figure {url: "img/controlflow-straight.svg", alt: "Diagram showing a straight arrow", width: "4cm"}}}
 
 ## Conditional execution
 
@@ -247,7 +247,7 @@ Here is the rather trivial schematic representation of straight-line control flo
 
 Not all programs are straight roads. We may, for example, want to create a branching road, where the program takes the proper branch based on the situation at hand. This is called _((conditional execution))_.
 
-{{figure {url: "img/controlflow-if.svg", alt: "Conditional control flow",width: "4cm"}}}
+{{figure {url: "img/controlflow-if.svg", alt: "Diagram of an arrow that splits in two, and then rejoins again",width: "4cm"}}}
 
 {{index [syntax, statement], "Number function", "if keyword"}}
 
@@ -314,7 +314,7 @@ The program will first check whether `num` is less than 10. If it is, it chooses
 
 The schema for this program looks something like this:
 
-{{figure {url: "img/controlflow-nested-if.svg", alt: "Nested if control flow", width: "4cm"}}}
+{{figure {url: "img/controlflow-nested-if.svg", alt: "Diagram showing arrow that splits in two, with on the branches splitting again, before all branches rejoin again", width: "4cm"}}}
 
 {{id loops}}
 ## while and do loops
@@ -335,7 +335,7 @@ console.log(12);
 
 That works, but the idea of writing a program is to make something _less_ work, not more. If we needed all even numbers less than 1,000, this approach would be unworkable. What we need is a way to run a piece of code multiple times. This form of control flow is called a _((loop))_.
 
-{{figure {url: "img/controlflow-loop.svg", alt: "Loop control flow",width: "4cm"}}}
+{{figure {url: "img/controlflow-loop.svg", alt: "Diagram showing an arrow to a point which has a cyclic arrow going back to itself and another arrow going further", width: "4cm"}}}
 
 {{index [syntax, statement], "counter variable"}}
 

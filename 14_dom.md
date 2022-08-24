@@ -6,7 +6,7 @@ Too bad! Same old story! Once you've finished building your house you notice you
 
 quote}}
 
-{{figure {url: "img/chapter_picture_14.jpg", alt: "Picture of a tree with letters and scripts hanging from its branches", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_14.jpg", alt: "Illustration showing a tree with letters, pictures, and gears hanging on its branches", chapter: "framed"}}}
 
 {{index drawing, parsing}}
 
@@ -39,7 +39,7 @@ You can imagine an HTML document as a nested set of ((box))es. Tags such as `<bo
 
 This page has the following structure:
 
-{{figure {url: "img/html-boxes.svg", alt: "HTML document as nested boxes", width: "7cm"}}}
+{{figure {url: "img/html-boxes.svg", alt: "Diagram showing an HTML document as a set of nested boxes. The outer box is labeled 'html' and contains two boxes labeled 'head' and 'body'. Inside those are further boxes, with some of the innermost boxes containing the document's text.", width: "7cm"}}}
 
 {{indexsee "Document Object Model", DOM}}
 
@@ -77,7 +77,7 @@ Each DOM node object has a `nodeType` property, which contains a code (number) t
 
 Another way to visualize our document ((tree)) is as follows:
 
-{{figure {url: "img/html-tree.svg", alt: "HTML document as a tree",width: "8cm"}}}
+{{figure {url: "img/html-tree.svg", alt: "Diagram showing the HTML document as a tree, with arrows from parent nodes to child nodes", width: "8cm"}}}
 
 The leaves are text nodes, and the arrows indicate parent-child relationships between nodes.
 
@@ -111,7 +111,7 @@ But these flaws aren't fatal. Since JavaScript allows us to create our own ((abs
 
 DOM nodes contain a wealth of ((link))s to other nearby nodes. The following diagram illustrates these:
 
-{{figure {url: "img/html-links.svg", alt: "Links between DOM nodes",width: "6cm"}}}
+{{figure {url: "img/html-links.svg", alt: "Diagram that shows the links between DOM nodes. The 'body' node is shown as a box, with a 'firstChild' arrow pointing at the 'h1' node at its start, a 'lastChild' arrow pointing at the last paragraph node, and 'childNodes' arrow pointing at an array of links to all its children. The middle paragraph has a 'previousSibling' arrow pointing at the node before it, a 'nextSibling' arrow to the node after it, and a 'parentNode' arrow pointing at the 'body' node.", width: "6cm"}}}
 
 {{index "child node", "parentNode property", "childNodes property"}}
 
@@ -302,7 +302,7 @@ The following example defines a utility `elt`, which creates an element node and
 
 This is what the resulting document looks like:
 
-{{figure {url: "img/blockquote.png", alt: "A blockquote with attribution",width: "8cm"}}}
+{{figure {url: "img/blockquote.png", alt: "Rendered picture of the blockquote with attribution", width: "8cm"}}}
 
 if}}
 
@@ -368,7 +368,7 @@ Similarly, `clientWidth` and `clientHeight` give you the size of the space _insi
 
 Giving a paragraph a border causes a rectangle to be drawn around it.
 
-{{figure {url: "img/boxed-in.png", alt: "A paragraph with a border",width: "8cm"}}}
+{{figure {url: "img/boxed-in.png", alt: "Rendered picture of a paragraph with a border", width: "8cm"}}}
 
 if}}
 
@@ -434,7 +434,7 @@ The way an `<img>` tag shows an image or an `<a>` tag causes a link to be follow
 
 The second link will be green instead of the default link color.
 
-{{figure {url: "img/colored-links.png", alt: "A normal and a green link",width: "2.2cm"}}}
+{{figure {url: "img/colored-links.png", alt: "Rendered picture of a normal blue linke and a styled green link", width: "2.2cm"}}}
 
 if}}
 
@@ -458,7 +458,7 @@ The `block` tag will end up on its own line since ((block element))s are not dis
 
 {{if book
 
-{{figure {url: "img/display.png", alt: "Different display styles",width: "4cm"}}}
+{{figure {url: "img/display.png", alt: "Different display styles", width: "4cm"}}}
 
 if}}
 
@@ -616,7 +616,7 @@ We can use this to create an animation. The following document displays a pictur
 
 The gray arrow shows the path along which the image moves.
 
-{{figure {url: "img/cat-animation.png", alt: "A moving cat head",width: "8cm"}}}
+{{figure {url: "img/cat-animation.png", alt: "A diagram showing a picture of a cat with a circular arrow indicating its motion", width: "8cm"}}}
 
 if}}
 
@@ -652,7 +652,7 @@ Moving in ((circle))s is done using the trigonometry functions `Math.cos` and `M
 
 This unit for measuring angles is called ((radian))s—a full circle is 2π radians, similar to how it is 360 degrees when measuring in degrees. The constant π is available as `Math.PI` in JavaScript.
 
-{{figure {url: "img/cos_sin.svg", alt: "Using cosine and sine to compute coordinates",width: "6cm"}}}
+{{figure {url: "img/cos_sin.svg", alt: "Diagram showing the use of cosine and sine to compute coordinates. A circle with radius 1 is shown with two points on it. The angle from the right side of the circle to the point, in radians, is used to compute the position of each point by using 'cos(angle)' for the horizontal distance from the center of the circle and sin(angle) for the vertical distance.", width: "6cm"}}}
 
 {{index "counter variable", "Math.sin function", "top (CSS)", "Math.cos function", "left (CSS)", ellipse}}
 

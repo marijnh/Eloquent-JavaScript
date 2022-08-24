@@ -8,7 +8,7 @@ quote}}
 
 {{index stoicism, "Marcus Aurelius", input, timeline}}
 
-{{figure {url: "img/chapter_picture_15.jpg", alt: "Picture a Rube Goldberg machine", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_15.jpg", alt: "Illustration showing a Rube Goldberg machine involving a ball, a see-saw, a pair of scissors, and a hammer, which affect each other in a chain reaction that turns on a lightbulb.", chapter: "framed"}}}
 
 Some programs work with direct user input, such as mouse and keyboard actions. That kind of input isn't available as a well-organized data structure—it comes in piece by piece, in real time, and the program is expected to respond to it as it happens.
 
@@ -348,7 +348,7 @@ As an example, the following program displays a bar and sets up event handlers s
 
 The resulting page looks like this:
 
-{{figure {url: "img/drag-bar.png", alt: "A draggable bar",width: "5.3cm"}}}
+{{figure {url: "img/drag-bar.png", alt: "Picture of a draggable bar", width: "5.3cm"}}}
 
 if}}
 
@@ -493,7 +493,7 @@ The following example displays help text for the ((text field)) that currently h
 
 This screenshot shows the help text for the age field.
 
-{{figure {url: "img/help-field.png", alt: "Providing help when a field is focused",width: "4.4cm"}}}
+{{figure {url: "img/help-field.png", alt: "Screenshot of the help text below the age field", width: "4.4cm"}}}
 
 if}}
 

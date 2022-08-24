@@ -8,7 +8,7 @@ Debugging is twice as hard as writing the code in the first place. Therefore, if
 
 quote}}
 
-{{figure {url: "img/chapter_picture_8.jpg", alt: "Picture of a collection of bugs", chapter: framed}}}
+{{figure {url: "img/chapter_picture_8.jpg", alt: "Illustration showing various insects and a centipede", chapter: framed}}}
 
 {{index "Kernighan, Brian", "Plauger, P.J.", debugging, "error handling"}}
 

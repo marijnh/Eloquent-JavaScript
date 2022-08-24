@@ -18,7 +18,7 @@ quote}}
 
 if}}
 
-{{figure {url: "img/chapter_picture_9.jpg", alt: "A railroad diagram", chapter: "square-framed"}}}
+{{figure {url: "img/chapter_picture_9.jpg", alt: "Illustration of a railroad system representing the syntactic structure of regular expressions", chapter: "square-framed"}}}
 
 {{index evolution, adoption, integration}}
 
@@ -388,7 +388,7 @@ Conceptually, when you use `exec` or `test`, the regular expression engine looks
 
 To do the actual matching, the engine treats a regular expression something like a ((flow diagram)). This is the diagram for the livestock expression in the previous example:
 
-{{figure {url: "img/re_pigchickens.svg", alt: "Visualization of /\\b\\d+ (pig|cow|chicken)s?\\b/"}}}
+{{figure {url: "img/re_pigchickens.svg", alt: "Railroad diagram for the regular expression '\\b\\d+ (pig|cow|chicken)s?\\b'"}}}
 
 {{index traversal}}
 
@@ -429,7 +429,7 @@ So if we try to match `"the 3 pigs"` from position 4, our progress through the f
 
 The regular expression `/\b([01]+b|[\da-f]+h|\d+)\b/` matches either a binary number followed by a _b_, a hexadecimal number (that is, base 16, with the letters _a_ to _f_ standing for the digits 10 to 15) followed by an _h_, or a regular decimal number with no suffix character. This is the corresponding diagram:
 
-{{figure {url: "img/re_number.svg", alt: "Visualization of /\\b([01]+b|\\d+|[\\da-f]+h)\\b/"}}}
+{{figure {url: "img/re_number.svg", alt: "Railroad diagram for the regular expression '\\b([01]+b|\\d+|[\\da-f]+h)\\b'"}}}
 
 {{index branching}}
 
@@ -449,7 +449,7 @@ Backtracking also happens for ((repetition)) operators like + and `*`. If you ma
 
 It is possible to write regular expressions that will do a _lot_ of backtracking. This problem occurs when a pattern can match a piece of input in many different ways. For example, if we get confused while writing a binary-number regular expression, we might accidentally write something like `/([01]+)+b/`.
 
-{{figure {url: "img/re_slow.svg", alt: "Visualization of /([01]+)+b/",width: "6cm"}}}
+{{figure {url: "img/re_slow.svg", alt: "Railroad diagram for the regular expression '([01]+)+b'",width: "6cm"}}}
 
 {{index "inner loop", [nesting, "in regexps"]}}
 

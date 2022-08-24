@@ -10,7 +10,7 @@ quote}}
 
 {{index "Laozi"}}
 
-{{figure {url: "img/chapter_picture_11.jpg", alt: "Picture of two crows on a branch", chapter: framed}}}
+{{figure {url: "img/chapter_picture_11.jpg", alt: "Illustration showing two crows on a tree branch", chapter: framed}}}
 
 The central part of a computer, the part that carries out the individual steps that make up our programs, is called the _((processor))_. The programs we have seen so far are things that will keep the processor busy until they have finished their work. The speed at which something like a loop that manipulates numbers can be executed depends pretty much entirely on the speed of the processor.
 
@@ -44,7 +44,7 @@ The solution to this problem, in a synchronous system, is to start additional ((
 
 In the following diagram, the thick lines represent time the program spends running normally, and the thin lines represent time spent waiting for the network. In the synchronous model, the time taken by the network is _part_ of the timeline for a given thread of control. In the asynchronous model, starting a network action conceptually causes a _split_ in the timeline. The program that initiated the action continues running, and the action happens alongside it, notifying the program when it is finished.
 
-{{figure {url: "img/control-io.svg", alt: "Control flow for synchronous and asynchronous programming",width: "8cm"}}}
+{{figure {url: "img/control-io.svg", alt: "Diagram of showing control flow in synchronous and asynchronous programs. The first part shows a synchronous program, where the program's active and waiting phases all happen on a single, sequential line. The second part shows a multi-threaded synchronous program, with two parallel lines, on which the waiting parts happen alongside each other, causing the program to finish faster. The last part shows an asynchronous program, where the multiple asynchronous actions branch off from the main program, which at some point stops, and then resumes whenever the first thing it was waiting for finishes.",width: "8cm"}}}
 
 {{index ["control flow", asynchronous], "asynchronous programming", verbosity}}
 
@@ -68,7 +68,7 @@ To communicate with other devices, these machines use light signals. The crows e
 
 Our friend the corvid expert has mapped the network of crow nests in the village of ((Hières-sur-Amby)), on the banks of the river Rhône. This map shows the nests and their connections:
 
-{{figure {url: "img/Hieres-sur-Amby.png", alt: "A network of crow nests in a small village"}}}
+{{figure {url: "img/Hieres-sur-Amby.png", alt: "An areal photo of a small village with a network of crow nest locations overlaid over it."}}}
 
 In an astounding example of ((convergent evolution)), crow computers run JavaScript. In this chapter we'll write some basic networking functions for them.
 

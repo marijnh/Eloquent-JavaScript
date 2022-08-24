@@ -10,7 +10,7 @@ There are two ways of constructing a software design: One way is to make it so s
 
 quote}}
 
-{{figure {url: "img/chapter_picture_5.jpg", alt: "Letters from different scripts", chapter: true}}}
+{{figure {url: "img/chapter_picture_5.jpg", alt: "Illustration showing letters and hieroglyphs from different scripts—Latin, Greek, Arabic, ancient Egyptian, and others", chapter: true}}}
 
 {{index "program size"}}
 
@@ -210,7 +210,7 @@ Remember ((Unicode)) from [Chapter ?](values#unicode), the system that assigns a
 
 Though I can fluently read only Latin characters, I appreciate the fact that people are writing texts in at least 80 other writing systems, many of which I wouldn't even recognize. For example, here's a sample of ((Tamil)) handwriting:
 
-{{figure {url: "img/tamil.png", alt: "Tamil handwriting"}}}
+{{figure {url: "img/tamil.png", alt: "A line of verse in Tamil handwriting. The characters are relatively simple, and neatly separated, yet completely different from Latin."}}}
 
 {{index "SCRIPTS data set"}}
 

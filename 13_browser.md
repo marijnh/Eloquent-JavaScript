@@ -8,7 +8,7 @@ quote}}
 
 {{index "Berners-Lee, Tim", "World Wide Web", HTTP, [JavaScript, "history of"], "World Wide Web"}}
 
-{{figure {url: "img/chapter_picture_13.jpg", alt: "Picture of a telephone switchboard", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_13.jpg", alt: "Illustration showing a telephone switchboard", chapter: "framed"}}}
 
 The next chapters of this book will talk about web browsers. Without web ((browser))s, there would be no JavaScript. Or even if there were, no one would ever have paid any attention to it.
 
@@ -120,7 +120,7 @@ A short HTML document might look like this:
 
 This is what such a document would look like in the browser:
 
-{{figure {url: "img/home-page.png", alt: "My home page",width: "6.3cm"}}}
+{{figure {url: "img/home-page.png", alt: "A rendered version of the home page example HTML",width: "6.3cm"}}}
 
 if}}
 

@@ -10,7 +10,7 @@ quote}}
 
 {{index "artificial intelligence", "Dijkstra, Edsger"}}
 
-{{figure {url: "img/chapter_picture_7.jpg", alt: "Picture of a package-delivery robot", chapter: framed}}}
+{{figure {url: "img/chapter_picture_7.jpg", alt: "Illustration of a robot holding a stack of packages", chapter: framed}}}
 
 {{index "project chapter", "reading code", "writing code"}}
 
@@ -36,7 +36,7 @@ const roads = [
 ];
 ```
 
-{{figure {url: "img/village2x.png", alt: "The village of Meadowfield"}}}
+{{figure {url: "img/village2x.png", alt: "Pixel art illustration of a small village with 11 locations, labeled with letters, and roads going being them"}}}
 
 The network of roads in the village forms a _((graph))_. A graph is a collection of points (places in the village) with lines between them (roads). This graph will be the world that our robot moves through.
 

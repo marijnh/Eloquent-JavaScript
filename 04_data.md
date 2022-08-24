@@ -10,7 +10,7 @@ quote}}
 
 {{index "Babbage, Charles"}}
 
-{{figure {url: "img/chapter_picture_4.jpg", alt: "Picture of a weresquirrel", chapter: framed}}}
+{{figure {url: "img/chapter_picture_4.jpg", alt: "Illustration of a squirrel next to a pile of books and a pair of glasses. A moon and stars are visible in the background.", chapter: framed}}}
 
 {{index object, "data structure"}}
 
@@ -360,7 +360,7 @@ To compute the measure of correlation between two Boolean variables, we can use 
 
 We could take the event of eating ((pizza)) and put that in a frequency table like this, where each number indicates the amount of times that combination occurred in our measurements:
 
-{{figure {url: "img/pizza-squirrel.svg", alt: "Eating pizza versus turning into a squirrel", width: "7cm"}}}
+{{figure {url: "img/pizza-squirrel.svg", alt: "A two-by-two table showing the pizza variable on the horizontal, and the squirrel variable on the vertical axis. Each cell show how many time that combination occurred. In 76 cases, neither happened. In 9 cases, only pizza was true. In 4 cases only squirrel was true. And in one case both occurred.", width: "7cm"}}}
 
 If we call that table _n_, we can compute _ϕ_ using the following formula:
 
@@ -1092,7 +1092,7 @@ let list = {
 
 The resulting objects form a chain, like this:
 
-{{figure {url: "img/linked-list.svg", alt: "A linked list",width: "8cm"}}}
+{{figure {url: "img/linked-list.svg", alt: "A diagram showing the memory structure of a linked list. There are 3 cells, each with a value field holding a number, and a 'rest' field with an arrow to the rest of the list. The first cell's arrow points at the second cell, the second cell's arrow at the last cell, and the last cell's 'rest' field holds null.",width: "8cm"}}}
 
 {{index "structure sharing", [memory, structure sharing]}}
 

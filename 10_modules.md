@@ -10,7 +10,7 @@ quote}}
 
 {{index "Yuan-Ma", "Book of Programming"}}
 
-{{figure {url: "img/chapter_picture_10.jpg", alt: "Picture of a building built from modular pieces", chapter: framed}}}
+{{figure {url: "img/chapter_picture_10.jpg", alt: "Illustration of a complicated building built from modular pieces", chapter: framed}}}
 
 {{index organization, [code, "structure of"]}}
 

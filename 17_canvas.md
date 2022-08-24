@@ -10,7 +10,7 @@ quote}}
 
 {{index "Escher, M.C."}}
 
-{{figure {url: "img/chapter_picture_17.jpg", alt: "Picture of a robot arm drawing on paper", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_17.jpg", alt: "Illustration showing an industrial-looking robot arm drawing a city on a piece of paper", chapter: "framed"}}}
 
 {{index CSS, "transform (CSS)", [DOM, graphics]}}
 
@@ -49,7 +49,7 @@ The `xmlns` attribute changes an element (and its children) to a different _XML 
 
 The document is displayed like this:
 
-{{figure {url: "img/svg-demo.png", alt: "An embedded SVG image",width: "4.5cm"}}}
+{{figure {url: "img/svg-demo.png", alt: "Screenshot showing an SVG image embedded in an HTML document", width: "4.5cm"}}}
 
 if}}
 
@@ -98,7 +98,7 @@ After creating the context object, the example draws a red ((rectangle)) 100 ((p
 
 {{if book
 
-{{figure {url: "img/canvas_fill.png", alt: "A canvas with a rectangle",width: "2.5cm"}}}
+{{figure {url: "img/canvas_fill.png", alt: "Screenshot of a canvas with a rectangle on it", width: "2.5cm"}}}
 
 if}}
 
@@ -145,7 +145,7 @@ The `strokeStyle` property works similarly but determines the color used for a s
 
 This code draws two blue squares, using a thicker line for the second one.
 
-{{figure {url: "img/canvas_stroke.png", alt: "Two stroked squares",width: "5cm"}}}
+{{figure {url: "img/canvas_stroke.png", alt: "Screenshot showing two outlined squares", width: "5cm"}}}
 
 if}}
 
@@ -180,7 +180,7 @@ This example creates a path with a number of horizontal ((line)) segments and th
 
 The path described by the previous program looks like this:
 
-{{figure {url: "img/canvas_path.png", alt: "Stroking a number of lines",width: "2.1cm"}}}
+{{figure {url: "img/canvas_path.png", alt: "Screenshot showing a number of vertical lines", width: "2.1cm"}}}
 
 if}}
 
@@ -204,7 +204,7 @@ This example draws a filled triangle. Note that only two of the triangle's sides
 
 {{if book
 
-{{figure {url: "img/canvas_triangle.png", alt: "Filling a path",width: "2.2cm"}}}
+{{figure {url: "img/canvas_triangle.png", alt: "Screenshot showing a filled path", width: "2.2cm"}}}
 
 if}}
 
@@ -240,7 +240,7 @@ The `quadraticCurveTo` method draws a curve to a given point. To determine the c
 
 It produces a path that looks like this:
 
-{{figure {url: "img/canvas_quadraticcurve.png", alt: "A quadratic curve",width: "2.3cm"}}}
+{{figure {url: "img/canvas_quadraticcurve.png", alt: "Screenshot of a quadratic curve", width: "2.3cm"}}}
 
 if}}
 
@@ -271,7 +271,7 @@ The two control points specify the direction at both ends of the curve. The fart
 
 {{if book
 
-{{figure {url: "img/canvas_beziercurve.png", alt: "A bezier curve",width: "2.2cm"}}}
+{{figure {url: "img/canvas_beziercurve.png", alt: "Screenshot of a bezier curve", width: "2.2cm"}}}
 
 if}}
 
@@ -306,7 +306,7 @@ The resulting picture contains a ((line)) from the right of the full circle (fir
 
 {{if book
 
-{{figure {url: "img/canvas_circle.png", alt: "Drawing a circle",width: "4.9cm"}}}
+{{figure {url: "img/canvas_circle.png", alt: "Screenshot of a circle", width: "4.9cm"}}}
 
 if}}
 
@@ -360,7 +360,7 @@ To draw a pie chart, we draw a number of pie slices, each made up of an ((arc)) 
 
 This draws the following chart:
 
-{{figure {url: "img/canvas_pie_chart.png", alt: "A pie chart",width: "5cm"}}}
+{{figure {url: "img/canvas_pie_chart.png", alt: "Screenshot showing a pie chart", width: "5cm"}}}
 
 if}}
 
@@ -426,7 +426,7 @@ When `drawImage` is given _nine_ arguments, it can be used to draw only a fragme
 
 This can be used to pack multiple _((sprite))s_ (image elements) into a single image file and then draw only the part you need. For example, we have this picture containing a game character in multiple ((pose))s:
 
-{{figure {url: "img/player_big.png", alt: "Various poses of a game character",width: "6cm"}}}
+{{figure {url: "img/player_big.png", alt: "Pixel art showing a computer game character in 10 different poses. The first 8 form its running animation cycle, the 9th has the character standing still, and the 10th shows him jumping.", width: "6cm"}}}
 
 {{index [animation, "platform game"]}}
 
@@ -494,7 +494,7 @@ Calling the `scale` method will cause anything drawn after it to be scaled. This
 
 Because of the call to `scale`, the circle is drawn three times as wide and half as high.
 
-{{figure {url: "img/canvas_scale.png", alt: "A scaled circle",width: "6.6cm"}}}
+{{figure {url: "img/canvas_scale.png", alt: "Screenshot of a scaled circle", width: "6.6cm"}}}
 
 if}}
 
@@ -514,7 +514,7 @@ There are several other methods besides `scale` that influence the coordinate sy
 
 So if we translate by 10 horizontal pixels twice, everything will be drawn 20 pixels to the right. If we first move the center of the coordinate system to (50,50) and then rotate by 20 ((degree))s (about 0.1π ((radian))s), that rotation will happen _around_ point (50,50).
 
-{{figure {url: "img/transform.svg", alt: "Stacking transformations",width: "9cm"}}}
+{{figure {url: "img/transform.svg", alt: "Diagram showing the result of stacking transformations. The first diagram translates and then rotates, causing the translation to happen normally and rotation to happen around the target of the translation. The second diagram first rotates, and then translates, causing the rotation to happen around the origin and the translation direction to be tilted by that rotation.", width: "9cm"}}}
 
 {{index coordinates}}
 
@@ -536,7 +536,7 @@ function flipHorizontally(context, around) {
 
 We move the y-((axis)) to where we want our ((mirror)) to be, apply the mirroring, and finally move the y-axis back to its proper place in the mirrored universe. The following picture explains why this works:
 
-{{figure {url: "img/mirror.svg", alt: "Mirroring around a vertical line",width: "8cm"}}}
+{{figure {url: "img/mirror.svg", alt: "Diagram showing the effect of translating and mirroring a triangle", width: "8cm"}}}
 
 {{index "translate method", "scale method", transformation, canvas}}
 
@@ -601,7 +601,7 @@ This function draws a treelike shape by drawing a line, moving the center of the
 
 The result is a simple fractal.
 
-{{figure {url: "img/canvas_tree.png", alt: "A recursive picture",width: "5cm"}}}
+{{figure {url: "img/canvas_tree.png", alt: "Screenshot of a fractal", width: "5cm"}}}
 
 if}}
 
@@ -744,7 +744,7 @@ CanvasDisplay.prototype.drawBackground = function(level) {
 
 Tiles that are not empty are drawn with `drawImage`. The `otherSprites` image contains the pictures used for elements other than the player. It contains, from left to right, the wall tile, the lava tile, and the sprite for a coin.
 
-{{figure {url: "img/sprites_big.png", alt: "Sprites for our game",width: "1.4cm"}}}
+{{figure {url: "img/sprites_big.png", alt: "Pixel art showing three sprites: a piece of wall, made out of small white stones, a square of orange lava, and a round coin.", width: "1.4cm"}}}
 
 {{index scaling}}
 
@@ -840,7 +840,7 @@ if}}
 
 That concludes the new ((display)) system. The resulting game looks something like this:
 
-{{figure {url: "img/canvas_game.png", alt: "The game as shown on canvas",width: "8cm"}}}
+{{figure {url: "img/canvas_game.png", alt: "Screenshot of the game as shown on canvas", width: "8cm"}}}
 
 if}}
 
@@ -916,7 +916,7 @@ Write a program that draws the following ((shape))s on a ((canvas)):
 
 5. A yellow ((star))
 
-{{figure {url: "img/exercise_shapes.png", alt: "The shapes to draw",width: "8cm"}}}
+{{figure {url: "img/exercise_shapes.png", alt: "Picture showing the shapes you are asked to draw", width: "8cm"}}}
 
 When drawing the last two, you may want to refer to the explanation of `Math.cos` and `Math.sin` in [Chapter ?](dom#sin_cos), which describes how to get coordinates on a circle using these functions.
 

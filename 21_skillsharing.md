@@ -10,7 +10,7 @@ quote}}
 
 {{index "skill-sharing project", meetup, "project chapter"}}
 
-{{figure {url: "img/chapter_picture_21.jpg", alt: "Picture of two unicycles", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_21.jpg", alt: "Illustration showing two unicycles leaned against a mailbox", chapter: "framed"}}}
 
 A _((skill-sharing))_ meeting is an event where people with a shared interest come together and give small, informal presentations about things they know. At a ((gardening)) skill-sharing meeting, someone might explain how to cultivate ((celery)). Or in a programming skill-sharing group, you could drop by and tell people about Node.js.
 
@@ -32,7 +32,7 @@ There is a _((server))_ part to this project, written for ((Node.js)), and a _((
 
 The server keeps the list of ((talk))s proposed for the next meeting, and the client shows this list. Each talk has a presenter name, a title, a summary, and an array of ((comment))s associated with it. The client allows users to propose new talks (adding them to the list), delete talks, and comment on existing talks. Whenever the user makes such a change, the client makes an HTTP ((request)) to tell the server about it.
 
-{{figure {url: "img/skillsharing.png", alt: "Screenshot of the skill-sharing website",width: "10cm"}}}
+{{figure {url: "img/skillsharing.png", alt: "Screenshot of the skill-sharing website", width: "10cm"}}}
 
 {{index "live view", "user experience", "pushing data", connection}}
 

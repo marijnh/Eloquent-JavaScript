@@ -10,7 +10,7 @@ quote}}
 
 {{index "Miro, Joan", "drawing program example", "project chapter"}}
 
-{{figure {url: "img/chapter_picture_19.jpg", alt: "Picture of a tiled mosaic", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_19.jpg", alt: "Illustration showing a mosaic of black tiles, with jars of other tiles next to it", chapter: "framed"}}}
 
 The material from the previous chapters gives you all the elements you need to build a basic ((web application)). In this chapter, we will do just that.
 
@@ -18,7 +18,7 @@ The material from the previous chapters gives you all the elements you need to b
 
 Our ((application)) will be a ((pixel)) ((drawing)) program, where you can modify a picture pixel by pixel by manipulating a zoomed-in view of it, shown as a grid of colored squares. You can use the program to open image files, scribble on them with your mouse or other pointer device, and save them. This is what it will look like:
 
-{{figure {url: "img/pixel_editor.png", alt: "The pixel editor interface, with colored pixels at the top and a number of controls below that", width: "8cm"}}}
+{{figure {url: "img/pixel_editor.png", alt: "Screenshot of the pixel editor interface, with a grid of colored pixels at the top and a number of controls, in the form of HTML fields and buttons, below that", width: "8cm"}}}
 
 Painting on a computer is great. You don't need to worry about materials, ((skill)), or talent. You just start smearing.
 
@@ -354,7 +354,7 @@ We also need to be able to change the color, so let's add a control for that. An
 
 Depending on the browser, the color picker might look like this:
 
-{{figure {url: "img/color-field.png", alt: "A color field", width: "6cm"}}}
+{{figure {url: "img/color-field.png", alt: "Screenshot of color field", width: "6cm"}}}
 
 if}}
 
@@ -427,7 +427,7 @@ An important detail in this implementation is that when dragging, the rectangle 
 
 Implementing ((flood fill)) is somewhat more involved. This is a ((tool)) that fills the pixel under the pointer and all adjacent pixels that have the same color. "Adjacent" means directly horizontally or vertically adjacent, not diagonally. This picture illustrates the set of ((pixel))s colored when the flood fill tool is used at the marked pixel:
 
-{{figure {url: "img/flood-grid.svg", alt: "A pixel grid showing the area filled by a flood fill operation", width: "6cm"}}}
+{{figure {url: "img/flood-grid.svg", alt: "Diagram of a pixel grid showing the area filled by a flood fill operation", width: "6cm"}}}
 
 {{index "fill function"}}
 
@@ -946,7 +946,7 @@ To do this, since the pixels can be an arbitrary distance apart, you'll have to 
 
 A line between two pixels is a connected chain of pixels, as straight as possible, going from the start to the end. Diagonally adjacent pixels count as a connected. So a slanted line should look like the picture on the left, not the picture on the right.
 
-{{figure {url: "img/line-grid.svg", alt: "Two pixelated lines, one light, skipping across pixels diagonally, and one heavy, with all pixels connected horizontally or vertically", width: "6cm"}}}
+{{figure {url: "img/line-grid.svg", alt: "Diagram of two pixelated lines, one light, skipping across pixels diagonally, and one heavy, with all pixels connected horizontally or vertically", width: "6cm"}}}
 
 Finally, if we have code that draws a line between two arbitrary points, we might as well use it to also define a `line` tool, which draws a straight line between the start and end of a drag.
 

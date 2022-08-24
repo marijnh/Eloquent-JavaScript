@@ -10,7 +10,7 @@ quote}}
 
 {{index "Fielding, Roy"}}
 
-{{figure {url: "img/chapter_picture_18.jpg", alt: "Picture of a web form on a medieval scroll", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_18.jpg", alt: "Illustration showing a web sign-up form on a parchment scroll", chapter: "framed"}}}
 
 {{index [browser, environment]}}
 
@@ -329,7 +329,7 @@ Form fields do not necessarily have to appear in a `<form>` tag. You can put the
 
 The fields created with this HTML code look like this:
 
-{{figure {url: "img/form_fields.png", alt: "Various types of input tags",width: "4cm"}}}
+{{figure {url: "img/form_fields.png", alt: "Screenshot showing various types of input tags", width: "4cm"}}}
 
 if}}
 
@@ -363,7 +363,7 @@ Finally, the `<select>` tag is used to create a field that allows the user to se
 
 Such a field looks like this:
 
-{{figure {url: "img/form_select.png", alt: "A select field", width: "4cm"}}}
+{{figure {url: "img/form_select.png", alt: "Screenshot showing a select field", width: "4cm"}}}
 
 if}}
 
@@ -431,7 +431,7 @@ Disabled fields cannot be ((focus))ed or changed, and browsers make them look gr
 
 {{if book
 
-{{figure {url: "img/button_disabled.png", alt: "A disabled button",width: "3cm"}}}
+{{figure {url: "img/button_disabled.png", alt: "Screenshot of a disabled button", width: "3cm"}}}
 
 if}}
 

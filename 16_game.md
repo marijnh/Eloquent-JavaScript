@@ -10,7 +10,7 @@ quote}}
 
 {{index "Banks, Ian", "project chapter", simulation}}
 
-{{figure {url: "img/chapter_picture_16.jpg", alt: "Picture of a game character jumping over lava", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_16.jpg", alt: "Illustration showing a computer game character jumping over lava in a two dimensional world", chapter: "framed"}}}
 
 Much of my initial fascination with computers, like that of many nerdy kids, had to do with computer ((game))s. I was drawn into the tiny simulated ((world))s that I could manipulate and in which stories (sort of) unfolded—more, I suppose, because of the way I projected my ((imagination)) into them than because of the possibilities they actually offered.
 
@@ -26,7 +26,7 @@ This chapter will walk through the implementation of a small ((platform game)). 
 
 Our ((game)) will be roughly based on [Dark Blue](http://www.lessmilk.com/games/10)[ (_www.lessmilk.com/games/10_)]{if book} by Thomas Palef. I chose that game because it is both entertaining and minimalist and because it can be built without too much ((code)). It looks like this:
 
-{{figure {url: "img/darkblue.png", alt: "The game Dark Blue"}}}
+{{figure {url: "img/darkblue.png", alt: "Screenshot of the 'Dark Blue' game, showing a world made out of colored boxes. There's a black box representing the player, standing on lines of white against a blue background. Small yellow coins float in the air, and some parts of the background are red, representing lava."}}}
 
 {{index coin, lava}}
 
@@ -550,7 +550,7 @@ We are now able to display our tiny level.
 
 {{if book
 
-{{figure {url: "img/game_simpleLevel.png", alt: "Our level rendered",width: "7cm"}}}
+{{figure {url: "img/game_simpleLevel.png", alt: "Screenshot of the rendered level", width: "7cm"}}}
 
 if}}
 
@@ -607,7 +607,7 @@ Level.prototype.touches = function(pos, size, type) {
 
 The method computes the set of grid squares that the body ((overlap))s with by using `Math.floor` and `Math.ceil` on its ((coordinates)). Remember that ((grid)) squares are 1 by 1 units in size. By ((rounding)) the sides of a box up and down, we get the range of ((background)) squares that the box touches.
 
-{{figure {url: "img/game-grid.svg", alt: "Finding collisions on a grid",width: "3cm"}}}
+{{figure {url: "img/game-grid.svg", alt: "Diagram showing a grid with a black box overlaid on it. All of the grid squares that are partially covered by the block are marked.", width: "3cm"}}}
 
 We loop over the block of ((grid)) squares found by ((rounding)) the ((coordinates)) and return `true` when a matching square is found. Squares outside of the level are always treated as `"wall"` to ensure that the player can't leave the world and that we won't accidentally try to read outside of the bounds of our `rows` array.
 

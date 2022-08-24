@@ -10,7 +10,7 @@ quote}}
 
 {{index "Liskov, Barbara", "abstract data type"}}
 
-{{figure {url: "img/chapter_picture_6.jpg", alt: "Picture of a rabbit with its proto-rabbit", chapter: framed}}}
+{{figure {url: "img/chapter_picture_6.jpg", alt: "Illustration of a rabbit next to its prototype, a schematic representation of a rabbit", chapter: framed}}}
 
 [Chapter ?](data) introduced JavaScript's objects. In programming culture, we have a thing called _((object-oriented programming))_, a set of techniques that use objects (and related concepts) as the central principle of program organization.
 
@@ -313,7 +313,7 @@ console.log(Rabbit.prototype.teeth);
 
 The following diagram sketches the situation after this code has run. The `Rabbit` and `Object` ((prototype))s lie behind `killerRabbit` as a kind of backdrop, where properties that are not found in the object itself can be looked up.
 
-{{figure {url: "img/rabbits.svg", alt: "Rabbit object prototype schema",width: "8cm"}}}
+{{figure {url: "img/rabbits.svg", alt: "A diagram showing the object structure of rabbits and their prototypes. There is a box for the 'killerRabbit' instance (holding instance properties like 'type'), with its two prototypes, 'Rabbit.prototype' (holding the 'speak' method) and 'Object.prototype' (holding methods like 'toString') stacked behind it.",width: "8cm"}}}
 
 {{index "shared property"}}
 

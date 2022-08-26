@@ -1,20 +1,18 @@
 class Group {
-  constructor() {
-    this.members = [];
-  }
+  #members = [];
 
   add(value) {
     if (!this.has(value)) {
-      this.members.push(value);
+      this.#members.push(value);
     }
   }
 
   delete(value) {
-    this.members = this.members.filter(v => v !== value);
+    this.#members = this.#members.filter(v => v !== value);
   }
 
   has(value) {
-    return this.members.includes(value);
+    return this.#members.includes(value);
   }
 
   static from(collection) {
@@ -26,21 +24,21 @@ class Group {
   }
 
   [Symbol.iterator]() {
-    return new GroupIterator(this);
+    return new GroupIterator(this.#members);
   }
 }
 
 class GroupIterator {
-  constructor(group) {
-    this.group = group;
+  constructor(members) {
+    this.members = members;
     this.position = 0;
   }
 
   next() {
-    if (this.position >= this.group.members.length) {
+    if (this.position >= this.members.length) {
       return {done: true};
     } else {
-      let result = {value: this.group.members[this.position],
+      let result = {value: this.members[this.position],
                     done: false};
       this.position++;
       return result;

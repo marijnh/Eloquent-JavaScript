@@ -1,20 +1,18 @@
 class Group {
-  constructor() {
-    this.members = [];
-  }
+  #members = [];
 
   add(value) {
     if (!this.has(value)) {
-      this.members.push(value);
+      this.#members.push(value);
     }
   }
 
   delete(value) {
-    this.members = this.members.filter(v => v !== value);
+    this.#members = this.#members.filter(v => v !== value);
   }
 
   has(value) {
-    return this.members.includes(value);
+    return this.#members.includes(value);
   }
 
   static from(collection) {
@@ -34,3 +32,4 @@ console.log(group.has(30));
 group.add(10);
 group.delete(10);
 console.log(group.has(10));
+// → false

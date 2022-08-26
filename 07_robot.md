@@ -48,10 +48,10 @@ The array of strings isn't very easy to work with. What we're interested in is t
 function buildGraph(edges) {
   let graph = Object.create(null);
   function addEdge(from, to) {
-    if (graph[from] == null) {
-      graph[from] = [to];
-    } else {
+    if (from in graph) {
       graph[from].push(to);
+    } else {
+      graph[from] = [to];
     }
   }
   for (let [from, to] of edges.map(r => r.split("-"))) {
@@ -84,9 +84,7 @@ To be able to simulate this process, we must define a virtual world that can des
 
 If you're thinking in terms of ((object-oriented programming)), your first impulse might be to start defining objects for the various elements in the world: a ((class)) for the robot, one for a parcel, maybe one for places. These could then hold properties that describe their current ((state)), such as the pile of parcels at a location, which we could change when updating the world.
 
-This is wrong.
-
-At least, it usually is. The fact that something sounds like an object does not automatically mean that it should be an object in your program. Reflexively writing classes for every concept in your application tends to leave you with a collection of interconnected objects that each have their own internal, changing state. Such programs are often hard to understand and thus easy to break.
+This is wrong. At least, it usually is. The fact that something sounds like an object does not automatically mean that it should be an object in your program. Reflexively writing classes for every concept in your application tends to leave you with a collection of interconnected objects that each have their own internal, changing state. Such programs are often hard to understand and thus easy to break.
 
 {{index [state, in objects]}}
 
@@ -490,9 +488,9 @@ When a value is added to the group, you can create a new group with a copy of th
 
 The class's ((constructor)) can take such an array as argument and store it as the instance's (only) property. This array is never updated.
 
-{{index "static method"}}
+{{index "static property"}}
 
-To add a property (`empty`) to a constructor that is not a method, you have to add it to the constructor after the class definition, as a regular property.
+To add the `empty` property to the constructor, you can declare it as a static property.
 
 You need only one `empty` instance because all empty groups are the same and instances of the class don't change. You can create many different groups from that single empty group without affecting it.
 

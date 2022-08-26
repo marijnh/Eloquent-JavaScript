@@ -29,10 +29,32 @@ for (let file of fs.readdirSync(".").sort()) {
   if (extraLinks || zip)
     chapter.links = (zip ? [zip] : []).concat(extraLinks || []);
 
+  function addSolution(name, file, type, num, startCode) {
+    let solution, extra
+    try {
+      solution = fs.readFileSync("code/solutions/" + file, "utf8");
+      extra = /^\s*<!doctype html>\s*(<base .*\n(<script src=.*\n)*)?/.exec(solution);
+      if (extra) solution = solution.slice(extra[0].length);
+      allSolutions.splice(allSolutions.indexOf(file), 1);
+    } catch(e) {
+      console.error("File ", file, " does not exist.", e);
+      failed = true;
+    }
+    chapter.exercises.push({
+      name,
+      file: "code/solutions/" + file,
+      number: num,
+      type: type,
+      code: type == "html" ? prepareHTML(startCode, includes) : startCode,
+      solution: type == "html" ? prepareHTML(solution.trim(), includes) : solution.trim()
+    });
+  }
+
   let exerciseSection = text.indexOf("\n## Exercises\n");
   let exerciseBlock = exerciseSection >= 0 ? text.slice(exerciseSection) : "";
   let header = /\n### (.*?)\n/g, nextHeader = /\n##+ \w/g;
   let num = 1;
+
   while (match = header.exec(exerciseBlock)) {
     nextHeader.lastIndex = header.lastIndex
     let foundNext = nextHeader.exec(exerciseBlock)
@@ -45,30 +67,13 @@ for (let file of fs.readdirSync(".").sort()) {
       if (!sourceBlock || sourceBlock[1].indexOf("null") > -1) continue;
       let type = sourceBlock[1].indexOf("html") > -1 ? "html" : "js";
       let file = chapNum + "_" + num + "_" + match[1].toLowerCase().replace(/[^\-\s\w]/g, "").replace(/\s/g, "_") + "." + type;
-      let solution, extra
-      try {
-        solution = fs.readFileSync("code/solutions/" + file, "utf8");
-        extra = /^\s*<!doctype html>\s*(<base .*\n(<script src=.*\n)*)?/.exec(solution);
-        if (extra) solution = solution.slice(extra[0].length);
-        allSolutions.splice(allSolutions.indexOf(file), 1);
-      } catch(e) {
-        console.error("File ", file, " does not exist.", e);
-        failed = true;
-      }
-      if (sourceBlock) {
-        chapter.exercises.push({
-          name: match[1],
-          file: "code/solutions/" + file,
-          number: num,
-          type: type,
-          code: type == "html" ? prepareHTML(sourceBlock[2], includes) : sourceBlock[2],
-          solution: type == "html" ? prepareHTML(solution.trim(), includes) : solution.trim()
-        });
-        break;
-      }
+      addSolution(match[1], file, type, num, sourceBlock[2]);
     }
     ++num;
   }
+  if (chapter.number == 6)
+    addSolution("Borrowing a method", "06_4_borrowing_a_method.js", "javascript", 4,
+                "let map = {one: true, two: true, hasOwnProperty: true};\n\n// Fix this call\nconsole.log(map.hasOwnProperty(\"one\"));\n// → true")
 
   let nodeInfo = "// Node exercises can not be ran in the browser,\n// but you can look at their solution here.\n";
   if (chapter.number == 20) chapter.exercises = [

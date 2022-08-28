@@ -432,7 +432,7 @@ The methods `set`, `get`, and `has` are part of the interface of the `Map` objec
 If you do have a plain object that you need to treat as a map for some reason, it is useful to know that `Object.keys` returns only an object's _own_ keys, not those in the prototype. As an alternative to the `in` operator, you can use the `Object.hasOwn` function, which ignores the object's prototype.
 
 ```
-console.log({x: 1}.hasOwnProperty("x"));
+console.log(Object.hasOwn({x: 1}, "x"));
 // → true
 console.log(Object.hasOwn({x: 1}, "toString"));
 // → false

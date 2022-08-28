@@ -6,7 +6,7 @@ specialForms.set = (args, env) => {
   let value = evaluate(args[1], env);
 
   for (let scope = env; scope; scope = Object.getPrototypeOf(scope)) {
-    if (Object.prototype.hasOwnProperty.call(scope, varName)) {
+    if (Object.hasOwn(scope, varName)) {
       scope[varName] = value;
       return value;
     }

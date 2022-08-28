@@ -98,18 +98,18 @@ Some languages want to know the types of all your bindings and expressions befor
 
 Still, types provide a useful framework for talking about programs. A lot of mistakes come from being confused about the kind of value that goes into or comes out of a function. If you have that information written down, you're less likely to get confused.
 
-You could add a comment like the following before the `goalOrientedRobot` function from the previous chapter to describe its type:
+You could add a comment like the following before the `findRoute` function from the previous chapter to describe its type:
 
 ```
-// (VillageState, Array) → {direction: string, memory: Array}
-function goalOrientedRobot(state, memory) {
+// (graph: Object, from: string, to: string) => string[]
+function findRoute(graph, from, to) {
   // ...
 }
 ```
 
 There are a number of different conventions for annotating JavaScript programs with types.
 
-One thing about types is that they need to introduce their own complexity to be able to describe enough code to be useful. What do you think would be the type of the `randomPick` function that returns a random element from an array? You'd need to introduce a _((type variable))_, _T_, which can stand in for any type, so that you can give `randomPick` a type like `([T]) → T` (function from an array of *T*s to a *T*).
+One thing about types is that they need to introduce their own complexity to be able to describe enough code to be useful. What do you think would be the type of the `randomPick` function that returns a random element from an array? You'd need to introduce a _((type variable))_, _T_, which can stand in for any type, so that you can give `randomPick` a type like `(T[]) → T` (function from an array of *T*s to a *T*).
 
 {{index "type checking", TypeScript}}
 
@@ -217,7 +217,7 @@ _Right_. Dividing 13 by 10 does not produce a whole number. Instead of `n /= bas
 
 {{index "JavaScript console", "debugger statement"}}
 
-An alternative to using `console.log` to peek into the program's behavior is to use the _debugger_ capabilities of your browser. Browsers come with the ability to set a _((breakpoint))_ on a specific line of your code. When the execution of the program reaches a line with a breakpoint, it is paused, and you can inspect the values of bindings at that point. I won't go into details, as debuggers differ from browser to browser, but look in your browser's ((developer tools)) or search the Web for more information.
+An alternative to using `console.log` to peek into the program's behavior is to use the _debugger_ capabilities of your browser. Browsers come with the ability to set a _((breakpoint))_ on a specific line of your code. When the execution of the program reaches a line with a breakpoint, it is paused, and you can inspect the values of bindings at that point. I won't go into details, as debuggers differ from browser to browser, but look in your browser's ((developer tools)) or search the Web for instructions.
 
 Another way to set a breakpoint is to include a `debugger` statement (consisting of simply that keyword) in your program. If the ((developer tools)) of your browser are active, the program will pause whenever it reaches such a statement.
 
@@ -253,14 +253,14 @@ Now any code that calls `promptNumber` must check whether an actual number was r
 
 {{index "error handling"}}
 
-In many situations, mostly when ((error))s are common and the caller should be explicitly taking them into account, returning a special value is a good way to indicate an error. It does, however, have its downsides. First, what if the function can already return every possible kind of value? In such a function, you'll have to do something like wrap the result in an object to be able to distinguish success from failure.
+In many situations, mostly when ((error))s are common and the caller should be explicitly taking them into account, returning a special value is a good way to indicate an error. It does, however, have its downsides. First, what if the function can already return every possible kind of value? In such a function, you'll have to do something like wrap the result in an object to be able to distinguish success from failure, the way the `next` method on the iterator interface does.
 
 ```
 function lastElement(array) {
   if (array.length == 0) {
     return {failed: true};
   } else {
-    return {element: array[array.length - 1]};
+    return {value: array[array.length - 1]};
   }
 }
 ```
@@ -273,7 +273,7 @@ The second issue with returning special values is that it can lead to awkward co
 
 {{index "error handling"}}
 
-When a function cannot proceed normally, what we would _like_ to do is just stop what we are doing and immediately jump to a place that knows how to handle the problem. This is what _((exception handling))_ does.
+When a function cannot proceed normally, what we would often _like_ to do is just stop what we are doing and immediately jump to a place that knows how to handle the problem. This is what _((exception handling))_ does.
 
 {{index ["control flow", exceptions], "raising (exception)", "throw keyword", "call stack"}}
 
@@ -344,7 +344,7 @@ const accounts = {
 
 function getAccount() {
   let accountName = prompt("Enter an account name");
-  if (!accounts.hasOwnProperty(accountName)) {
+  if (!Object.hasOwn(accounts, accountName)) {
     throw new Error(`No such account: ${accountName}`);
   }
   return accountName;
@@ -363,7 +363,7 @@ But `transfer` _first_ removes the money from the account and _then_ calls `getA
 
 That code could have been written a little more intelligently, for example by calling `getAccount` before it starts moving money around. But often problems like this occur in more subtle ways. Even functions that don't look like they will throw an exception might do so in exceptional circumstances or when they contain a programmer mistake.
 
-One way to address this is to use fewer side effects. Again, a programming style that computes new values instead of changing existing data helps. If a piece of code stops running in the middle of creating a new value, no one ever sees the half-finished value, and there is no problem.
+One way to address this is to use fewer side effects. Again, a programming style that computes new values instead of changing existing data helps. If a piece of code stops running in the middle of creating a new value, no existing data structures were damaged, making it easier to recover.
 
 {{index block, "try keyword", "finally keyword"}}
 
@@ -516,9 +516,9 @@ I do not recommend trying to write assertions for every possible kind of bad inp
 
 ## Summary
 
-Mistakes and bad input are facts of life. An important part of programming is finding, diagnosing, and fixing bugs. Problems can become easier to notice if you have an automated test suite or add assertions to your programs.
+An important part of programming is finding, diagnosing, and fixing bugs. Problems can become easier to notice if you have an automated test suite or add assertions to your programs.
 
-Problems caused by factors outside the program's control should usually be handled gracefully. Sometimes, when the problem can be handled locally, special return values are a good way to track them. Otherwise, exceptions may be preferable.
+Problems caused by factors outside the program's control should usually be actively planned for. Sometimes, when the problem can be handled locally, special return values are a good way to track them. Otherwise, exceptions may be preferable.
 
 Throwing an exception causes the call stack to be unwound until the next enclosing `try/catch` block or until the bottom of the stack. The exception value will be given to the `catch` block that catches it, which should verify that it is actually the expected kind of exception and then do something with it. To help address the unpredictable control flow caused by exceptions, `finally` blocks can be used to ensure that a piece of code _always_ runs when a block finishes.
 
@@ -573,21 +573,22 @@ hint}}
 Consider the following (rather contrived) object:
 
 ```
-const box = {
-  locked: true,
-  unlock() { this.locked = false; },
-  lock() { this.locked = true;  },
-  _content: [],
+const box = new class {
+  locked = true;
+  #content = [];
+
+  unlock() { this.locked = false; }
+  lock() { this.locked = true;  }
   get content() {
     if (this.locked) throw new Error("Locked!");
-    return this._content;
+    return this.#content;
   }
 };
 ```
 
 {{index "private property", "access control"}}
 
-It is a ((box)) with a lock. There is an array in the box, but you can get at it only when the box is unlocked. Directly accessing the private `_content` property is forbidden.
+It is a ((box)) with a lock. There is an array in the box, but you can get at it only when the box is unlocked.
 
 {{index "finally keyword", "exception handling"}}
 
@@ -596,14 +597,15 @@ Write a function called `withBoxUnlocked` that takes a function value as argumen
 {{if interactive
 
 ```
-const box = {
-  locked: true,
-  unlock() { this.locked = false; },
-  lock() { this.locked = true;  },
-  _content: [],
+const box = new class {
+  locked = true;
+  #content = [];
+
+  unlock() { this.locked = false; }
+  lock() { this.locked = true;  }
   get content() {
     if (this.locked) throw new Error("Locked!");
-    return this._content;
+    return this.#content;
   }
 };
 

@@ -1,25 +1,22 @@
-const box = {
-  locked: true,
-  unlock() { this.locked = false; },
-  lock() { this.locked = true;  },
-  _content: [],
+const box = new class {
+  locked = true;
+  #content = [];
+
+  unlock() { this.locked = false; }
+  lock() { this.locked = true;  }
   get content() {
     if (this.locked) throw new Error("Locked!");
-    return this._content;
+    return this.#content;
   }
 };
 
 function withBoxUnlocked(body) {
   let locked = box.locked;
-  if (!locked) {
-    return body();
-  }
-
-  box.unlock();
+  if (locked) box.unlock();
   try {
     return body();
   } finally {
-    box.lock();
+    if (locked) box.lock();
   }
 }
 

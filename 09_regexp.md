@@ -12,7 +12,7 @@ quote}}
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-Yuan-Ma said, 'When you cut against the grain of the wood, much strength is needed. When you program against the grain of the problem, much code is needed.'
+When you cut against the grain of the wood, much strength is needed. When you program against the grain of the problem, much code is needed.
 
 quote}}
 
@@ -22,7 +22,7 @@ if}}
 
 {{index evolution, adoption, integration}}
 
-Programming ((tool))s and techniques survive and spread in a chaotic, evolutionary way. It's not always the pretty or brilliant ones that win but rather the ones that function well enough within the right niche or that happen to be integrated with another successful piece of technology.
+Programming ((tool))s and techniques survive and spread in a chaotic, evolutionary way. It's not always the best or brilliant ones that win but rather the ones that function well enough within the right niche or that happen to be integrated with another successful piece of technology.
 
 {{index "domain-specific language"}}
 
@@ -54,7 +54,7 @@ When using the `RegExp` constructor, the pattern is written as a normal string, 
 The second notation, where the pattern appears between slash characters, treats backslashes somewhat differently. First, since a forward slash ends the pattern, we need to put a backslash before any forward slash that we want to be _part_ of the pattern. In addition, backslashes that aren't part of special character codes (like `\n`) will be _preserved_, rather than ignored as they are in strings, and change the meaning of the pattern. Some characters, such as question marks and plus signs, have special meanings in regular expressions and must be preceded by a backslash if they are meant to represent the character itself.
 
 ```
-let eighteenPlus = /eighteen\+/;
+let aPlus = /A\+/;
 ```
 
 ## Testing for matches
@@ -78,7 +78,7 @@ A ((regular expression)) consisting of only nonspecial characters simply represe
 
 {{index "regular expression", "indexOf method"}}
 
-Finding out whether a string contains _abc_ could just as well be done with a call to `indexOf`. Regular expressions allow us to express more complicated ((pattern))s.
+Finding out whether a string contains _abc_ could just as well be done with a call to `indexOf`. Regular expressions are useful because they allow us to describe more complicated ((pattern))s.
 
 Say we want to match any ((number)). In a regular expression, putting a ((set)) of characters between square brackets makes that part of the expression match any of the characters between the brackets.
 
@@ -137,9 +137,48 @@ To _invert_ a set of characters—that is, to express that you want to match any
 let notBinary = /[^01]/;
 console.log(notBinary.test("1100100010100110"));
 // → false
-console.log(notBinary.test("1100100010200110"));
+console.log(notBinary.test("0111010112101001"));
 // → true
 ```
+
+## International characters
+
+{{index internationalization, Unicode, ["regular expression", internationalization]}}
+
+Because of JavaScript's initial simplistic implementation and the fact that this simplistic approach was later set in stone as ((standard)) behavior, JavaScript's regular expressions are rather dumb about characters that do not appear in the English language. For example, as far as JavaScript's regular expressions are concerned, a "((word character))" is only one of the 26 characters in the Latin alphabet (uppercase or lowercase), decimal digits, and, for some reason, the underscore character. Things like _é_ or _β_, which most definitely are word characters, will not match `\w` (and _will_ match uppercase `\W`, the nonword category).
+
+{{index [whitespace, matching]}}
+
+By a strange historical accident, `\s` (whitespace) does not have this problem and matches all characters that the Unicode standard considers whitespace, including things like the ((nonbreaking space)) and the ((Mongolian vowel separator)).
+
+{{index "character category", [Unicode, property]}}
+
+It is possible to use `\p` in a regular expression to match all characters to which the Unicode standard assigns a given property. This allows us to match things like letters in a more cosmopolitan way. However, again due to compatibility with the original language standards, those are only recognized when you put a `u` character (for ((Unicode))) after the regular expression.
+
+{{table {cols: [1, 5]}}}
+
+| `\p{L}`             | Any letter
+| `\p{N}`             | Any numeric character
+| `\p{P}`             | Any punctuation character
+| `\P{L}`             | Any non-letter
+| `\p{Script=Hangul}` | Any character from the given script (see [Chapter ?](higher_order#scripts))
+
+Using `\w` for text processing that may need to handle non-English text (or even English text with borrowed words like “cliché”) is a liability, since it won't treat characters like “é” as letters. Though they tend to be a bit more verbose, `\p` property groups are more robust.
+
+```{test: never}
+console.log(/\p{L}/u.test("α"));
+// → true
+console.log(/\p{L}/u.test("!"));
+// → false
+console.log(/\p{Script=Greek}/u.test("α"));
+// → true
+console.log(/\p{Script=Arabic}/u.test("α"));
+// → false
+```
+
+{{index "Number function"}}
+
+On the other hand, if you are matching numbers in order to do something with them, you often do want `\d` for digits, since converting arbitrary numeric characters into a JavaScript number is not something that a function like `Number` can do for you.
 
 ## Repeating parts of a pattern
 
@@ -262,6 +301,13 @@ console.log(/(\d)+/.exec("123"));
 // → ["123", "3"]
 ```
 
+If you want to use parentheses purely for grouping, without having them show up in the array of matches, you can put `?:` after the opening parenthesis.
+
+```
+console.log(/(?:na)+/.exec("banana"));
+// → ["nana"]
+```
+
 {{index "exec method", ["regular expression", methods], extraction}}
 
 Groups can be useful for extracting parts of a string. If we don't just want to verify whether a string contains a ((date)) but also extract it and construct an object that represents it, we can wrap parentheses around the digit patterns and directly pick the date out of the result of `exec`.
@@ -333,11 +379,11 @@ console.log(getDate("1-30-2003"));
 
 The `_` (underscore) binding is ignored and used only to skip the full match element in the array returned by `exec`.
 
-## Word and string boundaries
+## Boundaries and look-ahead
 
 {{index matching, ["regular expression", boundary]}}
 
-Unfortunately, `getDate` will also happily extract the nonsensical date 00-1-3000 from the string `"100-1-30000"`. A match may happen anywhere in the string, so in this case, it'll just start at the second character and end at the second-to-last character.
+Unfortunately, `getDate` will also happily extract a date from the string `"100-1-30000"`. A match may happen anywhere in the string, so in this case, it'll just start at the second character and end at the second-to-last character.
 
 {{index boundary, "caret character", "dollar sign"}}
 
@@ -345,18 +391,22 @@ If we want to enforce that the match must span the whole string, we can add the 
 
 {{index "word boundary", "word character"}}
 
-If, on the other hand, we just want to make sure the date starts and ends on a word boundary, we can use the marker `\b`. A word boundary can be the start or end of the string or any point in the string that has a word character (as in `\w`) on one side and a nonword character on the other.
+There is also a `\b` marker, which matches “word boundaries”, positions that have a word character one side, and a non-word character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w`, and are therefore not very reliable.
+
+Note that these markers don't match any actual characters. They just enforces that a given condition holds at the place where they appears in the pattern.
+
+{{index "look-ahead}}
+
+_Look-ahead_ tests do something similar. They provide a pattern, and will make the match fail if the input doesn't match that pattern, but don't actually move the match position forward. They are written between `(?=` and `)`.
 
 ```
-console.log(/cat/.test("concatenate"));
-// → true
-console.log(/\bcat\b/.test("concatenate"));
-// → false
+console.log(/a(?=e)/.exec("braeburn"));
+// → ["a"]
+console.log(/a(?! )/.exec("a b"));
+// → null
 ```
 
-{{index matching}}
-
-Note that a boundary marker doesn't match an actual character. It just enforces that the regular expression matches only when a certain condition holds at the place where it appears in the pattern.
+Note how the `e` in the first example is necessary to match, but is not part of the matched string. The `(?! )` notation expresses a _negative_ look-ahead. This only matches if the pattern in the parentheses _doesn't_ match, causing the second example to only match “a” characters that don't have a space after them.
 
 ## Choice patterns
 
@@ -367,10 +417,10 @@ Say we want to know whether a piece of text contains not only a number but a num
 We could write three regular expressions and test them in turn, but there is a nicer way. The ((pipe character)) (`|`) denotes a ((choice)) between the pattern to its left and the pattern to its right. So I can say this:
 
 ```
-let animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
+let animalCount = /\d+ (pig|cow|chicken)s?/;
 console.log(animalCount.test("15 pigs"));
 // → true
-console.log(animalCount.test("15 pigchickens"));
+console.log(animalCount.test("15 pugs"));
 // → false
 ```
 
@@ -388,38 +438,11 @@ Conceptually, when you use `exec` or `test`, the regular expression engine looks
 
 To do the actual matching, the engine treats a regular expression something like a ((flow diagram)). This is the diagram for the livestock expression in the previous example:
 
-{{figure {url: "img/re_pigchickens.svg", alt: "Railroad diagram for the regular expression '\\b\\d+ (pig|cow|chicken)s?\\b'"}}}
+{{figure {url: "img/re_pigchickens.svg", alt: "Railroad diagram that first passes through a box labeled 'digit', which has a loop going back from after it to before it, and then a box for a space character. After that, the railroad splits in three, going through boxes for 'pig', 'cow', and 'chicken'. After those it rejoins, and goes through a box labeled 's', which, being optional, also has a railroad that passes it by. Finally, the line reaches the accepting state."}}}
 
 {{index traversal}}
 
 Our expression matches if we can find a path from the left side of the diagram to the right side. We keep a current position in the string, and every time we move through a box, we verify that the part of the string after our current position matches that box.
-
-So if we try to match `"the 3 pigs"` from position 4, our progress through the flow chart would look like this:
-
- - At position 4, there is a word ((boundary)), so we can move past
-   the first box.
-
- - Still at position 4, we find a digit, so we can also move past the
-   second box.
-
- - At position 5, one path loops back to before the second (digit)
-   box, while the other moves forward through the box that holds a
-   single space character. There is a space here, not a digit, so we
-   must take the second path.
-
- - We are now at position 6 (the start of _pigs_) and at the three-way
-   branch in the diagram. We don't see _cow_ or _chicken_ here, but we
-   do see _pig_, so we take that branch.
-
- - At position 9, after the three-way branch, one path skips the _s_
-   box and goes straight to the final word boundary, while the other
-   path matches an _s_. There is an _s_ character here, not a word
-   boundary, so we go through the _s_ box.
-
- - We're at position 10 (the end of the string) and can match only a
-   word ((boundary)). The end of a string counts as a word boundary,
-   so we go through the last box and have successfully matched this
-   string.
 
 {{id backtracking}}
 
@@ -427,9 +450,9 @@ So if we try to match `"the 3 pigs"` from position 4, our progress through the f
 
 {{index ["regular expression", backtracking], "binary number", "decimal number", "hexadecimal number", "flow diagram", [matching, algorithm], backtracking}}
 
-The regular expression `/\b([01]+b|[\da-f]+h|\d+)\b/` matches either a binary number followed by a _b_, a hexadecimal number (that is, base 16, with the letters _a_ to _f_ standing for the digits 10 to 15) followed by an _h_, or a regular decimal number with no suffix character. This is the corresponding diagram:
+The regular expression `/^([01]+b|[\da-f]+h|\d+)$/` matches either a binary number followed by a _b_, a hexadecimal number (that is, base 16, with the letters _a_ to _f_ standing for the digits 10 to 15) followed by an _h_, or a regular decimal number with no suffix character. This is the corresponding diagram:
 
-{{figure {url: "img/re_number.svg", alt: "Railroad diagram for the regular expression '\\b([01]+b|\\d+|[\\da-f]+h)\\b'"}}}
+{{figure {url: "img/re_number.svg", alt: "Railroad diagram for the regular expression '^([01]+b|\\d+|[\\da-f]+h)$'"}}}
 
 {{index branching}}
 
@@ -468,7 +491,7 @@ console.log("papa".replace("p", "m"));
 
 {{index ["regular expression", flags], ["regular expression", global]}}
 
-The first argument can also be a regular expression, in which case the first match of the regular expression is replaced. When a `g` option (for _global_) is added to the regular expression, _all_ matches in the string will be replaced, not just the first.
+The first argument can also be a regular expression, in which case the first match of the regular expression is replaced. When a `g` option (for _global_) is added after the regular expression, _all_ matches in the string will be replaced, not just the first.
 
 ```
 console.log("Borobudur".replace(/[ou]/, "a"));
@@ -477,21 +500,17 @@ console.log("Borobudur".replace(/[ou]/g, "a"));
 // → Barabadar
 ```
 
-{{index [interface, design], argument}}
-
-It would have been sensible if the choice between replacing one match or all matches was made through an additional argument to `replace` or by providing a different method, `replaceAll`. But for some unfortunate reason, the choice relies on a property of the regular expression instead.
-
 {{index grouping, "capture group", "dollar sign", "replace method", ["regular expression", grouping]}}
 
 The real power of using regular expressions with `replace` comes from the fact that we can refer to matched groups in the replacement string. For example, say we have a big string containing the names of people, one name per line, in the format `Lastname, Firstname`. If we want to swap these names and remove the comma to get a `Firstname Lastname` format, we can use the following code:
 
 ```
 console.log(
-  "Liskov, Barbara\nMcCarthy, John\nWadler, Philip"
-    .replace(/(\w+), (\w+)/g, "$2 $1"));
+  "Liskov, Barbara\nMcCarthy, John\nMilner, Robin"
+    .replace(/(\p{L}+), (\p{L}+)/gu, "$2 $1"));
 // → Barbara Liskov
 //   John McCarthy
-//   Philip Wadler
+//   Robin Milner
 ```
 
 The `$1` and `$2` in the replacement string refer to the parenthesized groups in the pattern. `$1` is replaced by the text that matched against the first group, `$2` by the second, and so on, up to `$9`. The whole match can be referred to with `$&`.
@@ -500,16 +519,7 @@ The `$1` and `$2` in the replacement string refer to the parenthesized groups in
 
 It is possible to pass a function—rather than a string—as the second argument to `replace`. For each replacement, the function will be called with the matched groups (as well as the whole match) as arguments, and its return value will be inserted into the new string.
 
-Here's a small example:
-
-```
-let s = "the cia and fbi";
-console.log(s.replace(/\b(fbi|cia)\b/g,
-            str => str.toUpperCase()));
-// → the CIA and FBI
-```
-
-Here's a more interesting one:
+Here's an example:
 
 ```
 let stock = "1 lemon, 2 cabbages, and 101 eggs";
@@ -522,13 +532,13 @@ function minusOne(match, amount, unit) {
   }
   return amount + " " + unit;
 }
-console.log(stock.replace(/(\d+) (\w+)/g, minusOne));
+console.log(stock.replace(/(\d+) (\p{L}+)/gu, minusOne));
 // → no lemon, 1 cabbage, and 100 eggs
 ```
 
-This takes a string, finds all occurrences of a number followed by an alphanumeric word, and returns a string wherein every such occurrence is decremented by one.
+This takes a string, finds all occurrences of a number followed by an alphanumeric word, and returns a string that has one less of every such quantity.
 
-The `(\d+)` group ends up as the `amount` argument to the function, and the `(\w+)` group gets bound to `unit`. The function converts `amount` to a number—which always works since it matched `\d+`—and makes some adjustments in case there is only one or zero left.
+The `(\d+)` group ends up as the `amount` argument to the function, and the `(\p{L}+)` group gets bound to `unit`. The function converts `amount` to a number—which always works since it matched `\d+`—and makes some adjustments in case there is only one or zero left.
 
 ## Greed
 
@@ -570,27 +580,24 @@ console.log(stripComments("1 /* a */+/* b */ 1"));
 // → 1 + 1
 ```
 
-A lot of ((bug))s in ((regular expression)) programs can be traced to unintentionally using a greedy operator where a nongreedy one would work better. When using a ((repetition)) operator, consider the nongreedy variant first.
+A lot of ((bug))s in ((regular expression)) programs can be traced to unintentionally using a greedy operator where a nongreedy one would work better. When using a ((repetition)) operator, prefer the nongreedy variant.
 
 ## Dynamically creating RegExp objects
 
 {{index ["regular expression", creation], "underscore character", "RegExp class"}}
 
-There are cases where you might not know the exact ((pattern)) you need to match against when you are writing your code. Say you want to look for the user's name in a piece of text and enclose it in underscore characters to make it stand out. Since you will know the name only once the program is actually running, you can't use the slash-based notation.
-
-But you can build up a string and use the `RegExp` ((constructor)) on that. Here's an example:
+There are cases where you might not know the exact ((pattern)) you need to match against when you are writing your code. Say you want to test for the user's name in a piece of text. You can build up a string and use the `RegExp` ((constructor)) on that. Here's an example:
 
 ```
 let name = "harry";
-let text = "Harry is a suspicious character.";
-let regexp = new RegExp("\\b(" + name + ")\\b", "gi");
-console.log(text.replace(regexp, "_$1_"));
-// → _Harry_ is a suspicious character.
+let regexp = new RegExp("(^|\\s)" + name + "($|\\s)", "gi");
+console.log(regexp.test("Harry is a dodgy character."));
+// → true
 ```
 
 {{index ["regular expression", flags], ["backslash character", "in regular expressions"]}}
 
-When creating the `\b` ((boundary)) markers, we have to use two backslashes because we are writing them in a normal string, not a slash-enclosed regular expression. The second argument to the `RegExp` constructor contains the options for the regular expression—in this case, `"gi"` for global and case insensitive.
+When creating the `\s` part of the string, we have to use two backslashes because we are writing them in a normal string, not a slash-enclosed regular expression. The second argument to the `RegExp` constructor contains the options for the regular expression—in this case, `"gi"` for global and case insensitive.
 
 But what if the name is `"dea+hl[]rd"` because our user is a ((nerd))y teenager? That would result in a nonsensical regular expression that won't actually match the user's name.
 
@@ -600,11 +607,12 @@ To work around this, we can add backslashes before any character that has a spec
 
 ```
 let name = "dea+hl[]rd";
-let text = "This dea+hl[]rd guy is super annoying.";
 let escaped = name.replace(/[\\[.+*?(){|^$]/g, "\\$&");
-let regexp = new RegExp("\\b" + escaped + "\\b", "gi");
-console.log(text.replace(regexp, "_$&_"));
-// → This _dea+hl[]rd_ guy is super annoying.
+let regexp = new RegExp("(^|\\s)" + escaped + "($|\\s)",
+                        "gi");
+let text = "This dea+hl[]rd guy is super annoying.";
+console.log(regexp.test(text));
+// → true
 ```
 
 ## The search method
@@ -692,7 +700,7 @@ A common thing to do is to scan through all occurrences of a pattern in a string
 
 ```
 let input = "A string with 3 numbers in it... 42 and 88.";
-let number = /\b\d+\b/g;
+let number = /\d+/g;
 let match;
 while (match = number.exec(input)) {
   console.log("Found", match[0], "at", match.index);
@@ -753,16 +761,16 @@ function parseINI(string) {
   // Start with an object to hold the top-level fields
   let result = {};
   let section = result;
-  string.split(/\r?\n/).forEach(line => {
+  for (let line of string.split(/\r?\n/)) {
     let match;
     if (match = line.match(/^(\w+)=(.*)$/)) {
       section[match[1]] = match[2];
     } else if (match = line.match(/^\[(.*)\]$/)) {
       section = result[match[1]] = {};
-    } else if (!/^\s*(;.*)?$/.test(line)) {
+    } else if (!/^\s*(;|$)/.test(line)) {
       throw new Error("Line '" + line + "' is not valid.");
     }
-  });
+  };
   return result;
 }
 
@@ -789,19 +797,11 @@ The pattern `if (match = string.match(...))` is similar to the trick of using an
 
 {{index [parentheses, "in regular expressions"]}}
 
-If a line is not a section header or a property, the function checks whether it is a comment or an empty line using the expression `/^\s*(;.*)?$/`. Do you see how it works? The part between the parentheses will match comments, and the `?` makes sure it also matches lines containing only whitespace. When a line doesn't match any of the expected forms, the function throws an exception.
+If a line is not a section header or a property, the function checks whether it is a comment or an empty line using the expression `/^\s*(;|$)/` to match lines that either contain only space, or space followed by a semicolon (making the rest of the line a comment). When a line doesn't match any of the expected forms, the function throws an exception.
 
-## International characters
+## Code units and characters
 
-{{index internationalization, Unicode, ["regular expression", internationalization]}}
-
-Because of JavaScript's initial simplistic implementation and the fact that this simplistic approach was later set in stone as ((standard)) behavior, JavaScript's regular expressions are rather dumb about characters that do not appear in the English language. For example, as far as JavaScript's regular expressions are concerned, a "((word character))" is only one of the 26 characters in the Latin alphabet (uppercase or lowercase), decimal digits, and, for some reason, the underscore character. Things like _é_ or _β_, which most definitely are word characters, will not match `\w` (and _will_ match uppercase `\W`, the nonword category).
-
-{{index [whitespace, matching]}}
-
-By a strange historical accident, `\s` (whitespace) does not have this problem and matches all characters that the Unicode standard considers whitespace, including things like the ((nonbreaking space)) and the ((Mongolian vowel separator)).
-
-Another problem is that, by default, regular expressions work on code units, as discussed in [Chapter ?](higher_order#code_units), not actual characters. This means characters that are composed of two code units behave strangely.
+Another design mistake that's been standardized, in JavaScript regular expressions, is that by default, operator like `.` or `?` work on code units, as discussed in [Chapter ?](higher_order#code_units), not actual characters. This means characters that are composed of two code units behave strangely.
 
 ```
 console.log(/🍎{3}/.test("🍎🍎🍎"));
@@ -814,24 +814,12 @@ console.log(/<.>/u.test("<🌹>"));
 
 The problem is that the 🍎 in the first line is treated as two code units, and the `{3}` part is applied only to the second one. Similarly, the dot matches a single code unit, not the two that make up the rose ((emoji)).
 
-You must add a `u` option (for ((Unicode))) to your regular expression to make it treat such characters properly. The wrong behavior remains the default, unfortunately, because changing that might cause problems for existing code that depends on it.
+You must add the `u` (Unicode) option to your regular expression to make it treat such characters properly.
 
-{{index "character category", [Unicode, property]}}
-
-Though this was only just standardized and is, at the time of writing, not widely supported yet, it is possible to use `\p` in a regular expression (that must have the Unicode option enabled) to match all characters to which the Unicode standard assigns a given property.
-
-```{test: never}
-console.log(/\p{Script=Greek}/u.test("α"));
-// → true
-console.log(/\p{Script=Arabic}/u.test("α"));
-// → false
-console.log(/\p{Alphabetic}/u.test("α"));
-// → true
-console.log(/\p{Alphabetic}/u.test("!"));
-// → false
 ```
-
-Unicode defines a number of useful properties, though finding the one that you need may not always be trivial. You can use the `\p{Property=Value}` notation to match any character that has the given value for that property. If the property name is left off, as in `\p{Name}`, the name is assumed to be either a binary property such as `Alphabetic` or a category such as `Number`.
+console.log(/🍎{3}/u.test("🍎🍎🍎"));
+// → true
+```
 
 {{id summary_regexp}}
 
@@ -856,15 +844,16 @@ Regular expressions are objects that represent patterns in strings. They use the
 | `/\w/`      | An alphanumeric character ("word character")
 | `/\s/`      | Any whitespace character
 | `/./`       | Any character except newlines
-| `/\b/`      | A word boundary
+| `/\p{L}/u`  | Any letter character
 | `/^/`       | Start of input
 | `/$/`       | End of input
+| `/(?=a)/`   | A look-ahead test
 
 A regular expression has a method `test` to test whether a given string matches it. It also has a method `exec` that, when a match is found, returns an array containing all matched groups. Such an array has an `index` property that indicates where the match started.
 
 Strings have a `match` method to match them against a regular expression and a `search` method to search for one, returning only the starting position of the match. Their `replace` method can replace matches of a pattern with a replacement string or function.
 
-Regular expressions can have options, which are written after the closing slash. The `i` option makes the match case insensitive. The `g` option makes the expression _global_, which, among other things, causes the `replace` method to replace all instances instead of just the first. The `y` option makes it sticky, which means that it will not search ahead and skip part of the string when looking for a match. The `u` option turns on Unicode mode, which fixes a number of problems around the handling of characters that take up two code units.
+Regular expressions can have options, which are written after the closing slash. The `i` option makes the match case insensitive. The `g` option makes the expression _global_, which, among other things, causes the `replace` method to replace all instances instead of just the first. The `y` option makes it sticky, which means that it will not search ahead and skip part of the string when looking for a match. The `u` option turns on Unicode mode, which enables `\p` syntax and fixes a number of problems around the handling of characters that take up two code units.
 
 Regular expressions are a sharp ((tool)) with an awkward handle. They simplify some tasks tremendously but can quickly become unmanageable when applied to complex problems. Part of knowing how to use them is resisting the urge to try to shoehorn things that they cannot cleanly express into them.
 
@@ -882,7 +871,7 @@ _Code golf_ is a term used for the game of trying to express a particular progra
 
 {{index boundary, matching}}
 
-For each of the following items, write a ((regular expression)) to test whether any of the given substrings occur in a string. The regular expression should match only strings containing one of the substrings described. Do not worry about word boundaries unless explicitly mentioned. When your expression works, see whether you can make it any smaller.
+For each of the following items, write a ((regular expression)) to test whether any of the given substrings occur in a string. The regular expression should match only strings containing one of the substrings described. When your expression works, see whether you can make it any smaller.
 
  1. _car_ and _cat_
  2. _pop_ and _prop_
@@ -924,7 +913,7 @@ verify(/.../,
 
 verify(/.../,
        ["red platypus", "wobbling nest"],
-       ["earth bed", "learning ape", "BEET"]);
+       ["earth bed", "bedrøvet abe", "BEET"]);
 
 
 function verify(regexp, yes, no) {
@@ -964,11 +953,11 @@ if}}
 
 {{index "quoting style (exercise)", boundary}}
 
-The most obvious solution is to replace only quotes with a nonword character on at least one side—something like `/\W'|'\W/`. But you also have to take the start and end of the line into account.
+The most obvious solution is to replace only quotes with a nonletter character on at least one side—something like `/\P{L}'|'\P{L}/`. But you also have to take the start and end of the line into account.
 
 {{index grouping, "replace method", [parentheses, "in regular expressions"]}}
 
-In addition, you must ensure that the replacement also includes the characters that were matched by the `\W` pattern so that those are not dropped. This can be done by wrapping them in parentheses and including their groups in the replacement string (`$1`, `$2`). Groups that are not matched will be replaced by nothing.
+In addition, you must ensure that the replacement also includes the characters that were matched by the `\P{L}` pattern so that those are not dropped. This can be done by wrapping them in parentheses and including their groups in the replacement string (`$1`, `$2`). Groups that are not matched will be replaced by nothing.
 
 hint}}
 

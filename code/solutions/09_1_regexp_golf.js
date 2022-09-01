@@ -12,7 +12,7 @@ verify(/ferr(et|y|ari)/,
        ["ferret", "ferry", "ferrari"],
        ["ferrum", "transfer A"]);
 
-verify(/ious\b/,
+verify(/ious($|\P{L})/u,
        ["how delicious", "spacious room"],
        ["ruinous", "consciousness"]);
 
@@ -20,13 +20,13 @@ verify(/\s[.,:;]/,
        ["bad punctuation ."],
        ["escape the dot"]);
 
-verify(/\w{7}/,
+verify(/\p{L}{7}/u,
        ["Siebentausenddreihundertzweiundzwanzig"],
        ["no", "three small words"]);
 
-verify(/\b[^\We]+\b/i,
+verify(/(^|\P{L})[^\P{L}e]+($|\P{L})/i,
        ["red platypus", "wobbling nest"],
-       ["earth bed", "learning ape", "BEET"]);
+       ["earth bed", "bedrøvet abe", "BEET"]);
 
 
 function verify(regexp, yes, no) {

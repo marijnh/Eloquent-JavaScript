@@ -202,6 +202,8 @@ There is a built-in array method, `forEach`, that provides something like a `for
 // → B
 ```
 
+{{id scripts}}
+
 ## Script data set
 
 One area where higher-order functions shine is data processing. To process data, we'll need some actual data. This chapter will use a ((data set)) about scripts—((writing system))s such as Latin, Cyrillic, or Arabic.

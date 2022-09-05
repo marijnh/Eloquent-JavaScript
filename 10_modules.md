@@ -18,13 +18,13 @@ The ideal program has a crystal-clear structure. The way it works is easy to exp
 
 {{index "organic growth"}}
 
-A typical real program grows organically. New pieces of functionality are added as new needs come up. Structuring—and preserving structure—is additional work. It's work that will pay off only in the future, the _next_ time someone works on the program. So it is tempting to neglect it and allow the parts of the program to become deeply entangled.
+A typical _real_ program grows organically. New pieces of functionality are added as new needs come up. Structuring—and preserving structure—is additional work. It's work that will pay off only in the future, the _next_ time someone works on the program. So it is tempting to neglect it and allow the parts of the program to become deeply entangled.
 
 {{index readability, reuse, isolation}}
 
-This causes two practical issues. First, understanding such a system is hard. If everything can touch everything else, it is difficult to look at any given piece in isolation. You are forced to build up a holistic understanding of the entire thing. Second, if you want to use any of the functionality from such a program in another situation, rewriting it may be easier than trying to disentangle it from its context.
+This causes two practical issues. First, understanding an entangled system is hard. If everything can touch everything else, it is difficult to look at any given piece in isolation. You are forced to build up a holistic understanding of the entire thing. Second, if you want to use any of the functionality from such a program in another situation, rewriting it may be easier than trying to disentangle it from its context.
 
-The phrase "((big ball of mud))" is often used for such large, structureless programs. Everything sticks together, and when you try to pick out a piece, the whole thing comes apart, and your hands get dirty.
+The phrase "((big ball of mud))" is often used for such large, structureless programs. Everything sticks together, and when you try to pick out a piece, the whole thing comes apart, and you only succeed in making a mess.
 
 ## Modules
 
@@ -42,11 +42,11 @@ The relations between modules are called _dependencies_. When a module needs a p
 
 To separate modules in that way, each needs its own private ((scope)).
 
-Just putting your JavaScript code into different ((file))s does not satisfy these requirements. The files still share the same global namespace. They can, intentionally or accidentally, interfere with each other's bindings. And the dependency structure remains unclear. We can do better, as we'll see later in the chapter.
+Just putting your JavaScript code into different ((file))s does not provide this. The files still share the same global namespace. They can, intentionally or accidentally, interfere with each other's bindings. And the dependency structure remains unclear.
 
 {{index design}}
 
-Designing a fitting module structure for a program can be difficult. In the phase where you are still exploring the problem, trying  different things to see what works, you might want to not worry about it too much since it can be a big distraction. Once you have something that feels solid, that's a good time to take a step back and organize it.
+Designing a fitting module structure for a program can be difficult. In the phase where you are still exploring the problem, trying  different things to see what works, you might want to not worry about it too much since keeping everything organized can be a big distraction. Once you have something that feels solid, that's a good time to take a step back and organize it.
 
 ## Packages
 
@@ -76,7 +76,7 @@ NPM is two things: an online service where one can download (and upload) package
 
 {{index "ini package"}}
 
-At the time of writing, there are more than half a million different packages available on NPM. A large portion of those are rubbish, I should mention, but almost every useful, publicly available package can be found on there. For example, an INI file parser, similar to the one we built in [Chapter ?](regexp), is available under the package name `ini`.
+At the time of writing, there are more than two million different packages available on NPM. A large portion of those are rubbish, to be fair. But almost every useful, publicly available JavaScript package can be found on NPM. For example, an INI file parser, similar to the one we built in [Chapter ?](regexp), is available under the package name `ini`.
 
 {{index "command line"}}
 
@@ -325,9 +325,9 @@ Many projects are written using ES modules and then automatically converted to s
 
 {{index compilation, "type checking"}}
 
-In fact, many JavaScript projects aren't even, technically, written in JavaScript. There are extensions, such as the type checking ((dialect)) mentioned in [Chapter ?](error#typing), that are widely used. People also often start using planned extensions to the language long before they have been added to the platforms that actually run JavaScript.
+In fact, many JavaScript packages aren't even, technically, written in JavaScript. There are extensions, such as the type checking ((dialect)) mentioned in [Chapter ?](error#typing), that are widely used. People also often start using planned extensions to the language long before they have been added to the platforms that actually run JavaScript.
 
-To make this possible, they _compile_ their code, translating it from their chosen JavaScript dialect to plain old JavaScript—or even to a past version of JavaScript—so that old ((browsers)) can run it.
+To make this possible, they _compile_ their code, translating it from their chosen JavaScript dialect to plain old JavaScript—or even to a past version of JavaScript—so that ((browsers)) can run it.
 
 {{index latency, performance, [file, access], [network, speed]}}
 
@@ -339,7 +339,7 @@ And we can go further. Apart from the number of files, the _size_ of the files a
 
 {{index pipeline, tool}}
 
-So it is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converted from modern JavaScript to historic JavaScript, from ES module format to CommonJS, bundled, and minified. We won't go into the details of these tools in this book since they tend to be boring and change rapidly. Just be aware that the JavaScript code you run is often not the code as it was written.
+So it is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converted from modern JavaScript to historic JavaScript, from ES module format to CommonJS, bundled, and minified. We won't go into the details of these tools in this book since they tend to be boring and change rapidly. For now, just be aware that such things exist.
 
 ## Module design
 

@@ -352,7 +352,7 @@ blockquote footer:before {
   font-family: tahoma, arial, sans-serif;
   font-size: 70%;
   padding: 4px 8px;
-  background: rgb(220, 220, 220);
+  background: rgb(180, 180, 180);
   color: white;
   border-radius: 5px;
 }
@@ -368,7 +368,7 @@ blockquote footer:before {
   width: 0; height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-right: 12px solid rgb(220, 220, 220);
+  border-right: 12px solid rgb(180, 180, 180);
   top: 6px;
   left: -11px;
   content: '';

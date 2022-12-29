@@ -659,9 +659,9 @@ on it. When it loses focus, the element gets a `"blur"` event.
 
 {{index "event propagation"}}
 
-Unlike the events discussed earlier, these two events do not
-propagate. A handler on a parent element is not notified when a child
-element gains or loses focus.
+Some events, like these two and `"scroll"`, do not propagate. A
+handler on a parent element is not notified when a child element gains
+or loses focus.
 
 {{index "input (HTML tag)", "help text example"}}
 

@@ -4,7 +4,8 @@
 
 {{quote {author: "Laozi", title: "Tao Te Ching", chapter: true}
 
-Who can wait quietly while the mud settles?\ Who can remain still until the moment of action?
+Who can wait quietly while the mud settles?\
+Who can remain still until the moment of action?
 
 quote}}
 
@@ -12,7 +13,7 @@ quote}}
 
 {{figure {url: "img/chapter_picture_11.jpg", alt: "Illustration showing two crows on a tree branch", chapter: framed}}}
 
-The central part of a computer, the part that carries out the individual steps that make up our programs, is called the _((processor))_. The programs we have seen so far are things that will keep the processor busy until they have finished their work. The speed at which something like a loop that manipulates numbers can be executed depends pretty much entirely on the speed of the processor.
+The central part of a computer, the part that carries out the individual steps that make up our programs, is called the _((processor))_. The programs we have seen so far will keep the processor busy until they have finished their work. The speed at which something like a loop that manipulates numbers can be executed depends pretty much entirely on the speed of the computor's processor and memory.
 
 {{index [memory, speed], [network, speed]}}
 
@@ -50,27 +51,21 @@ In the following diagram, the thick lines represent time the program spends runn
 
 Another way to describe the difference is that waiting for actions to finish is _implicit_ in the synchronous model, while it is _explicit_, under our control, in the asynchronous one.
 
-Asynchronicity cuts both ways. It makes expressing programs that do not fit the straight-line model of control easier, but it can also make expressing programs that do follow a straight line more awkward. We'll see some ways to address this awkwardness later in the chapter.
+Asynchronicity cuts both ways. It makes expressing programs that do not fit the straight-line model of control easier, but it can also make expressing programs that do follow a straight line more awkward. We'll see some ways to reduce this awkwardness later in the chapter.
 
 Both of the important JavaScript programming platforms—((browser))s and ((Node.js))—make operations that might take a while asynchronous, rather than relying on ((thread))s. Since programming with threads is notoriously hard (understanding what a program does is much more difficult when it's doing multiple things at once), this is generally considered a good thing.
 
-## Crow tech
+## Emma the crow
 
 Most people are aware of the fact that ((crow))s are very smart birds. They can use tools, plan ahead, remember things, and even communicate these things among themselves.
 
-What most people don't know is that they are capable of many things that they keep well hidden from us. I've been told by a reputable (if somewhat eccentric) expert on ((corvid))s that crow technology is not far behind human technology, and they are catching up.
+What most people don't know is that they are capable of many things that they keep well hidden from us. I've been told by a reputable (if somewhat eccentric) expert on ((corvid))s that some crows intentionally steal human computing devices, and are surprisingly good at using them.
 
-For example, many crow cultures have the ability to construct computing devices. These are not electronic, as human computing devices are, but operate through the actions of tiny insects, a species closely related to the ((termite)), which has developed a ((symbiotic relationship)) with the crows. The birds provide them with food, and in return the insects build and operate their complex colonies that, with the help of the living creatures inside them, perform computations.
+There's a population of hooded crows that make their home in the old Tempelhof airport in Berlin. Emma is one of the elders of this group. She's a scruffy crow with a few stray white feathers in her wings and an intense look in her little black eyes. Because foraging for food, in an urban environment full over overflowing trash cans, is ridiculously easy, Emma has a lot of time on her hands (claws).
 
-Such colonies are usually located in big, long-lived nests. The birds and insects work together to build a network of bulbous clay structures, hidden between the twigs of the nest, in which the insects live and work.
+One of the things she does with her time is playing with smartphones stolen from unsuspecting tourists. She has set up her workshop in the corner of an elevator shaft in an unused section of the hangars. It consists of half a dozen expensive smartphones laid out on a beam, their charging cables wired into the socket of a forgotten light fixture.
 
-To communicate with other devices, these machines use light signals. The crows embed pieces of reflective material in special communication stalks, and the insects aim these to reflect light at another nest, encoding data as a sequence of quick flashes. This means that only nests that have an unbroken visual connection can communicate.
-
-Our friend the corvid expert has mapped the network of crow nests in the village of ((Hières-sur-Amby)), on the banks of the river Rhône. This map shows the nests and their connections:
-
-{{figure {url: "img/Hieres-sur-Amby.png", alt: "An areal photo of a small village with a network of crow nest locations overlaid over it."}}}
-
-In an astounding example of ((convergent evolution)), crow computers run JavaScript. In this chapter we'll write some basic networking functions for them.
+Years ago, she figured out human language and writing. Crow beaks are very effective at using touchscreens—her typing speed on a touch keyboard is impressive. A few months ago, she understood how to use the phone's browser to run JavaScript programs. And just last week, she's managed to log into the building's poorly secured wireless network.
 
 ## Callbacks
 
@@ -91,6 +86,29 @@ Waiting is not generally a very important type of work, but it can be useful whe
 Performing multiple asynchronous actions in a row using callbacks means that you have to keep passing new functions to handle the ((continuation)) of the computation after the actions.
 
 {{index "hard disk"}}
+
+One case where Emma immediately recognizes the usefulness of computers is as a way to store information. Crow communities highly value the sharing and preservation of knowledge. One of the most important types of knowledge, to them, is about grudges—those who wronged the group must _never_ be forgotten or forgiven.
+
+An asynchronous storage system, which files pieces of data by label, might provide a programming interface that looks like this.
+
+```
+function readStorage(label, callback) { /*...*/ }
+function writeStorage(label, value, callback) { /*...*/ }
+```
+
+When you call `readStorage`, it somehow looks up the label you give it—maybe it reads from a hard drive, maybe it makes a request over the network, maybe it asks a bespectacled raccoon to search through a pile of dusty storage boxes, it doesn't matter. Once it has found the data, it calls the function it took as second argument to asynchronously give pass the result back to the code that asked for it.
+
+```
+function carSighted(licensePlate) {
+  readStorage("enemyCars", list => {
+    if (list.includes(licensePlate)) {
+      readStorage("sightings-" + licensePlate, sightings => {
+        writeStorage("sightings-" + licensePlate, (sightings || []).concat("!"), () => {});
+      });
+    }
+  }
+});
+```
 
 Most crow nest computers have a long-term data storage bulb, where pieces of information are etched into twigs so that they can be retrieved later. Etching, or finding a piece of data, takes a moment, so the interface to long-term storage is asynchronous and uses callback functions.
 

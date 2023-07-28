@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/crow-tech.js", "code/chapter/11_async.js"]}}}
+{{meta {load_files: ["code/hangar2.js", "code/chapter/11_async.js"]}}}
 
 # Asynchronous Programming
 
@@ -31,7 +31,7 @@ In a _synchronous_ programming model, things happen one at a time. When you call
 
 An _asynchronous_ model allows multiple things to happen at the same time. When you start an action, your program continues to run. When the action finishes, the program is informed and gets access to the result (for example, the data read from disk).
 
-We can compare synchronous and asynchronous programming using a small example: a program that fetches two resources from the ((network)) and then combines results.
+We can compare synchronous and asynchronous programming using a small example: a program that makes two requests over the ((network)) and then combines the result.
 
 {{index "synchronous programming"}}
 
@@ -43,7 +43,7 @@ The solution to this problem, in a synchronous system, is to start additional ((
 
 {{index CPU, blocking, "asynchronous programming", timeline, "callback function"}}
 
-In the following diagram, the thick lines represent time the program spends running normally, and the thin lines represent time spent waiting for the network. In the synchronous model, the time taken by the network is _part_ of the timeline for a given thread of control. In the asynchronous model, starting a network action conceptually causes a _split_ in the timeline. The program that initiated the action continues running, and the action happens alongside it, notifying the program when it is finished.
+In the following diagram, the thick lines represent time the program spends running normally, and the thin lines represent time spent waiting for the network. In the synchronous model, the time taken by the network is _part_ of the timeline for a given thread of control. In the asynchronous model, starting a network action allows the program to continue running while the network communication happens alongside it, notifying the program when it is finished.
 
 {{figure {url: "img/control-io.svg", alt: "Diagram of showing control flow in synchronous and asynchronous programs. The first part shows a synchronous program, where the program's active and waiting phases all happen on a single, sequential line. The second part shows a multi-threaded synchronous program, with two parallel lines, on which the waiting parts happen alongside each other, causing the program to finish faster. The last part shows an asynchronous program, where the multiple asynchronous actions branch off from the main program, which at some point stops, and then resumes whenever the first thing it was waiting for finishes.",width: "8cm"}}}
 
@@ -55,23 +55,11 @@ Asynchronicity cuts both ways. It makes expressing programs that do not fit the 
 
 Both of the important JavaScript programming platforms—((browser))s and ((Node.js))—make operations that might take a while asynchronous, rather than relying on ((thread))s. Since programming with threads is notoriously hard (understanding what a program does is much more difficult when it's doing multiple things at once), this is generally considered a good thing.
 
-## Emma the crow
-
-Most people are aware of the fact that ((crow))s are very smart birds. They can use tools, plan ahead, remember things, and even communicate these things among themselves.
-
-What most people don't know is that they are capable of many things that they keep well hidden from us. I've been told by a reputable (if somewhat eccentric) expert on ((corvid))s that some crows intentionally steal human computing devices, and are surprisingly good at using them.
-
-There's a population of hooded crows that make their home in the old Tempelhof airport in Berlin. Emma is one of the elders of this group. She's a scruffy crow with a few stray white feathers in her wings and an intense look in her little black eyes. Because foraging for food, in an urban environment full over overflowing trash cans, is ridiculously easy, Emma has a lot of time on her hands (claws).
-
-One of the things she does with her time is playing with smartphones stolen from unsuspecting tourists. She has set up her workshop in the corner of an elevator shaft in an unused section of the hangars. It consists of half a dozen expensive smartphones laid out on a beam, their charging cables wired into the socket of a forgotten light fixture.
-
-Years ago, she figured out human language and writing. Crow beaks are very effective at using touchscreens—her typing speed on a touch keyboard is impressive. A few months ago, she understood how to use the phone's browser to run JavaScript programs. And just last week, she's managed to log into the building's poorly secured wireless network.
-
 ## Callbacks
 
 {{indexsee [function, callback], "callback function"}}
 
-One approach to ((asynchronous programming)) is to make functions that perform a slow action take an extra argument, a _((callback function))_. The action is started, and when it finishes, the callback function is called with the result.
+One approach to ((asynchronous programming)) is to make functions that need to wait for something take an extra argument, a _((callback function))_. Such a function starts some process, sets things up so that the callback function is called when the process finishes, and then returns.
 
 {{index "setTimeout function", waiting}}
 
@@ -81,101 +69,50 @@ As an example, the `setTimeout` function, available both in Node.js and in brows
 setTimeout(() => console.log("Tick"), 500);
 ```
 
-Waiting is not generally a very important type of work, but it can be useful when doing something like updating an animation or checking whether something is taking longer than a given amount of ((time)).
+Waiting is not generally a very important type of work, but it can be very useful when updating an animation or checking whether some other action is taking longer than expected.
 
-Performing multiple asynchronous actions in a row using callbacks means that you have to keep passing new functions to handle the ((continuation)) of the computation after the actions.
+{{index "readTextFile function"}}
 
-{{index "hard disk"}}
-
-One case where Emma immediately recognizes the usefulness of computers is as a way to store information. Crow communities highly value the sharing and preservation of knowledge. One of the most important types of knowledge, to them, is about grudges—those who wronged the group must _never_ be forgotten or forgiven.
-
-An asynchronous storage system, which files pieces of data by label, might provide a programming interface that looks like this.
+Another example of a common asynchronous operation is reading a file from a device's storage. Imagine you have a function `readTextFile`, which reads a file's content as a string and passes it to a callback function.
 
 ```
-function readStorage(label, callback) { /*...*/ }
-function writeStorage(label, value, callback) { /*...*/ }
-```
-
-When you call `readStorage`, it somehow looks up the label you give it—maybe it reads from a hard drive, maybe it makes a request over the network, maybe it asks a bespectacled raccoon to search through a pile of dusty storage boxes, it doesn't matter. Once it has found the data, it calls the function it took as second argument to asynchronously give pass the result back to the code that asked for it.
-
-```
-function carSighted(licensePlate) {
-  readStorage("enemyCars", list => {
-    if (list.includes(licensePlate)) {
-      readStorage("sightings-" + licensePlate, sightings => {
-        writeStorage("sightings-" + licensePlate, (sightings || []).concat("!"), () => {});
-      });
-    }
-  }
+readTextFile("shopping_list.txt", content => {
+  console.log(`Shopping List:\n${content}`);
 });
+// → Shopping List:
+// → Peanut butter
+// → Bananas
 ```
 
-Most crow nest computers have a long-term data storage bulb, where pieces of information are etched into twigs so that they can be retrieved later. Etching, or finding a piece of data, takes a moment, so the interface to long-term storage is asynchronous and uses callback functions.
+The `readTextFile` function is not part of standard JavaScript. We will see how to read files in specific environments in later chapters.
 
-Storage bulbs store pieces of ((JSON))-encodable data under names. A ((crow)) might store information about the places where it's hidden food under the name `"food caches"`, which could hold an array of names that point at other pieces of data, describing the actual cache. To look up a food ((cache)) in the storage bulbs of the _Big Oak_ nest, a crow could run code like this:
+Performing multiple asynchronous actions in a row using callbacks means that you have to keep passing new functions to handle the ((continuation)) of the computation after the actions. This is what an asynchronous function that compares two files and produces a boolean indicating whether their content is the same might look like.
 
-{{index "readStorage function"}}
-
-```{includeCode: "top_lines: 1"}
-import {bigOak} from "./crow-tech";
-
-bigOak.readStorage("food caches", caches => {
-  let firstCache = caches[0];
-  bigOak.readStorage(firstCache, info => {
-    console.log(info);
+```
+function compareFiles(fileA, fileB, callback) {
+  readTextFile(fileA, contentA => {
+    readTextFile(fileB, contentB => {
+      callback(contentA == contentB);
+    });
   });
-});
+}
 ```
 
-(All binding names and strings have been translated from crow language to English.)
-
-This style of programming is workable, but the indentation level increases with each asynchronous action because you end up in another function. Doing more complicated things, such as running multiple actions at the same time, can get a little awkward.
-
-Crow nest computers are built to communicate using ((request))-((response)) pairs. That means one nest sends a message to another nest, which then immediately sends a message back, confirming receipt and possibly including a reply to a question asked in the message.
-
-Each message is tagged with a _type_, which determines how it is handled. Our code can define handlers for specific request types, and when such a request comes in, the handler is called to produce a response.
-
-{{index "crow-tech module", "send method"}}
-
-The interface exported by the `"./crow-tech"` module provides callback-based functions for communication. Nests have a `send` method that sends off a request. It expects the name of the target nest, the type of the request, and the content of the request as its first three arguments, and it expects a function to call when a response comes in as its fourth and last argument.
-
-```
-bigOak.send("Cow Pasture", "note", "Let's caw loudly at 7PM",
-            () => console.log("Note delivered."));
-```
-
-But to make nests capable of receiving that request, we first have to define a ((request type)) named `"note"`. The code that handles the requests has to run not just on this nest-computer but on all nests that can receive messages of this type. We'll just assume that a crow flies over and installs our handler code on all the nests.
-
-{{index "defineRequestType function"}}
-
-```{includeCode: true}
-import {defineRequestType} from "./crow-tech";
-
-defineRequestType("note", (nest, content, source, done) => {
-  console.log(`${nest.name} received note: ${content}`);
-  done();
-});
-```
-
-The `defineRequestType` function defines a new type of request. The example adds support for `"note"` requests, which just sends a note to a given nest. Our implementation calls `console.log` so that we can verify that the request arrived. Nests have a `name` property that holds their name.
-
-{{index "asynchronous programming"}}
-
-The fourth argument given to the handler, `done`, is a callback function that it must call when it is done with the request. If we had used the handler's ((return value)) as the response value, that would mean that a request handler can't itself perform asynchronous actions. A function doing asynchronous work typically returns before the work is done, having arranged for a callback to be called when it completes. So we need some asynchronous mechanism—in this case, another ((callback function))—to signal when a response is available.
+This style of programming is workable, but the indentation level increases with each asynchronous action because you end up in another function. Doing more complicated things, such as wrapping asynchronous actions in a loop, can get rather awkward.
 
 In a way, asynchronicity is _contagious_. Any function that calls a function that works asynchronously must itself be asynchronous, using a callback or similar mechanism to deliver its result. Calling a callback is somewhat more involved and error-prone than simply returning a value, so needing to structure large parts of your program that way is not great.
 
 ## Promises
 
-Working with abstract concepts is often easier when those concepts can be represented by ((value))s. In the case of asynchronous actions, you could, instead of arranging for a function to be called at some point in the future, return an object that represents this future event.
+A slightly different way to build an asynchronous program is to have asynchronous functions return an object that represents its (future) result instead of passing around callback functions. This way such functions actually return something meaningful, and the shape of the program more closely resembles that of synchronous programs.
 
-{{index "Promise class", "asynchronous programming"}}
+{{index "Promise class", "asynchronous programming", "resolving (a promise)", "then method", "callback function"}}
 
-This is what the standard class `Promise` is for. A _promise_ is an asynchronous action that may complete at some point and produce a value. It is able to notify anyone who is interested when its value is available.
+This is what the standard class `Promise` is for. A _promise_ is a receipt representing a value that may not be available yet. It provies a `then` method that allows you to register a function that should be called when the action it is waiting for finishes. When the promise is _resolved_, meaning its value becomes available, such functions (there can be multiple) are called with the result value. It is possible call `then` on a promise that has already resolved—your function will still be called.
 
-{{index "Promise.resolve function", "resolving (a promise)"}}
+{{index "Promise.resolve function"}}
 
-The easiest way to create a promise is by calling `Promise.resolve`. This function ensures that the value you give it is wrapped in a promise. If it's already a promise, it is simply returned—otherwise, you get a new promise that immediately finishes with your value as its result.
+The easiest way to create a promise is by calling `Promise.resolve`. This function ensures that the value you give it is wrapped in a promise. If it's already a promise, it is simply returned—otherwise, you get a new promise that immediately resolves with your value as its result.
 
 ```
 let fifteen = Promise.resolve(15);
@@ -183,50 +120,79 @@ fifteen.then(value => console.log(`Got ${value}`));
 // → Got 15
 ```
 
-{{index "then method"}}
-
-To get the result of a promise, you can use its `then` method. This registers a ((callback function)) to be called when the promise resolves and produces a value. You can add multiple callbacks to a single promise, and they will be called, even if you add them after the promise has already _resolved_ (finished).
-
-But that's not all the `then` method does. It returns another promise, which resolves to the value that the handler function returns or, if that returns a promise, waits for that promise and then resolves to its result.
-
-It is useful to think of promises as a device to move values into an asynchronous reality. A normal value is simply there. A promised value is a value that _might_ already be there or might appear at some point in the future. Computations defined in terms of promises act on such wrapped values and are executed asynchronously as the values become available.
-
 {{index "Promise class"}}
 
-To create a promise, you can use `Promise` as a constructor. It has a somewhat odd interface—the constructor expects a function as argument, which it immediately calls, passing it a function that it can use to resolve the promise. It works this way, instead of for example with a `resolve` method, so that only the code that created the promise can resolve it.
+To create a promise that does not immediately resolve, you can use `Promise` as a constructor. It has a somewhat odd interface—the constructor expects a function as argument, which it immediately calls, passing it a function that it can use to resolve the promise.
 
-{{index "storage function"}}
-
-This is how you'd create a promise-based interface for the `readStorage` function:
+This is how you'd create a promise-based interface for the `readTextFile` function:
 
 ```{includeCode: "top_lines: 5"}
-function storage(nest, name) {
+function textFile(filename) {
   return new Promise(resolve => {
-    nest.readStorage(name, result => resolve(result));
+    readTextFile(filename, text => resolve(text));
   });
 }
 
-storage(bigOak, "enemies")
-  .then(value => console.log("Got", value));
+textFile("plans.txt").then(console.log);
 ```
 
-This asynchronous function returns a meaningful value. This is the main advantage of promises—they simplify the use of asynchronous functions. Instead of having to pass around callbacks, promise-based functions look similar to regular ones: they take input as arguments and return their output. The only difference is that the output may not be available yet.
+Note how this asynchronous function returns a meaningful value—a promise to give you the content of the file at some point in the future.
+
+{{index "then method"}}
+
+A useful thing about the `then` method is that it itself returns another promise that resolves to the value returned by the callback function or, if that function returns a promise, to the value that promise resolves to. Thus, you can “chain” multiple calls to `then` together to set up a sequence of asynchronous actions.
+
+This function, which reads a file full of filenames, and returns the content of a random file in that list, shows this kind of asynchronous promise pipeline.
+
+```
+function randomFile(listFile) {
+  return textFile(listFile)
+    .then(content => content.trim().split("\n"))
+    .then(ls => ls[Math.floor(Math.random() * ls.length)])
+    .then(filename => textFile(filename));
+}
+```
+
+The function returns the result of this chain of `then` calls. The initial promise fetches the list of files as a string. The first `then` call transforms that string into an array of lines, producing a new promise. The second `then` call picks a random line from that, producing a third promise that yields a single filename. The final `then` call reads this file, so that the result of the function as a whole is a promise that returns the content of a random file.
+
+In this code, the functions used in the first two `then` calls return a regular value, which will immediately be passed into the promise returned by `then` when the function returns. The last one returns a promise (`textFile(filename)`), making it an actual asynchronous step.
+
+In this case, it would have also been possible to do all these steps inside a single `then` callback, since only the last step is actually asynchronous. But the kind of `then` wrappers that only do some synchronous data transformation are often useful, for example when you want to return a promise that produces a processed version of some asynchronous result.
+
+```
+function jsonFile(filename) {
+  return textFile(filename).then(JSON.parse);
+}
+
+jsonFile("package.json").then(console.log);
+```
+
+Generally, it is useful to think of promises as a device that lets code ignore the question of when a value is going to arrive. A normal value has to actually exist before we can reference it. A promised value is a value that _might_ already be there or might appear at some point in the future. Computations defined in terms of promises, by wiring them together with `then` calls, are executed asynchronously as their inputs become available.
 
 ## Failure
 
 {{index "exception handling"}}
 
-Regular JavaScript computations can fail by throwing an exception. Asynchronous computations often need something like that. A network request may fail, or some code that is part of the asynchronous computation may throw an exception.
+Regular JavaScript computations can fail by throwing an exception. Asynchronous computations often need something like that. A network request may fail, a file may not exist, or some code that is part of the asynchronous computation may throw an exception.
 
 {{index "callback function", error}}
 
 One of the most pressing problems with the callback style of asynchronous programming is that it makes it extremely difficult to make sure failures are properly reported to the callbacks.
 
-A widely used convention is that the first argument to the callback is used to indicate that the action failed, and the second contains the value produced by the action when it was successful. Such callback functions must always check whether they received an exception and make sure that any problems they cause, including exceptions thrown by functions they call, are caught and given to the right function.
+A widely used convention is that the first argument to the callback is used to indicate that the action failed, and the second contains the value produced by the action when it was successful.
+
+```
+someAsyncFunction((error, value) => {
+  if (error) handleError(error);
+  else processValue(value);
+});
+```
+
+Such callback functions must always check whether they received an exception and make sure that any problems they cause, including exceptions thrown by functions they call, are caught and given to the right function.
 
 {{index "rejecting (a promise)", "resolving (a promise)", "then method"}}
 
-Promises make this easier. They can be either resolved (the action finished successfully) or rejected (it failed). Resolve handlers (as registered with `then`) are called only when the action is successful, and rejections are automatically propagated to the new promise that is returned by `then`. And when a handler throws an exception, this automatically causes the promise produced by its `then` call to be rejected. So if any element in a chain of asynchronous actions fails, the outcome of the whole chain is marked as rejected, and no success handlers are called beyond the point where it failed.
+Promises make this easier. They can be either resolved (the action finished successfully) or rejected (it failed). Resolve handlers (as registered with `then`) are called only when the action is successful, and rejections are propagated to the new promise that is returned by `then`. When a handler throws an exception, this automatically causes the promise produced by its `then` call to be rejected. So if any element in a chain of asynchronous actions fails, the outcome of the whole chain is marked as rejected, and no success handlers are called beyond the point where it failed.
 
 {{index "Promise.reject function", "Promise class"}}
 
@@ -234,7 +200,7 @@ Much like resolving a promise provides a value, rejecting one also provides one,
 
 {{index "catch method"}}
 
-To explicitly handle such rejections, promises have a `catch` method that registers a handler to be called when the promise is rejected, similar to how `then` handlers handle normal resolution. It's also very much like `then` in that it returns a new promise, which resolves to the original promise's value if it resolves normally and to the result of the `catch` handler otherwise. If a `catch` handler throws an error, the new promise is also rejected.
+To explicitly handle such rejections, promises have a `catch` method that registers a handler to be called when the promise is rejected, similar to how `then` handlers handle normal resolution. It's also very much like `then` in that it returns a new promise, which resolves to the original promise's value when that resolves normally and to the result of the `catch` handler otherwise. If a `catch` handler throws an error, the new promise is also rejected.
 
 {{index "then method"}}
 
@@ -242,362 +208,101 @@ As a shorthand, `then` also accepts a rejection handler as a second argument, so
 
 A function passed to the `Promise` constructor receives a second argument, alongside the resolve function, which it can use to reject the new promise.
 
-The chains of promise values created by calls to `then` and `catch` can be seen as a pipeline through which asynchronous values or failures move. Since such chains are created by registering handlers, each link has a success handler or a rejection handler (or both) associated with it. Handlers that don't match the type of outcome (success or failure) are ignored. But those that do match are called, and their outcome determines what kind of value comes next—success when it returns a non-promise value, rejection when it throws an exception, and the outcome of a promise when it returns one of those.
+The chains of promise values created by calls to `then` and `catch` thus form a pipeline through which asynchronous values or failures move. Since such chains are created by registering handlers, each link has a success handler or a rejection handler (or both) associated with it. Handlers that don't match the type of outcome (success or failure) are ignored. But those that do match are called, and their outcome determines what kind of value comes next—success when it returns a non-promise value, rejection when it throws an exception, and the outcome of the promise when it returns a promise.
 
 ```{test: no}
 new Promise((_, reject) => reject(new Error("Fail")))
-  .then(value => console.log("Handler 1"))
+  .then(value => console.log("Handler 1:", value))
   .catch(reason => {
     console.log("Caught failure " + reason);
     return "nothing";
   })
-  .then(value => console.log("Handler 2", value));
+  .then(value => console.log("Handler 2:", value));
 // → Caught failure Error: Fail
-// → Handler 2 nothing
+// → Handler 2: nothing
 ```
 
 {{index "uncaught exception", "exception handling"}}
 
 Much like an uncaught exception is handled by the environment, JavaScript environments can detect when a promise rejection isn't handled and will report this as an error.
 
-## Networks are hard
+## Carla
 
-{{index [network, reliability]}}
+It's a sunny day in Berlin. The runway of the old, decomissioned airport is teeming with cyclist and inline skaters. In the grass near a garbage container a flock of crows noisily mills about, trying to convince a group of tourists to part with their sandwiches.
 
-Occasionally, there isn't enough light for the ((crow))s' mirror systems to transmit a signal or something is blocking the path of the signal. It is possible for a signal to be sent but never received.
+One of the crows stands out—a large scruffy female with a few white feathers in her right wing. She is baiting the people with a skill and confidence that suggest she's been doing this for a long time. When an elderly man is distracted by the antics of another crow, she casually swoops in, snatches his half-eaten bun from his hand, and flies off.
 
-{{index "send method", error, timeout}}
+Contrary to the rest of the group, who look like they are happy to spend the day goofing around here, the large crow look purposeful. Carrying her loot, she flies straight towards the roof of the hangar building, disappearing into an air vent.
 
-As it is, that will just cause the callback given to `send` to never be called, which will probably cause the program to stop without even noticing there is a problem. It would be nice if, after a given period of not getting a response, a request would _time out_ and report failure.
+Inside the building, in a narrow space between an elevator shaft and the roof, you can hear an odd tapping sound—soft, but persistent. The crow is sitting there, surrounded by her newly captured snack, half a dozen smart phones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
 
-Often, transmission failures are random accidents, like a car's headlight interfering with the light signals, and simply retrying the request may cause it to succeed. So while we're at it, let's make our request function automatically retry the sending of the request a few times before it gives up.
+This crow is known to her peers as “cāāw-krö“, but since that is hard for us to remember, we'll call her Carla.
 
-{{index "Promise class", "callback function", [interface, object]}}
+Carla is a somewhat peculiar crow. In her youth, she was fascinated by human language, eavesdropping on people until she could understand roughly what they were saying. Later in life, her interest shifted to human technology, and she started stealing phones to study them. Her current project is learning to program. The text she is typing in her hidden lab is, in fact, a piece of JavaScript code.
 
-And, since we've established that promises are a good thing, we'll also make our request function return a promise. In terms of what they can express, callbacks and promises are equivalent. Callback-based functions can be wrapped to expose a promise-based interface, and vice versa.
+## Breaking In
 
-Even when a ((request)) and its ((response)) are successfully delivered, the response may indicate failure—for example, if the request tries to use a request type that hasn't been defined or the handler throws an error. To support this, `send` and `defineRequestType` follow the convention mentioned before, where the first argument passed to callbacks is the failure reason, if any, and the second is the actual result.
+Carla loves the Internet. Annoyingly, the phone she is working on is about to run out of prepaid data. The building has a wireless network, but it requires a code to access.
 
-These can be translated to promise resolution and rejection by our wrapper.
+Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a devices has to send along the correct 6-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending only a partial code (say, only 3 digits), the response is different based on whether those digits are the correct start of the code or not—when sending incorrect number, you immediately get a failure message. When sending the correct ones, the access point waits for more digits.
 
-{{index "Timeout class", "request function", retry}}
+This makes it possible to greatly speed up the guessing of the number. Carla can find the first digit by trying each number in turn, until she finds one that doesn't immediately return failure. Having one digit, she can find second digit in the same way, and so on, until she knows the entire passcode.
+
+Assume we have a `joinWifi` function. Given the network name and the passcode (as a string), it tries to join the network, returning a promise that resolves if successful, and rejects if the authentication failed. The first thing we need is to a way to wrap a promise so that it automatically rejects after it takes too much time, so that we can quickly move on if the access point doesn't respond.
 
 ```{includeCode: true}
-class Timeout extends Error {}
-
-function request(nest, target, type, content) {
+function withTimeout(promise, time) {
   return new Promise((resolve, reject) => {
-    let done = false;
-    function attempt(n) {
-      nest.send(target, type, content, (failed, value) => {
-        done = true;
-        if (failed) reject(failed);
-        else resolve(value);
+    promise.then(resolve, reject);
+    setTimeout(() => reject("Timed out"), time);
+  });
+}
+```
+
+This makes use of the fact that a promise can only be resolved or rejected once—if the given promise resolves or rejects first, that result will be the result of the promise returned by `withTimeout`. If, on the other hand, the `setTimeout` fires first, rejecting the promise, any further resolve or reject calls are ignored.
+
+To find the whole passcode, we need to repeatedly look for the next digit by trying each digit. If authentication succeeds, we know we have found what we are looking for. If it immediately fails, we know that digit was wrong, and must try the next digit. If the request times out, we have found another correct digit, and must continue by adding another digit.
+
+Because you cannot wait for a promise inside a `for` loop, Carla uses a recursive function to drive this process. On each call, it gets the code as we know it so far, as well as the next digit to try. Depending on what happens, it may return a finished code, or call through to itself, to either start cracking the next position in the code, or to try again with another digit.
+
+```{includeCode: true}
+function crackPasscode(networkID) {
+  function nextDigit(code, digit) {
+    let newCode = code + digit;
+    return withTimeout(joinWifi(networkID, newCode), 50)
+      .then(() => newCode)
+      .catch(failure => {
+        if (failure == "Timed out") {
+          return nextDigit(newCode, 0);
+        } else if (digit < 9) {
+          return nextDigit(code, digit + 1);
+        } else {
+          throw failure;
+        }
       });
-      setTimeout(() => {
-        if (done) return;
-        else if (n < 3) attempt(n + 1);
-        else reject(new Timeout("Timed out"));
-      }, 250);
-    }
-    attempt(1);
-  });
-}
-```
-
-{{index "Promise class", "resolving (a promise)", "rejecting (a promise)"}}
-
-Because promises can be resolved (or rejected) only once, this will work. The first time `resolve` or `reject` is called determines the outcome of the promise, and further calls caused by a request coming back after another request finished are ignored.
-
-{{index recursion}}
-
-To build an asynchronous ((loop)), for the retries, we need to use a recursive function—a regular loop doesn't allow us to stop and wait for an asynchronous action. The `attempt` function makes a single attempt to send a request. It also sets a timeout that, if no response has come back after 250 milliseconds, either starts the next attempt or, if this was the third attempt, rejects the promise with an instance of `Timeout` as the reason.
-
-{{index idempotence}}
-
-Retrying every quarter-second and giving up when no response has come in after three-quarter second is definitely somewhat arbitrary. It is even possible, if the request did come through but the handler is just taking a bit longer, for requests to be delivered multiple times. We'll write our handlers with that problem in mind—duplicate messages should be harmless.
-
-In general, we will not be building a world-class, robust network today. But that's okay—crows don't have very high expectations yet when it comes to computing.
-
-{{index "defineRequestType function", "requestType function"}}
-
-To isolate ourselves from callbacks altogether, we'll go ahead and also define a wrapper for `defineRequestType` that allows the handler function to return a promise or plain value and wires that up to the callback for us.
-
-```{includeCode: true}
-function requestType(name, handler) {
-  defineRequestType(name, (nest, content, source,
-                           callback) => {
-    try {
-      Promise.resolve(handler(nest, content, source))
-        .then(response => callback(null, response),
-              failure => callback(failure));
-    } catch (exception) {
-      callback(exception);
-    }
-  });
-}
-```
-
-{{index "Promise.resolve function"}}
-
-`Promise.resolve` is used to convert the value returned by `handler` to a promise if it isn't already.
-
-{{index "try keyword", "callback function"}}
-
-Note that the call to `handler` had to be wrapped in a `try` block to make sure any exception it raises directly is given to the callback. This nicely illustrates the difficulty of properly handling errors with raw callbacks—it is easy to forget to properly route exceptions like that, and if you don't do it, failures won't get reported to the right callback. Promises make this mostly automatic and thus less error-prone.
-
-## Collections of promises
-
-{{index "neighbors property", "ping request"}}
-
-Each nest computer keeps an array of other nests within transmission distance in its `neighbors` property. To check which of those are currently reachable, you could write a function that tries to send a `"ping"` request (a request that simply asks for a response) to each of them and see which ones come back.
-
-{{index "Promise.all function"}}
-
-When working with collections of promises running at the same time, the `Promise.all` function can be useful. It returns a promise that waits for all of the promises in the array to resolve and then resolves to an array of the values that these promises produced (in the same order as the original array). If any promise is rejected, the result of `Promise.all` is itself rejected.
-
-```{includeCode: true}
-requestType("ping", () => "pong");
-
-function availableNeighbors(nest) {
-  let requests = nest.neighbors.map(neighbor => {
-    return request(nest, neighbor, "ping")
-      .then(() => true, () => false);
-  });
-  return Promise.all(requests).then(result => {
-    return nest.neighbors.filter((_, i) => result[i]);
-  });
-}
-```
-
-{{index "then method"}}
-
-When a neighbor isn't available, we don't want the entire combined promise to fail since then we still wouldn't know anything. So the function that is mapped over the set of neighbors to turn them into request promises attaches handlers that make successful requests produce `true` and rejected ones produce `false`.
-
-{{index "filter method", "map method", "some method"}}
-
-In the handler for the combined promise, `filter` is used to remove those elements from the `neighbors` array whose corresponding value is false. This makes use of the fact that `filter` passes the array index of the current element as a second argument to its filtering function (`map`, `some`, and similar higher-order array methods do the same).
-
-## Network flooding
-
-The fact that nests can talk only to their neighbors greatly inhibits the usefulness of this network.
-
-For broadcasting information to the whole network, one solution is to set up a type of request that is automatically forwarded to neighbors. These neighbors then in turn forward it to their neighbors, until the whole network has received the message.
-
-{{index "sendGossip function"}}
-
-```{includeCode: true}
-import {everywhere} from "./crow-tech";
-
-everywhere(nest => {
-  nest.state.gossip = [];
-});
-
-function sendGossip(nest, message, exceptFor = null) {
-  nest.state.gossip.push(message);
-  for (let neighbor of nest.neighbors) {
-    if (neighbor == exceptFor) continue;
-    request(nest, neighbor, "gossip", message);
   }
-}
-
-requestType("gossip", (nest, message, source) => {
-  if (nest.state.gossip.includes(message)) return;
-  console.log(`${nest.name} received gossip '${
-               message}' from ${source}`);
-  sendGossip(nest, message, source);
-});
-```
-
-{{index "everywhere function", "gossip property"}}
-
-To avoid sending the same message around the network forever, each nest keeps an array of gossip strings that it has already seen. To define this array, we use the `everywhere` function—which runs code on every nest—to add a property to the nest's `state` object, which is where we'll keep nest-local state.
-
-When a nest receives a duplicate gossip message, which is very likely to happen with everybody blindly resending them, it ignores it. But when it receives a new message, it excitedly tells all its neighbors except for the one who sent it the message.
-
-This will cause a new piece of gossip to spread through the network like an ink stain in water. Even when some connections aren't currently working, if there is an alternative route to a given nest, the gossip will reach it through there.
-
-{{index "flooding"}}
-
-This style of network communication is called _flooding_—it floods the network with a piece of information until all nodes have it.
-
-{{if interactive
-
-We can call `sendGossip` to see a message flow through the village.
-
-```
-sendGossip(bigOak, "Kids with airgun in the park");
-```
-
-if}}
-
-## Message routing
-
-{{index efficiency}}
-
-If a given node wants to talk to a single other node, flooding is not a very efficient approach. Especially when the network is big, that would lead to a lot of useless data transfers.
-
-{{index "routing"}}
-
-An alternative approach is to set up a way for messages to hop from node to node until they reach their destination. The difficulty with that is it requires knowledge about the layout of the network. To send a request in the direction of a faraway nest, it is necessary to know which neighboring nest gets it closer to its destination. Sending it in the wrong direction will not do much good.
-
-Since each nest knows only about its direct neighbors, it doesn't have the information it needs to compute a route. We must somehow spread the information about these connections to all nests, preferably in a way that allows it to change over time, when nests are abandoned or new nests are built.
-
-{{index flooding}}
-
-We can use flooding again, but instead of checking whether a given message has already been received, we now check whether the new set of neighbors for a given nest matches the current set we have for it.
-
-{{index "broadcastConnections function", "connections binding"}}
-
-```{includeCode: true}
-requestType("connections", (nest, {name, neighbors},
-                            source) => {
-  let connections = nest.state.connections;
-  if (JSON.stringify(connections.get(name)) ==
-      JSON.stringify(neighbors)) return;
-  connections.set(name, neighbors);
-  broadcastConnections(nest, name, source);
-});
-
-function broadcastConnections(nest, name, exceptFor = null) {
-  for (let neighbor of nest.neighbors) {
-    if (neighbor == exceptFor) continue;
-    request(nest, neighbor, "connections", {
-      name,
-      neighbors: nest.state.connections.get(name)
-    });
-  }
-}
-
-everywhere(nest => {
-  nest.state.connections = new Map();
-  nest.state.connections.set(nest.name, nest.neighbors);
-  broadcastConnections(nest, nest.name);
-});
-```
-
-{{index JSON, "== operator"}}
-
-The comparison uses `JSON.stringify` because `==`, on objects or arrays, will return true only when the two are the exact same value, which is not what we need here. Comparing the JSON strings is a crude but effective way to compare their content.
-
-The nodes immediately start broadcasting their connections, which should, unless some nests are completely unreachable, quickly give every nest a map of the current network ((graph)).
-
-{{index pathfinding}}
-
-A thing you can do with graphs is find routes in them, as we saw in [Chapter ?](robot). If we have a route toward a message's destination, we know which direction to send it in.
-
-{{index "findRoute function"}}
-
-This `findRoute` function, which greatly resembles the `findRoute` from [Chapter ?](robot#findRoute), searches for a way to reach a given node in the network. But instead of returning the whole route, it just returns the next step. That next nest will itself, using its current information about the network, decide where _it_ sends the message.
-
-```{includeCode: true}
-function findRoute(from, to, connections) {
-  let work = [{at: from, via: null}];
-  for (let i = 0; i < work.length; i++) {
-    let {at, via} = work[i];
-    for (let next of connections.get(at) || []) {
-      if (next == to) return via;
-      if (!work.some(w => w.at == next)) {
-        work.push({at: next, via: via || next});
-      }
-    }
-  }
-  return null;
+  return nextDigit("", 0);
 }
 ```
 
-Now we can build a function that can send long-distance messages. If the message is addressed to a direct neighbor, it is delivered as usual. If not, it is packaged in an object and sent to a neighbor that is closer to the target, using the `"route"` request type, which will cause that neighbor to repeat the same behavior.
-
-{{index "routeRequest function"}}
-
-```{includeCode: true}
-function routeRequest(nest, target, type, content) {
-  if (nest.neighbors.includes(target)) {
-    return request(nest, target, type, content);
-  } else {
-    let via = findRoute(nest.name, target,
-                        nest.state.connections);
-    if (!via) throw new Error(`No route to ${target}`);
-    return request(nest, via, "route",
-                   {target, type, content});
-  }
-}
-
-requestType("route", (nest, {target, type, content}) => {
-  return routeRequest(nest, target, type, content);
-});
-```
-
-{{if interactive
-
-We can now send a message to the nest in the church tower, which is four network hops removed.
+The access point tends to respond to bad authentication requests in about 20 milliseconds, so this waits for 50 milliseconds before timing out a request.
 
 ```
-routeRequest(bigOak, "Church Tower", "note",
-             "Incoming jackdaws!");
+crackPasscode("HANGAR 2").then(console.log);
+// → 555555
 ```
 
-if}}
-
-{{index [network, abstraction], layering}}
-
-We've constructed several layers of functionality on top of a primitive communication system to make it convenient to use. This is a nice (though simplified) model of how real computer networks work.
-
-{{index error}}
-
-A distinguishing property of computer networks is that they aren't reliable—abstractions built on top of them can help, but you can't abstract away network failure. So network programming is typically very much about anticipating and dealing with failures.
+Carla tilts her head and sighs. Maybe she should have just tried the more obvious codes directly.
 
 ## Async functions
 
-To store important information, ((crow))s are known to duplicate it across nests. That way, when a hawk destroys a nest, the information isn't lost.
-
-To retrieve a given piece of information that it doesn't have in its own storage bulb, a nest computer might consult random other nests in the network until it finds one that has it.
-
-{{index "findInStorage function", "network function"}}
-
-```{includeCode: true}
-requestType("storage", (nest, name) => storage(nest, name));
-
-function findInStorage(nest, name) {
-  return storage(nest, name).then(found => {
-    if (found != null) return found;
-    else return findInRemoteStorage(nest, name);
-  });
-}
-
-function network(nest) {
-  return Array.from(nest.state.connections.keys());
-}
-
-function findInRemoteStorage(nest, name) {
-  let sources = network(nest).filter(n => n != nest.name);
-  function next() {
-    if (sources.length == 0) {
-      return Promise.reject(new Error("Not found"));
-    } else {
-      let source = sources[Math.floor(Math.random() *
-                                      sources.length)];
-      sources = sources.filter(n => n != source);
-      return routeRequest(nest, source, "storage", name)
-        .then(value => value ?? next(),
-              next);
-    }
-  }
-  return next();
-}
-```
-
-{{index "Map class", "Object.keys function", "Array.from function"}}
-
-Because `connections` is a `Map`, `Object.keys` doesn't work on it. It has a `keys` _method_, but that returns an iterator rather than an array. An iterator (or iterable value) can be converted to an array with the `Array.from` function.
-
 {{index "Promise class", recursion}}
 
-Even with promises this is some rather awkward code. Multiple asynchronous actions are chained together in non-obvious ways. We again need a recursive function (`next`) to model looping through the nests.
+Even with promises, this kind of asynchronous code is annoying to write. Promises need to be tied together in non-obvious ways, and we were forced to introduce a recursive function to create a loop.
 
 {{index "synchronous programming", "asynchronous programming"}}
 
-And the thing the code actually does is completely linear—it always waits for the previous action to complete before starting the next one. In a synchronous programming model, it'd be simpler to express.
+The thing the cracking function actually does is completely linear—it always waits for the previous action to complete before starting the next one. In a synchronous programming model, this'd be simpler to express.
 
 {{index "async function", "await keyword"}}
 
@@ -605,48 +310,42 @@ The good news is that JavaScript allows you to write pseudo-synchronous code to 
 
 {{index "findInStorage function"}}
 
-We can rewrite `findInStorage` like this:
+We can rewrite `crackPasscode` like this:
 
 ```
-async function findInStorage(nest, name) {
-  let local = await storage(nest, name);
-  if (local != null) return local;
-
-  let sources = network(nest).filter(n => n != nest.name);
-  while (sources.length > 0) {
-    let source = sources[Math.floor(Math.random() *
-                                    sources.length)];
-    sources = sources.filter(n => n != source);
-    try {
-      let found = await routeRequest(nest, source, "storage",
-                                     name);
-      if (found != null) return found;
-    } catch (_) {}
+async function crackPasscode(networkID) {
+  for (let code = "";;) {
+    for (let digit = 0;; digit++) {
+      let newCode = code + digit;
+      try {
+        await withTimeout(joinWifi(networkID, newCode), 50);
+        return newCode;
+      } catch (failure) {
+        if (failure == "Timed out") {
+          code = newCode;
+          break;
+        } else if (digit == 9) {
+          throw failure;
+        }
+      }
+    }
   }
-  throw new Error("Not found");
 }
 ```
+
+This version more clearly shows the double loop structure of the function (the inner loop tries digit 0 to 9, the outer loop extends the code).
 
 {{index "async function", "return keyword", "exception handling"}}
 
 An `async` function is marked by the word `async` before the `function` keyword. Methods can also be made `async` by writing `async` before their name. When such a function or method is called, it returns a promise. As soon as the body returns something, that promise is resolved. If it throws an exception, the promise is rejected.
 
-{{if interactive
-
-```{startCode: true}
-findInStorage(bigOak, "events on 2017-12-21")
-  .then(console.log);
-```
-
-if}}
-
 {{index "await keyword", ["control flow", asynchronous]}}
 
-Inside an `async` function, the word `await` can be put in front of an expression to wait for a promise to resolve and only then continue the execution of the function.
+Inside an `async` function, the word `await` can be put in front of an expression to wait for a promise to resolve and only then continue the execution of the function. If the promise rejects, an exception is raised at the point of the `await`.
 
 Such a function no longer, like a regular JavaScript function, runs from start to completion in one go. Instead, it can be _frozen_ at any point that has an `await`, and can be resumed at a later time.
 
-For non-trivial asynchronous code, this notation is usually more convenient than directly using promises. Even if you need to do something that doesn't fit the synchronous model, such as perform multiple actions at the same time, it is easy to combine `await` with the direct use of promises.
+For most asynchronous code, this notation is more convenient than directly using promises. You do still need an understanding of promises, since in many cases you still interact with them directly. But when wiring them together, `async` functions are generally more pleasant to write than `then` calls.
 
 ## Generators
 
@@ -705,6 +404,110 @@ Such `yield` expressions may occur only directly in the generator function itsel
 
 An `async` function is a special type of generator. It produces a promise when called, which is resolved when it returns (finishes) and rejected when it throws an exception. Whenever it yields (awaits) a promise, the result of that promise (value or thrown exception) is the result of the `await` expression.
 
+## A Corvid Art Project
+
+This morning, Carla woke up to unfamiliar noises from the tarmac outside of her hangar. As she peeks over the edge of the roof to check out their source, she notices the humans are setting up for something. There's a lot of electric cabling, a stage, and some kind of big black wall being built up.
+
+Being a curious crow, Carla takes a closer look at the wall. It appears to consist of a number of large glass-fronted devices wired up to the cables. On the back, the devices say “LedTec SIG-5030”.
+
+A quick Internet search turns up a user's manual for these devices. They appear to be traffic signs, with a programmable matrix of amber LED lights. The intent is of the humans is probably to display some kind of information on them during their event. Interestingly, the screens can be programmed over a wireless network. Could it be they are connected to the building's local network?
+
+Each device on a network gets an _IP address_, which other devices can use to send it messages. We talk more about that in [Chapter ?](browser). Carla notices that her own phones all get addresses like `10.0.0.20` or `10.0.0.33`. It might be worth trying to send messages to all such addresses and see if any one of them responds to the interface described in the manual for the signs.
+
+In this chapter, we'll use a simplified `request(address, message)` function for network communication. ([Chapter ?](http) shows how to make real requests on real networks.) It takes a network address and a message, which may be anything that can be sent as JSON, and returns a promise that either resolves to a response from the machine at the given address, or a rejects if there was a problem.
+
+According to the manual, you can change what is displayed on a sign by sending it a message with content like `{"command": "display", "data": [0, 0, 3, …]}`, where `data` holds one number per LED dot, providing its brightness—0 means off, 3 means maximum brightness. Each sign is 50 lights wide and 30 lights high, so an update command should send 1500 numbers.
+
+This code sends a display update message to all addresses on the local network, to see what sticks.  Each of the numbers in an IP address can go from 0 to 255. In the data it sends, it activates a number of lights corresponding to the network address's last number.
+
+```
+for (let addr = 1; addr < 256; addr++) {
+  let data = [];
+  for (let n = 0; n < 1500; n++) {
+    data.push(n < addr ? 3 : 0);
+  }
+  let ip = `10.0.0.${addr}`;
+  request(ip, {command: "display", data})
+    .then(() => console.log(`Request to ${ip} accepted`))
+    .catch(() => {});
+}
+```
+
+Since most of these addresses won't exist or will not accept such messages, the `catch` call makes sure network errors don't crash the program. The requests are all sent out immediately, without waiting for other requests to finish, in order to not waste time when some of the machines don't answer.
+
+Having fired off her network scan, Carla heads back outside to see the result. To her delight, all of the screens are now showing a stripe of light in their top left corners. They _are_ on the local network, and they _do_ accept commands. She quickly notes the numbers shown on each screen. There are 9 screens, arranged three high and three wide. They have the following network addresses:
+
+```{includeCode: true}
+const screenAddresses = [
+  "10.0.0.44", "10.0.0.45", "10.0.0.41",
+  "10.0.0.31", "10.0.0.40", "10.0.0.42",
+  "10.0.0.48", "10.0.0.47", "10.0.0.46"
+];
+```
+
+Now this opens up possibilities for all kinds of shenanigans. She could show “crows rule, humans drool” on the wall in giant letters. But that feels a bit crude. Instead, she plans to show a video of a flying crow covering all of the screens at night.
+
+Carla finds a fitting video clip, in which a second and a half of footage can be repeated to create a looping video showing a crow's wingbeat. To fit the nine screens (each of which can show 50 by 30 pixels), Carla cuts and resizes the videos to get a series of 150-by-90 images, ten per second. Those are then each cut into nine rectangles, and processed so that the dark spots on the video (where the crow is) show a bright light, and the light spots (no crow) are left dark, which should create the effect of an amber crow flying against a black background.
+
+She has set up the `clipImages` variable to hold an array of frames, where each frame is represented with an array of nine sets of pixels—one for each screen—in the format that the signs expect.
+
+To display a single frame of the video, Carla needs to send a request to all the screens at once. But she also needs to wait for the result of these requests, both in order to not start sending the next frame before the current one has been properly sent, and in order to notice when requests are failing.
+
+`Promise` has a static method `all` that can be used to convert an array of promises into a single promise that resolves to an array of results. This provides a convenient way to have some asynchronous actions happen alongside each other, wait for them all to finish, and then do something with their results (or at least wait for them to make sure they don't fail).
+
+```{includeCode: true}
+function displayFrame(frame) {
+  return Promise.all(frame.map((data, i) => {
+    return request(screenAddresses[i], {
+      command: "display",
+      data
+    });
+  }));
+}
+```
+
+This maps over the images in `frame` (which is an array of display data arrays) to create an array
+of request promises. It then returns a promise that combines all of those.
+
+```{includeCode: true}
+function wait(time) {
+  return new Promise(accept => setTimeout(accept, time));
+}
+
+class VideoPlayer {
+  constructor(frames, frameTime) {
+    this.frames = frames;
+    this.frameTime = frameTime;
+    this.stopped = true;
+  }
+
+  async play() {
+    this.stopped = false;
+    for (let i = 0; !this.stopped; i++) {
+      let nextFrame = wait(this.frameTime);
+      await displayFrame(this.frames[i % this.frames.length]);
+      await nextFrame;
+    }
+  }
+
+  stop() {
+    this.stopped = true;
+  }
+}
+```
+
+The `wait` function wraps `setTimeout` in a promise that resolves after the given amount of milliseconds. This is useful for controlling the speed of the playback.
+
+In order to be able to stop a playing video, the process is wrapped in a class. This class has an asynchronous `play` method that returns a promise that only resolves when the playback is stopped again via the `stop` method.
+
+```
+let video = new VideoPlayer(clipImages, 100);
+video.play().catch(e => {
+  console.log("Playback failed: " + e);
+});
+setTimeout(() => video.stop(), 15000);
+```
+
 ## The event loop
 
 {{index "asynchronous programming", scheduling, "event loop", timeline}}
@@ -732,7 +535,7 @@ try {
 
 {{index thread, queue}}
 
-No matter how closely together events—such as timeouts or incoming requests—happen, a JavaScript environment will run only one program at a time. You can think of this as it running a big loop _around_ your program, called the _event loop_. When there's nothing to be done, that loop is stopped. But as events come in, they are added to a queue, and their code is executed one after the other. Because no two things run at the same time, slow-running code might delay the handling of other events.
+No matter how closely together events—such as timeouts or incoming requests—happen, a JavaScript environment will run only one program at a time. You can think of this as it running a big loop _around_ your program, called the _event loop_. When there's nothing to be done, that loop is paused. But as events come in, they are added to a queue, and their code is executed one after the other. Because no two things run at the same time, slow-running code can delay the handling of other events.
 
 This example sets a timeout but then dallies until after the timeout's intended point of time, causing the timeout to be late.
 
@@ -766,22 +569,16 @@ In later chapters we'll see various other types of events that run on the event 
 
 When your program runs synchronously, in a single go, there are no state changes happening except those that the program itself makes. For asynchronous programs this is different—they may have _gaps_ in their execution during which other code can run.
 
-Let's look at an example. One of the hobbies of our crows is to count the number of chicks that hatch throughout the village every year. Nests store this count in their storage bulbs. The following code tries to enumerate the counts from all the nests for a given year:
+Let's look at an example. This is a function that tries to report the size of each file in an array of files, making sure to read them all at the same rather than in sequence.
 
-{{index "anyStorage function", "chicks function"}}
+{{index "fileSizes function"}}
 
 ```{includeCode: true}
-function anyStorage(nest, source, name) {
-  if (source == nest.name) return storage(nest, name);
-  else return routeRequest(nest, source, "storage", name);
-}
-
-async function chicks(nest, year) {
+async function fileSizes(files) {
   let list = "";
-  await Promise.all(network(nest).map(async name => {
-    list += `${name}: ${
-      await anyStorage(nest, name, `chicks in ${year}`)
-    }\n`;
+  await Promise.all(files.map(async fileName => {
+    list += fileName + ": " +
+      (await textFile(fileName)).length + "\n";
   }));
   return list;
 }
@@ -793,14 +590,15 @@ The `async name =>` part shows that ((arrow function))s can also be made `async`
 
 {{index "Promise.all function"}}
 
-The code doesn't immediately look suspicious...it maps the `async` arrow function over the set of nests, creating an array of promises, and then uses `Promise.all` to wait for all of these before returning the list they build up.
+The code doesn't immediately look suspicious...it maps the `async` arrow function over the array of names, creating an array of promises, and then uses `Promise.all` to wait for all of these before returning the list they build up.
 
-But it is seriously broken. It'll always return only a single line of output, listing the nest that was slowest to respond.
+But it is entirely broken. It'll always return only a single line of output, listing the file that took the longest to read.
 
 {{if interactive
 
 ```
-chicks(bigOak, 2017).then(console.log);
+fileSizes(["plans.txt", "shopping_list.txt"])
+  .then(console.log);
 ```
 
 if}}
@@ -813,19 +611,19 @@ The problem lies in the `+=` operator, which takes the _current_ value of `list`
 
 {{index "await keyword"}}
 
-But between the time where the statement starts executing and the time where it finishes there's an asynchronous gap. The `map` expression runs before anything has been added to the list, so each of the `+=` operators starts from an empty string and ends up, when its storage retrieval finishes, setting `list` to a single-line list—the result of adding its line to the empty string.
+But between the time where the statement starts executing and the time where it finishes there's an asynchronous gap. The `map` expression runs before anything has been added to the list, so each of the `+=` operators starts from an empty string and ends up, when its storage retrieval finishes, setting `list` to the result of adding its line to the empty string.
 
 {{index "side effect"}}
 
 This could have easily been avoided by returning the lines from the mapped promises and calling `join` on the result of `Promise.all`, instead of building up the list by changing a binding. As usual, computing new values is less error-prone than changing existing values.
 
-{{index "chicks function"}}
+{{index "fileSizes function"}}
 
 ```
-async function chicks(nest, year) {
-  let lines = network(nest).map(async name => {
-    return name + ": " +
-      await anyStorage(nest, name, `chicks in ${year}`);
+async function fileSizes(files) {
+  let lines = files.map(async fileName => {
+    return fileName + ": " +
+      (await textFile(fileName)).length;
   });
   return (await Promise.all(lines)).join("\n");
 }

@@ -168,6 +168,8 @@ console.log(parse("x = 10\ny = 20"));
 // → {x: "10", y: "20"}
 ```
 
+{{id commonjs}}
+
 ## CommonJS modules
 
 Before 2015, when the JavaScript language had no actual built-in module system, people were already building large systems in JavaScript. To make that workable, they _needed_ ((module))s.
@@ -262,6 +264,8 @@ function require(name) {
 }
 require.cache = Object.create(null);
 ```
+
+{{id eval}}
 
 {{index "Function constructor", eval, security}}
 

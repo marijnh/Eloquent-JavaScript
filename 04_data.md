@@ -687,6 +687,8 @@ console.log(String(6).padStart(3, "0"));
 
 {{id split}}
 
+{{index "split method"}}
+
 You can split a string on every occurrence of another string with `split` and join it again with `join`.
 
 ```

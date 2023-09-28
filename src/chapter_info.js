@@ -71,9 +71,6 @@ for (let file of fs.readdirSync(".").sort()) {
     }
     ++num;
   }
-  if (chapter.number == 6)
-    addSolution("Borrowing a method", "06_4_borrowing_a_method.js", "javascript", 4,
-                "let map = {one: true, two: true, hasOwnProperty: true};\n\n// Fix this call\nconsole.log(map.hasOwnProperty(\"one\"));\n// → true")
 
   let nodeInfo = "// Node exercises can not be ran in the browser,\n// but you can look at their solution here.\n";
   if (chapter.number == 20) chapter.exercises = [

@@ -342,7 +342,7 @@ JavaScript uses a convention where month numbers start at zero (so December is 1
 
 The last four arguments (hours, minutes, seconds, and milliseconds) are optional and taken to be zero when not given.
 
-{{index "getTime method"}}
+{{index "getTime method", timestamp}}
 
 Timestamps are stored as the number of milliseconds since the start of 1970, in the UTC ((time zone)). This follows a convention set by "((Unix time))", which was invented around that time. You can use negative numbers for times before 1970. The `getTime` method on a date object returns this number. It is big, as you can imagine.
 

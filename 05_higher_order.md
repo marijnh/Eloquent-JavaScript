@@ -219,7 +219,7 @@ Though I can fluently read only Latin characters, I appreciate the fact that peo
 The example ((data set)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script.
 
 
-```{lang: "application/json"}
+```{lang: "json"}
 {
   name: "Coptic",
   ranges: [[994, 1008], [11392, 11508], [11513, 11520]],

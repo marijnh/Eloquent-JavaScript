@@ -34,7 +34,7 @@ A _network ((protocol))_ describes a style of communication over a ((network)). 
 
 For example, the _Hypertext Transfer Protocol_ (((HTTP))) is a protocol for retrieving named ((resource))s (chunks of information, such as web pages or pictures). It specifies that the side making the request should start with a line like this, naming the resource and the version of the protocol that it is trying to use:
 
-```{lang: "text/plain"}
+```{lang: "null"}
 GET /index.html HTTP/1.1
 ```
 

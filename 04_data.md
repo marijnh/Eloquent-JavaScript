@@ -940,7 +940,7 @@ JSON looks similar to JavaScript's way of writing arrays and objects, with a few
 
 A journal entry might look like this when represented as JSON data:
 
-```{lang: "application/json"}
+```{lang: "json"}
 {
   "squirrel": false,
   "events": ["work", "touched tree", "pizza", "running"]

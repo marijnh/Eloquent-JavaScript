@@ -7,8 +7,10 @@ function childrenText(token) {
   return text
 }
 
+import {createHash} from "crypto"
+
 function hash(text) {
-  let sum = require("crypto").createHash("sha1")
+  let sum = createHash("sha1")
   sum.update(text)
   return sum.digest("base64").slice(0, 10)
 }
@@ -87,7 +89,7 @@ function nextTag(tokens, i) {
   for (let j = i + 1; j < tokens.length; j++) if (tokens[j].tag) return tokens[j];
 }
 
-exports.transformTokens = function(tokens, options) {
+export function transformTokens(tokens, options) {
   let meta = {}, result = []
   for (let i = 0; i < tokens.length; i++) {
     let tok = tokens[i], type = tok.type

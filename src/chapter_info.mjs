@@ -2,8 +2,9 @@
 // their starting code, and collects it into a big JSON object
 // together with the solution code.
 
-const PJSON = require("./pseudo_json")
-let fs = require("fs");
+import * as PJSON from "./pseudo_json.mjs"
+import * as fs from "fs"
+import jszip from "jszip"
 
 let output = [], failed = false;
 
@@ -193,7 +194,7 @@ function chapterZipFile(meta, chapter) {
   if (exists && files.every(file => fs.statSync("html/" + file).mtime < exists))
     return name;
 
-  let zip = new (require("jszip"));
+  let zip = new jszip;
   for (let file of files) {
     zip.file(chapter.id + "/" + file, fs.readFileSync("html/" + file));
   }

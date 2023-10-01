@@ -1,4 +1,4 @@
-const {readdirSync, readFileSync} = require("fs")
+import {readdirSync, readFileSync} from "fs"
 
 process.stdout.write("# Exercise Hints\n\nThe hints below might help when you are stuck with one of the exercises in this book. They don't give away the entire solution, but rather try to help you find it yourself.\n\n");
 

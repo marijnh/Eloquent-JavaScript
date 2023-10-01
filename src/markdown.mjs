@@ -1,5 +1,5 @@
-const PJSON = require("./pseudo_json")
-const markdownIt = require("markdown-it")
+import * as PJSON from "./pseudo_json.mjs"
+import markdownIt from "markdown-it"
 
 function parseData(str) {
   let tag = /^\s*(\w+)\s*?/.exec(str), args
@@ -171,7 +171,7 @@ function plugin(md) {
   md.inline.ruler.before("strikethrough", "index_term", parseIndexTerm)
 }
 
-module.exports = markdownIt({html: true})
-  .use(plugin)
-  .use(require("markdown-it-sup"))
-  .use(require("markdown-it-sub"))
+import sup from "markdown-it-sup"
+import sub from "markdown-it-sub"
+
+export default markdownIt({html: true}).use(plugin).use(sup).use(sub)

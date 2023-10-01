@@ -12,6 +12,7 @@
 /html/[012]*.html
 /html/ejs.js
 /code/chapter/*
+/code/chapter_info.js
 /code/file_server.js
 /code/skillsharing.zip
 /code/solutions/20_3_a_public_space_on_the_web.zip

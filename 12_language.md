@@ -61,7 +61,7 @@ Expressions of type `"value"` represent literal strings or numbers. Their `value
 
 The `>(x, 5)` part of the previous program would be represented like this:
 
-```{lang: "application/json"}
+```{lang: "json"}
 {
   type: "apply",
   operator: {type: "word", name: ">"},

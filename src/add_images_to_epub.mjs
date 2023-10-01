@@ -1,5 +1,5 @@
-const {readdirSync, lstatSync, readFileSync, writeFileSync} = require("fs")
-const path = require("path")
+import {readdirSync, lstatSync, readFileSync, writeFileSync} from "fs"
+import * as path from "path"
 
 let images = []
 function scanDir(dir) {

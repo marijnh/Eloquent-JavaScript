@@ -114,7 +114,7 @@ Each line of the previous program contains a single instruction. It could be wri
 
 Although that is already more readable than the soup of bits, it is still rather obscure. Using names instead of numbers for the instructions and memory locations helps.
 
-```{lang: "text/plain"}
+```{lang: "null"}
  Set “total” to 0.
  Set “count” to 1.
 [loop]

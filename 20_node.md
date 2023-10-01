@@ -186,7 +186,7 @@ In the `npm install` example, you could see a ((warning)) about the fact that th
 
 The robot simulation from [Chapter ?](robot), as modularized in the exercise in [Chapter ?](modules#modular_robot), might have a `package.json` file like this:
 
-```{lang: "application/json"}
+```{lang: "json"}
 {
   "author": "Marijn Haverbeke",
   "name": "eloquent-javascript-robot",

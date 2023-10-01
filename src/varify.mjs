@@ -1,6 +1,6 @@
-let {parse} = require("acorn")
+import {parse} from "acorn"
 
-module.exports = function(code) {
+export default function(code) {
   let ast
   try { ast = parse(code, {sourceType: "module", ecmaVersion: 2022}) }
   catch(_) { return code }

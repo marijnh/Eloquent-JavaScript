@@ -137,7 +137,7 @@ Binding names can be any word. Digits can be part of binding names—`catch22` i
 
 Words with a special meaning, such as `let`, are _((keyword))s_, and they may not be used as binding names. There are also a number of words that are "reserved for use" in ((future)) versions of JavaScript, which also can't be used as binding names. The full list of keywords and reserved words is rather long.
 
-```{lang: "text/plain"}
+```{lang: "null"}
 break case catch class const continue debugger default
 delete do else enum export extends false finally for
 function if implements import interface in instanceof let

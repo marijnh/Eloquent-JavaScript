@@ -316,7 +316,7 @@ blockquote footer:before {
 .tok-atom, .sandbox-output-bool {color: #106}
 .tok-number, .sandbox-output-number {color: #042}
 .tok-definition {color: #009}
-.tok-variableName2, .tok-propertyName {color: #027}
+.tok-variableName2 {color: #027}
 .tok-type {color: #072}
 .tok-comment {color: #740}
 .tok-string, .sandbox-output-string {color: #700}

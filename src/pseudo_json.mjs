@@ -26,7 +26,7 @@ class Stream {
   }
 }
 
-exports.parse = function(str) {
+export function parse(str) {
   let stream = new Stream(str)
   stream.space()
   let value = parseValue(stream)

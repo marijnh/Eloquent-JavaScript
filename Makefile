@@ -8,11 +8,11 @@ html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/ejs.js \
       code/skillsharing.zip code/solutions/20_3_a_public_space_on_the_web.zip html/code/chapter_info.js
 
 html/%.html: %.md
-	node src/render_html.js $< > $@
-	node src/build_code.js $<
+	node src/render_html.mjs $< > $@
+	node src/build_code.mjs $<
 
-html/code/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) code/solutions/* src/chapter_info.js
-	node src/chapter_info.js > html/code/chapter_info.js
+html/code/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) code/solutions/* src/chapter_info.mjs
+	node src/chapter_info.mjs > html/code/chapter_info.js
 
 html/ejs.js: node_modules/codemirror/dist/index.js \
 	     node_modules/@codemirror/view/dist/index.js \
@@ -34,8 +34,8 @@ code/solutions/20_3_a_public_space_on_the_web.zip: $(wildcard code/solutions/20_
 	cd code/solutions; zip 20_3_a_public_space_on_the_web.zip 20_3_a_public_space_on_the_web/*
 
 test: html
-	@for F in $(CHAPTERS); do echo Testing $$F:; node src/run_tests.js $$F.md; done
-	@node src/check_links.js
+	@for F in $(CHAPTERS); do echo Testing $$F:; node src/run_tests.mjs $$F.md; done
+	@node src/check_links.mjs
 	@echo Done.
 
 tex: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex $(patsubst img/%.svg,img/generated/%.pdf,$(SVGS))
@@ -51,8 +51,8 @@ book_mobile.pdf: pdf/book_mobile.tex tex
 	cd pdf && sh build.sh book_mobile > /dev/null
 	mv pdf/book_mobile.pdf .	
 
-pdf/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.js
-	node src/extract_hints.js | node src/render_latex.js - > $@
+pdf/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.mjs
+	node src/extract_hints.mjs | node src/render_latex.mjs - > $@
 
 img/generated/%.pdf: img/%.svg
 	inkscape --export-pdf=$@ $<
@@ -61,21 +61,21 @@ pdf/%.tex: %.md
 	node src/render_latex.js $< > $@
 
 book.epub: epub/titlepage.xhtml epub/toc.xhtml epub/hints.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) \
-           epub/content.opf.src epub/style.css src/add_images_to_epub.js
+           epub/content.opf.src epub/style.css src/add_images_to_epub.mjs
 	rm -f $@
 	grep '<img' epub/*.xhtml | sed -e 's/.*src="\([^"]*\)".*/\1/' | xargs -I{} rsync -R "{}" epub
-	node src/add_images_to_epub.js
+	node src/add_images_to_epub.mjs
 	cd epub; zip -X ../$@ mimetype
 	cd epub; zip -X ../$@ -r * -x mimetype -x *.src
 
 epub/toc.xhtml: epub/toc.xhtml.src $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) epub/hints.xhtml
-	node src/generate_epub_toc.js $^ > $@
+	node src/generate_epub_toc.mjs $^ > $@
 
 epub/%.xhtml: %.md src/render_html.js
 	node src/render_html.js --epub $< > $@
 
-epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.js src/render_html.js
-	node src/extract_hints.js | node src/render_html.js --epub - > $@
+epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.mjs src/render_html.js
+	node src/extract_hints.mjs | node src/render_html.mjs --epub - > $@
 
 epubcheck: book.epub
 	epubcheck book.epub 2>&1 | grep -v 'img/.*\.svg'

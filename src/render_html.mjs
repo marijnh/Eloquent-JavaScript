@@ -1,11 +1,18 @@
-const PJSON = require("./pseudo_json")
-let fs = require("fs"), mold = new (require("mold-template"))
-let {transformTokens} = require("./transform")
-let CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
-require("codemirror/mode/javascript/javascript.js")
-require("codemirror/mode/xml/xml.js")
-require("codemirror/mode/css/css.js")
-require("codemirror/mode/htmlmixed/htmlmixed.js")
+import * as PJSON from "./pseudo_json.mjs"
+import {transformTokens} from "./transform.mjs"
+import markdown from "./markdown.mjs"
+import * as fs from "fs"
+import {dirname} from "path"
+import {fileURLToPath} from "url"
+import moldTemplate from "mold-template"
+import {highlightCode, classHighlighter} from "@lezer/highlight"
+import {Tree} from "@lezer/common"
+import {html} from "@codemirror/lang-html"
+import {javascript} from "@codemirror/lang-javascript"
+import {css} from "@codemirror/lang-css"
+import {json} from "@codemirror/lang-json"
+
+const mold = new moldTemplate
 
 let file, epub = false
 for (let arg of process.argv.slice(2)) {
@@ -16,7 +23,7 @@ for (let arg of process.argv.slice(2)) {
 if (!file) throw new Error("No input file")
 let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
 
-let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
+let {tokens, metadata} = transformTokens(markdown.parse(fs.readFileSync(file, "utf8"), {}), {
   defined: epub ? ["book", "html"] : ["interactive", "html"],
   strip: epub ? "hints" : "",
   takeTitle: true,
@@ -24,8 +31,9 @@ let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFile
 })
 
 let close = epub ? "/" : ""
+const dir = dirname(fileURLToPath(import.meta.url))
 
-let chapters = fs.readdirSync(__dirname + "/..")
+let chapters = fs.readdirSync(dir + "/..")
     .filter(file => /^\d{2}_\w+\.md$/.test(file))
     .sort()
     .map(file => /^\d{2}_(\w+)\.md$/.exec(file)[1])
@@ -36,12 +44,21 @@ function escapeChar(ch) {
 }
 function escape(str) { return str.replace(/[<>&"]/g, escapeChar) }
 
+// FIXME http highlighting
+
+const parsers = {
+  css: css().language.parser,
+  html: html().language.parser,
+  javascript: javascript().language.parser,
+  json: json().language.parser
+}
+
 function highlight(lang, text) {
-  let result = ""
-  CodeMirror.runMode(text, lang, (text, style) => {
-    let esc = escape(text)
-    result += style ? `<span class="${style.replace(/^|\s+/g, "$&cm-")}">${esc}</span>` : esc
-  })
+  let result = "", parser = parsers[lang], tree = parser ? parser.parse(text) : Tree.empty
+  highlightCode(text, tree, classHighlighter, (code, cls) => {
+    let esc = escape(code)
+    result += cls ? `<span class="${cls}">${esc}</span>` : esc
+  }, () => result += "\n")
   return result
 }
 
@@ -184,6 +201,6 @@ if (chapter && (index = chapters.indexOf(chapter[1])) > -1) {
   metadata.page = {type: "hints"}
 }
 
-let template = mold.bake("chapter", fs.readFileSync(__dirname + `/${epub ? "epub_" : ""}chapter.html`, "utf8"))
+let template = mold.bake("chapter", fs.readFileSync(dir + `/${epub ? "epub_" : ""}chapter.html`, "utf8"))
 
 console.log(template(metadata))

@@ -2,10 +2,12 @@
 // of the code in the source for a chapter as possible, without
 // requiring excessive annotation.
 
-const PJSON = require("./pseudo_json")
-let fs = require("fs")
-let acorn = require("acorn")
-let varify = require("./varify")
+import * as PJSON from "./pseudo_json.mjs"
+import varify from "./varify.mjs"
+import * as fs from "fs"
+import * as acorn from "acorn"
+import {request} from "http"
+import require from "./require.js"
 
 let file = process.argv[2]
 let chapNum = Number(file.match(/^\d*/)[0])
@@ -220,7 +222,7 @@ for (let prop in fs) fakeFS[prop] = function() {
 }
 
 let fakeHTTP = {
-  request: require("http").request,
+  request,
   createServer: function() { return {listen: Math.min} }
 }
 

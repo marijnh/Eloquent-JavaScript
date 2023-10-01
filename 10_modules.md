@@ -384,7 +384,7 @@ A package is a chunk of code that can be distributed on its own. NPM is a reposi
 
 These are the bindings that the project from [Chapter ?](robot) creates:
 
-```{lang: "text/plain"}
+```{lang: "null"}
 roads
 buildGraph
 roadGraph

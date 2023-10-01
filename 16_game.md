@@ -403,7 +403,7 @@ As mentioned, the background is drawn as a `<table>` element. This nicely corres
 
 The following ((CSS)) makes the table look like the background we want:
 
-```{lang: "text/css"}
+```{lang: "css"}
 .background    { background: rgb(52, 166, 251);
                  table-layout: fixed;
                  border-spacing: 0;              }
@@ -441,7 +441,7 @@ function drawActors(actors) {
 
 To give an element more than one class, we separate the class names by spaces. In the ((CSS)) code shown next, the `actor` class gives the actors their absolute position. Their type name is used as an extra class to give them a color. We don't have to define the `lava` class again because we're reusing the class for the lava grid squares we defined earlier.
 
-```{lang: "text/css"}
+```{lang: "css"}
 .actor  { position: absolute;            }
 .coin   { background: rgb(241, 229, 89); }
 .player { background: rgb(64, 64, 64);   }
@@ -465,7 +465,7 @@ DOMDisplay.prototype.syncState = function(state) {
 
 By adding the level's current status as a class name to the wrapper, we can style the player actor slightly differently when the game is won or lost by adding a ((CSS)) rule that takes effect only when the player has an ((ancestor element)) with a given class.
 
-```{lang: "text/css"}
+```{lang: "css"}
 .lost .player {
   background: rgb(160, 64, 64);
 }
@@ -484,7 +484,7 @@ After touching ((lava)), the player's color turns dark red, suggesting scorching
 
 We can't assume that the level always fits in the _viewport_—the element into which we draw the game. That is why the `scrollPlayerIntoView` call is needed. It ensures that if the level is protruding outside the viewport, we scroll that viewport to make sure the player is near its center. The following ((CSS)) gives the game's wrapping DOM element a maximum size and ensures that anything that sticks out of the element's box is not visible. We also give it a relative position so that the actors inside it are positioned relative to the level's top-left corner.
 
-```{lang: "text/css"}
+```{lang: "css"}
 .game {
   overflow: hidden;
   max-width: 600px;

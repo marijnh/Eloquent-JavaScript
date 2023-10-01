@@ -82,7 +82,7 @@ We will use ((JSON)) as the format of our request and response body. Like in the
 
 A `GET` request to `/talks` returns a JSON document like this:
 
-```{lang: "application/json"}
+```{lang: "json"}
 [{"title": "Unituning",
   "presenter": "Jamal",
   "summary": "Modifying your cycle for extra style",

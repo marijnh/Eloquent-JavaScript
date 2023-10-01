@@ -73,7 +73,7 @@ class CodeSandbox {
 
     document.querySelector("#solution").addEventListener("click", () => {
       let context = this.editor.state.facet(contextFacet)
-      this.setEditorState(context.solution, {type: context.type})
+      this.setEditorState(context.solution, context)
     })
 
     this.parseFragment() || this.selectChapter(0, "box")

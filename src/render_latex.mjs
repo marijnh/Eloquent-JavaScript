@@ -1,5 +1,7 @@
-let fs = require("fs")
-let {transformTokens} = require("./transform")
+import * as fs from "fs"
+import {dirname} from "path"
+import {fileURLToPath} from "url"
+import {transformTokens} from "./transform.mjs"
 
 let file, noStarch = false
 for (let arg of process.argv.slice(2)) {
@@ -19,7 +21,8 @@ let {tokens} = transformTokens(require("./markdown").parse(fs.readFileSync(file,
   index: true
 })
 
-let chapters = fs.readdirSync(__dirname + "/..")
+const dir = dirname(fileURLToPath(import.meta.url))
+let chapters = fs.readdirSync(dir + "/..")
     .filter(file => /^\d{2}_\w+\.md$/.test(file))
     .sort()
     .map(file => /^\d{2}_(\w+)\.md$/.exec(file)[1])

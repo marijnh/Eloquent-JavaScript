@@ -1,4 +1,4 @@
-let {readdirSync, readFileSync} = require("fs")
+import {readdirSync, readFileSync} from "fs"
 
 let files = Object.create(null)
 for (let name of readdirSync(".")) {

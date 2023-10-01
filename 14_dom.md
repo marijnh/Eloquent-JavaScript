@@ -513,7 +513,7 @@ When multiple rules define a value for the same property, the most recently read
 
 It is possible to target things other than ((tag)) names in CSS rules. A rule for `.abc` applies to all elements with `"abc"` in their `class` attribute. A rule for `#xyz` applies to the element with an `id` attribute of `"xyz"` (which should be unique within the document).
 
-```{lang: "text/css"}
+```{lang: "css"}
 .subtle {
   color: gray;
   font-size: 80%;

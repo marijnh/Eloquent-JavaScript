@@ -1,6 +1,6 @@
-const fs = require("fs")
-const PJSON = require("./pseudo_json")
-const varify = require("./varify")
+import * as fs from "fs"
+import * as PJSON from "./pseudo_json.mjs"
+import varify from "./varify.mjs"
 
 let file = process.argv[2]
 let input = fs.readFileSync(file, "utf8")

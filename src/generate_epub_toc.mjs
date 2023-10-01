@@ -1,5 +1,5 @@
-const {readFileSync} = require("fs")
-const {basename} = require("path")
+import {readFileSync} from "fs"
+import {basename} from "path"
 
 let [template, ...chapters] = process.argv.slice(2)
 

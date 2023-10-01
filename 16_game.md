@@ -538,7 +538,7 @@ It would have been slightly simpler to always try to scroll the player to the ce
 
 We are now able to display our tiny level.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <link rel="stylesheet" href="css/game.css">
 
 <script>
@@ -875,7 +875,7 @@ Because we made `runLevel` return a promise, `runGame` can be written using an `
 
 There is a set of ((level)) plans available in the `GAME_LEVELS` binding in [this chapter's sandbox](https://eloquentjavascript.net/code#16)[ ([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if book}. This page feeds them to `runGame`, starting an actual game.
 
-```{sandbox: null, focus: yes, lang: "text/html", startCode: true}
+```{sandbox: null, focus: yes, lang: "html", startCode: true}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -905,7 +905,7 @@ Adjust `runGame` to implement lives. Have the player start with three. Output th
 
 {{if interactive
 
-```{lang: "text/html", test: no, focus: yes}
+```{lang: "html", test: no, focus: yes}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -946,7 +946,7 @@ When you have that working, there is something else you could try. The way we ha
 
 {{if interactive
 
-```{lang: "text/html", focus: yes, test: no}
+```{lang: "html", focus: yes, test: no}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -1010,7 +1010,7 @@ When a monster touches the player, the effect depends on whether the player is j
 
 {{if interactive
 
-```{test: no, lang: "text/html", focus: yes}
+```{test: no, lang: "html", focus: yes}
 <link rel="stylesheet" href="css/game.css">
 <style>.monster { background: purple }</style>
 

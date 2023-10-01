@@ -37,7 +37,6 @@ function escapeChar(ch) {
 function escape(str) { return str.replace(/[<>&"]/g, escapeChar) }
 
 function highlight(lang, text) {
-  if (lang == "html") lang = "text/html"
   let result = ""
   CodeMirror.runMode(text, lang, (text, style) => {
     let esc = escape(text)
@@ -178,9 +177,11 @@ function pad(n) {
 metadata.content = renderArray(tokens)
 let index
 if (chapter && (index = chapters.indexOf(chapter[1])) > -1) {
-  metadata.chap_num = index
+  metadata.page = {type: "chapter", number: index, load_files: metadata.load_files }
   if (index > 0) metadata.prev_link = `${pad(index - 1)}_${chapters[index - 1]}`
   if (index < chapters.length - 1) metadata.next_link = `${pad(index + 1)}_${chapters[index + 1]}`
+} else {
+  metadata.page = {type: "hints"}
 }
 
 let template = mold.bake("chapter", fs.readFileSync(__dirname + `/${epub ? "epub_" : ""}chapter.html`, "utf8"))

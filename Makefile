@@ -4,25 +4,26 @@ SVGS := $(wildcard img/*.svg)
 
 all: html book.pdf book_mobile.pdf book.epub book.mobi
 
-html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/acorn_codemirror.js \
-      code/skillsharing.zip code/solutions/20_3_a_public_space_on_the_web.zip html/js/chapter_info.js
+html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/ejs.js \
+      code/skillsharing.zip code/solutions/20_3_a_public_space_on_the_web.zip html/code/chapter_info.js
 
 html/%.html: %.md
 	node src/render_html.js $< > $@
 	node src/build_code.js $<
 
-html/js/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) code/solutions/* src/chapter_info.js
-	node src/chapter_info.js > html/js/chapter_info.js
+html/code/chapter_info.js: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) code/solutions/* src/chapter_info.js
+	node src/chapter_info.js > html/code/chapter_info.js
 
-html/js/acorn_codemirror.js: node_modules/codemirror/lib/codemirror.js \
-	                     node_modules/codemirror/mode/javascript/javascript.js \
-	                     node_modules/codemirror/mode/css/css.js \
-	                     node_modules/codemirror/mode/xml/xml.js \
-	                     node_modules/codemirror/mode/htmlmixed/htmlmixed.js \
-	                     node_modules/codemirror/addon/edit/matchbrackets.js \
-	                     node_modules/acorn/dist/acorn.js \
-	                     node_modules/acorn-walk/dist/walk.js
-	node_modules/.bin/uglifyjs $^ -m -o $@
+html/ejs.js: node_modules/codemirror/dist/index.js \
+	     node_modules/@codemirror/view/dist/index.js \
+	     node_modules/@codemirror/state/dist/index.js \
+	     node_modules/@codemirror/language/dist/index.js \
+	     node_modules/@codemirror/lang-html/dist/index.js \
+	     node_modules/@codemirror/lang-javascript/dist/index.js \
+	     node_modules/acorn/dist/acorn.js \
+	     node_modules/acorn-walk/dist/walk.js \
+	     src/client/*.mjs
+	rollup -c src/client/rollup.config.mjs
 
 code/skillsharing.zip: html/21_skillsharing.html
 	rm -f $@

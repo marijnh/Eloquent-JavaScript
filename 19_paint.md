@@ -158,7 +158,7 @@ The main difference between this version and the one we used in [Chapter ?](game
 
 This allows the following style of registering event handlers:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <body>
   <script>
     document.body.appendChild(elt("button", {
@@ -471,7 +471,7 @@ function pick(pos, state, dispatch) {
 
 We can now test our application!
 
-```{lang: "text/html"}
+```{lang: "html"}
 <div></div>
 <script>
   let state = {
@@ -725,7 +725,7 @@ When destructuring an object or array, you can use `=` after a binding name to g
 
 This is how we get an actual editor on the screen:
 
-```{lang: "text/html", startCode: true}
+```{lang: "html", startCode: true}
 <div></div>
 <script>
   document.querySelector("div")
@@ -775,7 +775,7 @@ Remember that keyboard events have `ctrlKey` and `metaKey` (for the [command]{ke
 
 {{if interactive
 
-```{test: no, lang: "text/html"}
+```{test: no, lang: "html"}
 <div></div>
 <script>
   // The original PixelEditor class. Extend the constructor.
@@ -847,7 +847,7 @@ Also note that changing the size of a `<canvas>` element, by setting its `width`
 
 {{if interactive
 
-```{test: no, lang: "text/html"}
+```{test: no, lang: "html"}
 <div></div>
 <script>
   // Change this method
@@ -902,7 +902,7 @@ Define a ((tool)) called `circle` that draws a filled circle when you drag. The 
 
 {{if interactive
 
-```{test: no, lang: "text/html"}
+```{test: no, lang: "html"}
 <div></div>
 <script>
   function circle(pos, state, dispatch) {
@@ -952,7 +952,7 @@ Finally, if we have code that draws a line between two arbitrary points, we migh
 
 {{if interactive
 
-```{test: no, lang: "text/html"}
+```{test: no, lang: "html"}
 <div></div>
 <script>
   // The old draw tool. Rewrite this.

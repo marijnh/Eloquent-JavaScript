@@ -9,17 +9,22 @@
     "url": "git://github.com/marijnh/Eloquent-JavaScript.git"
   },
   "dependencies": {
+    "rollup": "^3.28.0",
     "acorn": "^8.0.0",
     "acorn-walk": "^8.0.0",
-    "codemirror": "^5.37.0",
-    "hjson": "^3.1.0",
+    "@codemirror/view": "^6.20.0",
+    "@codemirror/state": "^6.2.0",
+    "@codemirror/language": "^6.9.0",
+    "@codemirror/lang-html": "^6.4.0",
+    "@codemirror/lang-javascript": "^6.2.0",
+    "codemirror": "^6.0.0",
+    "@lezer/highlight": "^1.1.0",
     "jszip": "^3.10.0",
     "markdown-it": "^13.0.0",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
     "mime": "^2.3.1",
-    "mold-template": "^2.0.1",
-    "uglify-js": "^2.0.0"
+    "mold-template": "^2.0.1"
   },
   "devDependencies": {
     "jsdom": "^20.0.0",

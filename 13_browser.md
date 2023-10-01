@@ -100,7 +100,7 @@ HTML, which stands for _Hypertext Markup Language_, is the document format used 
 
 A short HTML document might look like this:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <!doctype html>
 <html>
   <head>
@@ -158,7 +158,7 @@ HTML is parsed in a remarkably error-tolerant way. When tags that should be ther
 
 The following document will be treated just like the one shown previously:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <!doctype html>
 
 <meta charset=utf-8>
@@ -188,7 +188,7 @@ I will also usually omit the ((doctype)) and `charset` declaration. This is not 
 
 In the context of this book, the most important HTML tag is `<script>`. This tag allows us to include a piece of JavaScript in a document.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <h1>Testing alert</h1>
 <script>alert("hello!");</script>
 ```
@@ -201,7 +201,7 @@ Such a script will run as soon as its `<script>` tag is encountered while the br
 
 Including large programs directly in HTML documents is often impractical. The `<script>` tag can be given an `src` attribute  to fetch a script file (a text file containing a JavaScript program) from a URL.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <h1>Testing alert</h1>
 <script src="code/hello.js"></script>
 ```
@@ -220,7 +220,7 @@ You can load ((ES modules)) (see [Chapter ?](modules#es)) in the browser by givi
 
 Some attributes can also contain a JavaScript program. The `<button>` tag shown next (which shows up as a button) has an `onclick` attribute. The attribute's value will be run whenever the button is clicked.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <button onclick="alert('Boom!');">DO NOT PRESS</button>
 ```
 

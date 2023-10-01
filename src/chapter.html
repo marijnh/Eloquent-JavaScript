@@ -3,15 +3,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><<t $in.title>> :: Eloquent JavaScript</title>
-  <link rel=stylesheet href="js/node_modules/codemirror/lib/codemirror.css">
-  <script src="js/acorn_codemirror.js"></script>
   <link rel=stylesheet href="css/ejs.css">
-  <script src="js/sandbox.js"></script>
-  <script src="js/ejs.js"></script>
   <<if $in.chap_num || $in.load_files>>
   <script>
-    <<if $in.chap_num>>var chapNum = <<h $in.chap_num>>;<</if>>
-    <<if $in.load_files>>var sandboxLoadFiles = <<h JSON.stringify($in.load_files)>>;<</if>>
+    <<if $in.page>>var page = <<h JSON.stringify($in.page)>><</if>>
   </script>
   <</if>>
 </head>
@@ -33,3 +28,5 @@
   <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
 </nav>
 </article>
+
+<script src="ejs.js"></script>

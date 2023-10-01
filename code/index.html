@@ -2,15 +2,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <base href="..">
   <title>Eloquent JavaScript :: Code Sandbox</title>
 
-  <script src="js/acorn_codemirror.js"></script>
-  <link rel=stylesheet href="js/node_modules/codemirror/lib/codemirror.css">
-  <link rel=stylesheet href="css/ejs.css">
-  <script src="js/sandbox.js"></script>
-  <script src="js/chapter_info.js"></script>
-  <script src="js/code.js"></script>
+  <link rel=stylesheet href="../css/ejs.css">
+  <script src="./chapter_info.js"></script>
+  <script>
+    var page = {type: "code"}
+  </script>
 
   <style>
     .control { font-size: 15px }
@@ -18,9 +16,9 @@
 </head>
 
 <div style="background: #ffb; border-bottom: 1px solid silver; padding: 6px 4em; text-align: center">
-  <strong>Note:</strong> If you are reading the <strong>second edition</strong> of the book,
+  <strong>Note:</strong> If you are reading the <strong>third edition</strong> of the book,
   you'll want to go
-  to <a href="https://eloquentjavascript.net/2nd_edition/code/">that
+  to <a href="https://eloquentjavascript.net/3nd_edition/code/">that
   edition's sandbox</a> instead!
 </div>
 
@@ -39,7 +37,7 @@
   </p>
 
   <div class="editor-wrap">
-    <textarea id="editor"></textarea>
+    <div id="editor"></div>
     <div class="sandbox-output" id="output"></div>
   </div>
 
@@ -64,3 +62,5 @@
     simply pasting them into the editor.
   </p>
 </article>
+
+<script src="../ejs.js"></script>

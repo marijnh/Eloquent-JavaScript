@@ -52,7 +52,7 @@ while (m = re.exec(input)) {
   let sandboxId = params.sandbox || (type == "javascript" ? "null" : "box" + (++anonId))
   let where = pos(m.index)
 
-  if (type != "javascript" && type != "text/html") continue
+  if (type != "javascript" && type != "html") continue
 
   let sandbox = sandboxes[sandboxId]
   if (!sandbox)
@@ -60,7 +60,7 @@ while (m = re.exec(input)) {
 
   if (/\bnever\b/.test(config)) continue
   let stripped
-  if (type == "text/html") {
+  if (type == "html") {
     stripped = stripHTML(snippet)
     snippet = stripped.javascript
   }
@@ -78,7 +78,7 @@ while (m = re.exec(input)) {
   else if (/\/\/ →/.test(snippet)) snippet = wrapTestOutput(snippet, config)
   if (/\bwrap\b/.test(config)) snippet = "(function(){\n" + snippet + "}());\n"
 
-  if (type == "text/html") {
+  if (type == "html") {
     if (sandbox.html) console.log("Double HTML for box " + sandboxId)
     sandbox.html = stripped.html
     sandbox.code = stripped.included + "console.pos = " + JSON.stringify(where) + ";\n" + snippet + sandbox.code

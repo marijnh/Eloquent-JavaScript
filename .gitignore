@@ -10,9 +10,7 @@
 /book.pdf
 /book_mobile.pdf
 /html/[012]*.html
-/html/js/chapter_info.js
-/html/js/[012]*.js
-/html/js/acorn_codemirror.js
+/html/ejs.js
 /code/chapter/*
 /code/file_server.js
 /code/skillsharing.zip

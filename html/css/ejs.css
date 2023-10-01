@@ -82,7 +82,7 @@ p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3
 }
 
 
-code, pre, .CodeMirror {
+code, pre, .cm-editor {
   font-size: 18px;
   font-family: 'PT Mono', monospace;
 }
@@ -312,34 +312,35 @@ blockquote footer:before {
 
 /* Toned-down CodeMirror style */
 
-.cm-s-default .cm-keyword, .sandbox-output-null, .sandbox-output-fun {color: #506;}
-.cm-s-default .cm-atom, .sandbox-output-bool {color: #106;}
-.cm-s-default .cm-number, .sandbox-output-number {color: #042;}
-.cm-s-default .cm-def {color: #009;}
-.cm-s-default .cm-variable-2, .cm-s-default .cm-attribute {color: #027;}
-.cm-s-default .cm-variable-3 {color: #072;}
-.cm-s-default .cm-comment {color: #740;}
-.cm-s-default .cm-string, .sandbox-output-string {color: #700;}
-.cm-s-default .cm-string-2 {color: #740;}
-.cm-s-default .cm-tag, .sandbox-output-symbol {color: #170;}
+.tok-keyword, .sandbox-output-null, .sandbox-output-fun {color: #506}
+.tok-atom, .sandbox-output-bool {color: #106}
+.tok-number, .sandbox-output-number {color: #042}
+.tok-definition {color: #009}
+.tok-variableName2, .tok-propertyName {color: #027}
+.tok-type {color: #072}
+.tok-comment {color: #740}
+.tok-string, .sandbox-output-string {color: #700}
+.tok-string2 {color: #c40}
+.tok-invalid {color: #f00}
+.tok-meta {color: #555}
 
-.CodeMirror {
+.cm-editor {
   height: auto;
   line-height: 1.35;
   border-top: 1px solid #4ab;
   overflow-wrap: normal;
 }
-.CodeMirror-scroll {
-  max-height: 700px;
+.cm-scroller {
+  max-height: 500px;
 }
-.CodeMirror pre {
+.cm-editor .cm-line {
   padding: 0 4px 0 10px;
 }
-.CodeMirror-gutters {
+.cm-editor .cm-gutters {
   border: none;
   background: white;
 }
-.CodeMirror-linenumber {
+.cm-editor .cm-lineNumbers {
   padding: .5em 3px 0 0;
   min-width: 12px;
   color: #4ab;

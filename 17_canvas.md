@@ -32,7 +32,7 @@ This book will not go into ((SVG)) in detail, but I will briefly explain how it 
 
 This is an HTML document with a simple SVG ((picture)) in it:
 
-```{lang: "text/html", sandbox: "svg"}
+```{lang: "html", sandbox: "svg"}
 <p>Normal HTML here.</p>
 <svg xmlns="http://www.w3.org/2000/svg">
   <circle r="50" cx="50" cy="50" fill="red"/>
@@ -82,7 +82,7 @@ This book won't discuss WebGL—we'll stick to two dimensions. But if you are in
 
 You create a ((context)) with the `getContext` method on the `<canvas>` DOM element.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>Before canvas.</p>
 <canvas width="120" height="60"></canvas>
 <p>After canvas.</p>
@@ -130,7 +130,7 @@ The `fillStyle` property controls the way shapes are filled. It can be set to a 
 
 The `strokeStyle` property works similarly but determines the color used for a stroked line. The width of that line is determined by the `lineWidth` property, which may contain any positive number.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -159,7 +159,7 @@ When no `width` or `height` attribute is specified, as in the example, a canvas 
 
 A path is a sequence of ((line))s. The 2D canvas interface takes a peculiar approach to describing such a path. It is done entirely through ((side effect))s. Paths are not values that can be stored and passed around. Instead, if you want to do something with a path, you make a sequence of method calls to describe its shape.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -188,7 +188,7 @@ if}}
 
 When filling a path (using the `fill` method), each ((shape)) is filled separately. A path can contain multiple shapes—each `moveTo` motion starts a new one. But the path needs to be _closed_ (meaning its start and end are in the same position) before it can be filled. If the path is not already closed, a line is added from its end to its start, and the shape enclosed by the completed path is filled.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -222,7 +222,7 @@ A path may also contain ((curve))d ((line))s. These are unfortunately a bit more
 
 The `quadraticCurveTo` method draws a curve to a given point. To determine the curvature of the line, the method is given a ((control point)) as well as a destination point. Imagine this control point as _attracting_ the line, giving it its curve. The line won't go through the control point, but its direction at the start and end points will be such that a straight line in that direction would point toward the control point. The following example illustrates this:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -252,7 +252,7 @@ We draw a ((quadratic curve)) from the left to the right, with (60,10) as contro
 
 The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((control point)), this one has two—one for each of the ((line))'s endpoints. Here is a similar sketch to illustrate the behavior of such a curve:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -287,7 +287,7 @@ The `arc` method is a way to draw a line that curves along the edge of a circle.
 
 Those last two parameters make it possible to draw only part of the circle. The ((angle))s are measured in ((radian))s, not ((degree))s. This means a full ((circle)) has an angle of 2π, or `2 * Math.PI`, which is about 6.28. The angle starts counting at the point to the right of the circle's center and goes clockwise from there. You can use a start of 0 and an end bigger than 2π (say, 7) to draw a full circle.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -333,7 +333,7 @@ const results = [
 
 To draw a pie chart, we draw a number of pie slices, each made up of an ((arc)) and a pair of ((line))s to the center of that arc. We can compute the ((angle)) taken up by each arc by dividing a full circle (2π) by the total number of responses and then multiplying that number (the angle per response) by the number of people who picked a given choice.
 
-```{lang: "text/html", sandbox: "pie"}
+```{lang: "html", sandbox: "pie"}
 <canvas width="200" height="200"></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -372,7 +372,7 @@ But a chart that doesn't tell us what the slices mean isn't very helpful. We nee
 
 A 2D canvas drawing context provides the methods `fillText` and `strokeText`. The latter can be useful for outlining letters, but usually `fillText` is what you need. It will fill the outline of the given ((text)) with the current `fillStyle`.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -402,7 +402,7 @@ In computer ((graphics)), a distinction is often made between _vector_ graphics 
 
 The `drawImage` method allows us to draw ((pixel)) data onto a ((canvas)). This pixel data can originate from an `<img>` element or from another canvas. The following example creates a detached `<img>` element and loads an image file into it. But it cannot immediately start drawing from this picture because the browser may not have loaded it yet. To deal with this, we register a `"load"` event handler and do the drawing after the image has loaded.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -440,7 +440,7 @@ To animate a ((picture)) on a ((canvas)), the `clearRect` method is useful. It r
 
 We know that each _((sprite))_, each subpicture, is 24 ((pixel))s wide and 30 pixels high. The following code loads the image and then sets up an interval (repeated timer) to draw the next ((frame)):
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -478,7 +478,7 @@ But what if we want our character to walk to the left instead of to the right? W
 
 Calling the `scale` method will cause anything drawn after it to be scaled. This method takes two parameters, one to set a horizontal scale and one to set a vertical scale.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -544,7 +544,7 @@ This shows the coordinate systems before and after mirroring across the central 
 
 We can now draw a mirrored character at position (100,0) by flipping the world around the character's vertical center.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -577,7 +577,7 @@ The `branch` function in the following example illustrates what you can do with 
 
 This function draws a treelike shape by drawing a line, moving the center of the coordinate system to the end of the line, and calling itself twice—first rotated to the left and then rotated to the right. Every call reduces the length of the branch drawn, and the recursion stops when the length drops below 8.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <canvas width="600" height="300"></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -824,7 +824,7 @@ We have to subtract the viewport's position when computing the actor's position 
 
 This document plugs the new display into `runGame`:
 
-```{lang: "text/html", sandbox: game, focus: yes, startCode: true}
+```{lang: "html", sandbox: game, focus: yes, startCode: true}
 <body>
   <script>
     runGame(GAME_LEVELS, CanvasDisplay);
@@ -926,7 +926,7 @@ I recommend creating a function for each shape. Pass the position, and optionall
 
 {{if interactive
 
-```{lang: "text/html", test: no}
+```{lang: "html", test: no}
 <canvas width="600" height="200"></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -973,7 +973,7 @@ You might need `Math.sin` and `Math.cos` again, which are described in [Chapter 
 
 {{if interactive
 
-```{lang: "text/html", test: no}
+```{lang: "html", test: no}
 <canvas width="600" height="300"></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
@@ -1030,7 +1030,7 @@ Use the `requestAnimationFrame` technique that we saw in [Chapter ?](dom#animati
 
 {{if interactive
 
-```{lang: "text/html", test: no}
+```{lang: "html", test: no}
 <canvas width="400" height="400"></canvas>
 <script>
   let cx = document.querySelector("canvas").getContext("2d");

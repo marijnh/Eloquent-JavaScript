@@ -22,7 +22,7 @@ This representation of the ((document)) is one of the toys that a JavaScript pro
 
 You can imagine an HTML document as a nested set of ((box))es. Tags such as `<body>` and `</body>` enclose other ((tag))s, which in turn contain other tags or ((text)). Here's the example document from the [previous chapter](browser):
 
-```{lang: "text/html", sandbox: "homepage"}
+```{lang: "html", sandbox: "homepage"}
 <!doctype html>
 <html>
   <head>
@@ -176,7 +176,7 @@ All element nodes have a `getElementsByTagName` method, which collects all eleme
 
 To find a specific _single_ node, you can give it an `id` attribute and use `document.getElementById` instead.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>My ostrich Gertrude:</p>
 <p><img id="gertrude" src="img/ostrich.png"></p>
 
@@ -196,7 +196,7 @@ A third, similar method is `getElementsByClassName`, which, like `getElementsByT
 
 Almost everything about the DOM data structure can be changed. The shape of the document tree can be modified by changing parent-child relationships. Nodes have a `remove` method to remove them from their current parent node. To add a child node to an element node, we can use `appendChild`, which puts it at the end of the list of children, or `insertBefore`, which inserts the node given as the first argument before the node given as the second argument.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>One</p>
 <p>Two</p>
 <p>Three</p>
@@ -223,7 +223,7 @@ Say we want to write a script that replaces all ((image))s (`<img>` tags) in the
 
 This involves not only removing the images but adding a new text node to replace them. Text nodes are created with the `document.createTextNode` method.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>The <img src="img/cat.png" alt="Cat"> in the
   <img src="img/hat.png" alt="Hat">.</p>
 
@@ -272,7 +272,7 @@ To create ((element)) nodes, you can use the `document.createElement` method. Th
 
 The following example defines a utility `elt`, which creates an element node and treats the rest of its arguments as children to that node. This function is then used to add an attribution to a quote.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <blockquote id="quote">
   No book can ever be finished. While working on it we learn
   just enough to find it immature the moment we turn away
@@ -316,7 +316,7 @@ Some element ((attribute))s, such as `href` for links, can be accessed through a
 
 But HTML allows you to set any attribute you want on nodes. This can be useful because it allows you to store extra information in a document. If you make up your own attribute names, though, such attributes will not be present as properties on the element's node. Instead, you have to use the `getAttribute` and `setAttribute` methods to work with them.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p data-classified="secret">The launch code is 00000000.</p>
 <p data-classified="unclassified">I have two feet.</p>
 
@@ -352,7 +352,7 @@ The size and position of an element can be accessed from JavaScript. The `offset
 
 Similarly, `clientWidth` and `clientHeight` give you the size of the space _inside_ the element, ignoring border width.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p style="border: 3px solid red">
   I'm boxed in
 </p>
@@ -386,7 +386,7 @@ Laying out a document can be quite a lot of work. In the interest of speed, brow
 
 A program that repeatedly alternates between reading DOM layout information and changing the DOM forces a lot of layout computations to happen and will consequently run very slowly. The following code is an example of this. It contains two different programs that build up a line of _X_ characters 2,000 pixels wide and measures the time each one takes.
 
-```{lang: "text/html", test: nonumbers}
+```{lang: "html", test: nonumbers}
 <p><span id="one"></span></p>
 <p><span id="two"></span></p>
 
@@ -425,7 +425,7 @@ We have seen that different HTML elements are drawn differently. Some are displa
 
 The way an `<img>` tag shows an image or an `<a>` tag causes a link to be followed when it is clicked is strongly tied to the element type. But we can change the styling associated with an element, such as the text color or underline. Here is an example that uses the `style` property:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p><a href=".">Normal link</a></p>
 <p><a href="." style="color: green">Green link</a></p>
 ```
@@ -446,7 +446,7 @@ A style attribute may contain one or more _((declaration))s_, which are a proper
 
 A lot of aspects of the document can be influenced by styling. For example, the `display` property controls whether an element is displayed as a block or an inline element.
 
-```{lang: "text/html"}
+```{lang: "html"}
 This text is displayed <strong>inline</strong>,
 <strong style="display: block">as a block</strong>, and
 <strong style="display: none">not at all</strong>.
@@ -466,7 +466,7 @@ if}}
 
 JavaScript code can directly manipulate the style of an element through the element's `style` property. This property holds an object that has properties for all possible style properties. The values of these properties are strings, which we can write to in order to change a particular aspect of the element's style.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p id="para" style="color: purple">
   Nice text
 </p>
@@ -491,7 +491,7 @@ Some style property names contain hyphens, such as `font-family`. Because such p
 
 The styling system for HTML is called ((CSS)), for _Cascading Style Sheets_. A _style sheet_ is a set of rules for how to style elements in a document. It can be given inside a `<style>` tag.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <style>
   strong {
     font-style: italic;
@@ -550,7 +550,7 @@ The main reason I introduced _((selector))_ syntax—the notation used in style 
 
 The `querySelectorAll` method, which is defined both on the `document` object and on element nodes, takes a selector string and returns a `NodeList` containing all the elements that it matches.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>And if you go chasing
   <span class="animal">rabbits</span></p>
 <p>And you know you're going to fall</p>
@@ -593,7 +593,7 @@ The `position` style property influences layout in a powerful way. By default it
 
 We can use this to create an animation. The following document displays a picture of a cat that moves around in an ((ellipse)):
 
-```{lang: "text/html", startCode: true}
+```{lang: "html", startCode: true}
 <p style="text-align: center">
   <img src="img/cat.png" style="position: relative">
 </p>
@@ -680,7 +680,7 @@ The way a document is displayed can be influenced by _styling_, both by attachin
 
 An HTML table is built with the following tag structure:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <table>
   <tr>
     <th>name</th>
@@ -711,7 +711,7 @@ Once you have this working, right-align cells that contain number values by sett
 
 {{if interactive
 
-```{test: no, lang: "text/html"}
+```{test: no, lang: "html"}
 <h1>Mountains</h1>
 
 <div id="mountains"></div>
@@ -761,7 +761,7 @@ To find the tag name of an element, use its `nodeName` property. But note that t
 
 {{if interactive
 
-```{lang: "text/html", test: no}
+```{lang: "html", test: no}
 <h1>Heading with a <span>span</span> element.</h1>
 <p>A paragraph with <span>one</span>, <span>two</span>
   spans.</p>
@@ -812,7 +812,7 @@ To make positioning multiple objects easier, it is probably a good idea to switc
 
 {{if interactive
 
-```{lang: "text/html", test: no}
+```{lang: "html", test: no}
 <style>body { min-height: 200px }</style>
 <img src="img/cat.png" id="cat" style="position: absolute">
 <img src="img/hat.png" id="hat" style="position: absolute">

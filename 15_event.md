@@ -28,7 +28,7 @@ Of course, it has to remember to look at the queue, and to do it often, because 
 
 A better mechanism is for the system to actively notify our code when an event occurs. Browsers do this by allowing us to register functions as _handlers_ for specific events.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>Click this document to activate the handler.</p>
 <script>
   window.addEventListener("click", () => {
@@ -47,7 +47,7 @@ The `window` binding refers to a built-in object provided by the browser. It rep
 
 Each browser event handler is registered in a context. In the previous example we called `addEventListener` on the `window` object to register a handler for the whole window. Such a method can also be found on DOM elements and some other types of objects. Event listeners are called only when the event happens in the context of the object they are registered on.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <button>Click me</button>
 <p>No handler here.</p>
 <script>
@@ -72,7 +72,7 @@ But a node can have only one `onclick` attribute, so you can register only one h
 
 The `removeEventListener` method, called with arguments similar to `addEventListener`, removes a handler.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <button>Act-once button</button>
 <script>
   let button = document.querySelector("button");
@@ -94,7 +94,7 @@ The function given to `removeEventListener` has to be the same function value th
 
 Though we have ignored it so far, event handler functions are passed an argument: the _((event object))_. This object holds additional information about the event. For example, if we want to know _which_ ((mouse button)) was pressed, we can look at the event object's `button` property.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <button>Click me any way you want</button>
 <script>
   let button = document.querySelector("button");
@@ -136,7 +136,7 @@ At any point, an event handler can call the `stopPropagation` method on the even
 
 The following example registers `"mousedown"` handlers on both a button and the paragraph around it. When clicked with the right mouse button, the handler for the button calls `stopPropagation`, which will prevent the handler on the paragraph from running. When the button is clicked with another ((mouse button)), both handlers will run.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>A paragraph with a <button>button</button>.</p>
 <script>
   let para = document.querySelector("p");
@@ -157,7 +157,7 @@ Most event objects have a `target` property that refers to the node where they o
 
 It is also possible to use the `target` property to cast a wide net for a specific type of event. For example, if you have a node containing a long list of buttons, it may be more convenient to register a single click handler on the outer node and have it use the `target` property to figure out whether a button was clicked, rather than register individual handlers on all of the buttons.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <button>A</button>
 <button>B</button>
 <button>C</button>
@@ -184,7 +184,7 @@ For most types of events, the JavaScript event handlers are called _before_ the 
 
 This can be used to implement your own ((keyboard)) shortcuts or ((context menu)). It can also be used to obnoxiously interfere with the behavior that users expect. For example, here is a link that cannot be followed:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <a href="https://developer.mozilla.org/">MDN</a>
 <script>
   let link = document.querySelector("a");
@@ -207,7 +207,7 @@ Depending on the browser, some events can't be intercepted at all. On Chrome, fo
 
 When a key on the keyboard is pressed, your browser fires a `"keydown"` event. When it is released, you get a `"keyup"` event.
 
-```{lang: "text/html", focus: true}
+```{lang: "html", focus: true}
 <p>This page turns violet when you hold the V key.</p>
 <script>
   window.addEventListener("keydown", event => {
@@ -235,7 +235,7 @@ The example looked at the `key` property of the event object to see which key th
 
 Modifier keys such as [shift]{keyname}, [control]{keyname}, [alt]{keyname}, and [meta]{keyname} ([command]{keyname} on Mac) generate key events just like normal keys. But when looking for key combinations, you can also find out whether these keys are held down by looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of keyboard and mouse events.
 
-```{lang: "text/html", focus: true}
+```{lang: "html", focus: true}
 <p>Press Control-Space to continue.</p>
 <script>
   window.addEventListener("keydown", event => {
@@ -282,7 +282,7 @@ To get precise information about the place where a mouse event happened, you can
 
 The following implements a primitive drawing program. Every time you click the document, it adds a dot under your mouse pointer. See [Chapter ?](paint) for a less primitive drawing program.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <style>
   body {
     height: 200px;
@@ -316,7 +316,7 @@ Every time the mouse pointer moves, a `"mousemove"` event is fired. This event c
 
 As an example, the following program displays a bar and sets up event handlers so that dragging to the left or right on this bar makes it narrower or wider:
 
-```{lang: "text/html", startCode: true}
+```{lang: "html", startCode: true}
 <p>Drag the bar to change its width:</p>
 <div style="background: orange; width: 60px; height: 20px">
 </div>
@@ -382,7 +382,7 @@ Because many touchscreens can detect multiple fingers at the same time, these ev
 
 You could do something like this to show red circles around every touching finger:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <style>
   dot { position: absolute; display: block;
         border: 2px solid red; border-radius: 50px;
@@ -420,7 +420,7 @@ Whenever an element is scrolled, a `"scroll"` event is fired on it. This has var
 
 The following example draws a ((progress bar)) above the document and updates it to fill up as you scroll down:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <style>
   #progress {
     border-bottom: 2px solid blue;
@@ -469,7 +469,7 @@ Unlike the events discussed earlier, these two events do not propagate. A handle
 
 The following example displays help text for the ((text field)) that currently has focus:
 
-```{lang: "text/html"}
+```{lang: "html"}
 <p>Name: <input type="text" data-help="Your full name"></p>
 <p>Age: <input type="text" data-help="Your age in years"></p>
 <p id="help"></p>
@@ -606,7 +606,7 @@ If you do need to do something nontrivial in such a handler, you can use `setTim
 
 In the first example, we want to react when the user has typed something, but we don't want to do it immediately for every input event. When they are ((typing)) quickly, we just want to wait until a pause occurs. Instead of immediately performing an action in the event handler, we set a timeout. We also clear the previous timeout (if any) so that when events occur close together (closer than our timeout delay), the timeout from the previous event will be canceled.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <textarea>Type something here...</textarea>
 <script>
   let textarea = document.querySelector("textarea");
@@ -626,7 +626,7 @@ Giving an undefined value to `clearTimeout` or calling it on a timeout that has 
 
 We can use a slightly different pattern if we want to space responses so that they're separated by at least a certain length of ((time)) but want to fire them _during_ a series of events, not just afterward. For example, we might want to respond to `"mousemove"` events by showing the current coordinates of the mouse but only every 250 milliseconds.
 
-```{lang: "text/html"}
+```{lang: "html"}
 <script>
   let scheduled = null;
   window.addEventListener("mousemove", event => {
@@ -672,7 +672,7 @@ When that works, add a feature where, if you blow up the balloon past a certain 
 
 {{if interactive
 
-```{test: no, lang: "text/html", focus: yes}
+```{test: no, lang: "html", focus: yes}
 <p>🎈</p>
 
 <script>
@@ -714,7 +714,7 @@ There are various possible approaches here. You can make your solution as simple
 
 {{if interactive
 
-```{lang: "text/html", test: no}
+```{lang: "html", test: no}
 <style>
   .trail { /* className for the trail elements */
     position: absolute;
@@ -764,7 +764,7 @@ When that works, extend it to style the button for the currently selected tab di
 
 {{if interactive
 
-```{lang: "text/html", test: no}
+```{lang: "html", test: no}
 <tab-panel>
   <div data-tabname="one">Tab one</div>
   <div data-tabname="two">Tab two</div>

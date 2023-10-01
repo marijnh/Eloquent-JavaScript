@@ -483,7 +483,7 @@ It is a widely used convention for web servers to try to serve a file named `ind
 
 Thus, if we want a page to show up when a browser is pointed at our server, we should put it in `public/index.html`. This is our index file:
 
-```{lang: "text/html", includeCode: ">code/skillsharing/public/index.html"}
+```{lang: "html", includeCode: ">code/skillsharing/public/index.html"}
 <!doctype html>
 <meta charset="utf-8">
 <title>Skill Sharing</title>

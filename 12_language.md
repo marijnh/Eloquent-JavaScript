@@ -237,7 +237,7 @@ We use plain JavaScript function values to represent Egg's function values. We w
 
 {{index readability, "evaluate function", recursion, parsing}}
 
-The recursive structure of `evaluate` resembles the similar structure of the parser, and both mirror the structure of the language itself. It would also be possible to integrate the parser with the evaluator and evaluate during parsing, but splitting them up this way makes the program clearer.
+The recursive structure of `evaluate` resembles the similar structure of the parser, and both mirror the structure of the language itself. It would also be possible to combinge the parser and the evaluator into one function, and evaluate during parsing. But splitting them up this way makes the program clearer and more flexible.
 
 {{index "Egg language", interpretation}}
 

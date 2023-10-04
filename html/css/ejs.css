@@ -407,10 +407,8 @@ figure img {
   max-width: 100%;
 }
 
-details.solution {
-  color: #156;
-}
-
+details.solution { color: #156 }
+details summary { cursor: pointer }
 details[open] summary { display: none }
 
 td {

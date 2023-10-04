@@ -135,7 +135,8 @@ function chapterInteraction() {
   let article = document.getElementsByTagName("article")[0]
 
   function activateCode(node, lang) {
-    const codeId = node.querySelector("a").id
+    let scrollPos = pageYOffset
+    let codeId = node.querySelector("a").id
     let code = (window.localStorage && localStorage.getItem(codeId)) || node.textContent
     let wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node)
     let pollingScroll = null
@@ -176,6 +177,9 @@ function chapterInteraction() {
       sandboxSnippets[sandbox] = node
     }
     node.style.display = "none"
+    // Cancel weird scroll stabilization magic from brower (which
+    // doesn't work at all for this)
+    window.scrollTo(pageXOffset, scrollPos)
     return editor
   }
 
@@ -243,7 +247,7 @@ function chapterInteraction() {
   async function getSandbox(name, forHTML) {
     name = name || "null"
     if (sandboxes.hasOwnProperty(name)) return sandboxes[name]
-    let options = {loadFiles: window.sandboxLoadFiles}, html
+    let options = {loadFiles: window.page.load_files}, html
     if (sandboxSnippets.hasOwnProperty(name)) {
       let snippet = sandboxSnippets[name]
       options.place = node => placeFrame(node, snippet)

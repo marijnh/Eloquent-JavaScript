@@ -10,7 +10,6 @@ import {Tree} from "@lezer/common"
 import {html} from "@codemirror/lang-html"
 import {javascript} from "@codemirror/lang-javascript"
 import {css} from "@codemirror/lang-css"
-import {json} from "@codemirror/lang-json"
 
 const mold = new moldTemplate
 
@@ -50,7 +49,7 @@ const parsers = {
   css: css().language.parser,
   html: html().language.parser,
   javascript: javascript().language.parser,
-  json: json().language.parser
+  json: javascript().language.parser.configure({top: "SingleExpression"})
 }
 
 function highlight(lang, text) {

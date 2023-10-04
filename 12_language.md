@@ -14,7 +14,7 @@ quote}}
 
 Building your own ((programming language)) is surprisingly easy (as long as you do not aim too high) and very enlightening.
 
-The main thing I want to show in this chapter is that there is no ((magic)) involved in building your own language. I've often felt that some human inventions were so immensely clever and complicated that I'd never be able to understand them. But with a little reading and experimenting, they often turn out to be quite mundane.
+The main thing I want to show in this chapter is that there is no ((magic)) involved in building a programming language. I've often felt that some human inventions were so immensely clever and complicated that I'd never be able to understand them. But with a little reading and experimenting, they often turn out to be quite mundane.
 
 {{index "Egg language", [abstraction, "in Egg"]}}
 

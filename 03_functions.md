@@ -12,7 +12,7 @@ quote}}
 
 {{index function, [code, "structure of"]}}
 
-Functions are the bread and butter of JavaScript programming. The concept of wrapping a piece of program in a value has many uses. It gives us a way to structure larger programs, to reduce repetition, to associate names with subprograms, and to isolate these subprograms from each other.
+Functions are one of the most central tools in JavaScript programming. The concept of wrapping a piece of program in a value has many uses. It gives us a way to structure larger programs, to reduce repetition, to associate names with subprograms, and to isolate these subprograms from each other.
 
 The most obvious application of functions is defining new ((vocabulary)). Creating new words in prose is usually bad style. But in programming, it is indispensable.
 

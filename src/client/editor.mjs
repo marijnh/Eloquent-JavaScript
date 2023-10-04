@@ -17,7 +17,8 @@ export function createState(code, mode, extensions = []) {
       minimalSetup,
       syntaxHighlighting(classHighlighter),
       bracketMatching(),
-      lineNumbers()
+      lineNumbers(),
+      EditorView.contentAttributes.of({"aria-label": "Code editor"})
     ]
   })
 }

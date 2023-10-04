@@ -88,8 +88,8 @@ let renderer = {
   fence(token) {
     let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
     if (config.hidden) return "";
-    let lang = config.lang || "javascript"
-    return `\n\n<pre${attrs(token)} class="snippet cm-s-default" data-language="${lang}" ${config.focus ? " data-focus=\"true\"" : ""}${config.sandbox ? ` data-sandbox="${config.sandbox}"` : ""}${config.meta ? ` data-meta="${config.meta}"` : ""}>${anchor(token)}${highlight(lang, token.content.trimRight())}</pre>`
+    let lang = config.lang || "javascript", tab = lang == "html" || lang == "javascript" ? " tabindex=0" : ""
+    return `\n\n<pre${attrs(token)}${tab} class="snippet" data-language="${lang}" ${config.focus ? " data-focus=\"true\"" : ""}${config.sandbox ? ` data-sandbox="${config.sandbox}"` : ""}${config.meta ? ` data-meta="${config.meta}"` : ""}>${anchor(token)}${highlight(lang, token.content.trimRight())}</pre>`
   },
 
   hardbreak() { return `<br${close}>` },
@@ -173,8 +173,8 @@ let renderer = {
   meta_keyname_open() { return "<span class=\"keyname\">" },
   meta_keyname_close() { return "</span>" },
 
-  meta_hint_open() { return "\n\n<div class=\"solution\"><div class=\"solution-text\">" },
-  meta_hint_close() { return "\n\n</div></div>" }
+  meta_hint_open() { return "\n\n<details class=\"solution\"><summary>Display hints...</summary><div class=\"solution-text\">" },
+  meta_hint_close() { return "\n\n</div></details>" }
 }
 
 function renderArray(tokens) {

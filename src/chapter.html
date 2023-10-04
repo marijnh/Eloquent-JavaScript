@@ -4,18 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><<t $in.title>> :: Eloquent JavaScript</title>
   <link rel=stylesheet href="css/ejs.css">
-  <<if $in.chap_num || $in.load_files>>
-  <script>
-    <<if $in.page>>var page = <<h JSON.stringify($in.page)>><</if>>
-  </script>
+  <<if $in.page>>
+    <script>
+      var page = <<h JSON.stringify($in.page)>>
+    </script>
   <</if>>
 </head>
 
 <article>
 <nav>
-  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
-  <a href="index.html" title="cover">◆</a>
-  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
+  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter" aria-label="previous chapter">◂</a> <</if>>
+  <a href="index.html" title="cover" aria-label="cover">●</a>
+  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter" aria-label="next chapter">▸</a><</if>>
+  &nbsp;<button class=help title="help" aria-label="help">❓&#xFE0E;</button>
 </nav>
 
 <h1<<if $in.id>> id="<<t $in.id>>"<</if>>><<if $in.chap_num>><span class=chap_num>Chapter <<t $in.chap_num>></span><</if>><<t $in.title>></h1>
@@ -23,9 +24,10 @@
 <<h $in.content>>
 
 <nav>
-  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
-  <a href="index.html" title="cover">◆</a>
-  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
+  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter" aria-label="previous chapter">◂</a> <</if>>
+  <a href="index.html" title="cover" aria-label="cover">●</a>
+  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter" aria-label="next chapter">▸</a><</if>>
+  &nbsp;<button class=help title="help" aria-label="help">❓&#xFE0E;</button>
 </nav>
 </article>
 

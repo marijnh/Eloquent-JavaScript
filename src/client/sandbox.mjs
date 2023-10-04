@@ -220,8 +220,9 @@ export class Sandbox {
   resizeFrame() {
     this.frame.style.height = Math.max(80, Math.min(this.win.document.documentElement.offsetHeight + 10, 500)) + "px"
     let box = this.frame.getBoundingClientRect()
-    if (box.bottom > box.top && box.top >= 0 && box.top < window.innerHeight && box.bottom > window.innerHeight)
+    if (box.bottom > box.top && box.top >= 0 && box.top < window.innerHeight && box.bottom > window.innerHeight) {
       window.scrollBy(0, Math.min(box.top, box.bottom - window.innerHeight))
+    }
   }
 
   tick() {

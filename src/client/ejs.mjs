@@ -3,30 +3,65 @@ import {Facet} from "@codemirror/state"
 import {createState} from "./editor.mjs"
 import {Sandbox} from "./sandbox.mjs"
 
-let sandboxHint = null
-if (window.page && window.page.type == "chapter" && window.page.number < 20 &&
-    window.localStorage && !localStorage.getItem("usedSandbox")) {
-  let pres = document.getElementsByTagName("pre")
-  for (let i = 0; i < pres.length; i++) {
-    let pre = pres[i]
-    if (!/^(text\/)?(javascript|html)$/.test(pre.getAttribute("data-language")) ||
-        window.page.number == 1 && !/console\.log/.test(pre.textContent)) continue
-    sandboxHint = elt("div", {"class": "sandboxhint"},
-                      "edit & run code by clicking it")
-    pre.insertBefore(sandboxHint, pre.firstChild)
-    break
-  }
-}
+function chapterInteraction() {
+  document.querySelectorAll("button.help").forEach(button => {
+    button.style.display = "inline"
+    button.addEventListener("click", showHelp)
+  })
+  document.body.addEventListener("keydown", e => {
+    let active = document.activeElement
+    if (e.key == "?" && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      if (!active || (active.contentEditable != "true" && active.nodeName != "INPUT")) {
+        e.preventDefault()
+        showHelp()
+      }
+    }
+    if (e.key == "Enter" && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      let editor = active && maybeActivateCode(active)
+      if (editor) {
+        e.preventDefault()
+        editor.focus()
+      }
+    }
+  })
 
-function makeCodeInteractive() {
-  document.body.addEventListener("click", e => {
+  function showHelp() {
+    let popup = document.body.appendChild(document.createElement("div"))
+    popup.className = "popup"
+    popup.appendChild(document.createElement("h2")).textContent = "Instructions"
+    popup.appendChild(document.createElement("p")).textContent = `Code on this page can be edited and run by clicking it or moving focus to it and pressing Enter. Code executed this way shares its environment with other code ran on the page, and some pre-defined code for the chapter. When inside the code editor, the following keyboard shortcuts are available.`
+    let mod = /Mac/.test(navigator.platform) ? "Cmd-" : "Ctrl-"
+    for (let [key, desc] of [
+      [mod + "Enter", "Run code"],
+      [mod + "j", "Revert code"],
+      [mod + "↓", "Deactivate editor"],
+      [mod + "Escape", "Reset environment"],
+    ]) {
+      let b = popup.appendChild(document.createElement("div"))
+      b.appendChild(document.createElement("kbd")).textContent = key
+      b.appendChild(document.createTextNode(": " + desc))
+    }
+    popup.tabIndex = 0
+    popup.addEventListener("blur", () => popup.remove())
+    popup.addEventListener("keydown", e => {
+      if (e.key == "Escape") { e.preventDefault(); popup.remove() }
+    })
+    popup.focus()
+  }
+
+  document.body.addEventListener("mousedown", e => {
     for (let n = e.target; n; n = n.parentNode) {
       if (n.className == "c_ident") return
-      let lang = n.nodeName == "PRE" && n.getAttribute("data-language")
-      if (/^(text\/)?(javascript|html)$/.test(lang))
-        return activateCode(n, e, lang)
-      if (n.nodeName == "DIV" && n.className == "solution")
-        n.className = "solution open"
+      let editor = maybeActivateCode(n)
+      if (editor) {
+        e.preventDefault()
+        setTimeout(() => {
+          let pos = editor.posAtCoords({x: e.clientX, y: e.clientY}, false)
+          editor.dispatch({selection: {anchor: pos}})
+          editor.focus()
+        }, 20)
+        return
+      }
     }
   })
 
@@ -70,38 +105,36 @@ function makeCodeInteractive() {
       cm.contentDOM.blur()
       return true
     }},
-    {key: "Ctrl-Enter", run(cm) {
+    {key: "Mod-Enter", run(cm) {
       runCode(cm)
       return true
     }},
-    {key: "Cmd-Enter", run(cm) {
-      runCode(cm)
+    {key: "Mod-j", run(cm) {
+      revertCode(cm)
       return true
     }},
-    {key: "Ctrl-ArrowDown", run(cm) {
+    {key: "Mod-ArrowDown", run(cm) {
       closeCode(cm)
       return true
     }},
-    {key: "Ctrl-Escape", run(cm) {
-      resetSandbox(cm.state.facet(contextFacet).sandbox)
-      return true
-    }},
-    {key: "Cmd-Escape", run(cm) {
+    {key: "Mod-Escape", run(cm) {
       resetSandbox(cm.state.facet(contextFacet).sandbox)
       return true
     }}
   ])
 
+  function maybeActivateCode(element) {
+    if (element.nodeName == "PRE") {
+      let lang = element.getAttribute("data-language")
+      if (/^(javascript|html)$/.test(lang))
+        return activateCode(element, lang)
+    }
+  }
+
   let nextID = 0
   let article = document.getElementsByTagName("article")[0]
 
-  function activateCode(node, e, lang) {
-    if (sandboxHint) {
-      sandboxHint.parentNode.removeChild(sandboxHint)
-      sandboxHint = null
-      localStorage.setItem("usedSandbox", "true")
-    }
-
+  function activateCode(node, lang) {
     const codeId = node.querySelector("a").id
     let code = (window.localStorage && localStorage.getItem(codeId)) || node.textContent
     let wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node)
@@ -135,35 +168,20 @@ function makeCodeInteractive() {
       contextFacet.of(context)
     ])
     let editor = new EditorView({state: editorState, parent: wrap})
-    wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px"
-    setTimeout(() => editor.requestMeasure(), 600)
-    if (e) {
-      let pos = editor.posAtCoords({x: e.clientX, y: e.clientY}, false)
-      editor.dispatch({selection: {anchor: pos}})
-      editor.focus()
-    }
-    let out = wrap.appendChild(elt("div", {"class": "sandbox-output"}))
+    let out = wrap.appendChild(elt("div", {"class": "sandbox-output", "aria-live": "polite"}))
     context.output = new Sandbox.Output(out)
-    let menu = wrap.appendChild(elt("div", {"class": "sandbox-menu", title: "Sandbox menu..."}))
     if (lang == "text/html" && !sandbox) {
       sandbox = "html" + nextID++
       node.setAttribute("data-sandbox", sandbox)
       sandboxSnippets[sandbox] = node
     }
     node.style.display = "none"
-
-    menu.addEventListener("click", () => openMenu(editor, menu))
+    return editor
   }
 
   function openMenu(editor, node) {
     let menu = elt("div", {"class": "sandbox-open-menu"})
     let context = editor.state.facet(contextFacet)
-    let items = [["Run code (ctrl/cmd-enter)", () => runCode(editor)],
-                 ["Revert to original code", () => revertCode(editor)],
-                 ["Reset sandbox (ctrl/cmd-esc)", () => resetSandbox(context.sandbox)]]
-    if (!context.isHTML || !context.sandbox)
-      items.push(["Deactivate editor (ctrl-down)", () => { closeCode(editor) }])
-    items.forEach(choice => menu.appendChild(elt("div", choice[0])))
     function click(e) {
       let target = e.target
       if (e.target.parentNode == menu) {
@@ -249,7 +267,7 @@ function makeCodeInteractive() {
     let wrap = snippet.previousSibling, bot
     if (!wrap || wrap.className != "editor-wrap") {
       bot = snippet.getBoundingClientRect().bottom
-      activateCode(snippet, null, "html")
+      activateCode(snippet, "html")
       wrap = snippet.previousSibling
     } else {
       bot = wrap.getBoundingClientRect().bottom
@@ -270,4 +288,4 @@ function debounce(fn, delay = 50) {
   }
 }
 
-if (window.page && /^chapter|hints$/.test(window.page.type)) makeCodeInteractive()
+if (window.page && /^chapter|hints$/.test(window.page.type)) chapterInteraction()

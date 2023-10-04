@@ -150,7 +150,7 @@ function chapterInteraction() {
     let context = {
       wrap: wrap,
       orig: node,
-      isHTML: lang == "text/html",
+      isHTML: lang == "html",
       sandbox,
       meta: node.getAttribute("data-meta")
     }
@@ -171,8 +171,8 @@ function chapterInteraction() {
     let editor = new EditorView({state: editorState, parent: wrap})
     let out = wrap.appendChild(elt("div", {"class": "sandbox-output", "aria-live": "polite"}))
     context.output = new Sandbox.Output(out)
-    if (lang == "text/html" && !sandbox) {
-      sandbox = "html" + nextID++
+    if (lang == "html" && !sandbox) {
+      sandbox = context.sandbox = "html" + nextID++
       node.setAttribute("data-sandbox", sandbox)
       sandboxSnippets[sandbox] = node
     }

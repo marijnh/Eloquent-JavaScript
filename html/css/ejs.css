@@ -307,7 +307,7 @@ blockquote footer:before {
 .tok-number, .sandbox-output-number {color: #042}
 .tok-definition {color: #009}
 .tok-variableName2 {color: #027}
-.tok-type {color: #072}
+.tok-typeName {color: #072}
 .tok-comment {color: #740}
 .tok-string, .sandbox-output-string {color: #700}
 .tok-string2 {color: #c40}

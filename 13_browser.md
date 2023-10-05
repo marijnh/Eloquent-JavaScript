@@ -16,7 +16,7 @@ The next chapters of this book will talk about web browsers. Without web ((brows
 
 Web technology has been decentralized from the start, not just technically but also in the way it evolved. Various browser vendors have added new functionality in ad hoc and sometimes poorly thought-out ways, which then, sometimes, ended up being adopted by others—and finally set down as in ((standards)).
 
-This is both a blessing and a curse. On the one hand, it is empowering to not have a central party control a system but have it be improved by various parties working in loose ((collaboration)) (or occasionally open hostility). On the other hand, the haphazard way in which the Web was developed means that the resulting system is not exactly a shining example of internal ((consistency)). Some parts of it are downright confusing and poorly conceived.
+This is both a blessing and a curse. On the one hand, it is empowering to not have a central party control a system but have it be improved by various parties working in loose ((collaboration)) (or occasionally open hostility). On the other hand, the haphazard way in which the Web was developed means that the resulting system is not exactly a shining example of internal ((consistency)). Some parts of it are downright confusing and badly designed.
 
 ## Networks and the Internet
 
@@ -32,9 +32,9 @@ A _network ((protocol))_ describes a style of communication over a ((network)). 
 
 {{indexsee "Hypertext Transfer Protocol", HTTP}}
 
-For example, the _Hypertext Transfer Protocol_ (((HTTP))) is a protocol for retrieving named ((resource))s (chunks of information, such as web pages or pictures). It specifies that the side making the request should start with a line like this, naming the resource and the version of the protocol that it is trying to use:
+The _Hypertext Transfer Protocol_ (((HTTP))) is a protocol for retrieving named ((resource))s (chunks of information, such as web pages or pictures). It specifies that the side making the request should start with a line like this, naming the resource and the version of the protocol that it is trying to use:
 
-```{lang: "null"}
+```{lang: http}
 GET /index.html HTTP/1.1
 ```
 
@@ -42,7 +42,7 @@ There are a lot more rules about the way the requester can include more informat
 
 {{index layering, stream, ordering}}
 
-Most protocols are built on top of other protocols. HTTP treats the network as a streamlike device into which you can put bits and have them arrive at the correct destination in the correct order. As we saw in [Chapter ?](async), ensuring those things is already a rather difficult problem.
+Most protocols are built on top of other protocols. HTTP treats the network as a streamlike device into which you can put bits and have them arrive at the correct destination in the correct order. Ensuring that on top of the primitive data-sending that the network gives you is already a rather tricky problem.
 
 {{index TCP}}
 
@@ -130,7 +130,7 @@ The tags, wrapped in ((angle brackets)) (`<` and `>`, the symbols for _less than
 
 {{index doctype, version}}
 
-The document starts with `<!doctype html>`, which tells the browser to interpret the page as _modern_ HTML, as opposed to various dialects that were in use in the past.
+The document starts with `<!doctype html>`, which tells the browser to interpret the page as _modern_ HTML, as opposed to obsolete styles that were used in the past.
 
 {{index "head (HTML tag)", "body (HTML tag)", "title (HTML tag)", "h1 (HTML tag)", "p (HTML tag)"}}
 
@@ -150,11 +150,11 @@ To be able to include ((angle brackets)) in the text of a document, even though 
 
 {{index ["backslash character", "in strings"], "ampersand character", "double-quote character"}}
 
-This is analogous to the way backslashes are used in JavaScript strings. Since this mechanism gives ampersand characters a special meaning, too, they need to be escaped as `&amp;`. Inside attribute values, which are wrapped in double quotes, `&quot;` can be used to insert an actual quote character.
+This is analogous to the way backslashes are used in JavaScript strings. Since this mechanism gives ampersand characters a special meaning too, they need to be escaped as `&amp;`. Inside attribute values, which are wrapped in double quotes, `&quot;` can be used to insert an actual quote character.
 
 {{index "error tolerance", parsing}}
 
-HTML is parsed in a remarkably error-tolerant way. When tags that should be there are missing, the browser reconstructs them. The way in which this is done has been standardized, and you can rely on all modern browsers to do it in the same way.
+HTML is parsed in a remarkably error-tolerant way. When tags that should be there are missing, the browser automatically adds them. The way in which this is done has been standardized, and you can rely on all modern browsers to do it in the same way.
 
 The following document will be treated just like the one shown previously:
 

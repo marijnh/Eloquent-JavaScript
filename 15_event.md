@@ -10,7 +10,7 @@ quote}}
 
 {{figure {url: "img/chapter_picture_15.jpg", alt: "Illustration showing a Rube Goldberg machine involving a ball, a see-saw, a pair of scissors, and a hammer, which affect each other in a chain reaction that turns on a lightbulb.", chapter: "framed"}}}
 
-Some programs work with direct user input, such as mouse and keyboard actions. That kind of input isn't available as a well-organized data structure—it comes in piece by piece, in real time, and the program is expected to respond to it as it happens.
+Some programs work with direct user input, such as mouse and keyboard actions. That kind of input isn't available ahead of time, as a well-organized data structure—it comes in piece by piece, in real time, and the program must respond to it as it happens.
 
 ## Event handlers
 

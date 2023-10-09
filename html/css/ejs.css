@@ -62,11 +62,12 @@ div.popup {
   max-width: min(35rem, 90%);
   margin: auto;
   border: 1px solid #4ab;
-  padding: 0 1em 1em;
+  padding: 0 1.5em 1em;
   background: white;
   max-height: 80%;
   overflow-y: auto;
   overflow-x: hidden;
+  outline: 1000px solid #ffffffbb;
 }
 
 div.popup kbd {

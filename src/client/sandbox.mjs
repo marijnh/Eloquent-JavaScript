@@ -144,20 +144,20 @@ export class Sandbox {
       sandbox.startedAt = Date.now()
       sandbox.extraSecs = 2
       sandbox.win.__c = 0
-      let tag = scriptTags[i]
       if (tag.src) {
+        doc.body.appendChild(tag)
         await awaitEvent(tag, "load")
       } else {
         await new Promise(ok => {
           let id = randomID()
           sandbox.callbacks[id] = () => { delete sandbox.callbacks[id]; ok() }
           tag.text += "\n;__sandbox.callbacks['" + id + "']();"
+          doc.body.appendChild(tag)
         })
       }
-      doc.body.appendChild(tag)
     }
 
-    if (scriptTags.length) setTimeout(() => {sandbox.resizeFrame()}, 50)
+    if (scriptTags.length || doc.querySelector("img")) setTimeout(() => sandbox.resizeFrame(), 100)
   }
 
   setupEnv() {
@@ -218,7 +218,7 @@ export class Sandbox {
   }
 
   resizeFrame() {
-    this.frame.style.height = Math.max(80, Math.min(this.win.document.documentElement.offsetHeight + 10, 500)) + "px"
+    this.frame.style.height = Math.max(80, Math.min(this.win.document.documentElement.offsetHeight + 2, 500)) + "px"
     let box = this.frame.getBoundingClientRect()
     if (box.bottom > box.top && box.top >= 0 && box.top < window.innerHeight && box.bottom > window.innerHeight) {
       window.scrollBy(0, Math.min(box.top, box.bottom - window.innerHeight))

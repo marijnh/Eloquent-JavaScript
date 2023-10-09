@@ -180,6 +180,7 @@ function chapterInteraction() {
     // Cancel weird scroll stabilization magic from brower (which
     // doesn't work at all for this)
     window.scrollTo(pageXOffset, scrollPos)
+    setTimeout(() => window.scrollTo(pageXOffset, scrollPos), 20)
     return editor
   }
 

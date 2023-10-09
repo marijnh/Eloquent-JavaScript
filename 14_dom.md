@@ -10,7 +10,7 @@ quote}}
 
 {{index drawing, parsing}}
 
-When you open a web page in your browser, the browser retrieves the page's ((HTML)) text and parses it, much like the way our parser from [Chapter ?](language#parsing) parsed programs. The browser builds up a model of the document's ((structure)) and uses this model to draw the page on the screen.
+When you open a web page, your browser retrieves the page's ((HTML)) text and parses it, much like the way our parser from [Chapter ?](language#parsing) parsed programs. The browser builds up a model of the document's ((structure)) and uses this model to draw the page on the screen.
 
 {{index "live data structure"}}
 
@@ -87,7 +87,7 @@ The leaves are text nodes, and the arrows indicate parent-child relationships be
 
 {{index "programming language", [interface, design], [DOM, interface]}}
 
-Using cryptic numeric codes to represent node types is not a very JavaScript-like thing to do. Later in this chapter, we'll see that other parts of the DOM interface also feel cumbersome and alien. The reason for this is that the DOM wasn't designed for just JavaScript. Rather, it tries to be a language-neutral interface that can be used in other systems as well—not just for HTML but also for ((XML)), which is a generic ((data format)) with an HTML-like syntax.
+Using cryptic numeric codes to represent node types is not a very JavaScript-like thing to do. Later in this chapter, we'll see that other parts of the DOM interface also feel cumbersome and alien. The reason for this is that the DOM interface wasn't designed for just JavaScript. Rather, it tries to be a language-neutral interface that can be used in other systems as well—not just for HTML but also for ((XML)), which is a generic ((data format)) with an HTML-like syntax.
 
 {{index consistency, integration}}
 
@@ -221,7 +221,7 @@ Say we want to write a script that replaces all ((image))s (`<img>` tags) in the
 
 {{index "createTextNode method"}}
 
-This involves not only removing the images but adding a new text node to replace them. Text nodes are created with the `document.createTextNode` method.
+This involves not only removing the images but adding a new text node to replace them.
 
 ```{lang: "html"}
 <p>The <img src="img/cat.png" alt="Cat"> in the
@@ -703,7 +703,7 @@ Given a data set of mountains, an array of objects with `name`, `height`, and `p
 
 Write this so that the columns are automatically derived from the objects, by taking the property names of the first object in the data.
 
-Add the resulting table to the element with an `id` attribute of `"mountains"` so that it becomes visible in the document.
+Show the resulting table in the document by appending it to the element that has an `id` attribute of `"mountains"`.
 
 {{index "right-aligning", "text-align (CSS)"}}
 
@@ -745,7 +745,7 @@ You'll want to loop over the key names once to fill in the top row and then agai
 
 {{index "getElementById method", "querySelector method"}}
 
-To add the table to the correct parent node, you can use `document.getElementById` or `document.querySelector` to find the node with the proper `id` attribute.
+To add the table to the correct parent node, you can use `document.getElementById` or `document.querySelector` with `"#mountains"` to find the node.
 
 hint}}
 

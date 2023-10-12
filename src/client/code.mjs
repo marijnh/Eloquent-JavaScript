@@ -96,7 +96,7 @@ class CodeSandbox {
       if (guessed == "javascript")
         code = "// " + code
       else
-        code = "<!-- " + code + "-->"
+        code = "<!-- " + code + " -->"
       if (chapter.start_code) code += "\n\n" + chapter.start_code
       this.setEditorState(code, {include: chapter.include})
       visible = "box"

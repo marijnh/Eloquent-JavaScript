@@ -33,10 +33,10 @@ export class Sandbox {
     let scripts = (options.loadFiles || []).map(file => {
       let script = box.win.document.createElement("script")
       script.src = file
-      return box.win.document.body.appendChild(script)
+      box.win.document.body.appendChild(script)
+      return awaitEvent(script, "load")
     })
-    if (scripts.length)
-      await awaitEvent(scripts[scripts.length - 1], "load")
+    await Promise.all(scripts)
     return box
   }
 

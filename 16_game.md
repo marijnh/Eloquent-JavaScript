@@ -112,10 +112,12 @@ class Level {
     this.rows = rows.map((row, y) => {
       return row.map((ch, x) => {
         let type = levelChars[ch];
-        if (typeof type == "string") return type;
-        this.startActors.push(
-          type.create(new Vec(x, y), ch));
-        return "empty";
+        if (typeof type != "string") {
+          let pos = new Vec(x, y);
+          this.startActors.push(type.create(pos, ch));
+          type = "empty";
+        }
+        return type;
       });
     });
   }
@@ -136,7 +138,7 @@ To create these arrays, we map over the rows and then over their content. Rememb
 
 {{index "static method"}}
 
-To interpret the characters in the plan, the `Level` constructor uses the `levelChars` object, which maps background elements to strings and actor characters to classes. When `type` is an actor class, its static `create` method is used to create an object, which is added to `startActors`, and the mapping function returns `"empty"` for this background square.
+To interpret the characters in the plan, the `Level` constructor uses the `levelChars` object, which, for each character used in the level descriptions, holds a string if it is a background type, and a class if it produces an actor. When `type` is an actor class, its static `create` method is used to create an object, which is added to `startActors`, and the mapping function returns `"empty"` for this background square.
 
 {{index "Vec class"}}
 
@@ -484,7 +486,7 @@ After touching ((lava)), the player's color turns dark red, suggesting scorching
 
 We can't assume that the level always fits in the _viewport_—the element into which we draw the game. That is why the `scrollPlayerIntoView` call is needed. It ensures that if the level is protruding outside the viewport, we scroll that viewport to make sure the player is near its center. The following ((CSS)) gives the game's wrapping DOM element a maximum size and ensures that anything that sticks out of the element's box is not visible. We also give it a relative position so that the actors inside it are positioned relative to the level's top-left corner.
 
-```{lang: "css"}
+```{lang: css}
 .game {
   overflow: hidden;
   max-width: 600px;
@@ -538,7 +540,7 @@ It would have been slightly simpler to always try to scroll the player to the ce
 
 We are now able to display our tiny level.
 
-```{lang: "html"}
+```{lang: html}
 <link rel="stylesheet" href="css/game.css">
 
 <script>
@@ -562,7 +564,7 @@ The `<link>` tag, when used with `rel="stylesheet"`, is a way to load a CSS file
 
 {{index physics, [animation, "platform game"]}}
 
-Now we're at the point where we can start adding motion—the most interesting aspect of the game. The basic approach, taken by most games like this, is to split ((time)) into small steps and, for each step, move the actors by a distance corresponding to their speed multiplied by the size of the time step. We'll measure time in seconds, so speeds are expressed in units per second.
+Now we're at the point where we can start adding motion. The basic approach, taken by most games like this, is to split ((time)) into small steps and, for each step, move the actors by a distance corresponding to their speed multiplied by the size of the time step. We'll measure time in seconds, so speeds are expressed in units per second.
 
 {{index obstacle, "collision detection"}}
 
@@ -753,7 +755,7 @@ Vertical motion works in a similar way but has to simulate ((jumping)) and ((gra
 
 We check for walls again. If we don't hit any, the new position is used. If there _is_ a wall, there are two possible outcomes. When the up arrow is pressed _and_ we are moving down (meaning the thing we hit is below us), the speed is set to a relatively large, negative value. This causes the player to jump. If that is not the case, the player simply bumped into something, and the speed is set to zero.
 
-The gravity strength, ((jumping)) speed, and pretty much all other ((constant))s in this game have been set by ((trial and error)). I tested values until I found a combination I liked.
+The gravity strength, ((jumping)) speed, and pretty much all other ((constant))s in this game have been set purely by ((trial and error)). I tested values until I found a combination I liked.
 
 ## Tracking keys
 
@@ -875,7 +877,7 @@ Because we made `runLevel` return a promise, `runGame` can be written using an `
 
 There is a set of ((level)) plans available in the `GAME_LEVELS` binding in [this chapter's sandbox](https://eloquentjavascript.net/code#16)[ ([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if book}. This page feeds them to `runGame`, starting an actual game.
 
-```{sandbox: null, focus: yes, lang: "html", startCode: true}
+```{sandbox: null, focus: yes, lang: html, startCode: true}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -887,7 +889,7 @@ There is a set of ((level)) plans available in the `GAME_LEVELS` binding in [thi
 
 {{if interactive
 
-See if you can beat those. I had quite a lot of fun building them.
+See if you can beat those. I had fun building them.
 
 if}}
 
@@ -905,7 +907,7 @@ Adjust `runGame` to implement lives. Have the player start with three. Output th
 
 {{if interactive
 
-```{lang: "html", test: no, focus: yes}
+```{lang: html, test: no, focus: yes}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -946,7 +948,7 @@ When you have that working, there is something else you could try. The way we ha
 
 {{if interactive
 
-```{lang: "html", focus: yes, test: no}
+```{lang: html, focus: yes, test: no}
 <link rel="stylesheet" href="css/game.css">
 
 <body>
@@ -1010,7 +1012,7 @@ When a monster touches the player, the effect depends on whether the player is j
 
 {{if interactive
 
-```{test: no, lang: "html", focus: yes}
+```{test: no, lang: html, focus: yes}
 <link rel="stylesheet" href="css/game.css">
 <style>.monster { background: purple }</style>
 

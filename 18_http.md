@@ -110,7 +110,7 @@ A moderately complicated ((website)) can easily include anywhere from 10 to 200 
 
 HTML pages may include _((form))s_, which allow the user to fill out information and send it to the server. This is an example of a form:
 
-```{lang: "html"}
+```{lang: html}
 <form method="GET" action="example/message.html">
   <p>Name: <input type="text" name="name"></p>
   <p>Message:<br><textarea name="message"></textarea></p>
@@ -315,7 +315,7 @@ A lot of field types use the `<input>` tag. This tag's `type` attribute is used 
 
 Form fields do not necessarily have to appear in a `<form>` tag. You can put them anywhere in a page. Such form-less fields cannot be ((submit))ted (only a form as a whole can), but when responding to input with JavaScript, we often don't want to submit our fields normally anyway.
 
-```{lang: "html"}
+```{lang: html}
 <p><input type="text" value="abc"> (text)</p>
 <p><input type="password" value="abc"> (password)</p>
 <p><input type="checkbox" checked> (checkbox)</p>
@@ -339,7 +339,7 @@ The JavaScript interface for such elements differs with the type of the element.
 
 Multiline text fields have their own tag, `<textarea>`, mostly because using an attribute to specify a multiline starting value would be awkward. The `<textarea>` tag requires a matching `</textarea>` closing tag and uses the text between those two, instead of the `value` attribute, as starting text.
 
-```{lang: "html"}
+```{lang: html}
 <textarea>
 one
 two
@@ -351,7 +351,7 @@ three
 
 Finally, the `<select>` tag is used to create a field that allows the user to select from a number of predefined options.
 
-```{lang: "html"}
+```{lang: html}
 <select>
   <option>Pancakes</option>
   <option>Pudding</option>
@@ -387,7 +387,7 @@ Thus, you can type into a ((text field)) only when it is focused. Other fields r
 
 We can control ((focus)) from JavaScript with the `focus` and `blur` methods. The first moves focus to the DOM element it is called on, and the second removes focus. The value in `document.activeElement` corresponds to the currently focused element.
 
-```{lang: "html"}
+```{lang: html}
 <input type="text">
 <script>
   document.querySelector("input").focus();
@@ -407,7 +407,7 @@ For some pages, the user is expected to want to interact with a form field immed
 
 Browsers traditionally also allow the user to move the focus through the document by pressing the [tab]{keyname} key. We can influence the order in which elements receive focus with the `tabindex` attribute. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
 
-```{lang: "html", focus: true}
+```{lang: html, focus: true}
 <input type="text" tabindex=1> <a href=".">(help)</a>
 <button onclick="console.log('ok')" tabindex=2>OK</button>
 ```
@@ -422,7 +422,7 @@ By default, most types of HTML elements cannot be focused. But you can add a `ta
 
 All ((form)) ((field))s can be _disabled_ through their `disabled` attribute. It is an ((attribute)) that can be specified without value—the fact that it is present at all disables the element.
 
-```{lang: "html"}
+```{lang: html}
 <button>I'm all right</button>
 <button disabled>I'm out</button>
 ```
@@ -449,7 +449,7 @@ When a ((field)) is contained in a `<form>` element, its DOM element will have a
 
 The `name` attribute of a form field determines the way its value will be identified when the form is ((submit))ted. It can also be used as a property name when accessing the form's `elements` property, which acts both as an array-like object (accessible by number) and a ((map)) (accessible by name).
 
-```{lang: "html"}
+```{lang: html}
 <form action="example/submit.html">
   Name: <input type="text" name="name"><br>
   Password: <input type="password" name="password"><br>
@@ -474,7 +474,7 @@ A button with a `type` attribute of `submit` will, when pressed, cause the form 
 
 Submitting a ((form)) normally means that the ((browser)) navigates to the page indicated by the form's `action` attribute, using either a `GET` or a `POST` ((request)). But before that happens, a `"submit"` event is fired. You can handle this event with JavaScript and prevent this default behavior by calling `preventDefault` on the event object.
 
-```{lang: "html"}
+```{lang: html}
 <form action="example/submit.html">
   Value: <input type="text" name="value">
   <button type="submit">Save</button>
@@ -506,7 +506,7 @@ The `selectionStart` and `selectionEnd` properties of ((text field))s give us in
 
 Imagine you are writing an article about Khasekhemwy but have some trouble spelling his name. The following code wires up a `<textarea>` tag with an event handler that, when you press F2, inserts the string "Khasekhemwy" for you.
 
-```{lang: "html"}
+```{lang: html}
 <textarea></textarea>
 <script>
   let textarea = document.querySelector("textarea");
@@ -538,7 +538,7 @@ The `"change"` event for a ((text field)) does not fire every time something is 
 
 The following example shows a text field and a counter displaying the current length of the text in the field:
 
-```{lang: "html"}
+```{lang: html}
 <input type="text"> length: <span id="length">0</span>
 <script>
   let text = document.querySelector("input");
@@ -555,7 +555,7 @@ The following example shows a text field and a counter displaying the current le
 
 A ((checkbox)) field is a binary toggle. Its value can be extracted or changed through its `checked` property, which holds a Boolean value.
 
-```{lang: "html"}
+```{lang: html}
 <label>
   <input type="checkbox" id="purple"> Make this page purple
 </label>
@@ -576,7 +576,7 @@ The `<label>` tag associates a piece of document with an input ((field)). Clicki
 
 A ((radio button)) is similar to a checkbox, but it's implicitly linked to other radio buttons with the same `name` attribute so that only one of them can be active at any time.
 
-```{lang: "html"}
+```{lang: html}
 Color:
 <label>
   <input type="radio" name="color" value="orange"> Orange
@@ -623,7 +623,7 @@ The `<option>` tags for a `<select>` field can be accessed as an array-like obje
 
 This example extracts the selected values from a `multiple` select field and uses them to compose a binary number from individual bits. Hold [control]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
 
-```{lang: "html"}
+```{lang: html}
 <select multiple>
   <option value="1">0001</option>
   <option value="2">0010</option>
@@ -653,7 +653,7 @@ File fields were originally designed as a way to ((upload)) files from the user'
 
 A file field usually looks like a button labeled with something like "choose file" or "browse", with information about the chosen file next to it.
 
-```{lang: "html"}
+```{lang: html}
 <input type="file">
 <script>
   let input = document.querySelector("input");
@@ -681,7 +681,7 @@ Objects in the `files` object have properties such as `name` (the filename), `si
 
 What it does not have is a property that contains the content of the file. Getting at that is a little more involved. Since reading a file from disk can take time, the interface must be asynchronous to avoid freezing the document.
 
-```{lang: "html"}
+```{lang: html}
 <input type="file" multiple>
 <script>
   let input = document.querySelector("input");
@@ -756,7 +756,7 @@ Browsers do enforce a limit on the size of the data a site can store in `localSt
 
 The following code implements a crude note-taking application. It keeps a set of named notes and allows the user to edit notes and create new ones.
 
-```{lang: "html", startCode: true}
+```{lang: html, startCode: true}
 Notes: <select></select> <button>Add</button><br>
 <textarea style="width: 100%"></textarea>
 
@@ -892,7 +892,7 @@ Put a button next to a `<textarea>` field that, when pressed, uses the `Function
 
 {{if interactive
 
-```{lang: "html", test: no}
+```{lang: html, test: no}
 <textarea id="code">return "hi";</textarea>
 <button id="button">Run</button>
 <pre id="output"></pre>
@@ -944,7 +944,7 @@ Implement this game using whichever ((data structure)) you find appropriate. Use
 
 {{if interactive
 
-```{lang: "html", test: no}
+```{lang: html, test: no}
 <div id="grid"></div>
 <button id="next">Next generation</button>
 

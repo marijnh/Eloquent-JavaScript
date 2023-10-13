@@ -72,11 +72,11 @@ A new canvas is empty, meaning it is entirely ((transparent)) and thus shows up 
 
 {{index "2d (canvas context)", "webgl (canvas context)", OpenGL, [canvas, context], dimensions, [interface, canvas]}}
 
-The `<canvas>` tag is intended to allow different styles of ((drawing)). To get access to an actual drawing interface, we first need to create a _((context))_, an object whose methods provide the drawing interface. There are currently two widely supported drawing styles: `"2d"` for two-dimensional graphics and `"webgl"` for three-dimensional graphics through the OpenGL interface.
+The `<canvas>` tag is intended to allow different styles of ((drawing)). To get access to an actual drawing interface, we first need to create a _((context))_, an object whose methods provide the drawing interface. There are currently three widely supported drawing styles: `"2d"` for two-dimensional graphics and `"webgl"` for three-dimensional graphics through the OpenGL interface, and `"webgpu"`, which fills much the same role as WebGL, but provides a more modern interface.
 
 {{index rendering, graphics, efficiency}}
 
-This book won't discuss WebGL—we'll stick to two dimensions. But if you are interested in three-dimensional graphics, I do encourage you to look into WebGL. It provides a direct interface to graphics hardware and allows you to render even complicated scenes efficiently, using JavaScript.
+This book won't discuss WebGL or WebGPU—we'll stick to two dimensions. But if you are interested in three-dimensional graphics, I do encourage you to look into WebGPU. It provides a direct interface to graphics hardware and allows you to render even complicated scenes efficiently, using JavaScript.
 
 {{index "getContext method", [canvas, context]}}
 

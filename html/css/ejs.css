@@ -87,6 +87,7 @@ pre {
   margin: 1rem 0;
   max-width: 100%;
   overflow-x: auto;
+  color: black;
 }
 
 pre[data-language=javascript] {

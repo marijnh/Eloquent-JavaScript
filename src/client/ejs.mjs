@@ -207,7 +207,7 @@ function chapterInteraction() {
     let val = editor.state.doc.toString()
     getSandbox(context.sandbox, context.isHTML).then(box => {
       if (context.isHTML)
-        box.setHTML(val, context.output, () => {
+        box.setHTML(val, context.output).then(() => {
           if (context.orig.getAttribute("data-focus")) {
             box.win.focus()
             box.win.document.body.focus()

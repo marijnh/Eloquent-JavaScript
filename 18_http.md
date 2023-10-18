@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/chapter/18_http.js"]}}}
+{{meta {}}}
 
 # HTTP and Forms
 
@@ -32,9 +32,9 @@ Then the server responds, through that same connection.
 
 ```{lang: http}
 HTTP/1.1 200 OK
-Content-Length: 65585
+Content-Length: 140596
 Content-Type: text/html
-Last-Modified: Mon, 08 Jan 2018 10:29:45 GMT
+Last-Modified: Fri, 13 Oct 2023 10:05:41 GMT
 
 <!doctype html>
 ... the rest of the document
@@ -81,22 +81,20 @@ Status codes starting with a 2 indicate that the request succeeded. Codes starti
 The first line of a request or response may be followed by any number of _((header))s_. These are lines in the form `name: value` that specify extra information about the request or response. These headers were part of the example ((response)):
 
 ```{lang: null}
-Content-Length: 65585
+Content-Length: 140596
 Content-Type: text/html
-Last-Modified: Thu, 04 Jan 2018 14:05:30 GMT
+Last-Modified: Fri, 13 Oct 2023 10:05:41 GMT
 ```
 
 {{index "Content-Length header", "Content-Type header", "Last-Modified header"}}
 
-This tells us the size and type of the response document. In this case, it is an HTML document of 65,585 bytes. It also tells us when that document was last modified.
+This tells us the size and type of the response document. In this case, it is an HTML document of 140,596 bytes. It also tells us when that document was last modified.
 
-{{index "Host header", domain}}
-
-For most ((header))s, the client and server are free to decide whether to include them in a ((request)) or ((response)). But a few are required. For example, the `Host` header, which specifies the hostname, should be included in a request because a ((server)) might be serving multiple hostnames on a single ((IP address)), and without that header, the server won't know which hostname the client is trying to talk to.
+The client and server are free to decide what ((header))s to include in their ((request))s or ((response))s. But some of them are necessary for things to work. For example, without a `Content-Type` header in the response, the browser won't know how to display the document.
 
 {{index "GET method", "DELETE method", "PUT method", "POST method", "body (HTTP)"}}
 
-After the headers, both requests and responses may include a blank line followed by a body, which contains the data being sent. `GET` and `DELETE` requests don't send along any data, but `PUT` and `POST` requests do. Similarly, some response types, such as error responses, do not require a body.
+After the headers, both requests and responses may include a blank line followed by a body, which contains the actual document being sent. `GET` and `DELETE` requests don't send along any data, but `PUT` and `POST` requests do. Some response types, such as error responses, also don't require a body.
 
 ## Browsers and HTTP
 
@@ -165,7 +163,7 @@ We'll come back to forms and how to interact with them from JavaScript [later in
 
 {{index "fetch function", "Promise class", [interface, module]}}
 
-The interface through which browser JavaScript can make HTTP requests is called `fetch`. Since it is relatively new, it conveniently uses promises (which is rare for browser interfaces).
+The interface through which browser JavaScript can make HTTP requests is called `fetch`. Since it is relatively new, it conveniently uses promises.
 
 ```{test: no}
 fetch("example/data.txt").then(response => {
@@ -180,7 +178,7 @@ fetch("example/data.txt").then(response => {
 
 Calling `fetch` returns a promise that resolves to a `Response` object holding information about the server's response, such as its status code and its headers. The headers are wrapped in a `Map`-like object that treats its keys (the header names) as case insensitive because header names are not supposed to be case sensitive. This means  `headers.get("Content-Type")` and `headers.get("content-TYPE")` will return the same value.
 
-Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It _might_ also be rejected if there is a network error or if the ((server)) that the request is addressed to can't be found.
+Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It _can_ also be rejected if there is a network error or if the ((server)) that the request is addressed to can't be found.
 
 {{index [path, URL], "relative URL"}}
 
@@ -218,7 +216,7 @@ The 405 status code means "method not allowed", an HTTP server's way of saying "
 
 {{index "Range header", "body property", "headers property"}}
 
-To add a request body, you can include a `body` option. To set headers, there's the `headers` option. For example, this request includes a `Range` header, which instructs the server to return only part of a response.
+To add a request body, you can include a `body` option. To set headers, there's the `headers` option. For example, this request includes a `Range` header, which instructs the server to return only part of a document.
 
 ```{test: no}
 fetch("example/data.txt", {headers: {Range: "bytes=8-19"}})
@@ -235,7 +233,7 @@ The browser will automatically add some request ((header))s, such as "Host" and 
 
 {{index sandbox, [browser, security]}}
 
-Making ((HTTP)) requests in web page scripts once again raises concerns about ((security)). The person who controls the script might not have the same interests as the person on whose computer it is running. More specifically, if I visit _themafia.org_, I do not want its scripts to be able to make a request to _mybank.com_, using identifying information from my browser, with instructions to transfer all my money to some random account.
+Making ((HTTP)) requests in web page scripts once again raises concerns about ((security)). The person who controls the script might not have the same interests as the person on whose computer it is running. More specifically, if I visit _themafia.org_, I do not want its scripts to be able to make a request to _mybank.com_, using identifying information from my browser, with instructions to transfer away all my money.
 
 For this reason, browsers protect us by disallowing scripts to make HTTP requests to other ((domain))s (names such as _themafia.org_ and _mybank.com_).
 
@@ -281,7 +279,7 @@ If it is important that something remain secret, such as the ((password)) to you
 
 The secure ((HTTP)) protocol, used for ((URL))s starting with _https://_, wraps HTTP traffic in a way that makes it harder to read and tamper with. Before exchanging data, the client verifies that the server is who it claims to be by asking it to prove that it has a cryptographic ((certificate)) issued by a certificate authority that the browser recognizes. Next, all data going over the ((connection)) is encrypted in a way that should prevent eavesdropping and tampering.
 
-Thus, when it works right, ((HTTPS)) prevents other people from impersonating the website you are trying to talk to and from snooping on your communication. It is not perfect, and there have been various incidents where HTTPS failed because of forged or stolen certificates and broken software, but it is a _lot_ safer than plain HTTP.
+Thus, when it works right, ((HTTPS)) prevents other people from impersonating the website you are trying to talk to _and_ from snooping on your communication. It is not perfect, and there have been various incidents where HTTPS failed because of forged or stolen certificates and broken software, but it is a _lot_ safer than plain HTTP.
 
 {{id forms}}
 
@@ -308,6 +306,8 @@ A lot of field types use the `<input>` tag. This tag's `type` attribute is used 
 | `text`     | A single-line ((text field))
 | `password` | Same as `text` but hides the text that is typed
 | `checkbox` | An on/off switch
+| `color`    | A color
+| `date`     | A calendar date
 | `radio`    | (Part of) a ((multiple-choice)) field
 | `file`     | Allows the user to choose a file from their computer
 
@@ -319,6 +319,8 @@ Form fields do not necessarily have to appear in a `<form>` tag. You can put the
 <p><input type="text" value="abc"> (text)</p>
 <p><input type="password" value="abc"> (password)</p>
 <p><input type="checkbox" checked> (checkbox)</p>
+<p><input type="color" value="orange"> (color)</p>
+<p><input type="date" value="2023-10-13"> (date)</p>
 <p><input type="radio" value="A" name="choice">
    <input type="radio" value="B" name="choice" checked>
    <input type="radio" value="C" name="choice"> (radio)</p>
@@ -377,7 +379,7 @@ Whenever the value of a form field changes, it will fire a `"change"` event.
 
 {{indexsee "keyboard focus", focus}}
 
-Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
+Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, move to with the [tab]{keyname} key, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
@@ -405,7 +407,7 @@ For some pages, the user is expected to want to interact with a form field immed
 
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
-Browsers traditionally also allow the user to move the focus through the document by pressing the [tab]{keyname} key. We can influence the order in which elements receive focus with the `tabindex` attribute. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
+Browsers also allow the user to move the focus through the document by pressing the [tab]{keyname} key to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
 
 ```{lang: html, focus: true}
 <input type="text" tabindex=1> <a href=".">(help)</a>
@@ -414,7 +416,7 @@ Browsers traditionally also allow the user to move the focus through the documen
 
 {{index "tabindex attribute"}}
 
-By default, most types of HTML elements cannot be focused. But you can add a `tabindex` attribute to any element that will make it focusable. A `tabindex` of -1 makes tabbing skip over an element, even if it is normally focusable.
+By default, most types of HTML elements cannot be focused. But you can add a `tabindex` attribute to any element that will make it focusable. A `tabindex` of 0 makes an element focusable without affecting the focus order.
 
 ## Disabled fields
 
@@ -673,7 +675,7 @@ The `files` property of a ((file field)) element is an ((array-like object)) (ag
 
 {{index "File type"}}
 
-Objects in the `files` object have properties such as `name` (the filename), `size` (the file's size in bytes, which are chunks of 8 bits), and `type` (the media type of the file, such as `text/plain` or `image/jpeg`).
+The objects in `files` have properties such as `name` (the filename), `size` (the file's size in bytes, which are chunks of 8 bits), and `type` (the media type of the file, such as `text/plain` or `image/jpeg`).
 
 {{index ["asynchronous programming", "reading files"], "file reading", "FileReader class"}}
 

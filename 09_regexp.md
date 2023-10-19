@@ -692,17 +692,16 @@ console.log("Banana".match(/an/g));
 
 So be cautious with global regular expressions. The cases where they are necessary—calls to `replace` and places where you want to explicitly use `lastIndex`—are typically the only places where you want to use them.
 
-### Looping over matches
+### Getting all matches
 
 {{index "lastIndex property", "exec method", loop}}
 
-A common thing to do is to scan through all occurrences of a pattern in a string, in a way that gives us access to the match object in the loop body. We can do this by using `lastIndex` and `exec`.
+A common thing to do is to find all the matches of a regular expression in a string. We can do this by using the `matchAll` method.
 
 ```
 let input = "A string with 3 numbers in it... 42 and 88.";
-let number = /\d+/g;
-let match;
-while (match = number.exec(input)) {
+let matches = input.matchAll(/\d+/g);
+for (let match of matches) {
   console.log("Found", match[0], "at", match.index);
 }
 // → Found 3 at 14
@@ -710,9 +709,9 @@ while (match = number.exec(input)) {
 //   Found 88 at 40
 ```
 
-{{index "while loop", ["= operator", "as expression"], [binding, "as state"]}}
+{{index ["regular expression", global]}}
 
-This makes use of the fact that the value of an ((assignment)) expression (`=`) is the assigned value. So by using `match = number.exec(input)` as the condition in the `while` statement, we perform the match at the start of each iteration, save its result in a binding, and stop looping when no more matches are found.
+This method returns an array of match arrays. The regular expression given it _must_ have `g` enabled.
 
 {{id ini}}
 ## Parsing an INI file
@@ -793,7 +792,7 @@ Note the recurring use of `^` and `$` to make sure the expression matches the wh
 
 {{index "if keyword", assignment, ["= operator", "as expression"]}}
 
-The pattern `if (match = string.match(...))` is similar to the trick of using an assignment as the condition for `while`. You often aren't sure that your call to `match` will succeed, so you can access the resulting object only inside an `if` statement that tests for this. To not break the pleasant chain of `else if` forms, we assign the result of the match to a binding and immediately use that assignment as the test for the `if` statement.
+The pattern `if (match = string.match(...))` makes use of the fact that the value of an ((assignment)) expression (`=`) is the assigned value. You often aren't sure that your call to `match` will succeed, so you can access the resulting object only inside an `if` statement that tests for this. To not break the pleasant chain of `else if` forms, we assign the result of the match to a binding and immediately use that assignment as the test for the `if` statement.
 
 {{index [parentheses, "in regular expressions"]}}
 

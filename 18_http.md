@@ -789,17 +789,17 @@ Notes: <select></select> <button>Add</button><br>
     setState({notes: state.notes, selected: list.value});
   });
   note.addEventListener("change", () => {
+    let {selected} = state
     setState({
-      notes: Object.assign({}, state.notes,
-                           {[state.selected]: note.value}),
-      selected: state.selected
+      notes: {...state.notes, [selected]: note.value},
+      selected
     });
   });
   document.querySelector("button")
     .addEventListener("click", () => {
       let name = prompt("Note name");
       if (name) setState({
-        notes: Object.assign({}, state.notes, {[name]: ""}),
+        notes: {...state.notes, [name]: ""},
         selected: name
       });
     });
@@ -812,9 +812,9 @@ The script gets its starting state from the `"Notes"` value stored in `localStor
 
 The `setState` method makes sure the DOM is showing a given state and stores the new state to `localStorage`. Event handlers call this function to move to a new state.
 
-{{index "Object.assign function", [object, creation], property, "computed property"}}
+{{index [object, creation], property, "computed property"}}
 
-The use of `Object.assign` in the example is intended to create a new object that is a clone of the old `state.notes`, but with one property added or overwritten. `Object.assign` takes its first argument and adds all properties from any further arguments to it. Thus, giving it an empty object will cause it to fill a fresh object. The ((square brackets)) notation in the third argument is used to create a property whose name is based on some dynamic value.
+The `...` syntax in the example is used to create a new object that is a clone of the old `state.notes`, but with one property added or overwritten. It uses ((spread)) syntax to first add the properties from the old object, and then set a new property. The ((square brackets)) notation in the object literal is used to create a property whose name is based on some dynamic value.
 
 {{index "sessionStorage object", [browser, storage]}}
 

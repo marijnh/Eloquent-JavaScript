@@ -20,7 +20,7 @@ Our ((application)) will be a ((pixel)) ((drawing)) program, where you can modif
 
 {{figure {url: "img/pixel_editor.png", alt: "Screenshot of the pixel editor interface, with a grid of colored pixels at the top and a number of controls, in the form of HTML fields and buttons, below that", width: "8cm"}}}
 
-Painting on a computer is great. You don't need to worry about materials, ((skill)), or talent. You just start smearing.
+Painting on a computer is great. You don't need to worry about materials, ((skill)), or talent. You just start smearing and see where you end up.
 
 ## Components
 
@@ -38,7 +38,7 @@ The state of the application consists of the current picture, the selected tool,
 
 To see why this is important, let's consider the alternative—distributing pieces of state throughout the interface. Up to a certain point, this is easier to program. We can just put in a ((color field)) and read its value when we need to know the current color.
 
-But then we add the ((color picker))—a tool that lets you click the picture to select the color of a given pixel. To keep the color field showing the correct color, that tool would have to know that it exists and update it whenever it picks a new color. If you ever add another place that makes the color visible (maybe the mouse cursor could show it), you have to update your color-changing code to keep that synchronized.
+But then we add the ((color picker))—a tool that lets you click the picture to select the color of a given pixel. To keep the color field showing the correct color, that tool would have to know that the color field exists and update it whenever it picks a new color. If you ever add another place that makes the color visible (maybe the mouse cursor could show it), you have to update your color-changing code to keep that synchronized as well.
 
 {{index modularity}}
 
@@ -124,13 +124,13 @@ We'll allow the interface to ((dispatch)) ((action))s as objects whose propertie
 
 ```{includeCode: true}
 function updateState(state, action) {
-  return Object.assign({}, state, action);
+  return {...state, ...action};
 }
 ```
 
-{{index "period character", spread, "Object.assign function"}}
+{{index "period character"}}
 
-This rather cumbersome pattern, in which `Object.assign` is used to first add the properties of `state` to an empty object and then overwrite some of those with the properties from `action`, is common in JavaScript code that uses ((immutable)) objects. A more convenient notation for this, in which the triple-dot operator is used to include all properties from another object in an object expression, is in the final stages of being standardized. With that addition, you could write `{...state, ...action}` instead. At the time of writing, this doesn't yet work in all browsers.
+This pattern, in which object ((spread)) is used to first add the properties an existing object and then override some of those, is common in JavaScript code that uses ((immutable)) objects.
 
 ## DOM building
 
@@ -156,7 +156,7 @@ The main difference between this version and the one we used in [Chapter ?](game
 
 {{index "button (HTML tag)"}}
 
-This allows the following style of registering event handlers:
+This allows this convenient style for registering event handlers:
 
 ```{lang: html}
 <body>
@@ -174,7 +174,7 @@ The first component we'll define is the part of the interface that displays the 
 
 {{index "PictureCanvas class", "callback function", "scale constant", "canvas (HTML tag)", "mousedown event", "touchstart event", [state, "of application"]}}
 
-As such, we can define it as a component that knows about only the current picture, not the whole application state. Because it doesn't know how the application as a whole works, it cannot directly dispatch ((action))s. Rather, when responding to pointer events, it calls a callback function provided by the code that created it, which will handle the application-specific parts.
+As such, we can define it as a component that only knows about the current picture, not the whole application state. Because it doesn't know how the application as a whole works, it cannot directly dispatch ((action))s. Rather, when responding to pointer events, it calls a callback function provided by the code that created it, which will handle the application-specific parts.
 
 ```{includeCode: true}
 const scale = 10;
@@ -642,19 +642,22 @@ But we don't want to store _every_ change, only changes a certain amount of ((ti
 function historyUpdateState(state, action) {
   if (action.undo == true) {
     if (state.done.length == 0) return state;
-    return Object.assign({}, state, {
+    return {
+      ...state,
       picture: state.done[0],
       done: state.done.slice(1),
       doneAt: 0
-    });
+    };
   } else if (action.picture &&
              state.doneAt < Date.now() - 1000) {
-    return Object.assign({}, state, action, {
+    return {
+      ...state,
+      ...action,
       done: [state.picture, ...state.done],
       doneAt: Date.now()
-    });
+    };
   } else {
-    return Object.assign({}, state, action);
+    return {...state, ...action};
   }
 }
 ```
@@ -735,7 +738,7 @@ This is how we get an actual editor on the screen:
 
 {{if interactive
 
-Go ahead and draw something. I'll wait.
+Go ahead and draw something.
 
 if}}
 
@@ -753,7 +756,7 @@ And though the situation is definitely improving, it mostly does so in the form 
 
 Technology never exists in a vacuum—we're constrained by our tools and the social, economic, and historical factors that produced them. This can be annoying, but it is generally more productive to try to build a good understanding of how the _existing_ technical reality works—and why it is the way it is—than to rage against it or hold out for another reality.
 
-New ((abstraction))s _can_ be helpful. The component model and ((data flow)) convention I used in this chapter is a crude form of that. As mentioned, there are libraries that try to make user interface programming more pleasant. At the time of writing, [React](https://reactjs.org/) and [Angular](https://angular.io/) are popular choices, but there's a whole cottage industry of such frameworks. If you're interested in programming web applications, I recommend investigating a few of them to understand how they work and what benefits they provide.
+New ((abstraction))s _can_ be helpful. The component model and ((data flow)) convention I used in this chapter is a crude form of that. As mentioned, there are libraries that try to make user interface programming more pleasant. At the time of writing, [React](https://reactjs.org/) and [Svelte](https://svelte.dev/) are popular choices, but there's a whole cottage industry of such frameworks. If you're interested in programming web applications, I recommend investigating a few of them to understand how they work and what benefits they provide.
 
 ## Exercises
 
@@ -910,7 +913,7 @@ Define a ((tool)) called `circle` that draws a filled circle when you drag. The 
   }
 
   let dom = startPixelEditor({
-    tools: Object.assign({}, baseTools, {circle})
+    tools: {...baseTools, circle}
   });
   document.querySelector("div").appendChild(dom);
 </script>
@@ -944,7 +947,7 @@ Improve the `draw` tool to make it draw a full line. This means you have to make
 
 To do this, since the pixels can be an arbitrary distance apart, you'll have to write a general line drawing function.
 
-A line between two pixels is a connected chain of pixels, as straight as possible, going from the start to the end. Diagonally adjacent pixels count as a connected. So a slanted line should look like the picture on the left, not the picture on the right.
+A line between two pixels is a connected chain of pixels, as straight as possible, going from the start to the end. Diagonally adjacent pixels count as connected. So a slanted line should look like the picture on the left, not the picture on the right.
 
 {{figure {url: "img/line-grid.svg", alt: "Diagram of two pixelated lines, one light, skipping across pixels diagonally, and one heavy, with all pixels connected horizontally or vertically", width: "6cm"}}}
 

@@ -55,10 +55,14 @@ const parsers = {
   http: StreamLanguage.define(http).parser
 }
 
+const styled = "keyword atom number definition variableName2 typeName comment string string2 invalid meta"
+      .split(" ").map(n => "tok-" + n)
+
 function highlight(lang, text) {
   let result = "", parser = parsers[lang], tree = parser ? parser.parse(text) : Tree.empty
   highlightCode(text, tree, classHighlighter, (code, cls) => {
     let esc = escape(code)
+    cls = cls.replace(/([\w-]+)\s*/g, (m, style) => styled.includes(style) ? m : "")
     result += cls ? `<span class="${cls}">${esc}</span>` : esc
   }, () => result += "\n")
   return result

@@ -135,7 +135,8 @@ function chapterInteraction() {
   let article = document.getElementsByTagName("article")[0]
 
   function activateCode(node, lang) {
-    let scrollPos = pageYOffset
+    let scrollPos = pageYOffset, rect = node.getBoundingClientRect()
+    if (rect.top < 0 && rect.height > 500) scrollPos -= Math.min(-rect.top, rect.height - 500)
     let codeId = node.querySelector("a").id
     let code = (window.localStorage && localStorage.getItem(codeId)) || node.textContent
     let wrap = node.parentNode.insertBefore(elt("div", {"class": "editor-wrap"}), node)

@@ -1,7 +1,7 @@
 // This code won't work on its own, but is also included in the
 // code/file_server.js file, which defines the whole system.
 
-const {mkdir} = require("fs").promises;
+import {mkdir} from "node:fs/promises";
 
 methods.MKCOL = async function(request) {
   let path = urlPath(request.url);

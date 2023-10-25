@@ -111,7 +111,7 @@ class CodeSandbox {
       let link = document.querySelector("#download")
       link.setAttribute("download", "solution" + value + ".js")
       if (/\.zip$/.test(exercise.file))
-        link.href = exercise.file
+        link.href = "../" + exercise.file
       else
         link.href = "data:text/plain;charset=UTF-8," + encodeURIComponent(exercise.solution)
     }
@@ -225,7 +225,7 @@ function getChapter(number) {
 function addItem(container, link) {
   let li = container.appendChild(document.createElement("li"))
   let a = li.appendChild(document.createElement("a"))
-  a.href = link
+  a.href = "../" + link
   a.textContent = link.replace(/^code\//, "")
 }
 

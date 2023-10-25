@@ -1,4 +1,4 @@
-const {statSync, readdirSync, readFileSync} = require("fs");
+import {statSync, readdirSync, readFileSync} from "node:fs";
 
 let searchTerm = new RegExp(process.argv[2]);
 

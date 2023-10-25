@@ -32,7 +32,7 @@ Then the server responds, through that same connection.
 
 ```{lang: http}
 HTTP/1.1 200 OK
-Content-Length: 140596
+Content-Length: 87320
 Content-Type: text/html
 Last-Modified: Fri, 13 Oct 2023 10:05:41 GMT
 
@@ -81,14 +81,14 @@ Status codes starting with a 2 indicate that the request succeeded. Codes starti
 The first line of a request or response may be followed by any number of _((header))s_. These are lines in the form `name: value` that specify extra information about the request or response. These headers were part of the example ((response)):
 
 ```{lang: null}
-Content-Length: 140596
+Content-Length: 87320
 Content-Type: text/html
 Last-Modified: Fri, 13 Oct 2023 10:05:41 GMT
 ```
 
 {{index "Content-Length header", "Content-Type header", "Last-Modified header"}}
 
-This tells us the size and type of the response document. In this case, it is an HTML document of 140,596 bytes. It also tells us when that document was last modified.
+This tells us the size and type of the response document. In this case, it is an HTML document of 87,320 bytes. It also tells us when that document was last modified.
 
 The client and server are free to decide what ((header))s to include in their ((request))s or ((response))s. But some of them are necessary for things to work. For example, without a `Content-Type` header in the response, the browser won't know how to display the document.
 

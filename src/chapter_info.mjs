@@ -76,18 +76,18 @@ for (let file of fs.readdirSync(".").sort()) {
   let nodeInfo = "// Node exercises can not be ran in the browser,\n// but you can look at their solution here.\n";
   if (chapter.number == 20) chapter.exercises = [
     {name: "Search tool",
-     file: "code/solutions/20_1_search_tool.js",
+     file: "code/solutions/20_1_search_tool.mjs",
      number: 1,
      type: "js",
      code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/20_1_search_tool.js", "utf8")
+     solution: fs.readFileSync("code/solutions/20_1_search_tool.mjs", "utf8")
     },
     {name: "Directory creation",
-     file: "code/solutions/20_2_directory_creation.js",
+     file: "code/solutions/20_2_directory_creation.mjs",
      number: 2,
      type: "js",
      code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/20_2_directory_creation.js", "utf8")
+     solution: fs.readFileSync("code/solutions/20_2_directory_creation.mjs", "utf8")
     },
     {name: "A public space on the web",
      file: "code/solutions/20_3_a_public_space_on_the_web.zip",

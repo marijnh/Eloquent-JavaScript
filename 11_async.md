@@ -253,7 +253,7 @@ One of the crows stands out—a large scruffy female with a few white feathers i
 
 Contrary to the rest of the group, who look like they are happy to spend the day goofing around here, the large crow looks purposeful. Carrying her loot, she flies straight towards the roof of the hangar building, disappearing into an air vent.
 
-Inside the building, in a narrow space between an elevator shaft and the roof, you can hear an odd tapping sound—soft, but persistent. The crow is sitting there, surrounded by her stolen snack, half a dozen smart phones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
+Inside the building, in a narrow space under the roof of an unfinished stairwell, you can hear an odd tapping sound—soft, but persistent. The crow is sitting there, surrounded by her stolen snack, half a dozen smart phones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
 
 This crow is known to her peers as “cāāw-krö“, but since that is hard for us to remember, we'll call her Carla.
 

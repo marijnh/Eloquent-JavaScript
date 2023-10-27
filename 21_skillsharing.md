@@ -274,7 +274,7 @@ This uses a similar convention as the file server from the [previous chapter](no
 
 The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. These will be exposed as HTTP ((resource))s under `/talks/[title]`, so we need to add handlers to our router that implement the various methods that clients can use to work with them.
 
-{{index "GET method", "404 (HTTP status code)"}}
+{{index "GET method", "404 (HTTP status code)" "hasOwn function"}}
 
 The handler for requests that `GET` a single talk must look up the talk and respond either with the talk's JSON data or with a 404 error response.
 
@@ -282,7 +282,7 @@ The handler for requests that `GET` a single talk must look up the talk and resp
 const talkPath = /^\/talks\/([^\/]+)$/;
 
 router.add("GET", talkPath, async (server, title) => {
-  if (title in server.talks) {
+  if (Object.hasOwn(server.talks, title)) {
     return {body: JSON.stringify(server.talks[title]),
             headers: {"Content-Type": "application/json"}};
   } else {
@@ -297,7 +297,7 @@ Deleting a talk is done by removing it from the `talks` object.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("DELETE", talkPath, async (server, title) => {
-  if (title in server.talks) {
+  if (Object.hasOwn(server.talks, title)) {
     delete server.talks[title];
     server.updated();
   }
@@ -372,7 +372,7 @@ router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
       typeof comment.author != "string" ||
       typeof comment.message != "string") {
     return {status: 400, body: "Bad comment data"};
-  } else if (title in server.talks) {
+  } else if (Object.hasOwn(server.talks, title)) {
     server.talks[title].comments.push(comment);
     server.updated();
     return {status: 204};
@@ -396,10 +396,8 @@ There will be multiple places in which we have to send an array of talks to the 
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 SkillShareServer.prototype.talkResponse = function() {
-  let talks = [];
-  for (let title of Object.keys(this.talks)) {
-    talks.push(this.talks[title]);
-  }
+  let talks = Object.keys(this.talks)
+    .map(title => this.talks[title]);
   return {
     body: JSON.stringify(talks),
     headers: {"Content-Type": "application/json",
@@ -468,7 +466,7 @@ SkillShareServer.prototype.updated = function() {
 That concludes the server code. If we create an instance of `SkillShareServer` and start it on port 8000, the resulting HTTP server serves files from the `public` subdirectory alongside a talk-managing interface under the `/talks` URL.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
-new SkillShareServer(Object.create(null)).start(8000);
+new SkillShareServer({}).start(8000);
 ```
 
 ## The client
@@ -809,13 +807,9 @@ Extend the server so that it stores the talk data to disk and automatically relo
 
 The simplest solution I can come up with is to encode the whole `talks` object as ((JSON)) and dump it to a file with `writeFile`. There is already a method (`updated`) that is called every time the server's data changes. It can be extended to write the new data to disk.
 
-{{index "readFile function"}}
+{{index "readFile function", "JSON.parse function"}}
 
 Pick a ((file))name, for example `./talks.json`. When the server starts, it can try to read that file with `readFile`, and if that succeeds, the server can use the file's contents as its starting data.
-
-{{index prototype, "JSON.parse function"}}
-
-Beware, though. The `talks` object started as a prototype-less object so that the `in` operator could reliably be used. `JSON.parse` will return regular objects with `Object.prototype` as their prototype. If you use JSON as your file format, you'll have to copy the properties of the object returned by `JSON.parse` into a new, prototype-less object.
 
 hint}}
 
@@ -831,7 +825,7 @@ In a heated discussion, where multiple people are adding comments at the same ti
 
 {{index "comment field reset (exercise)", template, "syncState method"}}
 
-The best way to do this is probably to make talks component objects, with a `syncState` method, so that they can be updated to show a modified version of the talk. During normal operation, the only way a talk can be changed is by adding more comments, so the `syncState` method can be relatively simple.
+The best way to do this is probably to make the talk component an object, with a `syncState` method, so that they can be updated to show a modified version of the talk. During normal operation, the only way a talk can be changed is by adding more comments, so the `syncState` method can be relatively simple.
 
 The difficult part is that, when a changed list of talks comes in, we have to reconcile the existing list of DOM components with the talks on the new list—deleting components whose talk was deleted and updating components whose talk changed.
 

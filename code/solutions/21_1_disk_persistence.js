@@ -1,19 +1,9 @@
 // This isn't a stand-alone file, only a redefinition of a few
 // fragments from skillsharing/skillsharing_server.js
 
-const {readFileSync, writeFile} = require("fs");
+import {readFileSync, writeFile} from "node:fs";
 
 const fileName = "./talks.json";
-
-function loadTalks() {
-  let json;
-  try {
-    json = JSON.parse(readFileSync(fileName, "utf8"));
-  } catch (e) {
-    json = {};
-  }
-  return Object.assign(Object.create(null), json);
-}
 
 SkillShareServer.prototype.updated = function() {
   this.version++;
@@ -25,6 +15,14 @@ SkillShareServer.prototype.updated = function() {
     if (e) throw e;
   });
 };
+
+function loadTalks() {
+  try {
+    return JSON.parse(readFileSync(fileName, "utf8"));
+  } catch (e) {
+    return {};
+  }
+}
 
 // The line that starts the server must be changed to
 new SkillShareServer(loadTalks()).start(8000);

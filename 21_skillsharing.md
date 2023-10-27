@@ -16,9 +16,9 @@ A _((skill-sharing))_ meeting is an event where people with a shared interest co
 
 {{index learning, "users' group"}}
 
-Such meetups—also often called _users' groups_ when they are about computers—are a great way to broaden your horizon, learn about new developments, or simply meet people with similar interests. Many larger cities have JavaScript meetups. They are typically free to attend, and I've found the ones I've visited to be friendly and welcoming.
+Such meetups—also often called _users' groups_ when they are about computers—can be a great way to learn things, or simply meet people with similar interests. Many larger cities have JavaScript meetups. They are typically free to attend, and I've found the ones I've visited to be friendly and welcoming.
 
-In this final project chapter, our goal is to set up a ((website)) for managing ((talk))s given at a skill-sharing meeting. Imagine a small group of people meeting up regularly in the office of one of the members to talk about ((unicycling)). The previous organizer of the meetings moved to another town, and nobody stepped forward to take over this task. We want a system that will let the participants propose and discuss talks among themselves, without a central organizer.
+In this final project chapter, our goal is to set up a ((website)) for managing ((talk))s given at a skill-sharing meeting. Imagine a small group of people meeting up regularly in the office of one of the members to talk about ((unicycling)). The previous organizer of the meetings moved to another town, and nobody stepped forward to take over this task. We want a system that will let the participants propose and discuss talks among themselves, without an active organizer.
 
 [Just like in the [previous chapter](node), some of the code in this chapter is written for Node.js, and running it directly in the HTML page that you are looking at is unlikely to work.]{if interactive} The full code for the project can be ((download))ed from [_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
 
@@ -62,7 +62,7 @@ As long as the client makes sure it constantly has a polling request open, it wi
 
 {{index robustness, timeout}}
 
-To prevent connections from timing out (being aborted because of a lack of activity), ((long polling)) techniques usually set a maximum time for each request, after which the server will respond anyway, even though it has nothing to report, after which the client will start a new request. Periodically restarting the request also makes the technique more robust, allowing clients to recover from temporary ((connection)) failures or server problems.
+To prevent connections from timing out (being aborted because of a lack of activity), ((long polling)) techniques usually set a maximum time for each request, after which the server will respond anyway, even though it has nothing to report. The client can then start a new request. Periodically restarting the request also makes the technique more robust, allowing clients to recover from temporary ((connection)) failures or server problems.
 
 {{index "Node.js"}}
 
@@ -171,7 +171,7 @@ Let's start by building the ((server))-side part of the program. The code in thi
 
 {{index "createServer function", [path, URL], [method, HTTP]}}
 
-Our server will use `createServer` to start an HTTP server. In the function that handles a new request, we must distinguish between the various kinds of requests (as determined by the method and the path) that we support. This can be done with a long chain of `if` statements, but there is a nicer way.
+Our server will use Node's `createServer` to start an HTTP server. In the function that handles a new request, we must distinguish between the various kinds of requests (as determined by the method and the path) that we support. This can be done with a long chain of `if` statements, but there is a nicer way.
 
 {{index dispatch}}
 
@@ -179,14 +179,14 @@ A _((router))_ is a component that helps dispatch a request to the function that
 
 There are a number of good router packages on ((NPM)), but here we'll write one ourselves to illustrate the principle.
 
-{{index "require function", "Router class", module}}
+{{index "import keyword", "Router class", module}}
 
-This is `router.js`, which we will later `require` from our server module:
+This is `router.mjs`, which we will later `import` from our server module:
 
-```{includeCode: ">code/skillsharing/router.js"}
-const {parse} = require("url");
+```{includeCode: ">code/skillsharing/router.mjs"}
+import {parse} from "node:url";
 
-module.exports = class Router {
+export class Router {
   constructor() {
     this.routes = [];
   }
@@ -204,7 +204,7 @@ module.exports = class Router {
     }
     return null;
   }
-};
+}
 ```
 
 {{index "Router class"}}
@@ -227,10 +227,10 @@ When a request matches none of the request types defined in our router, the serv
 
 I opted for `ecstatic`. This isn't the only such server on NPM, but it works well and fits our purposes. The `ecstatic` package exports a function that can be called with a configuration object to produce a request handler function. We use the `root` option to tell the server where it should look for files. The handler function accepts `request` and `response` parameters and can be passed directly to `createServer` to create a server that serves _only_ files. We want to first check for requests that we should handle specially, though, so we wrap it in another function.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
-const {createServer} = require("http");
-const Router = require("./router");
-const ecstatic = require("ecstatic");
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
+import {createServer} from "node:http";
+import ecstatic from "ecstatic";
+import {Router} from "./router.mjs";
 
 const router = new Router();
 const defaultHeaders = {"Content-Type": "text/plain"};
@@ -278,7 +278,7 @@ The ((talk))s that have been proposed are stored in the `talks` property of the 
 
 The handler for requests that `GET` a single talk must look up the talk and respond either with the talk's JSON data or with a 404 error response.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 const talkPath = /^\/talks\/([^\/]+)$/;
 
 router.add("GET", talkPath, async (server, title) => {
@@ -295,7 +295,7 @@ router.add("GET", talkPath, async (server, title) => {
 
 Deleting a talk is done by removing it from the `talks` object.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("DELETE", talkPath, async (server, title) => {
   if (title in server.talks) {
     delete server.talks[title];
@@ -313,7 +313,7 @@ The `updated` method, which we will define [later](skillsharing#updated), notifi
 
 To retrieve the content of a request body, we define a function called `readStream`, which reads all content from a ((readable stream)) and returns a promise that resolves to a string.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 function readStream(stream) {
   return new Promise((resolve, reject) => {
     let data = "";
@@ -332,7 +332,7 @@ One handler that needs to read request bodies is the `PUT` handler, which is use
 
 If the data looks valid, the handler stores an object that represents the new talk in the `talks` object, possibly ((overwriting)) an existing talk with this title, and again calls `updated`.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("PUT", talkPath,
            async (server, title, request) => {
   let requestBody = await readStream(request);
@@ -345,10 +345,12 @@ router.add("PUT", talkPath,
       typeof talk.summary != "string") {
     return {status: 400, body: "Bad talk data"};
   }
-  server.talks[title] = {title,
-                         presenter: talk.presenter,
-                         summary: talk.summary,
-                         comments: []};
+  server.talks[title] = {
+    title,
+    presenter: talk.presenter,
+    summary: talk.summary,
+    comments: []
+  };
   server.updated();
   return {status: 204};
 });
@@ -358,7 +360,7 @@ router.add("PUT", talkPath,
 
 Adding a ((comment)) to a ((talk)) works similarly. We use `readStream` to get the content of the request, validate the resulting data, and store it as a comment when it looks valid.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
            async (server, title, request) => {
   let requestBody = await readStream(request);
@@ -392,7 +394,7 @@ The most interesting aspect of the server is the part that handles ((long pollin
 
 There will be multiple places in which we have to send an array of talks to the client, so we first define a helper method that builds up such an array and includes an `ETag` header in the response.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 SkillShareServer.prototype.talkResponse = function() {
   let talks = [];
   for (let title of Object.keys(this.talks)) {
@@ -411,7 +413,7 @@ SkillShareServer.prototype.talkResponse = function() {
 
 The handler itself needs to look at the request headers to see whether `If-None-Match` and `Prefer` headers are present. Node stores headers, whose names are specified to be case insensitive, under their lowercase names.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("GET", /^\/talks$/, async (server, request) => {
   let tag = /"(.*)"/.exec(request.headers["if-none-match"]);
   let wait = /\bwait=(\d+)/.exec(request.headers["prefer"]);
@@ -433,7 +435,7 @@ If no tag was given or a tag was given that doesn't match the server's current v
 
 Callback functions for delayed requests are stored in the server's `waiting` array so that they can be notified when something happens. The `waitForChanges` method also immediately sets a timer to respond with a 304 status when the request has waited long enough.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 SkillShareServer.prototype.waitForChanges = function(time) {
   return new Promise(resolve => {
     this.waiting.push(resolve);
@@ -452,7 +454,7 @@ SkillShareServer.prototype.waitForChanges = function(time) {
 
 Registering a change with `updated` increases the `version` property and wakes up all waiting requests.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 SkillShareServer.prototype.updated = function() {
   this.version++;
   let response = this.talkResponse();
@@ -465,7 +467,7 @@ SkillShareServer.prototype.updated = function() {
 
 That concludes the server code. If we create an instance of `SkillShareServer` and start it on port 8000, the resulting HTTP server serves files from the `public` subdirectory alongside a talk-managing interface under the `/talks` URL.
 
-```{includeCode: ">code/skillsharing/skillsharing_server.js"}
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 new SkillShareServer(Object.create(null)).start(8000);
 ```
 
@@ -512,9 +514,9 @@ The `handleAction` function takes such an action and makes it happen. Because ou
 function handleAction(state, action) {
   if (action.type == "setUser") {
     localStorage.setItem("userName", action.user);
-    return Object.assign({}, state, {user: action.user});
+    return {...state, user: action.user};
   } else if (action.type == "setTalks") {
-    return Object.assign({}, state, {talks: action.talks});
+    return {...state, talks: action.talks};
   } else if (action.type == "newTalk") {
     fetchOK(talkURL(action.title), {
       method: "PUT",
@@ -648,9 +650,9 @@ function renderTalk(talk, dispatch) {
 
 The `"submit"` event handler calls `form.reset` to clear the form's content after creating a `"newComment"` action.
 
-When creating moderately complex pieces of DOM, this style of programming starts to look rather messy. There's a widely used (non-standard) JavaScript extension called _((JSX))_ that lets you write HTML directly in your scripts, which can make such code prettier (depending on what you consider pretty). Before you can actually run such code, you have to run a program on your script to convert the pseudo-HTML into JavaScript function calls much like the ones we use here.
+When creating moderately complex pieces of DOM, this style of programming starts to look rather messy. To avoid this, people often use a _((templating language))_, which allows you to write your interface as an HTML file with some special markers to indicate where dynamic elements go. Or they use _((JSX))_, a non-standard JavaScript dialect that allows you to write something very close to HTML tags in your program as if they are JavaScript expressions. Both of these approaches use additional tools to pre-process the code before it can be run, which we will avoid in this chapter.
 
-Comments are simpler to render.
+Comments are simple to render.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function renderComment(comment) {
@@ -789,7 +791,7 @@ If you run the server and open two browser windows for [_http://localhost:8000_]
 
 {{index "Node.js", NPM}}
 
-The following exercises will involve modifying the system defined in this chapter. To work on them, make sure you ((download)) the code first ([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)), have Node installed [_https://nodejs.org_](https://nodejs.org), and have installed the project's dependency with `npm install`.
+The following exercises will involve modifying the system defined in this chapter. To work on them, make sure you ((download)) the code first ([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)), have Node installed ([_https://nodejs.org_](https://nodejs.org)), and install the project's dependency with `npm install`.
 
 ### Disk persistence
 

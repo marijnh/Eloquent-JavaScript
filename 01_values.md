@@ -14,7 +14,7 @@ quote}}
 
 {{index "binary data", data, bit, memory}}
 
-Inside the computer's world, there is only data. You can read data, modify data, create new data—but that which isn't data cannot be mentioned. All this data is stored as long sequences of bits and is thus fundamentally alike.
+In the computer's world, there is only data. You can read data, modify data, create new data—but that which isn't data cannot be mentioned. All this data is stored as long sequences of bits and is thus fundamentally alike.
 
 {{index CD, signal}}
 
@@ -37,7 +37,7 @@ So that's the binary number 00001101. Its non-zero digits stand for 8, 4, and 1,
 
 Imagine a sea of bits—an ocean of them. A typical modern computer has more than 100 billion bits in its volatile data storage (working memory). Nonvolatile storage (the hard disk or equivalent) tends to have yet a few orders of magnitude more.
 
-To be able to work with such quantities of bits without getting lost, we must separate them into chunks that represent pieces of information. In a JavaScript environment, those chunks are called _((value))s_. Though all values are made of bits, they play different roles. Every value has a ((type)) that determines its role. Some values are numbers, some values are pieces of text, some values are functions, and so on.
+To be able to work with such quantities of bits without getting lost, we separate them into chunks that represent pieces of information. In a JavaScript environment, those chunks are called _((value))s_. Though all values are made of bits, they play different roles. Every value has a ((type)) that determines its role. Some values are numbers, some values are pieces of text, some values are functions, and so on.
 
 {{index "garbage collection"}}
 
@@ -279,7 +279,7 @@ Other similar operators are `>=` (greater than or equal to), `<=` (less than or 
 ```
 console.log("Garnet" != "Ruby")
 // → true
-console.log("Apple" == "Orange")
+console.log("Pearl" == "Amethyst")
 // → false
 ```
 
@@ -336,7 +336,7 @@ When mixing these Boolean operators with arithmetic and other operators, it is n
 
 {{index "conditional execution", "ternary operator", "?: operator", "conditional operator", "colon character", "question mark"}}
 
-The last logical operator I will discuss is not unary, not binary, but _ternary_, operating on three values. It is written with a question mark and a colon, like this:
+The last logical operator we will look at is not unary, not binary, but _ternary_, operating on three values. It is written with a question mark and a colon, like this:
 
 ```
 console.log(true ? 1 : 2);

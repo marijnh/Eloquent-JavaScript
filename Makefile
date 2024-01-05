@@ -25,9 +25,9 @@ html/ejs.js: node_modules/codemirror/dist/index.js \
 	     src/client/*.mjs
 	rollup -c src/client/rollup.config.mjs
 
-code/skillsharing.zip: html/21_skillsharing.html
+code/skillsharing.zip: html/21_skillsharing.html code/skillsharing/package.json
 	rm -f $@
-	cd code; zip skillsharing.zip skillsharing/*.js* skillsharing/public/*.*
+	cd code; zip skillsharing.zip skillsharing/*.mjs skillsharing/package.json skillsharing/public/*.*
 
 code/solutions/20_3_a_public_space_on_the_web.zip: $(wildcard code/solutions/20_3_a_public_space_on_the_web/*)
 	rm -f $@
@@ -58,7 +58,7 @@ img/generated/%.pdf: img/%.svg
 	inkscape --export-pdf=$@ $<
 
 pdf/%.tex: %.md
-	node src/render_latex.js $< > $@
+	node src/render_latex.mjs $< > $@
 
 book.epub: epub/titlepage.xhtml epub/toc.xhtml epub/hints.xhtml $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) \
            epub/content.opf.src epub/style.css src/add_images_to_epub.mjs

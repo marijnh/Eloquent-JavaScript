@@ -2,6 +2,7 @@ import * as fs from "fs"
 import {dirname} from "path"
 import {fileURLToPath} from "url"
 import {transformTokens} from "./transform.mjs"
+import markdown from "./markdown.mjs"
 
 let file, noStarch = false
 for (let arg of process.argv.slice(2)) {
@@ -12,7 +13,7 @@ for (let arg of process.argv.slice(2)) {
 if (!file) throw new Error("No input file")
 let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
 
-let {tokens} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
+let {tokens} = transformTokens(markdown.parse(fs.readFileSync(file, "utf8"), {}), {
   defined: ["book", "tex"].concat(noStarch ? ["commercial"] : []),
   strip: "hints",
   texQuotes: true,

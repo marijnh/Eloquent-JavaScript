@@ -24,7 +24,8 @@ export class Sandbox {
     if (options.place) {
       options.place(frame)
     } else {
-      frame.style.display = "none"
+      frame.style.height = "0px"
+      frame.style.border = "none"
       document.body.appendChild(frame)
     }
     await awaitEvent(frame, "load")
@@ -71,12 +72,12 @@ export class Sandbox {
     this.win.addEventListener("mousedown", scheduleResize)
   }
 
-  run(code, output) {
+  async run(code, output) {
     if (output) this.output = output
     this.startedAt = Date.now()
     this.extraSecs = typeof code == "string" && /promtDirection/.test(code) ? 0.1 : 2
     this.win.__c = 0
-    this.prepare(code).then(code => this.sandbox_run(code)).catch(err => this.error(err))
+    return this.prepare(code).then(code => this.sandbox_run(code)).catch(err => this.error(err))
   }
 
   // Should be above all user-run code, so that the stack trace can be
@@ -470,6 +471,10 @@ Sandbox.Output = class {
     let clone = this.div.cloneNode(false)
     this.div.parentNode.replaceChild(clone, this.div)
     this.div = clone
+  }
+
+  get empty() {
+    return !this.div.firstChild
   }
 
   out(type, args) {

@@ -215,7 +215,10 @@ function chapterInteraction() {
           }
         })
       else
-        box.run(val, context.output)
+        box.run(val, context.output).then(value => {
+          if (value != null && context.meta && /\bexpr\b/.test(context.meta) && context.output.empty)
+            box.out("log", [value])
+        })
     })
   }
 

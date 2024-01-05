@@ -97,7 +97,7 @@ Calculations with whole numbers (also called _((integer))s_) smaller than the af
 
 The main thing to do with numbers is arithmetic. Arithmetic operations such as addition or multiplication take two number values and produce a new number from them. Here is what they look like in JavaScript:
 
-```
+```{meta: "expr"}
 100 + 4 * 11
 ```
 
@@ -109,7 +109,7 @@ The `+` and `*` symbols are called _operators_. The first stands for addition, a
 
 But does the example mean "add 4 and 100, and multiply the result by 11," or is the multiplication done before the adding? As you might have guessed, the multiplication happens first. But as in mathematics, you can change this by wrapping the addition in parentheses.
 
-```
+```{meta: "expr"}
 (100 + 4) * 11
 ```
 
@@ -194,7 +194,7 @@ And that's what JavaScript does. But there's a complication: JavaScript's repres
 
 Strings cannot be divided, multiplied, or subtracted, but the `+` operator _can_ be used on them. It does not add, but it _concatenates_—it glues two strings together. The following line will produce the string `"concatenate"`:
 
-```
+```{meta: "expr"}
 "con" + "cat" + "e" + "nate"
 ```
 
@@ -204,7 +204,7 @@ String values have a number of associated functions (_methods_) that can be used
 
 Strings written with single or double quotes behave very much the same—the only difference is in which type of quote you need to escape inside of them. Backtick-quoted strings, usually called _((template literals))_, can do a few more tricks. Apart from being able to span lines, they can also embed other values.
 
-```
+```{meta: "expr"}
 `half of 100 is ${100 / 2}`
 ```
 
@@ -330,7 +330,7 @@ _Not_ is written as an exclamation mark (`!`). It is a unary operator that flips
 
 When mixing these Boolean operators with arithmetic and other operators, it is not always obvious when parentheses are needed. In practice, you can usually get by with knowing that of the operators we have seen so far, `||` has the lowest precedence, then comes `&&`, then the comparison operators (`>`, `==`, and so on), and then the rest. This order has been chosen such that, in typical expressions like the following one, as few parentheses as possible are necessary:
 
-```
+```{meta: "expr"}
 1 + 1 == 2 && 10 * 10 > 50
 ```
 

@@ -74,7 +74,7 @@ Parameters to a function behave like regular bindings, but their initial values 
 {{indexsee "top-level scope", "global scope"}}
 {{index "var keyword", "global scope", [binding, global], [binding, "scope of"]}}
 
-Each binding has a _((scope))_, which is the part of the program in which the binding is visible. For bindings defined outside of any function or block, the scope is the whole program—you can refer to such bindings wherever you want. These are called _global_.
+Each binding has a _((scope))_, which is the part of the program in which the binding is visible. For bindings defined outside of any function, block, or module (see [Chapter ?](modules)), the scope is the whole program—you can refer to such bindings wherever you want. These are called _global_.
 
 {{index "local scope", [binding, local]}}
 
@@ -637,7 +637,7 @@ A _pure_ function is a specific kind of value-producing function that not only h
 
 {{index optimization, "console.log"}}
 
-Still, there's no need to feel bad when writing functions that are not pure. Side effects are often useful. There'd be no way to write a pure version of `console.log`, for example, and `console.log` is good to have. Some operations are also easier to express in an efficient way when we use side effects, so computing speed can be a reason to avoid purity.
+Still, there's no need to feel bad when writing functions that are not pure. Side effects are often useful. There'd be no way to write a pure version of `console.log`, for example, and `console.log` is good to have. Some operations are also easier to express in an efficient way when we use side effects.
 
 ## Summary
 

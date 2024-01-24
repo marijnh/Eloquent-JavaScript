@@ -39,7 +39,7 @@ The simplest kind of statement is an expression with a semicolon after it. This 
 !false;
 ```
 
-It is a useless program, though. An ((expression)) can be content to just produce a value, which can then be used by the enclosing code. A ((statement)) stands on its own, so if it doesn't affect the world, it's useless. It could display something on the screen—that counts as affecting the world—or it could change the internal state of the machine in a way that will affect the statements that come after it. These changes are called _((side effect))s_. The statements in the previous example just produce the values `1` and `true` and then immediately throw them away. This leaves no impression on the world at all. When you run this program, nothing observable happens.
+It is a useless program, though. An ((expression)) can be content to just produce a value, which can then be used by the enclosing code. A ((statement)) stands on its own, so if it doesn't affect the world, it's useless. It may display something on the screen, as with `console.log`, or change the state of the machine in a way that will affect the statements that come after it. These changes are called _((side effect))s_. The statements in the previous example just produce the values `1` and `true` and then immediately throw them away. This leaves no impression on the world at all. When you run this program, nothing observable happens.
 
 {{index "programming style", "automatic semicolon insertion", semicolon}}
 
@@ -379,7 +379,7 @@ The counter could also have started at `1` and checked for `<= 10`, but for reas
 
 {{index "** operator"}}
 
-Note that JavaScript _does_ have an operator for exponentiation (`2 ** 10`), which could have made this code a lot shorter—but would also have ruined the example.
+Note that JavaScript also has an operator for exponentiation (`2 ** 10`), which you would use to compute this in real code—but that would have ruined the example.
 
 {{index "loop body", "do loop", ["control flow", loop]}}
 
@@ -390,7 +390,7 @@ let yourName;
 do {
   yourName = prompt("Who are you?");
 } while (!yourName);
-console.log(yourName);
+console.log("Hello " + yourName);
 ```
 
 {{index [Boolean, "conversion to"], "! operator"}}
@@ -403,7 +403,7 @@ This program will force you to enter a name. It will ask again and again until i
 
 In the examples, I've been adding spaces in front of statements that are part of some larger statement. These spaces are not required—the computer will accept the program just fine without them. In fact, even the ((line)) breaks in programs are optional. You could write a program as a single long line if you felt like it.
 
-The role of this ((indentation)) inside ((block))s is to make the structure of the code stand out. In code where new blocks are opened inside other blocks, it can become hard to see where one block ends and another begins. With proper indentation, the visual shape of a program corresponds to the shape of the blocks inside it. I like to use two spaces for every open block, but tastes differ—some people use four spaces, and some people use ((tab character))s. The important thing is that each new block adds the same amount of space.
+The role of this ((indentation)) inside ((block))s is to make the structure of the code stand out to human readers. In code where new blocks are opened inside other blocks, it can become hard to see where one block ends and another begins. With proper indentation, the visual shape of a program corresponds to the shape of the blocks inside it. I like to use two spaces for every open block, but tastes differ—some people use four spaces, and some people use ((tab character))s. The important thing is that each new block adds the same amount of space.
 
 ```
 if (false != true) {
@@ -486,7 +486,7 @@ If you were to remove that `break` statement or you accidentally write an end co
 
 {{if interactive
 
-If you create an infinite loop in one of the examples on these pages, you'll usually be asked whether you want to stop the script after a few seconds. If that fails, you will have to close the tab that you're working in, or on some browsers close your whole browser, to recover.
+If you create an infinite loop in one of the examples on these pages, you'll usually be asked whether you want to stop the script after a few seconds. If that fails, you will have to close the tab that you're working in to recover.
 
 if}}
 

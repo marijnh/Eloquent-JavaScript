@@ -84,9 +84,9 @@ let linkedChapter = null, raw = false, quote = false
 let renderer = {
   fence(token) {
     if (/\bhidden:\s*true/.test(token.info)) return ""
-    if (noStarch)
+/*    if (noStarch)
       return `\n\n${id(token)}\\begin{Code}\n${token.content.trimRight()}\n\\end{Code}\n`
-    else
+    else*/
       return `\n\n${id(token)}\\begin{lstlisting}\n${escapeComplexScripts(token.content.trimRight())}\n\\end{lstlisting}\n\\noindent`
   },
 
@@ -189,19 +189,34 @@ let renderer = {
   meta_quote_open(token) {
     if (token.args[0] && token.args[0].chapter) {
       quote = true
-      return `\n\n\\epigraphhead[30]{\n\\epigraph{\\hspace*{-.1cm}\\itshape\`\``
+      if (!noStarch) return `\n\n\\epigraphhead[30]{\n\\epigraph{\\hspace*{-.1cm}\\itshape\`\``
+      return `\\epigraphskip
+\\thispagestyle{empty}
+\\vspace*{\\fill}
+\\begin{center} 
+\\begin{minipage}{\\epigraphwidth}
+\\centering
+\\setlength{\\epigraphrule}{0pt}
+\\renewcommand{\\sourceflush}{center}
+\\epigraph{\\centering{\`\``
     } else {
       return `\n\n\\begin{quote}`
     }
   },
   meta_quote_close(token) {
     quote = false
-    let {author, title, chapter} = token.args[0] || {}
+    let {author, title, chapter, image} = token.args[0] || {}
     let attribution = author ? `\n{---${escape(author)}${title ? `, ${escape(title)}` : ""}}` : ""
-    if (chapter)
-      return `''}%${attribution}\n}`
-    else
-      return `${attribution ? "\n" + attribution : ""}\n\\end{quote}`
+    if (!chapter) return `${attribution ? "\n" + attribution : ""}\n\\end{quote}`
+    if (!noStarch) return `''}%${attribution}\n}`
+    return `}}%${attribution}
+${image ? `\\includegraphics[width=\\linewidth]{${image}}` : ''}
+\\end{minipage}
+\\end{center}
+\\vspace*{\\fill}
+\\clearpage
+
+`
   },
 
   meta_hint_open() { return "" }, // FIXME filter out entirely
@@ -216,6 +231,22 @@ function renderArray(tokens) {
     result += f(token, tokens[i + 1])
   }
   return result
+}
+
+// Move epigraph to the front
+if (noStarch) {
+  let epiStart = tokens.findIndex(t => t.type == "meta_quote_open" && t.args[0]?.chapter)
+  if (epiStart > -1) {
+    let epiEnd = tokens.findIndex((t, i) => t.type == "meta_quote_close" && i > epiStart)
+    let range = tokens.slice(epiStart, epiEnd + 1)
+    tokens.splice(epiStart, epiEnd + 1 - epiStart)
+    tokens.splice(0, 0, ...range)
+    let image = tokens.findIndex(t => t.type == "meta_figure" && t.args[0]?.chapter)
+    if (image) {
+      tokens[0].args[0].image = tokens[image].args[0].url
+      tokens.splice(image, image + 1)
+    }
+  }
 }
 
 console.log(renderArray(tokens))

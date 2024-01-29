@@ -95,7 +95,7 @@ null.length;
 {{indexsee "dot character", "period character"}}
 {{index "[] (subscript)", "period character", "square brackets", "computed property", [property, access]}}
 
-The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access a property on `value`—but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is _evaluated_ to get the property name. Whereas `value.x` fetches the property of `value` named "x", `value[x]` tries to evaluate the expression `x` and uses the result, converted to a string, as the property name.
+The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access a property on `value`—but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is _evaluated_ to get the property name. Whereas `value.x` fetches the property of `value` named "x", `value[x]` takes the value of the variable named `x` and uses the that, converted to a string, as the property name.
 
 So if you know that the property you are interested in is called _color_, you say `value.color`. If you want to extract the property named by the value held in the binding `i`, you say `value[i]`. Property names are strings. They can be any string, but the dot notation works only with names that look like valid binding names. So if you want to access a property named _2_ or _John Doe_, you must use square brackets: `value[2]` or `value["John Doe"]`.
 
@@ -556,11 +556,11 @@ console.log(phi(tableFor("peanut teeth", JOURNAL)));
 
 That's a strong result. The phenomenon occurs precisely when Jacques eats ((peanuts)) and fails to brush his teeth. If only he weren't such a slob about dental hygiene, he'd have never even noticed his affliction.
 
-Knowing this, Jacques stops eating peanuts altogether and finds that his transformations don't come back like that.
+Knowing this, Jacques stops eating peanuts altogether and finds that his transformations stop.
 
 {{index "weresquirrel example"}}
 
-But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes one last time, and lives the rest of his short but energetic life as a squirrel.
+But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes one last time, and lives the short and energetic life of a squirrel.
 
 ## Further arrayology
 

@@ -37,7 +37,7 @@ Even better, it may be possible to use object classes in multiple different prog
 {{id interface}}
 {{index [interface, object]}}
 
-Each abstract data type has an _interface_, which is the collection of operations that external code can perform on it. Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate, since often useful pieces of functionality involve a group of different object classes working closely together.
+Each abstract data type has an _interface_, which is the collection of operations that external code can perform on it. Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on single _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate, since often useful pieces of functionality involve a group of different object classes working closely together.
 
 {{id obj_methods}}
 
@@ -167,7 +167,7 @@ blackRabbit.speak("I am fear and darkness");
 
 {{index "shared property"}}
 
-The "proto" rabbit acts as a container for the properties that are shared by all rabbits. An individual rabbit object, like the killer rabbit, contains properties that apply only to itself—in this case its type—and derives shared properties from its prototype.
+The "proto" rabbit acts as a container for the properties that are shared by all rabbits. An individual rabbit object, like the black rabbit, contains properties that apply only to itself—in this case its type—and derives shared properties from its prototype.
 
 {{id classes}}
 
@@ -232,7 +232,7 @@ ArchaicRabbit.prototype.speak = function(line) {
 let oldSchoolRabbit = new ArchaicRabbit("old school");
 ```
 
-All functions start with a `prototype` property holding an empty object, for this reason.
+For this reason, all non-arrow functions start with a `prototype` property holding an empty object.
 
 {{index capitalization}}
 
@@ -295,7 +295,7 @@ class SecretiveObject {
 }
 ```
 
-If you try to call `#getSecret` from outside the class, you get an error message. Its existence is entirely hidden inside the class declaration.
+If you try to call `#getSecret` from outside the class, you get an error. Its existence is entirely hidden inside the class declaration.
 
 To use private instance properties, you must declare them. Regular properties can be created by just assigning to them, but private properties _must_ be declared in the class declaration to be available at all.
 
@@ -481,7 +481,7 @@ I mentioned in [Chapter ?](data#for_of_loop) that a `for`/`of` loop can loop ove
 
 It is possible for multiple interfaces to use the same property name for different things. For example, on array-like objects, `length` refers to the amount of elements in the collection. But an object interface describing a hiking route could use `length` to provide the length of the route in meters. It would not be possible for an object to conform to both these interfaces.
 
-An object trying to be a route and array-like (maybe to enumerate its waypoints) is somewhat far-fetched, and this kind of problem isn't that common in practice. But for things like the iteration protocol, the language designers needed a type of property that _really_ doesn't conflict with any others. So in 2015, _((symbol))_s were added to the language.
+An object trying to be a route and array-like (maybe to enumerate its waypoints) is somewhat far-fetched, and this kind of problem isn't that common in practice. But for things like the iteration protocol, the language designers needed a type of property that _really_ doesn't conflict with any others. So in 2015, _((symbol))s_ were added to the language.
 
 {{index "Symbol function", [property, naming]}}
 
@@ -651,7 +651,7 @@ console.log([..."PCI"]);
 
 {{index [interface, object], [property, definition], "Map class"}}
 
-Interfaces often plain properties, not just methods. For example, `Map` objects have a `size` property that tells you how many keys are stored in them.
+Interfaces often contain plain properties, not just methods. For example, `Map` objects have a `size` property that tells you how many keys are stored in them.
 
 It is not necessary for such an object to compute and store such a property directly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called _((getter))s_, and they are defined by writing `get` in front of the method name in an object expression or class declaration.
 

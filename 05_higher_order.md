@@ -240,7 +240,7 @@ The `ranges` property contains an array of Unicode character ((range))s, each of
 
 {{index [array, methods], [array, filtering], "filter method", [function, "higher-order"], "predicate function"}}
 
-To find the scripts in the data set that are still in use, the following function might be helpful. It filters out the elements in an array that don't pass a test.
+If we want to find the scripts in the data set that are still in use, the following function might be helpful. It filters out elements in an array that don't pass a test.
 
 ```
 function filter(array, test) {
@@ -422,7 +422,7 @@ In terms of what the computer is actually doing, these two approaches are also q
 
 {{index "SCRIPTS data set"}}
 
-One use of the data set would be figuring out what script a piece of text is using. Let's go through a program that does this.
+One interesting use of this data set would be figuring out what script a piece of text is using. Let's go through a program that does this.
 
 Remember that each script has an array of character code ranges associated with it. So given a character code, we could use a function like this to find the corresponding script (if any):
 
@@ -521,7 +521,7 @@ The `countBy` function expects a collection (anything that we can loop over with
 
 {{index "find method"}}
 
-It uses another array method—`find`. This method goes over the elements in the array and returns the first one for which is somewhat like `indexOf`, but instead of looking for a specific value, it finds the first value for which the given function returns true. It returns `undefined` when no such element is found.
+It uses another array method—`find`. This method goes over the elements in the array and returns the first one for which a function returns true. It returns `undefined` when no such element is found.
 
 {{index "textScripts function", "Chinese characters"}}
 

@@ -623,7 +623,7 @@ class List {
   }
 
   static fromArray(array) {
-    let result = null
+    let result = null;
     for (let i = array.length - 1; i >= 0; i--) {
       result = new this(array[i], result);
     }

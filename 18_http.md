@@ -789,7 +789,7 @@ Notes: <select></select> <button>Add</button><br>
     setState({notes: state.notes, selected: list.value});
   });
   note.addEventListener("change", () => {
-    let {selected} = state
+    let {selected} = state;
     setState({
       notes: {...state.notes, [selected]: note.value},
       selected

@@ -54,7 +54,7 @@ canYouSpotTheProblem();
 
 {{index "let keyword", [binding, global]}}
 
-Normally, when you forget to put `let` in front of your binding, as with `counter` in the example, JavaScript quietly creates a global binding and uses that. In strict mode, an ((error)) is reported instead. This is very helpful. It should be noted, though, that this doesn't work when the binding in question already exists as a global binding. In that case, the loop will still quietly overwrite the value of the binding.
+Normally, when you forget to put `let` in front of your binding, as with `counter` in the example, JavaScript quietly creates a global binding and uses that. In strict mode, an ((error)) is reported instead. This is very helpful. It should be noted, though, that this doesn't work when the binding in question already exists somewhere in scope. In that case, the loop will still quietly overwrite the value of the binding.
 
 {{index "this binding", "global object", undefined, "strict mode"}}
 
@@ -315,7 +315,7 @@ The `throw` keyword is used to raise an exception. Catching one is done by wrapp
 
 {{index debugging, "call stack", "Error type"}}
 
-In this case, we used the `Error` ((constructor)) to create our exception value. This is a ((standard)) JavaScript constructor that creates an object with a `message` property. In most JavaScript environments, instances of this constructor also gather information about the call stack that existed when the exception was created, a so-called _((stack trace))_. This information is stored in the `stack` property and can be helpful when trying to debug a problem: it tells us the function where the problem occurred and which functions made the failing call.
+In this case, we used the `Error` ((constructor)) to create our exception value. This is a ((standard)) JavaScript constructor that creates an object with a `message` property. Instances of `Error` also gather information about the call stack that existed when the exception was created, a so-called _((stack trace))_. This information is stored in the `stack` property and can be helpful when trying to debug a problem: it tells us the function where the problem occurred and which functions made the failing call.
 
 {{index "exception handling"}}
 
@@ -613,12 +613,12 @@ function withBoxUnlocked(body) {
   // Your code here.
 }
 
-withBoxUnlocked(function() {
+withBoxUnlocked(() => {
   box.content.push("gold piece");
 });
 
 try {
-  withBoxUnlocked(function() {
+  withBoxUnlocked(() => {
     throw new Error("Pirates on the horizon! Abort!");
   });
 } catch (e) {

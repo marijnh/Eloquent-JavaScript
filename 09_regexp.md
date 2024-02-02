@@ -134,10 +134,10 @@ These backslash codes can also be used inside ((square brackets)). For example, 
 To _invert_ a set of characters—that is, to express that you want to match any character _except_ the ones in the set—you can write a caret (`^`) character after the opening bracket.
 
 ```
-let notBinary = /[^01]/;
-console.log(notBinary.test("1100100010100110"));
+let nonBinary = /[^01]/;
+console.log(nonBinary.test("1100100010100110"));
 // → false
-console.log(notBinary.test("0111010112101001"));
+console.log(nonBinary.test("0111010112101001"));
 // → true
 ```
 
@@ -160,7 +160,7 @@ It is possible to use `\p` in a regular expression to match all characters to wh
 | `\p{L}`             | Any letter
 | `\p{N}`             | Any numeric character
 | `\p{P}`             | Any punctuation character
-| `\P{L}`             | Any non-letter
+| `\P{L}`             | Any non-letter (uppercase P inverts)
 | `\p{Script=Hangul}` | Any character from the given script (see [Chapter ?](higher_order#scripts))
 
 Using `\w` for text processing that may need to handle non-English text (or even English text with borrowed words like “cliché”) is a liability, since it won't treat characters like “é” as letters. Though they tend to be a bit more verbose, `\p` property groups are more robust.
@@ -292,7 +292,7 @@ console.log(quotedText.exec("she said 'hello'"));
 
 {{index "capture group"}}
 
-When a group does not end up being matched at all (for example, when followed by a question mark), its position in the output array will hold `undefined`. Similarly, when a group is matched multiple times, only the last match ends up in the array.
+When a group does not end up being matched at all (for example, when followed by a question mark), its position in the output array will hold `undefined`. And when a group is matched multiple times (for example when it is followed by a `+`), only the last match ends up in the array.
 
 ```
 console.log(/bad(ly)?/.exec("bad"));
@@ -322,7 +322,7 @@ JavaScript has a standard class for representing ((date))s—or, rather, points 
 
 ```{test: no}
 console.log(new Date());
-// → Mon Nov 13 2017 16:19:11 GMT+0100 (CET)
+// → Fri Feb 02 2024 18:03:06 GMT+0100 (CET)
 ```
 
 {{index "Date class"}}
@@ -395,7 +395,7 @@ There is also a `\b` marker, which matches “word boundaries”, positions that
 
 Note that these markers don't match any actual characters. They just enforces that a given condition holds at the place where they appears in the pattern.
 
-{{index "look-ahead}}
+{{index "look-ahead"}}
 
 _Look-ahead_ tests do something similar. They provide a pattern, and will make the match fail if the input doesn't match that pattern, but don't actually move the match position forward. They are written between `(?=` and `)`.
 
@@ -860,7 +860,7 @@ Regular expressions are a sharp ((tool)) with an awkward handle. They simplify s
 
 {{index debugging, bug}}
 
-It is almost unavoidable that, in the course of working on these exercises, you will get confused and frustrated by some regular expression's inexplicable ((behavior)). Sometimes it helps to enter your expression into an online tool like [_https://debuggex.com_](https://www.debuggex.com/) to see whether its visualization corresponds to what you intended and to ((experiment)) with the way it responds to various input strings.
+It is almost unavoidable that, in the course of working on these exercises, you will get confused and frustrated by some regular expression's inexplicable ((behavior)). Sometimes it helps to enter your expression into an online tool like [_debuggex.com_](https://www.debuggex.com/) to see whether its visualization corresponds to what you intended and to ((experiment)) with the way it responds to various input strings.
 
 ### Regexp golf
 
@@ -870,7 +870,7 @@ _Code golf_ is a term used for the game of trying to express a particular progra
 
 {{index boundary, matching}}
 
-For each of the following items, write a ((regular expression)) to test whether any of the given substrings occur in a string. The regular expression should match only strings containing one of the substrings described. When your expression works, see whether you can make it any smaller.
+For each of the following items, write a ((regular expression)) to test whether the given pattern occurs in a string. The regular expression should match only strings containing the pattern. When your expression works, see whether you can make it any smaller.
 
  1. _car_ and _cat_
  2. _pop_ and _prop_

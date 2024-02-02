@@ -473,11 +473,69 @@ Array.prototype.forEach.call({
 // → B
 ```
 
+## Getters, setters, and statics
+
+{{index [interface, object], [property, definition], "Map class"}}
+
+Interfaces often contain plain properties, not just methods. For example, `Map` objects have a `size` property that tells you how many keys are stored in them.
+
+It is not necessary for such an object to compute and store such a property directly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called _((getter))s_, and they are defined by writing `get` in front of the method name in an object expression or class declaration.
+
+```{test: no}
+let varyingSize = {
+  get size() {
+    return Math.floor(Math.random() * 100);
+  }
+};
+
+console.log(varyingSize.size);
+// → 73
+console.log(varyingSize.size);
+// → 49
+```
+
+{{index "temperature example"}}
+
+Whenever someone reads from this object's `size` property, the associated method is called. You can do a similar thing when a property is written to, using a _((setter))_.
+
+```{test: no, startCode: true}
+class Temperature {
+  constructor(celsius) {
+    this.celsius = celsius;
+  }
+  get fahrenheit() {
+    return this.celsius * 1.8 + 32;
+  }
+  set fahrenheit(value) {
+    this.celsius = (value - 32) / 1.8;
+  }
+
+  static fromFahrenheit(value) {
+    return new Temperature((value - 32) / 1.8);
+  }
+}
+
+let temp = new Temperature(22);
+console.log(temp.fahrenheit);
+// → 71.6
+temp.fahrenheit = 86;
+console.log(temp.celsius);
+// → 30
+```
+
+The `Temperature` class allows you to read and write the temperature in either degrees ((Celsius)) or degrees ((Fahrenheit)), but internally it stores only Celsius and automatically converts to and from Celsius in the `fahrenheit` getter and setter.
+
+{{index "static method", "static property"}}
+
+Sometimes you want to attach some properties directly to your constructor function, rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
+
+Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. So the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit.
+
+## Symbols
+
 {{index "for/of loop", "iterator interface"}}
 
 I mentioned in [Chapter ?](data#for_of_loop) that a `for`/`of` loop can loop over several kinds of data structures. This is another case of polymorphism—such loops expect the data structure to expose a specific interface, which arrays and strings do. And we can also add this interface to our own objects! But before we can do that, we need to briefly take a look at the symbol type.
-
-## Symbols
 
 It is possible for multiple interfaces to use the same property name for different things. For example, on array-like objects, `length` refers to the amount of elements in the collection. But an object interface describing a hiking route could use `length` to provide the length of the route in meters. It would not be possible for an object to conform to both these interfaces.
 
@@ -549,93 +607,76 @@ console.log(okIterator.next());
 // → {value: undefined, done: true}
 ```
 
-{{index "matrix example", "Matrix class", [array, "as matrix"]}}
+{{index ["data structure", list], "linked list", collection}}
 
-{{id matrix}}
-
-Let's implement an iterable data structure. We'll build a _matrix_ class, acting as a two-dimensional array.
+Let's implement an iterable data structure similar to the linked list from the exercise in [Chapter ?](data). We'll write the list as a class this time.
 
 ```{includeCode: true}
-class Matrix {
-  #content;
-  constructor(width, height, element = (x, y) => undefined) {
-    this.width = width;
-    this.height = height;
-    this.#content = [];
+class List {
+  constructor(value, rest) {
+    this.value = value;
+    this.rest = rest;
+  }
 
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        this.#content[y * width + x] = element(x, y);
-      }
+  get length() {
+    return 1 + (this.rest ? this.rest.length : 0);
+  }
+
+  static fromArray(array) {
+    let result = null
+    for (let i = array.length - 1; i >= 0; i--) {
+      result = new this(array[i], result);
     }
-  }
-
-  get(x, y) {
-    return this.#content[y * this.width + x];
-  }
-  set(x, y, value) {
-    this.#content[y * this.width + x] = value;
+    return result;
   }
 }
 ```
 
-The class stores its content in a single array of _width_ × _height_ elements. The elements are stored row by row, so, for example, the third element in the fifth row is (using zero-based indexing) stored at position 4 × _width_ + 2.
+Note that `this`, in a static method, points at the constructor of the class, not an instance—there is no instance around, when a static method is called.
 
-The constructor function takes a width, a height, and an optional `element` function that will be used to fill in the initial values. There are `get` and `set` methods to retrieve and update elements in the matrix.
+Iterating over a list should return all the list's elements from start to end. We'll write a separate class for the iterator.
 
-When looping over a matrix, you are usually interested in the position of the elements as well as the elements themselves, so we'll have our iterator produce objects with `x`, `y`, and `value` properties.
-
-{{index "MatrixIterator class"}}
+{{index "ListIterator class"}}
 
 ```{includeCode: true}
-class MatrixIterator {
-  constructor(matrix) {
-    this.x = 0;
-    this.y = 0;
-    this.matrix = matrix;
+class ListIterator {
+  constructor(list) {
+    this.list = list;
   }
 
   next() {
-    if (this.y == this.matrix.height) {
+    if (this.list == null) {
       return {done: true};
     }
-
-    let value = {x: this.x,
-                 y: this.y,
-                 value: this.matrix.get(this.x, this.y)};
-    this.x++;
-    if (this.x == this.matrix.width) {
-      this.x = 0;
-      this.y++;
-    }
+    let value = this.list.value;
+    this.list = this.list.rest;
     return {value, done: false};
   }
 }
 ```
 
-The class tracks the progress of iterating over a matrix in its `x` and `y` properties. The `next` method starts by checking whether the bottom of the matrix has been reached. If it hasn't, it _first_ creates the object holding the current value and _then_ updates its position, moving to the next row if necessary.
+The class tracks the progress of iterating through the list by updating its `list` property to move to the next list object whenever a value is returned, and reports that it is done when that list is empty (null).
 
-Let's set up the `Matrix` class to be iterable. Throughout this book, I'll occasionally use after-the-fact prototype manipulation to add methods to classes so that the individual pieces of code remain small and self-contained. In a regular program, where there is no need to split the code into small pieces, you'd declare these methods directly in the class instead.
+Let's set up the `List` class to be iterable. Throughout this book, I'll occasionally use after-the-fact prototype manipulation to add methods to classes so that the individual pieces of code remain small and self-contained. In a regular program, where there is no need to split the code into small pieces, you'd declare these methods directly in the class instead.
 
 ```{includeCode: true}
-Matrix.prototype[Symbol.iterator] = function() {
-  return new MatrixIterator(this);
+List.prototype[Symbol.iterator] = function() {
+  return new ListIterator(this);
 };
 ```
 
 {{index "for/of loop"}}
 
-We can now loop over a matrix with `for`/`of`.
+We can now loop over a list with `for`/`of`.
 
 ```
-let matrix = new Matrix(2, 2, (x, y) => `value ${x},${y}`);
-for (let {x, y, value} of matrix) {
-  console.log(x, y, value);
+let list = List.fromArray([1, 2, 3]);
+for (let element of list) {
+  console.log(element);
 }
-// → 0 0 value 0,0
-// → 1 0 value 1,0
-// → 0 1 value 0,1
-// → 1 1 value 1,1
+// → 1
+// → 2
+// → 3
 ```
 
 {{index spread}}
@@ -647,105 +688,41 @@ console.log([..."PCI"]);
 // → ["P", "C", "I"]
 ```
 
-## Getters, setters, and statics
-
-{{index [interface, object], [property, definition], "Map class"}}
-
-Interfaces often contain plain properties, not just methods. For example, `Map` objects have a `size` property that tells you how many keys are stored in them.
-
-It is not necessary for such an object to compute and store such a property directly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called _((getter))s_, and they are defined by writing `get` in front of the method name in an object expression or class declaration.
-
-```{test: no}
-let varyingSize = {
-  get size() {
-    return Math.floor(Math.random() * 100);
-  }
-};
-
-console.log(varyingSize.size);
-// → 73
-console.log(varyingSize.size);
-// → 49
-```
-
-{{index "temperature example"}}
-
-Whenever someone reads from this object's `size` property, the associated method is called. You can do a similar thing when a property is written to, using a _((setter))_.
-
-```{test: no, startCode: true}
-class Temperature {
-  constructor(celsius) {
-    this.celsius = celsius;
-  }
-  get fahrenheit() {
-    return this.celsius * 1.8 + 32;
-  }
-  set fahrenheit(value) {
-    this.celsius = (value - 32) / 1.8;
-  }
-
-  static fromFahrenheit(value) {
-    return new Temperature((value - 32) / 1.8);
-  }
-}
-
-let temp = new Temperature(22);
-console.log(temp.fahrenheit);
-// → 71.6
-temp.fahrenheit = 86;
-console.log(temp.celsius);
-// → 30
-```
-
-The `Temperature` class allows you to read and write the temperature in either degrees ((Celsius)) or degrees ((Fahrenheit)), but internally it stores only Celsius and automatically converts to and from Celsius in the `fahrenheit` getter and setter.
-
-{{index "static method", "static property"}}
-
-Sometimes you want to attach some properties directly to your constructor function, rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
-
-Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. So the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit.
-
 ## Inheritance
 
-{{index inheritance, "matrix example", "object-oriented programming", "SymmetricMatrix class"}}
+{{index inheritance, "linked list", "object-oriented programming", "LengthList class"}}
 
-Some matrices are known to be _symmetric_. If you mirror a symmetric matrix around its top-left-to-bottom-right diagonal, it stays the same. In other words, the value stored at _x_,_y_ is always the same as that at _y_,_x_.
-
-Imagine we need a data structure like `Matrix` but one that enforces the fact that the matrix is and remains symmetrical. We could write it from scratch, but that would involve repeating some code very similar to what we already wrote.
+Imagine we needed a list type, much like the `List` class we saw before, but because we will be asking for its length all the time, we don't want it to have to scan through its `rest` every time, and instead want to store the length in every instance for efficient access.
 
 {{index overriding, prototype}}
 
-JavaScript's prototype system makes it possible to create a _new_ class, much like the old class, but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `set` method.
+JavaScript's prototype system makes it possible to create a _new_ class, much like the old class, but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `length` getter.
 
 In object-oriented programming terms, this is called _((inheritance))_. The new class inherits properties and behavior from the old class.
 
 ```{includeCode: "top_lines: 17"}
-class SymmetricMatrix extends Matrix {
-  constructor(size, element = (x, y) => undefined) {
-    super(size, size, (x, y) => {
-      if (x <= y) return element(y, x);
-      else return element(x, y);
-    });
+class LengthList extends List {
+  #length;
+
+  constructor(value, rest) {
+    super(value, rest);
+    this.#length = super.length;
   }
 
-  set(x, y, value) {
-    super.set(x, y, value);
-    if (x != y) {
-      super.set(y, x, value);
-    }
+  get length() {
+    return this.#length;
   }
 }
 
-let matrix = new SymmetricMatrix(5, (x, y) => `${x},${y}`);
-console.log(matrix.get(2, 3));
-// → 3,2
+console.log(LengthList.fromArray([1, 2, 3]).length);
+// → 3
 ```
 
 The use of the word `extends` indicates that this class shouldn't be directly based on the default `Object` prototype but on some other class. This is called the _((superclass))_. The derived class is the _((subclass))_.
 
-To initialize a `SymmetricMatrix` instance, the constructor calls the constructor of its superclass through the `super` keyword. This is necessary because if this new object is to behave (roughly) like a `Matrix`, it is going to need the instance properties that matrices have.  To ensure the matrix is symmetrical, the constructor wraps the `element` function to swap the coordinates for values below the diagonal.
+To initialize a `LengthList` instance, the constructor calls the constructor of its superclass through the `super` keyword. This is necessary because if this new object is to behave (roughly) like a `List`, it is going to need the instance properties that lists have.
 
-The `set` method again uses `super` but this time not to call the constructor but to call a specific method from the superclass's set of methods. We are redefining `set` but do want to use the original behavior. Because `this.set` refers to the _new_ `set` method, calling that wouldn't work. Inside class methods, `super` provides a way to call methods as they were defined in the superclass.
+The constructor then stores the list's length in a private property. If we had written `this.length` there, the class's own getter would have been called, which doesn't work yet, since `#length` hasn't been filled in yet. We can using `super.something` to call methods and getters on the superclass's prototype, which is often useful.
 
 Inheritance allows us to build slightly different data types from existing data types with relatively little work. It is a fundamental part of the object-oriented tradition, alongside encapsulation and polymorphism. But while the latter two are now generally regarded as wonderful ideas, inheritance is more controversial.
 
@@ -761,11 +738,11 @@ It is occasionally useful to know whether an object was derived from a specific 
 
 ```
 console.log(
-  new SymmetricMatrix(2) instanceof SymmetricMatrix);
+  new LengthList(1, null) instanceof LengthList);
 // → true
-console.log(new SymmetricMatrix(2) instanceof Matrix);
+console.log(new LengthList(2, null) instanceof List);
 // → true
-console.log(new Matrix(2, 2) instanceof SymmetricMatrix);
+console.log(new List(3, null) instanceof LengthList);
 // → false
 console.log([1] instanceof Array);
 // → true
@@ -773,7 +750,7 @@ console.log([1] instanceof Array);
 
 {{index inheritance}}
 
-The operator will see through inherited types, so a `SymmetricMatrix` is an instance of `Matrix`. The operator can also be applied to standard constructors like `Array`. Almost every object is an instance of `Object`.
+The operator will see through inherited types, so a `LengthList` is an instance of `List`. The operator can also be applied to standard constructors like `Array`. Almost every object is an instance of `Object`.
 
 ## Summary
 

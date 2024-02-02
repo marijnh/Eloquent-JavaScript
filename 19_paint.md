@@ -72,9 +72,9 @@ Each component has a `syncState` method that is used to synchronize it to a new 
 
 ## The state
 
-{{index "Picture class", "picture property", "tool property", "color property", "Matrix class"}}
+{{index "Picture class", "picture property", "tool property", "color property"}}
 
-The application state will be an object with `picture`, `tool`, and `color` properties. The picture is itself an object that stores the width, height, and pixel content of the picture. The ((pixel))s are stored in an array, in the same way as the matrix class from [Chapter ?](object)—row by row, from top to bottom.
+The application state will be an object with `picture`, `tool`, and `color` properties. The picture is itself an object that stores the width, height, and pixel content of the picture. The ((pixel))s are stored in a single array, row by row, from top to bottom.
 
 ```{includeCode: true}
 class Picture {

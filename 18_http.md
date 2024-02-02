@@ -963,7 +963,7 @@ if}}
 
 To solve the problem of having the changes conceptually happen at the same time, try to see the computation of a ((generation)) as a ((pure function)), which takes one ((grid)) and produces a new grid that represents the next turn.
 
-Representing the matrix can be done in the way shown in [Chapter ?](object#matrix). You can count live ((neighbor))s with two nested loops, looping over adjacent coordinates in both dimensions. Take care not to count cells outside of the field and to ignore the cell in the center, whose neighbors we are counting.
+Representing the matrix can be done with a single array of width × height elements, storing values row by row, so, for example, the third element in the fifth row is (using zero-based indexing) stored at position 4 × _width_ + 2. You can count live ((neighbor))s with two nested loops, looping over adjacent coordinates in both dimensions. Take care not to count cells outside of the field and to ignore the cell in the center, whose neighbors we are counting.
 
 {{index "event handling", "change event"}}
 

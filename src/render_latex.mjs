@@ -84,10 +84,9 @@ let linkedChapter = null, raw = false, quote = false
 let renderer = {
   fence(token) {
     if (/\bhidden:\s*true/.test(token.info)) return ""
-/*    if (noStarch)
-      return `\n\n${id(token)}\\begin{Code}\n${token.content.trimRight()}\n\\end{Code}\n`
-    else*/
-      return `\n\n${id(token)}\\begin{lstlisting}\n${escapeComplexScripts(token.content.trimRight())}\n\\end{lstlisting}\n\\noindent`
+    let esc = escapeComplexScripts(token.content.trimRight())
+    if (noStarch) esc = esc.replace(/[“”]/g, '"').replace(/…/g, "...")
+    return `\n\n${id(token)}\\begin{lstlisting}\n${esc}\n\\end{lstlisting}\n`
   },
 
   hardbreak() { return "\\break\n" },
@@ -99,10 +98,16 @@ let renderer = {
     return raw ? content : escape(content)
   },
 
-  paragraph_open(token) {
+  paragraph_open(token, i, tokens) {
+    let noIndent = ""
+    if (!noStarch) for (i--; i >= 0; i--) {
+      let prev = tokens[i]
+      if (prev.type == "fence") noIndent = "\\noindent "
+      if (!/^meta_index/.test(prev.type)) break
+    }
     let nl = "\n\n";
     if (quote) { nl = ""; quote = false }
-    return nl + id(token)
+    return nl + noIndent + id(token)
   },
   paragraph_close() { return "" },
 
@@ -183,7 +188,9 @@ let renderer = {
     let {url, width, chapter} = token.args[0]
     if (chapter) return "" // FIXME
     if (/\.svg$/.test(url)) url = url.replace(/^img\//, "img/generated/").replace(/\.svg$/, ".pdf")
-    return `\n\n\\vskip 1.5ex\n\\includegraphics[width=${width || "10cm"}]{${url}}\n\\vskip 1.5ex`
+    let graphics = `\\includegraphics[width=${width || "10cm"}]{${url}}`
+    if (noStarch) return `\n\n\\begin{figure}[H]\n${graphics}\n\\end{figure}\n`
+    return `\n\n\\vskip 1.5ex\n${graphics}\n\\vskip 1.5ex\n`
   },
 
   meta_quote_open(token) {
@@ -228,7 +235,7 @@ function renderArray(tokens) {
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i], f = renderer[token.type]
     if (!f) throw new Error("No render function for " + token.type)
-    result += f(token, tokens[i + 1])
+    result += f(token, i, tokens)
   }
   return result
 }
@@ -244,7 +251,7 @@ if (noStarch) {
     let image = tokens.findIndex(t => t.type == "meta_figure" && t.args[0]?.chapter)
     if (image) {
       tokens[0].args[0].image = tokens[image].args[0].url
-      tokens.splice(image, image + 1)
+      tokens.splice(image, 1)
     }
   }
 }

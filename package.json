@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "rollup": "^3.28.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
     "acorn": "^8.0.0",
     "acorn-walk": "^8.0.0",
     "@codemirror/view": "^6.20.0",
@@ -23,9 +24,9 @@
     "@lezer/common": "^1.1.0",
     "@lezer/highlight": "^1.1.0",
     "jszip": "^3.10.0",
-    "markdown-it": "^13.0.0",
-    "markdown-it-sub": "^1.0.0",
-    "markdown-it-sup": "^1.0.0",
+    "markdown-it": "^14.0.0",
+    "markdown-it-sub": "^2.0.0",
+    "markdown-it-sup": "^2.0.0",
     "mime": "^2.3.1",
     "mold-template": "^2.0.1"
   },

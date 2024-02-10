@@ -135,11 +135,11 @@ When a problem is found in a package or a new feature is added, the package is u
 
 Working in this way requires ((infrastructure)). We need a place to store and find packages and a convenient way to install and upgrade them. In the JavaScript world, this infrastructure is provided by ((NPM)) ([_https://npmjs.org_](https://npmjs.org)).
 
-NPM is two things: an online service where one can download (and upload) packages and a program (bundled with Node.js) that helps you install and manage them.
+NPM is two things: an online service where you can download (and upload) packages and a program (bundled with Node.js) that helps you install and manage them.
 
 {{index "ini package"}}
 
-At the time of writing, there are more than two million different packages available on NPM. A large portion of those are rubbish, to be fair. But almost every useful, publicly available JavaScript package can be found on NPM. For example, an INI file parser, similar to the one we built in [Chapter ?](regexp), is available under the package name `ini`.
+At the time of writing, there are more than three million different packages available on NPM. A large portion of those are rubbish, to be fair. But almost every useful, publicly available JavaScript package can be found on NPM. For example, an INI file parser, similar to the one we built in [Chapter ?](regexp), is available under the package name `ini`.
 
 {{index "command line"}}
 
@@ -176,7 +176,7 @@ Before 2015, when the JavaScript language had no actual built-in module system, 
 
 {{index [function, scope], [interface, module], [object, as module]}}
 
-So the community designed its own improvised ((module system))s on top of the language: You can use JavaScript functions to create local scopes and objects to represent module interfaces.
+The community designed its own improvised ((module system))s on top of the language. These use functions to create a local scope for the modules and regular objects to represent module interfaces.
 
 Initially, people just manually wrapped their entire module in an “((immediately invoked function
 expression))” to create the module's scope, and assigned their interface objects to a single global
@@ -206,7 +206,7 @@ If we implement our own module loader, we can do better. The most widely used ap
 
 {{index "require function", [interface, module], "exports object"}}
 
-A CommonJS module looks like a regular script, but it has access to two bindings that it uses to interact with other modules. The first is a function called `require`. When you call this with the module name of your dependency, it makes sure the module is loaded and returns its interface. The second is an object named `exports`, which is the interface object for the module. It starts out mostly empty and you add properties to it to define exported values.
+A CommonJS module looks like a regular script, but it has access to two bindings that it uses to interact with other modules. The first is a function called `require`. When you call this with the module name of your dependency, it makes sure the module is loaded and returns its interface. The second is an object named `exports`, which is the interface object for the module. It starts out empty and you add properties to it to define exported values.
 
 {{index "formatDate module", "Date class", "ordinal package", "date-names package"}}
 
@@ -237,7 +237,7 @@ The interface of `ordinal` is a single function, whereas `date-names` exports an
 The module adds its interface function to `exports` so that modules that depend on it get access to it. We could use the module like this:
 
 ```
-const {formatDate} = require("./format-date");
+const {formatDate} = require("./format-date.js");
 
 console.log(formatDate(new Date(2017, 9, 13),
                        "dddd the Do"));
@@ -281,9 +281,9 @@ To avoid loading the same module multiple times, `require` keeps a store (cache)
 
 By defining `require`, `exports` as ((parameter))s for the generated wrapper function (and passing the appropriate values when calling it), the loader makes sure that these bindings are available in the module's ((scope)).
 
-An important difference between this system and ES modules is that ES module imports happen before a module's script starts running, whereas `require` is a normal function, invoked when the module is already running. Unlike `import` declarations, `require` calls _can_ appear inside function, and the name of the dependency can be any expression that evaluates to a string, whereas `import` only allows plain quoted strings.
+An important difference between this system and ES modules is that ES module imports happen before a module's script starts running, whereas `require` is a normal function, invoked when the module is already running. Unlike `import` declarations, `require` calls _can_ appear inside functions, and the name of the dependency can be any expression that evaluates to a string, whereas `import` only allows plain quoted strings.
 
-At the time of writing, the JavaScript community is still in the process of moving from CommonJS to the ES module style. This has been a slow process. Many packages on NPM still contain only CommonJS code. Fortunately, many tools (including Node.js) allow you to import CommonJS code in your ES modules using `import` declarations.
+The transition of the JavaScript community from CommonJS style to ES modules has been a slow and somewhat rough one. But fortunately we are now at a point where most of the popular packages on NPM provide their code as ES modules, and Node.js allows ES modules to import from CommonJS modules. So while CommonJS code is still something you will run across, there is no real reason to write new programs in this style anymore.
 
 ## Building and bundling
 
@@ -295,7 +295,7 @@ To make this possible, they _compile_ their code, translating it from their chos
 
 {{index latency, performance, [file, access], [network, speed]}}
 
-Including a modular program that consists of 200 different files in a ((web page)) produces its own problems. If fetching a single file over the network takes 50 milliseconds, loading the whole program takes 10 seconds, or maybe half that if you can load several files simultaneously. That's a lot of wasted time. Because fetching a single big file tends to be faster than fetching a lot of tiny ones, web programmers have started using tools that roll their programs (which they painstakingly split into modules) back into a single big file before they publish it to the Web. Such tools are called _((bundler))s_.
+Including a modular program that consists of 200 different files in a ((web page)) produces its own problems. If fetching a single file over the network takes 50 milliseconds, loading the whole program takes 10 seconds, or maybe half that if you can load several files simultaneously. That's a lot of wasted time. Because fetching a single big file tends to be faster than fetching a lot of tiny ones, web programmers have started using tools that combine their programs (which they painstakingly split into modules) into a single big file before they publish it to the Web. Such tools are called _((bundler))s_.
 
 {{index "file size"}}
 
@@ -303,7 +303,7 @@ And we can go further. Apart from the number of files, the _size_ of the files a
 
 {{index pipeline, tool}}
 
-So it is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converted from modern JavaScript to historic JavaScript, from ES module format to CommonJS, bundled, and minified. We won't go into the details of these tools in this book since they tend to be boring and change rapidly. For now, just be aware that such things exist.
+So it is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converted from modern JavaScript to historic JavaScript, then combining the modules into a single file, and minifying the code. We won't go into the details of these tools in this book since there are many of them, and which one is popular changes regularly. Just be aware that such things exist, and look them up when you need them.
 
 ## Module design
 
@@ -331,7 +331,7 @@ This points to another helpful aspect of module design—the ease with which som
 
 {{index "object-oriented programming"}}
 
-Relatedly, stateful objects are sometimes useful or even necessary, but if something can be done with a function, use a function. Several of the INI file readers on NPM provide an interface style that requires you to first create an object, then load the file into your object, and finally use specialized methods to get at the results. This type of thing is common in the object-oriented tradition, and it's terrible. Instead of making a single function call and moving on, you have to perform the ritual of moving your object through various states. And because the data is now wrapped in a specialized object type, all code that interacts with it has to know about that type, creating unnecessary interdependencies.
+Relatedly, stateful objects are sometimes useful or even necessary, but if something can be done with a function, use a function. Several of the INI file readers on NPM provide an interface style that requires you to first create an object, then load the file into your object, and finally use specialized methods to get at the results. This type of thing is common in the object-oriented tradition, and it's terrible. Instead of making a single function call and moving on, you have to perform the ritual of moving your object through its various states. And because the data is now wrapped in a specialized object type, all code that interacts with it has to know about that type, creating unnecessary interdependencies.
 
 Often defining new data structures can't be avoided—only a few  basic ones are provided by the language standard, and many types of data have to be more complex than an array or a map. But when an array suffices, use an array.
 
@@ -368,7 +368,7 @@ Designing a fitting module structure for a program can be difficult. In the phas
 
 ## Summary
 
-Modules provide structure to bigger programs by separating the code into pieces with clear interfaces and dependencies. The interface is the part of the module that's visible from other modules, and the dependencies are the other modules that it makes use of.
+Modules provide structure to bigger programs by separating the code into pieces with clear interfaces and dependencies. The interface is the part of the module that's visible to other modules, and the dependencies are the other modules that it makes use of.
 
 Because JavaScript historically did not provide a module system, the CommonJS system was built on top of it. Then at some point it _did_ get a built-in system, which now coexists uneasily with the CommonJS system.
 
@@ -412,11 +412,11 @@ Here's what I would have done (but again, there is no single _right_ way to desi
 
 The code used to build the road graph lives in the `graph` module. Because I'd rather use `dijkstrajs` from NPM than our own pathfinding code, we'll make this build the kind of graph data that `dijkstrajs` expects. This module exports a single function, `buildGraph`. I'd have `buildGraph` accept an array of two-element arrays, rather than strings containing hyphens, to make the module less dependent on the input format.
 
-The `roads` module contains the raw road data (the `roads` array) and the `roadGraph` binding. This module depends on `./graph` and exports the road graph.
+The `roads` module contains the raw road data (the `roads` array) and the `roadGraph` binding. This module depends on `./graph.js` and exports the road graph.
 
 {{index "random-item package"}}
 
-The `VillageState` class lives in the `state` module. It depends on the `./roads` module because it needs to be able to verify that a given road exists. It also needs `randomPick`. Since that is a three-line function, we could just put it into the `state` module as an internal helper function. But `randomRobot` needs it too. So we'd have to either duplicate it or put it into its own module. Since this function happens to exist on NPM in the `random-item` package, a good solution is to just make both modules depend on that. We can add the `runRobot` function to this module as well, since it's small and closely related to state management. The module exports both the `VillageState` class and the `runRobot` function.
+The `VillageState` class lives in the `state` module. It depends on the `./roads` module because it needs to be able to verify that a given road exists. It also needs `randomPick`. Since that is a three-line function, we could just put it into the `state` module as an internal helper function. But `randomRobot` needs it too. So we'd have to either duplicate it or put it into its own module. Since this function happens to exist on NPM in the `random-item` package, a reasonable solution is to just make both modules depend on that. We can add the `runRobot` function to this module as well, since it's small and closely related to state management. The module exports both the `VillageState` class and the `runRobot` function.
 
 Finally, the robots, along with the values they depend on such as `mailRoute`, could go into an `example-robots` module, which depends on `./roads` and exports the robot functions. To make it possible for `goalOrientedRobot` to do route-finding, this module also depends on `dijkstrajs`.
 
@@ -426,7 +426,7 @@ Is it a good idea to use NPM modules for things that we could have written ourse
 
 However, you should also not underestimate the work involved in _finding_ an appropriate NPM package. And even if you find one, it might not work well or may be missing some feature you need. On top of that, depending on NPM packages means you have to make sure they are installed, you have to distribute them with your program, and you might have to periodically upgrade them.
 
-So again, this is a trade-off, and you can decide either way depending on how much the packages help you.
+So again, this is a trade-off, and you can decide either way depending on how much a given package actually helps you.
 
 hint}}
 
@@ -434,7 +434,7 @@ hint}}
 
 {{index "roads module (exercise)"}}
 
-Write an ES module, based on the example from [Chapter ?](robot), that contains the array of roads and exports the graph data structure representing them as `roadGraph`. It should depend on a module `./graph`, which exports a function `buildGraph` that is used to build the graph. This function expects an array of two-element arrays (the start and end points of the roads).
+Write an ES module, based on the example from [Chapter ?](robot), that contains the array of roads and exports the graph data structure representing them as `roadGraph`. It should depend on a module `./graph.js`, which exports a function `buildGraph` that is used to build the graph. This function expects an array of two-element arrays (the start and end points of the roads).
 
 {{if interactive
 

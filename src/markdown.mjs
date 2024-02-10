@@ -146,7 +146,11 @@ function parseIndexTerm(state, silent) {
 
   let term = state.src.slice(start, end)
 
-  if (!silent) state.push("meta_index", null, 0).args = [term]
+  if (!silent) {
+    let token = state.push("meta_index", null, 0)
+    token.args = [term]
+    token.inline = true
+  }
   state.pending += term
   state.pos = end + 2
   return true

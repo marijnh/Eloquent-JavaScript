@@ -82,11 +82,11 @@ function id(token) {
 let linkedChapter = null, raw = false, quote = false
 
 let renderer = {
-  fence(token) {
+  fence(token, _i, _t, newlines) {
     if (/\bhidden:\s*true/.test(token.info)) return ""
     let esc = escapeComplexScripts(token.content.trimRight())
     if (noStarch) esc = esc.replace(/[“”]/g, '"').replace(/…/g, "...")
-    return `\n\n${id(token)}\\begin{lstlisting}\n${esc}\n\\end{lstlisting}\n`
+    return `${paraBreak(newlines)}${id(token)}\\begin{lstlisting}\n${esc}\n\\end{lstlisting}\n`
   },
 
   hardbreak() { return "\\break\n" },
@@ -98,24 +98,25 @@ let renderer = {
     return raw ? content : escape(content)
   },
 
-  paragraph_open(token, i, tokens) {
+  paragraph_open(token, i, tokens, newlines) {
     let noIndent = ""
     if (!noStarch) for (i--; i >= 0; i--) {
       let prev = tokens[i]
       if (prev.type == "fence") noIndent = "\\noindent "
       if (!/^meta_index/.test(prev.type)) break
     }
-    let nl = "\n\n";
+    let nl = paraBreak(newlines)
     if (quote) { nl = ""; quote = false }
     return nl + noIndent + id(token)
   },
   paragraph_close() { return "" },
 
-  heading_open(token) {
+  heading_open(token, _i, _t, newlines) {
+    let breaks = paraBreak(newlines)
     if (token.tag == "h1") return `\\${!["hints", "intro"].includes(chapter[1]) ? "chapter" : noStarch ? "chapter*" : "addchap"}{`
-    if (token.tag == "h2") return `\n\n${id(token)}\\section{`
-    if (token.tag == "h3") return `\n\n${id(token)}\\subsection{`
-    if (token.tag == "h4") return `\n\n${id(token)}\\subsubsection{`
+    if (token.tag == "h2") return `${breaks}${id(token)}\\section{`
+    if (token.tag == "h3") return `${breaks}${id(token)}\\subsection{`
+    if (token.tag == "h4") return `${breaks}${id(token)}\\subsubsection{`
     throw new Error("Can't handle heading tag " + token.tag)
   },
   heading_close(token) { 
@@ -139,7 +140,7 @@ let renderer = {
   tr_open() { return "" },
   tr_close() { return "\n\\tabularnewline" },
   td_open() { return "\n" },
-  td_close(_, next) { return next && next.type == "td_open" ? " &" : "" },
+  td_close(_, i, tokens) { return tokens[i + 1] && tokens[i + 1].type == "td_open" ? " &" : "" },
 
   code_inline(token) {
     if (noStarch)
@@ -160,11 +161,13 @@ let renderer = {
   sup_open() { return "\\textsuperscript{" },
   sup_close() { return "}" },
 
-  meta_indexsee(token) {
-    return `\\index{${escapeIndex(token.args[0])}|see{${escapeIndex(token.args[1])}}}`
+  meta_indexsee(token, _i, _t, newlines) {
+    return paraBreak(newlines) +
+      `\\index{${escapeIndex(token.args[0])}|see{${escapeIndex(token.args[1])}}}`
   },
-  meta_index(token) {
-    return token.args.map(term => `\\index{${escapeIndex(term)}}`).join("")
+  meta_index(token, _, _t, newlines) {
+    return (token.inline ? "" : paraBreak(newlines)) +
+      token.args.map(term => `\\index{${escapeIndex(term)}}`).join("")
   },
 
   meta_latex_open() { raw = true; return "" },
@@ -184,13 +187,13 @@ let renderer = {
 
   inline(token) { return renderArray(token.children) },
 
-  meta_figure(token) {
+  meta_figure(token, _i, _t, newlines) {
     let {url, width, chapter} = token.args[0]
     if (chapter) return "" // FIXME
     if (/\.svg$/.test(url)) url = url.replace(/^img\//, "img/generated/").replace(/\.svg$/, ".pdf")
     let graphics = `\\includegraphics[width=${width || "10cm"}]{${url}}`
-    if (noStarch) return `\n\n\\begin{figure}[H]\n${graphics}\n\\end{figure}\n`
-    return `\n\n\\vskip 1.5ex\n${graphics}\n\\vskip 1.5ex\n`
+    if (noStarch) return `${paraBreak(newlines)}\\begin{figure}[H]\n${graphics}\n\\end{figure}\n`
+    return `${paraBreak(newlines)}\\vskip 1.5ex\n${graphics}\n\\vskip 1.5ex\n`
   },
 
   meta_quote_open(token) {
@@ -230,12 +233,16 @@ ${image ? `\\includegraphics[width=\\linewidth]{${image}}` : ''}
   meta_hint_close() { return "" }
 }
 
+function paraBreak(newlines) {
+  return "\n".repeat(Math.max(0, 2 - newlines))
+}
+
 function renderArray(tokens) {
   let result = ""
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i], f = renderer[token.type]
     if (!f) throw new Error("No render function for " + token.type)
-    result += f(token, i, tokens)
+    result += f(token, i, tokens, /\n*$/.exec(result)[0].length)
   }
   return result
 }

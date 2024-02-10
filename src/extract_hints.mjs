@@ -9,7 +9,7 @@ for (let name of readdirSync(".")) {
   let title = file.match(/(?:\n|^)# (.*?)\n/)[1], titleWritten = false
 
   let curSubsection
-  let re = /\n### (.*?)\n|\{\{hint\n([^]+?)\nhint\}\}/g
+  let re = /\n### (.*?)\n|\{\{hint\n([^]+?)\nhint\}\}/g, m
   while (m = re.exec(file)) {
     if (m[1]) {
       curSubsection = m[1]

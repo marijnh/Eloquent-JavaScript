@@ -411,7 +411,7 @@ function randomID() {
 
 function findDeps(code) {
   let deps = [], ast
-  try { ast = acorn.parse(code) }
+  try { ast = parse(code) }
   catch(e) { return deps }
   walk.simple(ast, {
     CallExpression(node) {

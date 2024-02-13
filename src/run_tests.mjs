@@ -233,7 +233,7 @@ function fakeRequire(str) {
     }).join("")
   }
   if (str == "./router") return require("../code/skillsharing/router")
-  if (str == "ecstatic") return Math.min
+  if (str == "serve-static") return Math.min
   if (str == "fs") return fakeFS
   if (str == "http") return fakeHTTP
 

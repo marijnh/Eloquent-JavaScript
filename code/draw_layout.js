@@ -23,38 +23,39 @@ class Vec {
 // in advance how big the graph is, the `Scale` object computes a
 // scale and offset so that all nodes fit onto the given canvas.
 
-const nodeSize = 8;
+const nodeSize = 6;
 
-function drawGraph(graph) {
-  let canvas = document.querySelector("canvas");
+function drawGraph(graph, layout) {
+  let parent = (window.__sandbox ? window.__sandbox.output.div : document.body);
+  let canvas = parent.querySelector("canvas");
   if (!canvas) {
-    canvas = document.body.appendChild(document.createElement("canvas"));
+    canvas = parent.appendChild(document.createElement("canvas"));
     canvas.width = canvas.height = 400;
   }
   let cx = canvas.getContext("2d");
 
   cx.clearRect(0, 0, canvas.width, canvas.height);
-  let scale = new Scale(graph, canvas.width, canvas.height);
+  let scale = new Scale(layout, canvas.width, canvas.height);
 
   // Draw the edges.
   cx.strokeStyle = "orange";
   cx.lineWidth = 3;
-  for (let i = 0; i < graph.length; i++) {
-    let origin = graph[i];
-    for (let target of origin.edges) {
-      if (graph.indexOf(target) <= i) continue;
+  for (let i = 0; i < layout.length; i++) {
+    let conn = graph.neighbors(i);
+    for (let target of conn) {
+      if (conn <= i) continue;
       cx.beginPath();
-      cx.moveTo(scale.x(origin.pos.x), scale.y(origin.pos.y));
-      cx.lineTo(scale.x(target.pos.x), scale.y(target.pos.y));
+      cx.moveTo(scale.x(layout[i].x), scale.y(layout[i].y));
+      cx.lineTo(scale.x(layout[target].x), scale.y(layout[target].y));
       cx.stroke();
     }
   }
 
   // Draw the nodes.
   cx.fillStyle = "purple";
-  for (let node of graph) {
+  for (let pos of layout) {
     cx.beginPath();
-    cx.arc(scale.x(node.pos.x), scale.y(node.pos.y), nodeSize, 0, 7);
+    cx.arc(scale.x(pos.x), scale.y(pos.y), nodeSize, 0, 7);
     cx.fill();
   }
 }
@@ -79,9 +80,9 @@ function drawGraph(graph) {
 // that the circles drawn around nodes’ center points don't get cut off.
 
 class Scale {
-  constructor(graph, width, height) {
-    let xs = graph.map(node => node.pos.x);
-    let ys = graph.map(node => node.pos.y);
+  constructor(layout, width, height) {
+    let xs = layout.map(node => node.x);
+    let ys = layout.map(node => node.y);
     let minX = Math.min(...xs);
     let minY = Math.min(...ys);
     let maxX = Math.max(...xs);

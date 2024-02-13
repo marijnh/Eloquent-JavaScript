@@ -59,7 +59,7 @@ Both prominent JavaScript programming platforms—((browser))s and ((Node.js))�
 
 {{indexsee [function, callback], "callback function"}}
 
-One approach to ((asynchronous programming)) is to make functions that need to wait for something take an extra argument, a _((callback function))_. Such a function starts some process, sets things up so that the callback function is called when the process finishes, and then returns.
+One approach to ((asynchronous programming)) is to make functions that need to wait for something take an extra argument, a _((callback function))_. The asynchronous a function starts some process, sets things up so that the callback function is called when the process finishes, and then returns.
 
 {{index "setTimeout function", waiting}}
 
@@ -69,7 +69,7 @@ As an example, the `setTimeout` function, available both in Node.js and in brows
 setTimeout(() => console.log("Tick"), 500);
 ```
 
-Waiting is not generally a very important type of work, but it can be very useful when updating an animation or checking whether some other action is taking longer than expected.
+Waiting is not generally a very important type of work, but it can be very useful when you need to arrange for something to happen at a certain time or check whether some other action is taking longer than expected.
 
 {{index "readTextFile function"}}
 
@@ -159,7 +159,7 @@ The function returns the result of this chain of `then` calls. The initial promi
 
 In this code, the functions used in the first two `then` calls return a regular value, which will immediately be passed into the promise returned by `then` when the function returns. The last one returns a promise (`textFile(filename)`), making it an actual asynchronous step.
 
-In this case, it would have also been possible to do all these steps inside a single `then` callback, since only the last step is actually asynchronous. But the kind of `then` wrappers that only do some synchronous data transformation are often useful, for example when you want to return a promise that produces a processed version of some asynchronous result.
+Tt would have also been possible to do all these steps inside a single `then` callback, since only the last step is actually asynchronous. But the kind of `then` wrappers that only do some synchronous data transformation are often useful, for example when you want to return a promise that produces a processed version of some asynchronous result.
 
 ```
 function jsonFile(filename) {
@@ -212,7 +212,7 @@ A function passed to the `Promise` constructor receives a second argument, along
 
 {{index "textFile function"}}
 
-The `readTextFile` function also uses the convention of passing the error as a second argument, if there is a problem. Our `textFile` wrapper should actually look at that argument, so that a failure causes the promise it returns to be rejected.
+When our `readTextFile` function encounters a problem, it passes the error to its callback function as a second argument. Our `textFile` wrapper should actually look at that argument, so that a failure causes the promise it returns to be rejected.
 
 ```{includeCode: true}
 function textFile(filename) {
@@ -239,6 +239,8 @@ new Promise((_, reject) => reject(new Error("Fail")))
 // → Handler 2: nothing
 ```
 
+The first regular handler function isn't called, because at that point of the pipeline the promise holds a rejection. The `catch` handler handles that rejection and returns a value, which is given to the second handler function.
+
 {{index "uncaught exception", "exception handling"}}
 
 Much like an uncaught exception is handled by the environment, JavaScript environments can detect when a promise rejection isn't handled and will report this as an error.
@@ -253,11 +255,11 @@ One of the crows stands out—a large scruffy female with a few white feathers i
 
 Contrary to the rest of the group, who look like they are happy to spend the day goofing around here, the large crow looks purposeful. Carrying her loot, she flies straight towards the roof of the hangar building, disappearing into an air vent.
 
-Inside the building, in a narrow space under the roof of an unfinished stairwell, you can hear an odd tapping sound—soft, but persistent. The crow is sitting there, surrounded by her stolen snack, half a dozen smart phones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
+Inside the building, you can hear an odd tapping sound—soft, but persistent. It comes from a narrow space under the roof of an unfinished stairwell. The crow is sitting there, surrounded by her stolen snack, half a dozen smart phones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
 
-This crow is known to her peers as “cāāw-krö“, but since that is hard for us to remember, we'll call her Carla.
+This crow is known to her peers as “cāāw-krö”. But since those sounds are poorly suited for human vocal chords, we'll refer to her as Carla.
 
-Carla is a somewhat peculiar crow. In her youth, she was fascinated by human language, eavesdropping on people until she could understand roughly what they were saying. Later in life, her interest shifted to human technology, and she started stealing phones to study them. Her current project is learning to program. The text she is typing in her hidden lab is, in fact, a piece of JavaScript code.
+Carla is a somewhat peculiar crow. In her youth, she was fascinated by human language, eavesdropping on people until she had a good grasp of what they were saying. Later in life, her interest shifted to human technology, and she started stealing phones to study them. Her current project is learning to program. The text she is typing in her hidden lab is, in fact, a piece of JavaScript code.
 
 ## Breaking In
 
@@ -280,7 +282,7 @@ function withTimeout(promise, time) {
 }
 ```
 
-This makes use of the fact that a promise can only be resolved or rejected once—if the given promise resolves or rejects first, that result will be the result of the promise returned by `withTimeout`. If, on the other hand, the `setTimeout` fires first, rejecting the promise, any further resolve or reject calls are ignored.
+This makes use of the fact that a promise can only be resolved or rejected once—if the promise given as argument resolves or rejects first, that result will be the result of the promise returned by `withTimeout`. If, on the other hand, the `setTimeout` fires first, rejecting the promise, any further resolve or reject calls are ignored.
 
 To find the whole passcode, we need to repeatedly look for the next digit by trying each digit. If authentication succeeds, we know we have found what we are looking for. If it immediately fails, we know that digit was wrong, and must try the next digit. If the request times out, we have found another correct digit, and must continue by adding another digit.
 
@@ -323,7 +325,7 @@ Even with promises, this kind of asynchronous code is annoying to write. Promise
 
 {{index "synchronous programming", "asynchronous programming"}}
 
-The thing the cracking function actually does is completely linear—it always waits for the previous action to complete before starting the next one. In a synchronous programming model, this'd be simpler to express.
+The thing the cracking function actually does is completely linear—it always waits for the previous action to complete before starting the next one. In a synchronous programming model, it'd be more straightforward to express.
 
 {{index "async function", "await keyword"}}
 
@@ -494,6 +496,8 @@ function displayFrame(frame) {
 This maps over the images in `frame` (which is an array of display data arrays) to create an array
 of request promises. It then returns a promise that combines all of those.
 
+In order to be able to stop a playing video, the process is wrapped in a class. This class has an asynchronous `play` method that returns a promise that only resolves when the playback is stopped again via the `stop` method.
+
 ```{includeCode: true}
 function wait(time) {
   return new Promise(accept => setTimeout(accept, time));
@@ -523,8 +527,6 @@ class VideoPlayer {
 
 The `wait` function wraps `setTimeout` in a promise that resolves after the given amount of milliseconds. This is useful for controlling the speed of the playback.
 
-In order to be able to stop a playing video, the process is wrapped in a class. This class has an asynchronous `play` method that returns a promise that only resolves when the playback is stopped again via the `stop` method.
-
 ```
 let video = new VideoPlayer(clipImages, 100);
 video.play().catch(e => {
@@ -532,6 +534,8 @@ video.play().catch(e => {
 });
 setTimeout(() => video.stop(), 15000);
 ```
+
+For the entire week that the screen wall stands, every evening, when it is dark, a huge glowing orange bird mysteriously appears on it.
 
 ## The event loop
 
@@ -611,11 +615,11 @@ async function fileSizes(files) {
 
 {{index "async function"}}
 
-The `async name =>` part shows how ((arrow function))s can also be made `async` by putting the word `async` in front of them.
+The `async fileName =>` part shows how ((arrow function))s can also be made `async` by putting the word `async` in front of them.
 
 {{index "Promise.all function"}}
 
-The code doesn't immediately look suspicious...it maps the `async` arrow function over the array of names, creating an array of promises, and then uses `Promise.all` to wait for all of these before returning the list they build up.
+The code doesn't immediately look suspicious... it maps the `async` arrow function over the array of names, creating an array of promises, and then uses `Promise.all` to wait for all of these before returning the list they build up.
 
 But it is entirely broken. It'll always return only a single line of output, listing the file that took the longest to read.
 
@@ -672,7 +676,7 @@ There's a security camera near Carla's lab that's activated by a motion sensor. 
 
 {{index "Date class", "Date.now function", timestamp}}
 
-She's also been logging the times at which the camera is tripped for a while, and wants to use this information to visualize which times, in an average week, tend to be quiet, and which tend to be busy. The log is stored in files holding one time stamp number (as returned by `Date.now()` per line.
+She's also been logging the times at which the camera is tripped for a while, and wants to use this information to visualize which times, in an average week, tend to be quiet, and which tend to be busy. The log is stored in files holding one time stamp number (as returned by `Date.now()`) per line.
 
 ```{lang: null}
 1695709940692

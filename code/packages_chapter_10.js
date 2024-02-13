@@ -67,6 +67,20 @@ module.exports = {
   pm: 'PM'
 };`)
 
+require.preload("./dayname.js", String.raw`
+const names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+               "Thursday", "Friday", "Saturday"];
+
+exports.dayName = function(number) {
+  return names[number];
+}
+exports.dayNumber = function(name) {
+  return names.indexOf(name);
+}`)
+
+require.preload("./seasonname.js", String.raw`
+module.exports = ["Winter", "Spring", "Summer", "Autumn"];`)
+
 /* ini 1.3.5: https://github.com/npm/ini
 
 The ISC License
@@ -478,7 +492,7 @@ module.exports = function (arr) {
 	return arr[Math.floor(Math.random() * arr.length)];
 };`)
 
-require.preload("./format-date", String.raw`const ordinal = require("ordinal");
+require.preload("./format-date.js", String.raw`const ordinal = require("ordinal");
 const {days, months} = require("date-names");
 
 exports.formatDate = function(date, format) {
@@ -492,7 +506,7 @@ exports.formatDate = function(date, format) {
   });
 };`)
 
-require.preload("./graph", String.raw`exports.buildGraph = function(edges) {
+require.preload("./graph.js", String.raw`exports.buildGraph = function(edges) {
   let graph = Object.create(null);
   function addEdge(from, to) {
     if (!(from in graph)) graph[from] = Object.create(null);
@@ -504,4 +518,3 @@ require.preload("./graph", String.raw`exports.buildGraph = function(edges) {
   }
   return graph;
 };`)
-

@@ -193,16 +193,18 @@ export class Router {
   add(method, url, handler) {
     this.routes.push({method, url, handler});
   }
-  resolve(context, request) {
-    let path = parse(request.url).pathname;
+}
 
-    for (let {method, url, handler} of this.routes) {
-      let match = url.exec(path);
-      if (!match || request.method != method) continue;
-      let urlParts = match.slice(1).map(decodeURIComponent);
-      return handler(context, ...urlParts, request);
-    }
-    return null;
+async function resolveRequest(router, context, request) {
+  let path = parse(request.url).pathname;
+
+  for (let {method, url, handler} of this.routes) {
+    let match = url.exec(path);
+    if (!match || request.method != method) continue;
+    let urlParts = match.slice(1).map(decodeURIComponent);
+    let response =
+      await handler(context, ...urlParts, request);
+    if (response) return response;
   }
 }
 ```
@@ -223,17 +225,18 @@ The handler functions are called with the `context` value (which will be the ser
 
 When a request matches none of the request types defined in our router, the server must interpret it as a request for a file in the `public` directory. It would be possible to use the file server defined in [Chapter ?](node#file_server) to serve such files, but we neither need nor want to support `PUT` and `DELETE` requests on files, and we would like to have advanced features such as support for caching. So let's use a solid, well-tested ((static file)) server from ((NPM)) instead.
 
-{{index "createServer function", "ecstatic package"}}
+{{index "createServer function", "serve-static package"}}
 
-I opted for `ecstatic`. This isn't the only such server on NPM, but it works well and fits our purposes. The `ecstatic` package exports a function that can be called with a configuration object to produce a request handler function. We use the `root` option to tell the server where it should look for files. The handler function accepts `request` and `response` parameters and can be passed directly to `createServer` to create a server that serves _only_ files. We want to first check for requests that we should handle specially, though, so we wrap it in another function.
+I opted for `serve-static`. This isn't the only such server on NPM, but it works well and fits our purposes. The `serve-static` package exports a function that can be called with a root directory to produce a request handler function. The handler function accepts the `request` and `response` arguments provided by the server, and a third argument, a function that it will call if no file matches the request. We want our server to first check for requests that we should handle specially, as defined in the router, so we wrap it in another function.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 import {createServer} from "node:http";
-import ecstatic from "ecstatic";
-import {Router} from "./router.mjs";
+import serveStatic from "serve-static";
 
-const router = new Router();
-const defaultHeaders = {"Content-Type": "text/plain"};
+function notFound(request, response) {
+  response.writeHead(404, "Not found");
+  response.end("<h1>Not found</h1>");
+}
 
 class SkillShareServer {
   constructor(talks) {
@@ -241,22 +244,11 @@ class SkillShareServer {
     this.version = 0;
     this.waiting = [];
 
-    let fileServer = ecstatic({root: "./public"});
+    let fileServer = serveStatic("./public");
     this.server = createServer((request, response) => {
-      let resolved = router.resolve(this, request);
-      if (resolved) {
-        resolved.catch(error => {
-          if (error.status != null) return error;
-          return {body: String(error), status: 500};
-        }).then(({body,
-                  status = 200,
-                  headers = defaultHeaders}) => {
-          response.writeHead(status, headers);
-          response.end(body);
-        });
-      } else {
-        fileServer(request, response);
-      }
+      serveFromRouter(this, request, response, () => {
+        fileServer(request, response, notFound);
+      });
     });
   }
   start(port) {
@@ -268,7 +260,26 @@ class SkillShareServer {
 }
 ```
 
-This uses a similar convention as the file server from the [previous chapter](node) for responses—handlers return promises that resolve to objects describing the response. It wraps the server in an object that also holds its state.
+The `serveFromRouter` function has the same interface as `fileServer`, taking `(request, response, next)` arguments. This allows us to “chain” several request handlers, allowing each to either handle the request, or pass responsibility for that on to the next handler. The final handler, `notFound`, simply responds with a “not found” error.
+
+Our `serveFromRouter` function uses a similar convention as the file server from the [previous chapter](node) for responses—handler in the router return promises that resolve to objects describing the response.
+
+```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
+import {Router} from "./router.mjs";
+
+const router = new Router();
+const defaultHeaders = {"Content-Type": "text/plain"};
+
+async function serveResponse(value, response) {
+  let {body, status = 200, headers = defaultHeaders} =
+    await resolved.catch(error => {
+      if (error.status != null) return error;
+      return {body: String(error), status: 500};
+    });
+  response.writeHead(status, headers);
+  response.end(body);
+}
+```
 
 ### Talks as resources
 
@@ -479,7 +490,7 @@ The ((client))-side part of the skill-sharing website consists of three files: a
 
 {{index "index.html"}}
 
-It is a widely used convention for web servers to try to serve a file named `index.html` when a request is made directly to a path that corresponds to a directory. The ((file server)) module we use, `ecstatic`, supports this convention. When a request is made to the path `/`, the server looks for the file `./public/index.html` (`./public` being the root we gave it) and returns that file if found.
+It is a widely used convention for web servers to try to serve a file named `index.html` when a request is made directly to a path that corresponds to a directory. The ((file server)) module we use, `serve-static`, supports this convention. When a request is made to the path `/`, the server looks for the file `./public/index.html` (`./public` being the root we gave it) and returns that file if found.
 
 Thus, if we want a page to show up when a browser is pointed at our server, we should put it in `public/index.html`. This is our index file:
 

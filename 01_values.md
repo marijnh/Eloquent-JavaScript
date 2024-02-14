@@ -79,7 +79,7 @@ Fractional numbers are written using a dot:
 
 {{index exponent, "scientific notation", [number, notation]}}
 
-For very big or very small numbers, you may also use scientific notation by adding an _e_ (for _exponent_), followed by the exponent of the number.
+For very big or very small numbers, you may also use scientific notation by adding an _e_ (for _exponent_), followed by the exponent of the number:
 
 ```
 2.998e8
@@ -107,7 +107,7 @@ The `+` and `*` symbols are called _operators_. The first stands for addition an
 
 {{index grouping, parentheses, precedence}}
 
-Does this example mean "Add 4 and 100, and multiply the result by 11", or is the multiplication done before the adding? As you might have guessed, the multiplication happens first. As in mathematics, you can change this by wrapping the addition in parentheses.
+Does this example mean "Add 4 and 100, and multiply the result by 11", or is the multiplication done before the adding? As you might have guessed, the multiplication happens first. As in mathematics, you can change this by wrapping the addition in parentheses:
 
 ```{meta: "expr"}
 (100 + 4) * 11
@@ -257,7 +257,7 @@ console.log(3 < 2)
 
 The `>` and `<` signs are the traditional symbols for "is greater than" and "is less than", respectively. They are binary operators. Applying them results in a Boolean value that indicates whether they hold true in this case.
 
-Strings can be compared in the same way.
+Strings can be compared in the same way:
 
 ```
 console.log("Aardvark" < "Zoroaster")

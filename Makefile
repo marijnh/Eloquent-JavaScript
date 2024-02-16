@@ -23,7 +23,7 @@ html/ejs.js: node_modules/codemirror/dist/index.js \
 	     node_modules/acorn/dist/acorn.js \
 	     node_modules/acorn-walk/dist/walk.js \
 	     src/client/*.mjs
-	rollup -c src/client/rollup.config.mjs
+	node_modules/.bin/rollup -c src/client/rollup.config.mjs
 
 code/skillsharing.zip: html/21_skillsharing.html code/skillsharing/package.json
 	rm -f $@

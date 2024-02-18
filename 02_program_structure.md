@@ -1,8 +1,8 @@
-# Program Structure
+# Program Yapısı
 
 {{quote {author: "_why", title: "Why's (Poignant) Guide to Ruby", chapter: true}
 
-And my heart glows bright red under my filmy, translucent skin and they have to administer 10cc of JavaScript to get me to come back. (I respond well to toxins in the blood.) Man, that stuff will kick the peaches right out your gills!
+Ve kalbim, bulanık, saydam cildimin altında parlak kırmızı yanarken beni geri getirmek için 10cc JavaScript uygulamak zorunda kalırlar. (Kandaki toksinlere iyi tepki veririm.) Vay be, o madde doğrudan soluğu keser!
 
 quote}}
 
@@ -10,47 +10,47 @@ quote}}
 
 {{figure {url: "img/chapter_picture_2.jpg", alt: "Illustration showing a number of tentacles holding chess pieces", chapter: framed}}}
 
-In this chapter, we will start to do things that can actually be called _programming_. We will expand our command of the JavaScript language beyond the nouns and sentence fragments we've seen so far to the point where we can express meaningful prose.
+Bu bölümde, gerçek anlamda _programlama_ olarak adlandırılabilecek şeyler yapmaya başlayacağız. Şimdiye kadar gördüğümüz isimler ve cümle parçaları ötesinde JavaScript dilini anlamamızı sağlayacağız, böylece anlamlı bir yazılar ifade edebileceğiz.
 
-## Expressions and statements
+## İfade ve beyanlar
 
 {{index grammar, [syntax, expression], [code, "structure of"], grammar, [JavaScript, syntax]}}
 
-In [Chapter ?](values), we made values and applied operators to them to get new values. Creating values like this is the main substance of any JavaScript program. But that substance has to be framed in a larger structure to be useful. That's what we'll cover in this chapter.
+[?](values) Bölümünde, değerler oluşturduk ve bunlara operatörler uygulayarak yeni değerler elde ettik. Bu şekilde değer oluşturmak, herhangi bir JavaScript programının ana maddesidir. Ancak bu maddenin faydalı olabilmesi için daha büyük bir yapı içerisinde çerçevelenmelidir. İşte bu bölümde ele alacağımız şey budur.
 
 {{index "literal expression", [parentheses, expression]}}
 
-A fragment of code that produces a value is called an _((expression))_. Every value that is written literally (such as `22` or `"psychoanalysis"`) is an expression. An expression between parentheses is also an expression, as is a ((binary operator)) applied to two expressions or a ((unary operator)) applied to one.
+Bir değer üreten kod parçasına _((ifade))_ denir. Yazılmış olan her değer (örneğin `22` veya `"psikanaliz"`) bir ifadedir. Parantezler arasındaki bir ifade de bir ifade olarak kabul edilir, iki ifadeye uygulanan ((ikili operatör)) veya bir ifadeye uygulanan ((tekli operatör)) de ifadedir.
 
 {{index [nesting, "of expressions"], "human language"}}
 
-This shows part of the beauty of a language-based interface. Expressions can contain other expressions in a way similar to how subsentences in human languages are nested—a subsentence can contain its own subsentences, and so on. This allows us to build expressions that describe arbitrarily complex computations.
+Bu, dil tabanlı bir arabirimin güzelliğinin bir kısmını gösterir. İfadeler, insan dillerindeki yan cümlelerin iç içe geçmiş olduğu şekilde diğer ifadeleri içerebilir - bir yan cümle kendi yan cümlelerini içerebilir ve böyle devam eder. Bu, istediğimiz şekilde karmaşık hesaplamaları tanımlayan ifadeler oluşturmamıza izin verir.
 
 {{index statement, semicolon, program}}
 
-If an expression corresponds to a sentence fragment, a JavaScript _statement_ corresponds to a full sentence. A program is a list of statements.
+Bir JavaScript ifadesi bir cümle parçasına karşılık geliyorsa, bir JavaScript beyanı tam bir cümleye karşılık gelir. Bir program, bir beyanlar listesidir.
 
 {{index [syntax, statement]}}
 
-The simplest kind of statement is an expression with a semicolon after it. This is a program:
+En basit türde bir beyan, ardından bir noktalı virgül bulunan bir ifadedir. Bu bir programdır:
 
 ```
 1;
 !false;
 ```
 
-It is a useless program, though. An ((expression)) can be content to just produce a value, which can then be used by the enclosing code. However, a ((statement)) stands on its own, so if it doesn't affect the world, it's useless. It may display something on the screen, as with `console.log`, or change the state of the machine in a way that will affect the statements that come after it. These changes are called _((side effect))s_. The statements in the previous example just produce the values `1` and `true` and then immediately throw them away. This leaves no impression on the world at all. When you run this program, nothing observable happens.
+Ancak bu işe yaramaz bir programdır. Bir ((ifade)), sadece bir değer üretmekle yetinebilir, ardından bu değer çevreleyen kod tarafından kullanılabilir. Ancak, bir ((beyan)) kendi başına durur, bu nedenle dünyayı etkilemiyorsa, işe yaramazdır. `console.log` ile olduğu gibi ekranın bir şeyler görüntülemesi veya makinenin durumunu bunlar ardından gelen beyanları etkileyecek şekilde değiştirmesi de olabilir. Bu değişikliklere _((yan etki))_ denir. Önceki örnekteki deyimler sadece `1` ve `true` değerlerini üretir ve hemen sonra onları yok eder. Bu, dünyada hiçbir iz bırakmaz. Bu programı çalıştırdığınızda, gözlemlenebilir hiçbir şey olmaz.
 
 {{index "programming style", "automatic semicolon insertion", semicolon}}
 
-In some cases, JavaScript allows you to omit the semicolon at the end of a statement. In other cases, it has to be there, or the next ((line)) will be treated as part of the same statement. The rules for when it can be safely omitted are somewhat complex and error-prone. So in this book, every statement that needs a semicolon will always get one. I recommend you do the same, at least until you've learned more about the subtleties of missing semicolons.
+Bazı durumlarda, JavaScript bir beyanın sonundaki noktalı virgülü atlayabilmenize izin verir ancak bazı durumlarda, orada olmalıdır çünkü aksi takdirde bir sonraki ((satır)), aynı beyanın bir parçası olarak işlenebilir. Ne zaman güvenle atlanabileceğine dair kurallar biraz karmaşıktır ve hata yapmaya müsaittir. Bu yüzden bu kitapta, noktalı virgül gerektiren her beyan her zaman bir noktalı virgül ile bitecek. En azından noktalı virgüllerin eksikliği hakkındaki incelikleri daha fazla öğrenene kadar aynısını yapmanızı öneririm.
 
-## Bindings
+## Bağlantılar
 
 {{indexsee variable, binding}}
 {{index [syntax, statement], [binding, definition], "side effect", [memory, organization], [state, in binding]}}
 
-How does a program keep an internal state? How does it remember things? We have seen how to produce new values from old values, but this does not change the old values, and the new value must be used immediately or it will dissipate again. To catch and hold values, JavaScript provides a thing called a _binding_, or _variable_:
+Bir program nasıl içsel bir durum tutar? Nasıl şeyleri hatırlar? Eski değerlerden yeni değerler üretmeyi gördük, ancak bu eski değerleri değiştirmez ve yeni değer hemen kullanılmalıdır, aksi takdirde tekrar kaybolur. Değerleri yakalamak ve tutmak için JavaScript, bir _bağlantı_ veya _değişken_ adı verilen bir şey sağlar:
 
 ```
 let caught = 5 * 5;
@@ -58,11 +58,11 @@ let caught = 5 * 5;
 
 {{index "let keyword"}}
 
-That gives us a second kind of ((statement)). The special word (_((keyword))_) `let` indicates that this sentence is going to define a binding. It is followed by the name of the binding and, if we want to immediately give it a value, by an `=` operator and an expression.
+Bu bize bir ikinci tür ((beyan)) verir. Özel bir kelime (((anahtar kelime))) olan `let`, bu cümlenin bir bağlantıyı tanımlayacağını gösterir. Ondan hemen sonra bağlantının adı ve eğer hemen bağlantı tanımlama sırasınfa bir değer vermek istiyorsak, bir `=` operatörü ve bir ifade bulunur.
 
-The example creates a binding called `caught` and uses it to grab hold of the number that is produced by multiplying 5 by 5.
+Örnekte, `caught` adında bir bağlantı oluşturulur ve 5'in 5 ile çarpılmasıyla üretilen sayıyı tutmak için kullanılır.
 
-After a binding has been defined, its name can be used as an ((expression)). The value of such an expression is the value the binding currently holds. Here's an example:
+Bir bağlantı tanımlanıp oluşturulduktan sonra, adı bir ((ifade)) olarak kullanılabilir. Böyle bir ifadenin değeri, bağlantının o anda tuttuğu değerdir. İşte bir örnek:
 
 ```
 let ten = 10;
@@ -72,7 +72,7 @@ console.log(ten * ten);
 
 {{index "= operator", assignment, [binding, assignment]}}
 
-When a binding points at a value, that does not mean it is tied to that value forever. The `=` operator can be used at any time on existing bindings to disconnect them from their current value and have them point to a new one:
+Bir bağlantı bir değere işaret ettiğinde, bu onun sonsuza dek o değere bağlı olduğu anlamına gelmez. Mevcut bağlantılar üzerinde istendiğinde `=` operatörü kullanılarak bunları mevcut değerlerinden ayırabilir ve onları yeni bir değere işaret etmesini sağlayabilirsiniz:
 
 ```
 let mood = "light";
@@ -85,9 +85,9 @@ console.log(mood);
 
 {{index [binding, "model of"], "tentacle (analogy)"}}
 
-You should imagine bindings as tentacles rather than boxes. They do not _contain_ values; they _grasp_ them—two bindings can refer to the same value. A program can access only the values to which it still has a reference. When you need to remember something, you either grow a tentacle to hold on to it or reattach one of your existing tentacles to it.
+Bağlantıları kutular yerine bir ahtapotun dokunaçları olarak hayal etmelisiniz. Değerleri _içermezler_; onları _kavrarlar_ - iki bağlantı aynı değere atıfta bulunabilir. Bir program sadece hala bir referansı olan değerlere erişebilir. Bir şeyi hatırlamanız gerektiğinde, onu tutmak için bir ahtapot dokunaçı büyütür veya mevcut ahtapot dokunaçlarınızdan birini ona takarsınız.
 
-Let's look at another example. To remember the number of dollars that Luigi still owes you, you create a binding. When he pays back $35, you give this binding a new value:
+Başka bir örneğe bakalım. Luigi'nin size hala borçlu olduğu dolar miktarını hatırlamak için bir bağlantı oluşturursunuz. 35 doları size geri ödediğinde, bu bağlantıya yeni bir değer verirsiniz:
 
 ```
 let luigisDebt = 140;
@@ -98,11 +98,11 @@ console.log(luigisDebt);
 
 {{index undefined}}
 
-When you define a binding without giving it a value, the tentacle has nothing to grasp, so it ends in thin air. If you ask for the value of an empty binding, you'll get the value `undefined`.
+Bir değer vermeden bir bağlantı tanımladığınızda, ahtapot dokungacının kavrayacağı hiçbir şey yoktur, bu yüzden boş havada biter. Boş bir bağlantının değerini isterseniz, `undefined` değerini alırsınız.
 
 {{index "let keyword"}}
 
-A single `let` statement may define multiple bindings. The definitions must be separated by commas:
+Tek bir `let` beyanı birden fazla bağlantı tanımlayabilir ancak her spesifik isime tanımlanan bağlantılar virgülle ayrılmalıdır:
 
 ```
 let one = 1, two = 2;
@@ -110,7 +110,7 @@ console.log(one + two);
 // → 3
 ```
 
-The words `var` and `const` can also be used to create bindings, in a similar fashion to `let`:
+`var` ve `const` kelimeleri de, `let` ile benzer bir şekilde belirli isimlere bağlantı oluşturmak için kullanılabilir:
 
 ```
 var name = "Ayda";
@@ -122,20 +122,21 @@ console.log(greeting + name);
 {{index "var keyword"}}
 
 The first of these, `var` (short for "variable"), is the way bindings were declared in pre-2015 JavaScript, when `let` didn't exist yet. I'll get back to the precise way it differs from `let` in the [next chapter](functions). For now, remember that it mostly does the same thing, but we'll rarely use it in this book because it behaves oddly in some situations.
+Bunlardan ilki, `var` (kısaltma olarak "variable" - değişken anlamına gelir), 2015 öncesi JavaScript'te bağlantıların nasıl bildirildiğidir, o zamanlarda `let` henüz mevcut değildi. [Sonraki bölümde](functions) `var` bağlantılarının `let` bağlantılarından nasıl farklılık gösterdiğine dair ayrıntılı bilgilere göstereceğim ancak şimdilik, çoğunlukla aynı işi yaptığını hatırlayın. Bu kitapta `var` bağlantılarını nadiren kullanacağız çünkü bazı durumlarda garip davranışları bulunmakta.
 
 {{index "const keyword", naming}}
 
-The word `const` stands for _((constant))_. It defines a constant binding, which points at the same value for as long as it lives. This is useful for bindings that just give a name to a value so that you can easily refer to it later.
+`const` kelimesi _((constant))_ için kullanılır. Bu, yaşadığı sürece aynı değere işaret eden sabit bir bağlantı tanımlar. Bu, bir değere ad veren ve daha sonra kolayca başvurabileceğiniz bağlantılar için kullanışlıdır.
 
-## Binding names
+## Bağlantı isimleri
 
 {{index "underscore character", "dollar sign", [binding, naming]}}
 
-Binding names can be any sequence of one or more letters. Digits can be part of binding names—`catch22` is a valid name, for example—but the name must not start with a digit. A binding name may include dollar signs (`$`) or underscores (`_`) but no other punctuation or special characters.
+Bağlantı adları bir veya daha fazla harf dizisi olabilir. Rakamlar bağlantı adlarının bir parçası olabilir - örneğin, `catch22` geçerli bir addır - ancak ad bir rakamla başlamamalıdır. Bir bağlantı adı, dolar işaretleri (`$`) veya alt çizgiler (`_`) içerebilir, ancak başka noktalama işaretleri veya özel karakterler içeremez.
 
 {{index [syntax, identifier], "implements (reserved word)", "interface (reserved word)", "package (reserved word)", "private (reserved word)", "protected (reserved word)", "public (reserved word)", "static (reserved word)", "void operator", "yield (reserved word)", "enum (reserved word)", "reserved word", [binding, naming]}}
 
-Words with a special meaning, such as `let`, are _((keyword))s_, and may not be used as binding names. There are also a number of words that are "reserved for use" in ((future)) versions of JavaScript, which also can't be used as binding names. The full list of keywords and reserved words is rather long:
+`let` gibi özel anlamlı kelimeler _((anahtar kelimeler))_ olarak adlandırılır ve bağlantı adları olarak kullanılamazlar. Ayrıca, bağlantı adları olarak kullanılamayan ((gelecek)) JavaScript sürümlerinde "kullanım için saklanmış" birkaç kelime daha vardır. Tüm anahtar kelimelerin ve saklanmış kelimelerin tam listesi oldukça uzundur:
 
 ```{lang: "null"}
 break case catch class const continue debugger default
@@ -147,22 +148,22 @@ switch this throw true try typeof var void while with yield
 
 {{index [syntax, error]}}
 
-Don't worry about memorizing this list. When creating a binding produces an unexpected syntax error, check whether you're trying to define a reserved word.
+Merak etmeyin, bu listeyi ezberlemenize gerek yok. Bir bağlantı oluştururken beklenmeyen bir sözdizimi hatası oluşturursanız, kullanmaya çalıştığınızın bir saklanmış kelime olup olmadığını kontrol edin.
 
-## The environment
+## Çevre
 
 {{index "standard environment", [browser, environment]}}
 
-The collection of bindings and their values that exist at a given time is called the _((environment))_. When a program starts up, this environment is not empty. It always contains bindings that are part of the language ((standard)), and most of the time, it also has bindings that provide ways to interact with the surrounding system. For example, in a browser, there are functions to interact with the currently loaded website and to read ((mouse)) and ((keyboard)) input.
+Belirli bir zamanda var olan bağlantılar ve bu bağlantıların işaret ettiği değerler topluluğuna _((çevre))_ denir. Bir program başladığında, bu ortam artık boş değildir. Her zaman programlama dilinin bir parçası olan ((standart)) bağlantıları içerir ve çoğu zaman, çevrenin içinde bulunduğu çevre sistemle etkileşim sağlayan bağlantıları da içerir. Örneğin, bir web tarayıcısında, şu anda yüklenmiş web sitesi ile etkileşimde bulunmak ve ((mouse)) ve ((keyboard)) girişini okumak için işlevler vardır.
 
-## Functions
+## Fonksiyonlar
 
 {{indexsee "application (of functions)", [function, application]}}
 {{indexsee "invoking (of functions)", [function, application]}}
 {{indexsee "calling (of functions)", [function, application]}}
 {{index output, function, [function, application], [browser, environment]}}
 
-A lot of the values provided in the default environment have the type _((function))_. A function is a piece of program wrapped in a value. Such values can be _applied_ in order to run the wrapped program. For example, in a browser environment, the binding `prompt` holds a function that shows a little ((dialog box)) asking for user input. It is used like this:
+Ortamda sağlanan varsayılan değerlerin çoğu _((fonksiyon))_ türündedir. Bir fonksiyon, bir değerle sarılmış bir program parçasıdır. Bu tür değerler, sarılmış programı çalıştırmak için _çalıştırılabilir_. Örneğin, bir web tarayıcı ortamında, `prompt` bağlantısı, kullanıcı girişi isteyen küçük bir ((diyalog kutusu)) gösteren bir işleve işaret eder. Bunu şu şekilde kullanırız:
 
 ```
 prompt("Enter passcode");
@@ -172,19 +173,20 @@ prompt("Enter passcode");
 
 {{index parameter, [function, application], [parentheses, arguments]}}
 
-Executing a function is called _invoking_, _calling_, or _applying_ it. You can call a function by putting parentheses after an expression that produces a function value. Usually you'll directly use the name of the binding that holds the function. The values between the parentheses are given to the program inside the function. In the example, the `prompt` function uses the string that we give it as the text to show in the dialog box. Values given to functions are called _((argument))s_. Different functions might need a different number or different types of arguments.
+Bir fonksiyonu çalıştırmak, onu _çağırmak_ veya _uygulamak_ veya _uygulamak_ olarak adlandırılır. Bir fonksiyonu değeri üreten bir ifadeye parantez ekleyerek bir fonksiyonu çağırabilirsiniz. Bunun için, genellikle fonksiyonu tutan bağlantının adını doğrudan kullanırsınız. Fonksiyonu çağırırkenki kullandığınız parantezler arasında verdiğiniz değerler _((argümanlar))_ olarak adlandırılır. Farklı fonksiyonların farklı sayıda veya farklı türde argümanlara ihtiyacı olabilir.
 
-The `prompt` function isn't used much in modern web programming, mostly because you have no control over the way the resulting dialog looks, but it can be helpful in toy programs and experiments.
+`prompt` fonksiyonu, modern web programlamasında pek kullanılmaz, çoğunlukla sonuç olarak oluşan iletişim kutusunun görünümü üzerinde kontrol sahibi olmadığınızdan dolayı, ancak oyuncak programlar ve deneylerde faydalı olabilir.
 
-## The console.log function
+## console.log fonksiyonu
 
 {{index "JavaScript console", "developer tools", "Node.js", "console.log", output, [browser, environment]}}
 
-In the examples, I used `console.log` to output values. Most JavaScript systems (including all modern web browsers and Node.js) provide a `console.log` function that writes out its arguments to _some_ text output device. In browsers, the output lands in the ((JavaScript console)). This part of the browser interface is hidden by default, but most browsers open it when you press F12 or, on a Mac, [command]{keyname}-[option]{keyname}-I. If that does not work, search through the menus for an item named Developer Tools or similar.
+Örneklerde, değerleri çıktı olarak göstermek için `console.log` kullandım. Tüm modern web tarayıcıları ve Node.js dahil olmak üzere çoğu JavaScript sistemleri, argüman olarak verilen metinleri çıkış ortamına yazan bir `console.log` fonksiyonunu size sağlar. Tarayıcılarda yazılan bu çıktı, ((JavaScript konsolu))nda yer alır. Bu bölüm, varsayılan olarak gizlidir, ancak çoğu tarayıcı, genelde F12'ye veya bir Mac'te [command]{keyname}-[option]{keyname}-I tuşlarına bastığınızda açar. Bu çalışmazsa, Geliştirici Araçlar veya buna benzer bir öğe arayarak menüler arasında gezinin.
 
 {{if interactive
 
 When running the examples (or your own code) on the pages of this book, `console.log` output will be shown after the example, instead of in the browser's JavaScript console.
+Bu kitabın sayfalarında örnekleri (veya kendi kodlarınızı) çalıştırırken, `console.log` çıktısı, tarayıcının JavaScript konsolu yerine, örneğin altında gösterilir.
 
 ```
 let x = 30;
@@ -196,14 +198,14 @@ if}}
 
 {{index [object, property], [property, access]}}
 
-Though binding names cannot contain ((period character))s, `console.log` does have one. This is because `console.log` isn't a simple binding, but an expression that retrieves the `log` property from the value held by the `console` binding. We'll find out exactly what this means in [Chapter ?](data#properties).
+Bağlama isimleri ((nokta karakteri)) içeremez, ancak `console.log`'ta bir tane vardır. Bu, `console.log`'un basit bir bağlantı olmadığı, ancak `console` bağlantısında tutulan değerden `log` özelliği alınan bir ifade olduğu içindir. Bunun ne anlama geldiğini [Bölüm ?](data#properties)'da öğreneceğiz.
 
 {{id return_values}}
-## Return values
+## Döndürülen değerler
 
 {{index [comparison, "of numbers"], "return value", "Math.max function", maximum}}
 
-Showing a dialog box or writing text to the screen is a _((side effect))_. Many functions are useful because of the side effects they produce. Functions may also produce values, in which case they don't need to have a side effect to be useful. For example, the function `Math.max` takes any amount of number arguments and gives back the greatest:
+Bir iletişim kutusu göstermek veya ekrana metin yazmak, bir _((yan etki))_dir. Birçok fonksiyon, ürettikleri yan etkiler nedeniyle yararlıdır. Fonksiyonlar ayrıca değerler üretebilir, bu durumda yararlı olmak için bir yan etkiye ihtiyaçları yoktur. Örneğin, `Math.max` fonksiyonu, herhangi bir miktarda sayı argümanları alır ve bu verilen sayı argümanlar arasından en büyük olanını geri verir:
 
 ```
 console.log(Math.max(2, 4));
@@ -212,20 +214,20 @@ console.log(Math.max(2, 4));
 
 {{index [function, application], minimum, "Math.min function"}}
 
-When a function produces a value, it is said to _return_ that value. Anything that produces a value is an ((expression)) in JavaScript, which means that function calls can be used within larger expressions. In the following code, a call to `Math.min`, which is the opposite of `Math.max`, is used as part of a plus expression:
+Bir fonksiyon bir değer ürettiğinde, o değeri _döndürdüğü_ söylenir. Bir değer üreten her şey, JavaScript'te bir ((ifade)) olduğundan, fonksiyon çağrıları daha büyük ifadelerin içinde kullanılabilir. Aşağıdaki kodda, Math.max'in tam tersi olan Math.min bir artı ifadesinin parçası olarak kullanılmıştır:
 
 ```
 console.log(Math.min(2, 4) + 100);
 // → 102
 ```
 
-[Chapter ?](functions) will explain how to write your own functions.
+[Bölüm ?](functions), kendi fonksiyonlarınızı nasıl yazacağınızı açıklayacaktır.
 
-## Control flow
+## Kontrol akışı
 
 {{index "execution order", program, "control flow"}}
 
-When your program contains more than one ((statement)), the statements are executed as though they were a story, from top to bottom. For example, the following program has two statements. The first asks the user for a number, and the second, which is executed after the first, shows the ((square)) of that number:
+Programınız birden fazla ((beyan)) içeriyorsa, beyanlar, bir hikaye gibi, üstten alta doğru çalıştırılır. Örneğin, aşağıdaki programda iki ifade bulunmaktadır. İlk olarak, kullanıcıdan bir sayı istenir ve ilk ifadenin ardından yürütülen ikinci beyan o sayının ((kare))sini gösterir:
 
 ```
 let theNumber = Number(prompt("Pick a number"));
@@ -235,23 +237,23 @@ console.log("Your number is the square root of " +
 
 {{index [number, "conversion to"], "type coercion", "Number function", "String function", "Boolean function", [Boolean, "conversion to"]}}
 
-The function `Number` converts a value to a number. We need that conversion because the result of `prompt` is a string value, and we want a number. There are similar functions called `String` and `Boolean` that convert values to those types.
+Number fonksiyonu, bir değeri bir sayıya dönüştürür. Bu dönüşüme ihtiyacımız var çünkü `prompt`'un sonucu bir dize değeri ve biz bir sayı istiyoruz. Benzer şekilde, bu türlerdeki değerleri dönüştüren `String` ve `Boolean` adında diğer fonksiyonlar da bulunmaktadır.
 
-Here is the rather trivial schematic representation of straight-line control flow:
+İşte oldukça basit doğrusal kontrol akışının şematik temsili:
 
 {{figure {url: "img/controlflow-straight.svg", alt: "Diagram showing a straight arrow", width: "4cm"}}}
 
-## Conditional execution
+## Koşullu çalıştırma
 
 {{index Boolean, ["control flow", conditional]}}
 
-Not all programs are straight roads. We may, for example, want to create a branching road where the program takes the proper branch based on the situation at hand. This is called _((conditional execution))_.
+Tüm programlar düz yollar değildir. Örneğin, elimizdeki ana yoldan sapan başka yollar oluşturmak isteyebilir ve programımızın belirli durumlarda bu yollardan gitmesini sağlayabiliriz. Buna _((koşullu çalıştırma))_ denir.
 
 {{figure {url: "img/controlflow-if.svg", alt: "Diagram of an arrow that splits in two, and then rejoins again",width: "4cm"}}}
 
 {{index [syntax, statement], "Number function", "if keyword"}}
 
-Conditional execution is created with the `if` keyword in JavaScript. In the simple case, we want some code to be executed if, and only if, a certain condition holds. We might, for example, want to show the square of the input only if the input is actually a number:
+Koşullu çalıştırma, JavaScript'te `if` anahtar kelimesiyle oluşturulur. Basit bir durumda, belirli bir koşulun geçerli olduğu durumda yalnızca bazı kodların yürütülmesini istiyoruz. Örneğin, yalnızca girdinin gerçekten bir sayı olduğu durumda karesini göstermek isteyebiliriz:
 
 ```{test: wrap}
 let theNumber = Number(prompt("Pick a number"));
@@ -261,19 +263,19 @@ if (!Number.isNaN(theNumber)) {
 }
 ```
 
-With this modification, if you enter "parrot", no output is shown.
+Bu değişiklikle, girdi olarak programa `"parrot"` dize değerini verirseniz, hiçbir çıktı gösterilmez.
 
 {{index [parentheses, statement]}}
 
-The `if` keyword executes or skips a statement depending on the value of a Boolean expression. The deciding expression is written after the keyword, between parentheses, followed by the statement to execute.
+`if` anahtar kelimesi, bir Boolean ifadesinin değerine bağlı olarak bir beyanı yürütür veya atlar. Karar vermek için kullanılan ifade anahtar kelimenin ardından, parantezler arasına, ardından da yürütülecek beyan veya beyanlar yazılır.
 
 {{index "Number.isNaN function"}}
 
-The `Number.isNaN` function is a standard JavaScript function that returns `true` only if the argument it is given is `NaN`. The `Number` function happens to return `NaN` when you give it a string that doesn't represent a valid number. Thus, the condition translates to "unless `theNumber` is not-a-number, do this".
+`Number.isNaN` işlevi, yalnızca ona verilen argüman `NaN` ise `true` değerini döndüren standart bir JavaScript fonksiyonudur. `Number` işlevi, geçerli bir sayıyı temsil etmeyen bir dize argüman olarak verildiğinde `NaN` değerini döndürür. Bu nedenle, koşul "eğer `theNumber` bir sayıysa, bunu yap" şeklinde çevrilir.
 
 {{index grouping, "{} (block)", [braces, "block"]}}
 
-The statement after the `if` is wrapped in braces (`{` and `}`) in this example. The braces can be used to group any number of statements into a single statement, called a _((block))_. You could also have omitted them in this case, since they hold only a single statement, but to avoid having to think about whether they are needed, most JavaScript programmers use them in every wrapped statement like this. We'll mostly follow that convention in this book, except for the occasional one-liner.
+`if`'den sonraki ifade bu örnekte süslü parantezlerle (`{` ve `}`) sarılmıştır. Süslü parantezler, herhangi bir sayıda beyanı tek bir beyana, yani bir _((blok))_'a gruplamak için kullanılabilir. Bu durumda onları kullanmayabilirdiniz çünkü yalnızca tek bir satır beyan içibde bulundurmaktalar, ancak ihtiyaç duyulup duyulmadığı konusunda düşünmekten kaçınmak için çoğu JavaScript programcısı bunları bu şekilde yine de sarar. Bu kitapta çoğunlukla bu kurala uymaya devam edeceğiz, tek satırlık ifadeler hariç.
 
 ```
 if (1 + 1 == 2) console.log("It's true");
@@ -282,7 +284,7 @@ if (1 + 1 == 2) console.log("It's true");
 
 {{index "else keyword"}}
 
-You often won't just have code that executes when a condition holds true, but also code that handles the other case. This alternate path is represented by the second arrow in the diagram. You can use the `else` keyword, together with `if`, to create two separate, alternative execution paths:
+Genellikle sadece bir koşul doğru olduğunda yürütülen kodunuz olmayacak, aynı zamanda doğru olmayan diğer durumu da ele alan kodunuz olacak. Bu alternatif yol, şemadaki ikinci okla temsil edilmiştir. İki ayrı, alternatif çalıştırma yolu oluşturmak için `else` anahtar kelimesini, `if` ile birlikte kullanabilirsiniz:
 
 ```{test: wrap}
 let theNumber = Number(prompt("Pick a number"));
@@ -296,7 +298,7 @@ if (!Number.isNaN(theNumber)) {
 
 {{index ["if keyword", chaining]}}
 
-If you have more than two paths to choose from, you can "chain" multiple `if`/`else` pairs together. Here's an example:
+Birden fazla seçenekli yolu varsa, birden çok `if`/`else` çiftini birbirine "zincirleyebilirsiniz". İşte bir örnek:
 
 ```
 let num = Number(prompt("Pick a number"));
@@ -310,16 +312,16 @@ if (num < 10) {
 }
 ```
 
-The program will first check whether `num` is less than 10. If it is, it chooses that branch, shows `"Small"`, and is done. If it isn't, it takes the `else` branch, which itself contains a second `if`. If the second condition (`< 100`) holds, that means the number is at least 10 but below 100, and `"Medium"` is shown. If it doesn't, the second and last `else` branch is chosen.
+Program önce `num`'un 10'dan küçük olup olmadığını kontrol edecek. Eğer öyleyse, o dalı seçer, `"Small"` dize değerini gösterir ve biter. Eğer değilse, `else` dalını alır, ki bu da kendi içinde ikinci bir `if` içerir. İkinci koşul `(< 100)` geçerliyse, bu, sayının en az 10 ancak 100'den küçük olduğu anlamına gelir ve `"Medium"` dize değeri gösterilir. Eğer geçerli değilse, ikinci ve son `else` dalı seçilir, `"Large"` dize değeri gösterilir.
 
-The schema for this program looks something like this:
+Bu program için şema şöyle görünebilir:
 
 {{figure {url: "img/controlflow-nested-if.svg", alt: "Diagram showing arrow that splits in two, with on the branches splitting again, before all branches rejoin again", width: "4cm"}}}
 
 {{id loops}}
-## while and do loops
+## while ve do döngüleri
 
-Consider a program that outputs all ((even number))s from 0 to 12. One way to write this is as follows:
+0 ile 12 arasındaki tüm ((çift sayı))ları çıkaran bir programı düşünün. Bunu yazmanın bir yolu şu şekildedir:
 
 ```
 console.log(0);
@@ -333,13 +335,13 @@ console.log(12);
 
 {{index ["control flow", loop]}}
 
-That works, but the idea of writing a program is to make something _less_ work, not more. If we needed all even numbers less than 1,000, this approach would be unworkable. What we need is a way to run a piece of code multiple times. This form of control flow is called a _((loop))_.
+Bu çalışır, ancak bir program yazmanın fikri daha _az_ iş yapmaktır, daha fazla iş yapmak değil. Eğer 1.000'den küçük tüm çift sayılara ihtiyacımız olsaydı, bu yaklaşım işe yaramaz olurdu. İhtiyacımız olan şey, bir kod parçasını birden çok kez çalıştıracak bir yol. Bu kontrol akış biçimi bir ((döngü/loop)) olarak adlandırılır.
 
 {{figure {url: "img/controlflow-loop.svg", alt: "Diagram showing an arrow to a point which has a cyclic arrow going back to itself and another arrow going further", width: "4cm"}}}
 
 {{index [syntax, statement], "counter variable"}}
 
-Looping control flow allows us to go back to some point in the program where we were before and repeat it with our current program state. If we combine this with a binding that counts, we can do something like this:
+Döngü kontrol akışı, programın daha önce bulunduğumuz bir noktaya geri dönmesine ve mevcut program durumu ile tekrar etmesine izin verir. Bunu sayabilen bir bağlantı ile birleştirirsek, şunu yapabiliriz:
 
 ```
 let number = 0;
@@ -354,15 +356,15 @@ while (number <= 12) {
 
 {{index "while loop", Boolean, [parentheses, statement]}}
 
-A ((statement)) starting with the keyword `while` creates a loop. The word `while` is followed by an ((expression)) in parentheses and then a statement, much like `if`. The loop keeps entering that statement as long as the expression produces a value that gives `true` when converted to Boolean.
+`while` anahtar kelimesiyle başlayan bir ((beyan)), bir döngü oluşturur. `while` kelimesinin ardından parantez içinde bir ((ifade)) ve ardından bir beyan, sanki `if` gibi bir şekilde yazılır. Döngü, verilen ifade Boolean'a dönüştürüldüğünde `true` değerini ürettiği sürece, o beyanı tekrar eder.
 
 {{index [state, in binding], [binding, as state]}}
 
-The `number` binding demonstrates the way a ((binding)) can track the progress of a program. Every time the loop repeats, `number` gets a value that is 2 more than its previous value. At the beginning of every repetition, it is compared with the number 12 to decide whether the program's work is finished.
+`number` adlı bağlantı, bir programın ilerlemesini bir bağlantı aracılığıyla izlemenin bir yolunu gösterir. Her döngü tekrarı tekrarlandığında, `number` adlı bağlantı önceki değerinden 2 fazla bir değer alır. Her tekrarın başlangıcında, programın işinin bitip bitmediğini anlaması için 12 sayısı ile karşılaştırılır.
 
 {{index exponentiation}}
 
-As an example that actually does something useful, we can now write a program that calculates and shows the value of 2^10^ (2 to the 10th power). We use two bindings: one to keep track of our result and one to count how often we have multiplied this result by 2. The loop tests whether the second binding has reached 10 yet and, if not, updates both bindings.
+Bu sefer herhangi bir işe yarayan bir örnek olarak, artık 2^10^ (2'nin 10. kuvvetinin) değerini hesaplayan ve gösteren bir program yazabiliriz. İki bağlantıya ihtiyacımız var: sonucumuzu takip etmek için bir tane ve bu sonucu 2 ile kaç kez çarptığımızı saymak için bir tane. Döngü, ikinci bağlantının henüz 10 değerine ulaşıp ulaşmadığını test eder ve eğer ulaşmamışsa, her iki bağlantıyı da günceller.
 
 ```
 let result = 1;
@@ -376,14 +378,15 @@ console.log(result);
 ```
 
 The counter could also have started at `1` and checked for `<= 10`, but for reasons that will become apparent in [Chapter ?](data#array_indexing), it is a good idea to get used to counting from 0.
+`counter` bağlantısı `1` ile başlayabilir ve `<= 10` için kontrol edebilirdi, ancak [Bölüm ?](data#array_indexing)'da anlatılacak sebeplerden ötürü, 0'dan saymayı alışkanlık haline getirmek iyi bir fikirdir.
 
 {{index "** operator"}}
 
-Note that JavaScript also has an operator for exponentiation (`2 ** 10`), which you would use to compute this in real code—but that would have ruined the example.
+Unutmayın ki JavaScript'in de bir üs operatörü vardır (`2 ** 10`), bunu kodda hesaplamak için kullanabilirdiniz - ancak bu örneğin amacını bozardı.
 
 {{index "loop body", "do loop", ["control flow", loop]}}
 
-A `do` loop is a control structure similar to a `while` loop. It differs only on one point: a `do` loop always executes its body at least once, and it starts testing whether it should stop only after that first execution. To reflect this, the test appears after the body of the loop:
+`do` döngüsü, `while` döngüsüne benzer bir kontrol yapısıdır. Tek farkı: bir `do` döngüsü daima gövdesini en az bir kez çalıştırır ve yalnızca bu ilk yürütmeden sonra durması gerekip gerekmediğini test eder. Bunu yansıtmak için test koşul ifadesi, döngünün gövdesinden sonra gelir:
 
 ```
 let yourName;
@@ -395,15 +398,15 @@ console.log("Hello " + yourName);
 
 {{index [Boolean, "conversion to"], "! operator"}}
 
-This program will force you to enter a name. It will ask again and again until it gets something that is not an empty string. Applying the `!` operator will convert a value to Boolean type before negating it, and all strings except `""` convert to `true`. This means the loop continues going round until you provide a non-empty name.
+Bu program, bir isim girmenizi zorlayacak. Girdi olarak boş olmayan bir dize alana kadar tekrar ve tekrar sormaya devam edecek. `!` operatörünü uygulamak, bir değeri Boolean türüne dönüştürdükten sonra bu değeri tersine çevirecektir ve buradaki `""` dışında tüm dizeler `true` değerine dönüşecektir. Bu, döngünün boş olmayan bir dize girdisi verilene kadar devam etmesi anlamına gelir.
 
-## Indenting Code
+## Kod girintileme
 
 {{index [code, "structure of"], [whitespace, indentation], "programming style"}}
 
-In the examples, I've been adding spaces in front of statements that are part of some larger statement. These spaces are not required—the computer will accept the program just fine without them. In fact, even the ((line)) breaks in programs are optional. You could write a program as a single long line if you felt like it.
+Örneklerde, bazı daha büyük ifadelerin bir parçası olan ifadelerin önüne boşluklar ekliyorum. Bu boşluklar gerekli değildir - bilgisayar bunlarsız da programı kabul eder. Aslında, JavaScript programlarında hatta ((yeni satır karakterleri)) bile opsiyoneldir. Eğer isterseniz, tüm programınızı uzun bir satır olarak da yazabilirsiniz.
 
-The role of this ((indentation)) inside ((block))s is to make the structure of the code stand out to human readers. In code where new blocks are opened inside other blocks, it can become hard to see where one block ends and another begins. With proper indentation, the visual shape of a program corresponds to the shape of the blocks inside it. I like to use two spaces for every open block, but tastes differ—some people use four spaces, and some people use ((tab character))s. The important thing is that each new block adds the same amount of space.
+Bu ((blok)) içindeki bu ((girinti))lerin rolü, kodun yapısını insan okuyucuların dikkatine varabilmesi içinde. Yeni blokların diğer blokların içinde açıldığı kodlarda, bir bloğun nerede bittiğini ve diğerinin nerede başladığını görmek zor olabilir. Uygun girinti kullanımıyla, bir programın görsel şekli, içindeki blokların şekline karşılık gelir. Ben her açık blok için iki boşluk kullanmayı tercih ediyorum, ancak zevkler değişir - bazı insanlar dört boşluk kullanırken, bazıları ((tab karakter))lerini kullanır. Önemli olan, her yeni bloğun aynı miktarda boşluk eklemesidir.
 
 ```
 if (false != true) {
@@ -414,17 +417,18 @@ if (false != true) {
 }
 ```
 
-Most code ((editor)) programs[ (including the one in this book)]{if interactive} will help by automatically indenting new lines the proper amount.
+Çoğu kod ((düzenleyici)) programı[ (bu kitaptaki gibi)]{if interactive} yeni satırları otomatik olarak uygun miktarda girintileme yaparak size yardımcı olacaktır.
 
-## for loops
+## for döngüleri
 
 {{index [syntax, statement], "while loop", "counter variable"}}
 
 Many loops follow the pattern shown in the `while` examples. First a "counter" binding is created to track the progress of the loop. Then comes a `while` loop, usually with a test expression that checks whether the counter has reached its end value. At the end of the loop body, the counter is updated to track progress.
+Birçok döngü, `while` örneklerinde gösterilen deseni takip eder. İlk olarak, döngünün ilerlemesini takip etmek için bir `"counter"` bağlantısı oluşturulur. Ardından, genellikle `"counter"` bağlantısının hedef değerine ulaşıp ulaşmadığını kontrol eden bir test ifadesiyle birlikte bir `while` döngüsü gelir. Döngü gövdesinin sonunda, ilerlemeyi izlemek için `"counter"` bağlantısı güncellenir.
 
 {{index "for loop", loop}}
 
-Because this pattern is so common, JavaScript and similar languages provide a slightly shorter and more comprehensive form, the `for` loop:
+Bu desen o kadar yaygındır ki, JavaScript ve benzer diller bunun için biraz daha kısa ve kapsamlı bir form sağlar, `for` döngüsü:
 
 ```
 for (let number = 0; number <= 12; number = number + 2) {
@@ -438,14 +442,16 @@ for (let number = 0; number <= 12; number = number + 2) {
 {{index ["control flow", loop], state}}
 
 This program is exactly equivalent to the [earlier](program_structure#loops) even-number-printing example. The only change is that all the ((statement))s that are related to the "state" of the loop are grouped together after `for`.
+Bu program, daha [önceki](program_structure#loops) çift sayıları yazdırma örneğine tam olarak eşdeğerdir. Tek fark, döngünün "durumu" ile ilgili olan tüm ((beyan))ların for'dan sonra gruplandırılmış olmasıdır.
 
 {{index [binding, as state], [parentheses, statement]}}
 
 The parentheses after a `for` keyword must contain two ((semicolon))s. The part before the first semicolon _initializes_ the loop, usually by defining a binding. The second part is the ((expression)) that _checks_ whether the loop must continue. The final part _updates_ the state of the loop after every iteration. In most cases, this is shorter and clearer than a `while` construct.
+`for` anahtar kelimesinden sonra parantezlerin içinde iki ((noktalı virgül)) bulunmalıdır. İlk noktalı virgülden önceki kısım, genellikle bir bağlantı tanımlayarak döngüyü başlatır. İkinci kısım, döngünün devam edip etmemesini gerektiğini her seferinde kontrol eden ((ifade))dir. Son kısım, her iterasyondan sonra döngünün durumunu _günceller_. Çoğu durumda, bu, `while` yapısından daha kısa ve daha açıklayıcıdır.
 
 {{index exponentiation}}
 
-This is the code that computes 2^10^ using `for` instead of `while`:
+Bu, `while` kullanmak yerine `for` döngüsü yapısını kullanarak 2^10^ hesaplayan koddur:
 
 ```{test: wrap}
 let result = 1;
@@ -456,11 +462,11 @@ console.log(result);
 // → 1024
 ```
 
-## Breaking Out of a Loop
+## Döngü içerisinden çıkmak
 
 {{index [loop, "termination of"], "break keyword"}}
 
-Having the looping condition produce `false` is not the only way a loop can finish. The `break` statement has the effect of immediately jumping out of the enclosing loop. Its use is demonstrated in the following program, which finds the first number that is both greater than or equal to 20 and divisible by 7:
+Döngü koşulunun `false` değerini üretmesini sağlamak bir döngünün bitmesi için tek yol değildir. `break` beyanı, dışındaki döngüden anında çıkmak etkisine sahiptir. Kullanımı aşağıdaki programda gösterilmiştir, bu program, hem 20'den büyük veya eşit olan ve hem de 7'ye bölünebilen ilk sayıyı bulur:
 
 ```
 for (let current = 20; ; current = current + 1) {
@@ -474,43 +480,43 @@ for (let current = 20; ; current = current + 1) {
 
 {{index "remainder operator", "% operator"}}
 
-Using the remainder (`%`) operator is an easy way to test whether a number is divisible by another number. If it is, the remainder of their division is zero.
+Modülo(%) operatörünü kullanmak, bir sayının başka bir sayıya bölünebilir olup olmadığını test etmenin kolay bir yoludur çünkü eğer öyleyse bölme işleminin kalanı sıfırdır.
 
 {{index "for loop"}}
 
-The `for` construct in the example does not have a part that checks for the end of the loop. This means that the loop will never stop unless the `break` statement inside is executed.
+Örnekteki `for` yapısı döngünün sona gelip gelmediğini kontrol eden bir parça içermez. Bu, döngünün içerisinde bir `break` ifadesi çalıştırılmadıkça döngünün hiçbir zaman durmayacağı anlamına gelir.
 
-If you were to remove that `break` statement or you accidentally write an end condition that always produces `true`, your program would get stuck in an _((infinite loop))_. A program stuck in an infinite loop will never finish running, which is usually a bad thing.
+Eğer o `break` ifadesini kaldırırsanız veya yanlışlıkla her zaman `true` değerini üreten bir bitiş koşulu yazarsanız, programınız bir _((sonsuz döngü))_'ye takılacaktır. Bir sonsuz döngüye takılan bir program asla çalışmayı bitiremez, bu genellikle kötü bir şeydir.
 
 {{if interactive
 
-If you create an infinite loop in one of the examples on these pages, you'll usually be asked whether you want to stop the script after a few seconds. If that fails, you will have to close the tab that you're working in to recover.
+Bu sayfalardaki örneklerden birinde sonsuz bir döngü oluşturursanız, genellikle birkaç saniye sonra scripti durdurmak isteyip istemediğiniz sorulur. Eğer bu başarısız olursa, kurtarmak için çalıştığınız sekmeyi kapatmanız zorunda kalırsınız.
 
 if}}
 
 {{index "continue keyword"}}
 
-The `continue` keyword is similar to `break` in that it influences the progress of a loop. When `continue` is encountered in a loop body, control jumps out of the body and continues with the loop's next iteration.
+`continue` anahtar kelimesi, `break` gibi bir döngünün ilerleyişini etkiler. Bir döngü gövdesinde `continue` bulunduğunda, kontrol gövdeden çıkar ve döngünün bir sonraki tekrarından devam eder.
 
-## Updating bindings succinctly
+## Kısa ve öz şekilde bağlantıları güncelleme
 
 {{index assignment, "+= operator", "-= operator", "/= operator", "*= operator", [state, in binding], "side effect"}}
 
-Especially when looping, a program often needs to "update" a binding to hold a value based on that binding's previous value.
+Özellikle döngü yapılırken, bir program genellikle bir bağlantının değerini o bağlantını önceki değerine dayalı olarak başka bir değerle "güncellemeye" ihtiyaç duyar.
 
 ```{test: no}
 counter = counter + 1;
 ```
 
-JavaScript provides a shortcut for this:
+JavaScript, bunun için bir kısayol sağlar:
 
 ```{test: no}
 counter += 1;
 ```
 
-Similar shortcuts work for many other operators, such as `result *= 2` to double `result` or `counter -= 1` to count downward.
+Benzer kısayollar, `result *= 2` ile `result` bağlantısının değerini iki katına çıkarmak veya `counter -= 1` ile geriye doğru saymak gibi birçok diğer aritmetik operatörle de çalışır.
 
-This allows us to further shorten our counting example:
+Bu, sayım örneğimizi daha da kısaltmamıza olanak tanır:
 
 ```
 for (let number = 0; number <= 12; number += 2) {
@@ -520,13 +526,13 @@ for (let number = 0; number <= 12; number += 2) {
 
 {{index "++ operator", "-- operator"}}
 
-For `counter += 1` and `counter -= 1`, there are even shorter equivalents: `counter++` and `counter--`.
+`counter += 1` ve `counter -= 1` için daha kısa aynı şeye denk gelen yazım şekilleri de mevcuttur: counter++ ve counter--.
 
-## Dispatching on a value with switch
+## switch aracılığıyla bir değere göre çalıştırmak
 
 {{index [syntax, statement], "conditional execution", dispatch, ["if keyword", chaining]}}
 
-It is not uncommon for code to look like this:
+Kodun şu şekilde görünmesi yaygındır:
 
 ```{test: no}
 if (x == "value1") action1();
@@ -537,7 +543,7 @@ else defaultAction();
 
 {{index "colon character", "switch keyword"}}
 
-There is a construct called `switch` that is intended to express such a "dispatch" in a more direct way. Unfortunately, the syntax JavaScript uses for this (which it inherited from the C/Java line of programming languages) is somewhat awkward—a chain of `if` statements may look better. Here is an example:
+Buna benzer ancak daha doğrudan bir şekilde kod "çalıştırmayı" ifade etmek için tasarlanmış `switch` adında bir yapı vardır. Ne yazık ki, bu yapı için JavaScript'in kullandığı sözdizimi (C/Java programlama dillerinden miras aldığı) biraz garip gözükebilir ve bundan ötürü bir dizi `if` ifadesi daha iyi görünebilir. İşte bir örnek:
 
 ```
 switch (prompt("What is the weather like?")) {
@@ -557,13 +563,13 @@ switch (prompt("What is the weather like?")) {
 
 {{index fallthrough, "break keyword", "case keyword", "default keyword"}}
 
-You may put any number of `case` labels inside the block opened by `switch`. The program will start executing at the label that corresponds to the value that `switch` was given, or at `default` if no matching value is found. It will continue executing, even across other labels, until it reaches a `break` statement. In some cases, such as the `"sunny"` case in the example, this can be used to share some code between cases (it recommends going outside for both sunny and cloudy weather). Be careful, though—it is easy to forget such a `break`, which will cause the program to execute code you do not want executed.
+`switch` tarafından açılan bloğun içine istediğiniz sayıda `case` koyabilirsiniz. Program, `switch`'e verilen değere karşılık gelen etiketteki kodu veya eşleşen bir değer bulunamazsa `default` etiketindeki kodu çalıştırır. `break` ifadesine ulaşana kadar diğer etiketler de dahil olmak üzere karşılaştığı kodları çalıştırmaya devam eder. Örnekteki `"sunny"` durumunda olduğu gibi bazı durumlarda, bu kodu durumlar arasında paylaşmak için kullanılabilir (hem güneşli hem de bulutlu hava için dışarı çıkmanızı önerir). Ancak dikkatli olun - bu şekilde bir `break` ifadesini unutmak kolaydır ve istenmeyen şekilde kodun yürütülmesine sebep olmak kolaydır.
 
-## Capitalization
+## Büyük harf kullanımı
 
 {{index capitalization, [binding, naming], [whitespace, syntax]}}
 
-Binding names may not contain spaces, yet it is often helpful to use multiple words to clearly describe what the binding represents. These are pretty much your choices for writing a binding name with several words in it:
+Bağlantı adları arasında boşluk olmamalıdır, ancak bağlantının temsil ettiği şeyi açıkça tanımlamak için birden fazla kelime kullanmak faydalı olabilir. Birden fazla kelime içeren bir bağlantı adı yazmak için şu seçenekleriniz var:
 
 ```{lang: null}
 fuzzylittleturtle
@@ -574,21 +580,21 @@ fuzzyLittleTurtle
 
 {{index "camel case", "programming style", "underscore character"}}
 
-The first style can be hard to read. I rather like the look of the underscores, though that style is a little painful to type. The ((standard)) JavaScript functions, and most JavaScript programmers, follow the final style—they capitalize every word except the first. It is not hard to get used to little things like that, and code with mixed naming styles can be jarring to read, so we follow this ((convention)).
+İlk stili okumak zor olabilir. Ben alt çizgilerin görünümünü oldukça beğeniyorum, ancak bu stili yazmak biraz zor olabilir. ((Standart)) JavaScript fonksiyonları ve çoğu JavaScript programcısı, sondaki stili takip eder - ilk kelime haricindeki her kelimenin ilk harfini büyük harfle yazarlar. Böyle küçük detaylara alışmak zor değildir ve karışık isimlendirme stilleri olan kodlar okunması zor olabilir, bu yüzden bu ((kuralı)) kullanıyoruz.
 
 {{index "Number function", constructor}}
 
-In a few cases, such as the `Number` function, the first letter of a binding is also capitalized. This was done to mark this function as a constructor. It will become clear what a constructor is in [Chapter ?](object#constructors). For now, the important thing is not to be bothered by this apparent lack of ((consistency)).
+Bazı durumlarda, `Number` fonksiyonu gibi, bağlantı isminin ilk harfi de büyük yazılır. Bu, bu fonskiyonu bir yapılandırıcı olarak işaretlemek içindir. Bir yapılandırıcının ne olduğu [Bölüm ?](object#constructors)'da netleşecektir. Şu anda, önemli olan bu belirgin ((tutarlılık)) eksikliğinden rahatsız olmamaktır.
 
-## Comments
+## Yorum satırları
 
 {{index readability}}
 
-Often, raw code does not convey all the information you want a program to convey to human readers, or it conveys it in such a cryptic way that people might not understand it. At other times, you might just want to include some related thoughts as part of your program. This is what _((comment))s_ are for.
+Sıklıkla, ham kod, bir programın insan okuyucularına iletmek istediğiniz tüm bilgileri iletemez veya bilgiyi anlaşılması zor veya kriptik bir şekilde iletebilir. Bazı zamanlarda, programınızın bir parçası olarak ilgili düşünceleri dahil etmek isteyebilirsiniz. _((Yorum))_lar bunun için vardır.
 
 {{index "slash character", "line comment"}}
 
-A comment is a piece of text that is part of a program but is completely ignored by the computer. JavaScript has two ways of writing comments. To write a single-line comment, you can use two slash characters (`//`) and then the comment text after it:
+Yorum, bir programın bir parçası olan ancak bilgisayar tarafından tamamen görmezden gelinen bir metin parçasıdır. JavaScript'in iki yorum yazma yöntemi vardır. Tek satırlık bir yorum yazmak için iki eğik çizgi karakteri (`//`) kullanabilir ve ardından yorum metnini ekleyebilirsiniz:
 
 ```{test: no}
 let accountBalance = calculateBalance(account);
@@ -603,7 +609,7 @@ addToReport(accountBalance, report);
 
 {{index "block comment"}}
 
-A `//` comment goes only to the end of the line. A section of text between `/*` and `*/` will be ignored in its entirety, regardless of whether it contains line breaks. This is useful for adding blocks of information about a file or a chunk of program:
+`//` ile başlayan bir yorum yalnızca satırın sonuna kadar gider. `/*` ve `*/` arasındaki bir metin bölümü, yeni satır karakterlerini içinde barındırıp barındırmadığına bakılmaksızın tamamen görmezden gelinir. Bu, bir dosya veya program parçası hakkında satırlar yerine bloklar halinde bilgi eklemek için kullanışlıdır:
 
 ```
 /*
@@ -615,29 +621,29 @@ A `//` comment goes only to the end of the line. A section of text between `/*` 
 const myNumber = 11213;
 ```
 
-## Summary
+## Özet
 
-You now know that a program is built out of statements, which themselves sometimes contain more statements. Statements tend to contain expressions, which themselves can be built out of smaller expressions.
+Şimdi bir programın bazen içerisinde beyanlar barındıran beyanlardan oluştuğunu biliyorsunuz. Beyanlar da genellikle ifadeler barındıran ifadelerden oluşurlar.
 
-Putting statements after one another gives you a program that is executed from top to bottom. You can introduce disturbances in the flow of control by using conditional (`if`, `else`, and `switch`) and looping (`while`, `do`, and `for`) statements.
+İfadeleri ardışık olarak bir araya getirmek, üstten alta çalıştırılan bir program elde etmenizi sağlar. Koşullu (`if`, `else` ve `switch`) ve döngü (`while`, `do` ve `for`) ifadelerini kullanarak kontrol akışına farklı şekillerde değişiklikler ekleyebilirsiniz. 
 
-Bindings can be used to file pieces of data under a name, and they are useful for tracking state in your program. The environment is the set of bindings that are defined. JavaScript systems always put a number of useful standard bindings into your environment.
+Bağlanlar, bir parça bilgiyi bir isim altında saklamak için kullanılabilir ve programınızdaki durumu takip etmek için de kullanışlıdır. Ortam, tanımlanan bağlantıların kümesidir. JavaScript sistemleri, ortamınıza birçok kullanışlı standart bağlantıları otomatik olarak yerleştirir.
 
-Functions are special values that encapsulate a piece of program. You can invoke them by writing `functionName(argument1, argument2)`. Such a function call is an expression and may produce a value.
+Fonksiyonlar, bir program parçasını kapsayan özel değerlerdir. Onları `fonksiyonAdı(argüman1, argüman2)` şeklinde yazarak çağırabilirsiniz. Böyle bir fonksiyon çağrısı bir ifade olup ayrıca bir değer üretebilir.
 
-## Exercises
+## Egzersizler
 
 {{index exercises}}
 
-If you are unsure how to test your solutions to the exercises, refer to the [Introduction](intro).
+Egzersiz çözümlerinizi nasıl test edeceğinizden emin değilseniz, [Giriş](intro)'e başvurun.
 
-Each exercise starts with a problem description. Read this description and try to solve the exercise. If you run into problems, consider reading the hints [after the exercise]{if interactive}[at the [end of the book](hints)]{if book}. You can find full solutions to the exercises online at [_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code#2). If you want to learn something from the exercises, I recommend looking at the solutions only after you've solved the exercise, or at least after you've attacked it long and hard enough to have a slight headache.
+Her egzersiz bir problem açıklaması ile başlar, bu açıklamayı okuyun ve egzersizi çözmeye çalışın. Sorunlarla karşılaşırsanız, [egzersizden sonra]{if interactive} [[kitabın sonundaki](hints)]{if book} ipuçlarını'ı okuyabilirsiniz. Egzersizlerin tam çözümlerini [_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code#2)'da çevrimiçi olarak bulabilirsiniz. Egzersizlerden bir şeyler öğrenmek istiyorsanız, egzersizi çözdükten sonra çözümlere bakmayı veya en azından biraz baş ağrısı yaşayana kadar çözüme saldırmanızı öneririm.
 
-### Looping a triangle
+### Bir üçgeni döngüye almak
 
 {{index "triangle (exercise)"}}
 
-Write a ((loop)) that makes seven calls to `console.log` to output the following triangle:
+Aşağıdaki üçgeni çıktıya yazdırmak için `console.log`'u yedi kere çağıran bir ((döngü)) yazın:
 
 ```{lang: null}
 #
@@ -651,7 +657,7 @@ Write a ((loop)) that makes seven calls to `console.log` to output the following
 
 {{index [string, length]}}
 
-It may be useful to know that you can find the length of a string by writing `.length` after it.
+Bir dizinin uzunluğunu `.length` yazarak bulabileceğinizi bilmek faydalı olabilir.
 
 ```
 let abc = "abc";
@@ -661,7 +667,7 @@ console.log(abc.length);
 
 {{if interactive
 
-Most exercises contain a piece of code that you can modify to solve the exercise. Remember that you can click code blocks to edit them.
+Çoğu egzersiz, egzersizi çözmek için değiştirebileceğiniz bir kod parçası içerir. Kod bloklarını düzenlemek için üzerlerine tıklayabileceğinizi unutmayın.
 
 ```
 // Your code here.
@@ -672,9 +678,9 @@ if}}
 
 {{index "triangle (exercise)"}}
 
-You can start with a program that prints out the numbers 1 to 7, which you can derive by making a few modifications to the [even number printing example](program_structure#loops) given earlier in the chapter, where the `for` loop was introduced.
+1'den 7'ye kadar olan sayıları yazdıran bir programla başlayabilirsiniz. Bunun için, [bu bölümden önce tanıtılan `for` döngüsü örneğine](program_structure#loops) birkaç değişiklik yaparak türetebilirsiniz.
 
-Now consider the equivalence between numbers and strings of hash characters. You can go from 1 to 2 by adding 1 (`+= 1`). You can go from `"#"` to `"##"` by adding a character (`+= "#"`). Thus, your solution can closely follow the number-printing program.
+Şimdi, sayıların ve # karakterlerinden oluşan dizelerinin arasındaki bağlantıyı düşünün. 1'den 2'ye gitmek için 1 ekleyebilirsiniz (`+= 1`). "#" den "##" e gitmek için bir karakter ekleyebilirsiniz (`+= "#"`). Bu nedenle, çözümünüz yakından sayı yazdırma programını takip edebilir.
 
 hint}}
 
@@ -682,11 +688,12 @@ hint}}
 
 {{index "FizzBuzz (exercise)", loop, "conditional execution"}}
 
-Write a program that uses `console.log` to print all the numbers from 1 to 100, with two exceptions. For numbers divisible by 3, print `"Fizz"` instead of the number, and for numbers divisible by 5 (and not 3), print `"Buzz"` instead.
+1'den 100'e kadar olan değerleri çıktı olarak `console.log` fonksiyonunu aracılığıyla yazdıracak ancak iki adet istisna sağlayacak bir program yaz. 3 sayısı ile bölünebilecek sayılar için sayıyı yazdırmak yerine `"Fizz"` ve 5 sayısı ile bölünüp 3 sayısı ile bölünmeyen sayılar için de sayı yerine `"Buzz"` yazdır.
 
 When you have that working, modify your program to print `"FizzBuzz"` for numbers that are divisible by both 3 and 5 (and still print `"Fizz"` or `"Buzz"` for numbers divisible by only one of those).
+Çalışan bir şey elde ettiğinde gerektikçe değişiklikler yap ve programının `"FizzBuzz"` çıktısını 3 ve 5 ile bölünebilir sayılar için yazdırmasını sağla, ayrıca güncel sayı sadece 3 veya 5'e bölünebiliyorsa sadece `"Fizz"` veya `"Buzz"` çıktısını yazdırdığına emin ol.
 
-(This is actually an ((interview question)) that has been claimed to weed out a significant percentage of programmer candidates. So if you solved it, your labor market value just went up.)
+(Bu aslında bir ((mülakat sorusu)) ve iddia edildiğine göre programcı adaylarının önemli bir yüzdesini elemek için kullanılıyor. Dolayısıyla, eğer çözdüyseniz, bu sizin işgücü piyasası değerinizin arttığı anlamına geliyor.)
 
 {{if interactive
 ```
@@ -698,23 +705,23 @@ if}}
 
 {{index "FizzBuzz (exercise)", "remainder operator", "% operator"}}
 
-Going over the numbers is clearly a looping job, and selecting what to print is a matter of conditional execution. Remember the trick of using the remainder (`%`) operator for checking whether a number is divisible by another number (has a remainder of zero).
+Sayıları geçmek açıkça bir döngü işidir ve neyi yazdıracağını seçmek bir koşullu ifade meselesidir. Bir sayının başka bir sayıya bölünebilir olup olmadığını (kalanının sıfır olup olmadığını) kontrol etmek için modülo (%) operatörünü kullanmayı unutmayın.
 
-In the first version, there are three possible outcomes for every number, so you'll have to create an `if`/`else if`/`else` chain.
+İlk versiyonda, her sayı için üç olası sonuç vardır, bu nedenle bir `if`/`else if`/`else` zinciri oluşturmanız gerekecek.
 
 {{index "|| operator", ["if keyword", chaining]}}
 
-The second version of the program has a straightforward solution and a clever one. The simple solution is to add another conditional "branch" to precisely test the given condition. For the clever solution, build up a string containing the word or words to output and print either this word or the number if there is no word, potentially by making good use of the `||` operator.
+Programın ikinci versiyonunun basit bir çözümü ve zekice bir çözümü vardır. Basit çözüm, verilen koşulu kesin olarak test etmek için başka bir koşullu "dal" eklemektir. Zeki çözüm için, çıktılanacak kelime veya kelimeleri içeren bir dize oluşturun ve bu kelimeyi veya numarayı yazdırın eğer kelime yoksa potansiyel olarak || operatörünü iyi kullanarak sadece sayıyı yazdırın.
 
 hint}}
 
-### Chessboard
+### Satranç tahtası
 
 {{index "chessboard (exercise)", loop, [nesting, "of loops"], "newline character"}}
 
-Write a program that creates a string that represents an 8×8 grid, using newline characters to separate lines. At each position of the grid there is either a space or a "#" character. The characters should form a chessboard.
+Bir satır başına yeni satır karakterleri kullanarak satırları ayıran bir 8x8 ızgarayı temsil edecek dizeyi oluşturan bir program yazın. Izgaranın her bir konumunda ya bir boşluk ya da "#" karakteri bulunmalıdır. Karakterler bir satranç tahtası oluşturmalıdır.
 
-Passing this string to `console.log` should show something like this:
+Bu diziyi `console.log`'a verirseniz şuna benzer bir şey görüntülemelisiniz:
 
 ```{lang: null}
  # # # #
@@ -727,7 +734,7 @@ Passing this string to `console.log` should show something like this:
 # # # # 
 ```
 
-When you have a program that generates this pattern, define a binding `size = 8` and change the program so that it works for any `size`, outputting a grid of the given width and height.
+Bu deseni üreten bir programa sahip olduğunuzda, bir bağlantı `size = 8` tanımlayın ve programı verilen genişlik ve yükseklikteki bir ızgarayı çıkaracak şekilde değiştirin.
 
 {{if interactive
 ```
@@ -739,16 +746,17 @@ if}}
 
 {{index "chess board (exercise)"}}
 
-You can build the string by starting with an empty one (`""`) and repeatedly adding characters. A newline character is written `"\n"`.
+Dizeyi başlangıçta boş bir dize (`""`) ile başlayarak ve ardından karakterleri tekrar tekrar ekleyerek oluşturabilirsiniz. Bir satır sonu karakteri `"\n"` olarak yazılır.
 
 {{index [nesting, "of loops"], [braces, "block"]}}
 
-To work with two ((dimensions)), you will need a ((loop)) inside of a loop. Put braces around the bodies of both loops to make it easy to see where they start and end. Try to properly indent these bodies. The order of the loops must follow the order in which we build up the string (line by line, left to right, top to bottom). So the outer loop handles the lines, and the inner loop handles the characters on a line.
+İki ((boyut)) ile çalışmak için iç içe olan iki ((döngü))'ye ihtiyacınız olacak. Her iki döngünün vücutlarını görmeyi kolaylaştırmak için her iki döngünün de etrafına parantezler koyun. Bu vücutları uygun şekilde girintileyin. Döngülerin sırası, diziyi nasıl oluşturduğumuzun sırasını izlemelidir (satır satır, soldan sağa, yukarıdan aşağıya). Bu nedenle, dış döngü satırları ele alır ve iç içe döngü bir satırdaki karakterleri ele alır.
 
 {{index "counter variable", "remainder operator", "% operator"}}
 
 You'll need two bindings to track your progress. To know whether to put a space or a hash sign at a given position, you could test whether the sum of the two counters is even (`% 2`).
+İlerlemenizi izlemek için iki farklı bağlantıya ihtiyacınız olacak. Belirli bir konumda bir boşluk mu yoksa bir "#" işareti mi ekleyeceğinizi belirlemeniz için, iki farklı sayaç olarak kullandığınız bağlantıların değerlerinin toplamı çift mi yoksa tek mi olduğunu test edebilirsiniz (`% 2`).
 
-Terminating a line by adding a newline character must happen after the line has been built up, so do this after the inner loop but inside the outer loop.
+Bir satırı sonlandırmak için yeni bir satır karakteri eklemeyi dış döngü içinde ancak iç içe olan döngünün dışında yapmalısınız.
 
 hint}}

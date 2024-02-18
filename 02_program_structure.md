@@ -670,7 +670,7 @@ console.log(abc.length);
 Çoğu egzersiz, egzersizi çözmek için değiştirebileceğiniz bir kod parçası içerir. Kod bloklarını düzenlemek için üzerlerine tıklayabileceğinizi unutmayın.
 
 ```
-// Your code here.
+// Kodunuz buraya.
 ```
 if}}
 
@@ -697,7 +697,7 @@ When you have that working, modify your program to print `"FizzBuzz"` for number
 
 {{if interactive
 ```
-// Your code here.
+// Kodunuz buraya.
 ```
 if}}
 
@@ -738,7 +738,7 @@ Bu deseni üreten bir programa sahip olduğunuzda, bir bağlantı `size = 8` tan
 
 {{if interactive
 ```
-// Your code here.
+// Kodunuz buraya.
 ```
 if}}
 

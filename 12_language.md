@@ -126,7 +126,7 @@ Because Egg, like JavaScript, allows any amount of whitespace between its elemen
 
 {{index "literal expression", "SyntaxError type"}}
 
-After skipping any leading space, `parseExpression` uses three ((regular expression))s to spot the three atomic elements that Egg supports: strings, numbers, and words. The parser constructs a different kind of data structure depending on which one matches. If the input does not match one of these three forms, it is not a valid expression, and the parser throws an error. We use `SyntaxError` instead of `Error` as the exception constructor, which is another standard error type, because it is a little more specific—it is also the error type thrown when an attempt is made to run an invalid JavaScript program.
+After skipping any leading space, `parseExpression` uses three ((regular expression))s to spot the three atomic elements that Egg supports: strings, numbers, and words. The parser constructs a different kind of data structure depending on which one matches. If the input does not match one of these three forms, it is not a valid expression, and the parser throws an error. We use the `SyntaxError` constructor here. This is an exception class defined by the standard, like `Error`, but more specific.
 
 {{index "parseApply function"}}
 
@@ -237,7 +237,7 @@ We use plain JavaScript function values to represent Egg's function values. We w
 
 {{index readability, "evaluate function", recursion, parsing}}
 
-The recursive structure of `evaluate` resembles the similar structure of the parser, and both mirror the structure of the language itself. It would also be possible to combinge the parser and the evaluator into one function, and evaluate during parsing. But splitting them up this way makes the program clearer and more flexible.
+The recursive structure of `evaluate` resembles the similar structure of the parser, and both mirror the structure of the language itself. It would also be possible to combine the parser and the evaluator into one function, and evaluate during parsing. But splitting them up this way makes the program clearer and more flexible.
 
 {{index "Egg language", interpretation}}
 
@@ -412,13 +412,13 @@ specialForms.fun = (args, scope) => {
     return expr.name;
   });
 
-  return function() {
-    if (arguments.length != params.length) {
+  return function(...args) {
+    if (args.length != params.length) {
       throw new TypeError("Wrong number of arguments");
     }
     let localScope = Object.create(scope);
-    for (let i = 0; i < arguments.length; i++) {
-      localScope[params[i]] = arguments[i];
+    for (let i = 0; i < args.length; i++) {
+      localScope[params[i]] = args[i];
     }
     return evaluate(body, localScope);
   };
@@ -468,32 +468,26 @@ If you are interested in this topic and willing to spend some time on it, I enco
 
 {{index "Egg language"}}
 
-When we defined `if` and `while`, you probably noticed that they were more or less trivial wrappers around JavaScript's own `if` and `while`. Similarly, the values in Egg are just regular old JavaScript values.
+When we defined `if` and `while`, you probably noticed that they were more or less trivial wrappers around JavaScript's own `if` and `while`. Similarly, the values in Egg are just regular old JavaScript values. Bridging the gap to a more primitive system, such as the machine code the processor understands, is more effort—but the way it works resembles what we are doing here.
 
-If you compare the implementation of Egg, built on top of JavaScript, with the amount of work and complexity required to build a programming language directly on the raw functionality provided by a machine, the difference is huge. Regardless, this example ideally gave you an impression of the way ((programming language))s work.
-
-And when it comes to getting something done, cheating is more effective than doing everything yourself. Though the toy language in this chapter doesn't do anything that couldn't be done better in JavaScript, there _are_ situations where writing small languages helps get real work done.
+Though the toy language in this chapter doesn't do anything that couldn't be done better in JavaScript, there _are_ situations where writing small languages helps get real work done.
 
 Such a language does not have to resemble a typical programming language. If JavaScript didn't come equipped with regular expressions, for example, you could write your own parser and evaluator for regular expressions.
 
-{{index "artificial intelligence"}}
+{{index "parser generator"}}
 
-Or imagine you are building a giant robotic ((dinosaur)) and need to program its ((behavior)). JavaScript might not be the most effective way to do this. You might instead opt for a language that looks like this:
+Or imagine you are building a program that makes it possible to quickly create parsers by providing a logical description of the language they need to parse. You could define a specific notation for that, and a compiler that compiles it to a parser program.
 
 ```{lang: null}
-behavior walk
-  perform when
-    destination ahead
-  actions
-    move left-foot
-    move right-foot
+expr = number | string | name | application
 
-behavior attack
-  perform when
-    Godzilla in-view
-  actions
-    fire laser-eyes
-    launch arm-rockets
+number = digit+
+
+name = letter+
+
+string = '"' (! '"')* '"'
+
+application = expr '(' (expr (',' expr)*)? ')'
 ```
 
 {{index expressivity}}

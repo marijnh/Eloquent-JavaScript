@@ -42,7 +42,7 @@ There are a lot more rules about the way the requester can include more informat
 
 {{index layering, stream, ordering}}
 
-Most protocols are built on top of other protocols. HTTP treats the network as a streamlike device into which you can put bits and have them arrive at the correct destination in the correct order. Ensuring that on top of the primitive data-sending that the network gives you is already a rather tricky problem.
+Most protocols are built on top of other protocols. HTTP treats the network as a streamlike device into which you can put bits and have them arrive at the correct destination in the correct order. Providing those guarantees that on top of the primitive data-sending that the network gives you is already a rather tricky problem.
 
 {{index TCP}}
 
@@ -218,7 +218,7 @@ You can load ((ES modules)) (see [Chapter ?](modules#es)) in the browser by givi
 
 {{index "button (HTML tag)", "onclick attribute"}}
 
-Some attributes can also contain a JavaScript program. The `<button>` tag shown next (which shows up as a button) has an `onclick` attribute. The attribute's value will be run whenever the button is clicked.
+Some attributes can also contain a JavaScript program. The `<button>` tag (which shows up as a button) supports an `onclick` attribute. The attribute's value will be run whenever the button is clicked.
 
 ```{lang: "html"}
 <button onclick="alert('Boom!');">DO NOT PRESS</button>
@@ -244,7 +244,7 @@ The hard part of sandboxing is allowing the programs enough room to be useful ye
 
 {{index leak, exploit, security}}
 
-Every now and then, someone comes up with a new way to circumvent the limitations of a ((browser)) and do something harmful, ranging from leaking minor private information to taking over the whole machine that the browser runs on. The browser developers respond by fixing the hole, and all is well again—until the next problem is discovered, and hopefully publicized, rather than secretly exploited by some government agency or ((mafia)).
+Every now and then, someone comes up with a new way to circumvent the limitations of a ((browser)) and do something harmful, ranging from leaking minor private information to taking over the whole machine that the browser runs on. The browser developers respond by fixing the hole, and all is well again—until the next problem is discovered, and hopefully publicized, rather than secretly exploited by some government agency or criminal organization.
 
 ## Compatibility and the browser wars
 
@@ -261,3 +261,5 @@ Mozilla ((Firefox)), a not-for-profit offshoot of ((Netscape)), challenged Inter
 {{index compatibility}}
 
 The new players had a more serious attitude toward ((standards)) and better ((engineering)) practices, giving us less incompatibility and fewer ((bug))s. Microsoft, seeing its market share crumble, came around and adopted these attitudes in its Edge browser, which replaces Internet Explorer. If you are starting to learn web development today, consider yourself lucky. The latest versions of the major browsers behave quite uniformly and have relatively few bugs.
+
+Unfortunately, with Firefox's market share getting ever smaller, and Edge becoming just a wrapper around Chrome's core in 2018, this uniformity might once again take the form of a single vendor—Google, this time—having enough control over the browser market to push its idea of what the Web should look like onto the rest of the world.

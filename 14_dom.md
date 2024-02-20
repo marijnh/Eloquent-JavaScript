@@ -314,7 +314,7 @@ Some element ((attribute))s, such as `href` for links, can be accessed through a
 
 {{index "data attribute", "getAttribute method", "setAttribute method", attribute}}
 
-But HTML allows you to set any attribute you want on nodes. This can be useful because it allows you to store extra information in a document. If you make up your own attribute names, though, such attributes will not be present as properties on the element's node. Instead, you have to use the `getAttribute` and `setAttribute` methods to work with them.
+HTML allows you to set any attribute you want on nodes. This can be useful because it allows you to store extra information in a document. To read or change custom attributes, which aren't available as regular object properties, you have to use the `getAttribute` and `setAttribute` methods.
 
 ```{lang: html}
 <p data-classified="secret">The launch code is 00000000.</p>
@@ -334,7 +334,7 @@ It is recommended to prefix the names of such made-up attributes with `data-` to
 
 {{index "getAttribute method", "setAttribute method", "className property", "class attribute"}}
 
-There is a commonly used attribute, `class`, which is a ((keyword)) in the JavaScript language. For historical reasons—some old JavaScript implementations could not handle property names that matched keywords—the property used to access this attribute is called `className`. You can also access it under its real name, `"class"`, by using the `getAttribute` and `setAttribute` methods.
+There is a commonly used attribute, `class`, which is a ((keyword)) in the JavaScript language. For historical reasons—some old JavaScript implementations could not handle property names that matched keywords—the property used to access this attribute is called `className`. You can also access it under its real name, `"class"` with the `getAttribute` and `setAttribute` methods.
 
 ## Layout
 
@@ -360,7 +360,9 @@ Similarly, `clientWidth` and `clientHeight` give you the size of the space _insi
 <script>
   let para = document.body.getElementsByTagName("p")[0];
   console.log("clientHeight:", para.clientHeight);
+  // → 19
   console.log("offsetHeight:", para.offsetHeight);
+  // → 25
 </script>
 ```
 
@@ -372,15 +374,15 @@ Giving a paragraph a border causes a rectangle to be drawn around it.
 
 if}}
 
-{{index "getBoundingClientRect method", position, "pageXOffset property", "pageYOffset property"}}
+{{index "getBoundingClientRect method", position}}
 
 {{id boundingRect}}
 
-The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen. If you want them relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
+The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen.
 
 {{index "offsetHeight property", "getBoundingClientRect method", drawing, laziness, performance, efficiency}}
 
-Laying out a document can be quite a lot of work. In the interest of speed, browser engines do not immediately re-layout a document every time you change it but wait as long as they can. When a JavaScript program that changed the document finishes running, the browser will have to compute a new layout to draw the changed document to the screen. When a program _asks_ for the position or size of something by reading properties such as `offsetHeight` or calling `getBoundingClientRect`, providing correct information also requires computing a ((layout)).
+Laying out a document can be quite a lot of work. In the interest of speed, browser engines do not immediately re-layout a document every time you change it but wait as long as they can. When a JavaScript program that changed the document finishes running, the browser will have to compute a new layout to draw the changed document to the screen. When a program _asks_ for the position or size of something by reading properties such as `offsetHeight` or calling `getBoundingClientRect`, providing that information also requires computing a ((layout)).
 
 {{index "side effect", optimization, benchmark}}
 
@@ -575,7 +577,7 @@ The `querySelectorAll` method, which is defined both on the `document` object an
 
 {{index "live data structure"}}
 
-Unlike methods such as `getElementsByTagName`, the object returned by `querySelectorAll` is _not_ live. It won't change when you change the document. It is still not a real array, though, so you still need to call `Array.from` if you want to treat it like one.
+Unlike methods such as `getElementsByTagName`, the object returned by `querySelectorAll` is _not_ live. It won't change when you change the document. It is still not a real array, though, so you need to call `Array.from` if you want to treat it like one.
 
 {{index "querySelector method"}}
 
@@ -753,7 +755,7 @@ hint}}
 
 {{index "getElementsByTagName method", recursion}}
 
-The `document.getElementsByTagName` method returns all child elements with a given tag name. Implement your own version of this as a function that takes a node and a string (the tag name) as arguments and returns an array containing all descendant element nodes with the given tag name.
+The `document.getElementsByTagName` method returns all child elements with a given tag name. Implement your own version of this as a function that takes a node and a string (the tag name) as arguments and returns an array containing all descendant element nodes with the given tag name. Your function should go through the document itself. It may not use a method like `querySelectorAll` to do the work.
 
 {{index "nodeName property", capitalization, "toLowerCase method", "toUpperCase method"}}
 

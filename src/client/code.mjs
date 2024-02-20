@@ -170,7 +170,7 @@ class CodeSandbox {
     })
     if (chapter.include) chapter.include.forEach((file, i) => {
       if (!i) this.fileInfo.style.display = ""
-      addItem(this.fileList, file)
+      if (!/(^|\/)_/.test(file)) addItem(this.fileList, file)
     })
     this.selectContext(context || "box")
   }

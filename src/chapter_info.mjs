@@ -189,7 +189,7 @@ function chapterZipFile(meta, chapter) {
   if (!chapter.start_code) throw new Error("zip but no start code");
   let data = /(\S+)(?:\s+include=(.*))?/.exec(JSON.parse(spec[1]))
   let name = "code/chapter/" + chapter.id + ".zip";
-  let files = (chapter.include || []).concat(data[2] ? JSON.parse(data[2]) : []);
+  let files = (chapter.include || []).concat(data[2] ? JSON.parse(data[2]) : []).filter(f => !/(^|\/)_/.test(f));
   let exists = fs.existsSync(name) && fs.statSync(name).mtime;
   if (exists && files.every(file => fs.statSync("html/" + file).mtime < exists))
     return name;

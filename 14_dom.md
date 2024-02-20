@@ -374,11 +374,11 @@ Giving a paragraph a border causes a rectangle to be drawn around it.
 
 if}}
 
-{{index "getBoundingClientRect method", position}}
+{{index "getBoundingClientRect method", position, "pageXOffset property", "pageYOffset property"}}
 
 {{id boundingRect}}
 
-The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen.
+The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen. If you want them relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
 
 {{index "offsetHeight property", "getBoundingClientRect method", drawing, laziness, performance, efficiency}}
 

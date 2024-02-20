@@ -280,7 +280,7 @@ To get precise information about the place where a mouse event happened, you can
 
 {{id mouse_drawing}}
 
-The following implements a primitive drawing program. Every time you click the document, it adds a dot under your mouse pointer. See [Chapter ?](paint) for a less primitive drawing program.
+The following program implements a primitive drawing application. Every time you click the document, it adds a dot under your mouse pointer. See [Chapter ?](paint) for a less primitive drawing application.
 
 ```{lang: html}
 <style>
@@ -291,7 +291,7 @@ The following implements a primitive drawing program. Every time you click the d
   .dot {
     height: 8px; width: 8px;
     border-radius: 4px; /* rounds corners */
-    background: blue;
+    background: teal;
     position: absolute;
   }
 </style>

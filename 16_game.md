@@ -174,7 +174,7 @@ This is again a persistent data structure—updating the game state creates a ne
 
 {{index actor, "Vec class", [interface, object]}}
 
-Actor objects represent the current position and state of a given moving element in our game. All actor objects conform to the same interface. Their `pos` property holds the coordinates of the element's top-left corner, and their `size` property holds its size.
+Actor objects represent the current position and state of a given moving element in our game. All actor objects conform to the same interface. They have `size` and `pos` properties holding the size and the coordinates of the top-left corner of the rectangle representing this actor.
 
 Then they have an `update` method, which is used to compute their new state and position after a given time step. It simulates the thing the actor does—moving in response to the arrow keys for the player and bouncing back and forth for the lava—and returns a new, updated actor object.
 
@@ -316,29 +316,15 @@ console.log(`${simpleLevel.width} by ${simpleLevel.height}`);
 
 The task ahead is to display such levels on the screen and to model time and motion inside them.
 
-## Encapsulation as a burden
-
-{{index "programming style", "program size", complexity}}
-
-Most of the code in this chapter does not worry about ((encapsulation)) very much for two reasons. First, encapsulation takes extra effort. It makes programs bigger and requires additional concepts and interfaces to be introduced. Since there is only so much code you can throw at a reader before their eyes glaze over, I've made an effort to keep the program small.
-
-{{index [interface, design]}}
-
-Second, the various elements in this game are so closely tied together that if the behavior of one of them changed, it is unlikely that any of the others would be able to stay the same. Interfaces between the elements would end up encoding a lot of assumptions about the way the game works. This makes them a lot less effective—whenever you change one part of the system, you still have to worry about the way it impacts the other parts because their interfaces wouldn't cover the new situation.
-
-Some _((cutting point))s_ in a system lend themselves well to separation through rigorous interfaces, but others don't. Trying to encapsulate something that isn't a suitable boundary is a sure way to waste a lot of energy. When you are making this mistake, you'll usually notice that your interfaces are getting awkwardly large and detailed and that they need to be changed often, as the program evolves.
-
-{{index graphics, encapsulation, graphics}}
-
-There is one thing that we _will_ encapsulate, and that is the ((drawing)) subsystem. The reason for this is that we'll ((display)) the same game in a different way in the [next chapter](canvas#canvasdisplay). By putting the drawing behind an interface, we can load the same game program there and plug in a new display ((module)).
-
 {{id domdisplay}}
 
 ## Drawing
 
-{{index "DOMDisplay class", [DOM, graphics]}}
+{{index graphics, encapsulation, "DOMDisplay class", [DOM, graphics]}}
 
-The encapsulation of the ((drawing)) code is done by defining a _((display))_ object, which displays a given ((level)) and state. The display type we define in this chapter is called `DOMDisplay` because it uses DOM elements to show the level.
+In the [next chapter](canvas#canvasdisplay), we'll ((display)) the same game in a different way. To make that possible, we put the drawing logic behind an interface, and pass it to the game as an argument. That way, we can use the same game program with different new display ((module))s.
+
+A game display object draws a given ((level)) and state. We pass its constructor to the game to allow it to be replaced. The display class we define in this chapter is called `DOMDisplay` because it uses DOM elements to show the level.
 
 {{index "style attribute", CSS}}
 
@@ -399,7 +385,7 @@ function drawGrid(level) {
 
 {{index "table (HTML tag)", "tr (HTML tag)", "td (HTML tag)", "spread operator"}}
 
-As mentioned, the background is drawn as a `<table>` element. This nicely corresponds to the structure of the `rows` property of the level—each row of the grid is turned into a table row (`<tr>` element). The strings in the grid are used as class names for the table cell (`<td>`) elements. The spread (triple dot) operator is used to pass arrays of child nodes to `elt` as separate arguments.
+The `<table>` element's form nicely corresponds to the structure of the `rows` property of the level—each row of the grid is turned into a table row (`<tr>` element). The strings in the grid are used as class names for the table cell (`<td>`) elements. The code uses the spread (triple dot) operator to pass arrays of child nodes to `elt` as separate arguments.
 
 {{id game_css}}
 
@@ -420,7 +406,7 @@ Some of these (`table-layout`, `border-spacing`, and `padding`) are used to supp
 
 {{index "background (CSS)", "rgb (CSS)", CSS}}
 
-The `background` rule sets the background color. CSS allows colors to be specified both as words (`white`) or with a format such as `rgb(R, G, B)`, where the red, green, and blue components of the color are separated into three numbers from 0 to 255. So, in `rgb(52, 166, 251)`, the red component is 52, green is 166, and blue is 251. Since the blue component is the largest, the resulting color will be bluish. You can see that in the `.lava` rule, the first number (red) is the largest.
+The `background` rule sets the background color. CSS allows colors to be specified both as words (`white`) or with a format such as `rgb(R, G, B)`, where the red, green, and blue components of the color are separated into three numbers from 0 to 255. So, in `rgb(52, 166, 251)`, the red component is 52, green is 166, and blue is 251. Since the blue component is the largest, the resulting color will be bluish. In the `.lava` rule, the first number (red) is the largest.
 
 {{index [DOM, graphics]}}
 
@@ -568,7 +554,7 @@ Now we're at the point where we can start adding motion. The basic approach, tak
 
 {{index obstacle, "collision detection"}}
 
-Moving things is easy. The difficult part is dealing with the interactions between the elements. When the player hits a wall or floor, they should not simply move through it. The game must notice when a given motion causes an object to hit another object and respond accordingly. For walls, the motion must be stopped. When hitting a coin, it must be collected. When touching lava, the game should be lost.
+Moving things is easy. The difficult part is dealing with the interactions between the elements. When the player hits a wall or floor, they should not simply move through it. The game must notice when a given motion causes an object to hit another object and respond accordingly. For walls, the motion must be stopped. When hitting a coin, that coin must be collected. When touching lava, the game should be lost.
 
 Solving this for the general case is a big task. You can find libraries, usually called _((physics engine))s_, that simulate interaction between physical objects in two or three ((dimensions)). We'll take a more modest approach in this chapter, handling only collisions between rectangular objects and handling them in a rather simplistic way.
 
@@ -755,7 +741,7 @@ Vertical motion works in a similar way but has to simulate ((jumping)) and ((gra
 
 We check for walls again. If we don't hit any, the new position is used. If there _is_ a wall, there are two possible outcomes. When the up arrow is pressed _and_ we are moving down (meaning the thing we hit is below us), the speed is set to a relatively large, negative value. This causes the player to jump. If that is not the case, the player simply bumped into something, and the speed is set to zero.
 
-The gravity strength, ((jumping)) speed, and pretty much all other ((constant))s in this game have been set purely by ((trial and error)). I tested values until I found a combination I liked.
+The gravity strength, ((jumping)) speed, and other ((constant))s in the game were determined by simply trying out some numbers and seeing which ones felt right. You can try experimenting with them.
 
 ## Tracking keys
 
@@ -803,7 +789,7 @@ The `requestAnimationFrame` function, which we saw in [Chapter ?](dom#animationF
 
 {{index "runAnimation function", "callback function", [function, "as value"], [function, "higher-order"], [animation, "platform game"]}}
 
-Let's define a helper function that wraps those boring parts in a convenient interface and allows us to simply call `runAnimation`, giving it a function that expects a time difference as an argument and draws a single frame. When the frame function returns the value `false`, the animation stops.
+Let's define a helper function that wraps all that in a convenient interface and allows us to simply call `runAnimation`, giving it a function that expects a time difference as an argument and draws a single frame. When the frame function returns the value `false`, the animation stops.
 
 ```{includeCode: true}
 function runAnimation(frameFunc) {
@@ -936,7 +922,7 @@ Make it possible to pause (suspend) and unpause the game by pressing the Esc key
 
 {{index "runLevel function", "event handling"}}
 
-This can be done by changing the `runLevel` function to use another keyboard event handler and interrupting or resuming the animation whenever the Esc key is hit.
+This can be done by changing the `runLevel` function to set up a keyboard event handler that interrupts or resumes the animation whenever the Esc key is hit.
 
 {{index "runAnimation function"}}
 

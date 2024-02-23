@@ -14,7 +14,7 @@ quote}}
 
 Functions are one of the most central tools in JavaScript programming. The concept of wrapping a piece of program in a value has many uses. It gives us a way to structure larger programs, to reduce repetition, to associate names with subprograms, and to isolate these subprograms from each other.
 
-The most obvious application of functions is defining new ((vocabulary)). Creating new words in prose is usually bad style. But in programming, it is indispensable.
+The most obvious application of functions is defining new ((vocabulary)). Creating new words in prose is usually bad style, but in programming, it is indispensable.
 
 {{index abstraction, vocabulary}}
 
@@ -38,7 +38,7 @@ console.log(square(12));
 {{indexsee "curly braces", braces}}
 {{index [braces, "function body"], block, [syntax, function], "function keyword", [function, body], [function, "as value"], [parentheses, arguments]}}
 
-A function is created with an expression that starts with the keyword `function`. Functions have a set of _((parameter))s_ (in this case, only `x`) and a _body_, which contains the statements that are to be executed when the function is called. The function body of a function created this way must always be wrapped in braces, even when it consists of only a single ((statement)).
+A function is created with an expression that starts with the keyword `function`. Functions have a set of _((parameter))s_ (in this case, only `x`) and a _body_, which contains the statements that are to be executed when the function is called. The body of a function created this way must always be wrapped in braces, even when it consists of only a single ((statement)).
 
 {{index "roundTo example"}}
 
@@ -63,7 +63,7 @@ console.log(roundTo(23, 10));
 
 {{index "return value", "return keyword", undefined}}
 
-Some functions produce a value, such as `roundTo` and `square`, and some don't, such as `makeNoise`, whose only result is a ((side effect)). A `return` statement determines the value the function returns. When control comes across such a statement, it immediately jumps out of the current function and gives the returned value to the code that called the function. A `return` keyword without an expression after it will cause the function to return `undefined`. Functions that don't have a `return` statement at all, such as `makeNoise`, similarly return `undefined`.
+Some functions, such as `roundTo` and `square`, produce a value, and some don't, such as `makeNoise`, whose only result is a ((side effect)). A `return` statement determines the value the function returns. When control comes across such a statement, it immediately jumps out of the current function and gives the returned value to the code that called the function. A `return` keyword without an expression after it will cause the function to return `undefined`. Functions that don't have a `return` statement at all, such as `makeNoise`, similarly return `undefined`.
 
 {{index parameter, [function, application], [binding, "from parameter"]}}
 
@@ -78,23 +78,18 @@ Each binding has a _((scope))_, which is the part of the program in which the bi
 
 {{index "local scope", [binding, local]}}
 
-But bindings created for function ((parameter))s or declared inside a function can be referenced only in that function, so they are known as _local_ bindings. Every time the function is called, new instances of these bindings are created. This provides some isolation between functions—each function call acts in its own little world (its local environment) and can often be understood without knowing a lot about what's going on in the global environment.
+Bindings created for function ((parameter))s or declared inside a function can be referenced only in that function, so they are known as _local_ bindings. Every time the function is called, new instances of these bindings are created. This provides some isolation between functions—each function call acts in its own little world (its local environment) and can often be understood without knowing a lot about what's going on in the global environment.
 
 {{index "let keyword", "const keyword", "var keyword"}}
 
-Bindings declared with `let` and `const` are in fact local to the _((block))_ that they are declared in, so if you create one of those inside of a loop, the code before and after the loop cannot "see" it. In pre-2015 JavaScript, only functions created new scopes, so old-style bindings, created with the `var` keyword, are visible throughout the whole function that they appear in—or throughout the global scope, if they are not in a function.
+Bindings declared with `let` and `const` are in fact local to the _((block))_ in which they are declared, so if you create one of those inside of a loop, the code before and after the loop cannot "see" it. In pre-2015 JavaScript, only functions created new scopes, so old-style bindings, created with the `var` keyword, are visible throughout the whole function in which they appear—or throughout the global scope, if they are not in a function.
 
 ```
-let x = 10;
+let x = 10;   // global
 if (true) {
-  let y = 20;
-  var z = 30;
-  console.log(x + y + z);
-  // → 60
+  let y = 20; // local to block
+  var z = 30; // also global
 }
-// y is not visible here
-console.log(x + z);
-// → 40
 ```
 
 {{index [binding, visibility]}}
@@ -115,11 +110,11 @@ console.log(n);
 
 {{id scoping}}
 
-### Nested scope
+## Nested scope
 
 {{index [nesting, "of functions"], [nesting, "of scope"], scope, "inner function", "lexical scoping"}}
 
-JavaScript distinguishes not just _global_ and _local_ bindings. Blocks and functions can be created inside other blocks and functions, producing multiple degrees of locality.
+JavaScript distinguishes not just global and local bindings. Blocks and functions can be created inside other blocks and functions, producing multiple degrees of locality.
 
 {{index "landscape example"}}
 
@@ -145,7 +140,7 @@ const hummus = function(factor) {
 
 {{index [function, scope], scope}}
 
-The code inside the `ingredient` function can see the `factor` binding from the outer function. But its local bindings, such as `unit` or `ingredientAmount`, are not visible in the outer function.
+The code inside the `ingredient` function can see the `factor` binding from the outer function, but its local bindings, such as `unit` or `ingredientAmount`, are not visible in the outer function.
 
 The set of bindings visible inside a block is determined by the place of that block in the program text. Each local scope can also see all the local scopes that contain it, and all scopes can see the global scope. This approach to binding visibility is called _((lexical scoping))_.
 
@@ -170,13 +165,13 @@ if (safeMode) {
 
 {{index [function, "higher-order"]}}
 
-In [Chapter ?](higher_order), we will discuss the interesting things that can be done by passing around function values to other functions.
+In [Chapter ?](higher_order), we'll discuss the interesting things that we can do by passing around function values to other functions.
 
 ## Declaration notation
 
 {{index [syntax, function], "function keyword", "square example", [function, definition], [function, declaration]}}
 
-There is a slightly shorter way to create a function binding. When the `function` keyword is used at the start of a statement, it works differently.
+There is a slightly shorter way to create a function binding. When the `function` keyword is used at the start of a statement, it works differently:
 
 ```{test: wrap}
 function square(x) {
@@ -204,7 +199,7 @@ The preceding code works, even though the function is defined _below_ the code t
 
 {{index function, "arrow function"}}
 
-There's a third notation for functions, which looks very different from the others. Instead of the `function` keyword, it uses an arrow (`=>`) made up of an equal sign and a greater-than character (not to be confused with the greater-than-or-equal operator, which is written `>=`).
+There's a third notation for functions, which looks very different from the others. Instead of the `function` keyword, it uses an arrow (`=>`) made up of an equal sign and a greater-than character (not to be confused with the greater-than-or-equal operator, which is written `>=`):
 
 ```{test: wrap}
 const roundTo = (n, step) => {
@@ -238,7 +233,7 @@ const horn = () => {
 
 {{index verbosity}}
 
-There's no deep reason to have both arrow functions and `function` expressions in the language. Apart from a minor detail, which we'll discuss in [Chapter ?](object), they do the same thing. Arrow functions were added in 2015, mostly to make it possible to write small function expressions in a less verbose way. We'll be using them a lot in [Chapter ?](higher_order).
+There's no deep reason to have both arrow functions and `function` expressions in the language. Apart from a minor detail, which we'll discuss in [Chapter ?](object), they do the same thing. Arrow functions were added in 2015, mostly to make it possible to write small function expressions in a less verbose way. We'll use them often in [Chapter ?](higher_order).
 
 {{id stack}}
 
@@ -259,7 +254,7 @@ console.log("Bye");
 
 {{index ["control flow", functions], "execution order", "console.log"}}
 
-A run through this program goes roughly like this: the call to `greet` causes control to jump to the start of that function (line 2). The function calls `console.log`, which takes control, does its job, and then returns control to line 2. There it reaches the end of the `greet` function, so it returns to the place that called it, which is line 4. The line after that calls `console.log` again. After that returns, the program reaches its end.
+A run through this program goes roughly like this: the call to `greet` causes control to jump to the start of that function (line 2). The function calls `console.log`, which takes control, does its job, and then returns control to line 2. There, it reaches the end of the `greet` function, so it returns to the place that called it—line 4. The line after that calls `console.log` again. After that returns, the program reaches its end.
 
 We could show the flow of control schematically like this:
 
@@ -281,7 +276,7 @@ The place where the computer stores this context is the _((call stack))_. Every 
 
 {{index "infinite loop", "stack overflow", recursion}}
 
-Storing this stack requires space in the computer's memory. When the stack grows too big, the computer will fail with a message like "out of stack space" or "too much recursion". The following code illustrates this by asking the computer a really hard question that causes an infinite back-and-forth between two functions. Rather, it _would_ be infinite, if the computer had an infinite stack. As it is, we will run out of space, or "blow the stack".
+Storing this stack requires space in the computer's memory. When the stack grows too big, the computer will fail with a message like "out of stack space" or "too much recursion". The following code illustrates this by asking the computer a really hard question that causes an infinite back-and-forth between two functions. Or rather, it _would_ be infinite, if the computer had an infinite stack. As it is, we will run out of space, or "blow the stack".
 
 ```{test: no}
 function chicken() {
@@ -310,11 +305,9 @@ We defined `square` with only one ((parameter)). Yet when we call it with three,
 
 {{index undefined}}
 
-JavaScript is extremely broad-minded about the number of arguments you pass to a function. If you pass too many, the extra ones are ignored. If you pass too few, the missing parameters get assigned the value `undefined`.
+JavaScript is extremely broad-minded about the number of arguments you can pass to a function. If you pass too many, the extra ones are ignored. If you pass too few, the missing parameters are assigned the value `undefined`.
 
-The downside of this is that it is possible—likely, even—that you'll accidentally pass the wrong number of arguments to functions. And no one will tell you about it.
-
-The upside is that this behavior can be used to allow a function to be called with different numbers of arguments. For example, this `minus` function tries to imitate the `-` operator by acting on either one or two arguments:
+The downside of this is that it is possible—likely, even—that you'll accidentally pass the wrong number of arguments to functions. And no one will tell you about it. The upside is that you can use this behavior to allow a function to be called with different numbers of arguments. For example, this `minus` function tries to imitate the `-` operator by acting on either one or two arguments:
 
 ```
 function minus(a, b) {
@@ -329,13 +322,9 @@ console.log(minus(10, 5));
 ```
 
 {{id roundTo}}
-{{index "optional argument", "default value", parameter, ["= operator", "for default value"]}}
+{{index "optional argument", "default value", parameter, ["= operator", "for default value"] "roundTo example"}}
 
-If you write an `=` operator after a parameter, followed by an expression, the value of that expression will replace the argument when it is not given.
-
-{{index "roundTo example"}}
-
-For example, this version of `roundTo` makes its second argument optional. If you don't provide it or pass the value `undefined`, it will default to one.
+If you write an `=` operator after a parameter, followed by an expression, the value of that expression will replace the argument when it is not given. For example, this version of `roundTo` makes its second argument optional. If you don't provide it or pass the value `undefined`, it will default to one:
 
 ```{test: wrap}
 function roundTo(n, step = 1) {
@@ -351,7 +340,7 @@ console.log(roundTo(4.5, 2));
 
 {{index "console.log"}}
 
-In the [next chapter](data#rest_parameters), we will see a way in which a function body can get at the whole list of arguments it was passed. This is helpful because it makes it possible for a function to accept any number of arguments. For example, `console.log` does this—it outputs all of the values it is given.
+The [next chapter](data#rest_parameters) will introduce a way in which a function body can get at the whole list of arguments it was passed. This is helpful because it allows a function to accept any number of arguments. For example, `console.log` does this, outputting all the values it is given:
 
 ```
 console.log("C", "O", 2);
@@ -362,9 +351,9 @@ console.log("C", "O", 2);
 
 {{index "call stack", "local binding", [function, "as value"], scope}}
 
-The ability to treat functions as values, combined with the fact that local bindings are re-created every time a function is called, brings up an interesting question. What happens to local bindings when the function call that created them is no longer active?
+The ability to treat functions as values, combined with the fact that local bindings are recreated every time a function is called, brings up an interesting question: what happens to local bindings when the function call that created them is no longer active?
 
-The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding.
+The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding:
 
 ```
 function wrapValue(n) {
@@ -382,11 +371,11 @@ console.log(wrap2());
 
 This is allowed and works as you'd hope—both instances of the binding can still be accessed. This situation is a good demonstration of the fact that local bindings are created anew for every call, and different calls don't affect each other's local bindings.
 
-This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about lifetimes of bindings but also makes it possible to use function values in some creative ways.
+This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about the lifetimes of bindings but also makes it possible to use function values in some creative ways.
 
 {{index "multiplier function"}}
 
-With a slight change, we can turn the previous example into a way to create functions that multiply by an arbitrary amount.
+With a slight change, we can turn the previous example into a way to create functions that multiply by an arbitrary amount:
 
 ```
 function multiplier(factor) {
@@ -400,13 +389,13 @@ console.log(twice(5));
 
 {{index [binding, "from parameter"]}}
 
-The explicit `local` binding from the `wrapValue` example isn't really needed since a parameter is itself a local binding.
+The explicit `local` binding from the `wrapValue` example isn't really needed, since a parameter is itself a local binding.
 
 {{index [function, "model of"]}}
 
 Thinking about programs like this takes some practice. A good mental model is to think of function values as containing both the code in their body and the environment in which they are created. When called, the function body sees the environment in which it was created, not the environment in which it is called.
 
-In the example, `multiplier` is called and creates an environment in which its `factor` parameter is bound to 2. The function value it returns, which is stored in `twice`, remembers this environment. So when that is called, it multiplies its argument by 2.
+In the previous example, `multiplier` is called and creates an environment in which its `factor` parameter is bound to 2. The function value it returns, which is stored in `twice`, remembers this environment so that when that is called, it multiplies its argument by 2.
 
 ## Recursion
 
@@ -433,11 +422,11 @@ This is rather close to the way mathematicians define exponentiation and arguabl
 
 {{index [function, application], efficiency}}
 
-But this implementation has one problem: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
+This implementation has one problem, however: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
 
 {{index optimization}}
 
-The dilemma of speed versus ((elegance)) is an interesting one. You can see it as a kind of continuum between human-friendliness and machine-friendliness. Almost any program can be made faster by making it bigger and more convoluted. The programmer has to decide on an appropriate balance.
+The dilemma of speed versus ((elegance)) is an interesting one. You can see it as a kind of continuum between human-friendliness and machine-friendliness. Almost any program can be made faster by making it bigger and more convoluted. The programmer has to find an appropriate balance.
 
 In the case of the `power` function, an inelegant (looping) version is still fairly simple and easy to read. It doesn't make much sense to replace it with a recursive function. Often, though, a program deals with such complex concepts that giving up some efficiency in order to make the program more straightforward is helpful.
 
@@ -447,7 +436,7 @@ Worrying about efficiency can be a distraction. It's yet another factor that com
 
 {{index "premature optimization"}}
 
-Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
+Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't, since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
 
 {{index "branching recursion"}}
 
@@ -456,9 +445,7 @@ Recursion is not always just an inefficient alternative to looping. Some problem
 {{id recursive_puzzle}}
 {{index recursion, "number puzzle example"}}
 
-Consider this puzzle: by starting from the number 1 and repeatedly either adding 5 or multiplying by 3, an infinite set of numbers can be produced. How would you write a function that, given a number, tries to find a sequence of such additions and multiplications that produces that number?
-
-For example, the number 13 could be reached by first multiplying by 3 and then adding 5 twice, whereas the number 15 cannot be reached at all.
+Consider this puzzle: by starting from the number 1 and repeatedly either adding 5 or multiplying by 3, an infinite set of numbers can be produced. How would you write a function that, given a number, tries to find a sequence of such additions and multiplications that produces that number? For example, the number 13 could be reached by first multiplying by 3 and then adding 5 twice, whereas the number 15 cannot be reached at all.
 
 Here is a recursive solution:
 
@@ -483,9 +470,9 @@ console.log(findSolution(24));
 
 Note that this program doesn't necessarily find the _shortest_ sequence of operations. It is satisfied when it finds any sequence at all.
 
-It is okay if you don't see how it works right away. Let's work through it, since it makes for a great exercise in recursive thinking.
+It's okay if you don't see how this code works right away. Let's work through it, since it makes for a great exercise in recursive thinking.
 
-The inner function `find` does the actual recursing. It takes two ((argument))s: the current number and a string that records how we reached this number. If it finds a solution, it returns a string that shows how to get to the target. If no solution can be found starting from this number, it returns `null`.
+The inner function `find` does the actual recursing. It takes two ((argument))s: the current number and a string that records how we reached this number. If it finds a solution, it returns a string that shows how to get to the target. If it can find no solution starting from this number, it returns `null`.
 
 {{index null, "?? operator", "short-circuit evaluation"}}
 
@@ -493,7 +480,7 @@ To do this, the function performs one of three actions. If the current number is
 
 {{index "call stack"}}
 
-To better understand how this function produces the effect we're looking for, let's look at all the calls to `find` that are made when searching for a solution for the number 13.
+To better understand how this function produces the effect we're looking for, let's look at all the calls to `find` that are made when searching for a solution for the number 13:
 
 ```{lang: null}
 find(1, "1")
@@ -511,7 +498,7 @@ find(1, "1")
         found!
 ```
 
-The indentation indicates the depth of the call stack. The first time `find` is called, it starts by calling itself to explore the solution that starts with `(1 + 5)`. That call will further recurse to explore _every_ continued solution that yields a number less than or equal to the target number. Since it doesn't find one that hits the target, it returns `null` back to the first call. There the `??` operator causes the call that explores `(1 * 3)` to happen. This search has more luck—its first recursive call, through yet _another_ recursive call, hits upon the target number. That innermost call returns a string, and each of the `??` operators in the intermediate calls passes that string along, ultimately returning the solution.
+The indentation indicates the depth of the call stack. The first time `find` is called, the function starts by calling itself to explore the solution that starts with `(1 + 5)`. That call will further recurse to explore _every_ continued solution that yields a number less than or equal to the target number. Since it doesn't find one that hits the target, it returns `null` back to the first call. There the `??` operator causes the call that explores `(1 * 3)` to happen. This search has more luck—its first recursive call, through yet _another_ recursive call, hits upon the target number. That innermost call returns a string, and each of the `??` operators in the intermediate calls passes that string along, ultimately returning the solution.
 
 ## Growing functions
 
@@ -521,9 +508,9 @@ There are two more or less natural ways for functions to be introduced into prog
 
 {{index repetition}}
 
-The first is that you find yourself writing similar code multiple times. You'd prefer not to do that. Having more code means more space for mistakes to hide and more material to read for people trying to understand the program. So you take the repeated functionality, find a good name for it, and put it into a function.
+The first occurs when you find yourself writing similar code multiple times. You'd prefer not to do that, as having more code means more space for mistakes to hide and more material to read for people trying to understand the program. So you take the repeated functionality, find a good name for it, and put it into a function.
 
-The second way is that you find you need some functionality that you haven't written yet and that sounds like it deserves its own function. You'll start by naming the function, and then you'll write its body. You might even start writing code that uses the function before you actually define the function itself.
+The second way is that you find you need some functionality that you haven't written yet and that sounds like it deserves its own function. You start by naming the function, then write its body. You might even start writing code that uses the function before you actually define the function itself.
 
 {{index [function, naming], [binding, naming]}}
 
@@ -531,7 +518,7 @@ How difficult it is to find a good name for a function is a good indication of h
 
 {{index "farm example"}}
 
-We want to write a program that prints two numbers: the numbers of cows and chickens on a farm, with the words `Cows` and `Chickens` after them and zeros padded before both numbers so that they are always three digits long.
+We want to write a program that prints two numbers: the numbers of cows and chickens on a farm, with the words `Cows` and `Chickens` after them and zeros padded before both numbers so that they are always three digits long:
 
 ```{lang: null}
 007 Cows
@@ -590,7 +577,7 @@ It works! But that name, `printZeroPaddedWithLabel`, is a little awkward. It con
 
 {{index "zeroPad function"}}
 
-Instead of lifting out the repeated part of our program wholesale, let's try to pick out a single _concept_.
+Instead of lifting out the repeated part of our program wholesale, let's try to pick out a single _concept_:
 
 ```
 function zeroPad(number, width) {
@@ -612,20 +599,20 @@ printFarmInventory(7, 16, 3);
 
 {{index readability, "pure function"}}
 
-A function with a nice, obvious name like `zeroPad` makes it easier for someone who reads the code to figure out what it does. And such a function is useful in more situations than just this specific program. For example, you could use it to help print nicely aligned tables of numbers.
+A function with a nice, obvious name like `zeroPad` makes it easier for someone who reads the code to figure out what it does. Such a function is also useful in more situations than just this specific program. For example, you could use it to help print nicely aligned tables of numbers.
 
 {{index [interface, design]}}
 
 How smart and versatile _should_ our function be? We could write anything, from a terribly simple function that can only pad a number to be three characters wide to a complicated generalized number-formatting system that handles fractional numbers, negative numbers, alignment of decimal dots, padding with different characters, and so on.
 
-A useful principle is to not add cleverness unless you are absolutely sure you're going to need it. It can be tempting to write general "((framework))s" for every bit of functionality you come across. Resist that urge. You won't get any real work done—you'll just be writing code that you never use.
+A useful principle is to refrain from adding cleverness unless you are absolutely sure you're going to need it. It can be tempting to write general "((framework))s" for every bit of functionality you come across. Resist that urge. You won't get any real work done—you'll be too busy writing code that you never use.
 
 {{id pure}}
 ## Functions and side effects
 
 {{index "side effect", "pure function", [function, purity]}}
 
-Functions can be roughly divided into those that are called for their side effects and those that are called for their return value. (Though it is definitely also possible to both have side effects and return a value.)
+Functions can be roughly divided into those that are called for their side effects and those that are called for their return value (though it is also possible to both have side effects and return a value).
 
 {{index reuse}}
 
@@ -637,7 +624,7 @@ A _pure_ function is a specific kind of value-producing function that not only h
 
 {{index optimization, "console.log"}}
 
-Still, there's no need to feel bad when writing functions that are not pure. Side effects are often useful. There'd be no way to write a pure version of `console.log`, for example, and `console.log` is good to have. Some operations are also easier to express in an efficient way when we use side effects.
+Still, there's no need to feel bad when writing functions that are not pure. Side effects are often useful. There's no way to write a pure version of `console.log`, for example, and `console.log` is good to have. Some operations are also easier to express in an efficient way when we use side effects.
 
 ## Summary
 
@@ -658,7 +645,7 @@ function g(a, b) {
 let h = a => a % 3;
 ```
 
-A key aspect in understanding functions is understanding scopes. Each block creates a new scope. Parameters and bindings declared in a given scope are local and not visible from the outside. Bindings declared with `var` behave differently—they end up in the nearest function scope or the global scope.
+A key part of understanding functions is understanding scopes. Each block creates a new scope. Parameters and bindings declared in a given scope are local and not visible from the outside. Bindings declared with `var` behave differently—they end up in the nearest function scope or the global scope.
 
 Separating the tasks your program performs into different functions is helpful. You won't have to repeat yourself as much, and functions can help organize a program by grouping code into pieces that do specific things.
 
@@ -668,7 +655,7 @@ Separating the tasks your program performs into different functions is helpful. 
 
 {{index "Math object", "minimum (exercise)", "Math.min function", minimum}}
 
-The [previous chapter](program_structure#return_values) introduced the standard function `Math.min` that returns its smallest argument. We can build something like that now. Write a function `min` that takes two arguments and returns their minimum.
+The [previous chapter](program_structure#return_values) introduced the standard function `Math.min` that returns its smallest argument. We can write a function like that ourselves now. Define the function `min` that takes two arguments and returns their minimum.
 
 {{if interactive
 
@@ -698,7 +685,7 @@ hint}}
 
 {{index recursion, "isEven (exercise)", "even number"}}
 
-We've seen that `%` (the remainder operator) can be used to test whether a number is even or odd by using `% 2` to see whether it's divisible by two. Here's another way to define whether a positive whole number is even or odd:
+We've seen that we can use `%` (the remainder operator) to test whether a number is even or odd by using `% 2` to see whether it's divisible by two. Here's another way to define whether a positive whole number is even or odd:
 
 - Zero is even.
 
@@ -743,11 +730,11 @@ hint}}
 
 {{index "bean counting (exercise)", [string, indexing], "zero-based counting", ["length property", "for string"]}}
 
-You can get the Nth character, or letter, from a string by writing `[N]` after the string (for example `string[2]`). The resulting value will be a string containing only one character (for example, `"b"`). The first character has position 0, which causes the last one to be found at position `string.length - 1`. In other words, a two-character string has length 2, and its characters have positions 0 and 1.
+You can get the Nth character, or letter, from a string by writing `[N]` after the string (for example, `string[2]`). The resulting value will be a string containing only one character (for example, `"b"`). The first character has position 0, which causes the last one to be found at position `string.length - 1`. In other words, a two-character string has length 2, and its characters have positions 0 and 1.
 
-Write a function `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase "B" characters there are in the string.
+Write a function `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase B characters there are in the string.
 
-Next, write a function called `countChar` that behaves like `countBs`, except it takes a second argument that indicates the character that is to be counted (rather than counting only uppercase "B" characters). Rewrite `countBs` to make use of this new function.
+Next, write a function called `countChar` that behaves like `countBs`, except it takes a second argument that indicates the character that is to be counted (rather than counting only uppercase B characters). Rewrite `countBs` to make use of this new function.
 
 {{if interactive
 

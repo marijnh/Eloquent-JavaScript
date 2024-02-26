@@ -56,7 +56,7 @@ Updates to the state are represented as objects, which we'll call _((action))s_.
 
 {{index [DOM, components]}}
 
-We're taking the messy task of running a ((user interface)) and applying some ((structure)) to it. Though the DOM-related pieces are still full of ((side effect))s, they are held up by a conceptually simple backbone: the state update cycle. The state determines what the DOM looks like, and the only way DOM events can change the state is by dispatching actions to the state.
+We're taking the messy task of running a ((user interface)) and applying ((structure)) to it. Though the DOM-related pieces are still full of ((side effect))s, they are held up by a conceptually simple backbone: the state update cycle. The state determines what the DOM looks like, and the only way DOM events can change the state is by dispatching actions to the state.
 
 {{index "data flow"}}
 
@@ -440,14 +440,16 @@ const around = [{dx: -1, dy: 0}, {dx: 1, dy: 0},
 function fill({x, y}, state, dispatch) {
   let targetColor = state.picture.pixel(x, y);
   let drawn = [{x, y, color: state.color}];
+  let visited = new Set();
   for (let done = 0; done < drawn.length; done++) {
     for (let {dx, dy} of around) {
       let x = drawn[done].x + dx, y = drawn[done].y + dy;
       if (x >= 0 && x < state.picture.width &&
           y >= 0 && y < state.picture.height &&
-          state.picture.pixel(x, y) == targetColor &&
-          !drawn.some(p => p.x == x && p.y == y)) {
+          !visited.has(x + "," + y) &&
+          state.picture.pixel(x, y) == targetColor) {
         drawn.push({x, y, color: state.color});
+        visited.add(x + "," + y);
       }
     }
   }
@@ -532,9 +534,7 @@ The `toDataURL` method on a canvas element creates a URL that starts with `data:
 
 {{index "a (HTML tag)", "download attribute"}}
 
-To actually get the browser to download the picture, we then create a ((link)) element that points at this URL and has a `download` attribute. Such links, when clicked, make the browser show a file save dialog. We add that link to the document, simulate a click on it, and remove it again.
-
-You can do a lot with ((browser)) technology, but sometimes the way to do it is rather odd.
+To actually get the browser to download the picture, we then create a ((link)) element that points at this URL and has a `download` attribute. Such links, when clicked, make the browser show a file save dialog. We add that link to the document, simulate a click on it, and remove it again. You can do a lot with ((browser)) technology, but sometimes the way to do it is rather odd.
 
 {{index "LoadButton class", control, [file, image]}}
 
@@ -927,7 +927,7 @@ if}}
 
 You can take some inspiration from the `rectangle` tool. Like that tool, you'll want to keep drawing on the _starting_ picture, rather than the current picture, when the pointer moves.
 
-To figure out which pixels to color, you can use the ((Pythagorean theorem)). First figure out the distance between the current pointer position and the start position by taking the square root (`Math.sqrt`) of the sum of the square (`Math.pow(x, 2)`) of the difference in x-coordinates and the square of the difference in y-coordinates. Then loop over a square of pixels around the start position, whose sides are at least twice the ((radius)), and color those that are within the circle's radius, again using the Pythagorean formula to figure out their ((distance)) from the center.
+To figure out which pixels to color, you can use the ((Pythagorean theorem)). First figure out the distance between the current pointer position and the start position by taking the square root (`Math.sqrt`) of the sum of the square (`x ** 2`) of the difference in x-coordinates and the square of the difference in y-coordinates. Then loop over a square of pixels around the start position, whose sides are at least twice the ((radius)), and color those that are within the circle's radius, again using the Pythagorean formula to figure out their ((distance)) from the center.
 
 Make sure you don't try to color pixels that are outside of the picture's boundaries.
 

@@ -72,7 +72,7 @@ A new canvas is empty, meaning it is entirely ((transparent)) and thus shows up 
 
 {{index "2d (canvas context)", "webgl (canvas context)", OpenGL, [canvas, context], dimensions, [interface, canvas]}}
 
-The `<canvas>` tag is intended to allow different styles of ((drawing)). To get access to an actual drawing interface, we first need to create a _((context))_, an object whose methods provide the drawing interface. There are currently three widely supported drawing styles: `"2d"` for two-dimensional graphics and `"webgl"` for three-dimensional graphics through the OpenGL interface, and `"webgpu"`, which fills much the same role as WebGL, but provides a more modern interface.
+The `<canvas>` tag is intended to allow different styles of ((drawing)). To get access to an actual drawing interface, we first need to create a _((context))_, an object whose methods provide the drawing interface. There are currently three widely supported drawing styles: `"2d"` for two-dimensional graphics, `"webgl"` for three-dimensional graphics through the OpenGL interface, and `"webgpu"`, a more modern and flexible alternative to WebGL.
 
 {{index rendering, graphics, efficiency}}
 
@@ -116,11 +116,11 @@ In the ((canvas)) interface, a shape can be _filled_, meaning its area is given 
 
 {{index "fillRect method", "strokeRect method"}}
 
-The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's top-left corner, then its width, and then its height. A similar method, `strokeRect`, draws the ((outline)) of a rectangle.
+The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's top-left corner, then its width, and then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
 
 {{index [state, "of canvas"]}}
 
-Neither method takes any further parameters. The color of the fill, thickness of the stroke, and so on, are not determined by an argument to the method (as you might reasonably expect) but rather by properties of the context object.
+Neither method takes any further parameters. The color of the fill, thickness of the stroke, and so on, are not determined by an argument to the method, as you might reasonably expect, but rather by properties of the context object.
 
 {{index filling, "fillStyle property"}}
 
@@ -848,7 +848,7 @@ if}}
 
 ## Choosing a graphics interface
 
-So when you need to generate graphics in the browser, you can choose between plain HTML, ((SVG)), and ((canvas)). There is no single _best_ approach that works in all situations. Each option has strengths and weaknesses.
+Thus, when you need to generate graphics in the browser, you can choose between plain HTML, ((SVG)), and ((canvas)). There is no single _best_ approach that works in all situations. Each option has strengths and weaknesses.
 
 {{index "text wrapping"}}
 
@@ -868,7 +868,7 @@ But ((canvas))'s ((pixel))-oriented approach can be an advantage when drawing a 
 
 {{index "ray tracer"}}
 
-There are also effects, such as rendering a scene one pixel at a time (for example, using a ray tracer) or postprocessing an image with JavaScript (blurring or distorting it), that can be realistically handled only by a ((pixel))-based approach.
+There are also effects, such as rendering a scene one ((pixel)) at a time (for example, using a ray tracer) or postprocessing an image with JavaScript (blurring or distorting it), that are only practical with a canvas element.
 
 In some cases, you may want to combine several of these techniques. For example, you might draw a ((graph)) with ((SVG)) or ((canvas)) but show ((text))ual information by positioning an HTML element on top of the picture.
 
@@ -967,7 +967,7 @@ hint}}
 
 {{index label, text, "pie chart example"}}
 
-[Earlier](canvas#pie_chart) in the chapter, we saw an example program that drew a pie chart. Modify this program so that the name of each category is shown next to the slice that represents it. Try to find a pleasing-looking way to automatically position this text that would work for other data sets as well. You may assume that categories are big enough to leave ample room for their labels.
+[Earlier](canvas#pie_chart) in the chapter, we saw an example program that drew a pie chart. Modify this program so that the name of each category is shown next to the slice that represents it. Try to find a pleasing-looking way to automatically position this text that would work for other data sets as well. You may assume that categories are big enough to leave enough room for their labels.
 
 You might need `Math.sin` and `Math.cos` again, which are described in [Chapter ?](dom#sin_cos).
 

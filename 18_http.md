@@ -2,9 +2,9 @@
 
 # HTTP and Forms
 
-{{quote {author: "Roy Fielding", title: "Architectural Styles and the Design of Network-based Software Architectures", chapter: true}
+{{quote {author: "Tim Berners-Lee", chapter: true}
 
-Communication must be stateless in nature [...] such that each request from client to server must contain all of the information necessary to understand the request, and cannot take advantage of any stored context on the server.
+What was often difficult for people to understand about the design was that there was nothing else beyond URLs, HTTP and HTML. There was no central computer "controlling" the Web, no single network on which these protocols worked, not even an organisation anywhere that "ran" the Web. The Web was not a physical "thing" that existed in a certain "place". It was a "space" in which information could exist.
 
 quote}}
 
@@ -60,7 +60,7 @@ The part after the method name is the path of the _((resource))_ the request app
 
 After the resource path, the first line of the request mentions `HTTP/1.1` to indicate the ((version)) of the ((HTTP)) ((protocol)) it is using.
 
-In practice, many sites use HTTP version 2, which supports the same concepts as version 1.1 but is a lot more complicated so that it can be faster. Browsers will automatically switch to the appropriate protocol version when talking to a given server, and the outcome of a request is the same regardless of which version is used. Because version 1.1 is more straightforward and easier to play around with, we'll focus on that.
+In practice, many sites use HTTP version 2, which supports the same concepts as version 1.1 but is a lot more complicated so that it can be faster. Browsers will automatically switch to the appropriate protocol version when talking to a given server, and the outcome of a request is the same regardless of which version is used. Because version 1.1 is more straightforward and easier to play around with, we'll use that to illustrate the protocol.
 
 {{index "status code"}}
 
@@ -100,7 +100,7 @@ After the headers, both requests and responses may include a blank line followed
 
 {{index HTTP, [file, resource]}}
 
-As we saw in the example, a ((browser)) will make a request when we enter a ((URL)) in its ((address bar)). When the resulting HTML page references other files, such as ((image))s and JavaScript files, those are also retrieved.
+As we saw, a ((browser)) will make a request when we enter a ((URL)) in its ((address bar)). When the resulting HTML page references other files, such as ((image))s and JavaScript files, it will retrieve those as well.
 
 {{index parallelism, "GET method"}}
 
@@ -163,7 +163,7 @@ We'll come back to forms and how to interact with them from JavaScript [later in
 
 {{index "fetch function", "Promise class", [interface, module]}}
 
-The interface through which browser JavaScript can make HTTP requests is called `fetch`. Since it is relatively new, it conveniently uses promises.
+The interface through which browser JavaScript can make HTTP requests is called `fetch`.
 
 ```{test: no}
 fetch("example/data.txt").then(response => {
@@ -178,7 +178,7 @@ fetch("example/data.txt").then(response => {
 
 Calling `fetch` returns a promise that resolves to a `Response` object holding information about the server's response, such as its status code and its headers. The headers are wrapped in a `Map`-like object that treats its keys (the header names) as case insensitive because header names are not supposed to be case sensitive. This means  `headers.get("Content-Type")` and `headers.get("content-TYPE")` will return the same value.
 
-Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It _can_ also be rejected if there is a network error or if the ((server)) that the request is addressed to can't be found.
+Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It can also be rejected if there is a network error or if the ((server)) that the request is addressed to can't be found.
 
 {{index [path, URL], "relative URL"}}
 
@@ -212,7 +212,7 @@ fetch("example/data.txt", {method: "DELETE"}).then(resp => {
 
 {{index "405 (HTTP status code)"}}
 
-The 405 status code means "method not allowed", an HTTP server's way of saying "I can't do that".
+The 405 status code means "method not allowed", an HTTP server's way of saying "I'm afraid I can't do that".
 
 {{index "Range header", "body property", "headers property"}}
 
@@ -261,7 +261,7 @@ When thinking in terms of remote procedure calls, HTTP is just a vehicle for com
 
 Another approach is to build your communication around the concept of ((resource))s and ((HTTP)) methods. Instead of a remote procedure called `addUser`, you use a `PUT` request to `/users/larry`. Instead of encoding that user's properties in function arguments, you define a JSON document format (or use an existing format) that represents a user. The body of the `PUT` request to create a new resource is then such a document. A resource is fetched by making a `GET` request to the resource's URL (for example, `/user/larry`), which again returns the document representing the resource.
 
-This second approach makes it easier to use some of the features that HTTP provides, such as support for caching resources (keeping a copy on the client for fast access). The concepts used in HTTP, which are well designed, can provide a helpful set of principles to design your server interface around.
+This second approach makes it easier to use some of the features that HTTP provides, such as support for caching resources (keeping a copy of a resource on the client for fast access). The concepts used in HTTP, which are well designed, can provide a helpful set of principles to design your server interface around.
 
 ## Security and HTTPS
 
@@ -379,7 +379,7 @@ Whenever the value of a form field changes, it will fire a `"change"` event.
 
 {{indexsee "keyboard focus", focus}}
 
-Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, move to with the [tab]{keyname} key, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
+Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, moved to with the [tab]{keyname} key, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
@@ -407,7 +407,7 @@ For some pages, the user is expected to want to interact with a form field immed
 
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
-Browsers also allow the user to move the focus through the document by pressing the [tab]{keyname} key to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
+Browsers allow the user to move the focus through the document by pressing the [tab]{keyname} key to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
 
 ```{lang: html, focus: true}
 <input type="text" tabindex=1> <a href=".">(help)</a>
@@ -477,7 +477,7 @@ A button with a `type` attribute of `submit` will, when pressed, cause the form 
 Submitting a ((form)) normally means that the ((browser)) navigates to the page indicated by the form's `action` attribute, using either a `GET` or a `POST` ((request)). But before that happens, a `"submit"` event is fired. You can handle this event with JavaScript and prevent this default behavior by calling `preventDefault` on the event object.
 
 ```{lang: html}
-<form action="example/submit.html">
+<form>
   Value: <input type="text" name="value">
   <button type="submit">Save</button>
 </form>
@@ -513,8 +513,7 @@ Imagine you are writing an article about Khasekhemwy but have some trouble spell
 <script>
   let textarea = document.querySelector("textarea");
   textarea.addEventListener("keydown", event => {
-    // The key code for F2 happens to be 113
-    if (event.keyCode == 113) {
+    if (event.key == "F2") {
       replaceSelection(textarea, "Khasekhemwy");
       event.preventDefault();
     }
@@ -611,7 +610,7 @@ Select fields are conceptually similar to radio buttons—they also allow the us
 
 {{index "multiple attribute", "drop-down menu"}}
 
-Select fields also have a variant that is more akin to a list of checkboxes, rather than radio boxes. When given the `multiple` attribute, a `<select>` tag will allow the user to select any number of options, rather than just a single option. This will, in most browsers, show up differently than a normal select field, which is typically drawn as a _drop-down_ control that shows the options only when you open it.
+Select fields also have a variant that is more akin to a list of checkboxes, rather than radio boxes. When given the `multiple` attribute, a `<select>` tag will allow the user to select any number of options, rather than just a single option. Whereas a regular select field is drawn as a _drop-down_ control, which shows the inactive options only when you open it, a field with `multiple` enabled shows multiple options at the same time, allowing the user to enable or disable them individually.
 
 {{index "option (HTML tag)", "value attribute"}}
 
@@ -671,7 +670,7 @@ A file field usually looks like a button labeled with something like "choose fil
 
 {{index "multiple attribute", "files property"}}
 
-The `files` property of a ((file field)) element is an ((array-like object)) (again, not a real array) containing the files chosen in the field. It is initially empty. The reason there isn't simply a `file` property is that file fields also support a `multiple` attribute, which makes it possible to select multiple files at the same time.
+The `files` property of a ((file field)) element is an ((array-like object)) (once again, not a real array) containing the files chosen in the field. It is initially empty. The reason there isn't simply a `file` property is that file fields also support a `multiple` attribute, which makes it possible to select multiple files at the same time.
 
 {{index "File type"}}
 
@@ -681,7 +680,7 @@ The objects in `files` have properties such as `name` (the filename), `size` (th
 
 {{id filereader}}
 
-What it does not have is a property that contains the content of the file. Getting at that is a little more involved. Since reading a file from disk can take time, the interface must be asynchronous to avoid freezing the document.
+What it does not have is a property that contains the content of the file. Getting at that is a little more involved. Since reading a file from disk can take time, the interface is asynchronous to avoid freezing the window.
 
 ```{lang: html}
 <input type="file" multiple>
@@ -780,7 +779,7 @@ Notes: <select></select> <button>Add</button><br>
     localStorage.setItem("Notes", JSON.stringify(newState));
     state = newState;
   }
-  setState(JSON.parse(localStorage.getItem("Notes")) || {
+  setState(JSON.parse(localStorage.getItem("Notes")) ?? {
     notes: {"shopping list": "Carrots\nRaisins"},
     selected: "shopping list"
   });
@@ -806,9 +805,9 @@ Notes: <select></select> <button>Add</button><br>
 </script>
 ```
 
-{{index "getItem method", JSON, "|| operator", "default value"}}
+{{index "getItem method", JSON, "?? operator", "default value"}}
 
-The script gets its starting state from the `"Notes"` value stored in `localStorage` or, if that is missing, creates an example state that has only a shopping list in it. Reading a field that does not exist from `localStorage` will yield `null`. Passing `null` to `JSON.parse` will make it parse the string `"null"` and return `null`. Thus, the `||` operator can be used to provide a default value in a situation like this.
+The script gets its starting state from the `"Notes"` value stored in `localStorage` or, if that is missing, creates an example state that has only a shopping list in it. Reading a field that does not exist from `localStorage` will yield `null`. Passing `null` to `JSON.parse` will make it parse the string `"null"` and return `null`. Thus, the `??` operator can be used to provide a default value in a situation like this.
 
 The `setState` method makes sure the DOM is showing a given state and stores the new state to `localStorage`. Event handlers call this function to move to a new state.
 

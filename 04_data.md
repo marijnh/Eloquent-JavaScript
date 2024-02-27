@@ -14,15 +14,15 @@ quote}}
 
 {{index object, "data structure"}}
 
-Numbers, Booleans, and strings are the atoms that ((data)) structures are built from. Many types of information require more than one atom, though. _Objects_ allow us to group values—including other objects—to build more complex structures.
+Numbers, Booleans, and strings are the atoms from which ((data)) structures are built. Many types of information require more than one atom, though. _Objects_ allow us to group values—including other objects—to build more complex structures.
 
-The programs we have built so far have been limited by the fact that they were operating only on simple data types. This chapter will introduce basic data structures. By the end of it, you'll know enough to start writing useful programs.
+The programs we have built so far have been limited by the fact that they were operating only on simple data types. After learning the basics of data structures in this chapter, you'll know enough to start writing useful programs.
 
-The chapter will work through a more or less realistic programming example, introducing concepts as they apply to the problem at hand. The example code will often build on functions and bindings that were introduced earlier in the text.
+The chapter will work through a more or less realistic programming example, introducing concepts as they apply to the problem at hand. The example code will often build on functions and bindings introduced earlier in the book.
 
 {{if book
 
-The online coding ((sandbox)) for the book ([_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code)) provides a way to run code in the context of a specific chapter. If you decide to work through the examples in another environment, be sure to first download the full code for this chapter from the sandbox page.
+The online coding ((sandbox)) for the book ([_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code)) provides a way to run code in the context of a particular chapter. If you decide to work through the examples in another environment, be sure to first download the full code for this chapter from the sandbox page.
 
 if}}
 
@@ -32,9 +32,9 @@ if}}
 
 Every now and then, usually between 8 p.m. and 10 p.m., ((Jacques)) finds himself transforming into a small furry rodent with a bushy tail.
 
-On one hand, Jacques is quite glad that he doesn't have classic lycanthropy. Turning into a squirrel does cause fewer problems than turning into a wolf. Instead of having to worry about accidentally eating the neighbor (_that_ would be awkward), he worries about being eaten by the neighbor's cat. After two occasions where he woke up on a precariously thin branch in the crown of an oak, naked and disoriented, he has taken to locking the doors and windows of his room at night and putting a few walnuts on the floor to keep himself busy.
+On one hand, Jacques is quite glad that he doesn't have classic lycanthropy. Turning into a squirrel does cause fewer problems than turning into a wolf. Instead of having to worry about accidentally eating the neighbor (_that_ would be awkward), he worries about being eaten by the neighbor's cat. After two occasions of waking up on a precariously thin branch in the crown of an oak, naked and disoriented, he has taken to locking the doors and windows of his room at night and putting a few walnuts on the floor to keep himself busy.
 
-But Jacques would prefer to get rid of his condition entirely. The irregular occurrences of the transformation make him suspect that they might be triggered by something. For a while, he believed that it happened only on days when he had been near oak trees. But avoiding oak trees did not stop the problem.
+But Jacques would prefer to get rid of his condition entirely. The irregular occurrences of the transformation make him suspect that they might be triggered by something. For a while, he believed that it happened only on days when he had been near oak trees. However, avoiding oak trees did not solve the problem.
 
 {{index journal}}
 
@@ -46,15 +46,15 @@ The first thing he needs is a data structure to store this information.
 
 {{index ["data structure", collection], [memory, organization]}}
 
-To work with a chunk of digital data, we'll first have to find a way to represent it in our machine's memory. Say, for example, that we want to represent a ((collection)) of the numbers 2, 3, 5, 7, and 11.
+To work with a chunk of digital data, we first have to find a way to represent it in our machine's memory. Say, for example, that we want to represent a ((collection)) of the numbers 2, 3, 5, 7, and 11.
 
 {{index string}}
 
-We could get creative with strings—after all, strings can have any length, so we can put a lot of data into them—and use `"2 3 5 7 11"` as our representation. But this is awkward. You'd have to somehow extract the digits and convert them back to numbers to access them.
+We could get creative with strings—after all, strings can have any length, so we can put a lot of data into them—and use `"2 3 5 7 11"` as our representation. But this is awkward. We'd have to somehow extract the digits and convert them back to numbers to access them.
 
 {{index [array, creation], "[] (array)"}}
 
-Fortunately, JavaScript provides a data type specifically for storing sequences of values. It is called an _array_ and is written as a list of values between ((square brackets)), separated by commas.
+Fortunately, JavaScript provides a data type specifically for storing sequences of values. It is called an _array_ and is written as a list of values between ((square brackets)), separated by commas:
 
 ```
 let listOfNumbers = [2, 3, 5, 7, 11];
@@ -73,7 +73,7 @@ The notation for getting at the elements inside an array also uses ((square brac
 {{id array_indexing}}
 {{index "zero-based counting"}}
 
-The first index of an array is zero, not one. So the first element is retrieved with `listOfNumbers[0]`. Zero-based counting has a long tradition in technology and in certain ways makes a lot of sense, but it takes some getting used to. Think of the index as the amount of items to skip, counting from the start of the array.
+The first index of an array is zero, not one, so the first element is retrieved with `listOfNumbers[0]`. Zero-based counting has a long tradition in technology and in certain ways makes a lot of sense, but it takes some getting used to. Think of the index as the number of items to skip, counting from the start of the array.
 
 {{id properties}}
 
@@ -81,11 +81,11 @@ The first index of an array is zero, not one. So the first element is retrieved 
 
 {{index "Math object", "Math.max function", ["length property", "for string"], [object, property], "period character", [property, access]}}
 
-We've seen a few suspicious-looking expressions like `myString.length` (to get the length of a string) and `Math.max` (the maximum function) in past chapters. These are expressions that access a _property_ of some value. In the first case, we access the `length` property of the value in `myString`. In the second, we access the property named `max` in the `Math` object (which is a collection of mathematics-related constants and functions).
+We've seen a few expressions like `myString.length` (to get the length of a string) and `Math.max` (the maximum function) in past chapters. These expressions access a _property_ of some value. In the first case, we access the `length` property of the value in `myString`. In the second, we access the property named `max` in the `Math` object (which is a collection of mathematics-related constants and functions).
 
 {{index [property, access], null, undefined}}
 
-Almost all JavaScript values have properties. The exceptions are `null` and `undefined`. If you try to access a property on one of these nonvalues, you get an error.
+Almost all JavaScript values have properties. The exceptions are `null` and `undefined`. If you try to access a property on one of these nonvalues, you get an error:
 
 ```{test: no}
 null.length;
@@ -95,15 +95,15 @@ null.length;
 {{indexsee "dot character", "period character"}}
 {{index "[] (subscript)", "period character", "square brackets", "computed property", [property, access]}}
 
-The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access a property on `value`—but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is _evaluated_ to get the property name. Whereas `value.x` fetches the property of `value` named "x", `value[x]` takes the value of the variable named `x` and uses the that, converted to a string, as the property name.
+The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access a property on `value`—but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is _evaluated_ to get the property name. Whereas `value.x` fetches the property of `value` named "x", `value[x]` takes the value of the variable named `x` and uses that, converted to a string, as the property name.
 
-So if you know that the property you are interested in is called _color_, you say `value.color`. If you want to extract the property named by the value held in the binding `i`, you say `value[i]`. Property names are strings. They can be any string, but the dot notation works only with names that look like valid binding names. So if you want to access a property named _2_ or _John Doe_, you must use square brackets: `value[2]` or `value["John Doe"]`.
+If you know that the property in which you are interested is called _color_, you say `value.color`. If you want to extract the property named by the value held in the binding `i`, you say `value[i]`. Property names are strings. They can be any string, but the dot notation works only with names that look like valid binding names—starting with a letter or underscore, and containing only letters, numbers, and underscores. If you want to access a property named _2_ or _John Doe_, you must use square brackets: `value[2]` or `value["John Doe"]`.
 
 The elements in an ((array)) are stored as the array's properties, using numbers as property names. Because you can't use the dot notation with numbers and usually want to use a binding that holds the index anyway, you have to use the bracket notation to get at them.
 
 {{index ["length property", "for array"], [array, "length of"]}}
 
-Just like strings, arrays have a `length` property that tells us how many elements it has.
+Just like strings, arrays have a `length` property that tells us how many elements the array has.
 
 {{id methods}}
 
@@ -127,7 +127,7 @@ Every string has a `toUpperCase` property. When called, it will return a copy of
 
 {{index "this binding"}}
 
-Interestingly, even though the call to `toUpperCase` does not pass any arguments, the function somehow has access to the string `"Doh"`, the value whose property we called. How this works is described in [Chapter ?](object#obj_methods).
+Interestingly, even though the call to `toUpperCase` does not pass any arguments, the function somehow has access to the string `"Doh"`, the value whose property we called. You'll find out how this works in [Chapter ?](object#obj_methods).
 
 Properties that contain functions are generally called _methods_ of the value they belong to, as in "`toUpperCase` is a method of a string".
 
@@ -149,21 +149,21 @@ console.log(sequence);
 
 {{index collection, array, "push method", "pop method"}}
 
-The `push` method adds values to the end of an array, and the `pop` method does the opposite, removing the last value in the array and returning it.
+The `push` method adds values to the end of an array. The `pop` method does the opposite, removing the last value in the array and returning it.
 
 {{index ["data structure", stack]}}
 
-These somewhat silly names are the traditional terms for operations on a _((stack))_. A stack, in programming, is a data structure that allows you to push values into it and pop them out again in the opposite order so that the thing that was added last is removed first. These are common in programming—you might remember the function ((call stack)) from [the previous chapter](functions#stack), which is an instance of the same idea.
+These somewhat silly names are the traditional terms for operations on a _((stack))_. A stack, in programming, is a data structure that allows you to push values into it and pop them out again in the opposite order so that the thing that was added last is removed first. Stacks are common in programming—you might remember the function ((call stack)) from [the previous chapter](functions#stack), which is an instance of the same idea.
 
 ## Objects
 
 {{index journal, "weresquirrel example", array, record}}
 
-Back to the weresquirrel. A set of daily log entries can be represented as an array. But the entries do not consist of just a number or a string—each entry needs to store a list of activities and a Boolean value that indicates whether Jacques turned into a squirrel or not. Ideally, we would like to group these together into a single value and then put those grouped values into an array of log entries.
+Back to the weresquirrel. A set of daily log entries can be represented as an array, but the entries do not consist of just a number or a string—each entry needs to store a list of activities and a Boolean value that indicates whether Jacques turned into a squirrel or not. Ideally, we would like to group these together into a single value and then put those grouped values into an array of log entries.
 
 {{index [syntax, object], [property, definition], [braces, object], "{} (object)"}}
 
-Values of the type _((object))_ are arbitrary collections of properties. One way to create an object is by using braces as an expression.
+Values of the type _((object))_ are arbitrary collections of properties. One way to create an object is by using braces as an expression:
 
 ```
 let day1 = {
@@ -181,7 +181,7 @@ console.log(day1.wolf);
 
 {{index [quoting, "of object properties"], "colon character"}}
 
-Inside the braces, there is a list of properties separated by commas. Each property has a name followed by a colon and a value. When an object is written over multiple lines, indenting it like in the example helps with readability. Properties whose names aren't valid binding names or valid numbers have to be quoted.
+Inside the braces, you write a list of properties separated by commas. Each property has a name followed by a colon and a value. When an object is written over multiple lines, indenting it as shown in this example helps with readability. Properties whose names aren't valid binding names or valid numbers must be quoted:
 
 ```
 let descriptions = {
@@ -192,7 +192,7 @@ let descriptions = {
 
 {{index [braces, object]}}
 
-This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they start a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}`, since the braces will be interpreted as a function body, and have to put a set of parentheses around the object to make it clear it is an expression.
+This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they begin a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}`, since the braces will be interpreted as a function body. Instead, you have to put a set of parentheses around the object to make it clear that it is an expression.
 
 {{index undefined}}
 
@@ -204,7 +204,7 @@ It is possible to assign a value to a property expression with the `=` operator.
 
 {{index "tentacle (analogy)", [property, "model of"], [binding, "model of"]}}
 
-To briefly return to our tentacle model of ((binding))s—property bindings are similar. They _grasp_ values, but other bindings and properties might be holding onto those same values. You may think of objects as octopuses with any number of tentacles, each of which has a name tattooed on it.
+To briefly return to our tentacle model of ((binding))s—property bindings are similar. They _grasp_ values, but other bindings and properties might be holding onto those same values. You can think of objects as octopuses with any number of tentacles, each of which has a name written on it.
 
 {{index "delete operator", [property, deletion]}}
 
@@ -225,18 +225,18 @@ console.log("right" in anObject);
 
 {{index "in operator", [property, "testing for"], object}}
 
-The binary `in` operator, when applied to a string and an object, tells you whether that object has a property with that name. The difference between setting a property to `undefined` and actually deleting it is that, in the first case, the object still _has_ the property (it just doesn't have a very interesting value), whereas in the second case the property is no longer present and `in` will return `false`.
+The binary `in` operator, when applied to a string and an object, tells you whether that object has a property with that name. The difference between setting a property to `undefined` and actually deleting it is that in the first case, the object still _has_ the property (it just doesn't have a very interesting value), whereas in the second case the property is no longer present and `in` will return `false`.
 
 {{index "Object.keys function"}}
 
-To find out what properties an object has, you can use the `Object.keys` function. You give it an object, and it returns an array of strings—the object's property names.
+To find out what properties an object has, you can use the `Object.keys` function. Give the function an object and it will return an array of strings—the object's property names:
 
 ```
 console.log(Object.keys({x: 0, y: 0, z: 2}));
 // → ["x", "y", "z"]
 ```
 
-There's an `Object.assign` function that copies all properties from one object into another.
+There's an `Object.assign` function that copies all properties from one object into another:
 
 ```
 let objectA = {a: 1, b: 2};
@@ -247,11 +247,11 @@ console.log(objectA);
 
 {{index array, collection}}
 
-Arrays, then, are just a kind of object specialized for storing sequences of things. If you evaluate `typeof []`, it produces `"object"`. You can see them as long, flat octopuses with all their tentacles in a neat row, labeled with numbers.
+Arrays, then, are just a kind of object specialized for storing sequences of things. If you evaluate `typeof []`, it produces `"object"`. You can visualize arrays as long, flat octopuses with all their tentacles in a neat row, labeled with numbers.
 
 {{index journal, "weresquirrel example"}}
 
-We will represent the journal that Jacques keeps as an array of objects.
+Jacques will represent the journal that Jacques keeps as an array of objects:
 
 ```{test: wrap}
 let journal = [
@@ -270,7 +270,7 @@ let journal = [
 
 ## Mutability
 
-We will get to actual programming _real_ soon now. First there's one more piece of theory to understand.
+We will get to actual programming soon, but first, there's one more piece of theory to understand.
 
 {{index mutability, "side effect", number, string, Boolean, [object, mutability]}}
 
@@ -305,7 +305,7 @@ The `object1` and `object2` bindings grasp the _same_ object, which is why chang
 
 {{index "const keyword", "let keyword", [binding, "as state"]}}
 
-Bindings can also be changeable or constant, but this is separate from the way their values behave. Even though number values don't change, you can use a `let` binding to keep track of a changing number by changing the value the binding points at. Similarly, though a `const` binding to an object can itself not be changed and will continue to point at the same object, the _contents_ of that object might change.
+Bindings can also be changeable or constant, but this is separate from the way their values behave. Even though number values don't change, you can use a `let` binding to keep track of a changing number by changing the value at which the binding points. Similarly, though a `const` binding to an object can itself not be changed and will continue to point at the same object, the _contents_ of that object might change.
 
 ```{test: no}
 const score = {visitors: 0, home: 0};
@@ -317,13 +317,13 @@ score = {visitors: 1, home: 1};
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
-When you compare objects with JavaScript's `==` operator, it compares by identity: it will produce `true` only if both objects are precisely the same value. Comparing different objects will return `false`, even if they have identical properties. There is no "deep" comparison operation built into JavaScript, which compares objects by contents, but it is possible to write it yourself (which is one of the [exercises](data#exercise_deep_compare) at the end of this chapter).
+When you compare objects with JavaScript's `==` operator, it compares by identity: it will produce `true` only if both objects are precisely the same value. Comparing different objects will return `false`, even if they have identical properties. There is no "deep" comparison operation built into JavaScript that compares objects by contents, but it is possible to write it yourself (which is one of the [exercises](data#exercise_deep_compare) at the end of this chapter).
 
 ## The lycanthrope's log
 
 {{index "weresquirrel example", lycanthropy, "addEntry function"}}
 
-So, Jacques starts up his JavaScript interpreter and sets up the environment he needs to keep his ((journal)).
+Jacques starts up his JavaScript interpreter and sets up the environment he needs to keep his ((journal)):
 
 ```{includeCode: true}
 let journal = [];
@@ -335,9 +335,9 @@ function addEntry(events, squirrel) {
 
 {{index [braces, object], "{} (object)", [property, definition]}}
 
-Note that the object added to the journal looks a little odd. Instead of declaring properties like `events: events`, it just gives a property name. This is shorthand that means the same thing—if a property name in brace notation isn't followed by a value, its value is taken from the binding with the same name.
+Note that the object added to the journal looks a little odd. Instead of declaring properties like `events: events`, it just gives a property name: `events`. This is shorthand that means the same thing—if a property name in brace notation isn't followed by a value, its value is taken from the binding with the same name.
 
-So then, every evening at 10 p.m.—or sometimes the next morning, after climbing down from the top shelf of his bookcase—Jacques records the day.
+Every evening at 10 p.m.—or sometimes the next morning, after climbing down from the top shelf of his bookcase—Jacques records the day:
 
 ```
 addEntry(["work", "touched tree", "pizza", "running",
@@ -352,13 +352,13 @@ Once he has enough data points, he intends to use statistics to find out which o
 
 {{index correlation}}
 
-_Correlation_ is a measure of ((dependence)) between statistical variables. A statistical variable is not quite the same as a programming variable. In statistics you typically have a set of _measurements_, and each variable is measured for every measurement. Correlation between variables is usually expressed as a value that ranges from -1 to 1. Zero correlation means the variables are not related. A correlation of one indicates that the two are perfectly related—if you know one, you also know the other. Negative one also means that the variables are perfectly related but that they are opposites—when one is true, the other is false.
+_Correlation_ is a measure of ((dependence)) between statistical variables. A statistical variable is not quite the same as a programming variable. In statistics you typically have a set of _measurements_, and each variable is measured for every measurement. Correlation between variables is usually expressed as a value that ranges from -1 to 1. Zero correlation means the variables are not related. A correlation of 1 indicates that the two are perfectly related—if you know one, you also know the other. Negative 1 also means that the variables are perfectly related but are opposites—when one is true, the other is false.
 
 {{index "phi coefficient"}}
 
 To compute the measure of correlation between two Boolean variables, we can use the _phi coefficient_ (_ϕ_). This is a formula whose input is a ((frequency table)) containing the number of times the different combinations of the variables were observed. The output of the formula is a number between -1 and 1 that describes the correlation.
 
-We could take the event of eating ((pizza)) and put that in a frequency table like this, where each number indicates the amount of times that combination occurred in our measurements:
+We could take the event of eating ((pizza)) and put that in a frequency table like this, where each number indicates the number of times that combination occurred in our measurements.
 
 {{figure {url: "img/pizza-squirrel.svg", alt: "A two-by-two table showing the pizza variable on the horizontal, and the squirrel variable on the vertical axis. Each cell show how many time that combination occurred. In 76 cases, neither happened. In 9 cases, only pizza was true. In 4 cases only squirrel was true. And in one case both occurred.", width: "7cm"}}}
 
@@ -384,7 +384,7 @@ The value [_n_~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} refers to the su
 
 {{index correlation, "phi coefficient"}}
 
-So for the pizza table, the part above the division line (the dividend) would be 1×76−4×9 = 40, and the part below it (the divisor) would be the square root of 5×85×10×80, or [√340000]{if html}[[$\sqrt{340000}$]{latex}]{if tex}. This comes out to _ϕ_ ≈ 0.069, which is tiny. Eating ((pizza)) does not appear to have influence on the transformations.
+So for the pizza table, the part above the division line (the dividend) would be 1×76−4×9 = 40, and the part below it (the divisor) would be the square root of 5×85×10×80, or [√340,000]{if html}[[$\sqrt{340,000}$]{latex}]{if tex}. This comes out to _ϕ_ ≈ 0.069, which is tiny. Eating ((pizza)) does not appear to have influence on the transformations.
 
 ## Computing correlation
 
@@ -417,11 +417,11 @@ This is a direct translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is
 
 {{index "JOURNAL data set"}}
 
-Jacques kept his journal for three months. The resulting ((data set)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
+Jacques keeps his journal for three months. The resulting ((data set)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
 
 {{index "tableFor function"}}
 
-To extract a two-by-two ((table)) for a specific event from the journal, we must loop over all the entries and tally how many times the event occurs in relation to squirrel transformations.
+To extract a two-by-two ((table)) for a specific event from the journal, we must loop over all the entries and tally how many times the event occurs in relation to squirrel transformations:
 
 ```{includeCode: strip_log}
 function tableFor(event, journal) {
@@ -466,7 +466,7 @@ for (let i = 0; i < JOURNAL.length; i++) {
 
 This kind of loop is common in classical JavaScript—going over arrays one element at a time is something that comes up a lot, and to do that you'd run a counter over the length of the array and pick out each element in turn.
 
-There is a simpler way to write such loops in modern JavaScript.
+There is a simpler way to write such loops in modern JavaScript:
 
 ```
 for (let entry of JOURNAL) {
@@ -476,7 +476,7 @@ for (let entry of JOURNAL) {
 
 {{index "for/of loop"}}
 
-When a `for` loop looks like this, with the word `of` after a variable definition, it will loop over the elements of the value given after `of`. This works not only for arrays but also for strings and some other data structures. We'll discuss _how_ it works in [Chapter ?](object).
+When a `for` loop uses the word `of` after its variable definition, it will loop over the elements of the value given after `of`. This works not only for arrays but also for strings and some other data structures. We'll discuss _how_ it works in [Chapter ?](object).
 
 {{id analysis}}
 
@@ -505,9 +505,9 @@ console.log(journalEvents(JOURNAL));
 // → ["carrot", "exercise", "weekend", "bread", …]
 ```
 
-By going over all the events and adding those that aren't already in there to the `events` array, the function collects every type of event.
+By adding any event names that aren't already in it to the `events` array, the function collects every type of event.
 
-Using that, we can see all the ((correlation))s.
+Using that function, we can see all the ((correlation))s:
 
 ```{test: no}
 for (let event of journalEvents(JOURNAL)) {
@@ -521,7 +521,7 @@ for (let event of journalEvents(JOURNAL)) {
 // and so on...
 ```
 
-Most correlations seem to lie close to zero. Eating carrots, bread, or pudding apparently does not trigger squirrel-lycanthropy. It _does_ seem to occur somewhat more often on weekends. Let's filter the results to show only correlations greater than 0.1 or less than -0.1.
+Most correlations seem to lie close to zero. Eating carrots, bread, or pudding apparently does not trigger squirrel-lycanthropy. The transformations _do_ seem to occur somewhat more often on weekends. Let's filter the results to show only correlations greater than 0.1 or less than -0.1:
 
 ```{test: no, startCode: true}
 for (let event of journalEvents(JOURNAL)) {
@@ -539,9 +539,9 @@ for (let event of journalEvents(JOURNAL)) {
 // → peanuts:        0.5902679812
 ```
 
-Aha! There are two factors with a ((correlation)) that's clearly stronger than the others. Eating ((peanuts)) has a strong positive effect on the chance of turning into a squirrel, whereas brushing his teeth has a significant negative effect.
+Aha! There are two factors with a ((correlation)) clearly stronger than the others. Eating ((peanuts)) has a strong positive effect on the chance of turning into a squirrel, whereas brushing teeth has a significant negative effect.
 
-Interesting. Let's try something.
+Interesting. Let's try something:
 
 ```
 for (let entry of JOURNAL) {
@@ -554,13 +554,13 @@ console.log(phi(tableFor("peanut teeth", JOURNAL)));
 // → 1
 ```
 
-That's a strong result. The phenomenon occurs precisely when Jacques eats ((peanuts)) and fails to brush his teeth. If only he weren't such a slob about dental hygiene, he'd have never even noticed his affliction.
+That's a strong result. The phenomenon occurs precisely when Jacques eats ((peanuts)) and fails to brush his teeth. If only he weren't such a slob about dental hygiene, he'd never even have noticed his affliction.
 
 Knowing this, Jacques stops eating peanuts altogether and finds that his transformations stop.
 
 {{index "weresquirrel example"}}
 
-But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes one last time, and lives the short and energetic life of a squirrel.
+But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures, Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes form one last time, and lives the short and energetic life of a squirrel.
 
 ## Further arrayology
 
@@ -587,11 +587,11 @@ function rememberUrgently(task) {
 
 {{index "task management example"}}
 
-That program manages a queue of tasks. You add tasks to the end of the queue by calling `remember("groceries")`, and when you're ready to do something, you call `getTask()` to get (and remove) the front item from the queue. The `rememberUrgently` function also adds a task but adds it to the front instead of the back of the queue.
+This program manages a queue of tasks. You add tasks to the end of the queue by calling `remember("groceries")`, and when you're ready to do something, you call `getTask()` to get (and remove) the front item from the queue. The `rememberUrgently` function also adds a task but adds it to the front instead of the back of the queue.
 
 {{index [array, searching], "indexOf method", "lastIndexOf method"}}
 
-To search for a specific value, arrays provide an `indexOf` method. The method searches through the array from the start to the end and returns the index at which the requested value was found—or -1 if it wasn't found. To search from the end instead of the start, there's a similar method called `lastIndexOf`.
+To search for a specific value, arrays provide an `indexOf` method. The method searches through the array from the start to the end and returns the index at which the requested value was found—or -1 if it wasn't found. To search from the end instead of the start, there's a similar method called `lastIndexOf`:
 
 ```
 console.log([1, 2, 3, 2, 1].indexOf(2));
@@ -621,7 +621,7 @@ When the end index is not given, `slice` will take all of the elements after the
 
 The `concat` method can be used to append arrays together to create a new array, similar to what the `+` operator does for strings.
 
-The following example shows both `concat` and `slice` in action. It takes an array and an index, and it returns a new array that is a copy of the original array with the element at the given index removed.
+The following example shows both `concat` and `slice` in action. It takes an array and an index and returns a new array that is a copy of the original array with the element at the given index removed:
 
 ```
 function remove(array, index) {
@@ -638,7 +638,7 @@ If you pass `concat` an argument that is not an array, that value will be added 
 
 {{index [string, properties]}}
 
-We can read properties like `length` and `toUpperCase` from string values. But if you try to add a new property, it doesn't stick.
+We can read properties like `length` and `toUpperCase` from string values. But if we try to add a new property, it doesn't stick.
 
 ```
 let kim = "Kim";
@@ -651,7 +651,7 @@ Values of type string, number, and Boolean are not objects, and though the langu
 
 {{index [string, methods], "slice method", "indexOf method", [string, searching]}}
 
-But these types do have built-in properties. Every string value has a number of methods. Some very useful ones are `slice` and `indexOf`, which resemble the array methods of the same name.
+But these types do have built-in properties. Every string value has a number of methods. Some very useful ones are `slice` and `indexOf`, which resemble the array methods of the same name:
 
 ```
 console.log("coconuts".slice(4, 7));
@@ -660,7 +660,7 @@ console.log("coconut".indexOf("u"));
 // → 5
 ```
 
-One difference is that a string's `indexOf` can search for a string containing more than one character, whereas the corresponding array method looks only for a single element.
+One difference is that a string's `indexOf` can search for a string containing more than one character, whereas the corresponding array method looks only for a single element:
 
 ```
 console.log("one two three".indexOf("ee"));
@@ -669,7 +669,7 @@ console.log("one two three".indexOf("ee"));
 
 {{index [whitespace, trimming], "trim method"}}
 
-The `trim` method removes whitespace (spaces, newlines, tabs, and similar characters) from the start and end of a string.
+The `trim` method removes whitespace (spaces, newlines, tabs, and similar characters) from the start and end of a string:
 
 ```
 console.log("  okay \n ".trim());
@@ -678,7 +678,7 @@ console.log("  okay \n ".trim());
 
 {{id padStart}}
 
-The `zeroPad` function from the [previous chapter](functions) also exists as a method. It is called `padStart` and takes the desired length and padding character as arguments.
+The `zeroPad` function from the [previous chapter](functions) also exists as a method. It is called `padStart` and takes the desired length and padding character as arguments:
 
 ```
 console.log(String(6).padStart(3, "0"));
@@ -689,7 +689,7 @@ console.log(String(6).padStart(3, "0"));
 
 {{index "split method"}}
 
-You can split a string on every occurrence of another string with `split` and join it again with `join`.
+You can split a string on every occurrence of another string with `split` and join it again with `join`:
 
 ```
 let sentence = "Secretarybirds specialize in stomping";
@@ -702,7 +702,7 @@ console.log(words.join(". "));
 
 {{index "repeat method"}}
 
-A string can be repeated with the `repeat` method, which creates a new string containing multiple copies of the original string, glued together.
+A string can be repeated with the `repeat` method, which creates a new string containing multiple copies of the original string, glued together:
 
 ```
 console.log("LA".repeat(3));
@@ -725,13 +725,9 @@ console.log(string[1]);
 
 ## Rest parameters
 
-{{index "Math.max function"}}
+{{index "Math.max function", "period character", "max example", spread, [array, "of rest arguments"]}}
 
-It can be useful for a function to accept any number of ((argument))s. For example, `Math.max` computes the maximum of _all_ the arguments it is given.
-
-{{index "period character", "max example", spread, [array, "of rest arguments"]}}
-
-To write such a function, you put three dots before the function's last ((parameter)), like this:
+It can be useful for a function to accept any number of ((argument))s. For example, `Math.max` computes the maximum of _all_ the arguments it is given. To write such a function, you put three dots before the function's last ((parameter)), like this:
 
 ```{includeCode: strip_log}
 function max(...numbers) {
@@ -749,7 +745,7 @@ When such a function is called, the _((rest parameter))_ is bound to an array co
 
 {{index [function, application]}}
 
-You can use a similar three-dot notation to _call_ a function with an array of arguments.
+You can use a similar three-dot notation to _call_ a function with an array of arguments:
 
 ```
 let numbers = [5, 1, 7];
@@ -761,7 +757,7 @@ This "((spread))s" out the array into the function call, passing its elements as
 
 {{index "[] (array)"}}
 
-Square bracket array notation similarly allows the triple-dot operator to spread another array into the new array.
+Square bracket array notation similarly allows the triple-dot operator to spread another array into the new array:
 
 ```
 let words = ["never", "fully"];
@@ -771,7 +767,7 @@ console.log(["will", ...words, "understand"]);
 
 {{index "{} (object)"}}
 
-This even works in curly brace objects, where it adds all properties from another object. If a propery is added multiple times, the last value to be added wins.
+This works even in curly brace objects, where it adds all properties from another object. If a property is added multiple times, the last value to be added wins:
 
 ```
 let coordinates = {x: 10, y: 0};
@@ -783,7 +779,7 @@ console.log({...coordinates, y: 5, z: 1});
 
 {{index "Math object", "Math.min function", "Math.max function", "Math.sqrt function", minimum, maximum, "square root"}}
 
-As we've seen, `Math` is a grab bag of number-related utility functions, such as `Math.max` (maximum), `Math.min` (minimum), and `Math.sqrt` (square root).
+As we've seen, `Math` is a grab bag of number-related utility functions such as `Math.max` (maximum), `Math.min` (minimum), and `Math.sqrt` (square root).
 
 {{index namespace, [object, property]}}
 
@@ -793,7 +789,7 @@ The `Math` object is used as a container to group a bunch of related functionali
 
 {{index [binding, naming]}}
 
-Having too many global bindings "pollutes" the namespace. The more names have been taken, the more likely you are to accidentally overwrite the value of some existing binding. For example, it's not unlikely to want to name something `max` in one of your programs. Since JavaScript's built-in `max` function is tucked safely inside the `Math` object, we don't have to worry about overwriting it.
+Having too many global bindings "pollutes" the namespace. The more names have been taken, the more likely you are to accidentally overwrite the value of some existing binding. For example, it's not unlikely you'll want to name something `max` in one of your programs. Since JavaScript's built-in `max` function is tucked safely inside the `Math` object, you don't have to worry about overwriting it.
 
 {{index "let keyword", "const keyword"}}
 
@@ -801,7 +797,7 @@ Many languages will stop you, or at least warn you, when you are defining a bind
 
 {{index "Math.cos function", "Math.sin function", "Math.tan function", "Math.acos function", "Math.asin function", "Math.atan function", "Math.PI constant", cosine, sine, tangent, "PI constant", pi}}
 
-Back to the `Math` object. If you need to do ((trigonometry)), `Math` can help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The number π (pi)—or at least the closest approximation that fits in a JavaScript number—is available as `Math.PI`. There is an old programming tradition of writing the names of ((constant)) values in all caps.
+Back to the `Math` object. If you need to do ((trigonometry)), `Math` can help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The number π (pi)—or at least the closest approximation that fits in a JavaScript number—is available as `Math.PI`. There is an old programming tradition of writing the names of ((constant)) values in all caps:
 
 ```{test: no}
 function randomPointOnCircle(radius) {
@@ -813,11 +809,11 @@ console.log(randomPointOnCircle(2));
 // → {x: 0.3667, y: 1.966}
 ```
 
-If sines and cosines are not something you are familiar with, don't worry. When they are used in this book, in [Chapter ?](dom#sin_cos), I'll explain them.
+If you're not familiar with sines and cosines, don't worry. I'll explain them when they are used in this book, in [Chapter ?](dom#sin_cos).
 
 {{index "Math.random function", "random number"}}
 
-The previous example used `Math.random`. This is a function that returns a new pseudorandom number between zero (inclusive) and one (exclusive) every time you call it.
+The previous example used `Math.random`. This is a function that returns a new pseudorandom number between zero (inclusive) and one (exclusive) every time you call it:
 
 ```{test: no}
 console.log(Math.random());
@@ -834,7 +830,7 @@ Though computers are deterministic machines—they always react the same way if 
 
 {{index rounding, "Math.floor function"}}
 
-If we want a whole random number instead of a fractional one, we can use `Math.floor` (which rounds down to the nearest whole number) on the result of `Math.random`.
+If we want a whole random number instead of a fractional one, we can use `Math.floor` (which rounds down to the nearest whole number) on the result of `Math.random`:
 
 ```{test: no}
 console.log(Math.floor(Math.random() * 10));
@@ -851,7 +847,7 @@ There are also the functions `Math.ceil` (for "ceiling", which rounds up to a wh
 
 {{index "phi function"}}
 
-Let's go back to the `phi` function for a moment.
+Let's return to the `phi` function for a moment.
 
 ```{test: wrap}
 function phi(table) {
@@ -865,7 +861,7 @@ function phi(table) {
 
 {{index "destructuring binding", parameter}}
 
-One of the reasons this function is awkward to read is that we have a binding pointing at our array, but we'd much prefer to have bindings for the _elements_ of the array, that is, `let n00 = table[0]` and so on. Fortunately, there is a succinct way to do this in JavaScript.
+One reason this function is awkward to read is that we have a binding pointing at our array, but we'd much prefer to have bindings for the _elements_ of the array—that is, `let n00 = table[0]` and so on. Fortunately, there is a succinct way to do this in JavaScript:
 
 ```
 function phi([n00, n01, n10, n11]) {
@@ -877,11 +873,11 @@ function phi([n00, n01, n10, n11]) {
 
 {{index "let keyword", "var keyword", "const keyword", [binding, destructuring]}}
 
-This also works for bindings created with `let`, `var`, or `const`. If you know the value you are binding is an array, you can use ((square brackets)) to "look inside" of the value, binding its contents.
+This also works for bindings created with `let`, `var`, or `const`. If you know that the value you are binding is an array, you can use ((square brackets)) to "look inside" of the value, binding its contents.
 
 {{index [object, property], [braces, object]}}
 
-A similar trick works for objects, using braces instead of square brackets.
+A similar trick works for objects, using braces instead of square brackets:
 
 ```
 let {name} = {name: "Faraji", age: 23};
@@ -897,7 +893,7 @@ Note that if you try to destructure `null` or `undefined`, you get an error, muc
 
 {{index "optional chaining", "period character"}}
 
-When you aren't sure that a given object exists, but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
+When you aren't sure whether a given value produces an object but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
 
 ```
 function city(object) {
@@ -909,9 +905,9 @@ console.log(city({name: "Vera"}));
 // → undefined
 ```
 
-The expression `a?.b` means the same `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists, or when a variable might hold an undefined value.
+The expression `a?.b` means the same `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists or when a variable might hold an undefined value.
 
-A similar notation can be used with square bracket access, and even with function calls, by putting `?.` in front of the parentheses or brackets.
+A similar notation can be used with square bracket access, and even with function calls, by putting `?.` in front of the parentheses or brackets:
 
 ```
 console.log("string".notAMethod?.());
@@ -924,7 +920,7 @@ console.log({}.arrayProp?.[0]);
 
 {{index [array, representation], [object, representation], "data format", [memory, organization]}}
 
-Because properties only grasp their value, rather than contain it, objects and arrays are stored in the computer's memory as sequences of bits holding the _((address))es_—the place in memory—of their contents. So an array with another array inside of it consists of (at least) one memory region for the inner array, and another for the outer array, containing (among other things) a number that represents the address of the inner array.
+Because properties grasp their value rather than contain it, objects and arrays are stored in the computer's memory as sequences of bits holding the _((address))es_—the place in memory—of their contents. An array with another array inside of it consists of (at least) one memory region for the inner array and another for the outer array, containing (among other things) a number that represents the address of the inner array.
 
 If you want to save data in a file for later or send it to another computer over the network, you have to somehow convert these tangles of memory addresses to a description that can be stored or sent. You _could_ send over your entire computer memory along with the address of the value you're interested in, I suppose, but that doesn't seem like the best approach.
 
@@ -949,7 +945,7 @@ A journal entry might look like this when represented as JSON data:
 
 {{index "JSON.stringify function", "JSON.parse function", serialization, deserialization, parsing}}
 
-JavaScript gives us the functions `JSON.stringify` and `JSON.parse` to convert data to and from this format. The first takes a JavaScript value and returns a JSON-encoded string. The second takes such a string and converts it to the value it encodes.
+JavaScript gives us the functions `JSON.stringify` and `JSON.parse` to convert data to and from this format. The first takes a JavaScript value and returns a JSON-encoded string. The second takes such a string and converts it to the value it encodes:
 
 ```
 let string = JSON.stringify({squirrel: false,
@@ -962,13 +958,13 @@ console.log(JSON.parse(string).events);
 
 ## Summary
 
-Objects and arrays (which are a specific kind of object) provide ways to group several values into a single value. Conceptually, this allows us to put a bunch of related things in a bag and run around with the bag, instead of wrapping our arms around all of the individual things and trying to hold on to them separately.
+Objects and arrays provide ways to group several values into a single value. This allows us to put a bunch of related things in a bag and run around with the bag instead of wrapping our arms around all of the individual things and trying to hold on to them separately.
 
-Most values in JavaScript have properties, the exceptions being `null` and `undefined`. Properties are accessed using `value.prop` or `value["prop"]`. Objects tend to use names for their properties and store more or less a fixed set of them. Arrays, on the other hand, usually contain varying amounts of conceptually identical values and use numbers (starting from 0) as the names of their properties.
+Most values in JavaScript have properties, with the exceptions being `null` and `undefined`. Properties are accessed using `value.prop` or `value["prop"]`. Objects tend to use names for their properties and store more or less a fixed set of them. Arrays, on the other hand, usually contain varying amounts of conceptually identical values and use numbers (starting from 0) as the names of their properties.
 
-There _are_ some named properties in arrays, such as `length` and a number of methods. Methods are functions that live in properties and (usually) act on the value they are a property of.
+There _are_ some named properties in arrays, such as `length` and a number of methods. Methods are functions that live in properties and (usually) act on the value of which they are a property.
 
-You can iterate over arrays using a special kind of `for` loop—`for (let element of array)`.
+You can iterate over arrays using a special kind of `for` loop: `for (let element of array)`.
 
 ## Exercises
 
@@ -984,13 +980,13 @@ console.log(sum(range(1, 10)));
 
 {{index "range function", "sum function"}}
 
-Write a `range` function that takes two arguments, `start` and `end`, and returns an array containing all the numbers from `start` up to (and including) `end`.
+Write a `range` function that takes two arguments, `start` and `end`, and returns an array containing all the numbers from `start` up to and including `end`.
 
 Next, write a `sum` function that takes an array of numbers and returns the sum of these numbers. Run the example program and see whether it does indeed return 55.
 
 {{index "optional argument"}}
 
-As a bonus assignment, modify your `range` function to take an optional third argument that indicates the "step" value used when building the array. If no step is given, the elements go up by increments of one, corresponding to the old behavior. The function call `range(1, 10, 2)` should return `[1, 3, 5, 7, 9]`. Make sure it also works with negative step values so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
+As a bonus assignment, modify your `range` function to take an optional third argument that indicates the "step" value used when building the array. If no step is given, the elements should go up by increments of one, corresponding to the old behavior. The function call `range(1, 10, 2)` should return `[1, 3, 5, 7, 9]`. Make sure this also works with negative step values so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
 
 {{if interactive
 
@@ -1033,7 +1029,7 @@ hint}}
 
 {{index "reversing (exercise)", "reverse method", [array, methods]}}
 
-Arrays have a `reverse` method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, `reverseArray` and `reverseArrayInPlace`. The first, `reverseArray`, takes an array as argument and produces a _new_ array that has the same elements in the inverse order. The second, `reverseArrayInPlace`, does what the `reverse` method does: it _modifies_ the array given as argument by reversing its elements. Neither may use the standard `reverse` method.
+Arrays have a `reverse` method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, `reverseArray` and `reverseArrayInPlace`. The first, `reverseArray`, should take an array as argument and produce a _new_ array that has the same elements in the inverse order. The second, `reverseArrayInPlace`, should do what the `reverse` method does: _modify_ the array given as argument by reversing its elements. Neither may use the standard `reverse` method.
 
 {{index efficiency, "pure function", "side effect"}}
 
@@ -1077,7 +1073,7 @@ hint}}
 
 {{index ["data structure", list], "list (exercise)", "linked list", array, collection}}
 
-Objects, as generic blobs of values, can be used to build all sorts of data structures. A common data structure is the _list_ (not to be confused with array). A list is a nested set of objects, with the first object holding a reference to the second, the second to the third, and so on.
+As generic blobs of values, objects can be used to build all sorts of data structures. A common data structure is the _list_ (not to be confused with arrays). A list is a nested set of objects, with the first object holding a reference to the second, the second to the third, and so on:
 
 ```{includeCode: true}
 let list = {
@@ -1092,7 +1088,7 @@ let list = {
 };
 ```
 
-The resulting objects form a chain, like this:
+The resulting objects form a chain, as shown in the following diagram:
 
 {{figure {url: "img/linked-list.svg", alt: "A diagram showing the memory structure of a linked list. There are 3 cells, each with a value field holding a number, and a 'rest' field with an arrow to the rest of the list. The first cell's arrow points at the second cell, the second cell's arrow at the last cell, and the last cell's 'rest' field holds null.",width: "8cm"}}}
 
@@ -1100,7 +1096,7 @@ The resulting objects form a chain, like this:
 
 A nice thing about lists is that they can share parts of their structure. For example, if I create two new values `{value: 0, rest: list}` and `{value: -1, rest: list}` (with `list` referring to the binding defined earlier), they are both independent lists, but they share the structure that makes up their last three elements. The original list is also still a valid three-element list.
 
-Write a function `arrayToList` that builds up a list structure like the one shown when given `[1, 2, 3]` as argument. Also write a `listToArray` function that produces an array from a list. Then add the helper functions `prepend`, which takes an element and a list and creates a new list that adds the element to the front of the input list, and `nth`, which takes a list and a number and returns the element at the given position in the list (with zero referring to the first element) or `undefined` when there is no such element.
+Write a function `arrayToList` that builds up a list structure like the one shown when given `[1, 2, 3]` as argument. Also write a `listToArray` function that produces an array from a list. Add the helper functions `prepend`, which takes an element and a list and creates a new list that adds the element to the front of the input list, and `nth`, which takes a list and a number and returns the element at the given position in the list (with zero referring to the first element) or `undefined` when there is no such element.
 
 {{index recursion}}
 
@@ -1151,13 +1147,13 @@ hint}}
 
 {{index "deep comparison (exercise)", [comparison, deep], "deep comparison", "== operator"}}
 
-The `==` operator compares objects by identity. But sometimes you'd prefer to compare the values of their actual properties.
+The `==` operator compares objects by identity, but sometimes you'd prefer to compare the values of their actual properties.
 
 Write a function `deepEqual` that takes two values and returns true only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to `deepEqual`.
 
 {{index null, "=== operator", "typeof operator"}}
 
-To find out whether values should be compared directly (use the `===` operator for that) or have their properties compared, you can use the `typeof` operator. If it produces `"object"` for both values, you should do a deep comparison. But you have to take one silly exception into account: because of a historical accident, `typeof null` also produces `"object"`.
+To find out whether values should be compared directly (using the `===` operator for that) or have their properties compared, you can use the `typeof` operator. If it produces `"object"` for both values, you should do a deep comparison. But you have to take one silly exception into account: because of a historical accident, `typeof null` also produces `"object"`.
 
 {{index "Object.keys function"}}
 

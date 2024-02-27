@@ -30,7 +30,7 @@ If you want to follow along and run the code in this chapter, you'll need to ins
 
 {{index responsiveness, input, [network, speed]}}
 
-One of the more difficult problems with writing systems that communicate over the network is managing input and ((output))—that is, the reading and writing of data to and from the network and ((hard drive)). Moving data around takes time, and ((scheduling)) it cleverly can make a big difference in how quickly a system responds to the user or to network requests.
+When building systems that communicate over the network, the way you manage input and ((output))—that is, the reading and writing of data to and from the network and ((hard drive))—can make a big difference in how quickly a system responds to the user or to network requests.
 
 {{index ["asynchronous programming", "in Node.js"]}}
 
@@ -38,7 +38,7 @@ In such programs, asynchronous programming is often helpful. It allows the progr
 
 {{index "programming language", "Node.js", standard}}
 
-Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do in- and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to in- and output without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
+Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do in- and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to network and file system programming without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
 
 ## The node command
 
@@ -271,7 +271,7 @@ Here it was not necessary to specify the encoding—`writeFile` will assume that
 
 {{index "node:fs package", "readdir function", "stat function", "rename function", "unlink function"}}
 
-The `node:fs` module contains many other useful functions: `readdir` will return the files in a ((directory)) as an array of strings, `stat` will retrieve information about a file, `rename` will rename a file, `unlink` will remove one, and so on. See the documentation at [_https://nodejs.org_](https://nodejs.org) for specifics.
+The `node:fs` module contains many other useful functions: `readdir` will give you the files in a ((directory)) as an array of strings, `stat` will retrieve information about a file, `rename` will rename a file, `unlink` will remove one, and so on. See the documentation at [_https://nodejs.org_](https://nodejs.org) for specifics.
 
 {{index ["asynchronous programming", "in Node.js"], "Node.js", "error handling", "callback function"}}
 
@@ -305,7 +305,7 @@ Do note that while such a synchronous operation is being performed, your program
 
 {{index "Node.js", "node:http package", [HTTP, server]}}
 
-Another central module is called `node:http`. It provides functionality for running HTTP ((server))s and making HTTP ((request))s.
+Another central module is called `node:http`. It provides functionality for running an HTTP ((server)).
 
 {{index "listening (TCP)", "listen method", "createServer function"}}
 
@@ -356,7 +356,7 @@ A real web ((server)) usually does more than the one in the example—it looks a
 
 {{index "node:http package", "request function", "fetch function", [HTTP, client]}}
 
-The `node:http` module also provides a `request` function, which can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node, as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece, as the data comes in over the network, I recommend sticking to `fetch`.
+The `node:http` module also provides a `request` function, which can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node, as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece as the data comes in over the network, I recommend sticking to `fetch`.
 
 ## Streams
 
@@ -366,7 +366,7 @@ The response object that the HTTP server could write to is an example of a _writ
 
 {{index "createWriteStream function", "writeFile function", [file, stream]}}
 
-It is possible to create a writable stream that points at a file with the `createWriteStream` function from the `node:fs` module. You can use the `write` method on the resulting object to write the file one piece at a time, rather than in one shot as with `writeFile`.
+It is possible to create a writable stream that points at a file with the `createWriteStream` function from the `node:fs` module. You can then use the `write` method on the resulting object to write the file one piece at a time, rather than in one shot as with `writeFile`.
 
 {{index "createServer function", "request function", "event handling", "readable stream"}}
 
@@ -435,16 +435,14 @@ const methods = Object.create(null);
 
 createServer((request, response) => {
   let handler = methods[request.method] || notAllowed;
-  handler(request)
-    .catch(error => {
-      if (error.status != null) return error;
-      return {body: String(error), status: 500};
-    })
-    .then(({body, status = 200, type = "text/plain"}) => {
-       response.writeHead(status, {"Content-Type": type});
-       if (body && body.pipe) body.pipe(response);
-       else response.end(body);
-    });
+  handler(request).catch(error => {
+    if (error.status != null) return error;
+    return {body: String(error), status: 500};
+  }).then(({body, status = 200, type = "text/plain"}) => {
+    response.writeHead(status, {"Content-Type": type});
+    if (body && body.pipe) body.pipe(response);
+    else response.end(body);
+  });
 }).listen(8000);
 
 async function notAllowed(request) {
@@ -545,7 +543,7 @@ methods.GET = async function(request) {
 
 {{index "createReadStream function", ["asynchronous programming", "in Node.js"], "error handling", "ENOENT (status code)", "Error type", inheritance}}
 
-Because it has to touch the disk and thus might take a while, `stat` is asynchronous. Since we're using promises rather than callback style, it has to be imported from `promises` instead of directly from `node:fs`.
+Because it has to touch the disk and thus might take a while, `stat` is asynchronous. Since we're using promises rather than callback style, it has to be imported from `node:fs/promises` instead of directly from `node:fs`.
 
 When the file does not exist, `stat` will throw an error object with a `code` property of `"ENOENT"`. These somewhat obscure, ((Unix))-inspired codes are how you recognize error types in Node.
 
@@ -673,7 +671,7 @@ Your first command line argument, the ((regular expression)), can be found in `p
 
 {{index "readFileSync function"}}
 
-Doing this synchronously, with `readFileSync`, is more straightforward, but if you use `fs/promises` to get promise-returning functions and write an `async` function, the code looks similar.
+Doing this synchronously, with `readFileSync`, is more straightforward, but if you use `node:fs/promises` to get promise-returning functions and write an `async` function, the code looks similar.
 
 {{index "stat function", "statSync function", "isDirectory method"}}
 
@@ -683,7 +681,7 @@ To figure out whether something is a directory, you can again use `stat` (or `st
 
 Exploring a directory is a branching process. You can do it either by using a recursive function or by keeping an array of work (files that still need to be explored). To find the files in a directory, you can call `readdir` or `readdirSync`. Note the strange capitalization—Node's file system function naming is loosely based on standard Unix functions, such as `readdir`, that are all lowercase, but then it adds `Sync` with a capital letter.
 
-To go from a filename read with `readdir` to a full path name, you have to combine it with the name of the directory, either putting `sep` from `node:path` between them, or using `join` from that same package.
+To go from a filename read with `readdir` to a full path name, you have to combine it with the name of the directory, either putting `sep` from `node:path` between them, or using the `join` function from that same package.
 
 hint}}
 
@@ -727,7 +725,7 @@ hint}}
 
 {{index "public space (exercise)", "file server example", "Content-Type header", website}}
 
-Since the file server serves up any kind of file and even includes the right `Content-Type` header, you can use it to serve a website. Since it allows everybody to delete and replace files, it would be an interesting kind of website: one that can be modified, improved, and vandalized by everybody who takes the time to create the right HTTP request.
+Since the file server serves up any kind of file and even includes the right `Content-Type` header, you can use it to serve a website. Since it allows everybody to delete and replace files, it would be an interesting kind of website: one that can be modified, improved, and vandalized by everybody who takes the time to make the right HTTP request.
 
 Write a basic ((HTML)) page that includes a simple JavaScript file. Put the files in a directory served by the file server and open them in your browser.
 

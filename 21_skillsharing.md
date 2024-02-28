@@ -235,7 +235,8 @@ class SkillShareServer {
     let fileServer = serveStatic("./public");
     this.server = createServer((request, response) => {
       serveFromRouter(this, request, response, () => {
-        fileServer(request, response, notFound);
+        fileServer(request, response,
+                   () => notFound(request, response));
       });
     });
   }
@@ -312,21 +313,6 @@ router.add("DELETE", talkPath, async (server, title) => {
 
 The `updated` method, which we will define [later](skillsharing#updated), notifies waiting long polling requests about the change.
 
-{{index "readStream function", "body (HTTP)", stream}}
-
-To retrieve the content of a request body, we define a function called `readStream`, which reads all content from a ((readable stream)) and returns a promise that resolves to a string.
-
-```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
-function readStream(stream) {
-  return new Promise((resolve, reject) => {
-    let data = "";
-    stream.on("error", reject);
-    stream.on("data", chunk => data += chunk.toString());
-    stream.on("end", () => resolve(data));
-  });
-}
-```
-
 {{index validation, input, "PUT method"}}
 
 One handler that needs to read request bodies is the `PUT` handler, which is used to create new ((talk))s. It has to check whether the data it was given has `presenter` and `summary` properties, which are strings. Any data coming from outside the system might be nonsense, and we don't want to corrupt our internal data model or ((crash)) when bad requests come in.
@@ -335,14 +321,16 @@ One handler that needs to read request bodies is the `PUT` handler, which is use
 
 If the data looks valid, the handler stores an object that represents the new talk in the `talks` object, possibly ((overwriting)) an existing talk with this title, and again calls `updated`.
 
+{{index "node:stream/consumers package", JSON, "readable stream"}}
+
+To read the body from the request stream, we will use the `json` function from `"node:stream/consumers"`, which collects the data in the stream and then parses it as JSON. There are similar exports called `text` (to read the content as a string) and `buffer` (to read it as binary data) in this package. Since `json` is a very generic name, the import renames it to `readJSON` to avoid confusion.
+
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
+import {json as readJSON} from "node:stream/consumers"
+
 router.add("PUT", talkPath,
            async (server, title, request) => {
-  let requestBody = await readStream(request);
-  let talk;
-  try { talk = JSON.parse(requestBody); }
-  catch (_) { return {status: 400, body: "Invalid JSON"}; }
-
+  let talk = await readJSON(request);
   if (!talk ||
       typeof talk.presenter != "string" ||
       typeof talk.summary != "string") {
@@ -359,18 +347,12 @@ router.add("PUT", talkPath,
 });
 ```
 
-{{index validation, "readStream function"}}
-
-Adding a ((comment)) to a ((talk)) works similarly. We use `readStream` to get the content of the request, validate the resulting data, and store it as a comment when it looks valid.
+Adding a ((comment)) to a ((talk)) works similarly. We use `readJSON` to get the content of the request, validate the resulting data, and store it as a comment when it looks valid.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
            async (server, title, request) => {
-  let requestBody = await readStream(request);
-  let comment;
-  try { comment = JSON.parse(requestBody); }
-  catch (_) { return {status: 400, body: "Invalid JSON"}; }
-
+  let comment = await readJSON(request);
   if (!comment ||
       typeof comment.author != "string" ||
       typeof comment.message != "string") {

@@ -55,15 +55,15 @@ class SkillShareApp {
     this.talks = state.talks;
 
     for (let talk of state.talks) {
-      let cmp = this.talkMap[talk.title];
-      if (cmp && cmp.talk.presenter == talk.presenter &&
-          cmp.talk.summary == talk.summary) {
-        cmp.syncState(talk);
+      let found = this.talkMap[talk.title];
+      if (found && found.talk.presenter == talk.presenter &&
+          found.talk.summary == talk.summary) {
+        found.syncState(talk);
       } else {
-        if (cmp) cmp.dom.remove();
-        cmp = new Talk(talk, this.dispatch);
-        this.talkMap[talk.title] = cmp;
-        this.talkDOM.appendChild(cmp.dom);
+        if (found) found.dom.remove();
+        found = new Talk(talk, this.dispatch);
+        this.talkMap[talk.title] = found;
+        this.talkDOM.appendChild(found.dom);
       }
     }
     for (let title of Object.keys(this.talkMap)) {

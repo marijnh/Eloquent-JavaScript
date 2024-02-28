@@ -14,10 +14,6 @@ quote}}
 
 A _((skill-sharing))_ meeting is an event where people with a shared interest come together and give small, informal presentations about things they know. At a ((gardening)) skill-sharing meeting, someone might explain how to cultivate ((celery)). Or in a programming skill-sharing group, you could drop by and tell people about Node.js.
 
-{{index learning, "users' group"}}
-
-Such meetups—also often called _users' groups_ when they are about computers—can be a great way to learn things, or simply meet people with similar interests. Many larger cities have JavaScript meetups. They are typically free to attend, and I've found the ones I've visited to be friendly and welcoming.
-
 In this final project chapter, our goal is to set up a ((website)) for managing ((talk))s given at a skill-sharing meeting. Imagine a small group of people meeting up regularly in the office of one of the members to talk about ((unicycling)). The previous organizer of the meetings moved to another town, and nobody stepped forward to take over this task. We want a system that will let the participants propose and discuss talks among themselves, without an active organizer.
 
 [Just like in the [previous chapter](node), some of the code in this chapter is written for Node.js, and running it directly in the HTML page that you are looking at is unlikely to work.]{if interactive} The full code for the project can be ((download))ed from [_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
@@ -52,7 +48,7 @@ We can arrange for the client to open the connection and keep it around so that 
 
 {{index socket}}
 
-But an ((HTTP)) request allows only a simple flow of information: the client sends a request, the server comes back with a single response, and that is it. There is a technology called _((WebSockets))_, supported by modern browsers, that makes it possible to open ((connection))s for arbitrary data exchange. But using them properly is somewhat tricky.
+But an ((HTTP)) request allows only a simple flow of information: the client sends a request, the server comes back with a single response, and that is it. There is a technology called _((WebSockets))_ that makes it possible to open ((connection))s for arbitrary data exchange. But using them properly is somewhat tricky.
 
 In this chapter, we use a simpler technique—((long polling))—where clients continuously ask the server for new information using regular HTTP requests, and the server stalls its answer when it has nothing new to report.
 
@@ -193,33 +189,25 @@ export class Router {
   add(method, url, handler) {
     this.routes.push({method, url, handler});
   }
-}
-
-async function resolveRequest(router, context, request) {
-  let path = parse(request.url).pathname;
-
-  for (let {method, url, handler} of this.routes) {
-    let match = url.exec(path);
-    if (!match || request.method != method) continue;
-    let urlParts = match.slice(1).map(decodeURIComponent);
-    let response =
-      await handler(context, ...urlParts, request);
-    if (response) return response;
+  async resolve(request, context) {
+    let path = parse(request.url).pathname;
+    for (let {method, url, handler} of this.routes) {
+      let match = url.exec(path);
+      if (!match || request.method != method) continue;
+      let parts = match.slice(1).map(decodeURIComponent);
+      return handler(context, ...parts, request);
+    }
   }
 }
 ```
 
 {{index "Router class"}}
 
-The module exports the `Router` class. A router object allows new handlers to be registered with the `add` method and can resolve requests with its `resolve` method.
-
-{{index "some method"}}
-
-The latter will return a response when a handler was found, and `null` otherwise. It tries the routes one at a time (in the order in which they were defined) until a matching one is found.
+The module exports the `Router` class. A router object allows you to register handlers for specific methods and URL patterns with its `add` method. When a request is resolved with the `resolve` method, the router calls the handler whose method and URL match the request and return its result.
 
 {{index "capture group", "decodeURIComponent function", [escaping, "in URLs"]}}
 
-The handler functions are called with the `context` value (which will be the server instance in our case), match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded since the raw URL may contain `%20`-style codes.
+Handler functions are called with the `context` value given to `resolve`. We will use this to give them access to our server state. Additionally, they receive the match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded since the raw URL may contain `%20`-style codes.
 
 ### Serving files
 
@@ -227,7 +215,7 @@ When a request matches none of the request types defined in our router, the serv
 
 {{index "createServer function", "serve-static package"}}
 
-I opted for `serve-static`. This isn't the only such server on NPM, but it works well and fits our purposes. The `serve-static` package exports a function that can be called with a root directory to produce a request handler function. The handler function accepts the `request` and `response` arguments provided by the server, and a third argument, a function that it will call if no file matches the request. We want our server to first check for requests that we should handle specially, as defined in the router, so we wrap it in another function.
+I opted for `serve-static`. This isn't the only such server on NPM, but it works well and fits our purposes. The `serve-static` package exports a function that can be called with a root directory to produce a request handler function. The handler function accepts the `request` and `response` arguments provided by the server from `"node:http"`, and a third argument, a function that it will call if no file matches the request. We want our server to first check for requests that we should handle specially, as defined in the router, so we wrap it in another function.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 import {createServer} from "node:http";
@@ -262,7 +250,7 @@ class SkillShareServer {
 
 The `serveFromRouter` function has the same interface as `fileServer`, taking `(request, response, next)` arguments. This allows us to “chain” several request handlers, allowing each to either handle the request, or pass responsibility for that on to the next handler. The final handler, `notFound`, simply responds with a “not found” error.
 
-Our `serveFromRouter` function uses a similar convention as the file server from the [previous chapter](node) for responses—handler in the router return promises that resolve to objects describing the response.
+Our `serveFromRouter` function uses a similar convention as the file server from the [previous chapter](node) for responses—handlers in the router return promises that resolve to objects describing the response.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 import {Router} from "./router.mjs";
@@ -270,12 +258,16 @@ import {Router} from "./router.mjs";
 const router = new Router();
 const defaultHeaders = {"Content-Type": "text/plain"};
 
-async function serveResponse(value, response) {
-  let {body, status = 200, headers = defaultHeaders} =
-    await resolved.catch(error => {
+async function serveFromRouter(server, request,
+                               response, next) {
+  let resolved = await router.resolve(request, server)
+    .catch(error => {
       if (error.status != null) return error;
-      return {body: String(error), status: 500};
+      return {body: String(err), status: 500};
     });
+  if (!resolved) return next();
+  let {body, status = 200, headers = defaultHeaders} =
+    await resolved;
   response.writeHead(status, headers);
   response.end(body);
 }
@@ -283,7 +275,7 @@ async function serveResponse(value, response) {
 
 ### Talks as resources
 
-The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. These will be exposed as HTTP ((resource))s under `/talks/[title]`, so we need to add handlers to our router that implement the various methods that clients can use to work with them.
+The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. We will add some handlers to our router that expose these as HTTP ((resource))s under `/talks/[title]`.
 
 {{index "GET method", "404 (HTTP status code)" "hasOwn function"}}
 
@@ -507,9 +499,7 @@ Thus, if we want a page to show up when a browser is pointed at our server, we s
 
 {{index CSS}}
 
-It defines the document ((title)) and includes a style sheet, which defines a few styles to, among other things, make sure there is some space between talks.
-
-At the bottom, it adds a heading at the top of the page and loads the script that contains the ((client))-side application.
+It defines the document ((title)) and includes a style sheet, which defines a few styles to, among other things, make sure there is some space between talks. Then it adds a heading at the top of the page and loads the script that contains the ((client))-side application.
 
 ### Actions
 
@@ -830,7 +820,7 @@ hint}}
 
 The wholesale redrawing of talks works pretty well because you usually can't tell the difference between a DOM node and its identical replacement. But there are exceptions. If you start typing something in the comment ((field)) for a talk in one browser window and then, in another, add a comment to that talk, the field in the first window will be redrawn, removing both its content and its ((focus)).
 
-In a heated discussion, where multiple people are adding comments at the same time, this would be annoying. Can you come up with a way to solve it?
+When multiple people are adding comments at the same time, this would be annoying. Can you come up with a way to solve it?
 
 {{hint
 

@@ -58,13 +58,16 @@ nav button.help {
 
 div.popup {
   position: fixed;
-  left: 0; right: 0; top: 50px;
+  left: 0; right: 0; top: 0; bottom: 0;
+  border-radius: 3px;
   max-width: min(35rem, 90%);
+  height: fit-content;
+  box-sizing: content-box;
   margin: auto;
   border: 1px solid #4ab;
   padding: 0 1.5em 1em;
   background: white;
-  max-height: 80%;
+  max-height: 90%;
   overflow-y: auto;
   overflow-x: hidden;
   outline: 1000px solid #ffffffbb;
@@ -239,6 +242,22 @@ blockquote footer:before {
   margin: 1rem 0 1rem -18px;
   position: relative;
   border-bottom: 1px solid #4ab;
+}
+
+.editor-controls {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: -3px;
+  right: -15px;
+}
+
+.editor-controls button {
+  color: #888;
+  font-size: 16px;
+  background: transparent;
+  padding: 0;
+  border: none;
 }
 
 .sandbox-output {

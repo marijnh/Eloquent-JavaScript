@@ -25,17 +25,18 @@ function chapterInteraction() {
     }
   })
 
+  let modName = /Mac/.test(navigator.platform) ? "Cmd-" : "Ctrl-"
+
   function showHelp() {
     let popup = document.body.appendChild(document.createElement("div"))
     popup.className = "popup"
     popup.appendChild(document.createElement("h2")).textContent = "Instructions"
     popup.appendChild(document.createElement("p")).textContent = `Code on this page can be edited and run by clicking it or moving focus to it and pressing Enter. Code executed this way shares its environment with other code ran on the page, and some pre-defined code for the chapter. When inside the code editor, the following keyboard shortcuts are available.`
-    let mod = /Mac/.test(navigator.platform) ? "Cmd-" : "Ctrl-"
     for (let [key, desc] of [
-      [mod + "Enter", "Run code"],
-      [mod + "j", "Revert code"],
-      [mod + "↓", "Deactivate editor"],
-      [mod + "Escape", "Reset environment"],
+      [modName + "Enter", "Run code"],
+      [modName + "j", "Revert code"],
+      [modName + "↓", "Deactivate editor"],
+      [modName + "Escape", "Reset environment"],
     ]) {
       let b = popup.appendChild(document.createElement("div"))
       b.appendChild(document.createElement("kbd")).textContent = key
@@ -70,8 +71,10 @@ function chapterInteraction() {
     let node = document.createElement(type)
     if (attrs && typeof attrs == "object" && attrs.nodeType == null) {
       for (let attr in attrs) if (attrs.hasOwnProperty(attr)) {
-        if (attr == "css") node.style.cssText = attrs[attr]
-        else node.setAttribute(attr, attrs[attr])
+        let value = attrs[attr]
+        if (attr == "css") node.style.cssText = value
+        else if (typeof value !== "string") node[attr] = value
+        else node.setAttribute(attr, value)
       }
       firstChild = 2
     }
@@ -158,9 +161,15 @@ function chapterInteraction() {
     let editorState = createState(code, lang, [
       extraKeys,
       EditorView.domEventHandlers({
-        focus: () => {
+        focus: (e, view) => {
           clearTimeout(pollingScroll)
           pollingScroll = setTimeout(pollScroll, 500)
+          showEditorControls(view)
+        },
+        blur: (e, view) => {
+          setTimeout(() => {
+            if (!view.hasFocus) hideEditorControls(view)
+          }, 100)
         }
       }),
       EditorView.updateListener.of(debounce(update => {
@@ -235,6 +244,39 @@ function chapterInteraction() {
       selection: {anchor: 0},
       changes: {from: 0, to: editor.state.doc.length, insert: context.orig.textContent}
     })
+  }
+
+  function showEditorControls(editor) {
+    if (editor.dom.parentNode.querySelector(".editor-controls")) return
+    editor.dom.parentNode.appendChild(elt("div", {
+      class: "editor-controls"
+    }, elt("button", {
+      onmousedown: e => {
+        runCode(editor)
+        e.preventDefault()
+      },
+      title: `Run code (${modName}Enter)`,
+      "aria-label": "Run code"
+    }, "▸"), elt("button", {
+      onmousedown: e => {
+        revertCode(editor)
+        e.preventDefault()
+      },
+      title: `Revert code (${modName}j)`,
+      "aria-label": "Revert code"
+    }, "▫"), elt("button", {
+      onmousedown: e => {
+        resetSandbox(editor.state.facet(contextFacet).sandbox)
+        e.preventDefault()
+      },
+      title: `Reset sandbox (${modName}Escape)`,
+      "aria-label": "Reset sandbox"
+    }, "ø")))
+  }
+
+  function hideEditorControls(editor) {
+    let controls = editor.dom.parentNode.querySelector(".editor-controls")
+    if (controls) controls.remove()
   }
 
   let sandboxSnippets = {}

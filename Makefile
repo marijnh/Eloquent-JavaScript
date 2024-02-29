@@ -71,10 +71,10 @@ book.epub: epub/titlepage.xhtml epub/toc.xhtml epub/hints.xhtml $(foreach CHAP,$
 epub/toc.xhtml: epub/toc.xhtml.src $(foreach CHAP,$(CHAPTERS),epub/$(CHAP).xhtml) epub/hints.xhtml
 	node src/generate_epub_toc.mjs $^ > $@
 
-epub/%.xhtml: %.md src/render_html.js
-	node src/render_html.js --epub $< > $@
+epub/%.xhtml: %.md src/render_html.mjs
+	node src/render_html.mjs --epub $< > $@
 
-epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.mjs src/render_html.js
+epub/hints.xhtml: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.mjs src/render_html.mjs
 	node src/extract_hints.mjs | node src/render_html.mjs --epub - > $@
 
 epubcheck: book.epub

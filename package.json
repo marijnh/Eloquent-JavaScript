@@ -2,7 +2,7 @@
   "name": "Eloquent-JavaScript",
   "license": "CC BY-NC 3.0",
   "version": "0.1.0",
-  "author": "Marijn Haverbeke <marijnh@gmail.com>",
+  "author": "Marijn Haverbeke <marijn@haverbeke.berlin>",
   "description": "Sources for the book Eloquent JavaScript",
   "repository": {
     "type": "git",

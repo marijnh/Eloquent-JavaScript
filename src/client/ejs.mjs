@@ -339,4 +339,17 @@ function debounce(fn, delay = 50) {
   }
 }
 
-if (window.page && /^chapter|hints$/.test(window.page.type)) chapterInteraction()
+if (window.page && /^chapter|hints$/.test(window.page.type)) {
+  chapterInteraction()
+  // 3rd-edition-style anchor
+  let {hash} = document.location
+  if (/^#[phic]_./.test(hash)) {
+    let exists = document.getElementById(hash.replace(/_/, "-"))
+    if (exists) {
+      document.location.hash = hash.replace(/_/, "-")
+    } else {
+      let chapter = /\/[^\/]+\.html/.exec(document.location)
+      if (chapter) document.location = `https://eloquentjavascript.net/3rd_edition${chapter[0]}${hash}`
+    }
+  }
+}

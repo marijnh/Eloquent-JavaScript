@@ -112,11 +112,11 @@ export function transformTokens(tokens, options) {
       i += 2
     } else {
       if (type == "paragraph_open")
-        tok.hashID = "p_" + hash(startAndEnd(childrenText(tokens[i + 1])))
+        tok.hashID = "p-" + hash(startAndEnd(childrenText(tokens[i + 1])))
       else if (type == "heading_open")
-        tok.hashID = (tok.tag == "h2" ? "h_" : "i_") + hash(childrenText(tokens[i + 1]))
+        tok.hashID = (tok.tag == "h2" ? "h-" : "i-") + hash(childrenText(tokens[i + 1]))
       else if (type == "fence")
-        tok.hashID = "c_" + hash(tok.content)
+        tok.hashID = "c-" + hash(tok.content)
 
       if (tok.children) tok.children = transformInline(tok.children, options, tokens[i - 1].type)
 

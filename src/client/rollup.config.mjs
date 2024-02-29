@@ -1,4 +1,5 @@
 import {nodeResolve} from "@rollup/plugin-node-resolve"
+import terser from "@rollup/plugin-terser"
 
 export default {
   input: "src/client/index.mjs",
@@ -6,5 +7,5 @@ export default {
     file: "html/ejs.js",
     format: "umd"
   },
-  plugins: [nodeResolve()]
+  plugins: [nodeResolve(), terser()]
 }

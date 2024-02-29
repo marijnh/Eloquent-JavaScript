@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/hangar2.js", "code/chapter/11_async.js"]}}}
+{{meta {load_files: ["code/hangar2.js", "code/chapter/11_async.js"], zip: "node/html"}}}
 
 # Asynchronous Programming
 
@@ -527,7 +527,7 @@ class VideoPlayer {
 
 The `wait` function wraps `setTimeout` in a promise that resolves after the given amount of milliseconds. This is useful for controlling the speed of the playback.
 
-```
+```{startCode: true}
 let video = new VideoPlayer(clipImages, 100);
 video.play().catch(e => {
   console.log("Playback failed: " + e);

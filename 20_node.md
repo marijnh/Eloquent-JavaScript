@@ -469,9 +469,9 @@ The `status` field of the response description may be omitted, in which case it 
 
 When the value of `body` is a ((readable stream)), it will have a `pipe` method that is used to forward all content from a readable stream to a ((writable stream)). If not, it is assumed to be either `null` (no body), a string, or a buffer, and it is passed directly to the ((response))'s `end` method.
 
-{{index [path, URL], "urlToPath function", "node:url package", parsing, [escaping, "in URLs"], "decodeURIComponent function", "startsWith method"}}
+{{index [path, URL], "urlPath function", "URL class", parsing, [escaping, "in URLs"], "decodeURIComponent function", "startsWith method"}}
 
-To figure out which file path corresponds to a request URL, the `urlPath` function uses Node's built-in `node:url` module to parse the URL. It takes its pathname, which will be something like `"/file.txt"`, decodes that to get rid of the `%20`-style escape codes, and resolves it relative to the program's working directory.
+To figure out which file path corresponds to a request URL, the `urlPath` function uses the built-in `URL` class (which also exists in the browser) to parse the URL. This constructor expects a full URL, not just the part starting with the slash that we get from `request.url`, so we give it a dummy domain name to fill in. It extracts its pathname, which will be something like `"/file.txt"`, decodes that to get rid of the `%20`-style escape codes, and resolves it relative to the program's working directory.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {parse} from "node:url";
@@ -480,7 +480,7 @@ import {resolve, sep} from "node:path";
 const baseDirectory = process.cwd();
 
 function urlPath(url) {
-  let {pathname} = parse(url);
+  let {pathname} = new URL(url, "http://d");
   let path = resolve(decodeURIComponent(pathname).slice(1));
   if (path != baseDirectory &&
       !path.startsWith(baseDirectory + sep)) {

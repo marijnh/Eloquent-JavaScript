@@ -180,8 +180,6 @@ There are a number of good router packages on ((NPM)), but here we'll write one 
 This is `router.mjs`, which we will later `import` from our server module:
 
 ```{includeCode: ">code/skillsharing/router.mjs"}
-import {parse} from "node:url";
-
 export class Router {
   constructor() {
     this.routes = [];
@@ -190,9 +188,9 @@ export class Router {
     this.routes.push({method, url, handler});
   }
   async resolve(request, context) {
-    let path = parse(request.url).pathname;
+    let {pathname} = new URL(request.url, "http://d");
     for (let {method, url, handler} of this.routes) {
-      let match = url.exec(path);
+      let match = url.exec(pathname);
       if (!match || request.method != method) continue;
       let parts = match.slice(1).map(decodeURIComponent);
       return handler(context, ...parts, request);

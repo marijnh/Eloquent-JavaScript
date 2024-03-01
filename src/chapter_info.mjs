@@ -99,18 +99,18 @@ for (let file of fs.readdirSync(".").sort()) {
   ];
   if (chapter.number == 21) chapter.exercises = [
     {name: "Disk persistence",
-     file: "code/solutions/21_1_disk_persistence.js",
+     file: "code/solutions/21_1_disk_persistence.mjs",
      number: 1,
      type: "js",
      code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/21_1_disk_persistence.js", "utf8")
+     solution: fs.readFileSync("code/solutions/21_1_disk_persistence.mjs", "utf8")
     },
     {name: "Comment field resets",
-     file: "code/solutions/21_2_comment_field_resets.js",
+     file: "code/solutions/21_2_comment_field_resets.mjs",
      number: 2,
      type: "js",
      code: nodeInfo,
-     solution: fs.readFileSync("code/solutions/21_2_comment_field_resets.js", "utf8")
+     solution: fs.readFileSync("code/solutions/21_2_comment_field_resets.mjs", "utf8")
     }
   ];
 

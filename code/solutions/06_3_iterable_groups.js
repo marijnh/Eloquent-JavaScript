@@ -30,17 +30,17 @@ class Group {
 
 class GroupIterator {
   constructor(members) {
-    this.members = members;
-    this.position = 0;
+    this.#members = members;
+    this.#position = 0;
   }
 
   next() {
-    if (this.position >= this.members.length) {
+    if (this.#position >= this.#members.length) {
       return {done: true};
     } else {
-      let result = {value: this.members[this.position],
+      let result = {value: this.#members[this.#position],
                     done: false};
-      this.position++;
+      this.#position++;
       return result;
     }
   }

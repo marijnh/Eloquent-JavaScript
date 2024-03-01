@@ -4,11 +4,10 @@
 
 import * as PJSON from "./pseudo_json.mjs"
 import * as fs from "fs"
+import * as path from "path"
 import jszip from "jszip"
 
 let output = [], failed = false;
-
-let allSolutions = fs.readdirSync("code/solutions/").filter(file => !/^(\.|2[012])/.test(file));
 
 for (let file of fs.readdirSync(".").sort()) {
   let match = /^((\d+).*).md$/.exec(file), chapNum = match && match[2];
@@ -36,7 +35,6 @@ for (let file of fs.readdirSync(".").sort()) {
       solution = fs.readFileSync("code/solutions/" + file, "utf8");
       extra = /^\s*<!doctype html>\s*(<base .*\n(<script src=.*\n)*)?/.exec(solution);
       if (extra) solution = solution.slice(extra[0].length);
-      allSolutions.splice(allSolutions.indexOf(file), 1);
     } catch(e) {
       console.error("File ", file, " does not exist.", e);
       failed = true;
@@ -74,6 +72,22 @@ for (let file of fs.readdirSync(".").sort()) {
   }
 
   let nodeInfo = "// Node exercises can not be ran in the browser,\n// but you can look at their solution here.\n";
+  if (chapter.number == 6) chapter.exercises.push({
+    name: "Borrowing a method [3rd ed]",
+    file: "code/solutions/06_4_borrowing_a_method.js",
+    number: "4[3]",
+    type: "js",
+    code: "let map = {one: true, two: true, hasOwnProperty: true};\n\n// Fix this call\nconsole.log(map.hasOwnProperty(\"one\"));\n// → true",
+    solution: "let map = {one: true, two: true, hasOwnProperty: true};\n\nconsole.log(Object.prototype.hasOwnProperty.call(map, \"one\"));\n// → true"
+  })
+  if (chapter.number == 11) chapter.exercises.push({
+    name: "Tracking the scalpel [3rd ed]",
+    file: "code/solutions/11_1_tracking_the_scalpel.js",
+    number: "1[3]",
+    type: "js",
+    code: "async function locateScalpel(nest) {\n  // Your code here.\n}\n\nfunction locateScalpel2(nest) {\n  // Your code here.\n}\n\nlocateScalpel(bigOak).then(console.log);\n// → Butcher Shop",
+    solution: "async function locateScalpel(nest) {\n  let current = nest.name;\n  for (;;) {\n    let next = await anyStorage(nest, current, \"scalpel\");\n    if (next == current) return current;\n    current = next;\n  }\n}\n\nfunction locateScalpel2(nest) {\n  function loop(current) {\n    return anyStorage(nest, current, \"scalpel\").then(next => {\n      if (next == current) return current;\n      else return loop(next);\n    });\n  }\n  return loop(nest.name);\n}\n\nlocateScalpel(bigOak).then(console.log);\n// → Butcher's Shop\nlocateScalpel2(bigOak).then(console.log);\n// → Butcher's Shop"
+  })
   if (chapter.number == 20) chapter.exercises = [
     {name: "Search tool",
      file: "code/solutions/20_1_search_tool.mjs",
@@ -147,8 +161,10 @@ output.push({
   ]
 });
 
-if (allSolutions.length) {
-  console.error("Solution files " + allSolutions + " were not used.");
+let usedSolutions = new Set()
+for (let ch of output) for (let ex of ch.exercises) usedSolutions.add(path.basename(ex.file).replace(/\..*/, ""))
+for (let file of fs.readdirSync("code/solutions/")) if (!usedSolutions.has(file.replace(/\..*/, ""))) {
+  console.error("Solution file " + file + " was not used.");
   failed = true;
 }
 

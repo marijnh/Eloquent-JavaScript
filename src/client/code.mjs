@@ -100,6 +100,8 @@ class CodeSandbox {
       if (chapter.start_code) code += "\n\n" + chapter.start_code
       this.setEditorState(code, {include: chapter.include})
       visible = "box"
+    } else if (value == "11.1[3]") {
+      document.location = "https://eloquentjavascript.net/3rd_edition/code/#11.1"
     } else {
       let exercise = findExercise(value, chapter)
       this.setEditorState(exercise.code, {
@@ -177,7 +179,7 @@ class CodeSandbox {
 
   parseFragment() {
     let hash = document.location.hash.slice(1)
-    let valid = /^(\d+)(?:\.(\d+))?$/.exec(hash)
+    let valid = /^(\d+)(?:\.(\d+.*))?$/.exec(hash)
     let chapter, exercise
     if (valid) {
       chapter = getChapter(Number(valid[1]))
@@ -233,7 +235,7 @@ function findExercise(id, chapter) {
   let parts = id.split(".")
   if (!chapter) chapter = getChapter(parts[0])
   for (let i = 0; i < chapter.exercises.length; i++)
-    if (chapter.exercises[i].number == +parts[1])
+    if (chapter.exercises[i].number == parts[1])
       return chapter.exercises[i]
 }
 

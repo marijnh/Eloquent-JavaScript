@@ -1,10 +1,10 @@
 {{meta {load_files: ["code/journal.js", "code/chapter/04_data.js"], zip: "node/html"}}}
 
-# Data Structures: Objects and Arrays
+# Veri Yapıları: Objeler ve Diziler
 
 {{quote {author: "Charles Babbage", title: "Passages from the Life of a Philosopher (1864)", chapter: true}
 
-On two occasions I have been asked, 'Pray, Mr. Babbage, if you put into the machine wrong figures, will the right answers come out?' [...] I am not able rightly to apprehend the kind of confusion of ideas that could provoke such a question.
+İki kez bana şu soruyu sordular, 'Eğer makineye yanlış rakamlar girerseniz, doğru cevaplar çıkar mı?' [...] Böyle bir sorunun sorulmasına sebep olan kafa karışıklığı dolu fikirleri anlayamıyorum.
 
 quote}}
 
@@ -14,47 +14,47 @@ quote}}
 
 {{index object, "data structure"}}
 
-Numbers, Booleans, and strings are the atoms that ((data)) structures are built from. Many types of information require more than one atom, though. _Objects_ allow us to group values—including other objects—to build more complex structures.
+Sayılar, Boole değerleri ve dizeler, ((veri)) yapılarının oluşturulduğu atomlardır. Ancak, birçok bilgi türü, birden fazla atom gerektirir. _Objeler_ bize, daha karmaşık yapılar oluşturmak için obje değerleri de dahil olmak üzere değerleri gruplamamıza olanak sağlar.
 
-The programs we have built so far have been limited by the fact that they were operating only on simple data types. This chapter will introduce basic data structures. By the end of it, you'll know enough to start writing useful programs.
+Şimdiye kadar oluşturduğumuz programlar, yalnızca basit veri türleri üzerinde çalıştıkları için sınırlıydı. Bu bölüm, temel veri yapılarını tanıtacaktır. Sonunda, yararlı programlar yazmaya başlamak için yeterli bilgiye sahip olacaksınız.
 
-The chapter will work through a more or less realistic programming example, introducing concepts as they apply to the problem at hand. The example code will often build on functions and bindings that were introduced earlier in the text.
+Bölüm, bir miktar gerçekçi bir programlama örneği üzerinden çalışacak ve kavramları uygulandıkları sorunla ilişkilendirecektir. Örnek kodlar genellikle metinde daha önce tanıtılan fonksiyonlar ve bağlantılar üzerine kurulacaktır.
 
 {{if book
 
-The online coding ((sandbox)) for the book ([_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code)) provides a way to run code in the context of a specific chapter. If you decide to work through the examples in another environment, be sure to first download the full code for this chapter from the sandbox page.
+Kitabın çevrimiçi kodlama ((kum havuzu)) ([_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code)) belirli bir bölüm bağlamında kodu çalıştırmanın bir yolunu sağlar. Örnekleri başka bir ortamda çalıştırmaya karar verirseniz, önce bu bölüm için tam kodu kum havuzu sayfasından indirmeyi unutmayın.
 
 if}}
 
-## The weresquirrel
+## Sincap
 
 {{index "weresquirrel example", lycanthropy}}
 
-Every now and then, usually between 8 p.m. and 10 p.m., ((Jacques)) finds himself transforming into a small furry rodent with a bushy tail.
+Arada sırada, genellikle akşam 8 ile 10 arasında, ((Jacques)) kendisini tüylü kuyruklu küçük bir kemirgen haline dönüşürken bulur.
 
-On one hand, Jacques is quite glad that he doesn't have classic lycanthropy. Turning into a squirrel does cause fewer problems than turning into a wolf. Instead of having to worry about accidentally eating the neighbor (_that_ would be awkward), he worries about being eaten by the neighbor's cat. After two occasions where he woke up on a precariously thin branch in the crown of an oak, naked and disoriented, he has taken to locking the doors and windows of his room at night and putting a few walnuts on the floor to keep himself busy.
+Bir yandan, Jacques klasik kurt adamlığına sahip olmadığına oldukça sevinir. Bir sincapa dönüşmek, bir kurt adama dönüşmekten daha az soruna neden olur. Komşuyu yanlışlıkla yemekten endişe etmek yerine (bu garip olurdu), komşunun kedisi tarafından yenilmekten endişe eder. Meşe ağacının tacındaki tehlikeli derecede ince bir dalda, çıplak ve oryantasyonunu yitirmiş olarak uyanmış ve gece odasının kapılarını, pencerelerini kapatmaya ve kendisini meşgul etmeyi birkaç ceviz koyarak başarmıştır.
 
-But Jacques would prefer to get rid of his condition entirely. The irregular occurrences of the transformation make him suspect that they might be triggered by something. For a while, he believed that it happened only on days when he had been near oak trees. But avoiding oak trees did not stop the problem.
+Ancak Jacques, durumunu tamamen ortadan kaldırmayı tercih ederdi. Dönüşümün düzensiz oluşları, onları tetikleyen bir şeyin olabileceğini düşündürmektedir. Bir süre, sadece meşe ağaçlarına yaklaştığı günlerde olduğuna inandı. Ancak meşe ağaçlarından kaçınmak sorunu durdurmadı.
 
 {{index journal}}
 
-Switching to a more scientific approach, Jacques has started keeping a daily log of everything he does on a given day and whether he changed form. With this data he hopes to narrow down the conditions that trigger the transformations.
+Daha bilimsel bir yaklaşıma geçiş yaparak, Jacques, belirli bir günde yaptığı her şeyi ve dönüşüp dönüşmediğini günlük olarak kaydetmeye başladı. Bu verilerle dönüşümleri tetikleyen koşulları daraltmayı umuyor.
 
-The first thing he needs is a data structure to store this information.
+İhtiyacı olan ilk şey, bu bilgileri depolamak için bir veri yapısıdır.
 
-## Data sets
+## Veri setleri
 
 {{index ["data structure", collection], [memory, organization]}}
 
-To work with a chunk of digital data, we'll first have to find a way to represent it in our machine's memory. Say, for example, that we want to represent a ((collection)) of the numbers 2, 3, 5, 7, and 11.
+Dijital veri parçalarıyla çalışabilmek için, onu öncelikle makinenin belleğinde temsil etmenin bir yolunu bulmamız gerekecek. Örneğin, 2, 3, 5, 7 ve 11 sayılar ((koleksiyon))unu temsil etmek istediğimizi varsayalım.
 
 {{index string}}
 
-We could get creative with strings—after all, strings can have any length, so we can put a lot of data into them—and use `"2 3 5 7 11"` as our representation. But this is awkward. You'd have to somehow extract the digits and convert them back to numbers to access them.
+Dizelerle yaratıcı olabiliriz—sonuçta, dizelerin herhangi bir uzunluğu olabilir, bu yüzden içine çok fazla veri koyabiliriz—ve `"2 3 5 7 11"` değerini temsilimiz olarak kullanabiliriz. Ancak bu garip bir yaklaşım. Sayıları dizeden çıkarıp tekrar erişmek için onları sayı türü değerlere dönüştürmeniz gerekir.
 
 {{index [array, creation], "[] (array)"}}
 
-Fortunately, JavaScript provides a data type specifically for storing sequences of values. It is called an _array_ and is written as a list of values between ((square brackets)), separated by commas.
+Neyse ki, JavaScript, değer dizilerini depolamak için özel bir veri türü sağlar. Buna _dizi_ denir ve virgüllerle ayrılmış bir değer listesi olarak yazılır, ((köşeli parantezler)) arasında bulunur.
 
 ```
 let listOfNumbers = [2, 3, 5, 7, 11];
@@ -68,24 +68,24 @@ console.log(listOfNumbers[2 - 1]);
 
 {{index "[] (subscript)", [array, indexing]}}
 
-The notation for getting at the elements inside an array also uses ((square brackets)). A pair of square brackets immediately after an expression, with another expression inside of them, will look up the element in the left-hand expression that corresponds to the _((index))_ given by the expression in the brackets.
+Bir dizideki elemanlara erişim için kullanılan gösterim için ((köşeli parantezler)) kullanılır. İfadeyi takip eden bir çift köşeli parantez ve bu köşeli parantezler içinde başka bir ifade ile dizi içerisindeki _((index))_e denk gelen elementi arayacaktır.
 
 {{id array_indexing}}
 {{index "zero-based counting"}}
 
-The first index of an array is zero, not one. So the first element is retrieved with `listOfNumbers[0]`. Zero-based counting has a long tradition in technology and in certain ways makes a lot of sense, but it takes some getting used to. Think of the index as the amount of items to skip, counting from the start of the array.
+Bir dizinin ilk dizini sıfırdır, bir değil. Bu nedenle, ilk eleman `listOfNumbers[0]` ile alınır. Sıfır tabanlı sayma, teknolojide uzun bir geleneğe sahiptir ve belirli yönlerden oldukça mantıklıdır, ancak alışması biraz zaman alır. İndeksi, dizinin başlangıcından itibaren atlama miktarı olarak düşünün.
 
 {{id properties}}
 
-## Properties
+## Özellikler
 
 {{index "Math object", "Math.max function", ["length property", "for string"], [object, property], "period character", [property, access]}}
 
-We've seen a few suspicious-looking expressions like `myString.length` (to get the length of a string) and `Math.max` (the maximum function) in past chapters. These are expressions that access a _property_ of some value. In the first case, we access the `length` property of the value in `myString`. In the second, we access the property named `max` in the `Math` object (which is a collection of mathematics-related constants and functions).
+Geçmiş bölümlerde `myString.length` (bir dizgenin uzunluğunu almak için) ve `Math.max` (maksimum fonksiyonu) gibi şüpheli görünen bazı ifadeler gördük. Bunlar, bir değerin _özelliğine_ erişen ifadelerdir. İlk durumda, `myString` değeri içindeki `length` özelliğine erişiriz. İkincisinde, matematikle ilgili sabitler ve fonksiyonlardan oluşan bir koleksiyon olan `Math` nesnesindeki `max` adlı özelliğe erişiriz.
 
 {{index [property, access], null, undefined}}
 
-Almost all JavaScript values have properties. The exceptions are `null` and `undefined`. If you try to access a property on one of these nonvalues, you get an error.
+Hemen hemen tüm JavaScript değerlerinin özellikleri vardır. İstisnalar `null` ve `undefined` değerleridir. Bu değer olmayan değerlerden birinde bir özelliğe erişmeye çalışırsanız, bir hata alırsınız.
 
 ```{test: no}
 null.length;
@@ -95,23 +95,23 @@ null.length;
 {{indexsee "dot character", "period character"}}
 {{index "[] (subscript)", "period character", "square brackets", "computed property", [property, access]}}
 
-The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access a property on `value`—but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is _evaluated_ to get the property name. Whereas `value.x` fetches the property of `value` named "x", `value[x]` takes the value of the variable named `x` and uses the that, converted to a string, as the property name.
+JavaScript'te özelliklere erişmenin iki temel yolu vardır: bir nokta ile ve köşeli parantezlerle. Hem `value.x` hem de `value[x]`, değer üzerinde bir özelliğe erişir—ancak erişilen özellik tam olarak aynı özellik olmayabilir. Fark, `x`'in nasıl yorumlandığındadır. Nokta kullanırken, noktanın sonrasındaki kelime, erişilmek istenen özelliğin adıdır. Köşeli parantezler kullanırken, parantezler arasındaki ifade, erişilmek istenen özelliğin adını almak için _değerlendirilir_. Nokta kullanılırken, `value.x` ifadesi `value` objesinin "x" adlı özelliğini alırken, köşeli parantezler kullanılan `value[x]` ifadesinde, `x` adındaki değişkenin değerini alır ve bunu bir dizeye dönüştürerek özellik adı olarak kullanır.
 
-So if you know that the property you are interested in is called _color_, you say `value.color`. If you want to extract the property named by the value held in the binding `i`, you say `value[i]`. Property names are strings. They can be any string, but the dot notation works only with names that look like valid binding names. So if you want to access a property named _2_ or _John Doe_, you must use square brackets: `value[2]` or `value["John Doe"]`.
+Yani eğer ilgilendiğiniz özelliğin adının _color_ olduğunu biliyorsanız, `value.color` yazarsınır. Eğer `i` adlı bağlantının sahip olduğunu değerin adını taşıyan özelliği çıkarmak istiyorsanız, `value[i]` yazarsınız. Özellik adları dizelerdir. Herhangi bir dize olabilirler, ancak nokta notasyonu yalnızca geçerli bağlantı adları gibi görünen adlarla çalışır. Dolayısıyla _2_ veya _John Doe_ adında bir özelliğe erişmek istiyorsanız, köşeli parantezleri kullanmanız gerekir: `value[2]` veya `value["John Doe"]`.
 
-The elements in an ((array)) are stored as the array's properties, using numbers as property names. Because you can't use the dot notation with numbers and usually want to use a binding that holds the index anyway, you have to use the bracket notation to get at them.
+Bir ((dizideki)) öğeler, dizi özelliklerinin bir parçasıdır ve sayıları özellik adları olarak kullanarak saklanır. Sayılarla nokta notasyonunu kullanamazsınız ve genellikle zaten index değerini tutan bir bağlantı kullanmak istersiniz, bu nedenle onlara erişmek için köşeli parantez notasyonunu kullanmanız gerekir.
 
 {{index ["length property", "for array"], [array, "length of"]}}
 
-Just like strings, arrays have a `length` property that tells us how many elements it has.
+Dizilerin, dizelerin de sahip olduğu gibi kaç öğe olduğunu söyleyen bir `length` özelliği vardır.
 
 {{id methods}}
 
-## Methods
+## Metodlar
 
 {{index [function, "as property"], method, string}}
 
-Both string and array values contain, in addition to the `length` property, a number of properties that hold function values.
+Dizelerin ve dizilerin `length` özelliği ötesinde fonksiyon değerleri tutan bir dizi özelliklere de sahiptirler.
 
 ```
 let doh = "Doh";
@@ -123,17 +123,17 @@ console.log(doh.toUpperCase());
 
 {{index "case conversion", "toUpperCase method", "toLowerCase method"}}
 
-Every string has a `toUpperCase` property. When called, it will return a copy of the string in which all letters have been converted to uppercase. There is also `toLowerCase`, going the other way.
+Her dizenin bir `toUpperCase` özelliği vardır. Çağrıldığında, tüm harflerin büyük harfe dönüştürüldüğü bir dize kopyası döndürür. Ayrıca, tersi olan `toLowerCase` özelliği de vardır.
 
 {{index "this binding"}}
 
-Interestingly, even though the call to `toUpperCase` does not pass any arguments, the function somehow has access to the string `"Doh"`, the value whose property we called. How this works is described in [Chapter ?](object#obj_methods).
+İlginç bir şekilde, `toUpperCase` özelliğine yapılan çağrıya herhangi bir argüman vermediğimiz halde fonksiyonunu çağırdığımız `"Doh"` dize değerine erişebilmektedir. Bunun nasıl çalıştığı, [Bölüm ?](object#obj_methods)'da açıklanmıştır.
 
-Properties that contain functions are generally called _methods_ of the value they belong to, as in "`toUpperCase` is a method of a string".
+Fonksiyonları içeren özellikler genellikle ait oldukları değerin _metodları_ olarak adlandırılır, örneğin `toUpperCase` bir dize değerinin yöntemidir.
 
 {{id array_methods}}
 
-This example demonstrates two methods you can use to manipulate arrays:
+Bu örnek dizileri manipüle etmek için kullanabileceğiniz iki metodu göstermektedir:
 
 ```
 let sequence = [1, 2, 3];
@@ -149,21 +149,21 @@ console.log(sequence);
 
 {{index collection, array, "push method", "pop method"}}
 
-The `push` method adds values to the end of an array, and the `pop` method does the opposite, removing the last value in the array and returning it.
+`push` metodu dizinin sonuna değerler eklerken `pop` metoduysa tam tersi yapar, yani sonundan bir değer çıkarıp bunu değer olarak döndürür.
 
 {{index ["data structure", stack]}}
 
-These somewhat silly names are the traditional terms for operations on a _((stack))_. A stack, in programming, is a data structure that allows you to push values into it and pop them out again in the opposite order so that the thing that was added last is removed first. These are common in programming—you might remember the function ((call stack)) from [the previous chapter](functions#stack), which is an instance of the same idea.
+Bu biraz komik isimler, bir ((yığın)) üzerinde yapılan işlemler için geleneksel terimlerdir. Bir yığın, programlamada, değerleri yığına iterken ve sonra onları ters sırayla geri çekerken, en son eklenen şeyin ilk önce çıkarılmasına izin veren bir veri yapısıdır. Bunlar programlamada yaygındır—[önceki bölümden](functions#stack) hatırlayabileceğiniz gibi, buna bir örnek olan ((çağrı yığını))nı ele almıştık.
 
-## Objects
+## Objeler
 
 {{index journal, "weresquirrel example", array, record}}
 
-Back to the weresquirrel. A set of daily log entries can be represented as an array. But the entries do not consist of just a number or a string—each entry needs to store a list of activities and a Boolean value that indicates whether Jacques turned into a squirrel or not. Ideally, we would like to group these together into a single value and then put those grouped values into an array of log entries.
+Sincap hikayesine geri dönelim. Günlük yaşanan olayların bir küme olarak temsil edilmesi için dizi veri yapısı kullanılabilir. Ancak, girişler sadece bir sayı veya dize değildir—her girişin bir dizi etkinliği depolaması ve Jacques'nın bir sincapa dönüşüp dönüşmediğini gösteren bir Boolean değerini barındırması gerekir. İdeal olarak, bunları tek bir değere gruplamak ve sonra bu gruplanmış değerleri bir diziye teker teker koymaktır.
 
 {{index [syntax, object], [property, definition], [braces, object], "{} (object)"}}
 
-Values of the type _((object))_ are arbitrary collections of properties. One way to create an object is by using braces as an expression.
+_((Obje))_ türündeki değerler, farklı özelliklerden koleksiyonlarıdır. Nesne oluşturmanın bir yolu, süslü parantezler ifadesini kullanmaktır.
 
 ```
 let day1 = {
@@ -181,7 +181,7 @@ console.log(day1.wolf);
 
 {{index [quoting, "of object properties"], "colon character"}}
 
-Inside the braces, there is a list of properties separated by commas. Each property has a name followed by a colon and a value. When an object is written over multiple lines, indenting it like in the example helps with readability. Properties whose names aren't valid binding names or valid numbers have to be quoted.
+Parantezlerin içinde, virgüllerle ayrılmış bir özellik listesi bulunur. Her özelliğin bir adı ve ardından iki nokta üst üste ve bir değeri vardır. Bir obje yazıldığında, örnekte olduğu gibi girintili yapmak, okunabilirlik konusunda yardımcı olur. Adları geçerli bağlantı adı olmayan veya geçerli olmayan bir sayı olan özellikler tırnak içine alınmalıdır.
 
 ```
 let descriptions = {
@@ -192,23 +192,23 @@ let descriptions = {
 
 {{index [braces, object]}}
 
-This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they start a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}`, since the braces will be interpreted as a function body, and have to put a set of parentheses around the object to make it clear it is an expression.
+Bu, parantezlerin JavaScript'te _iki_ anlama geldiği anlamına gelir. Bir ((beyan))ın başında olduklarında, bir beyanlar ((bloğunu)) başlatırlar. Herhangi bir başka konumda, bir nesnenin oluşturulmasını sağlarlar. Neyse ki, bir beyanı süslü parantezle başlatmak pek nadiren kullanışlıdır, bu yüzden bu ikisi arasındaki belirsizlik pek bir problem değildir. Bu iki durumun çakıştığı tek durum, bir kısayol ok fonksiyonundan değer olarak bir nesne döndürmek istediğinizde ortaya çıkar—`n => {prop: n}` yazamazsınız çünkü süslü parantezler fonksiyon gövdesi olarak yorumlanacaktır, obje olduğunu belirtmek için nesnenin etrafına bir parantez kümesi koymak zorundasınız.
 
 {{index undefined}}
 
-Reading a property that doesn't exist will give you the value `undefined`.
+Mevcut olmayan bir özelliği okumak size `undefined` değerini verecektir.
 
 {{index [property, assignment], mutability, "= operator"}}
 
-It is possible to assign a value to a property expression with the `=` operator. This will replace the property's value if it already existed or create a new property on the object if it didn't.
+Bir özellik ifadesine bir değer atamak mümkündür. Bu, özellik zaten varsa değerini değiştirir, eğer yoksa da verilend değeri barındıran yeni bir özellik oluşturur.
 
 {{index "tentacle (analogy)", [property, "model of"], [binding, "model of"]}}
 
-To briefly return to our tentacle model of ((binding))s—property bindings are similar. They _grasp_ values, but other bindings and properties might be holding onto those same values. You may think of objects as octopuses with any number of tentacles, each of which has a name tattooed on it.
+Kısaca ((bağlantı))larımızın ahtapot dokungaç modeline geri dönersek—özellik bağlantılarının da onlara benzer olduğunu görürüz. Değerleri kavrarlar ve kavradıkları değerler diğer bağlantı ve özellikler tarafından da sahip olunabilirdir. Nesneleri herhangi bir sayıda üzerine isimler dövmelenmiş dokungaçları olan bir ahtapot olarak düşünebilirsiniz.
 
 {{index "delete operator", [property, deletion]}}
 
-The `delete` operator cuts off a tentacle from such an octopus. It is a unary operator that, when applied to an object property, will remove the named property from the object. This is not a common thing to do, but it is possible.
+`delete` operatörü, böyle bir ahtapotun dokungaçlarından birini keser. Bu tekil bir operatördür ve herhangi bir nesne özelliğine uygulandığında, adı verilen özelliği nesneden kaldırır. Bu yaygın bir şey değildir, ancak mümkündür.
 
 ```
 let anObject = {left: 1, right: 2};
@@ -225,18 +225,18 @@ console.log("right" in anObject);
 
 {{index "in operator", [property, "testing for"], object}}
 
-The binary `in` operator, when applied to a string and an object, tells you whether that object has a property with that name. The difference between setting a property to `undefined` and actually deleting it is that, in the first case, the object still _has_ the property (it just doesn't have a very interesting value), whereas in the second case the property is no longer present and `in` will return `false`.
+İkili `in` operatörü, bir dizeye veya bir nesneye uygulandığında, bu nesnenin o ada sahip bir özelliği olup olmadığını size söyler. Bir özelliği `undefined` değerini vermek ve gerçekten silmek arasındaki fark, ilk durumda nesnenin _hala özelliğe sahip olmasıdır_ (sadece çok ilginç bir değere sahip değil), ikinci durumda ise özelliğin artık mevcut olmaması ve `in` ikili operatörünün `false` değerini döndürmesidir.
 
 {{index "Object.keys function"}}
 
-To find out what properties an object has, you can use the `Object.keys` function. You give it an object, and it returns an array of strings—the object's property names.
+Bir nesnenin hangi özelliklere sahip olduğunu öğrenmek için `Object.keys` fonksiyonunu kullanabilirsiniz. Bu fonksiyona argüman olarak nesne verirsiniz ve size nesnenin özellik adlarını içnide barındıran bir dizi döndürür.
 
 ```
 console.log(Object.keys({x: 0, y: 0, z: 2}));
 // → ["x", "y", "z"]
 ```
 
-There's an `Object.assign` function that copies all properties from one object into another.
+Bir nesneden başka bir nesneye tüm özellikleri kopyalayan bir `Object.assign` fonksiyonu vardır.
 
 ```
 let objectA = {a: 1, b: 2};
@@ -247,11 +247,11 @@ console.log(objectA);
 
 {{index array, collection}}
 
-Arrays, then, are just a kind of object specialized for storing sequences of things. If you evaluate `typeof []`, it produces `"object"`. You can see them as long, flat octopuses with all their tentacles in a neat row, labeled with numbers.
+Öyleyse dizileri belirli bir sırada olan şeylerin dizilerini depolamak için özelleştirilmiş bir nesne türü olarak düşünebiliriz. `typeof []` ifadesini değerlendirirseniz, `"object"` değerini ürettiğini gözlemlersiniz. Onları, uzun, tüm tentakülleri düzenli bir sırayla ve sayılarla dövmelenmiş düz ahtapotlar olarak da düşünebilirsiniz.
 
 {{index journal, "weresquirrel example"}}
 
-We will represent the journal that Jacques keeps as an array of objects.
+Jacques'ın tuttuğu günlüğü, nesnelerden oluşan bir dizi olarak temsil edeceğiz.
 
 ```{test: wrap}
 let journal = [
@@ -268,19 +268,19 @@ let journal = [
 ];
 ```
 
-## Mutability
+## Değiştirilebilirlik
 
-We will get to actual programming _real_ soon now. First there's one more piece of theory to understand.
+Çok yakında _gerçek_ programlamaya geçeceğiz. İlk olarak, anlaşılması gereken biraz daha teori var.
 
 {{index mutability, "side effect", number, string, Boolean, [object, mutability]}}
 
-We saw that object values can be modified. The types of values discussed in earlier chapters, such as numbers, strings, and Booleans, are all _((immutable))_—it is impossible to change values of those types. You can combine them and derive new values from them, but when you take a specific string value, that value will always remain the same. The text inside it cannot be changed. If you have a string that contains `"cat"`, it is not possible for other code to change a character in your string to make it spell `"rat"`.
+Önceki bölümlerde tartışılan değer sayılar, dizeler ve Booleans gibi türlerinin tümü ((_değiştirilemezdir_)). Onları birleştirebilir ve onlardan yeni değerler türetebilirsiniz, ancak belirli bir dize değeri aldığınızda, o değer her zaman aynı kalacaktır. İçindeki metin değiştirilemez. İçinde `"cat"` yazan bir dizeniz olduğunda, başka bir kodun dizenizdeki bir karakteri değiştirerek `"rat"` şeklinde yazmasına izin verilmez.
 
-Objects work differently. You _can_ change their properties, causing a single object value to have different content at different times.
+Nesneler farklı çalışır. Özelliklerini _değiştirebilirsiniz_, böylece tek bir nesne değeri farklı zamanlarda farklı içeriğe sahip olabilir.
 
 {{index [object, identity], identity, [memory, organization], mutability}}
 
-When we have two numbers, 120 and 120, we can consider them precisely the same number, whether or not they refer to the same physical bits. With objects, there is a difference between having two references to the same object and having two different objects that contain the same properties. Consider the following code:
+120 ve 120 gibi iki sayımız olduğunda, onları depolandıkları fiziksel bitlerin yerlerinin aynı olup olmadığına bakmaksızın tam olarak aynı sayı olarak düşünebiliriz. Objelerde, aynı nesnenin depolandığı alana olan iki referansa sahip olmanın ve aynı özelliklere sahip iki farklı nesnenin bir farkı vardır. Aşağıdaki kodu düşünün:
 
 ```
 let object1 = {value: 10};
@@ -301,11 +301,11 @@ console.log(object3.value);
 
 {{index "tentacle (analogy)", [binding, "model of"]}}
 
-The `object1` and `object2` bindings grasp the _same_ object, which is why changing `object1` also changes the value of `object2`. They are said to have the same _identity_. The binding `object3` points to a different object, which initially contains the same properties as `object1` but lives a separate life.
+`object1` ve `object2` bağlantıları aynı nesneyi tutar, bu yüzden `object1i` değiştirmek `object2` bağlantısının değerini değiştirir. Bunların aynı _kimliğe_ sahip oldukları söylenir. `object3` bağlantısı, başlangıçta `object1` ile aynı özellik ve değerlere sahip ancak ayrı bir yaşama sahip farklı bir objeye işaret eder.
 
 {{index "const keyword", "let keyword", [binding, "as state"]}}
 
-Bindings can also be changeable or constant, but this is separate from the way their values behave. Even though number values don't change, you can use a `let` binding to keep track of a changing number by changing the value the binding points at. Similarly, though a `const` binding to an object can itself not be changed and will continue to point at the same object, the _contents_ of that object might change.
+Bağlantılar ayrıca değiştirilebilir veya sabit olabilir, ancak bu, değerlerinin nasıl davrandığından ayrıdır. Sayı değerleri değişmese de, bir `let` bağlantısını, bağlantının işaret ettiği değeri değiştirerek değişen bir sayıyı takip etmek için kullanabilirsiniz. Benzer şekilde, bir nesneye yapılan bir `const` bağlantısı kendisi değiştirilemeyip sadece aynı nesneye işaret etmeye devam etse de, o nesnenin içerisindeki özellikler değişebilir, bu durumda nesne aynı nesnedir ve kimliği değişmemiştir ancak aynı kimliğe sahip bu nesnenin içerisindeki özellikler değişmiştir gibi düşünebilirsiniz.
 
 ```{test: no}
 const score = {visitors: 0, home: 0};
@@ -317,13 +317,13 @@ score = {visitors: 1, home: 1};
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
-When you compare objects with JavaScript's `==` operator, it compares by identity: it will produce `true` only if both objects are precisely the same value. Comparing different objects will return `false`, even if they have identical properties. There is no "deep" comparison operation built into JavaScript, which compares objects by contents, but it is possible to write it yourself (which is one of the [exercises](data#exercise_deep_compare) at the end of this chapter).
+JavaScript'in `==` operatörüyle nesneleri karşılaştırdığınızda, kimliğe göre karşılaştırır: Yalnızca her iki nesne de tam olarak aynı değerse `true` değerini üretecektir. Farklı nesneleri karşılaştırmak içeriklerinin tamamen aynı özellik ve değerlerden oluşsa dahil `false` değerinin döndürülmesine sebep olur. JavaScript'e objeleri o objelerin içeriklerine göre karşılaştıran yerleşik "derin" bir karşılaştırma işlemi bulunmamaktadır, ancak içeriklerine göre nesneleri karşılaştıracak bir fonksiyonu kenidiniz yazmanız mümlündür(bu, bu bölümün sonundaki [alıştırmalardan](data#exercise_deep_compare) biridir).
 
-## The lycanthrope's log
+## Sincap kurtadamının günlüğü
 
 {{index "weresquirrel example", lycanthropy, "addEntry function"}}
 
-So, Jacques starts up his JavaScript interpreter and sets up the environment he needs to keep his ((journal)).
+Bu arada, Jacques JavaScript yorumlayıcısını başlatır ve ((günlüğünü)) tutması için gereken ortamı kurar.
 
 ```{includeCode: true}
 let journal = [];
@@ -335,9 +335,9 @@ function addEntry(events, squirrel) {
 
 {{index [braces, object], "{} (object)", [property, definition]}}
 
-Note that the object added to the journal looks a little odd. Instead of declaring properties like `events: events`, it just gives a property name. This is shorthand that means the same thing—if a property name in brace notation isn't followed by a value, its value is taken from the binding with the same name.
+Günlüğe eklenen nesne biraz garip görünüyor. Özelliklerin `events: events` gibi bildirilmesi yerine, sadece bir özellik adı verilmiştir. Bu, aynı anlama gelir- eğer parantez notasyonundaki bir özellik adı bir değerle takip edilmiyorsa, değeri o özellik adıyla aynı adda olan bir bağlantının değerinden alınır.
 
-So then, every evening at 10 p.m.—or sometimes the next morning, after climbing down from the top shelf of his bookcase—Jacques records the day.
+Böylelikle, her akşam saat 10.00'da—veya bazen ertesi sabah, kitaplığının en üst rafından indikten sonra—Jacques günü kaydeder.
 
 ```
 addEntry(["work", "touched tree", "pizza", "running",
@@ -348,21 +348,21 @@ addEntry(["weekend", "cycling", "break", "peanuts",
           "beer"], true);
 ```
 
-Once he has enough data points, he intends to use statistics to find out which of these events may be related to the squirrelifications.
+Yeterince veri noktasına sahip olduktan sonra, bu olaylardan hangilerinin sincaplaşmayla ilişkili olabileceğini bulmak için istatistikleri kullanmayı amaçlıyor.
 
 {{index correlation}}
 
-_Correlation_ is a measure of ((dependence)) between statistical variables. A statistical variable is not quite the same as a programming variable. In statistics you typically have a set of _measurements_, and each variable is measured for every measurement. Correlation between variables is usually expressed as a value that ranges from -1 to 1. Zero correlation means the variables are not related. A correlation of one indicates that the two are perfectly related—if you know one, you also know the other. Negative one also means that the variables are perfectly related but that they are opposites—when one is true, the other is false.
+_Korelasyon_, istatistiksel değişkenler arasındaki ((bağımlılık)) ölçüsüdür ve istatistiksel değişken programlamadaki değişkenle tam olarak aynı değildir. İstatistikte genelde belirli ölçümler vardır ve her değişken bu ölçümlerle ölçülmektedir. Değişkenler arasındaki korelasyon genellikle -1 ile 1 arasında değişen bir değer olarak ifade edilir. Sıfır korelasyon, değişkenlerin ilişkili olmadığı anlamına gelir. Değeri bir olan bir korelasyon, iki değişkenin mükemmel bir şekilde ilişkili olduğunu gösterir - birini bildiğinizde, diğerini de bilmenizi sağlar. Değeri eksi bir olan bir korelasyon, değişkenlerin mükemmel bir şekilde ilişkili olduğunu ancak bunların zıt olduğunu gösterir - biri doğru olduğunda, diğerinin olmadığını bilmenizi sağlar.
 
 {{index "phi coefficient"}}
 
-To compute the measure of correlation between two Boolean variables, we can use the _phi coefficient_ (_ϕ_). This is a formula whose input is a ((frequency table)) containing the number of times the different combinations of the variables were observed. The output of the formula is a number between -1 and 1 that describes the correlation.
+İki Boolean değişken arasındaki korelasyon ölçümünü hesaplamak için _fi katsayısını_ (_ϕ_) kullanabiliriz. Bu, girdisi değişkenlerin kaç kere gözlemlendiğini içinde barındıran bir ((frekans tablosu)) olan bir formüldür. Formülün çıktısı, korelasyonu açıklayan -1 ile 1 arasında bir sayıdır.
 
-We could take the event of eating ((pizza)) and put that in a frequency table like this, where each number indicates the amount of times that combination occurred in our measurements:
+Yeme olayını içindeki her sayı ölçülerimizde o kombinasyonun kaç kez meydana geldiğini gösteren bir pizza frekans tablosuna yerleştirebiliriz:
 
 {{figure {url: "img/pizza-squirrel.svg", alt: "A two-by-two table showing the pizza variable on the horizontal, and the squirrel variable on the vertical axis. Each cell show how many time that combination occurred. In 76 cases, neither happened. In 9 cases, only pizza was true. In 4 cases only squirrel was true. And in one case both occurred.", width: "7cm"}}}
 
-If we call that table _n_, we can compute _ϕ_ using the following formula:
+Eğer o tabloya _n_ dersek, _ϕ_ değerini aşağıdaki formülle hesaplayabiliriz:
 
 {{if html
 
@@ -376,27 +376,27 @@ if}}
 
 if}}
 
-(If at this point you're putting the book down to focus on a terrible flashback to 10th grade math class—hold on! I do not intend to torture you with endless pages of cryptic notation—it's just this one formula for now. And even with this one, all we do is turn it into JavaScript.)
+(Eğer bu noktada kitabı bırakıp 10. sınıf matematik dersine yoğunlaşmaya başladıysanız—bekleyin! Sizi anlaşılmaz işaretlerle dolu sonsuz sayfalık bir işkenceye tabi tutmak niyetinde değilim—şimdilik sadece bu formül. Ve bu formülle yapacağımız tek şey onu sadece JavaScript'e dönüştürmek.)
 
-The notation [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex} indicates the number of measurements where the first variable (squirrelness) is false (0) and the second variable (pizza) is true (1). In the pizza table, [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex} is 9.
+Notasyon [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex}, ilk değişkenin (sincaplık) yanlış (0) ve ikinci değişkenin (pizza) doğru (1) olduğu ölçümlerin sayısını gösterir. Pizza tablosunda, [_n_~01~]{if html}[[$n_{01}$]{latex}]{if tex} 9'dur.
 
-The value [_n_~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} refers to the sum of all measurements where the first variable is true, which is 5 in the example table. Likewise, [_n_~•0~]{if html}[[$n_{\bullet0}$]{latex}]{if tex} refers to the sum of the measurements where the second variable is false.
+Değer [_n_~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex}, ilk değişkenin doğru olduğu tüm ölçümlerin toplamını ifade eder, örneğin tabloda 5'tir. Benzer şekilde, [_n_~•0~]{if html}[[$n_{\bullet0}$]{latex}]{if tex} değeri, ikinci değişkenin yanlış olduğu ölçümlerin toplamını ifade eder.
 
 {{index correlation, "phi coefficient"}}
 
-So for the pizza table, the part above the division line (the dividend) would be 1×76−4×9 = 40, and the part below it (the divisor) would be the square root of 5×85×10×80, or [√340000]{if html}[[$\sqrt{340000}$]{latex}]{if tex}. This comes out to _ϕ_ ≈ 0.069, which is tiny. Eating ((pizza)) does not appear to have influence on the transformations.
+Dolayısıyla pizza tablosu için, bölümün üst kısmı (pay) 1×76−4×9 = 40 olur ve alt kısmı (payda) 5×85×10×80'ın karekökü, veya [√340000]{if html}[[$\sqrt{340000}$]{latex}]{if tex}. Bu, ϕ ≈ 0.069 olur, yani çok küçüktür. Pizza yemenin dönüşümler üzerinde bir etkisi olmadığı görünmektedir.
 
-## Computing correlation
+## Korelasyonu hesaplama
 
 {{index [array, "as table"], [nesting, "of arrays"]}}
 
-We can represent a two-by-two ((table)) in JavaScript with a four-element array (`[76, 9, 4, 1]`). We could also use other representations, such as an array containing two two-element arrays (`[[76, 9], [4, 1]]`) or an object with property names like `"11"` and `"01"`, but the flat array is simple and makes the expressions that access the table pleasantly short. We'll interpret the indices to the array as two-((bit)) ((binary number))s, where the leftmost (most significant) digit refers to the squirrel variable and the rightmost (least significant) digit refers to the event variable. For example, the binary number `10` refers to the case where Jacques did turn into a squirrel, but the event (say, "pizza") didn't occur. This happened four times. And since binary `10` is 2 in decimal notation, we will store this number at index 2 of the array.
+JavaScript'te iki satır iki sütun ((tablo))'yu dört elemanlı bir dizi ile temsil edebiliriz (`[76, 9, 4, 1]`). Ayrıca, diğer temsilleri kullanabiliriz, örneğin, iki iki elemanlı dizi içeren bir dizi (`[[76, 9], [4, 1]]`) veya `"11"` ve `"01"` gibi özellik adlarına sahip bir nesne, ancak düz dizi basittir ve tabloya erişimi kolaylaştırır. Dizinin index değerlerini iki bitlik ((ikili sayı))lar olarak yorumlayacak, soldaki (en önemli) basamak sincap değişkenine ve sağdaki (en önemsiz) basamak olay değişkenine atıfta bulunmasını sağlayacağız. Örneğin, ikili sayı `10`, Jacques'nin bir sincap haline geldiği ancak olayın (örneğin, "pizza") gerçekleşmediği durumu ifade eder. Bu dört kez oldu. Ve iki gösterimdeki `10` sayısı ondalık gösterimde 2 olduğundan ötürü bu sayıyı dizinin 2. index değer pozisyonuna kaydedeceğiz.
 
 {{index "phi coefficient", "phi function"}}
 
 {{id phi_function}}
 
-This is the function that computes the _ϕ_ coefficient from such an array:
+Böyle bir diziyle ϕ katsayısını hesaplayan fonksiyon budur:
 
 ```{includeCode: strip_log, test: clip}
 function phi(table) {
@@ -413,15 +413,15 @@ console.log(phi([76, 9, 4, 1]));
 
 {{index "square root", "Math.sqrt function"}}
 
-This is a direct translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is the square root function, as provided by the `Math` object in a standard JavaScript environment. We have to add two fields from the table to get fields like [n~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} because the sums of rows or columns are not stored directly in our data structure.
+Bu, _ϕ_ formülünün JavaScript'e doğrudan çevirisidir. `Math.sqrt`, standart bir JavaScript ortamında `Math` nesnesi tarafından sağlanan karekök işlemidir. [n~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} gibi alanları elde etmek için tablodan iki alan eklememiz gerekmektedir çünkü satır veya sütunların toplamları doğrudan veri yapımızda saklanmamaktadır.
 
 {{index "JOURNAL data set"}}
 
-Jacques kept his journal for three months. The resulting ((data set)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
+Jacques günlüğünü üç ay boyunca tuttu. Ortaya çıkan ((veri seti)), bu bölüm için[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book} kod [kum havuzunda](https://eloquentjavascript.net/code#4) mevcuttur, burada `JOURNAL` bağlantısında saklanır ve bir [dosya](https://eloquentjavascript.net/code/journal.js) halinde indirilebilir.
 
 {{index "tableFor function"}}
 
-To extract a two-by-two ((table)) for a specific event from the journal, we must loop over all the entries and tally how many times the event occurs in relation to squirrel transformations.
+Günlükten belirli bir olay için iki satır iki sütun bir ((tablo)) çıkarmak adına tüm girişler üzerinde döngü yapıp olayın sincap dönüşümlerine göre kaç kere yaşandığını saymalıyız.
 
 ```{includeCode: strip_log}
 function tableFor(event, journal) {
@@ -441,21 +441,21 @@ console.log(tableFor("pizza", JOURNAL));
 
 {{index [array, searching], "includes method"}}
 
-Arrays have an `includes` method that checks whether a given value exists in the array. The function uses that to determine whether the event name it is interested in is part of the event list for a given day.
+Dizilerin `includes` metodu, verilen bir değerin dizide var olup olmadığını kontrol eder. Fonksiyon, bunu kullanır ilgilendiği olayın o günkü olay listesinin bir parçası olup olmadığını belirlemek için kullanır.
 
 {{index [array, indexing]}}
 
-The body of the loop in `tableFor` figures out which box in the table each journal entry falls into by checking whether the entry contains the specific event it's interested in and whether the event happens alongside a squirrel incident. The loop then adds one to the correct box in the table.
+`tableFor` içindeki döngünün gövdesi, her günlük girişinin özel olarak ilgilenilen olayı içerip içermediğini ve olayın bir sincap olayıyla aynı anda gerçekleşip gerçekleşmediğini kontrol ederek tablodaki hangi kutuya düştüğünü belirler. Döngü daha sonra tablodaki doğru kutuya bir ekler.
 
-We now have the tools we need to compute individual ((correlation))s. The only step remaining is to find a correlation for every type of event that was recorded and see whether anything stands out.
+Şimdi, bireysel ((korelasyon))ları hesaplamak için ihtiyacımız olan araçlara sahibiz. Kalan tek adım, kaydedilen her tür olay için bir korelasyon bulmak ve herhangi bir şeyin dikkat çekip çekmediğini görmektir.
 
 {{id for_of_loop}}
 
-## Array loops
+## Dizi döngüleri
 
 {{index "for loop", loop, [array, iteration]}}
 
-In the `tableFor` function, there's a loop like this:
+`tableFor` fonksiyonunda şöyle bir döngü var:
 
 ```
 for (let i = 0; i < JOURNAL.length; i++) {
@@ -464,9 +464,9 @@ for (let i = 0; i < JOURNAL.length; i++) {
 }
 ```
 
-This kind of loop is common in classical JavaScript—going over arrays one element at a time is something that comes up a lot, and to do that you'd run a counter over the length of the array and pick out each element in turn.
+Bu tür bir döngü, klasik JavaScript'te yaygındır—dizilerin her bir elemanını tek tek geçmek sık sık karşılaşılan bir durumdur ve bunu yapmak için dizinin uzunluğu üzerinde bir sayaç çalıştırarak sırayla her elemanı seçersiniz.
 
-There is a simpler way to write such loops in modern JavaScript.
+Modern JavaScript'te böyle döngüleri daha basit bir şekilde yazmanın bir yolu var.
 
 ```
 for (let entry of JOURNAL) {
@@ -476,15 +476,15 @@ for (let entry of JOURNAL) {
 
 {{index "for/of loop"}}
 
-When a `for` loop looks like this, with the word `of` after a variable definition, it will loop over the elements of the value given after `of`. This works not only for arrays but also for strings and some other data structures. We'll discuss _how_ it works in [Chapter ?](object).
+Bir `for` döngüsü şu şekilde görünüyorsa, bir değişken tanımından sonra `of` kelimesi varsa, `of` kelimesinden sonra verilen değerin öğeleri üzerinde döngüyü başlatır. Bu yalnızca diziler için değil dizeler ve bazı diğer veri yapıları için de çalışır. Nasıl çalıştığını [Bölüm ?](object)’de tartışacağız.
 
 {{id analysis}}
 
-## The final analysis
+## Son analiz
 
 {{index journal, "weresquirrel example", "journalEvents function"}}
 
-We need to compute a correlation for every type of event that occurs in the data set. To do that, we first need to _find_ every type of event.
+Veri setinde bulunan her tür olay için bir korelasyon hesaplamamız gerekiyor. Bunun için önce her tür olayı _bulmalıyız_.
 
 {{index "includes method", "push method"}}
 
@@ -505,9 +505,9 @@ console.log(journalEvents(JOURNAL));
 // → ["carrot", "exercise", "weekend", "bread", …]
 ```
 
-By going over all the events and adding those that aren't already in there to the `events` array, the function collects every type of event.
+Tüm olayların üzerinden geçerek, içinde var olmayanları olayları `events` dizisine ekleyerek, fonksiyon her tür olayı toplar.
 
-Using that, we can see all the ((correlation))s.
+Bunu kullanarak, tüm ((korelasyon))ları görebiliriz.
 
 ```{test: no}
 for (let event of journalEvents(JOURNAL)) {
@@ -521,7 +521,7 @@ for (let event of journalEvents(JOURNAL)) {
 // and so on...
 ```
 
-Most correlations seem to lie close to zero. Eating carrots, bread, or pudding apparently does not trigger squirrel-lycanthropy. It _does_ seem to occur somewhat more often on weekends. Let's filter the results to show only correlations greater than 0.1 or less than -0.1.
+Çoğu korelasyonun sıfıra yakın olduğu görünüyor. Havuç, ekmek veya puding yemek açıkça sincapa dönüşmeyi tetiklemiyor gibi görünüyor. Bununla birlikte, hafta sonlarında biraz daha sık meydana gelme eğiliminde olduğunu fark ediyoruz. Sonuçları, 0,1'den büyük veya -0,1'den küçük olan korelasyonları göstermek için filtreleyelim.
 
 ```{test: no, startCode: true}
 for (let event of journalEvents(JOURNAL)) {
@@ -539,9 +539,9 @@ for (let event of journalEvents(JOURNAL)) {
 // → peanuts:        0.5902679812
 ```
 
-Aha! There are two factors with a ((correlation)) that's clearly stronger than the others. Eating ((peanuts)) has a strong positive effect on the chance of turning into a squirrel, whereas brushing his teeth has a significant negative effect.
+Aha! Diğerlerinden açıkça daha güçlü bir ((korelasyon))a sahip olan iki faktör var. Fıstık yemek, bir sincap haline dönüşme şansı üzerinde güçlü bir pozitif etkiye sahipken, dişlerini fırçalamak ise önemli bir negatif etkiye sahiptir.
 
-Interesting. Let's try something.
+İlginç. Bir şey deneyelim.
 
 ```
 for (let entry of JOURNAL) {
@@ -554,23 +554,23 @@ console.log(phi(tableFor("peanut teeth", JOURNAL)));
 // → 1
 ```
 
-That's a strong result. The phenomenon occurs precisely when Jacques eats ((peanuts)) and fails to brush his teeth. If only he weren't such a slob about dental hygiene, he'd have never even noticed his affliction.
+Bu güçlü bir sonuç. Olay, Jacques fıstık yediği ve dişlerini fırçalamadığı zaman meydana geliyor. Keşke dental hijyen konusunda böylesine dikkatsiz olmasaydı, belki de bu hastalığını hiç fark etmeyecekti.
 
-Knowing this, Jacques stops eating peanuts altogether and finds that his transformations stop.
+Bunu öğrendikten sonra, Jacques fıstık yemeyi tamamen bırakır ve dönüşümlerinin durduğunu fark eder.
 
 {{index "weresquirrel example"}}
 
-But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes one last time, and lives the short and energetic life of a squirrel.
+Ancak, tamamen insanca yaşama şeklinde eksik bir şey olduğunu fark etmesi birkaç ayını alır. Vahşi maceraları olmadan Jacques kendini neredeyse hiç yaşamıyor gibi hisseder. Tam zamanlı bir vahşi hayvan olmayı tercih eder. Ormanda güzel bir ağaç ev inşa eder ve kurduğu bir fıstık ezmesi dağıtıcısına on yıllık fıstık ezmesi stoku sağladıktan sonra, son bir kez daha değişir ve bir sincap olarak kısa ve enerjik bir yaşam sürer.
 
-## Further arrayology
+## Diziler hakkında daha fazla bilgi
 
 {{index [array, methods], [method, array]}}
 
-Before finishing the chapter, I want to introduce you to a few more object-related concepts. I'll start by introducing some generally useful array methods.
+Bu bölümü bitirmeden önce, size birkaç daha objelerle ilgili kavramı tanıtmak istiyorum. Genel olarak kullanışlı birkaç dizi metodu tanıtarak başlayacağım.
 
 {{index "push method", "pop method", "shift method", "unshift method"}}
 
-We saw `push` and `pop`, which add and remove elements at the end of an array, [earlier](data#array_methods) in this chapter. The corresponding methods for adding and removing things at the start of an array are called `unshift` and `shift`.
+Bu bölümde [daha önce](data#array_methods) gördüğümüz `push` ve `pop` yöntemleri, bir dizinin sonuna eleman ekler ve kaldırır. Bir dizinin başına şeyler eklemek ve kaldırmak için karşılık gelen yöntemler `unshift` ve `shift` olarak adlandırılır.
 
 ```
 let todoList = [];
@@ -587,11 +587,11 @@ function rememberUrgently(task) {
 
 {{index "task management example"}}
 
-That program manages a queue of tasks. You add tasks to the end of the queue by calling `remember("groceries")`, and when you're ready to do something, you call `getTask()` to get (and remove) the front item from the queue. The `rememberUrgently` function also adds a task but adds it to the front instead of the back of the queue.
+Bu program, görevlerden oluşan bir kuyruğu yönetir. `remember("groceries")` çağrısıyla görevleri kuyruğun sonuna eklersiniz ve bir şey yapmaya hazır olduğunuzda, `getTask()` çağrısıyla kuyruğun önündeki öğeyi alırsınız (ve kaldırırsınız). `rememberUrgently` fonksiyonu da bir görev ekler ancak bunu kuyruğun sonuna değil önüne ekler.
 
 {{index [array, searching], "indexOf method", "lastIndexOf method"}}
 
-To search for a specific value, arrays provide an `indexOf` method. The method searches through the array from the start to the end and returns the index at which the requested value was found—or -1 if it wasn't found. To search from the end instead of the start, there's a similar method called `lastIndexOf`.
+Belirli bir değeri aramak için, diziler `indexOf` metodunu sağlar. Bu yöntem, istenen değerin bulunduğu dizinin indexini bulur ve döndürür - veya bulunamadıysa -1 değerini döndürür. Arama için dizinin sonundan başlamak isterseniz, benzer bir yöntem olan `lastIndexOf` vardır.
 
 ```
 console.log([1, 2, 3, 2, 1].indexOf(2));
@@ -600,11 +600,11 @@ console.log([1, 2, 3, 2, 1].lastIndexOf(2));
 // → 3
 ```
 
-Both `indexOf` and `lastIndexOf` take an optional second argument that indicates where to start searching.
+`indexOf` ve `lastIndexOf` her ikisi de başlamak için opsiyonel olan ikinci argüman alır ve nereden aramaya başlanacağını belirtir.
 
 {{index "slice method", [array, indexing]}}
 
-Another fundamental array method is `slice`, which takes start and end indices and returns an array that has only the elements between them. The start index is inclusive, the end index exclusive.
+Başka bir temel dizi metodu olan `slice`, başlangıç ve bitiş index değerlerini alır ve yalnızca bunlar arasındaki öğeleri içeren bir dizi döndürür. Başlangıç index değerinde bulunan değer döndürülen diziye dahilken bitiş index değerindeki  değer hariçtir.
 
 ```
 console.log([0, 1, 2, 3, 4].slice(2, 4));
@@ -615,13 +615,13 @@ console.log([0, 1, 2, 3, 4].slice(2));
 
 {{index [string, indexing]}}
 
-When the end index is not given, `slice` will take all of the elements after the start index. You can also omit the start index to copy the entire array.
+Bitiş dizini verilmediğinde, `slice` başlangıç index değerinden sonraki tüm öğeleri alır. Ayrıca tüm diziyi kopyalamak adına başlangıç index değerini de vermeyebilirsiniz.
 
 {{index concatenation, "concat method"}}
 
-The `concat` method can be used to append arrays together to create a new array, similar to what the `+` operator does for strings.
+`concat` metodu dizileri bir araya getirerek yeni bir dizi oluşturmada da kullanılabilir, bu işlem `+` operatörünün dizinlere yaptığı işleme benzerdir.
 
-The following example shows both `concat` and `slice` in action. It takes an array and an index, and it returns a new array that is a copy of the original array with the element at the given index removed.
+Aşağıdaki örnek, hem `concat` hem de `slice` metodlarının kullanımını gösteriyor. Bir dizi ve bir index değeri alıp verilen index değerindeki öğe çıkarılmış olan orijinal dizinin bir kopyasını döndürür.
 
 ```
 function remove(array, index) {
@@ -632,13 +632,13 @@ console.log(remove(["a", "b", "c", "d", "e"], 2));
 // → ["a", "b", "d", "e"]
 ```
 
-If you pass `concat` an argument that is not an array, that value will be added to the new array as if it were a one-element array.
+`concat` metoduna bir dizi olmayan bir argüman verirseniz, bu değer yeni diziye tek bir öğe barındıran bir diziymiş gibi eklenecektir.
 
-## Strings and their properties
+## Dizeler ve özellikleri
 
 {{index [string, properties]}}
 
-We can read properties like `length` and `toUpperCase` from string values. But if you try to add a new property, it doesn't stick.
+Dizin değerlerinden `length` ve `toUpperCase` gibi özellikleri okuyabiliriz. Ancak yeni bir özellik eklemeye çalışırsanız, yapışmaz.
 
 ```
 let kim = "Kim";
@@ -647,11 +647,11 @@ console.log(kim.age);
 // → undefined
 ```
 
-Values of type string, number, and Boolean are not objects, and though the language doesn't complain if you try to set new properties on them, it doesn't actually store those properties. As mentioned earlier, such values are immutable and cannot be changed.
+Dize, sayı ve Boolean türlerinin değerleri nesneler değildir ve dil bunlara yeni özellikler eklemeye çalışırsanız şikayet etmese de aslında bu özellikleri saklamaz. Daha önce belirtildiği gibi, bu tür değerler değiştirilemezler.
 
 {{index [string, methods], "slice method", "indexOf method", [string, searching]}}
 
-But these types do have built-in properties. Every string value has a number of methods. Some very useful ones are `slice` and `indexOf`, which resemble the array methods of the same name.
+Ancak, bu türlerin yerleşik özellikleri vardır. Her dize değeri bir belirli özelliklere sahiptir. Bazı çok kullanışlı olanları `slice` ve `indexOf` metodlarıdır ve aynı isimde olan dizi metodlarına benzerler.
 
 ```
 console.log("coconuts".slice(4, 7));
@@ -660,7 +660,7 @@ console.log("coconut".indexOf("u"));
 // → 5
 ```
 
-One difference is that a string's `indexOf` can search for a string containing more than one character, whereas the corresponding array method looks only for a single element.
+Bir fark, bir dizenin `indexOf` metodunun birden fazla karakter içeren bir dizeyi arayabilmesidir, oysa ilgili dizi metodu yalnızca tek bir öğe arar.
 
 ```
 console.log("one two three".indexOf("ee"));
@@ -669,7 +669,7 @@ console.log("one two three".indexOf("ee"));
 
 {{index [whitespace, trimming], "trim method"}}
 
-The `trim` method removes whitespace (spaces, newlines, tabs, and similar characters) from the start and end of a string.
+`trim` metodu, bir dizinin başından ve sonundan boşlukları (boşluklar, yeni satırlar, tab vb. karakterler) kaldırır.
 
 ```
 console.log("  okay \n ".trim());
@@ -678,7 +678,7 @@ console.log("  okay \n ".trim());
 
 {{id padStart}}
 
-The `zeroPad` function from the [previous chapter](functions) also exists as a method. It is called `padStart` and takes the desired length and padding character as arguments.
+[Önceki bölüm](functions)'deki `zeroPad` fonksiyonu aynı zamanda bir metod olarak da mevcuttur. `padStart` olarak adlandırılır ve istenen uzunluğu ve dolgu karakterini argüman olarak alır.
 
 ```
 console.log(String(6).padStart(3, "0"));
@@ -689,7 +689,7 @@ console.log(String(6).padStart(3, "0"));
 
 {{index "split method"}}
 
-You can split a string on every occurrence of another string with `split` and join it again with `join`.
+Bir dizeyi başka bir dizenin her görünümünde `split` aracılıyla bölebilir ve onu tekrar `join` ile birleştirebilirsiniz.
 
 ```
 let sentence = "Secretarybirds specialize in stomping";
@@ -702,7 +702,7 @@ console.log(words.join(". "));
 
 {{index "repeat method"}}
 
-A string can be repeated with the `repeat` method, which creates a new string containing multiple copies of the original string, glued together.
+Bir dizeyi `repeat` metodunu kullanarak tekrarlayabilirsiniz, böylelikle eski dizeyi birden fazla kez içerisinde barındıran başka yeni bir dize oluşturmuş olursunuz.
 
 ```
 console.log("LA".repeat(3));
@@ -711,7 +711,7 @@ console.log("LA".repeat(3));
 
 {{index ["length property", "for string"], [string, indexing]}}
 
-We have already seen the string type's `length` property. Accessing the individual characters in a string looks like accessing array elements (with a complication that we'll discuss in [Chapter ?](higher_order#code_units)).
+Dize türünün `length` özelliğini zaten gördük. Bir dizideki bireysel karakterlere erişmek, dizi öğelerine erişmek gibi görünür ([bölüm ?](higher_order#code_units)'da inceleyeceğimiz bir karmaşıklıkla).
 
 ```
 let string = "abc";
@@ -723,15 +723,15 @@ console.log(string[1]);
 
 {{id rest_parameters}}
 
-## Rest parameters
+## Kalan parametreleri
 
 {{index "Math.max function"}}
 
-It can be useful for a function to accept any number of ((argument))s. For example, `Math.max` computes the maximum of _all_ the arguments it is given.
+Bir fonksiyonunun belirli olmayan, herhangi bir sayıda argüman kabul etmesi yararlı olabilir. Örneğin, `Math.max`, verildiğinde tüm verilen argümanların maksimumunu hesaplar.
 
 {{index "period character", "max example", spread, [array, "of rest arguments"]}}
 
-To write such a function, you put three dots before the function's last ((parameter)), like this:
+Böyle bir fonksiyon yazmak için, fonksiyonun son ((parametresi))nın önüne üç nokta koyarsınız:
 
 ```{includeCode: strip_log}
 function max(...numbers) {
@@ -745,11 +745,11 @@ console.log(max(4, 1, 9, -2));
 // → 9
 ```
 
-When such a function is called, the _((rest parameter))_ is bound to an array containing all further arguments. If there are other parameters before it, their values aren't part of that array. When, as in `max`, it is the only parameter, it will hold all arguments.
+Böyle bir fonksiyon çağrıldığında, _((kalan parametre))_ tüm diğer argümanları içeren bir diziyle ilişkilendirilir. Eğer ondan önce başka parametreler varsa, bu değerler bu dizinin bir parçası olmayacaktır ancak eğer `max` fonksiyonda olduğu gibi tek başına bir kalan parametresi varsa o zaman tüm değişkenleri içerecektir.
 
 {{index [function, application]}}
 
-You can use a similar three-dot notation to _call_ a function with an array of arguments.
+Benzer bir üç nokta gösterimi kullanarak bir fonksiyonu bir dizi argümanla çağırmak da mümkündür.
 
 ```
 let numbers = [5, 1, 7];
@@ -757,11 +757,11 @@ console.log(max(...numbers));
 // → 7
 ```
 
-This "((spread))s" out the array into the function call, passing its elements as separate arguments. It is possible to include an array like that along with other arguments, as in `max(9, ...numbers, 2)`.
+Bu, diziyi fonksiyon çağrısına (("yayarak")) öğelerini ayrı argümanlar olarak geçirir. Bu şekilde, `max(9, ...numbers, 2)` şeklinde hem bir diziyi yayarak hem de yaymayarak farklı argümanlar vermek mümkündür.
 
 {{index "[] (array)"}}
 
-Square bracket array notation similarly allows the triple-dot operator to spread another array into the new array.
+Köşeli parantez dizisi gösterimi, üç nokta operatörünü başka bir diziyi yeni diziye yaymak için de kullanılabilir.
 
 ```
 let words = ["never", "fully"];
@@ -771,7 +771,7 @@ console.log(["will", ...words, "understand"]);
 
 {{index "{} (object)"}}
 
-This even works in curly brace objects, where it adds all properties from another object. If a propery is added multiple times, the last value to be added wins.
+Bu süslü parantez nesnelerinde de çalışmaktadır ve başka bir nesnedeki tüm özellikleri diğer nesneye ekler. Eğer aynı addaki bir özellik aynı objeye tekrar ve tekrar farklı değerlerle eklenirse, en son eklenmiş olan değer o isimdeki özelliğin değeri olacaktır.
 
 ```
 let coordinates = {x: 10, y: 0};
@@ -779,29 +779,29 @@ console.log({...coordinates, y: 5, z: 1});
 // → {x: 10, y: 5, z: 1}
 ```
 
-## The Math object
+## Math nesnesi
 
 {{index "Math object", "Math.min function", "Math.max function", "Math.sqrt function", minimum, maximum, "square root"}}
 
-As we've seen, `Math` is a grab bag of number-related utility functions, such as `Math.max` (maximum), `Math.min` (minimum), and `Math.sqrt` (square root).
+Gördüğümüz gibi, `Math`, `Math.max` (maksimum), `Math.min` (minimum) ve `Math.sqrt` (karekök) gibi sayılarla ilgili yardımcı fonksiyonları bir arada barındıran bir nesnedir.
 
 {{index namespace, [object, property]}}
 
 {{id namespace_pollution}}
 
-The `Math` object is used as a container to group a bunch of related functionality. There is only one `Math` object, and it is almost never useful as a value. Rather, it provides a _namespace_ so that all these functions and values do not have to be global bindings.
+`Math` nesnesi, bir dizi ilgili fonksiyonaliteyi gruplamak için bir konteyner olarak kullanılır. Yalnızca bir `Math` nesnesi vardır ve hemen hemen hiç bir zaman değer olarak yararlı değildir. Daha çok, tüm bu fonksiyonların ve değerlerin global bağlantıları olmasına gerek kalmaması için bir _ad alanı_ sağlar.
 
 {{index [binding, naming]}}
 
-Having too many global bindings "pollutes" the namespace. The more names have been taken, the more likely you are to accidentally overwrite the value of some existing binding. For example, it's not unlikely to want to name something `max` in one of your programs. Since JavaScript's built-in `max` function is tucked safely inside the `Math` object, we don't have to worry about overwriting it.
+Çok fazla global bağlantıların varlığı ad alanını  "kirletir". Ne kadar çok isim alındıysa, bir varolan bağlantının değerini yanlışlıkla değiştirme olasılığınız o kadar artar. Örneğin, programlarınızdan birinde bir şeyi `max` olarak adlandırmak istemek olasıdır. JavaScript'in yerleşik `max` işlevi güvenli bir şekilde `Math` nesnesinin içine gizlenmiş olduğundan ötürü onun değerini istemeden değiştirmemiz olasılığı üzerine endişelenmemize gerek yoktur.
 
 {{index "let keyword", "const keyword"}}
 
-Many languages will stop you, or at least warn you, when you are defining a binding with a name that is already taken. JavaScript does this for bindings you declared with `let` or `const` but—perversely—not for standard bindings nor for bindings declared with `var` or `function`.
+Birçok dil, zaten alınmış bir isme sahip bir bağlantı tanımladığınızda sizi durdurur veya en azından uyarır. JavaScript bunu, `let` veya `const` ile tanımladığınız bağlanmalar için yapar ama tuhaf bir şekilde standart bağlantılar ya da `var` veya `function` ile tanımlanan bağlantılar için yapmaz.
 
 {{index "Math.cos function", "Math.sin function", "Math.tan function", "Math.acos function", "Math.asin function", "Math.atan function", "Math.PI constant", cosine, sine, tangent, "PI constant", pi}}
 
-Back to the `Math` object. If you need to do ((trigonometry)), `Math` can help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The number π (pi)—or at least the closest approximation that fits in a JavaScript number—is available as `Math.PI`. There is an old programming tradition of writing the names of ((constant)) values in all caps.
+`Math` nesnesine geri dönelim. Eğer ((trigonometri)) yapmanız gerekiyorsa, `Math` size yardımcı olabilir. `cos` (kosinüs), `sin` (sinüs) ve `tan` (tanjant) gibi trigonometrik fonksiyonları, ayrıca bunların ters fonksiyonlarını, sırasıyla `acos`, `asin` ve `atan` içerir. Pi sayısı—veya en azından bir JavaScript sayısına sığan en yakın yaklaşım—`Math.PI` olarak mevcuttur. Sabit değerlerin adlarını tamamı büyük harflerle yazma gibi eski bir programlama geleneği vardır.
 
 ```{test: no}
 function randomPointOnCircle(radius) {
@@ -813,11 +813,11 @@ console.log(randomPointOnCircle(2));
 // → {x: 0.3667, y: 1.966}
 ```
 
-If sines and cosines are not something you are familiar with, don't worry. When they are used in this book, in [Chapter ?](dom#sin_cos), I'll explain them.
+Eğer sinüs ve kosinüslerle aşina değilseniz, endişelenmeyin. Kitapta kullanıldıklarında, [bölümün ?](dom#sin_cos)'da açıklayacağım.
 
 {{index "Math.random function", "random number"}}
 
-The previous example used `Math.random`. This is a function that returns a new pseudorandom number between zero (inclusive) and one (exclusive) every time you call it.
+Önceki örnek, `Math.random` kullanıyordu. Bu, her çağrıldığında sıfır (dahil) ile bir (hariç) arasında bir yarı rastgele sayı döndüren bir fonksiyondur.
 
 ```{test: no}
 console.log(Math.random());
@@ -830,28 +830,28 @@ console.log(Math.random());
 
 {{index "pseudorandom number", "random number"}}
 
-Though computers are deterministic machines—they always react the same way if given the same input—it is possible to have them produce numbers that appear random. To do that, the machine keeps some hidden value, and whenever you ask for a new random number, it performs complicated computations on this hidden value to create a new value. It stores a new value and returns some number derived from it. That way, it can produce ever new, hard-to-predict numbers in a way that _seems_ random.
+Bilgisayarlar deterministik makinelerdir—her zaman aynı giriş verildiğinde her zaman aynı şekilde tepki verirler—ancak onları rastgele görünen sayılar üretmeleri için yönlendirebilirsiniz. Bunun için, makine bazı gizli bir değeri saklar ve yeni bir rastgele sayı istediğinizde, bu gizli değer üzerinde karmaşık hesaplamalar yaparak yeni bir değer oluşturur. Yeni bir değer saklar ve ondan türetilmiş bir sayı döndürür. Bu şekilde her zaman rastgele gibi görünen yeni ve tahmin edilmesi zor sayılar üretebilir.
 
 {{index rounding, "Math.floor function"}}
 
-If we want a whole random number instead of a fractional one, we can use `Math.floor` (which rounds down to the nearest whole number) on the result of `Math.random`.
+Kesirli bir sayı yerine bütün rastgele bir sayı istiyorsak, `Math.random` fonksiyonunun sonucuna `Math.floor` (en yakın tam sayıya yuvarlar) kullanabiliriz.
 
 ```{test: no}
 console.log(Math.floor(Math.random() * 10));
 // → 2
 ```
 
-Multiplying the random number by 10 gives us a number greater than or equal to 0 and below 10. Since `Math.floor` rounds down, this expression will produce, with equal chance, any number from 0 through 9.
+Rastgele sayıyı 10 ile çarptığımızda, 0 veya daha büyük bir sayı ve 10'un altında bir sayı elde ederiz. `Math.floor` yuvarladığı için, bu ifade, eşit bir şansla, 0 ile 9 arasındaki herhangi bir sayıyı üretecektir.
 
 {{index "Math.ceil function", "Math.round function", "Math.abs function", "absolute value"}}
 
-There are also the functions `Math.ceil` (for "ceiling", which rounds up to a whole number), `Math.round` (to the nearest whole number), and `Math.abs`, which takes the absolute value of a number, meaning it negates negative values but leaves positive ones as they are.
+`Math.ceil`(en yakın bir üst tam sayıya yuvarlar), `Math.round`(en yakın tam sayıya yuvarlar) ve `Math.abs` gibi bir sayının mutlak değerini alan, yani verilen sayıyı eksi ile çarpan ancak verilen sayı zaten pozitifse olduğu gibi bırakan fonksiyonlar da vardır.
 
-## Destructuring
+## Parçalara ayırma
 
 {{index "phi function"}}
 
-Let's go back to the `phi` function for a moment.
+Bir an için `phi` fonksiyonuna geri dönelim.
 
 ```{test: wrap}
 function phi(table) {
@@ -865,7 +865,7 @@ function phi(table) {
 
 {{index "destructuring binding", parameter}}
 
-One of the reasons this function is awkward to read is that we have a binding pointing at our array, but we'd much prefer to have bindings for the _elements_ of the array, that is, `let n00 = table[0]` and so on. Fortunately, there is a succinct way to do this in JavaScript.
+Bu fonksiyonun okunması zor olmasının bir nedeni, dizimize işaret eden bir bağlantımızın olması, ancak dizinin elemanları için `let n00 = table[0]` benzeri bir bağlantımızın olmasını bize okunurlukta çok daha yardımcı olacaktır. Neyse ki, JavaScript'te bunu kısa ve öz bir şekilde yapmanın yolu bulunmakta.
 
 ```
 function phi([n00, n01, n10, n11]) {
@@ -877,11 +877,11 @@ function phi([n00, n01, n10, n11]) {
 
 {{index "let keyword", "var keyword", "const keyword", [binding, destructuring]}}
 
-This also works for bindings created with `let`, `var`, or `const`. If you know the value you are binding is an array, you can use ((square brackets)) to "look inside" of the value, binding its contents.
+Bu, `let`, `var` veya `const` ile oluşturulan bağlantılar için çalışmaktadır. Bağlantı oluşturduğunuz değerin bir dizi olduğunu bildiğinizde, içeriğine "bakmak" için ((köşeli parantezleri)) kullanabilir ve içeriğindeki değerlere bağlantılar oluşturabilirsiniz.
 
 {{index [object, property], [braces, object]}}
 
-A similar trick works for objects, using braces instead of square brackets.
+Köşeli parantezler yerine süslü parantezler kullanılan ve nesneler için çalışan diğer bir yöntem.
 
 ```
 let {name} = {name: "Faraji", age: 23};
@@ -891,13 +891,13 @@ console.log(name);
 
 {{index null, undefined}}
 
-Note that if you try to destructure `null` or `undefined`, you get an error, much as you would if you directly try to access a property of those values.
+Unutmayın ki, `null` veya `undefined`'i ayrıştırmaya çalışırsanız, bu değerlerin özelliklerine doğrudan erişmeye çalıştığınızdan ötürü bir hata alırsınız.
 
-## Optional property access
+## Opsiyonel özellik erişimi
 
 {{index "optional chaining", "period character"}}
 
-When you aren't sure that a given object exists, but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
+Belirli bir nesnenin var olduğundan emin değilseniz, ancak var olduğunda ondan bir özelliği okumak istiyorsanız, nokta notasyonunun bir varyantını kullanabilirsiniz: `object?.property`.
 
 ```
 function city(object) {
@@ -909,9 +909,9 @@ console.log(city({name: "Vera"}));
 // → undefined
 ```
 
-The expression `a?.b` means the same `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists, or when a variable might hold an undefined value.
+`a?.b` ifadesi, `a` değeri `null` veya `undefined` değilse `a.b` ifadesiyle aynı anlamına gelir ancak eğer `null` veya `undefined` ise o zaman, değeri `undefined` olur. Örnekte de olduğu gibi, belirli bir özelliğin varlığından emin olmadığınızda kullanışlı olabilir.
 
-A similar notation can be used with square bracket access, and even with function calls, by putting `?.` in front of the parentheses or brackets.
+Benzer bir notasyon `?.` koyularak köşeli parantez erişimi ile köşeli parantezlerden önce, hatta fonksiyon çağrılarında parantezlerden önce de kullanılabilir.
 
 ```
 console.log("string".notAMethod?.());
@@ -924,21 +924,21 @@ console.log({}.arrayProp?.[0]);
 
 {{index [array, representation], [object, representation], "data format", [memory, organization]}}
 
-Because properties only grasp their value, rather than contain it, objects and arrays are stored in the computer's memory as sequences of bits holding the _((address))es_—the place in memory—of their contents. So an array with another array inside of it consists of (at least) one memory region for the inner array, and another for the outer array, containing (among other things) a number that represents the address of the inner array.
+Özellikler değerlerini içermek yerine kavradığındna ötürü, nesneler ve diziler bilgisayarın belleğinde, içeriklerinin _adresini_ bit dizileri halinde depolamaktadır. Dolayısıyla, içinde başka bir dizi bulunan bir dizi, iç dizi için en az bir bellek bölgesi ve iç dizenin adresini temsil eden bir numara içeren dış dizi için başka bir bellek bölgesinden oluşur.
 
-If you want to save data in a file for later or send it to another computer over the network, you have to somehow convert these tangles of memory addresses to a description that can be stored or sent. You _could_ send over your entire computer memory along with the address of the value you're interested in, I suppose, but that doesn't seem like the best approach.
+Veriyi daha sonra bir dosyada saklamak veya ağ üzerinden başka bir bilgisayara göndermek istiyorsanız, bu bellek adreslerinin karmakarışık dizilerini saklanabilir veya gönderilebilir bir açıklamaya dönüştürmek zorundasınız. Tahminimce, ilgilendiğiniz değerin adresiyle birlikte tüm bilgisayar belleğinizi gönderebilirsiniz, ancak bu en iyi yaklaşım gibi görünmüyor.
 
 {{indexsee "JavaScript Object Notation", JSON}}
 
 {{index serialization, "World Wide Web"}}
 
-What we can do is _serialize_ the data. That means it is converted into a flat description. A popular serialization format is called _((JSON))_ (pronounced "Jason"), which stands for JavaScript Object Notation. It is widely used as a data storage and communication format on the Web, even in languages other than JavaScript.
+Yapabileceğimiz şey, veriyi _serileştirmek_. Bu, verinin düz bir açıklamaya dönüştürülmesi anlamına gelir. Popüler bir seri hale getirme biçimi, _((JSON))_ olarak adlandırılan (ceysın olarak telaffuz edilen) bir biçimdir ve JavaScript Nesne Notasyonu anlamına gelir. Web'de JavaScript dışındaki dillerde bile veri depolama ve iletişim biçimi olarak geniş bir şekilde kullanılmaktadır.
 
 {{index [array, notation], [object, creation], [quoting, "in JSON"], comment}}
 
-JSON looks similar to JavaScript's way of writing arrays and objects, with a few restrictions. All property names have to be surrounded by double quotes, and only simple data expressions are allowed—no function calls, bindings, or anything that involves actual computation. Comments are not allowed in JSON.
+JSON, JavaScript'in dizileri ve nesneleri yazma şekline benzer, ancak bazı kısıtlamaları vardır. Tüm özellik adları çift tırnaklarla çevrelenmelidir ve yalnızca basit veri ifadelerine izin verilir - fonksiyon çağrıları, bağlantılar veya gerçek hesaplamayı içeren hiçbir şey yoktur. JSON'da yorum satırlarına da izin verilmemektedir.
 
-A journal entry might look like this when represented as JSON data:
+Bir günlük girişi, JSON verisi olarak temsil edildiğinde şöyle görünebilir:
 
 ```{lang: "json"}
 {
@@ -949,7 +949,7 @@ A journal entry might look like this when represented as JSON data:
 
 {{index "JSON.stringify function", "JSON.parse function", serialization, deserialization, parsing}}
 
-JavaScript gives us the functions `JSON.stringify` and `JSON.parse` to convert data to and from this format. The first takes a JavaScript value and returns a JSON-encoded string. The second takes such a string and converts it to the value it encodes.
+JavaScript, veriyi bu formata dönüştürmek ve bu formattan dönüştürmek için `JSON.stringify` ve `JSON.parse` fonksiyonlarını sağlar. İlki bir JavaScript değerini alır ve bir JSON formatında kodlanmış bir dize döndürür. İkincisi, JSON formatında kodlanmış bir dizeyi alır ve onu kodlandığı değere dönüştürür.
 
 ```
 let string = JSON.stringify({squirrel: false,
@@ -960,23 +960,23 @@ console.log(JSON.parse(string).events);
 // → ["weekend"]
 ```
 
-## Summary
+## Özet
 
-Objects and arrays (which are a specific kind of object) provide ways to group several values into a single value. Conceptually, this allows us to put a bunch of related things in a bag and run around with the bag, instead of wrapping our arms around all of the individual things and trying to hold on to them separately.
+Nesneler ve diziler(ki diziler de belirli bir tür nesnedir) birden fazla değeri tek bir değere gruplama yolları sağlar. Kavramsal olarak, bu bize tüm bireysel şeylerin etrafına kollarımızı sarmak ve bunları ayrı ayrı tutmaya çalışmak yerine bir grup ilgili şeyi bir çantaya koyup çantayla koşmamıza olanak tanır.
 
-Most values in JavaScript have properties, the exceptions being `null` and `undefined`. Properties are accessed using `value.prop` or `value["prop"]`. Objects tend to use names for their properties and store more or less a fixed set of them. Arrays, on the other hand, usually contain varying amounts of conceptually identical values and use numbers (starting from 0) as the names of their properties.
+`null` ve `undefined` değerleri dışında JavaScript'teki değerlerler özelliklere sahiptir. Özelliklere `value.prop` veya `value["prop"]` kullanılarak erişilir. Nesneler özelliklerinin adlarını kullanır ve bunların sabit bir kümesini saklar. Diziler ise genellikle kavramsal olarak aynı değerlerin değişen miktarlarını içerebilir ve özelliklerinin adları olarak sayıları (0'dan başlayarak) kullanır.
 
-There _are_ some named properties in arrays, such as `length` and a number of methods. Methods are functions that live in properties and (usually) act on the value they are a property of.
+Dizilerde bazı adlandırılmış özellikler _vardır_, bunlar `length` ve metod isimleridir. Yöntemler, özelliklerde yaşayan ve genellikle özelliği oldukları değer üzerinde hareket eden fonksiyonlardır.
 
-You can iterate over arrays using a special kind of `for` loop—`for (let element of array)`.
+Diziler üzerinde bir tür özel `for` döngüsü kullanarak yineleme yapabilirsiniz, `for (let element of array)`.
 
-## Exercises
+## Egzersizler
 
-### The sum of a range
+### Belirli bir sayı aralığının toplamı
 
 {{index "summing (exercise)"}}
 
-The [introduction](intro) of this book alluded to the following as a nice way to compute the sum of a range of numbers:
+Bu kitabın [giriş](intro) kısmı, aşağıdakini bir aralıktaki sayıların toplamını hesaplamanın güzel bir yol olduğunu size söyledi:
 
 ```{test: no}
 console.log(sum(range(1, 10)));
@@ -984,18 +984,18 @@ console.log(sum(range(1, 10)));
 
 {{index "range function", "sum function"}}
 
-Write a `range` function that takes two arguments, `start` and `end`, and returns an array containing all the numbers from `start` up to (and including) `end`.
+`start` ve `end` adında iki argüman alan `range` adlı bir fonksiyon yazın ki `start` argümanında verilen değerden başlayarak `end` argümanında bitecek şekilde her ikisini ve aralarındaki sayıları da içinde barındıracak bir dizi döndürsün.
 
-Next, write a `sum` function that takes an array of numbers and returns the sum of these numbers. Run the example program and see whether it does indeed return 55.
+Sonra, `sum` adlı içinde numaralar barındıran bir diziyi alan ve bunların toplamını hesaplayan bir fonksiyon yazın. Bunları bir araya getirip örnek programı çalıştırdığınızda 55 değerinin döndürülüp döndürülmediğini kontrol edin.
 
 {{index "optional argument"}}
 
-As a bonus assignment, modify your `range` function to take an optional third argument that indicates the "step" value used when building the array. If no step is given, the elements go up by increments of one, corresponding to the old behavior. The function call `range(1, 10, 2)` should return `[1, 3, 5, 7, 9]`. Make sure it also works with negative step values so that `range(5, 2, -1)` produces `[5, 4, 3, 2]`.
+Bonus bir görev olarak, `range` fonksiyonunuzu, diziyi oluşturulurken kullanılan "adım" değerini belirten isteğe bağlı üçüncü bir argümanı alacak şekilde değiştirin. Adım verilmediğinde, öğeler normal davranış olan bir bir artırılarak gider. Fonksiyon çağrısı `range(1, 10, 2)`, `[1, 3, 5, 7, 9]` değerini döndürmelidir. Negatif adım değerleriyle de çalıştığından emin olmak için `aralık(5, 2, -1)` fonksiyon çağrısı `[5, 4, 3, 2]` değerini üretmelidir.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 console.log(range(1, 10));
 // → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -1011,38 +1011,38 @@ if}}
 
 {{index "summing (exercise)", [array, creation], "square brackets"}}
 
-Building up an array is most easily done by first initializing a binding to `[]` (a fresh, empty array) and repeatedly calling its `push` method to add a value. Don't forget to return the array at the end of the function.
+Bir dizi oluşturmanın en kolay yolu, öncelikle [] (temiz, boş bir dizi) için bir bağlantıyla başlamak ve bir değer eklemek için tekrar tekrar `push` metodunu çağırmaktır. Fonksiyonun sonunda diziyi döndürmeyi unutmayın.
 
 {{index [array, indexing], comparison}}
 
-Since the end boundary is inclusive, you'll need to use the `<=` operator rather than `<` to check for the end of your loop.
+Son sınır için verilen numara da dahil olduğu için, döngünün bitip bitmediğini kontrol etmek için `<` yerine `<=` operatörünü kullanmanız gerekecek.
 
 {{index "arguments object"}}
 
-The step parameter can be an optional parameter that defaults (using the `=` operator) to 1.
+`step`, varsayılan olarak 1 olan bir parametre olabilir (`=` operatörünü kullanarak).
 
 {{index "range function", "for loop"}}
 
-Having `range` understand negative step values is probably best done by writing two separate loops—one for counting up and one for counting down—because the comparison that checks whether the loop is finished needs to be `>=` rather than `<=` when counting downward.
+Negatif adım değerlerini `range` fonksiyonun anlaması için iki biri yukarı biri aşağı doğru sayan iki ayrı döngü yazılabilir. Döngünün bitip bitmediğini kontrol eden karşılaştırmanın, aşağı doğru sayarken `<=` yerine `>=` olması gerektiğini unutmamak önemlidir.
 
-It might also be worthwhile to use a different default step, namely, -1, when the end of the range is smaller than the start. That way, `range(5, 2)` returns something meaningful, rather than getting stuck in an ((infinite loop)). It is possible to refer to previous parameters in the default value of a parameter.
+Bitiş noktası, başlangıçtan küçük olduğunda farklı bir varsayılan `step` parametresi değeri, yani, -1 kullanmak da faydalı olabilir. Bu şekilde, `range(5, 2)` anlamlı bir şey döndürür ve sonsuz bir döngüye sıkışmaz. Bir parametrenin varsayılan değerinde önceki parametre değerlerine başvurmak mümkündür.
 
 hint}}
 
-### Reversing an array
+### Bir diziyi tersine çevirmek
 
 {{index "reversing (exercise)", "reverse method", [array, methods]}}
 
-Arrays have a `reverse` method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, `reverseArray` and `reverseArrayInPlace`. The first, `reverseArray`, takes an array as argument and produces a _new_ array that has the same elements in the inverse order. The second, `reverseArrayInPlace`, does what the `reverse` method does: it _modifies_ the array given as argument by reversing its elements. Neither may use the standard `reverse` method.
+Dizilerin, öğelerin sırasını tersine çeviren bir `reverse` yöntemi vardır. Bu alıştırma için, `reverseArray` ve `reverseArrayInPlace` olmak üzere iki fonksiyon yazın. İlk fonksiyon, `reverseArray`, bir dizi alır ve ters sıradaki aynı öğelere sahip _yeni_ bir dizi üretir. İkinci fonksiyon, `reverseArrayInPlace`, `reverse` yönteminin yaptığı şeyi yapar: argüman olarak verilen diziyi öğelerini tersine çevirerek değiştirir. Hiçbiri standart `reverse` yöntemini kullanamaz.
 
 {{index efficiency, "pure function", "side effect"}}
 
-Thinking back to the notes about side effects and pure functions in the [previous chapter](functions#pure), which variant do you expect to be useful in more situations? Which one runs faster?
+[Önceki bölümde](functions#pure) yan etkiler ve saf fonksiyonlar hakkındaki notlara geri dönüp düşünerek, hangi varyantın daha fazla durumda kullanışlı olacağını ve hangisinin daha hızlı çalışmasını beklersiniz?
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 let myArray = ["A", "B", "C"];
 console.log(reverseArray(myArray));
@@ -1061,23 +1061,24 @@ if}}
 
 {{index "reversing (exercise)"}}
 
-There are two obvious ways to implement `reverseArray`. The first is to simply go over the input array from front to back and use the `unshift` method on the new array to insert each element at its start. The second is to loop over the input array backwards and use the `push` method. Iterating over an array backwards requires a (somewhat awkward) `for` specification, like `(let i = array.length - 1; i >= 0; i--)`.
+Iterating over an array backwards requires a (somewhat awkward) `for` specification, like `(let i = array.length - 1; i >= 0; i--)`.
+`reverseArray`'yı uygulamanın iki belirgin yolu vardır. İlk yöntem, verilen diziyi baştan sona doğru geçmek ve her öğeyi başlangıcına yerleştirmek için yeni dizi üzerinde `unshift` metodunu kullanmaktır. İkincisi, giriş dizisini tersten geçmek ve `push` yöntemini kullanmaktır. Bir diziyi tersten yinelemek için biraz garip bir `for` döngüsü gerektirir, örneğin `(let i = array.length - 1; i >= 0; i--)`.
 
 {{index "slice method"}}
 
-Reversing the array in place is harder. You have to be careful not to overwrite elements that you will later need. Using `reverseArray` or otherwise copying the whole array (`array.slice()` is a good way to copy an array) works but is cheating.
+Diziyi yerinde ters çevirmek daha zordur. Daha sonra ihtiyacınız olacak öğelerin üzerine yanlışlıkla yazıp onları kaybetmemeye dikkat etmelisiniz. `reverseArray` kullanmak veya aksi takdirde tüm diziyi kopyalamak (`array.slice()` bir diziyi kopyalamanın iyi bir yoludur) çalışır ancak hile yapmaktır.
 
-The trick is to _swap_ the first and last elements, then the second and second-to-last, and so on. You can do this by looping over half the length of the array (use `Math.floor` to round down—you don't need to touch the middle element in an array with an odd number of elements) and swapping the element at position `i` with the one at position `array.length - 1 - i`. You can use a local binding to briefly hold on to one of the elements, overwrite that one with its mirror image, and then put the value from the local binding in the place where the mirror image used to be.
+Püf noktası, ilk ve son öğeleri, ikinci ve sondan bir önceki öğeleri ve böylece devam ederek _değiştirmektir_. Bunun için dizinin uzunluğunun yarısı kadar döngü yapmanız gerekir (`Math.floor` kullanarak aşağı yuvarlama yapın - tek sayıda öğeye sahip bir dizide ortadaki öğeye dokunmanıza gerek yoktur) ve pozisyon `i` bağlantısındaki öğeyi `array.length - 1 - i` pozisyonundaki ile değiştirmektir. Bir öğeyi geçici olarak tutmak için yerel bir bağlantı kullanabilir, bunu aynasıyla değiştirerek üzerine yazabilir ve daha sonra yerel bağlantının değerini aynanın yerine koyabilirsiniz.
 
 hint}}
 
 {{id list}}
 
-### A list
+### Bir liste
 
 {{index ["data structure", list], "list (exercise)", "linked list", array, collection}}
 
-Objects, as generic blobs of values, can be used to build all sorts of data structures. A common data structure is the _list_ (not to be confused with array). A list is a nested set of objects, with the first object holding a reference to the second, the second to the third, and so on.
+Nesneler, genel değer birikintileri olarak, çeşitli veri yapılarını oluşturmak için kullanılabilir. Yaygın bir veri yapısı, dizi ile karıştırılmaması gereken listedir. Bir liste, birbirini referans alan nesnelerin iç içe geçmiş bir kümesidir, ilk nesne ikinciyi, ikinci nesne üçüncüyü ve böyle devam eder.
 
 ```{includeCode: true}
 let list = {
@@ -1092,24 +1093,25 @@ let list = {
 };
 ```
 
-The resulting objects form a chain, like this:
+Oluşan nesneler şu şekilde bir zincir oluşturur:
 
 {{figure {url: "img/linked-list.svg", alt: "A diagram showing the memory structure of a linked list. There are 3 cells, each with a value field holding a number, and a 'rest' field with an arrow to the rest of the list. The first cell's arrow points at the second cell, the second cell's arrow at the last cell, and the last cell's 'rest' field holds null.",width: "8cm"}}}
 
 {{index "structure sharing", [memory, structure sharing]}}
 
-A nice thing about lists is that they can share parts of their structure. For example, if I create two new values `{value: 0, rest: list}` and `{value: -1, rest: list}` (with `list` referring to the binding defined earlier), they are both independent lists, but they share the structure that makes up their last three elements. The original list is also still a valid three-element list.
+Listelerin güzel bir özelliği, yapılarının bir kısmını paylaşabilmesidir. Örneğin, `{value: 0, rest: list}` ve `{value: -1, rest: list}` (önceki bağlantıya referansta bulunarak) gibi iki yeni değer oluşturursam, bunlar bağımsız listelerdir, ancak son üç öğeyi oluşturan yapıyı paylaşırlar. Orjinal liste hala geçerli bir üç öğeli listedir.
 
-Write a function `arrayToList` that builds up a list structure like the one shown when given `[1, 2, 3]` as argument. Also write a `listToArray` function that produces an array from a list. Then add the helper functions `prepend`, which takes an element and a list and creates a new list that adds the element to the front of the input list, and `nth`, which takes a list and a number and returns the element at the given position in the list (with zero referring to the first element) or `undefined` when there is no such element.
+Then add the helper functions `prepend`, which takes an element and a list and creates a new list that adds the element to the front of the input list, and `nth`, which takes a list and a number and returns the element at the given position in the list (with zero referring to the first element) or `undefined` when there is no such element.
+`[1, 2, 3]` olarak verildiğinde gösterilen gibi bir liste yapısı oluşturan `arrayToList` adlı fonksiyonu yazın. Ayrıca, bir listeden bir dizi üreten `listToArray` adlı fonksiyonu da yazın. Ardından, bir öğe ve bir liste alıp öğeyi giriş listesinin önüne ekleyen yeni bir liste oluşturan `prepend`, bir liste ve bir sayı alıp listenin verilen konumundaki öğeyi (sıfır ilk öğeyi belirtir) veya böyle bir öğe yoksa `undefined` değeri döndüren `nth` yardımcı fonksiyonlarını ekleyin.
 
 {{index recursion}}
 
-If you haven't already, also write a recursive version of `nth`.
+Henüz yapmadıysanız, `nth` fonksiyonunun özyineli bir sürümünü de yazın.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 console.log(arrayToList([10, 20]));
 // → {value: 10, rest: {value: 20, rest: null}}
@@ -1127,46 +1129,46 @@ if}}
 
 {{index "list (exercise)", "linked list"}}
 
-Building up a list is easier when done back to front. So `arrayToList` could iterate over the array backwards (see the previous exercise) and, for each element, add an object to the list. You can use a local binding to hold the part of the list that was built so far and use an assignment like `list = {value: X, rest: list}` to add an element.
+Bir listeyi arkadan öne doğru oluşturmak daha kolaydır. Bu nedenle, `arrayToList`, her öğe için bir nesne ekleyerek diziyi tersten geçebilir (önceki alıştırmaya bakın), bunu yaparken her öğe için listeye bir nesne ekleyin. O ana kadar akümüle edilmiş listeyi tutabilmek adına lokal bir bağlantı kullanabilir ve bir element eklemek adına `list = {value: X, rest: list}` gibi bir atama işlemi yapabilirsiniz.
 
 {{index "for loop"}}
 
-To run over a list (in `listToArray` and `nth`), a `for` loop specification like this can be used:
+Bir listenin üzerinden geçebilmek için(`listToArray` ve `nth` fonksiyonlarını kullanarak) bir `for` döngüsü kullanılabilir:
 
 ```
 for (let node = list; node; node = node.rest) {}
 ```
 
-Can you see how that works? Every iteration of the loop, `node` points to the current sublist, and the body can read its `value` property to get the current element. At the end of an iteration, `node` moves to the next sublist. When that is null, we have reached the end of the list, and the loop is finished.
+Nasıl çalıştığını görebiliyor musunuz? Döngünün her bir iterasyonunda `node` adlı bağlantı güncel alt listeye sahip ve böylelikle döngü gövdesi `value` özelliğini okuyarak güncel elementi alabiliyor. Döngü sonunda, `node` diğer alt listeye geçmekte. O değer `null` olduğunda listenin sonuna gelmiş ve döngüyü bitirmiş oluyoruz.
 
 {{index recursion}}
 
-The recursive version of `nth` will, similarly, look at an ever smaller part of the "tail" of the list and at the same time count down the index until it reaches zero, at which point it can return the `value` property of the node it is looking at. To get the zeroth element of a list, you simply take the `value` property of its head node. To get element _N_ + 1, you take the *N*th element of the list that's in this list's `rest` property.
+`nth` fonksiyonunun özyinelemeli sürümü, benzer şekilde, listenin "kuyruğunun" giderek daha küçük bir kısmına bakacak ve aynı zamanda dizini sıfıra kadar azaltacak ve sıfır olduğunda, baktığı düğümün `value` özelliğini döndürebilecektir. Bir listenin sıfırıncı öğesini almak için, baş düğümünün `value` özelliğini alırsınız. _N_ + 1 öğeyi almak için, bu listenin `rest` özelliğindeki listenin N'inci öğesini alırsınız.
 
 hint}}
 
 {{id exercise_deep_compare}}
 
-### Deep comparison
+### Derin karşılaştırma
 
 {{index "deep comparison (exercise)", [comparison, deep], "deep comparison", "== operator"}}
 
-The `==` operator compares objects by identity. But sometimes you'd prefer to compare the values of their actual properties.
+`==` operatörü nesneleri kimliğine göre karşılaştırır. Ancak bazen, gerçek özelliklerinin değerlerini karşılaştırmayı tercih edebilirsiniz.
 
-Write a function `deepEqual` that takes two values and returns true only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to `deepEqual`.
+`deepEqual` adında iki değeri alıp yalnızca aynı değer olduklarında veya özellikleri aynı olan nesneler olduklarında ve özelliklerin değerleri, `deepEqual` fonksiyonuna özyinelemeli bir çağrı ile karşılaştırıldığında eşitse true döndüren bir fonksiyon yazın.
 
 {{index null, "=== operator", "typeof operator"}}
 
-To find out whether values should be compared directly (use the `===` operator for that) or have their properties compared, you can use the `typeof` operator. If it produces `"object"` for both values, you should do a deep comparison. But you have to take one silly exception into account: because of a historical accident, `typeof null` also produces `"object"`.
+Değerlerin doğrudan karşılaştırılıp karşılaştırılmaması gerektiğini (`===` operatörünü kullanarak) veya özelliklerinin karşılaştırılması gerektiğini belirlemek için `typeof` operatörünü kullanabilirsiniz. İki değer için de `"object"` üretirse, derin bir karşılaştırma yapmalısınız. Ancak, bir saçma istisnayı hesaba katmanız gerekir: bir tarih öncesi kazadan dolayı, `typeof null` da "object" üretir.
 
 {{index "Object.keys function"}}
 
-The `Object.keys` function will be useful when you need to go over the properties of objects to compare them.
+`Object.keys` fonksiyonu nesnelerin özelliklerini karşılaştırmak için özelliklerin üzerinden geçmeniz gerektiğinde faydalı olacaktır.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 let obj = {here: {is: "an"}, object: 2};
 console.log(deepEqual(obj, obj));
@@ -1183,14 +1185,14 @@ if}}
 
 {{index "deep comparison (exercise)", [comparison, deep], "typeof operator", "=== operator"}}
 
-Your test for whether you are dealing with a real object will look something like `typeof x == "object" && x != null`. Be careful to compare properties only when _both_ arguments are objects. In all other cases you can just immediately return the result of applying `===`.
+Gerçek bir nesne ile ilgilendiğinizi belirlemek için testiniz, `typeof x == "object" && x != null` gibi görünecektir. Özellikleri yalnızca _her iki_ argümanın da nesneler olduğunda karşılaştırmaya dikkat edin. Diğer tüm durumlarda, sadece `===` uygulamanın sonucunu hemen döndürebilirsiniz.
 
 {{index "Object.keys function"}}
 
-Use `Object.keys` to go over the properties. You need to test whether both objects have the same set of property names and whether those properties have identical values. One way to do that is to ensure that both objects have the same number of properties (the lengths of the property lists are the same). And then, when looping over one of the object's properties to compare them, always first make sure the other actually has a property by that name. If they have the same number of properties and all properties in one also exist in the other, they have the same set of property names.
+Özelliklerin üzerinden geçmek için Object.keys kullanın. İki nesnenin aynı özellik isim kümesine sahip olup olmadığını ve bu özelliklerin aynı değerlere sahip olup olmadığını test etmeniz gerekir. Bunu yapmanın bir yolu, her iki nesnenin de aynı sayıda özellik ismine sahip olmasını sağlamaktır (özellik listelerinin uzunlukları aynıdır). Ve sonra, onları karşılaştırmak için bir nesnenin özelliklerini dolaşırken, diğerinin o adla bir özelliğe sahip olduğundan emin olun. Eğer iki nesnenin de aynı sayıda özelliği varsa ve birindeki tüm özellik adları diğerinde de varsa, aynı özellik kümesine sahiptirler.
 
 {{index "return value"}}
 
-Returning the correct value from the function is best done by immediately returning false when a mismatch is found and returning true at the end of the function.
+Fonksiyondan doğru değeri döndürmek, bir eşleşme bulunduğunda hemen `false` döndürerek ve fonksiyonun sonunda `true` döndürerek en iyi şekilde yapılır.
 
 hint}}

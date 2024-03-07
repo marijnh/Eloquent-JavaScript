@@ -86,7 +86,8 @@ for (let file of fs.readdirSync(".").sort()) {
     number: "1[3]",
     type: "js",
     code: "async function locateScalpel(nest) {\n  // Your code here.\n}\n\nfunction locateScalpel2(nest) {\n  // Your code here.\n}\n\nlocateScalpel(bigOak).then(console.log);\n// → Butcher Shop",
-    solution: "async function locateScalpel(nest) {\n  let current = nest.name;\n  for (;;) {\n    let next = await anyStorage(nest, current, \"scalpel\");\n    if (next == current) return current;\n    current = next;\n  }\n}\n\nfunction locateScalpel2(nest) {\n  function loop(current) {\n    return anyStorage(nest, current, \"scalpel\").then(next => {\n      if (next == current) return current;\n      else return loop(next);\n    });\n  }\n  return loop(nest.name);\n}\n\nlocateScalpel(bigOak).then(console.log);\n// → Butcher's Shop\nlocateScalpel2(bigOak).then(console.log);\n// → Butcher's Shop"
+    solution: "async function locateScalpel(nest) {\n  let current = nest.name;\n  for (;;) {\n    let next = await anyStorage(nest, current, \"scalpel\");\n    if (next == current) return current;\n    current = next;\n  }\n}\n\nfunction locateScalpel2(nest) {\n  function loop(current) {\n    return anyStorage(nest, current, \"scalpel\").then(next => {\n      if (next == current) return current;\n      else return loop(next);\n    });\n  }\n  return loop(nest.name);\n}\n\nlocateScalpel(bigOak).then(console.log);\n// → Butcher's Shop\nlocateScalpel2(bigOak).then(console.log);\n// → Butcher's Shop",
+    goto: "https://eloquentjavascript.net/3rd_edition/code/#11.1"
   })
   if (chapter.number == 20) chapter.exercises = [
     {name: "Search tool",
@@ -134,29 +135,46 @@ for (let file of fs.readdirSync(".").sort()) {
 output.push({
   title: "JavaScript and Performance",
   number: 22,
-  start_code: "<!-- This chapter exists in the paper book, not in the online version -->\n\n<script>\n  runLayout(forceDirected_simple, treeGraph(4, 4));\n</script>\n",
+  start_code: "<!-- This chapter exists in the paper book, not in the online version -->\n\n<script>\n  runLayout(forceDirected_simple, gridGraph(12));\n</script>\n",
   include: ["code/draw_layout.js", "code/chapter/22_fast.js"],
   exercises: [
-    {name: "Pathfinding",
-     file: "code/solutions/22_1_pathfinding.js",
+    {name: "Prime numbers",
+     file: "code/solutions/22_1_prime_numbers.js",
      number: 1,
      type: "js",
-     code: "function findPath(a, b) {\n  // Your code here...\n}\n\nlet graph = treeGraph(4, 4);\nlet root = graph[0], leaf = graph[graph.length - 1];\nconsole.log(findPath(root, leaf).length);\n// → 4\n\nleaf.connect(root);\nconsole.log(findPath(root, leaf).length);\n// → 2\n",
-     solution: fs.readFileSync("code/solutions/22_1_pathfinding.js", "utf8")
+     code: "function* primes() {\n  for (let n = 2;; n++) {\n    // ...\n  }\n}\n\nfunction measurePrimes() {\n  // ...\n}\n\nmeasurePrimes();\n",
+     solution: fs.readFileSync("code/solutions/22_1_prime_numbers.js", "utf8")
     },
-    {name: "Timing",
-     file: "code/solutions/22_2_timing.js",
+    {name: "Faster prime numbers",
+     file: "code/solutions/22_2_faster_prime_numbers.js",
      number: 2,
      type: "js",
-     code: "",
-     solution: fs.readFileSync("code/solutions/22_2_timing.js", "utf8")
+     code: "function* primes() {\n  for (let n = 2;; n++) {\n    // ...\n  }\n}\n\nfunction measurePrimes() {\n  // ...\n}\n\nmeasurePrimes();\n",
+     solution: fs.readFileSync("code/solutions/22_2_faster_prime_numbers.js", "utf8"),
     },
-    {name: "Optimizing",
-     file: "code/solutions/22_3_optimizing.js",
-     number: 3,
+    {name: "Pathfinding [3rd ed]",
+     file: "code/solutions/22_1_pathfinding.js",
+     number: "1[3]",
+     type: "js",
+     code: "function findPath(a, b) {\n  // Your code here...\n}\n\nlet graph = treeGraph(4, 4);\nlet root = graph[0], leaf = graph[graph.length - 1];\nconsole.log(findPath(root, leaf).length);\n// → 4\n\nleaf.connect(root);\nconsole.log(findPath(root, leaf).length);\n// → 2\n",
+     solution: fs.readFileSync("code/solutions/22_1_pathfinding.js", "utf8"),
+     goto: "https://eloquentjavascript.net/3rd_edition/code/#22.1"
+    },
+    {name: "Timing [3rd ed]",
+     file: "code/solutions/22_2_timing.js",
+     number: "2[3]",
      type: "js",
      code: "",
-     solution: fs.readFileSync("code/solutions/22_3_optimizing.js", "utf8")
+     solution: fs.readFileSync("code/solutions/22_2_timing.js", "utf8"),
+     goto: "https://eloquentjavascript.net/3rd_edition/code/#22.2"
+    },
+    {name: "Optimizing [3rd ed]",
+     file: "code/solutions/22_3_optimizing.js",
+     number: "3[3]",
+     type: "js",
+     code: "",
+     solution: fs.readFileSync("code/solutions/22_3_optimizing.js", "utf8"),
+     goto: "https://eloquentjavascript.net/3rd_edition/code/#22.3"
     }
   ]
 });

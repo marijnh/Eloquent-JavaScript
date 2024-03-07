@@ -370,6 +370,8 @@ Such a function no longer, like a regular JavaScript function, runs from start t
 
 For most asynchronous code, this notation is more convenient than directly using promises. You do still need an understanding of promises, since in many cases you still interact with them directly. But when wiring them together, `async` functions are generally more pleasant to write than chains of `then` calls.
 
+{{id generator}}
+
 ## Generators
 
 {{index "async function"}}

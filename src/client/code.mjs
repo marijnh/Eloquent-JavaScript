@@ -100,10 +100,12 @@ class CodeSandbox {
       if (chapter.start_code) code += "\n\n" + chapter.start_code
       this.setEditorState(code, {include: chapter.include})
       visible = "box"
-    } else if (value == "11.1[3]") {
-      document.location = "https://eloquentjavascript.net/3rd_edition/code/#11.1"
     } else {
       let exercise = findExercise(value, chapter)
+      if (exercise.goto) {
+        document.location = exercise.goto
+        return
+      }
       this.setEditorState(exercise.code, {
         include: chapter.include,
         solution: exercise.solution,

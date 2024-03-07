@@ -159,7 +159,7 @@ The function returns the result of this chain of `then` calls. The initial promi
 
 In this code, the functions used in the first two `then` calls return a regular value, which will immediately be passed into the promise returned by `then` when the function returns. The last one returns a promise (`textFile(filename)`), making it an actual asynchronous step.
 
-Tt would have also been possible to do all these steps inside a single `then` callback, since only the last step is actually asynchronous. But the kind of `then` wrappers that only do some synchronous data transformation are often useful, for example when you want to return a promise that produces a processed version of some asynchronous result.
+It would have also been possible to do all these steps inside a single `then` callback, since only the last step is actually asynchronous. But the kind of `then` wrappers that only do some synchronous data transformation are often useful, for example when you want to return a promise that produces a processed version of some asynchronous result.
 
 ```
 function jsonFile(filename) {

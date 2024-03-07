@@ -100,7 +100,7 @@ If I had written the argument to `some` using the `function` keyword, this code 
 
 ## Prototypes
 
-So one way to create an abstract rabbit type with a `speak` method would be to create a helper function that has a rabbit type as parameter, and returns and object holding that as its `type` property and our speak function in its `speak` property.
+So one way to create an abstract rabbit type with a `speak` method would be to create a helper function that has a rabbit type as parameter, and returns an object holding that as its `type` property and our speak function in its `speak` property.
 
 All rabbits share that same method. Especially for types with many methods, it would be nice if there was a way to keep a type's methods in a single place, rather than adding them to each object individually.
 
@@ -120,7 +120,7 @@ console.log(empty.toString());
 
 It looks like we just pulled a property out of an empty object. But in fact `toString` is a method stored in `Object.prototype`, meaning it is available in most objects.
 
-When an object gets a request for a property that it does not have, its prototype will be searched for the property. If that doesn't have it, _its_ prototype is searched, and so on until an object is reached has has no prototype (`Object.prototype` is such an object).
+When an object gets a request for a property that it does not have, its prototype will be searched for the property. If that doesn't have it, _its_ prototype is searched, and so on until an object is reached has no prototype (`Object.prototype` is such an object).
 
 ```
 console.log(Object.getPrototypeOf({}) == Object.prototype);

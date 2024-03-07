@@ -94,7 +94,7 @@ let renderer = {
   fence(token) {
     let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
     if (config.hidden) return "";
-    let lang = config.lang || "javascript", tab = lang == "html" || lang == "javascript" ? " tabindex=0" : ""
+    let lang = config.lang || "javascript", tab = lang == "html" || lang == "javascript" ? " tabindex=\"0\"" : ""
     return `\n\n<pre${attrs(token)}${tab} class="snippet" data-language="${lang}" ${config.focus ? " data-focus=\"true\"" : ""}${config.sandbox ? ` data-sandbox="${config.sandbox}"` : ""}${config.meta ? ` data-meta="${config.meta}"` : ""}>${anchor(token)}${highlight(lang, token.content.trimRight())}</pre>`
   },
 

@@ -13,7 +13,7 @@ quote}}
 
 {{figure {url: "img/chapter_picture_11.jpg", alt: "Illustration showing two crows on a tree branch", chapter: framed}}}
 
-The central part of a computer, the part that carries out the individual steps that make up our programs, is called the _((processor))_. The programs we have seen so far will keep the processor busy until they have finished their work. The speed at which something like a loop that manipulates numbers can be executed depends pretty much entirely on the speed of the computor's processor and memory.
+The central part of a computer, the part that carries out the individual steps that make up our programs, is called the _((processor))_. The programs we have seen so far will keep the processor busy until they have finished their work. The speed at which something like a loop that manipulates numbers can be executed depends pretty much entirely on the speed of the computer's processor and memory.
 
 {{index [memory, speed], [network, speed]}}
 
@@ -108,7 +108,7 @@ A slightly different way to build an asynchronous program is to have asynchronou
 
 {{index "Promise class", "asynchronous programming", "resolving (a promise)", "then method", "callback function"}}
 
-This is what the standard class `Promise` is for. A _promise_ is a receipt representing a value that may not be available yet. It provies a `then` method that allows you to register a function that should be called when the action it is waiting for finishes. When the promise is _resolved_, meaning its value becomes available, such functions (there can be multiple) are called with the result value. It is possible call `then` on a promise that has already resolved—your function will still be called.
+This is what the standard class `Promise` is for. A _promise_ is a receipt representing a value that may not be available yet. It provides a `then` method that allows you to register a function that should be called when the action it is waiting for finishes. When the promise is _resolved_, meaning its value becomes available, such functions (there can be multiple) are called with the result value. It is possible to call `then` on a promise that has already resolved—your function will still be called.
 
 {{index "Promise.resolve function"}}
 
@@ -249,13 +249,13 @@ Much like an uncaught exception is handled by the environment, JavaScript enviro
 
 {{index "Carla the crow"}}
 
-It's a sunny day in Berlin. The runway of the old, decomissioned airport is teeming with cyclist and inline skaters. In the grass near a garbage container a flock of crows noisily mills about, trying to convince a group of tourists to part with their sandwiches.
+It's a sunny day in Berlin. The runway of the old, decommissioned airport is teeming with cyclists and inline skaters. In the grass near a garbage container a flock of crows noisily mills about, trying to convince a group of tourists to part with their sandwiches.
 
 One of the crows stands out—a large scruffy female with a few white feathers in her right wing. She is baiting the people with a skill and confidence that suggest she's been doing this for a long time. When an elderly man is distracted by the antics of another crow, she casually swoops in, snatches his half-eaten bun from his hand, and sails away.
 
 Contrary to the rest of the group, who look like they are happy to spend the day goofing around here, the large crow looks purposeful. Carrying her loot, she flies straight towards the roof of the hangar building, disappearing into an air vent.
 
-Inside the building, you can hear an odd tapping sound—soft, but persistent. It comes from a narrow space under the roof of an unfinished stairwell. The crow is sitting there, surrounded by her stolen snack, half a dozen smart phones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
+Inside the building, you can hear an odd tapping sound—soft, but persistent. It comes from a narrow space under the roof of an unfinished stairwell. The crow is sitting there, surrounded by her stolen snacks, half a dozen smart phones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
 
 This crow is known to her peers as “cāāw-krö”. But since those sounds are poorly suited for human vocal chords, we'll refer to her as Carla.
 
@@ -267,7 +267,7 @@ Carla is a somewhat peculiar crow. In her youth, she was fascinated by human lan
 
 Carla loves the Internet. Annoyingly, the phone she is working on is about to run out of prepaid data. The building has a wireless network, but it requires a code to access.
 
-Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a devices has to send along the correct 6-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending only a partial code (say, only 3 digits), the response is different based on whether those digits are the correct start of the code or not—when sending incorrect number, you immediately get a failure message. When sending the correct ones, the access point waits for more digits.
+Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a device has to send along the correct 6-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending only a partial code (say, only 3 digits), the response is different based on whether those digits are the correct start of the code or not—when sending incorrect number, you immediately get a failure message. When sending the correct ones, the access point waits for more digits.
 
 This makes it possible to greatly speed up the guessing of the number. Carla can find the first digit by trying each number in turn, until she finds one that doesn't immediately return failure. Having one digit, she can find second digit in the same way, and so on, until she knows the entire passcode.
 

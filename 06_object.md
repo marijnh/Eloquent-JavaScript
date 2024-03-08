@@ -22,7 +22,7 @@ In programming culture, we have a thing called _((object-oriented programming))_
 
 The main idea in object-oriented programming is to use objects, or rather _types_ of objects, as the unit of program organization. Setting up a program as a number of strictly separated object types provides a way to think about its structure and thus to enforce some kind of discipline, preventing everything from becoming entangled.
 
-The way to do this to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). There's people who designed and assembled a mixer, and they have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell, so that the people who only want to mix pancake batter don't have to worry about all that—they only have to understand the few knobs that the mixer can be operated with.
+The way to do this is to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). There's people who designed and assembled a mixer, and they have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell, so that the people who only want to mix pancake batter don't have to worry about all that—they only have to understand the few knobs that the mixer can be operated with.
 
 {{index "class"}}
 

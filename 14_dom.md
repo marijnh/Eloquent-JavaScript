@@ -436,7 +436,7 @@ The way an `<img>` tag shows an image or an `<a>` tag causes a link to be follow
 
 The second link will be green instead of the default link color.
 
-{{figure {url: "img/colored-links.png", alt: "Rendered picture of a normal blue linke and a styled green link", width: "2.2cm"}}}
+{{figure {url: "img/colored-links.png", alt: "Rendered picture of a normal blue link and a styled green link", width: "2.2cm"}}}
 
 if}}
 

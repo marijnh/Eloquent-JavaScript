@@ -570,7 +570,7 @@ console.log([1, 2][length]);
 
 {{index [property, naming]}}
 
-It is possible to include symbol properties in object expressions and classes by using ((square bracket))s around the property name. That causes the expression between the brackets to be evaluated to produce the property name, analoguous to the square bracket property access notation.
+It is possible to include symbol properties in object expressions and classes by using ((square bracket))s around the property name. That causes the expression between the brackets to be evaluated to produce the property name, analogous to the square bracket property access notation.
 
 ```
 let myTrip = {

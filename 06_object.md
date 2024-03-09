@@ -220,7 +220,7 @@ This function cannot be called normally. Constructors, in JavaScript, are called
 let killerRabbit = new Rabbit("killer");
 ```
 
-In fact, `class` was only introduce in the 2015 edition of JavaScript. Any function can be used as a constructor, and before 2015 the way to define a class was to write a regular function and then manipulate its `prototype` property.
+In fact, `class` was only introduced in the 2015 edition of JavaScript. Any function can be used as a constructor, and before 2015 the way to define a class was to write a regular function and then manipulate its `prototype` property.
 
 ```
 function ArchaicRabbit(type) {

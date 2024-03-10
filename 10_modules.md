@@ -202,7 +202,7 @@ This style of modules provides ((isolation)), to a certain degree, but it does n
 
 {{index "CommonJS modules"}}
 
-If we implement our own module loader, we can do better. The most widely used approach to bolted-on JavaScript modules is called _CommonJS modules_. ((Node.js)) used it from the start (though it now also knows how to load ES modules) it and is the module system used by many packages on ((NPM)).
+If we implement our own module loader, we can do better. The most widely used approach to bolted-on JavaScript modules is called _CommonJS modules_. ((Node.js)) used it from the start (though it now also knows how to load ES modules) and it is the module system used by many packages on ((NPM)).
 
 {{index "require function", [interface, module], "exports object"}}
 

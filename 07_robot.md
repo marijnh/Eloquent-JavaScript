@@ -4,7 +4,7 @@
 
 {{quote {author: "Edsger Dijkstra", title: "The Threats to Computing Science", chapter: true}
 
-[...] the question of whether Machines Can Think [...] is about as relevant as the question of whether Submarines Can Swim.
+The question of whether Machines Can Think [...] is about as relevant as the question of whether Submarines Can Swim.
 
 quote}}
 
@@ -64,15 +64,13 @@ function buildGraph(edges) {
 const roadGraph = buildGraph(roads);
 ```
 
-Given an array of edges, `buildGraph` creates a map object that, for each node, stores an array of connected nodes.
-
 {{index "split method"}}
 
-It uses the `split` method to go from the road strings, which have the form `"Start-End"`, to two-element arrays containing the start and end as separate strings.
+Given an array of edges, `buildGraph` creates a map object that, for each node, stores an array of connected nodes. It uses the `split` method to go from the road strings—which have the form `"Start-End"`)—to two-element arrays containing the start and end as separate strings.
 
 ## The task
 
-Our ((robot)) will be moving around the village. There are parcels in various places, each addressed to some other place. The robot picks up parcels when it comes to them and delivers them when it arrives at their destinations.
+Our ((robot)) will be moving around the village. There are parcels in various places, each addressed to some other place. The robot picks up parcels when it comes across them and delivers them when it arrives at their destinations.
 
 The automaton must decide, at each point, where to go next. It has finished its task when all parcels have been delivered.
 
@@ -92,7 +90,7 @@ Instead, let's condense the village's state down to the minimal set of values th
 
 {{index "VillageState class", "persistent data structure"}}
 
-And while we're at it, let's make it so that we don't _change_ this state when the robot moves but rather compute a _new_ state for the situation after the move.
+While we're at it, let's make it so that we don't _change_ this state when the robot moves but rather compute a _new_ state for the situation after the move.
 
 ```{includeCode: true}
 class VillageState {
@@ -119,7 +117,7 @@ The `move` method is where the action happens. It first checks whether there is 
 
 {{index "map method", "filter method"}}
 
-Then it creates a new state with the destination as the robot's new place. But it also needs to create a new set of parcels—parcels that the robot is carrying (that are at the robot's current place) need to be moved along to the new place. And parcels that are addressed to the new place need to be delivered—that is, they need to be removed from the set of undelivered parcels. The call to `map` takes care of the moving, and the call to `filter` does the delivering.
+Next, the method creates a new state with the destination as the robot's new place. It also needs to create a new set of parcels—parcels that the robot is carrying (that are at the robot's current place) need to be moved along to the new place. And parcels that are addressed to the new place need to be delivered—that is, they need to be removed from the set of undelivered parcels. The call to `map` takes care of the moving, and the call to `filter` does the delivering.
 
 Parcel objects aren't changed when they are moved but re-created. The `move` method gives us a new village state but leaves the old one entirely intact.
 
@@ -138,7 +136,7 @@ console.log(first.place);
 // → Post Office
 ```
 
-The move causes the parcel to be delivered, and this is reflected in the next state. But the initial state still describes the situation where the robot is at the post office and the parcel is undelivered.
+The move causes the parcel to be delivered, which is reflected in the next state. But the initial state still describes the situation where the robot is at the post office and the parcel is undelivered.
 
 ## Persistent data
 
@@ -146,7 +144,7 @@ The move causes the parcel to be delivered, and this is reflected in the next st
 
 Data structures that don't change are called _((immutable))_ or _persistent_. They behave a lot like strings and numbers in that they are who they are and stay that way, rather than containing different things at different times.
 
-In JavaScript, just about everything _can_ be changed, so working with values that are supposed to be persistent requires some restraint. There is a function called `Object.freeze` that changes an object so that writing to its properties is ignored. You could use that to make sure your objects aren't changed, if you want to be careful. Freezing does require the computer to do some extra work, and having updates ignored is just about as likely to confuse someone as having them do the wrong thing. So I usually prefer to just tell people that a given object shouldn't be messed with and hope they remember it.
+In JavaScript, just about everything _can_ be changed, so working with values that are supposed to be persistent requires some restraint. There is a function called `Object.freeze` that changes an object so that writing to its properties is ignored. You could use that to make sure your objects aren't changed, if you want to be careful. Freezing does require the computer to do some extra work, and having updates ignored is just about as likely to confuse someone as having them do the wrong thing. I usually prefer to just tell people that a given object shouldn't be messed with and hope they remember it.
 
 ```
 let object = Object.freeze({value: 5});
@@ -155,9 +153,7 @@ console.log(object.value);
 // → 5
 ```
 
-Why am I going out of my way to not change objects when the language is obviously expecting me to?
-
-Because it helps me understand my programs. This is about complexity management again. When the objects in my system are fixed, stable things, I can consider operations on them in isolation—moving to Alice's house from a given start state always produces the same new state. When objects change over time, that adds a whole new dimension of complexity to this kind of reasoning.
+Why am I going out of my way to not change objects when the language is obviously expecting me to? Because it helps me understand my programs. This is about complexity management again. When the objects in my system are fixed, stable things, I can consider operations on them in isolation—moving to Alice's house from a given start state always produces the same new state. When objects change over time, that adds a whole new dimension of complexity to this kind of reasoning.
 
 For a small system like the one we are building in this chapter, we could handle that bit of extra complexity. But the most important limit on what kind of systems we can build is how much we can understand. Anything that makes your code easier to understand makes it possible to build a more ambitious system.
 
@@ -171,7 +167,7 @@ A delivery ((robot)) looks at the world and decides in which direction it wants 
 
 {{index "runRobot function"}}
 
-Because we want robots to be able to remember things, so that they can make and execute plans, we also pass them their memory and allow them to return a new memory. Thus, the thing a robot returns is an object containing both the direction it wants to move in and a memory value that will be given back to it the next time it is called.
+Because we want robots to be able to remember things so they can make and execute plans, we also pass them their memory and allow them to return a new memory. Thus, the thing a robot returns is an object containing both the direction it wants to move in and a memory value that will be given back to it the next time it is called.
 
 ```{includeCode: true}
 function runRobot(state, robot, memory) {
@@ -188,7 +184,7 @@ function runRobot(state, robot, memory) {
 }
 ```
 
-Consider what a robot has to do to "solve" a given state. It must pick up all parcels by visiting every location that has a parcel and deliver them by visiting every location that a parcel is addressed to, but only after picking up the parcel.
+Consider what a robot has to do to "solve" a given state. It must pick up all parcels by visiting every location that has a parcel and deliver them by visiting every location to which a parcel is addressed, but only after picking up the parcel.
 
 What is the dumbest strategy that could possibly work? The robot could just walk in a random direction every turn. That means, with great likelihood, it will eventually run into all parcels and then also at some point reach the place where they should be delivered.
 
@@ -232,7 +228,7 @@ VillageState.random = function(parcelCount = 5) {
 
 {{index "do loop"}}
 
-We don't want any parcels that are sent from the same place that they are addressed to. For this reason, the `do` loop keeps picking new places when it gets one that's equal to the address.
+We don't want any parcels to be sent from the same place that they are addressed to. For this reason, the `do` loop keeps picking new places when it gets one that's equal to the address.
 
 Let's start up a virtual world.
 
@@ -304,11 +300,11 @@ Still, I wouldn't really call blindly following a fixed route intelligent behavi
 
 To do that, it has to be able to deliberately move toward a given parcel or toward the location where a parcel has to be delivered. Doing that, even when the goal is more than one move away, will require some kind of route-finding function.
 
-The problem of finding a route through a ((graph)) is a typical _((search problem))_. We can tell whether a given solution (a route) is a valid solution, but we can't directly compute the solution the way we could for 2 + 2. Instead, we have to keep creating potential solutions until we find one that works.
+The problem of finding a route through a ((graph)) is a typical _((search problem))_. We can tell whether a given solution (a route) is valid, but we can't directly compute the solution the way we could for 2 + 2. Instead, we have to keep creating potential solutions until we find one that works.
 
 The  number of possible routes through a graph is infinite. But when searching for a route from _A_ to _B_, we are interested only in the ones that start at _A_. We also don't care about routes that visit the same place twice—those are definitely not the most efficient route anywhere. So that cuts down on the number of routes that the route finder has to consider.
 
-In fact, we are mostly interested in the _shortest_ route. So we want to make sure we look at short routes before we look at longer ones. A good approach would be to "grow" routes from the starting point, exploring every reachable place that hasn't been visited yet, until a route reaches the goal. That way, we'll only explore routes that are potentially interesting, and we know that the first route we find is the shortest route (or one of the shortest routes, if there are more than one).
+In fact, since we are mostly interested in the _shortest_ route, we want to make sure we look at short routes before we look at longer ones. A good approach would be to "grow" routes from the starting point, exploring every reachable place that hasn't been visited yet until a route reaches the goal. That way, we'll only explore routes that are potentially interesting, and we know that the first route we find is the shortest route (or one of the shortest routes, if there are more than one).
 
 {{index "findRoute function"}}
 
@@ -335,9 +331,9 @@ The exploring has to be done in the right order—the places that were reached f
 
 Therefore, the function keeps a _((work list))_. This is an array of places that should be explored next, along with the route that got us there. It starts with just the start position and an empty route.
 
-The search then operates by taking the next item in the list and exploring that, which means all roads going from that place are looked at. If one of them is the goal, a finished route can be returned. Otherwise, if we haven't looked at this place before, a new item is added to the list. If we have looked at it before, since we are looking at short routes first, we've found either a longer route to that place or one precisely as long as the existing one, and we don't need to explore it.
+The search then operates by taking the next item in the list and exploring that, which means it looks at all roads going from that place. If one of them is the goal, a finished route can be returned. Otherwise, if we haven't looked at this place before, a new item is added to the list. If we have looked at it before, since we are looking at short routes first, we've found either a longer route to that place or one precisely as long as the existing one, and we don't need to explore it.
 
-You can visually imagine this as a web of known routes crawling out from the start location, growing evenly on all sides (but never tangling back into itself). As soon as the first thread reaches the goal location, that thread is traced back to the start, giving us our route.
+You can visualize this as a web of known routes crawling out from the start location, growing evenly on all sides (but never tangling back into itself). As soon as the first thread reaches the goal location, that thread is traced back to the start, giving us our route.
 
 {{index "connected graph"}}
 
@@ -372,7 +368,7 @@ runRobotAnimation(VillageState.random(),
 
 if}}
 
-This robot usually finishes the task of delivering 5 parcels in about 16 turns. That's slightly better than `routeRobot` but still definitely not optimal.
+This robot usually finishes the task of delivering 5 parcels in about 16 turns. That's slightly better than `routeRobot` but still definitely not optimal. We'll continue refining it in the exercises.
 
 ## Exercises
 
@@ -382,7 +378,7 @@ This robot usually finishes the task of delivering 5 parcels in about 16 turns. 
 
 It's hard to objectively compare ((robot))s by just letting them solve a few scenarios. Maybe one robot just happened to get easier tasks or the kind of tasks that it is good at, whereas the other didn't.
 
-Write a function `compareRobots` that takes two robots (and their starting memory). It should generate 100 tasks and let each of the robots solve each of these tasks. When done, it should output the average number of steps each robot took per task.
+Write a function `compareRobots` that takes two robots (and their starting memory). It generates 100 tasks and lets each of the robots solve each of these tasks. When done, it outputs the average number of steps each robot took per task.
 
 For the sake of fairness, make sure you give each task to both robots, rather than generating different tasks per robot.
 
@@ -441,11 +437,9 @@ hint}}
 
 Most data structures provided in a standard JavaScript environment aren't very well suited for persistent use. Arrays have `slice` and `concat` methods, which allow us to easily create new arrays without damaging the old one. But `Set`, for example, has no methods for creating a new set with an item added or removed.
 
-Write a new class `PGroup`, similar to the `Group` class from [Chapter ?](object#groups), which stores a set of values. Like `Group`, it has `add`, `delete`, and `has` methods.
+Write a new class `PGroup`, similar to the `Group` class from [Chapter ?](object#groups), which stores a set of values. Like `Group`, it has `add`, `delete`, and `has` methods. Its `add` method, however, returns a _new_ `PGroup` instance with the given member added and leaves the old one unchanged. Similarly, `delete` creates a new instance without a given member.
 
-Its `add` method, however, should return a _new_ `PGroup` instance with the given member added and leave the old one unchanged. Similarly, `delete` creates a new instance without a given member.
-
-The class should work for values of any type, not just strings. It does _not_ have to be efficient when used with large amounts of values.
+The class should work for values of any type, not just strings. It does _not_ have to be efficient when used with large numbers of values.
 
 {{index [interface, object]}}
 

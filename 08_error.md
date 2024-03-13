@@ -14,13 +14,13 @@ quote}}
 
 Flaws in computer programs are usually called _((bug))s_. It makes programmers feel good to imagine them as little things that just happen to crawl into our work. In reality, of course, we put them there ourselves.
 
-If a program is crystallized thought, you can roughly categorize bugs into those caused by the thoughts being confused and those caused by mistakes introduced while converting a thought to code. The former type is generally harder to diagnose and fix than the latter.
+If a program is crystallized thought, we can roughly categorize bugs into those caused by the thoughts being confused and those caused by mistakes introduced while converting a thought to code. The former type is generally harder to diagnose and fix than the latter.
 
 ## Language
 
 {{index parsing, analysis}}
 
-Many mistakes could be pointed out to us automatically by the computer, if it knew enough about what we're trying to do. But here JavaScript's looseness is a hindrance. Its concept of bindings and properties is vague enough that it will rarely catch ((typo))s before actually running the program. And even then, it allows you to do some clearly nonsensical things without complaint, such as computing `true * "monkey"`.
+Many mistakes could be pointed out to us automatically by the computer, if it knew enough about what we're trying to do. But here JavaScript's looseness is a hindrance. Its concept of bindings and properties is vague enough that it will rarely catch ((typo))s before actually running the program. Even then, it allows you to do some clearly nonsensical things without complaint, such as computing `true * "monkey"`.
 
 {{index [syntax, error], [property, access]}}
 
@@ -28,7 +28,7 @@ There are some things that JavaScript does complain about. Writing a program tha
 
 {{index NaN, error}}
 
-But often, your nonsense computation will merely produce `NaN` (not a number) or an undefined value, while the program happily continues, convinced that it's doing something meaningful. The mistake will manifest itself only later, after the bogus value has traveled through several functions. It might not trigger an error at all but silently cause the program's output to be wrong. Finding the source of such problems can be difficult.
+Often, however, your nonsense computation will merely produce `NaN` (not a number) or an undefined value, while the program happily continues, convinced that it's doing something meaningful. The mistake will manifest itself only later, after the bogus value has traveled through several functions. It might not trigger an error at all but silently cause the program's output to be wrong. Finding the source of such problems can be difficult.
 
 The process of finding mistakes—bugs—in programs is called _((debugging))_.
 
@@ -38,7 +38,7 @@ The process of finding mistakes—bugs—in programs is called _((debugging))_.
 
 {{indexsee "use strict", "strict mode"}}
 
-JavaScript can be made a _little_ stricter by enabling _strict mode_. This is done by putting the string `"use strict"` at the top of a file or a function body. Here's an example:
+JavaScript can be made a _little_ stricter by enabling _strict mode_. This can done by putting the string `"use strict"` at the top of a file or a function body. Here's an example:
 
 ```{test: "error \"ReferenceError: counter is not defined\""}
 function canYouSpotTheProblem() {
@@ -51,6 +51,10 @@ function canYouSpotTheProblem() {
 canYouSpotTheProblem();
 // → ReferenceError: counter is not defined
 ```
+
+{{index ECMAScript, compatibility}}
+
+Code inside classes and modules (which we will discuss in [Chapter ?](modules)) is automatically strict. The old non-strict behavior still exists only because some old code might depend on it, and the language designers work hard to avoid breaking any existing programs.
 
 {{index "let keyword", [binding, global]}}
 
@@ -71,7 +75,7 @@ console.log(name);
 
 {{index error}}
 
-So the bogus call to `Person` succeeded but returned an undefined value and created the global binding `name`. In strict mode, the result is different.
+The bogus call to `Person` succeeded but returned an undefined value and created the global binding `name`. In strict mode, the result is different.
 
 ```{test: "error \"TypeError: Cannot set properties of undefined (setting 'name')\""}
 "use strict";
@@ -196,7 +200,7 @@ Even if you see the problem already, pretend for a moment that you don't. We kno
 
 {{index "trial and error"}}
 
-This is where you must resist the urge to start making random changes to the code to see whether that makes it better. Instead, _think_. Analyze what is happening and come up with a ((theory)) of why it might be happening. Then, make additional observations to test this theory—or, if you don't yet have a theory, make additional observations to help you come up with one.
+This is where you must resist the urge to start making random changes to the code to see whether that makes it better. Instead, _think_. Analyze what is happening and come up with a ((theory)) of why it might be happening. Then make additional observations to test this theory—or, if you don't yet have a theory, make additional observations to help you come up with one.
 
 {{index "console.log", output, debugging, logging}}
 
@@ -219,7 +223,7 @@ _Right_. Dividing 13 by 10 does not produce a whole number. Instead of `n /= bas
 
 An alternative to using `console.log` to peek into the program's behavior is to use the _debugger_ capabilities of your browser. Browsers come with the ability to set a _((breakpoint))_ on a specific line of your code. When the execution of the program reaches a line with a breakpoint, it is paused, and you can inspect the values of bindings at that point. I won't go into details, as debuggers differ from browser to browser, but look in your browser's ((developer tools)) or search the Web for instructions.
 
-Another way to set a breakpoint is to include a `debugger` statement (consisting of simply that keyword) in your program. If the ((developer tools)) of your browser are active, the program will pause whenever it reaches such a statement.
+Another way to set a breakpoint is to include a `debugger` statement (consisting simply of that keyword) in your program. If the ((developer tools)) of your browser are active, the program will pause whenever it reaches such a statement.
 
 ## Error propagation
 
@@ -229,7 +233,7 @@ Not all problems can be prevented by the programmer, unfortunately. If your prog
 
 {{index "error recovery"}}
 
-If you're programming only for yourself, you can afford to just ignore such problems until they occur. But if you build something that is going to be used by anybody else, you usually want the program to do better than just crash. Sometimes the right thing to do is take the bad input in stride and continue running. In other cases, it is better to report to the user what went wrong and then give up. But in either situation, the program has to actively do something in response to the problem.
+If you're programming only for yourself, you can afford to just ignore such problems until they occur. But if you build something that is going to be used by anybody else, you usually want the program to do better than just crash. Sometimes the right thing to do is take the bad input in stride and continue running. In other cases, it is better to report to the user what went wrong and then give up. In either situation the program has to actively do something in response to the problem.
 
 {{index "promptNumber function", validation}}
 
@@ -237,7 +241,7 @@ Say you have a function `promptNumber` that asks the user for a number and retur
 
 {{index null, undefined, "return value", "special return value"}}
 
-One option is to make it return a special value. Common choices for such values are `null`, `undefined`, or -1.
+One option is to make it return a special value. Common choices for such values are `null`, `undefined`, or `-1`.
 
 ```{test: no}
 function promptNumber(question) {
@@ -267,7 +271,7 @@ function lastElement(array) {
 
 {{index "special return value", readability}}
 
-The second issue with returning special values is that it can lead to awkward code. If a piece of code calls `promptNumber` 10 times, it has to check 10 times whether `null` was returned. And if its response to finding `null` is to simply return `null` itself, callers of the function will in turn have to check for it, and so on.
+The second issue with returning special values is that it can lead to awkward code. If a piece of code calls `promptNumber` 10 times, it has to check 10 times whether `null` was returned. If its response to finding `null` is to simply return `null` itself, callers of the function will in turn have to check for it, and so on.
 
 ## Exceptions
 
@@ -277,7 +281,7 @@ When a function cannot proceed normally, what we would often _like_ to do is jus
 
 {{index ["control flow", exceptions], "raising (exception)", "throw keyword", "call stack"}}
 
-Exceptions are a mechanism that makes it possible for code that runs into a problem to _raise_ (or _throw_) an exception. An exception can be any value. Raising one somewhat resembles a super-charged return from a function: it jumps out of not just the current function but also its callers, all the way down to the first call that started the current execution. This is called _((unwinding the stack))_. You may remember the stack of function calls that was mentioned in [Chapter ?](functions#stack). An exception zooms down this stack, throwing away all the call contexts it encounters.
+Exceptions are a mechanism that makes it possible for code that runs into a problem to _raise_ (or _throw_) an exception. An exception can be any value. Raising one somewhat resembles a super-charged return from a function: it jumps out of not just the current function but also its callers, all the way down to the first call that started the current execution. This is called _((unwinding the stack))_. You may remember the stack of function calls mentioned in [Chapter ?](functions#stack). An exception zooms down this stack, throwing away all the call contexts it encounters.
 
 {{index "error handling", [syntax, statement], "catch keyword"}}
 
@@ -333,7 +337,7 @@ This means when code has several side effects, even if its "regular" control flo
 
 {{index "banking example"}}
 
-Here is some really bad banking code.
+Here is some really bad banking code:
 
 ```{includeCode: true}
 const accounts = {
@@ -367,7 +371,7 @@ One way to address this is to use fewer side effects. Again, a programming style
 
 {{index block, "try keyword", "finally keyword"}}
 
-But that isn't always practical. So there is another feature that `try` statements have. They may be followed by a `finally` block either instead of or in addition to a `catch` block. A `finally` block says "no matter _what_ happens, run this code after trying to run the code in the `try` block."
+Since that isn't always practical, `try` statements have another feature: they may be followed by a `finally` block either instead of or in addition to a `catch` block. A `finally` block says "no matter _what_ happens, run this code after trying to run the code in the `try` block."
 
 ```{includeCode: true}
 function transfer(from, amount) {
@@ -438,13 +442,13 @@ for (;;) {
 
 {{index "infinite loop", "for loop", "catch keyword", debugging}}
 
-The `for (;;)` construct is a way to intentionally create a loop that doesn't terminate on its own. We break out of the loop only when a valid direction is given. _But_ we misspelled `promptDirection`, which will result in an "undefined variable" error. Because the `catch` block completely ignores its exception value (`e`), assuming it knows what the problem is, it wrongly treats the binding error as indicating bad input. Not only does this cause an infinite loop, it  "buries" the useful error message about the misspelled binding.
+The `for (;;)` construct is a way to intentionally create a loop that doesn't terminate on its own. We break out of the loop only when a valid direction is given. Unfortunately, we misspelled `promptDirection`, which will result in an "undefined variable" error. Because the `catch` block completely ignores its exception value (`e`), assuming it knows what the problem is, it wrongly treats the binding error as indicating bad input. Not only does this cause an infinite loop, it  "buries" the useful error message about the misspelled binding.
 
 As a general rule, don't blanket-catch exceptions unless it is for the purpose of "routing" them somewhere—for example, over the network to tell another system that our program crashed. And even then, think carefully about how you might be hiding information.
 
 {{index "exception handling"}}
 
-So we want to catch a _specific_ kind of exception. We can do this by checking in the `catch` block whether the exception we got is the one we are interested in and rethrowing it otherwise. But how do we recognize an exception?
+We want to catch a _specific_ kind of exception. We can do this by checking in the `catch` block whether the exception we got is the one we are interested in, and if not, rethrow it. But how do we recognize an exception?
 
 We could compare its `message` property against the ((error)) message we happen to expect. But that's a shaky way to write code—we'd be using information that's intended for human consumption (the message) to make a programmatic decision. As soon as someone changes (or translates) the message, the code will stop working.
 

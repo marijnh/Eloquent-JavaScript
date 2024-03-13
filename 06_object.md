@@ -12,9 +12,9 @@ quote}}
 
 {{figure {url: "img/chapter_picture_6.jpg", alt: "Illustration of a rabbit next to its prototype, a schematic representation of a rabbit", chapter: framed}}}
 
-[Chapter ?](data) introduced JavaScript's objects, as containers that hold other data.
+[Chapter ?](data) introduced JavaScript's objects as containers that hold other data.
 
-In programming culture, we have a thing called _((object-oriented programming))_, a set of techniques that use objects as the central principle of program organization. Though no one really agrees on its precise definition, object-oriented programming has shaped the design of many programming languages, including JavaScript. This chapter describes the way these ideas can be applied in JavaScript.
+In programming culture, _((object-oriented programming))_ is a set of techniques that use objects as the central principle of program organization. Though no one really agrees on its precise definition, object-oriented programming has shaped the design of many programming languages, including JavaScript. This chapter describes the way these ideas can be applied in JavaScript.
 
 ## Abstract Data Types
 
@@ -22,22 +22,20 @@ In programming culture, we have a thing called _((object-oriented programming))_
 
 The main idea in object-oriented programming is to use objects, or rather _types_ of objects, as the unit of program organization. Setting up a program as a number of strictly separated object types provides a way to think about its structure and thus to enforce some kind of discipline, preventing everything from becoming entangled.
 
-The way to do this is to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). There's people who designed and assembled a mixer, and they have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell, so that the people who only want to mix pancake batter don't have to worry about all that—they only have to understand the few knobs that the mixer can be operated with.
+The way to do this is to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). The people who design and assemble a mixer have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell so that the people who only want to mix pancake batter don't have to worry about all that—they only have to understand the few knobs that the mixer can be operated with.
 
 {{index "class"}}
 
-Similarly, an abstract data type, or object class, is a subprogram that may contain arbitrarily complicated code, but exposes a limited set of methods and properties that people who are working with it are supposed to use. This allows large programs to be built up out of a number of appliance types, limiting the degree to which these different parts are entangled by requiring them to only interact with each other in specific ways.
+Similarly, an _abstract data type_, or _object class_, is a subprogram that may contain arbitrarily complicated code but exposes a limited set of methods and properties that people working with it are supposed to use. This allows large programs to be built up out of a number of appliance types, limiting the degree to which these different parts are entangled by requiring them to only interact with each other in specific ways.
 
 {{index encapsulation, isolation, modularity}}
 
-If a problem is found in one such object class, it can often be repaired, or even completely rewritten, without impacting the rest of the program.
-
-Even better, it may be possible to use object classes in multiple different programs, avoiding the need to recreate their functionality from scratch. You can think of JavaScript's built-in data structures, such as arrays and strings, as such reusable abstract data types.
+If a problem is found in one such object class, it can often be repaired or even completely rewritten without impacting the rest of the program. Even better, it may be possible to use object classes in multiple different programs, avoiding the need to recreate their functionality from scratch. You can think of JavaScript's built-in data structures, such as arrays and strings, as such reusable abstract data types.
 
 {{id interface}}
 {{index [interface, object]}}
 
-Each abstract data type has an _interface_, which is the collection of operations that external code can perform on it. Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on single _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate, since often useful pieces of functionality involve a group of different object classes working closely together.
+Each abstract data type has an _interface_, the collection of operations that external code can perform on it. Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on single _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate, since useful pieces of functionality often involve a group of different object classes working closely together.
 
 {{id obj_methods}}
 
@@ -45,7 +43,7 @@ Each abstract data type has an _interface_, which is the collection of operation
 
 {{index "rabbit example", method, [property, access]}}
 
-In JavaScript methods are nothing more than properties that hold function values. This is a simple method:
+In JavaScript, methods are nothing more than properties that hold function values. This is a simple method:
 
 ```{includeCode: "top_lines:6"}
 function speak(line) {
@@ -62,7 +60,7 @@ hungryRabbit.speak("Got any carrots?");
 
 {{index "this binding", "method call"}}
 
-Typically a method needs to do something with the object it was called on. When a function is called as a method—looked up as a property and immediately called, as in `object.method()`—the binding called `this` in its body automatically points at the object that it was called on.
+Typically a method needs to do something with the object on which it was called. When a function is called as a method—looked up as a property and immediately called, as in `object.method()`—the binding called `this` in its body automatically points at the object on which it was called.
 
 {{id call_method}}
 
@@ -75,7 +73,7 @@ speak.call(whiteRabbit, "Hurry");
 // → The white rabbit says 'Hurry'
 ```
 
-Since each function has its own `this` binding, whose value depends on the way it is called, you cannot refer to the `this` of the wrapping scope in a regular function defined with the `function` keyword.
+Since each function has its own `this` binding whose value depends on the way it is called, you cannot refer to the `this` of the wrapping scope in a regular function defined with the `function` keyword.
 
 {{index "this binding", "arrow function"}}
 
@@ -100,7 +98,7 @@ If I had written the argument to `some` using the `function` keyword, this code 
 
 ## Prototypes
 
-So one way to create an abstract rabbit type with a `speak` method would be to create a helper function that has a rabbit type as parameter, and returns an object holding that as its `type` property and our speak function in its `speak` property.
+One way to create a rabbit object type with a `speak` method would be to create a helper function that has a rabbit type as parameter and returns an object holding that as its `type` property and our speak function in its `speak` property.
 
 All rabbits share that same method. Especially for types with many methods, it would be nice if there was a way to keep a type's methods in a single place, rather than adding them to each object individually.
 
@@ -118,9 +116,9 @@ console.log(empty.toString());
 // → [object Object]
 ```
 
-It looks like we just pulled a property out of an empty object. But in fact `toString` is a method stored in `Object.prototype`, meaning it is available in most objects.
+It looks like we just pulled a property out of an empty object. But in fact, `toString` is a method stored in `Object.prototype`, meaning it is available in most objects.
 
-When an object gets a request for a property that it does not have, its prototype will be searched for the property. If that doesn't have it, _its_ prototype is searched, and so on until an object is reached has no prototype (`Object.prototype` is such an object).
+When an object gets a request for a property that it doesn't have, its prototype will be searched for the property. If that doesn't have it, the _prototype's_ prototype is searched, and so on until an object without prototype is reached (`Object.prototype` is such an object).
 
 ```
 console.log(Object.getPrototypeOf({}) == Object.prototype);
@@ -135,7 +133,7 @@ As you'd guess, `Object.getPrototypeOf` returns the prototype of an object.
 
 {{index inheritance, "Function prototype", "Array prototype", "Object prototype"}}
 
-Many objects don't directly have `Object.prototype` as their ((prototype)) but instead have another object that provides a different set of default properties. Functions derive from `Function.prototype`, and arrays derive from `Array.prototype`.
+Many objects don't directly have `Object.prototype` as their ((prototype)) but instead have another object that provides a different set of default properties. Functions derive from `Function.prototype` and arrays derive from `Array.prototype`.
 
 ```
 console.log(Object.getPrototypeOf(Math.max) ==
@@ -151,7 +149,7 @@ Such a prototype object will itself have a prototype, often `Object.prototype`, 
 
 {{index "rabbit example", "Object.create function"}}
 
-You can use `Object.create` to create an object with a specific ((prototype)).
+You can use `Object.create` to create an object with a specific ((prototype)):
 
 ```{includeCode: "top_lines: 7"}
 let protoRabbit = {
@@ -167,7 +165,7 @@ blackRabbit.speak("I am fear and darkness");
 
 {{index "shared property"}}
 
-The "proto" rabbit acts as a container for the properties that are shared by all rabbits. An individual rabbit object, like the black rabbit, contains properties that apply only to itself—in this case its type—and derives shared properties from its prototype.
+The "proto" rabbit acts as a container for the properties shared by all rabbits. An individual rabbit object, like the black rabbit, contains properties that apply only to itself—in this case its type—and derives shared properties from its prototype.
 
 {{id classes}}
 
@@ -175,7 +173,7 @@ The "proto" rabbit acts as a container for the properties that are shared by all
 
 {{index "object-oriented programming", "abstract data type"}}
 
-JavaScript's ((prototype)) system can be interpreted as a somewhat free-form take on abstract data types or ((class))es. A class defines the shape of a type of object—what methods and properties it has. Such an object is called an _((instance))_ of the class.
+JavaScript's ((prototype)) system can be interpreted as a somewhat free-form take on abstract data types or ((class))es. A _class_ defines the shape of a type of object—what methods and properties it has. Such an object is called an _((instance))_ of the class.
 
 {{index [property, inheritance]}}
 
@@ -183,7 +181,7 @@ Prototypes are useful for defining properties for which all instances of a class
 
 {{id constructors}}
 
-So to create an instance of a given class, you have to make an object that derives from the proper prototype, but you _also_ have to make sure it, itself, has the properties that instances of this class are supposed to have. This is what a _((constructor))_ function does.
+To create an instance of a given class, you have to make an object that derives from the proper prototype, but you _also_ have to make sure it itself has the properties that instances of this class are supposed to have. This is what a _((constructor))_ function does.
 
 ```
 function makeRabbit(type) {
@@ -210,17 +208,17 @@ class Rabbit {
 
 {{index "prototype property", [braces, class]}}
 
-The `class` keyword starts a ((class declaration)), which allows us to define a constructor and a set of methods together. Any number of methods may be written inside the declaration's braces. This code has the effect of defining a binding called `Rabbit`, which holds a function that runs the code in `constructor`, and has a `prototype` property which holds the `speak` method.
+The `class` keyword starts a ((class declaration)), which allows us to define a constructor and a set of methods together. Any number of methods may be written inside the declaration's braces. This code has the effect of defining a binding called `Rabbit`, which holds a function that runs the code in `constructor` and has a `prototype` property which holds the `speak` method.
 
 {{index "new operator", "this binding", [object, creation]}}
 
-This function cannot be called normally. Constructors, in JavaScript, are called by putting the keyword `new` in front of them. Doing so creates a fresh object with the object held in the function's `prototype` property as prototype, then runs the function with `this` bound to the new object, and finally returns the object.
+This function cannot be called like a normal function. Constructors, in JavaScript, are called by putting the keyword `new` in front of them. Doing so creates a fresh instance object whose prototype is the object from the function's `prototype` property, then runs the function with `this` bound to the new object, and finally returns the object.
 
 ```{includeCode: true}
 let killerRabbit = new Rabbit("killer");
 ```
 
-In fact, `class` was only introduced in the 2015 edition of JavaScript. Any function can be used as a constructor, and before 2015 the way to define a class was to write a regular function and then manipulate its `prototype` property.
+In fact, `class` was only introduced in the 2015 edition of JavaScript. Any function can be used as a constructor, and before 2015, the way to define a class was to write a regular function and then manipulate its `prototype` property.
 
 ```
 function ArchaicRabbit(type) {
@@ -240,7 +238,7 @@ By convention, the names of constructors are capitalized so that they can easily
 
 {{index "prototype property", "getPrototypeOf function"}}
 
-It is important to understand the distinction between the way a prototype is associated with a constructor (through its `prototype` _property_) and the way objects _have_ a prototype (which can be found with `Object.getPrototypeOf`). The actual prototype of a constructor is `Function.prototype` since constructors are functions. Its `prototype` _property_ holds the prototype used for instances created through it.
+It is important to understand the distinction between the way a prototype is associated with a constructor (through its `prototype` property) and the way objects _have_ a prototype (which can be found with `Object.getPrototypeOf`). The actual prototype of a constructor is `Function.prototype` since constructors are functions. The constructor function's `prototype` _property_ holds the prototype used for instances created through it.
 
 ```
 console.log(Object.getPrototypeOf(Rabbit) ==
@@ -277,7 +275,7 @@ console.log(object.getWord());
 
 {{index [property, private], [property, public], "class declaration"}}
 
-It is common for classes to define some properties and ((method))s for internal use, which are not part of their ((interface)). These are called _private_ properties, as opposed to _public_ ones, which are part of the object's external interface.
+It is common for classes to define some properties and ((method))s for internal use that are not part of their ((interface)). These are called _private_ properties, as opposed to _public_ ones, which are part of the object's external interface.
 
 {{index [method, private]}}
 
@@ -294,6 +292,8 @@ class SecretiveObject {
   }
 }
 ```
+
+When a class does not declare a constructor, it will automatically get an empty one.
 
 If you try to call `#getSecret` from outside the class, you get an error. Its existence is entirely hidden inside the class declaration.
 
@@ -340,7 +340,7 @@ The following diagram sketches the situation after this code has run. The `Rabbi
 
 {{index "shared property"}}
 
-Overriding properties that exist in a prototype can be a useful thing to do. As the rabbit teeth example shows, overriding can be used to express exceptional properties in instances of a more generic class of objects, while letting the nonexceptional objects take a standard value from their prototype.
+Overriding properties that exist in a prototype can be a useful thing to do. As the rabbit teeth example shows, overriding can be used to express exceptional properties in instances of a more generic class of objects while letting the nonexceptional objects take a standard value from their prototype.
 
 {{index "toString method", "Array prototype", "Function prototype"}}
 
@@ -367,7 +367,7 @@ console.log(Object.prototype.toString.call([1, 2]));
 
 {{index "map method"}}
 
-We saw the word _map_ used in the [previous chapter](higher_order#map) for an operation that transforms a data structure by applying a function to its elements. Confusing as it is, in programming the same word is also used for a related but rather different thing.
+We saw the word _map_ used in the [previous chapter](higher_order#map) for an operation that transforms a data structure by applying a function to its elements. Confusing as it is, in programming the same word is used for a related but rather different thing.
 
 {{index "map (data structure)", "ages example", ["data structure", map]}}
 
@@ -390,11 +390,11 @@ console.log("Is toString's age known?", "toString" in ages);
 
 {{index "Object.prototype", "toString method"}}
 
-Here, the object's property names are the people's names, and the property values are their ages. But we certainly didn't list anybody named toString in our map. Yet, because plain objects derive from `Object.prototype`, it looks like the property is there.
+Here, the object's property names are the people's names and the property values are their ages. But we certainly didn't list anybody named toString in our map. Yet, because plain objects derive from `Object.prototype`, it looks like the property is there.
 
 {{index "Object.create function", prototype}}
 
-As such, using plain objects as maps is dangerous. There are several possible ways to avoid this problem. First, it is possible to create objects with _no_ prototype. If you pass `null` to `Object.create`, the resulting object will not derive from `Object.prototype` and can safely be used as a map.
+As such, using plain objects as maps is dangerous. There are several possible ways to avoid this problem. First, you can create objects with _no_ prototype. If you pass `null` to `Object.create`, the resulting object will not derive from `Object.prototype` and can safely be used as a map.
 
 ```
 console.log("toString" in Object.create(null));
@@ -455,7 +455,7 @@ console.log(String(killerRabbit));
 
 {{index "object-oriented programming", [interface, object]}}
 
-This is a simple instance of a powerful idea. When a piece of code is written to work with objects that have a certain interface—in this case, a `toString` method—any kind of object that happens to support this interface can be plugged into the code, and it will be able to work with it.
+This is a simple instance of a powerful idea. When a piece of code is written to work with objects that have a certain interface—in this case, a `toString` method—any kind of object that happens to support this interface can be plugged into the code and will be able to work with it.
 
 This technique is called _polymorphism_. Polymorphic code can work with values of different shapes, as long as they support the interface it expects.
 
@@ -479,7 +479,7 @@ Array.prototype.forEach.call({
 
 Interfaces often contain plain properties, not just methods. For example, `Map` objects have a `size` property that tells you how many keys are stored in them.
 
-It is not necessary for such an object to compute and store such a property directly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called _((getter))s_, and they are defined by writing `get` in front of the method name in an object expression or class declaration.
+It is not necessary for such an object to compute and store such a property directly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called _((getter))s_ and are defined by writing `get` in front of the method name in an object expression or class declaration.
 
 ```{test: no}
 let varyingSize = {
@@ -529,7 +529,13 @@ The `Temperature` class allows you to read and write the temperature in either d
 
 Sometimes you want to attach some properties directly to your constructor function, rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
 
-Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. So the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit.
+Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. For example, the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit:
+
+```
+let boil = Temperature.fromFahrenheit(212);
+console.log(boil.celsius);
+// → 100
+```
 
 ## Symbols
 
@@ -537,13 +543,13 @@ Inside a class declaration, methods or properties that have `static` written bef
 
 I mentioned in [Chapter ?](data#for_of_loop) that a `for`/`of` loop can loop over several kinds of data structures. This is another case of polymorphism—such loops expect the data structure to expose a specific interface, which arrays and strings do. And we can also add this interface to our own objects! But before we can do that, we need to briefly take a look at the symbol type.
 
-It is possible for multiple interfaces to use the same property name for different things. For example, on array-like objects, `length` refers to the amount of elements in the collection. But an object interface describing a hiking route could use `length` to provide the length of the route in meters. It would not be possible for an object to conform to both these interfaces.
+It is possible for multiple interfaces to use the same property name for different things. For example, on array-like objects, `length` refers to the number of elements in the collection. But an object interface describing a hiking route could use `length` to provide the length of the route in meters. It would not be possible for an object to conform to both these interfaces.
 
-An object trying to be a route and array-like (maybe to enumerate its waypoints) is somewhat far-fetched, and this kind of problem isn't that common in practice. But for things like the iteration protocol, the language designers needed a type of property that _really_ doesn't conflict with any others. So in 2015, _((symbol))s_ were added to the language.
+An object trying to be a route and array-like (maybe to enumerate its waypoints) is somewhat far-fetched, and this kind of problem isn't that common in practice. For things like the iteration protocol, though, the language designers needed a type of property that _really_ doesn't conflict with any others. So in 2015, _((symbol))s_ were added to the language.
 
 {{index "Symbol function", [property, naming]}}
 
-Most properties, including all the properties we have seen so far, are named with strings. But it is also possible to use symbols as property names. Symbols are values created with the `Symbol` function. Unlike strings, newly created symbols are unique—you cannot create the same symbol twice.
+Most properties, including all those we have seen so far, are named with strings. But it is also possible to use symbols as property names. Symbols are values created with the `Symbol` function. Unlike strings, newly created symbols are unique—you cannot create the same symbol twice.
 
 ```
 let sym = Symbol("name");
@@ -632,7 +638,7 @@ class List {
 }
 ```
 
-Note that `this`, in a static method, points at the constructor of the class, not an instance—there is no instance around, when a static method is called.
+Note that `this`, in a static method, points at the constructor of the class, not an instance—there is no instance around when a static method is called.
 
 Iterating over a list should return all the list's elements from start to end. We'll write a separate class for the iterator.
 
@@ -655,7 +661,7 @@ class ListIterator {
 }
 ```
 
-The class tracks the progress of iterating through the list by updating its `list` property to move to the next list object whenever a value is returned, and reports that it is done when that list is empty (null).
+The class tracks the progress of iterating through the list by updating its `list` property to move to the next list object whenever a value is returned and reports that it is done when that list is empty (null).
 
 Let's set up the `List` class to be iterable. Throughout this book, I'll occasionally use after-the-fact prototype manipulation to add methods to classes so that the individual pieces of code remain small and self-contained. In a regular program, where there is no need to split the code into small pieces, you'd declare these methods directly in the class instead.
 
@@ -681,7 +687,7 @@ for (let element of list) {
 
 {{index spread}}
 
-The `...` syntax in array notation and function calls similarly works with any iterable object. So for example, you can use `[...value]` to create an array containing the elements in an arbitrary iterable object.
+The `...` syntax in array notation and function calls similarly works with any iterable object. For example, you can use `[...value]` to create an array containing the elements in an arbitrary iterable object.
 
 ```
 console.log([..."PCI"]);
@@ -692,11 +698,11 @@ console.log([..."PCI"]);
 
 {{index inheritance, "linked list", "object-oriented programming", "LengthList class"}}
 
-Imagine we needed a list type, much like the `List` class we saw before, but because we will be asking for its length all the time, we don't want it to have to scan through its `rest` every time, and instead want to store the length in every instance for efficient access.
+Imagine we need a list type much like the `List` class we saw before, but because we will be asking for its length all the time, we don't want it to have to scan through its `rest` every time. Instead, we want to store the length in every instance for efficient access.
 
 {{index overriding, prototype}}
 
-JavaScript's prototype system makes it possible to create a _new_ class, much like the old class, but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `length` getter.
+JavaScript's prototype system makes it possible to create a _new_ class, much like the old class but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `length` getter.
 
 In object-oriented programming terms, this is called _((inheritance))_. The new class inherits properties and behavior from the old class.
 
@@ -728,7 +734,7 @@ Inheritance allows us to build slightly different data types from existing data 
 
 {{index complexity, reuse, "class hierarchy"}}
 
-Whereas ((encapsulation)) and polymorphism can be used to _separate_ pieces of code from each other, reducing the tangledness of the overall program, ((inheritance)) fundamentally ties classes together, creating _more_ tangle. When inheriting from a class, you usually have to know more about how it works than when simply using it. Inheritance can be a useful tool to make some types of programs more succinct, but it shouldn't be the first tool you reach for, and you probably shouldn't actively go looking for opportunities to construct class hierarchies (family trees of classes).
+Whereas ((encapsulation)) and polymorphism can be used to _separate_ pieces of code from one another, reducing the tangledness of the overall program, ((inheritance)) fundamentally ties classes together, creating _more_ tangle. When inheriting from a class, you usually have to know more about how it works than when simply using it. Inheritance can be a useful tool to make some types of programs more succinct, but it shouldn't be the first tool you reach for, and you probably shouldn't actively go looking for opportunities to construct class hierarchies (family trees of classes).
 
 ## The instanceof operator
 
@@ -758,7 +764,7 @@ Objects do more than just hold their own properties. They have prototypes, which
 
 Constructors, which are functions whose names usually start with a capital letter, can be used with the `new` operator to create new objects. The new object's prototype will be the object found in the `prototype` property of the constructor. You can make good use of this by putting the properties that all values of a given type share into their prototype. There's a `class` notation that provides a clear way to define a constructor and its prototype.
 
-You can define getters and setters to secretly call methods every time an object's property is accessed. Static methods are methods stored in a class's constructor, rather than its prototype.
+You can define getters and setters to secretly call methods every time an object's property is accessed. Static methods are methods stored in a class's constructor rather than its prototype.
 
 The `instanceof` operator can, given an object and a constructor, tell you whether that object is an instance of that constructor.
 
@@ -776,7 +782,7 @@ When implementing multiple classes that differ in only some details, it can be h
 
 {{index dimensions, "Vec class", coordinates, "vector (exercise)"}}
 
-Write a ((class)) `Vec` that represents a vector in two-dimensional space. It takes `x` and `y` parameters (numbers), which it should save to properties of the same name.
+Write a ((class)) `Vec` that represents a vector in two-dimensional space. It takes `x` and `y` parameters (numbers), that it saves to properties of the same name.
 
 {{index addition, subtraction}}
 

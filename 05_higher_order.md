@@ -1,12 +1,12 @@
 {{meta {load_files: ["code/scripts.js", "code/chapter/05_higher_order.js", "code/intro.js"], zip: "node/html"}}}
 
-# Higher-Order Functions
+# Higher-Order Fonksiyonlar
 
 {{quote {author: "C.A.R. Hoare", title: "1980 ACM Turing Award Lecture", chapter: true}
 
 {{index "Hoare, C.A.R."}}
 
-There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies.
+Yazılım tasarımını iki şekilde oluşturmak mümkündür: Bir yolu, o kadar basit yapmaktır ki herhangi bir eksiklik olmasın, diğer yolu ise o kadar karmaşık yapmaktır ki açıkça herhangi bir eksiklik olmasın.
 
 quote}}
 
@@ -14,11 +14,11 @@ quote}}
 
 {{index "program size"}}
 
-A large program is a costly program, and not just because of the time it takes to build. Size almost always involves ((complexity)), and complexity confuses programmers. Confused programmers, in turn, introduce mistakes (_((bug))s_) into programs. A large program then provides a lot of space for these bugs to hide, making them hard to find.
+Büyük bir program maliyetli bir programdır ve bunun yalnızca inşa etme süresiyle ilgili olduğunu söylemek yanlış olur. Boyut neredeyse her zaman karmaşıklığı içerir ve karmaşıklık programcıları kafası karıştırır. Kafası karışık olan programcılar da hatalar (bug) eklerler. Büyük bir program, bu hataların gizlenmesi için çok fazla alan sağlar ve onları bulmayı zorlaştırır.
 
 {{index "summing example"}}
 
-Let's briefly go back to the final two example programs in the introduction. The first is self-contained and six lines long.
+Girişteki son iki örnek programı kısaca gözden geçirelim. İlki kendine özgüdür ve altı satırdır.
 
 ```
 let total = 0, count = 1;
@@ -29,67 +29,67 @@ while (count <= 10) {
 console.log(total);
 ```
 
-The second relies on two external functions and is one line long.
+İkincisi iki harici fonksiyona dayanır ve bir satır uzunluğundadır.
 
 ```
 console.log(sum(range(1, 10)));
 ```
 
-Which one is more likely to contain a bug?
+Hangisinin hata içerme olasılığı daha yüksektir?
 
 {{index "program size"}}
 
-If we count the size of the definitions of `sum` and `range`, the second program is also big—even bigger than the first. But still, I'd argue that it is more likely to be correct.
+`sum` ve `range` tanımlarının boyutunu sayarsak, ikinci program da büyüktür - hatta birincisinden daha büyüktür. Ancak yine de, doğru olma olasılığının daha yüksek olduğunu iddia ederim.
 
 {{index [abstraction, "with higher-order functions"], "domain-specific language"}}
 
-It is more likely to be correct because the solution is expressed in a ((vocabulary)) that corresponds to the problem being solved. Summing a range of numbers isn't about loops and counters. It is about ranges and sums.
+Doğru olma olasılığı daha yüksektir çünkü çözüm, çözülen problemle uyumlu bir ((kelime dağarcığıyla)) ifade edilmiştir. Bir sayı aralığının toplanması döngüler ve sayıcılar hakkında değildir. Aralıklar ve toplamlar hakkındadır.
 
-The definitions of this vocabulary (the functions `sum` and `range`) will still involve loops, counters, and other incidental details. But because they are expressing simpler concepts than the program as a whole, they are easier to get right.
+Bu kelime dağarcığının tanımları (`sum` ve `range` fonksiyonları) hala döngüler, sayıcılar ve diğer tesadüfi ayrıntılar içerecektir. Ancak, programın tamamından daha basit kavramları ifade ettikleri için anlaşılmaları daha kolaydır.
 
-## Abstraction
+## Soyutlama
 
-In the context of programming, these kinds of vocabularies are usually called _((abstraction))s_. Abstractions give us the ability to talk about problems at a higher (or more abstract) level, without getting sidetracked down by uninteresting details.
+Programlama bağlamında, bu tür kavramlar genellikle ((soyutlama)) olarak adlandırılır. Soyutlamalar, bizi, ilginç olmayan ayrıntılarla uğraştırmadan daha yüksek (veya daha soyut) bir seviyede problemleri tartışma yeteneği verir.
 
 {{index "recipe analogy", "pea soup"}}
 
-As an analogy, compare these two recipes for pea soup. The first one goes like this:
+Bir benzetme olarak, bezelye çorbası için bu iki tarifi karşılaştırın. İlk tarif şöyle:
 
 {{quote
 
-Put 1 cup of dried peas per person into a container. Add water until the peas are well covered. Leave the peas in water for at least 12 hours. Take the peas out of the water and put them in a cooking pan. Add 4 cups of water per person. Cover the pan and keep the peas simmering for two hours. Take half an onion per person. Cut it into pieces with a knife. Add it to the peas. Take a stalk of celery per person. Cut it into pieces with a knife. Add it to the peas. Take a carrot per person. Cut it into pieces. With a knife! Add it to the peas. Cook for 10 more minutes.
+Her kişi başına 1 su bardağı kuru bezelye bir kaba koyun. Bezelyeler suyla iyi bir şekilde kaplanana kadar su ekleyin. Bezelyeleri en az 12 saat suyun içinde bırakın. Bezelyeleri sudan çıkarın ve bir tencereye koyun. Her kişi başına 4 su bardağı su ekleyin. Tencereyi kapatın ve bezelyelerin kısık ateşte iki saat boyunca kaynamasını sağlayın. Her kişi başına yarım soğan alın. Bir bıçakla parçalara kesin. Bezelyelere ekleyin. Her kişi başına bir sap kereviz alın. Bir bıçakla parçalara kesin. Bezelyelere ekleyin. Her kişi başına bir havuç alın. Parçalara kesin. Bir bıçakla! Bezelyelere ekleyin. 10 dakika daha pişirin.
 
 quote}}
 
-And this is the second recipe:
+Ve bu da ikinci tarif:
 
 {{quote
 
-Per person: 1 cup dried split peas, 4 cups of water, half a chopped onion, a stalk of celery, and a carrot.
+Her kişi başına: 1 su bardağı kuru bezelye, 4 su bardağı su, yarım doğranmış soğan, bir sap kereviz ve bir havuç.
 
-Soak peas for 12 hours. Simmer for 2 hours. Chop and add vegetables. Cook for 10 more minutes.
+Bezelyeleri 12 saat bekletin. 2 saat kaynatın. Sebzeleri doğrayın ve ekleyin. 10 dakika daha pişirin.
 
 quote}}
 
 {{index vocabulary}}
 
-The second is shorter and easier to interpret. But you do need to understand a few more cooking-related words such as _soak_, _simmer_, _chop_, and, I guess, _vegetable_.
+İkincisi daha kısa ve yorumlaması daha kolaydır. Ancak, _bekletme_, _kaynatma_, _doğrama_ ve sanırım _sebze_ gibi birkaç daha fazla yemekle ilgili kelimeyi anlamanız gerekecek.
 
-When programming, we can't rely on all the words we need to be waiting for us in the dictionary. Thus, we might fall into the pattern of the first recipe—work out the precise steps the computer has to perform, one by one, blind to the higher-level concepts that they express.
+Programlama yaparken, ihtiyacımız olan tüm kelimelerin sözlükte bizi beklediğine güvenemeyiz. Bu nedenle, birinci tarifin kalıbına düşebiliriz - bilgisayarın adım adım yapması gereken kesin adımları çıkarırken, bunların ifade ettiği daha yüksek düzeydeki kavramlara kör oluruz.
 
 {{index abstraction}}
 
-It is a useful skill, in programming, to notice when you are working at too low a level of abstraction.
+Programlama yaparken, ne zaman çok düşük veya çok yüksek bir soyutlama seviyesinde çalıştığınızı fark etmek faydalı bir beceridir.
 
-## Abstracting repetition
+## Tekrarı soyutlama
 
 {{index [array, iteration]}}
 
-Plain functions, as we've seen them so far, are a good way to build abstractions. But sometimes they fall short.
+Şimdiye kadar gördüğümüz gibi düz fonksiyonlar, soyutlamalar oluşturmanın iyi bir yoludur. Ancak bazen yetersiz kalabilirler.
 
 {{index "for loop"}}
 
-It is common for a program to do something a given number of times. You can write a `for` ((loop)) for that, like this:
+Programın belirli bir sayıda bir şey yapması yaygındır. Bunu şöyle bir `for` ((döngüsü)) ile yapabilirsiniz:
 
 ```
 for (let i = 0; i < 10; i++) {
@@ -97,7 +97,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-Can we abstract "doing something _N_ times" as a function? Well, it's easy to write a function that calls `console.log` _N_ times.
+İşlemi "_N_ kez bir şey yapmak" şeklinde soyutlayabilir miyiz? Evet, bir `console.log` ifadesini _N_ kez çağıran bir fonksiyon yazmak oldukça kolaydır.
 
 ```
 function repeatLog(n) {
@@ -111,7 +111,7 @@ function repeatLog(n) {
 
 {{indexsee "higher-order function", "function, higher-order"}}
 
-But what if we want to do something other than logging the numbers? Since "doing something" can be represented as a function and functions are just values, we can pass our action as a function value.
+Ancak, sayıları görüntülemek dışında başka bir şey yapmak istersek? "bir şey yapmak" bir fonksiyon olarak temsil edilebilir ve fonksiyonlar sadece değerler olduklarına göre, eylemimizi bir fonksiyon değeri olarak iletebiliriz.
 
 ```{includeCode: "top_lines: 5"}
 function repeat(n, action) {
@@ -126,7 +126,7 @@ repeat(3, console.log);
 // → 2
 ```
 
-We don't have to pass a predefined function to `repeat`. Often, it is easier to create a function value on the spot instead.
+`repeat` fonksiyonuna önceden tanımlanmış bir fonksiyon geçmek zorunda değiliz. Genellikle, yerinde bir fonksiyon değeri oluşturmak daha kolaydır.
 
 ```
 let labels = [];
@@ -139,17 +139,17 @@ console.log(labels);
 
 {{index "loop body", [braces, body], [parentheses, arguments]}}
 
-This is structured a little like a `for` loop—it first describes the kind of loop and then provides a body. However, the body is now written as a function value, which is wrapped in the parentheses of the call to `repeat`. This is why it has to be closed with the closing brace _and_ closing parenthesis. In cases like this example, where the body is a single small expression, you could also omit the braces and write the loop on a single line.
+Bu, `for` döngüsüne biraz benzeyen bir şekilde yapılandırılmıştır - önce döngü türünü tanımlar, ardından bir gövde sağlar. Ancak, gövde artık bir fonksiyon değeri olarak yazılmıştır ve çağrının parantezleri içine alınmıştır. Bu nedenle kapatılması gereken süslü parantez ve kapanan normal parantezle kapatılmalıdır. Bu örnekte olduğu gibi, gövde tek bir küçük ifade ise süslü parantezleri atlayabilir ve döngüyü tek bir satırda da yazabilirsiniz.
 
-## Higher-order functions
+## Higher-order fonksiyonlar
 
 {{index [function, "higher-order"], [function, "as value"]}}
 
-Functions that operate on other functions, either by taking them as arguments or by returning them, are called _higher-order functions_. Since we have already seen that functions are regular values, there is nothing particularly remarkable about the fact that such functions exist. The term comes from ((mathematics)), where the distinction between functions and other values is taken more seriously.
+Başka fonksiyonlar üzerinde, fonskiyonu argüman olarak alarak ya da fonksiyon döndürerek işlem yapan fonksiyonlara _higher-order fonksiyonlar_ denir. Fonksiyonların sıradan değerler olduğunu zaten gördüğümüze göre, bu tür fonksiyonların varlığıyla ilgili olarak özellikle dikkate değer bir şey fark etmişizdir. Terim ((matematik))ten gelir, burada fonksiyonlar ve diğer değerler arasındaki ayrım daha ciddiye alınır.
 
 {{index abstraction}}
 
-Higher-order functions allow us to abstract over _actions_, not just values. They come in several forms. For example, we can have functions that create new functions.
+Higher-order fonksiyonlar, sadece değerleri değil _eylemleri_ soyutlamamıza izin verir. Birkaç formda gelirler. Mesela, yeni fonksiyonlar oluşturan fonksiyonlar oluşturabiliriz.
 
 ```
 function greaterThan(n) {
@@ -160,7 +160,7 @@ console.log(greaterThan10(11));
 // → true
 ```
 
-And we can have functions that change other functions.
+Ve diğer fonksiyonları değiştiren fonksiyonlara sahip olabiliriz.
 
 ```
 function noisy(f) {
@@ -176,7 +176,7 @@ noisy(Math.min)(3, 2, 1);
 // → called with [3, 2, 1] , returned 1
 ```
 
-We can even write functions that provide new types of ((control flow)).
+Yeni türlerde ((kontrol akışı)) sağlayan fonksiyonlar bile yazabiliriz.
 
 ```
 function unless(test, then) {
@@ -194,7 +194,7 @@ repeat(3, n => {
 
 {{index [array, methods], [array, iteration], "forEach method"}}
 
-There is a built-in array method, `forEach`, that provides something like a `for`/`of` loop as a higher-order function.
+`for`/`of` döngüsü gibi bir yapıyı higher-order fonksiyon olarak tanımlayan `forEach` adında yerleşik bir array metodu vardır.
 
 ```
 ["A", "B"].forEach(l => console.log(l));
@@ -204,20 +204,19 @@ There is a built-in array method, `forEach`, that provides something like a `for
 
 {{id scripts}}
 
-## Script data set
+## Script data seti
 
-One area where higher-order functions shine is data processing. To process data, we'll need some actual data. This chapter will use a ((data set)) about scripts—((writing system))s such as Latin, Cyrillic, or Arabic.
+Higher-order fonksiyonların parladığı bir alan veri işlemektir. Verileri işlemek için gerçek verilere ihtiyacımız olacak. Bu bölüm, Latin, Kiril veya Arap gibi ((yazı sistemileri)) hakkında((veri seti)) kullanacağız.
 
-Remember ((Unicode)) from [Chapter ?](values#unicode), the system that assigns a number to each character in written language? Most of these characters are associated with a specific script. The standard contains 140 different scripts—81 are still in use today, and 59 are historic.
+[Bölüm ?'ten](values#unicode) ((Unicode)) sistemini hatırladığınız mı? Şu konuşulan dillerdeki her karaktere bir sayı atayan sistem hani? Bu karakterlerin çoğu bir alfabeyle ilişkilidir. Standart, 140 farklı alfabeyi barındırır - 81'i hala günümüzde kullanılırken 59'u tarihidir.
 
-Though I can fluently read only Latin characters, I appreciate the fact that people are writing texts in at least 80 other writing systems, many of which I wouldn't even recognize. For example, here's a sample of ((Tamil)) handwriting:
+Ben sadece Latin karakterlerini akıcı bir şekilde okuyabilirim, ancak insanların en az 80 farklı yazı sistemine ait metinler yazdıklarını takdir ediyorum, bunların çoğunu bile tanımam. Örneğin, işte ((Tamil)) el yazısı örneği:
 
 {{figure {url: "img/tamil.png", alt: "A line of verse in Tamil handwriting. The characters are relatively simple, and neatly separated, yet completely different from Latin."}}}
 
 {{index "SCRIPTS data set"}}
 
-The example ((data set)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script.
-
+Örnek ((data seti)), Unicode'da tanımlanan 140 yazı hakkında bazı bilgiler içerir. Bu, bu bölümde[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} `SCRIPTS` bağlantısı olarak [kod kum havuzunda](https://eloquentjavascript.net/code#5) mevcuttur. Bağlantı, her biri bir alfabeyi tanımlayan nesnelerin bir dizisini içerir.
 
 ```{lang: "json"}
 {
@@ -230,17 +229,17 @@ The example ((data set)) contains some pieces of information about the 140 scrip
 }
 ```
 
-Such an object tells us the name of the script, the Unicode ranges assigned to it, the direction in which it is written, the (approximate) origin time, whether it is still in use, and a link to more information. The direction may be `"ltr"` for left to right, `"rtl"` for right to left (the way Arabic and Hebrew text are written), or `"ttb"` for top to bottom (as with Mongolian writing).
+Böyle bir nesne, alfabenin adını, ona atanmış Unicode aralıklarını, yazıldığı yönu, (yaklaşık) köken zamanını, hala kullanılıp kullanılmadığını ve daha fazla bilgiye yönlendiren bir bağlantının linkini bize bildirir. Yön, soldan sağa için `"ltr"`, sağdan sola için `"rtl"`(Arapça ve İbranice metinlerin yazıldığı yöntem), veya üstten alta için `"ttb"`(Moğolca yazı gibi) olabilir.
 
 {{index "slice method"}}
 
-The `ranges` property contains an array of Unicode character ((range))s, each of which is a two-element array containing a lower bound and an upper bound. Any character codes within these ranges are assigned to the script. The lower ((bound)) is inclusive (code 994 is a Coptic character), and the upper bound is non-inclusive (code 1008 isn't).
+`ranges` özelliği, her biri bir alt sınır ve bir üst sınır içeren iki öğeli bir dizi içeren Unicode karakter ((aralık))larının bir dizisini içerir. Bu aralıklar içindeki herhangi bir karakter kodu yazıya atanır. Alt ((sınır)) kapsayıcıdır (kod 994 bir Kıpti karakteridir), üst sınır kapsayıcı değildir (kod 1008 değildir).
 
-## Filtering arrays
+## Dizileri filtrelemek
 
 {{index [array, methods], [array, filtering], "filter method", [function, "higher-order"], "predicate function"}}
 
-If we want to find the scripts in the data set that are still in use, the following function might be helpful. It filters out elements in an array that don't pass a test.
+Veri kümesinde kullanımda olan yazı sistemlerini bulmak istiyorsak, aşağıdaki fonksiyon faydalı olabilir. Bu, bir dizide bir testi geçmeyen öğeleri filtreler.
 
 ```
 function filter(array, test) {
@@ -259,13 +258,13 @@ console.log(filter(SCRIPTS, script => script.living));
 
 {{index [function, "as value"], [function, application]}}
 
-The function uses the argument named `test`, a function value, to fill a "gap" in the computation—the process of deciding which elements to collect.
+Fonksiyon, hesaplama içinde bir "boşluk" doldurmak için `test` adlı fonksiyon değerindeki verilen argümanı kullanır. Böylelikle hangi elementi tutmak istediğine karar verir.
 
 {{index "filter method", "pure function", "side effect"}}
 
-Note how the `filter` function, rather than deleting elements from the existing array, builds up a new array with only the elements that pass the test. This function is _pure_. It does not modify the array it is given.
+Varolan diziden öğeleri silmek yerine, `filter` fonksiyonu, yalnızca testi geçen öğelerle yeni bir dizi oluşturur. Bu işlev \_saf_tır. Verilen diziyi değiştirmez.
 
-Like `forEach`, `filter` is a ((standard)) array method. The example defined the function only to show what it does internally. From now on, we'll use it like this instead:
+`forEach` gibi, `filter` bir ((standart)) dizi yöntemidir. Örnek, fonskiyonun içerisinde ne yaptığını göstermek için tanımlanmıştır. Bundan sonra, bunu şu şekilde kullanacağız:
 
 ```
 console.log(SCRIPTS.filter(s => s.direction == "ttb"));
@@ -274,15 +273,15 @@ console.log(SCRIPTS.filter(s => s.direction == "ttb"));
 
 {{id map}}
 
-## Transforming with map
+## map ile dönüştürmek
 
 {{index [array, methods], "map method"}}
 
-Say we have an array of objects representing scripts, produced by filtering the `SCRIPTS` array somehow. But we want an array of names, which is easier to inspect.
+Diyelim ki `SCRIPTS` dizisini filtreleme işlemiyle üretilmiş olan yazı sistemlerini temsil eden nesnelerden bir dizimiz var. Ancak obje dizisi yerine, incelemesi daha kolay olan bir isim dizisi istiyoruz.
 
 {{index [function, "higher-order"]}}
 
-The `map` method transforms an array by applying a function to all of its elements and building a new array from the returned values. The new array will have the same length as the input array, but its content will have been _mapped_ to a new form by the function.
+`map` yöntemi, tüm öğelerine bir fonksiyon uygulayarak bir diziyi dönüştürür ve döndürülen değerlerden yeni bir dizi oluşturur. Yeni dizi, giriş dizisiyle aynı uzunluğa sahip olacak, ancak içeriği verilen fonksiyon tarafından yeni bir forma _haritalanmış_ olacak.
 
 ```
 function map(array, transform) {
@@ -298,21 +297,21 @@ console.log(map(rtlScripts, s => s.name));
 // → ["Adlam", "Arabic", "Imperial Aramaic", …]
 ```
 
-Like `forEach` and `filter`, `map` is a standard array method.
+`forEach` ve `filter` gibi, `map` bir standart dizi yöntemidir.
 
-## Summarizing with reduce
+## reduce aracılığıyla özetleme
 
 {{index [array, methods], "summing example", "reduce method"}}
 
-Another common thing to do with arrays is to compute a single value from them. Our recurring example, summing a collection of numbers, is an instance of this. Another example is finding the script with the most characters.
+Dizilerle yapılacak başka yaygın bir işlem, onlardan tek bir değer hesaplamaktır. Tekrarlayan bir örnek olan sayılardan oluşan bir dizinin toplamını bulmak, bunun bir örneğidir. Diğer bir örnek ise en fazla karaktere sahip yazıyı bulmaktır.
 
 {{indexsee "fold", "reduce method"}}
 
 {{index [function, "higher-order"], "reduce method"}}
 
-The higher-order operation that represents this pattern is called _reduce_ (sometimes also called _fold_). It builds a value by repeatedly taking a single element from the array and combining it with the current value. When summing numbers, you'd start with the number zero and, for each element, add that to the sum.
+Bu kalıbı temsil eden higher-order işlem _reduce_ (bazen _fold_ olarak da adlandırılır) adını taşır. Bu, bir diziden bir öğeleri tane tane alarak ve mevcut değerle birleştirerek bir değer oluşturur. Sayıları toplarken, sıfır sayısıyla başlayacak ve her öğeyi toplama ekleyeceksiniz.
 
-The parameters to `reduce` are, apart from the array, a combining function and a start value. This function is a little less straightforward than `filter` and `map`, so take a close look at it:
+`reduce`'un parametreleri, üzerinden geçilecek dizi dışında birleştirme fonksiyonu ve bir başlangıç değeri gerektirmektedir. Bu fonksiyon `filter`ve `map` fonskiyonlarından daha karmaşıktır, lütfen bu örneği dikkatlice bakın:
 
 ```
 function reduce(array, combine, start) {
@@ -329,7 +328,7 @@ console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));
 
 {{index "reduce method", "SCRIPTS data set"}}
 
-The standard array method `reduce`, which of course corresponds to this function, has an added convenience. If your array contains at least one element, you are allowed to leave off the `start` argument. The method will take the first element of the array as its start value and start reducing at the second element.
+Standart dizi metodu ve örnekteki fonksiyonalite ile eşleşen `reduce`, ek bir rahatlığa sahiptir. Eğer diziniz en az bir elementten oluşmaktaysa, `start` argümanını kullanmak zorunda değilsiniz. Metod dizideki ilk elementi başlangıç değeri oalrak alır ve değeri döngüye devam ederek indirgemeye ikinci değerden başlar.
 
 ```
 console.log([1, 2, 3, 4].reduce((a, b) => a + b));
@@ -338,7 +337,7 @@ console.log([1, 2, 3, 4].reduce((a, b) => a + b));
 
 {{index maximum, "characterCount function"}}
 
-To use `reduce` (twice) to find the script with the most characters, we can write something like this:
+En çok karakteri barındıran yazı sistemini bulmak adına `reduce` fonksiyonunu kullanarak (ikinci kere) şöyle bir şey yazabiliriz:
 
 ```
 function characterCount(script) {
@@ -353,9 +352,9 @@ console.log(SCRIPTS.reduce((a, b) => {
 // → {name: "Han", …}
 ```
 
-The `characterCount` function reduces the ranges assigned to a script by summing their sizes. Note the use of destructuring in the parameter list of the reducer function. The second call to `reduce` then uses this to find the largest script by repeatedly comparing two scripts and returning the larger one.
+`characterCount` fonksiyonu aralıkları boyutları toplayarak indirgemektedir. Parametre listesinde gerçekteştirilen destructuring işlemine dikkat edin. `reduce` fonksiyonuna olan ikinci çağrı bunu kullanarak her iki yazı sistemini karşılaştırarak daha büyük olan yazı sistemini döndürmektedir.
 
-The Han script has more than 89,000 characters assigned to it in the Unicode standard, making it by far the biggest writing system in the data set. Han is a script (sometimes) used for Chinese, Japanese, and Korean text. Those languages share a lot of characters, though they tend to write them differently. The (U.S.-based) Unicode Consortium decided to treat them as a single writing system to save character codes. This is called _Han unification_ and still makes some people very angry.
+Han yazısı, Unicode standardında ona atanan 89.000'den fazla karakterle, veri kümesindeki en büyük yazı sistemidir. Han, bazen Çince, Japonca ve Korece metinlerde kullanılır. Bu diller birçok karakteri paylaşır, ancak genellikle farklı yazılır. (ABD merkezli) Unicode Konsorsiyumu, karakter kodlarını kaydetmek için bunları tek bir yazı sistemi olarak ele almaya karar verdi. Buna _Han birleşimi_ denir ve hala bazı insanları çok kızdırıyor.
 
 ## Composability
 
@@ -575,13 +574,14 @@ let arrays = [[1, 2, 3], [4, 5], [6]];
 // Your code here.
 // → [1, 2, 3, 4, 5, 6]
 ```
+
 if}}
 
 ### Your own loop
 
 {{index "your own loop (example)", "for loop"}}
 
-Write a higher-order function `loop` that provides something like a `for` loop statement. It takes a value, a test function, an update function, and a body function. Each iteration, it first runs the test function on the current loop value and stops if that returns false. Then it calls the body function, giving it the current value.  Finally, it calls the update function to create a new value and starts from the beginning.
+Write a higher-order function `loop` that provides something like a `for` loop statement. It takes a value, a test function, an update function, and a body function. Each iteration, it first runs the test function on the current loop value and stops if that returns false. Then it calls the body function, giving it the current value. Finally, it calls the update function to create a new value and starts from the beginning.
 
 When defining the function, you can use a regular loop to do the actual looping.
 
@@ -655,6 +655,7 @@ console.log(dominantDirection("Hello!"));
 console.log(dominantDirection("Hey, مساء الخير"));
 // → rtl
 ```
+
 if}}
 
 {{hint

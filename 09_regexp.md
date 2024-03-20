@@ -30,7 +30,7 @@ In this chapter, I will discuss one such tool, _((regular expression))s_. Regula
 
 {{index [interface, design]}}
 
-Regular expressions are both terribly awkward and extremely useful. Their syntax is cryptic, and the programming interface JavaScript provides for them is clumsy. But they are a powerful ((tool)) for inspecting and processing strings. Properly understanding regular expressions will make you a more effective programmer.
+Regular expressions are both terribly awkward and extremely useful. Their syntax is cryptic and the programming interface JavaScript provides for them is clumsy. But they are a powerful ((tool)) for inspecting and processing strings. Properly understanding regular expressions will make you a more effective programmer.
 
 ## Creating a regular expression
 
@@ -111,7 +111,7 @@ A number of common character groups have their own built-in shortcuts. Digits ar
 | `\S`    | A nonwhitespace character
 | `.`     | Any character except for newline
 
-So you could match a ((date)) and ((time)) format like 01-30-2003 15:20 with the following expression:
+You could match a ((date)) and ((time)) format like 01-30-2003 15:20 with the following expression:
 
 ```
 let dateTime = /\d\d-\d\d-\d\d\d\d \d\d:\d\d/;
@@ -123,11 +123,11 @@ console.log(dateTime.test("30-jan-2003 15:20"));
 
 {{index ["backslash character", "in regular expressions"]}}
 
-That looks completely awful, doesn't it? Half of it is backslashes, producing a background noise that makes it hard to spot the actual ((pattern)) expressed. We'll see a slightly improved version of this expression [later](regexp#date_regexp_counted).
+That regular expression looks completely awful, doesn't it? Half of it is backslashes, producing a background noise that makes it hard to spot the actual ((pattern)) expressed. We'll see a slightly improved version of this expression [later](regexp#date_regexp_counted).
 
 {{index [escaping, "in regexps"], "regular expression", set}}
 
-These backslash codes can also be used inside ((square brackets)). For example, `[\d.]` means any digit or a period character. But the period itself, between square brackets, loses its special meaning. The same goes for other special characters, such as `+`.
+These backslash codes can also be used inside ((square brackets)). For example, `[\d.]` means any digit or a period character. The period itself, between square brackets, loses its special meaning. The same goes for other special characters, such as the plus sign (`+`).
 
 {{index "square brackets", inversion, "caret character"}}
 
@@ -207,7 +207,7 @@ The star (`*`) has a similar meaning but also allows the pattern to match zero t
 
 {{index "British English", "American English", "question mark"}}
 
-A question mark makes a part of a pattern _((optional))_, meaning it may occur zero times or one time. In the following example, the _u_ character is allowed to occur, but the pattern also matches when it is missing.
+A question mark (`?`) makes a part of a pattern _((optional))_, meaning it may occur zero times or one time. In the following example, the _u_ character is allowed to occur, but the pattern also matches when it is missing:
 
 ```
 let neighbor = /neighbou?r/;
@@ -231,13 +231,13 @@ console.log(dateTime.test("1-30-2003 8:45"));
 // → true
 ```
 
-You can also specify open-ended ((range))s when using braces by omitting the number after the comma. So, `{5,}` means five or more times.
+You can also specify open-ended ((range))s when using braces by omitting the number after the comma. For example, `{5,}` means five or more times.
 
 ## Grouping subexpressions
 
 {{index ["regular expression", grouping], grouping, [parentheses, "in regular expressions"]}}
 
-To use an operator like `*` or `+` on more than one element at a time, you have to use parentheses. A part of a regular expression that is enclosed in parentheses counts as a single element as far as the operators following it are concerned.
+To use an operator like `*` or `+` on more than one element at a time, you must use parentheses. A part of a regular expression that is enclosed in parentheses counts as a single element as far as the operators following it are concerned.
 
 ```
 let cartoonCrying = /boo+(hoo+)+/i;
@@ -247,11 +247,11 @@ console.log(cartoonCrying.test("Boohoooohoohooo"));
 
 {{index crying}}
 
-The first and second `+` characters apply only to the second _o_ in _boo_ and _hoo_, respectively. The third `+` applies to the whole group `(hoo+)`, matching one or more sequences like that.
+The first and second `+` characters apply only to the second `o` in `boo` and `hoo`, respectively. The third `+` applies to the whole group `(hoo+)`, matching one or more sequences like that.
 
 {{index "case sensitivity", capitalization, ["regular expression", flags]}}
 
-The `i` at the end of the expression in the example makes this regular expression case insensitive, allowing it to match the uppercase _B_ in the input string, even though the pattern is itself all lowercase.
+The `i` at the end of the expression in the example makes this regular expression case-insensitive, allowing it to match the uppercase _B_ in the input string, even though the pattern is itself all lowercase.
 
 ## Matches and groups
 
@@ -292,7 +292,7 @@ console.log(quotedText.exec("she said 'hello'"));
 
 {{index "capture group"}}
 
-When a group does not end up being matched at all (for example, when followed by a question mark), its position in the output array will hold `undefined`. And when a group is matched multiple times (for example when it is followed by a `+`), only the last match ends up in the array.
+When a group does not end up being matched at all (for example, when followed by a question mark), its position in the output array will hold `undefined`. When a group is matched multiple times (for example, when followed by a `+`), only the last match ends up in the array.
 
 ```
 console.log(/bad(ly)?/.exec("bad"));
@@ -312,13 +312,13 @@ console.log(/(?:na)+/.exec("banana"));
 
 Groups can be useful for extracting parts of a string. If we don't just want to verify whether a string contains a ((date)) but also extract it and construct an object that represents it, we can wrap parentheses around the digit patterns and directly pick the date out of the result of `exec`.
 
-But first we'll take a brief detour, in which we discuss the built-in way to represent date and ((time)) values in JavaScript.
+But first we'll take a brief detour to discuss the built-in way to represent date and ((time)) values in JavaScript.
 
 ## The Date class
 
 {{index constructor, "Date class"}}
 
-JavaScript has a standard class for representing ((date))s—or, rather, points in ((time)). It is called `Date`. If you simply create a date object using `new`, you get the current date and time.
+JavaScript has a standard `Date` class for representing ((date))s, or rather, points in ((time)). If you simply create a date object using `new`, you get the current date and time.
 
 ```{test: no}
 console.log(new Date());
@@ -377,7 +377,7 @@ console.log(getDate("1-30-2003"));
 
 {{index destructuring, "underscore character"}}
 
-The `_` (underscore) binding is ignored and used only to skip the full match element in the array returned by `exec`.
+The underscore (`_`) binding is ignored and used only to skip the full match element in the array returned by `exec`.
 
 ## Boundaries and look-ahead
 
@@ -387,17 +387,17 @@ Unfortunately, `getDate` will also happily extract a date from the string `"100-
 
 {{index boundary, "caret character", "dollar sign"}}
 
-If we want to enforce that the match must span the whole string, we can add the markers `^` and `$`. The caret matches the start of the input string, whereas the dollar sign matches the end. So, `/^\d+$/` matches a string consisting entirely of one or more digits, `/^!/` matches any string that starts with an exclamation mark, and `/x^/` does not match any string (there cannot be an _x_ before the start of the string).
+If we want to enforce that the match must span the whole string, we can add the markers `^` and `$`. The caret matches the start of the input string, whereas the dollar sign matches the end. Thus `/^\d+$/` matches a string consisting entirely of one or more digits, `/^!/` matches any string that starts with an exclamation mark, and `/x^/` does not match any string (there cannot be an `x` before the start of the string).
 
 {{index "word boundary", "word character"}}
 
-There is also a `\b` marker, which matches “word boundaries”, positions that have a word character one side, and a non-word character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w`, and are therefore not very reliable.
+There is also a `\b` marker that matches _word boundaries_, positions that have a word character one side, and a non-word character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w`, and are therefore not very reliable.
 
-Note that these markers don't match any actual characters. They just enforces that a given condition holds at the place where they appears in the pattern.
+Note that these boundary markers don't match any actual characters. They just enforce that a given condition holds at the place where they appears in the pattern.
 
 {{index "look-ahead"}}
 
-_Look-ahead_ tests do something similar. They provide a pattern, and will make the match fail if the input doesn't match that pattern, but don't actually move the match position forward. They are written between `(?=` and `)`.
+_Look-ahead_ tests do something similar. They provide a pattern and will make the match fail if the input doesn't match that pattern, but don't actually move the match position forward. They are written between `(?=` and `)`.
 
 ```
 console.log(/a(?=e)/.exec("braeburn"));
@@ -406,7 +406,7 @@ console.log(/a(?! )/.exec("a b"));
 // → null
 ```
 
-Note how the `e` in the first example is necessary to match, but is not part of the matched string. The `(?! )` notation expresses a _negative_ look-ahead. This only matches if the pattern in the parentheses _doesn't_ match, causing the second example to only match “a” characters that don't have a space after them.
+The `e` in the first example is necessary to match, but is not part of the matched string. The `(?! )` notation expresses a _negative_ look-ahead. This only matches if the pattern in the parentheses _doesn't_ match, causing the second example to only match `a` characters that don't have a space after them.
 
 ## Choice patterns
 
@@ -414,7 +414,7 @@ Note how the `e` in the first example is necessary to match, but is not part of 
 
 Say we want to know whether a piece of text contains not only a number but a number followed by one of the words _pig_, _cow_, or _chicken_, or any of their plural forms.
 
-We could write three regular expressions and test them in turn, but there is a nicer way. The ((pipe character)) (`|`) denotes a ((choice)) between the pattern to its left and the pattern to its right. So I can say this:
+We could write three regular expressions and test them in turn, but there is a nicer way. The ((pipe character)) (`|`) denotes a ((choice)) between the pattern to its left and the pattern to its right. We can use it in expressions like this:
 
 ```
 let animalCount = /\d+ (pig|cow|chicken)s?/;
@@ -426,13 +426,13 @@ console.log(animalCount.test("15 pugs"));
 
 {{index [parentheses, "in regular expressions"]}}
 
-Parentheses can be used to limit the part of the pattern that the pipe operator applies to, and you can put multiple such operators next to each other to express a choice between more than two alternatives.
+Parentheses can be used to limit the part of the pattern to which the pipe operator applies, and you can put multiple such operators next to each other to express a choice between more than two alternatives.
 
 ## The mechanics of matching
 
 {{index ["regular expression", matching], [matching, algorithm], "search problem"}}
 
-Conceptually, when you use `exec` or `test`, the regular expression engine looks for a match in your string by trying to match the expression first from the start of the string, then from the second character, and so on, until it finds a match or reaches the end of the string. It'll either return the first match that can be found or fail to find any match at all.
+Conceptually, when you use `exec` or `test`, the regular expression engine looks for a match in your string by trying to match the expression first from the start of the string, then from the second character, and so on until it finds a match or reaches the end of the string. It'll either return the first match that can be found or fail to find any match at all.
 
 {{index ["regular expression", matching], [matching, algorithm]}}
 
@@ -442,7 +442,7 @@ To do the actual matching, the engine treats a regular expression something like
 
 {{index traversal}}
 
-Our expression matches if we can find a path from the left side of the diagram to the right side. We keep a current position in the string, and every time we move through a box, we verify that the part of the string after our current position matches that box.
+If we can find a path from the left side of the diagram to the right side, our expression matches. We keep a current position in the string, and every time we move through a box, we verify that the part of the string after our current position matches that box.
 
 {{id backtracking}}
 
@@ -450,23 +450,23 @@ Our expression matches if we can find a path from the left side of the diagram t
 
 {{index ["regular expression", backtracking], "binary number", "decimal number", "hexadecimal number", "flow diagram", [matching, algorithm], backtracking}}
 
-The regular expression `/^([01]+b|[\da-f]+h|\d+)$/` matches either a binary number followed by a _b_, a hexadecimal number (that is, base 16, with the letters _a_ to _f_ standing for the digits 10 to 15) followed by an _h_, or a regular decimal number with no suffix character. This is the corresponding diagram:
+The regular expression `/^([01]+b|[\da-f]+h|\d+)$/` matches either a binary number followed by a `b`, a hexadecimal number (that is, base 16, with the letters `a` to `f` standing for the digits 10 to 15) followed by an `h`, or a regular decimal number with no suffix character. This is the corresponding diagram:
 
 {{figure {url: "img/re_number.svg", alt: "Railroad diagram for the regular expression '^([01]+b|\\d+|[\\da-f]+h)$'"}}}
 
 {{index branching}}
 
-When matching this expression, it will often happen that the top (binary) branch is entered even though the input does not actually contain a binary number. When matching the string `"103"`, for example, it becomes clear only at the 3 that we are in the wrong branch. The string _does_ match the expression, just not the branch we are currently in.
+When matching this expression, the top (binary) branch will often be entered even though the input does not actually contain a binary number. When matching the string `"103"`, for example, it becomes clear only at the `3` that we are in the wrong branch. The string _does_ match the expression, just not the branch we are currently in.
 
 {{index backtracking, "search problem"}}
 
-So the matcher _backtracks_. When entering a branch, it remembers its current position (in this case, at the start of the string, just past the first boundary box in the diagram) so that it can go back and try another branch if the current one does not work out. For the string `"103"`, after encountering the 3 character, it will start trying the branch for hexadecimal numbers, which fails again because there is no _h_ after the number. So it tries the decimal number branch. This one fits, and a match is reported after all.
+So the matcher _backtracks_. When entering a branch, it remembers its current position (in this case, at the start of the string, just past the first boundary box in the diagram) so that it can go back and try another branch if the current one does not work out. For the string `"103"`, after encountering the `3` character, the matcher starts trying the branch for hexadecimal numbers, which fails again because there is no `h` after the number. It then tries the decimal number branch. This one fits, and a match is reported after all.
 
 {{index [matching, algorithm]}}
 
 The matcher stops as soon as it finds a full match. This means that if multiple branches could potentially match a string, only the first one (ordered by where the branches appear in the regular expression) is used.
 
-Backtracking also happens for ((repetition)) operators like + and `*`. If you match `/^.*x/` against `"abcxe"`, the `.*` part will first try to consume the whole string. The engine will then realize that it needs an _x_ to match the pattern. Since there is no _x_ past the end of the string, the star operator tries to match one character less. But the matcher doesn't find an _x_ after `abcx` either, so it backtracks again, matching the star operator to just `abc`. _Now_ it finds an _x_ where it needs it and reports a successful match from positions 0 to 4.
+Backtracking also happens for ((repetition)) operators like + and `*`. If you match `/^.*x/` against `"abcxe"`, the `.*` part will first try to consume the whole string. The engine will then realize that it needs an `x` to match the pattern. Since there is no `x` past the end of the string, the star operator tries to match one character less. But the matcher doesn't find an `x` after `abcx` either, so it backtracks again, matching the star operator to just `abc`. _Now_ it finds an `x` where it needs it and reports a successful match from positions 0 to 4.
 
 {{index performance, complexity}}
 
@@ -536,15 +536,15 @@ console.log(stock.replace(/(\d+) (\p{L}+)/gu, minusOne));
 // → no lemon, 1 cabbage, and 100 eggs
 ```
 
-This takes a string, finds all occurrences of a number followed by an alphanumeric word, and returns a string that has one less of every such quantity.
+This code takes a string, finds all occurrences of a number followed by an alphanumeric word, and returns a string that has one less of every such quantity.
 
-The `(\d+)` group ends up as the `amount` argument to the function, and the `(\p{L}+)` group gets bound to `unit`. The function converts `amount` to a number—which always works since it matched `\d+`—and makes some adjustments in case there is only one or zero left.
+The `(\d+)` group ends up as the `amount` argument to the function, and the `(\p{L}+)` group gets bound to `unit`. The function converts `amount` to a number—which always works since it matched `\d+` earlier—and makes some adjustments in case there is only one or zero left.
 
 ## Greed
 
 {{index greed, "regular expression"}}
 
-It is possible to use `replace` to write a function that removes all ((comment))s from a piece of JavaScript ((code)). Here is a first attempt:
+We can use `replace` to write a function that removes all ((comment))s from a piece of JavaScript ((code)). Here is a first attempt:
 
 ```{test: wrap}
 function stripComments(code) {
@@ -560,7 +560,7 @@ console.log(stripComments("1 /* a */+/* b */ 1"));
 
 {{index "period character", "slash character", "newline character", "empty set", "block comment", "line comment"}}
 
-The part before the _or_ operator matches two slash characters followed by any number of non-newline characters. The part for multiline comments is more involved. We use `[^]` (any character that is not in the empty set of characters) as a way to match any character. We cannot just use a period here because block comments can continue on a new line, and the period character does not match newline characters.
+The part before the `|` operator matches two slash characters followed by any number of non-newline characters. The part for multiline comments is more involved. We use `[^]` (any character that is not in the empty set of characters) as a way to match any character. We cannot just use a period here because block comments can continue on a new line, and the period character does not match newline characters.
 
 But the output for the last line appears to have gone wrong. Why?
 
@@ -586,7 +586,7 @@ A lot of ((bug))s in ((regular expression)) programs can be traced to unintentio
 
 {{index ["regular expression", creation], "underscore character", "RegExp class"}}
 
-There are cases where you might not know the exact ((pattern)) you need to match against when you are writing your code. Say you want to test for the user's name in a piece of text. You can build up a string and use the `RegExp` ((constructor)) on that. Here's an example:
+In some cases you may not know the exact ((pattern)) you need to match against when you are writing your code. Say you want to test for the user's name in a piece of text. You can build up a string and use the `RegExp` ((constructor)) on that.
 
 ```
 let name = "harry";
@@ -597,7 +597,7 @@ console.log(regexp.test("Harry is a dodgy character."));
 
 {{index ["regular expression", flags], ["backslash character", "in regular expressions"]}}
 
-When creating the `\s` part of the string, we have to use two backslashes because we are writing them in a normal string, not a slash-enclosed regular expression. The second argument to the `RegExp` constructor contains the options for the regular expression—in this case, `"gi"` for global and case insensitive.
+When creating the `\s` part of the string, we have to use two backslashes because we are writing them in a normal string, not a slash-enclosed regular expression. The second argument to the `RegExp` constructor contains the options for the regular expression—in this case, `"gi"` for global and case-insensitive.
 
 But what if the name is `"dea+hl[]rd"` because our user is a ((nerd))y teenager? That would result in a nonsensical regular expression that won't actually match the user's name.
 
@@ -619,7 +619,7 @@ console.log(regexp.test(text));
 
 {{index ["regular expression", methods], "indexOf method", "search method"}}
 
-The `indexOf` method on strings cannot be called with a regular expression. But there is another method, `search`, that does expect a regular expression. Like `indexOf`, it returns the first index on which the expression was found, or -1 when it wasn't found.
+While the `indexOf` method on strings cannot be called with a regular expression, there is another method, `search`, that does expect a regular expression. Like `indexOf`, it returns the first index on which the expression was found, or -1 when it wasn't found.
 
 ```
 console.log("  word".search(/\S/));
@@ -658,7 +658,7 @@ console.log(pattern.lastIndex);
 
 If the match was successful, the call to `exec` automatically updates the `lastIndex` property to point after the match. If no match was found, `lastIndex` is set back to zero, which is also the value it has in a newly constructed regular expression object.
 
-The difference between the global and the sticky options is that, when sticky is enabled, the match will succeed only if it starts directly at `lastIndex`, whereas with global, it will search ahead for a position where a match can start.
+The difference between the global and the sticky options is that when sticky is enabled, the match will succeed only if it starts directly at `lastIndex`, whereas with global, it will search ahead for a position where a match can start.
 
 ```
 let global = /abc/g;
@@ -671,7 +671,7 @@ console.log(sticky.exec("xyz abc"));
 
 {{index bug}}
 
-When using a shared regular expression value for multiple `exec` calls, these automatic updates to the `lastIndex` property can cause problems. Your regular expression might be accidentally starting at an index that was left over from a previous call.
+When using a shared regular expression value for multiple `exec` calls, these automatic updates to the `lastIndex` property can cause problems. Your regular expression might be accidentally starting at an index left over from a previous call.
 
 ```
 let digit = /\d/g;
@@ -690,9 +690,7 @@ console.log("Banana".match(/an/g));
 // → ["an", "an"]
 ```
 
-So be cautious with global regular expressions. The cases where they are necessary—calls to `replace` and places where you want to explicitly use `lastIndex`—are typically the only places where you want to use them.
-
-### Getting all matches
+So be cautious with global regular expressions. The cases where they are necessary—calls to `replace` and places where you want to explicitly use `lastIndex`—are typically the situations where you want to use them.
 
 {{index "lastIndex property", "exec method", loop}}
 
@@ -711,7 +709,7 @@ for (let match of matches) {
 
 {{index ["regular expression", global]}}
 
-This method returns an array of match arrays. The regular expression given it _must_ have `g` enabled.
+This method returns an array of match arrays. The regular expression given to `matchAll` _must_ have `g` enabled.
 
 {{id ini}}
 ## Parsing an INI file
@@ -739,7 +737,7 @@ outputdir=/home/marijn/enemies/davaeorn
 
 {{index grammar}}
 
-The exact rules for this format (which is a widely used format, usually called an _INI_ file) are as follows:
+The exact rules for this format—which is a widely used file format, usually called an _INI_ file—are as follows:
 
 - Blank lines and lines starting with semicolons are ignored.
 
@@ -800,7 +798,7 @@ If a line is not a section header or a property, the function checks whether it 
 
 ## Code units and characters
 
-Another design mistake that's been standardized, in JavaScript regular expressions, is that by default, operator like `.` or `?` work on code units, as discussed in [Chapter ?](higher_order#code_units), not actual characters. This means characters that are composed of two code units behave strangely.
+Another design mistake that's been standardized in JavaScript regular expressions is that by default, operators like `.` or `?` work on code units, as discussed in [Chapter ?](higher_order#code_units), not actual characters. This means characters that are composed of two code units behave strangely.
 
 ```
 console.log(/🍎{3}/.test("🍎🍎🍎"));
@@ -811,7 +809,7 @@ console.log(/<.>/u.test("<🌹>"));
 // → true
 ```
 
-The problem is that the 🍎 in the first line is treated as two code units, and the `{3}` part is applied only to the second one. Similarly, the dot matches a single code unit, not the two that make up the rose ((emoji)).
+The problem is that the 🍎 in the first line is treated as two code units, and `{3}` is applied only to the second unit. Similarly, the dot matches a single code unit, not the two that make up the rose ((emoji)).
 
 You must add the `u` (Unicode) option to your regular expression to make it treat such characters properly.
 
@@ -852,9 +850,9 @@ A regular expression has a method `test` to test whether a given string matches 
 
 Strings have a `match` method to match them against a regular expression and a `search` method to search for one, returning only the starting position of the match. Their `replace` method can replace matches of a pattern with a replacement string or function.
 
-Regular expressions can have options, which are written after the closing slash. The `i` option makes the match case insensitive. The `g` option makes the expression _global_, which, among other things, causes the `replace` method to replace all instances instead of just the first. The `y` option makes it sticky, which means that it will not search ahead and skip part of the string when looking for a match. The `u` option turns on Unicode mode, which enables `\p` syntax and fixes a number of problems around the handling of characters that take up two code units.
+Regular expressions can have options, which are written after the closing slash. The `i` option makes the match case insensitive. The `g` option makes the expression _global_, which, among other things, causes the `replace` method to replace all instances instead of just the first. The `y` option makes and expression sticky, which means that it will not search ahead and skip part of the string when looking for a match. The `u` option turns on Unicode mode, which enables `\p` syntax and fixes a number of problems around the handling of characters that take up two code units.
 
-Regular expressions are a sharp ((tool)) with an awkward handle. They simplify some tasks tremendously but can quickly become unmanageable when applied to complex problems. Part of knowing how to use them is resisting the urge to try to shoehorn things that they cannot cleanly express into them.
+Regular expressions are a sharp ((tool)) with an awkward handle. They simplify some tasks tremendously but can quickly become unmanageable when applied to complex problems. Part of knowing how to use them is resisting the urge to try to shoehorn things into them that they cannot cleanly express.
 
 ## Exercises
 
@@ -866,7 +864,7 @@ It is almost unavoidable that, in the course of working on these exercises, you 
 
 {{index "program size", "code golf", "regexp golf (exercise)"}}
 
-_Code golf_ is a term used for the game of trying to express a particular program in as few characters as possible. Similarly, _regexp golf_ is the practice of writing as tiny a regular expression as possible to match a given pattern, and _only_ that pattern.
+_Code golf_ is a term used for the game of trying to express a particular program in as few characters as possible. Similarly, _regexp golf_ is the practice of writing as tiny a regular expression as possible to match a given pattern and _only_ that pattern.
 
 {{index boundary, matching}}
 
@@ -964,7 +962,7 @@ hint}}
 
 {{index sign, "fractional number", [syntax, number], minus, "plus character", exponent, "scientific notation", "period character"}}
 
-Write an expression that matches only JavaScript-style ((number))s. It must support an optional minus _or_ plus sign in front of the number, the decimal dot, and exponent notation—`5e-3` or `1E10`—again with an optional sign in front of the exponent. Also note that it is not necessary for there to be digits in front of or after the dot, but the number cannot be a dot alone. That is, `.5` and `5.` are valid JavaScript numbers, but a lone dot _isn't_.
+Write an expression that matches only JavaScript-style ((number))s. It must support an optional minus _or_ plus sign in front of the number, the decimal dot, and exponent notation—`5e-3` or `1E10`—again with an optional sign in front of the exponent. Also note that it is not necessary for there to be digits in front of or after the dot, but the number cannot be a dot alone. That is, `.5` and `5.` are valid JavaScript numbers, but a lone dot isn't.
 
 {{if interactive
 ```{test: no}

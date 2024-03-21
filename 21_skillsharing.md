@@ -324,7 +324,7 @@ If the data looks valid, the handler stores an object that represents the new ta
 To read the body from the request stream, we will use the `json` function from `"node:stream/consumers"`, which collects the data in the stream and then parses it as JSON. There are similar exports called `text` (to read the content as a string) and `buffer` (to read it as binary data) in this package. Since `json` is a very generic name, the import renames it to `readJSON` to avoid confusion.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
-import {json as readJSON} from "node:stream/consumers"
+import {json as readJSON} from "node:stream/consumers";
 
 router.add("PUT", talkPath,
            async (server, title, request) => {

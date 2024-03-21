@@ -18,7 +18,7 @@ Ideally, a program has a clear, straightforward structure. The way it works is e
 
 {{index "organic growth"}}
 
-In practice, programs grow organically. Pieces of functionality are added as the programmer identifies new needs. Keeping such a program well-structured requires constant attention and work. This is work that will pay off only in the future, the _next_ time someone works on the program. So it is tempting to neglect it and allow the various parts of the program to become deeply entangled.
+In practice, programs grow organically. Pieces of functionality are added as the programmer identifies new needs. Keeping such a program well-structured requires constant attention and work. This is work that will pay off only in the future, the _next_ time someone works on the program, so it's tempting to neglect it and allow the various parts of the program to become deeply entangled.
 
 {{index readability, reuse, isolation}}
 
@@ -38,9 +38,9 @@ Module interfaces have a lot in common with object interfaces, as we saw them in
 
 {{index dependency}}
 
-But the interface that a module provides for others to use is only half the story. A good module system also requires modules to specify which code _they_ use from other modules. These relations are called _dependencies_. If module A uses functionality from module B, it is said to _depend_ on it. When these are clearly specified in the module itself, they can be used to figure out which other modules need to be present to be able to use a given module and to automatically load dependencies.
+But the interface that a module provides for others to use is only half the story. A good module system also requires modules to specify which code _they_ use from other modules. These relations are called _dependencies_. If module A uses functionality from module B, it is said to _depend_ on that module. When these are clearly specified in the module itself, they can be used to figure out which other modules need to be present to be able to use a given module and to automatically load dependencies.
 
-When the ways in which modules interact with each other are explicit, a system becomes more like ((LEGO)), where pieces interact through well-defined connectors, and less like mud, where everything mixes with everything.
+When the ways in which modules interact with each other are explicit, a system becomes more like ((LEGO)), where pieces interact through well-defined connectors, and less like mud, where everything mixes with everything else.
 
 {{id es}}
 
@@ -52,13 +52,13 @@ The original JavaScript language did not have any concept of a module. All scrip
 
 {{index "ES modules"}}
 
-Since ECMAScript 2015, JavaScript supports two different types of programs. _Scripts_ behave in the old way: their bindings are defined in the global scope, and they have no way to directly reference other scripts. _Modules_ get their own separate scope, and support the `import` and `export` keywords, which aren't available in scripts, to declare their dependencies and interface. This module system is usually called _ES modules_ (where “ES” stands for “ECMAScript”).
+Since ECMAScript 2015, JavaScript supports two different types of programs. _Scripts_ behave in the old way: their bindings are defined in the global scope, and they have no way to directly reference other scripts. _Modules_ get their own separate scope and support the `import` and `export` keywords, which aren't available in scripts, to declare their dependencies and interface. This module system is usually called _ES modules_ (where _ES_ stands for ECMAScript).
 
 A modular program is composed of a number of such modules, wired together via their imports and exports.
 
 {{index "Date class", "weekDay module"}}
 
-This example module converts between day names and numbers (as returned by `Date`'s `getDay` method). It defines a constant which is not part of its interface, and two functions which are. It has no dependencies.
+The following example module converts between day names and numbers (as returned by `Date`'s `getDay` method). It defines a constant which is not part of its interface, and two functions which are. It has no dependencies.
 
 ```
 const names = ["Sunday", "Monday", "Tuesday", "Wednesday",
@@ -87,11 +87,11 @@ The `import` keyword, followed by a list of binding names in braces, makes bindi
 
 {{index [module, resolution], resolution}}
 
-How such a module name is resolved to an actual program differs by platform. The browser treats them as Web addresses, whereas Node.js resolves them to files. To run a module, all the other modules it depends on—and the modules _those_ depend on—are loaded, and the exported bindings are made available to the modules that import them.
+How such a module name is resolved to an actual program differs by platform. The browser treats them as Web addresses, whereas Node.js resolves them to files. When you run a module, all the other modules it depends on—and the modules _those_ depend on—are loaded, and the exported bindings are made available to the modules that import them.
 
-Import and export declarations cannot appear inside of functions, loops, or other blocks. They are immediately resolved when the module is loaded, regardless of how the code in the module executes, and to reflect this they must appear only in the outer module body.
+Import and export declarations cannot appear inside of functions, loops, or other blocks. They are immediately resolved when the module is loaded, regardless of how the code in the module executes. To reflect this, they must appear only in the outer module body.
 
-So a module's interface consists of a collection of named bindings, which other modules that depend on them have access to. Imported bindings can be renamed to give them a new local name using `as` after their name.
+A module's interface thus consists of a collection of named bindings, which other modules that depend on the module can access. Imported bindings can be renamed to give them a new local name using `as` after their name.
 
 ```
 import {dayName as nomDeJour} from "./dayname.js";
@@ -99,7 +99,7 @@ console.log(nomDeJour(3));
 // → Wednesday
 ```
 
-It is also possible for a module to have a special export named `default`, which is often used for modules that only export a single binding. To define a default export, you write `export default` before an expression, a function declaration, or a class declaration.
+M module may also have a special export named `default`, which is often used for modules that only export a single binding. To define a default export, you write `export default` before an expression, a function declaration, or a class declaration.
 
 ```
 export default ["Winter", "Spring", "Summer", "Autumn"];
@@ -111,11 +111,19 @@ Such a binding is imported by omitting the braces around the name of the import.
 import seasonNames from "./seasonname.js";
 ```
 
+To import all bindings from a module at the same time, you can use `import *`. You provide a name, and that name will be bound to an object holding all the module's exports. This can be useful when you are using a lot of different exports.
+
+```
+import * as dayName from "./dayname.js";
+console.log(dayName.dayName(3));
+// → Wednesday
+```
+
 ## Packages
 
 {{index bug, dependency, structure, reuse}}
 
-One of the advantages of building a program out of separate pieces, and being able to run some of those pieces on their own, is that you might be able to apply the same piece in different programs.
+One of the advantages of building a program out of separate pieces and being able to run some of those pieces on their own is that you might be able to use the same piece in different programs.
 
 {{index "parseINI function"}}
 
@@ -123,9 +131,7 @@ But how do you set this up? Say I want to use the `parseINI` function from [Chap
 
 {{index duplication, "copy-paste programming"}}
 
-Once you start duplicating code, you'll quickly find yourself wasting time and energy moving copies around and keeping them up-to-date.
-
-That's where _((package))s_ come in. A package is a chunk of code that can be distributed (copied and installed). It may contain one or more modules and has information about which other packages it depends on. A package also usually comes with documentation explaining what it does so that people who didn't write it might still be able to use it.
+Once you start duplicating code, you'll quickly find yourself wasting time and energy moving copies around and keeping them up to date. That's where _((package))s_ come in. A package is a chunk of code that can be distributed (copied and installed). It may contain one or more modules and has information about which other packages it depends on. A package also usually comes with documentation explaining what it does so that people who didn't write it might still be able to use it.
 
 When a problem is found in a package or a new feature is added, the package is updated. Now the programs that depend on it (which may also be packages) can copy the new ((version)) to get the improvements that were made to the code.
 
@@ -135,7 +141,7 @@ When a problem is found in a package or a new feature is added, the package is u
 
 Working in this way requires ((infrastructure)). We need a place to store and find packages and a convenient way to install and upgrade them. In the JavaScript world, this infrastructure is provided by ((NPM)) ([_https://npmjs.org_](https://npmjs.org)).
 
-NPM is two things: an online service where you can download (and upload) packages and a program (bundled with Node.js) that helps you install and manage them.
+NPM is two things: an online service where you can download (and upload) packages, and a program (bundled with Node.js) that helps you install and manage them.
 
 {{index "ini package"}}
 
@@ -149,11 +155,11 @@ Having quality packages available for download is extremely valuable. It means t
 
 {{index maintenance}}
 
-Software is cheap to copy, so once someone has written it, distributing it to other people is an efficient process. But writing it in the first place _is_ work, and responding to people who have found problems in the code, or who want to propose new features, is even more work.
+Software is cheap to copy, so once someone has written it, distributing it to other people is an efficient process. Writing it in the first place _is_ work, though, and responding to people who have found problems in the code or who want to propose new features is even more work.
 
 By default, you own the ((copyright)) to the code you write, and other people may use it only with your permission. But because some people are just nice and because publishing good software can help make you a little bit famous among programmers, many packages are published under a ((license)) that explicitly allows other people to use it.
 
-Most code on ((NPM)) is licensed this way. Some licenses require you to also publish code that you build on top of the package under the same license. Others are less demanding, just requiring that you keep the license with the code as you distribute it. The JavaScript community mostly uses the latter type of license. When using other people's packages, make sure you are aware of their license.
+Most code on ((NPM)) is licensed this way. Some licenses require you to also publish code that you build on top of the package under the same license. Others are less demanding, requiring only that you keep the license with the code as you distribute it. The JavaScript community mostly uses the latter type of license. When using other people's packages, make sure you are aware of their licenses.
 
 {{id modules_ini}}
 
@@ -172,14 +178,14 @@ console.log(parse("x = 10\ny = 20"));
 
 ## CommonJS modules
 
-Before 2015, when the JavaScript language had no actual built-in module system, people were already building large systems in JavaScript. To make that workable, they _needed_ ((module))s.
+Before 2015, when the JavaScript language had no built-in module system, people were already building large systems in JavaScript. To make that workable, they _needed_ ((module))s.
 
 {{index [function, scope], [interface, module], [object, as module]}}
 
 The community designed its own improvised ((module system))s on top of the language. These use functions to create a local scope for the modules and regular objects to represent module interfaces.
 
 Initially, people just manually wrapped their entire module in an “((immediately invoked function
-expression))” to create the module's scope, and assigned their interface objects to a single global
+expression))” to create the module's scope and assigned their interface objects to a single global
 variable.
 
 ```
@@ -202,7 +208,7 @@ This style of modules provides ((isolation)), to a certain degree, but it does n
 
 {{index "CommonJS modules"}}
 
-If we implement our own module loader, we can do better. The most widely used approach to bolted-on JavaScript modules is called _CommonJS modules_. ((Node.js)) used it from the start (though it now also knows how to load ES modules) and it is the module system used by many packages on ((NPM)).
+If we implement our own module loader, we can do better. The most widely used approach to bolted-on JavaScript modules is called _CommonJS modules_. ((Node.js)) used this module system from the start (though it now also knows how to load ES modules), and it is the module system used by many packages on ((NPM)).
 
 {{index "require function", [interface, module], "exports object"}}
 
@@ -212,7 +218,7 @@ A CommonJS module looks like a regular script, but it has access to two bindings
 
 This CommonJS example module provides a date-formatting function. It uses two ((package))s from NPM—`ordinal` to convert numbers to strings like `"1st"` and `"2nd"`, and `date-names` to get the English names for weekdays and months. It exports a single function, `formatDate`, which takes a `Date` object and a ((template)) string.
 
-The template string may contain codes that direct the format, such as `YYYY` for the full year and `Do` for the ordinal day of the month. You could give it a string like `"MMMM Do YYYY"` to get output like "November 22nd 2017".
+The template string may contain codes that direct the format, such as `YYYY` for the full year and `Do` for the ordinal day of the month. You could give it a string like `"MMMM Do YYYY"` to get output like `November 22nd 2017`.
 
 ```
 const ordinal = require("ordinal");
@@ -273,7 +279,7 @@ require.cache = Object.create(null);
 
 {{index [file, access]}}
 
-Standard JavaScript provides no such function as `readFile`—but different JavaScript environments, such as the browser and Node.js, provide their own ways of accessing files. The example just pretends that `readFile` exists.
+Standard JavaScript provides no such function as `readFile`, but different JavaScript environments, such as the browser and Node.js, provide their own ways of accessing files. The example just pretends that `readFile` exists.
 
 To avoid loading the same module multiple times, `require` keeps a store (cache) of already loaded modules. When called, it first checks if the requested module has been loaded and, if not, loads it. This involves reading the module's code, wrapping it in a function, and calling it.
 
@@ -283,15 +289,13 @@ By defining `require`, `exports` as ((parameter))s for the generated wrapper fun
 
 An important difference between this system and ES modules is that ES module imports happen before a module's script starts running, whereas `require` is a normal function, invoked when the module is already running. Unlike `import` declarations, `require` calls _can_ appear inside functions, and the name of the dependency can be any expression that evaluates to a string, whereas `import` only allows plain quoted strings.
 
-The transition of the JavaScript community from CommonJS style to ES modules has been a slow and somewhat rough one. But fortunately we are now at a point where most of the popular packages on NPM provide their code as ES modules, and Node.js allows ES modules to import from CommonJS modules. So while CommonJS code is still something you will run across, there is no real reason to write new programs in this style anymore.
+The transition of the JavaScript community from CommonJS style to ES modules has been a slow and somewhat rough one. Fortunately we are now at a point where most of the popular packages on NPM provide their code as ES modules, and Node.js allows ES modules to import from CommonJS modules. While CommonJS code is still something you will run across, there is no real reason to write new programs in this style anymore.
 
 ## Building and bundling
 
 {{index compilation, "type checking"}}
 
-Many JavaScript packages aren't, technically, written in JavaScript. There are extensions, such as TypeScript, the type checking ((dialect)) mentioned in [Chapter ?](error#typing), that are widely used. People also often start using planned extensions to the language long before they have been added to the platforms that actually run JavaScript.
-
-To make this possible, they _compile_ their code, translating it from their chosen JavaScript dialect to plain old JavaScript—or even to a past version of JavaScript—so that ((browsers)) can run it.
+Many JavaScript packages aren't technically written in JavaScript. Language extensions such as TypeScript, the type checking ((dialect)) mentioned in [Chapter ?](error#typing), are widely used. People also often start using planned new language features long before they have been added to the platforms that actually run JavaScript. To make this possible, they _compile_ their code, translating it from their chosen JavaScript dialect to plain old JavaScript—or even to a past version of JavaScript—so that ((browsers)) can run it.
 
 {{index latency, performance, [file, access], [network, speed]}}
 
@@ -303,7 +307,7 @@ And we can go further. Apart from the number of files, the _size_ of the files a
 
 {{index pipeline, tool}}
 
-So it is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converted from modern JavaScript to historic JavaScript, then combining the modules into a single file, and minifying the code. We won't go into the details of these tools in this book since there are many of them, and which one is popular changes regularly. Just be aware that such things exist, and look them up when you need them.
+It is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converting from modern JavaScript to historic JavaScript, combining the modules into a single file, and minifying the code. We won't go into the details of these tools in this book since there are many of them, and which one is popular changes regularly. Just be aware that such things exist, and look them up when you need them.
 
 ## Module design
 
@@ -319,7 +323,7 @@ One aspect of module design is ease of use. If you are designing something that 
 
 {{index "ini package", JSON}}
 
-That may mean following existing conventions. A good example is the `ini` package. This module imitates the standard `JSON` object by providing `parse` and `stringify` (to write an INI file) functions, and, like `JSON`, converts between strings and plain objects. So the interface is small and familiar, and after you've worked with it once, you're likely to remember how to use it.
+That may mean following existing conventions. A good example is the `ini` package. This module imitates the standard `JSON` object by providing `parse` and `stringify` (to write an INI file) functions, and, like `JSON`, converts between strings and plain objects. The interface is small and familiar, and after you've worked with it once, you're likely to remember how to use it.
 
 {{index "side effect", "hard disk", composability}}
 
@@ -333,7 +337,7 @@ This points to another helpful aspect of module design—the ease with which som
 
 Relatedly, stateful objects are sometimes useful or even necessary, but if something can be done with a function, use a function. Several of the INI file readers on NPM provide an interface style that requires you to first create an object, then load the file into your object, and finally use specialized methods to get at the results. This type of thing is common in the object-oriented tradition, and it's terrible. Instead of making a single function call and moving on, you have to perform the ritual of moving your object through its various states. And because the data is now wrapped in a specialized object type, all code that interacts with it has to know about that type, creating unnecessary interdependencies.
 
-Often defining new data structures can't be avoided—only a few  basic ones are provided by the language standard, and many types of data have to be more complex than an array or a map. But when an array suffices, use an array.
+Often, defining new data structures can't be avoided—only a few  basic ones are provided by the language standard, and many types of data have to be more complex than an array or a map. But when an array suffices, use an array.
 
 An example of a slightly more complex data structure is the graph from [Chapter ?](robot). There is no single obvious way to represent a ((graph)) in JavaScript. In that chapter, we used an object whose properties hold arrays of strings—the other nodes reachable from that node.
 
@@ -343,7 +347,7 @@ There are several different pathfinding packages on ((NPM)), but none of them us
 
 For example, there's the `dijkstrajs` package. A well-known approach to pathfinding, quite similar to our `findRoute` function, is called _Dijkstra's algorithm_, after Edsger Dijkstra, who first wrote it down. The `js` suffix is often added to package names to indicate the fact that they are written in JavaScript. This `dijkstrajs` package uses a graph format similar to ours, but instead of arrays, it uses objects whose property values are numbers—the weights of the edges.
 
-So if we wanted to use that package, we'd have to make sure that our graph was stored in the format it expects. All edges get the same weight since our simplified model treats each road as having the same cost (one turn).
+If we wanted to use that package, we'd have to make sure that our graph was stored in the format it expects. All edges get the same weight since our simplified model treats each road as having the same cost (one turn).
 
 ```
 const {find_path} = require("dijkstrajs");
@@ -368,7 +372,7 @@ Designing a fitting module structure for a program can be difficult. In the phas
 
 ## Summary
 
-Modules provide structure to bigger programs by separating the code into pieces with clear interfaces and dependencies. The interface is the part of the module that's visible to other modules, and the dependencies are the other modules that it makes use of.
+Modules provide structure to bigger programs by separating the code into pieces with clear interfaces and dependencies. The interface is the part of the module that's visible to other modules, and the dependencies are the other modules it makes use of.
 
 Because JavaScript historically did not provide a module system, the CommonJS system was built on top of it. Then at some point it _did_ get a built-in system, which now coexists uneasily with the CommonJS system.
 
@@ -434,7 +438,7 @@ hint}}
 
 {{index "roads module (exercise)"}}
 
-Write an ES module, based on the example from [Chapter ?](robot), that contains the array of roads and exports the graph data structure representing them as `roadGraph`. It should depend on a module `./graph.js`, which exports a function `buildGraph` that is used to build the graph. This function expects an array of two-element arrays (the start and end points of the roads).
+Write an ES module based on the example from [Chapter ?](robot) that contains the array of roads and exports the graph data structure representing them as `roadGraph`. It depends on a module `./graph.js` that exports a function `buildGraph`, used to build the graph. This function expects an array of two-element arrays (the start and end points of the roads).
 
 {{if interactive
 

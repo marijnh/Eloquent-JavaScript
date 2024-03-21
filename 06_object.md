@@ -498,7 +498,7 @@ console.log(varyingSize.size);
 
 Whenever someone reads from this object's `size` property, the associated method is called. You can do a similar thing when a property is written to, using a _((setter))_.
 
-```{test: no, startCode: true}
+```{startCode: true, includeCode: "top_lines: 16"}
 class Temperature {
   constructor(celsius) {
     this.celsius = celsius;

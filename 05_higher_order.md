@@ -356,11 +356,11 @@ console.log(SCRIPTS.reduce((a, b) => {
 
 Han yazısı, Unicode standardında ona atanan 89.000'den fazla karakterle, veri kümesindeki en büyük yazı sistemidir. Han, bazen Çince, Japonca ve Korece metinlerde kullanılır. Bu diller birçok karakteri paylaşır, ancak genellikle farklı yazılır. (ABD merkezli) Unicode Konsorsiyumu, karakter kodlarını kaydetmek için bunları tek bir yazı sistemi olarak ele almaya karar verdi. Buna _Han birleşimi_ denir ve hala bazı insanları çok kızdırıyor.
 
-## Composability
+## Şekillendirilebilirlik
 
 {{index loop, maximum}}
 
-Consider how we would have written the previous example (finding the biggest script) without higher-order functions. The code is not that much worse.
+Daha önceki örneği (en büyük betiği bulma) higher-order fonksiyonlar olmadan nasıl yazacağımızı düşünelim. Kod pek de kötü değil.
 
 ```{test: no}
 let biggest = null;
@@ -374,13 +374,13 @@ console.log(biggest);
 // → {name: "Han", …}
 ```
 
-There are a few more bindings, and the program is four lines longer. But it is still very readable.
+Birkaç daha fazla bağlantı var ve program dört satır daha uzun. Ama yine de okunaklı.
 
 {{index "average function", composability, [function, "higher-order"], "filter method", "map method", "reduce method"}}
 
 {{id average_function}}
 
-The abstractions provided by these functions really shine when you need to _compose_ operations. As an example, let's write code that finds the average year of origin for living and dead scripts in the data set.
+Bu fonksiyonlar tarafından sağlanan soyutlamalar, işlemleri _birleştirmeniz_ gerektiğinde gerçekten parlar. Örneğin, veri setindeki yaşayan ve ölü betiklerin ortalama köken yıllarını bulan bir kod yazalım.
 
 ```
 function average(array) {
@@ -395,9 +395,9 @@ console.log(Math.round(average(
 // → 204
 ```
 
-So the dead scripts in Unicode are, on average, older than the living ones. This is not a terribly meaningful or surprising statistic. But I hope you'll agree that the code used to compute it isn't hard to read. You can see it as a pipeline: we start with all scripts, filter out the living (or dead) ones, take the years from those, average them, and round the result.
+Böylelikle, Unicode'deki ölü betiklerin ortalama olarak yaşayanlardan daha eski olduğunu görüyoruz. Bu çok da anlamlı veya şaşırtıcı bir istatistik değil. Ancak umarım bunun hesaplanmasında kullanılan kodun okunmasının zor olmadığını görmüşüzdür. Onu bir boru hattı olarak görebilirsiniz: tüm betiklerle başlıyoruz, yaşayan (veya ölü) olanları filtreliyoruz, onlardan yılları alıyoruz, bunların ortalamasını alıyoruz ve sonucu yuvarlıyoruz.
 
-You could definitely also write this computation as one big ((loop)).
+Bu hesaplamayı kesinlikle tek bir büyük ((döngü)) olarak da yazabilirdiniz.
 
 ```
 let total = 0, count = 0;
@@ -411,19 +411,19 @@ console.log(Math.round(total / count));
 // → 1165
 ```
 
-But it is harder to see what was being computed and how. And because intermediate results aren't represented as coherent values, it'd be a lot more work to extract something like `average` into a separate function.
+Ancak hesaplanan şeyin ne olduğunu ve nasıl olduğunu görmek daha zordur. Ve ara sonuçlar tutarlı değerler olarak temsil edilmediğinden, `average` gibi bir şeyi ayrı bir fonksiyona çıkarmak daha zor bir iş olurdu.
 
 {{index efficiency, [array, creation]}}
 
-In terms of what the computer is actually doing, these two approaches are also quite different. The first will build up new arrays when running `filter` and `map`, whereas the second computes only some numbers, doing less work. You can usually afford the readable approach, but if you're processing huge arrays, and doing so many times, the less abstract style might be worth the extra speed.
+Bilgisayarın gerçekte ne yaptığı açısından, bu iki yaklaşım da oldukça farklıdır. İlk yaklaşım, `filter` ve `map` çalıştığında yeni diziler oluştururken, ikincisi sadece bazı sayıları hesaplar, daha az iş yapar. Okunabilir yaklaşımı genellikle seçebilirsiniz ancak devasa dizileri işliyorsanız ve bunu birçok kez yapıyorsanız, daha az soyut tarz, ek hız için değer olabilir.
 
-## Strings and character codes
+## Dize ve karakter kodları
 
 {{index "SCRIPTS data set"}}
 
-One interesting use of this data set would be figuring out what script a piece of text is using. Let's go through a program that does this.
+Bu veri setinin ilginç bir kullanımı, bir metnin hangi betiği kullandığını bulmak olurdu. Hadi bunu yapan bir programı inceleyelim.
 
-Remember that each script has an array of character code ranges associated with it. So given a character code, we could use a function like this to find the corresponding script (if any):
+Her betiğin ilişkilendirilmiş bir karakter kodu aralığı dizisi olduğunu unutmayın. Bunun sayesinde, bir karakter kodu verildiğinde, varsa ilgili betiği bulmak için böyle bir fonksiyon kullanabiliriz:
 
 {{index "some method", "predicate function", [array, methods]}}
 
@@ -443,21 +443,21 @@ console.log(characterScript(121));
 // → {name: "Latin", …}
 ```
 
-The `some` method is another higher-order function. It takes a test function and tells you whether that function returns true for any of the elements in the array.
+`some` metodu başka bir higher-order fonksiyondur. Bir test fonksiyonunu alır ve bu fonksiyonun dizideki öğelerden herhangi biri için doğru olup olmadığını size söyler.
 
 {{id code_units}}
 
-But how do we get the character codes in a string?
+Ancak bir dize içindeki karakter kodlarını nasıl alırız?
 
-In [Chapter ?](values) I mentioned that JavaScript ((string))s are encoded as a sequence of 16-bit numbers. These are called _((code unit))s_. A ((Unicode)) ((character)) code was initially supposed to fit within such a unit (which gives you a little over 65,000 characters). When it became clear that wasn't going to be enough, many people balked at the need to use more memory per character. To address these concerns, ((UTF-16)), the format also used by JavaScript strings, was invented. It describes most common characters using a single 16-bit code unit but uses a pair of two such units for others.
+[Bölüm ? içinde](values) belirtildiği gibi JavaScript ((dize))leri, bir dizi 16-bit numarası olarak kodlanmıştır. Bunlar ((kod birimi)) olarak adlandırılır. Bir ((Unicode)) ((karakter)) kodunun başlangıçta böyle bir birime sığması bekleniyordu (bu size birazdan 65.000'in üzerinde karakter verir). Ancak bu yeterli olmayacağını anlaşılınca, birçok kişi karakter başına daha fazla bellek kullanma gereksinimine itiraz etti. Bu endişeleri ele almak için, JavaScript dizeleri tarafından da kullanılan format olan ((UTF-16)) icat edildi. Bu, yaygın olarak kullanılan çoğu karakteri tek bir 16-bit kod birimi kullanarak açıklar, ancak diğerleri için bu birimden iki adet kullanır.
 
 {{index error}}
 
-UTF-16 is generally considered a bad idea today. It seems almost intentionally designed to invite mistakes. It's easy to write programs that pretend code units and characters are the same thing. And if your language doesn't use two-unit characters, that will appear to work just fine. But as soon as someone tries to use such a program with some less common ((Chinese characters)), it breaks. Fortunately, with the advent of ((emoji)), everybody has started using two-unit characters, and the burden of dealing with such problems is more fairly distributed.
+UTF-16 genellikle bugün kötü bir fikir olarak kabul edilir. Hemen hemen kasıtlı olarak hatalara davet etmek için tasarlanmış gibi görünüyor. Kod birimlerini ve karakterleri aynı şey gibi düşündüren programlar yazmak kolaydır. Ve diliniz iki birimli karakterler kullanmıyorsa, bu çalışır gibi görünecektir. Ancak birisi böyle bir programı bazı daha az yaygın ((Çin karakterleri)) ile kullanmaya çalıştığında, bozulur. Neyse ki, ((emoji))'lerin ortaya çıkmasıyla, herkes iki birimli karakterleri kullanmaya başladı ve bu tür sorunlarla başa çıkmanın yükü daha adil bir şekilde dağıtılmıştır.
 
 {{index [string, length], [string, indexing], "charCodeAt method"}}
 
-Unfortunately, obvious operations on JavaScript strings, such as getting their length through the `length` property and accessing their content using square brackets, deal only with code units.
+Maalesef, JavaScript dizilerindeki `length` özelliği aracılığıyla uzunluklarını almak ve içeriğine kare parantez kullanarak erişmek gibi işlemler yalnızca kod birimleriyle ilgilenir.
 
 ```{test: no}
 // Two emoji characters, horse and shoe
@@ -474,11 +474,11 @@ console.log(horseShoe.codePointAt(0));
 
 {{index "codePointAt method"}}
 
-JavaScript's `charCodeAt` method gives you a code unit, not a full character code. The `codePointAt` method, added later, does give a full Unicode character. So we could use that to get characters from a string. But the argument passed to `codePointAt` is still an index into the sequence of code units. So to run over all characters in a string, we'd still need to deal with the question of whether a character takes up one or two code units.
+JavaScript'in `charCodeAt` yöntemi size bir kod birimi verir, tam bir karakter kodu vermez. Daha sonra eklenen `codePointAt` metodu, tam bir Unicode karakteri verir. Bu nedenle, bir diziden karakterleri almak için bunu kullanabiliriz. Ancak `codePointAt`'e verilen argüman hala bir kod birimleri dizisine verilen bir indekstir. Bu nedenle, bir dizedeki tüm karakterlerin üzerinden geçmek için hala bir karakterin bir veya iki kod birimi kapladığı sorunuyla ilgilenmemiz gerekir.
 
 {{index "for/of loop", character}}
 
-In the [previous chapter](data#for_of_loop), I mentioned that a `for`/`of` loop can also be used on strings. Like `codePointAt`, this type of loop was introduced at a time where people were acutely aware of the problems with UTF-16. When you use it to loop over a string, it gives you real characters, not code units.
+[Önceki bölümde](data#for_of_loop), bir `for/of` döngüsünün aynı zamanda dizelerde de kullanılabileceğini belirtmiştim. `codePointAt` gibi, bu tür bir döngü, UTF-16 ile ilgili sorunların farkında olunan bir dönemde tanıtıldı. Bir dize üzerinde döngü yapmak için kullandığınızda, size kod birimleri değil gerçek karakterler verir.
 
 ```
 let roseDragon = "🌹🐉";
@@ -489,13 +489,13 @@ for (let char of roseDragon) {
 // → 🐉
 ```
 
-If you have a character (which will be a string of one or two code units), you can use `codePointAt(0)` to get its code.
+Eğer bir karakteriniz varsa (ki bu bir veya iki kod birimi uzunluğunda bir dizedir), kodunu almak için `codePointAt(0)` fonksiyonunu kullanabilirsiniz.
 
-## Recognizing text
+## Metni tanıma
 
 {{index "SCRIPTS data set", "countBy function", [array, counting]}}
 
-We have a `characterScript` function and a way to correctly loop over characters. The next step is to count the characters that belong to each script. The following counting abstraction will be useful there:
+Bir `characterScript` fonksiyonumuz ve karakterler üzerinde doğru bir şekilde döngü yapmanın bir yolu var. Sonraki adım, her betiğe ait karakterlerin sayısını saymaktır. Aşağıdaki sayma soyutlaması burada yararlı olacaktır:
 
 ```{includeCode: strip_log}
 function countBy(items, groupName) {
@@ -516,15 +516,15 @@ console.log(countBy([1, 2, 3, 4, 5], n => n > 2));
 // → [{name: false, count: 2}, {name: true, count: 3}]
 ```
 
-The `countBy` function expects a collection (anything that we can loop over with `for`/`of`) and a function that computes a group name for a given element. It returns an array of objects, each of which names a group and tells you the number of elements that were found in that group.
+`countBy` fonksiyonu bir koleksiyon (herhangi bir `for/of` döngüsü ile döngü yapabileceğimiz bir şey) ve bir öğe için bir grup adı hesaplayan bir fonksiyon bekler. Bir grup adını belirten ve bu grupta bulunan öğelerin sayısını söyleyen nesnelerden oluşan bir dizi döndürür.
 
 {{index "find method"}}
 
-It uses another array method—`find`. This method goes over the elements in the array and returns the first one for which a function returns true. It returns `undefined` when no such element is found.
+Başka bir dizi yöntemi olan `find` kullanır. Bu yöntem, dizideki öğeleri gezinir ve verilen fonksiyonun true döndürdüğü ilk öğeyi döndürür. Böyle bir öğe bulunamadığında `undefined` döndürür.
 
 {{index "textScripts function", "Chinese characters"}}
 
-Using `countBy`, we can write the function that tells us which scripts are used in a piece of text.
+`countBy` kullanarak, bir metinde hangi betiklerin kullanıldığını söyleyen fonksiyonu yazabiliriz.
 
 ```{includeCode: strip_log, startCode: true}
 function textScripts(text) {
@@ -547,48 +547,48 @@ console.log(textScripts('英国的狗说"woof", 俄罗斯的狗说"тяв"'));
 
 {{index "characterScript function", "filter method"}}
 
-The function first counts the characters by name, using `characterScript` to assign them a name and falling back to the string `"none"` for characters that aren't part of any script. The `filter` call drops the entry for `"none"` from the resulting array since we aren't interested in those characters.
+Fonksiyon önce karakterleri adlarına göre sayar, onlara bir isim atamak için `characterScript`'i kullanır ve herhangi bir betiğin parçası olmayan karakterler için `"none"` dizesini kullanır. `filter` çağrısı, sonuç dizisinden `"none"` girişlerini bu karakterlerle ilgilenmediğimiz için ayıklar.
 
 {{index "reduce method", "map method", "join method", [array, methods]}}
 
-To be able to compute ((percentage))s, we first need the total number of characters that belong to a script, which we can compute with `reduce`. If no such characters are found, the function returns a specific string. Otherwise, it transforms the counting entries into readable strings with `map` and then combines them with `join`.
+((Yüzde))lerin hesaplanabilmesi için öncelikle bir betiğe ait toplam karakter sayısına ihtiyacımız var, bunu `reduce` ile hesaplayabiliriz. Eğer böyle bir karakter bulunmazsa, fonksiyon belirli bir dize döndürür. Aksi takdirde, sayma girişlerini `map` kullanarak okunabilir dizelere dönüştürür ve ardından bunları `join` ile birleştirir.
 
-## Summary
+## Özet
 
-Being able to pass function values to other functions is a deeply useful aspect of JavaScript. It allows us to write functions that model computations with "gaps" in them. The code that calls these functions can fill in the gaps by providing function values.
+Başka fonksiyon değerlerini diğer fonksiyonlara argüman olarka verebilmek, JavaScript'in derinlemesine kullanışlı bir yönüdür. Bu, aralarında "boşluklar" olan hesaplamaları modelleyen fonksiyonlar yazmamıza olanak tanır. Bu fonksiyonları çağıran kod, fonksiyon değerlerini sağlayarak boşlukları doldurabilir.
 
-Arrays provide a number of useful higher-order methods. You can use `forEach` to loop over the elements in an array. The `filter` method returns a new array containing only the elements that pass the ((predicate function)). Transforming an array by putting each element through a function is done with `map`. You can use `reduce` to combine all the elements in an array into a single value. The `some` method tests whether any element matches a given predicate function. And `find` finds the first element that matches a predicate.
+Diziler bir dizi kullanışlı higher-order metodlar sağlar. Bir dizideki öğeler üzerinde döngü yapmak için `forEach` kullanabilirsiniz. `filter` yöntemi, yalnızca ((test fonksiyonundan)) true değeriyle geçen öğeleri içeren yeni bir dizi döndürür. Her bir öğeyi bir işlemden geçirerek bir diziyi dönüştürmek için `map` kullanılır. Bir dizi içindeki tüm öğeleri birleştirmek bir değer elde etmek için `reduce` kullanabilirsiniz. `some` yöntemi, belirli bir test fonksiyonundan true değerini alan herhangi bir öğe olup olmadığını test eder. Ve `find`, bir test fonksiyonunu karşılayan ilk öğeyi bulur.
 
-## Exercises
+## Egzersizler
 
-### Flattening
+### Düzleştirme
 
 {{index "flattening (exercise)", "reduce method", "concat method", [array, flattening]}}
 
-Use the `reduce` method in combination with the `concat` method to "flatten" an array of arrays into a single array that has all the elements of the original arrays.
+Dizi içinde olan dizilerin tüm öğelerini içeren bir diziyi düzleştirerek oluşturabilmek için `reduce` yöntemini `concat` yöntemiyle beraber kullanın.
 
 {{if interactive
 
 ```{test: no}
 let arrays = [[1, 2, 3], [4, 5], [6]];
-// Your code here.
+// Kodunuz buraya.
 // → [1, 2, 3, 4, 5, 6]
 ```
 
 if}}
 
-### Your own loop
+### Kendi döngün
 
 {{index "your own loop (example)", "for loop"}}
 
-Write a higher-order function `loop` that provides something like a `for` loop statement. It takes a value, a test function, an update function, and a body function. Each iteration, it first runs the test function on the current loop value and stops if that returns false. Then it calls the body function, giving it the current value. Finally, it calls the update function to create a new value and starts from the beginning.
+Bir `loop` adlı bir higher-order fonksiyon yazın ki bu fonksiyon, bir `for` döngüsü ifadesine benzer bir işlev sağlasın. Bir değer, bir test fonksiyonu, bir güncelleme fonksiyonu ve bir gövde fonksiyonunu parametre olarak almasını sağlayın. Her döngüde, önce mevcut döngü değerinde test fonksiyonunu çalıştırır ve bu yanıtın false döndüğü durumda durur. Ardından, mevcut değeri vererek gövde fonksiyonunu çağırır. Son olarak, yeni bir değer oluşturmak için güncelleme fonksiyonunu çağırır ve baştan başlar.
 
-When defining the function, you can use a regular loop to do the actual looping.
+Fonksiyonu tanımlarken gerçek döngüyü yapmak için normal bir döngü kullanabilirsiniz.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 loop(3, n => n > 0, n => n - 1, console.log);
 // → 3
@@ -598,19 +598,19 @@ loop(3, n => n > 0, n => n - 1, console.log);
 
 if}}
 
-### Everything
+### Her şey
 
 {{index "predicate function", "everything (exercise)", "every method", "some method", [array, methods], "&& operator", "|| operator"}}
 
-Analogous to the `some` method, arrays also have an `every` method. This one returns true when the given function returns true for _every_ element in the array. In a way, `some` is a version of the `||` operator that acts on arrays, and `every` is like the `&&` operator.
+`some` metoduna benzer şekilde, dizilerin bir de `every` yöntemi vardır. Bu, verilen fonksiyonun dizideki _her öğe_ için true döndüğünde true döndürür. Bir bakıma, `some`, diziler üzerinde çalışan `||` operatörünün bir versiyonu gibidir ve `every` ise `&&` operatörüne benzer.
 
-Implement `every` as a function that takes an array and a predicate function as parameters. Write two versions, one using a loop and one using the `some` method.
+`every` metodunu bir dizi ve bir test fonksiyonunu parametre olarak alan bir fonksiyon yazarak uygulayın. Bir döngü kullanan ve bir de `some` yöntemini kullanan iki versiyon yazın.
 
 {{if interactive
 
 ```{test: no}
 function every(array, test) {
-  // Your code here.
+  // Kodunuz buraya.
 }
 
 console.log(every([1, 3, 5], n => n < 10));
@@ -627,27 +627,27 @@ if}}
 
 {{index "everything (exercise)", "short-circuit evaluation", "return keyword"}}
 
-Like the `&&` operator, the `every` method can stop evaluating further elements as soon as it has found one that doesn't match. So the loop-based version can jump out of the loop—with `break` or `return`—as soon as it runs into an element for which the predicate function returns false. If the loop runs to its end without finding such an element, we know that all elements matched and we should return true.
+`&&` operatörü gibi, `every` metodu, eşleşmeyen bir öğe bulur bulmaz daha fazla öğeyi değerlendirmeyi durdurabilir. Bu nedenle, döngü tabanlı versiyon, test fonksiyonunun false döndürdüğü bir öğe ile karşılaştığında döngüden çıkabilir—`break` veya `return` kullanarak. Döngü, böyle bir öğe bulmadan sonuna kadar çalışırsa, tüm öğelerin eşleştiğini ve `true` döndürmemiz gerektiğini biliriz.
 
-To build `every` on top of `some`, we can apply _((De Morgan's laws))_, which state that `a && b` equals `!(!a || !b)`. This can be generalized to arrays, where all elements in the array match if there is no element in the array that does not match.
+`every` metodunu `some` üzerine inşa etmek için, _De Morgan kanunlarını_ uygulayabiliriz, bu, `a && b`'nin `!(!a || !b)` ifadesine eşit olduğunu belirtir. Bu, dizide hiç eşleşmeyen bir öğe yoksa dizideki tüm öğelerin eşleştiği diziler için genelleştirilebilir.
 
 hint}}
 
-### Dominant writing direction
+### Baskın yazma yönü
 
 {{index "SCRIPTS data set", "direction (writing)", "groupBy function", "dominant direction (exercise)"}}
 
-Write a function that computes the dominant writing direction in a string of text. Remember that each script object has a `direction` property that can be `"ltr"` (left to right), `"rtl"` (right to left), or `"ttb"` (top to bottom).
+Metin içindeki baskın yazma yönünü hesaplayan bir fonksiyon yazın. Unutmayın ki her betik nesnesinin bir `direction` özelliği vardır ve bu `"ltr"` (soldan sağa), `"rtl"` (sağdan sola) veya `"ttb"` (üstden alta) olabilir.
 
 {{index "characterScript function", "countBy function"}}
 
-The dominant direction is the direction of a majority of the characters that have a script associated with them. The `characterScript` and `countBy` functions defined earlier in the chapter are probably useful here.
+Baskın yön, betiği olan karakterlerin çoğunluğunun yönüdür. Bölümde önceden tanımlanan `characterScript` ve `countBy` fonksiyonları burada muhtemelen kullanışlı olacaktır.
 
 {{if interactive
 
 ```{test: no}
 function dominantDirection(text) {
-  // Your code here.
+  // Kodunuz buraya.
 }
 
 console.log(dominantDirection("Hello!"));
@@ -662,10 +662,10 @@ if}}
 
 {{index "dominant direction (exercise)", "textScripts function", "filter method", "characterScript function"}}
 
-Your solution might look a lot like the first half of the `textScripts` example. You again have to count characters by a criterion based on `characterScript` and then filter out the part of the result that refers to uninteresting (script-less) characters.
+Çözümünüz, `textScripts` örneğinin ilk yarısına çok benzeyebilir. Yine, `characterScript` fonksiyonuna dayalı bir kriterle karakterları saymanız ve ardından ilginç olmayan (betiksiz) karakterleri filtrelemeniz gerekecektir.
 
 {{index "reduce method"}}
 
-Finding the direction with the highest character count can be done with `reduce`. If it's not clear how, refer to the example earlier in the chapter, where `reduce` was used to find the script with the most characters.
+En fazla karakter sayısına sahip yönu bulmak için `reduce` kullanılabilir. Nasıl yapılacağı açık değilse, bölümde daha önce en fazla karaktere sahip betiği bulmak için kullanılan `reduce` örneğine başvurun.
 
 hint}}

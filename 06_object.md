@@ -1,51 +1,51 @@
 {{meta {load_files: ["code/chapter/06_object.js"], zip: "node/html"}}}
 
-# The Secret Life of Objects
+# Nesnelerin Gizli Yaşamı
 
 {{quote {author: "Barbara Liskov", title: "Programming with Abstract Data Types", chapter: true}
 
-An abstract data type is realized by writing a special kind of program […] which defines the type in terms of the operations which can be performed on it.
+Bir soyut veri türü, üzerinde gerçekleştirilebilecek işlemler açısından türü tanımlayan bir programı […] yazarak gerçekleştirilir.
 
 quote}}
 
 {{index "Liskov, Barbara", "abstract data type"}}
 
-{{figure {url: "img/chapter_picture_6.jpg", alt: "Illustration of a rabbit next to its prototype, a schematic representation of a rabbit", chapter: framed}}}
+{{figure {url: "img/chapter_picture_6.jpg", alt: "Bir tavşanın prototipinin yanında bir tavşanın şematik temsili resmi", chapter: framed}}}
 
 [Chapter ?](data) introduced JavaScript's objects, as containers that hold other data.
 
-In programming culture, we have a thing called _((object-oriented programming))_, a set of techniques that use objects as the central principle of program organization. Though no one really agrees on its precise definition, object-oriented programming has shaped the design of many programming languages, including JavaScript. This chapter describes the way these ideas can be applied in JavaScript.
+Programlama kültüründe, _((nesne yönelimli programlama))_ adında bir şey var, nesneleri program organizasyonunun merkezi prensibi olarak kullanan bir teknik seti. Kesin tanımı hakkında herkes gerçekten anlaşmıyor olsa da, nesne yönelimli programlama birçok programlama dilinin tasarımını şekillendirmiştir, bunlar arasında JavaScript de bulunur. Bu bölüm, bu fikirlerin JavaScript'te nasıl uygulanabileceğini açıklanmaktadır.
 
-## Abstract Data Types
+## Soyut Veri Türleri
 
 {{index "abstract data type", type, "mixer example"}}
 
-The main idea in object-oriented programming is to use objects, or rather _types_ of objects, as the unit of program organization. Setting up a program as a number of strictly separated object types provides a way to think about its structure and thus to enforce some kind of discipline, preventing everything from becoming entangled.
+Nesne yönelimli programlamadaki ana fikir, nesneleri veya daha doğrusu nesne türlerini, program organizasyonunun birimi olarak kullanmaktır. Programı birkaç sıkı şekilde ayrılmış nesne türü olarak ayarlamak, yapısını düşünmenin bir yolunu sağlar ve böylece her şeyin karışmasını önleyerek bir tür disiplin uygular.
 
-The way to do this to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). There's people who designed and assembled a mixer, and they have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell, so that the people who only want to mix pancake batter don't have to worry about all that—they only have to understand the few knobs that the mixer can be operated with.
+Bunu yapmanın yolu, nesneleri bir elektrikli mikser veya diğer tüketici ((alet)) gibi düşünmektir. Bir mikser tasarlayan ve monte eden insanlar vardır ve bunlar malzeme bilimi ve elektrik anlayışı gerektiren özelleşmiş işleri yapmak zorundadır. Tüm bunları pürüzsüz bir plastik kabuk içine kapatırlar, böylece sadece pancake hamurunu karıştırmak isteyen insanların bunlarla ilgilenmesine gerek kalmaz—sadece mikserin çalıştırılabilmesi için birkaç düğmeyi anlamaları yeterlidir.
 
 {{index "class"}}
 
-Similarly, an abstract data type, or object class, is a subprogram that may contain arbitrarily complicated code, but exposes a limited set of methods and properties that people who are working with it are supposed to use. This allows large programs to be built up out of a number of appliance types, limiting the degree to which these different parts are entangled by requiring them to only interact with each other in specific ways.
+Benzer şekilde, bir soyut veri türü veya nesne sınıfı, onunla çalışan kişilerin kullanması gereken sınırlı bir yöntem ve özellik setini açığa çıkarabilen, ancak karmaşık kod içerebilen bir alt programdır. Bu, büyük programların birçok alet türü üzerine kurulabilmesine olanak tanır ve bu farklı parçaların sadece belirli yollarla birbirleriyle etkileşime girmesini gerektirerek bu parçaların birbirleriyle karışmasını sınırlar.
 
 {{index encapsulation, isolation, modularity}}
 
-If a problem is found in one such object class, it can often be repaired, or even completely rewritten, without impacting the rest of the program.
+Eğer bir nesne sınıfında bir problem bulunursa, genellikle bu, programın geri kalanını etkilemeden onarılabilir veya tamamen yeniden yazılabilir.
 
-Even better, it may be possible to use object classes in multiple different programs, avoiding the need to recreate their functionality from scratch. You can think of JavaScript's built-in data structures, such as arrays and strings, as such reusable abstract data types.
+Daha da iyisi, farklı programlardaki birden çok nesne sınıflarını kullanmak mümkün olabilir, bu da bunların işlevselliğini baştan başlatmaya gerek kalmadan kullanılabilir hale getirir. JavaScript'in dahili veri yapılarını, diziler ve dizeler gibi, böyle yeniden kullanılabilir soyut veri türleri olarak düşünebilirsiniz.
 
 {{id interface}}
 {{index [interface, object]}}
 
-Each abstract data type has an _interface_, which is the collection of operations that external code can perform on it. Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on single _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate, since often useful pieces of functionality involve a group of different object classes working closely together.
+Her soyut veri türünün bir _arayüzü_ vardır, bu dış kodun onun üzerinde gerçekleştirebileceği işlemlerin koleksiyonudur. Sayılar gibi temel şeyler bile, onları ekleyebilme, çarpabilme, karşılaştırabilme gibi işlemleri gerçekleştirebileceğimiz bir arayüz olarak düşünülebilir. Aslında, klasik nesne yönelimli programlamada ana organizasyon birimi olarak tek _nesnelerin_ odaklanılması biraz talihsizdir çünkü sıklıkla kullanışlı işlev parçaları bir grup farklı nesne sınıfının bir araya gelmesiyle gerçekleşmektedir.
 
 {{id obj_methods}}
 
-## Methods
+## Metodlar
 
 {{index "rabbit example", method, [property, access]}}
 
-In JavaScript methods are nothing more than properties that hold function values. This is a simple method:
+JavaScript'te metodlar, yalnızca fonksiyon değerlerini tutan özelliklerdir. Bu, basit bir metottur:
 
 ```{includeCode: "top_lines:6"}
 function speak(line) {
@@ -62,24 +62,24 @@ hungryRabbit.speak("Got any carrots?");
 
 {{index "this binding", "method call"}}
 
-Typically a method needs to do something with the object it was called on. When a function is called as a method—looked up as a property and immediately called, as in `object.method()`—the binding called `this` in its body automatically points at the object that it was called on.
+Tipik olarak, bir yöntem, üzerinde çağrıldığı nesneyle bir şeyler yapması gerekir. Bir işlev bir yöntem olarak çağrıldığında—`object.method()` ifadesinde de olduğu gibi bir özellik aranıp çağırılır— `this` adlı bağlantı çağırılan fonksiyonun vücudu içinde otomatik olarak çağrıldığı nesneye işaret eder.
 
 {{id call_method}}
 
 {{index "call method"}}
 
-You can think of `this` as an extra ((parameter)) that is passed to the function in a different way than regular parameters. If you want to provide it explicitly, you can use a function's `call` method, which takes the `this` value as its first argument and treats further arguments as normal parameters.
+`this` değerini, normal parametrelerden farklı bir şekilde bir fonskiyona verilen bir ek ((parametre)) olarak düşünebilirsiniz. Açıkça sağlamak isterseniz, bir fonksiyonun `call` metodunu kullanabilirsiniz, bu yöntem `this` değerini ilk argümanı olarak alır ve diğer argümanları normal parametreler olarak işler.
 
 ```
 speak.call(whiteRabbit, "Hurry");
 // → The white rabbit says 'Hurry'
 ```
 
-Since each function has its own `this` binding, whose value depends on the way it is called, you cannot refer to the `this` of the wrapping scope in a regular function defined with the `function` keyword.
+Her fonksiyonun, değeri nasıl çağrıldığına bağlı olan kendi `this` bağlantısı olduğundan, bir `function` anahtar sözcüğü ile tanımlanan sıradan bir fonksiyonda kapsamın dışındaki `this` değerine başvuramazsınız.
 
 {{index "this binding", "arrow function"}}
 
-Arrow functions are different—they do not bind their own `this` but can see the `this` binding of the scope around them. Thus, you can do something like the following code, which references `this` from inside a local function:
+Ok fonksiyonları farklıdır—kendi `this` değerlerini bağlamazlar, ancak etraflarındaki kapsamın `this` bağlamını görebilirler. Bu nedenle, yerel bir fonksiyonun içinden `this` değerine ulaşan aşağıdaki gibi bir kod yazabilirsiniz:
 
 ```
 let finder = {
@@ -92,21 +92,21 @@ console.log(finder.find([4, 5]));
 // → true
 ```
 
-A property like `find(array)` in an object expression is a shorthand way of defining a method. It creates a property called `find` and gives it a function as its value.
+Nesne ifadesindeki `find(array)` gibi bir özellik, bir metod tanımlamanın kısa yoludur. `find` adında bir özellik oluşturur ve değeri olarak bir fonksiyon verir.
 
-If I had written the argument to `some` using the `function` keyword, this code wouldn't work.
+Eğer `some` metoduna geçirilen argümanı `function` anahtar kelimesini kullanarak yazmış olsaydım, bu kod çalışmazdı.
 
 {{id prototypes}}
 
-## Prototypes
+## Prototipler
 
-So one way to create an abstract rabbit type with a `speak` method would be to create a helper function that has a rabbit type as parameter, and returns and object holding that as its `type` property and our speak function in its `speak` property.
+Bir `speak` metoduna sahip soyut bir tavşan türü oluşturmanın bir yolu, tavşan türünü parametre olarak alan ve bu türün tip özelliği ve konuşma fonksiyonunu içeren bir nesneyi döndüren bir yardımcı fonksiyon oluşturmaktır.
 
-All rabbits share that same method. Especially for types with many methods, it would be nice if there was a way to keep a type's methods in a single place, rather than adding them to each object individually.
+Tüm tavşanlar aynı yöntemi paylaşırlar. Özellikle çok sayıda metoda sahip türler için, bir türün yöntemlerini her nesneye ayrı ayrı eklemek yerine tek bir yerde tutmanın bir yolu olsa iyi olurdu.
 
 {{index [property, inheritance], [object, property], "Object prototype"}}
 
-In JavaScript, _((prototype))s_ are the way to do that. Objects can be linked to other objects, to magically get all the properties that other object has. Plain old objects created with `{}` notation are linked to an object called `Object.prototype`.
+JavaScript'te, _((prototipler))_ bunu yapmanın yoludur. Nesneler, diğer nesnelere bağlanarak diğer nesnenin sahip olduğu tüm özellikleri sihirli bir şekilde alabilirler. `{}` gösterimiyle oluşturulan normal nesneler, `Object.prototype` olarak adlandırılan bir nesneye bağlıdır.
 
 {{index "toString method"}}
 
@@ -118,9 +118,9 @@ console.log(empty.toString());
 // → [object Object]
 ```
 
-It looks like we just pulled a property out of an empty object. But in fact `toString` is a method stored in `Object.prototype`, meaning it is available in most objects.
+Boş bir nesneden bir özellik çıkardık gibi görünüyor. Ancak aslında `toString`, `Object.prototype` içinde depolanan bir yöntemdir, bu da çoğu nesnede mevcut olduğu anlamına gelir.
 
-When an object gets a request for a property that it does not have, its prototype will be searched for the property. If that doesn't have it, _its_ prototype is searched, and so on until an object is reached has has no prototype (`Object.prototype` is such an object).
+Bir nesne sahip olmadığı bir özelliğe istek aldığında, prototipi içinde bu özellik aranır. Eğer o prototip de bu özelliğe sahip değilse, _onun da_ prototipi aranır ve `Object.prototype` gibi artık bir prototip barındırmayan objeye kadar bu arama devam eder.
 
 ```
 console.log(Object.getPrototypeOf({}) == Object.prototype);
@@ -131,11 +131,11 @@ console.log(Object.getPrototypeOf(Object.prototype));
 
 {{index "getPrototypeOf function"}}
 
-As you'd guess, `Object.getPrototypeOf` returns the prototype of an object.
+Tahmin edebileceğiniz gibi, `Object.getPrototypeOf` bir nesnenin prototipini döndürür.
 
 {{index inheritance, "Function prototype", "Array prototype", "Object prototype"}}
 
-Many objects don't directly have `Object.prototype` as their ((prototype)) but instead have another object that provides a different set of default properties. Functions derive from `Function.prototype`, and arrays derive from `Array.prototype`.
+Birçok nesnenin ((prototipi)) olarak doğrudan `Object.prototype`'a sahip olmadığı, ancak farklı bir varsayılan özellik kümesi sağlayan başka bir nesneye sahip olduğu durumlar vardır. Fonksiyonlar `Function.prototype`'tan, diziler ise `Array.prototype`'tan türemiştir.
 
 ```
 console.log(Object.getPrototypeOf(Math.max) ==
@@ -147,11 +147,11 @@ console.log(Object.getPrototypeOf([]) == Array.prototype);
 
 {{index "Object prototype"}}
 
-Such a prototype object will itself have a prototype, often `Object.prototype`, so that it still indirectly provides methods like `toString`.
+Bu tür bir prototip nesnesinin kendisinin de genellikle `Object.prototype` gibi bir prototipi olacaktır ki böylece hala `toString` gibi yöntemlere erişim sağlayabilsin.
 
 {{index "rabbit example", "Object.create function"}}
 
-You can use `Object.create` to create an object with a specific ((prototype)).
+Belirli bir ((prototip)) ile bir nesne oluşturmak için `Object.create`'i kullanabilirsiniz.
 
 ```{includeCode: "top_lines: 7"}
 let protoRabbit = {
@@ -167,23 +167,23 @@ blackRabbit.speak("I am fear and darkness");
 
 {{index "shared property"}}
 
-The "proto" rabbit acts as a container for the properties that are shared by all rabbits. An individual rabbit object, like the black rabbit, contains properties that apply only to itself—in this case its type—and derives shared properties from its prototype.
+"proto" tavşanı, tüm tavşanlar tarafından paylaşılan özellikleri içeren bir konteyner olarak davranır. Bir bireysel tavşan nesnesi, kendisine sadece kendi üzerine uygulanan özellikleri içerir—bu durumda tipi—ve paylaşılan özellikleri prototipinden türetir.
 
 {{id classes}}
 
-## Classes
+## Class'lar
 
 {{index "object-oriented programming", "abstract data type"}}
 
-JavaScript's ((prototype)) system can be interpreted as a somewhat free-form take on abstract data types or ((class))es. A class defines the shape of a type of object—what methods and properties it has. Such an object is called an _((instance))_ of the class.
+JavaScript'in ((prototip)) sistemi, soyut veri tipleri veya ((sınıf))larının biraz serbest bir şekilde ele alınmış hali olarak yorumlanabilir. Bir sınıf, bir nesne türünün şeklini tanımlar—hangi yöntemlere ve özelliklere sahip olduğunu belirtir. Bu tür bir nesne, sınıfın bir ((örneği)) olarak adlandırılır.
 
 {{index [property, inheritance]}}
 
-Prototypes are useful for defining properties for which all instances of a class share the same value. Properties that differ per instance, such as our rabbits' `type` property, need to be stored directly in the objects themselves.
+Prototipler, bir sınıfın tüm örneklerinin aynı değere sahip olmasını istediğiniz özelliklerin tanımlanması için kullanışlıdır. Örneğin tavşanlarımızın tip özelliği gibi örnek başına farklı olan özellikler, doğrudan nesnelerin kendilerinde saklanmalıdır.
 
 {{id constructors}}
 
-So to create an instance of a given class, you have to make an object that derives from the proper prototype, but you _also_ have to make sure it, itself, has the properties that instances of this class are supposed to have. This is what a _((constructor))_ function does.
+Belirli bir sınıfın bir örneğini oluşturmak için, uygun prototipten türeyen bir nesne yapmak zorundasınız, ancak ayrıca, kendisinin de bu sınıfın örneklerinin sahip olması gereken özelliklere sahip olduğundan emin olmanız gerekir. Bu, bir ((constructor)) fonksiyonun ne yaptığını gösterir.
 
 ```
 function makeRabbit(type) {
@@ -193,7 +193,7 @@ function makeRabbit(type) {
 }
 ```
 
-JavaScript's ((class)) notation makes it easier to define this type of function, along with a ((prototype)) object.
+JavaScript'in ((sınıf)) notasyonu, bu tür bir fonksiyonu tanımlamayı ((prototip)) nesnesiyle kolaylaştırır.
 
 {{index "rabbit example", constructor}}
 
@@ -210,17 +210,17 @@ class Rabbit {
 
 {{index "prototype property", [braces, class]}}
 
-The `class` keyword starts a ((class declaration)), which allows us to define a constructor and a set of methods together. Any number of methods may be written inside the declaration's braces. This code has the effect of defining a binding called `Rabbit`, which holds a function that runs the code in `constructor`, and has a `prototype` property which holds the `speak` method.
+`class` anahtar kelimesi, bir ((sınıf bildirimi)) başlatır ve bir constructor ve bir dizi yöntemi bir arada tanımlamamıza olanak tanır. Bildirimin parantezleri içinde herhangi bir sayıda yöntem yazılabilir. Bu kod, `constructor` içindeki kodu çalıştıran ve `speak` yöntemini içeren bir `prototype` özelliğini tutan Rabbit adında bir bağlantı tanımlar.
 
 {{index "new operator", "this binding", [object, creation]}}
 
-This function cannot be called normally. Constructors, in JavaScript, are called by putting the keyword `new` in front of them. Doing so creates a fresh object with the object held in the function's `prototype` property as prototype, then runs the function with `this` bound to the new object, and finally returns the object.
+Bu fonksiyon normal bir şekilde çağrılamaz. JavaScript'te, constructor'ları çağırmak için önlerine `new` anahtar kelimesini koymak gerekir. Bunu yapınca, fonksiyonun `prototype` özelliğini prototip olarak barındıran yeni bir obje oluşturulur ve fonksiyonun `this` bağlamını bu yeni oluşturulan objeye bağlayarak fonksiyonu çağırır, son olarak objeyi döndürür.
 
 ```{includeCode: true}
 let killerRabbit = new Rabbit("killer");
 ```
 
-In fact, `class` was only introduce in the 2015 edition of JavaScript. Any function can be used as a constructor, and before 2015 the way to define a class was to write a regular function and then manipulate its `prototype` property.
+Aslında, `class` JavaScript'in 2015 versiyonunda tanıtıldı. Herhangi bir fonksiyon bir constructor olarak kullanılabilir, ki zaten 2015'ten önce class tanımlamanın yolu normal bir fonksiyon yazıp ardından onun prototype özelliğini manipüle etmekti.
 
 ```
 function ArchaicRabbit(type) {
@@ -232,15 +232,15 @@ ArchaicRabbit.prototype.speak = function(line) {
 let oldSchoolRabbit = new ArchaicRabbit("old school");
 ```
 
-For this reason, all non-arrow functions start with a `prototype` property holding an empty object.
+Ok notasyonunda yazılmayan tüm fonksiyonların boş bir obje barındıran `prototype` özelliğiyle başlamasının sebebi budur.
 
 {{index capitalization}}
 
-By convention, the names of constructors are capitalized so that they can easily be distinguished from other functions.
+Geleneksel olarak, constructor adları diğer fonksiyonlardan kolayca ayırt edilebilmeleri için büyük harfle yazılır.
 
 {{index "prototype property", "getPrototypeOf function"}}
 
-It is important to understand the distinction between the way a prototype is associated with a constructor (through its `prototype` _property_) and the way objects _have_ a prototype (which can be found with `Object.getPrototypeOf`). The actual prototype of a constructor is `Function.prototype` since constructors are functions. Its `prototype` _property_ holds the prototype used for instances created through it.
+Bir ((prototipin)) bir constructor ile ilişkilendirilme şekli (onun prototype _özelliği_ aracılığıyla) ve bir nesnenin zaten var olan prototipi(bu, `Object.getPrototypeOf` ile bulunabilir) arasındaki farkı anlamanız önemlidir. Bir constructor gerçek prototipi, constructor'lar fonksiyon olduklarından ötürü `Function.prototype`'dır. `prototype` _özelliği_, bunun aracılığıyla oluşturulan örnekler için kullanılan prototipi tutar.
 
 ```
 console.log(Object.getPrototypeOf(Rabbit) ==
@@ -253,7 +253,7 @@ console.log(Object.getPrototypeOf(killerRabbit) ==
 
 {{index constructor}}
 
-Constructors will typically add some per-instance properties to `this`. It is also possible to declare properties directly in the ((class declaration)). Unlike methods, such properties are added to ((instance)) objects, not the prototype.
+Constructor'lar, genellikle `this`'e örnek başı değer atanacak birkaç özellik ekler. Özellikleri ayrıca ((sınıf bildirimi)) içinde doğrudan bildirmek de mümkündür. Metodların aksine, böyle özellikler ((örnek)) nesnelere eklenir, prototipe değil.
 
 ```
 class Particle {
@@ -264,7 +264,7 @@ class Particle {
 }
 ```
 
-Like `function`, `class` can be used both in statements and in expressions. When used as an expression, it doesn't define a binding but just produces the constructor as a value. You are allowed to omit the class name in a class expression.
+`function` gibi, `class` hem beyanlarda hem de ifadelerde kullanılabilir. Bir ifade olarak kullanıldığında, bir bağlantı tanımlamaz, ancak sadece constructor'ı bir değer olarak üretir. Bir sınıf ifadesinde sınıf adının atlanması mümkündür.
 
 ```
 let object = new class { getWord() { return "hello"; } };
@@ -272,8 +272,7 @@ console.log(object.getWord());
 // → hello
 ```
 
-
-## Private Properties
+## Özel Özellikler
 
 {{index [property, private], [property, public], "class declaration"}}
 
@@ -313,7 +312,7 @@ class RandomSource {
 }
 ```
 
-## Overriding derived properties
+## Türetilmiş özellikleri geçersiz kılma
 
 {{index "shared property", overriding, [property, inheritance]}}
 
@@ -363,7 +362,7 @@ console.log(Object.prototype.toString.call([1, 2]));
 // → [object Array]
 ```
 
-## Maps
+## Map'ler
 
 {{index "map method"}}
 
@@ -438,7 +437,7 @@ console.log(Object.hasOwn({x: 1}, "toString"));
 // → false
 ```
 
-## Polymorphism
+## Polimorfizm
 
 {{index "toString method", "String function", polymorphism, overriding, "object-oriented programming"}}
 
@@ -473,7 +472,7 @@ Array.prototype.forEach.call({
 // → B
 ```
 
-## Getters, setters, and statics
+## Getter'lar, setter'lar, and static'ler
 
 {{index [interface, object], [property, definition], "Map class"}}
 
@@ -531,7 +530,7 @@ Sometimes you want to attach some properties directly to your constructor functi
 
 Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. So the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit.
 
-## Symbols
+## Symbol'lar
 
 {{index "for/of loop", "iterator interface"}}
 
@@ -583,7 +582,7 @@ console.log(myTrip[length], myTrip.length);
 // → 21500 2
 ```
 
-## The iterator interface
+## Yineleyici arayüzü
 
 {{index "iterable interface", "Symbol.iterator symbol", "for/of loop"}}
 
@@ -730,7 +729,7 @@ Inheritance allows us to build slightly different data types from existing data 
 
 Whereas ((encapsulation)) and polymorphism can be used to _separate_ pieces of code from each other, reducing the tangledness of the overall program, ((inheritance)) fundamentally ties classes together, creating _more_ tangle. When inheriting from a class, you usually have to know more about how it works than when simply using it. Inheritance can be a useful tool to make some types of programs more succinct, but it shouldn't be the first tool you reach for, and you probably shouldn't actively go looking for opportunities to construct class hierarchies (family trees of classes).
 
-## The instanceof operator
+## instanceof operatörü
 
 {{index type, "instanceof operator", constructor, object}}
 
@@ -752,7 +751,7 @@ console.log([1] instanceof Array);
 
 The operator will see through inherited types, so a `LengthList` is an instance of `List`. The operator can also be applied to standard constructors like `Array`. Almost every object is an instance of `Object`.
 
-## Summary
+## Özet
 
 Objects do more than just hold their own properties. They have prototypes, which are other objects. They'll act as if they have properties they don't have as long as their prototype has that property. Simple objects have `Object.prototype` as their prototype.
 
@@ -768,11 +767,11 @@ More than one type may implement the same interface. Code written to use an inte
 
 When implementing multiple classes that differ in only some details, it can be helpful to write the new classes as _subclasses_ of an existing class, _inheriting_ part of its behavior.
 
-## Exercises
+## Egzersizler
 
 {{id exercise_vector}}
 
-### A vector type
+### Bir vektör türü
 
 {{index dimensions, "Vec class", coordinates, "vector (exercise)"}}
 
@@ -796,6 +795,7 @@ console.log(new Vec(1, 2).minus(new Vec(2, 3)));
 console.log(new Vec(3, 4).length);
 // → 5
 ```
+
 if}}
 
 {{hint
@@ -810,7 +810,7 @@ Adding a getter property to the constructor can be done by putting the word `get
 
 hint}}
 
-### Groups
+### Gruplar
 
 {{index "groups (exercise)", "Set class", "Group class", "set (data structure)"}}
 
@@ -870,13 +870,13 @@ The `from` method can use a `for`/`of` loop to get the values out of the iterabl
 
 hint}}
 
-### Iterable groups
+### Yinelenebilir gruplar
 
 {{index "groups (exercise)", [interface, object], "iterator interface", "Group class"}}
 
 {{id group_iterator}}
 
-Make the `Group` class from the previous exercise iterable. Refer  to the section about the iterator interface earlier in the chapter if you aren't clear on the exact form of the interface anymore.
+Make the `Group` class from the previous exercise iterable. Refer to the section about the iterator interface earlier in the chapter if you aren't clear on the exact form of the interface anymore.
 
 If you used an array to represent the group's members, don't just return the iterator created by calling the `Symbol.iterator` method on the array. That would work, but it defeats the purpose of this exercise.
 

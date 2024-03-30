@@ -276,11 +276,11 @@ console.log(object.getWord());
 
 {{index [property, private], [property, public], "class declaration"}}
 
-It is common for classes to define some properties and ((method))s for internal use, which are not part of their ((interface)). These are called _private_ properties, as opposed to _public_ ones, which are part of the object's external interface.
+Sınıfların iç kullanım için ((arayüzlerinin)) bir parçası olmayan bazı özellik ve ((metodlar)) oluşturması yaygındır. Bunlara arayüzün parçası olan _public_ özelliklerin aksine _private_ özellikler denir.
 
 {{index [method, private]}}
 
-To declare a private method, put a `#` sign in front of its name. Such methods can only be called from inside the `class` declaration that defines them.
+Private metod tanımlamak için isminin başına `#` işareti koy. Bu metodlar sadece onları tanımlayan sınıf içerisinden çağırılabilir.
 
 ```
 class SecretiveObject {
@@ -294,11 +294,11 @@ class SecretiveObject {
 }
 ```
 
-If you try to call `#getSecret` from outside the class, you get an error. Its existence is entirely hidden inside the class declaration.
+Eğer `#getSecret`'ı sınıf dışından çağımaya çalışırsan bir hata alırsın çünkü onun varlığı sıvıf içerisinde tamamen dış dünyadan saklıdır.
 
-To use private instance properties, you must declare them. Regular properties can be created by just assigning to them, but private properties _must_ be declared in the class declaration to be available at all.
+Private örnek özelliklerini kullanabilmek için onları önce tanımlamalısın. Normal özellikler onlara sadece bir değer vererek tanımlanabilir ancak private özellikler sınıf içerisinde tanımlanmak zorundadırlar.
 
-This class implements an appliance for getting random whole number below a given maximum number. It only has one ((public)) property: `getNumber`.
+Bu sınıf verilen bir maksimum sayının altında rastgele bir sayı gösterecek bir cihazı implemente etmektedir ve sadece bir ((public)) özelliği vardır: `getNumber`.
 
 ```
 class RandomSource {
@@ -316,7 +316,7 @@ class RandomSource {
 
 {{index "shared property", overriding, [property, inheritance]}}
 
-When you add a property to an object, whether it is present in the prototype or not, the property is added to the object _itself_. If there was already a property with the same name in the prototype, this property will no longer affect the object, as it is now hidden behind the object's own property.
+Bir nesneye bir özellik eklediğinde içerisinde o özellik zaten var olsa da olmasa da o özellik nesnenin _kendisine_ eklenir. Eğer prototipte zaten aynı adda bir özellik varsa bu özellik artık o nesneyi o özelliğin başka bir nesneye ait olmasından ötürü etkilemeyecektir.
 
 ```
 Rabbit.prototype.teeth = "small";
@@ -333,17 +333,17 @@ console.log(Rabbit.prototype.teeth);
 
 {{index [prototype, diagram]}}
 
-The following diagram sketches the situation after this code has run. The `Rabbit` and `Object` ((prototype))s lie behind `killerRabbit` as a kind of backdrop, where properties that are not found in the object itself can be looked up.
+Aşağıdaki diyahram durumu kod çalıştıktan sonra açıklamakta. `Rabbit` ve `Object` ((prototip))leri `killerRabbit`'te aranan özelliklerin kendisinde bulunamayınca bakılacak yedek yerler olarak durmaktadırlar.
 
 {{figure {url: "img/rabbits.svg", alt: "A diagram showing the object structure of rabbits and their prototypes. There is a box for the 'killerRabbit' instance (holding instance properties like 'type'), with its two prototypes, 'Rabbit.prototype' (holding the 'speak' method) and 'Object.prototype' (holding methods like 'toString') stacked behind it.",width: "8cm"}}}
 
 {{index "shared property"}}
 
-Overriding properties that exist in a prototype can be a useful thing to do. As the rabbit teeth example shows, overriding can be used to express exceptional properties in instances of a more generic class of objects, while letting the nonexceptional objects take a standard value from their prototype.
+Prototipte var olan özelliklere yeni değerler atamak faydalı olabilir. `rabbit.teeth` örneği bunu göstermektedir, yeni değerler atamak istisnai olmayan nesnelerin prototiplerinden standart bir değeri almasına izin verirken, daha genel nesne sınıfının örneklerinde istisnai özellikleri ifade etmek için kullanılabilir.
 
 {{index "toString method", "Array prototype", "Function prototype"}}
 
-Overriding is also used to give the standard function and array prototypes a different `toString` method than the basic object prototype.
+Var olan bir özelliğe yeni bir değer atamak, standart fonksiyon ve dizi prototiplerine temel nesne prototipinden farklı bir `toString` metodu vermek için de kullanılır.
 
 ```
 console.log(Array.prototype.toString ==
@@ -355,7 +355,7 @@ console.log([1, 2].toString());
 
 {{index "toString method", "join method", "call method"}}
 
-Calling `toString` on an array gives a result similar to calling `.join(",")` on it—it puts commas between the values in the array. Directly calling `Object.prototype.toString` with an array produces a different string. That function doesn't know about arrays, so it simply puts the word _object_ and the name of the type between square brackets.
+Bir dizide `toString` çağırmak, ona `.join(",")` çağırmakla benzer bir sonuç verir—dizideki değerler arasına virgül koyar. Bir diziye doğrudan `Object.prototype.toString` çağırmak farklı bir dize üretir. Bu fonksiyon diziler hakkında bilgi sahibi değildir, bu nedenle sadece _object_ kelimesini ve türün adını köşeli parantezler arasına koyar.
 
 ```
 console.log(Object.prototype.toString.call([1, 2]));
@@ -366,11 +366,11 @@ console.log(Object.prototype.toString.call([1, 2]));
 
 {{index "map method"}}
 
-We saw the word _map_ used in the [previous chapter](higher_order#map) for an operation that transforms a data structure by applying a function to its elements. Confusing as it is, in programming the same word is also used for a related but rather different thing.
+Bir [önceki bölümde](higher_order#map) _map_ kelimesini, öğelerine bir fonksiyon uygulayarak bir veri yapısını dönüştüren bir işlem için kullanıldığını gördük. Kafa karıştırıcı olmasına rağmen, programlamada aynı kelime ilişkili ancak farklı bir şey için de kullanılır.
 
 {{index "map (data structure)", "ages example", ["data structure", map]}}
 
-A _map_ (noun) is a data structure that associates values (the keys) with other values. For example, you might want to map names to ages. It is possible to use objects for this.
+Bir _map_ (isim) değerleri (anahtarlar) diğer değerlerle ilişkilendiren bir veri yapısıdır. Örneğin, isimleri yaşlara eşlemek isteyebilirsiniz. Bunun için nesneleri kullanmak mümkündür.
 
 ```
 let ages = {
@@ -389,11 +389,11 @@ console.log("Is toString's age known?", "toString" in ages);
 
 {{index "Object.prototype", "toString method"}}
 
-Here, the object's property names are the people's names, and the property values are their ages. But we certainly didn't list anybody named toString in our map. Yet, because plain objects derive from `Object.prototype`, it looks like the property is there.
+Burada, nesnenin özellik adları insanların isimleri, özellik değerleri ise yaşlarıdır. Ancak kesinlikle haritamızda `toString` adında birini listelemedik. Yine de basit nesneler `Object.prototype`'tan türedikleri için, özellik orada gibi görünüyor.
 
 {{index "Object.create function", prototype}}
 
-As such, using plain objects as maps is dangerous. There are several possible ways to avoid this problem. First, it is possible to create objects with _no_ prototype. If you pass `null` to `Object.create`, the resulting object will not derive from `Object.prototype` and can safely be used as a map.
+Bu nedenle, basit nesneleri haritalar olarak kullanmak tehlikelidir. Bu sorunu önlemenin birkaç olası yolu vardır. İlk olarak, hiçbir prototipe sahip olmayan nesneler oluşturmak mümkündür. `Object.create`'e `null` verirseniz, sonuçta elde edilen nesne `Object.prototype`'tan türetilmez ve güvenli bir şekilde bir map olarak kullanılabilir.
 
 ```
 console.log("toString" in Object.create(null));
@@ -402,11 +402,11 @@ console.log("toString" in Object.create(null));
 
 {{index [property, naming]}}
 
-Object property names must be strings. If you need a map whose keys can't easily be converted to strings—such as objects—you cannot use an object as your map.
+Nesne özellik adları dize olmalıdır. Anahtarları kolayca dizilere dönüştürülemeyen bir map'e ihtiyacınız varsa—örneğin nesneler—bir nesneyi map'iniz olarak kullanamazsınız.
 
 {{index "Map class"}}
 
-Fortunately, JavaScript comes with a class called `Map` that is written for this exact purpose. It stores a mapping and allows any type of keys.
+Neyse ki, JavaScript, tam olarak bu amaca yönelik olan `Map` adında bir sınıf ile gelir. Bir eşleme saklar ve her türden anahtara izin verir.
 
 ```
 let ages = new Map();
@@ -424,11 +424,11 @@ console.log(ages.has("toString"));
 
 {{index [interface, object], "set method", "get method", "has method", encapsulation}}
 
-The methods `set`, `get`, and `has` are part of the interface of the `Map` object. Writing a data structure that can quickly update and search a large set of values isn't easy, but we don't have to worry about that. Someone else did it for us, and we can go through this simple interface to use their work.
+`set`, `get` ve `has` yöntemleri, `Map` nesnesinin arayüzünün bir parçasıdır. Büyük bir değer kümesini hızlı bir şekilde güncelleme ve arama yapabilen bir veri yapısı yazmak kolay değildir, ancak bununla ilgilenmemiz gerekmez. Başkası bunu bizim için yaptı ve bu basit arayüzü kullanarak çalışmalarını kullanabiliriz.
 
 {{index "hasOwn function", "in operator"}}
 
-If you do have a plain object that you need to treat as a map for some reason, it is useful to know that `Object.keys` returns only an object's _own_ keys, not those in the prototype. As an alternative to the `in` operator, you can use the `Object.hasOwn` function, which ignores the object's prototype.
+Herhangi bir nedenden ötürü basit bir nesneye bir map gibi davranmanız gerekiyorsa, `Object.keys`'in yalnızca bir nesnenin kendi anahtarlarını döndürdüğünü, prototiptekilerini döndürmediğini bilmeniz faydalı olabilir. `in` operatörü yerine, nesnenin prototipini yok sayan `Object.hasOwn` fonksiyonunu kullanabilirsiniz.
 
 ```
 console.log(Object.hasOwn({x: 1}, "x"));
@@ -441,7 +441,7 @@ console.log(Object.hasOwn({x: 1}, "toString"));
 
 {{index "toString method", "String function", polymorphism, overriding, "object-oriented programming"}}
 
-When you call the `String` function (which converts a value to a string) on an object, it will call the `toString` method on that object to try to create a meaningful string from it. I mentioned that some of the standard prototypes define their own version of `toString` so they can create a string that contains more useful information than `"[object Object]"`. You can also do that yourself.
+Bir değeri dizeye dönüştüren `String` fonksiyonunu bir nesne üzerinde çağırdığınızda, bu nesne üzerinde `toString` yöntemini çağırarak ondan anlamlı bir dize oluşturmaya çalışır. Bazı standart prototiplerin kendi `toString` versiyonlarını tanımladığını belirttim, böylece `"[object Object]"`'ten daha kullanışlı bilgiler içeren bir dize oluşturabilirler. Kendiniz de bunu yapabilirsiniz.
 
 ```{includeCode: "top_lines: 3"}
 Rabbit.prototype.toString = function() {
@@ -454,13 +454,13 @@ console.log(String(killerRabbit));
 
 {{index "object-oriented programming", [interface, object]}}
 
-This is a simple instance of a powerful idea. When a piece of code is written to work with objects that have a certain interface—in this case, a `toString` method—any kind of object that happens to support this interface can be plugged into the code, and it will be able to work with it.
+Bu, güçlü bir fikrin basit bir örneğidir. Bir kod parçası, belirli bir arayüzü olan nesnelerle çalışmak üzere yazıldığında—bu durumda bir `toString` yöntemi—bu arayüzü destekleyen herhangi bir nesne kodun içine eklenerek ve onunla çalışabilir.
 
-This technique is called _polymorphism_. Polymorphic code can work with values of different shapes, as long as they support the interface it expects.
+Bu teknik, _polimorfizm_ olarak adlandırılır. Polimorfik kod, beklediği arayüzü destekleyen farklı şekillerdeki değerlerle çalışabilir.
 
 {{index "forEach method"}}
 
-An example of a widely used interface is that of ((array-like object))s which have a `length` property holding a number, and numbered properties for each of their elements. Both arrays and strings support this interface, as do various other objects, some of which we'll see later in the chapters about the browser. Our implementation of `forEach` from [Chapter ?](higher_order) works on anything that provides this interface. In fact, so does `Array.prototype.forEach`.
+Yaygın olarak kullanılan örnek olarak verilebilecek bir arayüz örneği, `length` özelliği tutan ve her bir eleman için numaralandırılmış özelliklere sahip ((dizi benzeri nesneler))'in arayüzüdür. Diziler ve dizeler bu arayüzü destekler, aynı şekilde bazı diğer nesneler de destekler, bunlardan bazılarını daha sonra browser hakkındaki bölümlerde göreceğiz. [Bölüm ?](higher_order) içindeki `forEach` uygulamamız, bu arayüzü sağlayan her şeyde çalışır. Aslında, `Array.prototype.forEach` da aynı şekilde çalışır.
 
 ```
 Array.prototype.forEach.call({
@@ -476,9 +476,9 @@ Array.prototype.forEach.call({
 
 {{index [interface, object], [property, definition], "Map class"}}
 
-Interfaces often contain plain properties, not just methods. For example, `Map` objects have a `size` property that tells you how many keys are stored in them.
+Arayüzler sadece yöntemler değil, genellikle özellikler içerir. Örneğin, `Map` nesnelerinin bir `size` özelliği vardır ve içlerinde saklanan anahtarların sayısını belirtir.
 
-It is not necessary for such an object to compute and store such a property directly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called _((getter))s_, and they are defined by writing `get` in front of the method name in an object expression or class declaration.
+Böyle bir bir nesnenin bir özelliği doğrudan örnekte hesaplaması ve saklaması gerekli değildir. Doğrudan erişilen özellikler bile bir yöntem çağrısını gizleyebilir. Böyle yöntemlere ((getter)) denir ve bunlar bir nesne ifadesi veya sınıf bildirimi içinde yöntem adının önüne `get` yazarak tanımlanır.
 
 ```{test: no}
 let varyingSize = {
@@ -495,7 +495,7 @@ console.log(varyingSize.size);
 
 {{index "temperature example"}}
 
-Whenever someone reads from this object's `size` property, the associated method is called. You can do a similar thing when a property is written to, using a _((setter))_.
+Bu nesnenin `size` özelliğinden okuma yapıldığında, ilişkili yöntem çağrılır. Bir özelliğe bir değer atandığında _((setter))_ kullanarak benzer bir şey yapabilirsiniz.
 
 ```{test: no, startCode: true}
 class Temperature {
@@ -522,13 +522,13 @@ console.log(temp.celsius);
 // → 30
 ```
 
-The `Temperature` class allows you to read and write the temperature in either degrees ((Celsius)) or degrees ((Fahrenheit)), but internally it stores only Celsius and automatically converts to and from Celsius in the `fahrenheit` getter and setter.
+`Temperature` sınıfı, sıcaklığı ((°C)) veya ((°F)) olarak okumaya ve yazmaya izin verir, ancak içsel olarak sadece °C'ı depolar ve °F değerini değiştirmek veya okumak istediğinde °C değerini getter ve setter'da formüller kullanarak °F'a çevirir.
 
 {{index "static method", "static property"}}
 
-Sometimes you want to attach some properties directly to your constructor function, rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
+Bazen, yöntemleri prototip yerine doğrudan constructor fonksiyona eklemek istersiniz. Bu tür yöntemlerin bir sınıf örneğine erişimi olmaz ancak örneğin başka yollarla oluşturulması için kullanılabilirler.
 
-Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. So the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit.
+Sınıf bildirimi içinde, adlarının önünde `static` yazılı olan yöntemler veya özellikler kurucuda saklanır. Bu nedenle, `Temperature` sınıfı, °F cinsinden bir sıcaklık oluşturmak için `Temperature.fromFahrenheit(100)` yazmanıza izin verir.
 
 ## Symbol'lar
 

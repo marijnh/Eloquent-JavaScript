@@ -530,19 +530,19 @@ Bazen, yöntemleri prototip yerine doğrudan constructor fonksiyona eklemek iste
 
 Sınıf bildirimi içinde, adlarının önünde `static` yazılı olan yöntemler veya özellikler kurucuda saklanır. Bu nedenle, `Temperature` sınıfı, °F cinsinden bir sıcaklık oluşturmak için `Temperature.fromFahrenheit(100)` yazmanıza izin verir.
 
-## Symbol'lar
+## Symbol'ler
 
 {{index "for/of loop", "iterator interface"}}
 
-I mentioned in [Chapter ?](data#for_of_loop) that a `for`/`of` loop can loop over several kinds of data structures. This is another case of polymorphism—such loops expect the data structure to expose a specific interface, which arrays and strings do. And we can also add this interface to our own objects! But before we can do that, we need to briefly take a look at the symbol type.
+[Bölüm ?](data#for_of_loop) içinde bir `for/of` döngüsünün çeşitli veri yapıları üzerinde döngü yapabileceğini belirttim. Bu, başka bir polimorfizm örneğidir—bu tür döngüler, beklenen arayüzü ortaya koyan veri yapısını bekler, diziler ve dizeler de buna uyum sağlar. Ve kendi nesnelerimize de bu arayüzü ekleyebiliriz! Ancak bunu yapmadan önce, sembol türüne kısaca bir göz atmak gerekir.
 
-It is possible for multiple interfaces to use the same property name for different things. For example, on array-like objects, `length` refers to the amount of elements in the collection. But an object interface describing a hiking route could use `length` to provide the length of the route in meters. It would not be possible for an object to conform to both these interfaces.
+Birden çok arayüzün, farklı şeyler için aynı özellik adını kullanması mümkündür. Örneğin, dizi benzeri nesnelerde, `length` koleksiyondaki öğelerin miktarına atıfta bulunur. Ancak bir yürüyüş rotasını tanımlayan bir nesne arayüzü, `length`'i rotanın metre cinsinden uzunluğunu sağlamak için kullanabilir. Böyle bir objenin bu iki arayüze uyum sağlaması mümkün değildir.
 
-An object trying to be a route and array-like (maybe to enumerate its waypoints) is somewhat far-fetched, and this kind of problem isn't that common in practice. But for things like the iteration protocol, the language designers needed a type of property that _really_ doesn't conflict with any others. So in 2015, _((symbol))s_ were added to the language.
+Bir nesnenin hem rota hem de dizilere benzer arayüze sahip olmaya çalışması (belki de noktalarını numaralandırmak için) biraz abartılıdır ve bu tür bir sorun pratikte o kadar yaygın değildir. Ancak iterasyon protokolü gibi şeyler için, dil tasarımcıları bu tür bir özellik türüne _gerçekten_ başka hiçbir şeyle çelişmeyen bir tür özellik türüne ihtiyaç duyuyordu. Bu nedenle, 2015 yılında _((semboller))_ dilin bir parçası olarak eklendi.
 
 {{index "Symbol function", [property, naming]}}
 
-Most properties, including all the properties we have seen so far, are named with strings. But it is also possible to use symbols as property names. Symbols are values created with the `Symbol` function. Unlike strings, newly created symbols are unique—you cannot create the same symbol twice.
+Şimdiye kadar gördüğümüz tüm özellikler de dahil olmak üzere, çoğu özellik dizelerle adlandırılır. Ancak sembollerin özellik adı olarak da kullanılması mümkündür. Semboller, `Symbol` fonksiyonuyla oluşturulan değerlerdir. Dizelerin aksine, yeni oluşturulan semboller benzersizdir—aynı sembolü iki kez oluşturamazsınız.
 
 ```
 let sym = Symbol("name");
@@ -553,9 +553,9 @@ console.log(killerRabbit[sym]);
 // → 55
 ```
 
-The string you pass to `Symbol` is included when you convert it to a string and can make it easier to recognize a symbol when, for example, showing it in the console. But it has no meaning beyond that—multiple symbols may have the same name.
+`Symbol`'e verdiğiniz dize, onu bir dizeye dönüştürdüğünüzde dahil edilir ve bir sembolü, örneğin, konsolda gösterirken tanımayı daha kolay hale getirir. Ancak bundan başka bir anlamı yoktur—birden çok sembol aynı adı taşıyabilir.
 
-Being both unique and usable as property names makes symbols suitable for defining interfaces that can peacefully live alongside other properties, no matter what their names are.
+Hem benzersiz hem de özellik adları olarak kullanılabilir olmaları, sembollerin adları ne olursa olsun diğer özelliklerle bir arada barış içinde yaşayabilen arayüzleri tanımlamak için uygun olmalarını sağlar.
 
 ```{includeCode: "top_lines: 1"}
 const length = Symbol("length");
@@ -569,7 +569,7 @@ console.log([1, 2][length]);
 
 {{index [property, naming]}}
 
-It is possible to include symbol properties in object expressions and classes by using ((square bracket))s around the property name. That causes the expression between the brackets to be evaluated to produce the property name, analoguous to the square bracket property access notation.
+Nesne ifadelerinde ve sınıflarda sembol özelliklerini kullanmak için ((köşeli parantez))lerle sararak özellik adını kullanmak mümkündür. Bu, köşeli parantez özelliği erişim notasyonuna benzer şekilde, parantezler arasındaki ifadenin değerlendirilerek özellik adının oluşturulmasını sağlar.
 
 ```
 let myTrip = {
@@ -586,15 +586,15 @@ console.log(myTrip[length], myTrip.length);
 
 {{index "iterable interface", "Symbol.iterator symbol", "for/of loop"}}
 
-The object given to a `for`/`of` loop is expected to be _iterable_. This means it has a method named with the `Symbol.iterator` symbol (a symbol value defined by the language, stored as a property of the `Symbol` function).
+`for/of` döngüsüne verilen nesnenin _yinelenilebilir_ olması beklenir. Bu, `Symbol.iterator` sembolü ile adlandırılmış bir metoda (dil tarafından tanımlanan bir sembol değeri, `Symbol` fonksiyonunun bir özelliği olarak saklanır) sahip olması anlamına gelir.
 
 {{index "iterator interface", "next method"}}
 
-When called, that method should return an object that provides a second interface, _iterator_. This is the actual thing that iterates. It has a `next` method that returns the next result. That result should be an object with a `value` property that provides the next value, if there is one, and a `done` property, which should be true when there are no more results and false otherwise.
+Çağrıldığında, bu yöntem, ikinci bir arayüz olan _yineleyiciyi_ sağlayan bir nesne döndürmelidir. Bu, gerçekten yineleyen şeydir. Bir sonraki sonucu döndüren `next` yöntemine sahiptir. Bu sonuç, bir sonraki değeri sağlayan bir `value` özelliği ve daha çok sonuçların olup olmadığını belirten `done` özelliğine sahip bir nesne olmalıdır.
 
-Note that the `next`, `value`, and `done` property names are plain strings, not symbols. Only `Symbol.iterator`, which is likely to be added to a _lot_ of different objects, is an actual symbol.
+`next`, `value`, ve `done` özellik adlarının düz dize olduğunu, semboller olmadığını unutmayın. Yalnızca _birçok_ farklı nesnelere eklenebilecek olan `Symbol.iterator` gerçek bir semboldür.
 
-We can directly use this interface ourselves.
+Bu arayüzü doğrudan kendimiz kullanabiliriz.
 
 ```
 let okIterator = "OK"[Symbol.iterator]();
@@ -608,7 +608,7 @@ console.log(okIterator.next());
 
 {{index ["data structure", list], "linked list", collection}}
 
-Let's implement an iterable data structure similar to the linked list from the exercise in [Chapter ?](data). We'll write the list as a class this time.
+[Chapter ?](data) alıştırmasındaki linked list benzeri bir yinelenebilir veri yapısı uygulayalım. Bu sefer listeyi bir sınıf olarak yazacağız.
 
 ```{includeCode: true}
 class List {
@@ -631,9 +631,9 @@ class List {
 }
 ```
 
-Note that `this`, in a static method, points at the constructor of the class, not an instance—there is no instance around, when a static method is called.
+Statik bir yöntemdeki `this`, bir örneğe değil, sınıfın constructor fonksiyonuna işaret eder—bir statik yöntem çağrıldığında bir örnek yoktur.
 
-Iterating over a list should return all the list's elements from start to end. We'll write a separate class for the iterator.
+Bir liste üzerinde yinelendiğinde, listenin tüm öğeleri baştan sona döndürülmelidir. Yineleyici için ayrı bir sınıf yazacağız.
 
 {{index "ListIterator class"}}
 
@@ -654,9 +654,9 @@ class ListIterator {
 }
 ```
 
-The class tracks the progress of iterating through the list by updating its `list` property to move to the next list object whenever a value is returned, and reports that it is done when that list is empty (null).
+`ListIterator` sınıfı, bir değer döndürüldüğünde `list` özelliğini güncelleyerek listedeki öğelerin üzerinden yinelenebilme ilerlemesini takip eder ve bu liste boş olduğunda (null) işlemi tamamlandığını bildirir.
 
-Let's set up the `List` class to be iterable. Throughout this book, I'll occasionally use after-the-fact prototype manipulation to add methods to classes so that the individual pieces of code remain small and self-contained. In a regular program, where there is no need to split the code into small pieces, you'd declare these methods directly in the class instead.
+`List` sınıfını yinelemeli hale getirelim. Bu kitap boyunca, kod parçalarının küçük ve kendi kendine yeten kalmasını sağlamak için sınıflara yöntemler eklemek adına prototip manipülasyonunu zaman zaman kullanacağım. Normal bir programda, kodun küçük parçalara ayrılmasına gerek olmadığında, bu yöntemleri doğrudan sınıfta bildirirsiniz.
 
 ```{includeCode: true}
 List.prototype[Symbol.iterator] = function() {
@@ -666,7 +666,7 @@ List.prototype[Symbol.iterator] = function() {
 
 {{index "for/of loop"}}
 
-We can now loop over a list with `for`/`of`.
+Artık bir liste üzerinde `for`/`of` ile döngü yapabiliriz.
 
 ```
 let list = List.fromArray([1, 2, 3]);
@@ -680,24 +680,24 @@ for (let element of list) {
 
 {{index spread}}
 
-The `...` syntax in array notation and function calls similarly works with any iterable object. So for example, you can use `[...value]` to create an array containing the elements in an arbitrary iterable object.
+Array notasyonunda ve fonksiyon çağrılarında `...` herhangi bir yinelemeli nesneyle çalışır. Bu nedenle örneğin, `[...value]` kullanarak bir yinelenebilir nesnedeki öğeleri içeren bir dizi oluşturabilirsiniz.
 
 ```
 console.log([..."PCI"]);
 // → ["P", "C", "I"]
 ```
 
-## Inheritance
+## Kalıtım
 
 {{index inheritance, "linked list", "object-oriented programming", "LengthList class"}}
 
-Imagine we needed a list type, much like the `List` class we saw before, but because we will be asking for its length all the time, we don't want it to have to scan through its `rest` every time, and instead want to store the length in every instance for efficient access.
+`List` sınıfında gördüğümüz gibi, bir listeye benzer bir liste tipine ihtiyacımız olduğunu hayal edin, ancak sürekli olarak uzunluğunu isteyeceğimiz için, her seferinde `rest` özelliğini taramasını istemiyoruz ve bunun yerine her örnekte uzunluğu verimli bir erişim için saklamak istiyoruz.
 
 {{index overriding, prototype}}
 
-JavaScript's prototype system makes it possible to create a _new_ class, much like the old class, but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `length` getter.
+JavaScript'in prototip sistemi, bir sınıfa, eskiden olduğu gibi, ancak bazı özelliklerinin yeni tanımları ile bir _yeni_ sınıf oluşturmayı mümkün kılar. Yeni sınıfın prototipi, eski prototipten türetilir ancak, diyelim ki, `length` getter metodu için için yeni bir tanım ekler.
 
-In object-oriented programming terms, this is called _((inheritance))_. The new class inherits properties and behavior from the old class.
+Nesne tabanlı programlama terimleriyle, buna _((kalıtım))_ denir. Yeni sınıf, eski sınıftan özellikler ve davranış alır.
 
 ```{includeCode: "top_lines: 17"}
 class LengthList extends List {
@@ -717,23 +717,23 @@ console.log(LengthList.fromArray([1, 2, 3]).length);
 // → 3
 ```
 
-The use of the word `extends` indicates that this class shouldn't be directly based on the default `Object` prototype but on some other class. This is called the _((superclass))_. The derived class is the _((subclass))_.
+`extends` kelimesinin kullanımı, bu sınıfın doğrudan varsayılan `Object` prototipi yerine başka bir sınıfa dayandırılması gerektiğini gösterir. Buna _((üst sınıf))_ denir. Türetilmiş sınıf, _((alt sınıf))_ tır.
 
-To initialize a `LengthList` instance, the constructor calls the constructor of its superclass through the `super` keyword. This is necessary because if this new object is to behave (roughly) like a `List`, it is going to need the instance properties that lists have.
+Bir `LengthList` örneğini başlatmak için, constructor, `super` anahtar kelimesi aracılığıyla üst sınıfının constructor fonksiyonunu çağırır. Bu, bu yeni nesne bir `List` gibi davranacaksa, listelerin sahip olduğu örnek özelliklere ihtiyacı olacağı için gereklidir.
 
-The constructor then stores the list's length in a private property. If we had written `this.length` there, the class's own getter would have been called, which doesn't work yet, since `#length` hasn't been filled in yet. We can using `super.something` to call methods and getters on the superclass's prototype, which is often useful.
+Constructor fonksiyonu, ardından listenin uzunluğunu private bir özelliğe saklar. Orada `this.length` yazsaydık, sınıfın kendi getter metodu çağrılırdı, ki bu henüz çalışmaz, çünkü `#length` henüz doldurulmadı. `super.something` kullanarak üst sınıfın prototipi üzerinde metodlar ve getter metodları çağırmak sıkça kullanışlıdır.
 
-Inheritance allows us to build slightly different data types from existing data types with relatively little work. It is a fundamental part of the object-oriented tradition, alongside encapsulation and polymorphism. But while the latter two are now generally regarded as wonderful ideas, inheritance is more controversial.
+Kalıtım, var olan veri türlerinden kolayca biraz farklı veri türleri oluşturmamıza izin verir. Bu, kapsülleme ve polimorfizm ile birlikte nesne tabanlı geleneğin temel bir parçasıdır. Ancak, son ikisi şimdi genellikle harika fikirler olarak kabul edilirken, kalıtım daha tartışmalıdır.
 
 {{index complexity, reuse, "class hierarchy"}}
 
-Whereas ((encapsulation)) and polymorphism can be used to _separate_ pieces of code from each other, reducing the tangledness of the overall program, ((inheritance)) fundamentally ties classes together, creating _more_ tangle. When inheriting from a class, you usually have to know more about how it works than when simply using it. Inheritance can be a useful tool to make some types of programs more succinct, but it shouldn't be the first tool you reach for, and you probably shouldn't actively go looking for opportunities to construct class hierarchies (family trees of classes).
+((Kapsülleme)) ve polimorfizm kodları birbirinden _ayırmak_ için kullanılabilirken, ((kalıtım)) temel olarak sınıfları birbirine bağlar, ve birbirine daha bağlı kodlar yaratır. Bir sınıftan kalıtım alırken, sınıfı sadece kullanmak yerine genellikle nasıl çalıştığı hakkında daha fazla bilgi sahibi olmanız gerekir. Kalıtım, bazı türdeki programları daha kısa hale getirmek için kullanışlı bir araç olabilir, ancak bunu kullanmaya yeltendiğiniz ilk araç olmamalıdır ve daha çok sınıf hiyerarşileri (sınıf ağaçları) oluşturma fırsatlarını aktif olarak aramamalısınız.
 
 ## instanceof operatörü
 
 {{index type, "instanceof operator", constructor, object}}
 
-It is occasionally useful to know whether an object was derived from a specific class. For this, JavaScript provides a binary operator called `instanceof`.
+Nesnenin belirli bir sınıftan türetildiğini bilmek zaman zaman faydalı olabilir. Bunun için JavaScript, `instanceof` adında bir ikili operatör sağlar.
 
 ```
 console.log(
@@ -749,23 +749,23 @@ console.log([1] instanceof Array);
 
 {{index inheritance}}
 
-The operator will see through inherited types, so a `LengthList` is an instance of `List`. The operator can also be applied to standard constructors like `Array`. Almost every object is an instance of `Object`.
+Operatör, kalıtılmış türleri görür, bu nedenle bir `LengthList`, `List` sınıfının bir örneğidir. Operatör ayrıca `Array` gibi standart constructor fonksiyonlarına da uygulanabilir. Hemen hemen her nesne `Object` sınıfının bir örneğidir.
 
 ## Özet
 
-Objects do more than just hold their own properties. They have prototypes, which are other objects. They'll act as if they have properties they don't have as long as their prototype has that property. Simple objects have `Object.prototype` as their prototype.
+Nesneler, kendi özelliklerini tutmanın ötesinde daha fazlasını yaparlar. Başka nesneler olan prototipleri vardır. Prototiplerinde bulunduğu sürece, sahip olmadıkları bir özelliğe sahipmiş gibi davranırlar. Basit nesnelerin prototipi `Object.prototype`'dır.
 
-Constructors, which are functions whose names usually start with a capital letter, can be used with the `new` operator to create new objects. The new object's prototype will be the object found in the `prototype` property of the constructor. You can make good use of this by putting the properties that all values of a given type share into their prototype. There's a `class` notation that provides a clear way to define a constructor and its prototype.
+Genellikle büyük harfle başlayan adları olan constructor fonksiyonlar, `new` operatörünün kullanımıyla yeni nesneler oluşturmak için kullanılabilir. Yeni nesnenin prototipi, constructor fonksiyonunun `prototype` özelliğinde bulunan nesne olacaktır. Verilen bir veri türün paylaştığı tüm özellikleri prototip nesnesine koyarak bundan fayda sağlayabilirsiniz. Bir constructor fonksiyonu ve onun prototipini net bir şekilde tanımlamanın temiz bir yolunu sağlayan `class` notasyonunu kullanabilirsiniz.
 
-You can define getters and setters to secretly call methods every time an object's property is accessed. Static methods are methods stored in a class's constructor, rather than its prototype.
+Herhangi bir nesnenin herhangi bir özelliği erişildiğinde gizlice çağırılacak getter ve setter metodları tanımlayabilirsiniz. Statik metodlar, bir sınıfın constructor fonksiyonunda saklanan metodlardır, prototipinde değil.
 
-The `instanceof` operator can, given an object and a constructor, tell you whether that object is an instance of that constructor.
+`instanceof` operatörüne bir nesne ve bir constructor fonksiyonu verildiğinde, nesnenin o constructor fonksiyonunun bir örneği olup olmadığını size söyler.
 
-One useful thing to do with objects is to specify an interface for them and tell everybody that they are supposed to talk to your object only through that interface. The rest of the details that make up your object are now _encapsulated_, hidden behind the interface. You can use private properties to hide a part of your object from the outside world.
+Nesnelerle yapılacak yararlı şeylerden biri, onlar için bir arayüz belirtmek ve herkesin nesnenizle sadece o arayüz aracılığıyla iletişim kurması gerektiğini söylemektir. Nesnenizi oluşturan diğer ayrıntılar artık _kapsülleme_ aracılığıyla gizlenmiş olur ve arayüzün arkasında saklanır. Nesnenizin bir kısmını dış dünyadan gizlemek için private özellikler kullanabilirsiniz.
 
-More than one type may implement the same interface. Code written to use an interface automatically knows how to work with any number of different objects that provide the interface. This is called _polymorphism_.
+Birden fazla tür aynı arayüzü implemente edebilir. Bir arayüzü kullanmak için yazılmış kod, arayüzü sağlayan herhangi bir sayıda farklı nesneyle nasıl çalışılacağını otomatik olarak bilir. Buna _polimorfizm_ denir.
 
-When implementing multiple classes that differ in only some details, it can be helpful to write the new classes as _subclasses_ of an existing class, _inheriting_ part of its behavior.
+Birbirinden yalnızca bazı ayrıntılarda farklılık gösteren birden çok sınıfı implemente ederken, yeni sınıfları var olan bir sınıfın alt sınıfları olarak yazmak, davranışlarının bir kısmını kalıtım yoluyla alarak kullanmanıza yardımcı olabilir.
 
 ## Egzersizler
 
@@ -775,18 +775,18 @@ When implementing multiple classes that differ in only some details, it can be h
 
 {{index dimensions, "Vec class", coordinates, "vector (exercise)"}}
 
-Write a ((class)) `Vec` that represents a vector in two-dimensional space. It takes `x` and `y` parameters (numbers), which it should save to properties of the same name.
+İki boyutlu uzayda bir vektörü temsil eden bir `Vec` adında ((Sınıf)) yazın. Parametre olarak `x` ve `y` (sayılar) alır ve bunları aynı adla özelliklere kaydeder.
 
 {{index addition, subtraction}}
 
-Give the `Vec` prototype two methods, `plus` and `minus`, that take another vector as a parameter and return a new vector that has the sum or difference of the two vectors' (`this` and the parameter) _x_ and _y_ values.
+`Vec` prototipine `plus` ve `minus` adında başka bir vektörü parametre olarak alan ve iki vektörün (`this` ve parametre) _x_ ve _y_ değerlerinin toplamını veya farkını döndüren iki ((metod)) tanımlayın.
 
-Add a ((getter)) property `length` to the prototype that computes the length of the vector—that is, the distance of the point (_x_, _y_) from the origin (0, 0).
+Prototipe, vektörün uzunluğunu hesaplayan `length` adında ((getter)) özelliği ekleyin - yani, noktanın (x, y) başlangıç noktasından (0, 0) uzaklığını hesaplar.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 console.log(new Vec(1, 2).plus(new Vec(2, 3)));
 // → Vec{x: 3, y: 5}
@@ -802,11 +802,11 @@ if}}
 
 {{index "vector (exercise)"}}
 
-Look back to the `Rabbit` class example if you're unsure how `class` declarations look.
+Eğer `class` beyanlarının nasıl göründüğünden emin değilseniz `Rabbit` sınıfı örneğine geri dönün.
 
 {{index Pythagoras, "defineProperty function", "square root", "Math.sqrt function"}}
 
-Adding a getter property to the constructor can be done by putting the word `get` before the method name. To compute the distance from (0, 0) to (x, y), you can use the Pythagorean theorem, which says that the square of the distance we are looking for is equal to the square of the x-coordinate plus the square of the y-coordinate. Thus, [√(x^2^ + y^2^)]{if html}[[$\sqrt{x^2 + y^2}$]{latex}]{if tex} is the number you want. `Math.sqrt` is the way you compute a square root in JavaScript and `x ** 2` can be used to square a number.
+Constructor fonksiyonuna bir ((getter)) özelliği eklemek, metod adından önce `get` kelimesini koymak suretiyle yapılabilir. (0, 0) ile (x, y) arasındaki mesafeyi hesaplamak için, aradığımız mesafenin karesinin, x-koordinatının karesi artı y-koordinatının karesiyle eşit olduğunu söyleyen Pisagor teoremini kullanabilirsiniz. Böylece, [√(x^2^ + y^2^)]{if html}[[$\sqrt{x^2 + y^2}$]{latex}]{if tex} istediğiniz sayıdır. JavaScript'te karekökü hesaplamak için `Math.sqrt` kullanılır ve bir sayının karesini almak için `x ** 2` kullanılanılır.
 
 hint}}
 
@@ -816,25 +816,25 @@ hint}}
 
 {{id groups}}
 
-The standard JavaScript environment provides another data structure called `Set`. Like an instance of `Map`, a set holds a collection of values. Unlike `Map`, it does not associate other values with those—it just tracks which values are part of the set. A value can be part of a set only once—adding it again doesn't have any effect.
+Standart JavaScript ortamı, `Set` adında başka bir veri yapısı sağlar. Bir `Map` örneği gibi, bir küme bir değerler koleksiyonunu tutar. `Map`'in aksine, bunlarla ilişkilendirilmiş başka değerlerle ilgilenmez - sadece hangi değerlerin kümenin bir parçası olduğunu izler. Bir değer sadece bir kez kümenin parçası olabilir - tekrar eklenmesinin herhangi bir etkisi olmaz.
 
 {{index "add method", "delete method", "has method"}}
 
-Write a class called `Group` (since `Set` is already taken). Like `Set`, it has `add`, `delete`, and `has` methods. Its constructor creates an empty group, `add` adds a value to the group (but only if it isn't already a member), `delete` removes its argument from the group (if it was a member), and `has` returns a Boolean value indicating whether its argument is a member of the group.
+`Set` ismi zaten alınmış olduğundan ötürü `Group` adında bir sınıf yazın. `Set` gibi, `add`, `delete` ve `has` metodlarına sahip olsun. Constructor fonksiyonu boş bir grup oluştursun, `add` bir değeri eğer zaten bir üye değilse gruba eklesin, `delete` argümanını eğer bir üyeyse grubun içinden kaldırsın ve `has` argümanının grubun bir üyesi olup olmadığını gösteren bir Boolean değeri döndürsün.
 
 {{index "=== operator", "indexOf method"}}
 
-Use the `===` operator, or something equivalent such as `indexOf`, to determine whether two values are the same.
+İki değerin aynı olup olmadığını belirlemek için `===` operatörünü veya `indexOf` gibi bir şeyi kullanın.
 
 {{index "static method"}}
 
-Give the class a static `from` method that takes an iterable object as argument and creates a group that contains all the values produced by iterating over it.
+Sınıfta, bir yinelenebilen bir nesneyi argüman olarak alan ve üzerinde yinelemeyi gerçekleştirerek üretilen tüm değerleri içeren bir grup oluşturan bir statik `from` ((metodu)) oluşturun.
 
 {{if interactive
 
 ```{test: no}
 class Group {
-  // Your code here.
+  // Kodunuz buraya.
 }
 
 let group = Group.from([10, 20]);
@@ -854,19 +854,19 @@ if}}
 
 {{index "groups (exercise)", "Group class", "indexOf method", "includes method"}}
 
-The easiest way to do this is to store an array of group members in an instance property. The `includes` or `indexOf` methods can be used to check whether a given value is in the array.
+Bunu yapmanın en kolay yolu, bir örnek özelliğinde grup üyelerinin bir dizisini depolamaktır. `includes` veya `indexOf` metotları, verilen bir değerin dizide olup olmadığını kontrol etmek için kullanılabilir.
 
 {{index "push method"}}
 
-Your class's ((constructor)) can set the member collection to an empty array. When `add` is called, it must check whether the given value is in the array or add it, for example with `push`, otherwise.
+Sınıfınızın ((constructor)) fonksiyonu, üye koleksiyonunu boş bir diziye atayabilir. `add` çağrıldığında, verilen değerin dizide olup olmadığını kontrol etmeli ve `push` gibi bir fonksiyonla eklemelidir.
 
 {{index "filter method"}}
 
-Deleting an element from an array, in `delete`, is less straightforward, but you can use `filter` to create a new array without the value. Don't forget to overwrite the property holding the members with the newly filtered version of the array.
+Diziden bir öğe silmek, `delete` daha karmaşıktır, ancak o değerin içinde bulunmadığı yeni bir dizi oluşturmak için `filter` kullanabilirsiniz. Üyeleri tutan özelliği, dizinin bu yeniden filtrelenmiş versiyonuyla atamayı unutmayın.
 
 {{index "for/of loop", "iterable interface"}}
 
-The `from` method can use a `for`/`of` loop to get the values out of the iterable object and call `add` to put them into a newly created group.
+`from` metodu, yinelenebilir nesneden değerleri almak ve bunları yeni oluşturulan bir gruba `add` metodu aracılığıyla koymak için `for`/`of` döngüsünü kullanabilir.
 
 hint}}
 
@@ -876,16 +876,16 @@ hint}}
 
 {{id group_iterator}}
 
-Make the `Group` class from the previous exercise iterable. Refer to the section about the iterator interface earlier in the chapter if you aren't clear on the exact form of the interface anymore.
+Önceki alıştırmadan `Group` sınıfını yinelenebilir yapın. Eğer arayüzün tam olarak nasıl olduğundan emin değilseniz, bölümdeki yineleme arayüzünün yapısı hakkındaki bölüme bakın.
 
-If you used an array to represent the group's members, don't just return the iterator created by calling the `Symbol.iterator` method on the array. That would work, but it defeats the purpose of this exercise.
+Grubun üyelerini temsil etmek için bir dizi kullandıysanız, dizideki direk `Symbol.iterator` metodunu çağırarak oluşturulan yineleyiciyi döndürmeyin. Bu çalışır, ancak bu alıştırmanın amacını boşa çıkarır.
 
-It is okay if your iterator behaves strangely when the group is modified during iteration.
+Grubun yinelenme sırasında grubun değiştirilmesi durumunda yineleyicinizin garip davranması sorun değil.
 
 {{if interactive
 
 ```{test: no}
-// Your code here (and the code from the previous exercise)
+// Kodunuz buraya.(önceki egzersizden olan kodunuz da dahil olmak üzere)
 
 for (let value of Group.from(["a", "b", "c"])) {
   console.log(value);
@@ -901,8 +901,8 @@ if}}
 
 {{index "groups (exercise)", "Group class", "next method"}}
 
-It is probably worthwhile to define a new class `GroupIterator`. Iterator instances should have a property that tracks the current position in the group. Every time `next` is called, it checks whether it is done and, if not, moves past the current value and returns it.
+Muhtemelen yeni bir `GroupIterator` sınıfını tanımlamak faydalı olacaktır. `Iterator` örnekleri, grubun mevcut konumunu izleyen bir özelliğe sahip olmalıdır. `next` her çağırıldığında tamamlanıp tamamlanmadığını kontrol eder ve tamamlanmadıysa mevcut değerin ötesine geçip onu döndürür.
 
-The `Group` class itself gets a method named by `Symbol.iterator` that, when called, returns a new instance of the iterator class for that group.
+`Group` sınıfı `Symbol.iterator` tarafından adlandırılan bir ((metod)) alır ve çağrıldığında, o grup için yeni bir `Iterator` sınıfı örneğini döndürür.
 
 hint}}

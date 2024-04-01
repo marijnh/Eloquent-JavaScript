@@ -1,6 +1,6 @@
 {{meta {load_files: ["code/chapter/07_robot.js", "code/animatevillage.js"], zip: html}}}
 
-# Project: A Robot
+# Proje: Robot
 
 {{quote {author: "Edsger Dijkstra", title: "The Threats to Computing Science", chapter: true}
 
@@ -18,7 +18,7 @@ In "project" chapters, I'll stop pummeling you with new theory for a brief momen
 
 Our project in this chapter is to build an ((automaton)), a little program that performs a task in a ((virtual world)). Our automaton will be a mail-delivery ((robot)) picking up and dropping off parcels.
 
-## Meadowfield
+## Çayır alanı
 
 {{index "roads array"}}
 
@@ -70,7 +70,7 @@ Given an array of edges, `buildGraph` creates a map object that, for each node, 
 
 It uses the `split` method to go from the road strings, which have the form `"Start-End"`, to two-element arrays containing the start and end as separate strings.
 
-## The task
+## Görev
 
 Our ((robot)) will be moving around the village. There are parcels in various places, each addressed to some other place. The robot picks up parcels when it comes to them and delivers them when it arrives at their destinations.
 
@@ -140,7 +140,7 @@ console.log(first.place);
 
 The move causes the parcel to be delivered, and this is reflected in the next state. But the initial state still describes the situation where the robot is at the post office and the parcel is undelivered.
 
-## Persistent data
+## Kalıcı veriler
 
 {{index "persistent data structure", mutability, ["data structure", immutable]}}
 
@@ -163,7 +163,7 @@ For a small system like the one we are building in this chapter, we could handle
 
 Unfortunately, although understanding a system built on persistent data structures is easier, _designing_ one, especially when your programming language isn't helping, can be a little harder. We'll look for opportunities to use persistent data structures in this book, but we'll also be using changeable ones.
 
-## Simulation
+## Simülasyon
 
 {{index simulation, "virtual world"}}
 
@@ -258,7 +258,7 @@ The way `runRobotAnimation` is implemented will remain a mystery for now, but af
 
 if}}
 
-## The mail truck's route
+## Posta kamyonunun rotası
 
 {{index "mailRoute array"}}
 
@@ -296,7 +296,7 @@ runRobotAnimation(VillageState.random(), routeRobot, []);
 
 if}}
 
-## Pathfinding
+## Yol bulma
 
 Still, I wouldn't really call blindly following a fixed route intelligent behavior. The ((robot)) could work more efficiently if it adjusted its behavior to the actual work that needs to be done.
 
@@ -306,7 +306,7 @@ To do that, it has to be able to deliberately move toward a given parcel or towa
 
 The problem of finding a route through a ((graph)) is a typical _((search problem))_. We can tell whether a given solution (a route) is a valid solution, but we can't directly compute the solution the way we could for 2 + 2. Instead, we have to keep creating potential solutions until we find one that works.
 
-The  number of possible routes through a graph is infinite. But when searching for a route from _A_ to _B_, we are interested only in the ones that start at _A_. We also don't care about routes that visit the same place twice—those are definitely not the most efficient route anywhere. So that cuts down on the number of routes that the route finder has to consider.
+The number of possible routes through a graph is infinite. But when searching for a route from _A_ to _B_, we are interested only in the ones that start at _A_. We also don't care about routes that visit the same place twice—those are definitely not the most efficient route anywhere. So that cuts down on the number of routes that the route finder has to consider.
 
 In fact, we are mostly interested in the _shortest_ route. So we want to make sure we look at short routes before we look at longer ones. A good approach would be to "grow" routes from the starting point, exploring every reachable place that hasn't been visited yet, until a route reaches the goal. That way, we'll only explore routes that are potentially interesting, and we know that the first route we find is the shortest route (or one of the shortest routes, if there are more than one).
 
@@ -374,9 +374,9 @@ if}}
 
 This robot usually finishes the task of delivering 5 parcels in about 16 turns. That's slightly better than `routeRobot` but still definitely not optimal.
 
-## Exercises
+## Egzersizler
 
-### Measuring a robot
+### Bir robotun ölçülmesi
 
 {{index "measuring a robot (exercise)", testing, automation, "compareRobots function"}}
 
@@ -395,6 +395,7 @@ function compareRobots(robot1, memory1, robot2, memory2) {
 
 compareRobots(routeRobot, [], goalOrientedRobot, []);
 ```
+
 if}}
 
 {{hint
@@ -407,7 +408,7 @@ Your measurement function can then, in a loop, generate new states and count the
 
 hint}}
 
-### Robot efficiency
+### Robot verimliliği
 
 {{index "robot efficiency (exercise)"}}
 
@@ -435,7 +436,7 @@ One possible solution would be to compute routes for all packages and then take 
 
 hint}}
 
-### Persistent group
+### Kalıcı grup
 
 {{index "persistent group (exercise)", "persistent data structure", "Set class", "set (data structure)", "Group class", "PGroup class"}}
 

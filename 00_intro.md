@@ -1,34 +1,56 @@
 {{meta {load_files: ["code/intro.js"]}}}
 
-# Introduction
+# Передмова
 
-{{quote {author: "Ellen Ullman", title: "Close to the Machine: Technophilia and its Discontents", chapter: true}
+{{quote {author: "Еллен Ульман", title: "Поряд з комп'ютером: Технофілія та її невдоволення", chapter: true}
 
-We think we are creating the system for our own purposes. We believe we are making it in our own image... But the computer is not really like us. It is a projection of a very slim part of ourselves: that portion devoted to logic, order, rule, and clarity.
+Ми вважаємо, що створюємо систему для наших власних потреб. 
+Ми віримо, що створюємо її за образом своїм...Але комп'ютер зовсім не схожий на нас.
+Це проекція дуже малої частини нас самих: тієї частини, яка присвячена логіці, порядку, правилам і ясності.
 
 quote}}
 
 {{figure {url: "img/chapter_picture_00.jpg", alt: "Illustration of a screwdriver next to a circuit board of about the same size", chapter: "framed"}}}
 
-This is a book about instructing ((computer))s. Computers are about as common as screwdrivers today, but they are quite a bit more complex, and making them do what you want them to do isn't always easy.
+Ця книга про про те, як керувати комп'ютерами. 
+Сьогодні комп'ютери так само широко розповсюджені, як і викрутки. Проте, вони трохи більш складні. 
+І змусити їх робити те, що вам потрібно не завжди легко.
 
-If the task you have for your computer is a common, well-understood one, such as showing you your email or acting like a calculator, you can open the appropriate ((application)) and get to work. But for unique or open-ended tasks, there often is no appropriate application.
+Якщо задача, яку ви хочете вирішити за допомою свого комп’ютера, є доситить поширеною і зрозумілою, 
+наприклад, вам потрібно показати вашу електронну пошту або порахувати щось,
+ви можете відкрити відповідну програму і приступити до роботи.
+Але для унікальних задач або задач, які мають більш ніж одну правильну відповідь, не завжди буде існувати така програма.
 
-That is where ((programming)) may come in. _Programming_ is the act of constructing a _program_—a set of precise instructions telling a computer what to do. Because computers are dumb, pedantic beasts, programming is fundamentally tedious and frustrating.
+І в таких випадках програмування може статися у нагоді.
+_Програмування_ це процес створення _програм_ — набору точних інструкцій, які кажуть комп'ютеру, що робити.
+Через те, що комп’ютери тупі і педантичні звірі, програмування може втомлювати і розчаровувати.
 
 {{index [programming, "joy of"], speed}}
 
-Fortunately, if you can get over that fact—and maybe even enjoy the rigor of thinking in terms that dumb machines can deal with—programming can be rewarding. It allows you to do things in seconds that would take _forever_ by hand. It is a way to make your computer tool do things that it couldn't do before. On top of that, it makes for a wonderful game of puzzle solving and abstract thinking.
+На щастя, якщо ви зможете прийняти цей факт — і, можливо, навіть почати насолоджуватися суворістю мислення термінами,
+з якими здатні працювати тупі машини, — програмування може почати приносити свої плоди.
+Адже воно дозволить вам робити за секунди те, що вручну зайняло б _віки_.
+Адже це спосіб змусити ваш комп'ютер робити те, що він не міг робити раніше.
+Крім того, це все може стати чудовою грою з розгадування головоломок або абстрактного мислення.
 
-Most programming is done with ((programming language))s. A _programming language_ is an artificially constructed language used to instruct computers. It is interesting that the most effective way we've found to communicate with a computer borrows so heavily from the way we communicate with each other. Like human languages, computer languages allow words and phrases to be combined in new ways, making it possible to express ever new concepts.
+Здебільшого програмування відбувається за допомогою мови програмування.
+_Мова програмування_ — це штучно створена мова, яка використовується для керування комп’ютерами. 
+Цікаво, що найефективнішим способом комунікації з комп’ютером став той, який ми, власне, 
+використовуємо для спілкування один з одним.
+Подібно до людських мов, комп’ютерні мови дозволяють нам поєднувати слова та фрази новим образом, 
+що дає нам змогу створювати нові концепції.
 
 {{index [JavaScript, "availability of"], "casual computing"}}
 
-At one point, language-based interfaces, such as the BASIC and DOS prompts of the 1980s and 1990s, were the main method of interacting with computers. For routine computer use, these have largely been replaced with visual interfaces, which are easier to learn but offer less freedom. But if you know where to look, the languages are still there. One of them, _JavaScript_, is built into every modern web ((browser))—and is thus available on almost every device.
+Певний час мовні інтерфейси, такі як команді строки BASIC і DOS 1980-х і 1990-х років, 
+були основним методом взаємодії з комп'ютерами.
+З метою повсякденного використання комп’ютера їх замінили на візуальні інтерфейси, які легше освоїти, але які надають менше свободи дій. 
+Проте всі ці мови на місці, вам просто потрібно знате, де їх шукати. 
+Одна з них, _JavaScript_, вбудована у кожен сучасний веб ((браузер)) і тому доступна майже на кожному пристрої.
 
 {{indexsee "web browser", browser}}
 
-This book will try to make you familiar enough with this language to do useful and amusing things with it.
+Ця книга спробує ознайомити вас із цією мовою настільки, щоб ви змогли робити з нею корисні та цікаві речі.
 
 ## On programming
 

@@ -2,27 +2,27 @@
 
 # Proje: Robot
 
-{{quote {author: "Edsger Dijkstra", title: "The Threats to Computing Science", chapter: true}
+{{quote {author: "Edsger Dijkstra", title: "Bilgisayar Bilimine Yönelik Tehditler", chapter: true}
 
-[...] the question of whether Machines Can Think [...] is about as relevant as the question of whether Submarines Can Swim.
+[...] Makinelerin Düşünüp Düşünemeyeceği sorusu [...] Denizaltıların Yüzüp Yüzemeyeceği sorusu kadar alakalıdır.
 
 quote}}
 
 {{index "artificial intelligence", "Dijkstra, Edsger"}}
 
-{{figure {url: "img/chapter_picture_7.jpg", alt: "Illustration of a robot holding a stack of packages", chapter: framed}}}
+{{figure {url: "img/chapter_picture_7.jpg", alt: "Bir paket yığınını tutan bir robotun illüstrasyonu", chapter: framed}}}
 
 {{index "project chapter", "reading code", "writing code"}}
 
-In "project" chapters, I'll stop pummeling you with new theory for a brief moment, and instead we'll work through a program together. Theory is necessary to learn to program, but reading and understanding actual programs is just as important.
+"Proje" bölümlerinde, sizi kısa bir an için yeni teorilerle sıkmayı bırakacağım ve bunun yerine birlikte bir program üzerinden çalışacağız. Programlama öğrenmek için teoriye ihtiyaç vardır, ancak gerçek programları okuyup anlamak da en az teori kadar önemlidir.
 
-Our project in this chapter is to build an ((automaton)), a little program that performs a task in a ((virtual world)). Our automaton will be a mail-delivery ((robot)) picking up and dropping off parcels.
+Bu bölümdeki projemiz, bir ((otomasyon)) inşa etmek olacak, bir ((sanal dünya))da görev gerçekleştiren küçük bir program. Otomasyon, paketleri teslim alıp bırakan bir posta teslim ((robotu)) olacak.
 
-## Çayır alanı
+## Meadowfield
 
 {{index "roads array"}}
 
-The village of ((Meadowfield)) isn't very big. It consists of 11 places with 14 roads between them. It can be described with this array of roads:
+((Meadowfield)) köyü çok büyük değil. 11 yer ve aralarında 14 yoldan oluşur. Köyün yollarını tanımlayan bu yol dizisi ile tanımlanabilir:
 
 ```{includeCode: true}
 const roads = [
@@ -36,13 +36,13 @@ const roads = [
 ];
 ```
 
-{{figure {url: "img/village2x.png", alt: "Pixel art illustration of a small village with 11 locations, labeled with letters, and roads going being them"}}}
+{{figure {url: "img/village2x.png", alt: "11 konumlu, harflerle etiketlenmiş ve yolların onlara ait olduğu küçük bir köyün piksel sanat illüstrasyonu"}}}
 
-The network of roads in the village forms a _((graph))_. A graph is a collection of points (places in the village) with lines between them (roads). This graph will be the world that our robot moves through.
+Köydeki yol ağı bir _((grafik))_ oluşturur. Bir grafik, noktaların (köydeki yerler) ve aralarındaki çizgilerin (yollar) olduğu bir koleksiyonudur. Bu grafik, robotumuzun hareket ettiği dünya olacak.
 
 {{index "roadGraph object"}}
 
-The array of strings isn't very easy to work with. What we're interested in is the destinations that we can reach from a given place. Let's convert the list of roads to a data structure that, for each place, tells us what can be reached from there.
+Dize dizisiyle çalışmak pek kolay değildir. İlgilendiğimiz şey, belirli bir yerden ulaşılabilen hedeflerdir. Hadi bu yol dizisini bize her yer için nereye gidilebileceğini söyleyen bir veri tipine çevirelim.
 
 ```{includeCode: true}
 function buildGraph(edges) {
@@ -64,11 +64,11 @@ function buildGraph(edges) {
 const roadGraph = buildGraph(roads);
 ```
 
-Given an array of edges, `buildGraph` creates a map object that, for each node, stores an array of connected nodes.
+Kenarlar dizisi verildiğinde, `buildGraph` her bir düğüm için bağlı düğümlerin bir dizisini depolayan bir map nesnesi oluşturur.
 
 {{index "split method"}}
 
-It uses the `split` method to go from the road strings, which have the form `"Start-End"`, to two-element arrays containing the start and end as separate strings.
+`"Başlangıç-Bitiş"` şeklinde olan yol dizelerinden başlangıç ve bitişi ayrı dizeler olarak içeren iki öğeli dizilere gitmek için `split` metodunu kullanır.
 
 ## Görev
 

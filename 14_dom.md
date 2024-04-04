@@ -10,7 +10,7 @@ quote}}
 
 {{index drawing, parsing}}
 
-When you open a web page, your browser retrieves the page's ((HTML)) text and parses it, much like the way our parser from [Chapter ?](language#parsing) parsed programs. The browser builds up a model of the document's ((structure)) and uses this model to draw the page on the screen.
+When you open a web page, your browser retrieves the page's ((HTML)) text and parses it, much like our parser from [Chapter ?](language#parsing) parsed programs. The browser builds up a model of the document's ((structure)) and uses this model to draw the page on the screen.
 
 {{index "live data structure"}}
 
@@ -43,11 +43,11 @@ This page has the following structure:
 
 {{indexsee "Document Object Model", DOM}}
 
-The data structure the browser uses to represent the document follows this shape. For each box, there is an object, which we can interact with to find out things such as what HTML tag it represents and which boxes and text it contains. This representation is called the _Document Object Model_, or ((DOM)) for short.
+The data structure the browser uses to represent the document follows this shape. For each box, there is an object, which we can interact with to find out things such as what HTML tag it represents and which boxes and text it contains. This representation is called the _Document Object Model_, or _((DOM))_ for short.
 
 {{index "documentElement property", "head property", "body property", "html (HTML tag)", "body (HTML tag)", "head (HTML tag)"}}
 
-The global binding `document` gives us access to these objects. Its `documentElement` property refers to the object representing the `<html>` tag. Since every HTML document has a head and a body, it also has `head` and `body` properties, pointing at those elements.
+The global binding `document` gives us access to these objects. Its `documentElement` property refers to the object representing the `<html>` tag. Since every HTML document has a head and a body, it also has `head` and `body` properties pointing at those elements.
 
 ## Trees
 
@@ -57,7 +57,7 @@ Think back to the ((syntax tree))s from [Chapter ?](language#parsing) for a mome
 
 {{index "documentElement property", [DOM, tree]}}
 
-We call a data structure a _((tree))_ when it has a branching structure, has no ((cycle))s (a node may not contain itself, directly or indirectly), and has a single, well-defined _((root))_. In the case of the DOM, `document.documentElement` serves as the root.
+We call a data structure a _((tree))_ when it has a branching structure, no ((cycle))s (a node may not contain itself, directly or indirectly), and a single, well-defined _((root))_. In the case of the DOM, `document.documentElement` serves as the root.
 
 {{index sorting, ["data structure", "tree"], "syntax tree"}}
 
@@ -87,23 +87,23 @@ The leaves are text nodes, and the arrows indicate parent-child relationships be
 
 {{index "programming language", [interface, design], [DOM, interface]}}
 
-Using cryptic numeric codes to represent node types is not a very JavaScript-like thing to do. Later in this chapter, we'll see that other parts of the DOM interface also feel cumbersome and alien. The reason for this is that the DOM interface wasn't designed for just JavaScript. Rather, it tries to be a language-neutral interface that can be used in other systems as well—not just for HTML but also for ((XML)), which is a generic ((data format)) with an HTML-like syntax.
+Using cryptic numeric codes to represent node types is not a very JavaScript-like thing to do. Later in this chapter, we'll see that other parts of the DOM interface also feel cumbersome and alien. This is because the DOM interface wasn't designed for JavaScript alone. Rather, it tries to be a language-neutral interface that can be used in other systems as well—not just for HTML but also for ((XML)), which is a generic ((data format)) with an HTML-like syntax.
 
 {{index consistency, integration}}
 
-This is unfortunate. Standards are often useful. But in this case, the advantage (cross-language consistency) isn't all that compelling. Having an interface that is properly integrated with the language you are using will save you more time than having a familiar interface across languages.
+This is unfortunate. Standards are often useful. But in this case, the advantage (cross-language consistency) isn't all that compelling. Having an interface that is properly integrated with the language you're using will save you more time than having a familiar interface across languages.
 
 {{index "array-like object", "NodeList type"}}
 
-As an example of this poor integration, consider the `childNodes` property that element nodes in the DOM have. This property holds an array-like object, with a `length` property and properties labeled by numbers to access the child nodes. But it is an instance of the `NodeList` type, not a real array, so it does not have methods such as `slice` and `map`.
+As an example of this poor integration, consider the `childNodes` property that element nodes in the DOM have. This property holds an array-like object with a `length` property and properties labeled by numbers to access the child nodes. But it is an instance of the `NodeList` type, not a real array, so it does not have methods such as `slice` and `map`.
 
 {{index [interface, design], [DOM, construction], "side effect"}}
 
-Then there are issues that are simply poor design. For example, there is no way to create a new node and immediately add children or ((attribute))s to it. Instead, you have to first create it and then add the children and attributes one by one, using side effects. Code that interacts heavily with the DOM tends to get long, repetitive, and ugly.
+Then there are issues that are simply caused by poor design. For example, there is no way to create a new node and immediately add children or ((attribute))s to it. Instead, you have to first create it and then add the children and attributes one by one, using side effects. Code that interacts heavily with the DOM tends to get long, repetitive, and ugly.
 
 {{index library}}
 
-But these flaws aren't fatal. Since JavaScript allows us to create our own ((abstraction))s, it is possible to design improved ways to express the operations you are performing. Many libraries intended for browser programming come with such tools.
+But these flaws aren't fatal. Since JavaScript allows us to create our own ((abstraction))s, it is possible to design improved ways to express the operations we are performing. Many libraries intended for browser programming come with such tools.
 
 ## Moving through the tree
 
@@ -157,11 +157,11 @@ The `nodeValue` property of a text node holds the string of text that it represe
 
 {{index [DOM, querying], "body property", "hard-coding", [whitespace, "in HTML"]}}
 
-Navigating these ((link))s among parents, children, and siblings is often useful. But if we want to find a specific node in the document, reaching it by starting at `document.body` and following a fixed path of properties is a bad idea. Doing so bakes assumptions into our program about the precise structure of the document—a structure you might want to change later. Another complicating factor is that text nodes are created even for the whitespace between nodes. The example document's `<body>` tag does not have just three children (`<h1>` and two `<p>` elements) but actually has seven: those three, plus the spaces before, after, and between them.
+Navigating these ((link))s among parents, children, and siblings is often useful. But if we want to find a specific node in the document, reaching it by starting at `document.body` and following a fixed path of properties is a bad idea. Doing so bakes assumptions into our program about the precise structure of the document—a structure you might want to change later. Another complicating factor is that text nodes are created even for the whitespace between nodes. The example document's `<body>` tag has not just three children (`<h1>` and two `<p>` elements), but seven: those three, plus the spaces before, after, and between them.
 
 {{index "search problem", "href attribute", "getElementsByTagName method"}}
 
-So if we want to get the `href` attribute of the link in that document, we don't want to say something like "Get the second child of the sixth child of the document body". It'd be better if we could say "Get the first link in the document". And we can.
+If we want to get the `href` attribute of the link in that document, we don't want to say something like "Get the second child of the sixth child of the document body". It'd be better if we could say "Get the first link in the document". And we can.
 
 ```{sandbox: "homepage"}
 let link = document.body.getElementsByTagName("a")[0];
@@ -215,13 +215,9 @@ The `replaceChild` method is used to replace a child node with another one. It t
 
 ## Creating nodes
 
-{{index "alt attribute", "img (HTML tag)"}}
+{{index "alt attribute", "img (HTML tag)", "createTextNode method"}}
 
-Say we want to write a script that replaces all ((image))s (`<img>` tags) in the document with the text held in their `alt` attributes, which specifies an alternative textual representation of the image.
-
-{{index "createTextNode method"}}
-
-This involves not only removing the images but adding a new text node to replace them.
+Say we want to write a script that replaces all ((image))s (`<img>` tags) in the document with the text held in their `alt` attributes, which specifies an alternative textual representation of the image. This involves not only removing the images but adding a new text node to replace them.
 
 ```{lang: html}
 <p>The <img src="img/cat.png" alt="Cat"> in the
@@ -378,11 +374,11 @@ if}}
 
 {{id boundingRect}}
 
-The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen. If you want them relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
+The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen. If you want pixel positions relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
 
 {{index "offsetHeight property", "getBoundingClientRect method", drawing, laziness, performance, efficiency}}
 
-Laying out a document can be quite a lot of work. In the interest of speed, browser engines do not immediately re-layout a document every time you change it but wait as long as they can. When a JavaScript program that changed the document finishes running, the browser will have to compute a new layout to draw the changed document to the screen. When a program _asks_ for the position or size of something by reading properties such as `offsetHeight` or calling `getBoundingClientRect`, providing that information also requires computing a ((layout)).
+Laying out a document can be quite a lot of work. In the interest of speed, browser engines do not immediately re-layout a document every time you change it but wait as long as they can before doing so. When a JavaScript program that changed the document finishes running, the browser will have to compute a new layout to draw the changed document to the screen. When a program _asks_ for the position or size of something by reading properties such as `offsetHeight` or calling `getBoundingClientRect`, providing that information also requires computing a ((layout)).
 
 {{index "side effect", optimization, benchmark}}
 
@@ -434,7 +430,7 @@ The way an `<img>` tag shows an image or an `<a>` tag causes a link to be follow
 
 {{if book
 
-The second link will be green instead of the default link color.
+The second link will be green instead of the default link color:
 
 {{figure {url: "img/colored-links.png", alt: "Rendered picture of a normal blue link and a styled green link", width: "2.2cm"}}}
 
@@ -491,7 +487,7 @@ Some style property names contain hyphens, such as `font-family`. Because such p
 {{indexsee "Cascading Style Sheets", CSS}}
 {{indexsee "style sheet", CSS}}
 
-The styling system for HTML is called ((CSS)), for _Cascading Style Sheets_. A _style sheet_ is a set of rules for how to style elements in a document. It can be given inside a `<style>` tag.
+The styling system for HTML is called _((CSS))_, for _Cascading Style Sheets_. A _style sheet_ is a set of rules for how to style elements in a document. It can be given inside a `<style>` tag.
 
 ```{lang: html}
 <style>
@@ -509,7 +505,7 @@ The _((cascading))_ in the name refers to the fact that multiple such rules are 
 
 {{index "style (HTML tag)", "style attribute"}}
 
-When multiple rules define a value for the same property, the most recently read rule gets a higher ((precedence)) and wins. So if the rule in the `<style>` tag included `font-weight: normal`, contradicting the default `font-weight` rule, the text would be normal, _not_ bold. Styles in a `style` attribute applied directly to the node have the highest precedence and always win.
+When multiple rules define a value for the same property, the most recently read rule gets a higher ((precedence)) and wins. For example, if the rule in the `<style>` tag included `font-weight: normal`, contradicting the default `font-weight` rule, the text would be normal, _not_ bold. Styles in a `style` attribute applied directly to the node have the highest precedence and always win.
 
 {{index uniqueness, "class attribute", "id attribute"}}
 
@@ -540,13 +536,9 @@ The notation `p > a {…}` applies the given styles to all `<a>` tags that are d
 
 ## Query selectors
 
-{{index complexity, CSS}}
+{{index complexity, CSS, "domain-specific language", [DOM, querying]}}
 
-We won't be using style sheets all that much in this book. Understanding them is helpful when programming in the browser, but they are complicated enough to warrant a separate book.
-
-{{index "domain-specific language", [DOM, querying]}}
-
-The main reason I introduced _((selector))_ syntax—the notation used in style sheets to determine which elements a set of styles apply to—is that we can use this same mini-language as an effective way to find DOM elements.
+We won't be using style sheets very much in this book. Understanding them is helpful when programming in the browser, but they are complicated enough to warrant a separate book. The main reason I introduced _((selector))_ syntax—the notation used in style sheets to determine which elements a set of styles apply to—is that we can use this same mini-language as an effective way to find DOM elements.
 
 {{index "querySelectorAll method", "NodeList type"}}
 
@@ -581,7 +573,7 @@ Unlike methods such as `getElementsByTagName`, the object returned by `querySele
 
 {{index "querySelector method"}}
 
-The `querySelector` method (without the `All` part) works in a similar way. This one is useful if you want a specific, single element. It will return only the first matching element or null when no element matches.
+The `querySelector` method (without the `All` part) works in a similar way. This one is useful if you want a specific single element. It will return only the first matching element or null when no element matches.
 
 {{id animation}}
 
@@ -589,7 +581,7 @@ The `querySelector` method (without the `All` part) works in a similar way. This
 
 {{index "position (CSS)", "relative positioning", "top (CSS)", "left (CSS)", "absolute positioning"}}
 
-The `position` style property influences layout in a powerful way. By default it has a value of `static`, meaning the element sits in its normal place in the document. When it is set to `relative`, the element still takes up space in the document, but now the `top` and `left` style properties can be used to move it relative to that normal place. When `position` is set to `absolute`, the element is removed from the normal document flow—that is, it no longer takes up space and may overlap with other elements. Also, its `top` and `left` properties can be used to absolutely position it relative to the top-left corner of the nearest enclosing element whose `position` property isn't `static`, or relative to the document if no such enclosing element exists.
+The `position` style property influences layout in a powerful way. It has a default value of `static`, meaning the element sits in its normal place in the document. When it is set to `relative`, the element still takes up space in the document, but now the `top` and `left` style properties can be used to move it relative to that normal place. When `position` is set to `absolute`, the element is removed from the normal document flow—that is, it no longer takes up space and may overlap with other elements. Its `top` and `left` properties can be used to absolutely position it relative to the top-left corner of the nearest enclosing element whose `position` property isn't `static`, or relative to the document if no such enclosing element exists.
 
 {{index [animation, "spinning cat"]}}
 
@@ -638,7 +630,7 @@ If we just updated the DOM in a loop, the page would freeze, and nothing would s
 
 {{index "smooth animation"}}
 
-The animation function is passed the current ((time)) as an argument. To ensure that the motion of the cat per millisecond is stable, it bases the speed at which the angle changes on the difference between the current time and the last time the function ran. If it just moved the angle by a fixed amount per step, the motion would stutter if, for example, another heavy task running on the same computer were to prevent the function from running for a fraction of a second.
+The animation function is passed the current ((time)) as an argument. To ensure that the motion of the cat per millisecond is stable, it bases the speed at which the angle changes on the difference between the current time and the last time the function ran. If it just moved the angle by a fixed amount per step, the motion would stutter when, for example, another heavy task running on the same computer prevented the function from running for a fraction of a second.
 
 {{index "Math.cos function", "Math.sin function", cosine, sine, trigonometry}}
 
@@ -648,7 +640,7 @@ Moving in ((circle))s is done using the trigonometry functions `Math.cos` and `M
 
 {{index coordinates, pi}}
 
-`Math.cos` and `Math.sin` are useful for finding points that lie on a circle around point (0,0) with a radius of one. Both functions interpret their argument as the position on this circle, with zero denoting the point on the far right of the circle, going clockwise until 2π (about 6.28) has taken us around the whole circle. `Math.cos` tells you the x-coordinate of the point that corresponds to the given position, and `Math.sin` yields the y-coordinate. Positions (or angles) greater than 2π or less than 0 are valid—the rotation repeats so that _a_+2π refers to the same ((angle)) as _a_.
+`Math.cos` and `Math.sin` are useful for finding points that lie on a circle around point (0,0) with a radius of 1. Both functions interpret their argument as the position on this circle, with 0 denoting the point on the far right of the circle, going clockwise until 2π (about 6.28) has taken us around the whole circle. `Math.cos` tells you the x-coordinate of the point that corresponds to the given position, and `Math.sin` yields the y-coordinate. Positions (or angles) greater than 2π or less than 0 are valid—the rotation repeats so that _a_+2π refers to the same ((angle)) as _a_.
 
 {{index "PI constant"}}
 
@@ -668,7 +660,7 @@ Note that styles usually need _units_. In this case, we have to append `"px"` to
 
 JavaScript programs may inspect and interfere with the document that the browser is displaying through a data structure called the DOM. This data structure represents the browser's model of the document, and a JavaScript program can modify it to change the visible document.
 
-The DOM is organized like a tree, in which elements are arranged hierarchically according to the structure of the document. The objects representing elements have properties such as `parentNode` and `childNodes`, which can be used to navigate through this tree.
+The DOM is organized like a tree, where elements are arranged hierarchically according to the structure of the document. The objects representing elements have properties such as `parentNode` and `childNodes`, which can be used to navigate through this tree.
 
 The way a document is displayed can be influenced by _styling_, both by attaching styles to nodes directly and by defining rules that match certain nodes. There are many different style properties, such as `color` or `display`. JavaScript code can manipulate an element's style directly through its `style` property.
 
@@ -701,7 +693,7 @@ An HTML table is built with the following tag structure:
 
 For each _((row))_, the `<table>` tag contains a `<tr>` tag. Inside of these `<tr>` tags, we can put cell elements: either heading cells (`<th>`) or regular cells (`<td>`).
 
-Given a data set of mountains, an array of objects with `name`, `height`, and `place` properties, generate the DOM structure for a table that enumerates the objects. It should have one column per key and one row per object, plus a header row with `<th>` elements at the top, listing the column names.
+Given a data set of mountains, an array of objects with `name`, `height`, and `place` properties, generate the DOM structure for a table that enumerates the objects. It has one column per key and one row per object, plus a header row with `<th>` elements at the top, listing the column names.
 
 Write this so that the columns are automatically derived from the objects, by taking the property names of the first object in the data.
 
@@ -810,7 +802,7 @@ Or make the hat circle around the cat. Or alter the animation in some other inte
 
 {{index "absolute positioning", "top (CSS)", "left (CSS)", "position (CSS)"}}
 
-To make positioning multiple objects easier, it is probably a good idea to switch to absolute positioning. This means that `top` and `left` are counted relative to the top left of the document. To avoid using negative coordinates, which would cause the image to move outside of the visible page, you can add a fixed number of pixels to the position values.
+To make positioning multiple objects easier, you'll probably want to switch to absolute positioning. This means that `top` and `left` are counted relative to the top left of the document. To avoid using negative coordinates, which would cause the image to move outside of the visible page, you can add a fixed number of pixels to the position values.
 
 {{if interactive
 

@@ -72,27 +72,27 @@ Kenarlar dizisi verildiğinde, `buildGraph` her bir düğüm için bağlı düğ
 
 ## Görev
 
-Our ((robot)) will be moving around the village. There are parcels in various places, each addressed to some other place. The robot picks up parcels when it comes to them and delivers them when it arrives at their destinations.
+((Robotumuz)) köyde dolaşacak. Çeşitli yerlerde paketler var, her biri başka bir yere adreslenmiş. Robot, onlara geldiğinde paketleri alır ve varış noktalarına vardığında teslim eder.
 
-The automaton must decide, at each point, where to go next. It has finished its task when all parcels have been delivered.
+Her noktada, otomasyon bir sonraki hamlesinde nereye gideceğine karar vermelidir. Görevi, tüm paketler teslim edildiğinde tamamlanmış olur.
 
 {{index simulation, "virtual world"}}
 
-To be able to simulate this process, we must define a virtual world that can describe it. This model tells us where the robot is and where the parcels are. When the robot has decided to move somewhere, we need to update the model to reflect the new situation.
+Bu işlemi simüle edebilmek için, bunu açıklayabilen bir sanal dünya tanımlamamız gerekir. Bu model, robotun nerede olduğunu ve paketlerin nerede olduğunu bize söyler. Robot bir yere gitmeye karar verdiğinde, yeni durumu yansıtmak için modeli güncellememiz gerekir.
 
 {{index [state, in objects]}}
 
-If you're thinking in terms of ((object-oriented programming)), your first impulse might be to start defining objects for the various elements in the world: a ((class)) for the robot, one for a parcel, maybe one for places. These could then hold properties that describe their current ((state)), such as the pile of parcels at a location, which we could change when updating the world.
+Eğer ((nesne tabanlı programlama)) terimleriyle düşünüyorsanız, ilk düşünceniz dünyadaki çeşitli unsurlar için nesneleri tanımlamaya başlamak olabilir: bir robot için bir ((sınıf)), bir paket için bir tane, belki yerler için bir tane. Bunlar daha sonra dünyayı güncellerken değişen ((durumlarını)) açıklayan özellikler içerebilir.
 
-This is wrong. At least, it usually is. The fact that something sounds like an object does not automatically mean that it should be an object in your program. Reflexively writing classes for every concept in your application tends to leave you with a collection of interconnected objects that each have their own internal, changing state. Such programs are often hard to understand and thus easy to break.
+Bu yanlış. En azından genellikle öyledir. Bir şeyin bir nesne gibi görünmesi, otomatik olarak programınızdaki bir nesne olması gerektiği anlamına gelmez. Uygulamanızdaki her kavram için otomatik olarak sınıflar yazmak, genellikle birbirine bağlı ve kendi iç değişen durumlarına sahip nesneler koleksiyonuyla sonuçlanır. Bu tür programlar genellikle anlaşılması zor ve bu nedenle hata vermesi daha kolaydır.
 
 {{index [state, in objects]}}
 
-Instead, let's condense the village's state down to the minimal set of values that define it. There's the robot's current location and the collection of undelivered parcels, each of which has a current location and a destination address. That's it.
+Bunun yerine, köyün durumunu, onu tanımlayan minimum değerler kümesine indirgeyelim. Robotun şu anki konumu ve teslim edilmemiş paketlerin koleksiyonu var, her biri bir güncel konuma ve bir hedef adresine sahip. Bu kadar.
 
 {{index "VillageState class", "persistent data structure"}}
 
-And while we're at it, let's make it so that we don't _change_ this state when the robot moves but rather compute a _new_ state for the situation after the move.
+Ayrıca köydeki durum değerini _değiştirmek_ yerine hareketten sonra durumu _yeni_ bir değer olarak tekrardan hesaplayalım.
 
 ```{includeCode: true}
 class VillageState {
@@ -115,13 +115,13 @@ class VillageState {
 }
 ```
 
-The `move` method is where the action happens. It first checks whether there is a road going from the current place to the destination, and if not, it returns the old state since this is not a valid move.
+`move` metodu aksiyonun olduğu yerdir. Öncelikle, mevcut yerden varış noktasına giden bir yol olup olmadığını kontrol eder ve yoksa, bu geçerli bir hamle değil olduğundan eski durumu döndürür.
 
 {{index "map method", "filter method"}}
 
-Then it creates a new state with the destination as the robot's new place. But it also needs to create a new set of parcels—parcels that the robot is carrying (that are at the robot's current place) need to be moved along to the new place. And parcels that are addressed to the new place need to be delivered—that is, they need to be removed from the set of undelivered parcels. The call to `map` takes care of the moving, and the call to `filter` does the delivering.
+Sonra, robotun yeni yeri barındıracak şekilde yeni bir durum oluşturur. Ancak aynı zamanda yeni bir paket seti oluşturması gerekir — robotun taşıdığı paketler (robotun şu anki yerinde olanlar) yeni yere taşınmalıdır. Ve yeni yere adreslenen paketler teslim edilmelidir — yani, teslim edilmemiş paketler setinden kaldırılmalıdır. `map` çağrısı taşımayı, `filter` çağrısı ise teslimi yapar.
 
-Parcel objects aren't changed when they are moved but re-created. The `move` method gives us a new village state but leaves the old one entirely intact.
+Paket nesneleri taşındığında değiştirilmez, yeniden oluşturulur. `move` metodu bize yeni bir köy durumu verir ancak eski durumu tamamen bırakır.
 
 ```
 let first = new VillageState(
@@ -138,7 +138,7 @@ console.log(first.place);
 // → Post Office
 ```
 
-The move causes the parcel to be delivered, and this is reflected in the next state. But the initial state still describes the situation where the robot is at the post office and the parcel is undelivered.
+Hareket, paketin teslim edilmesine neden olur ve bu, sonraki durumda yansıtılır. Ancak, başlangıç durumu hala robotun postanede olduğu ve paketin teslim edilmediği durumu açıklar.
 
 ## Kalıcı veriler
 

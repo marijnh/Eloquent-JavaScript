@@ -380,11 +380,11 @@ Bu robot, genellikle 5 paketi teslim etme görevini yaklaşık 16 turda tamamlar
 
 {{index "measuring a robot (exercise)", testing, automation, "compareRobots function"}}
 
-It's hard to objectively compare ((robot))s by just letting them solve a few scenarios. Maybe one robot just happened to get easier tasks or the kind of tasks that it is good at, whereas the other didn't.
+((Robot))ları sadece birkaç senaryoyu çözmelerine izin vererek nesnel bir şekilde karşılaştırmak zordur. Belki de bir robot tesadüfen daha kolay görevler aldı ve diğeri alamadı ya da belki de bir robot tesadüfen daha iyi olduğu türde görevler alırken diğeri alamadı.
 
-Write a function `compareRobots` that takes two robots (and their starting memory). It should generate 100 tasks and let each of the robots solve each of these tasks. When done, it should output the average number of steps each robot took per task.
+`compareRobots` adında iki ((robot)) (ve başlangıç hafızaları) alan  bir fonksiyon yazın. Bu, 100 görev oluşturmalı ve her bir robotun bu görevleri çözmesine izin vermelidir. Bittiğinde, her robotun görev başına ortalama adım sayısını çıkarmalıdır.
 
-For the sake of fairness, make sure you give each task to both robots, rather than generating different tasks per robot.
+Adil olmak için, her robotu farklı görevlere değil, aynı görevlere yönlendirdiğinizden emin olmalısınız.
 
 {{if interactive
 
@@ -402,9 +402,9 @@ if}}
 
 {{index "measuring a robot (exercise)", "runRobot function"}}
 
-You'll have to write a variant of the `runRobot` function that, instead of logging the events to the console, returns the number of steps the robot took to complete the task.
+Her iki robot için de görev veren `runRobot` fonksiyonunun bir varyantını yazmalısınız. Bu fonksiyon, konsola olayları kaydetmek yerine, robotun görevi tamamlamak için attığı adım sayısını döndürmelidir.
 
-Your measurement function can then, in a loop, generate new states and count the steps each of the robots takes. When it has generated enough measurements, it can use `console.log` to output the average for each robot, which is the total number of steps taken divided by the number of measurements.
+Ölçüm fonksiyonunuz ardından, bir döngü içinde yeni durumlar oluşturmalı ve her bir robotun attığı adımları saymalıdır. Yeterince ölçüm yapıldığında, her robot için ortalama adım sayısı olan toplam adım sayısı bölü ölçümlerin sayısının sonucunu `console.log` kullanarak çıkarmalıdır.
 
 hint}}
 
@@ -412,9 +412,9 @@ hint}}
 
 {{index "robot efficiency (exercise)"}}
 
-Can you write a robot that finishes the delivery task faster than `goalOrientedRobot`? If you observe that robot's behavior, what obviously stupid things does it do? How could those be improved?
+`goalOrientedRobottan` daha hızlı teslimat görevini tamamlayan bir robot yazabilir misiniz? O robotun davranışını gözlemlediğinizde, açıkça aptalca şeyler nelerdir? Onları nasıl iyileştirebilirsiniz?
 
-If you solved the previous exercise, you might want to use your `compareRobots` function to verify whether you improved the robot.
+Önceki egzersizi çözdüyseniz, robotu iyileştirip iyileştirmediğinizi doğrulamak için `compareRobots` fonksiyonunuzu kullanmak isteyebilirsiniz.
 
 {{if interactive
 
@@ -430,9 +430,9 @@ if}}
 
 {{index "robot efficiency (exercise)"}}
 
-The main limitation of `goalOrientedRobot` is that it considers only one parcel at a time. It will often walk back and forth across the village because the parcel it happens to be looking at happens to be at the other side of the map, even if there are others much closer.
+`goalOrientedRobot`'un ana kısıtlaması, aynı anda yalnızca bir parseli düşünmesidir. Çoğu zaman, üzerinde durduğu parselin teslim noktasının haritanın diğer tarafında olması nedeniyle köyde ileri geri yürür ancak oysa ki o bulunduğu anda teslim edebileceği daha yakın noktalarda bulunan noktalar vardır.
 
-One possible solution would be to compute routes for all packages and then take the shortest one. Even better results can be obtained, if there are multiple shortest routes, by preferring the ones that go to pick up a package instead of delivering a package.
+Bir çözüm, tüm paketler için rotaları hesaplamak ve ardından en kısa olanı almak olabilir. Birden fazla en kısa rota varsa, bir paket almak yerine bir paketi teslim etmeyi tercih edenleri tercih ederek daha iyi sonuçlar elde edilebilir.
 
 hint}}
 
@@ -440,21 +440,21 @@ hint}}
 
 {{index "persistent group (exercise)", "persistent data structure", "Set class", "set (data structure)", "Group class", "PGroup class"}}
 
-Most data structures provided in a standard JavaScript environment aren't very well suited for persistent use. Arrays have `slice` and `concat` methods, which allow us to easily create new arrays without damaging the old one. But `Set`, for example, has no methods for creating a new set with an item added or removed.
+Standart bir JavaScript ortamında sağlanan çoğu veri yapısı, kalıcı kullanım için çok uygun değildir. Diziler, eskiyi bozmadan yeni diziler oluşturmamızı sağlayan `slice` ve `concat` metodlarına sahiptir. Ancak, `Set` örneğin, bir öğe eklenmiş veya kaldırılmış yeni bir set oluşturmak için yöntemlere sahip değildir.
 
-Write a new class `PGroup`, similar to the `Group` class from [Chapter ?](object#groups), which stores a set of values. Like `Group`, it has `add`, `delete`, and `has` methods.
+[? Bölüm](object#groups) içinden alınan `Group` sınıfına benzer yeni bir sınıf olan ve bir set değerler depolayan `PGroup` adında bir sınıf yazın. `Group` gibi, `add`, `delete` ve `has` metodlarına sahiptir.
 
-Its `add` method, however, should return a _new_ `PGroup` instance with the given member added and leave the old one unchanged. Similarly, `delete` creates a new instance without a given member.
+Ancak, `add` metodunun, verilen üye eklenmiş bir yeni `PGroup` örneği döndürmesi ve eskiyi değiştirmemesi gerekir. Benzer şekilde, `delete` belirli bir üye olmadan yeni bir örnek oluşturur.
 
-The class should work for values of any type, not just strings. It does _not_ have to be efficient when used with large amounts of values.
+Sınıf, sadece dizeler değil, herhangi bir türün değerleri için çalışmalıdır. Büyük miktarda değerle kullanıldığında etkin olmak zorunda _değildir_.
 
 {{index [interface, object]}}
 
-The ((constructor)) shouldn't be part of the class's interface (though you'll definitely want to use it internally). Instead, there is an empty instance, `PGroup.empty`, that can be used as a starting value.
+((Constructor)), sınıfın arabirimine dahil edilmemelidir (ancak içsel olarak kullanmak isteyeceksinizdir). Bunun yerine, kullanılabilecek bir başlangıç değeri olan `PGroup.empty` adında bir boş örnek vardır.
 
 {{index singleton}}
 
-Why do you need only one `PGroup.empty` value, rather than having a function that creates a new, empty map every time?
+Neden her seferinde yeni, boş bir harita oluşturan bir işlev yerine yalnızca bir `PGroup.empty` değerine ihtiyacınız var?
 
 {{if interactive
 
@@ -481,18 +481,18 @@ if}}
 
 {{index "persistent map (exercise)", "Set class", [array, creation], "PGroup class"}}
 
-The most convenient way to represent the set of member values is still as an array since arrays are easy to copy.
+Üye değerlerinin kümesini temsil etmenin en uygun yolu kopyalaması kolay olduğundan ötürü hala dizilerdir.
 
 {{index "concat method", "filter method"}}
 
-When a value is added to the group, you can create a new group with a copy of the original array that has the value added (for example, using `concat`). When a value is deleted, you filter it from the array.
+Bir değer grubuna eklendiğinde, eklenen değere sahip orijinal dizinin bir kopyası ile yeni bir grup oluşturabilirsiniz (örneğin, `concat` kullanarak). Bir değer silindiğinde, onu diziden filtreleyerek çıkarabilirsiniz.
 
-The class's ((constructor)) can take such an array as argument and store it as the instance's (only) property. This array is never updated.
+Sınıfın ((constructor)) fonksiyonu böyle bir diziyi (tek) özelliği olarak alabilir ve bunu örneğin özelliği olarak depolayabilir. Bu dizi asla güncellenmez.
 
 {{index "static property"}}
 
-To add the `empty` property to the constructor, you can declare it as a static property.
+`empty` özelliğini constructor fonksiyonuna eklemek adına bunu bir statik özellik olarak bildirebilirsiniz.
 
-You need only one `empty` instance because all empty groups are the same and instances of the class don't change. You can create many different groups from that single empty group without affecting it.
+Sadece bir `empty` örneğine ihtiyacınız vardır çünkü tüm boş gruplar aynıdır ve sınıfın örnekleri değişmez. Bu tek boş grubu etkilemeden kullanarak birçok farklı grup oluşturabilirsiniz.
 
 hint}}

@@ -1,44 +1,44 @@
 {{meta {load_files: ["code/chapter/08_error.js"]}}}
 
-# Bugs and Errors
+# Sorun ve hatalar
 
-{{quote {author: "Brian Kernighan and P.J. Plauger", title: "The Elements of Programming Style", chapter: true}
+{{quote {author: "Brian Kernighan and P.J. Plauger", title: "Programlama Stilinin Unsurları", chapter: true}
 
-Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.
+Hata ayıklama, kodu başlangıçta yazmaktan iki kat daha zordur. Bu nedenle, mümkün olduğunca zeki bir şekilde kod yazarsanız, onu ayıklamak için yeterince zeki olmayacaksınız.
 
 quote}}
 
-{{figure {url: "img/chapter_picture_8.jpg", alt: "Illustration showing various insects and a centipede", chapter: framed}}}
+{{figure {url: "img/chapter_picture_8.jpg", alt: "Çeşitli böcekleri ve bir kırkayağı gösteren illüstrasyon", chapter: framed}}}
 
 {{index "Kernighan, Brian", "Plauger, P.J.", debugging, "error handling"}}
 
-Flaws in computer programs are usually called _((bug))s_. It makes programmers feel good to imagine them as little things that just happen to crawl into our work. In reality, of course, we put them there ourselves.
+Bilgisayar programlarındaki hatalar genellikle _((hata))_ olarak adlandırılır. Onları işimizin içine sürünen küçük şeyler olarak hayal etmek programcıların kendilerini iyi hissetmelerini sağlar. Gerçekte ise, tabii ki, onları kendimiz koyarız.
 
-If a program is crystallized thought, you can roughly categorize bugs into those caused by the thoughts being confused and those caused by mistakes introduced while converting a thought to code. The former type is generally harder to diagnose and fix than the latter.
+Bir program kristalleşmiş düşüncelerse, hataları düşüncelerin karıştırılması nedeniyle veya bir düşüncenin kod haline getirilirken yapılan hatalar nedeniyle oluşan hatalar olarak kabaca sınıflandırabilirsiniz. İlk tür genellikle ikincisinden daha zor teşhis edilir ve düzeltilir.
 
-## Language
+## Dil
 
 {{index parsing, analysis}}
 
-Many mistakes could be pointed out to us automatically by the computer, if it knew enough about what we're trying to do. But here JavaScript's looseness is a hindrance. Its concept of bindings and properties is vague enough that it will rarely catch ((typo))s before actually running the program. And even then, it allows you to do some clearly nonsensical things without complaint, such as computing `true * "monkey"`.
+Bilgisayar, ne yapmaya çalıştığımız hakkında yeterince bilgiye sahip olsaydı, birçok hatayı otomatik olarak bize gösterebilirdi. Ancak burada JavaScript'in gevşekliği bir engeldir. Bağlantılarının ve özelliklerinin kavramlarının belirsizliği, programı çalıştırmadan önce nadiren ((yazım hatalarını)) yakalar. Ve hatta öyle olsa bile, size `true * "monkey"` gibi açıkça mantıksız şeyleri yapmanıza izin verir, şikayet etmez.
 
 {{index [syntax, error], [property, access]}}
 
-There are some things that JavaScript does complain about. Writing a program that does not follow the language's ((grammar)) will immediately make the computer complain. Other things, such as calling something that's not a function or looking up a property on an ((undefined)) value, will cause an error to be reported when the program tries to perform the action.
+JavaScript'in şikayet ettiği bazı şeyler vardır. Dilin ((sözdizimi))ni izlemeyen bir program yazmak bilgisayarın hemen şikayet etmesini sağlar. Başka şeylere olarak örneğin fonksiyon olmayan bir şeyi çağırmak veya bir ((undefined)) değerinde özellik aramak, program harekete geçtiğinde bir hataya neden olur.
 
 {{index NaN, error}}
 
-But often, your nonsense computation will merely produce `NaN` (not a number) or an undefined value, while the program happily continues, convinced that it's doing something meaningful. The mistake will manifest itself only later, after the bogus value has traveled through several functions. It might not trigger an error at all but silently cause the program's output to be wrong. Finding the source of such problems can be difficult.
+Ancak genellikle, bu saçma hesaplama sadece `NaN` (sayı değil) veya tanımsız bir değer üretirken, program yaptığı şeyin anlamlı olduğuna ikna olmuş ve mutlu bir halde devam eder. Hata, sadece sahte değer birkaç fonksiyondan geçtikten sonra kendini gösterir. Hata hiç tetiklenmeyebilir, ancak sessizce programın çıktısını yanlış yapabilir. Bu tür sorunların kaynağını bulmak zor olabilir.
 
-The process of finding mistakes—bugs—in programs is called _((debugging))_.
+Programlardaki hataları bulma sürecine ((hata ayıklama)) denir.
 
-## Strict mode
+## Katı mod
 
 {{index "strict mode", [syntax, error], function}}
 
 {{indexsee "use strict", "strict mode"}}
 
-JavaScript can be made a _little_ stricter by enabling _strict mode_. This is done by putting the string `"use strict"` at the top of a file or a function body. Here's an example:
+JavaScript, _katı modu_ etkinleştirilerek _biraz_ daha katı hale getirilebilir. Bunun için dosyanın veya fonksiyon gövdesinin üstüne `"use strict"` dizesini koymak yeterlidir. İşte bir örnek:
 
 ```{test: "error \"ReferenceError: counter is not defined\""}
 function canYouSpotTheProblem() {
@@ -54,13 +54,13 @@ canYouSpotTheProblem();
 
 {{index "let keyword", [binding, global]}}
 
-Normally, when you forget to put `let` in front of your binding, as with `counter` in the example, JavaScript quietly creates a global binding and uses that. In strict mode, an ((error)) is reported instead. This is very helpful. It should be noted, though, that this doesn't work when the binding in question already exists somewhere in scope. In that case, the loop will still quietly overwrite the value of the binding.
+Normalde, örnekte olduğu gibi bağlantının önüne `let` koymayı unuttuğunuzda, JavaScript sessizce genel bir bağlantı oluşturur ve onu kullanır. Katı modda ise, bir ((hata)) bildirilir. Bu çok yardımcı olur. Bununla birlikte, söz konusu bağlantı zaten kapsamın başka bir yerinde varsa, bu durumda döngü hala sessizce bağlantının değerini üzerine yazar.
 
 {{index "this binding", "global object", undefined, "strict mode"}}
 
-Another change in strict mode is that the `this` binding holds the value `undefined` in functions that are not called as ((method))s. When making such a call outside of strict mode, `this` refers to the global scope object, which is an object whose properties are the global bindings. So if you accidentally call a method or constructor incorrectly in strict mode, JavaScript will produce an error as soon as it tries to read something from `this`, rather than happily writing to the global scope.
+Katı moddaki başka bir değişiklik, `this` bağlantısının, ((metod)) olarak çağrılmayan fonksiyonlarda `undefined` değerini taşımasıdır. Bu tür bir çağrıyı katı mod dışında yaparken, `this` küresel kapsam nesnesine atıfta bulunur, bu da özellikleri küresel bağlantılardan oluşan bir nesnedir. Dolayısıyla, katı modda bir yöntemi veya `constructor` fonksiyonunu yanlışlıkla yanlış bir şekilde çağırırsanız, JavaScript, küresel kapsama değerler yazmak yerine `this` bağlantısından bir şey okumaya çalışıldığında hemen bir hata üretir.
 
-For example, consider the following code, which calls a ((constructor)) function without the `new` keyword so that its `this` will _not_ refer to a newly constructed object:
+Örneğin aşağıdaki kodu düşünün, `new` anahtar kelimesi olmadan ((constructor)) fonksiyonunu çağırır, böylece `this` bağlantısı _yeni_ oluşturulan bir nesneye atanmaz:
 
 ```
 function Person(name) { this.name = name; }
@@ -71,7 +71,7 @@ console.log(name);
 
 {{index error}}
 
-So the bogus call to `Person` succeeded but returned an undefined value and created the global binding `name`. In strict mode, the result is different.
+Bu nedenle, `Person` constructor fonksiyonuna yapılan yanlış çağrı başarılı oldu, ancak tanımsız bir değer döndü ve `name` adında bir küresel bir bağlantı oluşturdu. Katı modda, sonuç farklıdır.
 
 ```{test: "error \"TypeError: Cannot set properties of undefined (setting 'name')\""}
 "use strict";
@@ -80,25 +80,25 @@ let ferdinand = Person("Ferdinand"); // forgot new
 // → TypeError: Cannot set property 'name' of undefined
 ```
 
-We are immediately told that something is wrong. This is helpful.
+Hemen bir şeyin yanlış olduğu bize bildirilir. Bu yardımcı olur.
 
-Fortunately, constructors created with the `class` notation will always complain if they are called without `new`, making this less of a problem even in non-strict mode.
+Neyse ki, `class` notasyonuyla oluşturulan constructor fonksiyonları `new` olmadan çağrıldığında her zaman bir şikayet bildirir, bu da bu sorunun katı mod dışında olmamıza rağmen engellenmesini sağlar.
 
 {{index parameter, [binding, naming], "with statement"}}
 
-Strict mode does a few more things. It disallows giving a function multiple parameters with the same name and removes certain problematic language features entirely (such as the `with` statement, which is so wrong it is not further discussed in this book).
+Katı mod birkaç başka şey daha yapar. Bir fonksiyona aynı isimli birden fazla parametre vermenizi engeller ve bazı sorunlu dil özelliklerini tamamen kaldırır (örneğin, çok yanlış olan ve bu kitapta daha fazla tartışılmayacak olan `with` ifadesi gibi).
 
 {{index debugging}}
 
-In short, putting `"use strict"` at the top of your program rarely hurts and might help you spot a problem.
+Kısacası, programınızın başına `"use strict"` koymak nadiren zarar verir ve bir sorunu fark etmenize yardımcı olabilir.
 
-## Types
+## Tipler
 
-Some languages want to know the types of all your bindings and expressions before even running a program. They will tell you right away when a type is used in an inconsistent way. JavaScript considers types only when actually running the program, and even there often tries to implicitly convert values to the type it expects, so it's not much help.
+Bazı diller, bir programı çalıştırmadan önce tüm bağlantılarınızın ve ifadelerinizin türlerini bilmek ister. Bir türün tutarsız bir şekilde kullanıldığı durumlar hemen belirtilir. JavaScript, türleri sadece programı çalıştırırken dikkate alır ve hatta orada bile sıklıkla değerleri beklediği türe implicit bir şekilde dönüştürmeye çalışır, bu yüzden çok yardımcı olmaz.
 
-Still, types provide a useful framework for talking about programs. A lot of mistakes come from being confused about the kind of value that goes into or comes out of a function. If you have that information written down, you're less likely to get confused.
+Yine de türler programlar hakkında konuşmak adına kullanışlı bir çerçeve sağlar. Birçok hata, bir fonksiyona giren veya çıkan değer türü hakkında kafanız karıştığında gelir. Bu bilgiyi yazılı olarak belirtirseniz, kafanız karışma olasılığınız daha az olur.
 
-You could add a comment like the following before the `findRoute` function from the previous chapter to describe its type:
+Önceki bölümdeki `findRoute` fonksiyonunun türünü açıklamak için, aşağıdaki gibi bir yorum ekleyebilirsiniz:
 
 ```
 // (graph: Object, from: string, to: string) => string[]
@@ -107,31 +107,31 @@ function findRoute(graph, from, to) {
 }
 ```
 
-There are a number of different conventions for annotating JavaScript programs with types.
+JavaScript programlarını türlerle işaretlemenin birkaç farklı üzerine anlaşılmış ve sıklıkla kullanılan yolları vardır.
 
-One thing about types is that they need to introduce their own complexity to be able to describe enough code to be useful. What do you think would be the type of the `randomPick` function that returns a random element from an array? You'd need to introduce a _((type variable))_, _T_, which can stand in for any type, so that you can give `randomPick` a type like `(T[]) → T` (function from an array of *T*s to a *T*).
+Türler hakkında bir şey, yararlı olacak kadar yeterli kodu açıklayabilmeleri için kendi karmaşıklıklarını tanıtmaları gerektiğidir. Bir diziden rastgele bir öğe döndüren `randomPick` fonksiyonunun türü sizce ne olmalıdır? Bunun için `randomPick` fonksiyonuna herhangi bir tür değeri alabilecek bir ((tür değişkeni)) `T` tanıtmalısınız ki `randomPick` fonksiyonuna `(T[]) → T` (*T* türünde bir dizi alan ve bir *T* türünde veri döndüren fonksiyon) gibi bir tür verebilin.
 
 {{index "type checking", TypeScript}}
 
 {{id typing}}
 
-When the types of a program are known, it is possible for the computer to _check_ them for you, pointing out mistakes before the program is run. There are several JavaScript dialects that add types to the language and check them. The most popular one is called [TypeScript](https://www.typescriptlang.org/). If you are interested in adding more rigor to your programs, I recommend you give it a try.
+Bir programın türleri bilindiğinde, bilgisayarın bunları kontrol edebilir ve program çalıştırılmadan önce hataları belirtebilir. Dilin türler ekleyen ve bunları kontrol eden birkaç JavaScript lehçeleri vardır. En popüler olanı [TypeScript](https://www.typescriptlang.org/) olarak adlandırılır. Programlarınıza daha fazla titizlik eklemek istiyorsanız, denemenizi öneririm.
 
-In this book, we'll continue using raw, dangerous, untyped JavaScript code.
+Bu kitapta, ham, tehlikeli, türsüz JavaScript kodunu kullanmaya devam edeceğiz.
 
-## Testing
+## Test yapma
 
 {{index "test suite", "run-time error", automation, testing}}
 
-If the language is not going to do much to help us find mistakes, we'll have to find them the hard way: by running the program and seeing whether it does the right thing.
+Dilin kendisi hataları bulmamıza çok yardımcı olmayacaksa, zor yoldan hataları bulmak için programı çalıştırıp doğru şeyi yapıp yapmadığına bakmak durumunda kalacağız.
 
-Doing this by hand, again and again, is a really bad idea. Not only is it annoying, it also tends to be ineffective since it takes too much time to exhaustively test everything every time you make a change.
+Bunu el ile tekrar tekrar yapmak gerçekten kötü bir fikirdir. Sadece can sıkıcı olmakla kalmaz, aynı zamanda her değişiklik yaptığınızda her şeyi kapsamlı bir şekilde test etmek çok zaman alacağından genellikle etkisiz olur.
 
-Computers are good at repetitive tasks, and testing is the ideal repetitive task. Automated testing is the process of writing a program that tests another program. Writing tests is a bit more work than testing manually, but once you've done it, you gain a kind of superpower: it takes you only a few seconds to verify that your program still behaves properly in all the situations you wrote tests for. When you break something, you'll immediately notice, rather than randomly running into it at some later time.
+Bilgisayarlar tekrarlayan görevlerde iyidir ve test etme ideal bir tekrarlayan görevdir. Otomatik test, başka bir programı test eden bir program yazma sürecidir. Testleri yazmak manuel olarak test etmekten biraz daha fazla çalışma gerektirir, ancak bir kez yaptıktan sonra, bir tür süper güç kazanırsınız: programınızın hala yazdığınız tüm durumlarda doğru şekilde davrandığını doğrulamak için sadece birkaç saniyenizi alır. Bir şeyi bozarsanız başka bir zamanda rastgele karşılaşmak yerine hemen fark edersiniz.
 
 {{index "toUpperCase method"}}
 
-Tests usually take the form of little labeled programs that verify some aspect of your code. For example, a set of tests for the (standard, probably already tested by someone else) `toUpperCase` method might look like this:
+Testler genellikle kodunuzun bazı yönlerini doğrulayan küçük etiketli programlar şeklinde olur. Örneğin, (standart olarak dilin içinde bulunan ve zaten muhtemelen başka biri tarafından zaten test edilmiş olan) `toUpperCase` metodunun bir dizi testi şöyle olabilir:
 
 ```
 function test(label, body) {
@@ -151,27 +151,28 @@ test("don't convert case-less characters", () => {
 
 {{index "domain-specific language"}}
 
-Writing tests like this tends to produce rather repetitive, awkward code. Fortunately, there exist pieces of software that help you build and run collections of tests (_((test suites))_) by providing a language (in the form of functions and methods) suited to expressing tests and by outputting informative information when a test fails. These are usually called _((test runners))_.
+Böyle testler yazmak genellikle oldukça tekrarlayan garip kodlar üretir. Neyse ki, test koleksiyonları oluşturmanıza ve çalıştırmanıza yardımcı olan yazılım parçaları vardır (_((test paketleri))_), testleri ifade etmek için fonksiyonlar ve metotlar şeklinde uygun bir dil sağlayar ve bir test başarısız olduğunda bilgilendirici bilgiler verir. Bunlar genellikle _((test çalıştırıcıları))_ olarak adlandırılır.
 
 {{index "persistent data structure"}}
 
-Some code is easier to test than other code. Generally, the more external objects that the code interacts with, the harder it is to set up the context in which to test it. The style of programming shown in the [previous chapter](robot), which uses self-contained persistent values rather than changing objects, tends to be easy to test.
+Bazı kodlar diğer kodlardan daha kolay test edilir. Genellikle, kodun etkileşimde bulunduğu daha fazla harici nesne varsa, test etmek için o çevreyi kurmak daha zordur. [Önceki bölümde](robot) gösterilen programlama tarzı, değişen nesneler yerine kendi başına kalıcı değerler kullandığı için test etmesi daha kolaydır.
 
-## Debugging
+## Hata ayıklama
 
 {{index debugging}}
 
-Once you notice there is something wrong with your program because it misbehaves or produces errors, the next step is to figure out _what_ the problem is.
+Programınızın yanlış davrandığını veya hatalar ürettiğini fark ettiğinizde, bir sonraki adım sorunun _ne_ olduğunu bulmaktır.
 
-Sometimes it is obvious. The ((error)) message will point at a specific line of your program, and if you look at the error description and that line of code, you can often see the problem.
+Bazen bu açıktır. ((Hata)) mesajı programınızın belirli bir satırına işaret eder ve hata açıklamasıyla o kod satırına baktığınızda, genellikle sorunu görebilirsiniz.
 
 {{index "run-time error"}}
 
-But not always. Sometimes the line that triggered the problem is simply the first place where a flaky value produced elsewhere gets used in an invalid way. If you have been solving the ((exercises)) in earlier chapters, you will probably have already experienced such situations.
+Ancak her zaman değil. Bazen sorunu tetikleyen satır, başka bir yerde üretilen bir tutarsız değerin geçersiz bir şekilde kullanıldığı ilk yerdir. Daha önceki bölümlerdeki ((alıştırmaları)) çözüyorsanız, muhtemelen böyle durumlarla zaten karşılaşmışsınızdır.
 
 {{index "decimal number", "binary number"}}
 
-The following example program tries to convert a whole number to a string in a given base (decimal, binary, and so on) by repeatedly picking out the last ((digit)) and then dividing the number to get rid of this digit. But the strange output that it currently produces suggests that it has a ((bug)).
+The following example program tries to convert a whole number to a stri ng in a given base (decimal, binary, and so on) by repeatedly picking out the last ((digit)) and then dividing the number to get rid of this digit. But the strange output that it currently produces suggests that it has a ((bug)).
+Aşağıdaki örnek program, bir tam sayıyı son ((basamağı)) seçip bu basamağı atmak için numarayı bölerek verilen bir tabandaki (onluk, ikili, vb.) bir dizeye dönüştürmeyi deniyor. Ancak şu anda tuhaf çıktılar ürettiği için bir ((hata)) olduğunu gösterir.
 
 ```
 function numberToString(n, base = 10) {
@@ -192,15 +193,15 @@ console.log(numberToString(13, 10));
 
 {{index analysis}}
 
-Even if you see the problem already, pretend for a moment that you don't. We know that our program is malfunctioning, and we want to find out why.
+Sorunu zaten görseniz bile, bir an için görmemiş gibi davranın. Programımızın yanlış çalıştığını biliyoruz ve neden olduğunu bulmak istiyoruz.
 
 {{index "trial and error"}}
 
-This is where you must resist the urge to start making random changes to the code to see whether that makes it better. Instead, _think_. Analyze what is happening and come up with a ((theory)) of why it might be happening. Then, make additional observations to test this theory—or, if you don't yet have a theory, make additional observations to help you come up with one.
+Burada kodu rastgele değiştirerek durumu düzeltecek mi girişimlerine direnmelisiniz. Bunun yerine _düşünün_. Neler olduğunu analiz edin ve neden olduğuna dair bir ((teori)) ortaya koyun. Daha sonra, bu teoriyi test etmek için ek gözlemler yapın—veya henüz bir teoriniz yoksa, bir teori üretmenize yardımcı olacak ek gözlemler yapın.
 
 {{index "console.log", output, debugging, logging}}
 
-Putting a few strategic `console.log` calls into the program is a good way to get additional information about what the program is doing. In this case, we want `n` to take the values `13`, `1`, and then `0`. Let's write out its value at the start of the loop.
+Programa stratejik birkaç `console.log` çağrısı eklemek, programın ne yaptığı hakkında ek bilgi almanın iyi bir yoludur. Bu durumda, `n`'in `13`, `1` ve ardından `0` değerlerini almasını istiyoruz. Hadi döngünün başında değerini konsola yazdıralım.
 
 ```{lang: null}
 13
@@ -213,31 +214,31 @@ Putting a few strategic `console.log` calls into the program is a good way to ge
 
 {{index rounding}}
 
-_Right_. Dividing 13 by 10 does not produce a whole number. Instead of `n /= base`, what we actually want is `n = Math.floor(n / base)` so that the number is properly "shifted" to the right.
+_Doğru_. 13'ü 10'a bölmek bir tam sayı üretmez. `n /= base` yerine, `n = Math.floor(n / taban)` istediğimiz şeydir, böylece sayı uygun şekilde sağa "kaydırılır".
 
 {{index "JavaScript console", "debugger statement"}}
 
-An alternative to using `console.log` to peek into the program's behavior is to use the _debugger_ capabilities of your browser. Browsers come with the ability to set a _((breakpoint))_ on a specific line of your code. When the execution of the program reaches a line with a breakpoint, it is paused, and you can inspect the values of bindings at that point. I won't go into details, as debuggers differ from browser to browser, but look in your browser's ((developer tools)) or search the Web for instructions.
+Programın davranışına bakmanın `console.log` kullanmaktan başka bir yolu da, tarayıcınızın _hata ayıklayıcı_ yeteneklerini kullanmaktır. Tarayıcılar, kodunuzun belirli bir satırında _((kesme noktası))_ ayarlama yeteneğine sahiptir. Programın yürütmesi, bir kesme noktası olan bir satıra ulaştığında durur ve bu noktadaki bağlantıların değerlerini inceleyebilirsiniz. Ayrıntılara girmeyeceğim çünkü hata ayıklayıcılar tarayıcıdan tarayıcıya değişir, ancak tarayıcınızın ((geliştirici araçları))nda arayın veya Web'de talimatları arayın.
 
-Another way to set a breakpoint is to include a `debugger` statement (consisting of simply that keyword) in your program. If the ((developer tools)) of your browser are active, the program will pause whenever it reaches such a statement.
+Başka bir kesme noktası ayarlamak için programınıza bir `debugger` ifadesi (yalnızca bu anahtar kelime) eklemektir. Tarayıcınızın ((geliştirici araçları)) etkinse, program böyle bir ifadeye ulaştığında duracaktır.
 
-## Error propagation
+## Hata yayılımı
 
 {{index input, output, "run-time error", error, validation}}
 
-Not all problems can be prevented by the programmer, unfortunately. If your program communicates with the outside world in any way, it is possible to get malformed input, to become overloaded with work, or to have the network fail.
+Üzülerek söylemeliyim ki, tüm sorunlar programcı tarafından önlenebilir değildir. Programınızın dış dünya ile iletişim kurması durumunda, hatalı giriş almak, iş yüküyle aşırı yüklenmek veya internet ağının başarısız olması mümkündür.
 
 {{index "error recovery"}}
 
-If you're programming only for yourself, you can afford to just ignore such problems until they occur. But if you build something that is going to be used by anybody else, you usually want the program to do better than just crash. Sometimes the right thing to do is take the bad input in stride and continue running. In other cases, it is better to report to the user what went wrong and then give up. But in either situation, the program has to actively do something in response to the problem.
+Sadece kendiniz için programlama yapıyorsanız, bu tür sorunları oluşuncaya kadar görmezden gelebilirsiniz. Ancak başkaları tarafından kullanılacak bir şey inşa ederseniz, genellikle programın sadece çökmekten daha iyi bir şey yapmasını istersiniz. Bazen doğru şey, verilen yanlış değeri kabul edip çalışmaya devam etmektir. Diğer durumlarda, kullanıcıya neyin yanlış gittiğini bildirmek ve ardından vazgeçmektir. Ancak her iki durumda da, program, soruna yanıt olarak aktif olarak bir şey yapmak zorundadır.
 
 {{index "promptNumber function", validation}}
 
-Say you have a function `promptNumber` that asks the user for a number and returns it. What should it return if the user inputs "orange"?
+Örneğin, kullanıcıdan bir sayı isteyen ve onu döndüren bir `promptNumber` fonksiyonunuz olsun. Kullanıcı "orange" yazarsa ne yapmalıdır?
 
 {{index null, undefined, "return value", "special return value"}}
 
-One option is to make it return a special value. Common choices for such values are `null`, `undefined`, or -1.
+Bir seçenek, ona özel bir değer döndürmektir. Bu tür değerler için yaygın seçimler `null`, `undefined` veya `-1`'dir.
 
 ```{test: no}
 function promptNumber(question) {
@@ -249,11 +250,11 @@ function promptNumber(question) {
 console.log(promptNumber("How many trees do you see?"));
 ```
 
-Now any code that calls `promptNumber` must check whether an actual number was read and, failing that, must somehow recover—maybe by asking again or by filling in a default value. Or it could again return a special value to _its_ caller to indicate that it failed to do what it was asked.
+Şimdi, `promptNumber` çağıran kodun, gerçekten bir sayı alınıp alınmadığını kontrol etmesi ve bunun başarısız olduğu durumda nasıl kurtarılacağını bir şekilde düzeltmesi gerekir—belki tekrar sorarak veya bir varsayılan bir değerle doldurarak. Ya da istenilenin yapılamadığını belirtmek için tekrar _kendisini çağrıran_ yere özel bir değer döndürebilir. 
 
 {{index "error handling"}}
 
-In many situations, mostly when ((error))s are common and the caller should be explicitly taking them into account, returning a special value is a good way to indicate an error. It does, however, have its downsides. First, what if the function can already return every possible kind of value? In such a function, you'll have to do something like wrap the result in an object to be able to distinguish success from failure, the way the `next` method on the iterator interface does.
+Bir genellikle hata döndüren bir fonksiyonu çağıran ve bu hataları dikkate alan fonksiyonlar için, başarısız olan çağırılan fonksiyondan özel değerler döndürmek hatayı belirtmek için iyi bir yöntemdir. Ancak tabii ki, bunun da olumsuz yanları var. Birinci olarak, ya çağırılan bu fonksiyon her türlü herhangi bir değer döndürebiliyorsa? Böyle bir fonksiyonda başarıyı başarısızlıktan ayırt etmek için iterator arayüzündeki `next` metodunda da olduğu gibi sonucu bir nesnenin içine almak gibi bir şey yapmanız gerekir.
 
 ```
 function lastElement(array) {
@@ -267,9 +268,9 @@ function lastElement(array) {
 
 {{index "special return value", readability}}
 
-The second issue with returning special values is that it can lead to awkward code. If a piece of code calls `promptNumber` 10 times, it has to check 10 times whether `null` was returned. And if its response to finding `null` is to simply return `null` itself, callers of the function will in turn have to check for it, and so on.
+Özel değerler döndürmenin ikinci sorunu, garip gözüken kodla sonuçlanabilir olmasıdır. Bir kod parçası `promptNumber`'ı 10 kez çağırırsa, 10 kez `null` değerinin döndürülüp döndürülmediğini kontrol etmesi gerekir. Ve eğer `null` bulursa verdiği yanıt sadece `null`'u döndürmekse, o fonksiyonu çağıran fonksiyonlar da onu kontrol etmek zorunda kalacak ve bu da böylece devam edecek.
 
-## Exceptions
+## İstisnalar
 
 {{index "error handling"}}
 
@@ -283,7 +284,7 @@ Exceptions are a mechanism that makes it possible for code that runs into a prob
 
 If exceptions always zoomed right down to the bottom of the stack, they would not be of much use. They'd just provide a novel way to blow up your program. Their power lies in the fact that you can set "obstacles" along the stack to _catch_ the exception as it is zooming down. Once you've caught an exception, you can do something with it to address the problem and then continue to run the program.
 
-Here's an example:
+Bir örnek:
 
 {{id look}}
 ```
@@ -323,7 +324,7 @@ Note that the `look` function completely ignores the possibility that `promptDir
 
 Well, almost...
 
-## Cleaning up after exceptions
+## İstisnalardan sonra temizlik
 
 {{index "exception handling", "cleaning up", ["control flow", exceptions]}}
 
@@ -394,7 +395,7 @@ Note that even though the `finally` code is run when an exception is thrown in t
 
 Writing programs that operate reliably even when exceptions pop up in unexpected places is hard. Many people simply don't bother, and because exceptions are typically reserved for exceptional circumstances, the problem may occur so rarely that it is never even noticed. Whether that is a good thing or a really bad thing depends on how much damage the software will do when it fails.
 
-## Selective catching
+## Seçici yakalama
 
 {{index "uncaught exception", "exception handling", "JavaScript console", "developer tools", "call stack", error}}
 
@@ -491,7 +492,7 @@ for (;;) {
 
 This will catch only instances of `InputError` and let unrelated exceptions through. If you reintroduce the typo, the undefined binding error will be properly reported.
 
-## Assertions
+## İddialar
 
 {{index "assert function", assertion, debugging}}
 
@@ -514,7 +515,7 @@ Now, instead of silently returning undefined (which you get when reading an arra
 
 I do not recommend trying to write assertions for every possible kind of bad input. That'd be a lot of work and would lead to very noisy code. You'll want to reserve them for mistakes that are easy to make (or that you find yourself making).
 
-## Summary
+## Özet
 
 An important part of programming is finding, diagnosing, and fixing bugs. Problems can become easier to notice if you have an automated test suite or add assertions to your programs.
 
@@ -522,9 +523,9 @@ Problems caused by factors outside the program's control should usually be activ
 
 Throwing an exception causes the call stack to be unwound until the next enclosing `try/catch` block or until the bottom of the stack. The exception value will be given to the `catch` block that catches it, which should verify that it is actually the expected kind of exception and then do something with it. To help address the unpredictable control flow caused by exceptions, `finally` blocks can be used to ensure that a piece of code _always_ runs when a block finishes.
 
-## Exercises
+## Egzersizler
 
-### Retry
+### Yeniden deneme
 
 {{index "primitiveMultiply (exercise)", "exception handling", "throw keyword"}}
 
@@ -566,7 +567,7 @@ To do the retrying, you can either use a loop that stops only when a call succee
 
 hint}}
 
-### The locked box
+### Kilitli kutu
 
 {{index "locked box (exercise)"}}
 

@@ -144,9 +144,9 @@ Hareket, paketin teslim edilmesine neden olur ve bu, sonraki durumda yansıtıl�
 
 {{index "persistent data structure", mutability, ["data structure", immutable]}}
 
-Data structures that don't change are called _((immutable))_ or _persistent_. They behave a lot like strings and numbers in that they are who they are and stay that way, rather than containing different things at different times.
+Veri yapıları, değişmeyen (_((değişmez))_ veya _kalıcı_) olarak adlandırılır. Onlar, oldukları gibi olan ve her zaman aynı kalan diziler ve sayılar gibi davranırlar, farklı zamanlarda farklı şeyler içermezler.
 
-In JavaScript, just about everything _can_ be changed, so working with values that are supposed to be persistent requires some restraint. There is a function called `Object.freeze` that changes an object so that writing to its properties is ignored. You could use that to make sure your objects aren't changed, if you want to be careful. Freezing does require the computer to do some extra work, and having updates ignored is just about as likely to confuse someone as having them do the wrong thing. So I usually prefer to just tell people that a given object shouldn't be messed with and hope they remember it.
+JavaScript'te, neredeyse her şey değiştirilebilir olduğu için, kalıcı olması gereken değerlerle çalışmak bazı kısıtlamalar gerektirir. Nesnenin özelliklerine yazma özelliğini yok sayacak şekilde bir nesneyi değiştiren `Object.freeze` adında bir fonksiyon vardır. Dikkatli olmak isterseniz nesnelerinizin değişmediğinden emin olmak için bunu kullanabilirsiniz. Dondurma, bilgisayarın ekstra bir iş yapmasını gerektirir, ayrıca güncellemelerin yok sayılması yanlış bir şey yapmak kadar kafa karıştırabilir. Bu yüzden genellikle belirli bir nesnenin değiştirilmemesi gerektiğini söylemeyi tercih eder ve bunu hatırlamalarını umarım.
 
 ```
 let object = Object.freeze({value: 5});
@@ -155,23 +155,23 @@ console.log(object.value);
 // → 5
 ```
 
-Why am I going out of my way to not change objects when the language is obviously expecting me to?
+Dil açıkça benden neden nesneleri değiştirmememi bekliyorken neden yolumdan sapıp değişmemeleri için ekstra efor sarf ediyorum ki?
 
-Because it helps me understand my programs. This is about complexity management again. When the objects in my system are fixed, stable things, I can consider operations on them in isolation—moving to Alice's house from a given start state always produces the same new state. When objects change over time, that adds a whole new dimension of complexity to this kind of reasoning.
+Çünkü bu, programlarımı anlamama yardımcı olur. Bu yine karmaşıklık yönetimi hakkında. Sistemimdeki nesneler sabit, istikrarlı şeyler olduğunda, bunlar üzerindeki işlemleri izole bir şekilde düşünebilirim - belirli bir başlangıç durumundan Alice'in evine gitmek her zaman aynı yeni durumu üretir. Nesnelerin zamanla değişmesi, bu tür bir akıl yürütme için tamamen yeni bir karmaşıklık boyutu ekler.
 
-For a small system like the one we are building in this chapter, we could handle that bit of extra complexity. But the most important limit on what kind of systems we can build is how much we can understand. Anything that makes your code easier to understand makes it possible to build a more ambitious system.
+Bu bölümde inşa ettiğimiz küçük bir sistem için, bu biraz ekstra karmaşıklığı idare edebiliriz. Ancak inşa edebileceğimiz sistemlerin ne tür olduğunu belirleyen en önemli sınırlama, ne kadar anlayabileceğimizdir. Kodunuzu anlamayı kolaylaştıran her şey, daha iddialı bir sistem inşa etmeyi mümkün kılar.
 
-Unfortunately, although understanding a system built on persistent data structures is easier, _designing_ one, especially when your programming language isn't helping, can be a little harder. We'll look for opportunities to use persistent data structures in this book, but we'll also be using changeable ones.
+Ne yazık ki, kalıcı veri yapıları üzerine inşa edilmiş bir sistemi anlamak daha kolay olsa da, özellikle programlama dili yardımcı olmadığında, bunu _tasarlamak_ biraz daha zor olabilir. Bu kitapta kalıcı veri yapılarını kullanma fırsatlarını arayacağız, ancak değiştirilebilir olanları da kullanacağız.
 
 ## Simülasyon
 
 {{index simulation, "virtual world"}}
 
-A delivery ((robot)) looks at the world and decides in which direction it wants to move. As such, we could say that a robot is a function that takes a `VillageState` object and returns the name of a nearby place.
+Bir teslimat ((robotu)), dünyaya bakar ve hangi yöne gitmek istediğine karar verir. Bu nedenle, bir robotun, bir `VillageState` nesnesini alıp yakınlardaki bir yerin adını döndüren bir fonksiyon olduğunu söyleyebiliriz.
 
 {{index "runRobot function"}}
 
-Because we want robots to be able to remember things, so that they can make and execute plans, we also pass them their memory and allow them to return a new memory. Thus, the thing a robot returns is an object containing both the direction it wants to move in and a memory value that will be given back to it the next time it is called.
+Robotların plan yapabilmeleri ve uygulayabilmeleri adına şeyleri hatırlayabilmelerini istiyor ve onlara belleklerini verip yeni bellek döndürmelerine izin veriyoruz. Dolayısıyla, robotun döndürdüğü şey, hem hareket etmek istediği yön hem de bir sonraki çağrıldığında geri verilecek bir bellek değeri içeren bir nesnedir.
 
 ```{includeCode: true}
 function runRobot(state, robot, memory) {
@@ -188,13 +188,13 @@ function runRobot(state, robot, memory) {
 }
 ```
 
-Consider what a robot has to do to "solve" a given state. It must pick up all parcels by visiting every location that has a parcel and deliver them by visiting every location that a parcel is addressed to, but only after picking up the parcel.
+Verilen bir durumu "çözmek" için bir robotun ne yapması gerektiğini düşünün. Tüm paketleri toplamalı, her bir paket alındıktan sonra paketin adreslendiği her yer ziyaret edilerek teslim edilmelidir.
 
-What is the dumbest strategy that could possibly work? The robot could just walk in a random direction every turn. That means, with great likelihood, it will eventually run into all parcels and then also at some point reach the place where they should be delivered.
+Çalışması mümkün olan en aptalca strateji nedir? Robot her turda rastgele bir yöne yürüyebilir. Bu, büyük olasılıkla, sonunda tüm paketlere rastlayacak ve sonra onları teslim etmeleri gereken yere ulaşacak demektir.
 
 {{index "randomPick function", "randomRobot function"}}
 
-Here's what that could look like:
+İşte o fikir bu şekilde görünebilir:
 
 ```{includeCode: true}
 function randomPick(array) {
@@ -209,11 +209,11 @@ function randomRobot(state) {
 
 {{index "Math.random function", "Math.floor function", [array, "random element"]}}
 
-Remember that `Math.random()` returns a number between zero and one—but always below one. Multiplying such a number by the length of an array and then applying `Math.floor` to it gives us a random index for the array.
+`Math.random()`'ın her zaman sıfır ve bir arasında ancak birin altında bir sayı döndürdüğünü hatırlayın. Böyle bir bir sayıyı bir dizi uzunluğu ile çarpmak ve ardından `Math.floor` uygulamak bize dizi için rastgele bir index verir.
 
-Since this robot does not need to remember anything, it ignores its second argument (remember that JavaScript functions can be called with extra arguments without ill effects) and omits the `memory` property in its returned object.
+Bu robotun herhangi bir şeyi hatırlamasına gerek olmadığı için, ikinci argümanını görmezden gelir (JavaScript fonksiyonlarının ek argümanlarla çağrılması herhangi bir olumsuz etkiye neden olmadığını hatırlayın) ve döndürdüğü nesnesinde `memory` özelliğini dahil etmez.
 
-To put this sophisticated robot to work, we'll first need a way to create a new state with some parcels. A static method (written here by directly adding a property to the constructor) is a good place to put that functionality.
+Bu sofistike robota iş vermek için önce bazı paketlerle yeni bir durum oluşturmanın bir yoluna ihtiyacımız var. Bir statik metod (burada doğrudan bir özelliği constructor fonksiyonuna ekleyerek yazıldı) bu işlevselliği koymak için iyi bir yerdir.
 
 ```{includeCode: true}
 VillageState.random = function(parcelCount = 5) {
@@ -232,9 +232,9 @@ VillageState.random = function(parcelCount = 5) {
 
 {{index "do loop"}}
 
-We don't want any parcels that are sent from the same place that they are addressed to. For this reason, the `do` loop keeps picking new places when it gets one that's equal to the address.
+Gönderildiği ve adreslendiği yerin aynı olduğu herhangi bir paket istemiyoruz. Bu nedenle, `do` döngüsü, adresle eşit olan bir yer aldığında yeni yerler almaya devam ediyor.
 
-Let's start up a virtual world.
+Hadi sanal bir dünya başlatalım.
 
 ```{test: no}
 runRobot(VillageState.random(), randomRobot);
@@ -244,17 +244,17 @@ runRobot(VillageState.random(), randomRobot);
 // → Done in 63 turns
 ```
 
-It takes the robot a lot of turns to deliver the parcels because it isn't planning ahead very well. We'll address that soon.
+Paketlerin teslim edilmesi için robota birçok tur gerekir çünkü ileriye dönük iyi plan yapmıyor. Bunun için yakında bir çözüm bulacağız.
 
 {{if interactive
 
-For a more pleasant perspective on the simulation, you can use the `runRobotAnimation` function that's available in [this chapter's programming environment](https://eloquentjavascript.net/code/#7). This runs the simulation, but instead of outputting text, it shows you the robot moving around the village map.
+Simülasyon üzerinde daha hoş bir bakış açısı için, [bu bölümün programlama ortamında](https://eloquentjavascript.net/code/#7) bulunan `runRobotAnimation` fonksiyonunu kullanabilirsiniz. Bu, simülasyonu çalıştırır, ancak metin çıktısı yerine robotun köy haritasında dolaştığını size gösterir.
 
 ```{test: no}
 runRobotAnimation(VillageState.random(), randomRobot);
 ```
 
-The way `runRobotAnimation` is implemented will remain a mystery for now, but after you've read the [later chapters](dom) of this book, which discuss JavaScript integration in web browsers, you'll be able to guess how it works.
+`runRobotAnimation`'ın nasıl uygulandığı şimdilik bir sır olarak kalacak, ancak bu kitabın [daha sonraki bölümlerinde](dom), tarayıcılardaki JavaScript entegrasyonunu tartıştığı zaman, nasıl çalıştığını tahmin edebileceksiniz.
 
 if}}
 

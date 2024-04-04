@@ -262,7 +262,7 @@ if}}
 
 {{index "mailRoute array"}}
 
-We should be able to do a lot better than the random ((robot)). An easy improvement would be to take a hint from the way real-world mail delivery works. If we find a route that passes all places in the village, the robot could run that route twice, at which point it is guaranteed to be done. Here is one such route (starting from the post office):
+Rastgele bir ((robot))tan çok daha iyi yapabilmeliyiz. Kolay bir iyileştirme, gerçek dünya posta teslimatının çalışma şeklinden bir ipucu almak olacaktır. Köydeki tüm yerlerden geçen bir rota bulursak, robot bu rotayı iki kez çalıştırabilir ve bu noktada işinin bitmiş olacağı garantilenir. İşte böyle bir rota (posta ofisinden başlayarak):
 
 ```{includeCode: true}
 const mailRoute = [
@@ -275,7 +275,7 @@ const mailRoute = [
 
 {{index "routeRobot function"}}
 
-To implement the route-following robot, we'll need to make use of robot memory. The robot keeps the rest of its route in its memory and drops the first element every turn.
+Rota takip eden robotu uygulamak için, robot hafızasını kullanmamız gerekecek. Robot, her turda hafızasındaki geri kalan rotayı saklar ve her turda ilk öğeyi bırakır.
 
 ```{includeCode: true}
 function routeRobot(state, memory) {
@@ -286,7 +286,7 @@ function routeRobot(state, memory) {
 }
 ```
 
-This robot is a lot faster already. It'll take a maximum of 26 turns (twice the 13-step route) but usually less.
+Bu robot zaten şimdiden çok daha hızlı. En fazla 26 tur alacak (13 adımlık rotanın iki katı) ama genellikle daha az.
 
 {{if interactive
 
@@ -298,23 +298,23 @@ if}}
 
 ## Yol bulma
 
-Still, I wouldn't really call blindly following a fixed route intelligent behavior. The ((robot)) could work more efficiently if it adjusted its behavior to the actual work that needs to be done.
+Yine de, sabit bir rotayı körü körüne takip etmeyi gerçekten akıllı davranış olarak adlandırmayız. ((Robot)), gerçekten yapılması gereken işe göre davranışını ayarlayarak daha verimli çalışabilir.
 
 {{index pathfinding}}
 
-To do that, it has to be able to deliberately move toward a given parcel or toward the location where a parcel has to be delivered. Doing that, even when the goal is more than one move away, will require some kind of route-finding function.
+Bunu yapabilmek için, belirli bir parselin yanına veya bir parselin teslim edilmesi gereken yere bilerek hareket edebilmesi gerekir. Bunun yapılması, hedef bir hamleden fazla uzakta olsa bile, bir tür rota bulma fonksiyonu gerektirir.
 
-The problem of finding a route through a ((graph)) is a typical _((search problem))_. We can tell whether a given solution (a route) is a valid solution, but we can't directly compute the solution the way we could for 2 + 2. Instead, we have to keep creating potential solutions until we find one that works.
+((Graf)) içinden bir rota bulma problemi tipik bir _((arama problemi))_'dir. Verilen bir çözümün (bir rota) geçerli bir çözüm olup olmadığını söyleyebiliriz, ancak 2 + 2 için olduğu gibi doğrudan çözümü hesaplayamayız. Bunun yerine, işe yarayan bir tane bulana kadar potansiyel çözümler oluşturmaya devam etmeliyiz.
 
-The number of possible routes through a graph is infinite. But when searching for a route from _A_ to _B_, we are interested only in the ones that start at _A_. We also don't care about routes that visit the same place twice—those are definitely not the most efficient route anywhere. So that cuts down on the number of routes that the route finder has to consider.
+Bir graf içinden mümkün olan rotaların sayısı sonsuzdur. Ancak _A_ noktasından _B_ noktasına bir rota ararken, sadece _A_ noktasından başlayanlarla ilgileniriz. Ayrıca aynı yeri iki kez ziyaret eden rotaları umursamıyoruz - bunlar kesinlikle herhangi bir yerdeki en verimli rota değil. Bu, rota bulucunun düşünmesi gereken rota sayısını azaltır.
 
-In fact, we are mostly interested in the _shortest_ route. So we want to make sure we look at short routes before we look at longer ones. A good approach would be to "grow" routes from the starting point, exploring every reachable place that hasn't been visited yet, until a route reaches the goal. That way, we'll only explore routes that are potentially interesting, and we know that the first route we find is the shortest route (or one of the shortest routes, if there are more than one).
+Aslında, genellikle _en kısa_ rotaya ilgi duyarız. Bu nedenle, daha uzun olanlara bakmadan önce kısa rotalara bakmak istiyoruz. Bir rota hedefine ulaşana kadar rotaları başlangıç noktasından büyüterek her henüz ziyaret edilmemiş erişilebilir yeri keşfetmek bu durumda iyi bir yaklaşım olurdu. Bu şekilde, potansiyel olarak ilginç olan rotaları keşfetmiş oluruz ve ilk bulduğumuz rotanın en kısa veya birden fazlaysa en kısalarından biri olan rota olduğunu biliyoruz.
 
 {{index "findRoute function"}}
 
 {{id findRoute}}
 
-Here is a function that does this:
+İşte bunu yapan bir fonksiyon:
 
 ```{includeCode: true}
 function findRoute(graph, from, to) {
@@ -331,17 +331,17 @@ function findRoute(graph, from, to) {
 }
 ```
 
-The exploring has to be done in the right order—the places that were reached first have to be explored first. We can't immediately explore a place as soon as we reach it because that would mean places reached _from there_ would also be explored immediately, and so on, even though there may be other, shorter paths that haven't yet been explored.
+Keşfetme işlemi doğru sırayla yapılmalıdır - ilk önce ulaşılan yerlerin öncelikle keşfedilmesi gerekir. Bir yeri ona ulaştığımız anda hemen keşfetmemeliyiz çünkü bu, _oradan ulaşılan yerlerin_ de hemen keşfedilmesi anlamına gelir ve bu böyle devam eder ancak oysa ki daha önceden keşfedilmemiş diğer daha kısa yollar olabilir.
 
-Therefore, the function keeps a _((work list))_. This is an array of places that should be explored next, along with the route that got us there. It starts with just the start position and an empty route.
+Bu nedenle, fonksiyon bir _((çalışma listesi))_ tutar. Bu, keşfedilmesi gereken yerlerin ve bizi oraya götüren rotanın bir listesidir. Sadece başlangıç pozisyonu ve boş bir rota ile başlar.
 
-The search then operates by taking the next item in the list and exploring that, which means all roads going from that place are looked at. If one of them is the goal, a finished route can be returned. Otherwise, if we haven't looked at this place before, a new item is added to the list. If we have looked at it before, since we are looking at short routes first, we've found either a longer route to that place or one precisely as long as the existing one, and we don't need to explore it.
+Arama, daha sonraki öğeyi listeye alarak ve bunu keşfeterek çalışır, yani o yerden giden tüm yollar incelenir. Eğer bunlardan biri hedefse, tamamlanmış bir rota döndürülebilir. Aksi takdirde, bu yeri daha önce görmediysek, yeni bir öğe listeye eklenir. Daha önce gördüysek, kısa rotalara önce baktığımız için, o yere daha uzun bir rota veya mevcut rotanın tam olarak uzunluğunda bir rota bulduk ve bunu keşfetmemize gerek yoktur.
 
-You can visually imagine this as a web of known routes crawling out from the start location, growing evenly on all sides (but never tangling back into itself). As soon as the first thread reaches the goal location, that thread is traced back to the start, giving us our route.
+Bunu, bilinen rotaların başlangıç konumundan dışarıya doğru her tarafından eşit büyüyen ve kendisine geri dönmeyecek bir şekilde yayılan bir ağ gibi görsel olarak hayal edebilirsiniz. İlk ipliğin hedef konumunu bulduğu anda, bu iplik başlangıç noktasına geri izlenir, böylece rotamızı alırız.
 
 {{index "connected graph"}}
 
-Our code doesn't handle the situation where there are no more work items on the work list because we know that our graph is _connected_, meaning that every location can be reached from all other locations. We'll always be able to find a route between two points, and the search can't fail.
+Kodumuz, iş listesinde artık iş öğeleri olmadığında nasıl başa çıkacağını ele almaz çünkü grafımızın _bağlı_ olduğunu biliyoruz, yani her konuma diğer tüm konumlardan ulaşılabilir. İki nokta arasında bir rota bulabileceğiz ve arama başarısız olamaz.
 
 ```{includeCode: true}
 function goalOrientedRobot({place, parcels}, route) {
@@ -359,11 +359,11 @@ function goalOrientedRobot({place, parcels}, route) {
 
 {{index "goalOrientedRobot function"}}
 
-This robot uses its memory value as a list of directions to move in, just like the route-following robot. Whenever that list is empty, it has to figure out what to do next. It takes the first undelivered parcel in the set and, if that parcel hasn't been picked up yet, plots a route toward it. If the parcel _has_ been picked up, it still needs to be delivered, so the robot creates a route toward the delivery address instead.
+Bu robot hafıza değerini gideceği rotayı takip etmek amacıyla kullanır, aynı rota takıp eden robot gibi. Liste boş olduğunda, ne yapacağını bulmak zorundadır. Kümesindeki ilk teslim edilmemiş parseli alır ve bu parsel henüz alınmadıysa, ona doğru bir rota çizer. Pakelet _alınmışsa_, hala teslim edilmesi gerektiğinden, robot teslim adresine doğru bir rota oluşturur.
 
 {{if interactive
 
-Let's see how it does.
+Hadi bunu nasıl yaptığını görelim.
 
 ```{test: no, startCode: true}
 runRobotAnimation(VillageState.random(),
@@ -372,7 +372,7 @@ runRobotAnimation(VillageState.random(),
 
 if}}
 
-This robot usually finishes the task of delivering 5 parcels in about 16 turns. That's slightly better than `routeRobot` but still definitely not optimal.
+Bu robot, genellikle 5 paketi teslim etme görevini yaklaşık 16 turda tamamlar. Bu, `routeRobottan` biraz daha iyidir, ancak kesinlikle olabilecek en iyi durum değil.
 
 ## Egzersizler
 
@@ -390,7 +390,7 @@ For the sake of fairness, make sure you give each task to both robots, rather th
 
 ```{test: no}
 function compareRobots(robot1, memory1, robot2, memory2) {
-  // Your code here
+  // Kodunuz buraya.
 }
 
 compareRobots(routeRobot, [], goalOrientedRobot, []);
@@ -419,7 +419,7 @@ If you solved the previous exercise, you might want to use your `compareRobots` 
 {{if interactive
 
 ```{test: no}
-// Your code here
+// Kodunuz buraya.
 
 runRobotAnimation(VillageState.random(), yourRobot, memory);
 ```
@@ -460,7 +460,7 @@ Why do you need only one `PGroup.empty` value, rather than having a function tha
 
 ```{test: no}
 class PGroup {
-  // Your code here
+  // Kodunuz buraya.
 }
 
 let a = PGroup.empty.add("a");

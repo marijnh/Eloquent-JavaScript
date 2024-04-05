@@ -52,43 +52,80 @@ _Мова програмування_ — це штучно створена м�
 
 Ця книга спробує ознайомити вас із цією мовою настільки, щоб ви змогли робити з нею корисні та цікаві речі.
 
-## On programming
+## Про програмування
 
 {{index [programming, "difficulty of"]}}
 
-Besides explaining JavaScript, I will introduce the basic principles of programming. Programming, it turns out, is hard. The fundamental rules are simple and clear, but programs built on top of these rules tend to become complex enough to introduce their own rules and complexity. You're building your own maze, in a way, and you can easily get lost in it.
+Окрім пояснення JavaScript, я познайомлю вас з основними принципами програмування. 
+Як виявляється, програмувати важко. 
+Фундаментальні правила прості та зрозумілі, але програми, які створені на основі цих правил, 
+мають тенденцію ставати досить складними, що призводить до створення ними додаткових правил і складнощів. 
+У певному сенсі ви будуєте свій власний лабіринт, в якому ви ж самі і можете легко загубитися.
 
 {{index learning}}
 
-There will be times when reading this book feels terribly frustrating. If you are new to programming, there will be a lot of new material to digest. Much of this material will then be _combined_ in ways that require you to make additional connections.
+Будуть моменти, коли ви будете відчувати себе дуже роздратованим під час читання цієї кнги.
+Якщо ви новачок у програмуванні, вам доведеться багато чого нового перетравити. 
+Значна частина цього матеріалу буде _скомбінована_ такими способами, які вимагатимуть від вас створення додаткових зв’язків.
 
-It is up to you to make the necessary effort. When you are struggling to follow the book, do not jump to any conclusions about your own capabilities. You are fine—you just need to keep at it. Take a break, reread some material, and make sure you read and understand the example programs and ((exercises)). Learning is hard work, but everything you learn is yours and will make further learning easier.
+Саме вам доведеться докласти необхіді зусилля.
+Проте коли вам стане важко розуміти цю книжку, 
+не робіть поспішних висновків щодо власних здібностей.
+З вами все гаразд — вам просто потрібно продовжити докладати зусилля.
+Зробіть перерву, перечитайте трохи матеріалу та переконайтеся, 
+що ви прочитали та зрозуміли наведені приклади програм і вправи.
+Навчання — це важка праця, але все, чого ви навчитеся, буде належати вам і в подальшому полегшить ваше навчання.
 
-{{quote {author: "Ursula K. Le Guin", title: "The Left Hand of Darkness"}
+{{quote {author: "Урсула Ле Гуїн", title: "Ліва рука темряви"}
 
 {{index "Le Guin, Ursula K."}}
 
-When action grows unprofitable, gather information; when information grows unprofitable, sleep.
+Коли дії перестають приносити результати, зберіть інформацію; коли інформація перестає приносити результати, поспіть.
 
 quote}}
 
 {{index [program, "nature of"], data}}
 
-A program is many things. It is a piece of text typed by a programmer, it is the directing force that makes the computer do what it does, it is data in the computer's memory, and at the same time it controls the actions performed on this memory. Analogies that try to compare programs to familiar objects tend to fall short. A superficially fitting one is to compare a program to a machine—lots of separate parts tend to be involved, and to make the whole thing tick, we have to consider the ways in which these parts interconnect and contribute to the operation of the whole.
+Програма складається з багатьох речей.
+Це фрагмент тексту, написаний програмістом,
+це рушійна сила, яка змушує комп’ютер робити те, що він робить,
+це дані в пам’яті комп’ютера,
+і водночас він контролює дії, що виконуються із цією пам’яттю. 
+Аналогії, які намагаються використати для порівняння програми зі знайомими об’єктами, 
+як правило, не здатні передати всієї суті.
+Більш-менш доцільним буде порівняння програми з машиною - 
+машина складається із багатьох окремих частин, і, щоб усе між собою працювало,
+ці частини мають бути взаємопов’язані та функціонувати як одне ціле.
 
-A ((computer)) is a physical machine that acts as a host for these immaterial machines. Computers themselves can do only stupidly straightforward things. The reason they are so useful is that they do these things at an incredibly high ((speed)). A program can ingeniously combine an enormous number of these simple actions to do very complicated things.
+Комп’ютер – це фізична машина, яка виконує функцію хоста для нематеріальних машин.
+Самі комп’ютери можуть робити лише дуже прості речі.
+Причина, по якій вони такі корисні, полягає в тому, що вони роблять це з неймовірно високою швидкістю. 
+Програма може винахідливо поєднувати величезну кількість простих дій для того, щоб виконати дуже складні речі.
 
 {{index [programming, "joy of"]}}
 
-A program is a building of thought. It is costless to build, it is weightless, and it grows easily under our typing hands. But as a program grows, so does its ((complexity)). The skill of programming is the skill of building programs that don't confuse yourself. The best programs are those that manage to do something interesting while still being easy to understand.
+Програма – це будівля, що складається із думок.
+Її недорого збудувати, вона нічого не важить, і вона легко росте з-під наших пальців.
+Але зі зростанням програми зростає і її складність.
+Вміння програмувати - це вміння будувати програми, які не заплутають вас самих.
+Найкращими програмами є ті, які можуть робити щось цікаве, але при цьому їх легко зрозуміти.
 
 {{index "programming style", "best practices"}}
 
-Some programmers believe that this complexity is best managed by using only a small set of well-understood techniques in their programs. They have composed strict rules ("best practices") prescribing the form programs should have and carefully stay within their safe little zone.
+Деякі програмісти вважають, що складністю програми найкраще керувати, якщо
+використовувати лише невеликий набір добре зрозумілих технік.
+Вони створили суворі правила («найкращі практики»), що визначають форму яку має мати програма,  
+і з обережністю залишаються в межах своєї персональної безпечної зони.
 
 {{index experiment}}
 
-This is not only boring, it is ineffective. New problems often require new solutions. The field of programming is young and still developing rapidly, and it is varied enough to have room for wildly different approaches. There are many terrible mistakes to make in program design, and you should go ahead and make them at least once so that you understand them. A sense of what a good program looks like is developed with practice, not learned from a list of rules.
+Це не тільки нудно, але й неефективно. 
+Бо нові проблеми часто вимагають нових рішень.
+А сфера програмування молода і все ще продовжує швидко розвиватись.
+Окрім того, вона достатьно варіативна, і має достатьно місця для різноманітних підходів для вирішення проблем.
+Під час розробки програм можна зробити багато жахливих помилок, 
+і ви повинні це зробити хоча б раз, щоб зрозуміти їх.
+Уявлення про те, як виглядає хороша програма, розвивається через практику, а не через вивчення списку правил.
 
 ## Why language matters
 

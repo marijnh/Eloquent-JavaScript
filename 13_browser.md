@@ -56,7 +56,7 @@ A TCP ((connection)) works as follows: one computer must be waiting, or _listeni
 
 Another computer can then establish a ((connection)) by connecting to the target machine using the correct port number. If the target machine can be reached and is listening on that port, the connection is successfully created. The listening computer is called the _((server))_, and the connecting computer is called the _((client))_.
 
-{{index [abtraction, "of the network"]}}
+{{index [abstraction, "of the network"]}}
 
 Such a connection acts as a two-way ((pipe)) through which bits can flow—the machines on both ends can put data into it. Once the bits are successfully transmitted, they can be read out again by the machine on the other side. This is a convenient model. You could say that ((TCP)) provides an abstraction of the network.
 

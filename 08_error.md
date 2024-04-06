@@ -274,15 +274,15 @@ function lastElement(array) {
 
 {{index "error handling"}}
 
-When a function cannot proceed normally, what we would often _like_ to do is just stop what we are doing and immediately jump to a place that knows how to handle the problem. This is what _((exception handling))_ does.
+Bir fonksiyon normal olarak devam edemezse, genellikle yapmak _istediğimiz_ şey, yaptığımız işi durdurmak ve hemen sorunu nasıl ele alacağını bilen bir yere atlamaktır. Bu _((istisna işleme))_ dediğimiz şeydir.
 
 {{index ["control flow", exceptions], "raising (exception)", "throw keyword", "call stack"}}
 
-Exceptions are a mechanism that makes it possible for code that runs into a problem to _raise_ (or _throw_) an exception. An exception can be any value. Raising one somewhat resembles a super-charged return from a function: it jumps out of not just the current function but also its callers, all the way down to the first call that started the current execution. This is called _((unwinding the stack))_. You may remember the stack of function calls that was mentioned in [Chapter ?](functions#stack). An exception zooms down this stack, throwing away all the call contexts it encounters.
+İstisnalar, bir sorunla karşılaşan kodun bir istisna _oluşturmasını_ (veya _fırlatmasını_) mümkün kılan bir mekanizmadır. Bir istisna herhangi bir değer olabilir. Bir istisna oluşturmak, bir fonksiyondan geri dönüş yapmanın hızlandırılmış bir versiyonunu andırır: sadece mevcut fonksiyondan çıkmakla kalmaz, mevcut yürütmeyi başlatan ilk çağrıya kadar olan tüm çağıran fonksiyonlardan da çıkar. Buna _((yığını açma))_ denir. [Bölüm ?](functions#stack) içinde bahsedilen fonksiyon çağrılarının yığınını hatırlıyor olabilirsiniz. Bir istisna bu yığından hızla aşağı iner ve karşılaştığı tüm çağrı bağlamlarını atar.
 
 {{index "error handling", [syntax, statement], "catch keyword"}}
 
-If exceptions always zoomed right down to the bottom of the stack, they would not be of much use. They'd just provide a novel way to blow up your program. Their power lies in the fact that you can set "obstacles" along the stack to _catch_ the exception as it is zooming down. Once you've caught an exception, you can do something with it to address the problem and then continue to run the program.
+Eğer istisnalar her zaman yığının en altına doğru ilerleselerdi, pek faydalı olmazlardı. Sadece programınızı patlatmanın yeni bir yolunu sağlarlardı. Güçleri, istisnayı aşağı inerken yığında engeller ayarlayarak onları _yakalayabilmeniz_ gerçeğinde yatar. Bir istisnayı yakaladıktan sonra, onunla bir şeyler yapabilir ve ardından programı çalıştırmaya devam edebilirsiniz.
 
 Bir örnek:
 
@@ -312,29 +312,29 @@ try {
 
 {{index "exception handling", block, "throw keyword", "try keyword", "catch keyword"}}
 
-The `throw` keyword is used to raise an exception. Catching one is done by wrapping a piece of code in a `try` block, followed by the keyword `catch`. When the code in the `try` block causes an exception to be raised, the `catch` block is evaluated, with the name in parentheses bound to the exception value. After the `catch` block finishes—or if the `try` block finishes without problems—the program proceeds beneath the entire `try/catch` statement.
+`throw` anahtar kelimesi bir istisna oluşturmak için kullanılır. Bir istisna yakalamak, bir parçayı kodu `try` bloğu içine alarak yapılır, ardından `catch` anahtar kelimesi gelir. `try` bloğundaki kod bir istisna oluşturursa, `catch` bloğu, parantez içindeki ismi istisna değeri ile bağlar şekilde değerlendirilir. `catch` bloğu sorunsuz şekilde tamamlandıktan sonra—veya sorun olmadan `try` bloğu tamamlanırsa—program tüm `try/catch` ifadesinin altından devam eder.
 
 {{index debugging, "call stack", "Error type"}}
 
-In this case, we used the `Error` ((constructor)) to create our exception value. This is a ((standard)) JavaScript constructor that creates an object with a `message` property. Instances of `Error` also gather information about the call stack that existed when the exception was created, a so-called _((stack trace))_. This information is stored in the `stack` property and can be helpful when trying to debug a problem: it tells us the function where the problem occurred and which functions made the failing call.
+Bu durumda, istisna değerimizi oluşturmak için `Error` ((constructor)) fonksiyonunu kullandık. Bu, bir `message` özelliğine sahip bir nesne oluşturan ((standart)) bir JavaScript constructor fonksiyonudur. `Error` örnekleri, istisna oluşturulurken var olan çağrı yığını hakkında da ayrıca bilgi toplar ve buna ((yığın izi)) denir. Bu bilgi `stack` özelliğinde depolanır ve bir sorunu gidermeye çalışırken yardımcı olabilir: bize sorunun hangi fonksiyonda meydana geldiğini ve başarısız olan çağrıyı hangi fonksiyonların yaptığını söyler.
 
 {{index "exception handling"}}
 
-Note that the `look` function completely ignores the possibility that `promptDirection` might go wrong. This is the big advantage of exceptions: error-handling code is necessary only at the point where the error occurs and at the point where it is handled. The functions in between can forget all about it.
+`look` fonksiyonunun `promptDirection` fonksiyonunun yanlış gitme olasılığını tamamen göz ardı ettiğine dikkat edin. Bu, istisnaların büyük avantajı: hata işleme kodu, yalnızca hata meydana geldiği noktada ve onun ele alındığı noktada gereklidir. Aradaki işlevlerin hepsi bu sorunları unutabilir.
 
-Well, almost...
+Yani, neredeyse...
 
 ## İstisnalardan sonra temizlik
 
 {{index "exception handling", "cleaning up", ["control flow", exceptions]}}
 
-The effect of an exception is another kind of control flow. Every action that might cause an exception, which is pretty much every function call and property access, might cause control to suddenly leave your code.
+Bir istisnanın etkisi başka bir tür kontrol akışıdır. Bir istisnaya neden olabilecek her eylem, yani neredeyse her fonksiyon çağrısı ve özellik erişimi, kontrolünüzü aniden kodunuzdan çıkabilir.
 
-This means when code has several side effects, even if its "regular" control flow looks like they'll always all happen, an exception might prevent some of them from taking place.
+Bu, kodun birden fazla yan etkiye sahip olduğu durumlarda, "düzenli" kontrol akışı her zaman gerçekleşecek gibi görünse bile, bir istisna bazılarını gerçekleştirmeyi engelleyebilir demektir.
 
 {{index "banking example"}}
 
-Here is some really bad banking code.
+İşte gerçekten kötü bir bankacılık kodu.
 
 ```{includeCode: true}
 const accounts = {
@@ -358,17 +358,17 @@ function transfer(from, amount) {
 }
 ```
 
-The `transfer` function transfers a sum of money from a given account to another, asking for the name of the other account in the process. If given an invalid account name, `getAccount` throws an exception.
+`transfer` fonksiyonu, verilen bir hesaptan başka bir hesaba bir miktar para transfer ederken, işlem sırasında diğer hesabın adını istemektedir. Geçersiz bir hesap adı verilirse, `getAccount` bir istisna fırlatmaktadır.
 
-But `transfer` _first_ removes the money from the account and _then_ calls `getAccount` before it adds it to another account. If it is broken off by an exception at that point, it'll just make the money disappear.
+Ancak, `transfer` önce parayı hesaptan çıkarır ve ardından başka bir hesaba eklermeden önce `getAccount` fonksiyonunu çağırır. Eğer bu noktada bir istisna tarafından kesilirse, sadece paranın gönderen kişiden kaybolmasına sebep olur.
 
-That code could have been written a little more intelligently, for example by calling `getAccount` before it starts moving money around. But often problems like this occur in more subtle ways. Even functions that don't look like they will throw an exception might do so in exceptional circumstances or when they contain a programmer mistake.
+Bu kod biraz daha akıllıca yazılabilirdi, örneğin para hareketi yapmaya başlamadan önce `getAccount` fonksiyonunu çağırarak. Ancak bu tür sorunlar genellikle daha ince yollarla ortaya çıkar. Bir fonksiyonun bir istisna fırlatmayacağını düşündüğünüzde bile, olağanüstü durumlarda veya bir programcı hatası içerdiğinde bunu yapabilir.
 
-One way to address this is to use fewer side effects. Again, a programming style that computes new values instead of changing existing data helps. If a piece of code stops running in the middle of creating a new value, no existing data structures were damaged, making it easier to recover.
+Bunu ele almanın bir yolu, daha az yan etki kullanmaktır. Yine, var olan verileri değiştirmek yerine yeni değerler hesaplayan bir programlama stili yardımcı olur. Bir kod parçası, yeni bir değer oluşturma sürecinin ortasında çalışmayı durdurursa, mevcut veri yapıları zarar görmediği için kurtarmak daha kolay olur.
 
 {{index block, "try keyword", "finally keyword"}}
 
-But that isn't always practical. So there is another feature that `try` statements have. They may be followed by a `finally` block either instead of or in addition to a `catch` block. A `finally` block says "no matter _what_ happens, run this code after trying to run the code in the `try` block."
+Ancak bu her zaman pratik değildir. Bu yüzden `try` ifadelerinin başka bir özelliği vardır. Bunlar, bir `try` bloğuna, `catch` bloğu yerine veya ek olarak bir `finally` bloğu izleyebilirler. Bir `finally` bloğu, "ne olursa olsun, `try` bloğundaki kodu çalıştırmaya çalıştıktan sonra bu kodu çalıştır" der.
 
 ```{includeCode: true}
 function transfer(from, amount) {
@@ -387,13 +387,13 @@ function transfer(from, amount) {
 }
 ```
 
-This version of the function tracks its progress, and if, when leaving, it notices that it was aborted at a point where it had created an inconsistent program state, it repairs the damage it did.
+Bu fonksiyonun bu sürümü ilerleme durumunu takip eder ve ayrılırken, oluşturduğu tutarsız bir program durumu noktasında kesildiğini fark ederse, yaptığı zararı onarır.
 
-Note that even though the `finally` code is run when an exception is thrown in the `try` block, it does not interfere with the exception. After the `finally` block runs, the stack continues unwinding.
+Unutulmamalıdır ki, `try` bloğundaki bir istisna atıldığında bile `finally` kodunun çalıştırılmasına rağmen, istisna ile ilgilenmez. `finally` bloğu çalıştıktan sonra, yığın açılmaya devam eder.
 
 {{index "exception safety"}}
 
-Writing programs that operate reliably even when exceptions pop up in unexpected places is hard. Many people simply don't bother, and because exceptions are typically reserved for exceptional circumstances, the problem may occur so rarely that it is never even noticed. Whether that is a good thing or a really bad thing depends on how much damage the software will do when it fails.
+Beklenmedik yerlerde istisna oluştuğunda dahi güvenilir şekilde çalışan programlar yazmak zordur. Birçok insan bunu genellikle önemsemez ve istisnalar genellikle olağanüstü durumlarda oluştuğundan ötürü sorun nadiren fark edilir. Bunun iyi bir şey mi yoksa gerçekten kötü bir şey mi olduğunu yazılımın başarısız olduğunda ne kadar zarar vereceğine bağlıdır.
 
 ## Seçici yakalama
 

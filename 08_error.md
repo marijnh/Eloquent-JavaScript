@@ -4,7 +4,7 @@
 
 {{quote {author: "Brian Kernighan and P.J. Plauger", title: "Programlama Stilinin Unsurları", chapter: true}
 
-Hata ayıklama, kodu başlangıçta yazmaktan iki kat daha zordur. Bu nedenle, mümkün olduğunca zeki bir şekilde kod yazarsanız, onu ayıklamak için yeterince zeki olmayacaksınız.
+Hata ayıklama, kodu yazmaktan iki kat daha zordur. Bu nedenle, mümkün olduğunca zeki bir şekilde kod yazarsanız, onu ayıklamak için yeterince zeki olmayacaksınız.
 
 quote}}
 
@@ -531,10 +531,12 @@ Bir istisna fırlatmak, yığının bir sonraki kapsayan `try/catch` bloğuna ve
 {{index "primitiveMultiply (exercise)", "exception handling", "throw keyword"}}
 
 Say you have a function `primitiveMultiply` that in 20 percent of cases multiplies two numbers and in the other 80 percent of cases raises an exception of type `MultiplicatorUnitFailure`. Write a function that wraps this clunky function and just keeps trying until a call succeeds, after which it returns the result.
+primitiveMultiply adında, %20'lik bir olasılıkla iki sayıyı çarpan ve diğer %80'lik bir olasılıkla MultiplicatorUnitFailure türünde bir istisna yükselten bir fonksiyonunuz olduğunu varsayalım. Bu sıkışık fonksiyonu saran ve bir çağrı başarılı olana kadar denemeye devam eden bir fonksiyon yazın.
 
 {{index "catch keyword"}}
 
 Make sure you handle only the exceptions you are trying to handle.
+Yalnızca ele almaya çalıştığınız istisnaları ele aldığınızdan emin olun.
 
 {{if interactive
 
@@ -550,7 +552,7 @@ function primitiveMultiply(a, b) {
 }
 
 function reliableMultiply(a, b) {
-  // Your code here.
+  // Kodunuz buraya.
 }
 
 console.log(reliableMultiply(8, 8));
@@ -563,8 +565,10 @@ if}}
 {{index "primitiveMultiply (exercise)", "try keyword", "catch keyword", "throw keyword"}}
 
 The call to `primitiveMultiply` should definitely happen in a `try` block. The corresponding `catch` block should rethrow the exception when it is not an instance of `MultiplicatorUnitFailure` and ensure the call is retried when it is.
+primitiveMultiply çağrısı kesinlikle bir try bloğunda gerçekleşmelidir. Karşılık gelen catch bloğu, istisna MultiplicatorUnitFailure türünden değilse istisnayı yeniden fırlatmalı ve türünden bir istisna olduğunda çağrının yeniden denendiğinden emin olmalıdır.
 
 To do the retrying, you can either use a loop that stops only when a call succeeds—as in the [`look` example](error#look) earlier in this chapter—or use ((recursion)) and hope you don't get a string of failures so long that it overflows the stack (which is a pretty safe bet).
+Yeniden deneme yapmak için, bir çağrının başarılı olana kadar durmayan bir döngü kullanabilirsiniz - bu bölümdeki look örneğinde olduğu gibi - veya ((rekürsiv)) kullanabilir ve yığını aşırı derecede dolduracak kadar uzun bir hata dizisi almayı umabilirsiniz (bu oldukça güvenli bir bahis).
 
 hint}}
 
@@ -572,7 +576,7 @@ hint}}
 
 {{index "locked box (exercise)"}}
 
-Consider the following (rather contrived) object:
+Aşağıdaki (oldukça yapay) nesneyi düşünün:
 
 ```
 const box = new class {
@@ -590,11 +594,11 @@ const box = new class {
 
 {{index "private property", "access control"}}
 
-It is a ((box)) with a lock. There is an array in the box, but you can get at it only when the box is unlocked.
+Bu, bir kilitli kutu. Kutuda bir dizi var, ancak kutu kilidi açık olmadığı sürece ona erişemezsiniz.
 
 {{index "finally keyword", "exception handling"}}
 
-Write a function called `withBoxUnlocked` that takes a function value as argument, unlocks the box, runs the function, and then ensures that the box is locked again before returning, regardless of whether the argument function returned normally or threw an exception.
+`withBoxUnlocked` adında bir fonksiyon yazın; bu fonksiyon, bir fonksiyon değeri alsın, kutunun kilidini açsın, aldığı fonksiyonu çalıştırsın ve ardından, argüman olarak verilen fonksiyonun normal olarak çalışmasından veya bir istisna fırlatmasından bağımsız olarak döndürmeden önce kutunun kilidinin geri kilitli olduğundan emin olsun.
 
 {{if interactive
 
@@ -612,7 +616,7 @@ const box = new class {
 };
 
 function withBoxUnlocked(body) {
-  // Your code here.
+  // Kodunuz buraya.
 }
 
 withBoxUnlocked(() => {
@@ -632,14 +636,14 @@ console.log(box.locked);
 
 if}}
 
-For extra points, make sure that if you call `withBoxUnlocked` when the box is already unlocked, the box stays unlocked.
+Ek puanlar için, kutu zaten açıkken `withBoxUnlocked` çağrılırsa, kutunun açık kalmasını sağlayın.
 
 {{hint
 
 {{index "locked box (exercise)", "finally keyword", "try keyword"}}
 
-This exercise calls for a `finally` block. Your function should first unlock the box and then call the argument function from inside a `try` body. The `finally` block after it should lock the box again.
+Bu alıştırma, bir `finally` bloğu gerektirir. Fonksiyonunuz öncelikle kutuyu kilidini açmalı ve ardından argüman olarak verilen fonksiyonu bir try gövdesi içinde çağırmalıdır. Sonrasında gelen `finally` bloğu aracılığıyla kutuyu tekrar kilitlemelidir.
 
-To make sure we don't lock the box when it wasn't already locked, check its lock at the start of the function and unlock and lock it only when it started out locked.
+Kutuyu kilitli olmadığında kilitlememek için, fonksiyonun başında kilidini kontrol edin ve kilidini sadece kilitli başlamışken açın veya kapatın.
 
 hint}}

@@ -399,31 +399,32 @@ Beklenmedik yerlerde istisna oluştuğunda dahi güvenilir şekilde çalışan p
 
 {{index "uncaught exception", "exception handling", "JavaScript console", "developer tools", "call stack", error}}
 
-When an exception makes it all the way to the bottom of the stack without being caught, it gets handled by the environment. What this means differs between environments. In browsers, a description of the error typically gets written to the JavaScript console (reachable through the browser's Tools or Developer menu). Node.js, the browserless JavaScript environment we will discuss in [Chapter ?](node), is more careful about data corruption. It aborts the whole process when an unhandled exception occurs.
+Bir istisna, yakalanmadan yığının en altına kadar ulaştığında, çevre tarafından ele alınır. Bunun ne anlama geldiği çevrelere göre değişir. Tarayıcılarda, hata genellikle JavaScript konsoluna yazılır (tarayıcının Araçlar veya Geliştirici menüsünden erişilebilir). [Bölüm ?](node) içinde tartışacağımız tarayıcısız JavaScript ortamı olan Node.js, veri bozulması konusunda daha dikkatlidir. Ele alınmayan bir istisna meydana geldiğinde, tüm işlemi sonlandırır.
 
 {{index crash, "error handling"}}
 
-For programmer mistakes, just letting the error go through is often the best you can do. An unhandled exception is a reasonable way to signal a broken program, and the JavaScript console will, on modern browsers, provide you with some information about which function calls were on the stack when the problem occurred.
+Programcı hataları için, hatanın gitmesine izin vermek çoğu zaman yapabileceğiniz en iyi şeydir. Ele alınmayan bir istisna, bozuk bir programı işaret etmenin makul bir yoludur ve JavaScript konsolu, modern tarayıcılarda, sorun meydana geldiğinde yığında hangi fonksiyon çağrılarının olduğuna dair bazı bilgiler sağlar.
 
 {{index "user interface"}}
 
-For problems that are _expected_ to happen during routine use, crashing with an unhandled exception is a terrible strategy.
+Rutin kullanım sırasında _meydana gelmesi beklenen_ sorunlar için, ele alınmayan bir istisna ile çökme korkunç bir stratejidir.
 
 {{index [function, application], "exception handling", "Error type", [binding, undefined]}}
 
-Invalid uses of the language, such as referencing a nonexistent binding, looking up a property on `null`, or calling something that's not a function, will also result in exceptions being raised. Such exceptions can also be caught.
+Dilin geçersiz kullanımları, var olmayan bir bağlantıya başvurmak, `null` üzerinde bir özellik aramak veya bir fonksiyon olmayan bir şeyi çağırmak gibi, aynı şekilde istisna yükseltilmesine neden olur. Böyle istisnalar da yakalanabilir.
 
 {{index "catch keyword"}}
 
-When a `catch` body is entered, all we know is that _something_ in our `try` body caused an exception. But we don't know _what_ did or _which_ exception it caused.
+Bir `catch` bloğuna girildiğinde, bildiğimiz tek şey, `try` bloğundaki bir şeyin bir istisna meydana getirdiğidir. Ancak _neyin_ istisnaya sebep oluduğu veya _hangi_ istisnaya sebep olunduğunu bilmiyoruz.
 
 {{index "exception handling"}}
 
-JavaScript (in a rather glaring omission) doesn't provide direct support for selectively catching exceptions: either you catch them all or you don't catch any. This makes it tempting to _assume_ that the exception you get is the one you were thinking about when you wrote the `catch` block.
+JavaScript (oldukça dikkate çeker bir ihmalde), istisnaları seçici olarak yakalamak için doğrudan destek sağlamaz: ya hepsini yakalarsınız ya da hiçbirini yakalamazsınız. Bu, `catch` bloğunun yazıldığı sırada düşündüğünüz istisna olduğunu _varsaymanızı_ cazip hale getirir.
 
 {{index "promptDirection function"}}
 
 But it might not be. Some other ((assumption)) might be violated, or you might have introduced a bug that is causing an exception. Here is an example that _attempts_ to keep on calling `promptDirection` until it gets a valid answer:
+Ancak öyle olmayabilir. Başka bir ((varsayım)) ihlal edilmiş olabilir veya bir istisnaya neden olan bir hata eklemiş olabilirsiniz. İşte, geçerli bir yanıt alana kadar `promptDirection` fonksiyonunu çağırmaya devam etmeye _çalışan_ bir örnek:
 
 ```{test: no}
 for (;;) {
@@ -439,19 +440,19 @@ for (;;) {
 
 {{index "infinite loop", "for loop", "catch keyword", debugging}}
 
-The `for (;;)` construct is a way to intentionally create a loop that doesn't terminate on its own. We break out of the loop only when a valid direction is given. _But_ we misspelled `promptDirection`, which will result in an "undefined variable" error. Because the `catch` block completely ignores its exception value (`e`), assuming it knows what the problem is, it wrongly treats the binding error as indicating bad input. Not only does this cause an infinite loop, it  "buries" the useful error message about the misspelled binding.
+`for (;;)` yapısı, kendi kendine sona ermeyen bir döngü oluşturmanın kasıtlı bir yoludur. Döngüden yalnızca geçerli bir yön verildiğinde çıkarız. _Ancak_ `promptDirection` fonksiyonunu yanlış yazdık, bu da "tanımsız değişken" hatasına neden olacaktır. `catch` bloğu, tamamen istisna değerini (`e`) görmezden geldiği için, sorunun ne olduğunu varsayarak bağlantı hatasını yanlışlıkla kötü giriş olarak işler. Bu sadece sonsuz bir döngüye neden olmakla kalmaz, aynı zamanda yanlış yazılmış bağlantıyla ilgili yararlı hata mesajını "gömülmüş" hale getirir.
 
-As a general rule, don't blanket-catch exceptions unless it is for the purpose of "routing" them somewhere—for example, over the network to tell another system that our program crashed. And even then, think carefully about how you might be hiding information.
+Genel bir kural olarak, birden fazla istisnayı genel bir şekilde yakalamayın, bunu sadece onları başka bir yere "yönlendirmek" amacıyla yapın - örneğin, programımızın çöktüğünü başka bir sisteme bildirmek için ağ üzerinden bir şey yapacaksınızdır, o zaman bu yapılabilir. Ancak o zaman bile nasıl bilgi gizleyebiliyor olduğunuzu dikkatlice düşünün.
 
 {{index "exception handling"}}
 
-So we want to catch a _specific_ kind of exception. We can do this by checking in the `catch` block whether the exception we got is the one we are interested in and rethrowing it otherwise. But how do we recognize an exception?
+Dolayısıyla, _belirli_ bir tür istisnayı yakalamak istiyoruz. Bunu `catch` bloğunda aldığımız istisnanın istediğimiz türde olup olmadığını kontrol ederek ve aksi takdirde yeniden fırlatarak yapabiliriz. Ancak bir istisnayı nasıl tanıyacağız?
 
-We could compare its `message` property against the ((error)) message we happen to expect. But that's a shaky way to write code—we'd be using information that's intended for human consumption (the message) to make a programmatic decision. As soon as someone changes (or translates) the message, the code will stop working.
+`message` özelliğini istisnanın ((hata)) mesajına karşı beklediğimiz mesajdan kontrol edebiliriz. Ancak bu, kod yazmanın pek iyi olmayan bir yoludur - programatik bir karar vermek için insan tüketimi adına tasarlanmış bilgileri (mesajı) kullanıyor oluruz. Birisi mesajı değiştirdiğinde (veya başka bir dile çevirdiğinde), kod çalışmayı durdurur.
 
 {{index "Error type", "instanceof operator", "promptDirection function"}}
 
-Rather, let's define a new type of error and use `instanceof` to identify it.
+Bunun yerine, yeni bir hata türü tanımlayalım ve bunu tanımlamak için `instanceof` kullanalım.
 
 ```{includeCode: true}
 class InputError extends Error {}
@@ -466,11 +467,11 @@ function promptDirection(question) {
 
 {{index "throw keyword", inheritance}}
 
-The new error class extends `Error`. It doesn't define its own constructor, which means that it inherits the `Error` constructor, which expects a string message as argument. In fact, it doesn't define anything at all—the class is empty. `InputError` objects behave like `Error` objects, except that they have a different class by which we can recognize them.
+Yeni hata sınıfı `Error` sınıfından miras alır. Kendi `constructor` fonksiyonunu tanımlamaz, bu da `Error` constructor fonksiyonunu miras aldığı ve bir mesaj dizesi bekleyen `Error` constructor fonksiyonuna sahip olduğu anlamına gelir. Aslında hiçbir şeyi tanımlamaz - sınıf boştur. `InputError` nesneleri, onları tanıyabileceğimiz farklı bir sınıfa sahip olmaları dışında, `Error` nesneleri gibi davranır.
 
 {{index "exception handling"}}
 
-Now the loop can catch these more carefully.
+Şimdi döngü bunları daha dikkatli bir şekilde yakalayabilir.
 
 ```{test: no}
 for (;;) {
@@ -490,15 +491,15 @@ for (;;) {
 
 {{index debugging}}
 
-This will catch only instances of `InputError` and let unrelated exceptions through. If you reintroduce the typo, the undefined binding error will be properly reported.
+Bu, yalnızca `InputError` örneklerini yakalar ve ilgili olmayan istisnaları geçirir. Yanlış yazım hatasını yeniden tanıttığınızda, tanımsız bağlantı hatası düzgün bir şekilde rapor edilir.
 
 ## İddialar
 
 {{index "assert function", assertion, debugging}}
 
-_Assertions_ are checks inside a program that verify that something is the way it is supposed to be. They are used not to handle situations that can come up in normal operation but to find programmer mistakes.
+_İddialar_ program içinde, bir şeyin olması gerektiği gibi olduğunu doğrulayan kontrollerdir. Bunlar normal işlem sırasında ortaya çıkabilecek durumlarla başa çıkmak için değil, programcı hatalarını bulmak için kullanılır.
 
-If, for example, `firstElement` is described as a function that should never be called on empty arrays, we might write it like this:
+Örneğin, `firstElement` fonksiyonu boş diziler üzerinde asla çağrılmaması gereken bir fonksiyon olarak tanımlanmışsa, şöyle yazabiliriz:
 
 ```
 function firstElement(array) {
@@ -511,17 +512,17 @@ function firstElement(array) {
 
 {{index validation, "run-time error", crash, assumption}}
 
-Now, instead of silently returning undefined (which you get when reading an array property that does not exist), this will loudly blow up your program as soon as you misuse it. This makes it less likely for such mistakes to go unnoticed and easier to find their cause when they occur.
+Artık sessizce tanımsız döndürmek yerine (bir dizide var olmayan bir özellik okunduğunda elde ettiğiniz), bunun kullanımını yanlış yaptığınızda programınızı yüksek sesle patlatacaktır. Bu tür hatalar gözden kaçırma olasılığını azaltır ve meydana geldiklerinde nedenlerini bulmayı kolaylaştırır.
 
-I do not recommend trying to write assertions for every possible kind of bad input. That'd be a lot of work and would lead to very noisy code. You'll want to reserve them for mistakes that are easy to make (or that you find yourself making).
+Her türlü kötü giriş için kontroller yazmayı önermem. Bu, çok fazla çalışma gerektirir ve çok gürültülü bir kod ile sonuçlanır. Onları yalnızca kolayca yapılan hatalar için (veya kendinizin yapmaya başladığını fark ettiğiniz hatalar için) saklamak istersiniz.
 
 ## Özet
 
-An important part of programming is finding, diagnosing, and fixing bugs. Problems can become easier to notice if you have an automated test suite or add assertions to your programs.
+Programlamanın önemli bir parçası, hataları bulmak, teşhis etmek ve düzeltmektir. Otomatik bir test paketiniz varsa veya programlarınıza iddialar eklediyseniz, sorunları fark etmek daha kolay olabilir.
 
-Problems caused by factors outside the program's control should usually be actively planned for. Sometimes, when the problem can be handled locally, special return values are a good way to track them. Otherwise, exceptions may be preferable.
+Programın kontrolü dışındaki faktörlerden kaynaklanan sorunlar genellikle aktif olarak planlanmalıdır. Sorun yerel olarak ele alınabiliyorsa, özel dönüş değerleri onları izlemek için iyi bir yoldur. Aksi takdirde, istisnalar tercih edilebilir.
 
-Throwing an exception causes the call stack to be unwound until the next enclosing `try/catch` block or until the bottom of the stack. The exception value will be given to the `catch` block that catches it, which should verify that it is actually the expected kind of exception and then do something with it. To help address the unpredictable control flow caused by exceptions, `finally` blocks can be used to ensure that a piece of code _always_ runs when a block finishes.
+Bir istisna fırlatmak, yığının bir sonraki kapsayan `try/catch` bloğuna veya yığının dibine kadar açılmasına neden olur. İstisna değeri, bunu yakalayan `catch` bloğuna verilir, bu da gerçekten beklenen türde bir istisna olup olmadığını doğrulamalı ve ardından bununla bir şeyler yapmalıdır. İstisnaların neden olduğu öngörülemeyen kontrol akışıyla başa çıkmaya yardımcı olmak için, bir bloğun bitişinde bir parça kodun _her zaman_ çalışmasını sağlamak için `finally` blokları kullanılabilir.
 
 ## Egzersizler
 

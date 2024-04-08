@@ -1,8 +1,8 @@
-# Regular Expressions
+# Düzenli İfadeler
 
 {{quote {author: "Jamie Zawinski", chapter: true}
 
-Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems.
+Bazı insanlar, bir problemle karşılaştıklarında, 'Biliyorum, düzenli ifadeleri kullanacağım.' dediklerinden ötürü artık iki probleme sahip olurlar.
 
 quote}}
 
@@ -10,58 +10,58 @@ quote}}
 
 {{if interactive
 
-{{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
+{{quote {author: "Master Yuan-Ma", title: "Programlama Kitabı", chapter: true}
 
-When you cut against the grain of the wood, much strength is needed. When you program against the grain of the problem, much code is needed.
+Ahşabın damarına karşı keserseniz, çok güç gerekir. Problemin yapısına karşı programlama yaptığınızda, çok fazla kod gerekir.
 
 quote}}
 
 if}}
 
-{{figure {url: "img/chapter_picture_9.jpg", alt: "Illustration of a railroad system representing the syntactic structure of regular expressions", chapter: "square-framed"}}}
+{{figure {url: "img/chapter_picture_9.jpg", alt: "Düzenli ifadelerin sözdizimsel yapısını temsil eden bir demiryolu sisteminin illüstrasyonu.", chapter: "square-framed"}}}
 
 {{index evolution, adoption, integration}}
 
-Programming ((tool))s and techniques survive and spread in a chaotic, evolutionary way. It's not always the best or brilliant ones that win but rather the ones that function well enough within the right niche or that happen to be integrated with another successful piece of technology.
+Programlama ((araç))ları ve teknikleri, kaotik, evrimsel bir şekilde hayatta kalır ve yayılır. Her zaman en iyi veya parlak olanlar kazanmaz, ancak doğru nişte yeterince iyi işleyenler veya tesadüfen başka başarılı bir teknoloji parçası ile entegre olanlar kazanır.
 
 {{index "domain-specific language"}}
 
-In this chapter, I will discuss one such tool, _((regular expression))s_. Regular expressions are a way to describe ((pattern))s in string data. They form a small, separate language that is part of JavaScript and many other languages and systems.
+Bu bölümde, bu araçlardan bir tanesini tartışacağım: _((düzenli ifadeler))_. Düzenli ifadeler, dize verilerindeki ((kalıpları)) tanımlamanın bir yoludur. JavaScript'in ve birçok başka dilin ve sistemlerin bir parçası olan küçük, ayrı bir dil oluştururlar.
 
 {{index [interface, design]}}
 
-Regular expressions are both terribly awkward and extremely useful. Their syntax is cryptic, and the programming interface JavaScript provides for them is clumsy. But they are a powerful ((tool)) for inspecting and processing strings. Properly understanding regular expressions will make you a more effective programmer.
+Düzenli ifadeler hem son derece sakar hem de son derece kullanışlıdır. Söz dizimi kriptiktir ve JavaScript'in onlar için sağladığı programlama arayüzü sakattır. Ancak, dizeleri incelemek ve işlemek için güçlü bir ((araç))tırlar. Düzenli ifadeleri doğru anlamak, sizi daha etkili bir programcı yapacaktır.
 
-## Creating a regular expression
+## Düzenli ifade oluşturma
 
 {{index ["regular expression", creation], "RegExp class", "literal expression", "slash character"}}
 
-A regular expression is a type of object. It can be either constructed with the `RegExp` constructor or written as a literal value by enclosing a pattern in forward slash (`/`) characters.
+Düzenli ifade bir tür nesnedir. `RegExp` ((constructor)) fonskiyonunu çağırarak oluşturulabilir veya bir kalıbı ileri eğik çizgi (`/`) karakterleri arasına alarak yazıp da oluşturulabilir.
 
 ```
 let re1 = new RegExp("abc");
 let re2 = /abc/;
 ```
 
-Both of those regular expression objects represent the same ((pattern)): an _a_ character followed by a _b_ followed by a _c_.
+Bu iki düzenli ifade nesnesi aynı ((kalıbı)) temsil eder: bir _a_ karakteri ardından bir _b_ ardından bir _c_.
 
 {{index ["backslash character", "in regular expressions"], "RegExp class"}}
 
-When using the `RegExp` constructor, the pattern is written as a normal string, so the usual rules apply for backslashes.
+`RegExp` ((constructor)) fonskiyonunu kullanılırken, kalıp normal bir dize olarak yazılır, bu nedenle ters eğik çizgiler için normal kurallar geçerlidir.
 
 {{index ["regular expression", escaping], [escaping, "in regexps"], "slash character"}}
 
-The second notation, where the pattern appears between slash characters, treats backslashes somewhat differently. First, since a forward slash ends the pattern, we need to put a backslash before any forward slash that we want to be _part_ of the pattern. In addition, backslashes that aren't part of special character codes (like `\n`) will be _preserved_, rather than ignored as they are in strings, and change the meaning of the pattern. Some characters, such as question marks and plus signs, have special meanings in regular expressions and must be preceded by a backslash if they are meant to represent the character itself.
+Kalıbın eğik çizgi karakterleri arasında göründüğü ikinci notasyon durumunda, ters eğik çizgileri biraz farklı bir şekilde işler. İlk olarak, bir ileri eğik çizgi kalıbı sonlandıracağından ötürü kalıbın bir parçası olmasını istediğimiz herhangi bir ileri eğik çizgi önüne bir ters eğik çizgi koymamız gerekir. Ayrıca, özel karakter kodlarının (`\n` gibi) bir parçası olmayan ters eğik çizgiler, dize içinde olduğu gibi görmezden gelinmez ve kalıbın anlamını değiştirir. Soru işaretleri ve artı işaretleri gibi bazı karakterler, düzenli ifadelerde özel anlamlara sahiptir ve karakterin kendisini temsil etmek isteniyorsa öncesine bir ters eğik çizgi yazılmalıdır.
 
 ```
 let aPlus = /A\+/;
 ```
 
-## Testing for matches
+## Eşleşenler için test etmek
 
 {{index matching, "test method", ["regular expression", methods]}}
 
-Regular expression objects have a number of methods. The simplest one is `test`. If you pass it a string, it will return a ((Boolean)) telling you whether the string contains a match of the pattern in the expression.
+Düzenli ifade nesnelerinin bir dizi metodları vardır. En basiti `test` metodudur. Bir dize geçirirseniz, ifadenin kalıbına uyan dizeyi içerip içermediğini size söyleyen bir ((Boolean)) döndürür.
 
 ```
 console.log(/abc/.test("abcde"));
@@ -72,17 +72,17 @@ console.log(/abc/.test("abxde"));
 
 {{index pattern}}
 
-A ((regular expression)) consisting of only nonspecial characters simply represents that sequence of characters. If _abc_ occurs anywhere in the string we are testing against (not just at the start), `test` will return `true`.
+Yalnızca özel olmayan karakterlerden oluşan bir düzenli ifade basit olarak, o karakter dizisini temsil eder. _abc_ dizesi, test ettiğimiz dizide (başlangıç dışında yerlerde de olacak şekilde) herhangi bir yerde bulunursa, `test` metodu `true` döndürür.
 
-## Sets of characters
+## Karakter setleri
 
 {{index "regular expression", "indexOf method"}}
 
-Finding out whether a string contains _abc_ could just as well be done with a call to `indexOf`. Regular expressions are useful because they allow us to describe more complicated ((pattern))s.
+Bir dizinin _abc_ içerip içermediğini öğrenmek, `indexOf` ile de yapılabilir. Düzenli ifadeler, daha karmaşık ((kalıpları)) tanımlamamıza izin verdiği için kullanışlıdır.
 
-Say we want to match any ((number)). In a regular expression, putting a ((set)) of characters between square brackets makes that part of the expression match any of the characters between the brackets.
+Diyelim ki bir ((sayı)) eşleştirmek istiyoruz. Bir düzenli ifade içinde, karakterler arasına kare parantezler arasında bir ((küme)) karakterler yerleştirmek, ifadenin bu kısmının parantezler arasındaki karakterlerden herhangi birini eşleştirmesini sağlar.
 
-Both of the following expressions match all strings that contain a ((digit)):
+Her iki ifade de bir ((rakam)) içeren tüm dizeleri eşleştirir:
 
 ```
 console.log(/[0123456789]/.test("in 1992"));
@@ -93,25 +93,25 @@ console.log(/[0-9]/.test("in 1992"));
 
 {{index "hyphen character"}}
 
-Within square brackets, a hyphen (`-`) between two characters can be used to indicate a ((range)) of characters, where the ordering is determined by the character's ((Unicode)) number. Characters 0 to 9 sit right next to each other in this ordering (codes 48 to 57), so `[0-9]` covers all of them and matches any ((digit)).
+Kare parantezler arasında, iki karakter arasındaki bir tire (-), karakterin ((Unicode)) numarası tarafından belirlenen bir karakterler ((aralığı))nı göstermek için kullanılabilir. 0'dan 9'a olan bu karakterler bu sıralamada hemen yan yanadırlar (kodlar 48 ila 57), bu nedenle `[0-9]` tümünü kapsar ve herhangi bir ((rakamı)) eşleştirir.
 
 {{index [whitespace, matching], "alphanumeric character", "period character"}}
 
-A number of common character groups have their own built-in shortcuts. Digits are one of them: `\d` means the same thing as `[0-9]`.
+Birçok yaygın karakter grubunun kendi yerleşik kısayolları vardır. Rakamlar bunlardan biridir: `\d`, `[0-9]` ile aynı anlama gelir.
 
 {{index "newline character", [whitespace, matching]}}
 
 {{table {cols: [1, 5]}}}
 
-| `\d`    | Any ((digit)) character
-| `\w`    | An alphanumeric character ("((word character))")
-| `\s`    | Any whitespace character (space, tab, newline, and similar)
-| `\D`    | A character that is _not_ a digit
-| `\W`    | A nonalphanumeric character
-| `\S`    | A nonwhitespace character
-| `.`     | Any character except for newline
+| `\d`    | Herhangi bir ((rakam)) karakter
+| `\w`    | Herhangi bir alfanümerik ("((kelime karakteri))")
+| `\s`    | Herhangi bir boşluk karakteri (boşluk, tab, yeni satır, vb.)
+| `\D`    | Rakam _olmayan_ bir karakter
+| `\W`    | Alfanümerik olmayan bir karakter
+| `\S`    | Boşluk olmayan bir karakter
+| `.`     | Yeni satır dışında herhangi bir karakter
 
-So you could match a ((date)) and ((time)) format like 01-30-2003 15:20 with the following expression:
+Bu nedenle, 01-30-2003 15:20 gibi bir ((tarih)) ve ((zaman)) biçimini şu şekilde eşleştirebilirsiniz:
 
 ```
 let dateTime = /\d\d-\d\d-\d\d\d\d \d\d:\d\d/;
@@ -123,15 +123,15 @@ console.log(dateTime.test("30-jan-2003 15:20"));
 
 {{index ["backslash character", "in regular expressions"]}}
 
-That looks completely awful, doesn't it? Half of it is backslashes, producing a background noise that makes it hard to spot the actual ((pattern)) expressed. We'll see a slightly improved version of this expression [later](regexp#date_regexp_counted).
+Bu tamamen berbat görünüyor, değil mi? Yarısından fazlası ters eğik çizgiler ve gerçekten ((kalıp)) ifade edilen kısmı bulmayı zorlaştıran bir arka plan gürültüsü oluşturuyor. Bu ifadenin [daha sonra](regexp#date_regexp_counted) biraz geliştirilmiş bir sürümünü göreceğiz.
 
 {{index [escaping, "in regexps"], "regular expression", set}}
 
-These backslash codes can also be used inside ((square brackets)). For example, `[\d.]` means any digit or a period character. But the period itself, between square brackets, loses its special meaning. The same goes for other special characters, such as `+`.
+Bu ters eğik çizgi kodları aynı zamanda ((kare parantezler)) içinde de kullanılabilir. Örneğin, `[\d.]`, herhangi bir rakam veya bir nokta karakterini ifade eder. Ancak nokta kendisi, kare parantezler arasında, özel anlamını kaybeder. `+` işareti gibi diğer özel karakterler için de aynı şey geçerlidir.
 
 {{index "square brackets", inversion, "caret character"}}
 
-To _invert_ a set of characters—that is, to express that you want to match any character _except_ the ones in the set—you can write a caret (`^`) character after the opening bracket.
+Bir karakterler kümesini tersine çevirmek - yani, kümedeki karakterlerin dışındakileri eşleştirmek istediğinizi belirtmek - için bir üst simge (`^`) karakterini açılış parantezinin hemen ardından yazabilirsiniz.
 
 ```
 let nonBinary = /[^01]/;

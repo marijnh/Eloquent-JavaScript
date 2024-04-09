@@ -141,29 +141,29 @@ console.log(nonBinary.test("0111010112101001"));
 // → true
 ```
 
-## International characters
+## Uluslararası karakterler
 
 {{index internationalization, Unicode, ["regular expression", internationalization]}}
 
-Because of JavaScript's initial simplistic implementation and the fact that this simplistic approach was later set in stone as ((standard)) behavior, JavaScript's regular expressions are rather dumb about characters that do not appear in the English language. For example, as far as JavaScript's regular expressions are concerned, a "((word character))" is only one of the 26 characters in the Latin alphabet (uppercase or lowercase), decimal digits, and, for some reason, the underscore character. Things like _é_ or _β_, which most definitely are word characters, will not match `\w` (and _will_ match uppercase `\W`, the nonword category).
+JavaScript'in başlangıçtaki basit implementasyonu ve bu basit yaklaşımın daha sonra ((standart)) davranış olarak belirlenmesi nedeniyle, JavaScript'in düzenli ifadeleri, İngilizce dilinde bulunmayan karakterler hakkında oldukça gariptir. Örneğin, JavaScript'in düzenli ifadelerine göre, bir (("kelime karakteri")), yalnızca Latin alfabesinin 26 karakterinden biridir (büyük veya küçük harf), ondalık basamaklar ve, nedense alt çizgi karakteri. _é_ veya _β_ gibi kesinlikle kelime karakterleri olan şeyler, `\w` eşleşirken büyük harfli `\W` olmayan kelime kategorisine eşleşmeyecektir.
 
 {{index [whitespace, matching]}}
 
-By a strange historical accident, `\s` (whitespace) does not have this problem and matches all characters that the Unicode standard considers whitespace, including things like the ((nonbreaking space)) and the ((Mongolian vowel separator)).
+Tuhaf bir tarihsel kazadan dolayı, `\s` (boşluk) bu sorunu yaşamaz ve Unicode standardı tarafından boşluk olarak kabul edilen tüm karakterleri eşleştirir, bunlar arasında ((boşluk karakteri)) ve ((Moğol ünlü ayırıcı)) gibi şeyler de vardır.
 
 {{index "character category", [Unicode, property]}}
 
-It is possible to use `\p` in a regular expression to match all characters to which the Unicode standard assigns a given property. This allows us to match things like letters in a more cosmopolitan way. However, again due to compatibility with the original language standards, those are only recognized when you put a `u` character (for ((Unicode))) after the regular expression.
+Bir düzenli ifade içinde `\p` kullanarak Unicode standartında belirli bir özellik verilen tüm karakterlerle eşleştirebilmek mümkündür. Bu, harfleri daha kozmopolit bir şekilde eşleştirmemize olanak tanır. Ancak, yine de orijinal dil standartlarıyla uyumluluktan dolayı, bunlar yalnızca düzenli ifadenin sonuna ((Unicode)) için bir `u` karakteri eklediğinizde tanınır.
 
 {{table {cols: [1, 5]}}}
 
-| `\p{L}`             | Any letter
-| `\p{N}`             | Any numeric character
-| `\p{P}`             | Any punctuation character
-| `\P{L}`             | Any non-letter (uppercase P inverts)
-| `\p{Script=Hangul}` | Any character from the given script (see [Chapter ?](higher_order#scripts))
+| `\p{L}`             | Herhangi bir harf
+| `\p{N}`             | Herhangi bir sayısal karakter
+| `\p{P}`             | Herhangi bir noktalama işareti karakteri
+| `\P{L}`             | Harf olmayan herhangi bir şey (büyük harf P tersine çevrilir)
+| `\p{Script=Hangul}` | Verilen alfabe dosyasındaki herhangi bir karakter ([Bölüm ?](higher_order#scripts))
 
-Using `\w` for text processing that may need to handle non-English text (or even English text with borrowed words like “cliché”) is a liability, since it won't treat characters like “é” as letters. Though they tend to be a bit more verbose, `\p` property groups are more robust.
+Düzenli ifadeleri `\w` aracılığıyla metin işleme amaçları için kullanmak, İngilizce olmayan metinlerde (hatta İngilizce olan ancak “cliché” gibi ödünç alınmış kelimeleri kullanan metinlerde) “é” gibi karakterleri harfler olarak işlemeyeceğinden bir dezavantajdır. İçerikleri biraz daha uzun olsa da, `\p` özellik grupları daha sağlamdır.
 
 ```{test: never}
 console.log(/\p{L}/u.test("α"));
@@ -178,17 +178,17 @@ console.log(/\p{Script=Arabic}/u.test("α"));
 
 {{index "Number function"}}
 
-On the other hand, if you are matching numbers in order to do something with them, you often do want `\d` for digits, since converting arbitrary numeric characters into a JavaScript number is not something that a function like `Number` can do for you.
+Öte yandan, bir şeyler yapmak için sayıları eşleştirecekse, genellikle onlara yapılacak şeyler için `\d`'yi kullanmak istersiniz çünkü `Number` gibi bir fonksiyonun sizin için sayı atanmış rastgele herhangi bir karakterleri JavaScript sayısına dönüştürmesi mümkün değildir.
 
-## Repeating parts of a pattern
+## Bir desenin tekrarlanan bölümleri
 
 {{index ["regular expression", repetition]}}
 
-We now know how to match a single digit. What if we want to match a whole number—a ((sequence)) of one or more ((digit))s?
+Şimdi tek bir basamağı eşleştirmeyi nasıl yapacağımızı biliyoruz. Bir tam sayıyı - bir veya daha fazla ((rakam))ın bir ((dizi))sini eşleştirmek istersek ne yapmalıyız?
 
 {{index "plus character", repetition, "+ operator"}}
 
-When you put a plus sign (`+`) after something in a regular expression, it indicates that the element may be repeated more than once. Thus, `/\d+/` matches one or more digit characters.
+Düzenli ifadede bir artı işareti (`+`) bir şeyin birden fazla kez tekrarlanabileceğini gösterir. Dolayısıyla, `/\d+/`, bir veya daha fazla rakam karakteri eşleştirir.
 
 ```
 console.log(/'\d+'/.test("'123'"));
@@ -203,11 +203,11 @@ console.log(/'\d*'/.test("''"));
 
 {{index "* operator", asterisk}}
 
-The star (`*`) has a similar meaning but also allows the pattern to match zero times. Something with a star after it never prevents a pattern from matching—it'll just match zero instances if it can't find any suitable text to match.
+Yıldız (`*`) benzer bir anlama sahiptir, ancak aynı zamanda kalıbın sıfır kez eşleşmesine izin verir. Bir şeyin sonunda yıldız olan bir şey asla bir kalıbın eşleşmesini engellemez - uygun metni bulamazsa sadece sıfır örnekler eşleştirir.
 
 {{index "British English", "American English", "question mark"}}
 
-A question mark makes a part of a pattern _((optional))_, meaning it may occur zero times or one time. In the following example, the _u_ character is allowed to occur, but the pattern also matches when it is missing.
+Bir soru işareti, kalıbın bir parçasını _((isteğe bağlı))_ yapar, yani sıfır veya bir kez olabilir. Aşağıdaki örnekte, _u_ karakterinin olması izin verilir, ancak kalıp aynı zamanda eksik olduğunda da eşleşir.
 
 ```
 let neighbor = /neighbou?r/;
@@ -219,11 +219,11 @@ console.log(neighbor.test("neighbor"));
 
 {{index repetition, [braces, "in regular expression"]}}
 
-To indicate that a pattern should occur a precise number of times, use braces. Putting `{4}` after an element, for example, requires it to occur exactly four times. It is also possible to specify a ((range)) this way: `{2,4}` means the element must occur at least twice and at most four times.
+Bir kalıbın belirli bir sayı kadar gerçekleşmesi gerektiğini belirtmek için süslü parantezler kullanın. Örneğin, bir öğeden sonra `{4}` yazmak, onun tam olarak dört kez gerçekleşmesini gerektirir. Ayrıca bu şekilde bir ((aralık)) belirlemek de mümkündür: `{2,4}` öğenin en az iki kez ve en fazla dört kez gerçekleşmesini gerektirir.
 
 {{id date_regexp_counted}}
 
-Here is another version of the ((date)) and ((time)) pattern that allows both single- and double-((digit)) days, months, and hours. It is also slightly easier to decipher.
+İşte hem tek hem de çift ((rakam)) günleri, ayları ve saatleri olan ((tarih)) ve ((zaman)) kalıbının başka bir versiyonu. Ayrıca anlaması da biraz daha kolaydır.
 
 ```
 let dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
@@ -231,13 +231,13 @@ console.log(dateTime.test("1-30-2003 8:45"));
 // → true
 ```
 
-You can also specify open-ended ((range))s when using braces by omitting the number after the comma. So, `{5,}` means five or more times.
+Süslü parantezleri kullanırken, bir sayıdan sonraki virgülü atlayarak açık uçlu ((aralık))lar belirleyebilirsiniz. Bu nedenle, `{5,}` beş veya daha fazla kez anlamına gelir.
 
-## Grouping subexpressions
+## Alt ifadeleri gruplandırma
 
 {{index ["regular expression", grouping], grouping, [parentheses, "in regular expressions"]}}
 
-To use an operator like `*` or `+` on more than one element at a time, you have to use parentheses. A part of a regular expression that is enclosed in parentheses counts as a single element as far as the operators following it are concerned.
+`*` veya `+` gibi bir operatörü aynı anda birden fazla öğe üzerinde kullanmak istiyorsanız, parantezleri kullanmanız gerekir. Parantezlerle çevrili bir düzenli ifade parçası, onu takip eden operatörler açısından tek bir öğe olarak sayılır.
 
 ```
 let cartoonCrying = /boo+(hoo+)+/i;
@@ -247,17 +247,17 @@ console.log(cartoonCrying.test("Boohoooohoohooo"));
 
 {{index crying}}
 
-The first and second `+` characters apply only to the second _o_ in _boo_ and _hoo_, respectively. The third `+` applies to the whole group `(hoo+)`, matching one or more sequences like that.
+İlk ve ikinci `+` karakteri, sırasıyla _boo_ ve _hoo_'daki ikinci _o_ için uygulanır. Üçüncü `+`, `(hoo+)` grubuna tamamen uygulanır, bir veya daha fazla benzer dizilerle eşleşir.
 
 {{index "case sensitivity", capitalization, ["regular expression", flags]}}
 
-The `i` at the end of the expression in the example makes this regular expression case insensitive, allowing it to match the uppercase _B_ in the input string, even though the pattern is itself all lowercase.
+Örnekteki ifadenin sonundaki `i`, bu düzenli ifadeyi harf büyüklüğüne duyarsız hale getirir, böylece model kendisi tamamen küçük harfken giriş dizgisindeki büyük harf _B_ ile de eşleşir.
 
-## Matches and groups
+## Maçlar ve gruplar
 
 {{index ["regular expression", grouping], "exec method", [array, "RegExp match"]}}
 
-The `test` method is the absolute simplest way to match a regular expression. It tells you only whether it matched and nothing else. Regular expressions also have an `exec` (execute) method that will return `null` if no match was found and return an object with information about the match otherwise.
+`test` metodu, bir düzenli ifadeyi eşlemek için mutlak en basit yoldur. Sadece eşleşip eşleşmediğini söyler ve başka hiçbir şey söylemez. Düzenli ifadelerin ayrıca `exec` (çalıştır) adlı bir metodu vardır; bu metot, eşleşme bulunamazsa `null` döndürür ve aksi takdirde eşleşme hakkında bilgi içeren bir nesne döndürür.
 
 ```
 let match = /\d+/.exec("one two 100");
@@ -269,11 +269,11 @@ console.log(match.index);
 
 {{index "index property", [string, indexing]}}
 
-An object returned from `exec` has an `index` property that tells us _where_ in the string the successful match begins. Other than that, the object looks like (and in fact is) an array of strings, whose first element is the string that was matched. In the previous example, this is the sequence of ((digit))s that we were looking for.
+`exec` tarafından döndürülen bir nesne, başarılı eşleşmenin dizede _nerede_ başladığını belirten bir `index` özelliğine sahiptir. Bunun dışında, nesne eşleşen dizgeyi içeren bir dize dizisi gibi görünür ki zaten öyledir de. Önceki örnekte, bu aradığımız ((rakam)) dizisidir.
 
 {{index [string, methods], "match method"}}
 
-String values have a `match` method that behaves similarly.
+Dize değerleri benzer şekilde davranan bir `match` metodu içerir.
 
 ```
 console.log("one two 100".match(/\d+/));
@@ -282,7 +282,7 @@ console.log("one two 100".match(/\d+/));
 
 {{index grouping, "capture group", "exec method"}}
 
-When the regular expression contains subexpressions grouped with parentheses, the text that matched those groups will also show up in the array. The whole match is always the first element. The next element is the part matched by the first group (the one whose opening parenthesis comes first in the expression), then the second group, and so on.
+Düzenli ifade, parantezlerle gruplandırılmış alt ifadeler içeriyorsa, bu gruplarla eşleşen metinlerin de dizi içinde görünür. Tüm eşleşme her zaman ilk öğedir. Bir sonraki öğe, ilk grup tarafından eşleştirilen kısım (ifadenin içindeki açılış parantezi önce gelen grup), ardından ikinci grup ve sonrasıdır.
 
 ```
 let quotedText = /'([^']*)'/;
@@ -292,7 +292,7 @@ console.log(quotedText.exec("she said 'hello'"));
 
 {{index "capture group"}}
 
-When a group does not end up being matched at all (for example, when followed by a question mark), its position in the output array will hold `undefined`. And when a group is matched multiple times (for example when it is followed by a `+`), only the last match ends up in the array.
+Bir grup hiç eşleşmediğinde (örneğin, bir soru işareti tarafından izlendiğinde), çıktı dizisindeki konumu `undefined` değerini tutar. Ve bir grup birden fazla kez eşleşirse (örneğin, bir `+` tarafından izlendiğinde), yalnızca son eşleşme diziye girer.
 
 ```
 console.log(/bad(ly)?/.exec("bad"));
@@ -301,7 +301,7 @@ console.log(/(\d)+/.exec("123"));
 // → ["123", "3"]
 ```
 
-If you want to use parentheses purely for grouping, without having them show up in the array of matches, you can put `?:` after the opening parenthesis.
+Eşleşmelerin yalnızca gruplama amacıyla kullanılmasını istiyor ve döndürülen dizide gösterilmesini istemiyorsanız, açılış parantezinden sonra `?:` ekleyebilirsiniz.
 
 ```
 console.log(/(?:na)+/.exec("banana"));
@@ -310,9 +310,9 @@ console.log(/(?:na)+/.exec("banana"));
 
 {{index "exec method", ["regular expression", methods], extraction}}
 
-Groups can be useful for extracting parts of a string. If we don't just want to verify whether a string contains a ((date)) but also extract it and construct an object that represents it, we can wrap parentheses around the digit patterns and directly pick the date out of the result of `exec`.
+Gruplar, bir dizgenin parçalarını çıkarmak için yararlı olabilir. Bir dizgenin yalnızca bir ((tarih)) içerip içermediğini kontrol etmekle kalmayıp aynı zamanda bunu çıkarmak ve bunu temsil eden bir nesne oluşturmak istiyorsak, parantezleri sayı desenlerinin etrafına sarabilir ve `exec` fonksiyonunun sonucundan tarihi seçebiliriz.
 
-But first we'll take a brief detour, in which we discuss the built-in way to represent date and ((time)) values in JavaScript.
+Ancak önce, JavaScript'te tarih ve ((zaman)) değerlerini temsil etmenin yerleşik yolunu tartışacağımız kısa bir yolculuğa çıkacağız.
 
 ## The Date class
 

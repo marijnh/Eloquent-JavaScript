@@ -905,7 +905,7 @@ console.log(city({name: "Vera"}));
 // → undefined
 ```
 
-The expression `a?.b` means the same `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists or when a variable might hold an undefined value.
+The expression `a?.b` means the same as `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists or when a variable might hold an undefined value.
 
 A similar notation can be used with square bracket access, and even with function calls, by putting `?.` in front of the parentheses or brackets:
 

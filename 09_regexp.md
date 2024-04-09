@@ -314,11 +314,11 @@ Gruplar, bir dizgenin parçalarını çıkarmak için yararlı olabilir. Bir diz
 
 Ancak önce, JavaScript'te tarih ve ((zaman)) değerlerini temsil etmenin yerleşik yolunu tartışacağımız kısa bir yolculuğa çıkacağız.
 
-## The Date class
+## Date sınıfı
 
 {{index constructor, "Date class"}}
 
-JavaScript has a standard class for representing ((date))s—or, rather, points in ((time)). It is called `Date`. If you simply create a date object using `new`, you get the current date and time.
+JavaScript'in ((tarih))leri - veya daha doğrusu, ((zaman)) noktalarını - temsil etmek için standart bir sınıfı vardır. Bu `Date` olarak adlandırılır. Sadece `new` kullanarak basitçe bir tarih nesnesi oluşturursanız, mevcut tarihi ve zamanı alırsınız.
 
 ```{test: no}
 console.log(new Date());
@@ -327,7 +327,7 @@ console.log(new Date());
 
 {{index "Date class"}}
 
-You can also create an object for a specific time.
+Belirli bir zaman için bir nesne oluşturabilirsiniz.
 
 ```
 console.log(new Date(2009, 11, 9));
@@ -338,13 +338,13 @@ console.log(new Date(2009, 11, 9, 12, 59, 59, 999));
 
 {{index "zero-based counting", [interface, design]}}
 
-JavaScript uses a convention where month numbers start at zero (so December is 11), yet day numbers start at one. This is confusing and silly. Be careful.
+JavaScript, ay numaralarının sıfırdan başladığı bir kural kullanır (bu nedenle Aralık 11'dir), ancak gün numaraları bir'den başlar. Bu kafa karıştırıcı ve saçma. Dikkatli olun.
 
-The last four arguments (hours, minutes, seconds, and milliseconds) are optional and taken to be zero when not given.
+Son dört argüman (saatler, dakikalar, saniyeler ve milisaniyeler) isteğe bağlıdır ve verilmediğinde sıfır kabul edilir.
 
 {{index "getTime method", timestamp}}
 
-Timestamps are stored as the number of milliseconds since the start of 1970, in the UTC ((time zone)). This follows a convention set by "((Unix time))", which was invented around that time. You can use negative numbers for times before 1970. The `getTime` method on a date object returns this number. It is big, as you can imagine.
+Zaman damgaları, UTC ((zaman dilimi)) başlangıcından itibaren geçen milisaniye sayısı olarak depolanır. Bu, o zaman civarında icat edilen "((Unix zamanı))" tarafından belirlenen bir kuralı izler. 1970'den önceki zamanlar için negatif sayılar kullanabilirsiniz. Bir tarih nesnesindeki `getTime` metodu bu sayıyı döndürür. Tahmin edebileceğiniz gibi, bu büyüktür.
 
 ```
 console.log(new Date(2013, 11, 19).getTime());
@@ -355,15 +355,15 @@ console.log(new Date(1387407600000));
 
 {{index "Date.now function", "Date class"}}
 
-If you give the `Date` constructor a single argument, that argument is treated as such a millisecond count. You can get the current millisecond count by creating a new `Date` object and calling `getTime` on it or by calling the `Date.now` function.
+`Date` constructor fonksiyonuna tek bir argüman verirseniz, bu argüman milisaniye olarak kabul edilir. Mevcut milisaniye sayısını elde etmek için yeni bir `Date` nesnesi oluşturabilir ve üzerinde `getTime` çağrısı yapabilir veya `Date.now` fonksiyonunu çağırabilirsiniz.
 
 {{index "getFullYear method", "getMonth method", "getDate method", "getHours method", "getMinutes method", "getSeconds method", "getYear method"}}
 
-Date objects provide methods such as `getFullYear`, `getMonth`, `getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their components. Besides `getFullYear` there's also `getYear`, which gives you the year minus 1900 (`98` or `119`) and is mostly useless.
+Tarih nesneleri, bileşenlerini çıkarmak için `getFullYear`, `getMonth`, `getDate`, `getHours`, `getMinutes`, ve `getSeconds` gibi metodlar sağlar. `getFullYear` dışında, size yılın 1900 çıkarılmış halini (`98` veya `119`) veren `getYear` da vardır ve çoğunlukla kullanışsızdır.
 
 {{index "capture group", "getDate method", [parentheses, "in regular expressions"]}}
 
-Putting parentheses around the parts of the expression that we are interested in, we can now create a date object from a string.
+İlgilendiğimiz ifade parçalarını parantez içine alarak, şimdi bir dizeyi bir tarih nesnesine dönüştürebiliriz.
 
 ```
 function getDate(string) {
@@ -377,27 +377,27 @@ console.log(getDate("1-30-2003"));
 
 {{index destructuring, "underscore character"}}
 
-The `_` (underscore) binding is ignored and used only to skip the full match element in the array returned by `exec`.
+`exec` tarafından döndürülen dizideki `_` (alt çizgi) bağlantısı dikkate alınmaz ve yalnızca tam eşleşme öğesini atlamak için kullanılır.
 
-## Boundaries and look-ahead
+## Sınırlar ve görünüm
 
 {{index matching, ["regular expression", boundary]}}
 
-Unfortunately, `getDate` will also happily extract a date from the string `"100-1-30000"`. A match may happen anywhere in the string, so in this case, it'll just start at the second character and end at the second-to-last character.
+Maalesef, `getDate` aynı zamanda dize `"100-1-30000"` içinden de bir tarih alır. Bir eşleşme dize içinde herhangi bir yerde olabilir, bu nedenle bu durumda, sadece ikinci karakterden başlayıp sondan ikinci karakterde sona erecektir.
 
 {{index boundary, "caret character", "dollar sign"}}
 
-If we want to enforce that the match must span the whole string, we can add the markers `^` and `$`. The caret matches the start of the input string, whereas the dollar sign matches the end. So, `/^\d+$/` matches a string consisting entirely of one or more digits, `/^!/` matches any string that starts with an exclamation mark, and `/x^/` does not match any string (there cannot be an _x_ before the start of the string).
+Eşleşmenin dizeyi tamamen kaplaması gerektiğini zorlamak istiyorsak, `^` ve `$` işaretlerini ekleyebiliriz. Caret giriş dizesinin başlangıcına uyar, dolar işareti ise sona uyar. Bu nedenle, `/^\d+$/`, yalnızca bir veya daha fazla rakamdan oluşan bir dizeyi eşleştirir, `/^!/` bir ünlem işareti ile başlayan herhangi bir diziyi eşleştirir ve `/x^/` hiçbir dizeyi eşleştirmez (dizenin başlangıcından önce bir _x_ olamaz).
 
 {{index "word boundary", "word character"}}
 
-There is also a `\b` marker, which matches “word boundaries”, positions that have a word character one side, and a non-word character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w`, and are therefore not very reliable.
+"kelime sınırlarıyla" eşleşen `\b` işareti vardır, bu pozisyonlar bir tarafta kelime kararkteri bir tarafta kelime olmayan bir karakteri barındırır. `\w` da "kelime karakterleri" kavramı gibi basit kavramlarını kullanır ve bu nedenle pek güvenilir değildir.
 
-Note that these markers don't match any actual characters. They just enforces that a given condition holds at the place where they appears in the pattern.
+Bu işaretlerin herhangi bir gerçek karakterle eşleşmediğini unutmayın. Sadece desende göründükleri yerde belirli bir koşulun geçerli olmasını sağlarlar.
 
 {{index "look-ahead"}}
 
-_Look-ahead_ tests do something similar. They provide a pattern, and will make the match fail if the input doesn't match that pattern, but don't actually move the match position forward. They are written between `(?=` and `)`.
+İleri görüşlü testler de buna benzer bir şey yapar. Bir desen sağlar ve girdinin bu desene uymadığı durumlarda eşleşmeyi başarısız kılar, ancak aslında eşleşme konumunu ileri taşımaz. Bunlar `(?=` ve `)` arasında yazılır.
 
 ```
 console.log(/a(?=e)/.exec("braeburn"));
@@ -406,15 +406,15 @@ console.log(/a(?! )/.exec("a b"));
 // → null
 ```
 
-Note how the `e` in the first example is necessary to match, but is not part of the matched string. The `(?! )` notation expresses a _negative_ look-ahead. This only matches if the pattern in the parentheses _doesn't_ match, causing the second example to only match “a” characters that don't have a space after them.
+İlk örnekteki `e`'nin eşleşen dize parçasının bir parçası olmamasına rağmen eşleşme için gerekli olduğuna dikkat edin. `(?! )` notasyonu _negatif_ bir ön görüş ifade eder. Bu, ikinci örnekte yalnızca kendisinden sonra boşluk olmayan "a" karakterlerinin eşleşmesini sağlar.
 
-## Choice patterns
+## Seçim desenleri
 
 {{index branching, ["regular expression", alternatives], "farm example"}}
 
-Say we want to know whether a piece of text contains not only a number but a number followed by one of the words _pig_, _cow_, or _chicken_, or any of their plural forms.
+Bir metin parçasının sadece bir sayıyı değil, bir sayıyı ve bununla birlikte _pig_, _cow_, veya _chicken_ gibi kelimelerden birini veya bunların çoğul biçimlerinden herhangi birini içerip içermediğini bilmek istediğimizi varsayalım.
 
-We could write three regular expressions and test them in turn, but there is a nicer way. The ((pipe character)) (`|`) denotes a ((choice)) between the pattern to its left and the pattern to its right. So I can say this:
+Üç düzenli ifade yazıp sırayla test edebiliriz, ancak daha güzel bir yol var. ((boru karakteri)) (`|`), solundaki desen ile sağdaki desen arasında ((seçim)) olarak işlev görür. Dolayısıyla, bunu diyebilirim:
 
 ```
 let animalCount = /\d+ (pig|cow|chicken)s?/;
@@ -426,57 +426,58 @@ console.log(animalCount.test("15 pugs"));
 
 {{index [parentheses, "in regular expressions"]}}
 
-Parentheses can be used to limit the part of the pattern that the pipe operator applies to, and you can put multiple such operators next to each other to express a choice between more than two alternatives.
+Parantezler, boru operatörünün uygulandığı desenin kısmını sınırlamak için kullanılabilir ve birden çok bu tür operatörü yan yana koyarak ikiden fazla alternatif arasında bir seçimi ifade edebilirsiniz.
 
-## The mechanics of matching
+## Eşleştirme mekaniği
 
 {{index ["regular expression", matching], [matching, algorithm], "search problem"}}
 
-Conceptually, when you use `exec` or `test`, the regular expression engine looks for a match in your string by trying to match the expression first from the start of the string, then from the second character, and so on, until it finds a match or reaches the end of the string. It'll either return the first match that can be found or fail to find any match at all.
+Kavramsal olarak, `exec` veya `test` kullandığınızda, düzenli ifade motoru, dize içinde eşleşme arar ve ifadeyi ilk olarak dize başlangıcından itibaren eşleştirmeye çalışır, ardından ikinci karakterden itibaren ve bunu bir eşleşme bulana veya dize sonuna ulaşana kadar sürdürür. Bulunabilecek ilk eşleşmeyi ya döndürür ya da hiçbir eşleşme bulamaz.
 
 {{index ["regular expression", matching], [matching, algorithm]}}
 
-To do the actual matching, the engine treats a regular expression something like a ((flow diagram)). This is the diagram for the livestock expression in the previous example:
+Gerçek eşleştirmeyi yapmak için, motor, düzenli ifadeyi bir ((akış diyagramı)) gibi işler. Bu, önceki örnekteki hayvan ifadesinin diyagramıdır:
 
-{{figure {url: "img/re_pigchickens.svg", alt: "Railroad diagram that first passes through a box labeled 'digit', which has a loop going back from after it to before it, and then a box for a space character. After that, the railroad splits in three, going through boxes for 'pig', 'cow', and 'chicken'. After those it rejoins, and goes through a box labeled 's', which, being optional, also has a railroad that passes it by. Finally, the line reaches the accepting state."}}}
+{{figure {url: "img/re_pigchickens.svg", alt: "İlk önce 'rakam' etiketli bir kutudan geçen, sonra geri dönen bir döngü ve daha sonra bir boşluk karakteri için bir kutudan geçen demiryolu diyagramı. Bundan sonra, demiryolu üçte ayrılır, 'domuz', 'inek' ve 'tavuk' için kutulardan geçer. Onlardan sonra tekrar birleşir ve isteğe bağlı olarak, onu geçen bir demiryoluna sahip olan 'S' etiketli bir kutudan geçer. Son olarak, çizgi kabul eden duruma ulaşır."}}}
 
 {{index traversal}}
 
 Our expression matches if we can find a path from the left side of the diagram to the right side. We keep a current position in the string, and every time we move through a box, we verify that the part of the string after our current position matches that box.
+İfademiz, diyagramın sol tarafından sağ tarafına bir yol bulabilirse eşleşir. Dizgede bir geçerli konum tutarız ve her bir kutudan geçerken, mevcut konumumuzdan sonrasının kutu ile eşleşip eşleşmediğini doğrularız.
 
 {{id backtracking}}
 
-## Backtracking
+## Geri izleme
 
 {{index ["regular expression", backtracking], "binary number", "decimal number", "hexadecimal number", "flow diagram", [matching, algorithm], backtracking}}
 
-The regular expression `/^([01]+b|[\da-f]+h|\d+)$/` matches either a binary number followed by a _b_, a hexadecimal number (that is, base 16, with the letters _a_ to _f_ standing for the digits 10 to 15) followed by an _h_, or a regular decimal number with no suffix character. This is the corresponding diagram:
+Düzenli ifade `/^([01]+b|[\da-f]+h|\d+)$/` ya bir ikili sayıyının sonrasında bir _b_ olan, ya bir onaltılı sayıyı (yani, harfler _a_ ile _f_ 10 ile 15 arasındaki rakamları temsil ettiği) sonrasında bir _h_ olan ya da hiçbir son ek karakteri olmayan bir düzenli ondalık sayıyı eşleştirir. Bu, karşılık gelen diyagramdır:
 
-{{figure {url: "img/re_number.svg", alt: "Railroad diagram for the regular expression '^([01]+b|\\d+|[\\da-f]+h)$'"}}}
+{{figure {url: "img/re_number.svg", alt: "'^([01]+b|\\d+|[\\da-f]+h)$' düzenli ifadesi için demiryolu diyagramı."}}}
 
 {{index branching}}
 
-When matching this expression, it will often happen that the top (binary) branch is entered even though the input does not actually contain a binary number. When matching the string `"103"`, for example, it becomes clear only at the 3 that we are in the wrong branch. The string _does_ match the expression, just not the branch we are currently in.
+Bu ifadeyi eşleştirirken, girişin gerçekte bir ikili sayı içermediği durumda bile genellikle üst (ikili) şubeye girilir. Örneğin, dize `"103"` ile eşleştirirken, 3 karakterini gördüğümüzde yanlış şubede olduğumuzu sonradan anlayabiliriz. Dize ifadeye _uyar_, ancak şu anda bulunduğumuz şubeye değil.
 
 {{index backtracking, "search problem"}}
 
-So the matcher _backtracks_. When entering a branch, it remembers its current position (in this case, at the start of the string, just past the first boundary box in the diagram) so that it can go back and try another branch if the current one does not work out. For the string `"103"`, after encountering the 3 character, it will start trying the branch for hexadecimal numbers, which fails again because there is no _h_ after the number. So it tries the decimal number branch. This one fits, and a match is reported after all.
+Bu nedenle eşleyici geri döner. Bir şubeye girerken, mevcut konumunu (bu durumda diyagramdaki ilk sınır kutusunun hemen ötesinde, dizenin başlangıcında) hatırlar, böylece mevcut şube işe yaramazsa başka bir şube denemek için geri dönebilir. `"103"` dizesi için 3 karakterini gördükten sonra, onaltılı sayılar şubesini denemeye başlar, ancak sayıdan sonra bir _h_ olmadığı için bu şube başarısız olur. Sonra ondalık sayı şubesini dener. Bu uygun olur ve sonunda bir eşleşme bildirilir.
 
 {{index [matching, algorithm]}}
 
-The matcher stops as soon as it finds a full match. This means that if multiple branches could potentially match a string, only the first one (ordered by where the branches appear in the regular expression) is used.
+Eşleyici, bir tam eşleşme bulduğunda durur. Bu, birden çok şubenin bir dizeyi potansiyel olarak eşleştirebileceği durumlarda, yalnızca ilk şubenin (düzenli ifade içinde şubelerin göründüğü yere göre sıralanır) kullanılacağı anlamına gelir.
 
-Backtracking also happens for ((repetition)) operators like + and `*`. If you match `/^.*x/` against `"abcxe"`, the `.*` part will first try to consume the whole string. The engine will then realize that it needs an _x_ to match the pattern. Since there is no _x_ past the end of the string, the star operator tries to match one character less. But the matcher doesn't find an _x_ after `abcx` either, so it backtracks again, matching the star operator to just `abc`. _Now_ it finds an _x_ where it needs it and reports a successful match from positions 0 to 4.
+Geri dönme, `+` ve `*` gibi ((tekrar)) operatörleri için de geçerlidir. `"abcxe"` ile `/^.*x/` eşleşirse, `.*` kısmı önce tüm diziyi tüketmeye çalışır. Daha sonra, deseni eşleştirmek için bir _x_ gerektiğini fark eder. Dizinin sonunda bir _x_ olmadığı için, yıldız operatörü bir karakter daha az eşleşmeye çalışır. Ancak eşleşme, `abcx`'ten sonra bir _x_ bulamaz, bu nedenle tekrar geri döner ve yıldız operatörünü sadece `abc`'ye eşleştirmeye çalışır. Şimdi ihtiyacı olan yere bir _x_ bulur ve 0 ile 4 arasında başarılı bir eşleşme bildirir.
 
 {{index performance, complexity}}
 
-It is possible to write regular expressions that will do a _lot_ of backtracking. This problem occurs when a pattern can match a piece of input in many different ways. For example, if we get confused while writing a binary-number regular expression, we might accidentally write something like `/([01]+)+b/`.
+_Çok fazla_ dönme yapacak düzenli ifadeler yazmak mümkündür. Bu problem, bir desenin bir girişi birçok farklı şekilde eşleştirebilmesi durumunda ortaya çıkar. Örneğin, bir ikili sayı düzenli ifadesi yazarken kafamız karışırsa, yanlışlıkla `/([01]+)+b/` gibi bir şey yazabiliriz.
 
-{{figure {url: "img/re_slow.svg", alt: "Railroad diagram for the regular expression '([01]+)+b'",width: "6cm"}}}
+{{figure {url: "img/re_slow.svg", alt: "'([01]+)+b' düzenli ifadesi için demiryolu diyagramı.", width: "6cm"}}}
 
 {{index "inner loop", [nesting, "in regexps"]}}
 
-If that tries to match some long series of zeros and ones with no trailing _b_ character, the matcher first goes through the inner loop until it runs out of digits. Then it notices there is no _b_, so it backtracks one position, goes through the outer loop once, and gives up again, trying to backtrack out of the inner loop once more. It will continue to try every possible route through these two loops. This means the amount of work _doubles_ with each additional character. For even just a few dozen characters, the resulting match will take practically forever.
+Eğer bu, sona gelen _b_ karakteri olmadan uzun bir sıfır ve birler serisiyle eşleşmeye çalışırsa, eşleyici önce iç döngüden geçer ve bunu rakamlar bitene kadar yapmaya devam eder. Sonra _b_ olmadığını fark eder, bu yüzden bir konum geri döner, dış döngüden bir kez geçer ve yine vazgeçip iç döngüden bir kez daha geri dönmeye çalışır. Bu iki döngü arasındaki herhangi bir olası rotayı denemeye devam eder. Bu, her ek karakterle çalışmanın işini ikiye katlanacağı anlamına gelir. Yalnızca birkaç düzine karakter için bile, elde edilen eşleşme neredeyse sonsuza kadar sürer.
 
 ## The replace method
 

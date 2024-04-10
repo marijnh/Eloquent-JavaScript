@@ -479,11 +479,11 @@ _Çok fazla_ dönme yapacak düzenli ifadeler yazmak mümkündür. Bu problem, b
 
 Eğer bu, sona gelen _b_ karakteri olmadan uzun bir sıfır ve birler serisiyle eşleşmeye çalışırsa, eşleyici önce iç döngüden geçer ve bunu rakamlar bitene kadar yapmaya devam eder. Sonra _b_ olmadığını fark eder, bu yüzden bir konum geri döner, dış döngüden bir kez geçer ve yine vazgeçip iç döngüden bir kez daha geri dönmeye çalışır. Bu iki döngü arasındaki herhangi bir olası rotayı denemeye devam eder. Bu, her ek karakterle çalışmanın işini ikiye katlanacağı anlamına gelir. Yalnızca birkaç düzine karakter için bile, elde edilen eşleşme neredeyse sonsuza kadar sürer.
 
-## The replace method
+## replace metodu
 
 {{index "replace method", "regular expression"}}
 
-String values have a `replace` method that can be used to replace part of the string with another string.
+Dize değerleri, bir dizeyi başka bir dizeyle değiştirmek için `replace` metoduna sahiptir.
 
 ```
 console.log("papa".replace("p", "m"));
@@ -492,7 +492,7 @@ console.log("papa".replace("p", "m"));
 
 {{index ["regular expression", flags], ["regular expression", global]}}
 
-The first argument can also be a regular expression, in which case the first match of the regular expression is replaced. When a `g` option (for _global_) is added after the regular expression, _all_ matches in the string will be replaced, not just the first.
+İlk argüman ayrıca bir düzenli ifade de olabilir, bu durumda düzenli ifadenin ilk eşleşmesi değiştirilir. Düzenli ifadenin ardından bir `g` seçeneği (_global_ için) eklenirse, dizedeki yalnızca ilk değil _tüm_ eşleşmeler değiştirilir.
 
 ```
 console.log("Borobudur".replace(/[ou]/, "a"));
@@ -503,7 +503,7 @@ console.log("Borobudur".replace(/[ou]/g, "a"));
 
 {{index grouping, "capture group", "dollar sign", "replace method", ["regular expression", grouping]}}
 
-The real power of using regular expressions with `replace` comes from the fact that we can refer to matched groups in the replacement string. For example, say we have a big string containing the names of people, one name per line, in the format `Lastname, Firstname`. If we want to swap these names and remove the comma to get a `Firstname Lastname` format, we can use the following code:
+`replace` ile düzenli ifadeleri kullanmanın gerçek gücü, eşleşen gruplara değiştirme dizesinde başvurabileceğimiz gerçeğinden gelir. Örneğin, her bir satırda `Lastname, Firstname` biçiminde bir ad bulunan büyük bir dizeye sahip olduğumuzu varsayalım. Bu isimleri değiştirmek ve virgülü kaldırarak `Firstname Lastname` biçimini elde etmek istiyorsak, aşağıdaki kodu kullanabiliriz:
 
 ```
 console.log(
@@ -514,13 +514,13 @@ console.log(
 //   Robin Milner
 ```
 
-The `$1` and `$2` in the replacement string refer to the parenthesized groups in the pattern. `$1` is replaced by the text that matched against the first group, `$2` by the second, and so on, up to `$9`. The whole match can be referred to with `$&`.
+Değiştirme dizesindeki `$1` ve `$2`, desendeki parantez içi gruplara başvurur. `$1`, ilk gruba karşı eşleşen metin ile değiştirilir, `$2` ikinci grup ile değiştirilir ve böyle devam eder, `$9`'a kadar. Tüm eşleşme `$&` ile başvurulabilir.
 
 {{index [function, "higher-order"], grouping, "capture group"}}
 
-It is possible to pass a function—rather than a string—as the second argument to `replace`. For each replacement, the function will be called with the matched groups (as well as the whole match) as arguments, and its return value will be inserted into the new string.
+`replace` metoduna ikinci argüman olarak bir dize yerine fonksiyon vermek mümkündür. Her değiştirme için, fonksiyon, eşleşen gruplarla (ayrıca tüm eşleşme ile) argüman olarak çağrılır ve dönüş değeri yeni dizeye eklenir.
 
-Here's an example:
+İşte bir örnek:
 
 ```
 let stock = "1 lemon, 2 cabbages, and 101 eggs";
@@ -537,15 +537,15 @@ console.log(stock.replace(/(\d+) (\p{L}+)/gu, minusOne));
 // → no lemon, 1 cabbage, and 100 eggs
 ```
 
-This takes a string, finds all occurrences of a number followed by an alphanumeric word, and returns a string that has one less of every such quantity.
+Bu bir dize alır, bir alfanümerik kelime tarafından izlenen tüm sayı geçişlerini bulur ve o türdeki her sayıdan bir eksik dize döndürür.
 
-The `(\d+)` group ends up as the `amount` argument to the function, and the `(\p{L}+)` group gets bound to `unit`. The function converts `amount` to a number—which always works since it matched `\d+`—and makes some adjustments in case there is only one or zero left.
+`(\d+)` grubu, fonksiyona `amount` argümanı olarak gelir ve `(\p{L}+)` grubu `unit` olarak gelir. Fonksiyon, `amount`'u bir sayıya dönüştürür -her zaman `\d+` ile eşleştiğinden- ve yalnızca bir veya sıfır kaldığında bazı ayarlamalar yapar.
 
-## Greed
+## Açgözlülük
 
 {{index greed, "regular expression"}}
 
-It is possible to use `replace` to write a function that removes all ((comment))s from a piece of JavaScript ((code)). Here is a first attempt:
+Tüm ((yorum))ları bir JavaScript ((kodu)) parçasından kaldıran bir fonksiyon yazmak için `replace` metodunu kullanmak mümkündür. İşte bir ilk deneme:
 
 ```{test: wrap}
 function stripComments(code) {
@@ -561,17 +561,17 @@ console.log(stripComments("1 /* a */+/* b */ 1"));
 
 {{index "period character", "slash character", "newline character", "empty set", "block comment", "line comment"}}
 
-The part before the _or_ operator matches two slash characters followed by any number of non-newline characters. The part for multiline comments is more involved. We use `[^]` (any character that is not in the empty set of characters) as a way to match any character. We cannot just use a period here because block comments can continue on a new line, and the period character does not match newline characters.
+_Veya_ operatöründen önceki kısım iki eğik çizgi karakterini ve ardından gelen herhangi yeni satır olmayan karakteri eşleştirir. Çok satırlı yorumlar için kısım daha karmaşıktır. Herhangi bir karakteri eşleştirmenin bir yolu olarak `[^]` (boş karakter kümesinde olmayan herhangi bir karakter) kullanırız. Burada sadece bir nokta kullanamayız çünkü blok yorumları yeni bir satırda devam edebilir ve nokta karakteri yeni satır karakterlerini eşleştirmez.
 
-But the output for the last line appears to have gone wrong. Why?
+Ancak, son satırın çıktısında bir sorun varmış gibi duruyor. Neden?
 
 {{index backtracking, greed, "regular expression"}}
 
-The `[^]*` part of the expression, as I described in the section on backtracking, will first match as much as it can. If that causes the next part of the pattern to fail, the matcher moves back one character and tries again from there. In the example, the matcher first tries to match the whole rest of the string and then moves back from there. It will find an occurrence of `*/` after going back four characters and match that. This is not what we wanted—the intention was to match a single comment, not to go all the way to the end of the code and find the end of the last block comment.
+Desendeki `[^]*` kısmı, geri dönme bölümünde açıkladığım gibi, önce bulabileceği kadar çok şeyi eşleştirir. Bu, desenin bir sonraki kısmının başarısız olmasına neden olursa, eşleyici bir karakter geri gider ve oradan tekrar denemeye çalışır. Örnekte, eşleyici önce dizinin geri kalanının tamamını eşleştirmeye çalışır ve oradan geri gider. `*/`'nın bir eşleşmesini dört karakter geri giderek bulacaktır. Bu istediğimiz şey değildi - niyetimiz bir tek yorumu eşleştirmekti, kodun en sonuna gidip en sonda bulunan yorum bloğu sonunu bulmak değil.
 
-Because of this behavior, we say the repetition operators (`+`, `*`, `?`, and `{}`) are _((greed))y_, meaning they match as much as they can and backtrack from there. If you put a ((question mark)) after them (`+?`, `*?`, `??`, `{}?`), they become nongreedy and start by matching as little as possible, matching more only when the remaining pattern does not fit the smaller match.
+Bu davranış nedeniyle, tekrar operatörleri (`+`, `*`, `?`, ve `{}`) _((açgöz))lü_ olarak adlandırılır, yani olabildiğince çok şey eşleştirirler ve oradan geri dönerler. Onlardan sonra ((soru işareti)) (`+?`, `*?`, `??`, `{}?`) koyarsanız, artık açgözlü olmazlar ve önce mümkün olduğunca az eşleşen bir diziyle başlarlar, daha küçük eşleşme uygun gelmediğinde daha fazla eşleştirirler.
 
-And that is exactly what we want in this case. By having the star match the smallest stretch of characters that brings us to a `*/`, we consume one block comment and nothing more.
+Ve bu durumda tam olarak istediğimiz budur. Yıldızın bizi `*/`'a getiren en küçük karakter dizisini eşleştirmesiyle, bir blok yorumu tüketiriz ve daha fazlasını değil.
 
 ```{test: wrap}
 function stripComments(code) {
@@ -581,13 +581,13 @@ console.log(stripComments("1 /* a */+/* b */ 1"));
 // → 1 + 1
 ```
 
-A lot of ((bug))s in ((regular expression)) programs can be traced to unintentionally using a greedy operator where a nongreedy one would work better. When using a ((repetition)) operator, prefer the nongreedy variant.
+((Düzenli ifade)) programlarında birçok ((hata)), daha iyi çalışan bir açgözlü olmayan operatör yerine yanlışlıkla açgözlü bir operatör kullanmanın sonucudur. Bir ((tekrar)) operatörü kullanırken, açgözlü olmayan varyantı tercih edin.
 
-## Dynamically creating RegExp objects
+## Dinamik olarak RegExp nesleri yaratmak
 
 {{index ["regular expression", creation], "underscore character", "RegExp class"}}
 
-There are cases where you might not know the exact ((pattern)) you need to match against when you are writing your code. Say you want to test for the user's name in a piece of text. You can build up a string and use the `RegExp` ((constructor)) on that. Here's an example:
+Kodunuzu yazarken eşleştirmeniz gereken tam ((kalıbı)) bilmediğiniz durumlar vardır. Bir metin parçasında kullanıcının adını test etmek istediğinizi varsayalım. Bir dize biriktirip `RegExp` ((constructor)) fonksiyonunu üzerinde kullanabilirsiniz. İşte bir örnek:
 
 ```
 let name = "harry";
@@ -598,13 +598,13 @@ console.log(regexp.test("Harry is a dodgy character."));
 
 {{index ["regular expression", flags], ["backslash character", "in regular expressions"]}}
 
-When creating the `\s` part of the string, we have to use two backslashes because we are writing them in a normal string, not a slash-enclosed regular expression. The second argument to the `RegExp` constructor contains the options for the regular expression—in this case, `"gi"` for global and case insensitive.
+Dize kısmımda `\s` oluşturulurken, bunları bir bir düzenli ifade içinde değil de normal dize içinde yazdığımızdan ötürü iki ters eğik çizgi kullanmamız gerekiyor. `RegExp` constructor fonksiyonunun ikinci argümanı, düzenli ifade seçeneklerini içerir -bu durumda, global ve harf büyüklüğüne duyarsız olan `"gi"`.
 
-But what if the name is `"dea+hl[]rd"` because our user is a ((nerd))y teenager? That would result in a nonsensical regular expression that won't actually match the user's name.
+Peki ya kullanıcımız adı `"dea+hl[]rd"` olan bir ergen ((geek)) ise? Bu, kullanıcının adını gerçekten eşleştirmeyen anlamsız bir düzenli ifadeye yol açar.
 
 {{index ["backslash character", "in regular expressions"], [escaping, "in regexps"], ["regular expression", escaping]}}
 
-To work around this, we can add backslashes before any character that has a special meaning.
+Bunu çözmek için, özel bir anlamı olan her karakterin önüne ters eğik çizgi ekleyebiliriz.
 
 ```
 let name = "dea+hl[]rd";
@@ -616,11 +616,11 @@ console.log(regexp.test(text));
 // → true
 ```
 
-## The search method
+## search metodu
 
 {{index ["regular expression", methods], "indexOf method", "search method"}}
 
-The `indexOf` method on strings cannot be called with a regular expression. But there is another method, `search`, that does expect a regular expression. Like `indexOf`, it returns the first index on which the expression was found, or -1 when it wasn't found.
+Dize üzerindeki `indexOf` metodu bir düzenli ifade ile çağrılamaz. Ancak, düzenli ifade bekleyen başka bir yöntem olan `search` adında bir yöntem vardır. `indexOf` gibi, ifadenin bulunduğu ilk index pozisyonunu döndürür veya bulunamadığında -1 döndürür.
 
 ```
 console.log("  word".search(/\S/));
@@ -629,7 +629,7 @@ console.log("    ".search(/\S/));
 // → -1
 ```
 
-Unfortunately, there is no way to indicate that the match should start at a given offset (like we can with the second argument to `indexOf`), which would often be useful.
+Ne yazık ki, eşleşmenin belirli bir konumdan başlaması gerektiğini belirtmenin bir yolu yoktur (`indexOf`'deki ikinci argümanla yaptığımız gibi), bu genellikle kullanışlı olurdu.
 
 ## The lastIndex property
 

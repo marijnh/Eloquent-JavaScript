@@ -631,19 +631,19 @@ console.log("    ".search(/\S/));
 
 Ne yazık ki, eşleşmenin belirli bir konumdan başlaması gerektiğini belirtmenin bir yolu yoktur (`indexOf`'deki ikinci argümanla yaptığımız gibi), bu genellikle kullanışlı olurdu.
 
-## The lastIndex property
+## lastIndex özelliği
 
 {{index "exec method", "regular expression"}}
 
-The `exec` method similarly does not provide a convenient way to start searching from a given position in the string. But it does provide an *in*convenient way.
+`exec` metodu benzer şekilde, dizinde belirli bir konumdan aramaya başlamanın kolay bir yolunu sağlamaz. Ancak kolay *olmayan*, zor bir yolunu sağlar.
 
 {{index ["regular expression", matching], matching, "source property", "lastIndex property"}}
 
-Regular expression objects have properties. One such property is `source`, which contains the string that expression was created from. Another property is `lastIndex`, which controls, in some limited circumstances, where the next match will start.
+Düzenli ifade nesnelerinin özellikleri vardır. Bunlardan biri `source` özelliğidir ve değerinde bu ifadenin oluşturulduğu dizeyi barındırır. Başka bir özellik de `lastIndex`'tir, bazı sınırlı durumlarda bir sonraki eşleşmenin nereden başlayacağını kontrol eder.
 
 {{index [interface, design], "exec method", ["regular expression", global]}}
 
-Those circumstances are that the regular expression must have the global (`g`) or sticky (`y`) option enabled, and the match must happen through the `exec` method. Again, a less confusing solution would have been to just allow an extra argument to be passed to `exec`, but confusion is an essential feature of JavaScript's regular expression interface.
+Bu durumlar, düzenli ifadenin global (`g`) veya yapışkan (`y`) seçeneğinin etkinleştirilmiş olması ve eşleşmenin `exec` metodu aracılığıyla gerçekleşmiş olması gereklidir. Tabii, daha az kafa karışıklığına sebep olmak için `exec` metoduna ekstra bir argümanın verilmesine izin verilmesi daha iyi olurdu, ancak karışıklık JavaScript'in düzenli ifade arayüzünün temel bir özelliğidir.
 
 ```
 let pattern = /y/g;
@@ -657,9 +657,9 @@ console.log(pattern.lastIndex);
 
 {{index "side effect", "lastIndex property"}}
 
-If the match was successful, the call to `exec` automatically updates the `lastIndex` property to point after the match. If no match was found, `lastIndex` is set back to zero, which is also the value it has in a newly constructed regular expression object.
+Eşleşme başarılı olduysa, `exec` çağrısı otomatik olarak `lastIndex` özelliğini eşleşmenin sonrasına işaret edecek şekilde günceller. Eğer bir eşleşme bulunamadıysa, `lastIndex` sıfıra, aynı zamanda yeni oluşturulan bir düzenli ifade nesnesinin sahip olduğu değere geri döner.
 
-The difference between the global and the sticky options is that, when sticky is enabled, the match will succeed only if it starts directly at `lastIndex`, whereas with global, it will search ahead for a position where a match can start.
+Global ve yapışkan seçenekler arasındaki fark, yapışkan etkinleştirildiğinde, eşleşme ancak `lastIndex`'te doğrudan başlaması durumunda başarılı olacağıdır, global kullanıldığındaysa, bir eşleşmenin başlayabileceği bir konumu arar.
 
 ```
 let global = /abc/g;
@@ -672,7 +672,7 @@ console.log(sticky.exec("xyz abc"));
 
 {{index bug}}
 
-When using a shared regular expression value for multiple `exec` calls, these automatic updates to the `lastIndex` property can cause problems. Your regular expression might be accidentally starting at an index that was left over from a previous call.
+Birden fazla `exec` çağrısı için paylaşılan bir düzenli ifade değeri kullanırken, bu otomatik güncellemeler `lastIndex` özelliğinin değerinde sorunlara neden olabilir. Düzenli ifadeniz yanlışlıkla önceki bir çağrıdan kalan index değerinden başlayabilir.
 
 ```
 let digit = /\d/g;
@@ -684,20 +684,20 @@ console.log(digit.exec("and now: 1"));
 
 {{index ["regular expression", global], "match method"}}
 
-Another interesting effect of the global option is that it changes the way the `match` method on strings works. When called with a global expression, instead of returning an array similar to that returned by `exec`, `match` will find _all_ matches of the pattern in the string and return an array containing the matched strings.
+Global seçeneğin başka bir ilginç etkisi de, dizeler üzerindeki `match` metodunun çalışma şeklini değiştirmesidir. Global bir ifade ile çağrıldığında, `exec` tarafından döndürülen diziye benzer bir dizi döndürmek yerine, `match`, dizedeki desenin _tüm_ eşleşmelerini bulur ve eşleşen dizeleri içeren bir dizi döndürür.
 
 ```
 console.log("Banana".match(/an/g));
 // → ["an", "an"]
 ```
 
-So be cautious with global regular expressions. The cases where they are necessary—calls to `replace` and places where you want to explicitly use `lastIndex`—are typically the only places where you want to use them.
+Dolayısıyla, global düzenli ifadelerle dikkatli olun. Bunların gerekli olduğu durumlar - `replace` çağrıları ve açıkça `lastIndex`'i kullanmak istediğiniz yerler- genellikle bunları kullanmak istediğiniz tek yerlerdir.
 
-### Getting all matches
+### Tüm eşleşmeleri alma
 
 {{index "lastIndex property", "exec method", loop}}
 
-A common thing to do is to find all the matches of a regular expression in a string. We can do this by using the `matchAll` method.
+Bir dizedeki bir düzenli ifadenin tüm eşleşmelerini bulmanın yaygın bir kullanımı vardır. Bunu `matchAll` metodunu kullanarak yapabiliriz.
 
 ```
 let input = "A string with 3 numbers in it... 42 and 88.";
@@ -712,14 +712,14 @@ for (let match of matches) {
 
 {{index ["regular expression", global]}}
 
-This method returns an array of match arrays. The regular expression given it _must_ have `g` enabled.
+Bu metod, bir dizi eşleşme dizisi döndürür. Verilen düzenli ifadenin _mutlaka_ `g` seçeneği etkinleştirilmiş olmalıdır.
 
 {{id ini}}
-## Parsing an INI file
+## Bir INI dosyasını ayrıştırma(parse etme)
 
 {{index comment, "file format", "enemies example", "INI file"}}
 
-To conclude the chapter, we'll look at a problem that calls for ((regular expression))s. Imagine we are writing a program to automatically collect information about our enemies from the ((Internet)). (We will not actually write that program here, just the part that reads the ((configuration)) file. Sorry.) The configuration file looks like this:
+Bölümü sonlandırmak için, ((düzenli ifade))lere ihtiyaç duyulan bir soruna bakacağız. Düşmanlarımız hakkında ((internet))ten bilgi toplamak için bir program yazdığımızı hayal edin. (Burada aslında bu programı yazmayacağız, sadece ((konfigürasyon)) dosyasını okuyan kısmı yazacağız. Maalesef.) Konfigürasyon dosyası şöyle görünüyor:
 
 ```{lang: "null"}
 searchengine=https://duckduckgo.com/?q=$1
@@ -740,21 +740,21 @@ outputdir=/home/marijn/enemies/davaeorn
 
 {{index grammar}}
 
-The exact rules for this format (which is a widely used format, usually called an _INI_ file) are as follows:
+Bu biçim için kesin kurallar (genellikle _INI_ dosyası olarak adlandırılan yaygın bir biçimdir) şunlardır:
 
-- Blank lines and lines starting with semicolons are ignored.
+- Boş satırlar ve noktalı virgül ile başlayan satırlar yoksayılır.
 
-- Lines wrapped in `[` and `]` start a new ((section)).
+- [ ve ] içinde sarmalanan satırlar yeni bir ((bölüm)) başlatır.
 
-- Lines containing an alphanumeric identifier followed by an `=`   character add a setting to the current section.
+- Alfasayısal bir tanımlayıcıyı takiben bir `=` karakter içeren satırlar, mevcut bölüme bir ayar ekler.
 
-- Anything else is invalid.
+- Bunlardan başka her şey geçersizdir.
 
-Our task is to convert a string like this into an object whose properties hold strings for settings written before the first section header and subobjects for sections, with those subobjects holding the section's settings.
+Görevimiz, böyle bir dizeyi, ilk bölüm başlığından önce yazılan ayarları tutan özelliklere sahip nesneye ve bölümleri tutan alt nesnelerleri barındıran bir nesneye dönüştürmektir.
 
 {{index "carriage return", "line break", "newline character"}}
 
-Since the format has to be processed ((line)) by line, splitting up the file into separate lines is a good start. We saw the `split` method in [Chapter ?](data#split). Some operating systems, however, use not just a newline character to separate lines but a carriage return character followed by a newline (`"\r\n"`). Given that the `split` method also allows a regular expression as its argument, we can use a regular expression like `/\r?\n/` to split in a way that allows both `"\n"` and `"\r\n"` between lines.
+Biçimin ((satır)) satır işlenmesini gerektirdiğinden, dosyayı ayrı satırlara ayırmak iyi bir başlangıçtır. `split` metodunu [bölüm ?](data#split) içinde gördük. Ancak, bazı işletim sistemleri, sadece bir yeni satır karakterini değil, bir taşıma dönüş karakteri ve ardından bir yeni satır karakteri (`"\r\n"`) kullanır. `split` metodunun da bir düzenli ifadeyi argüman olarak almasına izin verildiğinden, `/\r?\n/` gibi bir düzenli ifade kullanarak, satırlar arasında hem `"\n"` hem de `"\r\n"` izin veren bir şekilde bölebiliriz.
 
 ```{startCode: true}
 function parseINI(string) {
@@ -783,25 +783,25 @@ city=Tessaloniki`));
 
 {{index "parseINI function", parsing}}
 
-The code goes over the file's lines and builds up an object. Properties at the top are stored directly into that object, whereas properties found in sections are stored in a separate section object. The `section` binding points at the object for the current section.
+Kod, dosyanın satırlarını geçer ve bir nesne oluşturur. Üstteki özellikler doğrudan bu nesneye depolanırken, bölümlerde bulunan özellikler ayrı bir bölüm nesnesine depolanır. `section` bağlantısı, mevcut bölüm için olan nesneye işaret eder.
 
-There are two kinds of significant lines—section headers or property lines. When a line is a regular property, it is stored in the current section. When it is a section header, a new section object is created, and `section` is set to point at it.
+İki tür önemli satır vardır - bölüm başlıkları veya özellik satırları. Bir satır normal bir özellik olduğunda, mevcut bölüme depolanır. Bir bölüm başlığı olduğunda, yeni bir bölüm nesnesi oluşturulur ve `section` bunua işaret etmesi için ayarlanır.
 
 {{index "caret character", "dollar sign", boundary}}
 
-Note the recurring use of `^` and `$` to make sure the expression matches the whole line, not just part of it. Leaving these out results in code that mostly works but behaves strangely for some input, which can be a difficult bug to track down.
+`^` ve `$` işaretinin ifadenin sadece bir parçası değil, tüm satırı eşleştirmesini sağlamak için tekrar tekrar kullanılmasına dikkat edin. Bunları bırakmak, çoğunlukla işe yarayan ancak bazı girdiler için garip davranan bir kod sonucu ile sonuçlanır, bu da takip edilmesi zor bir hatadır.
 
 {{index "if keyword", assignment, ["= operator", "as expression"]}}
 
-The pattern `if (match = string.match(...))` makes use of the fact that the value of an ((assignment)) expression (`=`) is the assigned value. You often aren't sure that your call to `match` will succeed, so you can access the resulting object only inside an `if` statement that tests for this. To not break the pleasant chain of `else if` forms, we assign the result of the match to a binding and immediately use that assignment as the test for the `if` statement.
+`if (match = string.match(...))` kalıbı, bir ((atama)) ifadesinin (`=`) değerinin atanmış değer olduğu gerçeğinden yararlanır. `match` çağrınızın başarılı olacağından emin olamazsınız, bu yüzden sonucu yalnızca bunu test eden bir `if` ifadesi içinde erişebilirsiniz. `else if` zincirini bozmamak için, eşleşmenin sonucunu bir bağlantıya atar ve hemen bu atamayı `if` ifadesi için test olarak kullanırız.
 
 {{index [parentheses, "in regular expressions"]}}
 
-If a line is not a section header or a property, the function checks whether it is a comment or an empty line using the expression `/^\s*(;|$)/` to match lines that either contain only space, or space followed by a semicolon (making the rest of the line a comment). When a line doesn't match any of the expected forms, the function throws an exception.
+Bir satır eğer bir bölüm başlığı veya bir özellik değilse, fonksiyon, `/^\s*(;|$)/` ifadesini kullanarak satırın bir yorum veya boş bir satır olup olmadığını kontrol eder. Bir satırın beklenen biçimlerden hiçbirine uymadığı durumda, fonksiyon bir istisna fırlatır.
 
-## Code units and characters
+## Kod birimleri ve karakterler
 
-Another design mistake that's been standardized, in JavaScript regular expressions, is that by default, operator like `.` or `?` work on code units, as discussed in [Chapter ?](higher_order#code_units), not actual characters. This means characters that are composed of two code units behave strangely.
+JavaScript düzenli ifadelerinde standartlaştırılmış başka bir tasarım hatası da, [bölüm ?](higher_order#code_units) içinde tartışıldığı gibi varsayılan olarak `.` veya `?` gibi operatörlerin gerçek karakterler yerine kod birimleri üzerinde çalışmasıdır. Bu, iki kod biriminden oluşan karakterlerin garip davranmasına neden olur.
 
 ```
 console.log(/🍎{3}/.test("🍎🍎🍎"));
@@ -812,9 +812,9 @@ console.log(/<.>/u.test("<🌹>"));
 // → true
 ```
 
-The problem is that the 🍎 in the first line is treated as two code units, and the `{3}` part is applied only to the second one. Similarly, the dot matches a single code unit, not the two that make up the rose ((emoji)).
+Sorun, birinci satırdaki 🍎 karakterinin iki kod biriminden oluştuğu şekilde işlenmesidir ve `{3}` kısmının yalnızca ikincisi üzerinde uygulanmasıdır. Benzer şekilde, nokta tek bir kod birimini eşleştirir, gül ((emoji))'sini oluşturan ikiyi değil.
 
-You must add the `u` (Unicode) option to your regular expression to make it treat such characters properly.
+Bu tür karakterleri uygun bir şekilde işlemesi için düzenli ifadenize `u` (Unicode) seçeneğini eklemeniz gerekir.
 
 ```
 console.log(/🍎{3}/u.test("🍎🍎🍎"));

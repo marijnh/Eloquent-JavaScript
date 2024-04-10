@@ -104,10 +104,10 @@ Birçok yaygın karakter grubunun kendi yerleşik kısayolları vardır. Rakamla
 {{table {cols: [1, 5]}}}
 
 | `\d`    | Herhangi bir ((rakam)) karakter
-| `\w`    | Herhangi bir alfanümerik ("((kelime karakteri))")
+| `\w`    | Herhangi bir alfasayısal ("((kelime karakteri))")
 | `\s`    | Herhangi bir boşluk karakteri (boşluk, tab, yeni satır, vb.)
 | `\D`    | Rakam _olmayan_ bir karakter
-| `\W`    | Alfanümerik olmayan bir karakter
+| `\W`    | Alfasayısal olmayan bir karakter
 | `\S`    | Boşluk olmayan bir karakter
 | `.`     | Yeni satır dışında herhangi bir karakter
 
@@ -537,7 +537,7 @@ console.log(stock.replace(/(\d+) (\p{L}+)/gu, minusOne));
 // → no lemon, 1 cabbage, and 100 eggs
 ```
 
-Bu bir dize alır, bir alfanümerik kelime tarafından izlenen tüm sayı geçişlerini bulur ve o türdeki her sayıdan bir eksik dize döndürür.
+Bu bir dize alır, bir alfasayısal kelime tarafından izlenen tüm sayı geçişlerini bulur ve o türdeki her sayıdan bir eksik dize döndürür.
 
 `(\d+)` grubu, fonksiyona `amount` argümanı olarak gelir ve `(\p{L}+)` grubu `unit` olarak gelir. Fonksiyon, `amount`'u bir sayıya dönüştürür -her zaman `\d+` ile eşleştiğinden- ve yalnızca bir veya sıfır kaldığında bazı ayarlamalar yapar.
 
@@ -758,7 +758,7 @@ Biçimin ((satır)) satır işlenmesini gerektirdiğinden, dosyayı ayrı satır
 
 ```{startCode: true}
 function parseINI(string) {
-  // Start with an object to hold the top-level fields
+  // En üst seviye alanları tutabilmek için bir nesneyle başla
   let result = {};
   let section = result;
   for (let line of string.split(/\r?\n/)) {
@@ -825,67 +825,67 @@ console.log(/🍎{3}/u.test("🍎🍎🍎"));
 
 ## Summary
 
-Regular expressions are objects that represent patterns in strings. They use their own language to express these patterns.
+Düzenli ifadeler, dizelerdeki kalıpları temsil eden nesnelerdir. Bu kalıpları ifade etmek için kendi dillerini kullanırlar.
 
 {{table {cols: [1, 5]}}}
 
-| `/abc/`     | A sequence of characters
-| `/[abc]/`   | Any character from a set of characters
-| `/[^abc]/`  | Any character _not_ in a set of characters
-| `/[0-9]/`   | Any character in a range of characters
-| `/x+/`      | One or more occurrences of the pattern `x`
-| `/x+?/`     | One or more occurrences, nongreedy
-| `/x*/`      | Zero or more occurrences
-| `/x?/`      | Zero or one occurrence
-| `/x{2,4}/`  | Two to four occurrences
-| `/(abc)/`   | A group
-| `/a|b|c/`   | Any one of several patterns
-| `/\d/`      | Any digit character
-| `/\w/`      | An alphanumeric character ("word character")
-| `/\s/`      | Any whitespace character
-| `/./`       | Any character except newlines
-| `/\p{L}/u`  | Any letter character
-| `/^/`       | Start of input
-| `/$/`       | End of input
-| `/(?=a)/`   | A look-ahead test
+| `/abc/`     | Bir dizi karakter
+| `/[abc]/`   | Bir dizi karakterden herhangi bir karakter
+| `/[^abc]/`  | Bir karakter kümesinde _olmayan_ herhangi bir karakter
+| `/[0-9]/`   | Belirli bir karakter aralığındaki herhangi bir karakter
+| `/x+/`      | `'x'` kalıbının bir veya daha fazla tekrarı
+| `/x+?/`     | 'x'` kalıbının açgözlü olmayan bir veya daha fazla belirişi
+| `/x*/`      | Sıfır veya daha fazla beliriş
+| `/x?/`      | Sıfır veya bir beliriş
+| `/x{2,4}/`  | İkiden dörde kadar beliriş
+| `/(abc)/`   | Bir grup
+| `/a|b|c/`   | Kalıplardan bir tanesi
+| `/\d/`      | Herhangi bir rakam karakteri
+| `/\w/`      | Alfasayısal bir karakter ("kelime karakteri")
+| `/\s/`      | Herhangi bir boşluk karakteri
+| `/./`       | Yeni satır dışında herhangi bir karakter
+| `/\p{L}/u`  | Herhangi bir harf karakter
+| `/^/`       | Girdi başlangıcı
+| `/$/`       | Girdi sonu
+| `/(?=a)/`   | İleri görüşlü bir test
 
-A regular expression has a method `test` to test whether a given string matches it. It also has a method `exec` that, when a match is found, returns an array containing all matched groups. Such an array has an `index` property that indicates where the match started.
+Düzenli ifade, verilen bir dizenin onunla eşleşip eşleşmediğini test etmek için `test` metoduna sahiptir. Ayrıca, bir eşleşme bulunduğunda, tüm eşleşen grupları içeren bir dizi döndüren `exec` adında bir metod da vardır. Böyle bir dizi, eşleşmenin nerede başladığını gösteren bir `index` özelliğine sahiptir.
 
-Strings have a `match` method to match them against a regular expression and a `search` method to search for one, returning only the starting position of the match. Their `replace` method can replace matches of a pattern with a replacement string or function.
+Düzenli ifadeyle dizeleri eşleştirmek için dizelerin bir `match` metodu ve sadece eşleşmenin başlangıç pozisyonunu arayıp döndürmek için bir `search` metodu vardır. Onların `replace` metodu, bir desenin eşleşmelerini bir değiştirme dizesi veya fonksiyonu ile değiştirebilir.
 
-Regular expressions can have options, which are written after the closing slash. The `i` option makes the match case insensitive. The `g` option makes the expression _global_, which, among other things, causes the `replace` method to replace all instances instead of just the first. The `y` option makes it sticky, which means that it will not search ahead and skip part of the string when looking for a match. The `u` option turns on Unicode mode, which enables `\p` syntax and fixes a number of problems around the handling of characters that take up two code units.
+Düzenli ifadelerin seçenekleri olabilir, bunlar kapatma eğik çizgi sonrasına yazılır. `i` seçeneği, eşleşmenin harf büyüklüğüne duyarsız yapar. `g` seçeneği ifadeyi global yapar, bu da `replace` metodunun yalnızca ilk eşleşen dize yerine tüm eşleşen dize parçalarının değiştirmesine neden olur. `y` seçeneği yapışkandır, bu da bir eşleşme ararken bir dizenin bir kısmını önemsizce atlamayıp teker teker arayacağı anlamına gelir. `u` seçeneği Unicode modunu açar, bu da `\p` sözdizimini etkinleştirir ve iki kod birimini alan karakterlerin işlenmesindeki oluşan bir takım sorunları düzeltir.
 
-Regular expressions are a sharp ((tool)) with an awkward handle. They simplify some tasks tremendously but can quickly become unmanageable when applied to complex problems. Part of knowing how to use them is resisting the urge to try to shoehorn things that they cannot cleanly express into them.
+Düzenli ifadeler, garip bir sapı olan keskin bir ((araç))tır. Bazı görevleri büyük ölçüde basitleştirirler ancak karmaşık sorunlara uygulandığında hızla yönetilemez hale gelebilirler. Onları nasıl kullanacağınızın bir parçası, temiz bir şekilde ifade edemeyecekleri şeyleri zorla onlara sokuşturma dürtüsüne karşı koymaktır.
 
-## Exercises
+## Egzersizler
 
 {{index debugging, bug}}
 
-It is almost unavoidable that, in the course of working on these exercises, you will get confused and frustrated by some regular expression's inexplicable ((behavior)). Sometimes it helps to enter your expression into an online tool like [_debuggex.com_](https://www.debuggex.com/) to see whether its visualization corresponds to what you intended and to ((experiment)) with the way it responds to various input strings.
+Bu alıştırmalar üzerinde çalışırken, bazı düzenli ifadelerin açıklanamayan ((davranış))ları tarafından kafa karışıklığına uğrayacağınız ve bunlardan bazıları tarafından hızla sinirleneceğiniz neredeyse kaçınılmazdır. Bazen, ifadenizi [_debuggex.com_](https://www.debuggex.com/) gibi çevrimiçi bir araca girerek, oluşturduğu görselleştirmenin istediğiniz şeyle uyuşup uyuşmadığını görmek ve çeşitli giriş dizelerine nasıl yanıt verdiğini test etmek yardımcı olabilir.
 
 ### Regexp golf
 
 {{index "program size", "code golf", "regexp golf (exercise)"}}
 
-_Code golf_ is a term used for the game of trying to express a particular program in as few characters as possible. Similarly, _regexp golf_ is the practice of writing as tiny a regular expression as possible to match a given pattern, and _only_ that pattern.
+_Kod golfü_, belirli bir programı mümkün olduğunca az karakterle ifade etme oyunu için kullanılan bir terimdir. Benzer şekilde, _düzenli ifade golfü_, _yalnızca_ verilen o deseni eşleştirmek için mümkün olduğunca küçük bir düzenli ifade yazma uygulamasıdır.
 
 {{index boundary, matching}}
 
-For each of the following items, write a ((regular expression)) to test whether the given pattern occurs in a string. The regular expression should match only strings containing the pattern. When your expression works, see whether you can make it any smaller.
+Aşağıdaki her öğe için, verilen desenin bir dizide olup olmadığını test etmek için bir ((düzenli ifade)) yazın. Düzenli ifade, yalnızca deseni içeren dizeleri eşleştirmelidir. İfadeniz çalıştığında, onu daha da küçültebilme ihtimaliniz üzerine düşünün.
 
- 1. _car_ and _cat_
- 2. _pop_ and _prop_
- 3. _ferret_, _ferry_, and _ferrari_
- 4. Any word ending in _ious_
- 5. A whitespace character followed by a period, comma, colon, or semicolon
- 6. A word longer than six letters
- 7. A word without the letter _e_ (or _E_)
+ 1. _car_ ve _cat_
+ 2. _pop_ ve _prop_
+ 3. _ferret_, _ferry_, ve _ferrari_
+ 4. _ious_ ile biten herhangi bir kelime
+ 5. Bir boşluk karakteri ve ardından nokta, virgül, iki nokta üst üste veya noktalı virgül gelen bir dize
+ 6. Altı harften uzun bir kelime
+ 7. _e_ (veya _E_) harfi olmayan bir kelime
 
-Refer to the table in the [chapter summary](regexp#summary_regexp) for help. Test each solution with a few test strings.
+Yardım için [bölüm özeti](regexp#summary_regexp) içindeki tabloya bakın. Her çözümü birkaç test dizisiyle test edin.
 
 {{if interactive
 ```
-// Fill in the regular expressions
+// Düzenli ifadeleri doldurun.
 
 verify(/.../,
        ["my car", "bad cats"],
@@ -930,20 +930,20 @@ function verify(regexp, yes, no) {
 
 if}}
 
-### Quoting style
+### Tırnak stili
 
 {{index "quoting style (exercise)", "single-quote character", "double-quote character"}}
 
-Imagine you have written a story and used single ((quotation mark))s throughout to mark pieces of dialogue. Now you want to replace all the dialogue quotes with double quotes, while keeping the single quotes used in contractions like _aren't_.
+Bir hikaye yazdınızı ve diyalog parçalarını işaretlemek için tümüyle tek ((tırnak işareti)) kullandığınızı hayal edin. Şimdi, _aren't_ gibi kısaltmalarda kullanılan tek tırnakları koruyarak tüm diyalog alıntılarını çift tırnaklarla değiştirmek istiyorsunuz.
 
 {{index "replace method"}}
 
-Think of a pattern that distinguishes these two kinds of quote usage and craft a call to the `replace` method that does the proper replacement.
+Bu iki tür tırnak kullanımını ayıran bir desen düşünün ve doğru değiştirmeyi yapacak `replace` metoduna bir çağrı oluşturun.
 
 {{if interactive
 ```{test: no}
 let text = "'I'm the cook,' he said, 'it's my job.'";
-// Change this call.
+// Bu çağrıyı değiştir.
 console.log(text.replace(/A/g, "B"));
 // → "I'm the cook," he said, "it's my job."
 ```
@@ -953,23 +953,23 @@ if}}
 
 {{index "quoting style (exercise)", boundary}}
 
-The most obvious solution is to replace only quotes with a nonletter character on at least one side—something like `/\P{L}'|'\P{L}/`. But you also have to take the start and end of the line into account.
+En açık çözüm, en az bir tarafında harf olmayan tırnakları değiştirmektir - `/\P{L}'|'\P{L}/` gibi bir şey. Ancak, satırın başlangıcını ve sonunu da dikkate almalısınız.
 
 {{index grouping, "replace method", [parentheses, "in regular expressions"]}}
 
-In addition, you must ensure that the replacement also includes the characters that were matched by the `\P{L}` pattern so that those are not dropped. This can be done by wrapping them in parentheses and including their groups in the replacement string (`$1`, `$2`). Groups that are not matched will be replaced by nothing.
+Ek olarak, değiştirmenin, `\P{L}` deseniyle eşleşen karakterleri de içermesini sağlamalısınız ki bunlar düşürülmesin. Bunun yapılması, parantez içine alarak ve değiştirme dizesine gruplarını (`$1`, `$2`) dahil ederek yapılabilir. Eşleşmeyen gruplar hiçbir şey ile değiştirilecektir.
 
 hint}}
 
-### Numbers again
+### Tekrar sayılar
 
 {{index sign, "fractional number", [syntax, number], minus, "plus character", exponent, "scientific notation", "period character"}}
 
-Write an expression that matches only JavaScript-style ((number))s. It must support an optional minus _or_ plus sign in front of the number, the decimal dot, and exponent notation—`5e-3` or `1E10`—again with an optional sign in front of the exponent. Also note that it is not necessary for there to be digits in front of or after the dot, but the number cannot be a dot alone. That is, `.5` and `5.` are valid JavaScript numbers, but a lone dot _isn't_.
+Sadece JavaScript tarzı ((sayı))ları eşleştiren bir ifade yazın. Sayının önünde isteğe bağlı eksi _veya_ artı işareti, ondalık nokta ve üstel gösterim - `5e-3` veya `1E10` - yine üstel önünde isteğe bağlı bir işaret ile desteklenmelidir. Ayrıca, noktanın önünde veya sonra rakamlar olması gerekli değildir, ancak sayı yalnızca bir nokta olamaz. Yani, `.5` ve `5.` geçerli JavaScript sayılarıdır, ancak yalnızca nokta _değildir_.
 
 {{if interactive
 ```{test: no}
-// Fill in this regular expression.
+// Bu düzenli ifadeyi doldurun.
 let number = /^...$/;
 
 // Tests:
@@ -993,16 +993,16 @@ if}}
 
 {{index ["regular expression", escaping], ["backslash character", "in regular expressions"]}}
 
-First, do not forget the backslash in front of the period.
+Öncelikle noktanın önüne ters eğik çizgi koymayı unutmayın.
 
-Matching the optional ((sign)) in front of the ((number)), as well as in front of the ((exponent)), can be done with `[+\-]?` or `(\+|-|)` (plus, minus, or nothing).
+Sayının önündeki isteğe bağlı ((işaret)) ile, aynı zamanda önündeki üstel işareti eşleştirmek `[+\-]?` veya `(\+|-|)` (artı, eksi veya hiçbir şey) aracılığıyla yapılabilir.
 
 {{index "pipe character"}}
 
-The more complicated part of the exercise is the problem of matching both `"5."` and `".5"` without also matching `"."`. For this, a good solution is to use the `|` operator to separate the two cases—either one or more digits optionally followed by a dot and zero or more digits _or_ a dot followed by one or more digits.
+Bu alıştırmanın daha karmaşık kısmı, `"5."` ve `".5"` dizelerini eşleştirirken `"."` dizesini eşleştirmemektir. Bu iki durumu ayırmak için `|` operatörünü kullanmak iyi bir çözümdür - ya bir veya daha fazla rakamın, isteğe bağlı olarak bir noktayla devam etmesi ve sıfır veya daha fazla rakamın ardından gelmesi _veya_ bir noktanın bir veya daha fazla rakamdan sonra geldiği durum.
 
 {{index exponent, "case sensitivity", ["regular expression", flags]}}
 
-Finally, to make the _e_ case insensitive, either add an `i` option to the regular expression or use `[eE]`.
+Son olarak, _e_ karakterini büyük/küçük harfe duyarsız hale getirmek için düzenli ifadeye bir `i` seçeneği ekleyin veya `[eE]` kullanın.
 
 hint}}

@@ -34,7 +34,7 @@ The dark ((box)) represents the ((player)), whose task is to collect the yellow 
 
 {{index keyboard, jumping}}
 
-The player can walk around with the left and right arrow keys and can jump with the up arrow. Jumping is a specialty of this game character. It can reach several times its own height and can change direction in midair. This may not be entirely realistic, but it helps give the player the feeling of being in direct control of the on-screen ((avatar)).
+The player can walk around with the left and right arrow keys and can jump with the up arrow. Jumping is this game character's specialty. It can reach several times its own height and can change direction in midair. This may not be entirely realistic, but it helps give the player the feeling of being in direct control of the on-screen ((avatar)).
 
 {{index "fractional number", discretization, "artificial life", "electronic life"}}
 
@@ -52,7 +52,7 @@ The screen- and keyboard-related code is only a small part of the work we need t
 
 {{index "table (HTML tag)"}}
 
-We can represent the background as a table since it is an unchanging ((grid)) of squares. The free-moving elements can be overlaid using absolutely positioned elements.
+We can represent the background as a table, since it is an unchanging ((grid)) of squares. The free-moving elements can be overlaid using absolutely positioned elements.
 
 {{index performance, [DOM, graphics]}}
 
@@ -126,7 +126,7 @@ class Level {
 
 {{index "trim method", "split method", [whitespace, trimming]}}
 
-The `trim` method is used to remove whitespace at the start and end of the plan string. This allows our example plan to start with a newline so that all the lines are directly below each other. The remaining string is split on ((newline character))s, and each line is spread into an array, producing arrays of characters.
+The `trim` method is used to remove whitespace at the start and end of the plan string. This allows our example plan to start with a newline so that all lines are directly below each other. The remaining string is split on ((newline character))s, and each line is spread into an array, producing arrays of characters.
 
 {{index [array, "as matrix"]}}
 
@@ -174,13 +174,13 @@ This is again a persistent data structure—updating the game state creates a ne
 
 {{index actor, "Vec class", [interface, object]}}
 
-Actor objects represent the current position and state of a given moving element in our game. All actor objects conform to the same interface. They have `size` and `pos` properties holding the size and the coordinates of the top-left corner of the rectangle representing this actor.
+Actor objects represent the current position and state of a given moving element (player, coin, or mobile lava) in our game. All actor objects conform to the same interface. They have `size` and `pos` properties holding the size and the coordinates of the top-left corner of the rectangle representing this actor, and an `update` method.
 
-Then they have an `update` method, which is used to compute their new state and position after a given time step. It simulates the thing the actor does—moving in response to the arrow keys for the player and bouncing back and forth for the lava—and returns a new, updated actor object.
+This `update` method is used to compute their new state and position after a given time step. It simulates the thing the actor does—moving in response to the arrow keys for the player and bouncing back and forth for the lava—and returns a new, updated actor object.
 
 A `type` property contains a string that identifies the type of the actor—`"player"`, `"coin"`, or `"lava"`. This is useful when drawing the game—the look of the rectangle drawn for an actor is based on its type.
 
-Actor classes have a static `create` method that is used by the `Level` constructor to create an actor from a character in the level plan. It is given the coordinates of the character and the character itself, which is needed because the `Lava` class handles several different characters.
+Actor classes have a static `create` method that is used by the `Level` constructor to create an actor from a character in the level plan. It is given the coordinates of the character and the character itself, which is necessary because the `Lava` class handles several different characters.
 
 {{id vector}}
 
@@ -208,7 +208,7 @@ The different types of actors get their own classes since their behavior is very
 
 {{index simulation, "Player class"}}
 
-The player class has a property `speed` that stores its current speed to simulate momentum and gravity.
+The player class has a `speed` property that stores its current speed to simulate momentum and gravity.
 
 ```{includeCode: true}
 class Player {
@@ -228,7 +228,7 @@ class Player {
 Player.prototype.size = new Vec(0.8, 1.5);
 ```
 
-Because a player is one-and-a-half squares high, its initial position is set to be half a square above the position where the `@` character appeared. This way, its bottom aligns with the bottom of the square it appeared in.
+Because a player is one-and-a-half squares high, its initial position is set to be half a square above the position where the `@` character appeared. This way, its bottom aligns with the bottom of the square where it appeared.
 
 The `size` property is the same for all instances of `Player`, so we store it on the prototype rather than on the instances themselves. We could have used a ((getter)) like `type`, but that would create and return a new `Vec` object every time the property is read, which would be wasteful. (Strings, being ((immutable)), don't have to be re-created every time they are evaluated.)
 
@@ -322,7 +322,7 @@ The task ahead is to display such levels on the screen and to model time and mot
 
 {{index graphics, encapsulation, "DOMDisplay class", [DOM, graphics]}}
 
-In the [next chapter](canvas#canvasdisplay), we'll ((display)) the same game in a different way. To make that possible, we put the drawing logic behind an interface, and pass it to the game as an argument. That way, we can use the same game program with different new display ((module))s.
+In the [next chapter](canvas#canvasdisplay), we'll ((display)) the same game in a different way. To make that possible, we put the drawing logic behind an interface and pass it to the game as an argument. That way, we can use the same game program with different new display ((module))s.
 
 A game display object draws a given ((level)) and state. We pass its constructor to the game to allow it to be replaced. The display class we define in this chapter is called `DOMDisplay` because it uses DOM elements to show the level.
 
@@ -406,11 +406,11 @@ Some of these (`table-layout`, `border-spacing`, and `padding`) are used to supp
 
 {{index "background (CSS)", "rgb (CSS)", CSS}}
 
-The `background` rule sets the background color. CSS allows colors to be specified both as words (`white`) or with a format such as `rgb(R, G, B)`, where the red, green, and blue components of the color are separated into three numbers from 0 to 255. So, in `rgb(52, 166, 251)`, the red component is 52, green is 166, and blue is 251. Since the blue component is the largest, the resulting color will be bluish. In the `.lava` rule, the first number (red) is the largest.
+The `background` rule sets the background color. CSS allows colors to be specified both as words (`white`) or with a format such as `rgb(R, G, B)`, where the red, green, and blue components of the color are separated into three numbers from 0 to 255. In `rgb(52, 166, 251)`, the red component is 52, green is 166, and blue is 251. Since the blue component is the largest, the resulting color will be bluish. In the `.lava` rule, the first number (red) is the largest.
 
 {{index [DOM, graphics]}}
 
-We draw each ((actor)) by creating a DOM element for it and setting that element's position and size based on the actor's properties. The values have to be multiplied by `scale` to go from game units to pixels.
+We draw each ((actor)) by creating a DOM element for it and setting that element's position and size based on the actor's properties. The values must be multiplied by `scale` to go from game units to pixels.
 
 ```{includeCode: true}
 function drawActors(actors) {
@@ -427,7 +427,7 @@ function drawActors(actors) {
 
 {{index "position (CSS)", "class attribute"}}
 
-To give an element more than one class, we separate the class names by spaces. In the ((CSS)) code shown next, the `actor` class gives the actors their absolute position. Their type name is used as an extra class to give them a color. We don't have to define the `lava` class again because we're reusing the class for the lava grid squares we defined earlier.
+To give an element more than one class, we separate the class names by spaces. In the following ((CSS)) code, the `actor` class gives the actors their absolute position. Their type name is used as an extra class to give them a color. We don't have to define the `lava` class again because we're reusing the class for the lava grid squares we defined earlier.
 
 ```{lang: "css"}
 .actor  { position: absolute;            }
@@ -470,7 +470,7 @@ After touching ((lava)), the player's color turns dark red, suggesting scorching
 
 {{index "position (CSS)", "max-width (CSS)", "overflow (CSS)", "max-height (CSS)", viewport, scrolling, [DOM, graphics]}}
 
-We can't assume that the level always fits in the _viewport_—the element into which we draw the game. That is why the `scrollPlayerIntoView` call is needed. It ensures that if the level is protruding outside the viewport, we scroll that viewport to make sure the player is near its center. The following ((CSS)) gives the game's wrapping DOM element a maximum size and ensures that anything that sticks out of the element's box is not visible. We also give it a relative position so that the actors inside it are positioned relative to the level's top-left corner.
+We can't assume that the level always fits in the _viewport_, the element into which we draw the game. That is why we need the `scrollPlayerIntoView` call: it ensures that if the level is protruding outside the viewport, we scroll that viewport to make sure the player is near its center. The following ((CSS)) gives the game's wrapping DOM element a maximum size and ensures that anything that sticks out of the element's box is not visible. We also give it a relative position so that the actors inside it are positioned relative to the level's top-left corner.
 
 ```{lang: css}
 .game {
@@ -518,9 +518,9 @@ The way the player's center is found shows how the methods on our `Vec` type all
 
 {{index validation}}
 
-Next, a series of checks verifies that the player position isn't outside of the allowed range. Note that sometimes this will set nonsense scroll coordinates that are below zero or beyond the element's scrollable area. This is okay—the DOM will constrain them to acceptable values. Setting `scrollLeft` to -10 will cause it to become 0.
+Next, a series of checks verifies that the player position isn't outside of the allowed range. Note that sometimes this will set nonsense scroll coordinates that are below zero or beyond the element's scrollable area. This is okay—the DOM will constrain them to acceptable values. Setting `scrollLeft` to `-10` will cause it to become `0`.
 
-It would have been slightly simpler to always try to scroll the player to the center of the ((viewport)). But this creates a rather jarring effect. As you are jumping, the view will constantly shift up and down. It is more pleasant to have a "neutral" area in the middle of the screen where you can move around without causing any scrolling.
+While it would have been slightly simpler to always try to scroll the player to the center of the ((viewport)), this creates a rather jarring effect. As you are jumping, the view will constantly shift up and down. It's more pleasant to have a "neutral" area in the middle of the screen where you can move around without causing any scrolling.
 
 {{index [game, screenshot]}}
 
@@ -550,13 +550,13 @@ The `<link>` tag, when used with `rel="stylesheet"`, is a way to load a CSS file
 
 {{index physics, [animation, "platform game"]}}
 
-Now we're at the point where we can start adding motion. The basic approach, taken by most games like this, is to split ((time)) into small steps and, for each step, move the actors by a distance corresponding to their speed multiplied by the size of the time step. We'll measure time in seconds, so speeds are expressed in units per second.
+Now we're at the point where we can start adding motion. The basic approach taken by most games like this is to split ((time)) into small steps and, for each step, move the actors by a distance corresponding to their speed multiplied by the size of the time step. We'll measure time in seconds, so speeds are expressed in units per second.
 
 {{index obstacle, "collision detection"}}
 
 Moving things is easy. The difficult part is dealing with the interactions between the elements. When the player hits a wall or floor, they should not simply move through it. The game must notice when a given motion causes an object to hit another object and respond accordingly. For walls, the motion must be stopped. When hitting a coin, that coin must be collected. When touching lava, the game should be lost.
 
-Solving this for the general case is a big task. You can find libraries, usually called _((physics engine))s_, that simulate interaction between physical objects in two or three ((dimensions)). We'll take a more modest approach in this chapter, handling only collisions between rectangular objects and handling them in a rather simplistic way.
+Solving this for the general case is a major task. You can find libraries, usually called _((physics engine))s_, that simulate interaction between physical objects in two or three ((dimensions)). We'll take a more modest approach in this chapter, handling only collisions between rectangular objects and handling them in a rather simplistic way.
 
 {{index bouncing, "collision detection", [animation, "platform game"]}}
 
@@ -564,7 +564,7 @@ Before moving the ((player)) or a block of ((lava)), we test whether the motion 
 
 {{index discretization}}
 
-This approach requires our ((time)) steps to be rather small since it will cause motion to stop before the objects actually touch. If the time steps (and thus the motion steps) are too big, the player would end up hovering a noticeable distance above the ground. Another approach, arguably better but more complicated, would be to find the exact collision spot and move there. We will take the simple approach and hide its problems by ensuring the animation proceeds in small steps.
+This approach requires our ((time)) steps to be rather small, since it will cause motion to stop before the objects actually touch. If the time steps (and thus the motion steps) are too big, the player would end up hovering a noticeable distance above the ground. Another approach, arguably better but more complicated, would be to find the exact collision spot and move there. We will take the simple approach and hide its problems by ensuring the animation proceeds in small steps.
 
 {{index obstacle, "touches method", "collision detection"}}
 
@@ -625,7 +625,7 @@ State.prototype.update = function(time, keys) {
 
 The method is passed a time step and a data structure that tells it which keys are being held down. The first thing it does is call the `update` method on all actors, producing an array of updated actors. The actors also get the time step, the keys, and the state, so that they can base their update on those. Only the player will actually read keys, since that's the only actor that's controlled by the keyboard.
 
-If the game is already over, no further processing has to be done (the game can't be won after being lost, or vice versa). Otherwise, the method tests whether the player is touching background lava. If so, the game is lost, and we're done. Finally, if the game really is still going on, it sees whether any other actors overlap the player.
+If the game is already over, no further processing has to be done (the game can't be won after being lost, or vice versa). Otherwise, the method tests whether the player is touching background lava. If so, the game is lost and we're done. Finally, if the game really is still going on, it sees whether any other actors overlap the player.
 
 Overlap between actors is detected with the `overlap` function. It takes two actor objects and returns true when they touch—which is the case when they overlap both along the x-axis and along the y-axis.
 
@@ -676,7 +676,7 @@ Lava.prototype.update = function(time, state) {
 
 {{index bouncing, multiplication, "Vec class", "collision detection"}}
 
-This `update` method computes a new position by adding the product of the ((time)) step and the current speed to its old position. If no obstacle blocks that new position, it moves there. If there is an obstacle, the behavior depends on the type of the ((lava)) block—dripping lava has a `reset` position, to which it jumps back when it hits something. Bouncing lava inverts its speed by multiplying it by -1 so that it starts moving in the opposite direction.
+This `update` method computes a new position by adding the product of the ((time)) step and the current speed to its old position. If no obstacle blocks that new position, it moves there. If there is an obstacle, the behavior depends on the type of the ((lava)) block—dripping lava has a `reset` position, to which it jumps back when it hits something. Bouncing lava inverts its speed by multiplying it by `-1` so that it starts moving in the opposite direction.
 
 {{index "Coin class", coin, wave}}
 
@@ -916,13 +916,9 @@ if}}
 
 ### Pausing the game
 
-{{index "pausing (exercise)", "escape key", keyboard}}
+{{index "pausing (exercise)", "escape key", keyboard, "runLevel function", "event handling"}}
 
-Make it possible to pause (suspend) and unpause the game by pressing the Esc key.
-
-{{index "runLevel function", "event handling"}}
-
-This can be done by changing the `runLevel` function to set up a keyboard event handler that interrupts or resumes the animation whenever the Esc key is hit.
+Make it possible to pause (suspend) and unpause the game by pressing the [esc]{keyname} key. You can do this by changing the `runLevel` function to set up a keyboard event handler that interrupts or resumes the animation whenever the [esc]{keyname} key is hit.
 
 {{index "runAnimation function"}}
 
@@ -930,7 +926,7 @@ The `runAnimation` interface may not look like it is suitable for this at first 
 
 {{index [binding, global], "trackKeys function"}}
 
-When you have that working, there is something else you could try. The way we have been registering keyboard event handlers is somewhat problematic. The `arrowKeys` object is currently a global binding, and its event handlers are kept around even when no game is running. You could say they _((leak))_ out of our system. Extend `trackKeys` to provide a way to unregister its handlers and then change `runLevel` to register its handlers when it starts and unregister them again when it is finished.
+When you have that working, there's something else you can try. The way we've been registering keyboard event handlers is somewhat problematic. The `arrowKeys` object is currently a global binding, and its event handlers are kept around even when no game is running. You could say they _((leak))_ out of our system. Extend `trackKeys` to provide a way to unregister its handlers, then change `runLevel` to register its handlers when it starts and unregister them again when it is finished.
 
 {{if interactive
 
@@ -990,9 +986,9 @@ hint}}
 
 {{index "monster (exercise)"}}
 
-It is traditional for platform games to have enemies that you can jump on top of to defeat. This exercise asks you to add such an actor type to the game.
+It is traditional for platform games to have enemies that you can defeat by jumping on top of them. This exercise asks you to add such an actor type to the game.
 
-We'll call it a monster. Monsters move only horizontally. You can make them move in the direction of the player, bounce back and forth like horizontal lava, or have any movement pattern you want. The class doesn't have to handle falling, but it should make sure the monster doesn't walk through walls.
+We'll call this actor a monster. Monsters move only horizontally. You can make them move in the direction of the player, bounce back and forth like horizontal lava, or have any other movement pattern you want. The class doesn't have to handle falling, but it should make sure the monster doesn't walk through walls.
 
 When a monster touches the player, the effect depends on whether the player is jumping on top of them or not. You can approximate this by checking whether the player's bottom is near the monster's top. If this is the case, the monster disappears. If not, the game is lost.
 

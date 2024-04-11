@@ -31,7 +31,7 @@ function chapterInteraction() {
     let popup = document.body.appendChild(document.createElement("div"))
     popup.className = "popup"
     popup.appendChild(document.createElement("h2")).textContent = "Instructions"
-    popup.appendChild(document.createElement("p")).textContent = `Code on this page can be edited and run by clicking it or moving focus to it and pressing Enter. Code executed this way shares its environment with other code ran on the page, and some pre-defined code for the chapter. When inside the code editor, the following keyboard shortcuts are available.`
+    popup.appendChild(document.createElement("p")).textContent = `Code snippets on this page can be edited and run by clicking them or moving focus to them and pressing Enter. Executed snippets share their environment with other snippets ran on the page, and some pre-defined code for the chapter. When inside the code editor, the following keyboard shortcuts are available:`
     for (let [key, desc] of [
       [modName + "Enter", "Run code"],
       [modName + "j", "Revert code"],

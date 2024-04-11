@@ -14,7 +14,7 @@ quote}}
 
 {{index CSS, "transform (CSS)", [DOM, graphics]}}
 
-Browsers give us several ways to display ((graphics)). The simplest way is to use styles to position and color regular DOM elements. This can get you quite far, as the game in the [previous chapter](game) showed. By adding partially transparent background ((image))s to the nodes, we can make them look exactly the way we want. It is even possible to rotate or skew nodes with the `transform` style.
+Browsers give us several ways to display ((graphics)). The simplest way is to use styles to position and color regular DOM elements. This can get us quite far, as the game in the [previous chapter](game) showed. By adding partially transparent background ((image))s to the nodes, we can make them look exactly the way we want. It is even possible to rotate or skew nodes with the `transform` style.
 
 But we'd be using the DOM for something that it wasn't originally designed for. Some tasks, such as drawing a ((line)) between arbitrary points, are extremely awkward to do with regular HTML elements.
 
@@ -28,7 +28,7 @@ The second alternative is called a _((canvas))_. A canvas is a single DOM elemen
 
 ## SVG
 
-This book will not go into ((SVG)) in detail, but I will briefly explain how it works. At the [end of the chapter](canvas#graphics_tradeoffs), I'll come back to the trade-offs that you must consider when deciding which ((drawing)) mechanism is appropriate for a given application.
+This book won't go into ((SVG)) in detail, but I'll briefly explain how it works. At the [end of the chapter](canvas#graphics_tradeoffs), I'll come back to the trade-offs that you must consider when deciding which ((drawing)) mechanism is appropriate for a given application.
 
 This is an HTML document with a simple SVG ((picture)) in it:
 
@@ -104,7 +104,7 @@ if}}
 
 {{index SVG, coordinates}}
 
-Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0,0) at the top-left corner, and the positive y-((axis)) goes down from there. So (10,10) is 10 pixels below and to the right of the top-left corner.
+Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0,0) at the top-left corner, and the positive y-((axis)) goes down from there. This means (10,10) is 10 pixels below and to the right of the top-left corner.
 
 {{id fill_stroke}}
 
@@ -112,11 +112,11 @@ Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0,
 
 {{index filling, stroking, drawing, SVG}}
 
-In the ((canvas)) interface, a shape can be _filled_, meaning its area is given a certain color or pattern, or it can be _stroked_, which means a ((line)) is drawn along its edge. The same terminology is used by SVG.
+In the ((canvas)) interface, a shape can be _filled_, meaning its area is given a certain color or pattern, or it can be _stroked_, which means a ((line)) is drawn along its edge. SVG uses the same terminology.
 
 {{index "fillRect method", "strokeRect method"}}
 
-The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's top-left corner, then its width, and then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
+The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's top-left corner, then its width, then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
 
 {{index [state, "of canvas"]}}
 
@@ -200,7 +200,7 @@ When filling a path (using the `fill` method), each ((shape)) is filled separate
 </script>
 ```
 
-This example draws a filled triangle. Note that only two of the triangle's sides are explicitly drawn. The third, from the bottom-right corner back to the top, is implied and wouldn't be there when you stroke the path.
+This example draws a filled triangle. Note that only two of the triangle's sides are explicitly drawn. The third, from the bottom-right corner back to the top, is implied and wouldn't be there if you stroked the path.
 
 {{if book
 
@@ -250,7 +250,7 @@ We draw a ((quadratic curve)) from the left to the right, with (60,10) as contro
 
 {{index canvas, "bezierCurveTo method"}}
 
-The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((control point)), this one has two—one for each of the ((line))'s endpoints. Here is a similar sketch to illustrate the behavior of such a curve:
+The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((control point)), this method has two—one for each of the ((line))'s endpoints. Here is a similar sketch to illustrate the behavior of such a curve:
 
 ```{lang: html}
 <canvas></canvas>
@@ -302,7 +302,7 @@ Those last two parameters make it possible to draw only part of the circle. The 
 
 {{index "moveTo method", "arc method", [path, " canvas"]}}
 
-The resulting picture contains a ((line)) from the right of the full circle (first call to `arc`) to the right of the quarter-((circle)) (second call). Like other path-drawing methods, a line drawn with `arc` is connected to the previous path segment. You can call `moveTo` or start a new path to avoid this.
+The resulting picture contains a ((line)) from the right of the full circle (first call to `arc`) to the right of the quarter-((circle)) (second call).
 
 {{if book
 
@@ -310,13 +310,15 @@ The resulting picture contains a ((line)) from the right of the full circle (fir
 
 if}}
 
+Like other path-drawing methods, a line drawn with `arc` is connected to the previous path segment.You can call `moveTo` or start a new path to avoid this.
+
 {{id pie_chart}}
 
 ## Drawing a pie chart
 
 {{index "pie chart example"}}
 
-Imagine you've just taken a ((job)) at EconomiCorp, Inc., and your first assignment is to draw a pie chart of its customer satisfaction ((survey)) results.
+Imagine we've just taken a ((job)) at EconomiCorp, Inc. Your first assignment is to draw a pie chart of its customer satisfaction ((survey)) results.
 
 The `results` binding contains an array of objects that represent the survey responses.
 
@@ -400,7 +402,7 @@ In computer ((graphics)), a distinction is often made between _vector_ graphics 
 
 {{index "load event", "event handling", "img (HTML tag)", "drawImage method"}}
 
-The `drawImage` method allows us to draw ((pixel)) data onto a ((canvas)). This pixel data can originate from an `<img>` element or from another canvas. The following example creates a detached `<img>` element and loads an image file into it. But it cannot immediately start drawing from this picture because the browser may not have loaded it yet. To deal with this, we register a `"load"` event handler and do the drawing after the image has loaded.
+The `drawImage` method allows us to draw ((pixel)) data onto a ((canvas)). This pixel data can originate from an `<img>` element or from another canvas. The following example creates a detached `<img>` element and loads an image file into it. But the method cannot immediately start drawing from this picture because the browser may not have loaded it yet. To deal with this, we register a `"load"` event handler and do the drawing after the image has loaded.
 
 ```{lang: html}
 <canvas></canvas>
@@ -418,13 +420,13 @@ The `drawImage` method allows us to draw ((pixel)) data onto a ((canvas)). This 
 
 {{index "drawImage method", scaling}}
 
-By default, `drawImage` will draw the image at its original size. You can also give it two additional arguments to set a different width and height.
+By default, `drawImage` will draw the image at its original size. You can also give it two additional arguments to specify the width and height of the drawn image, when those aren't the same as origin image.
 
 When `drawImage` is given _nine_ arguments, it can be used to draw only a fragment of an image. The second through fifth arguments indicate the rectangle (x, y, width, and height) in the source image that should be copied, and the sixth to ninth arguments give the rectangle (on the canvas) into which it should be copied.
 
 {{index "player", "pixel art"}}
 
-This can be used to pack multiple _((sprite))s_ (image elements) into a single image file and then draw only the part you need. For example, we have this picture containing a game character in multiple ((pose))s:
+This can be used to pack multiple _((sprite))s_ (image elements) into a single image file and then draw only the part you need. For example, this picture contains a game character in multiple ((pose))s:
 
 {{figure {url: "img/player_big.png", alt: "Pixel art showing a computer game character in 10 different poses. The first 8 form its running animation cycle, the 9th has the character standing still, and the 10th shows him jumping.", width: "6cm"}}}
 
@@ -472,7 +474,7 @@ The `cycle` binding tracks our position in the animation. For each ((frame)), it
 
 {{indexsee flipping, mirroring}}
 
-But what if we want our character to walk to the left instead of to the right? We could draw another set of sprites, of course. But we can also instruct the ((canvas)) to draw the picture the other way round.
+What if we want our character to walk to the left instead of to the right? We could draw another set of sprites, of course. But we could also instruct the ((canvas)) to draw the picture the other way round.
 
 {{index "scale method", scaling}}
 
@@ -504,7 +506,7 @@ Scaling will cause everything about the drawn image, including the ((line width)
 
 {{index "drawImage method"}}
 
-So to turn a picture around, we can't simply add `cx.scale(-1, 1)` before the call to `drawImage` because that would move our picture outside of the ((canvas)), where it won't be visible. You could adjust the ((coordinates)) given to `drawImage` to compensate for this by drawing the image at x position -50 instead of 0. Another solution, which doesn't require the code that does the drawing to know about the scale change, is to adjust the ((axis)) around which the scaling happens.
+To turn a picture around, we can't simply add `cx.scale(-1, 1)` before the call to `drawImage`. That would move our picture outside of the ((canvas)), where it won't be visible. We could adjust the ((coordinates)) given to `drawImage` to compensate for this by drawing the image at x position -50 instead of 0. Another solution, which doesn't require the code doing the drawing to know about the scale change, is to adjust the ((axis)) around which the scaling happens.
 
 {{index "rotate method", "translate method", transformation}}
 
@@ -512,7 +514,7 @@ There are several other methods besides `scale` that influence the coordinate sy
 
 {{index "rotate method", "translate method"}}
 
-So if we translate by 10 horizontal pixels twice, everything will be drawn 20 pixels to the right. If we first move the center of the coordinate system to (50,50) and then rotate by 20 ((degree))s (about 0.1π ((radian))s), that rotation will happen _around_ point (50,50).
+If we translate by 10 horizontal pixels twice, everything will be drawn 20 pixels to the right. If we first move the center of the coordinate system to (50,50) and then rotate by 20 ((degree))s (about 0.1π ((radian))s), that rotation will happen _around_ point (50,50).
 
 {{figure {url: "img/transform.svg", alt: "Diagram showing the result of stacking transformations. The first diagram translates and then rotates, causing the translation to happen normally and rotation to happen around the target of the translation. The second diagram first rotates, and then translates, causing the rotation to happen around the origin and the translation direction to be tilted by that rotation.", width: "9cm"}}}
 
@@ -623,7 +625,7 @@ We define another display object type called `CanvasDisplay`, supporting the sam
 
 {{index [state, "in objects"]}}
 
-This object keeps a little more information than `DOMDisplay`. Rather than using the scroll position of its DOM element, it tracks its own ((viewport)), which tells us what part of the level we are currently looking at. Finally, it keeps a `flipPlayer` property so that even when the player is standing still, it keeps facing the direction it last moved in.
+This object keeps a little more information than `DOMDisplay`. Rather than using the scroll position of its DOM element, it tracks its own ((viewport)), which tells us which part of the level we are currently looking at. Finally, it keeps a `flipPlayer` property so that even when the player is standing still, it keeps facing the direction in which it last moved.
 
 ```{sandbox: "game", includeCode: true}
 class CanvasDisplay {
@@ -748,11 +750,11 @@ Tiles that are not empty are drawn with `drawImage`. The `otherSprites` image co
 
 {{index scaling}}
 
-Background tiles are 20 by 20 pixels since we will use the same scale that we used in `DOMDisplay`. Thus, the offset for lava tiles is 20 (the value of the `scale` binding), and the offset for walls is 0.
+Background tiles are 20 by 20 pixels, since we'll use the same scale as in `DOMDisplay`. Thus, the offset for lava tiles is 20 (the value of the `scale` binding), and the offset for walls is 0.
 
 {{index drawing, "load event", "drawImage method"}}
 
-We don't bother waiting for the sprite image to load. Calling `drawImage` with an image that hasn't been loaded yet will simply do nothing. Thus, we might fail to draw the game properly for the first few ((frame))s, while the image is still loading, but that is not a serious problem. Since we keep updating the screen, the correct scene will appear as soon as the loading finishes.
+We don't bother waiting for the sprite image to load. Calling `drawImage` with an image that hasn't been loaded yet will simply do nothing. Thus, we might fail to draw the game properly for the first few ((frame))s while the image is still loading, but that isn't a serious problem. Since we keep updating the screen, the correct scene will appear as soon as the loading finishes.
 
 {{index "player", [animation, "platform game"], drawing}}
 
@@ -818,7 +820,7 @@ When ((drawing)) something that is not the ((player)), we look at its type to fi
 
 {{index viewport}}
 
-We have to subtract the viewport's position when computing the actor's position since (0,0) on our ((canvas)) corresponds to the top left of the viewport, not the top left of the level. We could also have used `translate` for this. Either way works.
+We have to subtract the viewport's position when computing the actor's position, since (0,0) on our ((canvas)) corresponds to the top left of the viewport, not the top left of the level. We could also have used `translate` for this. Either way works.
 
 {{if interactive
 
@@ -848,7 +850,7 @@ if}}
 
 ## Choosing a graphics interface
 
-Thus, when you need to generate graphics in the browser, you can choose between plain HTML, ((SVG)), and ((canvas)). There is no single _best_ approach that works in all situations. Each option has strengths and weaknesses.
+When you need to generate graphics in the browser, you can choose between plain HTML, ((SVG)), and ((canvas)). There is no single _best_ approach that works in all situations. Each option has strengths and weaknesses.
 
 {{index "text wrapping"}}
 
@@ -862,19 +864,15 @@ SVG can be used to produce ((crisp)) ((graphics)) that look good at any zoom lev
 
 Both SVG and HTML build up a data structure (the DOM) that represents your picture. This makes it possible to modify elements after they are drawn. If you need to repeatedly change a small part of a big ((picture)) in response to what the user is doing or as part of an ((animation)), doing it in a canvas can be needlessly expensive. The DOM also allows us to register mouse event handlers on every element in the picture (even on shapes drawn with SVG). You can't do that with canvas.
 
-{{index performance, optimization}}
+{{index performance, optimization, "ray tracer"}}
 
-But ((canvas))'s ((pixel))-oriented approach can be an advantage when drawing a huge number of tiny elements. The fact that it does not build up a data structure but only repeatedly draws onto the same pixel surface gives canvas a lower cost per shape.
-
-{{index "ray tracer"}}
-
-There are also effects, such as rendering a scene one ((pixel)) at a time (for example, using a ray tracer) or postprocessing an image with JavaScript (blurring or distorting it), that are only practical with a canvas element.
+But ((canvas))'s ((pixel))-oriented approach can be an advantage when drawing a huge number of tiny elements. The fact that it does not build up a data structure but only repeatedly draws onto the same pixel surface gives canvas a lower cost per shape. There are also effects that are only practical with a canvas element, such as rendering a scene one ((pixel)) at a time (for example, using a ray tracer) or postprocessing an image with JavaScript (blurring or distorting it).
 
 In some cases, you may want to combine several of these techniques. For example, you might draw a ((graph)) with ((SVG)) or ((canvas)) but show ((text))ual information by positioning an HTML element on top of the picture.
 
 {{index display}}
 
-For nondemanding applications, it really doesn't matter much which interface you choose. The display we built for our game in this chapter could have been implemented using any of these three ((graphics)) technologies since it does not need to draw text, handle mouse interaction, or work with an extraordinarily large number of elements.
+For nondemanding applications, it really doesn't matter much which interface you choose. The display we built for our game in this chapter could have been implemented using any of these three ((graphics)) technologies, since it does not need to draw text, handle mouse interaction, or work with an extraordinarily large number of elements.
 
 ## Summary
 
@@ -918,7 +916,7 @@ Write a program that draws the following ((shape))s on a ((canvas)):
 
 {{figure {url: "img/exercise_shapes.png", alt: "Picture showing the shapes you are asked to draw", width: "8cm"}}}
 
-When drawing the last two, you may want to refer to the explanation of `Math.cos` and `Math.sin` in [Chapter ?](dom#sin_cos), which describes how to get coordinates on a circle using these functions.
+When drawing the last two shapes, you may want to refer to the explanation of `Math.cos` and `Math.sin` in [Chapter ?](dom#sin_cos), which describes how to get coordinates on a circle using these functions.
 
 {{index readability, "hard-coding"}}
 
@@ -1077,7 +1075,7 @@ One unfortunate thing about ((transformation))s is that they slow down the drawi
 
 In a game like ours, where we are drawing only a single transformed sprite, this is a nonissue. But imagine that we need to draw hundreds of characters or thousands of rotating particles from an explosion.
 
-Think of a way to allow us to draw an inverted character without loading additional image files and without having to make transformed `drawImage` calls every frame.
+Think of a way to draw an inverted character without loading additional image files and without having to make transformed `drawImage` calls every frame.
 
 {{hint
 

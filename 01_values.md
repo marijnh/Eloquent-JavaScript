@@ -163,7 +163,7 @@ To make it possible to include such characters in a string, the following notati
 "This is the first line\nAnd this is the second"
 ```
 
-This is the actual text is that string:
+This is the actual text in that string:
 
 ```{lang: null}
 This is the first line

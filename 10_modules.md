@@ -99,7 +99,7 @@ console.log(nomDeJour(3));
 // → Wednesday
 ```
 
-M module may also have a special export named `default`, which is often used for modules that only export a single binding. To define a default export, you write `export default` before an expression, a function declaration, or a class declaration.
+A module may also have a special export named `default`, which is often used for modules that only export a single binding. To define a default export, you write `export default` before an expression, a function declaration, or a class declaration.
 
 ```
 export default ["Winter", "Spring", "Summer", "Autumn"];

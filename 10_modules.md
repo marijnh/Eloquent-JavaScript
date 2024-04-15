@@ -111,55 +111,55 @@ Bu tür bir bağlantı, içe aktarmada adın etrafındaki süslü parantezleri k
 import seasonNames from "./seasonname.js";
 ```
 
-## Packages
+## Paketler
 
 {{index bug, dependency, structure, reuse}}
 
-One of the advantages of building a program out of separate pieces, and being able to run some of those pieces on their own, is that you might be able to apply the same piece in different programs.
+Bir programı ayrı parçalardan oluşturmanın ve bazı parçaları kendi başlarına çalıştırabilmenin avantajlarından biri, aynı parçayı farklı programlarda kullanabilme olasılığınızdır.
 
 {{index "parseINI function"}}
 
-But how do you set this up? Say I want to use the `parseINI` function from [Chapter ?](regexp#ini) in another program. If it is clear what the function depends on (in this case, nothing), I can just copy that module into my new project and use it. But then, if I find a mistake in the code, I'll probably fix it in whichever program  I'm working with at the time and forget to also fix it in the other program.
+Ancak, bunu nasıl kurarsınız? Diyelim ki başka bir programda [bölüm ?](regexp#ini) içindeki `parseINI` fonksiyonunu kullanmak istiyorum. Fonksiyonun neye bağlı olduğu (bu durumda, hiçbir şeye) açıksa, sadece o modülü yeni projeme kopyalayabilir ve kullanabilirim. Ancak sonra, kodda bir hata bulursam, muhtemelen o sırada çalıştığım programda düzelteceğim ve aynı hatayı diğer programda da düzeltmeyi unutacağım.
 
 {{index duplication, "copy-paste programming"}}
 
-Once you start duplicating code, you'll quickly find yourself wasting time and energy moving copies around and keeping them up-to-date.
+Kod kopyalamaya başladığınızda, zamanınızı ve enerjinizi kopyaları taşımak ve güncel tutmak için harcadığınızı hızla fark edersiniz.
 
-That's where _((package))s_ come in. A package is a chunk of code that can be distributed (copied and installed). It may contain one or more modules and has information about which other packages it depends on. A package also usually comes with documentation explaining what it does so that people who didn't write it might still be able to use it.
+İşte burada _((paket))_ler devreye giriyor. Bir paket, dağıtılabilen (kopyalanabilen ve yüklenen) bir kod parçasıdır. Bir veya daha fazla modül içerebilir ve ne tür paketlere bağımlı olduğu hakkında bilgi içerir. Bir paket genellikle ne yaptığını açıklayan belgelerle birlikte gelir, böylece o programı yazmamış sadece kullanmak isteyen insanlar bile onu kullanabilirler.
 
-When a problem is found in a package or a new feature is added, the package is updated. Now the programs that depend on it (which may also be packages) can copy the new ((version)) to get the improvements that were made to the code.
+Bir pakette bir sorun bulunduğunda veya yeni bir özellik eklediğinde, paket güncellenir. Artık ona bağımlı olan programlar (ki bunlar da paketler olabilir) iyileştirmeleri almak için yeni ((sürümü)) kopyalayabilirler.
 
 {{id modules_npm}}
 
 {{index installation, upgrading, "package manager", download, reuse}}
 
-Working in this way requires ((infrastructure)). We need a place to store and find packages and a convenient way to install and upgrade them. In the JavaScript world, this infrastructure is provided by ((NPM)) ([_https://npmjs.org_](https://npmjs.org)).
+Bu şekilde çalışmak ((altyapı)) gerektirir. Paketleri depolamak ve bulmak için bir yer ve bunları kurmak ve yükseltmek için uygun bir yer gereklidir. JavaScript dünyasında, bu altyapı ((NPM)) ([https://npmjs.org](https://npmjs.org)) tarafından sağlanır.
 
-NPM is two things: an online service where you can download (and upload) packages and a program (bundled with Node.js) that helps you install and manage them.
+NPM iki şeydir: paketleri indirebileceğiniz (ve yükleyebileceğiniz) çevrimiçi bir hizmet ve onları kurmanıza ve yönetmenize yardımcı olan Node.js ile birlikte paketlenmiş bir program.
 
 {{index "ini package"}}
 
-At the time of writing, there are more than three million different packages available on NPM. A large portion of those are rubbish, to be fair. But almost every useful, publicly available JavaScript package can be found on NPM. For example, an INI file parser, similar to the one we built in [Chapter ?](regexp), is available under the package name `ini`.
+Yazım sırasında, NPM'de üç milyondan fazla farklı paket bulunmaktadır. Adil olmak gerekirse, bunların büyük bir kısmı gereksizdir. Ancak neredeyse her kullanışlı, genel olarak erişilebilir JavaScript paketi NPM'de bulunabilir. Örneğin, [bölüm ?](regexp) içinde oluşturduğumuz bir INI dosyası ayrıştırıcısı, `ini` paketi adı altında bulunabilir.
 
 {{index "command line"}}
 
-[Chapter ?](node) will show how to install such packages locally using the `npm` command line program.
+[Chapter ?](node), bu tür paketleri `npm` komut satırı programını kullanarak yerel olarak nasıl kuracağınızı gösterecektir.
 
-Having quality packages available for download is extremely valuable. It means that we can often avoid reinventing a program that 100 people have written before and get a solid, well-tested implementation at the press of a few keys.
+İndirilebilir kaliteli paketlere sahip olmak son derece değerlidir. 100 kişi tarafından yazılmış bir programı yeniden icat etmekten genellikle kaçınabilir ve birkaç tuşa basarak sağlam, iyi test edilmiş bir uygulama elde edebiliriz.
 
 {{index maintenance}}
 
-Software is cheap to copy, so once someone has written it, distributing it to other people is an efficient process. But writing it in the first place _is_ work, and responding to people who have found problems in the code, or who want to propose new features, is even more work.
+Yazılım kopyalamak ucuzdur, bu yüzden biri yazdığında, başkalarına dağıtmak verimli bir süreçtir. Ancak bunu baştan yazmak _iştir_, ayrıca kodunuzda sorun bulan veya yeni özellikler önermek isteyen kişilere cevap vermek daha fazla iştir.
 
-By default, you own the ((copyright)) to the code you write, and other people may use it only with your permission. But because some people are just nice and because publishing good software can help make you a little bit famous among programmers, many packages are published under a ((license)) that explicitly allows other people to use it.
+Varsayılan olarak, yazdığınız kodun ((telif hakkı)) size aittir ve diğer kişiler yalnızca izninizle kullanabilirler. Ancak bazı insanlar nazik olduklarından ve iyi yazılım yayınlamak, yazılımcılar arasında biraz ünlü olmanıza yardımcı olabildiğinden ötürü birçok paket açıkça diğer insanların onu kullanmasına izin veren bir ((lisans)) altında yayınlanır.
 
-Most code on ((NPM)) is licensed this way. Some licenses require you to also publish code that you build on top of the package under the same license. Others are less demanding, just requiring that you keep the license with the code as you distribute it. The JavaScript community mostly uses the latter type of license. When using other people's packages, make sure you are aware of their license.
+((NPM))'deki çoğu kod bu şekilde lisanslanmıştır. Bazı lisanslar, paketin üzerine inşa ettiğiniz kodu da aynı lisans altında yayınlamanızı gerektirir. Diğerleri ise daha az talepkârdır ve sadece lisansı kodla birlikte dağıtmanızı isterler. JavaScript topluluğu genellikle bu son açıkladığım türdeki lisansları kullanır. Başkalarının paketlerini kullanırken, lisanslarını bilincinde olduğunuzdan emin olun.
 
 {{id modules_ini}}
 
 {{index "ini package"}}
 
-Now, instead of writing our own INI file parser, we can use one from ((NPM)).
+Artık kendi INI dosyası ayrıştırıcımızı yazmak yerine, ((NPM)) üzerinden bir tane kullanabiliriz.
 
 ```
 import {parse} from "ini";
@@ -170,17 +170,15 @@ console.log(parse("x = 10\ny = 20"));
 
 {{id commonjs}}
 
-## CommonJS modules
+## CommonJS modülleri
 
-Before 2015, when the JavaScript language had no actual built-in module system, people were already building large systems in JavaScript. To make that workable, they _needed_ ((module))s.
+2015'ten önce, JavaScript dilinde gerçek bir yerleşik modül sistemi olmadığı zamanlarda da insanlar JavaScript'te büyük sistemler inşa ediyorlardı. Bunu çalışabilir yapmak için ((modül))lere _ihtiyaçları vardı_.
 
 {{index [function, scope], [interface, module], [object, as module]}}
 
-The community designed its own improvised ((module system))s on top of the language. These use functions to create a local scope for the modules and regular objects to represent module interfaces.
+Topluluk, kendi düzenlediği ((modül sistem))lerini dilden bağımsız olarak tasarladı. Bu modülleri, yerel bir kapsam oluştururken fonksiyonları kullanarak ve modül arayüzlerini temsil etmek için sıradan nesneleri kullanarak oluşturdular.
 
-Initially, people just manually wrapped their entire module in an “((immediately invoked function
-expression))” to create the module's scope, and assigned their interface objects to a single global
-variable.
+Başlangıçta, insanlar modüllerine ayrı bir bağlam oluşturmak için "((hemen çağrılan fonksiyon ifadesi))" içine manuel olarak sarıp arayüz nesnelerini tek bir global değişkene atarlardı.
 
 ```
 const weekDay = function() {
@@ -198,21 +196,21 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 
 {{index dependency, [interface, module]}}
 
-This style of modules provides ((isolation)), to a certain degree, but it does not declare dependencies. Instead, it just puts its interface into the ((global scope)) and expects its dependencies, if any, to do the same. This is not ideal.
+Bu tür modüllerin stili, belirli bir dereceye kadar ((izolasyon)) sağlar, ancak bağımlılıkları bildirmez. Bunun yerine, arayüzünü ((genel kapsam))a koyar ve varsa bağımlılıklarının, aynısını yapmasını bekler. Bu ideal değildir.
 
 {{index "CommonJS modules"}}
 
-If we implement our own module loader, we can do better. The most widely used approach to bolted-on JavaScript modules is called _CommonJS modules_. ((Node.js)) used it from the start (though it now also knows how to load ES modules) it and is the module system used by many packages on ((NPM)).
+Eğer kendi modül yükleyicimizi uygularsak, daha iyi yapabiliriz. JavaScript modüllerini eklemek için en yaygın kullanılan yaklaşım _CommonJS modülleri_ olarak adlandırılır. ((Node.js)), bu tür modülleri başlangıçtan itibaren kullandı (ancak şimdi ayrıca ES modüllerini de yükleyebilir durumdadır) ve bu, NPM'deki birçok paket tarafından kullanılan modül sistemidir.
 
 {{index "require function", [interface, module], "exports object"}}
 
-A CommonJS module looks like a regular script, but it has access to two bindings that it uses to interact with other modules. The first is a function called `require`. When you call this with the module name of your dependency, it makes sure the module is loaded and returns its interface. The second is an object named `exports`, which is the interface object for the module. It starts out empty and you add properties to it to define exported values.
+Bir CommonJS modülü, düzenli bir betik gibi görünür, ancak diğer modüllerle etkileşim kurmak için kullandığı iki bağlantıya erişim sağlar. İlk olarak, `require` olarak adlandırılan bir fonskiyon. Bağımlılığınızın modül adıyla bunu çağırdığınızda, modülün yüklenip arayüzünü döndürmesini sağlar. İkincisi, modül için arayüz nesnesi olan `exports` adlı bir nesnedir. Başlangıçta boştur ve dışa aktarılan değerleri tanımlamak için ona özellikler eklersiniz.
 
 {{index "formatDate module", "Date class", "ordinal package", "date-names package"}}
 
-This CommonJS example module provides a date-formatting function. It uses two ((package))s from NPM—`ordinal` to convert numbers to strings like `"1st"` and `"2nd"`, and `date-names` to get the English names for weekdays and months. It exports a single function, `formatDate`, which takes a `Date` object and a ((template)) string.
+Bu CommonJS örnek modülü, bir tarih biçimlendirme fonksiyonu sağlar. NPM'den iki ((paket))  kullanır: sayıları `"1st"` ve `"2nd"` gibi dizelere dönüştürmek için `ordinal` paketini ve haftanın günler ve aylar için İngiliz isimlerini almak adına `date-names` paketini kullanır. Bir `Date` nesnesi ve bir ((şablon)) dizesi alan `formatDate` adlı tek bir fonksiyonu dışa aktarır.
 
-The template string may contain codes that direct the format, such as `YYYY` for the full year and `Do` for the ordinal day of the month. You could give it a string like `"MMMM Do YYYY"` to get output like "November 22nd 2017".
+Şablon dizesi, `YYYY` gibi biçimi yönlendiren kodları içerebilir ve ayın sıra günü için `Do` gibi dizeleri içerebilir. `"MMMM Do YYYY"` gibi bir dize verebilirsiniz ve çıktı olarak `"November 22nd 2017"` gibi bir çıktı alırsınız.
 
 ```
 const ordinal = require("ordinal");
@@ -232,9 +230,9 @@ exports.formatDate = function(date, format) {
 
 {{index "destructuring binding"}}
 
-The interface of `ordinal` is a single function, whereas `date-names` exports an object containing multiple things—`days` and `months` are arrays of names. Destructuring is very convenient when creating bindings for imported interfaces.
+`ordinal` paketinin arayüzü tek bir fonksiyon iken, `date-names` birçok şey içeren bir nesne dışa aktarır—`days` ve `months` isim dizileridir. İçe aktarılan arayüzler için bağlantılar oluştururken, parçalama yöntemi çok yararlı ve kullanışlıdır.
 
-The module adds its interface function to `exports` so that modules that depend on it get access to it. We could use the module like this:
+Modül, arayüz fonksiyonunu `exports` bağlantısına ekler ki böylece buna bağımlı olan modüller buna erişebilsin. Modülü şu şekilde kullanabiliriz:
 
 ```
 const {formatDate} = require("./format-date.js");
@@ -244,13 +242,13 @@ console.log(formatDate(new Date(2017, 9, 13),
 // → Friday the 13th
 ```
 
-CommonJS is implemented with a module loader that, when loading a module, wraps its code in a function (giving it its own local scope), and passes the `require` and `exports` bindings to that function as arguments.
+CommonJS, bir modülü yüklerken, kodunu bir fonksiyon içine sarar (kendi yerel kapsamını verir) ve `require` ve `exports` bağlantılarını bu fonksiyonu çağırırken argüman olarak bu bağlantılara argüman geçirir.
 
 {{id require}}
 
 {{index "require function", "CommonJS modules", "readFile function"}}
 
-If we assume we have access to a `readFile` function that reads a file by name and gives us its content, we can define a simplified form of `require` like this:
+Bir dosyanın adını verip onun içeriğini bize döndüren `readFile` adlı bir fonksiyonuna erişiminiz olduğunu varsayarsak, bir `require` fonksiyonunu basitleştirilmiş bir şekilde şu şekilde tanımlayabiliriz:
 
 ```{test: wrap, sandbox: require}
 function require(name) {
@@ -269,21 +267,21 @@ require.cache = Object.create(null);
 
 {{index "Function constructor", eval, security}}
 
-`Function` is a built-in JavaScript function that takes a list of arguments (as a comma-separated string) and a string containing the function body and returns a function value with those arguments and that body. This is an interesting concept—it allows a program to create new pieces of program from string data—but also a dangerous one, since if someone can trick your program into putting a string they provide into `Function`, they can make the program do anything they want.
+`Function`, virgüllerle ayrılmış bir dize halinde bir liste argüman ve fonksiyon gövdesini içerisinde barındıran bir dizeyi argüman olarak alan ve bir fonksiyon değeri döndüren standart bir JavaScript fonksiyonudur. Bu ilginç olmakla beraber tehlikeli bir kavramdır—bir programın dize datasından yeni bir program oluşturmasını sağlar- çünkü birisi programınıza sağladığı bir dizeyi `Function` içine koymaya kandırabilirse, programa istediklerini yaptırabilirler.
 
 {{index [file, access]}}
 
-Standard JavaScript provides no such function as `readFile`—but different JavaScript environments, such as the browser and Node.js, provide their own ways of accessing files. The example just pretends that `readFile` exists.
+Standart JavaScript, `readFile` gibi bir fonksiyon sağlamaz sağlamaz—ancak tarayıcı ve Node.js gibi farklı JavaScript ortamları, dosyalara erişim için kendi yöntemlerini sağlar. Örnek, `readFile` fonksiyonunun var olduğunu varsayar.
 
-To avoid loading the same module multiple times, `require` keeps a store (cache) of already loaded modules. When called, it first checks if the requested module has been loaded and, if not, loads it. This involves reading the module's code, wrapping it in a function, and calling it.
+Aynı modülü birden fazla kez yüklememek için, `require`, zaten yüklenmiş modüllerin bir deposunu (önbellek) tutar. Çağrıldığında, önce istenen modülün yüklenip yüklenmediğini kontrol eder ve yüklenmediyse, yükler. Bu, modülün kodunu okuyup bir fonksiyon içine sarıp onu çağırarak yapılır.
 
 {{index "ordinal package", "exports object", "module object", [interface, module]}}
 
-By defining `require`, `exports` as ((parameter))s for the generated wrapper function (and passing the appropriate values when calling it), the loader makes sure that these bindings are available in the module's ((scope)).
+Oluşturulan sarıcı fonksiyon için için `require` ve `exports` değerlerini ((parametre))ler olarak tanımlayarak (ve fonksiyonu çağırırken uygun değerleri geçirerek), yükleyici bu bağlantıların modülün ((kapsam))ında kullanılabilir olduğundan emin olur.
 
-An important difference between this system and ES modules is that ES module imports happen before a module's script starts running, whereas `require` is a normal function, invoked when the module is already running. Unlike `import` declarations, `require` calls _can_ appear inside functions, and the name of the dependency can be any expression that evaluates to a string, whereas `import` only allows plain quoted strings.
+Bu sistemle ES modülleri arasındaki önemli bir fark, ES modülü modül yüklemelerinin bir modülün betiği çalışmaya başlamadan önce gerçekleşmesidir, oysa `require` normal bir fonksiyondur ve modül çalışırken çağrılır. `import` beyanlarının aksine, `require` çağrıları fonksiyonların içinde _görünebilir_ ve bağımlılık adı, sadece düz tırnaklı dizelere izin veren `import`'a kıyasla herhangi bir ifade olabilir.
 
-The transition of the JavaScript community from CommonJS style to ES modules has been a slow and somewhat rough one. But fortunately we are now at a point where most of the popular packages on NPM provide their code as ES modules, and Node.js allows ES modules to import from CommonJS modules. So while CommonJS code is still something you will run across, there is no real reason to write new programs in this style anymore.
+JavaScript topluluğunun CommonJS stilinden ES modülleri stiline geçişi yavaş ve biraz sancılı olmuştur. Ancak neyse ki, şu anda NPM'deki popüler paketlerin çoğu kodlarını ES modülleri olarak sağlıyor ve Node.js, ES modüllerinin içine CommonJS modüllerinden aktarılmasına kod aktarılmasına izin veriyor. Bu nedenle, Ortak JS kodu hala karşılaşacağınız bir şey olsa da, artık yeni programları bu tarzda yazmanın gerçek bir nedeni yoktur.
 
 ## Building and bundling
 

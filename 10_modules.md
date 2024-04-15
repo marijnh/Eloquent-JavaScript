@@ -1,64 +1,64 @@
 {{meta {load_files: ["code/packages_chapter_10.js", "code/chapter/07_robot.js"]}}}
 
-# Modules
+# Modüller
 
-{{quote {author: "Tef", title: "Programming is Terrible", chapter: true}
+{{quote {author: "Tef", title: "Programlamak Korkunç", chapter: true}
 
-Write code that is easy to delete, not easy to extend.
+Silmesi kolay olan kod yazın, üzerine daha fazla şey eklenmesi kolay olan kod değil.
 
 quote}}
 
-{{index "Yuan-Ma", "Book of Programming"}}
+{{index "Yuan-Ma", "Programlamanın Kitabı"}}
 
-{{figure {url: "img/chapter_picture_10.jpg", alt: "Illustration of a complicated building built from modular pieces", chapter: framed}}}
+{{figure {url: "img/chapter_picture_10.jpg", alt: "Modüler parçalardan inşa edilmiş karmaşık bir binanın illüstrasyonu.", chapter: framed}}}
 
 {{index organization, [code, "structure of"]}}
 
-Ideally, a program has a clear, straightforward structure. The way it works is easy to explain, and each part plays a well-defined role.
+İdeal olarak, bir programın açık ve anlaşılır bir yapısı vardır. Çalışma şeklini açıklamak kolaydır ve her bir parça iyi tanımlanmış bir rolü oynar.
 
 {{index "organic growth"}}
 
-In practice, programs grow organically. Pieces of functionality are added as the programmer identifies new needs. Keeping such a program well-structured requires constant attention and work. This is work that will pay off only in the future, the _next_ time someone works on the program. So it is tempting to neglect it and allow the various parts of the program to become deeply entangled.
+Uygulamada, programlar organik olarak büyür. Yeni ihtiyaçlar belirlendikçe fonksiyonalite parçaları eklenir. Böyle bir programın iyi yapılandırılmış kalması sürekli dikkat ve çalışma gerektirir. Bu, sadece gelecekte, _bir sonraki_ kişi program üzerinde çalıştığında ödüllendirilecek bir çalışmadır. Bu nedenle, ihmal etmek ve programın çeşitli parçalarının derinlemesine birbirine karışmasına izin vermek caziptir.
 
 {{index readability, reuse, isolation}}
 
-This causes two practical issues. First, understanding an entangled system is hard. If everything can touch everything else, it is difficult to look at any given piece in isolation. You are forced to build up a holistic understanding of the entire thing. Second, if you want to use any of the functionality from such a program in another situation, rewriting it may be easier than trying to disentangle it from its context.
+Bu iki pratik soruna neden olur. İlk olarak, karışık bir sistem anlamak zordur. Her şey her şeye dokunabiliyorsa, herhangi bir parçayı izole olarak incelemek zor olur. Tüm şeyin bütünlüklü bir anlayışını oluşturmak zorundasınız. İkinci olarak, böyle bir programın işlevselliğini başka bir durumda kullanmak istiyorsanız, bunu içinde bulunduğu düğümü çözmektense programı tamamen yeniden yazmak daha kolay olabilir.
 
-The phrase "((big ball of mud))" is often used for such large, structureless programs. Everything sticks together, and when you try to pick out a piece, the whole thing comes apart, and you only succeed in making a mess.
+"((büyük çamur topu))" ifadesi genellikle böyle büyük, yapısal olmayan programlar için kullanılır. Her şey her şeye yapışır ve bir parça seçmeye çalıştığınızda, bütün şey parçalanır ve sadece bir karmaşa oluşturmayı başarırsınız.
 
-## Modular programs
+## Modüler programlar
 
 {{index dependency, [interface, module]}}
 
-_Modules_ are an attempt to avoid these problems. A ((module)) is a piece of program that specifies which other pieces it relies on and which functionality it provides for other modules to use (its _interface_).
+_Modüller_ bu sorunları önlemeye yönelik bir girişimdir. ((Modül)), başka hangi parçalara bağımlı olduğunu ve diğer modüllerin kullanması için hangi işlevsellikleri sağladığını(_arayüz_ünü) belirten bir program parçasıdır.
 
 {{index "big ball of mud"}}
 
-Module interfaces have a lot in common with object interfaces, as we saw them in [Chapter ?](object#interface). They make part of the module available to the outside world and keep the rest private.
+Modül arayüzleri, [bölüm ?](object#interface) içinde gördüğümüz nesne arayüzleriyle çok ortak noktaya sahiptir. Modülün bir kısmını dış dünyaya kullanılabilir hale getirir ve geri kalanını özel tutar.
 
 {{index dependency}}
 
-But the interface that a module provides for others to use is only half the story. A good module system also requires modules to specify which code _they_ use from other modules. These relations are called _dependencies_. If module A uses functionality from module B, it is said to _depend_ on it. When these are clearly specified in the module itself, they can be used to figure out which other modules need to be present to be able to use a given module and to automatically load dependencies.
+Ancak, bir modülün diğerlerinin kullanması için sağladığı arayüz sadece hikayenin yarısıdır. İyi bir modül sistemi ayrıca modüllerin diğer modüllerden _hangi kodları kullandıklarını_ belirtmelerini gerektirir. Bu ilişkiler _bağımlılıklar_ olarak adlandırılır. Modül A, modül B'den işlevsellik kullanıyorsa, buna _bağımlı_ olduğu söylenir. Bunlar modülde açıkça belirtildiğinde, bir modülü kullanabilmek için hangi diğer modüllerin mevcut olması gerektiğini anlayıp o bağımlılıkları otomatik olarak yüklemek için kullanılabilirler.
 
-When the ways in which modules interact with each other are explicit, a system becomes more like ((LEGO)), where pieces interact through well-defined connectors, and less like mud, where everything mixes with everything.
+Modüllerin birbirleriyle etkileşim şekilleri açık olduğunda, bir sistem her şeyin her şeyle karıştığı çamur gibi olmak yerine parçaların iyi tanımlanmış bağlayıcılar aracılığıyla etkileştiği ((LEGO)) parçaları gibi olur.
 
 {{id es}}
 
-## ES modules
+## ES modülleri
 
 {{index "global scope", [binding, global]}}
 
-The original JavaScript language did not have any concept of a module. All scripts ran in the same scope, and accessing a function defined in another script was done by referencing the global bindings created by that script. This actively encouraged accidental, hard-to-see entanglement of code and invited problems like unrelated scripts trying to use the same binding name.
+Orijinal JavaScript dili herhangi bir modül kavramına sahip değildi. Tüm betikler aynı kapsamda çalışır ve başka bir betikte tanımlanan bir fonksiyona erişmek için o betik tarafından oluşturulan global bağlantılara referansla yapılırdı. Bu, kazara, görülmesi zor kod karışıklığına ve ilişkisiz betiklerin aynı bağlantı adını kullanmaya çalışmasına neden olurdu.
 
 {{index "ES modules"}}
 
-Since ECMAScript 2015, JavaScript supports two different types of programs. _Scripts_ behave in the old way: their bindings are defined in the global scope, and they have no way to directly reference other scripts. _Modules_ get their own separate scope, and support the `import` and `export` keywords, which aren't available in scripts, to declare their dependencies and interface. This module system is usually called _ES modules_ (where “ES” stands for “ECMAScript”).
+ECMAScript 2015'ten beri, JavaScript iki farklı program türünü desteklemektedir. _Betikler_ eski şekilde davranır: bağlantılar global kapsamda tanımlanır ve doğrudan diğer betiklere başvurma yolu yoktur. _Modüller_ kendi ayrı kapsamına sahiptir ve bağımlılıklarını ve arayüzlerini bildirmek için betiklerde bulunmayan `import` ve `export` anahtar kelimelerini destekler. Bu modül sistemi genellikle _ES modülleri_ olarak adlandırılır ("ES", "ECMAScript" anlamına gelir).
 
-A modular program is composed of a number of such modules, wired together via their imports and exports.
+Modüler bir program, bu tür modüllerin, başka modüllerden kullandıkları fonksiyonaliteleri ve başka modüllere kullabilabilir hale getirdikleri fonksiyonaliteleri kullanarak birbirine bağlandığı bir dizi modülden oluşur.
 
 {{index "Date class", "weekDay module"}}
 
-This example module converts between day names and numbers (as returned by `Date`'s `getDay` method). It defines a constant which is not part of its interface, and two functions which are. It has no dependencies.
+Bu örnek modül, gün adları ile sayılar arasında dönüşüm yapar (`Date`'in `getDay` metodu tarafından döndürülenler aracılığıyla). Arayüzünün bir parçası olmayan bir sabit değer ve iki fonksiyon tanımlar. Hiçbir bağımlılığı yoktur.
 
 ```
 const names = ["Sunday", "Monday", "Tuesday", "Wednesday",
@@ -72,7 +72,7 @@ export function dayNumber(name) {
 }
 ```
 
-The `export` keyword can be put in front of a function, class, or binding definition to indicate that that binding is part of the module's interface. This makes it possible for other modules to use that binding by importing it.
+`export` anahtar kelimesi, bir işlevin, sınıfın veya bağlantı tanımının modül arayüzünün bir parçası olduğunu belirtmek için önüne konabilir. Bu, diğer modüllerin onu içe aktararak kullanabilmesini mümkün kılar.
 
 ```{test: no}
 import {dayName} from "./dayname.js";
@@ -83,15 +83,15 @@ console.log(`Today is ${dayName(now.getDay())}`);
 
 {{index "import keyword", dependency, "ES modules"}}
 
-The `import` keyword, followed by a list of binding names in braces, makes bindings from another module available in the current module. Modules are identified by quoted strings.
+`import` anahtar kelimesi, süslü parantez içinde bağlantı adlarından oluşan bir listenin yazılması ardından, başka bir modüldeki bağlantıları mevcut modülde kullanılabilir hale getirir. Modüller tırnak içinde belirtilir.
 
 {{index [module, resolution], resolution}}
 
-How such a module name is resolved to an actual program differs by platform. The browser treats them as Web addresses, whereas Node.js resolves them to files. To run a module, all the other modules it depends on—and the modules _those_ depend on—are loaded, and the exported bindings are made available to the modules that import them.
+Bir modül adının bir gerçek programa nasıl çözümleneceği platforma göre farklılık gösterir. Tarayıcı, bunları Web adresleri olarak ele alırken, Node.js bunları dosyalara çözümler. Bir modülü çalıştırmak için, o modülün bağımlı olduğu tüm diğer modüller - ve _bu bağımlı olunan modüllerin de bağımlı olduğu modüller_ de - yüklenir ve export anahtar kelimesi kullanılan tanımalar dış kullanıma müsait hale getirilir.
 
-Import and export declarations cannot appear inside of functions, loops, or other blocks. They are immediately resolved when the module is loaded, regardless of how the code in the module executes, and to reflect this they must appear only in the outer module body.
+İçe aktarma ve dışa aktarma bildirimleri, fonksiyonlar, döngüler veya diğer blokların içinde görünemez. Modül yüklendiğinde modüldeki kodun nasıl yürütüldüğünden bağımsız olarak hemen çözümlenirler ve bunu yansıtmak için modülün sadece dış gövdesinde görünmelidirler.
 
-So a module's interface consists of a collection of named bindings, which other modules that depend on them have access to. Imported bindings can be renamed to give them a new local name using `as` after their name.
+Bu nedenle, bir modülün arayüzü, onlara bağımlı olan diğer modüllerin erişebildiği adlandırılmış bağlantılardan oluşur. İçe aktarılan bağlantılar, adlarının ardından `as` kullanılarak yeni bir yerel isim verilerek yeniden adlandırılabilir.
 
 ```
 import {dayName as nomDeJour} from "./dayname.js";
@@ -99,13 +99,13 @@ console.log(nomDeJour(3));
 // → Wednesday
 ```
 
-It is also possible for a module to have a special export named `default`, which is often used for modules that only export a single binding. To define a default export, you write `export default` before an expression, a function declaration, or a class declaration.
+Ayrıca, bir modülün özel olarak adlandırılmış `default` adlı bir dışa aktarma bildirisi olması mümkündür, bu genellikle yalnızca tek bir bağlantıyı dışa aktaran modüller için kullanılır. Varsayılan bir dışa aktarım tanımlamak için, bir fonksiyon bildiriminin veya bir sınıf bildiriminin önüne `export default` yazılır.
 
 ```
 export default ["Winter", "Spring", "Summer", "Autumn"];
 ```
 
-Such a binding is imported by omitting the braces around the name of the import.
+Bu tür bir bağlantı, içe aktarmada adın etrafındaki süslü parantezleri kullanmadan içeri aktarılır.
 
 ```
 import seasonNames from "./seasonname.js";

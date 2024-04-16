@@ -372,15 +372,15 @@ JavaScript, tarihsel olarak bir modül sistemi sağlamadığı için, CommonJS s
 
 Bir paket, kendi başına dağıtılabilen bir kod parçasıdır. NPM, JavaScript paketlerinin bir deposudur. Oradan her türlü yararlı (ve yararsız) paketi indirebilirsiniz.
 
-## Exercises
+## Egzersizler
 
-### A modular robot
+### Modüler bir robot
 
 {{index "modular robot (exercise)", module, robot, NPM}}
 
 {{id modular_robot}}
 
-These are the bindings that the project from [Chapter ?](robot) creates:
+[Bölüm ?](robot) içindeki proje tarafından oluşturulan bağlantılar şu şekildedir:
 
 ```{lang: "null"}
 roads
@@ -396,48 +396,48 @@ findRoute
 goalOrientedRobot
 ```
 
-If you were to write that project as a modular program, what modules would you create? Which module would depend on which other module, and what would their interfaces look like?
+Eğer bu projeyi modüler bir program olarak yazsaydınız, hangi modülleri oluştururdunuz? Hangi modüller hangi diğer modüllere bağlı olurdu ve arayüzleri nasıl görünürdü?
 
-Which pieces are likely to be available prewritten on NPM? Would you prefer to use an NPM package or write them yourself?
+Hangi parçaların muhtemelen NPM'de önceden yazılmış olarak bulunacağını düşünüyorsunuz? Bir NPM paketi kullanmayı mı yoksa kendiniz mi yazmayı mı tercih edersiniz?
 
 {{hint
 
 {{index "modular robot (exercise)"}}
 
-Here's what I would have done (but again, there is no single _right_ way to design a given module):
+İşte ben olsaydım yapacağım şeyler (ancak yine de, belirli bir modül tasarımı için _tek bir doğru yol_ yoktur):
 
 {{index "dijkstrajs package"}}
 
-The code used to build the road graph lives in the `graph` module. Because I'd rather use `dijkstrajs` from NPM than our own pathfinding code, we'll make this build the kind of graph data that `dijkstrajs` expects. This module exports a single function, `buildGraph`. I'd have `buildGraph` accept an array of two-element arrays, rather than strings containing hyphens, to make the module less dependent on the input format.
+Yol grafiğini oluşturmak için kullanılan kod `graph` modülünde bulunur. Kendi yol bulma kodumuz yerine NPM'den `dijkstrajs` paketini kullanmayı tercih ettiğim için, `dijkstrajs`'ın beklediği türde grafik verilerini oluşturacağız. Bu modül, `buildGraph` adlı tek bir fonksiyonu dışa aktarır. Modülün giriş formatına olan bağımlılığını azaltmak için `buildGraph` fonksiyonunun tirelerle içindekileri ayıran bir dize yerine bir dizi iki öğeli diziyi kabul etmesini sağlardım.
 
-The `roads` module contains the raw road data (the `roads` array) and the `roadGraph` binding. This module depends on `./graph.js` and exports the road graph.
+`roads` modülü, ham yol verilerini (`roads` dizisi) ve `roadGraph` bağlantısını içerir. Bu modül `./graph.js` dosyasına bağlıdır ve yol grafiğini dışa aktarır.
 
 {{index "random-item package"}}
 
-The `VillageState` class lives in the `state` module. It depends on the `./roads` module because it needs to be able to verify that a given road exists. It also needs `randomPick`. Since that is a three-line function, we could just put it into the `state` module as an internal helper function. But `randomRobot` needs it too. So we'd have to either duplicate it or put it into its own module. Since this function happens to exist on NPM in the `random-item` package, a reasonable solution is to just make both modules depend on that. We can add the `runRobot` function to this module as well, since it's small and closely related to state management. The module exports both the `VillageState` class and the `runRobot` function.
+`VillageState` sınıfı, `state` modülünde yaşar. `./roads` modülüne bağımlıdır çünkü belirli bir yolun var olup olmadığını bilmesi gerekmektedir. Ayrıca `randomPick`'e ihtiyaç duyar. Bu, üç satırlık bir fonksiyon olduğu için bunu `state` modülüne bir dahili yardımcı fonksiyon olarak koyabiliriz. Ancak `randomRobot` da buna ihtiyaç duyar. Bu yüzden ya bunu kopyalamamız ya da kendi modülümüze koymamız gerekir. Bu fonksiyon, `random-item` paketinde zaten mevcut olduğu için, her iki modülü de buna bağlı hale getirmek uygun bir çözümdür. Bu modüle ayrıca, küçük olduğu ve durum yönetimiyle yakından ilgili olduğu için `runRobot` fonksiyonunu da ekleyebiliriz. Modül, hem `VillageState` sınıfını hem de `runRobot` fonksiyonunu dışa aktarır.
 
-Finally, the robots, along with the values they depend on such as `mailRoute`, could go into an `example-robots` module, which depends on `./roads` and exports the robot functions. To make it possible for `goalOrientedRobot` to do route-finding, this module also depends on `dijkstrajs`.
+Son olarak robotlar, `mailRoute` gibi bağımlılıklarıyla beraber `./roads`'a bağımlı olan ve robot fonksiyonlarını dışa aktaran bir `example-robots` modülüne konabilir. `goalOrientedRobot` fonksiyonunun rotalama yapabilmesi için, bu modül ayrıca `dijkstrajs` paketine bağımlıdır.
 
-By offloading some work to ((NPM)) modules, the code became a little smaller. Each individual module does something rather simple and can be read on its own. Dividing code into modules also often suggests further improvements to the program's design. In this case, it seems a little odd that the `VillageState` and the robots depend on a specific road graph. It might be a better idea to make the graph an argument to the state's constructor and make the robots read it from the state object—this reduces dependencies (which is always good) and makes it possible to run simulations on different maps (which is even better).
+((NPM)) modüllerine bazı işleri yükleyerek, kod biraz daha küçüldü. Her bir modül, oldukça basit bir şey yapar ve kendi başına okunabilir. Kodu modüllere bölmek ayrıca genellikle programın tasarımında daha ileri gelişmeleri önerir. Bu durumda, `VillageState` ve robotların belirli bir yol grafiğine bağlı olması biraz garip görünmektedir. Grafik, `state`'in constructor fonksiyonuna bir argüman olarak vermek ve robotların durum nesnesinden okumasını sağlamak daha iyi bir fikir olabilir—bu, bağımlılıkları azaltır (ki bu her zaman iyidir) ve farklı map değerlerinde simülasyonları çalıştırabilmeyi mümkün kılar (ki bu daha da iyidir).
 
-Is it a good idea to use NPM modules for things that we could have written ourselves? In principle, yes—for nontrivial things like the pathfinding function you are likely to make mistakes and waste time writing them yourself. For tiny functions like `random-item`, writing them yourself is easy enough. But adding them wherever you need them does tend to clutter your modules.
+NPM modüllerini yazabileceğimiz şeyler için kullanmak iyi bir fikir midir? İlkeler bakımından, evet—yol bulma gibi önemli olmayan şeyleri kendiniz yazarken muhtemelen hatalar yapar ve zaman kaybedersiniz. `random-item` gibi küçük fonksiyonlar için kendiniz yazmak yeterince kolaydır. Ancak onları ihtiyacınız olan her yere eklemek, modüllerinizi kalabalıklaştırmanızı sağlar.
 
-However, you should also not underestimate the work involved in _finding_ an appropriate NPM package. And even if you find one, it might not work well or may be missing some feature you need. On top of that, depending on NPM packages means you have to make sure they are installed, you have to distribute them with your program, and you might have to periodically upgrade them.
+Ancak, uygun bir NPM paketi _bulmanın_ getirdiği işi de küçümsememelisiniz. Ve bir tane bulsanız bile, iyi çalışmayabilir veya ihtiyacınız olan bazı özellikleri eksik olabilir. Üstelik, NPM paketlerine bağımlı olmak, onların kurulduğundan emin olmanızı ve programınızla birlikte dağıtmanız gerektiği anlamına gelir ve onları düzenli olarak güncellemeniz gerekebilir.
 
-So again, this is a trade-off, and you can decide either way depending on how much a given package actually helps you.
+Bu yüzden, tekrar ediyorum, bu bir ödünleşmedir ve bir paketin ne kadar yardımcı olduğuna bağlı olarak her iki şekilde de karar verebilirsiniz.
 
 hint}}
 
-### Roads module
+### Yollar modülü
 
 {{index "roads module (exercise)"}}
 
-Write an ES module, based on the example from [Chapter ?](robot), that contains the array of roads and exports the graph data structure representing them as `roadGraph`. It should depend on a module `./graph.js`, which exports a function `buildGraph` that is used to build the graph. This function expects an array of two-element arrays (the start and end points of the roads).
+[Chapter ?](robot) içindeki örneğe dayanarak bir ES modülü yazın, yolların bir dizisini içersin ve onları `roadGraph` olarak temsil eden grafik veri yapısını dışa aktarsın. Bu, grafik oluşturmak için kullanılan `buildGraph` adlı bir fonksiyonu dışa aktaran `./graph.js` adlı bir modüle bağımlı olmalıdır. Bu fonksiyon, iki öğeli dizilerden (yolların başlangıç ve bitiş noktaları) oluşan bir dizi bekler.
 
 {{if interactive
 
 ```{test: no}
-// Add dependencies and exports
+// Arayüz ve bağımlılıkları ekleyin
 
 const roads = [
   "Alice's House-Bob's House",   "Alice's House-Cabin",
@@ -456,26 +456,26 @@ if}}
 
 {{index "roads module (exercise)", "destructuring binding", "exports object"}}
 
-Since this is an ES module, you have to use `import` to access the graph module. That was described as exporting a `buildGraph` function, which you can pick out of its interface object with a destructuring `const` declaration.
+Bu bir ES modül olduğundan, grafiğe erişmek için `import` kullanmanız gerekir. Bu, `const` beyanı aracılığıyla yapılarına ayırarak arayüz nesnesinden `buildGraph` fonksiyonunu seçebileceğiniz şekilde açıklanmıştır.
 
-To export `roadGraph`, you put the keyword `export` before its definition. Because `buildGraph` takes a data structure that doesn't precisely match `roads`, the splitting of the road strings must happen in your module.
+`roadGraph` fonksiyonunu dışa aktarmak için, tanımının önüne `export` anahtar kelimesini koyarsınız. `buildGraph`, `roads` ile tam olarak eşleşmeyen bir veri yapısı aldığından ötürü yol dizilerinin bölünmesi kendi modülünüzde olmalıdır.
 
 hint}}
 
-### Circular dependencies
+### Döngüsel bağımlılıklar
 
 {{index dependency, "circular dependency", "require function"}}
 
-A circular dependency is a situation where module A depends on B, and B also, directly or indirectly, depends on A. Many module systems simply forbid this because whichever order you choose for loading such modules, you cannot make sure that each module's dependencies have been loaded before it runs.
+Dairesel bağımlılık, modül A'nın B'ye, ve B'nin de doğrudan veya dolaylı olarak A'ya bağlı olduğu bir durumdur. Birçok modül sistemi bunu yasaklar çünkü bu tür modüllerin yüklenmesi için hangi sırayı seçerseniz seçin, her modülün çalıştırılmadan önce bağımlılıklarının yüklenmiş olup olmadığından emin olamazsınız.
 
-((CommonJS modules)) allow a limited form of cyclic dependencies. As long as the modules don't access each other's interface until after they finish loading, cyclic dependencies are okay.
+((CommonJS modülleri)) sınırlı bir dairesel bağımlılık biçimine izin verir. Modüller birbirlerinin arayüzlerine yüklenme işlemleri tamamlanmadan önce erişmedikçe, dairesel bağımlılıklar sorun değildir.
 
-The `require` function given [earlier in this chapter](modules#require) supports this type of dependency cycle. Can you see how it handles cycles?
+[Bu bölümün başlarında](modules#require) verilen `require` fonksiyonu bu tür bir bağımlılık döngüsünü destekler. Bununla nasıl başa çıktığını görebiliyor musunuz?
 
 {{hint
 
 {{index overriding, "circular dependency", "exports object"}}
 
-The trick is that `require` adds the interface object for a module to its cache _before_ it starts loading the module. That way, if any `require` call made while it is running try to load it, it is already known, and the current interface will be returned, rather than starting to load the module once more (which would eventually overflow the stack).
+Püf noktası, `require` fonksiyonunun modülü yüklemeye _başlamadan önce_ arayüz nesnesini önbelleğine eklemesidir. Bu şekilde, çalışırken yapılan herhangi bir `require` çağrısı, yüklenmiş olup olmadığı bilindiğinden, tüm modülü tekrar yüklemek yerine (bunu yapmak sonunda yığını taşmaya neden olurdu) mevcut arayüz döndürülmesini sağlar.
 
 hint}}

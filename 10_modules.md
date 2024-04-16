@@ -283,65 +283,65 @@ Bu sistemle ES modülleri arasındaki önemli bir fark, ES modülü modül yükl
 
 JavaScript topluluğunun CommonJS stilinden ES modülleri stiline geçişi yavaş ve biraz sancılı olmuştur. Ancak neyse ki, şu anda NPM'deki popüler paketlerin çoğu kodlarını ES modülleri olarak sağlıyor ve Node.js, ES modüllerinin içine CommonJS modüllerinden aktarılmasına kod aktarılmasına izin veriyor. Bu nedenle, Ortak JS kodu hala karşılaşacağınız bir şey olsa da, artık yeni programları bu tarzda yazmanın gerçek bir nedeni yoktur.
 
-## Building and bundling
+## İnşaa etme ve paketleme
 
 {{index compilation, "type checking"}}
 
-Many JavaScript packages aren't, technically, written in JavaScript. There are extensions, such as TypeScript, the type checking ((dialect)) mentioned in [Chapter ?](error#typing), that are widely used. People also often start using planned extensions to the language long before they have been added to the platforms that actually run JavaScript.
+Çoğu JavaScript paketi, teknik olarak, JavaScript'te yazılmamaktadır. [Bölüm ?](error#typing) içinde bahsedilen tip denetimi ((lehçe))si olan TypeScript gibi uzantılar yaygın olarak kullanılmaktadır. İnsanlar ayrıca, gerçekte JavaScript'i çalıştıran platformlara henüz eklenmeden önce uzun süre planlanan dil uzantılarını kullanmaya başlarlar.
 
-To make this possible, they _compile_ their code, translating it from their chosen JavaScript dialect to plain old JavaScript—or even to a past version of JavaScript—so that ((browsers)) can run it.
+Bunu mümkün kılmak için, kodlarını seçtikleri JavaScript lehçesinden düz eski JavaScript'e—veya hatta JavaScript'in bir önceki sürümüne—_çevirerek_ ((tarayıcı))ların onu çalıştırabilmesini sağlarlar.
 
 {{index latency, performance, [file, access], [network, speed]}}
 
-Including a modular program that consists of 200 different files in a ((web page)) produces its own problems. If fetching a single file over the network takes 50 milliseconds, loading the whole program takes 10 seconds, or maybe half that if you can load several files simultaneously. That's a lot of wasted time. Because fetching a single big file tends to be faster than fetching a lot of tiny ones, web programmers have started using tools that combine their programs (which they painstakingly split into modules) into a single big file before they publish it to the Web. Such tools are called _((bundler))s_.
+200 farklı dosyadan oluşan modüler bir programın bir ((web sayfası))na dahil edilmesi kendi sorunlarını ortaya çıkarır. Ağ üzerinden tek bir dosya almak 50 milisaniye sürerse, tüm programı yüklemek 10 saniye alır veya aynı anda birkaç dosya yükleyebilirseniz belki yarısı kadar. Bu çok zaman kaybettir. Tek büyük bir dosya almanın, birçok küçük dosya almaktan daha hızlı olma eğiliminde olması nedeniyle, web programcıları, programlarını (ki bunları titizlikle modüllerde bölmüşlerdi) web'e yayınlamadan önce birleştiren araçlar kullanmaya başlamışlardır. Bu tür araçlara _((paketleyici))_ler denir.
 
 {{index "file size"}}
 
-And we can go further. Apart from the number of files, the _size_ of the files also determines how fast they can be transferred over the network. Thus, the JavaScript community has invented _((minifier))s_. These are tools that take a JavaScript program and make it smaller by automatically removing comments and whitespace, renaming bindings, and replacing pieces of code with equivalent code that take up less space.
+Ve daha da ileri gidebiliriz. Dosyaların sayısının yanı sıra, dosyaların _büyüklüğü_ de ağ üzerinden ne kadar hızlı aktarılabileceklerini belirler. Bu nedenle, JavaScript topluluğu _((küçültücü))_ler adını verdiği şeyi icat etmiştir. Bunlar, bir JavaScript programını alır ve yorumları ve boşlukları otomatik olarak kaldırır, bağlantıları yeniden adlandırır ve daha az yer kaplayan eşdeğer kod parçaları ile değiştirip onu küçültürler.
 
 {{index pipeline, tool}}
 
-So it is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converted from modern JavaScript to historic JavaScript, then combining the modules into a single file, and minifying the code. We won't go into the details of these tools in this book since there are many of them, and which one is popular changes regularly. Just be aware that such things exist, and look them up when you need them.
+Bu nedenle, bir NPM paketinde veya bir web sayfasında bulduğunuz kodun _çoklu_ dönüşüm aşamalarından geçmiş olması yüksek ihtimaldir—modern JavaScript'ten tarihi JavaScript'e dönüştürülmüş, sonra modülleri tek bir dosyaya birleştirilmiş ve kod küçültülmüştür. Bu kitapta bu araçların detaylarına girmeyeceğiz çünkü bunlardan birçok tane var ve hangisinin popüler olduğu sürekli değişiyor. Sadece böyle şeylerin var olduğunu unutmayın ve ihtiyacınız olduğunda araştırın.
 
-## Module design
+## Modül dizaynı
 
 {{index [module, design], [interface, module], [code, "structure of"]}}
 
-Structuring programs is one of the subtler aspects of programming. Any nontrivial piece of functionality can be organized in various ways.
+Programları yapılandırma, programlamanın daha ince yönlerinden biridir. Herhangi bir önemli parçanın fonksiyonalitesi çeşitli şekillerde düzenlenebilir.
 
-Good program design is subjective—there are trade-offs involved, and matters of taste. The best way to learn the value of well-structured design is to read or work on a lot of programs and notice what works and what doesn't. Don't assume that a painful mess is “just the way it is”. You can improve the structure of almost everything by putting more thought into it.
+İyi bir program tasarımı, özneldir—bununla ilgili artı ve eksiler vardır ve insanların seçimleri farklıdır. İyi yapılandırılmış tasarımın değerini öğrenmenin en iyi yolu, birçok programı okumak veya üzerinde çalışmak ve işe yarayıp yaramayanları fark etmektir. Acılı bir karmaşanın "sadece olduğu gibi olduğunu" varsaymayın. Hemen hemen her şeyin yapısını daha fazla düşünerek iyileştirebilirsiniz.
 
 {{index [interface, module]}}
 
-One aspect of module design is ease of use. If you are designing something that is intended to be used by multiple people—or even by yourself, in three months when you no longer remember the specifics of what you did—it is helpful if your interface is simple and predictable.
+Modül tasarımının bir yönü kullanım kolaylığıdır. Birden fazla kişi tarafından kullanılması amaçlanan bir şey tasarlıyorsanız—veya hatta kendiniz, üç ay sonra ne yaptığınızın ayrıntılarını hatırlamadığınızda—arayüzünüzün basit ve öngörülebilir olması yardımcı olur.
 
 {{index "ini package", JSON}}
 
-That may mean following existing conventions. A good example is the `ini` package. This module imitates the standard `JSON` object by providing `parse` and `stringify` (to write an INI file) functions, and, like `JSON`, converts between strings and plain objects. So the interface is small and familiar, and after you've worked with it once, you're likely to remember how to use it.
+Bu, var olan gelenekleri takip etmek anlamına gelebilir. İyi bir örnek, `ini` paketidir. Bu modül, bir INI dosyası yazmak için `parse` ve `stringify` fonksiyonlarını sağlayarak standart `JSON` nesnesini taklit eder ve `JSON` gibi, dize ve düz nesneler arasında dönüşüm yapar. Bu nedenle, arayüz küçük ve tanıdıktır ve bir kez çalıştıktan sonra nasıl kullanılacağını hatırlamanız muhtemeldir.
 
 {{index "side effect", "hard disk", composability}}
 
-Even if there's no standard function or widely used package to imitate, you can keep your modules predictable by using simple ((data structure))s and doing a single, focused thing. Many of the INI-file parsing modules on NPM provide a function that directly reads such a file from the hard disk and parses it, for example. This makes it impossible to use such modules in the browser, where we don't have direct file system access, and adds complexity that would have been better addressed by _composing_ the module with some file-reading function.
+Standart bir fonksiyon veya yaygın olarak kullanılan bir paketi taklit edecek bir standart fonksiyon yoksa bile, modüllerinizi basit ((veri yapı))ları kullanarak ve tek bir, odaklanmış şey yaparak öngörülebilir tutabilirsiniz. Örneğin, NPM'deki birçok INI dosyası ayrıştırma modülü, bir dosyayı doğrudan sabit diskinizden okuyup ve ayrıştıran bir fonksiyon sağlar. Bu, doğrudan dosya sistemine erişimimiz olayan tarayıcı ortamında böyle bir modülü kullanmayı imkansız hale getirir, ve bu modülü bazı dosya okuma fonksiyonlarıyla _birleştirerek_ çözülebilecek bir karmaşıklık eklerdi.
 
 {{index "pure function"}}
 
-This points to another helpful aspect of module design—the ease with which something can be composed with other code. Focused modules that compute values are applicable in a wider range of programs than bigger modules that perform complicated actions with side effects. An INI file reader that insists on reading the file from disk is useless in a scenario where the file's content comes from some other source.
+Bu, modül tasarımının başka bir yararlı yönünü işaret eder—bir şeyin diğer kodlarla nasıl birleştirilebileceğinin kolaylığı. Değerler hesaplayan odaklı modüller, yan etkileri olan ve karmaşık eylemler gerçekleştiren daha büyük modüllerden daha geniş bir program yelpazesine uygulanabilir. Diskten dosya okumak zorunda olan bir INI dosya okuyucusu, dosyanın içeriğinin başka bir kaynaktan geldiği senaryoda işe yaramaz.
 
 {{index "object-oriented programming"}}
 
-Relatedly, stateful objects are sometimes useful or even necessary, but if something can be done with a function, use a function. Several of the INI file readers on NPM provide an interface style that requires you to first create an object, then load the file into your object, and finally use specialized methods to get at the results. This type of thing is common in the object-oriented tradition, and it's terrible. Instead of making a single function call and moving on, you have to perform the ritual of moving your object through its various states. And because the data is now wrapped in a specialized object type, all code that interacts with it has to know about that type, creating unnecessary interdependencies.
+İlgili olarak, değişen bir durum barındıran nesneler bazen yararlı, hatta gereklidir ancak bir fonksiyonla yapılabilecek bir şey varsa, bir fonksiyon kullanın. NPM'deki birkaç INI dosyası okuyucusu, öncelikle bir nesne oluşturmanızı, ardından dosyayı nesnenize yüklemenizi ve son olarak sonuçlara erişmek için özel metodları kullanmanızı gerektiren bir arayüz stili sağlar. Bu tür şeyler, nesne yönelimli geleneğin bir parçasıdır ve korkunçtur. Tek bir fonksiyon çağrısı yapmak ve geçmek yerine, nesnenizi çeşitli durumlar boyunca hareket ettirme ritüelini gerçekleştirmeniz gerekir. Ve çünkü veri şimdi özelleşmiş bir nesne türüne sarılmış durumda olduğundan ötürü bununla etkileşim kuran tüm kodların o tür hakkında bilgi sahibi olması gerekir ve bu da gereksiz bağımlılıklar oluşmasını sağlar.
 
-Often defining new data structures can't be avoided—only a few  basic ones are provided by the language standard, and many types of data have to be more complex than an array or a map. But when an array suffices, use an array.
+Yeni veri yapılarını tanımlamak bazen kaçınılmazdır—dil standardı sadece birkaç temel yapıyı sağlar ve birçok veri türü bir diziden veya map veri tipinden daha karmaşık olmak zorundadır. Ancak bir dizi yeterliyken, bir dizi kullanın.
 
-An example of a slightly more complex data structure is the graph from [Chapter ?](robot). There is no single obvious way to represent a ((graph)) in JavaScript. In that chapter, we used an object whose properties hold arrays of strings—the other nodes reachable from that node.
+Biraz daha karmaşık bir veri yapısının bir örneği, [bölüm ?](robot) içindeki grafiktir. JavaScript'te bir ((grafik)) nasıl temsil edileceğine dair tek bir açık bir yol yoktur. O bölümde, diğer düğümlere o düğümden erişilebilen yerleri barındıran dizelerin dizilerini tutan bir nesne kullandık.
 
-There are several different pathfinding packages on ((NPM)), but none of them uses this graph format. They usually allow the graph's edges to have a weight, which is the cost or distance associated with it. That isn't possible in our representation.
+((NPM))'de birkaç farklı yol bulma paketi vardır ancak bunların hiçbiri bu grafik formatını kullanmaz. Genellikle, kenarların bir ağırlığı olmasına izin verirler, bu da onunla ilişkilendirilmiş maliyet veya mesafe anlamına gelir. Bu, bizim temsilimizde mümkün değildir.
 
 {{index "Dijkstra, Edsger", pathfinding, "Dijkstra's algorithm", "dijkstrajs package"}}
 
-For example, there's the `dijkstrajs` package. A well-known approach to pathfinding, quite similar to our `findRoute` function, is called _Dijkstra's algorithm_, after Edsger Dijkstra, who first wrote it down. The `js` suffix is often added to package names to indicate the fact that they are written in JavaScript. This `dijkstrajs` package uses a graph format similar to ours, but instead of arrays, it uses objects whose property values are numbers—the weights of the edges.
+Örneğin, `dijkstrajs` paketi vardır. Bir yol bulma için iyi bilinen bir yaklaşım ve bizim `findRoute` fonksiyonumuza oldukça benzemektedir, Edsger Dijkstra tarafından ilk kez yazıldıktan sonra _Dijkstra'nın algoritması_ olarak adlandırılmıştır. `js` eki sıklıkla paket adlarına eklenir ve bunların JavaScript'te yazıldığını belirtmek içindir. Bu `dijkstrajs` paketi, bizimkinin benzer bir grafik formatını kullanır, ancak diziler yerine, kenarların ağırlıkları olan sayıların olduğu nesneler kullanır.
 
-So if we wanted to use that package, we'd have to make sure that our graph was stored in the format it expects. All edges get the same weight since our simplified model treats each road as having the same cost (one turn).
+Bu paketi kullanmak istesek, grafik formatımızın beklediği formatta olduğundan emin olmalıyız. Tüm kenarlar, bizim basitleştirilmiş modelimizde her yolun aynı maliyeti (bir dönüş) varmışçasına varsayıldığından, aynı ağırlığa sahiptir.
 
 ```
 const {find_path} = require("dijkstrajs");
@@ -358,19 +358,19 @@ console.log(find_path(graph, "Post Office", "Cabin"));
 // → ["Post Office", "Alice's House", "Cabin"]
 ```
 
-This can be a barrier to composition—when various packages are using different data structures to describe similar things, combining them is difficult. Therefore, if you want to design for composability, find out what ((data structure))s other people are using and, when possible, follow their example.
+Bu, birleştirme için bir engel olabilir—farklı veri yapılarını benzer şeyleri tanımlamak için kullanan çeşitli paketler onları birleştirmeyi zorlaştırır. Bu nedenle, birleşebilirlik için tasarım yapmak istiyorsanız, diğer insanların ne tür ((veri yapıları)) kullandığını bulun ve mümkünse onların örneğini takip edin.
 
 {{index design}}
 
-Designing a fitting module structure for a program can be difficult. In the phase where you are still exploring the problem, trying  different things to see what works, you might want to not worry about it too much since keeping everything organized can be a big distraction. Once you have something that feels solid, that's a good time to take a step back and organize it.
+Bir programa uygun bir modül yapısı tasarlamak zor olabilir. Sorunu hala keşfetmeye çalıştığınız ve neyiş işe yarayıp yaramadığını test ettiğiniz aşamada her şeyi düzenli tutmaya çalışmak büyük bir dikkat dağıtıcı olabilir. Sağlam hisseden bir şeyiniz olduğunda, geri çekilip onu düzenlemek için iyi bir zamandır.
 
-## Summary
+## Özet
 
-Modules provide structure to bigger programs by separating the code into pieces with clear interfaces and dependencies. The interface is the part of the module that's visible to other modules, and the dependencies are the other modules that it makes use of.
+Modüller, kodu net arayüzler ve bağımlılıklarla parçalara ayırarak daha büyük programlara yapı sağlar. Arayüz, modülün diğer modüller tarafından görülebilen kısmıdır ve bağımlılıklar, kullanılan diğer modüllerdir.
 
-Because JavaScript historically did not provide a module system, the CommonJS system was built on top of it. Then at some point it _did_ get a built-in system, which now coexists uneasily with the CommonJS system.
+JavaScript, tarihsel olarak bir modül sistemi sağlamadığı için, CommonJS sistemi üzerine inşa edildi. Sonra bir noktada, gerçekten yerleşik bir sistem _inşaa edildi_ ve şu anda CommonJS sistemiyle pek de uyumlu olmayan bir şekilde yan yana var olmayı sürdürmekte.
 
-A package is a chunk of code that can be distributed on its own. NPM is a repository of JavaScript packages. You can download all kinds of useful (and useless) packages from it.
+Bir paket, kendi başına dağıtılabilen bir kod parçasıdır. NPM, JavaScript paketlerinin bir deposudur. Oradan her türlü yararlı (ve yararsız) paketi indirebilirsiniz.
 
 ## Exercises
 

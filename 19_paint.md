@@ -16,7 +16,7 @@ The material from the previous chapters gives you all the elements you need to b
 
 {{index [file, image]}}
 
-Our ((application)) will be a ((pixel)) ((drawing)) program, where you can modify a picture pixel by pixel by manipulating a zoomed-in view of it, shown as a grid of colored squares. You can use the program to open image files, scribble on them with your mouse or other pointer device, and save them. This is what it will look like:
+Our ((application)) will be a ((pixel))-((drawing)) program that allows you to modify a picture pixel by pixel by manipulating a zoomed-in view of it, shown as a grid of colored squares. You can use the program to open image files, scribble on them with your mouse or other pointer device, and save them. This is what it will look like:
 
 {{figure {url: "img/pixel_editor.png", alt: "Screenshot of the pixel editor interface, with a grid of colored pixels at the top and a number of controls, in the form of HTML fields and buttons, below that", width: "8cm"}}}
 
@@ -34,7 +34,7 @@ We will structure the editor interface as a number of _((component))s_, objects 
 
 {{index [state, "of application"]}}
 
-The state of the application consists of the current picture, the selected tool, and the selected color. We'll set things up so that the state lives in a single value, and the interface components always base the way they look on the current state.
+The state of the application consists of the current picture, the selected tool, and the selected color. We'll set things up so that the state lives in a single value and the interface components always base the way they look on the current state.
 
 To see why this is important, let's consider the alternative—distributing pieces of state throughout the interface. Up to a certain point, this is easier to program. We can just put in a ((color field)) and read its value when we need to know the current color.
 
@@ -102,7 +102,7 @@ class Picture {
 
 {{index "side effect", "persistent data structure"}}
 
-We want to be able to treat a picture as an ((immutable)) value, for reasons that we'll get back to later in the chapter. But we also sometimes need to update a whole bunch of pixels at a time. To be able to do that, the class has a `draw` method that expects an array of updated pixels—objects with `x`, `y`, and `color` properties—and creates a new picture with those pixels overwritten. This method uses `slice` without arguments to copy the entire pixel array—the start of the slice defaults to 0, and the end defaults to the array's length.
+We want to be able to treat a picture as an ((immutable)) value, for reasons we'll get back to later in the chapter. But we also sometimes need to update a whole bunch of pixels at a time. To be able to do that, the class has a `draw` method that expects an array of updated pixels—objects with `x`, `y`, and `color` properties—and creates a new picture with those pixels overwritten. This method uses `slice` without arguments to copy the entire pixel array—the start of the slice defaults to 0, and the end defaults to the array's length.
 
 {{index "Array constructor", "fill method", ["length property", "for array"], [array, creation]}}
 
@@ -136,7 +136,7 @@ This pattern, in which object ((spread)) is used to first add the properties an 
 
 {{index "createElement method", "elt function", [DOM, construction]}}
 
-One of the main things that interface components do is creating DOM structure. We again don't want to directly use the verbose DOM methods for that, so here's a slightly expanded version of the `elt` function:
+One of the main things that interface components do is create DOM structure. We again don't want to directly use the verbose DOM methods for that, so here's a slightly expanded version of the `elt` function:
 
 ```{includeCode: true}
 function elt(type, props, ...children) {
@@ -395,7 +395,7 @@ function draw(pos, state, dispatch) {
 }
 ```
 
-The function immediately calls the `drawPixel` function but then also returns it so that it is called again for newly touched pixels when the user drags or ((swipe))s over the picture.
+The function immediately calls the `drawPixel` function but then also returns it so that it's called again for newly touched pixels when the user drags or ((swipe))s over the picture.
 
 {{index "rectangle function"}}
 
@@ -526,11 +526,11 @@ class SaveButton {
 
 {{index "canvas (HTML tag)"}}
 
-The component keeps track of the current picture so that it can access it when saving. To create the image file, it uses a `<canvas>` element that it draws the picture on (at a scale of one pixel per pixel).
+The component keeps track of the current picture so that it can access it when saving. To create the image file, it uses a `<canvas>` element on which it draws the picture (at a scale of one pixel per pixel).
 
 {{index "toDataURL method", "data URL"}}
 
-The `toDataURL` method on a canvas element creates a URL that starts with `data:`. Unlike `http:` and `https:` URLs, data URLs contain the whole resource in the URL. They are usually very long, but they allow us to create working links to arbitrary pictures, right here in the browser.
+The `toDataURL` method on a canvas element creates a URL that uses the `data:` scheme. Unlike `http:` and `https:` URLs, data URLs contain the whole resource in the URL. They are usually very long, but they allow us to create working links to arbitrary pictures, right here in the browser.
 
 {{index "a (HTML tag)", "download attribute"}}
 
@@ -563,7 +563,7 @@ function startLoad(dispatch) {
 
 {{index [file, access], "input (HTML tag)"}}
 
-To get access to a file on the user's computer, we need the user to select the file through a file input field. But I don't want the load button to look like a file input field, so we create the file input when the button is clicked and then pretend that this file input itself was clicked.
+To get access to a file on the user's computer, we need the user to select the file through a file input field. But we don't want the load button to look like a file input field, so we create the file input when the button is clicked and then pretend that this file input itself was clicked.
 
 {{index "FileReader class", "img (HTML tag)", "readAsDataURL method", "Picture class"}}
 
@@ -587,7 +587,7 @@ function finishLoad(file, dispatch) {
 
 {{index "canvas (HTML tag)", "getImageData method", "pictureFromImage function"}}
 
-To get access to the pixels, we must first draw the picture to a `<canvas>` element. The canvas context has a `getImageData` method that allows a script to read its ((pixel))s. So, once the picture is on the canvas, we can access it and construct a `Picture` object.
+To get access to the pixels, we must first draw the picture to a `<canvas>` element. The canvas context has a `getImageData` method that allows a script to read its ((pixel))s. So once the picture is on the canvas, we can access it and construct a `Picture` object.
 
 ```{includeCode: true}
 function pictureFromImage(image) {
@@ -610,25 +610,25 @@ function pictureFromImage(image) {
 }
 ```
 
-We'll limit the size of images to 100 by 100 pixels since anything bigger will look _huge_ on our display and might slow down the interface.
+We'll limit the size of images to 100 by 100 pixels, since anything bigger will look _huge_ on our display and might slow down the interface.
 
 {{index "getImageData method", color, transparency}}
 
-The `data` property of the object returned by `getImageData` is an array of color components. For each pixel in the rectangle specified by the arguments, it contains four values, which represent the red, green, blue, and _((alpha))_ components of the pixel's color, as numbers between 0 and 255. The alpha part represents opacity—when it is zero, the pixel is fully transparent, and when it is 255, it is fully opaque. For our purpose, we can ignore it.
+The `data` property of the object returned by `getImageData` is an array of color components. For each pixel in the rectangle specified by the arguments, it contains four values that represent the red, green, blue, and _((alpha))_ components of the pixel's color, as numbers between 0 and 255. The alpha part represents opacity—when it is 0, the pixel is fully transparent, and when it is 255, it is fully opaque. For our purpose, we can ignore it.
 
 {{index "hexadecimal number", "toString method"}}
 
-The two hexadecimal digits per component, as used in our color notation, correspond precisely to the 0 to 255 range—two base-16 digits can express 16^2^ = 256 different numbers. The `toString` method of numbers can be given a base as argument, so `n.toString(16)` will produce a string representation in base 16. We have to make sure that each number takes up two digits, so the `hex` helper function calls `padStart` to add a leading zero when necessary.
+The two hexadecimal digits per component, as used in our color notation, correspond precisely to the 0 to 255 range—two base-16 digits can express 16^2^ = 256 different numbers. The `toString` method of numbers can be given a base as argument, so `n.toString(16)` will produce a string representation in base 16. We have to make sure that each number takes up two digits, so the `hex` helper function calls `padStart` to add a leading 0 when necessary.
 
 We can load and save now! That leaves one more feature before we're done.
 
 ## Undo history
 
-Half of the process of editing is making little mistakes and correcting them. So an important feature in a drawing program is an ((undo history)).
+Because half the process of editing is making little mistakes and correcting them, an important feature in a drawing program is an ((undo history)).
 
 {{index "persistent data structure", [state, "of application"]}}
 
-To be able to undo changes, we need to store previous versions of the picture. Since it's an ((immutable)) value, that is easy. But it does require an additional field in the application state.
+To be able to undo changes, we need to store previous versions of the picture. Since pictures are ((immutable)) values, that's easy. But it does require an additional field in the application state.
 
 {{index "done property"}}
 
@@ -636,7 +636,7 @@ We'll add a `done` array to keep previous versions of the ((picture)). Maintaini
 
 {{index "doneAt property", "historyUpdateState function", "Date.now function"}}
 
-But we don't want to store _every_ change, only changes a certain amount of ((time)) apart. To be able to do that, we'll need a second property, `doneAt`, tracking the time at which we last stored a picture in the history.
+We don't want to store _every_ change, though—just changes that are a certain amount of ((time)) apart. To be able to do that, we'll need a second property, `doneAt`, to track the time at which we last stored a picture in the history.
 
 ```{includeCode: true}
 function historyUpdateState(state, action) {
@@ -750,7 +750,7 @@ At the same time, browser technology is ridiculous. You have to learn a large nu
 
 {{index standard, evolution}}
 
-And though the situation is definitely improving, it mostly does so in the form of more elements being added to address shortcomings—creating even more ((complexity)). A feature used by a million websites can't really be replaced. Even if it could, it would be hard to decide what it should be replaced with.
+While the situation is definitely improving, it mostly does so in the form of more elements being added to address shortcomings—creating even more ((complexity)). A feature used by a million websites can't really be replaced. Even if it could, it would be hard to decide what it should be replaced with.
 
 {{index "social factors", "economic factors", history}}
 
@@ -937,7 +937,7 @@ hint}}
 
 {{index "proper lines (exercise)", "line drawing"}}
 
-This is a more advanced exercise than the preceding two, and it will require you to design a solution to a nontrivial problem. Make sure you have plenty of time and ((patience)) before starting to work on this exercise, and do not get discouraged by initial failures.
+This is a more advanced exercise than the preceding two, and it will require you to design a solution to a nontrivial problem. Make sure you have plenty of time and ((patience)) before starting to work on this exercise, and don't get discouraged by initial failures.
 
 {{index "draw function", "mousemove event", "touchmove event"}}
 
@@ -947,7 +947,7 @@ Improve the `draw` tool to make it draw a full line. This means you have to make
 
 To do this, since the pixels can be an arbitrary distance apart, you'll have to write a general line drawing function.
 
-A line between two pixels is a connected chain of pixels, as straight as possible, going from the start to the end. Diagonally adjacent pixels count as connected. So a slanted line should look like the picture on the left, not the picture on the right.
+A line between two pixels is a connected chain of pixels, as straight as possible, going from the start to the end. Diagonally adjacent pixels count as connected. A slanted line should look like the picture on the left, not the picture on the right.
 
 {{figure {url: "img/line-grid.svg", alt: "Diagram of two pixelated lines, one light, skipping across pixels diagonally, and one heavy, with all pixels connected horizontally or vertically", width: "6cm"}}}
 

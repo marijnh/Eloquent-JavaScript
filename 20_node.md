@@ -14,7 +14,7 @@ quote}}
 
 {{index "command line"}}
 
-So far, we have used the JavaScript language in a single environment: the browser. This chapter and the [next one](skillsharing) will briefly introduce ((Node.js)), a program that allows you to apply your JavaScript skills outside of the browser. With it, you can build anything from small command line tools to HTTP ((server))s that power dynamic ((website))s.
+So far, we've used the JavaScript language in a single environment: the browser. This chapter and the [next one](skillsharing) will briefly introduce ((Node.js)), a program that allows you to apply your JavaScript skills outside of the browser. With it, you can build anything from small command line tools to HTTP ((server))s that power dynamic ((website))s.
 
 These chapters aim to teach you the main concepts that Node.js uses and to give you enough information to write useful programs for it. They do not try to be a complete, or even a thorough, treatment of the platform.
 
@@ -105,15 +105,15 @@ Node started out using the ((CommonJS)) module system, based on the `require` fu
 
 {{index "import keyword", "ES modules"}}
 
-But it also support the more modern ES module system. When a script's filename ends in `.mjs`, it is considered to be such a module, and you can use `import` and `export` in it (but not `require`). We will use ES modules in this chapter.
+But today, Node also supports the more modern ES module system. When a script's filename ends in `.mjs`, it is considered to be such a module, and you can use `import` and `export` in it (but not `require`). We will use ES modules in this chapter.
 
 {{index [path, "file system"], "relative path", resolution}}
 
-When importing a module—whether with `require` or `import`—Node has to resolve the given string to an actual ((file)) that it can load. Names that start with `/`, `./`, or `../` are resolved as files, relative to the current module's path. Here, `.` stands for the current directory, `../` for one directory up, and `/` for the root of the file system. So if you ask for `"./graph.mjs"` from the file `/tmp/robot/robot.mjs`, Node will try to load the file `/tmp/robot/graph.mjs`.
+When importing a module—whether with `require` or `import`—Node has to resolve the given string to an actual ((file)) that it can load. Names that start with `/`, `./`, or `../` are resolved as files, relative to the current module's path. Here, `.` stands for the current directory, `../` for one directory up, and `/` for the root of the file system. If you ask for `"./graph.mjs"` from the file `/tmp/robot/robot.mjs`, Node will try to load the file `/tmp/robot/graph.mjs`.
 
 {{index "node_modules directory", directory}}
 
-When a string that does not look like a relative or absolute path is imported, it is assumed to refer to either a built-in ((module)) or a module installed in a `node_modules` directory. For example, importing from `"node:fs"` will give you Node's built-in file system module. And importing `"robot"` might try to load the library found in `node_modules/robot/`. A common way to install such libraries is by using ((NPM)), which we'll come back to in a moment.
+When a string that does not look like a relative or absolute path is imported, it is assumed to refer to either a built-in ((module)) or a module installed in a `node_modules` directory. For example, importing from `"node:fs"` will give you Node's built-in file system module. Importing `"robot"` might try to load the library found in `node_modules/robot/`. It's common to install such libraries is by using ((NPM)), which we'll return to in a moment.
 
 {{index "import keyword", "Node.js", "garble example"}}
 
@@ -153,7 +153,7 @@ tpircSavaJ
 
 {{index NPM, "Node.js", "npm program", library}}
 
-NPM, which was introduced in [Chapter ?](modules#modules_npm), is an online repository of JavaScript ((module))s, many of which are specifically written for Node. When you install Node on your computer, you also get the `npm` command, which you can use to interact with this repository.
+NPM, introduced in [Chapter ?](modules#modules_npm), is an online repository of JavaScript ((module))s, many of which are specifically written for Node. When you install Node on your computer, you also get the `npm` command, which you can use to interact with this repository.
 
 {{index "ini package"}}
 
@@ -214,11 +214,11 @@ NPM demands that its packages follow a schema called _((semantic versioning))_, 
 
 {{index "caret character"}}
 
-A caret character (`^`) in front of the version number for a dependency in `package.json` indicates that any version compatible with the given number may be installed. So, for example, `"^2.3.0"` would mean that any version greater than or equal to 2.3.0 and less than 3.0.0 is allowed.
+A caret character (`^`) in front of the version number for a dependency in `package.json` indicates that any version compatible with the given number may be installed. For example, `"^2.3.0"` would mean that any version greater than or equal to 2.3.0 and less than 3.0.0 is allowed.
 
 {{index publishing}}
 
-The `npm` command is also used to publish new packages or new versions of packages. If you run `npm publish` in a ((directory)) that has a `package.json` file, it will publish a package with the name and version listed in the JSON file to the registry. Anyone can publish packages to NPM—though only under a package name that isn't in use yet since it would not be good if random people could update existing packages.
+The `npm` command is also used to publish new packages or new versions of packages. If you run `npm publish` in a ((directory)) that has a `package.json` file, it will publish a package with the name and version listed in the JSON file to the registry. Anyone can publish packages to NPM—though only under a package name that isn't in use yet, since it wouldn't be good if random people could update existing packages.
 
 This book won't delve further into the details of ((NPM)) usage. Refer to [_https://npmjs.org_](https://npmjs.org) for further documentation and a way to search for packages.
 
@@ -242,7 +242,7 @@ readFile("file.txt", "utf8", (error, text) => {
 
 {{index "Buffer class"}}
 
-The second argument to `readFile` indicates the _((character encoding))_ used to decode the file into a string. There are several ways in which ((text)) can be encoded to ((binary data)), but most modern systems use ((UTF-8)). So unless you have reasons to believe another encoding is used, pass `"utf8"` when reading a text file. If you do not pass an encoding, Node will assume you are interested in the binary data and will give you a `Buffer` object instead of a string. This is an ((array-like object)) that contains numbers representing the bytes (8-bit chunks of data) in the files.
+The second argument to `readFile` indicates the _((character encoding))_ used to decode the file into a string. There are several ways in which ((text)) can be encoded to ((binary data)), but most modern systems use ((UTF-8)). Unless you have reasons to believe another encoding is used, pass `"utf8"` when reading a text file. If you do not pass an encoding, Node will assume you are interested in the binary data and will give you a `Buffer` object instead of a string. This is an ((array-like object)) that contains numbers representing the bytes (8-bit chunks of data) in the files.
 
 ```
 import {readFile} from "node:fs";
@@ -289,7 +289,7 @@ readFile("file.txt", "utf8")
 
 {{index "synchronous programming", "node:fs package", "readFileSync function"}}
 
-Sometimes you don't need asynchronicity, and it just gets in the way. Many of the functions in `node:fs` also have a synchronous variant, which has the same name with `Sync` added to the end. For example, the synchronous version of `readFile` is called `readFileSync`.
+Sometimes you don't need asynchronicity and it just gets in the way. Many of the functions in `node:fs` also have a synchronous variant, which has the same name with `Sync` added to the end. For example, the synchronous version of `readFile` is called `readFileSync`.
 
 ```
 import {readFileSync} from "node:fs";
@@ -299,7 +299,7 @@ console.log("The file contains:",
 
 {{index optimization, performance, blocking}}
 
-Do note that while such a synchronous operation is being performed, your program is stopped entirely. If it should be responding to the user or to other machines on the network, being stuck on a synchronous action might produce annoying delays.
+Note that while such a synchronous operation is being performed, your program is stopped entirely. If it should be responding to the user or to other machines on the network, being stuck on a synchronous action might produce annoying delays.
 
 ## The HTTP module
 
@@ -332,7 +332,7 @@ If you run this script on your own machine, you can point your web browser at [_
 
 The function passed as argument to `createServer` is called every time a client connects to the server. The `request` and `response` bindings are objects representing the incoming and outgoing data. The first contains information about the ((request)), such as its `url` property, which tells us to what URL the request was made.
 
-So, when you open that page in your browser, it sends a request to your own computer. This causes the server function to run and send back a response, which you can then see in the browser.
+When you open that page in your browser, it sends a request to your own computer. This causes the server function to run and send back a response, which you can then see in the browser.
 
 {{index "200 (HTTP status code)", "Content-Type header", "writeHead method"}}
 
@@ -340,7 +340,7 @@ To send something to the client, you call methods on the `response` object. The 
 
 {{index "writable stream", "body (HTTP)", stream, "write method", "end method"}}
 
-Next, the actual response body (the document itself) is sent with `response.write`. You are allowed to call this method multiple times if you want to send the response piece by piece, for example to stream data to the client as it becomes available. Finally, `response.end` signals the end of the response.
+Next, the actual response body (the document itself) is sent with `response.write`. You're allowed to call this method multiple times if you want to send the response piece by piece, for example to stream data to the client as it becomes available. Finally, `response.end` signals the end of the response.
 
 {{index "listen method"}}
 
@@ -348,15 +348,15 @@ The call to `server.listen` causes the ((server)) to start waiting for connectio
 
 {{index "Node.js", "kill process"}}
 
-When you run this script, the process just sits there and waits. When a script is listening for events—in this case, network connections—`node` will not automatically exit when it reaches the end of the script. To close it, press [control]{keyname}-C.
+When you run this script, the process just sits there and waits. When a script is listening for events—in this case, network connections—`node` will not automatically exit when it reaches the end of the script. To close it, press [ctrl]{keyname}-C.
 
 {{index [method, HTTP]}}
 
-A real web ((server)) usually does more than the one in the example—it looks at the request's ((method)) (the `method` property) to see what action the client is trying to perform and looks at the request's ((URL)) to find out which resource this action is being performed on. We'll see a more advanced server [later in this chapter](node#file_server).
+A real web ((server)) usually does more than the one in the example—it looks at the request's ((method)) (the `method` property) to see what action the client is trying to perform and looks at the request's ((URL)) to find out on which resource this action is being performed. We'll see a more advanced server [later in this chapter](node#file_server).
 
 {{index "node:http package", "request function", "fetch function", [HTTP, client]}}
 
-The `node:http` module also provides a `request` function, which can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node, as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece as the data comes in over the network, I recommend sticking to `fetch`.
+The `node:http` module also provides a `request` function that can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node, as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece as the data comes in over the network, I recommend sticking to `fetch`.
 
 ## Streams
 
@@ -370,7 +370,7 @@ It is possible to create a writable stream that points at a file with the `creat
 
 {{index "createServer function", "request function", "event handling", "readable stream"}}
 
-_Readable ((stream))s_ are a little more involved. The `request` argument to the HTTP server's callback is a readable stream. Reading from a stream is done using event handlers, rather than methods.
+_Readable ((stream))s_ are a little more involved. The `request` argument to the HTTP server's callback is a readable stream. Reading from a stream is done using event handlers rather than methods.
 
 {{index "on method", "addEventListener method"}}
 
@@ -440,7 +440,7 @@ createServer((request, response) => {
     return {body: String(error), status: 500};
   }).then(({body, status = 200, type = "text/plain"}) => {
     response.writeHead(status, {"Content-Type": type});
-    if (body && body.pipe) body.pipe(response);
+    if (body?.pipe) body.pipe(response);
     else response.end(body);
   });
 }).listen(8000);
@@ -467,7 +467,7 @@ The `status` field of the response description may be omitted, in which case it 
 
 {{index "end method", "pipe method", stream}}
 
-When the value of `body` is a ((readable stream)), it will have a `pipe` method that is used to forward all content from a readable stream to a ((writable stream)). If not, it is assumed to be either `null` (no body), a string, or a buffer, and it is passed directly to the ((response))'s `end` method.
+When the value of `body` is a ((readable stream)), it will have a `pipe` method that we can use to forward all content from a readable stream to a ((writable stream)). If not, it is assumed to be either `null` (no body), a string, or a buffer, and it is passed directly to the ((response))'s `end` method.
 
 {{index [path, URL], "urlPath function", "URL class", parsing, [escaping, "in URLs"], "decodeURIComponent function", "startsWith method"}}
 
@@ -492,11 +492,11 @@ function urlPath(url) {
 
 As soon as you set up a program to accept network requests, you have to start worrying about ((security)). In this case, if we aren't careful, it is likely that we'll accidentally expose our whole ((file system)) to the network.
 
-File paths are strings in Node. To map such a string to an actual file, there is a nontrivial amount of interpretation going on. Paths may, for example, include `../` to refer to a parent directory. So one obvious source of problems would be requests for paths like `/../secret_file`.
+File paths are strings in Node. To map such a string to an actual file, there's a nontrivial amount of interpretation going on. Paths may, for example, include `../` to refer to a parent directory. One obvious source of problems would be requests for paths like `/../secret_file`.
 
 {{index "node:path package", "resolve function", "cwd function", "process object", "403 (HTTP status code)", "sep binding", ["backslash character", "as path separator"], "slash character"}}
 
-To avoid such problems, `urlPath` uses the `resolve` function from the `node:path` module, which resolves relative paths. It then verifies that the result is _below_ the working directory. The `process.cwd` function (where `cwd` stands for "current working directory") can be used to find this working directory. The `sep` binding from the `node:path` package is the system's path separator—a backslash on Windows and a forward slash on most other systems. When the path doesn't start with the base directory, the function throws an error response object, using the HTTP status code indicating that access to the resource is forbidden.
+To avoid such problems, `urlPath` uses the `resolve` function from the `node:path` module, which resolves relative paths. It then verifies that the result is _below_ the working directory. The `process.cwd` function (where `cwd` stands for _current working directory_) can be used to find this working directory. The `sep` binding from the `node:path` package is the system's path separator—a backslash on Windows and a forward slash on most other systems. When the path doesn't start with the base directory, the function throws an error response object, using the HTTP status code indicating that access to the resource is forbidden.
 
 {{index "file server example", "Node.js", "GET method", [file, resource]}}
 
@@ -583,7 +583,7 @@ When an ((HTTP)) ((response)) does not contain any data, the status code 204 ("n
 
 {{index idempotence, "error response"}}
 
-You may be wondering why trying to delete a nonexistent file returns a success status code, rather than an error. When the file that is being deleted is not there, you could say that the request's objective is already fulfilled. The ((HTTP)) standard encourages us to make requests _idempotent_, which means that making the same request multiple times produces the same result as making it once. In a way, if you try to delete something that's already gone, the effect you were trying to do has been achieved—the thing is no longer there.
+You may be wondering why trying to delete a nonexistent file returns a success status code rather than an error. When the file being deleted is not there, you could say that the request's objective is already fulfilled. The ((HTTP)) standard encourages us to make requests _idempotent_, which means that making the same request multiple times produces the same result as making it once. In a way, if you try to delete something that's already gone, the effect you were trying to create has been achieved—the thing is no longer there.
 
 {{index "file server example", "Node.js", "PUT method"}}
 
@@ -614,7 +614,7 @@ We don't need to check whether the file exists this time—if it does, we'll jus
 
 {{index "error event", "finish event"}}
 
-When something goes wrong when opening the file, `createWriteStream` will still return a stream, but that stream will fire an `"error"` event. The stream from the request may also fail, for example if the network goes down. So we wire up both streams' `"error"` events to reject the promise. When `pipe` is done, it will close the output stream, which causes it to fire a `"finish"` event. That's the point where we can successfully resolve the promise (returning nothing).
+When something goes wrong when opening the file, `createWriteStream` will still return a stream, but that stream will fire an `"error"` event. The stream from the request may also fail, for example if the network goes down. So we wire up both streams' `"error"` events to reject the promise. When `pipe` is done, it will close the output stream, which causes it to fire a `"finish"` event. That's the point at which we can successfully resolve the promise (returning nothing).
 
 {{index download, "file server example", "Node.js"}}
 
@@ -641,7 +641,7 @@ The first request for `file.txt` fails since the file does not exist yet. The `P
 
 {{index "Node.js"}}
 
-Node is a nice, small system that lets us run JavaScript in a nonbrowser context. It was originally designed for network tasks to play the role of a _node_ in a network. But it lends itself to all kinds of scripting tasks, and if writing JavaScript is something you enjoy, automating tasks with Node works well.
+Node is a nice, small system that lets us run JavaScript in a nonbrowser context. It was originally designed for network tasks to play the role of a node in a network, but it lends itself to all kinds of scripting tasks. If writing JavaScript is something you enjoy, automating tasks with Node may work well for you.
 
 NPM provides packages for everything you can think of (and quite a few things you'd probably never think of), and it allows you to fetch and install those packages with the `npm` program. Node comes with a number of built-in modules, including the `node:fs` module for working with the file system and the `node:http` module for running HTTP servers.
 
@@ -655,7 +655,7 @@ All input and output in Node is done asynchronously, unless you explicitly use a
 
 On ((Unix)) systems, there is a command line tool called `grep` that can be used to quickly search files for a ((regular expression)).
 
-Write a Node script that can be run from the ((command line)) and acts somewhat like `grep`. It treats its first command line argument as a regular expression and treats any further arguments as files to search. It should output the names of any file whose content matches the regular expression.
+Write a Node script that can be run from the ((command line)) and acts somewhat like `grep`. It treats its first command line argument as a regular expression and treats any further arguments as files to search. It outputs the names of any file whose content matches the regular expression.
 
 When that works, extend it so that when one of the arguments is a ((directory)), it searches through all files in that directory and its subdirectories.
 
@@ -725,7 +725,7 @@ hint}}
 
 {{index "public space (exercise)", "file server example", "Content-Type header", website}}
 
-Since the file server serves up any kind of file and even includes the right `Content-Type` header, you can use it to serve a website. Since it allows everybody to delete and replace files, it would be an interesting kind of website: one that can be modified, improved, and vandalized by everybody who takes the time to make the right HTTP request.
+Since the file server serves up any kind of file and even includes the right `Content-Type` header, you can use it to serve a website. Given that this server allows everybody to delete and replace files, this would make for an interesting kind of website: one that can be modified, improved, and vandalized by everybody who takes the time to make the right HTTP request.
 
 Write a basic ((HTML)) page that includes a simple JavaScript file. Put the files in a directory served by the file server and open them in your browser.
 
@@ -737,7 +737,7 @@ Start by making only a single file editable. Then make it so that the user can s
 
 {{index overwriting}}
 
-Don't work directly in the code exposed by the file server since if you make a mistake, you are likely to damage the files there. Instead, keep your work outside of the publicly accessible directory and copy it there when testing.
+Don't work directly in the code exposed by the file server, since if you make a mistake, you are likely to damage the files there. Instead, keep your work outside of the publicly accessible directory and copy it there when testing.
 
 {{hint
 

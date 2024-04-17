@@ -4,76 +4,76 @@
 
 {{quote {author: "Laozi", title: "Tao Te Ching", chapter: true}
 
-Who can wait quietly while the mud settles?\
-Who can remain still until the moment of action?
+Çamur çökene kadar kim sessizce bekleyebilir?\
+Kim eylem anına kadar hareketsiz kalabilir?
 
 quote}}
 
 {{index "Laozi"}}
 
-{{figure {url: "img/chapter_picture_11.jpg", alt: "Illustration showing two crows on a tree branch", chapter: framed}}}
+{{figure {url: "img/chapter_picture_11.jpg", alt: "Bir ağaç dalındaki iki kargayı gösteren illüstrasyon.", chapter: framed}}}
 
-The central part of a computer, the part that carries out the individual steps that make up our programs, is called the _((processor))_. The programs we have seen so far will keep the processor busy until they have finished their work. The speed at which something like a loop that manipulates numbers can be executed depends pretty much entirely on the speed of the computor's processor and memory.
+Bilgisayarın merkezi parçası, programlarımızı oluşturan bireysel adımları gerçekleştiren kısım _((işlemci))_ olarak adlandırılır. Şimdiye kadar gördüğümüz programlar işlerini bitirene kadar işlemciyi meşgul tutarlar. Sayıları manipüle eden bir döngü gibi bir şeyin çalıştırılma hızı, büyük ölçüde bilgisayarın işlemcisinin ve belleğinin hızına bağlıdır.
 
 {{index [memory, speed], [network, speed]}}
 
-But many programs interact with things outside of the processor. For example, they may communicate over a computer network or request data from the ((hard disk))—which is a lot slower than getting it from memory.
+Ancak birçok program, işlemcinin dışındaki şeylerle etkileşime geçer. Örneğin, bir bilgisayar ağı üzerinden iletişim kurabilir veya ((hard disk))ten veri isteyebilir - bu, bellekten veri almaktan çok daha yavaştır.
 
-When such a thing is happening, it would be a shame to let the processor sit idle—there might be some other work it could do in the meantime. In part, this is handled by your operating system, which will switch the processor between multiple running programs. But that doesn't help when we want a _single_ program to be able to make progress while it is waiting for a network request.
+Böyle bir şey olurken, işlemciyi boşta bekletmek pek efektik olmaz çünkü bu sırada yapabileceği başka bir iş olabilir. Bu işlemciyi birden çok çalışan programlar arasında geçirerek kısmen işletim sistemi tarafından ele alınır. Ancak bu, bir tek programın bir ağ isteği beklerken ilerleme kaydetmesini istediğimizde işe yaramaz.
 
-## Asynchronicity
+## Eşzamansızlık
 
 {{index "synchronous programming"}}
 
-In a _synchronous_ programming model, things happen one at a time. When you call a function that performs a long-running action, it returns only when the action has finished and it can return the result. This stops your program for the time the action takes.
+Bir _eşzamanlı_ program modelinde, olaylar teker teker gerçekleşir. Uzun süren bir eylemi gerçekleştiren bir fonksiyonu çağırdığınızda, yalnızca eylem tamamlandığında ve sonucu döndüğünde geri döner. Bu, eylemin zaman aldığı süre boyunca programınızın durmasına sebep olur.
 
 {{index "asynchronous programming"}}
 
-An _asynchronous_ model allows multiple things to happen at the same time. When you start an action, your program continues to run. When the action finishes, the program is informed and gets access to the result (for example, the data read from disk).
+Bir _eşzamansız_ model, aynı anda birden çok şeyin gerçekleşmesine izin verir. Bir eylemi başlattığınızda, programınız çalışmaya devam eder. Eylem tamamlandığında, program bilgilendirilir ve sonuca erişir (örneğin, diskten okunan veri).
 
-We can compare synchronous and asynchronous programming using a small example: a program that makes two requests over the ((network)) and then combines the result.
+Eşzamanlı ve eşzamansız programlamayı bir örnekle karşılaştırabiliriz: ((network)) üzerinden iki istek yapan ve ardından sonucu birleştiren bir program.
 
 {{index "synchronous programming"}}
 
-In a synchronous environment, where the request function returns only after it has done its work, the easiest way to perform this task is to make the requests one after the other. This has the drawback that the second request will be started only when the first has finished. The total time taken will be at least the sum of the two response times.
+Bir eşzamanlı ortamda, talep fonksiyonu yalnızca işini bitirdikten sonra döndüğünde, bu görevi gerçekleştirmenin en kolay yolu istekleri birbiri ardına yapmaktır. Bu, ikinci istek yalnızca ilk istek tamamlandığında başlatılacağından dezavantajlıdır. Toplam süre en az iki yanıt süresinin toplamı olacaktır.
 
 {{index parallelism}}
 
-The solution to this problem, in a synchronous system, is to start additional ((thread))s of control. A _thread_ is another running program whose execution may be interleaved with other programs by the operating system—since most modern computers contain multiple processors, multiple threads may even run at the same time, on different processors. A second thread could start the second request, and then both threads wait for their results to come back, after which they resynchronize to combine their results.
+Bu sorunun çözümü, eşzamanlı bir sistemde ek kontrol ((thread))leri başlatmaktır. Bir _thread_, bir başka çalışan programdır ve işletim sistemi tarafından diğer programlarla birlikte aralıklı bir şekilde çalıştırılabilir - çoğu modern bilgisayar birden çok işlemci içerdiğinden, birden çok thread aynı anda farklı işlemcilerde çalışabilir. İkinci bir thread, ikinci isteği başlatabilir ve ardından her iki thread de sonuçlarını bekler, sonrasında sonuçlarını birleştirmek için yeniden senkronize olurlar.
 
 {{index CPU, blocking, "asynchronous programming", timeline, "callback function"}}
 
-In the following diagram, the thick lines represent time the program spends running normally, and the thin lines represent time spent waiting for the network. In the synchronous model, the time taken by the network is _part_ of the timeline for a given thread of control. In the asynchronous model, starting a network action allows the program to continue running while the network communication happens alongside it, notifying the program when it is finished.
+Aşağıdaki diyagramda, kalın çizgiler programın normal çalıştığı zamanı temsil ederken, ince çizgiler ağda beklenen zamanı temsil eder. Senkron modelde, ağın alması gereken süre, belirli bir kontrol ((thread))inin zaman çizelgesinin bir _parçası_dır. Asenkron modelde ağ eyleminin başlatılması, programın devam etmesine izin verir ve ağ iletişimi yanında gerçekleşir, işlem sona erdiğinde programı bilgilendirir.
 
-{{figure {url: "img/control-io.svg", alt: "Diagram of showing control flow in synchronous and asynchronous programs. The first part shows a synchronous program, where the program's active and waiting phases all happen on a single, sequential line. The second part shows a multi-threaded synchronous program, with two parallel lines, on which the waiting parts happen alongside each other, causing the program to finish faster. The last part shows an asynchronous program, where the multiple asynchronous actions branch off from the main program, which at some point stops, and then resumes whenever the first thing it was waiting for finishes.",width: "8cm"}}}
+{{figure {url: "img/control-io.svg", alt: "Senkron ve asenkron programlarda kontrol akışını gösteren diyagram. İlk bölüm, programın aktif ve bekleme aşamalarının tek bir sıralı satırda gerçekleştiği senkronize bir programı göstermektedir. İkinci bölümde, bekleme parçalarının yan yana yer aldığı, programın daha hızlı bitmesine neden olan, iki paralel çizgiye sahip, çok iş parçacıklı bir senkronize program gösterilmektedir. Son bölüm, birden fazla eşzamansız eylemin ana programdan ayrıldığı, bir noktada duran ve beklediği ilk şey bittiğinde devam ettiği eşzamansız bir programı gösterir.",width: "8cm"}}}
 
 {{index ["control flow", asynchronous], "asynchronous programming", verbosity, performance}}
 
-Another way to describe the difference is that waiting for actions to finish is _implicit_ in the synchronous model, while it is _explicit_, under our control, in the asynchronous one.
+Farkı açıklamanın başka bir yolu, eylemlerin bitmesini beklemenin eşzamanlı modelde _örtük_ ancak asenkron modelde ise bizim kontrolümüz altında _açıkça_ olduğudur.
 
-Asynchronicity cuts both ways. It makes expressing programs that do not fit the straight-line model of control easier, but it can also make expressing programs that do follow a straight line more awkward. We'll see some ways to reduce this awkwardness later in the chapter.
+Eşzamansızlık iki yönde de keser. Doğrudan çizgi kontrol modeline uymayan programları ifade etmeyi kolaylaştırır, ancak doğrudan bir çizgi izleyen programları ifade etmeyi daha zor hale getirebilir. Bu zorluğu azaltmanın bazı yollarını bölümün ilerleyen kısımlarında göreceğiz.
 
-Both prominent JavaScript programming platforms—((browser))s and ((Node.js))—make operations that might take a while asynchronous, rather than relying on ((thread))s. Since programming with threads is notoriously hard (understanding what a program does is much more difficult when it's doing multiple things at once), this is generally considered a good thing.
+Öne çıkan JavaScript programlama platformları - ((browser))lar ve ((Node.js)) - zaman alabilecek işlemleri ((thread))lerden ziyade asenkron olarak yaparlar. Çünkü thread'lerle programlamak ünlü bir şekilde zordur (bir programın ne yaptığını anlamak, aynı anda birden fazla iş yaptığında çok daha zordur), bu genellikle iyi bir şey olarak kabul edilir.
 
-## Callbacks
+## Geri aramalar
 
 {{indexsee [function, callback], "callback function"}}
 
-One approach to ((asynchronous programming)) is to make functions that need to wait for something take an extra argument, a _((callback function))_. The asynchronous a function starts some process, sets things up so that the callback function is called when the process finishes, and then returns.
+((Asenkron programlama)) yaklaşımlarından biri, bir şeyi beklemesi gereken fonksiyonlara ek bir argüman olarak bir _((geri çağrı fonksiyonu))_ vermektedir. Bir fonksiyon, bir işlemi başlatır, işlem tamamlandığında geri çağrı fonksiyonunun çağrılması için düzenlemeler yapar ve ardından değerini döndürür.
 
 {{index "setTimeout function", waiting}}
 
-As an example, the `setTimeout` function, available both in Node.js and in browsers, waits a given number of milliseconds (a second is a thousand milliseconds) and then calls a function.
+Örneğin, Node.js ve tarayıcılarda bulunan `setTimeout` fonksiyonu, belirli bir milisaniye (bir saniye bin milisaniyedir) bekler ve ardından bir fonksiyonu çağırır.
 
 ```{test: no}
 setTimeout(() => console.log("Tick"), 500);
 ```
 
-Waiting is not generally a very important type of work, but it can be very useful when you need to arrange for something to happen at a certain time or check whether some other action is taking longer than expected.
+Bekleme genellikle çok önemli bir iş türü değildir, ancak belirli bir zamanda bir şeyin yapılmasını ayarlamak veya başka bir eylemin beklenenden daha uzun sürüp sürmediğini kontrol etmek gerektiğinde çok kullanışlı olabilir.
 
 {{index "readTextFile function"}}
 
-Another example of a common asynchronous operation is reading a file from a device's storage. Imagine you have a function `readTextFile`, which reads a file's content as a string and passes it to a callback function.
+Diğer bir yaygın asenkron işlemlerse cihazın depolama biriminden bir dosya okumaktır. Diyelim ki bir `readTextFile` fonksiyonunuz var ve bu bir dosyanın içeriğini bir dize olarak okur ve bunu bir geri çağrı fonksiyonuna verir.
 
 ```
 readTextFile("shopping_list.txt", content => {
@@ -84,9 +84,9 @@ readTextFile("shopping_list.txt", content => {
 // → Bananas
 ```
 
-The `readTextFile` function is not part of standard JavaScript. We will see how to read files in the browser and in Node.js in later chapters.
+`readTextFile` fonksiyonu standart JavaScript'in bir parçası değildir. Tarayıcıda ve Node.js'te dosya okumanın nasıl yapıldığını sonraki bölümlerde göreceğiz.
 
-Performing multiple asynchronous actions in a row using callbacks means that you have to keep passing new functions to handle the ((continuation)) of the computation after the actions. This is what an asynchronous function that compares two files and produces a boolean indicating whether their content is the same might look like.
+Geri aramalar kullanarak ardışık olarak birden fazla asenkron işlem gerçekleştirmek, işlemlerden sonra hesaplamanın devamını ele almak için sürekli yeni fonksiyonlar geçirmeniz gerektiği anlamına gelir. İki dosyayı karşılaştıran ve içeriklerinin aynı olup olmadığını belirten bir asenkron fonksiyon, şu şekilde yazılabilir.
 
 ```
 function compareFiles(fileA, fileB, callback) {
@@ -98,9 +98,9 @@ function compareFiles(fileA, fileB, callback) {
 }
 ```
 
-This style of programming is workable, but the indentation level increases with each asynchronous action because you end up in another function. Doing more complicated things, such as wrapping asynchronous actions in a loop, can get awkward.
+Bu programlama tarzı çalışabilir, ancak her asenkron işlemle girinti seviyesi artar çünkü başka bir fonksiyona girersiniz. Daha karmaşık şeyler yapmak, örneğin asenkron işlemleri bir döngü içine almak, garip olabilir.
 
-In a way, asynchronicity is _contagious_. Any function that calls a function that works asynchronously must itself be asynchronous, using a callback or similar mechanism to deliver its result. Calling a callback is somewhat more involved and error-prone than simply returning a value, so needing to structure large parts of your program that way is not great.
+Bir bakıma, eşzamansızlık bulaşıcıdır. Asenkron olarak çalışan bir fonksiyonu çağıran herhangi bir fonksiyon, sonucunu iletmek için bir geri çağrı veya benzeri bir mekanizma kullanarak kendisi de asenkron olmalıdır. Bir geri çağrı çağırmak, sadece bir değeri döndürmekten biraz daha karmaşıktır ve hata yapma olasılığı daha yüksektir, bu nedenle programınızın büyük kısımlarını bu şekilde yapılandırmanız gerektiğinde pek de iyi bir seçenek değildir.
 
 ## Promises
 

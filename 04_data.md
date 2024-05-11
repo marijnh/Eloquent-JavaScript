@@ -415,9 +415,9 @@ console.log(phi([76, 9, 4, 1]));
 
 This is a direct translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is the square root function, as provided by the `Math` object in a standard JavaScript environment. We have to add two fields from the table to get fields like [n~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} because the sums of rows or columns are not stored directly in our data structure.
 
-{{index "JOURNAL data set"}}
+{{index "JOURNAL dataset"}}
 
-Jacques keeps his journal for three months. The resulting ((data set)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
+Jacques keeps his journal for three months. The resulting ((dataset)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
 
 {{index "tableFor function"}}
 
@@ -484,7 +484,7 @@ When a `for` loop uses the word `of` after its variable definition, it will loop
 
 {{index journal, "weresquirrel example", "journalEvents function"}}
 
-We need to compute a correlation for every type of event that occurs in the data set. To do that, we first need to _find_ every type of event.
+We need to compute a correlation for every type of event that occurs in the dataset. To do that, we first need to _find_ every type of event.
 
 {{index "includes method", "push method"}}
 

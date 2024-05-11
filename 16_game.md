@@ -859,7 +859,7 @@ async function runGame(plans, Display) {
 
 Because we made `runLevel` return a promise, `runGame` can be written using an `async` function, as shown in [Chapter ?](async). It returns another promise, which resolves when the player finishes the game.
 
-{{index game, "GAME_LEVELS data set"}}
+{{index game, "GAME_LEVELS dataset"}}
 
 There is a set of ((level)) plans available in the `GAME_LEVELS` binding in [this chapter's sandbox](https://eloquentjavascript.net/code#16)[ ([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if book}. This page feeds them to `runGame`, starting an actual game.
 

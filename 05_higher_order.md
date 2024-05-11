@@ -139,7 +139,7 @@ console.log(labels);
 
 {{index "loop body", [braces, body], [parentheses, arguments]}}
 
-This is structured a little like a `for` loop—it first describes the kind of loop and then provides a body. However, the body is now written as a function value, which is wrapped in the parentheses of the call to `repeat`. This is why it has to be closed with the closing brace _and_ closing parenthesis. In cases like this example where the body is a single small expression, you could also omit the braces and write the loop on a single line.
+This is structured a little like a `for` loop—it first describes the kind of loop and then provides a body. However, the body is now written as a function value, which is wrapped in the parentheses of the call to `repeat`. This is why it has to be closed with the closing brace _and_ closing parenthesis. In cases like this example, where the body is a single small expression, you could also omit the braces and write the loop on a single line.
 
 ## Higher-order functions
 
@@ -204,19 +204,19 @@ There is a built-in array method, `forEach`, that provides something like a `for
 
 {{id scripts}}
 
-## Script data set
+## Script dataset
 
-One area where higher-order functions shine is data processing. To process data, we'll need some actual example data. This chapter will use a ((data set)) about scripts—((writing system))s such as Latin, Cyrillic, or Arabic.
+One area where higher-order functions shine is data processing. To process data, we'll need some actual example data. This chapter will use a ((dataset)) about scripts—((writing system))s such as Latin, Cyrillic, or Arabic.
 
-Remember ((Unicode)) from [Chapter ?](values#unicode), the system that assigns a number to each character in written language? Most of these characters are associated with a specific script. The standard contains 140 different scripts, of which 81 are still in use today and 59 are historic.
+Remember ((Unicode)), the system that assigns a number to each character in written language, from [Chapter ?](values#unicode)? Most of these characters are associated with a specific script. The standard contains 140 different scripts, of which 81 are still in use today and 59 are historic.
 
 Though I can fluently read only Latin characters, I appreciate the fact that people are writing texts in at least 80 other writing systems, many of which I wouldn't even recognize. For example, here's a sample of ((Tamil)) handwriting:
 
 {{figure {url: "img/tamil.png", alt: "A line of verse in Tamil handwriting. The characters are relatively simple, and neatly separated, yet completely different from Latin."}}}
 
-{{index "SCRIPTS data set"}}
+{{index "SCRIPTS dataset"}}
 
-The example ((data set)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script:
+The example ((dataset)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script:
 
 
 ```{lang: "json"}
@@ -240,7 +240,7 @@ The `ranges` property contains an array of Unicode character ((range))s, each of
 
 {{index [array, methods], [array, filtering], "filter method", [function, "higher-order"], "predicate function"}}
 
-If we want to find the scripts in the data set that are still in use, the following function might be helpful. It filters out elements in an array that don't pass a test.
+If we want to find the scripts in the dataset that are still in use, the following function might be helpful. It filters out elements in an array that don't pass a test.
 
 ```
 function filter(array, test) {
@@ -327,7 +327,7 @@ console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));
 // → 10
 ```
 
-{{index "reduce method", "SCRIPTS data set"}}
+{{index "reduce method", "SCRIPTS dataset"}}
 
 The standard array method `reduce`, which of course corresponds to this function, has an added convenience. If your array contains at least one element, you are allowed to leave off the `start` argument. The method will take the first element of the array as its start value and start reducing at the second element.
 
@@ -355,7 +355,7 @@ console.log(SCRIPTS.reduce((a, b) => {
 
 The `characterCount` function reduces the ranges assigned to a script by summing their sizes. Note the use of destructuring in the parameter list of the reducer function. The second call to `reduce` then uses this to find the largest script by repeatedly comparing two scripts and returning the larger one.
 
-The Han script has more than 89,000 characters assigned to it in the Unicode standard, making it by far the biggest writing system in the data set. Han is a script sometimes used for Chinese, Japanese, and Korean text. Those languages share a lot of characters, though they tend to write them differently. The (US-based) Unicode Consortium decided to treat them as a single writing system to save character codes. This is called _Han unification_ and still makes some people very angry.
+The Han script has more than 89,000 characters assigned to it in the Unicode standard, making it by far the biggest writing system in the dataset. Han is a script sometimes used for Chinese, Japanese, and Korean text. Those languages share a lot of characters, though they tend to write them differently. The (US-based) Unicode Consortium decided to treat them as a single writing system to save character codes. This is called _Han unification_ and still makes some people very angry.
 
 ## Composability
 
@@ -381,7 +381,7 @@ There are a few more bindings, and the program is four lines longer, but it is s
 
 {{id average_function}}
 
-The abstractions provided by these functions really shine when you need to _compose_ operations. As an example, let's write code that finds the average year of origin for living and dead scripts in the data set:
+The abstractions these functions provide really shine when you need to _compose_ operations. As an example, let's write code that finds the average year of origin for living and dead scripts in the dataset:
 
 ```
 function average(array) {
@@ -420,9 +420,9 @@ In terms of what the computer is actually doing, these two approaches are also q
 
 ## Strings and character codes
 
-{{index "SCRIPTS data set"}}
+{{index "SCRIPTS dataset"}}
 
-One interesting use of this data set would be figuring out what script a piece of text is using. Let's go through a program that does this.
+One interesting use of this dataset would be figuring out what script a piece of text is using. Let's go through a program that does this.
 
 Remember that each script has an array of character code ranges associated with it. Given a character code, we could use a function like this to find the corresponding script (if any):
 
@@ -494,7 +494,7 @@ If you have a character (which will be a string of one or two code units), you c
 
 ## Recognizing text
 
-{{index "SCRIPTS data set", "countBy function", [array, counting]}}
+{{index "SCRIPTS dataset", "countBy function", [array, counting]}}
 
 We have a `characterScript` function and a way to correctly loop over characters. The next step is to count the characters that belong to each script. The following counting abstraction will be useful there:
 
@@ -521,7 +521,7 @@ The `countBy` function expects a collection (anything that we can loop over with
 
 {{index "find method"}}
 
-It uses another array method, `find`, which goes over the elements in the array and returns the first one for which a function returns true. It returns `undefined` when no such element is found.
+It uses another array method, `find`, which goes over the elements in the array and returns the first one for which a function returns true. It returns `undefined` when it finds no such element.
 
 {{index "textScripts function", "Chinese characters"}}
 
@@ -552,13 +552,13 @@ The function first counts the characters by name, using `characterScript` to ass
 
 {{index "reduce method", "map method", "join method", [array, methods]}}
 
-To be able to compute ((percentage))s, we first need the total number of characters that belong to a script, which we can compute with `reduce`. If no such characters are found, the function returns a specific string. Otherwise it transforms the counting entries into readable strings with `map` and then combines them with `join`.
+To be able to compute ((percentage))s, we first need the total number of characters that belong to a script, which we can compute with `reduce`. If we find no such characters, the function returns a specific string. Otherwise it transforms the counting entries into readable strings with `map` and then combines them with `join`.
 
 ## Summary
 
 Being able to pass function values to other functions is a deeply useful aspect of JavaScript. It allows us to write functions that model computations with "gaps" in them. The code that calls these functions can fill in the gaps by providing function values.
 
-Arrays provide a number of useful higher-order methods. You can use `forEach` to loop over the elements in an array. The `filter` method returns a new array containing only the elements that pass the ((predicate function)). Transforming an array by putting each element through a function is done with `map`. You can use `reduce` to combine all the elements in an array into a single value. The `some` method tests whether any element matches a given predicate function, while `find` finds the first element that matches a predicate.
+Arrays provide a number of useful higher-order methods. You can use `forEach` to loop over the elements in an array. The `filter` method returns a new array containing only the elements that pass the ((predicate function)). You can transform an array by putting each element through a function using `map`. You can use `reduce` to combine all the elements in an array into a single value. The `some` method tests whether any element matches a given predicate function, while `find` finds the first element that matches a predicate.
 
 ## Exercises
 
@@ -581,7 +581,7 @@ if}}
 
 {{index "your own loop (example)", "for loop"}}
 
-Write a higher-order function `loop` that provides something like a `for` loop statement. It should take a value, a test function, an update function, and a body function. Each iteration, it should first run the test function on the current loop value and stop if that returns false. It should then call the body function, giving it the current value, then finally call the update function to create a new value and start over from the beginning.
+Write a higher-order function `loop` that provides something like a `for` loop statement. It should take a value, a test function, an update function, and a body function. Each iteration, it should first run the test function on the current loop value and stop if that returns false. It should then call the body function, giving it the current value, and finally call the update function to create a new value and start over from the beginning.
 
 When defining the function, you can use a regular loop to do the actual looping.
 
@@ -635,7 +635,7 @@ hint}}
 
 ### Dominant writing direction
 
-{{index "SCRIPTS data set", "direction (writing)", "groupBy function", "dominant direction (exercise)"}}
+{{index "SCRIPTS dataset", "direction (writing)", "groupBy function", "dominant direction (exercise)"}}
 
 Write a function that computes the dominant writing direction in a string of text. Remember that each script object has a `direction` property that can be `"ltr"` (left to right), `"rtl"` (right to left), or `"ttb"` (top to bottom).
 

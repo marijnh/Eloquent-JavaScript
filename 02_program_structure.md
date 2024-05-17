@@ -578,7 +578,7 @@ The first style can be hard to read. I rather like the look of the underscores, 
 
 {{index "Number function", constructor}}
 
-In a few cases, such as the `Number` function, the first letter of a binding is also capitalized. This was done to mark this function as a constructor. It will become clear what a constructor is in [Chapter ?](object#constructors). For now, the important thing is not to be bothered by this apparent lack of ((consistency)).
+In a few cases, such as the `Number` function, the first letter of a binding is also capitalized. This was done to mark this function as a constructor. It will become clear what a constructor is in [Chapter ?](object#constructors). For now, the important thing is to not be bothered by this apparent lack of ((consistency)).
 
 ## Comments
 

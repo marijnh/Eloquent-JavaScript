@@ -35,7 +35,9 @@ If a problem is found in one such object class, it can often be repaired or even
 {{id interface}}
 {{index [interface, object]}}
 
-Each abstract data type has an _interface_, the collection of operations that external code can perform on it. Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on single _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate, since useful pieces of functionality often involve a group of different object classes working closely together.
+Each abstract data type has an _interface_, the collection of operations that external code can perform on it. Any details beyond that interface are _encapsulated_, treated as internal to the type and of no concern to the rest of the program.
+
+Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on single _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate since useful pieces of functionality often involve a group of different object classes working closely together.
 
 {{id obj_methods}}
 
@@ -251,7 +253,7 @@ console.log(Object.getPrototypeOf(killerRabbit) ==
 
 {{index constructor}}
 
-Constructors will typically add some per-instance properties to `this`. It is also possible to declare properties directly in the ((class declaration)). Unlike methods, such properties are added to ((instance)) objects, not the prototype.
+Constructors will typically add some per-instance properties to `this`. It is also possible to declare properties directly in the ((class declaration)). Unlike methods, such properties are added to ((instance)) objects and not the prototype.
 
 ```
 class Particle {
@@ -299,7 +301,7 @@ If you try to call `#getSecret` from outside the class, you get an error. Its ex
 
 To use private instance properties, you must declare them. Regular properties can be created by just assigning to them, but private properties _must_ be declared in the class declaration to be available at all.
 
-This class implements an appliance for getting random whole number below a given maximum number. It only has one ((public)) property: `getNumber`.
+This class implements an appliance for getting a random whole number below a given maximum number. It only has one ((public)) property: `getNumber`.
 
 ```
 class RandomSource {
@@ -461,7 +463,7 @@ This technique is called _polymorphism_. Polymorphic code can work with values o
 
 {{index "forEach method"}}
 
-An example of a widely used interface is that of ((array-like object))s which have a `length` property holding a number, and numbered properties for each of their elements. Both arrays and strings support this interface, as do various other objects, some of which we'll see later in the chapters about the browser. Our implementation of `forEach` from [Chapter ?](higher_order) works on anything that provides this interface. In fact, so does `Array.prototype.forEach`.
+An example of a widely used interface is that of ((array-like object))s which have a `length` property holding a number and numbered properties for each of their elements. Both arrays and strings support this interface, as do various other objects, some of which we'll see later in the chapters about the browser. Our implementation of `forEach` from [Chapter ?](higher_order) works on anything that provides this interface. In fact, so does `Array.prototype.forEach`.
 
 ```
 Array.prototype.forEach.call({
@@ -527,7 +529,7 @@ The `Temperature` class allows you to read and write the temperature in either d
 
 {{index "static method", "static property"}}
 
-Sometimes you want to attach some properties directly to your constructor function, rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
+Sometimes you want to attach some properties directly to your constructor function rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
 
 Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. For example, the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit:
 
@@ -702,7 +704,7 @@ Imagine we need a list type much like the `List` class we saw before, but becaus
 
 {{index overriding, prototype}}
 
-JavaScript's prototype system makes it possible to create a _new_ class, much like the old class but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `length` getter.
+JavaScript's prototype system makes it possible to create a _new_ class, much like the old class, but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `length` getter.
 
 In object-oriented programming terms, this is called _((inheritance))_. The new class inherits properties and behavior from the old class.
 
@@ -728,7 +730,7 @@ The use of the word `extends` indicates that this class shouldn't be directly ba
 
 To initialize a `LengthList` instance, the constructor calls the constructor of its superclass through the `super` keyword. This is necessary because if this new object is to behave (roughly) like a `List`, it is going to need the instance properties that lists have.
 
-The constructor then stores the list's length in a private property. If we had written `this.length` there, the class's own getter would have been called, which doesn't work yet, since `#length` hasn't been filled in yet. We can use `super.something` to call methods and getters on the superclass's prototype, which is often useful.
+The constructor then stores the list's length in a private property. If we had written `this.length` there, the class's own getter would have been called, which doesn't work yet since `#length` hasn't been filled in yet. We can use `super.something` to call methods and getters on the superclass's prototype, which is often useful.
 
 Inheritance allows us to build slightly different data types from existing data types with relatively little work. It is a fundamental part of the object-oriented tradition, alongside encapsulation and polymorphism. But while the latter two are now generally regarded as wonderful ideas, inheritance is more controversial.
 

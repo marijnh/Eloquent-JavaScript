@@ -371,7 +371,7 @@ console.log(wrap2());
 
 This is allowed and works as you'd hope—both instances of the binding can still be accessed. This situation is a good demonstration of the fact that local bindings are created anew for every call, and different calls don't affect each other's local bindings.
 
-This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about the lifetimes of bindings but also makes it possible to use function values in some creative ways.
+This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about the lifetimes of bindings, it also makes it possible to use function values in some creative ways.
 
 {{index "multiplier function"}}
 
@@ -389,7 +389,7 @@ console.log(twice(5));
 
 {{index [binding, "from parameter"]}}
 
-The explicit `local` binding from the `wrapValue` example isn't really needed, since a parameter is itself a local binding.
+The explicit `local` binding from the `wrapValue` example isn't really needed since a parameter is itself a local binding.
 
 {{index [function, "model of"]}}
 
@@ -422,7 +422,7 @@ This is rather close to the way mathematicians define exponentiation and arguabl
 
 {{index [function, application], efficiency}}
 
-This implementation has one problem, however: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
+However, this implementation has one problem: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
 
 {{index optimization}}
 
@@ -436,7 +436,7 @@ Worrying about efficiency can be a distraction. It's yet another factor that com
 
 {{index "premature optimization"}}
 
-Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't, since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
+Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
 
 {{index "branching recursion"}}
 
@@ -470,7 +470,7 @@ console.log(findSolution(24));
 
 Note that this program doesn't necessarily find the _shortest_ sequence of operations. It is satisfied when it finds any sequence at all.
 
-It's okay if you don't see how this code works right away. Let's work through it, since it makes for a great exercise in recursive thinking.
+It's okay if you don't see how this code works right away. Let's work through it since it makes for a great exercise in recursive thinking.
 
 The inner function `find` does the actual recursing. It takes two ((argument))s: the current number and a string that records how we reached this number. If it finds a solution, it returns a string that shows how to get to the target. If it can find no solution starting from this number, it returns `null`.
 
@@ -510,7 +510,7 @@ There are two more or less natural ways for functions to be introduced into prog
 
 The first occurs when you find yourself writing similar code multiple times. You'd prefer not to do that, as having more code means more space for mistakes to hide and more material to read for people trying to understand the program. So you take the repeated functionality, find a good name for it, and put it into a function.
 
-The second way is that you find you need some functionality that you haven't written yet and that sounds like it deserves its own function. You start by naming the function, then write its body. You might even start writing code that uses the function before you actually define the function itself.
+The second way is that you find you need some functionality that you haven't written yet and that sounds like it deserves its own function. You start by naming the function, and then write its body. You might even start writing code that uses the function before you actually define the function itself.
 
 {{index [function, naming], [binding, naming]}}
 
@@ -620,7 +620,7 @@ The first helper function in the ((farm example)), `printZeroPaddedWithLabel`, i
 
 {{index substitution}}
 
-A _pure_ function is a specific kind of value-producing function that not only has no side effects but also doesn't rely on side effects from other code—for example, it doesn't read global bindings whose value might change. A pure function has the pleasant property that, when called with the same arguments, it always produces the same value (and doesn't do anything else). A call to such a function can be substituted by its return value without changing the meaning of the code. When you are not sure that a pure function is working correctly, you can test it by simply calling it and know that if it works in that context, it will work in any context. Nonpure functions tend to require more scaffolding to test.
+A _pure_ function is a specific kind of value-producing function that not only has no side effects, but also doesn't rely on side effects from other code—for example, it doesn't read global bindings whose value might change. A pure function has the pleasant property that, when called with the same arguments, it always produces the same value (and doesn't do anything else). A call to such a function can be substituted by its return value without changing the meaning of the code. When you are not sure that a pure function is working correctly, you can test it by simply calling it and know that if it works in that context, it will work in any context. Nonpure functions tend to require more scaffolding to test.
 
 {{index optimization, "console.log"}}
 

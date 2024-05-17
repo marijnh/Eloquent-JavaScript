@@ -357,7 +357,7 @@ The difference in meaning between `undefined` and `null` is an accident of JavaS
 
 {{index NaN, "type coercion"}}
 
-In the Introduction, I mentioned that JavaScript goes out of its way to accept almost any program you give it, even programs that do odd things. This is nicely demonstrated by the following expressions:
+In the [Introduction](intro), I mentioned that JavaScript goes out of its way to accept almost any program you give it, even programs that do odd things. This is nicely demonstrated by the following expressions:
 
 ```
 console.log(8 * null)

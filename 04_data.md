@@ -42,7 +42,7 @@ Switching to a more scientific approach, Jacques has started keeping a daily log
 
 The first thing he needs is a data structure to store this information.
 
-## Data sets
+## Datasets
 
 {{index ["data structure", collection], [memory, organization]}}
 
@@ -192,7 +192,7 @@ let descriptions = {
 
 {{index [braces, object]}}
 
-This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they begin a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}`, since the braces will be interpreted as a function body. Instead, you have to put a set of parentheses around the object to make it clear that it is an expression.
+This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they begin a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}` since the braces will be interpreted as a function body. Instead, you have to put a set of parentheses around the object to make it clear that it is an expression.
 
 {{index undefined}}
 
@@ -225,7 +225,7 @@ console.log("right" in anObject);
 
 {{index "in operator", [property, "testing for"], object}}
 
-The binary `in` operator, when applied to a string and an object, tells you whether that object has a property with that name. The difference between setting a property to `undefined` and actually deleting it is that in the first case, the object still _has_ the property (it just doesn't have a very interesting value), whereas in the second case the property is no longer present and `in` will return `false`.
+The binary `in` operator, when applied to a string and an object, tells you whether that object has a property with that name. The difference between setting a property to `undefined` and actually deleting it is that in the first case, the object still _has_ the property (it just doesn't have a very interesting value), whereas in the second case, the property is no longer present and `in` will return `false`.
 
 {{index "Object.keys function"}}
 
@@ -604,7 +604,7 @@ Both `indexOf` and `lastIndexOf` take an optional second argument that indicates
 
 {{index "slice method", [array, indexing]}}
 
-Another fundamental array method is `slice`, which takes start and end indices and returns an array that has only the elements between them. The start index is inclusive, the end index exclusive.
+Another fundamental array method is `slice`, which takes start and end indices and returns an array that has only the elements between them. The start index is inclusive and the end index is exclusive.
 
 ```
 console.log([0, 1, 2, 3, 4].slice(2, 4));
@@ -809,7 +809,7 @@ console.log(randomPointOnCircle(2));
 // → {x: 0.3667, y: 1.966}
 ```
 
-If you're not familiar with sines and cosines, don't worry. I'll explain them when they are used in this book, in [Chapter ?](dom#sin_cos).
+If you're not familiar with sines and cosines, don't worry. I'll explain them when they are used in [Chapter ?](dom#sin_cos).
 
 {{index "Math.random function", "random number"}}
 
@@ -893,7 +893,7 @@ Note that if you try to destructure `null` or `undefined`, you get an error, muc
 
 {{index "optional chaining", "period character"}}
 
-When you aren't sure whether a given value produces an object but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
+When you aren't sure whether a given value produces an object, but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
 
 ```
 function city(object) {
@@ -928,7 +928,7 @@ If you want to save data in a file for later or send it to another computer over
 
 {{index serialization, "World Wide Web"}}
 
-What we can do is _serialize_ the data. That means it is converted into a flat description. A popular serialization format is called _((JSON))_ (pronounced "Jason"), which stands for JavaScript Object Notation. It is widely used as a data storage and communication format on the Web, even in languages other than JavaScript.
+What we can do is _serialize_ the data. That means it is converted into a flat description. A popular serialization format is called _((JSON))_ (pronounced "Jason"), which stands for JavaScript Object Notation. It is widely used as a data storage and communication format on the web, even with languages other than JavaScript.
 
 {{index [array, notation], [object, creation], [quoting, "in JSON"], comment}}
 

@@ -378,7 +378,7 @@ This robot usually finishes the task of delivering 5 parcels in about 16 turns. 
 
 It's hard to objectively compare ((robot))s by just letting them solve a few scenarios. Maybe one robot just happened to get easier tasks or the kind of tasks that it is good at, whereas the other didn't.
 
-Write a function `compareRobots` that takes two robots (and their starting memory). It generates 100 tasks and lets each of the robots solve each of these tasks. When done, it outputs the average number of steps each robot took per task.
+Write a function `compareRobots` that takes two robots (and their starting memory). It should generate 100 tasks and let each of the robots solve each of these tasks. When done, it should output the average number of steps each robot took per task.
 
 For the sake of fairness, make sure you give each task to both robots, rather than generating different tasks per robot.
 
@@ -437,7 +437,7 @@ hint}}
 
 Most data structures provided in a standard JavaScript environment aren't very well suited for persistent use. Arrays have `slice` and `concat` methods, which allow us to easily create new arrays without damaging the old one. But `Set`, for example, has no methods for creating a new set with an item added or removed.
 
-Write a new class `PGroup`, similar to the `Group` class from [Chapter ?](object#groups), which stores a set of values. Like `Group`, it has `add`, `delete`, and `has` methods. Its `add` method, however, returns a _new_ `PGroup` instance with the given member added and leaves the old one unchanged. Similarly, `delete` creates a new instance without a given member.
+Write a new class `PGroup`, similar to the `Group` class from [Chapter ?](object#groups), which stores a set of values. Like `Group`, it has `add`, `delete`, and `has` methods. Its `add` method, however, should return a _new_ `PGroup` instance with the given member added and leave the old one unchanged. Similarly, `delete` should create a new instance without a given member.
 
 The class should work for values of any type, not just strings. It does _not_ have to be efficient when used with large numbers of values.
 
@@ -447,7 +447,7 @@ The ((constructor)) shouldn't be part of the class's interface (though you'll de
 
 {{index singleton}}
 
-Why do you need only one `PGroup.empty` value, rather than having a function that creates a new, empty map every time?
+Why do you need only one `PGroup.empty` value rather than having a function that creates a new, empty map every time?
 
 {{if interactive
 

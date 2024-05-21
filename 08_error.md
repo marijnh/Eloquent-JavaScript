@@ -20,7 +20,7 @@ If a program is crystallized thought, we can roughly categorize bugs into those 
 
 {{index parsing, analysis}}
 
-Many mistakes could be pointed out to us automatically by the computer, if it knew enough about what we're trying to do. But here JavaScript's looseness is a hindrance. Its concept of bindings and properties is vague enough that it will rarely catch ((typo))s before actually running the program. Even then, it allows you to do some clearly nonsensical things without complaint, such as computing `true * "monkey"`.
+Many mistakes could be pointed out to us automatically by the computer if it knew enough about what we're trying to do. But here, JavaScript's looseness is a hindrance. Its concept of bindings and properties is vague enough that it will rarely catch ((typo))s before actually running the program. Even then, it allows you to do some clearly nonsensical things without complaint, such as computing `true * "monkey"`.
 
 {{index [syntax, error], [property, access]}}
 
@@ -28,7 +28,7 @@ There are some things that JavaScript does complain about. Writing a program tha
 
 {{index NaN, error}}
 
-Often, however, your nonsense computation will merely produce `NaN` (not a number) or an undefined value, while the program happily continues, convinced that it's doing something meaningful. The mistake will manifest itself only later, after the bogus value has traveled through several functions. It might not trigger an error at all but silently cause the program's output to be wrong. Finding the source of such problems can be difficult.
+Often, however, your nonsense computation will merely produce `NaN` (not a number) or an undefined value, while the program happily continues, convinced that it's doing something meaningful. The mistake will manifest itself only later, after the bogus value has traveled through several functions. It might not trigger an error at all, but silently cause the program's output to be wrong. Finding the source of such problems can be difficult.
 
 The process of finding mistakes—bugs—in programs is called _((debugging))_.
 
@@ -75,7 +75,7 @@ console.log(name);
 
 {{index error}}
 
-The bogus call to `Person` succeeded but returned an undefined value and created the global binding `name`. In strict mode, the result is different.
+The bogus call to `Person` succeeded, but returned an undefined value and created the global binding `name`. In strict mode, the result is different.
 
 ```{test: "error \"TypeError: Cannot set properties of undefined (setting 'name')\""}
 "use strict";
@@ -131,7 +131,7 @@ If the language is not going to do much to help us find mistakes, we'll have to 
 
 Doing this by hand, again and again, is a really bad idea. Not only is it annoying, it also tends to be ineffective since it takes too much time to exhaustively test everything every time you make a change.
 
-Computers are good at repetitive tasks, and testing is the ideal repetitive task. Automated testing is the process of writing a program that tests another program. Writing tests is a bit more work than testing manually, but once you've done it, you gain a kind of superpower: it takes you only a few seconds to verify that your program still behaves properly in all the situations you wrote tests for. When you break something, you'll immediately notice, rather than randomly running into it at some later time.
+Computers are good at repetitive tasks, and testing is the ideal repetitive task. Automated testing is the process of writing a program that tests another program. Writing tests is a bit more work than testing manually, but once you've done it, you gain a kind of superpower: it takes you only a few seconds to verify that your program still behaves properly in all the situations you wrote tests for. When you break something, you'll immediately notice rather than randomly running into it at some later time.
 
 {{index "toUpperCase method"}}
 
@@ -221,7 +221,7 @@ _Right_. Dividing 13 by 10 does not produce a whole number. Instead of `n /= bas
 
 {{index "JavaScript console", "debugger statement"}}
 
-An alternative to using `console.log` to peek into the program's behavior is to use the _debugger_ capabilities of your browser. Browsers come with the ability to set a _((breakpoint))_ on a specific line of your code. When the execution of the program reaches a line with a breakpoint, it is paused, and you can inspect the values of bindings at that point. I won't go into details, as debuggers differ from browser to browser, but look in your browser's ((developer tools)) or search the Web for instructions.
+An alternative to using `console.log` to peek into the program's behavior is to use the _debugger_ capabilities of your browser. Browsers come with the ability to set a _((breakpoint))_ on a specific line of your code. When the execution of the program reaches a line with a breakpoint, it is paused, and you can inspect the values of bindings at that point. I won't go into details, as debuggers differ from browser to browser, but look in your browser's ((developer tools)) or search the web for instructions.
 
 Another way to set a breakpoint is to include a `debugger` statement (consisting simply of that keyword) in your program. If the ((developer tools)) of your browser are active, the program will pause whenever it reaches such a statement.
 

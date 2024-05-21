@@ -22,7 +22,7 @@ if}}
 
 {{index evolution, adoption, integration}}
 
-Programming ((tool))s and techniques survive and spread in a chaotic, evolutionary way. It's not always the best or brilliant ones that win but rather the ones that function well enough within the right niche or that happen to be integrated with another successful piece of technology.
+Programming ((tool))s and techniques survive and spread in a chaotic, evolutionary way. It's not always the best or most brilliant ones that win, but rather the ones that function well enough within the right niche or that happen to be integrated with another successful piece of technology.
 
 {{index "domain-specific language"}}
 
@@ -391,9 +391,9 @@ If we want to enforce that the match must span the whole string, we can add the 
 
 {{index "word boundary", "word character"}}
 
-There is also a `\b` marker that matches _word boundaries_, positions that have a word character one side, and a non-word character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w`, and are therefore not very reliable.
+There is also a `\b` marker that matches _word boundaries_, positions that have a word character on one side, and a non-word character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w`, and are therefore not very reliable.
 
-Note that these boundary markers don't match any actual characters. They just enforce that a given condition holds at the place where they appears in the pattern.
+Note that these boundary markers don't match any actual characters. They just enforce that a given condition holds at the place where it appears in the pattern.
 
 {{index "look-ahead"}}
 
@@ -716,7 +716,7 @@ This method returns an array of match arrays. The regular expression given to `m
 
 {{index comment, "file format", "enemies example", "INI file"}}
 
-To conclude the chapter, we'll look at a problem that calls for ((regular expression))s. Imagine we are writing a program to automatically collect information about our enemies from the ((Internet)). (We will not actually write that program here, just the part that reads the ((configuration)) file. Sorry.) The configuration file looks like this:
+To conclude the chapter, we'll look at a problem that calls for ((regular expression))s. Imagine we are writing a program to automatically collect information about our enemies from the ((internet)). (We will not actually write that program here, just the part that reads the ((configuration)) file. Sorry.) The configuration file looks like this:
 
 ```{lang: "null"}
 searchengine=https://duckduckgo.com/?q=$1

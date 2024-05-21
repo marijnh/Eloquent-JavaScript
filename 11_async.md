@@ -265,7 +265,7 @@ Carla is a somewhat peculiar crow. In her youth, she was fascinated by human lan
 
 {{index "Carla the crow"}}
 
-Carla loves the Internet. Annoyingly, the phone she is working on is about to run out of prepaid data. The building has a wireless network, but it requires a code to access.
+Carla loves the internet. Annoyingly, the phone she is working on is about to run out of prepaid data. The building has a wireless network, but it requires a code to access.
 
 Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a device must send along the correct six-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending a partial code (say, only 3 digits), the response is different based on whether those digits are the correct start of the code or not. Sending incorrect numbers immediately returns a failure message. When sending the correct ones, the access point waits for more digits.
 
@@ -437,7 +437,7 @@ One morning, Carla wakes up to unfamiliar noise from the tarmac outside of her h
 
 Being a curious crow, Carla takes a closer look at the wall. It appears to consist of a number of large glass-fronted devices wired up to cables. On the back, the devices say “LedTec SIG-5030”.
 
-A quick Internet search turns up a user's manual for these devices. They appear to be traffic signs, with a programmable matrix of amber LED lights. The intent is of the humans is probably to display some kind of information on them during their event. Interestingly, the screens can be programmed over a wireless network. Could it be they are connected to the building's local network?
+A quick internet search turns up a user's manual for these devices. They appear to be traffic signs, with a programmable matrix of amber LED lights. The intent is of the humans is probably to display some kind of information on them during their event. Interestingly, the screens can be programmed over a wireless network. Could it be they are connected to the building's local network?
 
 Each device on a network gets an _IP address_, which other devices can use to send it messages. We talk more about that in [Chapter ?](browser). Carla notices that her own phones all get addresses like `10.0.0.20` or `10.0.0.33`. It might be worth trying to send messages to all such addresses and see if any one of them responds to the interface described in the manual for the signs.
 

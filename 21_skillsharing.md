@@ -153,7 +153,7 @@ Content-Length: 295
 
 {{index security}}
 
-The protocol described here doesn't do any ((access control)). Everybody can comment, modify talks, and even delete them. (Since the Internet is full of ((hooligan))s, putting such a system online without further protection probably wouldn't end well.)
+The protocol described here doesn't do any ((access control)). Everybody can comment, modify talks, and even delete them. (Since the internet is full of ((hooligan))s, putting such a system online without further protection probably wouldn't end well.)
 
 ## The server
 

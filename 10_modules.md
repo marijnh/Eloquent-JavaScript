@@ -58,7 +58,7 @@ A modular program is composed of a number of such modules, wired together via th
 
 {{index "Date class", "weekDay module"}}
 
-The following example module converts between day names and numbers (as returned by `Date`'s `getDay` method). It defines a constant which is not part of its interface, and two functions which are. It has no dependencies.
+The following example module converts between day names and numbers (as returned by `Date`'s `getDay` method). It defines a constant that is not part of its interface, and two functions that are. It has no dependencies.
 
 ```
 const names = ["Sunday", "Monday", "Tuesday", "Wednesday",
@@ -87,7 +87,7 @@ The `import` keyword, followed by a list of binding names in braces, makes bindi
 
 {{index [module, resolution], resolution}}
 
-How such a module name is resolved to an actual program differs by platform. The browser treats them as Web addresses, whereas Node.js resolves them to files. When you run a module, all the other modules it depends on—and the modules _those_ depend on—are loaded, and the exported bindings are made available to the modules that import them.
+How such a module name is resolved to an actual program differs by platform. The browser treats them as web addresses, whereas Node.js resolves them to files. When you run a module, all the other modules it depends on—and the modules _those_ depend on—are loaded, and the exported bindings are made available to the modules that import them.
 
 Import and export declarations cannot appear inside of functions, loops, or other blocks. They are immediately resolved when the module is loaded, regardless of how the code in the module executes. To reflect this, they must appear only in the outer module body.
 
@@ -299,7 +299,7 @@ Many JavaScript packages aren't technically written in JavaScript. Language exte
 
 {{index latency, performance, [file, access], [network, speed]}}
 
-Including a modular program that consists of 200 different files in a ((web page)) produces its own problems. If fetching a single file over the network takes 50 milliseconds, loading the whole program takes 10 seconds, or maybe half that if you can load several files simultaneously. That's a lot of wasted time. Because fetching a single big file tends to be faster than fetching a lot of tiny ones, web programmers have started using tools that combine their programs (which they painstakingly split into modules) into a single big file before they publish it to the Web. Such tools are called _((bundler))s_.
+Including a modular program that consists of 200 different files in a ((web page)) produces its own problems. If fetching a single file over the network takes 50 milliseconds, loading the whole program takes 10 seconds, or maybe half that if you can load several files simultaneously. That's a lot of wasted time. Because fetching a single big file tends to be faster than fetching a lot of tiny ones, web programmers have started using tools that combine their programs (which they painstakingly split into modules) into a single big file before they publish it to the web. Such tools are called _((bundler))s_.
 
 {{index "file size"}}
 

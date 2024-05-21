@@ -368,7 +368,7 @@ Note that the order of these codes is different from the one used by `button`, w
 
 {{index touch, "mousedown event", "mouseup event", "click event"}}
 
-The style of graphical browser that we use was designed with mouse interfaces in mind, at a time where touchscreens were rare. To make the Web "work" on early touchscreen phones, browsers for those devices pretended, to a certain extent, that touch events were mouse events. If you tap your screen, you'll get `"mousedown"`, `"mouseup"`, and `"click"` events.
+The style of graphical browser that we use was designed with mouse interfaces in mind, at a time where touchscreens were rare. To make the web "work" on early touchscreen phones, browsers for those devices pretended, to a certain extent, that touch events were mouse events. If you tap your screen, you'll get `"mousedown"`, `"mouseup"`, and `"click"` events.
 
 But this illusion isn't very robust. A touchscreen doesn't work like a mouse: it doesn't have multiple buttons, you can't track the finger when it isn't on the screen (to simulate `"mousemove"`), and it allows multiple fingers to be on the screen at the same time.
 

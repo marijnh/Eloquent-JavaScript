@@ -2,7 +2,7 @@
 
 {{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A very short personal history", chapter: true}
 
-The dream behind the Web is of a common information space in which we communicate by sharing information. Its universality is essential: the fact that a hypertext link can point to anything, be it personal, local or global, be it draft or highly polished.
+The dream behind the web is of a common information space in which we communicate by sharing information. Its universality is essential: the fact that a hypertext link can point to anything, be it personal, local or global, be it draft or highly polished.
 
 quote}}
 
@@ -16,13 +16,13 @@ The next chapters of this book will discuss web browsers. Without ((browser))s, 
 
 Web technology has been decentralized from the start, not just technically but also in terms of the way it evolved. Various browser vendors have added new functionality in ad hoc and sometimes poorly thought-out ways, which were then—sometimes—adopted by others—and finally set down as in ((standards)).
 
-This is both a blessing and a curse. On the one hand, it is empowering to not have a central party control a system but have it be improved by various parties working in loose ((collaboration)) (or occasionally, open hostility). On the other hand, the haphazard way in which the Web was developed means that the resulting system is not exactly a shining example of internal ((consistency)). Some parts of it are downright confusing and badly designed.
+This is both a blessing and a curse. On the one hand, it is empowering to not have a central party control a system but have it be improved by various parties working in loose ((collaboration)) (or occasionally, open hostility). On the other hand, the haphazard way in which the web was developed means that the resulting system is not exactly a shining example of internal ((consistency)). Some parts of it are downright confusing and badly designed.
 
 ## Networks and the Internet
 
 Computer ((network))s have been around since the 1950s. If you put cables between two or more computers and allow them to send data back and forth through these cables, you can do all kinds of wonderful things.
 
-If connecting two machines in the same building allows us to do wonderful things, connecting machines all over the planet should be even better. The technology to start implementing this vision was developed in the 1980s, and the resulting network is called the _((Internet))_. It has lived up to its promise.
+If connecting two machines in the same building allows us to do wonderful things, connecting machines all over the planet should be even better. The technology to start implementing this vision was developed in the 1980s, and the resulting network is called the _((internet))_. It has lived up to its promise.
 
 A computer can use this network to shoot bits at another computer. For any effective ((communication)) to arise out of this bit-shooting, the computers on both ends must know what the bits are supposed to represent. The meaning of any given sequence of bits depends entirely on the kind of thing that it is trying to express and on the ((encoding)) mechanism used.
 
@@ -48,7 +48,7 @@ Most protocols are built on top of other protocols. HTTP treats the network as a
 
 {{indexsee "Transmission Control Protocol", TCP}}
 
-The _Transmission Control Protocol_ (TCP) is a ((protocol)) that addresses this problem. All Internet-connected devices "speak" it, and most communication on the ((Internet)) is built on top of it.
+The _Transmission Control Protocol_ (TCP) is a ((protocol)) that addresses this problem. All internet-connected devices "speak" it, and most communication on the ((internet)) is built on top of it.
 
 {{index "listening (TCP)"}}
 
@@ -64,15 +64,15 @@ Such a connection acts as a two-way ((pipe)) through which bits can flow—the m
 
 ## The Web
 
-The _((World Wide Web))_ (not to be confused with the ((Internet)) as a whole) is a set of ((protocol))s and formats that allow us to visit web pages in a browser. "Web" refers to the fact that such pages can easily link to each other, thus connecting into a huge ((mesh)) that users can move through.
+The _((World Wide Web))_ (not to be confused with the ((internet)) as a whole) is a set of ((protocol))s and formats that allow us to visit web pages in a browser. "Web" refers to the fact that such pages can easily link to each other, thus connecting into a huge ((mesh)) that users can move through.
 
-To become part of the Web, all you need to do is connect a machine to the ((Internet)) and have it listen on port 80 with the ((HTTP)) protocol so that other computers can ask it for documents.
+To become part of the web, all you need to do is connect a machine to the ((internet)) and have it listen on port 80 with the ((HTTP)) protocol so that other computers can ask it for documents.
 
 {{index URL}}
 
 {{indexsee "Uniform Resource Locator", URL}}
 
-Each ((document)) on the Web is named by a _Uniform Resource Locator_ (URL), which looks something like this:
+Each ((document)) on the web is named by a _Uniform Resource Locator_ (URL), which looks something like this:
 
 ```{lang: null}
   http://eloquentjavascript.net/13_browser.html
@@ -84,7 +84,7 @@ Each ((document)) on the Web is named by a _Uniform Resource Locator_ (URL), whi
 
 The first part tells us that this URL uses the HTTP ((protocol)) (as opposed to, for example, encrypted HTTP, which would be _https://_). Then comes the part that identifies which ((server)) we are requesting the document from. Last is a path string that identifies the document (or _((resource))_) we are interested in.
 
-Machines connected to the Internet get an _((IP address))_, a number that can be used to send messages to that machine, and looks something like `149.210.142.219` or `2001:4860:4860::8888`. Since lists of more or less random numbers are hard to remember and awkward to type, you can instead register a _((domain)) name_ for an address or set of addresses. I registered _eloquentjavascript.net_ to point at the IP address of a machine I control and can thus use that domain name to serve web pages.
+Machines connected to the internet get an _((IP address))_, a number that can be used to send messages to that machine, and looks something like `149.210.142.219` or `2001:4860:4860::8888`. Since lists of more or less random numbers are hard to remember and awkward to type, you can instead register a _((domain)) name_ for an address or set of addresses. I registered _eloquentjavascript.net_ to point at the IP address of a machine I control and can thus use that domain name to serve web pages.
 
 {{index browser}}
 
@@ -232,9 +232,9 @@ Note that I had to use single quotes for the string in the `onclick` attribute b
 
 {{index "malicious script", "World Wide Web", browser, website, security}}
 
-Running programs downloaded from the ((Internet)) is potentially dangerous. You don't know much about the people behind most sites you visit, and they do not necessarily mean well. Running programs by malicious actors is how you get your computer infected by ((virus))es, your data stolen, and your accounts hacked.
+Running programs downloaded from the ((internet)) is potentially dangerous. You don't know much about the people behind most sites you visit, and they do not necessarily mean well. Running programs by malicious actors is how you get your computer infected by ((virus))es, your data stolen, and your accounts hacked.
 
-Yet the attraction of the Web is that you can browse it without necessarily ((trust))ing all the pages you visit. This is why browsers severely limit the things a JavaScript program may do: it can't look at the files on your computer or modify anything not related to the web page it was embedded in.
+Yet the attraction of the web is that you can browse it without necessarily ((trust))ing all the pages you visit. This is why browsers severely limit the things a JavaScript program may do: it can't look at the files on your computer or modify anything not related to the web page it was embedded in.
 
 {{index isolation}}
 
@@ -250,9 +250,9 @@ Every now and then, someone comes up with a new way to circumvent the limitation
 
 {{index Microsoft, "World Wide Web"}}
 
-In the early stages of the Web, a browser called ((Mosaic)) dominated the market. After a few years, the balance shifted to ((Netscape)), which was, in turn, largely supplanted by Microsoft's ((Internet Explorer)). At any point where a single ((browser)) was dominant, that browser's vendor would feel entitled to unilaterally invent new features for the Web. Since most users used the most popular browser, ((website))s would simply start using those features—never mind the other browsers.
+In the early stages of the web, a browser called ((Mosaic)) dominated the market. After a few years, the balance shifted to ((Netscape)), which was, in turn, largely supplanted by Microsoft's ((Internet Explorer)). At any point where a single ((browser)) was dominant, that browser's vendor would feel entitled to unilaterally invent new features for the web. Since most users used the most popular browser, ((website))s would simply start using those features—never mind the other browsers.
 
-This was the dark age of ((compatibility)), often called the _((browser wars))_. Web developers were left with not one unified Web but two or three incompatible platforms. To make things worse, the browsers in use around 2003 were all full of ((bug))s, and of course the bugs were different for each ((browser)). Life was hard for people writing web pages.
+This was the dark age of ((compatibility)), often called the _((browser wars))_. Web developers were left with not one unified web but two or three incompatible platforms. To make things worse, the browsers in use around 2003 were all full of ((bug))s, and of course the bugs were different for each ((browser)). Life was hard for people writing web pages.
 
 {{index Apple, "Internet Explorer", Mozilla}}
 
@@ -262,6 +262,6 @@ Mozilla ((Firefox)), a not-for-profit offshoot of ((Netscape)), challenged Inter
 
 The new players had a more serious attitude toward ((standards)) and better ((engineering)) practices, giving us less incompatibility and fewer ((bug))s. Microsoft, seeing its market share crumble, came around and adopted these attitudes in its Edge browser, which replaced Internet Explorer. If you are starting to learn web development today, consider yourself lucky. The latest versions of the major browsers behave quite uniformly and have relatively few bugs.
 
-Unfortunately, with Firefox's market share getting ever smaller, and Edge becoming just a wrapper around Chrome's core in 2018, this uniformity might once again take the form of a single vendor—Google, this time—having enough control over the browser market to push its idea of what the Web should look like onto the rest of the world.
+Unfortunately, with Firefox's market share getting ever smaller, and Edge becoming just a wrapper around Chrome's core in 2018, this uniformity might once again take the form of a single vendor—Google, this time—having enough control over the browser market to push its idea of what the web should look like onto the rest of the world.
 
 For what it is worth, this long chain of historical events and accidents has produced the web platform that we have today. In the next chapters, we are going to write programs for it.

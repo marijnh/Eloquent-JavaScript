@@ -4,7 +4,7 @@
 
 {{quote {author: "Tim Berners-Lee", chapter: true}
 
-What was often difficult for people to understand about the design was that there was nothing else beyond URLs, HTTP and HTML. There was no central computer 'controlling' the Web, no single network on which these protocols worked, not even an organisation anywhere that 'ran' the Web. The Web was not a physical 'thing' that existed in a certain 'place'. It was a 'space' in which information could exist.
+What was often difficult for people to understand about the design was that there was nothing else beyond URLs, HTTP and HTML. There was no central computer 'controlling' the web, no single network on which these protocols worked, not even an organisation anywhere that 'ran' the Web. The Web was not a physical 'thing' that existed in a certain 'place'. It was a 'space' in which information could exist.
 
 quote}}
 
@@ -267,7 +267,7 @@ This second approach makes it easier to use some of the features that HTTP provi
 
 {{index "man-in-the-middle", security, HTTPS, [network, security]}}
 
-Data traveling over the Internet tends to follow a long, dangerous road. To get to its destination, it must hop through anything from coffee shop Wi-Fi hotspots to networks controlled by various companies and states. At any point along its route, it may be inspected or even modified.
+Data traveling over the internet tends to follow a long, dangerous road. To get to its destination, it must hop through anything from coffee shop Wi-Fi hotspots to networks controlled by various companies and states. At any point along its route, it may be inspected or even modified.
 
 {{index tampering}}
 
@@ -285,7 +285,7 @@ Thus, when it works right, ((HTTPS)) prevents other people from impersonating th
 
 ## Form fields
 
-Forms were originally designed for the pre-JavaScript Web to allow web sites to send user-submitted information in an HTTP request. This design assumes that interaction with the server always happens by navigating to a new page.
+Forms were originally designed for the pre-JavaScript web to allow web sites to send user-submitted information in an HTTP request. This design assumes that interaction with the server always happens by navigating to a new page.
 
 {{index [DOM, fields]}}
 
@@ -728,7 +728,7 @@ Simple ((HTML)) pages with a bit of JavaScript can be a great format for "((mini
 
 {{index persistence, [binding, "as state"], [browser, storage]}}
 
-When such an application needs to remember something between sessions, you cannot use JavaScript bindings—those are thrown away every time the page is closed. You could set up a server, connect it to the Internet, and have your application store something there (we'll see how to do that in [Chapter ?](node)). But that's a lot of extra work and complexity. Sometimes it's enough to just keep the data in the ((browser)).
+When such an application needs to remember something between sessions, you cannot use JavaScript bindings—those are thrown away every time the page is closed. You could set up a server, connect it to the internet, and have your application store something there (we'll see how to do that in [Chapter ?](node)). But that's a lot of extra work and complexity. Sometimes it's enough to just keep the data in the ((browser)).
 
 {{index "localStorage object", "setItem method", "getItem method", "removeItem method"}}
 

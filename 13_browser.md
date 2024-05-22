@@ -30,9 +30,9 @@ A computer can use this network to shoot bits at another computer. For any effec
 
 A _network ((protocol))_ describes a style of communication over a ((network)). There are protocols for sending email, for fetching email, for sharing files, and even for controlling computers that happen to be infected by malicious software.
 
-{{indexsee "Hypertext Transfer Protocol", HTTP}}
+{{indexsee "HyperText Transfer Protocol", HTTP}}
 
-The _Hypertext Transfer Protocol_ (((HTTP))) is a protocol for retrieving named ((resource))s (chunks of information, such as web pages or pictures). It specifies that the side making the request should start with a line like this, naming the resource and the version of the protocol that it is trying to use:
+The _HyperText Transfer Protocol_ (((HTTP))) is a protocol for retrieving named ((resource))s (chunks of information, such as web pages or pictures). It specifies that the side making the request should start with a line like this, naming the resource and the version of the protocol that it is trying to use:
 
 ```{lang: http}
 GET /index.html HTTP/1.1
@@ -70,9 +70,9 @@ To become part of the web, all you need to do is connect a machine to the ((inte
 
 {{index URL}}
 
-{{indexsee "Uniform Resource Locator", URL}}
+{{indexsee "uniform resource locator", URL}}
 
-Each ((document)) on the web is named by a _Uniform Resource Locator_ (URL), which looks something like this:
+Each ((document)) on the web is named by a _uniform resource locator_ (URL), which looks something like this:
 
 ```{lang: null}
   http://eloquentjavascript.net/13_browser.html
@@ -94,9 +94,9 @@ If you type this URL into your browser's ((address bar)), the browser will try t
 
 {{index HTML}}
 
-{{indexsee "Hypertext Markup Language", HTML}}
+{{indexsee "HyperText Markup Language", HTML}}
 
-_HTML_, which stands for _Hypertext Markup Language_, is the document format used for web pages. An HTML document contains ((text)), as well as _((tag))s_ that give structure to the text, describing things such as links, paragraphs, and headings.
+_HTML_, which stands for _HyperText Markup Language_, is the document format used for web pages. An HTML document contains ((text)), as well as _((tag))s_ that give structure to the text, describing things such as links, paragraphs, and headings.
 
 A short HTML document might look like this:
 

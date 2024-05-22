@@ -63,7 +63,7 @@ One approach to ((asynchronous programming)) is to make functions that need to w
 
 {{index "setTimeout function", waiting}}
 
-As an example, the `setTimeout` function, available both in Node.js and in browsers, waits a given number of milliseconds, then calls a function.
+As an example, the `setTimeout` function, available both in Node.js and in browsers, waits a given number of milliseconds and then calls a function.
 
 ```{test: no}
 setTimeout(() => console.log("Tick"), 500);
@@ -249,7 +249,7 @@ Much like an uncaught exception is handled by the environment, JavaScript enviro
 
 {{index "Carla the crow"}}
 
-It's a sunny day in Berlin. The runway of the old, decommissioned airport is teeming with cyclists and inline skaters. In the grass near a garbage container a flock of crows noisily mills about, trying to convince a group of tourists to part with their sandwiches.
+It's a sunny day in Berlin. The runway of the old, decommissioned airport is teeming with cyclists and inline skaters. In the grass near a garbage container, a flock of crows noisily mills about, trying to convince a group of tourists to part with their sandwiches.
 
 One of the crows stands out—a large scruffy female with a few white feathers in her right wing. She is baiting people with a skill and confidence that suggest she's been doing this for a long time. When an elderly man is distracted by the antics of another crow, she casually swoops in, snatches his half-eaten bun from his hand, and sails away.
 
@@ -267,7 +267,7 @@ Carla is a somewhat peculiar crow. In her youth, she was fascinated by human lan
 
 Carla loves the internet. Annoyingly, the phone she is working on is about to run out of prepaid data. The building has a wireless network, but it requires a code to access.
 
-Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a device must send along the correct six-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending a partial code (say, only 3 digits), the response is different based on whether those digits are the correct start of the code or not. Sending incorrect numbers immediately returns a failure message. When sending the correct ones, the access point waits for more digits.
+Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a device must send along the correct six-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending a partial code (say, only three digits), the response is different based on whether those digits are the correct start of the code or not. Sending incorrect numbers immediately returns a failure message. When sending the correct ones, the access point waits for more digits.
 
 This makes it possible to greatly speed up the guessing of the number. Carla can find the first digit by trying each number in turn, until she finds one that doesn't immediately return failure. Having one digit, she can find the second digit in the same way, and so on, until she knows the entire passcode.
 

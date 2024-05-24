@@ -766,7 +766,7 @@ There is still room for improvement in our program. Let's add a few more feature
 
 {{index "keyboard bindings (exercise)"}}
 
-Add ((keyboard)) shortcuts to the application. The first letter of a tool's name selects the tool, and [control]{keyname}-Z or [command]{keyname}-Z activates undo.
+Add ((keyboard)) shortcuts to the application. The first letter of a tool's name selects the tool, and [ctrl]{keyname}-Z or [command]{keyname}-Z activates undo.
 
 {{index "PixelEditor class", "tabindex attribute", "elt function", "keydown event"}}
 

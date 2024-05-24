@@ -199,7 +199,7 @@ This can be used to implement your own ((keyboard)) shortcuts or ((context menu)
 
 Try not to do such things without a really good reason. It'll be unpleasant for people who use your page when expected behavior is broken.
 
-Depending on the browser, some events can't be intercepted at all. On Chrome, for example, the ((keyboard)) shortcut to close the current tab ([control]{keyname}-W or [command]{keyname}-W) cannot be handled by JavaScript.
+Depending on the browser, some events can't be intercepted at all. On Chrome, for example, the ((keyboard)) shortcut to close the current tab ([ctrl]{keyname}-W or [command]{keyname}-W) cannot be handled by JavaScript.
 
 ## Key events
 
@@ -233,7 +233,7 @@ The previous example looks at the `key` property of the event object to see whic
 
 {{index "modifier key", "shift key", "control key", "alt key", "meta key", "command key", "ctrlKey property", "shiftKey property", "altKey property", "metaKey property"}}
 
-Modifier keys such as [shift]{keyname}, [control]{keyname}, [alt]{keyname}, and [meta]{keyname} ([command]{keyname} on Mac) generate key events just like normal keys. When looking for key combinations, you can also find out whether these keys are held down by looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of keyboard and mouse events.
+Modifier keys such as [shift]{keyname}, [ctrl]{keyname}, [alt]{keyname}, and [meta]{keyname} ([command]{keyname} on Mac) generate key events just like normal keys. When looking for key combinations, you can also find out whether these keys are held down by looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of keyboard and mouse events.
 
 ```{lang: html, focus: true}
 <p>Press Control-Space to continue.</p>
@@ -622,7 +622,7 @@ Giving an undefined value to `clearTimeout` or calling it on a timeout that has 
 
 {{index "mousemove event"}}
 
-We can use a slightly different pattern if we want to space responses so that they're separated by at least a certain length of ((time)) but want to fire them _during_ a series of events, not just afterward. For example, we might want to respond to `"mousemove"` events by showing the current coordinates of the mouse but only every 250 milliseconds.
+We can use a slightly different pattern if we want to space responses so that they're separated by at least a certain length of ((time)) but want to fire them _during_ a series of events, not just afterward. For example, we might want to respond to `"mousemove"` events by showing the current coordinates of the mouse, but only every 250 milliseconds.
 
 ```{lang: html}
 <script>

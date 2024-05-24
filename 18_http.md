@@ -622,7 +622,7 @@ The `<option>` tags for a `<select>` field can be accessed as an array-like obje
 
 {{index "multiple attribute", "binary number"}}
 
-This example extracts the selected values from a `multiple` select field and uses them to compose a binary number from individual bits. Hold [control]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
+This example extracts the selected values from a `multiple` select field and uses them to compose a binary number from individual bits. Hold [ctrl]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
 
 ```{lang: html}
 <select multiple>

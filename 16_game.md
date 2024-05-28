@@ -8,7 +8,7 @@ All reality is a game.
 
 quote}}
 
-{{index "Banks, Ian", "project chapter", simulation}}
+{{index "Banks, Iain", "project chapter", simulation}}
 
 {{figure {url: "img/chapter_picture_16.jpg", alt: "Illustration showing a computer game character jumping over lava in a two dimensional world", chapter: "framed"}}}
 

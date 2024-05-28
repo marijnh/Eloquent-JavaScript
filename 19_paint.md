@@ -2,13 +2,13 @@
 
 # Project: A Pixel Art Editor
 
-{{quote {author: "Joan Miro", chapter: true}
+{{quote {author: "Joan Miró", chapter: true}
 
 I look at the many colors before me. I look at my blank canvas. Then, I try to apply colors like words that shape poems, like notes that shape music.
 
 quote}}
 
-{{index "Miro, Joan", "drawing program example", "project chapter"}}
+{{index "Miró, Joan", "drawing program example", "project chapter"}}
 
 {{figure {url: "img/chapter_picture_19.jpg", alt: "Illustration showing a mosaic of black tiles, with jars of other tiles next to it", chapter: "framed"}}}
 
@@ -618,7 +618,7 @@ The `data` property of the object returned by `getImageData` is an array of colo
 
 {{index "hexadecimal number", "toString method"}}
 
-The two hexadecimal digits per component, as used in our color notation, correspond precisely to the 0 to 255 range—two base-16 digits can express 16^2^ = 256 different numbers. The `toString` method of numbers can be given a base as argument, so `n.toString(16)` will produce a string representation in base 16. We have to make sure that each number takes up two digits, so the `hex` helper function calls `padStart` to add a leading 0 when necessary.
+The two hexadecimal digits per component, as used in our color notation, correspond precisely to the 0 to 255 range—two base-16 digits can express 16^2^ = 256 different numbers. The `toString` method of numbers can be given a base as an argument, so `n.toString(16)` will produce a string representation in base 16. We have to make sure that each number takes up two digits, so the `hex` helper function calls `padStart` to add a leading 0 when necessary.
 
 We can load and save now! That leaves one more feature before we're done.
 

@@ -259,7 +259,7 @@ When thinking in terms of remote procedure calls, HTTP is just a vehicle for com
 
 {{index "media type", "document format", [method, HTTP]}}
 
-Another approach is to build your communication around the concept of ((resource))s and ((HTTP)) methods. Instead of a remote procedure called `addUser`, you use a `PUT` request to `/users/larry`. Instead of encoding that user's properties in function arguments, you define a JSON document format (or use an existing format) that represents a user. The body of the `PUT` request to create a new resource is then such a document. A resource is fetched by making a `GET` request to the resource's URL (for example, `/user/larry`), which again returns the document representing the resource.
+Another approach is to build your communication around the concept of ((resource))s and ((HTTP)) methods. Instead of a remote procedure called `addUser`, you use a `PUT` request to `/users/larry`. Instead of encoding that user's properties in function arguments, you define a JSON document format (or use an existing format) that represents a user. The body of the `PUT` request to create a new resource is then such a document. A resource is fetched by making a `GET` request to the resource's URL (for example, `/users/larry`), which again returns the document representing the resource.
 
 This second approach makes it easier to use some of the features that HTTP provides, such as support for caching resources (keeping a copy of a resource on the client for fast access). The concepts used in HTTP, which are well-designed, can provide a helpful set of principles to design your server interface around.
 
@@ -285,7 +285,7 @@ Thus, when it works right, ((HTTPS)) prevents other people from impersonating th
 
 ## Form fields
 
-Forms were originally designed for the pre-JavaScript web to allow web sites to send user-submitted information in an HTTP request. This design assumes that interaction with the server always happens by navigating to a new page.
+Forms were originally designed for the pre-JavaScript web to allow websites to send user-submitted information in an HTTP request. This design assumes that interaction with the server always happens by navigating to a new page.
 
 {{index [DOM, fields]}}
 

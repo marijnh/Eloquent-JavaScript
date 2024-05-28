@@ -116,7 +116,7 @@ In the ((canvas)) interface, a shape can be _filled_, meaning its area is given 
 
 {{index "fillRect method", "strokeRect method"}}
 
-The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's top-left corner, then its width, then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
+The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's top-left corner, then its width, and then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
 
 {{index [state, "of canvas"]}}
 

@@ -38,7 +38,7 @@ In such programs, asynchronous programming is often helpful. It allows the progr
 
 {{index "programming language", "Node.js", standard}}
 
-Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do in- and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to network and file system programming without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
+Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do input and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to network and file system programming without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
 
 ## The node command
 
@@ -356,7 +356,7 @@ A real web ((server)) usually does more than the one in the example—it looks a
 
 {{index "node:http package", "request function", "fetch function", [HTTP, client]}}
 
-The `node:http` module also provides a `request` function that can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node, as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece as the data comes in over the network, I recommend sticking to `fetch`.
+The `node:http` module also provides a `request` function that can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece as the data comes in over the network, I recommend sticking to `fetch`.
 
 ## Streams
 

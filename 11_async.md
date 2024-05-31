@@ -789,7 +789,7 @@ function activityTable(day) {
 
 {{index "await keyword", scheduling}}
 
-Which shows that the way you structure your promises can have a real effect on the way the work is scheduled. A simple loop with `await` in it will make the process completely linear—it waits for each file to load before proceeding. `Promise.all` makes it possible for multiple tasks to conceptually be worked on at the same time, allowing them to make progress while files are still being loaded. This can be faster, but it also makes the order in which things will happen less predictable. In this case, where we're only going to be incrementing numbers in a table, that isn't hard to do in a safe way. For other kinds of problems, it may be a lot more difficult.
+Which shows that the way you structure your promises can have a real effect on the way the work is scheduled. A simple loop with `await` in it will make the process completely linear—it waits for each file to load before proceeding. `Promise.all` makes it possible for multiple tasks to conceptually be worked on at the same time, allowing them to make progress while files are still being loaded. This can be faster, but it also makes the order in which things will happen less predictable. In this case, where we're only going to be incrementing numbers in a table, which isn't hard to do in a safe way. For other kinds of problems, it may be a lot more difficult.
 
 {{index "rejecting (a promise)", "then method"}}
 

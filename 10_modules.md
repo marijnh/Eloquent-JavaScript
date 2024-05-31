@@ -482,6 +482,6 @@ The `require` function given [earlier in this chapter](modules#require) supports
 
 {{index overriding, "circular dependency", "exports object"}}
 
-The trick is that `require` adds the interface object for a module to its cache _before_ it starts loading the module. That way, if any `require` call made while it is running try to load it, it is already known, and the current interface will be returned, rather than starting to load the module once more (which would eventually overflow the stack).
+The trick is that `require` adds the interface object for a module to its cache _before_ it starts loading the module. That way, if any `require` call made while it is running tries to load it, it is already known, and the current interface will be returned, rather than starting to load the module once more (which would eventually overflow the stack).
 
 hint}}

@@ -708,7 +708,7 @@ JavaScript's prototype system makes it possible to create a _new_ class, much li
 
 In object-oriented programming terms, this is called _((inheritance))_. The new class inherits properties and behavior from the old class.
 
-```{includeCode: "top_lines: 17"}
+```{includeCode: "top_lines: 12"}
 class LengthList extends List {
   #length;
 

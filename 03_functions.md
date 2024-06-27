@@ -214,7 +214,7 @@ The arrow comes _after_ the list of parameters and is followed by the function's
 
 {{index [braces, "function body"], "square example", [parentheses, arguments]}}
 
-When there is only one parameter name, you can omit the parentheses around the parameter list. If the body is a single expression, rather than a ((block)) in braces, that expression will be returned from the function. So, these two definitions of `square` do the same thing:
+When there is only one parameter name, you can omit the parentheses around the parameter list. If the body is a single expression rather than a ((block)) in braces, that expression will be returned from the function. So, these two definitions of `square` do the same thing:
 
 ```
 const square1 = (x) => { return x * x; };
@@ -260,11 +260,11 @@ We could show the flow of control schematically like this:
 
 ```{lang: null}
 not in function
-   in greet
-        in console.log
-   in greet
+  in greet
+    in console.log
+  in greet
 not in function
-   in console.log
+  in console.log
 not in function
 ```
 
@@ -351,9 +351,9 @@ console.log("C", "O", 2);
 
 {{index "call stack", "local binding", [function, "as value"], scope}}
 
-The ability to treat functions as values, combined with the fact that local bindings are recreated every time a function is called, brings up an interesting question: what happens to local bindings when the function call that created them is no longer active?
+The ability to treat functions as values, combined with the fact that local bindings are re-created every time a function is called, brings up an interesting question: what happens to local bindings when the function call that created them is no longer active?
 
-The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding:
+The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding.
 
 ```
 function wrapValue(n) {
@@ -375,7 +375,7 @@ This feature—being able to reference a specific instance of a local binding in
 
 {{index "multiplier function"}}
 
-With a slight change, we can turn the previous example into a way to create functions that multiply by an arbitrary amount:
+With a slight change, we can turn the previous example into a way to create functions that multiply by an arbitrary amount.
 
 ```
 function multiplier(factor) {
@@ -732,7 +732,7 @@ hint}}
 
 You can get the *N*th character, or letter, from a string by writing `[N]` after the string (for example, `string[2]`). The resulting value will be a string containing only one character (for example, `"b"`). The first character has position 0, which causes the last one to be found at position `string.length - 1`. In other words, a two-character string has length 2, and its characters have positions 0 and 1.
 
-Write a function `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase B characters there are in the string.
+Write a function called `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase B characters there are in the string.
 
 Next, write a function called `countChar` that behaves like `countBs`, except it takes a second argument that indicates the character that is to be counted (rather than counting only uppercase B characters). Rewrite `countBs` to make use of this new function.
 

@@ -29,6 +29,9 @@ class Group {
 }
 
 class GroupIterator {
+  #members;
+  #position;
+
   constructor(members) {
     this.#members = members;
     this.#position = 0;

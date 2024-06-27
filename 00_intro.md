@@ -2,7 +2,7 @@
 
 # Introduction
 
-{{quote {author: "Ellen Ullman", title: "Close to the Machine: Technophilia and its Discontents", chapter: true}
+{{quote {author: "Ellen Ullman", title: "Close to the Machine: Technophilia and Its Discontents", chapter: true}
 
 We think we are creating the system for our own purposes. We believe we are making it in our own image... But the computer is not really like us. It is a projection of a very slim part of ourselves: that portion devoted to logic, order, rule, and clarity.
 
@@ -88,7 +88,7 @@ In the beginning, at the birth of computing, there were no programming languages
 
 {{index [programming, "history of"], "punch card", complexity}}
 
-This is a program to add the numbers from 1 to 10 together and print the result: `1 + 2 + ... + 10 = 55`. It could run on a simple hypothetical machine. To program early computers, it was necessary to set large arrays of switches in the right position or punch holes in strips of cardboard and feed them to the computer. You can imagine how tedious and error-prone this procedure was. Even writing simple programs required much cleverness and discipline. Complex ones were nearly inconceivable.
+This is a program to add the numbers from 1 to 10 together and print the result: `1 + 2 + ... + 10 = 55`. It could run on a simple hypothetical machine. To program early computers, it was necessary to set large arrays of switches in the right position or punch holes in strips of cardboard and feed them to the computer. You can imagine how tedious and error prone this procedure was. Even writing simple programs required much cleverness and discipline. Complex ones were nearly inconceivable.
 
 {{index bit, "wizard (mighty)"}}
 
@@ -118,7 +118,7 @@ Although that is already more readable than the soup of bits, it is still rather
 [loop]
  Set “compare” to “count”.
  Subtract 11 from “compare”.
- If “compare” is zero, continue at [end].
+ If “compare” is 0, continue at [end].
  Add “count” to “total”.
  Add 1 to “count”.
  Continue at [loop].
@@ -128,7 +128,7 @@ Although that is already more readable than the soup of bits, it is still rather
 
 {{index loop, jump, "summing example"}}
 
-Can you see how the program works at this point? The first two lines give two memory locations their starting values: `total` will be used to build up the result of the computation, and `count` will keep track of the number that we are currently looking at. The lines using `compare` are probably the most confusing ones. The program wants to see whether `count` is equal to 11 to decide whether it can stop running. Because our hypothetical machine is rather primitive, it can only test whether a number is zero and make a decision based on that. It therefore uses the memory location labeled `compare` to compute the value of `count - 11` and makes a decision based on that value. The next two lines add the value of `count` to the result and increment `count` by 1 every time the program decides that `count` is not 11 yet.
+Can you see how the program works at this point? The first two lines give two memory locations their starting values: `total` will be used to build up the result of the computation, and `count` will keep track of the number that we are currently looking at. The lines using `compare` are probably the most confusing ones. The program wants to see whether `count` is equal to 11 to decide whether it can stop running. Because our hypothetical machine is rather primitive, it can test only whether a number is zero and make a decision based on that. It therefore uses the memory location labeled `compare` to compute the value of `count - 11` and makes a decision based on that value. The next two lines add the value of `count` to the result and increment `count` by 1 every time the program decides that `count` is not 11 yet.
 
 Here is the same program in JavaScript:
 
@@ -239,7 +239,7 @@ The language part of the book starts with four chapters that introduce the basic
 
 After a [first project chapter](robot) that builds a crude delivery robot, the language part of the book continues with chapters on [error handling and bug fixing](error), [regular expressions](regexp) (an important tool for working with text), [modularity](modules) (another defense against complexity), and [asynchronous programming](async) (dealing with events that take time). The [second project chapter](language), where we implement a programming language, concludes the first part of the book.
 
-The second part of the book, Chapters [?](browser) to [?](paint), describes the tools that browser JavaScript has access to. You'll learn to display things on the screen (Chapters [?](dom) and [?](canvas)), respond to user input ([Chapter ?](event)), and communicate over the network ([Chapter ?](http)). There are again two project chapters in this part, building a [platform game](game) and a [pixel paint program](paint).
+The second part of the book, Chapters [?](browser) to [?](paint), describes the tools that browser JavaScript has access to. You'll learn to display things on the screen (Chapters [?](dom) and [?](canvas)), respond to user input ([Chapter ?](event)), and communicate over the network ([Chapter ?](http)). There are again two project chapters in this part: building a [platform game](game) and a [pixel paint program](paint).
 
 [Chapter ?](node) describes Node.js, and [Chapter ?](skillsharing) builds a small website using that tool.
 

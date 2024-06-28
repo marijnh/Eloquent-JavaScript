@@ -54,7 +54,7 @@ We could get creative with strings—after all, strings can have any length, so 
 
 {{index [array, creation], "[] (array)"}}
 
-Fortunately, JavaScript provides a data type specifically for storing sequences of values. It is called an _array_ and is written as a list of values between ((square brackets)), separated by commas:
+Fortunately, JavaScript provides a data type specifically for storing sequences of values. It is called an _array_ and is written as a list of values between ((square brackets)), separated by commas.
 
 ```
 let listOfNumbers = [2, 3, 5, 7, 11];
@@ -133,7 +133,7 @@ Properties that contain functions are generally called _methods_ of the value th
 
 {{id array_methods}}
 
-This example demonstrates two methods you can use to manipulate arrays:
+This example demonstrates two methods you can use to manipulate arrays.
 
 ```
 let sequence = [1, 2, 3];
@@ -192,7 +192,7 @@ let descriptions = {
 
 {{index [braces, object]}}
 
-This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they begin a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}` since the braces will be interpreted as a function body. Instead, you have to put a set of parentheses around the object to make it clear that it is an expression.
+This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they begin a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a shorthand arrow function—you can't write `n => {prop: n}` since the braces will be interpreted as a function body. Instead, you have to put a set of parentheses around the object to make it clear that it is an expression.
 
 {{index undefined}}
 
@@ -264,7 +264,7 @@ let journal = [
   {events: ["weekend", "cycling", "break", "peanuts",
             "beer"],
    squirrel: true},
-  /* and so on... */
+  /* And so on... */
 ];
 ```
 
@@ -518,7 +518,7 @@ for (let event of journalEvents(JOURNAL)) {
 // → weekend:  0.1371988681
 // → bread:   -0.0757554019
 // → pudding: -0.0648203724
-// and so on...
+// And so on...
 ```
 
 Most correlations seem to lie close to zero. Eating carrots, bread, or pudding apparently does not trigger squirrel-lycanthropy. The transformations _do_ seem to occur somewhat more often on weekends. Let's filter the results to show only correlations greater than 0.1 or less than -0.1:
@@ -541,7 +541,7 @@ for (let event of journalEvents(JOURNAL)) {
 
 Aha! There are two factors with a ((correlation)) clearly stronger than the others. Eating ((peanuts)) has a strong positive effect on the chance of turning into a squirrel, whereas brushing teeth has a significant negative effect.
 
-Interesting. Let's try something:
+Interesting. Let's try something.
 
 ```
 for (let entry of JOURNAL) {
@@ -560,13 +560,13 @@ Knowing this, Jacques stops eating peanuts altogether and finds that his transfo
 
 {{index "weresquirrel example"}}
 
-But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures, Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes form one last time, and lives the short and energetic life of a squirrel.
+But it takes only a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures, Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes form one last time, and lives the short and energetic life of a squirrel.
 
 ## Further arrayology
 
 {{index [array, methods], [method, array]}}
 
-Before finishing the chapter, I want to introduce you to a few more object-related concepts. I'll start by introducing some generally useful array methods.
+Before finishing the chapter, I want to introduce you to a few more object-related concepts. I'll start with some generally useful array methods.
 
 {{index "push method", "pop method", "shift method", "unshift method"}}
 
@@ -745,7 +745,7 @@ When such a function is called, the _((rest parameter))_ is bound to an array co
 
 {{index [function, application]}}
 
-You can use a similar three-dot notation to _call_ a function with an array of arguments:
+You can use a similar three-dot notation to _call_ a function with an array of arguments.
 
 ```
 let numbers = [5, 1, 7];
@@ -797,7 +797,7 @@ Many languages will stop you, or at least warn you, when you are defining a bind
 
 {{index "Math.cos function", "Math.sin function", "Math.tan function", "Math.acos function", "Math.asin function", "Math.atan function", "Math.PI constant", cosine, sine, tangent, "PI constant", pi}}
 
-Back to the `Math` object. If you need to do ((trigonometry)), `Math` can help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The number π (pi)—or at least the closest approximation that fits in a JavaScript number—is available as `Math.PI`. There is an old programming tradition of writing the names of ((constant)) values in all caps:
+Back to the `Math` object. If you need to do ((trigonometry)), `Math` can help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The number π (pi)—or at least the closest approximation that fits in a JavaScript number—is available as `Math.PI`. There is an old programming tradition of writing the names of ((constant)) values in all caps.
 
 ```{test: no}
 function randomPointOnCircle(radius) {
@@ -813,7 +813,7 @@ If you're not familiar with sines and cosines, don't worry. I'll explain them wh
 
 {{index "Math.random function", "random number"}}
 
-The previous example used `Math.random`. This is a function that returns a new pseudorandom number between zero (inclusive) and one (exclusive) every time you call it:
+The previous example used `Math.random`. This is a function that returns a new pseudorandom number between 0 (inclusive) and 1 (exclusive) every time you call it:
 
 ```{test: no}
 console.log(Math.random());
@@ -877,7 +877,7 @@ This also works for bindings created with `let`, `var`, or `const`. If you know 
 
 {{index [object, property], [braces, object]}}
 
-A similar trick works for objects, using braces instead of square brackets:
+A similar trick works for objects, using braces instead of square brackets.
 
 ```
 let {name} = {name: "Faraji", age: 23};
@@ -905,7 +905,7 @@ console.log(city({name: "Vera"}));
 // → undefined
 ```
 
-The expression `a?.b` means the same as `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists or when a variable might hold an undefined value.
+The expression `a?.b` means the same as `a.b` when `a` isn't null or undefined. When it is, it evaluates to `undefined`. This can be convenient when, as in the example, you aren't sure that a given property exists or when a variable might hold an undefined value.
 
 A similar notation can be used with square bracket access, and even with function calls, by putting `?.` in front of the parentheses or brackets:
 
@@ -1029,7 +1029,7 @@ hint}}
 
 {{index "reversing (exercise)", "reverse method", [array, methods]}}
 
-Arrays have a `reverse` method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, `reverseArray` and `reverseArrayInPlace`. The first, `reverseArray`, should take an array as argument and produce a _new_ array that has the same elements in the inverse order. The second, `reverseArrayInPlace`, should do what the `reverse` method does: _modify_ the array given as argument by reversing its elements. Neither may use the standard `reverse` method.
+Arrays have a `reverse` method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, `reverseArray` and `reverseArrayInPlace`. The first, `reverseArray`, should take an array as its argument and produce a _new_ array that has the same elements in the inverse order. The second, `reverseArrayInPlace`, should do what the `reverse` method does: _modify_ the array given as its argument by reversing its elements. Neither may use the standard `reverse` method.
 
 {{index efficiency, "pure function", "side effect"}}
 
@@ -1149,7 +1149,7 @@ hint}}
 
 The `==` operator compares objects by identity, but sometimes you'd prefer to compare the values of their actual properties.
 
-Write a function `deepEqual` that takes two values and returns true only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to `deepEqual`.
+Write a function `deepEqual` that takes two values and returns `true` only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to `deepEqual`.
 
 {{index null, "=== operator", "typeof operator"}}
 

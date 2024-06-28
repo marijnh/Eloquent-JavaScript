@@ -18,7 +18,7 @@ A large program is a costly program, and not just because of the time it takes t
 
 {{index "summing example"}}
 
-Let's briefly go back to the final two example programs in the introduction. The first is self-contained and six lines long.
+Let's briefly go back to the final two example programs in the introduction. The first is self contained and six lines long.
 
 ```
 let total = 0, count = 1;
@@ -97,7 +97,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-Can we abstract "doing something _N_ times" as a function? Well, it's easy to write a function that calls `console.log` _N_ times:
+Can we abstract "doing something _N_ times" as a function? Well, it's easy to write a function that calls `console.log` _N_ times.
 
 ```
 function repeatLog(n) {
@@ -111,7 +111,7 @@ function repeatLog(n) {
 
 {{indexsee "higher-order function", "function, higher-order"}}
 
-But what if we want to do something other than logging the numbers? Since "doing something" can be represented as a function and functions are just values, we can pass our action as a function value:
+But what if we want to do something other than logging the numbers? Since "doing something" can be represented as a function and functions are just values, we can pass our action as a function value.
 
 ```{includeCode: "top_lines: 5"}
 function repeat(n, action) {
@@ -126,7 +126,7 @@ repeat(3, console.log);
 // → 2
 ```
 
-We don't have to pass a predefined function to `repeat`. Often, it is easier to create a function value on the spot instead:
+We don't have to pass a predefined function to `repeat`. Often, it is easier to create a function value on the spot instead.
 
 ```
 let labels = [];
@@ -149,7 +149,7 @@ Functions that operate on other functions, either by taking them as arguments or
 
 {{index abstraction}}
 
-Higher-order functions allow us to abstract over _actions_, not just values. They come in several forms. For example, we can have functions that create new functions:
+Higher-order functions allow us to abstract over _actions_, not just values. They come in several forms. For example, we can have functions that create new functions.
 
 ```
 function greaterThan(n) {
@@ -160,7 +160,7 @@ console.log(greaterThan10(11));
 // → true
 ```
 
-We can also have functions that change other functions:
+We can also have functions that change other functions.
 
 ```
 function noisy(f) {
@@ -176,7 +176,7 @@ noisy(Math.min)(3, 2, 1);
 // → called with [3, 2, 1] , returned 1
 ```
 
-We can even write functions that provide new types of ((control flow)):
+We can even write functions that provide new types of ((control flow)).
 
 ```
 function unless(test, then) {
@@ -194,7 +194,7 @@ repeat(3, n => {
 
 {{index [array, methods], [array, iteration], "forEach method"}}
 
-There is a built-in array method, `forEach`, that provides something like a `for`/`of` loop as a higher-order function:
+There is a built-in array method, `forEach`, that provides something like a `for`/`of` loop as a higher-order function.
 
 ```
 ["A", "B"].forEach(l => console.log(l));
@@ -234,7 +234,7 @@ Such an object tells us the name of the script, the Unicode ranges assigned to i
 
 {{index "slice method"}}
 
-The `ranges` property contains an array of Unicode character ((range))s, each of which is a two-element array containing a lower bound and an upper bound. Any character codes within these ranges are assigned to the script. The lower ((bound)) is inclusive (code 994 is a Coptic character) and the upper bound is non-inclusive (code 1008 isn't).
+The `ranges` property contains an array of Unicode character ((range))s, each of which is a two-element array containing a lower bound and an upper bound. Any character codes within these ranges are assigned to the script. The lower ((bound)) is inclusive (code 994 is a Coptic character) and the upper bound is noninclusive (code 1008 isn't).
 
 ## Filtering arrays
 
@@ -282,7 +282,7 @@ Say we have an array of objects representing scripts, produced by filtering the 
 
 {{index [function, "higher-order"]}}
 
-The `map` method transforms an array by applying a function to all of its elements and building a new array from the returned values. The new array will have the same length as the input array, but its content will have been _mapped_ to a new form by the function:
+The `map` method transforms an array by applying a function to all of its elements and building a new array from the returned values. The new array will have the same length as the input array, but its content will have been _mapped_ to a new form by the function.
 
 ```
 function map(array, transform) {
@@ -548,11 +548,11 @@ console.log(textScripts('英国的狗说"woof", 俄罗斯的狗说"тяв"'));
 
 {{index "characterScript function", "filter method"}}
 
-The function first counts the characters by name, using `characterScript` to assign them a name and falling back to the string `"none"` for characters that aren't part of any script. The `filter` call drops the entry for `"none"` from the resulting array since we aren't interested in those characters.
+The function first counts the characters by name, using `characterScript` to assign them a name and falling back to the string `"none"` for characters that aren't part of any script. The `filter` call drops the entry for `"none"` from the resulting array, since we aren't interested in those characters.
 
 {{index "reduce method", "map method", "join method", [array, methods]}}
 
-To be able to compute ((percentage))s, we first need the total number of characters that belong to a script, which we can compute with `reduce`. If we find no such characters, the function returns a specific string. Otherwise it transforms the counting entries into readable strings with `map` and then combines them with `join`.
+To be able to compute ((percentage))s, we first need the total number of characters that belong to a script, which we can compute with `reduce`. If we find no such characters, the function returns a specific string. Otherwise, it transforms the counting entries into readable strings with `map` and then combines them with `join`.
 
 ## Summary
 
@@ -581,7 +581,7 @@ if}}
 
 {{index "your own loop (example)", "for loop"}}
 
-Write a higher-order function `loop` that provides something like a `for` loop statement. It should take a value, a test function, an update function, and a body function. Each iteration, it should first run the test function on the current loop value and stop if that returns false. It should then call the body function, giving it the current value, and finally call the update function to create a new value and start over from the beginning.
+Write a higher-order function `loop` that provides something like a `for` loop statement. It should take a value, a test function, an update function, and a body function. Each iteration, it should first run the test function on the current loop value and stop if that returns `false`. It should then call the body function, giving it the current value, and finally call the update function to create a new value and start over from the beginning.
 
 When defining the function, you can use a regular loop to do the actual looping.
 
@@ -602,7 +602,7 @@ if}}
 
 {{index "predicate function", "everything (exercise)", "every method", "some method", [array, methods], "&& operator", "|| operator"}}
 
-Arrays also have an `every` method analogous to the `some` method. This method returns true when the given function returns true for _every_ element in the array. In a way, `some` is a version of the `||` operator that acts on arrays, and `every` is like the `&&` operator.
+Arrays also have an `every` method analogous to the `some` method. This method returns `true` when the given function returns `true` for _every_ element in the array. In a way, `some` is a version of the `||` operator that acts on arrays, and `every` is like the `&&` operator.
 
 Implement `every` as a function that takes an array and a predicate function as parameters. Write two versions, one using a loop and one using the `some` method.
 
@@ -627,7 +627,7 @@ if}}
 
 {{index "everything (exercise)", "short-circuit evaluation", "return keyword"}}
 
-Like the `&&` operator, the `every` method can stop evaluating further elements as soon as it has found one that doesn't match. So the loop-based version can jump out of the loop—with `break` or `return`—as soon as it runs into an element for which the predicate function returns false. If the loop runs to its end without finding such an element, we know that all elements matched and we should return true.
+Like the `&&` operator, the `every` method can stop evaluating further elements as soon as it has found one that doesn't match. So the loop-based version can jump out of the loop—with `break` or `return`—as soon as it runs into an element for which the predicate function returns false. If the loop runs to its end without finding such an element, we know that all elements matched and we should return `true`.
 
 To build `every` on top of `some`, we can apply _((De Morgan's laws))_, which state that `a && b` equals `!(!a || !b)`. This can be generalized to arrays, where all elements in the array match if there is no element in the array that does not match.
 

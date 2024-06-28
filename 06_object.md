@@ -22,7 +22,7 @@ In programming culture, _((object-oriented programming))_ is a set of techniques
 
 The main idea in object-oriented programming is to use objects, or rather _types_ of objects, as the unit of program organization. Setting up a program as a number of strictly separated object types provides a way to think about its structure and thus to enforce some kind of discipline, preventing everything from becoming entangled.
 
-The way to do this is to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). The people who design and assemble a mixer have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell so that the people who only want to mix pancake batter don't have to worry about all that—they only have to understand the few knobs that the mixer can be operated with.
+The way to do this is to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). The people who design and assemble a mixer have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell so that the people who only want to mix pancake batter don't have to worry about all that—they have to understand only the few knobs that the mixer can be operated with.
 
 {{index "class"}}
 
@@ -100,9 +100,9 @@ If I had written the argument to `some` using the `function` keyword, this code 
 
 ## Prototypes
 
-One way to create a rabbit object type with a `speak` method would be to create a helper function that has a rabbit type as parameter and returns an object holding that as its `type` property and our speak function in its `speak` property.
+One way to create a rabbit object type with a `speak` method would be to create a helper function that has a rabbit type as its parameter and returns an object holding that as its `type` property and our speak function in its `speak` property.
 
-All rabbits share that same method. Especially for types with many methods, it would be nice if there was a way to keep a type's methods in a single place, rather than adding them to each object individually.
+All rabbits share that same method. Especially for types with many methods, it would be nice if there were a way to keep a type's methods in a single place, rather than adding them to each object individually.
 
 {{index [property, inheritance], [object, property], "Object prototype"}}
 
@@ -151,7 +151,7 @@ Such a prototype object will itself have a prototype, often `Object.prototype`, 
 
 {{index "rabbit example", "Object.create function"}}
 
-You can use `Object.create` to create an object with a specific ((prototype)):
+You can use `Object.create` to create an object with a specific ((prototype)).
 
 ```{includeCode: "top_lines: 7"}
 let protoRabbit = {
@@ -210,7 +210,7 @@ class Rabbit {
 
 {{index "prototype property", [braces, class]}}
 
-The `class` keyword starts a ((class declaration)), which allows us to define a constructor and a set of methods together. Any number of methods may be written inside the declaration's braces. This code has the effect of defining a binding called `Rabbit`, which holds a function that runs the code in `constructor` and has a `prototype` property which holds the `speak` method.
+The `class` keyword starts a ((class declaration)), which allows us to define a constructor and a set of methods together. Any number of methods may be written inside the declaration's braces. This code has the effect of defining a binding called `Rabbit`, which holds a function that runs the code in `constructor` and has a `prototype` property that holds the `speak` method.
 
 {{index "new operator", "this binding", [object, creation]}}
 
@@ -281,7 +281,7 @@ It is common for classes to define some properties and ((method))s for internal 
 
 {{index [method, private]}}
 
-To declare a private method, put a `#` sign in front of its name. Such methods can only be called from inside the `class` declaration that defines them.
+To declare a private method, put a `#` sign in front of its name. Such methods can be called only from inside the `class` declaration that defines them.
 
 ```
 class SecretiveObject {
@@ -301,7 +301,7 @@ If you try to call `#getSecret` from outside the class, you get an error. Its ex
 
 To use private instance properties, you must declare them. Regular properties can be created by just assigning to them, but private properties _must_ be declared in the class declaration to be available at all.
 
-This class implements an appliance for getting a random whole number below a given maximum number. It only has one ((public)) property: `getNumber`.
+This class implements an appliance for getting a random whole number below a given maximum number. It has only one ((public)) property: `getNumber`.
 
 ```
 class RandomSource {
@@ -392,11 +392,11 @@ console.log("Is toString's age known?", "toString" in ages);
 
 {{index "Object.prototype", "toString method"}}
 
-Here, the object's property names are the people's names and the property values are their ages. But we certainly didn't list anybody named toString in our map. Yet, because plain objects derive from `Object.prototype`, it looks like the property is there.
+Here, the object's property names are the people's names and the property values are their ages. But we certainly didn't list anybody named toString in our map. Yet because plain objects derive from `Object.prototype`, it looks like the property is there.
 
 {{index "Object.create function", prototype}}
 
-As such, using plain objects as maps is dangerous. There are several possible ways to avoid this problem. First, you can create objects with _no_ prototype. If you pass `null` to `Object.create`, the resulting object will not derive from `Object.prototype` and can safely be used as a map.
+For this reason, using plain objects as maps is dangerous. There are several possible ways to avoid this problem. First, you can create objects with _no_ prototype. If you pass `null` to `Object.create`, the resulting object will not derive from `Object.prototype` and can be safely used as a map.
 
 ```
 console.log("toString" in Object.create(null));
@@ -463,7 +463,7 @@ This technique is called _polymorphism_. Polymorphic code can work with values o
 
 {{index "forEach method"}}
 
-An example of a widely used interface is that of ((array-like object))s which have a `length` property holding a number and numbered properties for each of their elements. Both arrays and strings support this interface, as do various other objects, some of which we'll see later in the chapters about the browser. Our implementation of `forEach` from [Chapter ?](higher_order) works on anything that provides this interface. In fact, so does `Array.prototype.forEach`.
+An example of a widely used interface is that of ((array-like object))s that have a `length` property holding a number and numbered properties for each of their elements. Both arrays and strings support this interface, as do various other objects, some of which we'll see later in the chapters about the browser. Our implementation of `forEach` from [Chapter ?](higher_order) works on anything that provides this interface. In fact, so does `Array.prototype.forEach`.
 
 ```
 Array.prototype.forEach.call({
@@ -531,7 +531,7 @@ The `Temperature` class allows you to read and write the temperature in either d
 
 Sometimes you want to attach some properties directly to your constructor function rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
 
-Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. For example, the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit:
+Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. For example, the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit.
 
 ```
 let boil = Temperature.fromFahrenheit(212);
@@ -665,7 +665,7 @@ class ListIterator {
 
 The class tracks the progress of iterating through the list by updating its `list` property to move to the next list object whenever a value is returned and reports that it is done when that list is empty (null).
 
-Let's set up the `List` class to be iterable. Throughout this book, I'll occasionally use after-the-fact prototype manipulation to add methods to classes so that the individual pieces of code remain small and self-contained. In a regular program, where there is no need to split the code into small pieces, you'd declare these methods directly in the class instead.
+Let's set up the `List` class to be iterable. Throughout this book, I'll occasionally use after-the-fact prototype manipulation to add methods to classes so that the individual pieces of code remain small and self contained. In a regular program, where there is no need to split the code into small pieces, you'd declare these methods directly in the class instead.
 
 ```{includeCode: true}
 List.prototype[Symbol.iterator] = function() {
@@ -836,7 +836,7 @@ Use the `===` operator, or something equivalent such as `indexOf`, to determine 
 
 {{index "static method"}}
 
-Give the class a static `from` method that takes an iterable object as argument and creates a group that contains all the values produced by iterating over it.
+Give the class a static `from` method that takes an iterable object as its argument and creates a group that contains all the values produced by iterating over it.
 
 {{if interactive
 

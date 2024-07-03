@@ -113,7 +113,7 @@ When importing a module—whether with `require` or `import`—Node has to resol
 
 {{index "node_modules directory", directory}}
 
-When a string that does not look like a relative or absolute path is imported, it is assumed to refer to either a built-in ((module)) or a module installed in a `node_modules` directory. For example, importing from `"node:fs"` will give you Node's built-in file system module. Importing `"robot"` might try to load the library found in `node_modules/robot/`. It's common to install such libraries is by using ((NPM)), which we'll return to in a moment.
+When a string that does not look like a relative or absolute path is imported, it is assumed to refer to either a built-in ((module)) or a module installed in a `node_modules` directory. For example, importing from `"node:fs"` will give you Node's built-in file system module. Importing `"robot"` might try to load the library found in `node_modules/robot/`. It's common to install such libraries using ((NPM)), which we'll return to in a moment.
 
 {{index "import keyword", "Node.js", "garble example"}}
 

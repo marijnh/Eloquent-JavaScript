@@ -18,13 +18,13 @@ Ideally, a program has a clear, straightforward structure. The way it works is e
 
 {{index "organic growth"}}
 
-In practice, programs grow organically. Pieces of functionality are added as the programmer identifies new needs. Keeping such a program well-structured requires constant attention and work. This is work that will pay off only in the future, the _next_ time someone works on the program, so it's tempting to neglect it and allow the various parts of the program to become deeply entangled.
+In practice, programs grow organically. Pieces of functionality are added as the programmer identifies new needs. Keeping such a program well structured requires constant attention and work. This is work that will pay off only in the future, the _next_ time someone works on the program, so it's tempting to neglect it and allow the various parts of the program to become deeply entangled.
 
 {{index readability, reuse, isolation}}
 
 This causes two practical issues. First, understanding an entangled system is hard. If everything can touch everything else, it is difficult to look at any given piece in isolation. You are forced to build up a holistic understanding of the entire thing. Second, if you want to use any of the functionality from such a program in another situation, rewriting it may be easier than trying to disentangle it from its context.
 
-The phrase "((big ball of mud))" is often used for such large, structureless programs. Everything sticks together, and when you try to pick out a piece, the whole thing comes apart, and you only succeed in making a mess.
+The phrase "((big ball of mud))" is often used for such large, structureless programs. Everything sticks together, and when you try to pick out a piece, the whole thing comes apart, and you succeed only in making a mess.
 
 ## Modular programs
 
@@ -139,7 +139,7 @@ When a problem is found in a package or a new feature is added, the package is u
 
 {{index installation, upgrading, "package manager", download, reuse}}
 
-Working in this way requires ((infrastructure)). We need a place to store and find packages and a convenient way to install and upgrade them. In the JavaScript world, this infrastructure is provided by ((NPM)) ([_https://npmjs.org_](https://npmjs.org)).
+Working in this way requires ((infrastructure)). We need a place to store and find packages and a convenient way to install and upgrade them. In the JavaScript world, this infrastructure is provided by ((NPM)) ([_https://npmjs.com_](https://npmjs.com)).
 
 NPM is two things: an online service where you can download (and upload) packages, and a program (bundled with Node.js) that helps you install and manage them.
 
@@ -250,7 +250,7 @@ console.log(formatDate(new Date(2017, 9, 13),
 // → Friday the 13th
 ```
 
-CommonJS is implemented with a module loader that, when loading a module, wraps its code in a function (giving it its own local scope), and passes the `require` and `exports` bindings to that function as arguments.
+CommonJS is implemented with a module loader that, when loading a module, wraps its code in a function (giving it its own local scope) and passes the `require` and `exports` bindings to that function as arguments.
 
 {{id require}}
 
@@ -281,13 +281,13 @@ require.cache = Object.create(null);
 
 Standard JavaScript provides no such function as `readFile`, but different JavaScript environments, such as the browser and Node.js, provide their own ways of accessing files. The example just pretends that `readFile` exists.
 
-To avoid loading the same module multiple times, `require` keeps a store (cache) of already loaded modules. When called, it first checks if the requested module has been loaded and, if not, loads it. This involves reading the module's code, wrapping it in a function, and calling it.
+To avoid loading the same module multiple times, `require` keeps a store (cache) of already loaded modules. When called, it first checks whether the requested module has been loaded and, if not, loads it. This involves reading the module's code, wrapping it in a function, and calling it.
 
 {{index "ordinal package", "exports object", "module object", [interface, module]}}
 
-By defining `require`, `exports` as ((parameter))s for the generated wrapper function (and passing the appropriate values when calling it), the loader makes sure that these bindings are available in the module's ((scope)).
+By defining `require` and `exports` as ((parameter))s for the generated wrapper function (and passing the appropriate values when calling it), the loader makes sure that these bindings are available in the module's ((scope)).
 
-An important difference between this system and ES modules is that ES module imports happen before a module's script starts running, whereas `require` is a normal function, invoked when the module is already running. Unlike `import` declarations, `require` calls _can_ appear inside functions, and the name of the dependency can be any expression that evaluates to a string, whereas `import` only allows plain quoted strings.
+An important difference between this system and ES modules is that ES module imports happen before a module's script starts running, whereas `require` is a normal function, invoked when the module is already running. Unlike `import` declarations, `require` calls _can_ appear inside functions, and the name of the dependency can be any expression that evaluates to a string, whereas `import` allows only plain quoted strings.
 
 The transition of the JavaScript community from CommonJS style to ES modules has been a slow and somewhat rough one. Fortunately we are now at a point where most of the popular packages on NPM provide their code as ES modules, and Node.js allows ES modules to import from CommonJS modules. While CommonJS code is still something you will run across, there is no real reason to write new programs in this style anymore.
 
@@ -307,7 +307,7 @@ And we can go further. Apart from the number of files, the _size_ of the files a
 
 {{index pipeline, tool}}
 
-It is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converting from modern JavaScript to historic JavaScript, combining the modules into a single file, and minifying the code. We won't go into the details of these tools in this book since there are many of them, and which one is popular changes regularly. Just be aware that such things exist, and look them up when you need them.
+It is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converting from modern JavaScript to historic JavaScript, combining the modules into a single file, and minifying the code. We won't go into the details of these tools in this book, since there are many of them, and which one is popular changes regularly. Just be aware that such things exist, and look them up when you need them.
 
 ## Module design
 
@@ -327,7 +327,7 @@ That may mean following existing conventions. A good example is the `ini` packag
 
 {{index "side effect", "hard disk", composability}}
 
-Even if there's no standard function or widely used package to imitate, you can keep your modules predictable by using simple ((data structure))s and doing a single, focused thing. Many of the INI-file parsing modules on NPM provide a function that directly reads such a file from the hard disk and parses it, for example. This makes it impossible to use such modules in the browser, where we don't have direct file system access, and adds complexity that would have been better addressed by _composing_ the module with some file-reading function.
+Even if there's no standard function or widely used package to imitate, you can keep your modules predictable by using simple ((data structure))s and doing a single, focused thing. Many of the INI-file parsing modules on NPM provide a function that directly reads such a file from the hard disk and parses it, for example. This makes it impossible to use such modules in the browser, where we don't have direct filesystem access, and adds complexity that would have been better addressed by _composing_ the module with some file-reading function.
 
 {{index "pure function"}}
 
@@ -347,7 +347,7 @@ There are several different pathfinding packages on ((NPM)), but none of them us
 
 For example, there's the `dijkstrajs` package. A well-known approach to pathfinding, quite similar to our `findRoute` function, is called _Dijkstra's algorithm_, after Edsger Dijkstra, who first wrote it down. The `js` suffix is often added to package names to indicate the fact that they are written in JavaScript. This `dijkstrajs` package uses a graph format similar to ours, but instead of arrays, it uses objects whose property values are numbers—the weights of the edges.
 
-If we wanted to use that package, we'd have to make sure that our graph was stored in the format it expects. All edges get the same weight since our simplified model treats each road as having the same cost (one turn).
+If we wanted to use that package, we'd have to make sure that our graph was stored in the format it expects. All edges get the same weight, since our simplified model treats each road as having the same cost (one turn).
 
 ```
 const {find_path} = require("dijkstrajs");
@@ -368,7 +368,7 @@ This can be a barrier to composition—when various packages are using different
 
 {{index design}}
 
-Designing a fitting module structure for a program can be difficult. In the phase where you are still exploring the problem, trying  different things to see what works, you might want to not worry about it too much since keeping everything organized can be a big distraction. Once you have something that feels solid, that's a good time to take a step back and organize it.
+Designing a fitting module structure for a program can be difficult. In the phase where you are still exploring the problem, trying  different things to see what works, you might want to not worry about it too much, since keeping everything organized can be a big distraction. Once you have something that feels solid, that's a good time to take a step back and organize it.
 
 ## Summary
 

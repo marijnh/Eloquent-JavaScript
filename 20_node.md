@@ -220,7 +220,7 @@ A caret character (`^`) in front of the version number for a dependency in `pack
 
 The `npm` command is also used to publish new packages or new versions of packages. If you run `npm publish` in a ((directory)) that has a `package.json` file, it will publish a package with the name and version listed in the JSON file to the registry. Anyone can publish packages to NPM—though only under a package name that isn't in use yet, since it wouldn't be good if random people could update existing packages.
 
-This book won't delve further into the details of ((NPM)) usage. Refer to [_https://npmjs.org_](https://npmjs.org) for further documentation and a way to search for packages.
+This book won't delve further into the details of ((NPM)) usage. Refer to [_https://npmjs.com_](https://npmjs.com) for further documentation and a way to search for packages.
 
 ## The file system module
 

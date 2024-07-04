@@ -54,7 +54,7 @@ canYouSpotTheProblem();
 
 {{index ECMAScript, compatibility}}
 
-Code inside classes and modules (which we will discuss in [Chapter ?](modules)) is automatically strict. The old non-strict behavior still exists only because some old code might depend on it, and the language designers work hard to avoid breaking any existing programs.
+Code inside classes and modules (which we will discuss in [Chapter ?](modules)) is automatically strict. The old nonstrict behavior still exists only because some old code might depend on it, and the language designers work hard to avoid breaking any existing programs.
 
 {{index "let keyword", [binding, global]}}
 
@@ -86,7 +86,7 @@ let ferdinand = Person("Ferdinand"); // forgot new
 
 We are immediately told that something is wrong. This is helpful.
 
-Fortunately, constructors created with the `class` notation will always complain if they are called without `new`, making this less of a problem even in non-strict mode.
+Fortunately, constructors created with the `class` notation will always complain if they are called without `new`, making this less of a problem even in nonstrict mode.
 
 {{index parameter, [binding, naming], "with statement"}}
 
@@ -121,7 +121,7 @@ One thing about types is that they need to introduce their own complexity to be 
 
 When the types of a program are known, it is possible for the computer to _check_ them for you, pointing out mistakes before the program is run. There are several JavaScript dialects that add types to the language and check them. The most popular one is called [TypeScript](https://www.typescriptlang.org/). If you are interested in adding more rigor to your programs, I recommend you give it a try.
 
-In this book, we'll continue using raw, dangerous, untyped JavaScript code.
+In this book, we will continue using raw, dangerous, untyped JavaScript code.
 
 ## Testing
 
@@ -129,7 +129,7 @@ In this book, we'll continue using raw, dangerous, untyped JavaScript code.
 
 If the language is not going to do much to help us find mistakes, we'll have to find them the hard way: by running the program and seeing whether it does the right thing.
 
-Doing this by hand, again and again, is a really bad idea. Not only is it annoying, it also tends to be ineffective since it takes too much time to exhaustively test everything every time you make a change.
+Doing this by hand, again and again, is a really bad idea. Not only is it annoying, it also tends to be ineffective, since it takes too much time to exhaustively test everything every time you make a change.
 
 Computers are good at repetitive tasks, and testing is the ideal repetitive task. Automated testing is the process of writing a program that tests another program. Writing tests is a bit more work than testing manually, but once you've done it, you gain a kind of superpower: it takes you only a few seconds to verify that your program still behaves properly in all the situations you wrote tests for. When you break something, you'll immediately notice rather than randomly running into it at some later time.
 

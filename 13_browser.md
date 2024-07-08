@@ -1,6 +1,6 @@
 # JavaScript and the Browser
 
-{{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A very short personal history", chapter: true}
+{{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A Very Short Personal Pistory", chapter: true}
 
 The dream behind the web is of a common information space in which we communicate by sharing information. Its universality is essential: the fact that a hypertext link can point to anything, be it personal, local or global, be it draft or highly polished.
 
@@ -14,7 +14,7 @@ The next chapters of this book will discuss web browsers. Without ((browser))s, 
 
 {{index decentralization, compatibility}}
 
-Web technology has been decentralized from the start, not just technically but also in terms of the way it evolved. Various browser vendors have added new functionality in ad hoc and sometimes poorly thought-out ways, which were then—sometimes—adopted by others—and finally set down as in ((standards)).
+Web technology has been decentralized from the start, not just technically but also in terms of the way it evolved. Various browser vendors have added new functionality in ad hoc and sometimes poorly thought-out ways, which were then—sometimes—adopted by others, and finally set down in ((standards)).
 
 This is both a blessing and a curse. On the one hand, it is empowering to not have a central party control a system but have it be improved by various parties working in loose ((collaboration)) (or occasionally, open hostility). On the other hand, the haphazard way in which the web was developed means that the resulting system is not exactly a shining example of internal ((consistency)). Some parts of it are downright confusing and badly designed.
 
@@ -172,7 +172,7 @@ The following document will be treated just like the one shown previously:
 
 {{index "title (HTML tag)", "head (HTML tag)", "body (HTML tag)", "html (HTML tag)"}}
 
-The `<html>`, `<head>`, and `<body>` tags are completely gone. The browser knows that `<meta>` and `<title>` belong in the head and that `<h1>` means the body has started. Furthermore, I am no longer explicitly closing the paragraphs since opening a new paragraph or ending the document will close them implicitly. The quotes around the attribute values are also gone.
+The `<html>`, `<head>`, and `<body>` tags are completely gone. The browser knows that `<meta>` and `<title>` belong in the head and that `<h1>` means the body has started. Furthermore, I am no longer explicitly closing the paragraphs, since opening a new paragraph or ending the document will close them implicitly. The quotes around the attribute values are also gone.
 
 This book will usually omit the `<html>`, `<head>`, and `<body>` tags from examples to keep them short and free of clutter. I _will_ close tags and include quotes around attributes, though.
 
@@ -244,7 +244,7 @@ The hard part of sandboxing is allowing programs enough room to be useful while 
 
 {{index leak, exploit, security}}
 
-Every now and then, someone comes up with a new way to circumvent the limitations of a ((browser)) and do something harmful, ranging from leaking minor private information to taking over the whole machine on which the browser is running. The browser developers respond by fixing the hole, and all is well again—until the next problem is discovered, and hopefully publicized, rather than secretly exploited by some government agency or criminal organization.
+Every now and then, someone comes up with a new way to circumvent the limitations of a ((browser)) and do something harmful, ranging from leaking minor private information to taking over the whole machine on which the browser is running. The browser developers respond by fixing the hole, and all is well again—until the next problem is discovered, and hopefully publicized rather than secretly exploited by some government agency or criminal organization.
 
 ## Compatibility and the browser wars
 

@@ -53,7 +53,7 @@ The global binding `document` gives us access to these objects. Its `documentEle
 
 {{index [nesting, "of objects"]}}
 
-Think back to the ((syntax tree))s from [Chapter ?](language#parsing) for a moment. Their structures are strikingly similar to the structure of a browser's document. Each _((node))_ may refer to other nodes, _children_, which in turn may have their own children. This shape is typical of nested structures where elements can contain subelements that are similar to themselves.
+Think back to the ((syntax tree))s from [Chapter ?](language#parsing) for a moment. Their structures are strikingly similar to the structure of a browser's document. Each _((node))_ may refer to other nodes, _children_, which in turn may have their own children. This shape is typical of nested structures, where elements can contain subelements that are similar to themselves.
 
 {{index "documentElement property", [DOM, tree]}}
 
@@ -330,7 +330,7 @@ It is recommended to prefix the names of such made-up attributes with `data-` to
 
 {{index "getAttribute method", "setAttribute method", "className property", "class attribute"}}
 
-There is a commonly used attribute, `class`, which is a ((keyword)) in the JavaScript language. For historical reasons—some old JavaScript implementations could not handle property names that matched keywords—the property used to access this attribute is called `className`. You can also access it under its real name, `"class"` with the `getAttribute` and `setAttribute` methods.
+There is a commonly used attribute, `class`, which is a ((keyword)) in the JavaScript language. For historical reasons—some old JavaScript implementations could not handle property names that matched keywords—the property used to access this attribute is called `className`. You can also access it under its real name, `"class"`, with the `getAttribute` and `setAttribute` methods.
 
 ## Layout
 
@@ -374,7 +374,7 @@ if}}
 
 {{id boundingRect}}
 
-The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen. If you want pixel positions relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
+The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the upper left of the screen. If you want pixel positions relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
 
 {{index "offsetHeight property", "getBoundingClientRect method", drawing, laziness, performance, efficiency}}
 
@@ -452,7 +452,7 @@ This text is displayed <strong>inline</strong>,
 
 {{index "hidden element"}}
 
-The `block` tag will end up on its own line since ((block element))s are not displayed inline with the text around them. The last tag is not displayed at all—`display: none` prevents an element from showing up on the screen. This is a way to hide elements. It is often preferable to removing them from the document entirely because it makes it easy to reveal them again later.
+The `block` tag will end up on its own line, since ((block element))s are not displayed inline with the text around them. The last tag is not displayed at all—`display: none` prevents an element from showing up on the screen. This is a way to hide elements. It is often preferable to removing them from the document entirely because it makes it easy to reveal them again later.
 
 {{if book
 
@@ -573,7 +573,7 @@ Unlike methods such as `getElementsByTagName`, the object returned by `querySele
 
 {{index "querySelector method"}}
 
-The `querySelector` method (without the `All` part) works in a similar way. This one is useful if you want a specific single element. It will return only the first matching element or null when no element matches.
+The `querySelector` method (without the `All` part) works in a similar way. This one is useful if you want a specific single element. It will return only the first matching element, or `null` when no element matches.
 
 {{id animation}}
 
@@ -581,7 +581,7 @@ The `querySelector` method (without the `All` part) works in a similar way. This
 
 {{index "position (CSS)", "relative positioning", "top (CSS)", "left (CSS)", "absolute positioning"}}
 
-The `position` style property influences layout in a powerful way. It has a default value of `static`, meaning the element sits in its normal place in the document. When it is set to `relative`, the element still takes up space in the document, but now the `top` and `left` style properties can be used to move it relative to that normal place. When `position` is set to `absolute`, the element is removed from the normal document flow—that is, it no longer takes up space and may overlap with other elements. Its `top` and `left` properties can be used to absolutely position it relative to the top-left corner of the nearest enclosing element whose `position` property isn't `static`, or relative to the document if no such enclosing element exists.
+The `position` style property influences layout in a powerful way. It has a default value of `static`, meaning the element sits in its normal place in the document. When it is set to `relative`, the element still takes up space in the document, but now the `top` and `left` style properties can be used to move it relative to that normal place. When `position` is set to `absolute`, the element is removed from the normal document flow—that is, it no longer takes up space and may overlap with other elements. Its `top` and `left` properties can be used to absolutely position it relative to the upper-left corner of the nearest enclosing element whose `position` property isn't `static`, or relative to the document if no such enclosing element exists.
 
 {{index [animation, "spinning cat"]}}
 
@@ -636,7 +636,7 @@ The animation function is passed the current ((time)) as an argument. To ensure 
 
 {{id sin_cos}}
 
-Moving in ((circle))s is done using the trigonometry functions `Math.cos` and `Math.sin`. For those who aren't familiar with these, I'll briefly introduce them since we will occasionally use them in this book.
+Moving in ((circle))s is done using the trigonometry functions `Math.cos` and `Math.sin`. For those who aren't familiar with these, I'll briefly introduce them, since we will occasionally use them in this book.
 
 {{index coordinates, pi}}
 
@@ -802,7 +802,7 @@ Or make the hat circle around the cat. Or alter the animation in some other inte
 
 {{index "absolute positioning", "top (CSS)", "left (CSS)", "position (CSS)"}}
 
-To make positioning multiple objects easier, you'll probably want to switch to absolute positioning. This means that `top` and `left` are counted relative to the top left of the document. To avoid using negative coordinates, which would cause the image to move outside of the visible page, you can add a fixed number of pixels to the position values.
+To make positioning multiple objects easier, you'll probably want to switch to absolute positioning. This means that `top` and `left` are counted relative to the upper left of the document. To avoid using negative coordinates, which would cause the image to move outside of the visible page, you can add a fixed number of pixels to the position values.
 
 {{if interactive
 

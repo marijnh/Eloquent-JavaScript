@@ -14,7 +14,7 @@ quote}}
 
 Much of my initial fascination with computers, like that of many nerdy kids, had to do with computer ((game))s. I was drawn into the tiny simulated ((world))s that I could manipulate and in which stories (sort of) unfolded—more, I suppose, because of the way I projected my ((imagination)) into them than because of the possibilities they actually offered.
 
-I don't wish a ((career)) in game programming on anyone. Much like the ((music)) industry, the discrepancy between the number of eager young people wanting to work in it and the actual demand for such people creates a rather unhealthy environment. But writing games for fun is amusing.
+I don't wish a ((career)) in game programming on anyone. As with the ((music)) industry, the discrepancy between the number of eager young people wanting to work in it and the actual demand for such people creates a rather unhealthy environment. But writing games for fun is amusing.
 
 {{index "jump-and-run game", dimensions}}
 
@@ -134,7 +134,7 @@ So `rows` holds an array of arrays of characters, the rows of the plan. We can d
 
 {{index "map method"}}
 
-To create these arrays, we map over the rows and then over their content. Remember that `map` passes the array index as a second argument to the mapping function, which tells us the x- and y-coordinates of a given character. Positions in the game will be stored as pairs of coordinates, with the top left being 0,0 and each background square being 1 unit high and wide.
+To create these arrays, we map over the rows and then over their content. Remember that `map` passes the array index as a second argument to the mapping function, which tells us the x- and y-coordinates of a given character. Positions in the game will be stored as pairs of coordinates, with the upper left being 0,0 and each background square being 1 unit high and wide.
 
 {{index "static method"}}
 
@@ -174,7 +174,7 @@ This is again a persistent data structure—updating the game state creates a ne
 
 {{index actor, "Vec class", [interface, object]}}
 
-Actor objects represent the current position and state of a given moving element (player, coin, or mobile lava) in our game. All actor objects conform to the same interface. They have `size` and `pos` properties holding the size and the coordinates of the top-left corner of the rectangle representing this actor, and an `update` method.
+Actor objects represent the current position and state of a given moving element (player, coin, or mobile lava) in our game. All actor objects conform to the same interface. They have `size` and `pos` properties holding the size and the coordinates of the upper-left corner of the rectangle representing this actor, and an `update` method.
 
 This `update` method is used to compute their new state and position after a given time step. It simulates the thing the actor does—moving in response to the arrow keys for the player and bouncing back and forth for the lava—and returns a new, updated actor object.
 
@@ -204,7 +204,7 @@ class Vec {
 
 The `times` method scales a vector by a given number. It will be useful when we need to multiply a speed vector by a time interval to get the distance traveled during that time.
 
-The different types of actors get their own classes since their behavior is very different. Let's define these classes. We'll get to their `update` methods later.
+The different types of actors get their own classes, since their behavior is very different. Let's define these classes. We'll get to their `update` methods later.
 
 {{index simulation, "Player class"}}
 
@@ -464,13 +464,13 @@ By adding the level's current status as a class name to the wrapper, we can styl
 
 {{index player, "box shadow (CSS)"}}
 
-After touching ((lava)), the player's color turns dark red, suggesting scorching. When the last coin has been collected, we add two blurred white shadows—one to the top left and one to the top right—to create a white halo effect.
+After touching ((lava)), the player turns dark red, suggesting scorching. When the last coin has been collected, we add two blurred white shadows—one to the upper left and one to the upper right—to create a white halo effect.
 
 {{id viewport}}
 
 {{index "position (CSS)", "max-width (CSS)", "overflow (CSS)", "max-height (CSS)", viewport, scrolling, [DOM, graphics]}}
 
-We can't assume that the level always fits in the _viewport_, the element into which we draw the game. That is why we need the `scrollPlayerIntoView` call: it ensures that if the level is protruding outside the viewport, we scroll that viewport to make sure the player is near its center. The following ((CSS)) gives the game's wrapping DOM element a maximum size and ensures that anything that sticks out of the element's box is not visible. We also give it a relative position so that the actors inside it are positioned relative to the level's top-left corner.
+We can't assume that the level always fits in the _viewport_, the element into which we draw the game. That is why we need the `scrollPlayerIntoView` call: it ensures that if the level is protruding outside the viewport, we scroll that viewport to make sure the player is near its center. The following ((CSS)) gives the game's wrapping DOM element a maximum size and ensures that anything that sticks out of the element's box is not visible. We also give it a relative position so that the actors inside it are positioned relative to the level's upper-left corner.
 
 ```{lang: css}
 .game {
@@ -514,7 +514,7 @@ DOMDisplay.prototype.scrollPlayerIntoView = function(state) {
 
 {{index center, coordinates, readability}}
 
-The way the player's center is found shows how the methods on our `Vec` type allow computations with objects to be written in a relatively readable way. To find the actor's center, we add its position (its top-left corner) and half its size. That is the center in level coordinates, but we need it in pixel coordinates, so we then multiply the resulting vector by our display scale.
+The way the player's center is found shows how the methods on our `Vec` type allow computations with objects to be written in a relatively readable way. To find the actor's center, we add its position (its upper-left corner) and half its size. That is the center in level coordinates, but we need it in pixel coordinates, so we then multiply the resulting vector by our display scale.
 
 {{index validation}}
 
@@ -623,11 +623,11 @@ State.prototype.update = function(time, keys) {
 };
 ```
 
-The method is passed a time step and a data structure that tells it which keys are being held down. The first thing it does is call the `update` method on all actors, producing an array of updated actors. The actors also get the time step, the keys, and the state, so that they can base their update on those. Only the player will actually read keys, since that's the only actor that's controlled by the keyboard.
+The method is passed a time step and a data structure that tells it which keys are being held down. The first thing it does is call the `update` method on all actors, producing an array of updated actors. The actors also get the time step, the keys, and the state so that they can base their update on those. Only the player will actually read keys, since that's the only actor that's controlled by the keyboard.
 
 If the game is already over, no further processing has to be done (the game can't be won after being lost, or vice versa). Otherwise, the method tests whether the player is touching background lava. If so, the game is lost and we're done. Finally, if the game really is still going on, it sees whether any other actors overlap the player.
 
-Overlap between actors is detected with the `overlap` function. It takes two actor objects and returns true when they touch—which is the case when they overlap both along the x-axis and along the y-axis.
+Overlap between actors is detected with the `overlap` function. It takes two actor objects and returns `true` when they touch—which is the case when they overlap both along the x-axis and along the y-axis.
 
 ```{includeCode: true}
 function overlap(actor1, actor2) {
@@ -680,7 +680,7 @@ This `update` method computes a new position by adding the product of the ((time
 
 {{index "Coin class", coin, wave}}
 
-Coins use their `update` method to wobble. They ignore collisions with the grid since they are simply wobbling around inside of their own square.
+Coins use their `update` method to wobble. They ignore collisions with the grid, since they are simply wobbling around inside of their own square.
 
 ```{includeCode: true}
 const wobbleSpeed = 8, wobbleDist = 0.07;
@@ -918,7 +918,7 @@ if}}
 
 {{index "pausing (exercise)", "escape key", keyboard, "runLevel function", "event handling"}}
 
-Make it possible to pause (suspend) and unpause the game by pressing the [esc]{keyname} key. You can do this by changing the `runLevel` function to set up a keyboard event handler that interrupts or resumes the animation whenever the [esc]{keyname} key is hit.
+Make it possible to pause (suspend) and unpause the game by pressing [esc]{keyname}. You can do this by changing the `runLevel` function to set up a keyboard event handler that interrupts or resumes the animation whenever [esc]{keyname} is hit.
 
 {{index "runAnimation function"}}
 

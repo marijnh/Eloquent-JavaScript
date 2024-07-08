@@ -16,13 +16,13 @@ Some programs work with direct user input, such as mouse and keyboard actions. T
 
 {{index polling, button, "real-time"}}
 
-Imagine an interface where the only way to find out whether a key on the ((keyboard)) is being pressed was to read the current state of that key. To be able to react to keypresses, you would have to constantly read the key's state to catch it before it was released again. It would be dangerous to perform other time-intensive computations, since you might miss a keypress.
+Imagine an interface where the only way to find out whether a key on the ((keyboard)) is being pressed is to read the current state of that key. To be able to react to keypresses, you would have to constantly read the key's state to catch it before it is released again. It would be dangerous to perform other time-intensive computations, since you might miss a keypress.
 
 Some primitive machines handle input like this. A step up from this is for the hardware or operating system to notice the keypress and put it in a queue. A program can then periodically check the queue for new events and react to what it finds there.
 
 {{index responsiveness, "user experience"}}
 
-Of course, the program has to remember to look at the queue, and to do it often, because any time between the key being pressed and the program noticing the event will cause the software to feel unresponsive. This approach is called _((polling))_. Most programmers prefer to avoid it.
+Of course, the program has to remember to look at the queue, and to do it often because any time between the key being pressed and the program noticing the event will cause the software to feel unresponsive. This approach is called _((polling))_. Most programmers prefer to avoid it.
 
 {{index "callback function", "event handling"}}
 
@@ -250,7 +250,7 @@ Modifier keys such as [shift]{keyname}, [ctrl]{keyname}, [alt]{keyname}, and [me
 
 The DOM node where a key event originates depends on the element that has ((focus)) when the key is pressed. Most nodes cannot have focus unless you give them a `tabindex` attribute, but things like ((link))s, buttons, and form fields can. We'll come back to form ((field))s in [Chapter ?](http#forms). When nothing in particular has focus, `document.body` acts as the target node of key events.
 
-When the user is typing text, using key events to figure out what is being typed is problematic. Some platforms, most notably the ((virtual keyboard)) on ((Android)) ((phone))s, don't fire key events. But even when you have an old-fashioned keyboard, some types of text input don't match key presses in a straightforward way, such as _input method editor_ (_((IME))_) software used by people whose scripts don't fit on a keyboard, where multiple key strokes are combined to create characters.
+When the user is typing text, using key events to figure out what is being typed is problematic. Some platforms, most notably the ((virtual keyboard)) on ((Android)) ((phone))s, don't fire key events. But even when you have an old-fashioned keyboard, some types of text input don't match keypresses in a straightforward way, such as _input method editor_ (_((IME))_) software used by people whose scripts don't fit on a keyboard, where multiple keystrokes are combined to create characters.
 
 To notice when something was typed, elements that you can type into, such as the `<input>` and `<textarea>` tags, fire `"input"` events whenever the user changes their content. To get the actual content that was typed, it is best to directly read it from the focused field, which we discuss in [Chapter ?](http#forms).
 
@@ -274,7 +274,7 @@ If two clicks happen close together, a `"dblclick"` (double-click) event also fi
 
 {{index pixel, "clientX property", "clientY property", "pageX property", "pageY property", "event object"}}
 
-To get precise information about the place where a mouse event happened, you can look at its `clientX` and `clientY` properties, which contain the event's ((coordinates)) (in pixels) relative to the top-left corner of the window, or `pageX` and `pageY`, which are relative to the top-left corner of the whole document (which may be different when the window has been scrolled).
+To get precise information about the place where a mouse event happened, you can look at its `clientX` and `clientY` properties, which contain the event's ((coordinates)) (in pixels) relative to the upper-left corner of the window, or `pageX` and `pageY`, which are relative to the upper-left corner of the whole document (which may be different when the window has been scrolled).
 
 {{index "border-radius (CSS)", "absolute positioning", "drawing program example"}}
 
@@ -360,7 +360,7 @@ Note that the `"mousemove"` handler is registered on the whole ((window)). Even 
 
 {{index "buttons property", "button property", "bitfield"}}
 
-We must stop resizing the bar when the mouse button is released. For that, we can use the `buttons` property (note the plural), which tells us about the buttons that are currently held down. When it is zero, no buttons are down. When buttons are held, the value of the `buttons` property is the sum of the codes for those buttons—the left button has code 1, the right button 2, and the middle one 4. With the left and right buttons held, for example, the value of `buttons` will be 3.
+We must stop resizing the bar when the mouse button is released. For that, we can use the `buttons` property (note the plural), which tells us about the buttons that are currently held down. When it is 0, no buttons are down. When buttons are held, the value of the `buttons` property is the sum of the codes for those buttons—the left button has code 1, the right button 2, and the middle one 4. With the left and right buttons held, for example, the value of `buttons` will be 3.
 
 Note that the order of these codes is different from the one used by `button`, where the middle button came before the right one. As mentioned, consistency isn't a strong point of the browser's programming interface.
 
@@ -493,7 +493,7 @@ The following example displays help text for the ((text field)) that currently h
 
 {{if book
 
-This screenshot shows the help text for the age field.
+This screenshot shows the help text for the age field:
 
 {{figure {url: "img/help-field.png", alt: "Screenshot of the help text below the age field", width: "4.4cm"}}}
 
@@ -515,7 +515,7 @@ Elements such as ((image))s and script tags that load an external file also have
 
 {{index "beforeunload event", "page reload", "preventDefault method"}}
 
-When you close page or navigate away from it (for example, by following a link), a `"beforeunload"` event fires. The main use of this event is to prevent the user from accidentally losing work by closing a document. If you prevent the default behavior on this event _and_ set the `returnValue` property on the event object to a string, the browser will show the user a dialog asking if they really want to leave the page. That dialog might include your string, but because some malicious sites try to use these dialogs to confuse people into staying on their page to look at dodgy weight loss ads, most browsers no longer display them.
+When you close page or navigate away from it (for example, by following a link), a `"beforeunload"` event fires. The main use of this event is to prevent the user from accidentally losing work by closing a document. If you prevent the default behavior on this event _and_ set the `returnValue` property on the event object to a string, the browser will show the user a dialog asking if they really want to leave the page. That dialog might include your string, but because some malicious sites try to use these dialogs to confuse people into staying on their page to look at dodgy weight-loss ads, most browsers no longer display them.
 
 {{id timeline}}
 

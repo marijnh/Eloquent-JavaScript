@@ -20,7 +20,7 @@ But we'd be using the DOM for something that it wasn't originally designed for. 
 
 {{index SVG, "img (HTML tag)"}}
 
-There are two alternatives. The first is DOM-based but utilizes _Scalable Vector Graphics_ (SVG), rather than HTML. Think of SVG as a ((document))-markup dialect that focuses on ((shape))s rather than text. You can embed an SVG document directly in an HTML document or include it with an `<img>` tag.
+There are two alternatives. The first is DOM based but utilizes _Scalable Vector Graphics_ (SVG) rather than HTML. Think of SVG as a ((document))-markup dialect that focuses on ((shape))s rather than text. You can embed an SVG document directly in an HTML document or include it with an `<img>` tag.
 
 {{index clearing, [DOM graphics], [interface, canvas]}}
 
@@ -94,7 +94,7 @@ You create a ((context)) with the `getContext` method on the `<canvas>` DOM elem
 </script>
 ```
 
-After creating the context object, the example draws a red ((rectangle)) 100 ((pixel))s wide and 50 pixels high, with its top-left corner at coordinates (10,10).
+After creating the context object, the example draws a red ((rectangle)) that is 100 ((pixel))s wide and 50 pixels high, with its upper-left corner at coordinates (10,10).
 
 {{if book
 
@@ -104,7 +104,7 @@ if}}
 
 {{index SVG, coordinates}}
 
-Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0,0) at the top-left corner, and the positive y-((axis)) goes down from there. This means (10,10) is 10 pixels below and to the right of the top-left corner.
+Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0,0) at the upper-left corner, and the positive y-((axis)) goes down from there. This means (10,10) is 10 pixels below and to the right of the upper-left corner.
 
 {{id fill_stroke}}
 
@@ -116,7 +116,7 @@ In the ((canvas)) interface, a shape can be _filled_, meaning its area is given 
 
 {{index "fillRect method", "strokeRect method"}}
 
-The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's top-left corner, then its width, and then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
+The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's upper-left corner, then its width, and then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
 
 {{index [state, "of canvas"]}}
 
@@ -200,7 +200,7 @@ When filling a path (using the `fill` method), each ((shape)) is filled separate
 </script>
 ```
 
-This example draws a filled triangle. Note that only two of the triangle's sides are explicitly drawn. The third, from the bottom-right corner back to the top, is implied and wouldn't be there if you stroked the path.
+This example draws a filled triangle. Note that only two of the triangle's sides are explicitly drawn. The third, from the lower-right corner back to the top, is implied and wouldn't be there if you stroked the path.
 
 {{if book
 
@@ -246,11 +246,11 @@ if}}
 
 {{index "stroke method"}}
 
-We draw a ((quadratic curve)) from the left to the right, with (60,10) as control point, and then draw two ((line)) segments going through that control point and back to the start of the line. The result somewhat resembles a _((Star Trek))_ insignia. You can see the effect of the control point: the lines leaving the lower corners start off in the direction of the control point and then ((curve)) toward their target.
+We draw a ((quadratic curve)) from the left to the right, with (60,10) as the control point, and then draw two ((line)) segments going through that control point and back to the start of the line. The result somewhat resembles a _((Star Trek))_ insignia. You can see the effect of the control point: the lines leaving the lower corners start off in the direction of the control point and then ((curve)) toward their target.
 
 {{index canvas, "bezierCurveTo method"}}
 
-The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((control point)), this method has two—one for each of the ((line))'s endpoints. Here is a similar sketch to illustrate the behavior of such a curve:
+The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((control point)), this method has two—one for each of the ((line))'s end points. Here is a similar sketch to illustrate the behavior of such a curve:
 
 ```{lang: html}
 <canvas></canvas>
@@ -318,7 +318,7 @@ Like other path-drawing methods, a line drawn with `arc` is connected to the pre
 
 {{index "pie chart example"}}
 
-Imagine we've just taken a ((job)) at EconomiCorp, Inc. Your first assignment is to draw a pie chart of its customer satisfaction ((survey)) results.
+Imagine you've just taken a ((job)) at EconomiCorp, Inc. Your first assignment is to draw a pie chart of its customer satisfaction ((survey)) results.
 
 The `results` binding contains an array of objects that represent the survey responses.
 
@@ -420,7 +420,7 @@ The `drawImage` method allows us to draw ((pixel)) data onto a ((canvas)). This 
 
 {{index "drawImage method", scaling}}
 
-By default, `drawImage` will draw the image at its original size. You can also give it two additional arguments to specify the width and height of the drawn image, when those aren't the same as origin image.
+By default, `drawImage` will draw the image at its original size. You can also give it two additional arguments to specify the width and height of the drawn image, when those aren't the same as the origin image.
 
 When `drawImage` is given _nine_ arguments, it can be used to draw only a fragment of an image. The second through fifth arguments indicate the rectangle (x, y, width, and height) in the source image that should be copied, and the sixth to ninth arguments give the rectangle (on the canvas) into which it should be copied.
 
@@ -502,11 +502,11 @@ if}}
 
 {{index mirroring}}
 
-Scaling will cause everything about the drawn image, including the ((line width)), to be stretched out or squeezed together as specified. Scaling by a negative amount will flip the picture around. The flipping happens around point (0,0), which means it will also flip the direction of the coordinate system. When a horizontal scaling of -1 is applied, a shape drawn at x position 100 will end up at what used to be position -100.
+Scaling will cause everything about the drawn image, including the ((line width)), to be stretched out or squeezed together as specified. Scaling by a negative amount will flip the picture around. The flipping happens around point (0,0), which means it will also flip the direction of the coordinate system. When a horizontal scaling of -1 is applied, a shape drawn at _x_ position 100 will end up at what used to be position -100.
 
 {{index "drawImage method"}}
 
-To turn a picture around, we can't simply add `cx.scale(-1, 1)` before the call to `drawImage`. That would move our picture outside of the ((canvas)), where it won't be visible. We could adjust the ((coordinates)) given to `drawImage` to compensate for this by drawing the image at x position -50 instead of 0. Another solution, which doesn't require the code doing the drawing to know about the scale change, is to adjust the ((axis)) around which the scaling happens.
+To turn a picture around, we can't simply add `cx.scale(-1, 1)` before the call to `drawImage`. That would move our picture outside of the ((canvas)), where it won't be visible. We could adjust the ((coordinates)) given to `drawImage` to compensate for this by drawing the image at _x_ position -50 instead of 0. Another solution, which doesn't require the code doing the drawing to know about the scale change, is to adjust the ((axis)) around which the scaling happens.
 
 {{index "rotate method", "translate method", transformation}}
 
@@ -524,7 +524,7 @@ But if we _first_ rotate by 20 degrees and _then_ translate by (50,50), the tran
 
 {{index axis, mirroring}}
 
-To flip a picture around the vertical line at a given x position, we can do the following:
+To flip a picture around the vertical line at a given _x_ position, we can do the following:
 
 ```{includeCode: true}
 function flipHorizontally(context, around) {
@@ -542,7 +542,7 @@ We move the y-((axis)) to where we want our ((mirror)) to be, apply the mirrorin
 
 {{index "translate method", "scale method", transformation, canvas}}
 
-This shows the coordinate systems before and after mirroring across the central line. The triangles are numbered to illustrate each step. If we draw a triangle at a positive x position, it would, by default, be in the place where triangle 1 is. A call to `flipHorizontally` first does a translation to the right, which gets us to triangle 2. It then scales, flipping the triangle over to position 3. This is not where it should be, if it were mirrored in the given line. The second `translate` call fixes this—it "cancels" the initial translation and makes triangle 4 appear exactly where it should.
+This shows the coordinate systems before and after mirroring across the central line. The triangles are numbered to illustrate each step. If we draw a triangle at a positive _x_ position, it would, by default, be in the place where triangle 1 is. A call to `flipHorizontally` first does a translation to the right, which gets us to triangle 2. It then scales, flipping the triangle over to position 3. This is not where it should be, if it were mirrored in the given line. The second `translate` call fixes this—it "cancels" the initial translation and makes triangle 4 appear exactly where it should.
 
 We can now draw a mirrored character at position (100,0) by flipping the world around the character's vertical center.
 
@@ -609,7 +609,7 @@ if}}
 
 {{index "save method", "restore method", canvas, "rotate method"}}
 
-If the calls to `save` and `restore` were not there, the second recursive call to `branch` would end up with the position and rotation created by the first call. It wouldn't be connected to the current branch but rather to the innermost, rightmost branch drawn by the first call. The resulting shape might also be interesting, but it is definitely not a tree.
+If the calls to `save` and `restore` were not there, the second recursive call to `branch` would end up with the position and rotation created by the first call. It would be connected not to the current branch but rather to the innermost, rightmost branch drawn by the first call. The resulting shape might also be interesting, but it is definitely not a tree.
 
 {{id canvasdisplay}}
 
@@ -621,7 +621,7 @@ We now know enough about ((canvas)) drawing to start working on a ((canvas))-bas
 
 {{index "CanvasDisplay class", "DOMDisplay class", [interface, object]}}
 
-We define another display object type called `CanvasDisplay`, supporting the same interface as `DOMDisplay` from [Chapter ?](game#domdisplay), namely, the methods `syncState` and `clear`.
+We define another display object type called `CanvasDisplay`, supporting the same interface as `DOMDisplay` from [Chapter ?](game#domdisplay)—namely, the methods `syncState` and `clear`.
 
 {{index [state, "in objects"]}}
 
@@ -918,9 +918,9 @@ Write a program that draws the following ((shape))s on a ((canvas)):
 
 When drawing the last two shapes, you may want to refer to the explanation of `Math.cos` and `Math.sin` in [Chapter ?](dom#sin_cos), which describes how to get coordinates on a circle using these functions.
 
-{{index readability, "hard-coding"}}
+{{index readability, "hardcoding"}}
 
-I recommend creating a function for each shape. Pass the position, and optionally other properties such as the size or the number of points, as parameters. The alternative, which is to hard-code numbers all over your code, tends to make the code needlessly hard to read and modify.
+I recommend creating a function for each shape. Pass the position, and optionally other properties such as the size or the number of points, as parameters. The alternative, which is to hardcode numbers all over your code, tends to make the code needlessly hard to read and modify.
 
 {{if interactive
 
@@ -1071,7 +1071,7 @@ hint}}
 
 {{index optimization, "bitmap graphics", mirror}}
 
-One unfortunate thing about ((transformation))s is that they slow down the drawing of bitmaps. The position and size of each ((pixel)) has to be transformed, and though it is possible that ((browser))s will get cleverer about transformation in the ((future)), they currently cause a measurable increase in the time it takes to draw a bitmap.
+One unfortunate thing about ((transformation))s is that they slow down the drawing of bitmaps. The position and size of each ((pixel)) have to be transformed, and though it is possible that ((browser))s will get cleverer about transformation in the ((future)), they currently cause a measurable increase in the time it takes to draw a bitmap.
 
 In a game like ours, where we are drawing only a single transformed sprite, this is a nonissue. But imagine that we need to draw hundreds of characters or thousands of rotating particles from an explosion.
 

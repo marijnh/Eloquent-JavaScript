@@ -782,7 +782,7 @@ Extend the server so that it stores the talk data to disk and automatically relo
 
 {{hint
 
-{{index "file system", "writeFile function", "updated method", persistence}}
+{{index "filesystem", "writeFile function", "updated method", persistence}}
 
 The simplest solution I can come up with is to encode the whole `talks` object as ((JSON)) and dump it to a file with `writeFile`. There is already a method (`updated`) that is called every time the server's data changes. It can be extended to write the new data to disk.
 

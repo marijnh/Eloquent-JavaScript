@@ -4,7 +4,7 @@
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-A student asked, 'The programmers of old used only simple machines and no programming languages, yet they made beautiful programs. Why do we use complicated machines and programming languages?'. Fu-Tzu replied, 'The builders of old used only sticks and clay, yet they made beautiful huts.'
+A student asked, 'The programmers of old used only simple machines and no programming languages, yet they made beautiful programs. Why do we use complicated machines and programming languages?' Fu-Tzu replied, 'The builders of old used only sticks and clay, yet they made beautiful huts.'
 
 quote}}
 
@@ -38,7 +38,7 @@ In such programs, asynchronous programming is often helpful. It allows the progr
 
 {{index "programming language", "Node.js", standard}}
 
-Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do input and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to network and file system programming without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
+Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do input and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to network and filesystem programming without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
 
 ## The node command
 
@@ -60,7 +60,7 @@ Hello world
 
 {{index "console.log"}}
 
-The `console.log` method in Node does something similar to what it does in the browser. It prints out a piece of text. But in Node, the text will go to the process's ((standard output)) stream, rather than to a browser's ((JavaScript console)). When running `node` from the command line, that means you see the logged values in your ((terminal)).
+The `console.log` method in Node does something similar to what it does in the browser. It prints out a piece of text. But in Node, the text will go to the process's ((standard output)) stream rather than to a browser's ((JavaScript console)). When running `node` from the command line, that means you see the logged values in your ((terminal)).
 
 {{index "node program", "read-eval-print loop"}}
 
@@ -107,13 +107,13 @@ Node started out using the ((CommonJS)) module system, based on the `require` fu
 
 But today, Node also supports the more modern ES module system. When a script's filename ends in `.mjs`, it is considered to be such a module, and you can use `import` and `export` in it (but not `require`). We will use ES modules in this chapter.
 
-{{index [path, "file system"], "relative path", resolution}}
+{{index [path, "filesystem"], "relative path", resolution}}
 
-When importing a module—whether with `require` or `import`—Node has to resolve the given string to an actual ((file)) that it can load. Names that start with `/`, `./`, or `../` are resolved as files, relative to the current module's path. Here, `.` stands for the current directory, `../` for one directory up, and `/` for the root of the file system. If you ask for `"./graph.mjs"` from the file `/tmp/robot/robot.mjs`, Node will try to load the file `/tmp/robot/graph.mjs`.
+When importing a module—whether with `require` or `import`—Node has to resolve the given string to an actual ((file)) that it can load. Names that start with `/`, `./`, or `../` are resolved as files, relative to the current module's path. Here, `.` stands for the current directory, `../` for one directory up, and `/` for the root of the filesystem. If you ask for `"./graph.mjs"` from the file `/tmp/robot/robot.mjs`, Node will try to load the file `/tmp/robot/graph.mjs`.
 
 {{index "node_modules directory", directory}}
 
-When a string that does not look like a relative or absolute path is imported, it is assumed to refer to either a built-in ((module)) or a module installed in a `node_modules` directory. For example, importing from `"node:fs"` will give you Node's built-in file system module. Importing `"robot"` might try to load the library found in `node_modules/robot/`. It's common to install such libraries using ((NPM)), which we'll return to in a moment.
+When a string that does not look like a relative or absolute path is imported, it is assumed to refer to either a built-in ((module)) or a module installed in a `node_modules` directory. For example, importing from `"node:fs"` will give you Node's built-in filesystem module. Importing `"robot"` might try to load the library found in `node_modules/robot/`. It's common to install such libraries using ((NPM)), which we'll return to in a moment.
 
 {{index "import keyword", "Node.js", "garble example"}}
 
@@ -173,13 +173,13 @@ $ node
 
 After running `npm install`, ((NPM)) will have created a directory called `node_modules`. Inside that directory will be an `ini` directory that contains the ((library)). You can open it and look at the code. When we import `"ini"`, this library is loaded, and we can call its `parse` property to parse a configuration file.
 
-By default NPM installs packages under the current directory, rather than in a central place. If you are used to other package managers, this may seem unusual, but it has advantages—it puts each application in full control of the packages it installs and makes it easier to manage versions and clean up when removing an application.
+By default, NPM installs packages under the current directory rather than in a central place. If you are used to other package managers, this may seem unusual, but it has advantages—it puts each application in full control of the packages it installs and makes it easier to manage versions and clean up when removing an application.
 
 ### Package files
 
 {{index "package.json", dependency}}
 
-After running `npm install` to install some package, you will find not only a `node_modules` directory, but also a file called `package.json` in your current directory. It is recommended to have such a file for each project. You can create it manually or run `npm init`. This file contains information about the project, such as its name and ((version)), and lists its dependencies.
+After running `npm install` to install some package, you will find not only a `node_modules` directory but also a file called `package.json` in your current directory. It is recommended to have such a file for each project. You can create it manually or run `npm init`. This file contains information about the project, such as its name and ((version)), and lists its dependencies.
 
 The robot simulation from [Chapter ?](robot), as modularized in the exercise in [Chapter ?](modules#modular_robot), might have a `package.json` file like this:
 
@@ -210,7 +210,7 @@ A `package.json` file lists both the program's own ((version)) and versions for 
 
 {{index compatibility}}
 
-NPM demands that its packages follow a schema called _((semantic versioning))_, which encodes some information about which versions are _compatible_ (don't break the old interface) in the version number. A semantic version consists of three numbers, separated by periods, such as `2.3.0`. Every time new functionality is added, the middle number has to be incremented. Every time compatibility is broken, so that existing code that uses the package might not work with the new version, the first number has to be incremented.
+NPM demands that its packages follow a schema called _((semantic versioning))_, which encodes some information about which versions are _compatible_ (don't break the old interface) in the version number. A semantic version consists of three numbers separated by periods, such as `2.3.0`. Every time new functionality is added, the middle number has to be incremented. Every time compatibility is broken, so that existing code that uses the package might not work with the new version, the first number has to be incremented.
 
 {{index "caret character"}}
 
@@ -222,11 +222,11 @@ The `npm` command is also used to publish new packages or new versions of packag
 
 This book won't delve further into the details of ((NPM)) usage. Refer to [_https://npmjs.com_](https://npmjs.com) for further documentation and a way to search for packages.
 
-## The file system module
+## The filesystem module
 
 {{index directory, "node:fs package", "Node.js", [file, access]}}
 
-One of the most commonly used built-in modules in Node is the `node:fs` module, which stands for _((file system))_. It exports functions for working with files and directories.
+One of the most commonly used built-in modules in Node is the `node:fs` module, which stands for _((filesystem))_. It exports functions for working with files and directories.
 
 {{index "readFile function", "callback function"}}
 
@@ -253,7 +253,7 @@ readFile("file.txt", (error, buffer) => {
 });
 ```
 
-{{index "writeFile function", "file system", [file, access]}}
+{{index "writeFile function", "filesystem", [file, access]}}
 
 A similar function, `writeFile`, is used to write a file to disk.
 
@@ -275,11 +275,11 @@ The `node:fs` module contains many other useful functions: `readdir` will give y
 
 {{index ["asynchronous programming", "in Node.js"], "Node.js", "error handling", "callback function"}}
 
-Most of these take a callback function as the last parameter, which they call either with an error (the first argument) or with a successful result (the second). As we saw in [Chapter ?](async), there are downsides to this style of programming—the biggest one being that error handling becomes verbose and error-prone.
+Most of these take a callback function as the last parameter, which they call either with an error (the first argument) or with a successful result (the second). As we saw in [Chapter ?](async), there are downsides to this style of programming—the biggest one being that error handling becomes verbose and error prone.
 
 {{index "Promise class", "node:fs/promises package"}}
 
-The `node:fs/promises` module exports most of the same functions as the old `node:fs` module, but uses promises rather than callback functions.
+The `node:fs/promises` module exports most of the same functions as the old `node:fs` module but uses promises rather than callback functions.
 
 ```
 import {readFile} from "node:fs/promises";
@@ -330,7 +330,7 @@ If you run this script on your own machine, you can point your web browser at [_
 
 {{index "createServer function", HTTP}}
 
-The function passed as argument to `createServer` is called every time a client connects to the server. The `request` and `response` bindings are objects representing the incoming and outgoing data. The first contains information about the ((request)), such as its `url` property, which tells us to what URL the request was made.
+The function passed as the argument to `createServer` is called every time a client connects to the server. The `request` and `response` bindings are objects representing the incoming and outgoing data. The first contains information about the ((request)), such as its `url` property, which tells us to what URL the request was made.
 
 When you open that page in your browser, it sends a request to your own computer. This causes the server function to run and send back a response, which you can then see in the browser.
 
@@ -340,7 +340,7 @@ To send something to the client, you call methods on the `response` object. The 
 
 {{index "writable stream", "body (HTTP)", stream, "write method", "end method"}}
 
-Next, the actual response body (the document itself) is sent with `response.write`. You're allowed to call this method multiple times if you want to send the response piece by piece, for example to stream data to the client as it becomes available. Finally, `response.end` signals the end of the response.
+Next, the actual response body (the document itself) is sent with `response.write`. You're allowed to call this method multiple times if you want to send the response piece by piece—for example, to stream data to the client as it becomes available. Finally, `response.end` signals the end of the response.
 
 {{index "listen method"}}
 
@@ -366,7 +366,7 @@ The response object that the HTTP server could write to is an example of a _writ
 
 {{index "createWriteStream function", "writeFile function", [file, stream]}}
 
-It is possible to create a writable stream that points at a file with the `createWriteStream` function from the `node:fs` module. You can then use the `write` method on the resulting object to write the file one piece at a time, rather than in one shot as with `writeFile`.
+It is possible to create a writable stream that points at a file with the `createWriteStream` function from the `node:fs` module. You can then use the `write` method on the resulting object to write the file one piece at a time rather than in one shot, as with `writeFile`.
 
 {{index "createServer function", "request function", "event handling", "readable stream"}}
 
@@ -414,19 +414,19 @@ fetch("http://localhost:8000/", {
 
 {{index "file server example", "Node.js", [HTTP, server]}}
 
-Let's combine our newfound knowledge about HTTP ((server))s and working with the ((file system)) to create a bridge between the two: an HTTP server that allows ((remote access)) to a file system. Such a server has all kinds of uses—it allows web applications to store and share data, or it can give a group of people shared access to a bunch of files.
+Let's combine our newfound knowledge about HTTP ((server))s and working with the ((filesystem)) to create a bridge between the two: an HTTP server that allows ((remote access)) to a filesystem. Such a server has all kinds of uses—it allows web applications to store and share data, or it can give a group of people shared access to a bunch of files.
 
 {{index [path, URL], "GET method", "PUT method", "DELETE method", [file, resource]}}
 
 When we treat files as HTTP ((resource))s, the HTTP methods `GET`, `PUT`, and `DELETE` can be used to read, write, and delete the files, respectively. We will interpret the path in the request as the path of the file that the request refers to.
 
-{{index [path, "file system"], "relative path"}}
+{{index [path, "filesystem"], "relative path"}}
 
-We probably don't want to share our whole file system, so we'll interpret these paths as starting in the server's working ((directory)), which is the directory in which it was started. If I ran the server from `/tmp/public/` (or `C:\tmp\public\` on Windows), then a request for `/file.txt` should refer to `/tmp/public/file.txt` (or `C:\tmp\public\file.txt`).
+We probably don't want to share our whole filesystem, so we'll interpret these paths as starting in the server's working ((directory)), which is the directory in which it was started. If I ran the server from `/tmp/public/` (or `C:\tmp\public\` on Windows), then a request for `/file.txt` should refer to `/tmp/public/file.txt` (or `C:\tmp\public\file.txt`).
 
 {{index "file server example", "Node.js", "methods object", "Promise class"}}
 
-We'll build the program piece by piece, using an object called `methods` to store the functions that handle the various HTTP methods. Method handlers are `async` functions that get the request object as argument and return a promise that resolves to an object that describes the response.
+We'll build the program piece by piece, using an object called `methods` to store the functions that handle the various HTTP methods. Method handlers are `async` functions that get the request object as their argument and return a promise that resolves to an object that describes the response.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {createServer} from "node:http";
@@ -490,7 +490,7 @@ function urlPath(url) {
 }
 ```
 
-As soon as you set up a program to accept network requests, you have to start worrying about ((security)). In this case, if we aren't careful, it is likely that we'll accidentally expose our whole ((file system)) to the network.
+As soon as you set up a program to accept network requests, you have to start worrying about ((security)). In this case, if we aren't careful, it is likely that we'll accidentally expose our whole ((filesystem)) to the network.
 
 File paths are strings in Node. To map such a string to an actual file, there's a nontrivial amount of interpretation going on. Paths may, for example, include `../` to refer to a parent directory. One obvious source of problems would be requests for paths like `/../secret_file`.
 
@@ -614,7 +614,7 @@ We don't need to check whether the file exists this time—if it does, we'll jus
 
 {{index "error event", "finish event"}}
 
-When something goes wrong when opening the file, `createWriteStream` will still return a stream, but that stream will fire an `"error"` event. The stream from the request may also fail, for example if the network goes down. So we wire up both streams' `"error"` events to reject the promise. When `pipe` is done, it will close the output stream, which causes it to fire a `"finish"` event. That's the point at which we can successfully resolve the promise (returning nothing).
+When something goes wrong when opening the file, `createWriteStream` will still return a stream, but that stream will fire an `"error"` event. The stream from the request may also fail—for example, if the network goes down. So we wire up both streams' `"error"` events to reject the promise. When `pipe` is done, it will close the output stream, which causes it to fire a `"finish"` event. That's the point at which we can successfully resolve the promise (returning nothing).
 
 {{index download, "file server example", "Node.js"}}
 
@@ -643,9 +643,9 @@ The first request for `file.txt` fails since the file does not exist yet. The `P
 
 Node is a nice, small system that lets us run JavaScript in a nonbrowser context. It was originally designed for network tasks to play the role of a node in a network, but it lends itself to all kinds of scripting tasks. If writing JavaScript is something you enjoy, automating tasks with Node may work well for you.
 
-NPM provides packages for everything you can think of (and quite a few things you'd probably never think of), and it allows you to fetch and install those packages with the `npm` program. Node comes with a number of built-in modules, including the `node:fs` module for working with the file system and the `node:http` module for running HTTP servers.
+NPM provides packages for everything you can think of (and quite a few things you'd probably never think of), and it allows you to fetch and install those packages with the `npm` program. Node comes with a number of built-in modules, including the `node:fs` module for working with the filesystem and the `node:http` module for running HTTP servers.
 
-All input and output in Node is done asynchronously, unless you explicitly use a synchronous variant of a function, such as `readFileSync`. Node originally used callbacks for asynchronous functionality, but the `node:fs/promises` package provides a promise-based interface to the file system.
+All input and output in Node is done asynchronously, unless you explicitly use a synchronous variant of a function, such as `readFileSync`. Node originally used callbacks for asynchronous functionality, but the `node:fs/promises` package provides a promise-based interface to the filesystem.
 
 ## Exercises
 
@@ -661,7 +661,7 @@ When that works, extend it so that when one of the arguments is a ((directory)),
 
 {{index ["asynchronous programming", "in Node.js"], "synchronous programming"}}
 
-Use asynchronous or synchronous file system functions as you see fit. Setting things up so that multiple asynchronous actions are requested at the same time might speed things up a little, but not a huge amount, since most file systems can read only one thing at a time.
+Use asynchronous or synchronous filesystem functions as you see fit. Setting things up so that multiple asynchronous actions are requested at the same time might speed things up a little, but not a huge amount, since most filesystems can read only one thing at a time.
 
 {{hint
 
@@ -679,7 +679,7 @@ To figure out whether something is a directory, you can again use `stat` (or `st
 
 {{index "readdir function", "readdirSync function"}}
 
-Exploring a directory is a branching process. You can do it either by using a recursive function or by keeping an array of work (files that still need to be explored). To find the files in a directory, you can call `readdir` or `readdirSync`. Note the strange capitalization—Node's file system function naming is loosely based on standard Unix functions, such as `readdir`, that are all lowercase, but then it adds `Sync` with a capital letter.
+Exploring a directory is a branching process. You can do it either by using a recursive function or by keeping an array of work (files that still need to be explored). To find the files in a directory, you can call `readdir` or `readdirSync`. Note the strange capitalization—Node's filesystem function naming is loosely based on standard Unix functions, such as `readdir`, that are all lowercase, but then it adds `Sync` with a capital letter.
 
 To go from a filename read with `readdir` to a full path name, you have to combine it with the name of the directory, either putting `sep` from `node:path` between them, or using the `join` function from that same package.
 

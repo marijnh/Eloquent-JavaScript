@@ -648,7 +648,7 @@ This example extracts the selected values from a `multiple` select field and use
 
 ## File fields
 
-{{index file, "hard drive", "file system", security, "file field", "input (HTML tag)"}}
+{{index file, "hard drive", "filesystem", security, "file field", "input (HTML tag)"}}
 
 File fields were originally designed as a way to ((upload)) files from the user's machine through a form. In modern browsers, they also provide a way to read such files from JavaScript programs. The field acts as a kind of gatekeeper. The script cannot simply start reading private files from the user's computer, but if the user selects a file in such a field, the browser interprets that action to mean that the script may read the file.
 
@@ -837,7 +837,7 @@ HTML can represent various types of form fields, such as text fields, checkboxes
 
 When a form is submitted, a `"submit"` event is fired on it. A JavaScript handler can call `preventDefault` on that event to disable the browser's default behavior. Form field elements may also occur outside of a form tag.
 
-When the user has selected a file from their local file system in a file picker field, the `FileReader` interface can be used to access the content of this file from a JavaScript program.
+When the user has selected a file from their local filesystem in a file picker field, the `FileReader` interface can be used to access the content of this file from a JavaScript program.
 
 The `localStorage` and `sessionStorage` objects can be used to save information in a way that survives page reloads. The first object saves the data forever (or until the user decides to clear it), and the second saves it until the browser is closed.
 

@@ -132,7 +132,7 @@ The ((question mark)) indicates the end of the path part of the URL and the star
 
 {{index [escaping, "in URLs"], "hexadecimal number", "encodeURIComponent function", "decodeURIComponent function"}}
 
-The actual message encoded in the URL is "Yes?", but the question mark is replaced by a strange code. Some characters in query strings must be escaped. The question mark, represented as `%3F`, is one of those. There seems to be an unwritten rule that every format needs its own way of escaping characters. This one, called _((URL encoding))_, uses a ((percent sign)) followed by two hexadecimal (base 16) digits that encode the character code. In this case, 3F, which is 63 in decimal notation, is the code of a question mark character. JavaScript provides the `encodeURIComponent` and `decodeURIComponent` functions to encode and decode this format.
+The actual message encoded in the URL is "Yes?" but the question mark is replaced by a strange code. Some characters in query strings must be escaped. The question mark, represented as `%3F`, is one of those. There seems to be an unwritten rule that every format needs its own way of escaping characters. This one, called _((URL encoding))_, uses a ((percent sign)) followed by two hexadecimal (base 16) digits that encode the character code. In this case, 3F, which is 63 in decimal notation, is the code of a question mark character. JavaScript provides the `encodeURIComponent` and `decodeURIComponent` functions to encode and decode this format.
 
 ```
 console.log(encodeURIComponent("Yes?"));
@@ -143,7 +143,7 @@ console.log(decodeURIComponent("Yes%3F"));
 
 {{index "body (HTTP)", "POST method"}}
 
-If we change the `method` attribute of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request made to submit the ((form)) will use the `POST` method and put the ((query string)) in the body of the request, rather than adding it to the URL.
+If we change the `method` attribute of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request made to submit the ((form)) will use the `POST` method and put the ((query string)) in the body of the request rather than adding it to the URL.
 
 ```{lang: http}
 POST /example/message.html HTTP/1.1
@@ -176,7 +176,7 @@ fetch("example/data.txt").then(response => {
 
 {{index "Response class", "status property", "headers property"}}
 
-Calling `fetch` returns a promise that resolves to a `Response` object holding information about the server's response, such as its status code and its headers. The headers are wrapped in a `Map`-like object that treats its keys (the header names) as case-insensitive because header names are not supposed to be case-sensitive. This means  `headers.get("Content-Type")` and `headers.get("content-TYPE")` will return the same value.
+Calling `fetch` returns a promise that resolves to a `Response` object holding information about the server's response, such as its status code and its headers. The headers are wrapped in a `Map`-like object that treats its keys (the header names) as case insensitive because header names are not supposed to be case sensitive. This means  `headers.get("Content-Type")` and `headers.get("content-TYPE")` will return the same value.
 
 Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It can also be rejected if there is a network error or if the ((server)) to which that the request is addressed can't be found.
 
@@ -261,7 +261,7 @@ When thinking in terms of remote procedure calls, HTTP is just a vehicle for com
 
 Another approach is to build your communication around the concept of ((resource))s and ((HTTP)) methods. Instead of a remote procedure called `addUser`, you use a `PUT` request to `/users/larry`. Instead of encoding that user's properties in function arguments, you define a JSON document format (or use an existing format) that represents a user. The body of the `PUT` request to create a new resource is then such a document. A resource is fetched by making a `GET` request to the resource's URL (for example, `/users/larry`), which again returns the document representing the resource.
 
-This second approach makes it easier to use some of the features that HTTP provides, such as support for caching resources (keeping a copy of a resource on the client for fast access). The concepts used in HTTP, which are well-designed, can provide a helpful set of principles to design your server interface around.
+This second approach makes it easier to use some of the features that HTTP provides, such as support for caching resources (keeping a copy of a resource on the client for fast access). The concepts used in HTTP, which are well designed, can provide a helpful set of principles to design your server interface around.
 
 ## Security and HTTPS
 
@@ -379,7 +379,7 @@ Whenever the value of a form field changes, it will fire a `"change"` event.
 
 {{indexsee "keyboard focus", focus}}
 
-Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, moved to with the [tab]{keyname} key, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
+Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, moved to with [tab]{keyname}, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
@@ -407,7 +407,7 @@ For some pages, the user is expected to want to interact with a form field immed
 
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
-Browsers allow the user to move the focus through the document by pressing the [tab]{keyname} key to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order in which they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
+Browsers allow the user to move the focus through the document by pressing [tab]{keyname} to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order in which they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
 
 ```{lang: html, focus: true}
 <input type="text" tabindex=1> <a href=".">(help)</a>
@@ -614,7 +614,7 @@ Select fields also have a variant more akin to a list of checkboxes rather than 
 
 {{index "option (HTML tag)", "value attribute"}}
 
-Each `<option>` tag has a value. This value can be defined with a `value` attribute. When that is not given, the ((text)) inside the option will count as its value. The `value` property of a `<select>` element reflects the currently selected option. For a `multiple` field, though, this property doesn't mean much since it will give the value of only _one_ of the currently selected options.
+Each `<option>` tag has a value. This value can be defined with a `value` attribute. When that is not given, the ((text)) inside the option will count as its value. The `value` property of a `<select>` element reflects the currently selected option. For a `multiple` field, though, this property doesn't mean much, since it will give the value of only _one_ of the currently selected options.
 
 {{index "select (HTML tag)", "options property", "selected attribute"}}
 
@@ -883,7 +883,7 @@ hint}}
 
 {{index "JavaScript console", "workbench (exercise)"}}
 
-Build an interface that allows people to type and run pieces of JavaScript code.
+Build an interface that allows users to type and run pieces of JavaScript code.
 
 {{index "textarea (HTML tag)", "button (HTML tag)", "Function constructor", "error message"}}
 

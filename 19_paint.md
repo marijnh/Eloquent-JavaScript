@@ -174,7 +174,7 @@ The first component we'll define is the part of the interface that displays the 
 
 {{index "PictureCanvas class", "callback function", "scale constant", "canvas (HTML tag)", "mousedown event", "touchstart event", [state, "of application"]}}
 
-As such, we can define it as a component that only knows about the current picture, not the whole application state. Because it doesn't know how the application as a whole works, it cannot directly dispatch ((action))s. Rather, when responding to pointer events, it calls a callback function provided by the code that created it, which will handle the application-specific parts.
+Therefore, we can define it as a component that only knows about the current picture, not the whole application state. Because it doesn't know how the application as a whole works, it cannot directly dispatch ((action))s. Rather, when responding to pointer events, it calls a callback function provided by the code that created it, which will handle the application-specific parts.
 
 ```{includeCode: true}
 const scale = 10;
@@ -322,7 +322,7 @@ The pointer handler given to `PictureCanvas` calls the currently selected tool w
 
 {{index "reduce method", "map method", [whitespace, "in HTML"], "syncState method"}}
 
-All controls are constructed and stored in `this.controls` so that they can be updated when the application state changes. The call to `reduce` introduces spaces between the controls' DOM elements. That way they don't look so pressed together.
+All controls are constructed and stored in `this.controls` so that they can be updated when the application state changes. The call to `reduce` introduces spaces between the controls' DOM elements. That way, they don't look so pressed together.
 
 {{index "select (HTML tag)", "change event", "ToolSelect class", "syncState method"}}
 
@@ -620,7 +620,7 @@ The `data` property of the object returned by `getImageData` is an array of colo
 
 The two hexadecimal digits per component, as used in our color notation, correspond precisely to the 0 to 255 range—two base-16 digits can express 16^2^ = 256 different numbers. The `toString` method of numbers can be given a base as an argument, so `n.toString(16)` will produce a string representation in base 16. We have to make sure that each number takes up two digits, so the `hex` helper function calls `padStart` to add a leading 0 when necessary.
 
-We can load and save now! That leaves one more feature before we're done.
+We can load and save now! That leaves just one more feature before we're done.
 
 ## Undo history
 
@@ -774,7 +774,7 @@ Do this by modifying the `PixelEditor` component. Add a `tabIndex` property of 0
 
 {{index "ctrlKey property", "metaKey property", "control key", "command key"}}
 
-Remember that keyboard events have `ctrlKey` and `metaKey` (for the [command]{keyname} key on Mac) properties that you can use to see whether those keys are held down.
+Remember that keyboard events have `ctrlKey` and `metaKey` (for [command]{keyname} on Mac) properties that you can use to see whether those keys are held down.
 
 {{if interactive
 
@@ -937,7 +937,7 @@ hint}}
 
 {{index "proper lines (exercise)", "line drawing"}}
 
-This is a more advanced exercise than the preceding two, and it will require you to design a solution to a nontrivial problem. Make sure you have plenty of time and ((patience)) before starting to work on this exercise, and don't get discouraged by initial failures.
+This is a more advanced exercise than the preceding three, and it will require you to design a solution to a nontrivial problem. Make sure you have plenty of time and ((patience)) before starting to work on this exercise, and don't get discouraged by initial failures.
 
 {{index "draw function", "mousemove event", "touchmove event"}}
 

@@ -951,7 +951,7 @@ Make sure you reset the transformation after drawing any shape that creates one.
 
 For the ((zigzag)) (3) it becomes impractical to write a new call to `lineTo` for each line segment. Instead, you should use a ((loop)). You can have each iteration draw either two ((line)) segments (right and then left again) or one, in which case you must use the evenness (`% 2`) of the loop index to determine whether to go left or right.
 
-You'll also need a loop for the ((spiral)) (4). If you draw a series of points, with each point moving further along a circle around the spiral's center, you get a circle. If, during the loop, you vary the radius of the circle on which you are putting the current point and go around more than once, the result is a spiral.
+You'll also need a loop for the ((spiral)) (4). If you draw a series of points, with each point moving farther along a circle around the spiral's center, you get a circle. If, during the loop, you vary the radius of the circle on which you are putting the current point and go around more than once, the result is a spiral.
 
 {{index "quadraticCurveTo method"}}
 
@@ -1055,11 +1055,11 @@ if}}
 
 {{index "strokeRect method", animation, "arc method"}}
 
-A ((box)) is easy to draw with `strokeRect`. Define a binding that holds its size or define two bindings if your box's width and height differ. To create a round ((ball)), start a path and call `arc(x, y, radius, 0, 7)`, which creates an arc going from zero to more than a whole circle. Then fill the path.
+A ((box)) is easy to draw with `strokeRect`. Define a binding that holds its size, or define two bindings if your box's width and height differ. To create a round ((ball)), start a path and call `arc(x, y, radius, 0, 7)`, which creates an arc going from zero to more than a whole circle. Then fill the path.
 
 {{index "collision detection", "Vec class"}}
 
-To model the ball's position and ((speed)), you can use the `Vec` class from [Chapter ?](game#vector)[ (which is available on this page)]{if interactive}. Give it a starting speed, preferably one that is not purely vertical or horizontal, and for every ((frame)) multiply that speed by the amount of time that elapsed. When the ball gets too close to a vertical wall, invert the x component in its speed. Likewise, invert the y component when it hits a horizontal wall.
+To model the ball's position and ((speed)), you can use the `Vec` class from [Chapter ?](game#vector)[ (which is available on this page)]{if interactive}. Give it a starting speed, preferably one that is not purely vertical or horizontal, and for every ((frame)) multiply that speed by the amount of time that elapsed. When the ball gets too close to a vertical wall, invert the _x_ component in its speed. Likewise, invert the _y_ component when it hits a horizontal wall.
 
 {{index "clearRect method", clearing}}
 

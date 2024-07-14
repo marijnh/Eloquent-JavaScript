@@ -474,13 +474,13 @@ if}}
 
 {{index "persistent map (exercise)", "Set class", [array, creation], "PGroup class"}}
 
-The most convenient way to represent the set of member values is still as an array since arrays are easy to copy.
+The most convenient way to represent the set of member values is still as an array, since arrays are easy to copy.
 
 {{index "concat method", "filter method"}}
 
 When a value is added to the group, you can create a new group with a copy of the original array that has the value added (for example, using `concat`). When a value is deleted, you filter it from the array.
 
-The class's ((constructor)) can take such an array as argument and store it as the instance's (only) property. This array is never updated.
+The class's ((constructor)) can take such an array as its argument and store it as the instance's (only) property. This array is never updated.
 
 {{index "static property"}}
 

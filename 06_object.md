@@ -866,7 +866,7 @@ The easiest way to do this is to store an array of group members in an instance 
 
 {{index "push method"}}
 
-Your class's ((constructor)) can set the member collection to an empty array. When `add` is called, it must check whether the given value is in the array or add it, for example with `push`, otherwise.
+Your class's ((constructor)) can set the member collection to an empty array. When `add` is called, it must check whether the given value is in the array or add it otherwise, possibly using `push`.
 
 {{index "filter method"}}
 

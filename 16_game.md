@@ -1043,9 +1043,9 @@ if}}
 
 {{index "monster (exercise)", "persistent data structure"}}
 
-If you want to implement a type of motion that is stateful, such as bouncing, make sure you store the necessary state in the actor object—include it as constructor argument and add it as a property.
+If you want to implement a type of motion that is stateful, such as bouncing, make sure you store the necessary state in the actor object—include it as a constructor argument and add it as a property.
 
-Remember that `update` returns a _new_ object, rather than changing the old one.
+Remember that `update` returns a _new_ object rather than changing the old one.
 
 {{index "collision detection"}}
 

@@ -681,7 +681,7 @@ To figure out whether something is a directory, you can again use `stat` (or `st
 
 Exploring a directory is a branching process. You can do it either by using a recursive function or by keeping an array of work (files that still need to be explored). To find the files in a directory, you can call `readdir` or `readdirSync`. Note the strange capitalization—Node's filesystem function naming is loosely based on standard Unix functions, such as `readdir`, that are all lowercase, but then it adds `Sync` with a capital letter.
 
-To go from a filename read with `readdir` to a full path name, you have to combine it with the name of the directory, either putting `sep` from `node:path` between them, or using the `join` function from that same package.
+To go from a filename read with `readdir` to a full path name, you have to combine it with the name of the directory, either putting `sep` from `node:path` between them or using the `join` function from that same package.
 
 hint}}
 
@@ -747,7 +747,7 @@ You can create a `<textarea>` element to hold the content of the file that is be
 
 {{index "form (HTML tag)", "submit event", "PUT method"}}
 
-Then, when the user clicks a button (you can use a `<form>` element and `"submit"` event), make a `PUT` request to the same URL, with the content of the `<textarea>` as request body, to save the file.
+Then, when the user clicks a button (you can use a `<form>` element and `"submit"` event), make a `PUT` request to the same URL, with the content of the `<textarea>` as the request body, to save the file.
 
 {{index "select (HTML tag)", "option (HTML tag)", "change event"}}
 

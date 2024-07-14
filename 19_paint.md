@@ -893,7 +893,7 @@ You can either write a new function `updatePicture` or have `drawPicture` take a
 
 {{index "width property", "height property", "canvas (HTML tag)"}}
 
-Because the canvas gets cleared when we change its size, you should also avoid touching its `width` and `height` properties when the old picture and the new picture have the same size. If they are different, which will happen when a new picture has been loaded, you can set the binding holding the old picture to null after changing the canvas size because you shouldn't skip any pixels after you've changed the canvas size.
+Because the canvas gets cleared when we change its size, you should also avoid touching its `width` and `height` properties when the old picture and the new picture have the same size. If they are different, which will happen when a new picture has been loaded, you can set the binding holding the old picture to `null` after changing the canvas size because you shouldn't skip any pixels after you've changed the canvas size.
 
 hint}}
 
@@ -925,7 +925,7 @@ if}}
 
 {{index "circles (exercise)", "rectangle function"}}
 
-You can take some inspiration from the `rectangle` tool. Like that tool, you'll want to keep drawing on the _starting_ picture, rather than the current picture, when the pointer moves.
+You can take some inspiration from the `rectangle` tool. As with that tool, you'll want to keep drawing on the _starting_ picture, rather than the current picture, when the pointer moves.
 
 To figure out which pixels to color, you can use the ((Pythagorean theorem)). First figure out the distance between the current pointer position and the start position by taking the square root (`Math.sqrt`) of the sum of the square (`x ** 2`) of the difference in x-coordinates and the square of the difference in y-coordinates. Then loop over a square of pixels around the start position, whose sides are at least twice the ((radius)), and color those that are within the circle's radius, again using the Pythagorean formula to figure out their ((distance)) from the center.
 
@@ -987,11 +987,11 @@ if}}
 
 The thing about the problem of drawing a pixelated line is that it is really four similar but slightly different problems. Drawing a horizontal line from the left to the right is easy—you loop over the x-coordinates and color a pixel at every step. If the line has a slight slope (less than 45 degrees or ¼π radians), you can interpolate the y-coordinate along the slope. You still need one pixel per _x_ position, with the _y_ position of those pixels determined by the slope.
 
-But as soon as your slope goes across 45 degrees, you need to switch the way you treat the coordinates. You now need one pixel per _y_ position since the line goes up more than it goes left. And then, when you cross 135 degrees, you have to go back to looping over the x-coordinates, but from right to left.
+But as soon as your slope goes across 45 degrees, you need to switch the way you treat the coordinates. You now need one pixel per _y_ position, since the line goes up more than it goes left. And then, when you cross 135 degrees, you have to go back to looping over the x-coordinates, but from right to left.
 
 You don't actually have to write four loops. Since drawing a line from _A_ to _B_ is the same as drawing a line from _B_ to _A_, you can swap the start and end positions for lines going from right to left and treat them as going left to right.
 
-So you need two different loops. The first thing your line drawing function should do is check whether the difference between the x-coordinates is larger than the difference between the y-coordinates. If it is, this is a horizontal-ish line, and if not, a vertical-ish one.
+So you need two different loops. The first thing your line drawing function should do is check whether the difference between the x-coordinates is larger than the difference between the y-coordinates. If it is, this is a horizontalish line, and if not, a verticalish one.
 
 {{index "Math.abs function", "absolute value"}}
 
@@ -1007,6 +1007,6 @@ Once you know along which ((axis)) you will be looping, you can check whether th
 
 {{index rounding}}
 
-Then you can compute the ((slope)) of the line, which determines the amount the coordinate on the other axis changes for each step you take along your main axis. With that, you can run a loop along the main axis while also tracking the corresponding position on the other axis, and you can draw pixels on every iteration. Make sure you round the non-main axis coordinates since they are likely to be fractional and the `draw` method doesn't respond well to fractional coordinates.
+Then you can compute the ((slope)) of the line, which determines the amount the coordinate on the other axis changes for each step you take along your main axis. With that, you can run a loop along the main axis while also tracking the corresponding position on the other axis, and you can draw pixels on every iteration. Make sure you round the nonmain axis coordinates, since they are likely to be fractional and the `draw` method doesn't respond well to fractional coordinates.
 
 hint}}

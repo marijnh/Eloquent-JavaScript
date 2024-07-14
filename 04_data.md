@@ -1021,7 +1021,7 @@ The step parameter can be an optional parameter that defaults (using the `=` ope
 
 Having `range` understand negative step values is probably best done by writing two separate loops—one for counting up and one for counting down—because the comparison that checks whether the loop is finished needs to be `>=` rather than `<=` when counting downward.
 
-It might also be worthwhile to use a different default step, namely, -1, when the end of the range is smaller than the start. That way, `range(5, 2)` returns something meaningful, rather than getting stuck in an ((infinite loop)). It is possible to refer to previous parameters in the default value of a parameter.
+It might also be worthwhile to use a different default step, namely, -1, when the end of the range is smaller than the start. That way, `range(5, 2)` returns something meaningful rather than getting stuck in an ((infinite loop)). It is possible to refer to previous parameters in the default value of a parameter.
 
 hint}}
 
@@ -1057,13 +1057,13 @@ if}}
 
 {{index "reversing (exercise)"}}
 
-There are two obvious ways to implement `reverseArray`. The first is to simply go over the input array from front to back and use the `unshift` method on the new array to insert each element at its start. The second is to loop over the input array backwards and use the `push` method. Iterating over an array backwards requires a (somewhat awkward) `for` specification, like `(let i = array.length - 1; i >= 0; i--)`.
+There are two obvious ways to implement `reverseArray`. The first is to simply go over the input array from front to back and use the `unshift` method on the new array to insert each element at its start. The second is to loop over the input array backward and use the `push` method. Iterating over an array backward requires a (somewhat awkward) `for` specification, like `(let i = array.length - 1; i >= 0; i--)`.
 
 {{index "slice method"}}
 
 Reversing the array in place is harder. You have to be careful not to overwrite elements that you will later need. Using `reverseArray` or otherwise copying the whole array (`array.slice()` is a good way to copy an array) works but is cheating.
 
-The trick is to _swap_ the first and last elements, then the second and second-to-last, and so on. You can do this by looping over half the length of the array (use `Math.floor` to round down—you don't need to touch the middle element in an array with an odd number of elements) and swapping the element at position `i` with the one at position `array.length - 1 - i`. You can use a local binding to briefly hold on to one of the elements, overwrite that one with its mirror image, and then put the value from the local binding in the place where the mirror image used to be.
+The trick is to _swap_ the first and last elements, then the second and second-to-last, and so on. You can do this by looping over half the length of the array (use `Math.floor` to round down—you don't need to touch the middle element in an array with an odd number of elements) and swapping the element at position `i` with the one at position `array.length - 1 - i`. You can use a local binding to briefly hold onto one of the elements, overwrite that one with its mirror image, and then put the value from the local binding in the place where the mirror image used to be.
 
 hint}}
 
@@ -1123,7 +1123,7 @@ if}}
 
 {{index "list (exercise)", "linked list"}}
 
-Building up a list is easier when done back to front. So `arrayToList` could iterate over the array backwards (see the previous exercise) and, for each element, add an object to the list. You can use a local binding to hold the part of the list that was built so far and use an assignment like `list = {value: X, rest: list}` to add an element.
+Building up a list is easier when done back to front. So `arrayToList` could iterate over the array backward (see the previous exercise) and, for each element, add an object to the list. You can use a local binding to hold the part of the list that was built so far and use an assignment like `list = {value: X, rest: list}` to add an element.
 
 {{index "for loop"}}
 
@@ -1133,7 +1133,7 @@ To run over a list (in `listToArray` and `nth`), a `for` loop specification like
 for (let node = list; node; node = node.rest) {}
 ```
 
-Can you see how that works? Every iteration of the loop, `node` points to the current sublist, and the body can read its `value` property to get the current element. At the end of an iteration, `node` moves to the next sublist. When that is null, we have reached the end of the list, and the loop is finished.
+Can you see how that works? Every iteration of the loop, `node` points to the current sublist, and the body can read its `value` property to get the current element. At the end of an iteration, `node` moves to the next sublist. When that is `null`, we have reached the end of the list, and the loop is finished.
 
 {{index recursion}}
 
@@ -1187,6 +1187,6 @@ Use `Object.keys` to go over the properties. You need to test whether both objec
 
 {{index "return value"}}
 
-Returning the correct value from the function is best done by immediately returning false when a mismatch is found and returning true at the end of the function.
+Returning the correct value from the function is best done by immediately returning `false` when a mismatch is found and returning `true` at the end of the function.
 
 hint}}

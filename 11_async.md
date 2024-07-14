@@ -716,7 +716,7 @@ if}}
 
 You will need to convert the content of these files to an array. The easiest way to do that is to use the `split` method on the string produced by `textFile`. Note that for the logfiles, that will still give you an array of strings, which you have to convert to numbers before passing them to `new Date`.
 
-Summarizing all the time points into a table of hours can be done by creating a table (array) that holds a number for each hour in the day. You can then loop over all the timestamps (over the logfiles and the numbers in every log file) and for each one, if it happened on the correct day, take the hour it occurred in, and add one to the corresponding number in the table.
+Summarizing all the time points into a table of hours can be done by creating a table (array) that holds a number for each hour in the day. You can then loop over all the timestamps (over the logfiles and the numbers in every logfile) and for each one, if it happened on the correct day, take the hour it occurred in, and add one to the corresponding number in the table.
 
 {{index "async function", "await keyword", "Promise class"}}
 
@@ -789,11 +789,11 @@ function activityTable(day) {
 
 {{index "await keyword", scheduling}}
 
-Which shows that the way you structure your promises can have a real effect on the way the work is scheduled. A simple loop with `await` in it will make the process completely linear—it waits for each file to load before proceeding. `Promise.all` makes it possible for multiple tasks to conceptually be worked on at the same time, allowing them to make progress while files are still being loaded. This can be faster, but it also makes the order in which things will happen less predictable. In this case, where we're only going to be incrementing numbers in a table, which isn't hard to do in a safe way. For other kinds of problems, it may be a lot more difficult.
+This shows that the way you structure your promises can have a real effect on the way the work is scheduled. A simple loop with `await` in it will make the process completely linear—it waits for each file to load before proceeding. `Promise.all` makes it possible for multiple tasks to conceptually be worked on at the same time, allowing them to make progress while files are still being loaded. This can be faster, but it also makes the order in which things will happen less predictable. In this case, we're only going to be incrementing numbers in a table, which isn't hard to do in a safe way. For other kinds of problems, it may be a lot more difficult.
 
 {{index "rejecting (a promise)", "then method"}}
 
-When a file in the list doesn't exist, the promise returned by `textFile` will be rejected. Because `Promise.all` rejects if any of the promises given to it fail, the return value of the callback given to the first `then` will also be a rejected promise. That makes the promise returned by `then` fail, so that the callback given to the second `then` isn't even called, and a rejected promise is returned from the function.
+When a file in the list doesn't exist, the promise returned by `textFile` will be rejected. Because `Promise.all` rejects if any of the promises given to it fail, the return value of the callback given to the first `then` will also be a rejected promise. That makes the promise returned by `then` fail, so the callback given to the second `then` isn't even called, and a rejected promise is returned from the function.
 
 hint}}
 

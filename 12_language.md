@@ -598,7 +598,7 @@ if}}
 
 {{index "comments in egg (exercise)", [whitespace, syntax]}}
 
-Make sure your solution handles multiple comments in a row, with potentially whitespace between or after them.
+Make sure your solution handles multiple comments in a row, with whitespace potentially between or after them.
 
 A ((regular expression)) is probably the easiest way to solve this. Write something that matches "whitespace or a comment, zero or more times". Use the `exec` or `match` method and look at the length of the first element in the returned array (the whole match) to find out how many characters to slice off.
 
@@ -649,6 +649,6 @@ You will have to loop through one ((scope)) at a time, using `Object.getPrototyp
 
 {{index "global scope", "run-time error"}}
 
-If the outermost scope is reached (`Object.getPrototypeOf` returns null) and we haven't found the binding yet, it doesn't exist, and an error should be thrown.
+If the outermost scope is reached (`Object.getPrototypeOf` returns `null`) and we haven't found the binding yet, it doesn't exist, and an error should be thrown.
 
 hint}}

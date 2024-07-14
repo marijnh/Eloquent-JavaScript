@@ -148,7 +148,7 @@ Content-Type: application/json
 ETag: "5"
 Content-Length: 295
 
-[....]
+[...]
 ```
 
 {{index security}}
@@ -203,7 +203,7 @@ The module exports the `Router` class. A router object allows you to register ha
 
 {{index "capture group", "decodeURIComponent function", [escaping, "in URLs"]}}
 
-Handler functions are called with the `context` value given to `resolve`. We will use this to give them access to our server state. Additionally, they receive the match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded since the raw URL may contain `%20`-style codes.
+Handler functions are called with the `context` value given to `resolve`. We will use this to give them access to our server state. Additionally, they receive the match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded, since the raw URL may contain `%20`-style codes.
 
 ### Serving files
 
@@ -272,7 +272,7 @@ async function serveFromRouter(server, request,
 
 ### Talks as resources
 
-The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. We'll add some handlers to our router that expose these as HTTP ((resource))s under `/talks/[title]`.
+The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. We'll add some handlers to our router that expose these as HTTP ((resource))s under `/talks/<title>`.
 
 {{index "GET method", "404 (HTTP status code)" "hasOwn function"}}
 
@@ -390,7 +390,7 @@ SkillShareServer.prototype.talkResponse = function() {
 
 {{index "query string", "url package", parsing}}
 
-The handler itself needs to look at the request headers to see whether `If-None-Match` and `Prefer` headers are present. Node stores headers, whose names are specified to be case-insensitive, under their lowercase names.
+The handler itself needs to look at the request headers to see whether `If-None-Match` and `Prefer` headers are present. Node stores headers, whose names are specified to be case insensitive, under their lowercase names.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("GET", /^\/talks$/, async (server, request) => {
@@ -549,7 +549,7 @@ function talkURL(title) {
 
 {{index "error handling", "user experience", "reportError function"}}
 
-When the request fails, we don't want our page to just sit there doing nothing without explanation. The function called `reportError`, which we used as `catch` handler, shows the user a crude dialog to tell them something went wrong.
+When the request fails, we don't want our page to just sit there doing nothing without explanation. The function called `reportError`, which we used as the `catch` handler, shows the user a crude dialog to tell them something went wrong.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function reportError(error) {
@@ -627,7 +627,7 @@ function renderTalk(talk, dispatch) {
 
 The `"submit"` event handler calls `form.reset` to clear the form's content after creating a `"newComment"` action.
 
-When creating moderately complex pieces of DOM, this style of programming starts to look rather messy. To avoid this, people often use a _((templating language))_, which allows you to write your interface as an HTML file with some special markers to indicate where dynamic elements go. Or they use _((JSX))_, a non-standard JavaScript dialect that allows you to write something very close to HTML tags in your program as if they are JavaScript expressions. Both of these approaches use additional tools to pre-process the code before it can be run, which we will avoid in this chapter.
+When creating moderately complex pieces of DOM, this style of programming starts to look rather messy. To avoid this, people often use a _((templating language))_, which allows you to write your interface as an HTML file with some special markers to indicate where dynamic elements go. Or they use _((JSX))_, a nonstandard JavaScript dialect that allows you to write something very close to HTML tags in your program as if they are JavaScript expressions. Both of these approaches use additional tools to preprocess the code before it can be run, which we will avoid in this chapter.
 
 Comments are simple to render.
 

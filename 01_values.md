@@ -357,7 +357,7 @@ The difference in meaning between `undefined` and `null` is an accident of JavaS
 
 {{index NaN, "type coercion"}}
 
-In the [Introduction](intro), I mentioned that JavaScript goes out of its way to accept almost any program you give it, even programs that do odd things. This is nicely demonstrated by the following expressions:
+In the [introduction](intro), I mentioned that JavaScript goes out of its way to accept almost any program you give it, even programs that do odd things. This is nicely demonstrated by the following expressions:
 
 ```
 console.log(8 * null)
@@ -422,7 +422,7 @@ We can use this functionality as a way to fall back on a default value. If you h
 
 {{index "?? operator", null, undefined}}
 
-The `??` operator resembles `||`, but returns the value on the right only if the one on the left is null or undefined, not if it is some other value that can be converted to `false`. Often, this is preferable to the behavior of `||`.
+The `??` operator resembles `||` but returns the value on the right only if the one on the left is `null` or `undefined`, not if it is some other value that can be converted to `false`. Often, this is preferable to the behavior of `||`.
 
 ```
 console.log(0 || 100);

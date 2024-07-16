@@ -129,7 +129,7 @@ In this book, we will continue using raw, dangerous, untyped JavaScript code.
 
 If the language is not going to do much to help us find mistakes, we'll have to find them the hard way: by running the program and seeing whether it does the right thing.
 
-Doing this by hand, again and again, is a really bad idea. Not only is it annoying, it also tends to be ineffective, since it takes too much time to exhaustively test everything every time you make a change.
+Doing this by hand, again and again, is a really bad idea. Not only is it annoying but it also tends to be ineffective, since it takes too much time to exhaustively test everything every time you make a change.
 
 Computers are good at repetitive tasks, and testing is the ideal repetitive task. Automated testing is the process of writing a program that tests another program. Writing tests is a bit more work than testing manually, but once you've done it, you gain a kind of superpower: it takes you only a few seconds to verify that your program still behaves properly in all the situations you wrote tests for. When you break something, you'll immediately notice rather than randomly running into it at some later time.
 
@@ -442,7 +442,7 @@ for (;;) {
 
 {{index "infinite loop", "for loop", "catch keyword", debugging}}
 
-The `for (;;)` construct is a way to intentionally create a loop that doesn't terminate on its own. We break out of the loop only when a valid direction is given. Unfortunately, we misspelled `promptDirection`, which will result in an "undefined variable" error. Because the `catch` block completely ignores its exception value (`e`), assuming it knows what the problem is, it wrongly treats the binding error as indicating bad input. Not only does this cause an infinite loop, it  "buries" the useful error message about the misspelled binding.
+The `for (;;)` construct is a way to intentionally create a loop that doesn't terminate on its own. We break out of the loop only when a valid direction is given. Unfortunately, we misspelled `promptDirection`, which will result in an "undefined variable" error. Because the `catch` block completely ignores its exception value (`e`), assuming it knows what the problem is, it wrongly treats the binding error as indicating bad input. Not only does this cause an infinite loop but it also "buries" the useful error message about the misspelled binding.
 
 As a general rule, don't blanket-catch exceptions unless it is for the purpose of "routing" them somewhere—for example, over the network to tell another system that our program crashed. And even then, think carefully about how you might be hiding information.
 

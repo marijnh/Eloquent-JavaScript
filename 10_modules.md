@@ -2,7 +2,7 @@
 
 # Modules
 
-{{quote {author: "Tef", title: "Programming is Terrible", chapter: true}
+{{quote {author: "Tef", title: "programming is terrible", chapter: true}
 
 Write code that is easy to delete, not easy to extend.
 

@@ -629,7 +629,7 @@ Functions are special values that encapsulate a piece of program. You can invoke
 
 {{index exercises}}
 
-If you are unsure how to test your solutions to the exercises, refer to the [Introduction](intro).
+If you are unsure how to test your solutions to the exercises, refer to the [introduction](intro).
 
 Each exercise starts with a problem description. Read this description and try to solve the exercise. If you run into problems, consider reading the hints [after the exercise]{if interactive}[at the [end of the book](hints)]{if book}. You can find full solutions to the exercises online at [_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code#2). If you want to learn something from the exercises, I recommend looking at the solutions only after you've solved the exercise, or at least after you've attacked it long and hard enough to have a slight headache.
 

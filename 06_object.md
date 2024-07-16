@@ -12,9 +12,7 @@ quote}}
 
 {{figure {url: "img/chapter_picture_6.jpg", alt: "Illustration of a rabbit next to its prototype, a schematic representation of a rabbit", chapter: framed}}}
 
-[Chapter ?](data) introduced JavaScript's objects as containers that hold other data.
-
-In programming culture, _((object-oriented programming))_ is a set of techniques that use objects as the central principle of program organization. Though no one really agrees on its precise definition, object-oriented programming has shaped the design of many programming languages, including JavaScript. This chapter describes the way these ideas can be applied in JavaScript.
+[Chapter ?](data) introduced JavaScript's objects as containers that hold other data. In programming culture, _((object-oriented programming))_ is a set of techniques that use objects as the central principle of program organization. Though no one really agrees on its precise definition, object-oriented programming has shaped the design of many programming languages, including JavaScript. This chapter describes the way these ideas can be applied in JavaScript.
 
 ## Abstract Data Types
 

@@ -94,7 +94,7 @@ You create a ((context)) with the `getContext` method on the `<canvas>` DOM elem
 </script>
 ```
 
-After creating the context object, the example draws a red ((rectangle)) that is 100 ((pixel))s wide and 50 pixels high, with its upper-left corner at coordinates (10,10).
+After creating the context object, the example draws a red ((rectangle)) that is 100 ((pixel))s wide and 50 pixels high, with its upper-left corner at coordinates (10, 10).
 
 {{if book
 
@@ -104,7 +104,7 @@ if}}
 
 {{index SVG, coordinates}}
 
-Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0,0) at the upper-left corner, and the positive y-((axis)) goes down from there. This means (10,10) is 10 pixels below and to the right of the upper-left corner.
+Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0, 0) at the upper-left corner, and the positive y-((axis)) goes down from there. This means (10, 10) is 10 pixels below and to the right of the upper-left corner.
 
 {{id fill_stroke}}
 
@@ -228,7 +228,7 @@ The `quadraticCurveTo` method draws a curve to a given point. To determine the c
   let cx = document.querySelector("canvas").getContext("2d");
   cx.beginPath();
   cx.moveTo(10, 90);
-  // control=(60,10) goal=(90,90)
+  // control=(60, 10) goal=(90, 90)
   cx.quadraticCurveTo(60, 10, 90, 90);
   cx.lineTo(60, 10);
   cx.closePath();
@@ -246,7 +246,7 @@ if}}
 
 {{index "stroke method"}}
 
-We draw a ((quadratic curve)) from the left to the right, with (60,10) as the control point, and then draw two ((line)) segments going through that control point and back to the start of the line. The result somewhat resembles a _((Star Trek))_ insignia. You can see the effect of the control point: the lines leaving the lower corners start off in the direction of the control point and then ((curve)) toward their target.
+We draw a ((quadratic curve)) from the left to the right, with (60, 10) as the control point, and then draw two ((line)) segments going through that control point and back to the start of the line. The result somewhat resembles a _((Star Trek))_ insignia. You can see the effect of the control point: the lines leaving the lower corners start off in the direction of the control point and then ((curve)) toward their target.
 
 {{index canvas, "bezierCurveTo method"}}
 
@@ -258,7 +258,7 @@ The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((
   let cx = document.querySelector("canvas").getContext("2d");
   cx.beginPath();
   cx.moveTo(10, 90);
-  // control1=(10,10) control2=(90,10) goal=(50,90)
+  // control1=(10, 10) control2=(90, 10) goal=(50, 90)
   cx.bezierCurveTo(10, 10, 90, 10, 50, 90);
   cx.lineTo(90, 10);
   cx.lineTo(10, 10);
@@ -292,9 +292,9 @@ Those last two parameters make it possible to draw only part of the circle. The 
 <script>
   let cx = document.querySelector("canvas").getContext("2d");
   cx.beginPath();
-  // center=(50,50) radius=40 angle=0 to 7
+  // center=(50, 50) radius=40 angle=0 to 7
   cx.arc(50, 50, 40, 0, 7);
-  // center=(150,50) radius=40 angle=0 to ½π
+  // center=(150, 50) radius=40 angle=0 to ½π
   cx.arc(150, 50, 40, 0, 0.5 * Math.PI);
   cx.stroke();
 </script>
@@ -502,7 +502,7 @@ if}}
 
 {{index mirroring}}
 
-Scaling will cause everything about the drawn image, including the ((line width)), to be stretched out or squeezed together as specified. Scaling by a negative amount will flip the picture around. The flipping happens around point (0,0), which means it will also flip the direction of the coordinate system. When a horizontal scaling of -1 is applied, a shape drawn at _x_ position 100 will end up at what used to be position -100.
+Scaling will cause everything about the drawn image, including the ((line width)), to be stretched out or squeezed together as specified. Scaling by a negative amount will flip the picture around. The flipping happens around point (0, 0), which means it will also flip the direction of the coordinate system. When a horizontal scaling of -1 is applied, a shape drawn at _x_ position 100 will end up at what used to be position -100.
 
 {{index "drawImage method"}}
 
@@ -514,13 +514,13 @@ There are several other methods besides `scale` that influence the coordinate sy
 
 {{index "rotate method", "translate method"}}
 
-If we translate by 10 horizontal pixels twice, everything will be drawn 20 pixels to the right. If we first move the center of the coordinate system to (50,50) and then rotate by 20 ((degree))s (about 0.1π ((radian))s), that rotation will happen _around_ point (50,50).
+If we translate by 10 horizontal pixels twice, everything will be drawn 20 pixels to the right. If we first move the center of the coordinate system to (50, 50) and then rotate by 20 ((degree))s (about 0.1π ((radian))s), that rotation will happen _around_ point (50, 50).
 
 {{figure {url: "img/transform.svg", alt: "Diagram showing the result of stacking transformations. The first diagram translates and then rotates, causing the translation to happen normally and rotation to happen around the target of the translation. The second diagram first rotates, and then translates, causing the rotation to happen around the origin and the translation direction to be tilted by that rotation.", width: "9cm"}}}
 
 {{index coordinates}}
 
-But if we _first_ rotate by 20 degrees and _then_ translate by (50,50), the translation will happen in the rotated coordinate system and thus produce a different orientation. The order in which transformations are applied matters.
+But if we _first_ rotate by 20 degrees and _then_ translate by (50, 50), the translation will happen in the rotated coordinate system and thus produce a different orientation. The order in which transformations are applied matters.
 
 {{index axis, mirroring}}
 
@@ -544,7 +544,7 @@ We move the y-((axis)) to where we want our ((mirror)) to be, apply the mirrorin
 
 This shows the coordinate systems before and after mirroring across the central line. The triangles are numbered to illustrate each step. If we draw a triangle at a positive _x_ position, it would, by default, be in the place where triangle 1 is. A call to `flipHorizontally` first does a translation to the right, which gets us to triangle 2. It then scales, flipping the triangle over to position 3. This is not where it should be, if it were mirrored in the given line. The second `translate` call fixes this—it "cancels" the initial translation and makes triangle 4 appear exactly where it should.
 
-We can now draw a mirrored character at position (100,0) by flipping the world around the character's vertical center.
+We can now draw a mirrored character at position (100, 0) by flipping the world around the character's vertical center.
 
 ```{lang: html}
 <canvas></canvas>
@@ -820,7 +820,7 @@ When ((drawing)) something that is not the ((player)), we look at its type to fi
 
 {{index viewport}}
 
-We have to subtract the viewport's position when computing the actor's position, since (0,0) on our ((canvas)) corresponds to the top left of the viewport, not the top left of the level. We could also have used `translate` for this. Either way works.
+We have to subtract the viewport's position when computing the actor's position, since (0, 0) on our ((canvas)) corresponds to the top left of the viewport, not the top left of the level. We could also have used `translate` for this. Either way works.
 
 {{if interactive
 
@@ -943,7 +943,7 @@ The ((trapezoid)) (1) is easiest to draw using a path. Pick suitable center coor
 
 {{index "flipHorizontally function", rotation}}
 
-The ((diamond)) (2) can be drawn the straightforward way, with a path, or the interesting way, with a `rotate` ((transformation)). To use rotation, you will have to apply a trick similar to what we did in the `flipHorizontally` function. Because you want to rotate around the center of your rectangle and not around the point (0,0), you must first `translate` to there, then rotate, and then translate back.
+The ((diamond)) (2) can be drawn the straightforward way, with a path, or the interesting way, with a `rotate` ((transformation)). To use rotation, you will have to apply a trick similar to what we did in the `flipHorizontally` function. Because you want to rotate around the center of your rectangle and not around the point (0, 0), you must first `translate` to there, then rotate, and then translate back.
 
 Make sure you reset the transformation after drawing any shape that creates one.
 

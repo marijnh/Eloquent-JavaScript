@@ -163,7 +163,7 @@ Back to the weresquirrel. A set of daily log entries can be represented as an ar
 
 {{index [syntax, object], [property, definition], [braces, object], "{} (object)"}}
 
-Values of the type _((object))_ are arbitrary collections of properties. One way to create an object is by using braces as an expression:
+Values of the type _((object))_ are arbitrary collections of properties. One way to create an object is by using braces as an expression.
 
 ```
 let day1 = {

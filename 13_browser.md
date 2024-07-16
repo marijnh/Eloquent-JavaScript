@@ -64,7 +64,7 @@ Such a connection acts as a two-way ((pipe)) through which bits can flow—the m
 
 ## The Web
 
-The _((World Wide Web))_ (not to be confused with the ((internet)) as a whole) is a set of ((protocol))s and formats that allow us to visit web pages in a browser. "Web" refers to the fact that such pages can easily link to each other, thus connecting into a huge ((mesh)) that users can move through.
+The _((World Wide Web))_ (not to be confused with the ((internet)) as a whole) is a set of ((protocol))s and formats that allow us to visit web pages in a browser. The word _Web_ refers to the fact that such pages can easily link to each other, thus connecting into a huge ((mesh)) that users can move through.
 
 To become part of the web, all you need to do is connect a machine to the ((internet)) and have it listen on port 80 with the ((HTTP)) protocol so that other computers can ask it for documents.
 
@@ -96,7 +96,7 @@ If you type this URL into your browser's ((address bar)), the browser will try t
 
 {{indexsee "HyperText Markup Language", HTML}}
 
-_HTML_, which stands for _HyperText Markup Language_, is the document format used for web pages. An HTML document contains ((text)), as well as _((tag))s_ that give structure to the text, describing things such as links, paragraphs, and headings.
+_HTML_, which stands for HyperText Markup Language, is the document format used for web pages. An HTML document contains ((text)), as well as _((tag))s_ that give structure to the text, describing things such as links, paragraphs, and headings.
 
 A short HTML document might look like this:
 

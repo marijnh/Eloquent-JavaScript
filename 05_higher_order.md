@@ -216,7 +216,7 @@ Though I can fluently read only Latin characters, I appreciate the fact that peo
 
 {{index "SCRIPTS dataset"}}
 
-The example ((dataset)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script:
+The example ((dataset)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script.
 
 
 ```{lang: "json"}
@@ -361,7 +361,7 @@ The Han script has more than 89,000 characters assigned to it in the Unicode sta
 
 {{index loop, maximum}}
 
-Consider how we would have written the previous example (finding the biggest script) without higher-order functions. The code is not that much worse:
+Consider how we would have written the previous example (finding the biggest script) without higher-order functions. The code is not that much worse.
 
 ```{test: no}
 let biggest = null;
@@ -381,7 +381,7 @@ There are a few more bindings, and the program is four lines longer, but it is s
 
 {{id average_function}}
 
-The abstractions these functions provide really shine when you need to _compose_ operations. As an example, let's write code that finds the average year of origin for living and dead scripts in the dataset:
+The abstractions these functions provide really shine when you need to _compose_ operations. As an example, let's write code that finds the average year of origin for living and dead scripts in the dataset.
 
 ```
 function average(array) {
@@ -398,7 +398,7 @@ console.log(Math.round(average(
 
 As you can see, the dead scripts in Unicode are, on average, older than the living ones. This is not a terribly meaningful or surprising statistic. But I hope you'll agree that the code used to compute it isn't hard to read. You can see it as a pipeline: we start with all scripts, filter out the living (or dead) ones, take the years from those, average them, and round the result.
 
-You could definitely also write this computation as one big ((loop)):
+You could definitely also write this computation as one big ((loop)).
 
 ```
 let total = 0, count = 0;
@@ -479,7 +479,7 @@ JavaScript's `charCodeAt` method gives you a code unit, not a full character cod
 
 {{index "for/of loop", character}}
 
-In the [previous chapter](data#for_of_loop), I mentioned that a `for`/`of` loop can also be used on strings. Like `codePointAt`, this type of loop was introduced at a time when people were acutely aware of the problems with UTF-16. When you use it to loop over a string, it gives you real characters, not code units:
+In the [previous chapter](data#for_of_loop), I mentioned that a `for`/`of` loop can also be used on strings. Like `codePointAt`, this type of loop was introduced at a time when people were acutely aware of the problems with UTF-16. When you use it to loop over a string, it gives you real characters, not code units.
 
 ```
 let roseDragon = "🌹🐉";
@@ -525,7 +525,7 @@ It uses another array method, `find`, which goes over the elements in the array 
 
 {{index "textScripts function", "Chinese characters"}}
 
-Using `countBy`, we can write the function that tells us which scripts are used in a piece of text:
+Using `countBy`, we can write the function that tells us which scripts are used in a piece of text.
 
 ```{includeCode: strip_log, startCode: true}
 function textScripts(text) {

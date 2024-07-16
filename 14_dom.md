@@ -217,7 +217,7 @@ The `replaceChild` method is used to replace a child node with another one. It t
 
 {{index "alt attribute", "img (HTML tag)", "createTextNode method"}}
 
-Say we want to write a script that replaces all ((image))s (`<img>` tags) in the document with the text held in their `alt` attributes, which specifies an alternative textual representation of the image. This involves not only removing the images but adding a new text node to replace them.
+Say we want to write a script that replaces all ((image))s (`<img>` tags) in the document with the text held in their `alt` attributes, which specifies an alternative textual representation of the image. This involves not only removing the images but also adding a new text node to replace them.
 
 ```{lang: html}
 <p>The <img src="img/cat.png" alt="Cat"> in the
@@ -640,7 +640,7 @@ Moving in ((circle))s is done using the trigonometry functions `Math.cos` and `M
 
 {{index coordinates, pi}}
 
-`Math.cos` and `Math.sin` are useful for finding points that lie on a circle around point (0,0) with a radius of 1. Both functions interpret their argument as the position on this circle, with 0 denoting the point on the far right of the circle, going clockwise until 2π (about 6.28) has taken us around the whole circle. `Math.cos` tells you the x-coordinate of the point that corresponds to the given position, and `Math.sin` yields the y-coordinate. Positions (or angles) greater than 2π or less than 0 are valid—the rotation repeats so that _a_+2π refers to the same ((angle)) as _a_.
+`Math.cos` and `Math.sin` are useful for finding points that lie on a circle around point (0, 0) with a radius of 1. Both functions interpret their argument as the position on this circle, with 0 denoting the point on the far right of the circle, going clockwise until 2π (about 6.28) has taken us around the whole circle. `Math.cos` tells you the x-coordinate of the point that corresponds to the given position, and `Math.sin` yields the y-coordinate. Positions (or angles) greater than 2π or less than 0 are valid—the rotation repeats so that _a_+2π refers to the same ((angle)) as _a_.
 
 {{index "PI constant"}}
 

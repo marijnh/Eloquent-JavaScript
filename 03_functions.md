@@ -351,7 +351,7 @@ console.log("C", "O", 2);
 
 {{index "call stack", "local binding", [function, "as value"], scope}}
 
-The ability to treat functions as values, combined with the fact that local bindings are re-created every time a function is called, brings up an interesting question: what happens to local bindings when the function call that created them is no longer active?
+The ability to treat functions as values, combined with the fact that local bindings are re-created every time a function is called, brings up an interesting question: What happens to local bindings when the function call that created them is no longer active?
 
 The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding.
 
@@ -371,7 +371,7 @@ console.log(wrap2());
 
 This is allowed and works as you'd hope—both instances of the binding can still be accessed. This situation is a good demonstration of the fact that local bindings are created anew for every call, and different calls don't affect each other's local bindings.
 
-This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about the lifetimes of bindings, it also makes it possible to use function values in some creative ways.
+This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about the lifetimes of bindings but also makes it possible to use function values in some creative ways.
 
 {{index "multiplier function"}}
 
@@ -620,7 +620,7 @@ The first helper function in the ((farm example)), `printZeroPaddedWithLabel`, i
 
 {{index substitution}}
 
-A _pure_ function is a specific kind of value-producing function that not only has no side effects, but also doesn't rely on side effects from other code—for example, it doesn't read global bindings whose value might change. A pure function has the pleasant property that, when called with the same arguments, it always produces the same value (and doesn't do anything else). A call to such a function can be substituted by its return value without changing the meaning of the code. When you are not sure that a pure function is working correctly, you can test it by simply calling it and know that if it works in that context, it will work in any context. Nonpure functions tend to require more scaffolding to test.
+A _pure_ function is a specific kind of value-producing function that not only has no side effects but also doesn't rely on side effects from other code—for example, it doesn't read global bindings whose value might change. A pure function has the pleasant property that, when called with the same arguments, it always produces the same value (and doesn't do anything else). A call to such a function can be substituted by its return value without changing the meaning of the code. When you are not sure that a pure function is working correctly, you can test it by simply calling it and know that if it works in that context, it will work in any context. Nonpure functions tend to require more scaffolding to test.
 
 {{index optimization, "console.log"}}
 

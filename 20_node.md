@@ -474,7 +474,6 @@ When the value of `body` is a ((readable stream)), it will have a `pipe` method 
 To figure out which file path corresponds to a request URL, the `urlPath` function uses the built-in `URL` class (which also exists in the browser) to parse the URL. This constructor expects a full URL, not just the part starting with the slash that we get from `request.url`, so we give it a dummy domain name to fill in. It extracts its pathname, which will be something like `"/file.txt"`, decodes that to get rid of the `%20`-style escape codes, and resolves it relative to the program's working directory.
 
 ```{includeCode: ">code/file_server.mjs"}
-import {parse} from "node:url";
 import {resolve, sep} from "node:path";
 
 const baseDirectory = process.cwd();

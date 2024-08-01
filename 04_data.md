@@ -1013,8 +1013,6 @@ Building up an array is most easily done by first initializing a binding to `[]`
 
 Since the end boundary is inclusive, you'll need to use the `<=` operator rather than `<` to check for the end of your loop.
 
-{{index "arguments object"}}
-
 The step parameter can be an optional parameter that defaults (using the `=` operator) to 1.
 
 {{index "range function", "for loop"}}

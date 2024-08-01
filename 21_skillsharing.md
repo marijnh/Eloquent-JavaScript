@@ -40,7 +40,7 @@ A common solution to this problem is called _((long polling))_, which happens to
 
 ## Long polling
 
-{{index firewall, notification, "long polling", network, [browser, security]}}
+{{index notification, "long polling", network, [browser, security]}}
 
 To be able to immediately notify a client that something changed, we need a ((connection)) to that client. Since web browsers do not traditionally accept connections and clients are often behind ((router))s that would block such connections anyway, having the server initiate this connection is not practical.
 

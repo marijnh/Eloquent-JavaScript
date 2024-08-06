@@ -950,7 +950,7 @@ if}}
 
 {{index "quoting style (exercise)", boundary}}
 
-The most obvious solution is to replace only quotes with a nonletter character on at least one side—something like `/\P{L}'|'\P{L}/`. But you also have to take the start and end of the line into account.
+The most obvious solution is to replace only quotes with a nonletter character on at least one side—something like `/\P{L}'|'\P{L}/u`. But you also have to take the start and end of the line into account.
 
 {{index grouping, "replace method", [parentheses, "in regular expressions"]}}
 

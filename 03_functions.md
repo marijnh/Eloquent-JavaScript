@@ -165,7 +165,7 @@ if (safeMode) {
 
 {{index [function, "higher-order"]}}
 
-In [Chapter ?](higher_order), we'll discuss the interesting things that we can do by passing around function values to other functions.
+In [Chapter ?](higher_order), we'll discuss the interesting things that we can do by passing function values to other functions.
 
 ## Declaration notation
 

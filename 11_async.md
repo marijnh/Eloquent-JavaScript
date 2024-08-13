@@ -63,7 +63,7 @@ One approach to ((asynchronous programming)) is to make functions that need to w
 
 {{index "setTimeout function", waiting}}
 
-As an example, the `setTimeout` function, available both in Node.js and in browsers, waits a given number of milliseconds, then calls a function.
+As an example, the `setTimeout` function, available both in Node.js and in browsers, waits a given number of milliseconds and then calls a function.
 
 ```{test: no}
 setTimeout(() => console.log("Tick"), 500);
@@ -100,11 +100,11 @@ function compareFiles(fileA, fileB, callback) {
 
 This style of programming is workable, but the indentation level increases with each asynchronous action because you end up in another function. Doing more complicated things, such as wrapping asynchronous actions in a loop, can get awkward.
 
-In a way, asynchronicity is _contagious_. Any function that calls a function that works asynchronously must itself be asynchronous, using a callback or similar mechanism to deliver its result. Calling a callback is somewhat more involved and error-prone than simply returning a value, so needing to structure large parts of your program that way is not great.
+In a way, asynchronicity is _contagious_. Any function that calls a function that works asynchronously must itself be asynchronous, using a callback or similar mechanism to deliver its result. Calling a callback is somewhat more involved and error prone than simply returning a value, so needing to structure large parts of your program that way is not great.
 
 ## Promises
 
-A slightly different way to build an asynchronous program is to have asynchronous functions return an object that represents its (future) result instead of passing around callback functions. This way such functions actually return something meaningful, and the shape of the program more closely resembles that of synchronous programs.
+A slightly different way to build an asynchronous program is to have asynchronous functions return an object that represents its (future) result instead of passing around callback functions. This way, such functions actually return something meaningful, and the shape of the program more closely resembles that of synchronous programs.
 
 {{index "Promise class", "asynchronous programming", "resolving (a promise)", "then method", "callback function"}}
 
@@ -122,7 +122,7 @@ fifteen.then(value => console.log(`Got ${value}`));
 
 {{index "Promise class"}}
 
-To create a promise that does not immediately resolve, you can use `Promise` as a constructor. It has a somewhat odd interface: the constructor expects a function as argument, which it immediately calls, passing it a function that it can use to resolve the promise.
+To create a promise that does not immediately resolve, you can use `Promise` as a constructor. It has a somewhat odd interface: the constructor expects a function as its argument, which it immediately calls, passing it a function that it can use to resolve the promise.
 
 For example, this is how you could create a promise-based interface for the `readTextFile` function:
 
@@ -144,7 +144,7 @@ Note how, in contrast to callback-style functions, this asynchronous function re
 
 A useful thing about the `then` method is that it itself returns another promise. This one resolves to the value returned by the callback function or, if that returned value is a promise, to the value that promise resolves to. Thus, you can “chain” multiple calls to `then` together to set up a sequence of asynchronous actions.
 
-This function, which reads a file full of filenames, and returns the content of a random file in that list, shows this kind of asynchronous promise pipeline:
+This function, which reads a file full of filenames and returns the content of a random file in that list, shows this kind of asynchronous promise pipeline:
 
 ```
 function randomFile(listFile) {
@@ -155,7 +155,7 @@ function randomFile(listFile) {
 }
 ```
 
-The function returns the result of this chain of `then` calls. The initial promise fetches the list of files as a string. The first `then` call transforms that string into an array of lines, producing a new promise. The second `then` call picks a random line from that, producing a third promise that yields a single filename. The final `then` call reads this file, so that the result of the function as a whole is a promise that returns the content of a random file.
+The function returns the result of this chain of `then` calls. The initial promise fetches the list of files as a string. The first `then` call transforms that string into an array of lines, producing a new promise. The second `then` call picks a random line from that, producing a third promise that yields a single filename. The final `then` call reads this file, so the result of the function as a whole is a promise that returns the content of a random file.
 
 In this code, the functions used in the first two `then` calls return a regular value that will immediately be passed into the promise returned by `then` when the function returns. The last `then` call returns a promise (`textFile(filename)`), making it an actual asynchronous step.
 
@@ -212,7 +212,7 @@ A function passed to the `Promise` constructor receives a second argument, along
 
 {{index "textFile function"}}
 
-When our `readTextFile` function encounters a problem, it passes the error to its callback function as a second argument. Our `textFile` wrapper should actually check that argument, so that a failure causes the promise it returns to be rejected.
+When our `readTextFile` function encounters a problem, it passes the error to its callback function as a second argument. Our `textFile` wrapper should actually check that argument so that a failure causes the promise it returns to be rejected.
 
 ```{includeCode: true}
 function textFile(filename) {
@@ -239,7 +239,7 @@ new Promise((_, reject) => reject(new Error("Fail")))
 // → Handler 2: nothing
 ```
 
-The first `then` handler function isn't called, because at that point of the pipeline the promise holds a rejection. The `catch` handler handles that rejection and returns a value, which is given to the second `then` handler function.
+The first `then` handler function isn't called because at that point of the pipeline the promise holds a rejection. The `catch` handler handles that rejection and returns a value, which is given to the second `then` handler function.
 
 {{index "uncaught exception", "exception handling"}}
 
@@ -249,11 +249,11 @@ Much like an uncaught exception is handled by the environment, JavaScript enviro
 
 {{index "Carla the crow"}}
 
-It's a sunny day in Berlin. The runway of the old, decommissioned airport is teeming with cyclists and inline skaters. In the grass near a garbage container a flock of crows noisily mills about, trying to convince a group of tourists to part with their sandwiches.
+It's a sunny day in Berlin. The runway of the old, decommissioned airport is teeming with cyclists and inline skaters. In the grass near a garbage container, a flock of crows noisily mills about, trying to convince a group of tourists to part with their sandwiches.
 
 One of the crows stands out—a large scruffy female with a few white feathers in her right wing. She is baiting people with a skill and confidence that suggest she's been doing this for a long time. When an elderly man is distracted by the antics of another crow, she casually swoops in, snatches his half-eaten bun from his hand, and sails away.
 
-Contrary to the rest of the group, who look like they are happy to spend the day goofing around here, the large crow looks purposeful. Carrying her loot, she flies straight towards the roof of the hangar building, disappearing into an air vent.
+Contrary to the rest of the group, who look like they are happy to spend the day goofing around here, the large crow looks purposeful. Carrying her loot, she flies straight toward the roof of the hangar building, disappearing into an air vent.
 
 Inside the building, you can hear an odd tapping sound—soft, but persistent. It comes from a narrow space under the roof of an unfinished stairwell. The crow is sitting there, surrounded by her stolen snacks, half a dozen smartphones (several of which are turned on), and a mess of cables. She rapidly taps the screen of one of the phones with her beak. Words are appearing on it. If you didn't know better, you'd think she was typing.
 
@@ -265,9 +265,9 @@ Carla is a somewhat peculiar crow. In her youth, she was fascinated by human lan
 
 {{index "Carla the crow"}}
 
-Carla loves the Internet. Annoyingly, the phone she is working on is about to run out of prepaid data. The building has a wireless network, but it requires a code to access.
+Carla loves the internet. Annoyingly, the phone she is working on is about to run out of prepaid data. The building has a wireless network, but it requires a code to access.
 
-Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a device must send along the correct six-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending a partial code (say, only 3 digits), the response is different based on whether those digits are the correct start of the code or not. Sending incorrect numbers immediately returns a failure message. When sending the correct ones, the access point waits for more digits.
+Fortunately, the wireless routers in the building are 20 years old and poorly secured. Doing some research, Carla finds out that the network authentication mechanism has a flaw she can use. When joining the network, a device must send along the correct six-digit passcode. The access point will reply with a success or failure message depending on whether the right code is provided. However, when sending a partial code (say, only three digits), the response is different based on whether those digits are the correct start of the code or not. Sending incorrect numbers immediately returns a failure message. When sending the correct ones, the access point waits for more digits.
 
 This makes it possible to greatly speed up the guessing of the number. Carla can find the first digit by trying each number in turn, until she finds one that doesn't immediately return failure. Having one digit, she can find the second digit in the same way, and so on, until she knows the entire passcode.
 
@@ -282,9 +282,9 @@ function withTimeout(promise, time) {
 }
 ```
 
-This makes use of the fact that a promise can only be resolved or rejected once. If the promise given as argument resolves or rejects first, that result will be the result of the promise returned by `withTimeout`. If, on the other hand, the `setTimeout` fires first, rejecting the promise, any further resolve or reject calls are ignored.
+This makes use of the fact that a promise can be resolved or rejected only once. If the promise given as its argument resolves or rejects first, that result will be the result of the promise returned by `withTimeout`. If, on the other hand, the `setTimeout` fires first, rejecting the promise, any further resolve or reject calls are ignored.
 
-To find the whole passcode, the program needs to repeatedly look for the next digit by trying each digit. If authentication succeeds, we know we have found what we are looking for. If it immediately fails, we know that digit was wrong, and must try the next digit. If the request times out, we have found another correct digit, and must continue by adding another digit.
+To find the whole passcode, the program needs to repeatedly look for the next digit by trying each digit. If authentication succeeds, we know we have found what we are looking for. If it immediately fails, we know that digit was wrong and must try the next digit. If the request times out, we have found another correct digit and must continue by adding another digit.
 
 Because you cannot wait for a promise inside a `for` loop, Carla uses a recursive function to drive this process. On each call, this function gets the code as we know it so far, as well as the next digit to try. Depending on what happens, it may return a finished code or call through to itself, to either start cracking the next position in the code or to try again with another digit.
 
@@ -329,7 +329,7 @@ The thing the cracking function actually does is completely linear—it always w
 
 {{index "async function", "await keyword"}}
 
-The good news is that JavaScript allows you to write pseudo-synchronous code to describe asynchronous computation. An `async` function implicitly returns a promise and can, in its body, `await` other promises in a way that _looks_ synchronous.
+The good news is that JavaScript allows you to write pseudosynchronous code to describe asynchronous computation. An `async` function implicitly returns a promise and can, in its body, `await` other promises in a way that _looks_ synchronous.
 
 {{index "findInStorage function"}}
 
@@ -356,7 +356,7 @@ async function crackPasscode(networkID) {
 }
 ```
 
-This version more clearly shows the double loop structure of the function (the inner loop tries digit 0 to 9, the outer loop adds digits to the passcode).
+This version more clearly shows the double loop structure of the function (the inner loop tries digit 0 to 9 and the outer loop adds digits to the passcode).
 
 {{index "async function", "return keyword", "exception handling"}}
 
@@ -437,13 +437,13 @@ One morning, Carla wakes up to unfamiliar noise from the tarmac outside of her h
 
 Being a curious crow, Carla takes a closer look at the wall. It appears to consist of a number of large glass-fronted devices wired up to cables. On the back, the devices say “LedTec SIG-5030”.
 
-A quick Internet search turns up a user's manual for these devices. They appear to be traffic signs, with a programmable matrix of amber LED lights. The intent is of the humans is probably to display some kind of information on them during their event. Interestingly, the screens can be programmed over a wireless network. Could it be they are connected to the building's local network?
+A quick internet search turns up a user manual for these devices. They appear to be traffic signs, with a programmable matrix of amber LED lights. The intent of the humans is probably to display some kind of information on them during their event. Interestingly, the screens can be programmed over a wireless network. Could it be they are connected to the building's local network?
 
 Each device on a network gets an _IP address_, which other devices can use to send it messages. We talk more about that in [Chapter ?](browser). Carla notices that her own phones all get addresses like `10.0.0.20` or `10.0.0.33`. It might be worth trying to send messages to all such addresses and see if any one of them responds to the interface described in the manual for the signs.
 
-[Chapter ?](http) shows how to make real requests on real networks. In this chapter, we'll use a simplified dummy function called `request` for network communication. This function takes two arguments—a network address and a message, which may be anything that can be sent as JSON—and returns a promise that either resolves to a response from the machine at the given address, or a rejects if there was a problem.
+[Chapter ?](http) shows how to make real requests on real networks. In this chapter, we'll use a simplified dummy function called `request` for network communication. This function takes two arguments—a network address and a message, which may be anything that can be sent as JSON—and returns a promise that either resolves to a response from the machine at the given address, or rejects if there was a problem.
 
-According to the manual, you can change what is displayed on a SIG-5030 sign by sending it a message with content like `{"command": "display", "data": [0, 0, 3, …]}`, where `data` holds one number per LED dot, providing its brightness—0 means off, 3 means maximum brightness. Each sign is 50 lights wide and 30 lights high, so an update command should send 1500 numbers.
+According to the manual, you can change what is displayed on a SIG-5030 sign by sending it a message with content like `{"command": "display", "data": [0, 0, 3, …]}`, where `data` holds one number per LED dot, providing its brightness—0 means off, 3 means maximum brightness. Each sign is 50 lights wide and 30 lights high, so an update command should send 1,500 numbers.
 
 This code sends a display update message to all addresses on the local network, to see what sticks.  Each of the numbers in an IP address can go from 0 to 255. In the data it sends, it activates a number of lights corresponding to the network address's last number.
 
@@ -462,7 +462,7 @@ for (let addr = 1; addr < 256; addr++) {
 
 Since most of these addresses won't exist or will not accept such messages, the `catch` call makes sure network errors don't crash the program. The requests are all sent out immediately, without waiting for other requests to finish, in order to not waste time when some of the machines don't answer.
 
-Having fired off her network scan, Carla heads back outside to see the result. To her delight, all of the screens are now showing a stripe of light in their top left corners. They _are_ on the local network, and they _do_ accept commands. She quickly notes the numbers shown on each screen. There are 9 screens, arranged three high and three wide. They have the following network addresses:
+Having fired off her network scan, Carla heads back outside to see the result. To her delight, all of the screens are now showing a stripe of light in their upper-left corners. They _are_ on the local network, and they _do_ accept commands. She quickly notes the numbers shown on each screen. There are nine screens, arranged three high and three wide. They have the following network addresses:
 
 ```{includeCode: true}
 const screenAddresses = [
@@ -474,11 +474,11 @@ const screenAddresses = [
 
 Now this opens up possibilities for all kinds of shenanigans. She could show “crows rule, humans drool” on the wall in giant letters. But that feels a bit crude. Instead, she plans to show a video of a flying crow covering all of the screens at night.
 
-Carla finds a fitting video clip, in which a second and a half of footage can be repeated to create a looping video showing a crow's wingbeat. To fit the nine screens (each of which can show 50×30 pixels), Carla cuts and resizes the videos to get a series of 150×90 images, ten per second. Those are then each cut into nine rectangles, and processed so that the dark spots on the video (where the crow is) show a bright light, and the light spots (no crow) are left dark, which should create the effect of an amber crow flying against a black background.
+Carla finds a fitting video clip, in which a second and a half of footage can be repeated to create a looping video showing a crow's wingbeat. To fit the nine screens (each of which can show 50×30 pixels), Carla cuts and resizes the videos to get a series of 150×90 images, 10 per second. Those are then each cut into nine rectangles, and processed so that the dark spots on the video (where the crow is) show a bright light, and the light spots (no crow) are left dark, which should create the effect of an amber crow flying against a black background.
 
 She has set up the `clipImages` variable to hold an array of frames, where each frame is represented with an array of nine sets of pixels—one for each screen—in the format that the signs expect.
 
-To display a single frame of the video, Carla needs to send a request to all the screens at once. But she also needs to wait for the result of these requests, both in order to not start sending the next frame before the current one has been properly sent, and in order to notice when requests are failing.
+To display a single frame of the video, Carla needs to send a request to all the screens at once. But she also needs to wait for the result of these requests, both in order to not start sending the next frame before the current one has been properly sent and in order to notice when requests are failing.
 
 {{index "Promise.all function"}}
 
@@ -498,7 +498,7 @@ function displayFrame(frame) {
 This maps over the images in `frame` (which is an array of display data arrays) to create an array
 of request promises. It then returns a promise that combines all of those.
 
-In order to be able to stop a playing video, the process is wrapped in a class. This class has an asynchronous `play` method that returns a promise that only resolves when the playback is stopped again via the `stop` method.
+In order to be able to stop a playing video, the process is wrapped in a class. This class has an asynchronous `play` method that returns a promise that resolves only when the playback is stopped again via the `stop` method.
 
 ```{includeCode: true}
 function wait(time) {
@@ -527,7 +527,7 @@ class VideoPlayer {
 }
 ```
 
-The `wait` function wraps `setTimeout` in a promise that resolves after the given amount of milliseconds. This is useful for controlling the speed of the playback.
+The `wait` function wraps `setTimeout` in a promise that resolves after the given number of milliseconds. This is useful for controlling the speed of the playback.
 
 ```{startCode: true}
 let video = new VideoPlayer(clipImages, 100);
@@ -638,15 +638,15 @@ Can you work out why?
 
 {{index "+= operator"}}
 
-The problem lies in the `+=` operator, which takes the _current_ value of `list` at the time where the statement starts executing and then, when the `await` finishes, sets the `list` binding to be that value plus the added string.
+The problem lies in the `+=` operator, which takes the _current_ value of `list` at the time the statement starts executing and then, when the `await` finishes, sets the `list` binding to be that value plus the added string.
 
 {{index "await keyword"}}
 
-But between the time where the statement starts executing and the time where it finishes there's an asynchronous gap. The `map` expression runs before anything has been added to the list, so each of the `+=` operators starts from an empty string and ends up, when its storage retrieval finishes, setting `list` to the result of adding its line to the empty string.
+But between the time the statement starts executing and the time it finishes, there's an asynchronous gap. The `map` expression runs before anything has been added to the list, so each of the `+=` operators starts from an empty string and ends up, when its storage retrieval finishes, setting `list` to the result of adding its line to the empty string.
 
 {{index "side effect"}}
 
-This could have easily been avoided by returning the lines from the mapped promises and calling `join` on the result of `Promise.all`, instead of building up the list by changing a binding. As usual, computing new values is less error-prone than changing existing values.
+This could have easily been avoided by returning the lines from the mapped promises and calling `join` on the result of `Promise.all`, instead of building up the list by changing a binding. As usual, computing new values is less error prone than changing existing values.
 
 {{index "fileSizes function"}}
 
@@ -678,7 +678,7 @@ There's a security camera near Carla's lab that's activated by a motion sensor. 
 
 {{index "Date class", "Date.now function", timestamp}}
 
-She's also been logging the times at which the camera is tripped for a while and wants to use this information to visualize which times, in an average week, tend to be quiet, and which tend to be busy. The log is stored in files holding one time stamp number (as returned by `Date.now()`) per line.
+She's also been logging the times at which the camera is tripped for a while and wants to use this information to visualize which times, in an average week, tend to be quiet and which tend to be busy. The log is stored in files holding one time stamp number (as returned by `Date.now()`) per line.
 
 ```{lang: null}
 1695709940692
@@ -686,7 +686,7 @@ She's also been logging the times at which the camera is tripped for a while and
 1695701189163
 ```
 
-The `"camera_logs.txt"` file holds a list of log files. Write an asynchronous function `activityTable(day)` that for a given day of the week returns an array of 24 numbers, one for each hour of the day, that hold the number of camera network traffic observations seen in that hour of the day. Days are identified by number using the system used by `Date.getDay`, where Sunday is 0 and Saturday is 6.
+The `"camera_logs.txt"` file holds a list of logfiles. Write an asynchronous function `activityTable(day)` that for a given day of the week returns an array of 24 numbers, one for each hour of the day, that hold the number of camera network traffic observations seen in that hour of the day. Days are identified by number using the system used by `Date.getDay`, where Sunday is 0 and Saturday is 6.
 
 The `activityGraph` function, provided by the sandbox, summarizes such a table into a string.
 
@@ -694,7 +694,7 @@ The `activityGraph` function, provided by the sandbox, summarizes such a table i
 
 To read the files, use the `textFile` function defined earlier—given a filename, it returns a promise that resolves to the file's content. Remember that `new Date(timestamp)` creates a `Date` object for that time, which has `getDay` and `getHours` methods returning the day of the week and the hour of the day.
 
-Both types of files—the list of log files and the log files themselves—have each piece of data on its own line, separated by newline (`"\n"`) characters.
+Both types of files—the list of logfiles and the logfiles themselves—have each piece of data on its own line, separated by newline (`"\n"`) characters.
 
 {{if interactive
 
@@ -714,9 +714,9 @@ if}}
 
 {{index "quiet times (exercise)", "split method", "textFile function", "Date class"}}
 
-You will need to convert the content of these files to an array. The easiest way to do that is to use the `split` method on the string produced by `textFile`. Note that for the log files, that will still give you an array of strings, which you have to convert to numbers before passing them to `new Date`.
+You will need to convert the content of these files to an array. The easiest way to do that is to use the `split` method on the string produced by `textFile`. Note that for the logfiles, that will still give you an array of strings, which you have to convert to numbers before passing them to `new Date`.
 
-Summarizing all the time points into a table of hours can be done by creating a table (array) that holds a number for each hour in the day. You can then loop over all the timestamps (over the log files and the numbers in every log file) and for each one, if it happened on the correct day, take the hour it occurred in, and add one to the corresponding number in the table.
+Summarizing all the time points into a table of hours can be done by creating a table (array) that holds a number for each hour in the day. You can then loop over all the timestamps (over the logfiles and the numbers in every logfile) and for each one, if it happened on the correct day, take the hour it occurred in, and add one to the corresponding number in the table.
 
 {{index "async function", "await keyword", "Promise class"}}
 
@@ -746,7 +746,7 @@ if}}
 
 {{index "async function", "await keyword", performance}}
 
-In this style, using `Promise.all` will be more convenient than trying to model a loop over the log files. In the `async` function, just using `await` in a loop is simpler. If reading a file takes some time, which of these two approaches will take the least time to run?
+In this style, using `Promise.all` will be more convenient than trying to model a loop over the logfiles. In the `async` function, just using `await` in a loop is simpler. If reading a file takes some time, which of these two approaches will take the least time to run?
 
 {{index "rejecting (a promise)"}}
 
@@ -756,11 +756,11 @@ If one of the files listed in the file list has a typo, and reading it fails, ho
 
 {{index "real promises (exercise)", "then method", "textFile function", "Promise.all function"}}
 
-The most straightforward approach to writing this function is to use a chain of `then` calls. The first promise is produced by reading the list of log files. The first callback can split this list and map `textFile` over it to get an array of promises to pass to `Promise.all`. It can return the object returned by `Promise.all`, so that whatever that returns becomes the result of the return value of this first `then`.
+The most straightforward approach to writing this function is to use a chain of `then` calls. The first promise is produced by reading the list of logfiles. The first callback can split this list and map `textFile` over it to get an array of promises to pass to `Promise.all`. It can return the object returned by `Promise.all`, so that whatever that returns becomes the result of the return value of this first `then`.
 
 {{index "asynchronous programming"}}
 
-We now have a promise that returns an array of log files. We can call `then` again on that, and put the timestamp-counting logic in there. Something like this:
+We now have a promise that returns an array of logfiles. We can call `then` again on that, and put the timestamp-counting logic in there. Something like this:
 
 ```{test: no}
 function activityTable(day) {
@@ -789,11 +789,11 @@ function activityTable(day) {
 
 {{index "await keyword", scheduling}}
 
-Which shows that the way you structure your promises can have a real effect on the way the work is scheduled. A simple loop with `await` in it will make the process completely linear—it waits for each file to load before proceeding. `Promise.all` makes it possible for multiple tasks to conceptually be worked on at the same time, allowing them to make progress while files are still being loaded. This can be faster, but it also makes the order in which things will happen less predictable. In this case, where we're only going to be incrementing numbers in a table, that isn't hard to do in a safe way. For other kinds of problems, it may be a lot more difficult.
+This shows that the way you structure your promises can have a real effect on the way the work is scheduled. A simple loop with `await` in it will make the process completely linear—it waits for each file to load before proceeding. `Promise.all` makes it possible for multiple tasks to conceptually be worked on at the same time, allowing them to make progress while files are still being loaded. This can be faster, but it also makes the order in which things will happen less predictable. In this case, we're only going to be incrementing numbers in a table, which isn't hard to do in a safe way. For other kinds of problems, it may be a lot more difficult.
 
 {{index "rejecting (a promise)", "then method"}}
 
-When a file in the list doesn't exist, the promise returned by `textFile` will be rejected. Because `Promise.all` rejects if any of the promises given to it fail, the return value of the callback given to the first `then` will also be a rejected promise. That makes the promise returned by `then` fail, so that the callback given to the second `then` isn't even called, and a rejected promise is returned from the function.
+When a file in the list doesn't exist, the promise returned by `textFile` will be rejected. Because `Promise.all` rejects if any of the promises given to it fail, the return value of the callback given to the first `then` will also be a rejected promise. That makes the promise returned by `then` fail, so the callback given to the second `then` isn't even called, and a rejected promise is returned from the function.
 
 hint}}
 
@@ -805,7 +805,7 @@ As we saw, given an array of ((promise))s, `Promise.all` returns a promise that 
 
 Implement something like this yourself as a regular function called `Promise_all`.
 
-Remember that after a promise has succeeded or failed, it can't succeed or fail again, and further calls to the functions that resolve it are ignored. This can simplify the way you handle failure of your promise.
+Remember that after a promise has succeeded or failed, it can't succeed or fail again, and further calls to the functions that resolve it are ignored. This can simplify the way you handle a failure of your promise.
 
 {{if interactive
 

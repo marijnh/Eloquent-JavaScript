@@ -43,14 +43,14 @@ It is a useless program, though. An ((expression)) can be content to just produc
 
 {{index "programming style", "automatic semicolon insertion", semicolon}}
 
-In some cases, JavaScript allows you to omit the semicolon at the end of a statement. In other cases, it has to be there, or the next ((line)) will be treated as part of the same statement. The rules for when it can be safely omitted are somewhat complex and error-prone. So in this book, every statement that needs a semicolon will always get one. I recommend you do the same, at least until you've learned more about the subtleties of missing semicolons.
+In some cases, JavaScript allows you to omit the semicolon at the end of a statement. In other cases, it has to be there, or the next ((line)) will be treated as part of the same statement. The rules for when it can be safely omitted are somewhat complex and error prone. So in this book, every statement that needs a semicolon will always get one. I recommend you do the same, at least until you've learned more about the subtleties of missing semicolons.
 
 ## Bindings
 
 {{indexsee variable, binding}}
 {{index [syntax, statement], [binding, definition], "side effect", [memory, organization], [state, in binding]}}
 
-How does a program keep an internal state? How does it remember things? We have seen how to produce new values from old values, but this does not change the old values, and the new value must be used immediately or it will dissipate again. To catch and hold values, JavaScript provides a thing called a _binding_, or _variable_:
+How does a program keep an internal state? How does it remember things? We have seen how to produce new values from old values, but this does not change the old values, and the new value must be used immediately or it will dissipate again. To catch and hold values, JavaScript provides a thing called a _binding_, or _variable_.
 
 ```
 let caught = 5 * 5;
@@ -87,7 +87,7 @@ console.log(mood);
 
 You should imagine bindings as tentacles rather than boxes. They do not _contain_ values; they _grasp_ them—two bindings can refer to the same value. A program can access only the values to which it still has a reference. When you need to remember something, you either grow a tentacle to hold on to it or reattach one of your existing tentacles to it.
 
-Let's look at another example. To remember the number of dollars that Luigi still owes you, you create a binding. When he pays back $35, you give this binding a new value:
+Let's look at another example. To remember the number of dollars that Luigi still owes you, you create a binding. When he pays back $35, you give this binding a new value.
 
 ```
 let luigisDebt = 140;
@@ -110,7 +110,7 @@ console.log(one + two);
 // → 3
 ```
 
-The words `var` and `const` can also be used to create bindings, in a similar fashion to `let`:
+The words `var` and `const` can also be used to create bindings, in a similar fashion to `let`.
 
 ```
 var name = "Ayda";
@@ -162,7 +162,7 @@ The collection of bindings and their values that exist at a given time is called
 {{indexsee "calling (of functions)", [function, application]}}
 {{index output, function, [function, application], [browser, environment]}}
 
-A lot of the values provided in the default environment have the type _((function))_. A function is a piece of program wrapped in a value. Such values can be _applied_ in order to run the wrapped program. For example, in a browser environment, the binding `prompt` holds a function that shows a little ((dialog box)) asking for user input. It is used like this:
+A lot of the values provided in the default environment have the type _((function))_. A function is a piece of program wrapped in a value. Such values can be _applied_ in order to run the wrapped program. For example, in a browser environment, the binding `prompt` holds a function that shows a little ((dialog)) asking for user input. It is used like this:
 
 ```
 prompt("Enter passcode");
@@ -203,7 +203,7 @@ Though binding names cannot contain ((period character))s, `console.log` does ha
 
 {{index [comparison, "of numbers"], "return value", "Math.max function", maximum}}
 
-Showing a dialog box or writing text to the screen is a _((side effect))_. Many functions are useful because of the side effects they produce. Functions may also produce values, in which case they don't need to have a side effect to be useful. For example, the function `Math.max` takes any amount of number arguments and gives back the greatest:
+Showing a dialog box or writing text to the screen is a _((side effect))_. Many functions are useful because of the side effects they produce. Functions may also produce values, in which case they don't need to have a side effect to be useful. For example, the function `Math.max` takes any amount of number arguments and gives back the greatest.
 
 ```
 console.log(Math.max(2, 4));
@@ -578,7 +578,7 @@ The first style can be hard to read. I rather like the look of the underscores, 
 
 {{index "Number function", constructor}}
 
-In a few cases, such as the `Number` function, the first letter of a binding is also capitalized. This was done to mark this function as a constructor. It will become clear what a constructor is in [Chapter ?](object#constructors). For now, the important thing is not to be bothered by this apparent lack of ((consistency)).
+In a few cases, such as the `Number` function, the first letter of a binding is also capitalized. This was done to mark this function as a constructor. It will become clear what a constructor is in [Chapter ?](object#constructors). For now, the important thing is to not be bothered by this apparent lack of ((consistency)).
 
 ## Comments
 
@@ -629,7 +629,7 @@ Functions are special values that encapsulate a piece of program. You can invoke
 
 {{index exercises}}
 
-If you are unsure how to test your solutions to the exercises, refer to the [Introduction](intro).
+If you are unsure how to test your solutions to the exercises, refer to the [introduction](intro).
 
 Each exercise starts with a problem description. Read this description and try to solve the exercise. If you run into problems, consider reading the hints [after the exercise]{if interactive}[at the [end of the book](hints)]{if book}. You can find full solutions to the exercises online at [_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code#2). If you want to learn something from the exercises, I recommend looking at the solutions only after you've solved the exercise, or at least after you've attacked it long and hard enough to have a slight headache.
 

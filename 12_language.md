@@ -14,7 +14,7 @@ quote}}
 
 Building your own ((programming language)) is surprisingly easy (as long as you do not aim too high) and very enlightening.
 
-The main thing I want to show in this chapter is that there is no ((magic)) involved in building a programming language. I've often felt that some human inventions were so immensely clever and complicated that I'd never be able to understand them. But with a little reading and experimenting, they often turn out to be quite mundane.
+The main thing I want to show in this chapter is that there's no ((magic)) involved in building a programming language. I've often felt that some human inventions were so immensely clever and complicated that I'd never be able to understand them. But with a little reading and experimenting, they often turn out to be quite mundane.
 
 {{index "Egg language", [abstraction, "in Egg"]}}
 
@@ -49,7 +49,7 @@ do(define(x, 10),
 
 {{index block, [syntax, "of Egg"]}}
 
-The ((uniformity)) of the ((Egg language)) means that things that are ((operator))s in JavaScript (such as `>`) are normal bindings in this language, applied just like other ((function))s. And since the syntax has no concept of a block, we need a `do` construct to represent doing multiple things in sequence.
+The ((uniformity)) of the ((Egg language)) means that things that are ((operator))s in JavaScript (such as `>`) are normal bindings in this language, applied just like other ((function))s. Since the syntax has no concept of a block, we need a `do` construct to represent doing multiple things in sequence.
 
 {{index "type property", parsing, ["data structure", tree]}}
 
@@ -74,7 +74,7 @@ The `>(x, 5)` part of the previous program would be represented like this:
 
 {{indexsee "abstract syntax tree", "syntax tree", ["data structure", tree]}}
 
-Such a data structure is called a _((syntax tree))_. If you imagine the objects as dots and the links between them as lines between those dots, it has a ((tree))like shape. The fact that expressions contain other expressions, which in turn might contain more expressions, is similar to the way tree branches split and split again.
+Such a data structure is called a _((syntax tree))_. If you imagine the objects as dots and the links between them as lines between those dots, as shown in the following diagram, the structure has a ((tree))like shape. The fact that expressions contain other expressions, which in turn might contain more expressions, is similar to the way tree branches split and split again.
 
 {{figure {url: "img/syntax_tree.svg", alt: "A diagram showing the structure of the syntax tree for the example program. The root is labeled 'do' and has two children, one labeled 'define' and one labeled 'if'. Those in turn have more children, describing their content.", width: "5cm"}}}
 
@@ -92,7 +92,7 @@ Fortunately, this problem can be solved very well by writing a parser function t
 
 {{index "parseExpression function", "syntax tree"}}
 
-We define a function `parseExpression`, which takes a string as input and returns an object containing the data structure for the expression at the start of the string, along with the part of the string left after parsing this expression. When parsing subexpressions (the argument to an application, for example), this function can be called again, yielding the argument expression as well as the text that remains. This text may in turn contain more arguments or may be the closing parenthesis that ends the list of arguments.
+We define a function `parseExpression` that takes a string as input. It returns an object containing the data structure for the expression at the start of the string, along with the part of the string left after parsing this expression. When parsing subexpressions (the argument to an application, for example), this function can be called again, yielding the argument expression as well as the text that remains. This text may in turn contain more arguments or may be the closing parenthesis that ends the list of arguments.
 
 This is the first part of the parser:
 
@@ -122,11 +122,11 @@ function skipSpace(string) {
 
 {{index "skipSpace function", [whitespace, syntax]}}
 
-Because Egg, like JavaScript, allows any amount of whitespace between its elements, we have to repeatedly cut the whitespace off the start of the program string. That is what the `skipSpace` function helps with.
+Because Egg, like JavaScript, allows any amount of whitespace between its elements, we have to repeatedly cut the whitespace off the start of the program string. The `skipSpace` function helps with this.
 
 {{index "literal expression", "SyntaxError type"}}
 
-After skipping any leading space, `parseExpression` uses three ((regular expression))s to spot the three atomic elements that Egg supports: strings, numbers, and words. The parser constructs a different kind of data structure depending on which one matches. If the input does not match one of these three forms, it is not a valid expression, and the parser throws an error. We use the `SyntaxError` constructor here. This is an exception class defined by the standard, like `Error`, but more specific.
+After skipping any leading space, `parseExpression` uses three ((regular expression))s to spot the three atomic elements that Egg supports: strings, numbers, and words. The parser constructs a different kind of data structure depending on which expression matches. If the input does not match one of these three forms, it is not a valid expression, and the parser throws an error. We use the `SyntaxError` constructor here. This is an exception class defined by the standard, like `Error`, but more specific.
 
 {{index "parseApply function"}}
 
@@ -155,13 +155,9 @@ function parseApply(expr, program) {
 }
 ```
 
-{{index parsing}}
+{{index parsing, recursion}}
 
-If the next character in the program is not an opening parenthesis, this is not an application, and `parseApply` returns the expression it was given.
-
-{{index recursion}}
-
-Otherwise, it skips the opening parenthesis and creates the ((syntax tree)) object for this application expression. It then recursively calls `parseExpression` to parse each argument until a closing parenthesis is found. The recursion is indirect, through `parseApply` and `parseExpression` calling each other.
+If the next character in the program is not an opening parenthesis, this is not an application, and `parseApply` returns the expression it was given. Otherwise, it skips the opening parenthesis and creates the ((syntax tree)) object for this application expression. It then recursively calls `parseExpression` to parse each argument until a closing parenthesis is found. The recursion is indirect, through `parseApply` and `parseExpression` calling each other.
 
 Because an application expression can itself be applied (such as in `multiplier(2)(1)`), `parseApply` must, after it has parsed an application, call itself again to check whether another pair of parentheses follows.
 
@@ -227,21 +223,21 @@ function evaluate(expr, scope) {
 
 {{index "literal expression", scope}}
 
-The evaluator has code for each of the ((expression)) types. A literal value expression produces its value. (For example, the expression `100` just evaluates to the number 100.) For a binding, we must check whether it is actually defined in the scope and, if it is, fetch the binding's value.
+The evaluator has code for each of the ((expression)) types. A literal value expression produces its value. (For example, the expression `100` evaluates to the number 100.) For a binding, we must check whether it is actually defined in the scope and, if it is, fetch the binding's value.
 
 {{index [function, application]}}
 
-Applications are more involved. If they are a ((special form)), like `if`, we do not evaluate anything and pass the argument expressions, along with the scope, to the function that handles this form. If it is a normal call, we evaluate the operator, verify that it is a function, and call it with the evaluated arguments.
+Applications are more involved. If they are a ((special form)), like `if`, we do not evaluate anything—we just and pass the argument expressions, along with the scope, to the function that handles this form. If it is a normal call, we evaluate the operator, verify that it is a function, and call it with the evaluated arguments.
 
-We use plain JavaScript function values to represent Egg's function values. We will come back to this [later](language#egg_fun), when the special form called `fun` is defined.
+We use plain JavaScript function values to represent Egg's function values. We will come back to this [later](language#egg_fun), when the special form `fun` is defined.
 
 {{index readability, "evaluate function", recursion, parsing}}
 
-The recursive structure of `evaluate` resembles the similar structure of the parser, and both mirror the structure of the language itself. It would also be possible to combine the parser and the evaluator into one function, and evaluate during parsing. But splitting them up this way makes the program clearer and more flexible.
+The recursive structure of `evaluate` resembles the structure of the parser, and both mirror the structure of the language itself. It would also be possible to combine the parser and the evaluator into one function and evaluate during parsing, but splitting them up this way makes the program clearer and more flexible.
 
 {{index "Egg language", interpretation}}
 
-This is really all that is needed to interpret Egg. It is that simple. But without defining a few special forms and adding some useful values to the ((environment)), you can't do much with this language yet.
+This is really all that's needed to interpret Egg. It's that simple. But without defining a few special forms and adding some useful values to the ((environment)), you can't do much with this language yet.
 
 ## Special forms
 
@@ -263,15 +259,15 @@ specialForms.if = (args, scope) => {
 
 {{index "conditional execution", "ternary operator", "?: operator", "conditional operator"}}
 
-Egg's `if` construct expects exactly three arguments. It will evaluate the first, and if the result isn't the value `false`, it will evaluate the second. Otherwise, the third gets evaluated. This `if` form is more similar to JavaScript's ternary `?:` operator than to JavaScript's `if`. It is an expression, not a statement, and it produces a value, namely, the result of the second or third argument.
+Egg's `if` construct expects exactly three arguments. It will evaluate the first, and if the result isn't the value `false`, it will evaluate the second. Otherwise, the third gets evaluated. This `if` form is more similar to JavaScript's ternary `?:` operator than to JavaScript's `if`. It is an expression, not a statement, and it produces a value—namely, the result of the second or third argument.
 
 {{index Boolean}}
 
-Egg also differs from JavaScript in how it handles the condition value to `if`. It will not treat things like zero or the empty string as false, only the precise value `false`.
+Egg also differs from JavaScript in how it handles the condition value to `if`. It will treat only the value `false` as false, not things like zero or the empty string.
 
 {{index "short-circuit evaluation"}}
 
-The reason we need to represent `if` as a special form, rather than a regular function, is that all arguments to functions are evaluated before the function is called, whereas `if` should evaluate only _either_ its second or its third argument, depending on the value of the first.
+The reason we need to represent `if` as a special form rather than a regular function is that all arguments to functions are evaluated before the function is called, whereas `if` should evaluate only _either_ its second or its third argument, depending on the value of the first.
 
 The `while` form is similar.
 
@@ -285,7 +281,7 @@ specialForms.while = (args, scope) => {
   }
 
   // Since undefined does not exist in Egg, we return false,
-  // for lack of a meaningful result.
+  // for lack of a meaningful result
   return false;
 };
 ```
@@ -342,7 +338,7 @@ console.log(evaluate(prog, topScope));
 
 {{index arithmetic, "Function constructor"}}
 
-To supply basic ((arithmetic)) and ((comparison)) ((operator))s, we will also add some function values to the ((scope)). In the interest of keeping the code short, we'll use `Function` to synthesize a bunch of operator functions in a loop, instead of defining them individually.
+To supply basic ((arithmetic)) and ((comparison)) ((operator))s, we will also add some function values to the ((scope)). In the interest of keeping the code short, we'll use `Function` to synthesize a bunch of operator functions in a loop instead of defining them individually.
 
 ```{includeCode: true}
 for (let op of ["+", "-", "*", "/", "==", "<", ">"]) {
@@ -350,7 +346,7 @@ for (let op of ["+", "-", "*", "/", "==", "<", ">"]) {
 }
 ```
 
-A way to ((output)) values is also useful, so we'll wrap `console.log` in a function and call it `print`.
+It is also useful to have a way to ((output)) values, so we'll wrap `console.log` in a function and call it `print`.
 
 ```{includeCode: true}
 topScope.print = value => {
@@ -387,7 +383,7 @@ do(define(total, 0),
 
 {{index "summing example", "Egg language"}}
 
-This is the program we've seen several times before, which computes the sum of the numbers 1 to 10, expressed in Egg. It is clearly uglier than the equivalent JavaScript program—but not bad for a language implemented in less than 150 ((lines of code)).
+This is the program we've seen several times before that computes the sum of the numbers 1 to 10, expressed in Egg. It is clearly uglier than the equivalent JavaScript program—but not bad for a language implemented in fewer than 150 ((lines of code)).
 
 {{id egg_fun}}
 
@@ -395,9 +391,7 @@ This is the program we've seen several times before, which computes the sum of t
 
 {{index function, "Egg language"}}
 
-A programming language without functions is a poor programming language indeed.
-
-Fortunately, it isn't hard to add a `fun` construct, which treats its last argument as the function's body and uses all arguments before that as the names of the function's parameters.
+A programming language without functions is a poor programming language indeed. Fortunately, it isn't hard to add a `fun` construct, which treats its last argument as the function's body and uses all arguments before that as the names of the function's parameters.
 
 ```{includeCode: true}
 specialForms.fun = (args, scope) => {
@@ -460,7 +454,7 @@ Traditionally, ((compilation)) involves converting the program to ((machine code
 
 {{index simplicity, "Function constructor", transpilation}}
 
-It would be possible to write an alternative ((evaluation)) strategy for Egg, one that first converts the program to a JavaScript program, uses `Function` to invoke the JavaScript compiler on it, and then runs the result. When done right, this would make Egg run very fast while still being quite simple to implement.
+It would be possible to write an alternative ((evaluation)) strategy for Egg, one that first converts the program to a JavaScript program, uses `Function` to invoke the JavaScript compiler on it, and runs the result. When done right, this would make Egg run very fast while still being quite simple to implement.
 
 If you are interested in this topic and willing to spend some time on it, I encourage you to try to implement such a compiler as an exercise.
 
@@ -468,7 +462,7 @@ If you are interested in this topic and willing to spend some time on it, I enco
 
 {{index "Egg language"}}
 
-When we defined `if` and `while`, you probably noticed that they were more or less trivial wrappers around JavaScript's own `if` and `while`. Similarly, the values in Egg are just regular old JavaScript values. Bridging the gap to a more primitive system, such as the machine code the processor understands, is more effort—but the way it works resembles what we are doing here.
+When we defined `if` and `while`, you probably noticed that they were more or less trivial wrappers around JavaScript's own `if` and `while`. Similarly, the values in Egg are just regular old JavaScript values. Bridging the gap to a more primitive system, such as the machine code the processor understands, takes more effort—but the way it works resembles what we are doing here.
 
 Though the toy language in this chapter doesn't do anything that couldn't be done better in JavaScript, there _are_ situations where writing small languages helps get real work done.
 
@@ -492,7 +486,7 @@ application = expr '(' (expr (',' expr)*)? ')'
 
 {{index expressivity}}
 
-This is what is usually called a _((domain-specific language))_, a language tailored to express a narrow domain of knowledge. Such a language can be more expressive than a general-purpose language because it is designed to describe exactly the things that need to be described in its domain, and nothing else.
+This is what is usually called a _((domain-specific language))_, a language tailored to express a narrow domain of knowledge. Such a language can be more expressive than a general-purpose language because it is designed to describe exactly the things that need to be described in its domain and nothing else.
 
 ## Exercises
 
@@ -500,7 +494,7 @@ This is what is usually called a _((domain-specific language))_, a language tail
 
 {{index "Egg language", "arrays in egg (exercise)", [array, "in Egg"]}}
 
-Add support for arrays to Egg by adding the following three functions to the top scope: `array(...values)` to construct an array containing the argument values, `length(array)` to get an array's length, and `element(array, n)` to fetch the n^th^ element from an array.
+Add support for arrays to Egg by adding the following three functions to the top scope: `array(...values)` to construct an array containing the argument values, `length(array)` to get an array's length, and `element(array, n)` to fetch the *n*th element from an array.
 
 {{if interactive
 
@@ -604,7 +598,7 @@ if}}
 
 {{index "comments in egg (exercise)", [whitespace, syntax]}}
 
-Make sure your solution handles multiple comments in a row, with potentially whitespace between or after them.
+Make sure your solution handles multiple comments in a row, with whitespace potentially between or after them.
 
 A ((regular expression)) is probably the easiest way to solve this. Write something that matches "whitespace or a comment, zero or more times". Use the `exec` or `match` method and look at the length of the first element in the returned array (the whole match) to find out how many characters to slice off.
 
@@ -655,6 +649,6 @@ You will have to loop through one ((scope)) at a time, using `Object.getPrototyp
 
 {{index "global scope", "run-time error"}}
 
-If the outermost scope is reached (`Object.getPrototypeOf` returns null) and we haven't found the binding yet, it doesn't exist, and an error should be thrown.
+If the outermost scope is reached (`Object.getPrototypeOf` returns `null`) and we haven't found the binding yet, it doesn't exist, and an error should be thrown.
 
 hint}}

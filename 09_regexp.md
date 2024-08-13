@@ -22,7 +22,7 @@ if}}
 
 {{index evolution, adoption, integration}}
 
-Programming ((tool))s and techniques survive and spread in a chaotic, evolutionary way. It's not always the best or brilliant ones that win but rather the ones that function well enough within the right niche or that happen to be integrated with another successful piece of technology.
+Programming ((tool))s and techniques survive and spread in a chaotic, evolutionary way. It's not always the best or most brilliant ones that win, but rather the ones that function well enough within the right niche or that happen to be integrated with another successful piece of technology.
 
 {{index "domain-specific language"}}
 
@@ -153,14 +153,14 @@ By a strange historical accident, `\s` (whitespace) does not have this problem a
 
 {{index "character category", [Unicode, property]}}
 
-It is possible to use `\p` in a regular expression to match all characters to which the Unicode standard assigns a given property. This allows us to match things like letters in a more cosmopolitan way. However, again due to compatibility with the original language standards, those are only recognized when you put a `u` character (for ((Unicode))) after the regular expression.
+It is possible to use `\p` in a regular expression to match all characters to which the Unicode standard assigns a given property. This allows us to match things like letters in a more cosmopolitan way. However, again due to compatibility with the original language standards, those are recognized only when you put a `u` character (for ((Unicode))) after the regular expression.
 
 {{table {cols: [1, 5]}}}
 
 | `\p{L}`             | Any letter
 | `\p{N}`             | Any numeric character
 | `\p{P}`             | Any punctuation character
-| `\P{L}`             | Any non-letter (uppercase P inverts)
+| `\P{L}`             | Any nonletter (uppercase P inverts)
 | `\p{Script=Hangul}` | Any character from the given script (see [Chapter ?](higher_order#scripts))
 
 Using `\w` for text processing that may need to handle non-English text (or even English text with borrowed words like “cliché”) is a liability, since it won't treat characters like “é” as letters. Though they tend to be a bit more verbose, `\p` property groups are more robust.
@@ -251,7 +251,7 @@ The first and second `+` characters apply only to the second `o` in `boo` and `h
 
 {{index "case sensitivity", capitalization, ["regular expression", flags]}}
 
-The `i` at the end of the expression in the example makes this regular expression case-insensitive, allowing it to match the uppercase _B_ in the input string, even though the pattern is itself all lowercase.
+The `i` at the end of the expression in the example makes this regular expression case insensitive, allowing it to match the uppercase _B_ in the input string, even though the pattern is itself all lowercase.
 
 ## Matches and groups
 
@@ -359,7 +359,7 @@ If you give the `Date` constructor a single argument, that argument is treated a
 
 {{index "getFullYear method", "getMonth method", "getDate method", "getHours method", "getMinutes method", "getSeconds method", "getYear method"}}
 
-Date objects provide methods such as `getFullYear`, `getMonth`, `getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their components. Besides `getFullYear` there's also `getYear`, which gives you the year minus 1900 (`98` or `119`) and is mostly useless.
+Date objects provide methods such as `getFullYear`, `getMonth`, `getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their components. Besides `getFullYear` there's also `getYear`, which gives you the year minus 1900 (such as `98` or `125`) and is mostly useless.
 
 {{index "capture group", "getDate method", [parentheses, "in regular expressions"]}}
 
@@ -391,9 +391,9 @@ If we want to enforce that the match must span the whole string, we can add the 
 
 {{index "word boundary", "word character"}}
 
-There is also a `\b` marker that matches _word boundaries_, positions that have a word character one side, and a non-word character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w`, and are therefore not very reliable.
+There is also a `\b` marker that matches _word boundaries_, positions that have a word character on one side, and a nonword character on the other. Unfortunately, these use the same simplistic concept of word characters as `\w` and are therefore not very reliable.
 
-Note that these boundary markers don't match any actual characters. They just enforce that a given condition holds at the place where they appears in the pattern.
+Note that these boundary markers don't match any actual characters. They just enforce that a given condition holds at the place where it appears in the pattern.
 
 {{index "look-ahead"}}
 
@@ -406,7 +406,7 @@ console.log(/a(?! )/.exec("a b"));
 // → null
 ```
 
-The `e` in the first example is necessary to match, but is not part of the matched string. The `(?! )` notation expresses a _negative_ look-ahead. This only matches if the pattern in the parentheses _doesn't_ match, causing the second example to only match `a` characters that don't have a space after them.
+The `e` in the first example is necessary to match, but is not part of the matched string. The `(?! )` notation expresses a _negative_ look-ahead. This matches only if the pattern in the parentheses _doesn't_ match, causing the second example to match only `a` characters that don't have a space after them.
 
 ## Choice patterns
 
@@ -538,7 +538,7 @@ console.log(stock.replace(/(\d+) (\p{L}+)/gu, minusOne));
 
 This code takes a string, finds all occurrences of a number followed by an alphanumeric word, and returns a string that has one less of every such quantity.
 
-The `(\d+)` group ends up as the `amount` argument to the function, and the `(\p{L}+)` group gets bound to `unit`. The function converts `amount` to a number—which always works since it matched `\d+` earlier—and makes some adjustments in case there is only one or zero left.
+The `(\d+)` group ends up as the `amount` argument to the function, and the `(\p{L}+)` group gets bound to `unit`. The function converts `amount` to a number—which always works, since it matched `\d+` earlier—and makes some adjustments in case there is only one or zero left.
 
 ## Greed
 
@@ -597,7 +597,7 @@ console.log(regexp.test("Harry is a dodgy character."));
 
 {{index ["regular expression", flags], ["backslash character", "in regular expressions"]}}
 
-When creating the `\s` part of the string, we have to use two backslashes because we are writing them in a normal string, not a slash-enclosed regular expression. The second argument to the `RegExp` constructor contains the options for the regular expression—in this case, `"gi"` for global and case-insensitive.
+When creating the `\s` part of the string, we have to use two backslashes because we are writing them in a normal string, not a slash-enclosed regular expression. The second argument to the `RegExp` constructor contains the options for the regular expression—in this case, `"gi"` for global and case insensitive.
 
 But what if the name is `"dea+hl[]rd"` because our user is a ((nerd))y teenager? That would result in a nonsensical regular expression that won't actually match the user's name.
 
@@ -656,7 +656,7 @@ console.log(pattern.lastIndex);
 
 {{index "side effect", "lastIndex property"}}
 
-If the match was successful, the call to `exec` automatically updates the `lastIndex` property to point after the match. If no match was found, `lastIndex` is set back to zero, which is also the value it has in a newly constructed regular expression object.
+If the match was successful, the call to `exec` automatically updates the `lastIndex` property to point after the match. If no match was found, `lastIndex` is set back to 0, which is also the value it has in a newly constructed regular expression object.
 
 The difference between the global and the sticky options is that when sticky is enabled, the match will succeed only if it starts directly at `lastIndex`, whereas with global, it will search ahead for a position where a match can start.
 
@@ -716,7 +716,7 @@ This method returns an array of match arrays. The regular expression given to `m
 
 {{index comment, "file format", "enemies example", "INI file"}}
 
-To conclude the chapter, we'll look at a problem that calls for ((regular expression))s. Imagine we are writing a program to automatically collect information about our enemies from the ((Internet)). (We will not actually write that program here, just the part that reads the ((configuration)) file. Sorry.) The configuration file looks like this:
+To conclude the chapter, we'll look at a problem that calls for ((regular expression))s. Imagine we are writing a program to automatically collect information about our enemies from the ((internet)). (We will not actually write that program here, just the part that reads the ((configuration)) file. Sorry.) The configuration file looks like this:
 
 ```{lang: "null"}
 searchengine=https://duckduckgo.com/?q=$1
@@ -794,11 +794,11 @@ The pattern `if (match = string.match(...))` makes use of the fact that the valu
 
 {{index [parentheses, "in regular expressions"]}}
 
-If a line is not a section header or a property, the function checks whether it is a comment or an empty line using the expression `/^\s*(;|$)/` to match lines that either contain only space, or space followed by a semicolon (making the rest of the line a comment). When a line doesn't match any of the expected forms, the function throws an exception.
+If a line is not a section header or a property, the function checks whether it is a comment or an empty line using the expression `/^\s*(;|$)/` to match lines that either contain only whitespace, or whitespace followed by a semicolon (making the rest of the line a comment). When a line doesn't match any of the expected forms, the function throws an exception.
 
 ## Code units and characters
 
-Another design mistake that's been standardized in JavaScript regular expressions is that by default, operators like `.` or `?` work on code units, as discussed in [Chapter ?](higher_order#code_units), not actual characters. This means characters that are composed of two code units behave strangely.
+Another design mistake that's been standardized in JavaScript regular expressions is that by default, operators like `.` or `?` work on code units (as discussed in [Chapter ?](higher_order#code_units)), not actual characters. This means characters that are composed of two code units behave strangely.
 
 ```
 console.log(/🍎{3}/.test("🍎🍎🍎"));
@@ -858,7 +858,7 @@ Regular expressions are a sharp ((tool)) with an awkward handle. They simplify s
 
 {{index debugging, bug}}
 
-It is almost unavoidable that, in the course of working on these exercises, you will get confused and frustrated by some regular expression's inexplicable ((behavior)). Sometimes it helps to enter your expression into an online tool like [_debuggex.com_](https://www.debuggex.com/) to see whether its visualization corresponds to what you intended and to ((experiment)) with the way it responds to various input strings.
+It is almost unavoidable that, in the course of working on these exercises, you will get confused and frustrated by some regular expression's inexplicable ((behavior)). Sometimes it helps to enter your expression into an online tool like [_debuggex.com_](https://www.debuggex.com) to see whether its visualization corresponds to what you intended and to ((experiment)) with the way it responds to various input strings.
 
 ### Regexp golf
 
@@ -950,7 +950,7 @@ if}}
 
 {{index "quoting style (exercise)", boundary}}
 
-The most obvious solution is to replace only quotes with a nonletter character on at least one side—something like `/\P{L}'|'\P{L}/`. But you also have to take the start and end of the line into account.
+The most obvious solution is to replace only quotes with a nonletter character on at least one side—something like `/\P{L}'|'\P{L}/u`. But you also have to take the start and end of the line into account.
 
 {{index grouping, "replace method", [parentheses, "in regular expressions"]}}
 

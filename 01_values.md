@@ -20,7 +20,7 @@ In the computer's world, there is only data. You can read data, modify data, cre
 
 _Bits_ are any kind of two-valued things, usually described as zeros and ones. Inside the computer, they take forms such as a high or low electrical charge, a strong or weak signal, or a shiny or dull spot on the surface of a CD. Any piece of discrete information can be reduced to a sequence of zeros and ones and thus represented in bits.
 
-{{index "binary number", radix, "decimal number"}}
+{{index "binary number", "decimal number"}}
 
 For example, we can express the number 13 in bits. This works the same way as a decimal number, but instead of 10 different ((digit))s, we have only 2, and the weight of each increases by a factor of 2 from right to left. Here are the bits that make up the number 13, with the weights of the digits shown below them:
 
@@ -29,7 +29,7 @@ For example, we can express the number 13 in bits. This works the same way as a 
  128  64  32  16   8   4   2   1
 ```
 
-That's the binary number 00001101. Its non-zero digits stand for 8, 4, and 1, and add up to 13.
+That's the binary number 00001101. Its nonzero digits stand for 8, 4, and 1, and add up to 13.
 
 ## Values
 
@@ -79,7 +79,7 @@ Fractional numbers are written using a dot:
 
 {{index exponent, "scientific notation", [number, notation]}}
 
-For very big or very small numbers, you may also use scientific notation by adding an _e_ (for _exponent_), followed by the exponent of the number:
+For very big or very small numbers, you may also use scientific notation by adding an _e_ (for _exponent_), followed by the exponent of the number.
 
 ```
 2.998e8
@@ -107,7 +107,7 @@ The `+` and `*` symbols are called _operators_. The first stands for addition an
 
 {{index grouping, parentheses, precedence}}
 
-Does this example mean "Add 4 and 100, and multiply the result by 11", or is the multiplication done before the adding? As you might have guessed, the multiplication happens first. As in mathematics, you can change this by wrapping the addition in parentheses:
+Does this example mean "Add 4 and 100, and multiply the result by 11", or is the multiplication done before the adding? As you might have guessed, the multiplication happens first. As in mathematics, you can change this by wrapping the addition in parentheses.
 
 ```{meta: "expr"}
 (100 + 4) * 11
@@ -163,7 +163,7 @@ To make it possible to include such characters in a string, the following notati
 "This is the first line\nAnd this is the second"
 ```
 
-This is the actual text is that string:
+This is the actual text in that string:
 
 ```{lang: null}
 This is the first line
@@ -204,7 +204,7 @@ Strings written with single or double quotes behave very much the same—the onl
 `half of 100 is ${100 / 2}`
 ```
 
-When you write something inside `${}` in a template literal, its result will be computed, converted to a string, and included at that position. This example produces "_half of 100 is 50_".
+When you write something inside `${}` in a template literal, its result will be computed, converted to a string, and included at that position. This example produces the string `"half of 100 is 50"`.
 
 ## Unary operators
 
@@ -223,11 +223,11 @@ console.log(typeof "x")
 
 {{id "console.log"}}
 
-We will use `console.log` in example code to indicate that we want to see the result of evaluating something. More about that in the [next chapter](program_structure).
+We will use `console.log` in example code to indicate that we want to see the result of evaluating something. (More about that in the [next chapter](program_structure).)
 
 {{index negation, "- operator", "binary operator", "unary operator"}}
 
-The other operators shown so far in this chapter all operated on two values, but `typeof` takes only one. Operators that use two values are called _binary_ operators, while those that take one are called _unary_ operators. The minus operator can be used both as a binary operator and as a unary operator.
+The other operators shown so far in this chapter all operated on two values, but `typeof` takes only one. Operators that use two values are called _binary_ operators, while those that take one are called _unary_ operators. The minus operator (`-`) can be used both as a binary operator and as a unary operator.
 
 ```
 console.log(- (10 - 2))
@@ -257,7 +257,7 @@ console.log(3 < 2)
 
 The `>` and `<` signs are the traditional symbols for "is greater than" and "is less than", respectively. They are binary operators. Applying them results in a Boolean value that indicates whether they hold true in this case.
 
-Strings can be compared in the same way:
+Strings can be compared in the same way.
 
 ```
 console.log("Aardvark" < "Zoroaster")
@@ -357,7 +357,7 @@ The difference in meaning between `undefined` and `null` is an accident of JavaS
 
 {{index NaN, "type coercion"}}
 
-In the Introduction, I mentioned that JavaScript goes out of its way to accept almost any program you give it, even programs that do odd things. This is nicely demonstrated by the following expressions:
+In the [introduction](intro), I mentioned that JavaScript goes out of its way to accept almost any program you give it, even programs that do odd things. This is nicely demonstrated by the following expressions:
 
 ```
 console.log(8 * null)
@@ -395,7 +395,7 @@ That behavior is often useful. When you want to test whether a value has a real 
 
 {{index "type coercion", [Boolean, "conversion to"], "=== operator", "!== operator", comparison}}
 
-What if you want to test whether something refers to the precise value `false`? Expressions like `0 == false` and `"" == false` are also true because of automatic type conversion. When you do _not_ want any type conversions to happen, there are two additional operators: `===` and `!==`. The first tests whether a value is _precisely_ equal to the other, and the second tests whether it is not precisely equal. Thus `"" === false` is false as expected.
+What if you want to test whether something refers to the precise value `false`? Expressions like `0 == false` and `"" == false` are also true because of automatic type conversion. When you do _not_ want any type conversions to happen, there are two additional operators: `===` and `!==`. The first tests whether a value is _precisely_ equal to the other, and the second tests whether it is not precisely equal. Thus `"" === false` is false, as expected.
 
 I recommend using the three-character comparison operators defensively to prevent unexpected type conversions from tripping you up. But when you're certain the types on both sides will be the same, there is no problem with using the shorter operators.
 
@@ -418,11 +418,11 @@ console.log("Agnes" || "user")
 
 {{index "default value"}}
 
-We can use this functionality as a way to fall back on a default value. If you have a value that might be empty, you can put `||` after it with a replacement value. If the initial value can be converted to false, you'll get the replacement instead. The rules for converting strings and numbers to Boolean values state that `0`, `NaN`, and the empty string (`""`) count as `false`, while all the other values count as `true`. That means `0 || -1` produces `-1`, and `"" || "!?"` yields `"!?"`.
+We can use this functionality as a way to fall back on a default value. If you have a value that might be empty, you can put `||` after it with a replacement value. If the initial value can be converted to false, you'll get the replacement instead. The rules for converting strings and numbers to Boolean values state that `0`, `NaN`, and the empty string (`""`) count as false, while all the other values count as true. That means `0 || -1` produces `-1`, and `"" || "!?"` yields `"!?"`.
 
 {{index "?? operator", null, undefined}}
 
-The `??` operator resembles `||`, but returns the value on the right only if the one on the left is null or undefined, not if it is some other value that can be converted to `false`. Often, this is preferable to the behavior of `||`.
+The `??` operator resembles `||` but returns the value on the right only if the one on the left is `null` or `undefined`, not if it is some other value that can be converted to `false`. Often, this is preferable to the behavior of `||`.
 
 ```
 console.log(0 || 100);

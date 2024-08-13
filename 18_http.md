@@ -4,7 +4,7 @@
 
 {{quote {author: "Tim Berners-Lee", chapter: true}
 
-What was often difficult for people to understand about the design was that there was nothing else beyond URLs, HTTP and HTML. There was no central computer "controlling" the Web, no single network on which these protocols worked, not even an organisation anywhere that "ran" the Web. The Web was not a physical "thing" that existed in a certain "place". It was a "space" in which information could exist.
+What was often difficult for people to understand about the design was that there was nothing else beyond URLs, HTTP and HTML. There was no central computer 'controlling' the web, no single network on which these protocols worked, not even an organisation anywhere that 'ran' the Web. The Web was not a physical 'thing' that existed in a certain 'place'. It was a 'space' in which information could exist.
 
 quote}}
 
@@ -14,13 +14,13 @@ quote}}
 
 {{index [browser, environment]}}
 
-The _Hypertext Transfer Protocol_, already mentioned in [Chapter ?](browser#web), is the mechanism through which data is requested and provided on the ((World Wide Web)). This chapter describes the ((protocol)) in more detail and explains the way browser JavaScript has access to it.
+The Hypertext Transfer Protocol, introduced in [Chapter ?](browser#web), is the mechanism through which data is requested and provided on the ((World Wide Web)). This chapter describes the ((protocol)) in more detail and explains the way browser JavaScript has access to it.
 
 ## The protocol
 
 {{index "IP address"}}
 
-If you type _eloquentjavascript.net/18_http.html_ into your browser's ((address bar)), the ((browser)) first looks up the ((address)) of the server associated with _eloquentjavascript.net_ and tries to open a ((TCP)) ((connection)) to it on ((port)) 80, the default port for ((HTTP)) traffic. If the ((server)) exists and accepts the connection, the browser might send something like this:
+If you type _eloquentjavascript.net/18_http.html_ in your browser's ((address bar)), the ((browser)) first looks up the ((address)) of the server associated with _eloquentjavascript.net_ and tries to open a ((TCP)) ((connection)) to it on ((port)) 80, the default port for ((HTTP)) traffic. If the ((server)) exists and accepts the connection, the browser might send something like this:
 
 ```{lang: http}
 GET /18_http.html HTTP/1.1
@@ -72,7 +72,7 @@ HTTP/1.1 200 OK
 
 {{index "200 (HTTP status code)", "error response", "404 (HTTP status code)"}}
 
-Status codes starting with a 2 indicate that the request succeeded. Codes starting with 4 mean there was something wrong with the ((request)). 404 is probably the most famous HTTP status code—it means that the resource could not be found. Codes that start with 5 mean an error happened on the ((server)) and the request is not to blame.
+Status codes starting with a 2 indicate that the request succeeded. Codes starting with 4 mean there was something wrong with the ((request)). The most famous HTTP status code is probably 404, which means that the resource could not be found. Codes that start with 5 mean an error happened on the ((server)) and the request is not to blame.
 
 {{index HTTP}}
 
@@ -132,7 +132,7 @@ The ((question mark)) indicates the end of the path part of the URL and the star
 
 {{index [escaping, "in URLs"], "hexadecimal number", "encodeURIComponent function", "decodeURIComponent function"}}
 
-The actual message encoded in the URL is "Yes?", but the question mark is replaced by a strange code. Some characters in query strings must be escaped. The question mark, represented as `%3F`, is one of those. There seems to be an unwritten rule that every format needs its own way of escaping characters. This one, called _((URL encoding))_, uses a ((percent sign)) followed by two hexadecimal (base 16) digits that encode the character code. In this case, 3F, which is 63 in decimal notation, is the code of a question mark character. JavaScript provides the `encodeURIComponent` and `decodeURIComponent` functions to encode and decode this format.
+The actual message encoded in the URL is "Yes?" but the question mark is replaced by a strange code. Some characters in query strings must be escaped. The question mark, represented as `%3F`, is one of those. There seems to be an unwritten rule that every format needs its own way of escaping characters. This one, called _((URL encoding))_, uses a ((percent sign)) followed by two hexadecimal (base 16) digits that encode the character code. In this case, 3F, which is 63 in decimal notation, is the code of a question mark character. JavaScript provides the `encodeURIComponent` and `decodeURIComponent` functions to encode and decode this format.
 
 ```
 console.log(encodeURIComponent("Yes?"));
@@ -143,7 +143,7 @@ console.log(decodeURIComponent("Yes%3F"));
 
 {{index "body (HTTP)", "POST method"}}
 
-If we change the `method` attribute of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request made to submit the ((form)) will use the `POST` method and put the ((query string)) in the body of the request, rather than adding it to the URL.
+If we change the `method` attribute of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request made to submit the ((form)) will use the `POST` method and put the ((query string)) in the body of the request rather than adding it to the URL.
 
 ```{lang: http}
 POST /example/message.html HTTP/1.1
@@ -153,7 +153,7 @@ Content-type: application/x-www-form-urlencoded
 name=Jean&message=Yes%3F
 ```
 
-`GET` requests should be used for requests that do not have ((side effect))s but simply ask for information. Requests that change something on the server, for example creating a new account or posting a message, should be expressed with other methods, such as `POST`. Client-side software such as a browser knows that it shouldn't blindly make `POST` requests but will often implicitly make `GET` requests—for example to prefetch a resource it believes the user will soon need.
+`GET` requests should be used for requests that do not have ((side effect))s but simply ask for information. Requests that change something on the server, for example creating a new account or posting a message, should be expressed with other methods, such as `POST`. Client-side software such as a browser knows that it shouldn't blindly make `POST` requests but will often implicitly make `GET` requests—to prefetch a resource it believes the user will soon need, for example.
 
 We'll come back to forms and how to interact with them from JavaScript [later in the chapter](http#forms).
 
@@ -178,7 +178,7 @@ fetch("example/data.txt").then(response => {
 
 Calling `fetch` returns a promise that resolves to a `Response` object holding information about the server's response, such as its status code and its headers. The headers are wrapped in a `Map`-like object that treats its keys (the header names) as case insensitive because header names are not supposed to be case sensitive. This means  `headers.get("Content-Type")` and `headers.get("content-TYPE")` will return the same value.
 
-Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It can also be rejected if there is a network error or if the ((server)) that the request is addressed to can't be found.
+Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It can also be rejected if there is a network error or if the ((server)) to which that the request is addressed can't be found.
 
 {{index [path, URL], "relative URL"}}
 
@@ -216,7 +216,7 @@ The 405 status code means "method not allowed", an HTTP server's way of saying "
 
 {{index "Range header", "body property", "headers property"}}
 
-To add a request body, you can include a `body` option. To set headers, there's the `headers` option. For example, this request includes a `Range` header, which instructs the server to return only part of a document.
+To add a request body for a `PUT` or `POST` request, you can include a `body` option. To set headers, there's the `headers` option. For example, this request includes a `Range` header, which instructs the server to return only part of a document.
 
 ```{test: no}
 fetch("example/data.txt", {headers: {Range: "bytes=8-19"}})
@@ -259,7 +259,7 @@ When thinking in terms of remote procedure calls, HTTP is just a vehicle for com
 
 {{index "media type", "document format", [method, HTTP]}}
 
-Another approach is to build your communication around the concept of ((resource))s and ((HTTP)) methods. Instead of a remote procedure called `addUser`, you use a `PUT` request to `/users/larry`. Instead of encoding that user's properties in function arguments, you define a JSON document format (or use an existing format) that represents a user. The body of the `PUT` request to create a new resource is then such a document. A resource is fetched by making a `GET` request to the resource's URL (for example, `/user/larry`), which again returns the document representing the resource.
+Another approach is to build your communication around the concept of ((resource))s and ((HTTP)) methods. Instead of a remote procedure called `addUser`, you use a `PUT` request to `/users/larry`. Instead of encoding that user's properties in function arguments, you define a JSON document format (or use an existing format) that represents a user. The body of the `PUT` request to create a new resource is then such a document. A resource is fetched by making a `GET` request to the resource's URL (for example, `/users/larry`), which again returns the document representing the resource.
 
 This second approach makes it easier to use some of the features that HTTP provides, such as support for caching resources (keeping a copy of a resource on the client for fast access). The concepts used in HTTP, which are well designed, can provide a helpful set of principles to design your server interface around.
 
@@ -267,7 +267,7 @@ This second approach makes it easier to use some of the features that HTTP provi
 
 {{index "man-in-the-middle", security, HTTPS, [network, security]}}
 
-Data traveling over the Internet tends to follow a long, dangerous road. To get to its destination, it must hop through anything from coffee shop Wi-Fi hotspots to networks controlled by various companies and states. At any point along its route it may be inspected or even modified.
+Data traveling over the internet tends to follow a long, dangerous road. To get to its destination, it must hop through anything from coffee shop Wi-Fi hotspots to networks controlled by various companies and states. At any point along its route, it may be inspected or even modified.
 
 {{index tampering}}
 
@@ -279,17 +279,17 @@ If it is important that something remain secret, such as the ((password)) to you
 
 The secure ((HTTP)) protocol, used for ((URL))s starting with _https://_, wraps HTTP traffic in a way that makes it harder to read and tamper with. Before exchanging data, the client verifies that the server is who it claims to be by asking it to prove that it has a cryptographic ((certificate)) issued by a certificate authority that the browser recognizes. Next, all data going over the ((connection)) is encrypted in a way that should prevent eavesdropping and tampering.
 
-Thus, when it works right, ((HTTPS)) prevents other people from impersonating the website you are trying to talk to _and_ from snooping on your communication. It is not perfect, and there have been various incidents where HTTPS failed because of forged or stolen certificates and broken software, but it is a _lot_ safer than plain HTTP.
+Thus, when it works right, ((HTTPS)) prevents other people from impersonating the website you are trying to talk to _and_ from snooping on your communication. It's not perfect, and there have been various incidents where HTTPS failed because of forged or stolen certificates and broken software, but it is a _lot_ safer than plain HTTP.
 
 {{id forms}}
 
 ## Form fields
 
-Forms were originally designed for the pre-JavaScript Web to allow web sites to send user-submitted information in an HTTP request. This design assumes that interaction with the server always happens by navigating to a new page.
+Forms were originally designed for the pre-JavaScript web to allow websites to send user-submitted information in an HTTP request. This design assumes that interaction with the server always happens by navigating to a new page.
 
 {{index [DOM, fields]}}
 
-But their elements are part of the DOM like the rest of the page, and the DOM elements that represent form ((field))s support a number of properties and events that are not present on other elements. These make it possible to inspect and control such input fields with JavaScript programs and do things such as adding new functionality to a form or using forms and fields as building blocks in a JavaScript application.
+However, the form elements are part of the DOM, like the rest of the page, and the DOM elements that represent form ((field))s support a number of properties and events that are not present on other elements. These make it possible to inspect and control such input fields with JavaScript programs and do things such as adding new functionality to a form or using forms and fields as building blocks in a JavaScript application.
 
 {{index "form (HTML tag)"}}
 
@@ -379,7 +379,7 @@ Whenever the value of a form field changes, it will fire a `"change"` event.
 
 {{indexsee "keyboard focus", focus}}
 
-Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, moved to with the [tab]{keyname} key, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
+Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, moved to with [tab]{keyname}, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
@@ -407,7 +407,7 @@ For some pages, the user is expected to want to interact with a form field immed
 
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
-Browsers allow the user to move the focus through the document by pressing the [tab]{keyname} key to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
+Browsers allow the user to move the focus through the document by pressing [tab]{keyname} to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order in which they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
 
 ```{lang: html, focus: true}
 <input type="text" tabindex=1> <a href=".">(help)</a>
@@ -416,7 +416,7 @@ Browsers allow the user to move the focus through the document by pressing the [
 
 {{index "tabindex attribute"}}
 
-By default, most types of HTML elements cannot be focused. But you can add a `tabindex` attribute to any element that will make it focusable. A `tabindex` of 0 makes an element focusable without affecting the focus order.
+By default, most types of HTML elements cannot be focused. You can add a `tabindex` attribute to any element to make it focusable. A `tabindex` of 0 makes an element focusable without affecting the focus order.
 
 ## Disabled fields
 
@@ -506,7 +506,7 @@ The `selectionStart` and `selectionEnd` properties of ((text field))s give us in
 
 {{index Khasekhemwy, "textarea (HTML tag)", keyboard, "event handling"}}
 
-Imagine you are writing an article about Khasekhemwy but have some trouble spelling his name. The following code wires up a `<textarea>` tag with an event handler that, when you press F2, inserts the string "Khasekhemwy" for you.
+Imagine you are writing an article about Khasekhemwy, last pharaoh of the Second Dynasty, but have some trouble spelling his name. The following code wires up a `<textarea>` tag with an event handler that, when you press F2, inserts the string "Khasekhemwy" for you.
 
 ```{lang: html}
 <textarea></textarea>
@@ -535,7 +535,7 @@ The `replaceSelection` function replaces the currently selected part of a text f
 
 {{index "change event", "input event"}}
 
-The `"change"` event for a ((text field)) does not fire every time something is typed. Rather, it fires when the field loses ((focus)) after its content was changed. To respond immediately to changes in a text field, you should register a handler for the `"input"` event instead, which fires for every time the user types a character, deletes text, or otherwise manipulates the field's content.
+The `"change"` event for a ((text field)) does not fire every time something is typed. Rather, it fires when the field loses ((focus)) after its content was changed. To respond immediately to changes in a text field, you should register a handler for the `"input"` event instead, which fires every time the user types a character, deletes text, or otherwise manipulates the field's content.
 
 The following example shows a text field and a counter displaying the current length of the text in the field:
 
@@ -610,11 +610,11 @@ Select fields are conceptually similar to radio buttons—they also allow the us
 
 {{index "multiple attribute", "drop-down menu"}}
 
-Select fields also have a variant that is more akin to a list of checkboxes, rather than radio boxes. When given the `multiple` attribute, a `<select>` tag will allow the user to select any number of options, rather than just a single option. Whereas a regular select field is drawn as a _drop-down_ control, which shows the inactive options only when you open it, a field with `multiple` enabled shows multiple options at the same time, allowing the user to enable or disable them individually.
+Select fields also have a variant more akin to a list of checkboxes rather than radio boxes. When given the `multiple` attribute, a `<select>` tag will allow the user to select any number of options, rather than just a single option. Whereas a regular select field is drawn as a _drop-down_ control, which shows the inactive options only when you open it, a field with `multiple` enabled shows multiple options at the same time, allowing the user to enable or disable them individually.
 
 {{index "option (HTML tag)", "value attribute"}}
 
-Each `<option>` tag has a value. This value can be defined with a `value` attribute. When that is not given, the ((text)) inside the option will count as its value. The `value` property of a `<select>` element reflects the currently selected option. For a `multiple` field, though, this property doesn't mean much since it will give the value of only _one_ of the currently selected options.
+Each `<option>` tag has a value. This value can be defined with a `value` attribute. When that is not given, the ((text)) inside the option will count as its value. The `value` property of a `<select>` element reflects the currently selected option. For a `multiple` field, though, this property doesn't mean much, since it will give the value of only _one_ of the currently selected options.
 
 {{index "select (HTML tag)", "options property", "selected attribute"}}
 
@@ -622,7 +622,7 @@ The `<option>` tags for a `<select>` field can be accessed as an array-like obje
 
 {{index "multiple attribute", "binary number"}}
 
-This example extracts the selected values from a `multiple` select field and uses them to compose a binary number from individual bits. Hold [control]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
+This example extracts the selected values from a `multiple` select field and uses them to compose a binary number from individual bits. Hold [ctrl]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
 
 ```{lang: html}
 <select multiple>
@@ -648,7 +648,7 @@ This example extracts the selected values from a `multiple` select field and use
 
 ## File fields
 
-{{index file, "hard drive", "file system", security, "file field", "input (HTML tag)"}}
+{{index file, "hard drive", "filesystem", security, "file field", "input (HTML tag)"}}
 
 File fields were originally designed as a way to ((upload)) files from the user's machine through a form. In modern browsers, they also provide a way to read such files from JavaScript programs. The field acts as a kind of gatekeeper. The script cannot simply start reading private files from the user's computer, but if the user selects a file in such a field, the browser interprets that action to mean that the script may read the file.
 
@@ -728,7 +728,7 @@ Simple ((HTML)) pages with a bit of JavaScript can be a great format for "((mini
 
 {{index persistence, [binding, "as state"], [browser, storage]}}
 
-When such an application needs to remember something between sessions, you cannot use JavaScript bindings—those are thrown away every time the page is closed. You could set up a server, connect it to the Internet, and have your application store something there. We will see how to do that in [Chapter ?](node). But that's a lot of extra work and complexity. Sometimes it is enough to just keep the data in the ((browser)).
+When such an application needs to remember something between sessions, you cannot use JavaScript bindings—those are thrown away every time the page is closed. You could set up a server, connect it to the internet, and have your application store something there (we'll see how to do that in [Chapter ?](node)). But that's a lot of extra work and complexity. Sometimes it's enough to just keep the data in the ((browser)).
 
 {{index "localStorage object", "setItem method", "getItem method", "removeItem method"}}
 
@@ -743,7 +743,7 @@ localStorage.removeItem("username");
 
 {{index "localStorage object"}}
 
-A value in `localStorage` sticks around until it is overwritten, it is removed with `removeItem`, or the user clears their local data.
+A value in `localStorage` sticks around until it is overwritten or is removed with `removeItem`, or the user clears their local data.
 
 {{index security}}
 
@@ -807,13 +807,13 @@ Notes: <select></select> <button>Add</button><br>
 
 {{index "getItem method", JSON, "?? operator", "default value"}}
 
-The script gets its starting state from the `"Notes"` value stored in `localStorage` or, if that is missing, creates an example state that has only a shopping list in it. Reading a field that does not exist from `localStorage` will yield `null`. Passing `null` to `JSON.parse` will make it parse the string `"null"` and return `null`. Thus, the `??` operator can be used to provide a default value in a situation like this.
+The script gets its starting state from the `"Notes"` value stored in `localStorage` or, if that's missing, creates an example state that has only a shopping list in it. Reading a field that does not exist from `localStorage` will yield `null`. Passing `null` to `JSON.parse` will make it parse the string `"null"` and return `null`. Thus, the `??` operator can be used to provide a default value in a situation like this.
 
 The `setState` method makes sure the DOM is showing a given state and stores the new state to `localStorage`. Event handlers call this function to move to a new state.
 
 {{index [object, creation], property, "computed property"}}
 
-The `...` syntax in the example is used to create a new object that is a clone of the old `state.notes`, but with one property added or overwritten. It uses ((spread)) syntax to first add the properties from the old object, and then set a new property. The ((square brackets)) notation in the object literal is used to create a property whose name is based on some dynamic value.
+The `...` syntax in the example is used to create a new object that is a clone of the old `state.notes`, but with one property added or overwritten. It uses ((spread)) syntax to first add the properties from the old object and then set a new property. The ((square brackets)) notation in the object literal is used to create a property whose name is based on some dynamic value.
 
 {{index "sessionStorage object", [browser, storage]}}
 
@@ -833,13 +833,11 @@ fetch("/18_http.html").then(r => r.text()).then(text => {
 
 Browsers make `GET` requests to fetch the resources needed to display a web page. A page may also contain forms, which allow information entered by the user to be sent as a request for a new page when the form is submitted.
 
-HTML can represent various types of form fields, such as text fields, checkboxes, multiple-choice fields, and file pickers.
-
-Such fields can be inspected and manipulated with JavaScript. They fire the `"change"` event when changed, fire the `"input"` event when text is typed, and receive keyboard events when they have keyboard focus. Properties like `value` (for text and select fields) or `checked` (for checkboxes and radio buttons) are used to read or set the field's content.
+HTML can represent various types of form fields, such as text fields, checkboxes, multiple-choice fields, and file pickers. Such fields can be inspected and manipulated with JavaScript. They fire the `"change"` event when changed, fire the `"input"` event when text is typed, and receive keyboard events when they have keyboard focus. Properties like `value` (for text and select fields) or `checked` (for checkboxes and radio buttons) are used to read or set the field's content.
 
 When a form is submitted, a `"submit"` event is fired on it. A JavaScript handler can call `preventDefault` on that event to disable the browser's default behavior. Form field elements may also occur outside of a form tag.
 
-When the user has selected a file from their local file system in a file picker field, the `FileReader` interface can be used to access the content of this file from a JavaScript program.
+When the user has selected a file from their local filesystem in a file picker field, the `FileReader` interface can be used to access the content of this file from a JavaScript program.
 
 The `localStorage` and `sessionStorage` objects can be used to save information in a way that survives page reloads. The first object saves the data forever (or until the user decides to clear it), and the second saves it until the browser is closed.
 
@@ -885,7 +883,7 @@ hint}}
 
 {{index "JavaScript console", "workbench (exercise)"}}
 
-Build an interface that allows people to type and run pieces of JavaScript code.
+Build an interface that allows users to type and run pieces of JavaScript code.
 
 {{index "textarea (HTML tag)", "button (HTML tag)", "Function constructor", "error message"}}
 
@@ -925,7 +923,7 @@ hint}}
 
 {{index "game of life (exercise)", "artificial life", "Conway's Game of Life"}}
 
-Conway's Game of Life is a simple ((simulation)) that creates artificial "life" on a ((grid)), each cell of which is either alive or not. Each ((generation)) (turn), the following rules are applied:
+Conway's Game of Life is a simple ((simulation)) that creates artificial "life" on a ((grid)), each cell of which is either alive or not. In each ((generation)) (turn), the following rules are applied:
 
 * Any live ((cell)) with fewer than two or more than three live   ((neighbor))s dies.
 

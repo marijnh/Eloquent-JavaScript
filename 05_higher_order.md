@@ -18,7 +18,7 @@ A large program is a costly program, and not just because of the time it takes t
 
 {{index "summing example"}}
 
-Let's briefly go back to the final two example programs in the introduction. The first is self-contained and six lines long.
+Let's briefly go back to the final two example programs in the introduction. The first is self contained and six lines long.
 
 ```
 let total = 0, count = 1;
@@ -97,7 +97,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-Can we abstract "doing something _N_ times" as a function? Well, it's easy to write a function that calls `console.log` _N_ times:
+Can we abstract "doing something _N_ times" as a function? Well, it's easy to write a function that calls `console.log` _N_ times.
 
 ```
 function repeatLog(n) {
@@ -111,7 +111,7 @@ function repeatLog(n) {
 
 {{indexsee "higher-order function", "function, higher-order"}}
 
-But what if we want to do something other than logging the numbers? Since "doing something" can be represented as a function and functions are just values, we can pass our action as a function value:
+But what if we want to do something other than logging the numbers? Since "doing something" can be represented as a function and functions are just values, we can pass our action as a function value.
 
 ```{includeCode: "top_lines: 5"}
 function repeat(n, action) {
@@ -126,7 +126,7 @@ repeat(3, console.log);
 // → 2
 ```
 
-We don't have to pass a predefined function to `repeat`. Often, it is easier to create a function value on the spot instead:
+We don't have to pass a predefined function to `repeat`. Often, it is easier to create a function value on the spot instead.
 
 ```
 let labels = [];
@@ -139,7 +139,7 @@ console.log(labels);
 
 {{index "loop body", [braces, body], [parentheses, arguments]}}
 
-This is structured a little like a `for` loop—it first describes the kind of loop and then provides a body. However, the body is now written as a function value, which is wrapped in the parentheses of the call to `repeat`. This is why it has to be closed with the closing brace _and_ closing parenthesis. In cases like this example where the body is a single small expression, you could also omit the braces and write the loop on a single line.
+This is structured a little like a `for` loop—it first describes the kind of loop and then provides a body. However, the body is now written as a function value, which is wrapped in the parentheses of the call to `repeat`. This is why it has to be closed with the closing brace _and_ closing parenthesis. In cases like this example, where the body is a single small expression, you could also omit the braces and write the loop on a single line.
 
 ## Higher-order functions
 
@@ -149,7 +149,7 @@ Functions that operate on other functions, either by taking them as arguments or
 
 {{index abstraction}}
 
-Higher-order functions allow us to abstract over _actions_, not just values. They come in several forms. For example, we can have functions that create new functions:
+Higher-order functions allow us to abstract over _actions_, not just values. They come in several forms. For example, we can have functions that create new functions.
 
 ```
 function greaterThan(n) {
@@ -160,7 +160,7 @@ console.log(greaterThan10(11));
 // → true
 ```
 
-We can also have functions that change other functions:
+We can also have functions that change other functions.
 
 ```
 function noisy(f) {
@@ -176,7 +176,7 @@ noisy(Math.min)(3, 2, 1);
 // → called with [3, 2, 1] , returned 1
 ```
 
-We can even write functions that provide new types of ((control flow)):
+We can even write functions that provide new types of ((control flow)).
 
 ```
 function unless(test, then) {
@@ -194,7 +194,7 @@ repeat(3, n => {
 
 {{index [array, methods], [array, iteration], "forEach method"}}
 
-There is a built-in array method, `forEach`, that provides something like a `for`/`of` loop as a higher-order function:
+There is a built-in array method, `forEach`, that provides something like a `for`/`of` loop as a higher-order function.
 
 ```
 ["A", "B"].forEach(l => console.log(l));
@@ -204,19 +204,19 @@ There is a built-in array method, `forEach`, that provides something like a `for
 
 {{id scripts}}
 
-## Script data set
+## Script dataset
 
-One area where higher-order functions shine is data processing. To process data, we'll need some actual example data. This chapter will use a ((data set)) about scripts—((writing system))s such as Latin, Cyrillic, or Arabic.
+One area where higher-order functions shine is data processing. To process data, we'll need some actual example data. This chapter will use a ((dataset)) about scripts—((writing system))s such as Latin, Cyrillic, or Arabic.
 
-Remember ((Unicode)) from [Chapter ?](values#unicode), the system that assigns a number to each character in written language? Most of these characters are associated with a specific script. The standard contains 140 different scripts, of which 81 are still in use today and 59 are historic.
+Remember ((Unicode)), the system that assigns a number to each character in written language, from [Chapter ?](values#unicode)? Most of these characters are associated with a specific script. The standard contains 140 different scripts, of which 81 are still in use today and 59 are historic.
 
 Though I can fluently read only Latin characters, I appreciate the fact that people are writing texts in at least 80 other writing systems, many of which I wouldn't even recognize. For example, here's a sample of ((Tamil)) handwriting:
 
 {{figure {url: "img/tamil.png", alt: "A line of verse in Tamil handwriting. The characters are relatively simple, and neatly separated, yet completely different from Latin."}}}
 
-{{index "SCRIPTS data set"}}
+{{index "SCRIPTS dataset"}}
 
-The example ((data set)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script:
+The example ((dataset)) contains some pieces of information about the 140 scripts defined in Unicode. It is available in the [coding sandbox](https://eloquentjavascript.net/code#5) for this chapter[ ([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if book} as the `SCRIPTS` binding. The binding contains an array of objects, each of which describes a script.
 
 
 ```{lang: "json"}
@@ -234,13 +234,13 @@ Such an object tells us the name of the script, the Unicode ranges assigned to i
 
 {{index "slice method"}}
 
-The `ranges` property contains an array of Unicode character ((range))s, each of which is a two-element array containing a lower bound and an upper bound. Any character codes within these ranges are assigned to the script. The lower ((bound)) is inclusive (code 994 is a Coptic character) and the upper bound is non-inclusive (code 1008 isn't).
+The `ranges` property contains an array of Unicode character ((range))s, each of which is a two-element array containing a lower bound and an upper bound. Any character codes within these ranges are assigned to the script. The lower ((bound)) is inclusive (code 994 is a Coptic character) and the upper bound is noninclusive (code 1008 isn't).
 
 ## Filtering arrays
 
 {{index [array, methods], [array, filtering], "filter method", [function, "higher-order"], "predicate function"}}
 
-If we want to find the scripts in the data set that are still in use, the following function might be helpful. It filters out elements in an array that don't pass a test.
+If we want to find the scripts in the dataset that are still in use, the following function might be helpful. It filters out elements in an array that don't pass a test.
 
 ```
 function filter(array, test) {
@@ -282,7 +282,7 @@ Say we have an array of objects representing scripts, produced by filtering the 
 
 {{index [function, "higher-order"]}}
 
-The `map` method transforms an array by applying a function to all of its elements and building a new array from the returned values. The new array will have the same length as the input array, but its content will have been _mapped_ to a new form by the function:
+The `map` method transforms an array by applying a function to all of its elements and building a new array from the returned values. The new array will have the same length as the input array, but its content will have been _mapped_ to a new form by the function.
 
 ```
 function map(array, transform) {
@@ -327,7 +327,7 @@ console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));
 // → 10
 ```
 
-{{index "reduce method", "SCRIPTS data set"}}
+{{index "reduce method", "SCRIPTS dataset"}}
 
 The standard array method `reduce`, which of course corresponds to this function, has an added convenience. If your array contains at least one element, you are allowed to leave off the `start` argument. The method will take the first element of the array as its start value and start reducing at the second element.
 
@@ -355,13 +355,13 @@ console.log(SCRIPTS.reduce((a, b) => {
 
 The `characterCount` function reduces the ranges assigned to a script by summing their sizes. Note the use of destructuring in the parameter list of the reducer function. The second call to `reduce` then uses this to find the largest script by repeatedly comparing two scripts and returning the larger one.
 
-The Han script has more than 89,000 characters assigned to it in the Unicode standard, making it by far the biggest writing system in the data set. Han is a script sometimes used for Chinese, Japanese, and Korean text. Those languages share a lot of characters, though they tend to write them differently. The (US-based) Unicode Consortium decided to treat them as a single writing system to save character codes. This is called _Han unification_ and still makes some people very angry.
+The Han script has more than 89,000 characters assigned to it in the Unicode standard, making it by far the biggest writing system in the dataset. Han is a script sometimes used for Chinese, Japanese, and Korean text. Those languages share a lot of characters, though they tend to write them differently. The (US-based) Unicode Consortium decided to treat them as a single writing system to save character codes. This is called _Han unification_ and still makes some people very angry.
 
 ## Composability
 
 {{index loop, maximum}}
 
-Consider how we would have written the previous example (finding the biggest script) without higher-order functions. The code is not that much worse:
+Consider how we would have written the previous example (finding the biggest script) without higher-order functions. The code is not that much worse.
 
 ```{test: no}
 let biggest = null;
@@ -381,7 +381,7 @@ There are a few more bindings, and the program is four lines longer, but it is s
 
 {{id average_function}}
 
-The abstractions provided by these functions really shine when you need to _compose_ operations. As an example, let's write code that finds the average year of origin for living and dead scripts in the data set:
+The abstractions these functions provide really shine when you need to _compose_ operations. As an example, let's write code that finds the average year of origin for living and dead scripts in the dataset.
 
 ```
 function average(array) {
@@ -398,7 +398,7 @@ console.log(Math.round(average(
 
 As you can see, the dead scripts in Unicode are, on average, older than the living ones. This is not a terribly meaningful or surprising statistic. But I hope you'll agree that the code used to compute it isn't hard to read. You can see it as a pipeline: we start with all scripts, filter out the living (or dead) ones, take the years from those, average them, and round the result.
 
-You could definitely also write this computation as one big ((loop)):
+You could definitely also write this computation as one big ((loop)).
 
 ```
 let total = 0, count = 0;
@@ -420,9 +420,9 @@ In terms of what the computer is actually doing, these two approaches are also q
 
 ## Strings and character codes
 
-{{index "SCRIPTS data set"}}
+{{index "SCRIPTS dataset"}}
 
-One interesting use of this data set would be figuring out what script a piece of text is using. Let's go through a program that does this.
+One interesting use of this dataset would be figuring out what script a piece of text is using. Let's go through a program that does this.
 
 Remember that each script has an array of character code ranges associated with it. Given a character code, we could use a function like this to find the corresponding script (if any):
 
@@ -479,7 +479,7 @@ JavaScript's `charCodeAt` method gives you a code unit, not a full character cod
 
 {{index "for/of loop", character}}
 
-In the [previous chapter](data#for_of_loop), I mentioned that a `for`/`of` loop can also be used on strings. Like `codePointAt`, this type of loop was introduced at a time when people were acutely aware of the problems with UTF-16. When you use it to loop over a string, it gives you real characters, not code units:
+In the [previous chapter](data#for_of_loop), I mentioned that a `for`/`of` loop can also be used on strings. Like `codePointAt`, this type of loop was introduced at a time when people were acutely aware of the problems with UTF-16. When you use it to loop over a string, it gives you real characters, not code units.
 
 ```
 let roseDragon = "🌹🐉";
@@ -494,7 +494,7 @@ If you have a character (which will be a string of one or two code units), you c
 
 ## Recognizing text
 
-{{index "SCRIPTS data set", "countBy function", [array, counting]}}
+{{index "SCRIPTS dataset", "countBy function", [array, counting]}}
 
 We have a `characterScript` function and a way to correctly loop over characters. The next step is to count the characters that belong to each script. The following counting abstraction will be useful there:
 
@@ -521,11 +521,11 @@ The `countBy` function expects a collection (anything that we can loop over with
 
 {{index "find method"}}
 
-It uses another array method, `find`, which goes over the elements in the array and returns the first one for which a function returns true. It returns `undefined` when no such element is found.
+It uses another array method, `find`, which goes over the elements in the array and returns the first one for which a function returns true. It returns `undefined` when it finds no such element.
 
 {{index "textScripts function", "Chinese characters"}}
 
-Using `countBy`, we can write the function that tells us which scripts are used in a piece of text:
+Using `countBy`, we can write the function that tells us which scripts are used in a piece of text.
 
 ```{includeCode: strip_log, startCode: true}
 function textScripts(text) {
@@ -548,17 +548,17 @@ console.log(textScripts('英国的狗说"woof", 俄罗斯的狗说"тяв"'));
 
 {{index "characterScript function", "filter method"}}
 
-The function first counts the characters by name, using `characterScript` to assign them a name and falling back to the string `"none"` for characters that aren't part of any script. The `filter` call drops the entry for `"none"` from the resulting array since we aren't interested in those characters.
+The function first counts the characters by name, using `characterScript` to assign them a name and falling back to the string `"none"` for characters that aren't part of any script. The `filter` call drops the entry for `"none"` from the resulting array, since we aren't interested in those characters.
 
 {{index "reduce method", "map method", "join method", [array, methods]}}
 
-To be able to compute ((percentage))s, we first need the total number of characters that belong to a script, which we can compute with `reduce`. If no such characters are found, the function returns a specific string. Otherwise it transforms the counting entries into readable strings with `map` and then combines them with `join`.
+To be able to compute ((percentage))s, we first need the total number of characters that belong to a script, which we can compute with `reduce`. If we find no such characters, the function returns a specific string. Otherwise, it transforms the counting entries into readable strings with `map` and then combines them with `join`.
 
 ## Summary
 
 Being able to pass function values to other functions is a deeply useful aspect of JavaScript. It allows us to write functions that model computations with "gaps" in them. The code that calls these functions can fill in the gaps by providing function values.
 
-Arrays provide a number of useful higher-order methods. You can use `forEach` to loop over the elements in an array. The `filter` method returns a new array containing only the elements that pass the ((predicate function)). Transforming an array by putting each element through a function is done with `map`. You can use `reduce` to combine all the elements in an array into a single value. The `some` method tests whether any element matches a given predicate function, while `find` finds the first element that matches a predicate.
+Arrays provide a number of useful higher-order methods. You can use `forEach` to loop over the elements in an array. The `filter` method returns a new array containing only the elements that pass the ((predicate function)). You can transform an array by putting each element through a function using `map`. You can use `reduce` to combine all the elements in an array into a single value. The `some` method tests whether any element matches a given predicate function, while `find` finds the first element that matches a predicate.
 
 ## Exercises
 
@@ -581,7 +581,7 @@ if}}
 
 {{index "your own loop (example)", "for loop"}}
 
-Write a higher-order function `loop` that provides something like a `for` loop statement. It should take a value, a test function, an update function, and a body function. Each iteration, it should first run the test function on the current loop value and stop if that returns false. It should then call the body function, giving it the current value, then finally call the update function to create a new value and start over from the beginning.
+Write a higher-order function `loop` that provides something like a `for` loop statement. It should take a value, a test function, an update function, and a body function. Each iteration, it should first run the test function on the current loop value and stop if that returns `false`. It should then call the body function, giving it the current value, and finally call the update function to create a new value and start over from the beginning.
 
 When defining the function, you can use a regular loop to do the actual looping.
 
@@ -602,7 +602,7 @@ if}}
 
 {{index "predicate function", "everything (exercise)", "every method", "some method", [array, methods], "&& operator", "|| operator"}}
 
-Arrays also have an `every` method analogous to the `some` method. This method returns true when the given function returns true for _every_ element in the array. In a way, `some` is a version of the `||` operator that acts on arrays, and `every` is like the `&&` operator.
+Arrays also have an `every` method analogous to the `some` method. This method returns `true` when the given function returns `true` for _every_ element in the array. In a way, `some` is a version of the `||` operator that acts on arrays, and `every` is like the `&&` operator.
 
 Implement `every` as a function that takes an array and a predicate function as parameters. Write two versions, one using a loop and one using the `some` method.
 
@@ -627,7 +627,7 @@ if}}
 
 {{index "everything (exercise)", "short-circuit evaluation", "return keyword"}}
 
-Like the `&&` operator, the `every` method can stop evaluating further elements as soon as it has found one that doesn't match. So the loop-based version can jump out of the loop—with `break` or `return`—as soon as it runs into an element for which the predicate function returns false. If the loop runs to its end without finding such an element, we know that all elements matched and we should return true.
+Like the `&&` operator, the `every` method can stop evaluating further elements as soon as it has found one that doesn't match. So the loop-based version can jump out of the loop—with `break` or `return`—as soon as it runs into an element for which the predicate function returns `false`. If the loop runs to its end without finding such an element, we know that all elements matched and we should return `true`.
 
 To build `every` on top of `some`, we can apply _((De Morgan's laws))_, which state that `a && b` equals `!(!a || !b)`. This can be generalized to arrays, where all elements in the array match if there is no element in the array that does not match.
 
@@ -635,7 +635,7 @@ hint}}
 
 ### Dominant writing direction
 
-{{index "SCRIPTS data set", "direction (writing)", "groupBy function", "dominant direction (exercise)"}}
+{{index "SCRIPTS dataset", "direction (writing)", "groupBy function", "dominant direction (exercise)"}}
 
 Write a function that computes the dominant writing direction in a string of text. Remember that each script object has a `direction` property that can be `"ltr"` (left to right), `"rtl"` (right to left), or `"ttb"` (top to bottom).
 

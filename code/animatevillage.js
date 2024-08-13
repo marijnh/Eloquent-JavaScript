@@ -33,12 +33,15 @@
       this.node = outer.appendChild(doc.createElement("div"))
       this.node.style.cssText = "position: relative; line-height: 0.1; margin-left: 10px"
       this.map = this.node.appendChild(doc.createElement("img"))
-      this.map.src = "img/village2x.png"
+      let imgPath = "img/"
+      if (/\/code($|\/)/.test(outer.ownerDocument.defaultView.location)) imgPath = "../" + imgPath
+      console.log(outer.ownerDocument.defaultView.location.toString(), /\/code($|\/)/.test(outer.ownerDocument.defaultView.localation), imgPath)
+      this.map.src = imgPath + "village2x.png"
       this.map.style.cssText = "vertical-align: -8px"
       this.robotElt = this.node.appendChild(doc.createElement("div"))
       this.robotElt.style.cssText = `position: absolute; transition: left ${0.8 / speed}s, top ${0.8 / speed}s;`
       let robotPic = this.robotElt.appendChild(doc.createElement("img"))
-      robotPic.src = "img/robot_moving2x.gif"
+      robotPic.src = imgPath + "robot_moving2x.gif"
       this.parcels = []
 
       this.text = this.node.appendChild(doc.createElement("span"))

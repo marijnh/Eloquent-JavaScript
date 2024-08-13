@@ -24,7 +24,7 @@ verify(/\p{L}{7}/u,
        ["Siebentausenddreihundertzweiundzwanzig"],
        ["no", "three small words"]);
 
-verify(/(^|\P{L})[^\P{L}e]+($|\P{L})/i,
+verify(/(^|\P{L})[^\P{L}e]+($|\P{L})/ui,
        ["red platypus", "wobbling nest"],
        ["earth bed", "bedrøvet abe", "BEET"]);
 

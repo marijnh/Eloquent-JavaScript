@@ -113,7 +113,7 @@ class VillageState {
 }
 ```
 
-The `move` method is where the action happens. It first checks whether there is a road going from the current place to the destination, and if not, it returns the old state since this is not a valid move.
+The `move` method is where the action happens. It first checks whether there is a road going from the current place to the destination, and if not, it returns the old state, since this is not a valid move.
 
 {{index "map method", "filter method"}}
 
@@ -163,7 +163,7 @@ Unfortunately, although understanding a system built on persistent data structur
 
 {{index simulation, "virtual world"}}
 
-A delivery ((robot)) looks at the world and decides in which direction it wants to move. As such, we could say that a robot is a function that takes a `VillageState` object and returns the name of a nearby place.
+A delivery ((robot)) looks at the world and decides in which direction it wants to move. So we could say that a robot is a function that takes a `VillageState` object and returns the name of a nearby place.
 
 {{index "runRobot function"}}
 
@@ -205,7 +205,7 @@ function randomRobot(state) {
 
 {{index "Math.random function", "Math.floor function", [array, "random element"]}}
 
-Remember that `Math.random()` returns a number between zero and one—but always below one. Multiplying such a number by the length of an array and then applying `Math.floor` to it gives us a random index for the array.
+Remember that `Math.random()` returns a number between 0 and 1—but always below 1. Multiplying such a number by the length of an array and then applying `Math.floor` to it gives us a random index for the array.
 
 Since this robot does not need to remember anything, it ignores its second argument (remember that JavaScript functions can be called with extra arguments without ill effects) and omits the `memory` property in its returned object.
 
@@ -304,7 +304,7 @@ The problem of finding a route through a ((graph)) is a typical _((search proble
 
 The  number of possible routes through a graph is infinite. But when searching for a route from _A_ to _B_, we are interested only in the ones that start at _A_. We also don't care about routes that visit the same place twice—those are definitely not the most efficient route anywhere. So that cuts down on the number of routes that the route finder has to consider.
 
-In fact, since we are mostly interested in the _shortest_ route, we want to make sure we look at short routes before we look at longer ones. A good approach would be to "grow" routes from the starting point, exploring every reachable place that hasn't been visited yet until a route reaches the goal. That way, we'll only explore routes that are potentially interesting, and we know that the first route we find is the shortest route (or one of the shortest routes, if there are more than one).
+In fact, since we are mostly interested in the _shortest_ route, we want to make sure we look at short routes before we look at longer ones. A good approach would be to "grow" routes from the starting point, exploring every reachable place that hasn't been visited yet until a route reaches the goal. That way, we'll explore only routes that are potentially interesting, and we know that the first route we find is the shortest route (or one of the shortest routes, if there are more than one).
 
 {{index "findRoute function"}}
 
@@ -378,7 +378,7 @@ This robot usually finishes the task of delivering 5 parcels in about 16 turns. 
 
 It's hard to objectively compare ((robot))s by just letting them solve a few scenarios. Maybe one robot just happened to get easier tasks or the kind of tasks that it is good at, whereas the other didn't.
 
-Write a function `compareRobots` that takes two robots (and their starting memory). It generates 100 tasks and lets each of the robots solve each of these tasks. When done, it outputs the average number of steps each robot took per task.
+Write a function `compareRobots` that takes two robots (and their starting memory). It should generate 100 tasks and let both of the robots solve each of these tasks. When done, it should output the average number of steps each robot took per task.
 
 For the sake of fairness, make sure you give each task to both robots, rather than generating different tasks per robot.
 
@@ -437,7 +437,7 @@ hint}}
 
 Most data structures provided in a standard JavaScript environment aren't very well suited for persistent use. Arrays have `slice` and `concat` methods, which allow us to easily create new arrays without damaging the old one. But `Set`, for example, has no methods for creating a new set with an item added or removed.
 
-Write a new class `PGroup`, similar to the `Group` class from [Chapter ?](object#groups), which stores a set of values. Like `Group`, it has `add`, `delete`, and `has` methods. Its `add` method, however, returns a _new_ `PGroup` instance with the given member added and leaves the old one unchanged. Similarly, `delete` creates a new instance without a given member.
+Write a new class `PGroup`, similar to the `Group` class from [Chapter ?](object#groups), which stores a set of values. Like `Group`, it has `add`, `delete`, and `has` methods. Its `add` method, however, should return a _new_ `PGroup` instance with the given member added and leave the old one unchanged. Similarly, `delete` should create a new instance without a given member.
 
 The class should work for values of any type, not just strings. It does _not_ have to be efficient when used with large numbers of values.
 
@@ -447,7 +447,7 @@ The ((constructor)) shouldn't be part of the class's interface (though you'll de
 
 {{index singleton}}
 
-Why do you need only one `PGroup.empty` value, rather than having a function that creates a new, empty map every time?
+Why do you need only one `PGroup.empty` value rather than having a function that creates a new, empty map every time?
 
 {{if interactive
 
@@ -474,13 +474,13 @@ if}}
 
 {{index "persistent map (exercise)", "Set class", [array, creation], "PGroup class"}}
 
-The most convenient way to represent the set of member values is still as an array since arrays are easy to copy.
+The most convenient way to represent the set of member values is still as an array, since arrays are easy to copy.
 
 {{index "concat method", "filter method"}}
 
 When a value is added to the group, you can create a new group with a copy of the original array that has the value added (for example, using `concat`). When a value is deleted, you filter it from the array.
 
-The class's ((constructor)) can take such an array as argument and store it as the instance's (only) property. This array is never updated.
+The class's ((constructor)) can take such an array as its argument and store it as the instance's (only) property. This array is never updated.
 
 {{index "static property"}}
 

@@ -42,7 +42,7 @@ Switching to a more scientific approach, Jacques has started keeping a daily log
 
 The first thing he needs is a data structure to store this information.
 
-## Data sets
+## Datasets
 
 {{index ["data structure", collection], [memory, organization]}}
 
@@ -54,7 +54,7 @@ We could get creative with strings—after all, strings can have any length, so 
 
 {{index [array, creation], "[] (array)"}}
 
-Fortunately, JavaScript provides a data type specifically for storing sequences of values. It is called an _array_ and is written as a list of values between ((square brackets)), separated by commas:
+Fortunately, JavaScript provides a data type specifically for storing sequences of values. It is called an _array_ and is written as a list of values between ((square brackets)), separated by commas.
 
 ```
 let listOfNumbers = [2, 3, 5, 7, 11];
@@ -133,7 +133,7 @@ Properties that contain functions are generally called _methods_ of the value th
 
 {{id array_methods}}
 
-This example demonstrates two methods you can use to manipulate arrays:
+This example demonstrates two methods you can use to manipulate arrays.
 
 ```
 let sequence = [1, 2, 3];
@@ -163,7 +163,7 @@ Back to the weresquirrel. A set of daily log entries can be represented as an ar
 
 {{index [syntax, object], [property, definition], [braces, object], "{} (object)"}}
 
-Values of the type _((object))_ are arbitrary collections of properties. One way to create an object is by using braces as an expression:
+Values of the type _((object))_ are arbitrary collections of properties. One way to create an object is by using braces as an expression.
 
 ```
 let day1 = {
@@ -192,7 +192,7 @@ let descriptions = {
 
 {{index [braces, object]}}
 
-This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they begin a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a short-hand arrow function—you can't write `n => {prop: n}`, since the braces will be interpreted as a function body. Instead, you have to put a set of parentheses around the object to make it clear that it is an expression.
+This means that braces have _two_ meanings in JavaScript. At the start of a ((statement)), they begin a ((block)) of statements. In any other position, they describe an object. Fortunately, it is rarely useful to start a statement with an object in braces, so the ambiguity between these two is not much of a problem. The one case where this does come up is when you want to return an object from a shorthand arrow function—you can't write `n => {prop: n}` since the braces will be interpreted as a function body. Instead, you have to put a set of parentheses around the object to make it clear that it is an expression.
 
 {{index undefined}}
 
@@ -225,7 +225,7 @@ console.log("right" in anObject);
 
 {{index "in operator", [property, "testing for"], object}}
 
-The binary `in` operator, when applied to a string and an object, tells you whether that object has a property with that name. The difference between setting a property to `undefined` and actually deleting it is that in the first case, the object still _has_ the property (it just doesn't have a very interesting value), whereas in the second case the property is no longer present and `in` will return `false`.
+The binary `in` operator, when applied to a string and an object, tells you whether that object has a property with that name. The difference between setting a property to `undefined` and actually deleting it is that in the first case, the object still _has_ the property (it just doesn't have a very interesting value), whereas in the second case, the property is no longer present and `in` will return `false`.
 
 {{index "Object.keys function"}}
 
@@ -264,7 +264,7 @@ let journal = [
   {events: ["weekend", "cycling", "break", "peanuts",
             "beer"],
    squirrel: true},
-  /* and so on... */
+  /* And so on... */
 ];
 ```
 
@@ -415,9 +415,9 @@ console.log(phi([76, 9, 4, 1]));
 
 This is a direct translation of the _ϕ_ formula into JavaScript. `Math.sqrt` is the square root function, as provided by the `Math` object in a standard JavaScript environment. We have to add two fields from the table to get fields like [n~1•~]{if html}[[$n_{1\bullet}$]{latex}]{if tex} because the sums of rows or columns are not stored directly in our data structure.
 
-{{index "JOURNAL data set"}}
+{{index "JOURNAL dataset"}}
 
-Jacques keeps his journal for three months. The resulting ((data set)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
+Jacques keeps his journal for three months. The resulting ((dataset)) is available in the [coding sandbox](https://eloquentjavascript.net/code#4) for this chapter[ ([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if book}, where it is stored in the `JOURNAL` binding, and in a downloadable [file](https://eloquentjavascript.net/code/journal.js).
 
 {{index "tableFor function"}}
 
@@ -484,7 +484,7 @@ When a `for` loop uses the word `of` after its variable definition, it will loop
 
 {{index journal, "weresquirrel example", "journalEvents function"}}
 
-We need to compute a correlation for every type of event that occurs in the data set. To do that, we first need to _find_ every type of event.
+We need to compute a correlation for every type of event that occurs in the dataset. To do that, we first need to _find_ every type of event.
 
 {{index "includes method", "push method"}}
 
@@ -518,7 +518,7 @@ for (let event of journalEvents(JOURNAL)) {
 // → weekend:  0.1371988681
 // → bread:   -0.0757554019
 // → pudding: -0.0648203724
-// and so on...
+// And so on...
 ```
 
 Most correlations seem to lie close to zero. Eating carrots, bread, or pudding apparently does not trigger squirrel-lycanthropy. The transformations _do_ seem to occur somewhat more often on weekends. Let's filter the results to show only correlations greater than 0.1 or less than -0.1:
@@ -541,7 +541,7 @@ for (let event of journalEvents(JOURNAL)) {
 
 Aha! There are two factors with a ((correlation)) clearly stronger than the others. Eating ((peanuts)) has a strong positive effect on the chance of turning into a squirrel, whereas brushing teeth has a significant negative effect.
 
-Interesting. Let's try something:
+Interesting. Let's try something.
 
 ```
 for (let entry of JOURNAL) {
@@ -560,13 +560,13 @@ Knowing this, Jacques stops eating peanuts altogether and finds that his transfo
 
 {{index "weresquirrel example"}}
 
-But it only takes a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures, Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes form one last time, and lives the short and energetic life of a squirrel.
+But it takes only a few months for him to notice that something is missing from this entirely human way of living. Without his feral adventures, Jacques hardly feels alive at all. He decides he'd rather be a full-time wild animal. After building a beautiful little tree house in the forest and equipping it with a peanut butter dispenser and a ten-year supply of peanut butter, he changes form one last time, and lives the short and energetic life of a squirrel.
 
 ## Further arrayology
 
 {{index [array, methods], [method, array]}}
 
-Before finishing the chapter, I want to introduce you to a few more object-related concepts. I'll start by introducing some generally useful array methods.
+Before finishing the chapter, I want to introduce you to a few more object-related concepts. I'll start with some generally useful array methods.
 
 {{index "push method", "pop method", "shift method", "unshift method"}}
 
@@ -604,7 +604,7 @@ Both `indexOf` and `lastIndexOf` take an optional second argument that indicates
 
 {{index "slice method", [array, indexing]}}
 
-Another fundamental array method is `slice`, which takes start and end indices and returns an array that has only the elements between them. The start index is inclusive, the end index exclusive.
+Another fundamental array method is `slice`, which takes start and end indices and returns an array that has only the elements between them. The start index is inclusive and the end index is exclusive.
 
 ```
 console.log([0, 1, 2, 3, 4].slice(2, 4));
@@ -745,7 +745,7 @@ When such a function is called, the _((rest parameter))_ is bound to an array co
 
 {{index [function, application]}}
 
-You can use a similar three-dot notation to _call_ a function with an array of arguments:
+You can use a similar three-dot notation to _call_ a function with an array of arguments.
 
 ```
 let numbers = [5, 1, 7];
@@ -797,7 +797,7 @@ Many languages will stop you, or at least warn you, when you are defining a bind
 
 {{index "Math.cos function", "Math.sin function", "Math.tan function", "Math.acos function", "Math.asin function", "Math.atan function", "Math.PI constant", cosine, sine, tangent, "PI constant", pi}}
 
-Back to the `Math` object. If you need to do ((trigonometry)), `Math` can help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The number π (pi)—or at least the closest approximation that fits in a JavaScript number—is available as `Math.PI`. There is an old programming tradition of writing the names of ((constant)) values in all caps:
+Back to the `Math` object. If you need to do ((trigonometry)), `Math` can help. It contains `cos` (cosine), `sin` (sine), and `tan` (tangent), as well as their inverse functions, `acos`, `asin`, and `atan`, respectively. The number π (pi)—or at least the closest approximation that fits in a JavaScript number—is available as `Math.PI`. There is an old programming tradition of writing the names of ((constant)) values in all caps.
 
 ```{test: no}
 function randomPointOnCircle(radius) {
@@ -809,11 +809,11 @@ console.log(randomPointOnCircle(2));
 // → {x: 0.3667, y: 1.966}
 ```
 
-If you're not familiar with sines and cosines, don't worry. I'll explain them when they are used in this book, in [Chapter ?](dom#sin_cos).
+If you're not familiar with sines and cosines, don't worry. I'll explain them when they are used in [Chapter ?](dom#sin_cos).
 
 {{index "Math.random function", "random number"}}
 
-The previous example used `Math.random`. This is a function that returns a new pseudorandom number between zero (inclusive) and one (exclusive) every time you call it:
+The previous example used `Math.random`. This is a function that returns a new pseudorandom number between 0 (inclusive) and 1 (exclusive) every time you call it:
 
 ```{test: no}
 console.log(Math.random());
@@ -877,7 +877,7 @@ This also works for bindings created with `let`, `var`, or `const`. If you know 
 
 {{index [object, property], [braces, object]}}
 
-A similar trick works for objects, using braces instead of square brackets:
+A similar trick works for objects, using braces instead of square brackets.
 
 ```
 let {name} = {name: "Faraji", age: 23};
@@ -893,7 +893,7 @@ Note that if you try to destructure `null` or `undefined`, you get an error, muc
 
 {{index "optional chaining", "period character"}}
 
-When you aren't sure whether a given value produces an object but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
+When you aren't sure whether a given value produces an object, but still want to read a property from it when it does, you can use a variant of the dot notation: `object?.property`.
 
 ```
 function city(object) {
@@ -905,7 +905,7 @@ console.log(city({name: "Vera"}));
 // → undefined
 ```
 
-The expression `a?.b` means the same `a.b` when `a` isn't null or undefined. When it is, it evaluates to undefined. This can be convenient when, as in the example, you aren't sure that a given property exists or when a variable might hold an undefined value.
+The expression `a?.b` means the same as `a.b` when `a` isn't null or undefined. When it is, it evaluates to `undefined`. This can be convenient when, as in the example, you aren't sure that a given property exists or when a variable might hold an undefined value.
 
 A similar notation can be used with square bracket access, and even with function calls, by putting `?.` in front of the parentheses or brackets:
 
@@ -928,7 +928,7 @@ If you want to save data in a file for later or send it to another computer over
 
 {{index serialization, "World Wide Web"}}
 
-What we can do is _serialize_ the data. That means it is converted into a flat description. A popular serialization format is called _((JSON))_ (pronounced "Jason"), which stands for JavaScript Object Notation. It is widely used as a data storage and communication format on the Web, even in languages other than JavaScript.
+What we can do is _serialize_ the data. That means it is converted into a flat description. A popular serialization format is called _((JSON))_ (pronounced "Jason"), which stands for JavaScript Object Notation. It is widely used as a data storage and communication format on the web, even with languages other than JavaScript.
 
 {{index [array, notation], [object, creation], [quoting, "in JSON"], comment}}
 
@@ -1013,15 +1013,13 @@ Building up an array is most easily done by first initializing a binding to `[]`
 
 Since the end boundary is inclusive, you'll need to use the `<=` operator rather than `<` to check for the end of your loop.
 
-{{index "arguments object"}}
-
 The step parameter can be an optional parameter that defaults (using the `=` operator) to 1.
 
 {{index "range function", "for loop"}}
 
 Having `range` understand negative step values is probably best done by writing two separate loops—one for counting up and one for counting down—because the comparison that checks whether the loop is finished needs to be `>=` rather than `<=` when counting downward.
 
-It might also be worthwhile to use a different default step, namely, -1, when the end of the range is smaller than the start. That way, `range(5, 2)` returns something meaningful, rather than getting stuck in an ((infinite loop)). It is possible to refer to previous parameters in the default value of a parameter.
+It might also be worthwhile to use a different default step, namely, -1, when the end of the range is smaller than the start. That way, `range(5, 2)` returns something meaningful rather than getting stuck in an ((infinite loop)). It is possible to refer to previous parameters in the default value of a parameter.
 
 hint}}
 
@@ -1029,7 +1027,7 @@ hint}}
 
 {{index "reversing (exercise)", "reverse method", [array, methods]}}
 
-Arrays have a `reverse` method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, `reverseArray` and `reverseArrayInPlace`. The first, `reverseArray`, should take an array as argument and produce a _new_ array that has the same elements in the inverse order. The second, `reverseArrayInPlace`, should do what the `reverse` method does: _modify_ the array given as argument by reversing its elements. Neither may use the standard `reverse` method.
+Arrays have a `reverse` method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, `reverseArray` and `reverseArrayInPlace`. The first, `reverseArray`, should take an array as its argument and produce a _new_ array that has the same elements in the inverse order. The second, `reverseArrayInPlace`, should do what the `reverse` method does: _modify_ the array given as its argument by reversing its elements. Neither may use the standard `reverse` method.
 
 {{index efficiency, "pure function", "side effect"}}
 
@@ -1057,13 +1055,13 @@ if}}
 
 {{index "reversing (exercise)"}}
 
-There are two obvious ways to implement `reverseArray`. The first is to simply go over the input array from front to back and use the `unshift` method on the new array to insert each element at its start. The second is to loop over the input array backwards and use the `push` method. Iterating over an array backwards requires a (somewhat awkward) `for` specification, like `(let i = array.length - 1; i >= 0; i--)`.
+There are two obvious ways to implement `reverseArray`. The first is to simply go over the input array from front to back and use the `unshift` method on the new array to insert each element at its start. The second is to loop over the input array backward and use the `push` method. Iterating over an array backward requires a (somewhat awkward) `for` specification, like `(let i = array.length - 1; i >= 0; i--)`.
 
 {{index "slice method"}}
 
 Reversing the array in place is harder. You have to be careful not to overwrite elements that you will later need. Using `reverseArray` or otherwise copying the whole array (`array.slice()` is a good way to copy an array) works but is cheating.
 
-The trick is to _swap_ the first and last elements, then the second and second-to-last, and so on. You can do this by looping over half the length of the array (use `Math.floor` to round down—you don't need to touch the middle element in an array with an odd number of elements) and swapping the element at position `i` with the one at position `array.length - 1 - i`. You can use a local binding to briefly hold on to one of the elements, overwrite that one with its mirror image, and then put the value from the local binding in the place where the mirror image used to be.
+The trick is to _swap_ the first and last elements, then the second and second-to-last, and so on. You can do this by looping over half the length of the array (use `Math.floor` to round down—you don't need to touch the middle element in an array with an odd number of elements) and swapping the element at position `i` with the one at position `array.length - 1 - i`. You can use a local binding to briefly hold onto one of the elements, overwrite that one with its mirror image, and then put the value from the local binding in the place where the mirror image used to be.
 
 hint}}
 
@@ -1123,7 +1121,7 @@ if}}
 
 {{index "list (exercise)", "linked list"}}
 
-Building up a list is easier when done back to front. So `arrayToList` could iterate over the array backwards (see the previous exercise) and, for each element, add an object to the list. You can use a local binding to hold the part of the list that was built so far and use an assignment like `list = {value: X, rest: list}` to add an element.
+Building up a list is easier when done back to front. So `arrayToList` could iterate over the array backward (see the previous exercise) and, for each element, add an object to the list. You can use a local binding to hold the part of the list that was built so far and use an assignment like `list = {value: X, rest: list}` to add an element.
 
 {{index "for loop"}}
 
@@ -1133,7 +1131,7 @@ To run over a list (in `listToArray` and `nth`), a `for` loop specification like
 for (let node = list; node; node = node.rest) {}
 ```
 
-Can you see how that works? Every iteration of the loop, `node` points to the current sublist, and the body can read its `value` property to get the current element. At the end of an iteration, `node` moves to the next sublist. When that is null, we have reached the end of the list, and the loop is finished.
+Can you see how that works? Every iteration of the loop, `node` points to the current sublist, and the body can read its `value` property to get the current element. At the end of an iteration, `node` moves to the next sublist. When that is `null`, we have reached the end of the list, and the loop is finished.
 
 {{index recursion}}
 
@@ -1149,7 +1147,7 @@ hint}}
 
 The `==` operator compares objects by identity, but sometimes you'd prefer to compare the values of their actual properties.
 
-Write a function `deepEqual` that takes two values and returns true only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to `deepEqual`.
+Write a function `deepEqual` that takes two values and returns `true` only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to `deepEqual`.
 
 {{index null, "=== operator", "typeof operator"}}
 
@@ -1187,6 +1185,6 @@ Use `Object.keys` to go over the properties. You need to test whether both objec
 
 {{index "return value"}}
 
-Returning the correct value from the function is best done by immediately returning false when a mismatch is found and returning true at the end of the function.
+Returning the correct value from the function is best done by immediately returning `false` when a mismatch is found and returning `true` at the end of the function.
 
 hint}}

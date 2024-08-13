@@ -14,7 +14,7 @@ quote}}
 
 A _((skill-sharing))_ meeting is an event where people with a shared interest come together and give small, informal presentations about things they know. At a ((gardening)) skill-sharing meeting, someone might explain how to cultivate ((celery)). Or in a programming skill-sharing group, you could drop by and tell people about Node.js.
 
-In this final project chapter, our goal is to set up a ((website)) for managing ((talk))s given at a skill-sharing meeting. Imagine a small group of people meeting up regularly in the office of one of the members to talk about ((unicycling)). The previous organizer of the meetings moved to another town, and nobody stepped forward to take over this task. We want a system that will let the participants propose and discuss talks among themselves, without an active organizer.
+In this final project chapter, our goal is to set up a ((website)) for managing ((talk))s given at a skill-sharing meeting. Imagine a small group of people meeting up regularly in the office of one of the members to talk about ((unicycling)). The previous organizer of the meetings moved to another town, and nobody stepped forward to take over this task. We want a system that will let the participants propose and discuss talks among themselves without an active organizer.
 
 [Just like in the [previous chapter](node), some of the code in this chapter is written for Node.js, and running it directly in the HTML page that you are looking at is unlikely to work.]{if interactive} The full code for the project can be ((download))ed from [_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
 
@@ -40,17 +40,15 @@ A common solution to this problem is called _((long polling))_, which happens to
 
 ## Long polling
 
-{{index firewall, notification, "long polling", network, [browser, security]}}
+{{index notification, "long polling", network, [browser, security]}}
 
 To be able to immediately notify a client that something changed, we need a ((connection)) to that client. Since web browsers do not traditionally accept connections and clients are often behind ((router))s that would block such connections anyway, having the server initiate this connection is not practical.
 
-We can arrange for the client to open the connection and keep it around so that the server can use it to send information when it needs to do so.
-
 {{index socket}}
 
-But an ((HTTP)) request allows only a simple flow of information: the client sends a request, the server comes back with a single response, and that is it. There is a technology called _((WebSockets))_ that makes it possible to open ((connection))s for arbitrary data exchange. But using them properly is somewhat tricky.
+We can arrange for the client to open the connection and keep it around so that the server can use it to send information when it needs to do so. But an ((HTTP)) request allows only a simple flow of information: the client sends a request, the server comes back with a single response, and that's it. A technology called _((WebSockets))_ makes it possible to open ((connection))s for arbitrary data exchange, but using such sockets properly is somewhat tricky.
 
-In this chapter, we use a simpler technique—((long polling))—where clients continuously ask the server for new information using regular HTTP requests, and the server stalls its answer when it has nothing new to report.
+In this chapter, we use a simpler technique, ((long polling)), where clients continuously ask the server for new information using regular HTTP requests, and the server stalls its answer when it has nothing new to report.
 
 {{index "live view"}}
 
@@ -150,12 +148,12 @@ Content-Type: application/json
 ETag: "5"
 Content-Length: 295
 
-[....]
+[...]
 ```
 
 {{index security}}
 
-The protocol described here does not do any ((access control)). Everybody can comment, modify talks, and even delete them. (Since the Internet is full of ((hooligan))s, putting such a system online without further protection probably wouldn't end well.)
+The protocol described here doesn't do any ((access control)). Everybody can comment, modify talks, and even delete them. (Since the internet is full of ((hooligan))s, putting such a system online without further protection probably wouldn't end well.)
 
 ## The server
 
@@ -167,7 +165,7 @@ Let's start by building the ((server))-side part of the program. The code in thi
 
 {{index "createServer function", [path, URL], [method, HTTP]}}
 
-Our server will use Node's `createServer` to start an HTTP server. In the function that handles a new request, we must distinguish between the various kinds of requests (as determined by the method and the path) that we support. This can be done with a long chain of `if` statements, but there is a nicer way.
+Our server will use Node's `createServer` to start an HTTP server. In the function that handles a new request, we must distinguish between the various kinds of requests (as determined by the method and the path) that we support. This can be done with a long chain of `if` statements, but there's a nicer way.
 
 {{index dispatch}}
 
@@ -205,15 +203,15 @@ The module exports the `Router` class. A router object allows you to register ha
 
 {{index "capture group", "decodeURIComponent function", [escaping, "in URLs"]}}
 
-Handler functions are called with the `context` value given to `resolve`. We will use this to give them access to our server state. Additionally, they receive the match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded since the raw URL may contain `%20`-style codes.
+Handler functions are called with the `context` value given to `resolve`. We will use this to give them access to our server state. Additionally, they receive the match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded, since the raw URL may contain `%20`-style codes.
 
 ### Serving files
 
-When a request matches none of the request types defined in our router, the server must interpret it as a request for a file in the `public` directory. It would be possible to use the file server defined in [Chapter ?](node#file_server) to serve such files, but we neither need nor want to support `PUT` and `DELETE` requests on files, and we would like to have advanced features such as support for caching. So let's use a solid, well-tested ((static file)) server from ((NPM)) instead.
+When a request matches none of the request types defined in our router, the server must interpret it as a request for a file in the `public` directory. It would be possible to use the file server defined in [Chapter ?](node#file_server) to serve such files, but we neither need nor want to support `PUT` and `DELETE` requests on files, and we would like to have advanced features such as support for caching. Let's use a solid, well-tested ((static file)) server from ((NPM)) instead.
 
 {{index "createServer function", "serve-static package"}}
 
-I opted for `serve-static`. This isn't the only such server on NPM, but it works well and fits our purposes. The `serve-static` package exports a function that can be called with a root directory to produce a request handler function. The handler function accepts the `request` and `response` arguments provided by the server from `"node:http"`, and a third argument, a function that it will call if no file matches the request. We want our server to first check for requests that we should handle specially, as defined in the router, so we wrap it in another function.
+I opted for `serve-static`. This isn't the only such server on NPM, but it works well and fits our purposes. The `serve-static` package exports a function that can be called with a root directory to produce a request handler function. The handler function accepts the `request` and `response` arguments provided by the server from `"node:http"`, and a third argument, a function that it will call if no file matches the request. We want our server to first check for requests we should handle specially, as defined in the router, so we wrap it in another function.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 import {createServer} from "node:http";
@@ -247,9 +245,9 @@ class SkillShareServer {
 }
 ```
 
-The `serveFromRouter` function has the same interface as `fileServer`, taking `(request, response, next)` arguments. This allows us to “chain” several request handlers, allowing each to either handle the request, or pass responsibility for that on to the next handler. The final handler, `notFound`, simply responds with a “not found” error.
+The `serveFromRouter` function has the same interface as `fileServer`, taking `(request, response, next)` arguments. We can use this to “chain” several request handlers, allowing each to either handle the request or pass responsibility for that on to the next handler. The final handler, `notFound`, simply responds with a “not found” error.
 
-Our `serveFromRouter` function uses a similar convention as the file server from the [previous chapter](node) for responses—handlers in the router return promises that resolve to objects describing the response.
+Our `serveFromRouter` function uses a similar convention to the file server from the [previous chapter](node) for responses—handlers in the router return promises that resolve to objects describing the response.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 import {Router} from "./router.mjs";
@@ -274,7 +272,7 @@ async function serveFromRouter(server, request,
 
 ### Talks as resources
 
-The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. We will add some handlers to our router that expose these as HTTP ((resource))s under `/talks/[title]`.
+The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. We'll add some handlers to our router that expose these as HTTP ((resource))s under `/talks/<title>`.
 
 {{index "GET method", "404 (HTTP status code)" "hasOwn function"}}
 
@@ -479,7 +477,7 @@ Thus, if we want a page to show up when a browser is pointed at our server, we s
 
 {{index CSS}}
 
-It defines the document ((title)) and includes a style sheet, which defines a few styles to, among other things, make sure there is some space between talks. Then it adds a heading at the top of the page and loads the script that contains the ((client))-side application.
+It defines the document ((title)) and includes a style sheet, which defines a few styles to, among other things, make sure there is some space between talks. It then adds a heading at the top of the page and loads the script that contains the ((client))-side application.
 
 ### Actions
 
@@ -551,7 +549,7 @@ function talkURL(title) {
 
 {{index "error handling", "user experience", "reportError function"}}
 
-When the request fails, we don't want to have our page just sit there, doing nothing without explanation. So we define a function called `reportError`, which at least shows the user a dialog that tells them something went wrong.
+When the request fails, we don't want our page to just sit there doing nothing without explanation. The function called `reportError`, which we used as the `catch` handler, shows the user a crude dialog to tell them something went wrong.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function reportError(error) {
@@ -563,7 +561,7 @@ function reportError(error) {
 
 {{index "renderUserField function"}}
 
-We'll use an approach similar to the one we saw in [Chapter ?](paint), splitting the application into components. But since some of the components either never need to update or are always fully redrawn when updated, we'll define those not as classes but as functions that directly return a DOM node. For example, here is a component that shows the field where the user can enter their name:
+We'll use an approach similar to the one we saw in [Chapter ?](paint), splitting the application into components. However, since some of the components either never need to update or are always fully redrawn when updated, we'll define those not as classes but as functions that directly return a DOM node. For example, here is a component that shows the field where the user can enter their name:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function renderUserField(name, dispatch) {
@@ -629,7 +627,7 @@ function renderTalk(talk, dispatch) {
 
 The `"submit"` event handler calls `form.reset` to clear the form's content after creating a `"newComment"` action.
 
-When creating moderately complex pieces of DOM, this style of programming starts to look rather messy. To avoid this, people often use a _((templating language))_, which allows you to write your interface as an HTML file with some special markers to indicate where dynamic elements go. Or they use _((JSX))_, a non-standard JavaScript dialect that allows you to write something very close to HTML tags in your program as if they are JavaScript expressions. Both of these approaches use additional tools to pre-process the code before it can be run, which we will avoid in this chapter.
+When creating moderately complex pieces of DOM, this style of programming starts to look rather messy. To avoid this, people often use a _((templating language))_, which allows you to write your interface as an HTML file with some special markers to indicate where dynamic elements go. Or they use _((JSX))_, a nonstandard JavaScript dialect that allows you to write something very close to HTML tags in your program as if they are JavaScript expressions. Both of these approaches use additional tools to preprocess the code before it can be run, which we will avoid in this chapter.
 
 Comments are simple to render.
 
@@ -668,7 +666,7 @@ function renderTalkForm(dispatch) {
 
 {{index "pollTalks function", "long polling", "If-None-Match header", "Prefer header", "fetch function"}}
 
-To start the app we need the current list of talks. Since the initial load is closely related to the long polling process—the `ETag` from the load must be used when polling—we'll write a function that keeps polling the server for `/talks` and calls a ((callback function)) when a new set of talks is available.
+To start the app, we need the current list of talks. Since the initial load is closely related to the long polling process—the `ETag` from the load must be used when polling—we'll write a function that keeps polling the server for `/talks` and calls a ((callback function)) when a new set of talks is available.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 async function pollTalks(update) {
@@ -770,7 +768,7 @@ If you run the server and open two browser windows for [_http://localhost:8000_]
 
 {{index "Node.js", NPM}}
 
-The following exercises will involve modifying the system defined in this chapter. To work on them, make sure you ((download)) the code first ([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)), have Node installed ([_https://nodejs.org_](https://nodejs.org)), and install the project's dependency with `npm install`.
+The following exercises will involve modifying the system defined in this chapter. To work on them, make sure you've ((download))ed the code ([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)), installed Node ([_https://nodejs.org_](https://nodejs.org)), and installed the project's dependency with `npm install`.
 
 ### Disk persistence
 
@@ -780,11 +778,11 @@ The skill-sharing server keeps its data purely in memory. This means that when i
 
 {{index "hard drive"}}
 
-Extend the server so that it stores the talk data to disk and automatically reloads the data when it is restarted. Do not worry about efficiency—do the simplest thing that works.
+Extend the server so that it stores the talk data to disk and automatically reloads the data when it is restarted. Don't worry about efficiency—do the simplest thing that works.
 
 {{hint
 
-{{index "file system", "writeFile function", "updated method", persistence}}
+{{index "filesystem", "writeFile function", "updated method", persistence}}
 
 The simplest solution I can come up with is to encode the whole `talks` object as ((JSON)) and dump it to a file with `writeFile`. There is already a method (`updated`) that is called every time the server's data changes. It can be extended to write the new data to disk.
 
@@ -808,7 +806,7 @@ When multiple people are adding comments at the same time, this would be annoyin
 
 The best way to do this is probably to make the talk component an object, with a `syncState` method, so that they can be updated to show a modified version of the talk. During normal operation, the only way a talk can be changed is by adding more comments, so the `syncState` method can be relatively simple.
 
-The difficult part is that, when a changed list of talks comes in, we have to reconcile the existing list of DOM components with the talks on the new list—deleting components whose talk was deleted and updating components whose talk changed.
+The difficult part is that when a changed list of talks comes in, we have to reconcile the existing list of DOM components with the talks on the new list—deleting components whose talk was deleted and updating components whose talk changed.
 
 {{index synchronization, "live view"}}
 

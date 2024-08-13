@@ -165,7 +165,7 @@ if (safeMode) {
 
 {{index [function, "higher-order"]}}
 
-In [Chapter ?](higher_order), we'll discuss the interesting things that we can do by passing around function values to other functions.
+In [Chapter ?](higher_order), we'll discuss the interesting things that we can do by passing function values to other functions.
 
 ## Declaration notation
 
@@ -214,7 +214,7 @@ The arrow comes _after_ the list of parameters and is followed by the function's
 
 {{index [braces, "function body"], "square example", [parentheses, arguments]}}
 
-When there is only one parameter name, you can omit the parentheses around the parameter list. If the body is a single expression, rather than a ((block)) in braces, that expression will be returned from the function. So, these two definitions of `square` do the same thing:
+When there is only one parameter name, you can omit the parentheses around the parameter list. If the body is a single expression rather than a ((block)) in braces, that expression will be returned from the function. So, these two definitions of `square` do the same thing:
 
 ```
 const square1 = (x) => { return x * x; };
@@ -260,11 +260,11 @@ We could show the flow of control schematically like this:
 
 ```{lang: null}
 not in function
-   in greet
-        in console.log
-   in greet
+  in greet
+    in console.log
+  in greet
 not in function
-   in console.log
+  in console.log
 not in function
 ```
 
@@ -351,9 +351,9 @@ console.log("C", "O", 2);
 
 {{index "call stack", "local binding", [function, "as value"], scope}}
 
-The ability to treat functions as values, combined with the fact that local bindings are recreated every time a function is called, brings up an interesting question: what happens to local bindings when the function call that created them is no longer active?
+The ability to treat functions as values, combined with the fact that local bindings are re-created every time a function is called, brings up an interesting question: What happens to local bindings when the function call that created them is no longer active?
 
-The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding:
+The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding.
 
 ```
 function wrapValue(n) {
@@ -375,7 +375,7 @@ This feature—being able to reference a specific instance of a local binding in
 
 {{index "multiplier function"}}
 
-With a slight change, we can turn the previous example into a way to create functions that multiply by an arbitrary amount:
+With a slight change, we can turn the previous example into a way to create functions that multiply by an arbitrary amount.
 
 ```
 function multiplier(factor) {
@@ -389,7 +389,7 @@ console.log(twice(5));
 
 {{index [binding, "from parameter"]}}
 
-The explicit `local` binding from the `wrapValue` example isn't really needed, since a parameter is itself a local binding.
+The explicit `local` binding from the `wrapValue` example isn't really needed since a parameter is itself a local binding.
 
 {{index [function, "model of"]}}
 
@@ -422,7 +422,7 @@ This is rather close to the way mathematicians define exponentiation and arguabl
 
 {{index [function, application], efficiency}}
 
-This implementation has one problem, however: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
+However, this implementation has one problem: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
 
 {{index optimization}}
 
@@ -436,7 +436,7 @@ Worrying about efficiency can be a distraction. It's yet another factor that com
 
 {{index "premature optimization"}}
 
-Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't, since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
+Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
 
 {{index "branching recursion"}}
 
@@ -470,7 +470,7 @@ console.log(findSolution(24));
 
 Note that this program doesn't necessarily find the _shortest_ sequence of operations. It is satisfied when it finds any sequence at all.
 
-It's okay if you don't see how this code works right away. Let's work through it, since it makes for a great exercise in recursive thinking.
+It's okay if you don't see how this code works right away. Let's work through it since it makes for a great exercise in recursive thinking.
 
 The inner function `find` does the actual recursing. It takes two ((argument))s: the current number and a string that records how we reached this number. If it finds a solution, it returns a string that shows how to get to the target. If it can find no solution starting from this number, it returns `null`.
 
@@ -510,7 +510,7 @@ There are two more or less natural ways for functions to be introduced into prog
 
 The first occurs when you find yourself writing similar code multiple times. You'd prefer not to do that, as having more code means more space for mistakes to hide and more material to read for people trying to understand the program. So you take the repeated functionality, find a good name for it, and put it into a function.
 
-The second way is that you find you need some functionality that you haven't written yet and that sounds like it deserves its own function. You start by naming the function, then write its body. You might even start writing code that uses the function before you actually define the function itself.
+The second way is that you find you need some functionality that you haven't written yet and that sounds like it deserves its own function. You start by naming the function, and then write its body. You might even start writing code that uses the function before you actually define the function itself.
 
 {{index [function, naming], [binding, naming]}}
 
@@ -732,7 +732,7 @@ hint}}
 
 You can get the *N*th character, or letter, from a string by writing `[N]` after the string (for example, `string[2]`). The resulting value will be a string containing only one character (for example, `"b"`). The first character has position 0, which causes the last one to be found at position `string.length - 1`. In other words, a two-character string has length 2, and its characters have positions 0 and 1.
 
-Write a function `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase B characters there are in the string.
+Write a function called `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase B characters there are in the string.
 
 Next, write a function called `countChar` that behaves like `countBs`, except it takes a second argument that indicates the character that is to be counted (rather than counting only uppercase B characters). Rewrite `countBs` to make use of this new function.
 

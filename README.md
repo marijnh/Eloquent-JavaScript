@@ -51,3 +51,6 @@ to the same language (and possibly never finish it). (Since
 translations have to retain the license, it is okay to pick up someone
 else's translation and continue it, even when they have vanished from
 the internet.)
+
+I am not interested in machine translations. Please only ask me to
+link your translation when it was done by actual people.

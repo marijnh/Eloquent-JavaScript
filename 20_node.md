@@ -4,54 +4,54 @@
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-A student asked, 'The programmers of old used only simple machines and no programming languages, yet they made beautiful programs. Why do we use complicated machines and programming languages?'. Fu-Tzu replied, 'The builders of old used only sticks and clay, yet they made beautiful huts.'
+Bir öğrenci sordu: "Eski programcılar yalnızca basit makineler ve programlama dilleri kullanmadan güzel programlar yaptılar. Neden karmaşık makineler ve programlama dilleri kullanıyoruz?" Fu-Tzu cevap verdi: "Eski inşaatçılar yalnızca çubuklar ve kili kullanarak güzel kulübeler yaptılar."
 
 quote}}
 
 {{index "Yuan-Ma", "Book of Programming"}}
 
-{{figure {url: "img/chapter_picture_20.jpg", alt: "Illustration showing a telephone pole with a tangle of wires going in all directions", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_20.jpg", alt: "Bir telefon direği üzerinde dört bir yana karmaşık şekilde dağılmış tellerin gösterildiği bir illüstrasyon.", chapter: "framed"}}}
 
 {{index "command line"}}
 
-So far, we have used the JavaScript language in a single environment: the browser. This chapter and the [next one](skillsharing) will briefly introduce ((Node.js)), a program that allows you to apply your JavaScript skills outside of the browser. With it, you can build anything from small command line tools to HTTP ((server))s that power dynamic ((website))s.
+Şu ana kadar yalnızca tarayıcı ortamında JavaScript dilini kullandık. Bu bölüm ve [bir sonraki bölüm](skillsharing), JavaScript becerilerinizi tarayıcı dışında da kullanmanıza olanak tanıyan `((Node.js))` adında bir programı kısa bir şekilde tanıtacaktır. Bu araç sayesinde, küçük komut satırı araçlarından dinamik `((website))`leri çalıştıran HTTP `((server))`lerine kadar birçok şeyi oluşturabilirsiniz.
 
-These chapters aim to teach you the main concepts that Node.js uses and to give you enough information to write useful programs for it. They do not try to be a complete, or even a thorough, treatment of the platform.
+Bu bölümler, Node.js’in temel konseptlerini öğretmeyi amaçlıyor ve bu platformda faydalı programlar yazmak için yeterli bilgi sağlıyor. Platformun tam ve kapsamlı bir açıklamasını hedeflemiyor.
 
 {{if interactive
 
-Whereas you could run the code in previous chapters directly on these pages, because it was either raw JavaScript or written for the browser, the code samples in this chapter are written for Node and often won't run in the browser.
+Önceki bölümlerdeki kodu doğrudan bu sayfalarda çalıştırabiliyordunuz çünkü ya ham JavaScript'ti ya da tarayıcı için yazılmıştı; ancak bu bölümdeki örnekler Node için yazılmış durumda ve genellikle tarayıcıda çalıştırılamazlar.
 
 if}}
 
-If you want to follow along and run the code in this chapter, you'll need to install Node.js version 18 or higher. To do so, go to [_https://nodejs.org_](https://nodejs.org) and follow the installation instructions for your operating system. You can also find further ((documentation)) for Node.js there.
+Bu bölümü takip edip örnek kodları çalıştırmak isterseniz, Node.js sürüm 18 veya daha üstünü yüklemeniz gerekiyor. Bunu yapmak için [_https://nodejs.org_](https://nodejs.org) adresine gidin ve işletim sisteminize uygun yükleme talimatlarını takip edin. Ayrıca Node.js için daha fazla `((documentation))` bilgisine de buradan ulaşabilirsiniz.
 
-## Background
+## Arka Plan
 
 {{index responsiveness, input, [network, speed]}}
 
-One of the more difficult problems with writing systems that communicate over the network is managing input and ((output))—that is, the reading and writing of data to and from the network and ((hard drive)). Moving data around takes time, and ((scheduling)) it cleverly can make a big difference in how quickly a system responds to the user or to network requests.
+Ağ üzerinden iletişim kuran sistemler yazarken yaşanan en zor sorunlardan biri, giriş ve `((output))` yönetimidir—yani ağdan ve ağlara veri okuma ve yazma işlemleriyle `((hard drive))` arasındaki veri taşınması. Verileri taşımak zaman alır ve bunu akıllıca `((scheduling))` yapmak, bir sistemin kullanıcıya ya da ağ isteklerine yanıt verme hızında büyük fark yaratabilir.
 
 {{index ["asynchronous programming", "in Node.js"]}}
 
-In such programs, asynchronous programming is often helpful. It allows the program to send and receive data from and to multiple devices at the same time without complicated thread management and synchronization.
+Bu tür programlarda asenkron programlama genellikle yardımcıdır. Asenkron programlama, karmaşık thread yönetimi ve senkronizasyon olmadan aynı anda birden fazla cihazdan veri alıp göndermeyi sağlar.
 
 {{index "programming language", "Node.js", standard}}
 
-Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do in- and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to in- and output without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
+Node, başlangıçta asenkron programlamayı kolay ve kullanışlı hale getirmek amacıyla tasarlandı. JavaScript, Node gibi bir sistem için uygundur. JavaScript, yerleşik bir giriş-çıkış yöntemi bulunmayan nadir programlama dillerinden biridir. Böylece, JavaScript'in, Node'un giriş-çıkış açısından biraz sıra dışı yaklaşımına uyarlanması, iki tutarsız arayüzün ortaya çıkmasına sebep olmadan gerçekleştirilmiştir. 2009'da Node tasarlandığında, tarayıcıda zaten geri çağırma tabanlı programlamalar yapan insanlar vardı, bu nedenle ((community)), dilin asenkron programlama tarzına alışkındı.
 
-## The node command
+## Node Komutu
 
 {{index "node program"}}
 
-When ((Node.js)) is installed on a system, it provides a program called `node`, which is used to run JavaScript files. Say you have a file `hello.js`, containing this code:
+Bir sistemde ((Node.js)) kurulduğunda, JavaScript dosyalarını çalıştırmak için kullanılan `node` adında bir program sağlar. Diyelim ki `hello.js` adında bir dosyanız var ve şu kodu içeriyor:
 
 ```
 let message = "Hello world";
 console.log(message);
 ```
 
-You can then run `node` from the ((command line)) like this to execute the program:
+`node` komutunu şu şekilde kullanabilirsiniz:
 
 ```{lang: null}
 $ node hello.js
@@ -60,11 +60,11 @@ Hello world
 
 {{index "console.log"}}
 
-The `console.log` method in Node does something similar to what it does in the browser. It prints out a piece of text. But in Node, the text will go to the process's ((standard output)) stream, rather than to a browser's ((JavaScript console)). When running `node` from the command line, that means you see the logged values in your ((terminal)).
+Node'daki `console.log` metodu, tarayıcıda yaptığı işlemlerle benzer şekilde çalışır. Bir metni ekrana yazdırır. Ancak Node'da bu yazdırılan metin, tarayıcının ((JavaScript console)) yerine işlemin ((standart çıktı)) akışına gider. `node` komutunu komut satırından çalıştırdığınızda, bu durumda yazdırılan değerleri ((terminal)) üzerinde görürsünüz.
 
 {{index "node program", "read-eval-print loop"}}
 
-If you run `node` without giving it a file, it provides you with a prompt at which you can type JavaScript code and immediately see the result.
+Eğer `node` komutunu bir dosya vermeden çalıştırırsanız, JavaScript kodu yazabileceğiniz bir istemci (prompt) sağlanır ve yazdığınız kodun sonucunu anında görebilirsiniz.
 
 ```{lang: null}
 $ node
@@ -78,7 +78,7 @@ $
 
 {{index "process object", "global scope", [binding, global], "exit method", "status code"}}
 
-The `process` binding, just like the `console` binding, is available globally in Node. It provides various ways to inspect and manipulate the current program. The `exit` method ends the process and can be given an exit status code, which tells the program that started `node` (in this case, the command line shell) whether the program completed successfully (code zero) or encountered an error (any other code).
+`process` bağlaması, `console` bağlaması gibi Node'da küresel olarak mevcut bir bağlamadır. Mevcut programı incelemek ve manipüle etmek için çeşitli yöntemler sunar. `exit` metodu, işlemi sonlandırır ve bir çıkış durumu kodu verilebilir. Bu durum kodu, `node` komutunu başlatan programa (bu örnekte komut satırı kabuğu) işlemin başarılı bir şekilde tamamlandığını (kod sıfır) ya da bir hata ile karşılaştığını (başka bir kod) belirtir.
 
 {{index "command line", "argv property"}}
 
@@ -93,7 +93,7 @@ $ node showargv.js one --and two
 
 All the ((standard)) JavaScript global bindings, such as `Array`, `Math`, and `JSON`, are also present in Node's environment. Browser-related functionality, such as `document` or `prompt`, is not.
 
-## Modules
+## Modüller
 
 {{index "Node.js", "global scope", "module loader"}}
 
@@ -149,7 +149,7 @@ $ node main.mjs JavaScript
 tpircSavaJ
 ```
 
-## Installing with NPM
+## NPM ile kurulum
 
 {{index NPM, "Node.js", "npm program", library}}
 
@@ -222,7 +222,7 @@ The `npm` command is also used to publish new packages or new versions of packag
 
 This book won't delve further into the details of ((NPM)) usage. Refer to [_https://npmjs.org_](https://npmjs.org) for further documentation and a way to search for packages.
 
-## The file system module
+## Dosya sistemi modülü
 
 {{index directory, "node:fs package", "Node.js", [file, access]}}
 
@@ -301,7 +301,7 @@ console.log("The file contains:",
 
 Do note that while such a synchronous operation is being performed, your program is stopped entirely. If it should be responding to the user or to other machines on the network, being stuck on a synchronous action might produce annoying delays.
 
-## The HTTP module
+## HTTP modülü
 
 {{index "Node.js", "node:http package", [HTTP, server]}}
 
@@ -358,7 +358,7 @@ A real web ((server)) usually does more than the one in the example—it looks a
 
 The `node:http` module also provides a `request` function, which can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node, as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece, as the data comes in over the network, I recommend sticking to `fetch`.
 
-## Streams
+## Stream'ler
 
 {{index "Node.js", stream, "writable stream", "callback function", ["asynchronous programming", "in Node.js"], "write method", "end method", "Buffer class"}}
 
@@ -410,7 +410,7 @@ fetch("http://localhost:8000/", {
 
 {{id file_server}}
 
-## A file server
+## Bir dosya sunucusu
 
 {{index "file server example", "Node.js", [HTTP, server]}}
 
@@ -639,7 +639,7 @@ File not found
 
 The first request for `file.txt` fails since the file does not exist yet. The `PUT` request creates the file, and behold, the next request successfully retrieves it. After deleting it with a `DELETE` request, the file is again missing.
 
-## Summary
+## Özet
 
 {{index "Node.js"}}
 
@@ -649,9 +649,9 @@ NPM provides packages for everything you can think of (and quite a few things yo
 
 All input and output in Node is done asynchronously, unless you explicitly use a synchronous variant of a function, such as `readFileSync`. Node originally used callbacks for asynchronous functionality, but the `node:fs/promises` package provides a promise-based interface to the file system.
 
-## Exercises
+## Egzersizler
 
-### Search tool
+### Arama aracı
 
 {{index grep, "search problem", "search tool (exercise)"}}
 
@@ -687,7 +687,7 @@ To go from a filename read with `readdir` to a full path name, you have to combi
 
 hint}}
 
-### Directory creation
+### Dizin oluşturma
 
 {{index "file server example", "directory creation (exercise)", "rmdir function"}}
 
@@ -723,7 +723,7 @@ You can use the function that implements the `DELETE` method as a blueprint for 
 
 hint}}
 
-### A public space on the web
+### Web'de kamusal bir alan
 
 {{index "public space (exercise)", "file server example", "Content-Type header", website}}
 

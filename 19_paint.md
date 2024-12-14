@@ -497,7 +497,7 @@ if}}
 
 {{index "SaveButton class", "drawPicture function", [file, image]}}
 
-When we've drawn our masterpiece, we'll want to save it for later. We should add a button for ((download))ing the current picture as an image file. This ((control)) provides that button:
+Başyapıtımızı çizdiğimizde, daha sonrası için kaydetmek isteyeceğiz. Mevcut resmi bir resim dosyası olarak ((indirmek)) için bir düğme eklemeliyiz. Bu ((kontrol)) o düğmeyi sağlar:
 
 ```{includeCode: true}
 class SaveButton {
@@ -524,21 +524,21 @@ class SaveButton {
 
 {{index "canvas (HTML tag)"}}
 
-The component keeps track of the current picture so that it can access it when saving. To create the image file, it uses a `<canvas>` element that it draws the picture on (at a scale of one pixel per pixel).
+Bileşen, kaydederken erişebilmek için mevcut resmin kaydını tutar. Resim dosyasını oluşturmak için, resmi üzerine çizdiği bir `<canvas>` öğesi kullanır (piksel başına bir piksel ölçekte).
 
 {{index "toDataURL method", "data URL"}}
 
-The `toDataURL` method on a canvas element creates a URL that starts with `data:`. Unlike `http:` and `https:` URLs, data URLs contain the whole resource in the URL. They are usually very long, but they allow us to create working links to arbitrary pictures, right here in the browser.
+Bir canvas öğesindeki `toDataURL` yöntemi, `data:` ile başlayan bir URL oluşturur. http:`ve`https:` URL`lerinin aksine, data URL`leri URL`deki tüm kaynağı içerir. Genellikle çok uzundurlar, ancak tarayıcıda rastgele resimlere çalışan bağlantılar oluşturmamızı sağlarlar.
 
 {{index "a (HTML tag)", "download attribute"}}
 
-To actually get the browser to download the picture, we then create a ((link)) element that points at this URL and has a `download` attribute. Such links, when clicked, make the browser show a file save dialog. We add that link to the document, simulate a click on it, and remove it again.
+Tarayıcının resmi indirmesini sağlamak için, bu URL'yi işaret eden ve `download` niteliğine sahip bir ((link)) öğesi oluştururuz. Bu tür bağlantılar tıklandığında tarayıcının bir dosya kaydetme iletişim kutusu göstermesini sağlar. Bu bağlantıyı belgeye ekliyoruz, üzerine tıklanmasını simüle ediyoruz ve tekrar kaldırıyoruz.
 
-You can do a lot with ((browser)) technology, but sometimes the way to do it is rather odd.
+((Tarayıcı)) teknolojisi ile çok şey yapabilirsiniz, ancak bazen bunu yapmanın yolu oldukça gariptir.
 
 {{index "LoadButton class", control, [file, image]}}
 
-And it gets worse. We'll also want to be able to load existing image files into our application. To do that, we again define a button component.
+Ve durum daha da kötüleşiyor. Mevcut resim dosyalarını da uygulamamıza yükleyebilmek isteyeceğiz. Bunu yapmak için yine bir düğme bileşeni tanımlıyoruz.
 
 ```{includeCode: true}
 class LoadButton {
@@ -563,11 +563,11 @@ function startLoad(dispatch) {
 
 {{index [file, access], "input (HTML tag)"}}
 
-To get access to a file on the user's computer, we need the user to select the file through a file input field. But I don't want the load button to look like a file input field, so we create the file input when the button is clicked and then pretend that this file input itself was clicked.
+Kullanıcının bilgisayarındaki bir dosyaya erişmek için, kullanıcının bir dosya giriş alanı aracılığıyla dosyayı seçmesi gerekir. Ancak yükleme düğmesinin bir dosya giriş alanı gibi görünmesini istemiyorum, bu nedenle düğmeye tıklandığında dosya girişini oluşturuyoruz ve ardından bu dosya girişinin kendisine tıklanmış gibi davranıyoruz.
 
 {{index "FileReader class", "img (HTML tag)", "readAsDataURL method", "Picture class"}}
 
-When the user has selected a file, we can use `FileReader` to get access to its contents, again as a ((data URL)). That URL can be used to create an `<img>` element, but because we can't get direct access to the pixels in such an image, we can't create a `Picture` object from that.
+Kullanıcı bir dosya seçtiğinde, içeriğine erişmek için `FileReader` kullanabiliriz ve bu içeriğe tekrar bir ((veri URL'si)) olarak erişebiliriz. Bu URL bir `<img>` elementi oluşturmak için kullanılabilir, ancak böyle bir görüntünün piksellerine doğrudan erişemediğimiz için bir `Picture` nesnesi oluşturamayız.
 
 ```{includeCode: true}
 function finishLoad(file, dispatch) {
@@ -587,7 +587,7 @@ function finishLoad(file, dispatch) {
 
 {{index "canvas (HTML tag)", "getImageData method", "pictureFromImage function"}}
 
-To get access to the pixels, we must first draw the picture to a `<canvas>` element. The canvas context has a `getImageData` method that allows a script to read its ((pixel))s. So, once the picture is on the canvas, we can access it and construct a `Picture` object.
+Piksellere erişmek için önce resmi bir `<canvas>` elementine çizmeliyiz. Canvas bağlamı, bir betiğin piksellerini okumasına olanak tanıyan bir `getImageData` metoduna sahiptir. Bu nedenle, resim canvas üzerinde olduğunda ona erişebilir ve bir `Picture` nesnesi oluşturabiliriz.
 
 ```{includeCode: true}
 function pictureFromImage(image) {
@@ -610,33 +610,33 @@ function pictureFromImage(image) {
 }
 ```
 
-We'll limit the size of images to 100 by 100 pixels since anything bigger will look _huge_ on our display and might slow down the interface.
+Görüntülerin boyutunu 100'e 100 piksel ile sınırlandıracağız çünkü daha büyük bir şey ekranımızda _çok büyük_ görünecek ve arayüzü yavaşlatabilir.
 
 {{index "getImageData method", color, transparency}}
 
-The `data` property of the object returned by `getImageData` is an array of color components. For each pixel in the rectangle specified by the arguments, it contains four values, which represent the red, green, blue, and _((alpha))_ components of the pixel's color, as numbers between 0 and 255. The alpha part represents opacity—when it is zero, the pixel is fully transparent, and when it is 255, it is fully opaque. For our purpose, we can ignore it.
+`getImageData` tarafından döndürülen nesnenin `data` özelliği, renk bileşenlerinden oluşan bir dizidir. Argümanlarla belirtilen dikdörtgendeki her piksel için bu dizi, pikselin renginin kırmızı, yeşil, mavi ve _((alfa))_ bileşenlerini temsil eden dört değer içerir. Bu değerler 0 ile 255 arasında değişir. Alfa kısmı opaklığı temsil eder—0 olduğunda piksel tamamen şeffaf, 255 olduğunda ise tamamen opaktır. Amacımız için bu kısmı görmezden gelebiliriz.
 
 {{index "hexadecimal number", "toString method"}}
 
-The two hexadecimal digits per component, as used in our color notation, correspond precisely to the 0 to 255 range—two base-16 digits can express 16^2^ = 256 different numbers. The `toString` method of numbers can be given a base as argument, so `n.toString(16)` will produce a string representation in base 16. We have to make sure that each number takes up two digits, so the `hex` helper function calls `padStart` to add a leading zero when necessary.
+Renk notasyonumuzda kullanılan her bileşen için iki onaltılık basamak, tam olarak 0 ile 255 aralığına karşılık gelir—iki taban-16 basamağı, 16^2^ = 256 farklı sayıyı ifade edebilir. Sayıların `toString` metodu bir taban argümanı alabilir, bu yüzden `n.toString(16)` taban 16'da bir string temsil oluşturur. Her sayının iki basamak kapladığından emin olmalıyız, bu yüzden `hex` yardımcı fonksiyonu, gerekirse başa sıfır eklemek için `padStart` çağrısı yapar.
 
-We can load and save now! That leaves one more feature before we're done.
+Artık yükleyip kaydedebiliyoruz! Bitirmeden önce sadece bir özellik kaldı.
 
 ## Geçmişi geri alma
 
-Half of the process of editing is making little mistakes and correcting them. So an important feature in a drawing program is an ((undo history)).
+Düzenleme sürecinin yarısı küçük hatalar yapmak ve bunları düzeltmektir. Bu nedenle, bir çizim programında önemli bir özellik, bir ((geri alma geçmişi))dir.
 
 {{index "persistent data structure", [state, "of application"]}}
 
-To be able to undo changes, we need to store previous versions of the picture. Since it's an ((immutable)) value, that is easy. But it does require an additional field in the application state.
+Değişiklikleri geri alabilmek için resmin önceki sürümlerini saklamamız gerekiyor. Bu, bir ((değiştirilemez)) değer olduğu için oldukça kolaydır. Ancak uygulama durumunda ek bir alan gerektirir.
 
 {{index "done property"}}
 
-We'll add a `done` array to keep previous versions of the ((picture)). Maintaining this property requires a more complicated state update function that adds pictures to the array.
+Önceki ((resim)) sürümlerini saklamak için bir `done` dizisi ekleyeceğiz. Bu özelliği sürdürmek, resimleri diziye ekleyen daha karmaşık bir durum güncelleme fonksiyonu gerektirir.
 
 {{index "doneAt property", "historyUpdateState function", "Date.now function"}}
 
-But we don't want to store _every_ change, only changes a certain amount of ((time)) apart. To be able to do that, we'll need a second property, `doneAt`, tracking the time at which we last stored a picture in the history.
+Ancak _her_ değişikliği saklamak istemiyoruz, yalnızca belirli bir ((zaman)) aralığında olan değişiklikleri. Bunu yapabilmek için, geçmişte bir resmi en son ne zaman sakladığımızı izleyen ikinci bir özellik olan `doneAt`'a ihtiyacımız olacak.
 
 ```{includeCode: true}
 function historyUpdateState(state, action) {
@@ -664,13 +664,13 @@ function historyUpdateState(state, action) {
 
 {{index "undo history"}}
 
-When the action is an undo action, the function takes the most recent picture from the history and makes that the current picture. It sets `doneAt` to zero so that the next change is guaranteed to store the picture back in the history, allowing you to revert to it another time if you want.
+Eylem bir geri alma eylemi olduğunda, fonksiyon geçmişten en son resmi alır ve bunu geçerli resim yapar. `doneAt`'i sıfıra ayarlar, böylece bir sonraki değişikliğin resmi yeniden geçmişe kaydetmesi garanti edilir. Bu, istediğiniz takdirde tekrar ona dönebilmenizi sağlar.
 
-Otherwise, if the action contains a new picture and the last time we stored something is more than a second (1000 milliseconds) ago, the `done` and `doneAt` properties are updated to store the previous picture.
+Aksi takdirde, eylem yeni bir resim içeriyorsa ve en son bir şey kaydettiğimiz zaman bir saniyeden (1000 milisaniye) daha önceyse, `done` ve `doneAt` özellikleri önceki resmi saklayacak şekilde güncellenir.
 
 {{index "UndoButton class", control}}
 
-The undo button ((component)) doesn't do much. It dispatches undo actions when clicked and disables itself when there is nothing to undo.
+Geri alma düğmesi ((bileşeni)) çok fazla iş yapmaz. Tıklandığında geri alma eylemleri gönderir ve geri alınacak bir şey olmadığında kendini devre dışı bırakır.
 
 ```{includeCode: true}
 class UndoButton {
@@ -690,7 +690,7 @@ class UndoButton {
 
 {{index "PixelEditor class", "startState constant", "baseTools constant", "baseControls constant", "startPixelEditor function"}}
 
-To set up the application, we need to create a state, a set of ((tool))s, a set of ((control))s, and a ((dispatch)) function. We can pass them to the `PixelEditor` constructor to create the main component. Since we'll need to create several editors in the exercises, we first define some bindings.
+Uygulamayı kurmak için bir durum, bir dizi ((araç)), bir dizi ((kontrol)) ve bir ((dispatch)) fonksiyonu oluşturmamız gerekiyor. Bunları ana bileşeni oluşturmak için `PixelEditor` constructor'ına iletebiliriz. Egzersizlerde birkaç düzenleyici oluşturmamız gerekeceğinden, önce bazı bağlamalar tanımlıyoruz.
 
 ```{includeCode: true}
 const startState = {
@@ -724,9 +724,9 @@ function startPixelEditor({state = startState,
 
 {{index "destructuring binding", "= operator", [property, access]}}
 
-When destructuring an object or array, you can use `=` after a binding name to give the binding a ((default value)), which is used when the property is missing or holds `undefined`. The `startPixelEditor` function makes use of this to accept an object with a number of optional properties as an argument. If you don't provide a `tools` property, for example, `tools` will be bound to `baseTools`.
+Bir nesneyi veya diziyi parçalarına ayırırken, bir bağlama adına `=` koyarak bir ((varsayılan değer)) atayabilirsiniz. Bu, ilgili özellik eksik olduğunda veya `undefined` içerdiğinde kullanılır. `startPixelEditor` fonksiyonu, bir dizi isteğe bağlı özellik içeren bir nesneyi argüman olarak kabul etmek için bunu kullanır. Örneğin, bir `tools` özelliği sağlamazsanız, `tools` `baseTools`'a bağlanacaktır.
 
-This is how we get an actual editor on the screen:
+Bir düzenleyiciyi ekranda bu şekilde elde ederiz:
 
 ```{lang: html, startCode: true}
 <div></div>
@@ -738,50 +738,50 @@ This is how we get an actual editor on the screen:
 
 {{if interactive
 
-Go ahead and draw something.
+Haydi bir şey çiz.
 
 if}}
 
 ## Neden bu kadar zor?
 
-Browser technology is amazing. It provides a powerful set of interface building blocks, ways to style and manipulate them, and tools to inspect and debug your applications. The software you write for the ((browser)) can be run on almost every computer and phone on the planet.
+Tarayıcı teknolojisi inanılmaz. Güçlü bir dizi arayüz oluşturma bloğu, bunları şekillendirip manipüle etme yolları ve uygulamalarınızı inceleyip hata ayıklama araçları sağlar. Tarayıcı için yazdığınız yazılım, dünyadaki neredeyse her bilgisayar ve telefonda çalıştırılabilir.
 
-At the same time, browser technology is ridiculous. You have to learn a large number of silly tricks and obscure facts to master it, and the default programming model it provides is so problematic that most programmers prefer to cover it in several layers of ((abstraction)) rather than deal with it directly.
+Aynı zamanda, tarayıcı teknolojisi saçma bir yapıya sahip. Onu tam anlamıyla öğrenmek için birçok anlamsız numara ve karmaşık bilgi öğrenmeniz gerekiyor. Ayrıca, sağladığı varsayılan programlama modeli o kadar sorunlu ki, çoğu programcı doğrudan bununla uğraşmak yerine birkaç katman ((soyutlama)) ile bunu örtmeyi tercih ediyor.
 
 {{index standard, evolution}}
 
-And though the situation is definitely improving, it mostly does so in the form of more elements being added to address shortcomings—creating even more ((complexity)). A feature used by a million websites can't really be replaced. Even if it could, it would be hard to decide what it should be replaced with.
+Durum kesinlikle iyileşiyor olsa da, bu genellikle eksiklikleri gidermek için daha fazla öğe eklenmesi şeklinde gerçekleşiyor—bu da daha fazla ((karmaşıklık)) yaratıyor. Bir milyon web sitesi tarafından kullanılan bir özellik kolayca değiştirilemez. Değiştirilebilse bile, yerine ne konulması gerektiğine karar vermek zor olurdu.
 
 {{index "social factors", "economic factors", history}}
 
-Technology never exists in a vacuum—we're constrained by our tools and the social, economic, and historical factors that produced them. This can be annoying, but it is generally more productive to try to build a good understanding of how the _existing_ technical reality works—and why it is the way it is—than to rage against it or hold out for another reality.
+Teknoloji asla bir boşlukta var olmaz—araçlarımız ve onları üreten sosyal, ekonomik ve tarihsel faktörlerle sınırlıyız. Bu sinir bozucu olabilir, ancak mevcut teknik gerçekliğin nasıl çalıştığını ve neden böyle olduğunu anlamaya çalışmak, buna kızmaktan ya da başka bir gerçeklik için beklemekten genellikle daha üretkendir.
 
-New ((abstraction))s _can_ be helpful. The component model and ((data flow)) convention I used in this chapter is a crude form of that. As mentioned, there are libraries that try to make user interface programming more pleasant. At the time of writing, [React](https://reactjs.org/) and [Svelte](https://svelte.dev/) are popular choices, but there's a whole cottage industry of such frameworks. If you're interested in programming web applications, I recommend investigating a few of them to understand how they work and what benefits they provide.
+Yeni ((soyutlama))lar _yararlı_ olabilir. Bu bölümde kullandığım bileşen modeli ve ((veri akışı)) düzeni bunun kaba bir biçimidir. Daha önce de belirtildiği gibi, kullanıcı arayüzü programlamasını daha keyifli hale getirmeye çalışan kütüphaneler vardır. Bu yazının yazıldığı dönemde [React](https://reactjs.org/) ve [Svelte](https://svelte.dev/) popüler seçeneklerdir, ancak bu tür çerçevelerin kendine özgü bir sektörü vardır. Web uygulamaları programlamasıyla ilgileniyorsanız, nasıl çalıştıklarını ve hangi faydaları sağladıklarını anlamak için bunlardan birkaçını incelemenizi öneririm.
 
 ## Alıştırmalar
 
-There is still room for improvement in our program. Let's add a few more features as exercises.
+Programımızda iyileştirme için hala yer var. Alıştırma olarak birkaç yeni özellik ekleyelim.
 
 ### Klavye kısayolları
 
 {{index "keyboard bindings (exercise)"}}
 
-Add ((keyboard)) shortcuts to the application. The first letter of a tool's name selects the tool, and [control]{keyname}-Z or [command]{keyname}-Z activates undo.
+Uygulamaya ((klavye)) kısayolları ekleyin. Bir aracın adının ilk harfi o aracı seçer ve [control]{tuşadı}-Z veya [command]{tuşadı}-Z tuş kombinasyonları geri alma işlevini aktif eder.
 
 {{index "PixelEditor class", "tabindex attribute", "elt function", "keydown event"}}
 
-Do this by modifying the `PixelEditor` component. Add a `tabIndex` property of 0 to the wrapping `<div>` element so that it can receive keyboard ((focus)). Note that the _property_ corresponding to the `tabindex` _attribute_ is called `tabIndex`, with a capital I, and our `elt` function expects property names. Register the key event handlers directly on that element. This means you have to click, touch, or tab to the application before you can interact with it with the keyboard.
+Bunu `PixelEditor` bileşenini değiştirerek yapın. Sarma `<div>` öğesine 0 değeriyle bir `tabIndex` özelliği ekleyin, böylece klavye ((odak)) alabilir. Burada dikkat edilmesi gereken nokta, `tabindex` _özniteliğine_ karşılık gelen _özelliğin_ adının `tabIndex` olduğu ve büyük I harfiyle yazıldığıdır. `elt` fonksiyonumuz, bu özelliğin adını bekler. Tuş olay işleyicilerini doğrudan bu öğe üzerinde kaydedin. Bu, klavye ile uygulama üzerinde işlem yapabilmek için uygulamaya tıklamanız, dokunmanız veya sekme tuşuyla odaklanmanız gerektiği anlamına gelir.
 
 {{index "ctrlKey property", "metaKey property", "control key", "command key"}}
 
-Remember that keyboard events have `ctrlKey` and `metaKey` (for the [command]{keyname} key on Mac) properties that you can use to see whether those keys are held down.
+Unutmayın, klavye olaylarının `ctrlKey` ve Mac'te [command]{tuşadı} için `metaKey` özellikleri vardır. Bu özellikleri kullanarak bu tuşların basılı olup olmadığını kontrol edebilirsiniz.
 
 {{if interactive
 
 ```{test: no, lang: html}
 <div></div>
 <script>
-  // The original PixelEditor class. Extend the constructor.
+  // Orijinal PixelEditor sınıfı. constructor fonksiyonunu devam ettir.
   class PixelEditor {
     constructor(state, config) {
       let {tools, controls, dispatch} = config;
@@ -818,15 +818,15 @@ if}}
 
 {{index "keyboard bindings (exercise)", "key property", "shift key"}}
 
-The `key` property of events for letter keys will be the lowercase letter itself, if [shift]{keyname} isn't being held. We're not interested in key events with [shift]{keyname} here.
+Olayların `key` özelliği, harf tuşları için [shift]{tuşadı} basılı değilse küçük harfini döndürecektir. Bu durumda, [shift]{tuşadı} ile ilgili tuş olaylarına ilgi duymuyoruz.
 
 {{index "keydown event"}}
 
-A `"keydown"` handler can inspect its event object to see whether it matches any of the shortcuts. You can automatically get the list of first letters from the `tools` object so that you don't have to write them out.
+Bir `"keydown"` işlemcisi, olay nesnesini inceleyerek bu olayın bir kısayolla eşleşip eşleşmediğini kontrol edebilir. `tools` nesnesinden ilk harflerin listesini otomatik olarak alabilirsiniz; böylece bu harfleri elle yazmak zorunda kalmazsınız.
 
 {{index "preventDefault method"}}
 
-When the key event matches a shortcut, call `preventDefault` on it and ((dispatch)) the appropriate action.
+Eğer tuş olayı bir kısayolla eşleşiyorsa, `preventDefault` çağrısını yaparak varsayılan davranışı engelleyebilir ve ardından ((dispatch)) işlemini gerçekleştirerek uygun eylemi tetikleyebilirsiniz.
 
 hint}}
 
@@ -834,19 +834,19 @@ hint}}
 
 {{index "efficient drawing (exercise)", "canvas (HTML tag)", efficiency}}
 
-During drawing, the majority of work that our application does happens in `drawPicture`. Creating a new state and updating the rest of the DOM isn't very expensive, but repainting all the pixels on the canvas is quite a bit of work.
+Çizim sırasında, uygulamamızın yaptığı işlemlerin büyük kısmı `drawPicture` içinde gerçekleşir. Yeni bir durum oluşturmak ve DOM'un geri kalanını güncellemek çok maliyetli değildir; ancak canvas üzerindeki tüm piksellerin yeniden boyanması oldukça yoğun bir işlemdir.
 
 {{index "syncState method", "PictureCanvas class"}}
 
-Find a way to make the `syncState` method of `PictureCanvas` faster by redrawing only the pixels that actually changed.
+`PictureCanvas` sınıfının `syncState` metodunu daha hızlı hale getirmenin bir yolunu bulun ve yalnızca gerçekten değişen pikselleri yeniden çizin.
 
 {{index "drawPicture function", compatibility}}
 
-Remember that `drawPicture` is also used by the save button, so if you change it, either make sure the changes don't break the old use or create a new version with a different name.
+Unutmayın ki `drawPicture`, kaydetme düğmesi tarafından da kullanılıyor. Eğer değişiklik yaparsanız, eski kullanımı bozmadığınızdan emin olun veya farklı bir adla yeni bir sürüm oluşturun.
 
 {{index "width property", "height property"}}
 
-Also note that changing the size of a `<canvas>` element, by setting its `width` or `height` properties, clears it, making it entirely transparent again.
+Ayrıca `<canvas>` öğesinin `width` veya `height` özelliklerini değiştirmenin, canvas'ı temizleyerek tamamen şeffaf bir hale getirdiğini unutmayın.
 
 {{if interactive
 
@@ -885,15 +885,15 @@ if}}
 
 {{index "efficient drawing (exercise)"}}
 
-This exercise is a good example of how ((immutable)) data structures can make code _faster_. Because we have both the old and the new picture, we can compare them and redraw only the pixels that changed color, saving more than 99 percent of the drawing work in most cases.
+Bu alıştırma, ((değiştirilemez)) veri yapılarının kodu _daha hızlı_ hale getirebileceği iyi bir örnektir. Eski ve yeni resmi karşılaştırabildiğimiz için yalnızca renk değiştiren pikselleri yeniden çizebiliriz. Bu sayede çoğu durumda çizim işlemlerinin %99'undan fazlasından tasarruf sağlanabilir.
 
 {{index "drawPicture function"}}
 
-You can either write a new function `updatePicture` or have `drawPicture` take an extra argument, which may be undefined or the previous picture. For each ((pixel)), the function checks whether a previous picture was passed with the same color at this position and skips the pixel when that is the case.
+Yeni bir `updatePicture` fonksiyonu yazabilir veya `drawPicture`'a isteğe bağlı ek bir argüman olarak önceki resmi iletebilirsiniz. Bu fonksiyon, her ((piksel)) için, aynı konumdaki önceki resimde aynı renkte bir renk olup olmadığını kontrol eder ve eğer varsa o pikseli atlar.
 
 {{index "width property", "height property", "canvas (HTML tag)"}}
 
-Because the canvas gets cleared when we change its size, you should also avoid touching its `width` and `height` properties when the old picture and the new picture have the same size. If they are different, which will happen when a new picture has been loaded, you can set the binding holding the old picture to null after changing the canvas size because you shouldn't skip any pixels after you've changed the canvas size.
+Canvas boyutunu değiştirdiğimizde temizlendiğinden, eski resim ve yeni resim aynı boyutta olduğunda `width` ve `height` özelliklerini değiştirmekten kaçının. Eğer farklılarsa (örneğin yeni bir resim yüklendiğinde), canvas boyutunu değiştirdikten sonra eski resmi tutan referansı null olarak ayarlayın. Bu, yeni bir resim yükledikten sonra piksel atlamamanızı sağlar.
 
 hint}}
 
@@ -901,7 +901,7 @@ hint}}
 
 {{index "circles (exercise)", dragging}}
 
-Define a ((tool)) called `circle` that draws a filled circle when you drag. The center of the circle lies at the point where the drag or touch gesture starts, and its ((radius)) is determined by the distance dragged.
+Bir `circle` adında ((tool)) tanımlayın; bu araç sürüklediğinizde dolu bir daire çizecek. Dairenin merkezi, sürükleme veya dokunma işleminin başladığı noktadadır ve ((radius)) sürükleme mesafesine göre belirlenir.
 
 {{if interactive
 
@@ -909,7 +909,7 @@ Define a ((tool)) called `circle` that draws a filled circle when you drag. The 
 <div></div>
 <script>
   function circle(pos, state, dispatch) {
-    // Your code here
+    // Kodunuz buraya
   }
 
   let dom = startPixelEditor({
@@ -925,11 +925,11 @@ if}}
 
 {{index "circles (exercise)", "rectangle function"}}
 
-You can take some inspiration from the `rectangle` tool. Like that tool, you'll want to keep drawing on the _starting_ picture, rather than the current picture, when the pointer moves.
+`rectangle` aracından bazı ilhamlar alabilirsiniz. Bu araç gibi, imleç hareket ettiğinde mevcut resmi değil, _başlangıç_ resminde çizmeye devam etmek isteyeceksiniz.
 
-To figure out which pixels to color, you can use the ((Pythagorean theorem)). First figure out the distance between the current pointer position and the start position by taking the square root (`Math.sqrt`) of the sum of the square (`Math.pow(x, 2)`) of the difference in x-coordinates and the square of the difference in y-coordinates. Then loop over a square of pixels around the start position, whose sides are at least twice the ((radius)), and color those that are within the circle's radius, again using the Pythagorean formula to figure out their ((distance)) from the center.
+Hangi piksellerin renklendirileceğini bulmak için ((Pisagor teoremi))ni kullanabilirsiniz. Öncelikle, imlecin mevcut pozisyonu ile başlangıç pozisyonu arasındaki mesafeyi `Math.sqrt` fonksiyonu kullanarak x-koordinatlarındaki farkın karesi (`Math.pow(x, 2)`) ve y-koordinatlarındaki farkın karesinin toplamının karekökünü alarak hesaplayın. Daha sonra başlangıç pozisyonunun etrafında, kenar uzunlukları en az iki katı olan bir kare piksel alanında döngü oluşturun ve dairenin yarıçapına dahil olan pikselleri yine Pisagor formülünü kullanarak belirleyin.
 
-Make sure you don't try to color pixels that are outside of the picture's boundaries.
+Resim sınırlarının dışındaki pikselleri renklendirmeye çalışmadığınızdan emin olun.
 
 hint}}
 
@@ -937,21 +937,21 @@ hint}}
 
 {{index "proper lines (exercise)", "line drawing"}}
 
-This is a more advanced exercise than the preceding two, and it will require you to design a solution to a nontrivial problem. Make sure you have plenty of time and ((patience)) before starting to work on this exercise, and do not get discouraged by initial failures.
+Bu, önceki iki egzersizden daha karmaşık bir alıştırma ve çözüm tasarlama yeteneğinizi test eden bir probleme dayanıyor. Bu egzersize başlamadan önce bolca zaman ve ((sabır))ınız olduğundan emin olun ve ilk başarısızlıklardan cesaretinizi kırmayın.
 
 {{index "draw function", "mousemove event", "touchmove event"}}
 
-On most browsers, when you select the `draw` ((tool)) and quickly drag across the picture, you don't get a closed line. Rather, you get dots with gaps between them because the `"mousemove"` or `"touchmove"` events did not fire quickly enough to hit every ((pixel)).
+Çoğu tarayıcıda, `draw` ((tool)) seçildiğinde ve resmi hızlı bir şekilde sürüklediğinizde, kapalı bir çizgi elde etmezsiniz. Bunun yerine, aralarında boşluklar bulunan noktalar elde edersiniz çünkü `"mousemove"` veya `"touchmove"` olayları yeterince hızlı tetiklenmez ve tüm ((piksel))lere ulaşamaz.
 
-Improve the `draw` tool to make it draw a full line. This means you have to make the motion handler function remember the previous position and connect that to the current one.
+`draw` aracını geliştirin, böylece tam bir çizgi çizecek şekilde çalışsın. Bu, hareket işleyici fonksiyonunun önceki pozisyonu hatırlaması ve mevcut pozisyonla birleştirmesi gerektiği anlamına gelir.
 
-To do this, since the pixels can be an arbitrary distance apart, you'll have to write a general line drawing function.
+Bunu yapmak için, piksellerin arası mesafe çok farklı olabileceğinden, genel bir çizgi çizme fonksiyonu yazmanız gerekecek.
 
-A line between two pixels is a connected chain of pixels, as straight as possible, going from the start to the end. Diagonally adjacent pixels count as connected. So a slanted line should look like the picture on the left, not the picture on the right.
+İki piksel arasındaki çizgi, mümkün olduğunca düz bir şekilde başlangıçtan sona kadar birleştirilen piksel zinciridir. Çapraz olarak komşu olan pikseller de birbirine bağlı kabul edilir. Bu nedenle eğik bir çizgi, soldaki resimdeki gibi görünmelidir; sağdaki gibi olmamalıdır.
 
-{{figure {url: "img/line-grid.svg", alt: "Diagram of two pixelated lines, one light, skipping across pixels diagonally, and one heavy, with all pixels connected horizontally or vertically", width: "6cm"}}}
+{{figure {url: "img/line-grid.svg", alt: "İki piksel benzeri çizgi diyagramı: biri açık ve pikselatlar boyunca çapraz atlamalar yaparken, diğeri kalın ve yalnızca yatay veya dikey olarak tüm pikselleri birbirine bağlıyor.", width: "6cm"}}}
 
-Finally, if we have code that draws a line between two arbitrary points, we might as well use it to also define a `line` tool, which draws a straight line between the start and end of a drag.
+Son olarak, iki nokta arasında bir çizgi çizen bir kodumuz varsa, bunu aynı zamanda bir `line` aracı tanımlamak için kullanabiliriz. Bu araç, bir sürükleme işleminin başlangıç ve bitiş noktası arasında düz bir çizgi çizecek.
 
 {{if interactive
 
@@ -969,7 +969,7 @@ Finally, if we have code that draws a line between two arbitrary points, we migh
   }
 
   function line(pos, state, dispatch) {
-    // Your code here
+    // Kodunuz buraya
   }
 
   let dom = startPixelEditor({
@@ -985,21 +985,21 @@ if}}
 
 {{index "proper lines (exercise)", "line drawing"}}
 
-The thing about the problem of drawing a pixelated line is that it is really four similar but slightly different problems. Drawing a horizontal line from the left to the right is easy—you loop over the x-coordinates and color a pixel at every step. If the line has a slight slope (less than 45 degrees or ¼π radians), you can interpolate the y-coordinate along the slope. You still need one pixel per _x_ position, with the _y_ position of those pixels determined by the slope.
+Pikselle çizgi çekme probleminin karmaşıklığı, aslında dört benzer fakat biraz farklı probleme dayanır. Soldan sağa doğru yatay bir çizgi çekmek kolaydır—x-koordinatları üzerinde bir döngü kurarak her adımda bir piksel renklendirirsiniz. Eğer çizgi hafif bir eğime sahipse (45 dereceden veya ¼π radyanından küçükse), eğim boyunca y-koordinatını içe aktarabilirsiniz. Bu durumda her _x_ pozisyonu için bir piksel gerekir ve bu piksellerin _y_ koordinatları eğime göre belirlenir.
 
-But as soon as your slope goes across 45 degrees, you need to switch the way you treat the coordinates. You now need one pixel per _y_ position since the line goes up more than it goes left. And then, when you cross 135 degrees, you have to go back to looping over the x-coordinates, but from right to left.
+Ancak eğim 45 dereceyi geçtiğinde, koordinat işleme şeklini değiştirmeniz gerekir. Artık dikey bir çizgi gibi çalışmalısınız; yani her _y_ pozisyonu için bir piksel renklendirmelisiniz çünkü çizgi yukarı doğru ilerliyor ve sola gitmiyor. Daha sonra 135 dereceyi geçtiğinizde, tekrar x-koordinatları üzerinde döngü kurmalısınız, fakat bu sefer sağdan sola doğru.
 
-You don't actually have to write four loops. Since drawing a line from _A_ to _B_ is the same as drawing a line from _B_ to _A_, you can swap the start and end positions for lines going from right to left and treat them as going left to right.
+Aslında dört farklı döngü yazmak zorunda değilsiniz. Çünkü _A_ noktasından _B_ noktasına çizgi çekmek, aynı zamanda _B_ noktasından _A_ noktasına çizgi çekmekle aynıdır. Bu nedenle sağdan sola doğru çizgi çizerken başlangıç ve bitiş noktalarını değiştirebilirsiniz ve bunu sola doğru çizgi çekme olarak ele alabilirsiniz.
 
-So you need two different loops. The first thing your line drawing function should do is check whether the difference between the x-coordinates is larger than the difference between the y-coordinates. If it is, this is a horizontal-ish line, and if not, a vertical-ish one.
+Bu durumda yalnızca iki farklı döngüye ihtiyacınız var. Çizgi çekme fonksiyonunuzun yapacağı ilk işlem, x-koordinatları arasındaki farkın y-koordinatları arasındaki farktan büyük olup olmadığını kontrol etmektir. Eğer büyükse bu yatay bir çizgi olur; aksi takdirde dikey bir çizgi olur.
 
 {{index "Math.abs function", "absolute value"}}
 
-Make sure you compare the _absolute_ values of the _x_ and _y_ difference, which you can get with `Math.abs`.
+_Öncelikle_, x ve y farklarının _mutlak değerlerini_ karşılaştırdığınızdan emin olun; bu işlemi `Math.abs` kullanarak elde edebilirsiniz.
 
 {{index "swapping bindings"}}
 
-Once you know along which ((axis)) you will be looping, you can check whether the start point has a higher coordinate along that axis than the endpoint and swap them if necessary. A succinct way to swap the values of two bindings in JavaScript uses ((destructuring assignment)) like this:
+((axis)) boyunca döngü kuracağınızı bildiğinizde, başlangıç noktasının bu eksen boyunca son noktadan daha yüksek bir koordinata sahip olup olmadığını kontrol edebilir ve gerekirse değerleri değiştirebilirsiniz. JavaScript'te iki değişkenin değerlerini değiştirmek için kısa bir yöntem ((destructuring assignment)) kullanmaktır:
 
 ```{test: no}
 [start, end] = [end, start];
@@ -1007,6 +1007,6 @@ Once you know along which ((axis)) you will be looping, you can check whether th
 
 {{index rounding}}
 
-Then you can compute the ((slope)) of the line, which determines the amount the coordinate on the other axis changes for each step you take along your main axis. With that, you can run a loop along the main axis while also tracking the corresponding position on the other axis, and you can draw pixels on every iteration. Make sure you round the non-main axis coordinates since they are likely to be fractional and the `draw` method doesn't respond well to fractional coordinates.
+Ardından, çizginin ((slope)) değerini hesaplayabilirsiniz. Bu, ana eksen boyunca her adım attığınızda diğer eksendeki koordinatın ne kadar değiştiğini belirler. Bu sayede, ana eksen boyunca bir döngü çalıştırabilir ve aynı zamanda diğer eksendeki karşılık gelen konumu takip edebilirsiniz. Her döngü adımında piksel çizebilirsiniz. Diğer eksendeki koordinatlar kesirli olabileceğinden, bunları yuvarladığınızdan emin olun çünkü `draw` metodu kesirli koordinatlarla iyi çalışmaz.
 
 hint}}

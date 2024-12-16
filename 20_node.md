@@ -502,15 +502,15 @@ Bu tür sorunları önlemek için, `urlPath` fonksiyonu `node:path` modülünden
 
 {{index "file server example", "Node.js", "GET method", [file, resource]}}
 
-We'll set up the `GET` method to return a list of files when reading a ((directory)) and to return the file's content when reading a regular file.
+Bir ((dizin)) okurken bir dosya listesi döndürmek ve normal bir dosyayı okurken dosyanın içeriğini döndürmek için `GET` yöntemini ayarlayacağız.
 
 {{index "media type", "Content-Type header", "mime-types package"}}
 
-One tricky question is what kind of `Content-Type` header we should set when returning a file's content. Since these files could be anything, our server can't simply return the same content type for all of them. ((NPM)) can help us again here. The `mime-types` package (content type indicators like `text/plain` are also called _((MIME type))s_) knows the correct type for a large number of ((file extension))s.
+Zor bir soru, bir dosyanın içeriğini döndürürken ne tür bir `Content-Type` başlığı belirlememiz gerektiğidir. Bu dosyalar herhangi bir şey olabileceğinden, sunucumuz hepsi için aynı içerik türünü döndüremez. ((NPM)) burada bize yine yardımcı olabilir. `mime-types` paketi (`text/plain` gibi içerik türü göstergeleri _((MIME type))s_ olarak da adlandırılır) çok sayıda ((file extension))s için doğru türü bilir.
 
 {{index "npm program"}}
 
-The following `npm` command, in the directory where the server script lives, installs a specific version of `mime`:
+Aşağıdaki `npm` komutu, sunucu betiğinin bulunduğu dizine `mime`ın belirli bir sürümünü yükler:
 
 ```{lang: null}
 $ npm install mime-types@2.1.0
@@ -518,7 +518,7 @@ $ npm install mime-types@2.1.0
 
 {{index "404 (HTTP status code)", "stat function", [file, resource]}}
 
-When a requested file does not exist, the correct HTTP status code to return is 404. We'll use the `stat` function, which looks up information about a file, to find out both whether the file exists and whether it is a ((directory)).
+İstenen bir dosya mevcut olmadığında, döndürülmesi gereken doğru HTTP durum kodu 404'tür. Hem dosyanın var olup olmadığını hem de bir ((dizin)) olup olmadığını öğrenmek için bir dosya hakkında bilgi arayan `stat` fonksiyonunu kullanacağız.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {createReadStream} from "node:fs";
@@ -545,21 +545,21 @@ methods.GET = async function(request) {
 
 {{index "createReadStream function", ["asynchronous programming", "in Node.js"], "error handling", "ENOENT (status code)", "Error type", inheritance}}
 
-Because it has to touch the disk and thus might take a while, `stat` is asynchronous. Since we're using promises rather than callback style, it has to be imported from `promises` instead of directly from `node:fs`.
+Diske dokunmak zorunda olduğu ve bu nedenle biraz zaman alabileceği için `stat` asenkrondur. Geri çağırma tarzı yerine vaatler kullandığımız için, doğrudan `node:fs` yerine `promises` içinden içe aktarılması gerekir.
 
-When the file does not exist, `stat` will throw an error object with a `code` property of `"ENOENT"`. These somewhat obscure, ((Unix))-inspired codes are how you recognize error types in Node.
+Dosya mevcut olmadığında, `stat` `code` özelliği `“ENOENT”` olan bir hata nesnesi atacaktır. Bu biraz belirsiz, ((Unix))'ten esinlenen kodlar, Node'daki hata türlerini nasıl tanıdığınızı gösterir.
 
 {{index "Stats type", "stat function", "isDirectory method"}}
 
-The `stats` object returned by `stat` tells us a number of things about a ((file)), such as its size (`size` property) and its ((modification date)) (`mtime` property). Here we are interested in the question of whether it is a ((directory)) or a regular file, which the `isDirectory` method tells us.
+`stat` tarafından döndürülen `stats` nesnesi bize bir ((dosya)) hakkında boyutu (`size` özelliği) ve ((değişiklik tarihi)) (`mtime` özelliği) gibi bir dizi şey söyler. Burada, `isDirectory` yönteminin bize söylediği gibi, bir ((dizin)) mi yoksa normal bir dosya mı olduğu sorusuyla ilgileniyoruz.
 
 {{index "readdir function"}}
 
-We use `readdir` to read the array of files in a ((directory)) and return it to the client. For normal files, we create a readable stream with `createReadStream` and return that as the body, along with the content type that the `mime` package gives us for the file's name.
+Bir ((dizin)) içindeki dosya dizisini okumak ve istemciye döndürmek için `readdir` kullanıyoruz. Normal dosyalar için `createReadStream` ile okunabilir bir akış oluşturur ve bunu `mime` paketinin dosya adı için bize verdiği içerik türüyle birlikte gövde olarak döndürürüz.
 
 {{index "Node.js", "file server example", "DELETE method", "rmdir function", "unlink function"}}
 
-The code to handle `DELETE` requests is slightly simpler.
+`DELETE` isteklerini işlemek için kullanılan kod biraz daha basittir.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {rmdir, unlink} from "node:fs/promises";
@@ -581,15 +581,15 @@ methods.DELETE = async function(request) {
 
 {{index "204 (HTTP status code)", "body (HTTP)"}}
 
-When an ((HTTP)) ((response)) does not contain any data, the status code 204 ("no content") can be used to indicate this. Since the response to deletion doesn't need to transmit any information beyond whether the operation succeeded, that is a sensible thing to return here.
+Bir ((HTTP)) ((yanıt)) herhangi bir veri içermediğinde, bunu belirtmek için durum kodu 204 (“içerik yok”) kullanılabilir. Silme işlemine verilen yanıtın, işlemin başarılı olup olmadığının ötesinde herhangi bir bilgi iletmesi gerekmediğinden, burada döndürülecek en mantıklı şey budur.
 
 {{index idempotence, "error response"}}
 
-You may be wondering why trying to delete a nonexistent file returns a success status code, rather than an error. When the file that is being deleted is not there, you could say that the request's objective is already fulfilled. The ((HTTP)) standard encourages us to make requests _idempotent_, which means that making the same request multiple times produces the same result as making it once. In a way, if you try to delete something that's already gone, the effect you were trying to do has been achieved—the thing is no longer there.
+Var olmayan bir dosyayı silmeye çalışmanın neden bir hata yerine başarı durum kodu döndürdüğünü merak ediyor olabilirsiniz. Silinmek istenen dosya orada olmadığında, isteğin amacının zaten yerine getirildiğini söyleyebilirsiniz. ((HTTP)) standardı bizi istekleri _idempotent_ yapmaya teşvik eder, bu da aynı isteği birden fazla kez yapmanın bir kez yapmakla aynı sonucu vereceği anlamına gelir. Bir bakıma, zaten gitmiş olan bir şeyi silmeye çalışırsanız, yapmaya çalıştığınız etki elde edilmiştir - o şey artık orada değildir.
 
 {{index "file server example", "Node.js", "PUT method"}}
 
-This is the handler for `PUT` requests:
+Bu `PUT` istekleri için işleyicidir:
 
 ```{includeCode: ">code/file_server.mjs"}
 import {createWriteStream} from "node:fs";
@@ -612,19 +612,19 @@ methods.PUT = async function(request) {
 
 {{index overwriting, "204 (HTTP status code)", "error event", "finish event", "createWriteStream function", "pipe method", stream}}
 
-We don't need to check whether the file exists this time—if it does, we'll just overwrite it. We again use `pipe` to move data from a readable stream to a writable one, in this case from the request to the file. But since `pipe` isn't written to return a promise, we have to write a wrapper, `pipeStream`, that creates a promise around the outcome of calling `pipe`.
+Bu sefer dosyanın var olup olmadığını kontrol etmemize gerek yok, eğer varsa üzerine yazacağız. Verileri okunabilir bir akıştan yazılabilir bir akışa, bu durumda istekten dosyaya taşımak için yine `pipe` kullanıyoruz. Ancak `pipe` bir promise döndürmek için yazılmadığından, `pipe` çağrısının sonucu etrafında bir promise oluşturan bir wrapper, `pipeStream` yazmamız gerekiyor.
 
 {{index "error event", "finish event"}}
 
-When something goes wrong when opening the file, `createWriteStream` will still return a stream, but that stream will fire an `"error"` event. The stream from the request may also fail, for example if the network goes down. So we wire up both streams' `"error"` events to reject the promise. When `pipe` is done, it will close the output stream, which causes it to fire a `"finish"` event. That's the point where we can successfully resolve the promise (returning nothing).
+Dosya açılırken bir şeyler ters giderse, `createWriteStream` yine de bir akış döndürür, ancak bu akış bir `“error”` olayı tetikler. İstekten gelen akış da başarısız olabilir, örneğin ağ çökerse. Bu nedenle, her iki akışın `“error”` olaylarını vaadi reddetmek için bağlarız. `pipe` işi bittiğinde, çıktı akışını kapatacak ve bu da `“finish”` olayını ateşlemesine neden olacaktır. Bu, vaadi başarıyla çözebileceğimiz (hiçbir şey döndürmeyen) noktadır.
 
 {{index download, "file server example", "Node.js"}}
 
-The full script for the server is available at [_https://eloquentjavascript.net/code/file_server.mjs_](https://eloquentjavascript.net/code/file_server.mjs). You can download that and, after installing its dependencies, run it with Node to start your own file server. And, of course, you can modify and extend it to solve this chapter's exercises or to experiment.
+Sunucu için tam betik [_https://eloquentjavascript.net/code/file_server.mjs_](https://eloquentjavascript.net/code/file_server.mjs) adresinde mevcuttur. Bunu indirebilir ve bağımlılıklarını yükledikten sonra kendi dosya sunucunuzu başlatmak için Node ile çalıştırabilirsiniz. Ve tabii ki, bu bölümün alıştırmalarını çözmek ya da deney yapmak için onu değiştirebilir ve genişletebilirsiniz.
 
 {{index "body (HTTP)", "curl program", [HTTP, client], [method, HTTP]}}
 
-The command line tool `curl`, widely available on ((Unix))-like systems (such as macOS and Linux), can be used to make HTTP ((request))s. The following session briefly tests our server. The `-X` option is used to set the request's method, and `-d` is used to include a request body.
+((Unix)) benzeri sistemlerde (macOS ve Linux gibi) yaygın olarak bulunan komut satırı aracı `curl`, HTTP ((istek)) yapmak için kullanılabilir. Aşağıdaki oturum sunucumuzu kısaca test etmektedir. `-X` seçeneği isteğin yöntemini ayarlamak için, `-d` seçeneği ise istek gövdesini eklemek için kullanılır.
 
 ```{lang: null}
 $ curl http://localhost:8000/file.txt
@@ -637,17 +637,17 @@ $ curl http://localhost:8000/file.txt
 File not found
 ```
 
-The first request for `file.txt` fails since the file does not exist yet. The `PUT` request creates the file, and behold, the next request successfully retrieves it. After deleting it with a `DELETE` request, the file is again missing.
+Dosya henüz mevcut olmadığından `file.txt` için yapılan ilk istek başarısız olur. `PUT` isteği dosyayı oluşturur ve bir sonraki istek dosyayı başarıyla alır. Bir `DELETE` isteği ile sildikten sonra, dosya yine kayıptır.
 
 ## Özet
 
 {{index "Node.js"}}
 
-Node is a nice, small system that lets us run JavaScript in a nonbrowser context. It was originally designed for network tasks to play the role of a _node_ in a network. But it lends itself to all kinds of scripting tasks, and if writing JavaScript is something you enjoy, automating tasks with Node works well.
+Node, JavaScript'i tarayıcı dışı bir bağlamda çalıştırmamızı sağlayan güzel ve küçük bir sistemdir. Başlangıçta bir ağdaki _node_ rolünü oynamak üzere ağ görevleri için tasarlanmıştır. Ancak kendini her türlü komut dosyası görevine borçludur ve JavaScript yazmak hoşunuza giden bir şeyse, Node ile görevleri otomatikleştirmek işe yarar.
 
-NPM provides packages for everything you can think of (and quite a few things you'd probably never think of), and it allows you to fetch and install those packages with the `npm` program. Node comes with a number of built-in modules, including the `node:fs` module for working with the file system and the `node:http` module for running HTTP servers.
+NPM, aklınıza gelebilecek her şey için (ve muhtemelen hiç aklınıza gelmeyecek birkaç şey için) paketler sağlar ve bu paketleri `npm` programı ile getirip yüklemenize olanak tanır. Node, dosya sistemiyle çalışmak için `node:fs` modülü ve HTTP sunucularını çalıştırmak için `node:http` modülü de dahil olmak üzere bir dizi yerleşik modülle birlikte gelir.
 
-All input and output in Node is done asynchronously, unless you explicitly use a synchronous variant of a function, such as `readFileSync`. Node originally used callbacks for asynchronous functionality, but the `node:fs/promises` package provides a promise-based interface to the file system.
+Node'daki tüm girdi ve çıktılar, `readFileSync` gibi bir fonksiyonun senkronize bir varyantını açıkça kullanmadığınız sürece asenkron olarak yapılır. Node başlangıçta asenkron işlevsellik için geri aramalar kullanıyordu, ancak `node:fs/promises` paketi dosya sistemine vaat tabanlı bir arayüz sağlar.
 
 ## Egzersizler
 
@@ -655,35 +655,35 @@ All input and output in Node is done asynchronously, unless you explicitly use a
 
 {{index grep, "search problem", "search tool (exercise)"}}
 
-On ((Unix)) systems, there is a command line tool called `grep` that can be used to quickly search files for a ((regular expression)).
+((Unix)) sistemlerinde, bir ((düzenli ifade)) için dosyaları hızlı bir şekilde aramak için kullanılabilen `grep` adlı bir komut satırı aracı vardır.
 
-Write a Node script that can be run from the ((command line)) and acts somewhat like `grep`. It treats its first command line argument as a regular expression and treats any further arguments as files to search. It should output the names of any file whose content matches the regular expression.
+((Komut satırından)) çalıştırılabilen ve bir şekilde `grep` gibi davranan bir Node betiği yazın. İlk komut satırı argümanını düzenli bir ifade olarak ele alır ve diğer argümanları aranacak dosyalar olarak değerlendirir. İçeriği düzenli ifadeyle eşleşen herhangi bir dosyanın adını çıktı olarak vermelidir.
 
-When that works, extend it so that when one of the arguments is a ((directory)), it searches through all files in that directory and its subdirectories.
+Bu işe yaradığında, argümanlardan biri ((dizin)) olduğunda, o dizindeki ve alt dizinlerindeki tüm dosyaları arayacak şekilde genişletin.
 
 {{index ["asynchronous programming", "in Node.js"], "synchronous programming"}}
 
-Use asynchronous or synchronous file system functions as you see fit. Setting things up so that multiple asynchronous actions are requested at the same time might speed things up a little, but not a huge amount, since most file systems can read only one thing at a time.
+Uygun gördüğünüz şekilde eşzamansız veya eşzamanlı dosya sistemi işlevlerini kullanın. İşleri aynı anda birden fazla eşzamansız eylem talep edilecek şekilde ayarlamak işleri biraz hızlandırabilir, ancak çoğu dosya sistemi bir seferde yalnızca bir şeyi okuyabildiğinden çok büyük bir miktar değil.
 
 {{hint
 
 {{index "RegExp class", "search tool (exercise)"}}
 
-Your first command line argument, the ((regular expression)), can be found in `process.argv[2]`. The input files come after that. You can use the `RegExp` constructor to go from a string to a regular expression object.
+İlk komut satırı argümanınız olan ((düzenli ifade)), `process.argv[2]` içinde bulunabilir. Girdi dosyaları bundan sonra gelir. Bir dizeden düzenli ifade nesnesine geçmek için `RegExp` yapıcısını kullanabilirsiniz.
 
 {{index "readFileSync function"}}
 
-Doing this synchronously, with `readFileSync`, is more straightforward, but if you use `fs/promises` to get promise-returning functions and write an `async` function, the code looks similar.
+Bunu `readFileSync` ile eşzamanlı olarak yapmak daha basittir, ancak söz döndüren işlevleri almak için `fs/promises` kullanırsanız ve bir `async` işlevi yazarsanız, kod benzer görünür.
 
 {{index "stat function", "statSync function", "isDirectory method"}}
 
-To figure out whether something is a directory, you can again use `stat` (or `statSync`) and the stats object's `isDirectory` method.
+Bir şeyin dizin olup olmadığını anlamak için yine `stat` (veya `statSync`) ve stats nesnesinin `isDirectory` yöntemini kullanabilirsiniz.
 
 {{index "readdir function", "readdirSync function"}}
 
-Exploring a directory is a branching process. You can do it either by using a recursive function or by keeping an array of work (files that still need to be explored). To find the files in a directory, you can call `readdir` or `readdirSync`. Note the strange capitalization—Node's file system function naming is loosely based on standard Unix functions, such as `readdir`, that are all lowercase, but then it adds `Sync` with a capital letter.
+Bir dizini keşfetmek dallanan bir süreçtir. Bunu ya özyinelemeli bir fonksiyon kullanarak ya da bir dizi iş (hala keşfedilmesi gereken dosyalar) tutarak yapabilirsiniz. Bir dizindeki dosyaları bulmak için `readdir` veya `readdirSync` fonksiyonlarını çağırabilirsiniz. Garip büyük harfe dikkat edin-Node'un dosya sistemi fonksiyon isimlendirmesi, `readdir` gibi standart Unix fonksiyonlarına gevşek bir şekilde dayanır, hepsi küçük harftir, ancak daha sonra büyük harfle `Sync` ekler.
 
-To go from a filename read with `readdir` to a full path name, you have to combine it with the name of the directory, either putting `sep` from `node:path` between them, or using `join` from that same package.
+`readdir` ile okunan bir dosya adından tam bir yol adına gitmek için, ya `node:path`ten `sep`i aralarına koyarak ya da aynı paketten `join` kullanarak dizinin adıyla birleştirmeniz gerekir.
 
 hint}}
 
@@ -691,11 +691,11 @@ hint}}
 
 {{index "file server example", "directory creation (exercise)", "rmdir function"}}
 
-Though the `DELETE` method in our file server is able to delete directories (using `rmdir`), the server currently does not provide any way to _create_ a ((directory)).
+Dosya sunucumuzdaki `DELETE` yöntemi dizinleri silebilse de (`rmdir` kullanarak), sunucu şu anda bir ((dizin)) _oluşturmak_ için herhangi bir yol sağlamamaktadır.
 
 {{index "MKCOL method", "mkdir function"}}
 
-Add support for the `MKCOL` method ("make collection"), which should create a directory by calling `mkdir` from the `node:fs` module. `MKCOL` is not a widely used HTTP method, but it does exist for this same purpose in the _((WebDAV))_ standard, which specifies a set of conventions on top of ((HTTP)) that make it suitable for creating documents.
+`MKCOL` yöntemi (“make collection”) için destek ekleyin, bu yöntem `node:fs` modülünden `mkdir` çağrısı yaparak bir dizin oluşturmalıdır. `MKCOL` yaygın olarak kullanılan bir HTTP yöntemi değildir, ancak _((WebDAV))_ standardında aynı amaç için mevcuttur, bu da ((HTTP)) üzerinde belge oluşturmak için uygun hale getiren bir dizi kural belirtir.
 
 ```{hidden: true, includeCode: ">code/file_server.mjs"}
 import {mkdir} from "node:fs/promises";
@@ -719,7 +719,7 @@ methods.MKCOL = async function(request) {
 
 {{index "directory creation (exercise)", "file server example", "MKCOL method", "mkdir function", idempotency, "400 (HTTP status code)"}}
 
-You can use the function that implements the `DELETE` method as a blueprint for the `MKCOL` method. When no file is found, try to create a directory with `mkdir`. When a directory exists at that path, you can return a 204 response so that directory creation requests are idempotent. If a nondirectory file exists here, return an error code. Code 400 ("bad request") would be appropriate.
+`DELETE` yöntemini uygulayan işlevi `MKCOL` yöntemi için bir taslak olarak kullanabilirsiniz. Dosya bulunamadığında, `mkdir` ile bir dizin oluşturmaya çalışın. Bu yolda bir dizin bulunduğunda, dizin oluşturma isteklerinin idempotent olması için 204 yanıtı döndürebilirsiniz. Burada dizin olmayan bir dosya varsa, bir hata kodu döndürün. Kod 400 (“kötü istek”) uygun olacaktır.
 
 hint}}
 
@@ -727,32 +727,32 @@ hint}}
 
 {{index "public space (exercise)", "file server example", "Content-Type header", website}}
 
-Since the file server serves up any kind of file and even includes the right `Content-Type` header, you can use it to serve a website. Since it allows everybody to delete and replace files, it would be an interesting kind of website: one that can be modified, improved, and vandalized by everybody who takes the time to create the right HTTP request.
+Dosya sunucusu her türlü dosyayı sunduğundan ve hatta doğru `Content-Type` başlığını içerdiğinden, bunu bir web sitesi sunmak için kullanabilirsiniz. Herkesin dosyaları silmesine ve değiştirmesine izin verdiğinden, ilginç bir web sitesi türü olacaktır: doğru HTTP isteğini oluşturmak için zaman ayıran herkes tarafından değiştirilebilen, geliştirilebilen ve tahrip edilebilen bir web sitesi.
 
-Write a basic ((HTML)) page that includes a simple JavaScript file. Put the files in a directory served by the file server and open them in your browser.
+Basit bir JavaScript dosyası içeren temel bir ((HTML)) sayfası yazın. Dosyaları dosya sunucusu tarafından sunulan bir dizine koyun ve tarayıcınızda açın.
 
-Next, as an advanced exercise or even a ((weekend project)), combine all the knowledge you gained from this book to build a more user-friendly interface for modifying the website—from _inside_ the website.
+Daha sonra, ileri düzey bir alıştırma veya hatta bir ((hafta sonu projesi)) olarak, bu kitaptan edindiğiniz tüm bilgileri birleştirerek web sitesini _içinden_ değiştirmek için daha kullanıcı dostu bir arayüz oluşturun.
 
-Use an HTML ((form)) to edit the content of the files that make up the website, allowing the user to update them on the server by using HTTP requests, as described in [Chapter ?](http).
+Web sitesini oluşturan dosyaların içeriğini düzenlemek için bir HTML ((form)) kullanın ve [Bölüm ?](http)'de açıklandığı gibi kullanıcının HTTP isteklerini kullanarak bunları sunucuda güncellemesine izin verin.
 
-Start by making only a single file editable. Then make it so that the user can select which file to edit. Use the fact that our file server returns lists of files when reading a directory.
+Sadece tek bir dosyayı düzenlenebilir hale getirerek başlayın. Daha sonra kullanıcının hangi dosyayı düzenleyeceğini seçebilmesini sağlayın. Dosya sunucumuzun bir dizini okurken dosya listeleri döndürdüğü gerçeğini kullanın.
 
 {{index overwriting}}
 
-Don't work directly in the code exposed by the file server since if you make a mistake, you are likely to damage the files there. Instead, keep your work outside of the publicly accessible directory and copy it there when testing.
+Doğrudan dosya sunucusu tarafından açığa çıkarılan kodda çalışmayın, çünkü bir hata yaparsanız buradaki dosyalara zarar verebilirsiniz. Bunun yerine, çalışmanızı herkesin erişebileceği dizinin dışında tutun ve test ederken oraya kopyalayın.
 
 {{hint
 
 {{index "file server example", "textarea (HTML tag)", "fetch function", "relative path", "public space (exercise)"}}
 
-You can create a `<textarea>` element to hold the content of the file that is being edited. A `GET` request, using `fetch`, can retrieve the current content of the file. You can use relative URLs like _index.html_, instead of [_http://localhost:8000/index.html_](http://localhost:8000/index.html), to refer to files on the same server as the running script.
+Düzenlenmekte olan dosyanın içeriğini tutmak için bir `<textarea>` öğesi oluşturabilirsiniz. Bir `GET` isteği, `fetch` kullanarak dosyanın geçerli içeriğini alabilir. Çalışan kodla aynı sunucudaki dosyalara başvurmak için [_http://localhost:8000/index.html_](http://localhost:8000/index.html) yerine _index.html_ gibi göreli URL'ler kullanabilirsiniz.
 
 {{index "form (HTML tag)", "submit event", "PUT method"}}
 
-Then, when the user clicks a button (you can use a `<form>` element and `"submit"` event), make a `PUT` request to the same URL, with the content of the `<textarea>` as request body, to save the file.
+Ardından, kullanıcı bir düğmeye tıkladığında (bir `<form>` öğesi ve `“submit”` olayı kullanabilirsiniz), dosyayı kaydetmek için istek gövdesi olarak `<textarea>` içeriği ile aynı URL'ye bir `PUT` isteği yapın.
 
 {{index "select (HTML tag)", "option (HTML tag)", "change event"}}
 
-You can then add a `<select>` element that contains all the files in the server's top ((directory)) by adding `<option>` elements containing the lines returned by a `GET` request to the URL `/`. When the user selects another file (a `"change"` event on the field), the script must fetch and display that file. When saving a file, use the currently selected filename.
+Daha sonra, `/` URL'sine bir `GET` isteği tarafından döndürülen satırları içeren `<option>` öğeleri ekleyerek sunucunun üst kısmındaki ((dizin)) tüm dosyaları içeren bir `<select>` öğesi ekleyebilirsiniz. Kullanıcı başka bir dosya seçtiğinde (alanda bir `“change”` olayı), kod bu dosyayı almalı ve görüntülemelidir. Bir dosyayı kaydederken, o anda seçili olan dosya adını kullanın.
 
 hint}}

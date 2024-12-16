@@ -1,46 +1,46 @@
 {{meta {code_links: ["code/skillsharing.zip"]}}}
 
-# Project: Skill-Sharing Website
+# Proje: Beceri Paylaşım Web Sitesi
 
 {{quote {author: "Margaret Fuller", chapter: true}
 
-If you have knowledge, let others light their candles at it.
+Eğer bilginiz varsa, bırakın başkaları da mumlarını yaksın.
 
 quote}}
 
 {{index "skill-sharing project", meetup, "project chapter"}}
 
-{{figure {url: "img/chapter_picture_21.jpg", alt: "Illustration showing two unicycles leaned against a mailbox", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_21.jpg", alt: "Posta kutusuna yaslanmış iki tek tekerlekli bisikleti gösteren çizim", chapter: "framed"}}}
 
-A _((skill-sharing))_ meeting is an event where people with a shared interest come together and give small, informal presentations about things they know. At a ((gardening)) skill-sharing meeting, someone might explain how to cultivate ((celery)). Or in a programming skill-sharing group, you could drop by and tell people about Node.js.
+Bir _((beceri paylaşımı))_ toplantısı, ortak bir ilgi alanına sahip insanların bir araya geldiği ve bildikleri şeyler hakkında küçük, gayri resmi sunumlar yaptığı bir etkinliktir. Bir ((bahçecilik)) beceri paylaşım toplantısında, birisi ((kereviz)) yetiştirmeyi açıklayabilir. Ya da bir programlama beceri paylaşım grubuna uğrayıp insanlara Node.js hakkında bilgi verebilirsiniz.
 
 {{index learning, "users' group"}}
 
-Such meetups—also often called _users' groups_ when they are about computers—can be a great way to learn things, or simply meet people with similar interests. Many larger cities have JavaScript meetups. They are typically free to attend, and I've found the ones I've visited to be friendly and welcoming.
+Bilgisayarlarla ilgili olduklarında genellikle _kullanıcı grupları_ olarak da adlandırılan bu tür buluşmalar, bir şeyler öğrenmek veya benzer ilgi alanlarına sahip insanlarla tanışmak için harika bir yol olabilir. Birçok büyük şehirde JavaScript buluşmaları vardır. Bu buluşmalara katılmak genellikle ücretsizdir ve ben ziyaret ettiğim buluşmaları arkadaş canlısı ve misafirperver buldum.
 
-In this final project chapter, our goal is to set up a ((website)) for managing ((talk))s given at a skill-sharing meeting. Imagine a small group of people meeting up regularly in the office of one of the members to talk about ((unicycling)). The previous organizer of the meetings moved to another town, and nobody stepped forward to take over this task. We want a system that will let the participants propose and discuss talks among themselves, without an active organizer.
+Bu son proje bölümünde amacımız, bir beceri paylaşım toplantısında verilen ((konuşma))ları yönetmek için bir ((web sitesi)) kurmaktır. Küçük bir grup insanın düzenli olarak üyelerden birinin ofisinde ((unicycling)) hakkında konuşmak için toplandığını hayal edin. Toplantıların önceki organizatörü başka bir şehre taşındı ve kimse bu görevi devralmak için öne çıkmadı. Aktif bir organizatör olmadan katılımcıların kendi aralarında konuşmalar önermesine ve tartışmasına izin verecek bir sistem istiyoruz.
 
-[Just like in the [previous chapter](node), some of the code in this chapter is written for Node.js, and running it directly in the HTML page that you are looking at is unlikely to work.]{if interactive} The full code for the project can be ((download))ed from [_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
+[Tıpkı [önceki bölüm](node)'da olduğu gibi, bu bölümdeki kodların bazıları Node.js için yazılmıştır ve doğrudan baktığınız HTML sayfasında çalıştırılması pek olası değildir] {if interactive} Projenin tam kodu [_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip) adresinden ((indirilebilir)).
 
-## Design
+## Tasarım
 
 {{index "skill-sharing project", persistence}}
 
-There is a _((server))_ part to this project, written for ((Node.js)), and a _((client))_ part, written for the ((browser)). The server stores the system's data and provides it to the client. It also serves the files that implement the client-side system.
+Bu projenin ((Node.js)) için yazılmış bir _((sunucu))_ kısmı ve ((tarayıcı)) için yazılmış bir _((istemci))_ kısmı vardır. Sunucu, sistemin verilerini depolar ve istemciye sağlar. Ayrıca istemci tarafı sistemini uygulayan dosyaları da sunar.
 
 {{index [HTTP, client]}}
 
-The server keeps the list of ((talk))s proposed for the next meeting, and the client shows this list. Each talk has a presenter name, a title, a summary, and an array of ((comment))s associated with it. The client allows users to propose new talks (adding them to the list), delete talks, and comment on existing talks. Whenever the user makes such a change, the client makes an HTTP ((request)) to tell the server about it.
+Sunucu bir sonraki toplantı için önerilen ((konuşma))ların listesini tutar ve istemci bu listeyi gösterir. Her konuşmanın bir sunucu adı, bir başlığı, bir özeti ve onunla ilişkili bir dizi ((yorum)) vardır. İstemci, kullanıcıların yeni konuşmalar önermesine (bunları listeye ekleyerek), konuşmaları silmesine ve mevcut konuşmalar hakkında yorum yapmasına olanak tanır. Kullanıcı böyle bir değişiklik yaptığında, istemci sunucuya bunu bildirmek için bir HTTP ((request)) yapar.
 
-{{figure {url: "img/skillsharing.png", alt: "Screenshot of the skill-sharing website", width: "10cm"}}}
+{{figure {url: "img/skillsharing.png", alt: "Beceri paylaşım web sitesinin ekran görüntüsü", width: "10cm"}}}
 
 {{index "live view", "user experience", "pushing data", connection}}
 
-The ((application)) will be set up to show a _live_ view of the current proposed talks and their comments. Whenever someone, somewhere, submits a new talk or adds a comment, all people who have the page open in their browsers should immediately see the change. This poses a bit of a challenge—there is no way for a web server to open a connection to a client, nor is there a good way to know which clients are currently looking at a given website.
+((Uygulama)), önerilen mevcut konuşmaların ve yorumlarının _canlı_ bir görünümünü gösterecek şekilde ayarlanacaktır. Birisi, bir yerde, yeni bir konuşma gönderdiğinde veya bir yorum eklediğinde, sayfayı tarayıcılarında açık tutan herkes değişikliği hemen görmelidir. Bu biraz zor bir iş; bir web sunucusunun bir istemciyle bağlantı kurmasının bir yolu olmadığı gibi, belirli bir web sitesine o anda hangi istemcilerin baktığını bilmenin de iyi bir yolu yok.
 
 {{index "Node.js"}}
 
-A common solution to this problem is called _((long polling))_, which happens to be one of the motivations for Node's design.
+Bu soruna yaygın bir çözüm _((long polling))_ olarak adlandırılır ve bu, Node'un tasarımının motivasyonlarından biridir.
 
 ## Long polling
 
@@ -68,7 +68,7 @@ To prevent connections from timing out (being aborted because of a lack of activ
 
 A busy server that is using long polling may have thousands of waiting requests, and thus ((TCP)) connections, open. Node, which makes it easy to manage many connections without creating a separate thread of control for each one, is a good fit for such a system.
 
-## HTTP interface
+## HTTP arayüzü
 
 {{index "skill-sharing project", [interface, HTTP]}}
 
@@ -161,13 +161,13 @@ Content-Length: 295
 
 The protocol described here does not do any ((access control)). Everybody can comment, modify talks, and even delete them. (Since the Internet is full of ((hooligan))s, putting such a system online without further protection probably wouldn't end well.)
 
-## The server
+## Sunucu
 
 {{index "skill-sharing project"}}
 
 Let's start by building the ((server))-side part of the program. The code in this section runs on ((Node.js)).
 
-### Routing
+### Yönlendirme
 
 {{index "createServer function", [path, URL], [method, HTTP]}}
 
@@ -221,7 +221,7 @@ The latter will return a response when a handler was found, and `null` otherwise
 
 The handler functions are called with the `context` value (which will be the server instance in our case), match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded since the raw URL may contain `%20`-style codes.
 
-### Serving files
+### Dosyaları servis etme
 
 When a request matches none of the request types defined in our router, the server must interpret it as a request for a file in the `public` directory. It would be possible to use the file server defined in [Chapter ?](node#file_server) to serve such files, but we neither need nor want to support `PUT` and `DELETE` requests on files, and we would like to have advanced features such as support for caching. So let's use a solid, well-tested ((static file)) server from ((NPM)) instead.
 
@@ -281,7 +281,7 @@ async function serveResponse(value, response) {
 }
 ```
 
-### Talks as resources
+### Kaynak olarak konuşmalar
 
 The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. These will be exposed as HTTP ((resource))s under `/talks/[title]`, so we need to add handlers to our router that implement the various methods that clients can use to work with them.
 
@@ -397,7 +397,7 @@ router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
 
 Trying to add a comment to a nonexistent talk returns a 404 error.
 
-### Long polling support
+### Long polling desteği
 
 The most interesting aspect of the server is the part that handles ((long polling)). When a `GET` request comes in for `/talks`, it may be either a regular request or a long polling request.
 
@@ -480,7 +480,7 @@ That concludes the server code. If we create an instance of `SkillShareServer` a
 new SkillShareServer({}).start(8000);
 ```
 
-## The client
+## Client uygulaması
 
 {{index "skill-sharing project"}}
 
@@ -511,7 +511,7 @@ It defines the document ((title)) and includes a style sheet, which defines a fe
 
 At the bottom, it adds a heading at the top of the page and loads the script that contains the ((client))-side application.
 
-### Actions
+### Aksiyonlar
 
 The application state consists of the list of talks and the name of the user, and we'll store it in a `{talks, user}` object. We don't allow the user interface to directly manipulate the state or send off HTTP requests. Rather, it may emit _actions_ that describe what the user is trying to do.
 
@@ -589,7 +589,7 @@ function reportError(error) {
 }
 ```
 
-### Rendering components
+### Bileşenlerin gösterimi
 
 {{index "renderUserField function"}}
 
@@ -734,7 +734,7 @@ When a request fails, the function waits a moment and then tries again. This way
 
 When the server gives back a 304 response, that means a long polling request timed out, so the function should just immediately start the next request. If the response is a normal 200 response, its body is read as ((JSON)) and passed to the callback, and its `ETag` header value is stored for the next iteration.
 
-### The application
+### Uygulama
 
 {{index "SkillShareApp class"}}
 
@@ -796,13 +796,13 @@ runApp();
 
 If you run the server and open two browser windows for [_http://localhost:8000_](http://localhost:8000/) next to each other, you can see that the actions you perform in one window are immediately visible in the other.
 
-## Exercises
+## Egzersizler
 
 {{index "Node.js", NPM}}
 
 The following exercises will involve modifying the system defined in this chapter. To work on them, make sure you ((download)) the code first ([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)), have Node installed ([_https://nodejs.org_](https://nodejs.org)), and install the project's dependency with `npm install`.
 
-### Disk persistence
+### Disk kalıcılığı
 
 {{index "data loss", persistence, [memory, persistence]}}
 
@@ -824,7 +824,7 @@ Pick a ((file))name, for example `./talks.json`. When the server starts, it can 
 
 hint}}
 
-### Comment field resets
+### Yorum alanı sıfırlanması
 
 {{index "comment field reset (exercise)", template, [state, "of application"]}}
 

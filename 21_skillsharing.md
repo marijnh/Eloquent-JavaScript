@@ -46,41 +46,41 @@ Bu soruna yaygın bir çözüm _((long polling))_ olarak adlandırılır ve bu, 
 
 {{index firewall, notification, "long polling", network, [browser, security]}}
 
-To be able to immediately notify a client that something changed, we need a ((connection)) to that client. Since web browsers do not traditionally accept connections and clients are often behind ((router))s that would block such connections anyway, having the server initiate this connection is not practical.
+Bir istemciye bir şeyin değiştiğini anında bildirebilmek için, o istemciye bir ((bağlantı)) gerekir. Web tarayıcıları geleneksel olarak bağlantıları kabul etmediğinden ve istemciler genellikle bu tür bağlantıları engelleyecek ((yönlendirici))'lerin arkasında olduğundan, sunucunun bu bağlantıyı başlatması pratik değildir.
 
-We can arrange for the client to open the connection and keep it around so that the server can use it to send information when it needs to do so.
+İstemcinin bağlantıyı açmasını ve sunucunun ihtiyaç duyduğunda bilgi göndermek için kullanabilmesi için bağlantıda tutmasını sağlayabiliriz.
 
 {{index socket}}
 
-But an ((HTTP)) request allows only a simple flow of information: the client sends a request, the server comes back with a single response, and that is it. There is a technology called _((WebSockets))_, supported by modern browsers, that makes it possible to open ((connection))s for arbitrary data exchange. But using them properly is somewhat tricky.
+Ancak bir ((HTTP)) isteği yalnızca basit bir bilgi akışına izin verir: istemci bir istek gönderir, sunucu tek bir yanıtla geri döner ve hepsi bu kadar. Modern tarayıcılar tarafından desteklenen _((WebSockets))_ adında bir teknoloji vardır ve bu teknoloji rastgele veri alışverişi için ((connection))lar açmayı mümkün kılar. Ancak bunları doğru şekilde kullanmak biraz zordur.
 
-In this chapter, we use a simpler technique—((long polling))—where clients continuously ask the server for new information using regular HTTP requests, and the server stalls its answer when it has nothing new to report.
+Bu bölümde, istemcilerin normal HTTP isteklerini kullanarak sürekli olarak sunucudan yeni bilgiler istediği ve sunucunun bildirecek yeni bir şeyi olmadığında yanıtını beklettiği daha basit bir teknik -((long polling))\_ kullanıyoruz.
 
 {{index "live view"}}
 
-As long as the client makes sure it constantly has a polling request open, it will receive information from the server quickly after it becomes available. For example, if Fatma has our skill-sharing application open in her browser, that browser will have made a request for updates and will be waiting for a response to that request. When Iman submits a talk on Extreme Downhill Unicycling, the server will notice that Fatma is waiting for updates and send a response containing the new talk to her pending request. Fatma's browser will receive the data and update the screen to show the talk.
+İstemci sürekli olarak bir yoklama isteğinin açık olduğundan emin olduğu sürece, kullanılabilir hale geldikten sonra sunucudan hızlı bir şekilde bilgi alacaktır. Örneğin, Fatma'nın tarayıcısında beceri paylaşım uygulamamız açıksa, bu tarayıcı güncellemeler için bir istekte bulunmuş ve bu isteğe yanıt bekliyor olacaktır. Iman, Extreme Downhill Unicycling hakkında bir konuşma gönderdiğinde, sunucu Fatma'nın güncellemeleri beklediğini fark edecek ve bekleyen isteğine yeni konuşmayı içeren bir yanıt gönderecektir. Fatma'nın tarayıcısı verileri alacak ve konuşmayı göstermek için ekranı güncelleyecektir.
 
 {{index robustness, timeout}}
 
-To prevent connections from timing out (being aborted because of a lack of activity), ((long polling)) techniques usually set a maximum time for each request, after which the server will respond anyway, even though it has nothing to report. The client can then start a new request. Periodically restarting the request also makes the technique more robust, allowing clients to recover from temporary ((connection)) failures or server problems.
+Bağlantıların zaman aşımına uğramasını (etkinlik eksikliği nedeniyle iptal edilmesini) önlemek için, ((uzun yoklama)) teknikleri genellikle her istek için maksimum bir süre belirler, bu sürenin sonunda sunucu bildirecek hiçbir şeyi olmasa bile yine de yanıt verir. İstemci daha sonra yeni bir istek başlatabilir. İsteğin periyodik olarak yeniden başlatılması da tekniği daha sağlam hale getirerek istemcilerin geçici ((bağlantı)) arızalarından veya sunucu sorunlarından kurtulmasını sağlar.
 
 {{index "Node.js"}}
 
-A busy server that is using long polling may have thousands of waiting requests, and thus ((TCP)) connections, open. Node, which makes it easy to manage many connections without creating a separate thread of control for each one, is a good fit for such a system.
+Uzun yoklama kullanan yoğun bir sunucuda binlerce bekleyen istek ve dolayısıyla ((TCP)) bağlantısı açık olabilir. Her biri için ayrı bir kontrol iş parçacığı oluşturmadan birçok bağlantıyı yönetmeyi kolaylaştıran Node, böyle bir sistem için iyi bir seçimdir.
 
 ## HTTP arayüzü
 
 {{index "skill-sharing project", [interface, HTTP]}}
 
-Before we start designing either the server or the client, let's think about the point where they touch: the ((HTTP)) interface over which they communicate.
+Sunucuyu ya da istemciyi tasarlamaya başlamadan önce, temas ettikleri noktayı düşünelim: üzerinden iletişim kurdukları ((HTTP)) arayüzü.
 
 {{index [path, URL], [method, HTTP]}}
 
-We will use ((JSON)) as the format of our request and response body. Like in the file server from [Chapter ?](node#file_server), we'll try to make good use of HTTP methods and ((header))s. The interface is centered around the `/talks` path. Paths that do not start with `/talks` will be used for serving ((static file))s—the HTML and JavaScript code for the client-side system.
+İstek ve yanıt gövdelerimizin formatı olarak ((JSON)) kullanacağız. [Bölüm ?](node#file_server)'daki dosya sunucusunda olduğu gibi, HTTP yöntemlerini ve ((header))'ları iyi kullanmaya çalışacağız. Arayüz `/talks` yolu etrafında merkezlenmiştir. `/talks` ile başlamayan yollar ((statik dosya))ları (istemci tarafı sistemi için HTML ve JavaScript kodu) sunmak için kullanılacaktır.
 
 {{index "GET method"}}
 
-A `GET` request to `/talks` returns a JSON document like this:
+Bir `GET` isteği `/talks` için aşağıdaki gibi bir JSON belgesi döndürür:
 
 ```{lang: "json"}
 [{"title": "Unituning",
@@ -91,18 +91,18 @@ A `GET` request to `/talks` returns a JSON document like this:
 
 {{index "PUT method", URL}}
 
-Creating a new talk is done by making a `PUT` request to a URL like `/talks/Unituning`, where the part after the second slash is the title of the talk. The `PUT` request's body should contain a ((JSON)) object that has `presenter` and `summary` properties.
+Yeni bir konuşma oluşturmak için `/talks/Unituning` gibi bir URL'ye `PUT` isteği yapılır, burada ikinci eğik çizgiden sonraki kısım konuşmanın başlığıdır. `PUT` isteğinin gövdesi, `presenter` ve `summary` özelliklerine sahip bir ((JSON)) nesnesi içermelidir.
 
 {{index "encodeURIComponent function", [escaping, "in URLs"], [whitespace, "in URLs"]}}
 
-Since talk titles may contain spaces and other characters that may not appear normally in a URL, title strings must be encoded with the `encodeURIComponent` function when building up such a URL.
+Konuşma başlıkları normalde bir URL'de görünmeyen boşluklar ve diğer karakterler içerebileceğinden, böyle bir URL oluşturulurken başlık dizeleri `encodeURIComponent` işlevi ile kodlanmalıdır.
 
 ```
 console.log("/talks/" + encodeURIComponent("How to Idle"));
 // → /talks/How%20to%20Idle
 ```
 
-A request to create a talk about idling might look something like this:
+Rölanti hakkında bir konuşma oluşturma talebi şöyle görünebilir:
 
 ```{lang: http}
 PUT /talks/How%20to%20Idle HTTP/1.1
@@ -113,11 +113,11 @@ Content-Length: 92
  "summary": "Standing still on a unicycle"}
 ```
 
-Such URLs also support `GET` requests to retrieve the JSON representation of a talk and `DELETE` requests to delete a talk.
+Bu tür URL'ler ayrıca bir konuşmanın JSON temsilini almak için `GET` isteklerini ve bir konuşmayı silmek için `DELETE` isteklerini de destekler.
 
 {{index "POST method"}}
 
-Adding a ((comment)) to a talk is done with a `POST` request to a URL like `/talks/Unituning/comments`, with a JSON body that has `author` and `message` properties.
+Bir konuşmaya ((yorum)) eklemek, `author` ve `message` özelliklerine sahip bir JSON gövdesi ile `/talks/Unituning/comments` gibi bir URL'ye `POST` isteği ile yapılır.
 
 ```{lang: http}
 POST /talks/Unituning/comments HTTP/1.1
@@ -130,17 +130,17 @@ Content-Length: 72
 
 {{index "query string", timeout, "ETag header", "If-None-Match header"}}
 
-To support ((long polling)), `GET` requests to `/talks` may include extra headers that inform the server to delay the response if no new information is available. We'll use a pair of headers normally intended to manage caching: `ETag` and `If-None-Match`.
+((uzun yoklama)) desteklemek için, `/talks` için `GET` istekleri, sunucuya yeni bilgi mevcut değilse yanıtı geciktirmesini bildiren ekstra başlıklar içerebilir. Normalde önbelleğe almayı yönetmek için tasarlanmış bir çift başlık kullanacağız: `ETag` ve `If-None-Match`.
 
 {{index "304 (HTTP status code)"}}
 
-Servers may include an `ETag` ("entity tag") header in a response. Its value is a string that identifies the current version of the resource. Clients, when they later request that resource again, may make a _((conditional request))_ by including an `If-None-Match` header whose value holds that same string. If the resource hasn't changed, the server will respond with status code 304, which means "not modified", telling the client that its cached version is still current. When the tag does not match, the server responds as normal.
+Sunucular bir yanıta `ETag` (“varlık etiketi”) başlığı ekleyebilir. Değeri, kaynağın geçerli sürümünü tanımlayan bir dizedir. İstemciler, daha sonra bu kaynağı tekrar talep ettiklerinde, değeri aynı dizeyi tutan bir `If-None-Match` başlığı ekleyerek bir _((koşullu istek))_ yapabilir. Kaynak değişmemişse, sunucu “değiştirilmemiş” anlamına gelen 304 durum koduyla yanıt verir ve istemciye önbelleğe alınmış sürümünün hala geçerli olduğunu söyler. Etiket eşleşmediğinde, sunucu normal şekilde yanıt verir.
 
 {{index "Prefer header"}}
 
-We need something like this, where the client can tell the server which version of the list of talks it has, and the server responds only when that list has changed. But instead of immediately returning a 304 response, the server should stall the response and return only when something new is available or a given amount of time has elapsed. To distinguish long polling requests from normal conditional requests, we give them another header, `Prefer: wait=90`, which tells the server that the client is willing to wait up to 90 seconds for the response.
+İstemcinin sunucuya konuşma listesinin hangi sürümüne sahip olduğunu söyleyebileceği ve sunucunun yalnızca bu liste değiştiğinde yanıt vereceği böyle bir şeye ihtiyacımız var. Ancak sunucu hemen bir 304 yanıtı döndürmek yerine, yanıtı bekletmeli ve yalnızca yeni bir şey mevcut olduğunda veya belirli bir süre geçtiğinde geri dönmelidir. Uzun yoklama isteklerini normal koşullu isteklerden ayırmak için, sunucuya istemcinin yanıt için 90 saniyeye kadar beklemeye istekli olduğunu söyleyen `Prefer: wait=90` adlı başka bir başlık veriyoruz.
 
-The server will keep a version number that it updates every time the talks change and will use that as the `ETag` value. Clients can make requests like this to be notified when the talks change:
+Sunucu, görüşmeler her değiştiğinde güncellediği bir sürüm numarası tutacak ve bunu `ETag` değeri olarak kullanacaktır. İstemciler, konuşmalar değiştiğinde haberdar olmak için bunun gibi isteklerde bulunabilirler:
 
 ```{lang: null}
 GET /talks HTTP/1.1
@@ -159,29 +159,29 @@ Content-Length: 295
 
 {{index security}}
 
-The protocol described here does not do any ((access control)). Everybody can comment, modify talks, and even delete them. (Since the Internet is full of ((hooligan))s, putting such a system online without further protection probably wouldn't end well.)
+Burada açıklanan protokol herhangi bir ((erişim kontrolü)) yapmaz. Herkes yorum yapabilir, görüşmeleri değiştirebilir ve hatta silebilir. (İnternet ((holigan))larla dolu olduğu için, böyle bir sistemi daha fazla koruma olmadan çevrimiçi hale getirmek muhtemelen iyi sonuçlanmayacaktır).
 
 ## Sunucu
 
 {{index "skill-sharing project"}}
 
-Let's start by building the ((server))-side part of the program. The code in this section runs on ((Node.js)).
+Programın ((sunucu)) tarafını oluşturarak başlayalım. Bu bölümdeki kod ((Node.js)) üzerinde çalışır.
 
 ### Yönlendirme
 
 {{index "createServer function", [path, URL], [method, HTTP]}}
 
-Our server will use Node's `createServer` to start an HTTP server. In the function that handles a new request, we must distinguish between the various kinds of requests (as determined by the method and the path) that we support. This can be done with a long chain of `if` statements, but there is a nicer way.
+Sunucumuz bir HTTP sunucusu başlatmak için Node'un `createServer` özelliğini kullanacaktır. Yeni bir isteği işleyen işlevde, desteklediğimiz çeşitli istek türlerini (yöntem ve yol tarafından belirlendiği gibi) ayırt etmeliyiz. Bu, uzun bir `if` deyimleri zinciri ile yapılabilir, ancak daha güzel bir yol vardır.
 
 {{index dispatch}}
 
-A _((router))_ is a component that helps dispatch a request to the function that can handle it. You can tell the router, for example, that `PUT` requests with a path that matches the regular expression `/^\/talks\/([^\/]+)$/` (`/talks/` followed by a talk title) can be handled by a given function. In addition, it can help extract the meaningful parts of the path (in this case the talk title), wrapped in parentheses in the ((regular expression)), and pass them to the handler function.
+Bir _((router))_, bir isteği onu işleyebilecek işleve göndermeye yardımcı olan bir bileşendir. Örneğin, yönlendiriciye `/^\/talks\/([^\/]+)$/` (`/talks/` ve ardından bir konuşma başlığı) düzenli ifadesiyle eşleşen bir yola sahip `PUT` isteklerinin belirli bir işlev tarafından işlenebileceğini söyleyebilirsiniz. Buna ek olarak, ((düzenli ifade)) içinde parantez içine alınmış yolun anlamlı kısımlarını (bu durumda konuşma başlığı) ayıklamaya ve bunları işleyici fonksiyona aktarmaya yardımcı olabilir.
 
-There are a number of good router packages on ((NPM)), but here we'll write one ourselves to illustrate the principle.
+((NPM))'de bir dizi iyi yönlendirici paketi vardır, ancak burada prensibi göstermek için kendimiz bir tane yazacağız.
 
 {{index "import keyword", "Router class", module}}
 
-This is `router.mjs`, which we will later `import` from our server module:
+Bu, daha sonra sunucu modülümüzden `import` edeceğimiz `router.mjs` dosyasıdır:
 
 ```{includeCode: ">code/skillsharing/router.mjs"}
 import {parse} from "node:url";
@@ -211,23 +211,23 @@ async function resolveRequest(router, context, request) {
 
 {{index "Router class"}}
 
-The module exports the `Router` class. A router object allows new handlers to be registered with the `add` method and can resolve requests with its `resolve` method.
+Modül `Router` sınıfını dışa aktarır. Bir router nesnesi `add` yöntemiyle yeni işleyicilerin kaydedilmesine izin verir ve `resolve` yöntemiyle istekleri çözebilir.
 
 {{index "some method"}}
 
-The latter will return a response when a handler was found, and `null` otherwise. It tries the routes one at a time (in the order in which they were defined) until a matching one is found.
+İkincisi, bir işleyici bulunduğunda bir yanıt, aksi takdirde `null` döndürür. Eşleşen bir rota bulunana kadar rotaları teker teker (tanımlandıkları sırayla) dener.
 
 {{index "capture group", "decodeURIComponent function", [escaping, "in URLs"]}}
 
-The handler functions are called with the `context` value (which will be the server instance in our case), match strings for any groups they defined in their ((regular expression)), and the request object. The strings have to be URL-decoded since the raw URL may contain `%20`-style codes.
+İşleyici işlevleri `context` değeri (bizim durumumuzda sunucu örneği olacaktır), ((düzenli ifade)) içinde tanımladıkları herhangi bir grup için eşleşme dizeleri ve istek nesnesi ile çağrılır. Ham URL `%20` tarzı kodlar içerebileceğinden, dizelerin URL kodu çözülmelidir.
 
 ### Dosyaları servis etme
 
-When a request matches none of the request types defined in our router, the server must interpret it as a request for a file in the `public` directory. It would be possible to use the file server defined in [Chapter ?](node#file_server) to serve such files, but we neither need nor want to support `PUT` and `DELETE` requests on files, and we would like to have advanced features such as support for caching. So let's use a solid, well-tested ((static file)) server from ((NPM)) instead.
+Bir istek yönlendiricimizde tanımlanan istek türlerinden hiçbiriyle eşleşmediğinde, sunucu bunu `public` dizinindeki bir dosya için istek olarak yorumlamalıdır. Bu tür dosyaları sunmak için [Bölüm ?](node#file_server)'da tanımlanan dosya sunucusunu kullanmak mümkün olabilir, ancak dosyalar üzerinde `PUT` ve `DELETE` isteklerini desteklemeye ne ihtiyacımız var ne de istiyoruz ve önbelleğe alma desteği gibi gelişmiş özelliklere sahip olmak istiyoruz. Bu yüzden bunun yerine ((NPM))'den sağlam, iyi test edilmiş bir ((statik dosya)) sunucusu kullanalım.
 
 {{index "createServer function", "serve-static package"}}
 
-I opted for `serve-static`. This isn't the only such server on NPM, but it works well and fits our purposes. The `serve-static` package exports a function that can be called with a root directory to produce a request handler function. The handler function accepts the `request` and `response` arguments provided by the server, and a third argument, a function that it will call if no file matches the request. We want our server to first check for requests that we should handle specially, as defined in the router, so we wrap it in another function.
+Ben `serve-static`'i seçtim. Bu NPM'deki tek sunucu değil, ancak iyi çalışıyor ve amaçlarımıza uyuyor. `serve-static` paketi, bir istek işleyici işlevi üretmek için bir kök dizinle çağrılabilen bir işlevi dışa aktarır. İşleyici işlev, sunucu tarafından sağlanan `request` ve `response` argümanlarını ve üçüncü bir argümanı, istekle eşleşen bir dosya yoksa çağıracağı bir işlevi kabul eder. Sunucumuzun öncelikle yönlendiricide tanımlandığı gibi özel olarak ele almamız gereken istekleri kontrol etmesini istiyoruz, bu yüzden bunu başka bir fonksiyona sarıyoruz.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 import {createServer} from "node:http";
@@ -260,9 +260,9 @@ class SkillShareServer {
 }
 ```
 
-The `serveFromRouter` function has the same interface as `fileServer`, taking `(request, response, next)` arguments. This allows us to “chain” several request handlers, allowing each to either handle the request, or pass responsibility for that on to the next handler. The final handler, `notFound`, simply responds with a “not found” error.
+`serveFromRouter` fonksiyonu `fileServer` ile aynı arayüze sahiptir ve `(request, response, next)` argümanlarını alır. Bu, birkaç istek işleyicisini “zincirlememize” olanak tanıyarak her birinin isteği işlemesine veya bunun sorumluluğunu bir sonraki işleyiciye devretmesine izin verir. Son işleyici, `notFound`, sadece “bulunamadı” hatası ile yanıt verir.
 
-Our `serveFromRouter` function uses a similar convention as the file server from the [previous chapter](node) for responses—handler in the router return promises that resolve to objects describing the response.
+Bizim `serveFromRouter` fonksiyonumuz, yanıtlar için [önceki bölüm](node)'daki dosya sunucusuna benzer bir konvansiyon kullanır-yönlendiricideki işleyici, yanıtı tanımlayan nesnelere çözümlenen vaatler döndürür.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 import {Router} from "./router.mjs";
@@ -283,11 +283,11 @@ async function serveResponse(value, response) {
 
 ### Kaynak olarak konuşmalar
 
-The ((talk))s that have been proposed are stored in the `talks` property of the server, an object whose property names are the talk titles. These will be exposed as HTTP ((resource))s under `/talks/[title]`, so we need to add handlers to our router that implement the various methods that clients can use to work with them.
+Önerilen ((konuşma))lar, özellik adları konuşma başlıkları olan bir nesne olan sunucunun `talks` özelliğinde saklanır. Bunlar `/talks/[title]` altında HTTP ((resource))ları olarak gösterilecektir, bu nedenle yönlendiricimize istemcilerin bunlarla çalışmak için kullanabileceği çeşitli yöntemleri uygulayan işleyiciler eklememiz gerekir.
 
 {{index "GET method", "404 (HTTP status code)" "hasOwn function"}}
 
-The handler for requests that `GET` a single talk must look up the talk and respond either with the talk's JSON data or with a 404 error response.
+Tek bir konuşmayı `GET`leyen isteklerin işleyicisi konuşmayı aramalı ve konuşmanın JSON verileriyle ya da 404 hata yanıtıyla yanıt vermelidir.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 const talkPath = /^\/talks\/([^\/]+)$/;
@@ -304,7 +304,7 @@ router.add("GET", talkPath, async (server, title) => {
 
 {{index "DELETE method"}}
 
-Deleting a talk is done by removing it from the `talks` object.
+Bir konuşmayı silmek, onu `talks` nesnesinden kaldırarak yapılır.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("DELETE", talkPath, async (server, title) => {
@@ -318,11 +318,11 @@ router.add("DELETE", talkPath, async (server, title) => {
 
 {{index "long polling", "updated method"}}
 
-The `updated` method, which we will define [later](skillsharing#updated), notifies waiting long polling requests about the change.
+[Daha sonra](skillsharing#updated) tanımlayacağımız `updated` yöntemi, bekleyen uzun yoklama isteklerini değişiklik hakkında bilgilendirir.
 
 {{index "readStream function", "body (HTTP)", stream}}
 
-To retrieve the content of a request body, we define a function called `readStream`, which reads all content from a ((readable stream)) and returns a promise that resolves to a string.
+Bir istek gövdesinin içeriğini almak için, tüm içeriği bir ((okunabilir akış))'tan okuyan ve bir dizeye çözümlenen bir söz döndüren `readStream` adlı bir işlev tanımlarız.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 function readStream(stream) {
@@ -337,11 +337,11 @@ function readStream(stream) {
 
 {{index validation, input, "PUT method"}}
 
-One handler that needs to read request bodies is the `PUT` handler, which is used to create new ((talk))s. It has to check whether the data it was given has `presenter` and `summary` properties, which are strings. Any data coming from outside the system might be nonsense, and we don't want to corrupt our internal data model or ((crash)) when bad requests come in.
+İstek gövdelerini okuması gereken bir işleyici, yeni ((talk))'lar oluşturmak için kullanılan `PUT` işleyicisidir. Kendisine verilen verinin string olan `presenter` ve `summary` özelliklerine sahip olup olmadığını kontrol etmek zorundadır. Sistem dışından gelen herhangi bir veri saçma olabilir ve kötü istekler geldiğinde dahili veri modelimizi bozmak veya ((çökmek)) istemiyoruz.
 
 {{index "updated method"}}
 
-If the data looks valid, the handler stores an object that represents the new talk in the `talks` object, possibly ((overwriting)) an existing talk with this title, and again calls `updated`.
+Veriler geçerli görünüyorsa, işleyici yeni konuşmayı temsil eden bir nesneyi `talks` nesnesinde saklar, muhtemelen bu başlığa sahip mevcut bir konuşmayı ((üzerine yazar)) ve tekrar `updated` çağrısı yapar.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("PUT", talkPath,
@@ -369,7 +369,7 @@ router.add("PUT", talkPath,
 
 {{index validation, "readStream function"}}
 
-Adding a ((comment)) to a ((talk)) works similarly. We use `readStream` to get the content of the request, validate the resulting data, and store it as a comment when it looks valid.
+Bir ((talk))'a ((comment)) eklemek de benzer şekilde çalışır. İsteğin içeriğini almak, elde edilen verileri doğrulamak ve geçerli göründüğünde bir yorum olarak saklamak için `readStream` kullanıyoruz.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
@@ -395,15 +395,15 @@ router.add("POST", /^\/talks\/([^\/]+)\/comments$/,
 
 {{index "404 (HTTP status code)"}}
 
-Trying to add a comment to a nonexistent talk returns a 404 error.
+Var olmayan bir konuşmaya yorum eklemeye çalışmak 404 hatası döndürüyor.
 
 ### Long polling desteği
 
-The most interesting aspect of the server is the part that handles ((long polling)). When a `GET` request comes in for `/talks`, it may be either a regular request or a long polling request.
+Sunucunun en ilginç yönü ((uzun yoklama)) ile ilgilenen kısmıdır. Bir `GET` isteği `/talks` için geldiğinde, bu normal bir istek ya da uzun bir yoklama isteği olabilir.
 
 {{index "talkResponse method", "ETag header"}}
 
-There will be multiple places in which we have to send an array of talks to the client, so we first define a helper method that builds up such an array and includes an `ETag` header in the response.
+İstemciye bir dizi konuşma göndermemiz gereken birden fazla yer olacaktır, bu nedenle önce böyle bir dizi oluşturan ve yanıta bir `ETag` başlığı ekleyen bir yardımcı yöntem tanımlıyoruz.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 SkillShareServer.prototype.talkResponse = function() {
@@ -420,7 +420,7 @@ SkillShareServer.prototype.talkResponse = function() {
 
 {{index "query string", "url package", parsing}}
 
-The handler itself needs to look at the request headers to see whether `If-None-Match` and `Prefer` headers are present. Node stores headers, whose names are specified to be case insensitive, under their lowercase names.
+İşleyicinin kendisinin `If-None-Match` ve `Prefer` başlıklarının mevcut olup olmadığını görmek için istek başlıklarına bakması gerekir. Node, adları büyük/küçük harf duyarsız olarak belirtilen başlıkları küçük harf adları altında saklar.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 router.add("GET", /^\/talks$/, async (server, request) => {
@@ -438,11 +438,11 @@ router.add("GET", /^\/talks$/, async (server, request) => {
 
 {{index "long polling", "waitForChanges method", "If-None-Match header", "Prefer header"}}
 
-If no tag was given or a tag was given that doesn't match the server's current version, the handler responds with the list of talks. If the request is conditional and the talks did not change, we consult the `Prefer` header to see whether we should delay the response or respond right away.
+Hiçbir etiket verilmemişse veya sunucunun geçerli sürümüyle eşleşmeyen bir etiket verilmişse, işleyici görüşmelerin listesiyle yanıt verir. İstek koşulluysa ve görüşmeler değişmediyse, yanıtı geciktirmemiz veya hemen yanıtlamamız gerekip gerekmediğini görmek için `Prefer` başlığına bakarız.
 
 {{index "304 (HTTP status code)", "setTimeout function", timeout, "callback function"}}
 
-Callback functions for delayed requests are stored in the server's `waiting` array so that they can be notified when something happens. The `waitForChanges` method also immediately sets a timer to respond with a 304 status when the request has waited long enough.
+Geciken istekler için geri arama işlevleri sunucunun `waiting` dizisinde saklanır, böylece bir şey olduğunda bildirilebilirler. Ayrıca `waitForChanges` yöntemi, istek yeterince uzun süre beklediğinde 304 durumuyla yanıt vermek için hemen bir zamanlayıcı ayarlar.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 SkillShareServer.prototype.waitForChanges = function(time) {
@@ -461,7 +461,7 @@ SkillShareServer.prototype.waitForChanges = function(time) {
 
 {{id updated}}
 
-Registering a change with `updated` increases the `version` property and wakes up all waiting requests.
+Bir değişikliği `updated` ile kaydetmek `version` özelliğini artırır ve bekleyen tüm istekleri uyandırır.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 SkillShareServer.prototype.updated = function() {
@@ -474,7 +474,7 @@ SkillShareServer.prototype.updated = function() {
 
 {{index [HTTP, server]}}
 
-That concludes the server code. If we create an instance of `SkillShareServer` and start it on port 8000, the resulting HTTP server serves files from the `public` subdirectory alongside a talk-managing interface under the `/talks` URL.
+Sunucu kodu bu kadar. Bir `SkillShareServer` örneği oluşturur ve 8000 numaralı bağlantı noktasında başlatırsak, ortaya çıkan HTTP sunucusu `/talks` URL'si altında bir konuşma yönetimi arayüzünün yanı sıra `public` alt dizinindeki dosyaları sunar.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.mjs"}
 new SkillShareServer({}).start(8000);
@@ -484,15 +484,15 @@ new SkillShareServer({}).start(8000);
 
 {{index "skill-sharing project"}}
 
-The ((client))-side part of the skill-sharing website consists of three files: a tiny HTML page, a style sheet, and a JavaScript file.
+Beceri paylaşım web sitesinin ((istemci)) tarafındaki kısmı üç dosyadan oluşur: küçük bir HTML sayfası, bir stil sayfası ve bir JavaScript dosyası.
 
 ### HTML
 
 {{index "index.html"}}
 
-It is a widely used convention for web servers to try to serve a file named `index.html` when a request is made directly to a path that corresponds to a directory. The ((file server)) module we use, `serve-static`, supports this convention. When a request is made to the path `/`, the server looks for the file `./public/index.html` (`./public` being the root we gave it) and returns that file if found.
+Bir dizine karşılık gelen bir yola doğrudan bir istek yapıldığında `index.html` adlı bir dosyayı sunmaya çalışmak web sunucuları için yaygın olarak kullanılan bir kuraldır. Kullandığımız ((dosya sunucusu)) modülü, `serve-static`, bu geleneği destekler. Bir istek `/` yoluna yapıldığında, sunucu `./public/index.html` dosyasını arar (`./public` ona verdiğimiz köktür) ve bulursa bu dosyayı döndürür.
 
-Thus, if we want a page to show up when a browser is pointed at our server, we should put it in `public/index.html`. This is our index file:
+Bu nedenle, bir tarayıcı sunucumuza yönlendirildiğinde bir sayfanın görünmesini istiyorsak, onu `public/index.html` dosyasına koymalıyız. Bu bizim dizin dosyamızdır:
 
 ```{lang: "html", includeCode: ">code/skillsharing/public/index.html"}
 <!doctype html>
@@ -507,17 +507,17 @@ Thus, if we want a page to show up when a browser is pointed at our server, we s
 
 {{index CSS}}
 
-It defines the document ((title)) and includes a style sheet, which defines a few styles to, among other things, make sure there is some space between talks.
+Belgeyi ((başlık)) tanımlar ve diğer şeylerin yanı sıra konuşmalar arasında biraz boşluk olmasını sağlamak için birkaç stil tanımlayan bir stil sayfası içerir.
 
-At the bottom, it adds a heading at the top of the page and loads the script that contains the ((client))-side application.
+En altta, sayfanın üst kısmına bir başlık ekler ve ((istemci)) tarafındaki uygulamayı içeren komut dosyasını yükler.
 
 ### Aksiyonlar
 
-The application state consists of the list of talks and the name of the user, and we'll store it in a `{talks, user}` object. We don't allow the user interface to directly manipulate the state or send off HTTP requests. Rather, it may emit _actions_ that describe what the user is trying to do.
+Uygulama durumu, konuşmaların listesi ve kullanıcının adından oluşur ve bunu bir `{talks, user}` nesnesinde saklayacağız. Kullanıcı arayüzünün durumu doğrudan manipüle etmesine veya HTTP istekleri göndermesine izin vermiyoruz. Bunun yerine, kullanıcının ne yapmaya çalıştığını tanımlayan _actions_ yayabilir.
 
 {{index "handleAction function"}}
 
-The `handleAction` function takes such an action and makes it happen. Because our state updates are so simple, state changes are handled in the same function.
+`handleAction` fonksiyonu böyle bir eylemi alır ve gerçekleşmesini sağlar. Durum güncellemelerimiz çok basit olduğu için, durum değişiklikleri aynı fonksiyonda ele alınır.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function handleAction(state, action) {
@@ -554,11 +554,11 @@ function handleAction(state, action) {
 
 {{index "localStorage object"}}
 
-We'll store the user's name in `localStorage` so that it can be restored when the page is loaded.
+Kullanıcının adını `localStorage` içinde saklayacağız, böylece sayfa yüklendiğinde geri yüklenebilir.
 
 {{index "fetch function", "status property"}}
 
-The actions that need to involve the server make network requests, using `fetch`, to the HTTP interface described earlier. We use a wrapper function, `fetchOK`, which makes sure the returned promise is rejected when the server returns an error code.
+Sunucunun dahil olması gereken eylemler, daha önce açıklanan HTTP arayüzüne `fetch` kullanarak ağ istekleri yapar. Sunucu bir hata kodu döndürdüğünde döndürülen sözün reddedilmesini sağlayan `fetchOK` adlı bir sarmalayıcı işlev kullanıyoruz.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function fetchOK(url, options) {
@@ -571,7 +571,7 @@ function fetchOK(url, options) {
 
 {{index "talkURL function", "encodeURIComponent function"}}
 
-This helper function is used to build up a ((URL)) for a talk with a given title.
+Bu yardımcı işlev, belirli bir başlığa sahip bir konuşma için bir ((URL)) oluşturmak için kullanılır.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function talkURL(title) {
@@ -581,7 +581,7 @@ function talkURL(title) {
 
 {{index "error handling", "user experience", "reportError function"}}
 
-When the request fails, we don't want to have our page just sit there, doing nothing without explanation. So we define a function called `reportError`, which at least shows the user a dialog that tells them something went wrong.
+İstek başarısız olduğunda, sayfamızın hiçbir açıklama yapmadan öylece durmasını istemiyoruz. Bu yüzden `reportError` adında bir fonksiyon tanımlıyoruz, bu fonksiyon en azından kullanıcıya bir şeylerin yanlış gittiğini söyleyen bir diyalog kutusu gösteriyor.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function reportError(error) {
@@ -593,7 +593,7 @@ function reportError(error) {
 
 {{index "renderUserField function"}}
 
-We'll use an approach similar to the one we saw in [Chapter ?](paint), splitting the application into components. But since some of the components either never need to update or are always fully redrawn when updated, we'll define those not as classes but as functions that directly return a DOM node. For example, here is a component that shows the field where the user can enter their name:
+[Bölüm ?](paint)'da gördüğümüze benzer bir yaklaşım kullanarak uygulamayı bileşenlere ayıracağız. Ancak bazı bileşenlerin hiçbir zaman güncellenmesi gerekmediğinden ya da güncellendiğinde her zaman tamamen yeniden çizildiğinden, bunları sınıf olarak değil, doğrudan bir DOM düğümü döndüren işlevler olarak tanımlayacağız. Örneğin, burada kullanıcının adını girebileceği alanı gösteren bir bileşen bulunmaktadır:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function renderUserField(name, dispatch) {
@@ -609,7 +609,7 @@ function renderUserField(name, dispatch) {
 
 {{index "elt function"}}
 
-The `elt` function used to construct DOM elements is the one we used in [Chapter ?](paint).
+DOM öğelerini oluşturmak için kullanılan `elt` işlevi [Bölüm ?](paint)'da kullandığımız işlevdir.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no, hidden: true}
 function elt(type, props, ...children) {
@@ -625,7 +625,7 @@ function elt(type, props, ...children) {
 
 {{index "renderTalk function"}}
 
-A similar function is used to render talks, which include a list of comments and a form for adding a new ((comment)).
+Benzer bir işlev, yorumların bir listesini ve yeni bir ((yorum)) eklemek için bir form içeren konuşmaları oluşturmak için kullanılır.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function renderTalk(talk, dispatch) {
@@ -657,11 +657,11 @@ function renderTalk(talk, dispatch) {
 
 {{index "submit event"}}
 
-The `"submit"` event handler calls `form.reset` to clear the form's content after creating a `"newComment"` action.
+`“submit“` olay işleyicisi, bir `”newComment"` eylemi oluşturduktan sonra formun içeriğini temizlemek için `form.reset` çağrısında bulunur.
 
-When creating moderately complex pieces of DOM, this style of programming starts to look rather messy. To avoid this, people often use a _((templating language))_, which allows you to write your interface as an HTML file with some special markers to indicate where dynamic elements go. Or they use _((JSX))_, a non-standard JavaScript dialect that allows you to write something very close to HTML tags in your program as if they are JavaScript expressions. Both of these approaches use additional tools to pre-process the code before it can be run, which we will avoid in this chapter.
+Orta derecede karmaşık DOM parçaları oluştururken, bu programlama tarzı oldukça dağınık görünmeye başlar. Bundan kaçınmak için, insanlar genellikle dinamik öğelerin nereye gideceğini belirtmek için bazı özel işaretçilerle arayüzünüzü bir HTML dosyası olarak yazmanıza olanak tanıyan bir _((şablonlama dili))_ kullanırlar. Ya da programınızda HTML etiketlerine çok yakın bir şeyi JavaScript ifadeleriymiş gibi yazmanıza olanak tanıyan standart olmayan bir JavaScript lehçesi olan _((JSX))_ kullanırlar. Bu yaklaşımların her ikisi de kodu çalıştırmadan önce ön işleme tabi tutmak için ek araçlar kullanır ki bu bölümde bunlardan kaçınacağız.
 
-Comments are simple to render.
+Yorumların işlenmesi kolaydır.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function renderComment(comment) {
@@ -673,7 +673,7 @@ function renderComment(comment) {
 
 {{index "form (HTML tag)", "renderTalkForm function"}}
 
-Finally, the form that the user can use to create a new talk is rendered like this:
+Son olarak, kullanıcının yeni bir konuşma oluşturmak için kullanabileceği form şu şekilde oluşturulur:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function renderTalkForm(dispatch) {
@@ -698,7 +698,7 @@ function renderTalkForm(dispatch) {
 
 {{index "pollTalks function", "long polling", "If-None-Match header", "Prefer header", "fetch function"}}
 
-To start the app we need the current list of talks. Since the initial load is closely related to the long polling process—the `ETag` from the load must be used when polling—we'll write a function that keeps polling the server for `/talks` and calls a ((callback function)) when a new set of talks is available.
+Uygulamayı başlatmak için mevcut konuşma listesine ihtiyacımız var. İlk yükleme uzun yoklama süreciyle yakından ilgili olduğundan -yüklemedeki `ETag` yoklama sırasında kullanılmalıdır- sunucuyu `/talks` için yoklamaya devam eden ve yeni bir konuşma kümesi mevcut olduğunda bir ((geri arama işlevi)) çağıran bir işlev yazacağız.
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 async function pollTalks(update) {
@@ -724,21 +724,21 @@ async function pollTalks(update) {
 
 {{index "async function"}}
 
-This is an `async` function so that looping and waiting for the request is easier. It runs an infinite loop that, on each iteration, retrieves the list of talks—either normally or, if this isn't the first request, with the headers included that make it a long polling request.
+Bu bir `async` işlevidir, böylece döngü oluşturmak ve isteği beklemek daha kolay olur. Sonsuz bir döngü çalıştırır ve her yinelemede görüşmelerin listesini alır - ya normal olarak ya da bu ilk istek değilse, uzun bir yoklama isteği yapan başlıklarla birlikte.
 
 {{index "error handling", "Promise class", "setTimeout function"}}
 
-When a request fails, the function waits a moment and then tries again. This way, if your network connection goes away for a while and then comes back, the application can recover and continue updating. The promise resolved via `setTimeout` is a way to force the `async` function to wait.
+Bir istek başarısız olduğunda, işlev bir süre bekler ve ardından tekrar dener. Bu şekilde, ağ bağlantınız bir süreliğine gider ve sonra geri gelirse, uygulama iyileşebilir ve güncellemeye devam edebilir. `setTimeout` aracılığıyla çözümlenen söz, `async` işlevini beklemeye zorlamanın bir yoludur.
 
 {{index "304 (HTTP status code)", "ETag header"}}
 
-When the server gives back a 304 response, that means a long polling request timed out, so the function should just immediately start the next request. If the response is a normal 200 response, its body is read as ((JSON)) and passed to the callback, and its `ETag` header value is stored for the next iteration.
+Sunucu 304 yanıtı verdiğinde, bu uzun bir yoklama isteğinin zaman aşımına uğradığı anlamına gelir, bu nedenle işlev hemen bir sonraki isteği başlatmalıdır. Yanıt normal bir 200 yanıtı ise, gövdesi ((JSON)) olarak okunur ve geri aramaya aktarılır ve `ETag` başlık değeri bir sonraki yineleme için saklanır.
 
 ### Uygulama
 
 {{index "SkillShareApp class"}}
 
-The following component ties the whole user interface together:
+Aşağıdaki bileşen tüm kullanıcı arayüzünü birbirine bağlar:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 class SkillShareApp {
@@ -767,9 +767,9 @@ class SkillShareApp {
 
 {{index synchronization, "live view"}}
 
-When the talks change, this component redraws all of them. This is simple but also wasteful. We'll get back to that in the exercises.
+Konuşmalar değiştiğinde, bu bileşen hepsini yeniden çizer. Bu basit ama aynı zamanda savurgan bir işlemdir. Bu konuya alıştırmalarda geri döneceğiz.
 
-We can start the application like this:
+Uygulamayı şu şekilde başlatabiliriz:
 
 ```{includeCode: ">code/skillsharing/public/skillsharing_client.js", test: no}
 function runApp() {
@@ -794,33 +794,33 @@ function runApp() {
 runApp();
 ```
 
-If you run the server and open two browser windows for [_http://localhost:8000_](http://localhost:8000/) next to each other, you can see that the actions you perform in one window are immediately visible in the other.
+Sunucuyu çalıştırır ve [_http://localhost:8000_](http://localhost:8000/) için yan yana iki tarayıcı penceresi açarsanız, bir pencerede gerçekleştirdiğiniz eylemlerin diğerinde hemen görülebildiğini görebilirsiniz.
 
 ## Egzersizler
 
 {{index "Node.js", NPM}}
 
-The following exercises will involve modifying the system defined in this chapter. To work on them, make sure you ((download)) the code first ([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)), have Node installed ([_https://nodejs.org_](https://nodejs.org)), and install the project's dependency with `npm install`.
+Aşağıdaki alıştırmalar bu bölümde tanımlanan sistemi değiştirmeyi içerecektir. Bunlar üzerinde çalışmak için, önce kodu ((indirdiğinizden)) ([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)), Node'un kurulu olduğundan ([_https://nodejs.org_](https://nodejs.org)) ve projenin bağımlılığını `npm install` ile yüklediğinizden emin olun.
 
 ### Disk kalıcılığı
 
 {{index "data loss", persistence, [memory, persistence]}}
 
-The skill-sharing server keeps its data purely in memory. This means that when it ((crash))es or is restarted for any reason, all talks and comments are lost.
+Beceri paylaşım sunucusu verilerini tamamen bellekte tutar. Bu, herhangi bir nedenle ((çöktüğünde)) veya yeniden başlatıldığında, tüm konuşmaların ve yorumların kaybolacağı anlamına gelir.
 
 {{index "hard drive"}}
 
-Extend the server so that it stores the talk data to disk and automatically reloads the data when it is restarted. Do not worry about efficiency—do the simplest thing that works.
+Sunucuyu, konuşma verilerini diske depolayacak ve yeniden başlatıldığında verileri otomatik olarak yeniden yükleyecek şekilde genişletin. Verimlilik konusunda endişelenmeyin - işe yarayan en basit şeyi yapın.
 
 {{hint
 
 {{index "file system", "writeFile function", "updated method", persistence}}
 
-The simplest solution I can come up with is to encode the whole `talks` object as ((JSON)) and dump it to a file with `writeFile`. There is already a method (`updated`) that is called every time the server's data changes. It can be extended to write the new data to disk.
+Bulabildiğim en basit çözüm, tüm `talks` nesnesini ((JSON)) olarak kodlamak ve `writeFile` ile bir dosyaya dökmek. Sunucunun verileri her değiştiğinde çağrılan bir yöntem (`updated`) zaten var. Yeni verileri diske yazmak için genişletilebilir.
 
 {{index "readFile function", "JSON.parse function"}}
 
-Pick a ((file))name, for example `./talks.json`. When the server starts, it can try to read that file with `readFile`, and if that succeeds, the server can use the file's contents as its starting data.
+Bir ((dosya)) adı seçin, örneğin `./talks.json`. Sunucu başladığında, bu dosyayı `readFile` ile okumaya çalışabilir ve bu başarılı olursa, sunucu dosyanın içeriğini başlangıç verisi olarak kullanabilir.
 
 hint}}
 
@@ -828,20 +828,20 @@ hint}}
 
 {{index "comment field reset (exercise)", template, [state, "of application"]}}
 
-The wholesale redrawing of talks works pretty well because you usually can't tell the difference between a DOM node and its identical replacement. But there are exceptions. If you start typing something in the comment ((field)) for a talk in one browser window and then, in another, add a comment to that talk, the field in the first window will be redrawn, removing both its content and its ((focus)).
+Görüşmelerin toptan yeniden çizilmesi oldukça iyi çalışır, çünkü genellikle bir DOM düğümü ile onun aynısı arasındaki farkı anlayamazsınız. Ancak istisnalar da vardır. Bir tarayıcı penceresinde bir konuşma için yorum ((alanına)) bir şeyler yazmaya başlarsanız ve ardından başka bir pencerede bu konuşmaya bir yorum eklerseniz, ilk penceredeki alan hem içeriği hem de ((odağı)) kaldırılarak yeniden çizilecektir.
 
-In a heated discussion, where multiple people are adding comments at the same time, this would be annoying. Can you come up with a way to solve it?
+Birden fazla kişinin aynı anda yorum eklediği hararetli bir tartışmada bu can sıkıcı olabilir. Bunu çözmek için bir yol bulabilir misiniz?
 
 {{hint
 
 {{index "comment field reset (exercise)", template, "syncState method"}}
 
-The best way to do this is probably to make the talk component an object, with a `syncState` method, so that they can be updated to show a modified version of the talk. During normal operation, the only way a talk can be changed is by adding more comments, so the `syncState` method can be relatively simple.
+Bunu yapmanın en iyi yolu muhtemelen konuşma bileşenini bir `syncState` metodu ile bir nesne haline getirmektir, böylece konuşmanın değiştirilmiş bir versiyonunu gösterecek şekilde güncellenebilirler. Normal çalışma sırasında, bir konuşmanın değiştirilebilmesinin tek yolu daha fazla yorum eklemektir, bu nedenle `syncState` yöntemi nispeten basit olabilir.
 
-The difficult part is that, when a changed list of talks comes in, we have to reconcile the existing list of DOM components with the talks on the new list—deleting components whose talk was deleted and updating components whose talk changed.
+İşin zor kısmı, değişen bir konuşma listesi geldiğinde, mevcut DOM bileşenleri listesini yeni listedeki konuşmalarla uzlaştırmak zorunda olmamızdır - konuşması silinen bileşenleri silmek ve konuşması değişen bileşenleri güncellemek.
 
 {{index synchronization, "live view"}}
 
-To do this, it might be helpful to keep a data structure that stores the talk components under the talk titles so that you can easily figure out whether a component exists for a given talk. You can then loop over the new array of talks, and for each of them, either synchronize an existing component or create a new one. To delete components for deleted talks, you'll have to also loop over the components and check whether the corresponding talks still exist.
+Bunu yapmak için, konuşma bileşenlerini konuşma başlıkları altında saklayan bir veri yapısı tutmak yararlı olabilir, böylece belirli bir konuşma için bir bileşenin mevcut olup olmadığını kolayca anlayabilirsiniz. Daha sonra yeni konuşma dizisi üzerinde döngü yapabilir ve her biri için mevcut bir bileşeni senkronize edebilir ya da yeni bir tane oluşturabilirsiniz. Silinen konuşmaların bileşenlerini silmek için, bileşenler üzerinde de döngü yapmanız ve ilgili konuşmaların hala var olup olmadığını kontrol etmeniz gerekir.
 
 hint}}

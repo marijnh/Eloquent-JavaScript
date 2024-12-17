@@ -14,7 +14,7 @@ quote}}
 
 {{index CSS, "transform (CSS)", [DOM, graphics]}}
 
-Tarayıcılar bize ((grafik)) görüntülemek için çeşitli yollar sunar. En basit yol, normal DOM öğelerini konumlandırmak ve renklendirmek için stilleri kullanmaktır. Bu, [önceki bölüm](oyun)'daki oyunun gösterdiği gibi sizi oldukça ileriye götürebilir. Düğümlere kısmen saydam arka plan ((resim)) ekleyerek, tam olarak istediğimiz şekilde görünmelerini sağlayabiliriz. Hatta `transform` stili ile düğümleri döndürmek ya da eğmek bile mümkündür.
+Tarayıcılar bize ((grafik)) görüntülemek için çeşitli yollar sunar. En basit yol, normal DOM öğelerini konumlandırmak ve renklendirmek için stilleri kullanmaktır. Bu, [önceki bölüm](game)'daki oyunun gösterdiği gibi sizi oldukça ileriye götürebilir. Düğümlere kısmen saydam arka plan ((resim)) ekleyerek, tam olarak istediğimiz şekilde görünmelerini sağlayabiliriz. Hatta `transform` stili ile düğümleri döndürmek ya da eğmek bile mümkündür.
 
 Ancak DOM'u başlangıçta tasarlanmadığı bir şey için kullanmış oluruz. Rastgele noktalar arasında bir ((çizgi)) çizmek gibi bazı görevleri normal HTML öğeleriyle yapmak son derece gariptir.
 

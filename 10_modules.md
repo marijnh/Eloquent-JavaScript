@@ -1,64 +1,64 @@
 {{meta {load_files: ["code/packages_chapter_10.js", "code/chapter/07_robot.js"]}}}
 
-# Modules
+# Modüller
 
-{{quote {author: "Tef", title: "programming is terrible", chapter: true}
+{{quote {author: "Tef", title: "Programlamak Korkunç", chapter: true}
 
-Write code that is easy to delete, not easy to extend.
+Silmesi kolay olan kod yazın, üzerine daha fazla şey eklenmesi kolay olan kod değil.
 
 quote}}
 
-{{index "Yuan-Ma", "Book of Programming"}}
+{{index "Yuan-Ma", "Programlamanın Kitabı"}}
 
-{{figure {url: "img/chapter_picture_10.jpg", alt: "Illustration of a complicated building built from modular pieces", chapter: framed}}}
+{{figure {url: "img/chapter_picture_10.jpg", alt: "Modüler parçalardan inşa edilmiş karmaşık bir binanın illüstrasyonu.", chapter: framed}}}
 
 {{index organization, [code, "structure of"]}}
 
-Ideally, a program has a clear, straightforward structure. The way it works is easy to explain, and each part plays a well-defined role.
+İdeal olarak, bir programın açık ve anlaşılır bir yapısı vardır. Çalışma şeklini açıklamak kolaydır ve her bir parça iyi tanımlanmış bir rolü oynar.
 
 {{index "organic growth"}}
 
-In practice, programs grow organically. Pieces of functionality are added as the programmer identifies new needs. Keeping such a program well structured requires constant attention and work. This is work that will pay off only in the future, the _next_ time someone works on the program, so it's tempting to neglect it and allow the various parts of the program to become deeply entangled.
+Uygulamada, programlar organik olarak büyür. Yeni ihtiyaçlar belirlendikçe fonksiyonalite parçaları eklenir. Böyle bir programın iyi yapılandırılmış kalması sürekli dikkat ve çalışma gerektirir. Bu, sadece gelecekte, _bir sonraki_ kişi program üzerinde çalıştığında ödüllendirilecek bir çalışmadır. Bu nedenle, ihmal etmek ve programın çeşitli parçalarının derinlemesine birbirine karışmasına izin vermek caziptir.
 
 {{index readability, reuse, isolation}}
 
-This causes two practical issues. First, understanding an entangled system is hard. If everything can touch everything else, it is difficult to look at any given piece in isolation. You are forced to build up a holistic understanding of the entire thing. Second, if you want to use any of the functionality from such a program in another situation, rewriting it may be easier than trying to disentangle it from its context.
+Bu iki pratik soruna neden olur. İlk olarak, karışık bir sistem anlamak zordur. Her şey her şeye dokunabiliyorsa, herhangi bir parçayı izole olarak incelemek zor olur. Tüm şeyin bütünlüklü bir anlayışını oluşturmak zorundasınız. İkinci olarak, böyle bir programın işlevselliğini başka bir durumda kullanmak istiyorsanız, bunu içinde bulunduğu düğümü çözmektense programı tamamen yeniden yazmak daha kolay olabilir.
 
-The phrase "((big ball of mud))" is often used for such large, structureless programs. Everything sticks together, and when you try to pick out a piece, the whole thing comes apart, and you succeed only in making a mess.
+"((büyük çamur topu))" ifadesi genellikle böyle büyük, yapısal olmayan programlar için kullanılır. Her şey her şeye yapışır ve bir parça seçmeye çalıştığınızda, bütün şey parçalanır ve sadece bir karmaşa oluşturmayı başarırsınız.
 
-## Modular programs
+## Modüler programlar
 
 {{index dependency, [interface, module]}}
 
-_Modules_ are an attempt to avoid these problems. A ((module)) is a piece of program that specifies which other pieces it relies on and which functionality it provides for other modules to use (its _interface_).
+_Modüller_ bu sorunları önlemeye yönelik bir girişimdir. ((Modül)), başka hangi parçalara bağımlı olduğunu ve diğer modüllerin kullanması için hangi işlevsellikleri sağladığını(*arayüz*ünü) belirten bir program parçasıdır.
 
 {{index "big ball of mud"}}
 
-Module interfaces have a lot in common with object interfaces, as we saw them in [Chapter ?](object#interface). They make part of the module available to the outside world and keep the rest private.
+Modül arayüzleri, [bölüm ?](object#interface) içinde gördüğümüz nesne arayüzleriyle çok ortak noktaya sahiptir. Modülün bir kısmını dış dünyaya kullanılabilir hale getirir ve geri kalanını özel tutar.
 
 {{index dependency}}
 
-But the interface that a module provides for others to use is only half the story. A good module system also requires modules to specify which code _they_ use from other modules. These relations are called _dependencies_. If module A uses functionality from module B, it is said to _depend_ on that module. When these are clearly specified in the module itself, they can be used to figure out which other modules need to be present to be able to use a given module and to automatically load dependencies.
+Ancak, bir modülün diğerlerinin kullanması için sağladığı arayüz sadece hikayenin yarısıdır. İyi bir modül sistemi ayrıca modüllerin diğer modüllerden _hangi kodları kullandıklarını_ belirtmelerini gerektirir. Bu ilişkiler _bağımlılıklar_ olarak adlandırılır. Modül A, modül B'den işlevsellik kullanıyorsa, buna _bağımlı_ olduğu söylenir. Bunlar modülde açıkça belirtildiğinde, bir modülü kullanabilmek için hangi diğer modüllerin mevcut olması gerektiğini anlayıp o bağımlılıkları otomatik olarak yüklemek için kullanılabilirler.
 
-When the ways in which modules interact with each other are explicit, a system becomes more like ((LEGO)), where pieces interact through well-defined connectors, and less like mud, where everything mixes with everything else.
+Modüllerin birbirleriyle etkileşim şekilleri açık olduğunda, bir sistem her şeyin her şeyle karıştığı çamur gibi olmak yerine parçaların iyi tanımlanmış bağlayıcılar aracılığıyla etkileştiği ((LEGO)) parçaları gibi olur.
 
 {{id es}}
 
-## ES modules
+## ES modülleri
 
 {{index "global scope", [binding, global]}}
 
-The original JavaScript language did not have any concept of a module. All scripts ran in the same scope, and accessing a function defined in another script was done by referencing the global bindings created by that script. This actively encouraged accidental, hard-to-see entanglement of code and invited problems like unrelated scripts trying to use the same binding name.
+Orijinal JavaScript dili herhangi bir modül kavramına sahip değildi. Tüm betikler aynı kapsamda çalışır ve başka bir betikte tanımlanan bir fonksiyona erişmek için o betik tarafından oluşturulan global bağlantılara referansla yapılırdı. Bu, kazara, görülmesi zor kod karışıklığına ve ilişkisiz betiklerin aynı bağlantı adını kullanmaya çalışmasına neden olurdu.
 
 {{index "ES modules"}}
 
-Since ECMAScript 2015, JavaScript supports two different types of programs. _Scripts_ behave in the old way: their bindings are defined in the global scope, and they have no way to directly reference other scripts. _Modules_ get their own separate scope and support the `import` and `export` keywords, which aren't available in scripts, to declare their dependencies and interface. This module system is usually called _ES modules_ (where _ES_ stands for ECMAScript).
+ECMAScript 2015'ten beri, JavaScript iki farklı program türünü desteklemektedir. _Betikler_ eski şekilde davranır: bağlantılar global kapsamda tanımlanır ve doğrudan diğer betiklere başvurma yolu yoktur. _Modüller_ kendi ayrı kapsamına sahiptir ve bağımlılıklarını ve arayüzlerini bildirmek için betiklerde bulunmayan `import` ve `export` anahtar kelimelerini destekler. Bu modül sistemi genellikle _ES modülleri_ olarak adlandırılır ("ES", "ECMAScript" anlamına gelir).
 
-A modular program is composed of a number of such modules, wired together via their imports and exports.
+Modüler bir program, bu tür modüllerin, başka modüllerden kullandıkları fonksiyonaliteleri ve başka modüllere kullabilabilir hale getirdikleri fonksiyonaliteleri kullanarak birbirine bağlandığı bir dizi modülden oluşur.
 
 {{index "Date class", "weekDay module"}}
 
-The following example module converts between day names and numbers (as returned by `Date`'s `getDay` method). It defines a constant that is not part of its interface, and two functions that are. It has no dependencies.
+Bu örnek modül, gün adları ile sayılar arasında dönüşüm yapar (`Date`'in `getDay` metodu tarafından döndürülenler aracılığıyla). Arayüzünün bir parçası olmayan bir sabit değer ve iki fonksiyon tanımlar. Hiçbir bağımlılığı yoktur.
 
 ```
 const names = ["Sunday", "Monday", "Tuesday", "Wednesday",
@@ -72,7 +72,7 @@ export function dayNumber(name) {
 }
 ```
 
-The `export` keyword can be put in front of a function, class, or binding definition to indicate that that binding is part of the module's interface. This makes it possible for other modules to use that binding by importing it.
+`export` anahtar kelimesi, bir işlevin, sınıfın veya bağlantı tanımının modül arayüzünün bir parçası olduğunu belirtmek için önüne konabilir. Bu, diğer modüllerin onu içe aktararak kullanabilmesini mümkün kılar.
 
 ```{test: no}
 import {dayName} from "./dayname.js";
@@ -83,15 +83,15 @@ console.log(`Today is ${dayName(now.getDay())}`);
 
 {{index "import keyword", dependency, "ES modules"}}
 
-The `import` keyword, followed by a list of binding names in braces, makes bindings from another module available in the current module. Modules are identified by quoted strings.
+`import` anahtar kelimesi, süslü parantez içinde bağlantı adlarından oluşan bir listenin yazılması ardından, başka bir modüldeki bağlantıları mevcut modülde kullanılabilir hale getirir. Modüller tırnak içinde belirtilir.
 
 {{index [module, resolution], resolution}}
 
-How such a module name is resolved to an actual program differs by platform. The browser treats them as web addresses, whereas Node.js resolves them to files. When you run a module, all the other modules it depends on—and the modules _those_ depend on—are loaded, and the exported bindings are made available to the modules that import them.
+Bir modül adının bir gerçek programa nasıl çözümleneceği platforma göre farklılık gösterir. Tarayıcı, bunları Web adresleri olarak ele alırken, Node.js bunları dosyalara çözümler. Bir modülü çalıştırmak için, o modülün bağımlı olduğu tüm diğer modüller - ve _bu bağımlı olunan modüllerin de bağımlı olduğu modüller_ de - yüklenir ve export anahtar kelimesi kullanılan tanımalar dış kullanıma müsait hale getirilir.
 
-Import and export declarations cannot appear inside of functions, loops, or other blocks. They are immediately resolved when the module is loaded, regardless of how the code in the module executes. To reflect this, they must appear only in the outer module body.
+İçe aktarma ve dışa aktarma bildirimleri, fonksiyonlar, döngüler veya diğer blokların içinde görünemez. Modül yüklendiğinde modüldeki kodun nasıl yürütüldüğünden bağımsız olarak hemen çözümlenirler ve bunu yansıtmak için modülün sadece dış gövdesinde görünmelidirler.
 
-A module's interface thus consists of a collection of named bindings, which other modules that depend on the module can access. Imported bindings can be renamed to give them a new local name using `as` after their name.
+Bu nedenle, bir modülün arayüzü, onlara bağımlı olan diğer modüllerin erişebildiği adlandırılmış bağlantılardan oluşur. İçe aktarılan bağlantılar, adlarının ardından `as` kullanılarak yeni bir yerel isim verilerek yeniden adlandırılabilir.
 
 ```
 import {dayName as nomDeJour} from "./dayname.js";
@@ -99,73 +99,67 @@ console.log(nomDeJour(3));
 // → Wednesday
 ```
 
-A module may also have a special export named `default`, which is often used for modules that only export a single binding. To define a default export, you write `export default` before an expression, a function declaration, or a class declaration.
+Ayrıca, bir modülün özel olarak adlandırılmış `default` adlı bir dışa aktarma bildirisi olması mümkündür, bu genellikle yalnızca tek bir bağlantıyı dışa aktaran modüller için kullanılır. Varsayılan bir dışa aktarım tanımlamak için, bir fonksiyon bildiriminin veya bir sınıf bildiriminin önüne `export default` yazılır.
 
 ```
 export default ["Winter", "Spring", "Summer", "Autumn"];
 ```
 
-Such a binding is imported by omitting the braces around the name of the import.
+Bu tür bir bağlantı, içe aktarmada adın etrafındaki süslü parantezleri kullanmadan içeri aktarılır.
 
 ```
 import seasonNames from "./seasonname.js";
 ```
 
-To import all bindings from a module at the same time, you can use `import *`. You provide a name, and that name will be bound to an object holding all the module's exports. This can be useful when you are using a lot of different exports.
-
-```
-import * as dayName from "./dayname.js";
-console.log(dayName.dayName(3));
-// → Wednesday
-```
-
-## Packages
+## Paketler
 
 {{index bug, dependency, structure, reuse}}
 
-One of the advantages of building a program out of separate pieces and being able to run some of those pieces on their own is that you might be able to use the same piece in different programs.
+Bir programı ayrı parçalardan oluşturmanın ve bazı parçaları kendi başlarına çalıştırabilmenin avantajlarından biri, aynı parçayı farklı programlarda kullanabilme olasılığınızdır.
 
 {{index "parseINI function"}}
 
-But how do you set this up? Say I want to use the `parseINI` function from [Chapter ?](regexp#ini) in another program. If it is clear what the function depends on (in this case, nothing), I can just copy that module into my new project and use it. But then, if I find a mistake in the code, I'll probably fix it in whichever program  I'm working with at the time and forget to also fix it in the other program.
+Ancak, bunu nasıl kurarsınız? Diyelim ki başka bir programda [bölüm ?](regexp#ini) içindeki `parseINI` fonksiyonunu kullanmak istiyorum. Fonksiyonun neye bağlı olduğu (bu durumda, hiçbir şeye) açıksa, sadece o modülü yeni projeme kopyalayabilir ve kullanabilirim. Ancak sonra, kodda bir hata bulursam, muhtemelen o sırada çalıştığım programda düzelteceğim ve aynı hatayı diğer programda da düzeltmeyi unutacağım.
 
 {{index duplication, "copy-paste programming"}}
 
-Once you start duplicating code, you'll quickly find yourself wasting time and energy moving copies around and keeping them up to date. That's where _((package))s_ come in. A package is a chunk of code that can be distributed (copied and installed). It may contain one or more modules and has information about which other packages it depends on. A package also usually comes with documentation explaining what it does so that people who didn't write it might still be able to use it.
+Kod kopyalamaya başladığınızda, zamanınızı ve enerjinizi kopyaları taşımak ve güncel tutmak için harcadığınızı hızla fark edersiniz.
 
-When a problem is found in a package or a new feature is added, the package is updated. Now the programs that depend on it (which may also be packages) can copy the new ((version)) to get the improvements that were made to the code.
+İşte burada \_((paket))\_ler devreye giriyor. Bir paket, dağıtılabilen (kopyalanabilen ve yüklenen) bir kod parçasıdır. Bir veya daha fazla modül içerebilir ve ne tür paketlere bağımlı olduğu hakkında bilgi içerir. Bir paket genellikle ne yaptığını açıklayan belgelerle birlikte gelir, böylece o programı yazmamış sadece kullanmak isteyen insanlar bile onu kullanabilirler.
+
+Bir pakette bir sorun bulunduğunda veya yeni bir özellik eklediğinde, paket güncellenir. Artık ona bağımlı olan programlar (ki bunlar da paketler olabilir) iyileştirmeleri almak için yeni ((sürümü)) kopyalayabilirler.
 
 {{id modules_npm}}
 
 {{index installation, upgrading, "package manager", download, reuse}}
 
-Working in this way requires ((infrastructure)). We need a place to store and find packages and a convenient way to install and upgrade them. In the JavaScript world, this infrastructure is provided by ((NPM)) ([_https://npmjs.com_](https://npmjs.com)).
+Bu şekilde çalışmak ((altyapı)) gerektirir. Paketleri depolamak ve bulmak için bir yer ve bunları kurmak ve yükseltmek için uygun bir yer gereklidir. JavaScript dünyasında, bu altyapı ((NPM)) ([https://npmjs.org](https://npmjs.org)) tarafından sağlanır.
 
-NPM is two things: an online service where you can download (and upload) packages, and a program (bundled with Node.js) that helps you install and manage them.
+NPM iki şeydir: paketleri indirebileceğiniz (ve yükleyebileceğiniz) çevrimiçi bir hizmet ve onları kurmanıza ve yönetmenize yardımcı olan Node.js ile birlikte paketlenmiş bir program.
 
 {{index "ini package"}}
 
-At the time of writing, there are more than three million different packages available on NPM. A large portion of those are rubbish, to be fair. But almost every useful, publicly available JavaScript package can be found on NPM. For example, an INI file parser, similar to the one we built in [Chapter ?](regexp), is available under the package name `ini`.
+Yazım sırasında, NPM'de üç milyondan fazla farklı paket bulunmaktadır. Adil olmak gerekirse, bunların büyük bir kısmı gereksizdir. Ancak neredeyse her kullanışlı, genel olarak erişilebilir JavaScript paketi NPM'de bulunabilir. Örneğin, [bölüm ?](regexp) içinde oluşturduğumuz bir INI dosyası ayrıştırıcısı, `ini` paketi adı altında bulunabilir.
 
 {{index "command line"}}
 
-[Chapter ?](node) will show how to install such packages locally using the `npm` command line program.
+[Chapter ?](node), bu tür paketleri `npm` komut satırı programını kullanarak yerel olarak nasıl kuracağınızı gösterecektir.
 
-Having quality packages available for download is extremely valuable. It means that we can often avoid reinventing a program that 100 people have written before and get a solid, well-tested implementation at the press of a few keys.
+İndirilebilir kaliteli paketlere sahip olmak son derece değerlidir. 100 kişi tarafından yazılmış bir programı yeniden icat etmekten genellikle kaçınabilir ve birkaç tuşa basarak sağlam, iyi test edilmiş bir uygulama elde edebiliriz.
 
 {{index maintenance}}
 
-Software is cheap to copy, so once someone has written it, distributing it to other people is an efficient process. Writing it in the first place _is_ work, though, and responding to people who have found problems in the code or who want to propose new features is even more work.
+Yazılım kopyalamak ucuzdur, bu yüzden biri yazdığında, başkalarına dağıtmak verimli bir süreçtir. Ancak bunu baştan yazmak _iştir_, ayrıca kodunuzda sorun bulan veya yeni özellikler önermek isteyen kişilere cevap vermek daha fazla iştir.
 
-By default, you own the ((copyright)) to the code you write, and other people may use it only with your permission. But because some people are just nice and because publishing good software can help make you a little bit famous among programmers, many packages are published under a ((license)) that explicitly allows other people to use it.
+Varsayılan olarak, yazdığınız kodun ((telif hakkı)) size aittir ve diğer kişiler yalnızca izninizle kullanabilirler. Ancak bazı insanlar nazik olduklarından ve iyi yazılım yayınlamak, yazılımcılar arasında biraz ünlü olmanıza yardımcı olabildiğinden ötürü birçok paket açıkça diğer insanların onu kullanmasına izin veren bir ((lisans)) altında yayınlanır.
 
-Most code on ((NPM)) is licensed this way. Some licenses require you to also publish code that you build on top of the package under the same license. Others are less demanding, requiring only that you keep the license with the code as you distribute it. The JavaScript community mostly uses the latter type of license. When using other people's packages, make sure you are aware of their licenses.
+((NPM))'deki çoğu kod bu şekilde lisanslanmıştır. Bazı lisanslar, paketin üzerine inşa ettiğiniz kodu da aynı lisans altında yayınlamanızı gerektirir. Diğerleri ise daha az talepkârdır ve sadece lisansı kodla birlikte dağıtmanızı isterler. JavaScript topluluğu genellikle bu son açıkladığım türdeki lisansları kullanır. Başkalarının paketlerini kullanırken, lisanslarını bilincinde olduğunuzdan emin olun.
 
 {{id modules_ini}}
 
 {{index "ini package"}}
 
-Now, instead of writing our own INI file parser, we can use one from ((NPM)).
+Artık kendi INI dosyası ayrıştırıcımızı yazmak yerine, ((NPM)) üzerinden bir tane kullanabiliriz.
 
 ```
 import {parse} from "ini";
@@ -176,17 +170,15 @@ console.log(parse("x = 10\ny = 20"));
 
 {{id commonjs}}
 
-## CommonJS modules
+## CommonJS modülleri
 
-Before 2015, when the JavaScript language had no built-in module system, people were already building large systems in JavaScript. To make that workable, they _needed_ ((module))s.
+2015'ten önce, JavaScript dilinde gerçek bir yerleşik modül sistemi olmadığı zamanlarda da insanlar JavaScript'te büyük sistemler inşa ediyorlardı. Bunu çalışabilir yapmak için ((modül))lere _ihtiyaçları vardı_.
 
 {{index [function, scope], [interface, module], [object, as module]}}
 
-The community designed its own improvised ((module system))s on top of the language. These use functions to create a local scope for the modules and regular objects to represent module interfaces.
+Topluluk, kendi düzenlediği ((modül sistem))lerini dilden bağımsız olarak tasarladı. Bu modülleri, yerel bir kapsam oluştururken fonksiyonları kullanarak ve modül arayüzlerini temsil etmek için sıradan nesneleri kullanarak oluşturdular.
 
-Initially, people just manually wrapped their entire module in an “((immediately invoked function
-expression))” to create the module's scope and assigned their interface objects to a single global
-variable.
+Başlangıçta, insanlar modüllerine ayrı bir bağlam oluşturmak için "((hemen çağrılan fonksiyon ifadesi))" içine manuel olarak sarıp arayüz nesnelerini tek bir global değişkene atarlardı.
 
 ```
 const weekDay = function() {
@@ -204,21 +196,21 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 
 {{index dependency, [interface, module]}}
 
-This style of modules provides ((isolation)), to a certain degree, but it does not declare dependencies. Instead, it just puts its interface into the ((global scope)) and expects its dependencies, if any, to do the same. This is not ideal.
+Bu tür modüllerin stili, belirli bir dereceye kadar ((izolasyon)) sağlar, ancak bağımlılıkları bildirmez. Bunun yerine, arayüzünü ((genel kapsam))a koyar ve varsa bağımlılıklarının, aynısını yapmasını bekler. Bu ideal değildir.
 
 {{index "CommonJS modules"}}
 
-If we implement our own module loader, we can do better. The most widely used approach to bolted-on JavaScript modules is called _CommonJS modules_. ((Node.js)) used this module system from the start (though it now also knows how to load ES modules), and it is the module system used by many packages on ((NPM)).
+Eğer kendi modül yükleyicimizi uygularsak, daha iyi yapabiliriz. JavaScript modüllerini eklemek için en yaygın kullanılan yaklaşım _CommonJS modülleri_ olarak adlandırılır. ((Node.js)), bu tür modülleri başlangıçtan itibaren kullandı (ancak şimdi ayrıca ES modüllerini de yükleyebilir durumdadır) ve bu, NPM'deki birçok paket tarafından kullanılan modül sistemidir.
 
 {{index "require function", [interface, module], "exports object"}}
 
-A CommonJS module looks like a regular script, but it has access to two bindings that it uses to interact with other modules. The first is a function called `require`. When you call this with the module name of your dependency, it makes sure the module is loaded and returns its interface. The second is an object named `exports`, which is the interface object for the module. It starts out empty and you add properties to it to define exported values.
+Bir CommonJS modülü, düzenli bir betik gibi görünür, ancak diğer modüllerle etkileşim kurmak için kullandığı iki bağlantıya erişim sağlar. İlk olarak, `require` olarak adlandırılan bir fonskiyon. Bağımlılığınızın modül adıyla bunu çağırdığınızda, modülün yüklenip arayüzünü döndürmesini sağlar. İkincisi, modül için arayüz nesnesi olan `exports` adlı bir nesnedir. Başlangıçta boştur ve dışa aktarılan değerleri tanımlamak için ona özellikler eklersiniz.
 
 {{index "formatDate module", "Date class", "ordinal package", "date-names package"}}
 
-This CommonJS example module provides a date-formatting function. It uses two ((package))s from NPM—`ordinal` to convert numbers to strings like `"1st"` and `"2nd"`, and `date-names` to get the English names for weekdays and months. It exports a single function, `formatDate`, which takes a `Date` object and a ((template)) string.
+Bu CommonJS örnek modülü, bir tarih biçimlendirme fonksiyonu sağlar. NPM'den iki ((paket)) kullanır: sayıları `"1st"` ve `"2nd"` gibi dizelere dönüştürmek için `ordinal` paketini ve haftanın günler ve aylar için İngiliz isimlerini almak adına `date-names` paketini kullanır. Bir `Date` nesnesi ve bir ((şablon)) dizesi alan `formatDate` adlı tek bir fonksiyonu dışa aktarır.
 
-The template string may contain codes that direct the format, such as `YYYY` for the full year and `Do` for the ordinal day of the month. You could give it a string like `"MMMM Do YYYY"` to get output like `November 22nd 2017`.
+Şablon dizesi, `YYYY` gibi biçimi yönlendiren kodları içerebilir ve ayın sıra günü için `Do` gibi dizeleri içerebilir. `"MMMM Do YYYY"` gibi bir dize verebilirsiniz ve çıktı olarak `"November 22nd 2017"` gibi bir çıktı alırsınız.
 
 ```
 const ordinal = require("ordinal");
@@ -238,9 +230,9 @@ exports.formatDate = function(date, format) {
 
 {{index "destructuring binding"}}
 
-The interface of `ordinal` is a single function, whereas `date-names` exports an object containing multiple things—`days` and `months` are arrays of names. Destructuring is very convenient when creating bindings for imported interfaces.
+`ordinal` paketinin arayüzü tek bir fonksiyon iken, `date-names` birçok şey içeren bir nesne dışa aktarır—`days` ve `months` isim dizileridir. İçe aktarılan arayüzler için bağlantılar oluştururken, parçalama yöntemi çok yararlı ve kullanışlıdır.
 
-The module adds its interface function to `exports` so that modules that depend on it get access to it. We could use the module like this:
+Modül, arayüz fonksiyonunu `exports` bağlantısına ekler ki böylece buna bağımlı olan modüller buna erişebilsin. Modülü şu şekilde kullanabiliriz:
 
 ```
 const {formatDate} = require("./format-date.js");
@@ -250,13 +242,13 @@ console.log(formatDate(new Date(2017, 9, 13),
 // → Friday the 13th
 ```
 
-CommonJS is implemented with a module loader that, when loading a module, wraps its code in a function (giving it its own local scope) and passes the `require` and `exports` bindings to that function as arguments.
+CommonJS, bir modülü yüklerken, kodunu bir fonksiyon içine sarar (kendi yerel kapsamını verir) ve `require` ve `exports` bağlantılarını bu fonksiyonu çağırırken argüman olarak bu bağlantılara argüman geçirir.
 
 {{id require}}
 
 {{index "require function", "CommonJS modules", "readFile function"}}
 
-If we assume we have access to a `readFile` function that reads a file by name and gives us its content, we can define a simplified form of `require` like this:
+Bir dosyanın adını verip onun içeriğini bize döndüren `readFile` adlı bir fonksiyonuna erişiminiz olduğunu varsayarsak, bir `require` fonksiyonunu basitleştirilmiş bir şekilde şu şekilde tanımlayabiliriz:
 
 ```{test: wrap, sandbox: require}
 function require(name) {
@@ -275,79 +267,81 @@ require.cache = Object.create(null);
 
 {{index "Function constructor", eval, security}}
 
-`Function` is a built-in JavaScript function that takes a list of arguments (as a comma-separated string) and a string containing the function body and returns a function value with those arguments and that body. This is an interesting concept—it allows a program to create new pieces of program from string data—but also a dangerous one, since if someone can trick your program into putting a string they provide into `Function`, they can make the program do anything they want.
+`Function`, virgüllerle ayrılmış bir dize halinde bir liste argüman ve fonksiyon gövdesini içerisinde barındıran bir dizeyi argüman olarak alan ve bir fonksiyon değeri döndüren standart bir JavaScript fonksiyonudur. Bu ilginç olmakla beraber tehlikeli bir kavramdır—bir programın dize datasından yeni bir program oluşturmasını sağlar- çünkü birisi programınıza sağladığı bir dizeyi `Function` içine koymaya kandırabilirse, programa istediklerini yaptırabilirler.
 
 {{index [file, access]}}
 
-Standard JavaScript provides no such function as `readFile`, but different JavaScript environments, such as the browser and Node.js, provide their own ways of accessing files. The example just pretends that `readFile` exists.
+Standart JavaScript, `readFile` gibi bir fonksiyon sağlamaz sağlamaz—ancak tarayıcı ve Node.js gibi farklı JavaScript ortamları, dosyalara erişim için kendi yöntemlerini sağlar. Örnek, `readFile` fonksiyonunun var olduğunu varsayar.
 
-To avoid loading the same module multiple times, `require` keeps a store (cache) of already loaded modules. When called, it first checks whether the requested module has been loaded and, if not, loads it. This involves reading the module's code, wrapping it in a function, and calling it.
+Aynı modülü birden fazla kez yüklememek için, `require`, zaten yüklenmiş modüllerin bir deposunu (önbellek) tutar. Çağrıldığında, önce istenen modülün yüklenip yüklenmediğini kontrol eder ve yüklenmediyse, yükler. Bu, modülün kodunu okuyup bir fonksiyon içine sarıp onu çağırarak yapılır.
 
 {{index "ordinal package", "exports object", "module object", [interface, module]}}
 
-By defining `require` and `exports` as ((parameter))s for the generated wrapper function (and passing the appropriate values when calling it), the loader makes sure that these bindings are available in the module's ((scope)).
+Oluşturulan sarıcı fonksiyon için için `require` ve `exports` değerlerini ((parametre))ler olarak tanımlayarak (ve fonksiyonu çağırırken uygun değerleri geçirerek), yükleyici bu bağlantıların modülün ((kapsam))ında kullanılabilir olduğundan emin olur.
 
-An important difference between this system and ES modules is that ES module imports happen before a module's script starts running, whereas `require` is a normal function, invoked when the module is already running. Unlike `import` declarations, `require` calls _can_ appear inside functions, and the name of the dependency can be any expression that evaluates to a string, whereas `import` allows only plain quoted strings.
+Bu sistemle ES modülleri arasındaki önemli bir fark, ES modülü modül yüklemelerinin bir modülün betiği çalışmaya başlamadan önce gerçekleşmesidir, oysa `require` normal bir fonksiyondur ve modül çalışırken çağrılır. `import` beyanlarının aksine, `require` çağrıları fonksiyonların içinde _görünebilir_ ve bağımlılık adı, sadece düz tırnaklı dizelere izin veren `import`'a kıyasla herhangi bir ifade olabilir.
 
-The transition of the JavaScript community from CommonJS style to ES modules has been a slow and somewhat rough one. Fortunately we are now at a point where most of the popular packages on NPM provide their code as ES modules, and Node.js allows ES modules to import from CommonJS modules. While CommonJS code is still something you will run across, there is no real reason to write new programs in this style anymore.
+JavaScript topluluğunun CommonJS stilinden ES modülleri stiline geçişi yavaş ve biraz sancılı olmuştur. Ancak neyse ki, şu anda NPM'deki popüler paketlerin çoğu kodlarını ES modülleri olarak sağlıyor ve Node.js, ES modüllerinin içine CommonJS modüllerinden aktarılmasına kod aktarılmasına izin veriyor. Bu nedenle, Ortak JS kodu hala karşılaşacağınız bir şey olsa da, artık yeni programları bu tarzda yazmanın gerçek bir nedeni yoktur.
 
-## Building and bundling
+## İnşaa etme ve paketleme
 
 {{index compilation, "type checking"}}
 
-Many JavaScript packages aren't technically written in JavaScript. Language extensions such as TypeScript, the type checking ((dialect)) mentioned in [Chapter ?](error#typing), are widely used. People also often start using planned new language features long before they have been added to the platforms that actually run JavaScript. To make this possible, they _compile_ their code, translating it from their chosen JavaScript dialect to plain old JavaScript—or even to a past version of JavaScript—so that ((browsers)) can run it.
+Çoğu JavaScript paketi, teknik olarak, JavaScript'te yazılmamaktadır. [Bölüm ?](error#typing) içinde bahsedilen tip denetimi ((lehçe))si olan TypeScript gibi uzantılar yaygın olarak kullanılmaktadır. İnsanlar ayrıca, gerçekte JavaScript'i çalıştıran platformlara henüz eklenmeden önce uzun süre planlanan dil uzantılarını kullanmaya başlarlar.
+
+Bunu mümkün kılmak için, kodlarını seçtikleri JavaScript lehçesinden düz eski JavaScript'e—veya hatta JavaScript'in bir önceki sürümüne—_çevirerek_ ((tarayıcı))ların onu çalıştırabilmesini sağlarlar.
 
 {{index latency, performance, [file, access], [network, speed]}}
 
-Including a modular program that consists of 200 different files in a ((web page)) produces its own problems. If fetching a single file over the network takes 50 milliseconds, loading the whole program takes 10 seconds, or maybe half that if you can load several files simultaneously. That's a lot of wasted time. Because fetching a single big file tends to be faster than fetching a lot of tiny ones, web programmers have started using tools that combine their programs (which they painstakingly split into modules) into a single big file before they publish it to the web. Such tools are called _((bundler))s_.
+200 farklı dosyadan oluşan modüler bir programın bir ((web sayfası))na dahil edilmesi kendi sorunlarını ortaya çıkarır. Ağ üzerinden tek bir dosya almak 50 milisaniye sürerse, tüm programı yüklemek 10 saniye alır veya aynı anda birkaç dosya yükleyebilirseniz belki yarısı kadar. Bu çok zaman kaybettir. Tek büyük bir dosya almanın, birçok küçük dosya almaktan daha hızlı olma eğiliminde olması nedeniyle, web programcıları, programlarını (ki bunları titizlikle modüllerde bölmüşlerdi) web'e yayınlamadan önce birleştiren araçlar kullanmaya başlamışlardır. Bu tür araçlara \_((paketleyici))\_ler denir.
 
 {{index "file size"}}
 
-And we can go further. Apart from the number of files, the _size_ of the files also determines how fast they can be transferred over the network. Thus, the JavaScript community has invented _((minifier))s_. These are tools that take a JavaScript program and make it smaller by automatically removing comments and whitespace, renaming bindings, and replacing pieces of code with equivalent code that take up less space.
+Ve daha da ileri gidebiliriz. Dosyaların sayısının yanı sıra, dosyaların _büyüklüğü_ de ağ üzerinden ne kadar hızlı aktarılabileceklerini belirler. Bu nedenle, JavaScript topluluğu \_((küçültücü))\_ler adını verdiği şeyi icat etmiştir. Bunlar, bir JavaScript programını alır ve yorumları ve boşlukları otomatik olarak kaldırır, bağlantıları yeniden adlandırır ve daha az yer kaplayan eşdeğer kod parçaları ile değiştirip onu küçültürler.
 
 {{index pipeline, tool}}
 
-It is not uncommon for the code that you find in an NPM package or that runs on a web page to have gone through _multiple_ stages of transformation—converting from modern JavaScript to historic JavaScript, combining the modules into a single file, and minifying the code. We won't go into the details of these tools in this book, since there are many of them, and which one is popular changes regularly. Just be aware that such things exist, and look them up when you need them.
+Bu nedenle, bir NPM paketinde veya bir web sayfasında bulduğunuz kodun _çoklu_ dönüşüm aşamalarından geçmiş olması yüksek ihtimaldir—modern JavaScript'ten tarihi JavaScript'e dönüştürülmüş, sonra modülleri tek bir dosyaya birleştirilmiş ve kod küçültülmüştür. Bu kitapta bu araçların detaylarına girmeyeceğiz çünkü bunlardan birçok tane var ve hangisinin popüler olduğu sürekli değişiyor. Sadece böyle şeylerin var olduğunu unutmayın ve ihtiyacınız olduğunda araştırın.
 
-## Module design
+## Modül dizaynı
 
 {{index [module, design], [interface, module], [code, "structure of"]}}
 
-Structuring programs is one of the subtler aspects of programming. Any nontrivial piece of functionality can be organized in various ways.
+Programları yapılandırma, programlamanın daha ince yönlerinden biridir. Herhangi bir önemli parçanın fonksiyonalitesi çeşitli şekillerde düzenlenebilir.
 
-Good program design is subjective—there are trade-offs involved, and matters of taste. The best way to learn the value of well-structured design is to read or work on a lot of programs and notice what works and what doesn't. Don't assume that a painful mess is “just the way it is”. You can improve the structure of almost everything by putting more thought into it.
+İyi bir program tasarımı, özneldir—bununla ilgili artı ve eksiler vardır ve insanların seçimleri farklıdır. İyi yapılandırılmış tasarımın değerini öğrenmenin en iyi yolu, birçok programı okumak veya üzerinde çalışmak ve işe yarayıp yaramayanları fark etmektir. Acılı bir karmaşanın "sadece olduğu gibi olduğunu" varsaymayın. Hemen hemen her şeyin yapısını daha fazla düşünerek iyileştirebilirsiniz.
 
 {{index [interface, module]}}
 
-One aspect of module design is ease of use. If you are designing something that is intended to be used by multiple people—or even by yourself, in three months when you no longer remember the specifics of what you did—it is helpful if your interface is simple and predictable.
+Modül tasarımının bir yönü kullanım kolaylığıdır. Birden fazla kişi tarafından kullanılması amaçlanan bir şey tasarlıyorsanız—veya hatta kendiniz, üç ay sonra ne yaptığınızın ayrıntılarını hatırlamadığınızda—arayüzünüzün basit ve öngörülebilir olması yardımcı olur.
 
 {{index "ini package", JSON}}
 
-That may mean following existing conventions. A good example is the `ini` package. This module imitates the standard `JSON` object by providing `parse` and `stringify` (to write an INI file) functions, and, like `JSON`, converts between strings and plain objects. The interface is small and familiar, and after you've worked with it once, you're likely to remember how to use it.
+Bu, var olan gelenekleri takip etmek anlamına gelebilir. İyi bir örnek, `ini` paketidir. Bu modül, bir INI dosyası yazmak için `parse` ve `stringify` fonksiyonlarını sağlayarak standart `JSON` nesnesini taklit eder ve `JSON` gibi, dize ve düz nesneler arasında dönüşüm yapar. Bu nedenle, arayüz küçük ve tanıdıktır ve bir kez çalıştıktan sonra nasıl kullanılacağını hatırlamanız muhtemeldir.
 
 {{index "side effect", "hard disk", composability}}
 
-Even if there's no standard function or widely used package to imitate, you can keep your modules predictable by using simple ((data structure))s and doing a single, focused thing. Many of the INI-file parsing modules on NPM provide a function that directly reads such a file from the hard disk and parses it, for example. This makes it impossible to use such modules in the browser, where we don't have direct filesystem access, and adds complexity that would have been better addressed by _composing_ the module with some file-reading function.
+Standart bir fonksiyon veya yaygın olarak kullanılan bir paketi taklit edecek bir standart fonksiyon yoksa bile, modüllerinizi basit ((veri yapı))ları kullanarak ve tek bir, odaklanmış şey yaparak öngörülebilir tutabilirsiniz. Örneğin, NPM'deki birçok INI dosyası ayrıştırma modülü, bir dosyayı doğrudan sabit diskinizden okuyup ve ayrıştıran bir fonksiyon sağlar. Bu, doğrudan dosya sistemine erişimimiz olayan tarayıcı ortamında böyle bir modülü kullanmayı imkansız hale getirir, ve bu modülü bazı dosya okuma fonksiyonlarıyla _birleştirerek_ çözülebilecek bir karmaşıklık eklerdi.
 
 {{index "pure function"}}
 
-This points to another helpful aspect of module design—the ease with which something can be composed with other code. Focused modules that compute values are applicable in a wider range of programs than bigger modules that perform complicated actions with side effects. An INI file reader that insists on reading the file from disk is useless in a scenario where the file's content comes from some other source.
+Bu, modül tasarımının başka bir yararlı yönünü işaret eder—bir şeyin diğer kodlarla nasıl birleştirilebileceğinin kolaylığı. Değerler hesaplayan odaklı modüller, yan etkileri olan ve karmaşık eylemler gerçekleştiren daha büyük modüllerden daha geniş bir program yelpazesine uygulanabilir. Diskten dosya okumak zorunda olan bir INI dosya okuyucusu, dosyanın içeriğinin başka bir kaynaktan geldiği senaryoda işe yaramaz.
 
 {{index "object-oriented programming"}}
 
-Relatedly, stateful objects are sometimes useful or even necessary, but if something can be done with a function, use a function. Several of the INI file readers on NPM provide an interface style that requires you to first create an object, then load the file into your object, and finally use specialized methods to get at the results. This type of thing is common in the object-oriented tradition, and it's terrible. Instead of making a single function call and moving on, you have to perform the ritual of moving your object through its various states. And because the data is now wrapped in a specialized object type, all code that interacts with it has to know about that type, creating unnecessary interdependencies.
+İlgili olarak, değişen bir durum barındıran nesneler bazen yararlı, hatta gereklidir ancak bir fonksiyonla yapılabilecek bir şey varsa, bir fonksiyon kullanın. NPM'deki birkaç INI dosyası okuyucusu, öncelikle bir nesne oluşturmanızı, ardından dosyayı nesnenize yüklemenizi ve son olarak sonuçlara erişmek için özel metodları kullanmanızı gerektiren bir arayüz stili sağlar. Bu tür şeyler, nesne yönelimli geleneğin bir parçasıdır ve korkunçtur. Tek bir fonksiyon çağrısı yapmak ve geçmek yerine, nesnenizi çeşitli durumlar boyunca hareket ettirme ritüelini gerçekleştirmeniz gerekir. Ve çünkü veri şimdi özelleşmiş bir nesne türüne sarılmış durumda olduğundan ötürü bununla etkileşim kuran tüm kodların o tür hakkında bilgi sahibi olması gerekir ve bu da gereksiz bağımlılıklar oluşmasını sağlar.
 
-Often, defining new data structures can't be avoided—only a few  basic ones are provided by the language standard, and many types of data have to be more complex than an array or a map. But when an array suffices, use an array.
+Yeni veri yapılarını tanımlamak bazen kaçınılmazdır—dil standardı sadece birkaç temel yapıyı sağlar ve birçok veri türü bir diziden veya map veri tipinden daha karmaşık olmak zorundadır. Ancak bir dizi yeterliyken, bir dizi kullanın.
 
-An example of a slightly more complex data structure is the graph from [Chapter ?](robot). There is no single obvious way to represent a ((graph)) in JavaScript. In that chapter, we used an object whose properties hold arrays of strings—the other nodes reachable from that node.
+Biraz daha karmaşık bir veri yapısının bir örneği, [bölüm ?](robot) içindeki grafiktir. JavaScript'te bir ((grafik)) nasıl temsil edileceğine dair tek bir açık bir yol yoktur. O bölümde, diğer düğümlere o düğümden erişilebilen yerleri barındıran dizelerin dizilerini tutan bir nesne kullandık.
 
-There are several different pathfinding packages on ((NPM)), but none of them uses this graph format. They usually allow the graph's edges to have a weight, which is the cost or distance associated with it. That isn't possible in our representation.
+((NPM))'de birkaç farklı yol bulma paketi vardır ancak bunların hiçbiri bu grafik formatını kullanmaz. Genellikle, kenarların bir ağırlığı olmasına izin verirler, bu da onunla ilişkilendirilmiş maliyet veya mesafe anlamına gelir. Bu, bizim temsilimizde mümkün değildir.
 
 {{index "Dijkstra, Edsger", pathfinding, "Dijkstra's algorithm", "dijkstrajs package"}}
 
-For example, there's the `dijkstrajs` package. A well-known approach to pathfinding, quite similar to our `findRoute` function, is called _Dijkstra's algorithm_, after Edsger Dijkstra, who first wrote it down. The `js` suffix is often added to package names to indicate the fact that they are written in JavaScript. This `dijkstrajs` package uses a graph format similar to ours, but instead of arrays, it uses objects whose property values are numbers—the weights of the edges.
+Örneğin, `dijkstrajs` paketi vardır. Bir yol bulma için iyi bilinen bir yaklaşım ve bizim `findRoute` fonksiyonumuza oldukça benzemektedir, Edsger Dijkstra tarafından ilk kez yazıldıktan sonra _Dijkstra'nın algoritması_ olarak adlandırılmıştır. `js` eki sıklıkla paket adlarına eklenir ve bunların JavaScript'te yazıldığını belirtmek içindir. Bu `dijkstrajs` paketi, bizimkinin benzer bir grafik formatını kullanır, ancak diziler yerine, kenarların ağırlıkları olan sayıların olduğu nesneler kullanır.
 
-If we wanted to use that package, we'd have to make sure that our graph was stored in the format it expects. All edges get the same weight, since our simplified model treats each road as having the same cost (one turn).
+Bu paketi kullanmak istesek, grafik formatımızın beklediği formatta olduğundan emin olmalıyız. Tüm kenarlar, bizim basitleştirilmiş modelimizde her yolun aynı maliyeti (bir dönüş) varmışçasına varsayıldığından, aynı ağırlığa sahiptir.
 
 ```
 const {find_path} = require("dijkstrajs");
@@ -364,29 +358,29 @@ console.log(find_path(graph, "Post Office", "Cabin"));
 // → ["Post Office", "Alice's House", "Cabin"]
 ```
 
-This can be a barrier to composition—when various packages are using different data structures to describe similar things, combining them is difficult. Therefore, if you want to design for composability, find out what ((data structure))s other people are using and, when possible, follow their example.
+Bu, birleştirme için bir engel olabilir—farklı veri yapılarını benzer şeyleri tanımlamak için kullanan çeşitli paketler onları birleştirmeyi zorlaştırır. Bu nedenle, birleşebilirlik için tasarım yapmak istiyorsanız, diğer insanların ne tür ((veri yapıları)) kullandığını bulun ve mümkünse onların örneğini takip edin.
 
 {{index design}}
 
-Designing a fitting module structure for a program can be difficult. In the phase where you are still exploring the problem, trying  different things to see what works, you might want to not worry about it too much, since keeping everything organized can be a big distraction. Once you have something that feels solid, that's a good time to take a step back and organize it.
+Bir programa uygun bir modül yapısı tasarlamak zor olabilir. Sorunu hala keşfetmeye çalıştığınız ve neyiş işe yarayıp yaramadığını test ettiğiniz aşamada her şeyi düzenli tutmaya çalışmak büyük bir dikkat dağıtıcı olabilir. Sağlam hisseden bir şeyiniz olduğunda, geri çekilip onu düzenlemek için iyi bir zamandır.
 
-## Summary
+## Özet
 
-Modules provide structure to bigger programs by separating the code into pieces with clear interfaces and dependencies. The interface is the part of the module that's visible to other modules, and the dependencies are the other modules it makes use of.
+Modüller, kodu net arayüzler ve bağımlılıklarla parçalara ayırarak daha büyük programlara yapı sağlar. Arayüz, modülün diğer modüller tarafından görülebilen kısmıdır ve bağımlılıklar, kullanılan diğer modüllerdir.
 
-Because JavaScript historically did not provide a module system, the CommonJS system was built on top of it. Then at some point it _did_ get a built-in system, which now coexists uneasily with the CommonJS system.
+JavaScript, tarihsel olarak bir modül sistemi sağlamadığı için, CommonJS sistemi üzerine inşa edildi. Sonra bir noktada, gerçekten yerleşik bir sistem _inşaa edildi_ ve şu anda CommonJS sistemiyle pek de uyumlu olmayan bir şekilde yan yana var olmayı sürdürmekte.
 
-A package is a chunk of code that can be distributed on its own. NPM is a repository of JavaScript packages. You can download all kinds of useful (and useless) packages from it.
+Bir paket, kendi başına dağıtılabilen bir kod parçasıdır. NPM, JavaScript paketlerinin bir deposudur. Oradan her türlü yararlı (ve yararsız) paketi indirebilirsiniz.
 
-## Exercises
+## Egzersizler
 
-### A modular robot
+### Modüler bir robot
 
 {{index "modular robot (exercise)", module, robot, NPM}}
 
 {{id modular_robot}}
 
-These are the bindings that the project from [Chapter ?](robot) creates:
+[Bölüm ?](robot) içindeki proje tarafından oluşturulan bağlantılar şu şekildedir:
 
 ```{lang: "null"}
 roads
@@ -402,48 +396,48 @@ findRoute
 goalOrientedRobot
 ```
 
-If you were to write that project as a modular program, what modules would you create? Which module would depend on which other module, and what would their interfaces look like?
+Eğer bu projeyi modüler bir program olarak yazsaydınız, hangi modülleri oluştururdunuz? Hangi modüller hangi diğer modüllere bağlı olurdu ve arayüzleri nasıl görünürdü?
 
-Which pieces are likely to be available prewritten on NPM? Would you prefer to use an NPM package or write them yourself?
+Hangi parçaların muhtemelen NPM'de önceden yazılmış olarak bulunacağını düşünüyorsunuz? Bir NPM paketi kullanmayı mı yoksa kendiniz mi yazmayı mı tercih edersiniz?
 
 {{hint
 
 {{index "modular robot (exercise)"}}
 
-Here's what I would have done (but again, there is no single _right_ way to design a given module):
+İşte ben olsaydım yapacağım şeyler (ancak yine de, belirli bir modül tasarımı için _tek bir doğru yol_ yoktur):
 
 {{index "dijkstrajs package"}}
 
-The code used to build the road graph lives in the `graph.js` module. Because I'd rather use `dijkstrajs` from NPM than our own pathfinding code, we'll make this build the kind of graph data that `dijkstrajs` expects. This module exports a single function, `buildGraph`. I'd have `buildGraph` accept an array of two-element arrays, rather than strings containing hyphens, to make the module less dependent on the input format.
+Yol grafiğini oluşturmak için kullanılan kod `graph` modülünde bulunur. Kendi yol bulma kodumuz yerine NPM'den `dijkstrajs` paketini kullanmayı tercih ettiğim için, `dijkstrajs`'ın beklediği türde grafik verilerini oluşturacağız. Bu modül, `buildGraph` adlı tek bir fonksiyonu dışa aktarır. Modülün giriş formatına olan bağımlılığını azaltmak için `buildGraph` fonksiyonunun tirelerle içindekileri ayıran bir dize yerine bir dizi iki öğeli diziyi kabul etmesini sağlardım.
 
-The `roads.js` module contains the raw road data (the `roads` array) and the `roadGraph` binding. This module depends on `./graph.js` and exports the road graph.
+`roads` modülü, ham yol verilerini (`roads` dizisi) ve `roadGraph` bağlantısını içerir. Bu modül `./graph.js` dosyasına bağlıdır ve yol grafiğini dışa aktarır.
 
 {{index "random-item package"}}
 
-The `VillageState` class lives in the `state.js` module. It depends on the `./roads.js` module because it needs to be able to verify that a given road exists. It also needs `randomPick`. Since that is a three-line function, we could just put it into the `state.js` module as an internal helper function. But `randomRobot` needs it too. So we'd have to either duplicate it or put it into its own module. Since this function happens to exist on NPM in the `random-item` package, a reasonable solution is to just make both modules depend on that. We can add the `runRobot` function to this module as well, since it's small and closely related to state management. The module exports both the `VillageState` class and the `runRobot` function.
+`VillageState` sınıfı, `state` modülünde yaşar. `./roads` modülüne bağımlıdır çünkü belirli bir yolun var olup olmadığını bilmesi gerekmektedir. Ayrıca `randomPick`'e ihtiyaç duyar. Bu, üç satırlık bir fonksiyon olduğu için bunu `state` modülüne bir dahili yardımcı fonksiyon olarak koyabiliriz. Ancak `randomRobot` da buna ihtiyaç duyar. Bu yüzden ya bunu kopyalamamız ya da kendi modülümüze koymamız gerekir. Bu fonksiyon, `random-item` paketinde zaten mevcut olduğu için, her iki modülü de buna bağlı hale getirmek uygun bir çözümdür. Bu modüle ayrıca, küçük olduğu ve durum yönetimiyle yakından ilgili olduğu için `runRobot` fonksiyonunu da ekleyebiliriz. Modül, hem `VillageState` sınıfını hem de `runRobot` fonksiyonunu dışa aktarır.
 
-Finally, the robots, along with the values they depend on, such as `mailRoute`, could go into an `example-robots.js` module, which depends on `./roads.js` and exports the robot functions. To make it possible for `goalOrientedRobot` to do route-finding, this module also depends on `dijkstrajs`.
+Son olarak robotlar, `mailRoute` gibi bağımlılıklarıyla beraber `./roads`'a bağımlı olan ve robot fonksiyonlarını dışa aktaran bir `example-robots` modülüne konabilir. `goalOrientedRobot` fonksiyonunun rotalama yapabilmesi için, bu modül ayrıca `dijkstrajs` paketine bağımlıdır.
 
-By offloading some work to ((NPM)) modules, the code became a little smaller. Each individual module does something rather simple and can be read on its own. Dividing code into modules also often suggests further improvements to the program's design. In this case, it seems a little odd that the `VillageState` and the robots depend on a specific road graph. It might be a better idea to make the graph an argument to the state's constructor and make the robots read it from the state object—this reduces dependencies (which is always good) and makes it possible to run simulations on different maps (which is even better).
+((NPM)) modüllerine bazı işleri yükleyerek, kod biraz daha küçüldü. Her bir modül, oldukça basit bir şey yapar ve kendi başına okunabilir. Kodu modüllere bölmek ayrıca genellikle programın tasarımında daha ileri gelişmeleri önerir. Bu durumda, `VillageState` ve robotların belirli bir yol grafiğine bağlı olması biraz garip görünmektedir. Grafik, `state`'in constructor fonksiyonuna bir argüman olarak vermek ve robotların durum nesnesinden okumasını sağlamak daha iyi bir fikir olabilir—bu, bağımlılıkları azaltır (ki bu her zaman iyidir) ve farklı map değerlerinde simülasyonları çalıştırabilmeyi mümkün kılar (ki bu daha da iyidir).
 
-Is it a good idea to use NPM modules for things that we could have written ourselves? In principle, yes—for nontrivial things like the pathfinding function you are likely to make mistakes and waste time writing them yourself. For tiny functions like `random-item`, writing them yourself is easy enough. But adding them wherever you need them does tend to clutter your modules.
+NPM modüllerini yazabileceğimiz şeyler için kullanmak iyi bir fikir midir? İlkeler bakımından, evet—yol bulma gibi önemli olmayan şeyleri kendiniz yazarken muhtemelen hatalar yapar ve zaman kaybedersiniz. `random-item` gibi küçük fonksiyonlar için kendiniz yazmak yeterince kolaydır. Ancak onları ihtiyacınız olan her yere eklemek, modüllerinizi kalabalıklaştırmanızı sağlar.
 
-However, you should also not underestimate the work involved in _finding_ an appropriate NPM package. And even if you find one, it might not work well or may be missing some feature you need. On top of that, depending on NPM packages means you have to make sure they are installed, you have to distribute them with your program, and you might have to periodically upgrade them.
+Ancak, uygun bir NPM paketi _bulmanın_ getirdiği işi de küçümsememelisiniz. Ve bir tane bulsanız bile, iyi çalışmayabilir veya ihtiyacınız olan bazı özellikleri eksik olabilir. Üstelik, NPM paketlerine bağımlı olmak, onların kurulduğundan emin olmanızı ve programınızla birlikte dağıtmanız gerektiği anlamına gelir ve onları düzenli olarak güncellemeniz gerekebilir.
 
-So again, this is a trade-off, and you can decide either way depending on how much a given package actually helps you.
+Bu yüzden, tekrar ediyorum, bu bir ödünleşmedir ve bir paketin ne kadar yardımcı olduğuna bağlı olarak her iki şekilde de karar verebilirsiniz.
 
 hint}}
 
-### Roads module
+### Yollar modülü
 
 {{index "roads module (exercise)"}}
 
-Write an ES module based on the example from [Chapter ?](robot) that contains the array of roads and exports the graph data structure representing them as `roadGraph`. It depends on a module `./graph.js` that exports a function `buildGraph`, used to build the graph. This function expects an array of two-element arrays (the start and end points of the roads).
+[Chapter ?](robot) içindeki örneğe dayanarak bir ES modülü yazın, yolların bir dizisini içersin ve onları `roadGraph` olarak temsil eden grafik veri yapısını dışa aktarsın. Bu, grafik oluşturmak için kullanılan `buildGraph` adlı bir fonksiyonu dışa aktaran `./graph.js` adlı bir modüle bağımlı olmalıdır. Bu fonksiyon, iki öğeli dizilerden (yolların başlangıç ve bitiş noktaları) oluşan bir dizi bekler.
 
 {{if interactive
 
 ```{test: no}
-// Add dependencies and exports
+// Arayüz ve bağımlılıkları ekleyin
 
 const roads = [
   "Alice's House-Bob's House",   "Alice's House-Cabin",
@@ -462,26 +456,26 @@ if}}
 
 {{index "roads module (exercise)", "destructuring binding", "exports object"}}
 
-Since this is an ES module, you have to use `import` to access the graph module. That was described as exporting a `buildGraph` function, which you can pick out of its interface object with a destructuring `const` declaration.
+Bu bir ES modül olduğundan, grafiğe erişmek için `import` kullanmanız gerekir. Bu, `const` beyanı aracılığıyla yapılarına ayırarak arayüz nesnesinden `buildGraph` fonksiyonunu seçebileceğiniz şekilde açıklanmıştır.
 
-To export `roadGraph`, you put the keyword `export` before its definition. Because `buildGraph` takes a data structure that doesn't precisely match `roads`, the splitting of the road strings must happen in your module.
+`roadGraph` fonksiyonunu dışa aktarmak için, tanımının önüne `export` anahtar kelimesini koyarsınız. `buildGraph`, `roads` ile tam olarak eşleşmeyen bir veri yapısı aldığından ötürü yol dizilerinin bölünmesi kendi modülünüzde olmalıdır.
 
 hint}}
 
-### Circular dependencies
+### Döngüsel bağımlılıklar
 
 {{index dependency, "circular dependency", "require function"}}
 
-A circular dependency is a situation where module A depends on B, and B also, directly or indirectly, depends on A. Many module systems simply forbid this because whichever order you choose for loading such modules, you cannot make sure that each module's dependencies have been loaded before it runs.
+Dairesel bağımlılık, modül A'nın B'ye, ve B'nin de doğrudan veya dolaylı olarak A'ya bağlı olduğu bir durumdur. Birçok modül sistemi bunu yasaklar çünkü bu tür modüllerin yüklenmesi için hangi sırayı seçerseniz seçin, her modülün çalıştırılmadan önce bağımlılıklarının yüklenmiş olup olmadığından emin olamazsınız.
 
-((CommonJS modules)) allow a limited form of cyclic dependencies. As long as the modules don't access each other's interface until after they finish loading, cyclic dependencies are okay.
+((CommonJS modülleri)) sınırlı bir dairesel bağımlılık biçimine izin verir. Modüller birbirlerinin arayüzlerine yüklenme işlemleri tamamlanmadan önce erişmedikçe, dairesel bağımlılıklar sorun değildir.
 
-The `require` function given [earlier in this chapter](modules#require) supports this type of dependency cycle. Can you see how it handles cycles?
+[Bu bölümün başlarında](modules#require) verilen `require` fonksiyonu bu tür bir bağımlılık döngüsünü destekler. Bununla nasıl başa çıktığını görebiliyor musunuz?
 
 {{hint
 
 {{index overriding, "circular dependency", "exports object"}}
 
-The trick is that `require` adds the interface object for a module to its cache _before_ it starts loading the module. That way, if any `require` call made while it is running tries to load it, it is already known, and the current interface will be returned, rather than starting to load the module once more (which would eventually overflow the stack).
+Püf noktası, `require` fonksiyonunun modülü yüklemeye _başlamadan önce_ arayüz nesnesini önbelleğine eklemesidir. Bu şekilde, çalışırken yapılan herhangi bir `require` çağrısı, yüklenmiş olup olmadığı bilindiğinden, tüm modülü tekrar yüklemek yerine (bunu yapmak sonunda yığını taşmaya neden olurdu) mevcut arayüz döndürülmesini sağlar.
 
 hint}}

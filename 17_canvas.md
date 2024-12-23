@@ -1,36 +1,36 @@
 {{meta {load_files: ["code/chapter/16_game.js", "code/levels.js", "code/_stop_keys.js", "code/chapter/17_canvas.js"], zip: "html include=[\"img/player.png\", \"img/sprites.png\"]"}}}
 
-# Drawing on Canvas
+# Tuval Üzerine Çizim
 
-{{quote {author: "M.C. Escher", title: "cited by Bruno Ernst in The Magic Mirror of M.C. Escher", chapter: true}
+{{quote {author: "M.C. Escher", title: "Bruno Ernst tarafından M.C. Escher'in Sihirli Aynası'nda alıntılanmıştır", chapter: true}
 
-Drawing is deception.
+Çizim bir aldatmacadır.
 
 quote}}
 
 {{index "Escher, M.C."}}
 
-{{figure {url: "img/chapter_picture_17.jpg", alt: "Illustration showing an industrial-looking robot arm drawing a city on a piece of paper", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_17.jpg", alt: "Endüstriyel görünümlü bir robot kolunun bir kağıt parçasına bir şehir çizdiğini gösteren illüstrasyon", chapter: "framed"}}}
 
 {{index CSS, "transform (CSS)", [DOM, graphics]}}
 
-Browsers give us several ways to display ((graphics)). The simplest way is to use styles to position and color regular DOM elements. This can get us quite far, as the game in the [previous chapter](game) showed. By adding partially transparent background ((image))s to the nodes, we can make them look exactly the way we want. It is even possible to rotate or skew nodes with the `transform` style.
+Tarayıcılar bize ((grafik)) görüntülemek için çeşitli yollar sunar. En basit yol, normal DOM öğelerini konumlandırmak ve renklendirmek için stilleri kullanmaktır. Bu, [önceki bölüm](game)'daki oyunun gösterdiği gibi sizi oldukça ileriye götürebilir. Düğümlere kısmen saydam arka plan ((resim)) ekleyerek, tam olarak istediğimiz şekilde görünmelerini sağlayabiliriz. Hatta `transform` stili ile düğümleri döndürmek ya da eğmek bile mümkündür.
 
-But we'd be using the DOM for something that it wasn't originally designed for. Some tasks, such as drawing a ((line)) between arbitrary points, are extremely awkward to do with regular HTML elements.
+Ancak DOM'u başlangıçta tasarlanmadığı bir şey için kullanmış oluruz. Rastgele noktalar arasında bir ((çizgi)) çizmek gibi bazı görevleri normal HTML öğeleriyle yapmak son derece gariptir.
 
 {{index SVG, "img (HTML tag)"}}
 
-There are two alternatives. The first is DOM based but utilizes _Scalable Vector Graphics_ (SVG) rather than HTML. Think of SVG as a ((document))-markup dialect that focuses on ((shape))s rather than text. You can embed an SVG document directly in an HTML document or include it with an `<img>` tag.
+İki alternatif vardır. İlki, DOM tabanlıdır ancak HTML yerine _Scalable Vector Graphics_ (SVG) kullanır. SVG'yi, metin yerine ((şekil))lere odaklanan bir ((belge))-markup diyalektiği olarak düşünebilirsiniz. Bir SVG belgesini doğrudan bir HTML belgesine gömebilir veya bir `<img>` etiketi ile dahil edebilirsiniz.
 
 {{index clearing, [DOM graphics], [interface, canvas]}}
 
-The second alternative is called a _((canvas))_. A canvas is a single DOM element that encapsulates a ((picture)). It provides a programming interface for drawing ((shape))s onto the space taken up by the node. The main difference between a canvas and an SVG picture is that in SVG the original description of the shapes is preserved so that they can be moved or resized at any time. A canvas, on the other hand, converts the shapes to ((pixel))s (colored dots on a raster) as soon as they are drawn and does not remember what these pixels represent. The only way to move a shape on a canvas is to clear the canvas (or the part of the canvas around the shape) and redraw it with the shape in a new position.
+İkinci alternatif _((canvas))_ olarak adlandırılır. Tuval, bir ((resim))'i kapsülleyen tek bir DOM öğesidir. Düğüm tarafından kaplanan alana ((şekil)) çizmek için bir programlama arayüzü sağlar. Bir tuval ile bir SVG resmi arasındaki temel fark, SVG'de şekillerin orijinal tanımının korunması ve böylece herhangi bir zamanda taşınabilmeleri veya yeniden boyutlandırılabilmeleridir. Öte yandan bir tuval, şekilleri çizildikleri anda ((piksel))lere (bir raster üzerindeki renkli noktalar) dönüştürür ve bu piksellerin neyi temsil ettiğini hatırlamaz. Tuval üzerindeki bir şekli taşımanın tek yolu, tuvali (veya tuvalin şeklin etrafındaki kısmını) temizlemek ve şekli yeni bir konuma getirerek yeniden çizmektir.
 
 ## SVG
 
-This book won't go into ((SVG)) in detail, but I'll briefly explain how it works. At the [end of the chapter](canvas#graphics_tradeoffs), I'll come back to the trade-offs that you must consider when deciding which ((drawing)) mechanism is appropriate for a given application.
+Bu kitap ((SVG))'yi ayrıntılı olarak ele almayacak, ancak nasıl çalıştığını kısaca açıklayacağım. [Bölümün sonunda](canvas#graphics_tradeoffs), belirli bir uygulama için hangi ((çizim)) mekanizmasının uygun olduğunu belirlerken göz önünde bulundurmanız gereken ödünleşmelere tekrar döneceğim.
 
-This is an HTML document with a simple SVG ((picture)) in it:
+Bu, içinde basit bir SVG ((resim)) bulunan bir HTML belgesidir:
 
 ```{lang: html, sandbox: "svg"}
 <p>Normal HTML here.</p>
@@ -43,44 +43,44 @@ This is an HTML document with a simple SVG ((picture)) in it:
 
 {{index "circle (SVG tag)", "rect (SVG tag)", "XML namespace", XML, "xmlns attribute"}}
 
-The `xmlns` attribute changes an element (and its children) to a different _XML namespace_. This namespace, identified by a ((URL)), specifies the dialect that we are currently speaking. The `<circle>` and `<rect>` tags, which do not exist in HTML, do have a meaning in SVG—they draw shapes using the style and position specified by their attributes.
+`xmlns` özelliği, bir öğeyi (ve çocuklarını) farklı bir _XML ad alanına_ değiştirir. Bu ad alanı, bir ((URL)) ile tanımlanır ve şu anda konuştuğumuz diyalektiği belirtir. HTML'de bulunmayan `<circle>` ve `<rect>` etiketleri, SVG'de bir anlama sahiptir—özellikleriyle belirtilen stil ve pozisyonu kullanarak şekiller çizerler.
 
 {{if book
 
-The document is displayed like this:
+Belge şu şekilde görüntülenir:
 
-{{figure {url: "img/svg-demo.png", alt: "Screenshot showing an SVG image embedded in an HTML document", width: "4.5cm"}}}
+{{figure {url: "img/svg-demo.png", alt: "Bir HTML belgesine gömülmüş SVG görüntüsünü gösteren ekran görüntüsü", width: "4.5cm"}}}
 
 if}}
 
 {{index [DOM, graphics]}}
 
-These tags create DOM elements, just like HTML tags, that scripts can interact with. For example, this changes the `<circle>` element to be ((color))ed cyan instead:
+Bu etiketler, tıpkı HTML etiketleri gibi, komut dosyalarının etkileşime girebileceği DOM öğeleri oluşturur. Örneğin, bu `<circle>` öğesini ((color))ed cyan olarak değiştirir:
 
 ```{sandbox: "svg"}
 let circle = document.querySelector("circle");
 circle.setAttribute("fill", "cyan");
 ```
 
-## The canvas element
+## Canvas öğesi
 
 {{index [canvas, size], "canvas (HTML tag)"}}
 
-Canvas ((graphics)) can be drawn onto a `<canvas>` element. You can give such an element `width` and `height` attributes to determine its size in ((pixel))s.
+Canvas ((grafikleri)), bir `<canvas>` öğesi üzerine çizilebilir. Böyle bir öğeye, boyutunu ((piksel)) cinsinden belirlemek için `width` ve `height` özellikleri verebilirsiniz.
 
-A new canvas is empty, meaning it is entirely ((transparent)) and thus shows up as empty space in the document.
+Yeni bir canvas boştur, yani tamamen ((şeffaf))tır ve bu nedenle belgede boş alan olarak görünür.
 
 {{index "2d (canvas context)", "webgl (canvas context)", OpenGL, [canvas, context], dimensions, [interface, canvas]}}
 
-The `<canvas>` tag is intended to allow different styles of ((drawing)). To get access to an actual drawing interface, we first need to create a _((context))_, an object whose methods provide the drawing interface. There are currently three widely supported drawing styles: `"2d"` for two-dimensional graphics, `"webgl"` for three-dimensional graphics through the OpenGL interface, and `"webgpu"`, a more modern and flexible alternative to WebGL.
+`<canvas>` etiketi, farklı ((çizim)) stillerine olanak tanımak için tasarlanmıştır. Gerçek bir çizim arayüzüne erişmek için önce bir _((context))_ oluşturmamız gerekir; bu, yöntemleri çizim arayüzünü sağlayan bir nesnedir. Şu anda yaygın olarak desteklenen üç çizim stili vardır: iki boyutlu grafikler için `"2d"`, OpenGL arayüzü aracılığıyla üç boyutlu grafikler için `"webgl"` ve WebGL ile aynı rolü dolduran, ancak daha modern bir arayüz sunan `"webgpu"`.
 
 {{index rendering, graphics, efficiency}}
 
-This book won't discuss WebGL or WebGPU—we'll stick to two dimensions. But if you are interested in three-dimensional graphics, I do encourage you to look into WebGPU. It provides a direct interface to graphics hardware and allows you to render even complicated scenes efficiently, using JavaScript.
+Bu kitap WebGL veya WebGPU'yu ele almayacak—iki boyutla sınırlı kalacağız. Ancak üç boyutlu grafiklere ilgi duyuyorsanız, WebGPU'yu incelemenizi tavsiye ederim. Grafik donanımına doğrudan bir arayüz sağlar ve JavaScript kullanarak karmaşık sahneleri bile verimli bir şekilde render etmenizi sağlar.
 
 {{index "getContext method", [canvas, context]}}
 
-You create a ((context)) with the `getContext` method on the `<canvas>` DOM element.
+`<canvas>` DOM öğesi üzerinde `getContext` yöntemiyle bir ((context)) oluşturursunuz.
 
 ```{lang: html}
 <p>Before canvas.</p>
@@ -94,41 +94,41 @@ You create a ((context)) with the `getContext` method on the `<canvas>` DOM elem
 </script>
 ```
 
-After creating the context object, the example draws a red ((rectangle)) that is 100 ((pixel))s wide and 50 pixels high, with its upper-left corner at coordinates (10, 10).
+Örnek, bağlam nesnesini oluşturduktan sonra, sol üst köşesi (10,10) koordinatlarında olacak şekilde 100 ((piksel)) genişliğinde ve 50 piksel yüksekliğinde kırmızı bir ((dikdörtgen)) çizer.
 
 {{if book
 
-{{figure {url: "img/canvas_fill.png", alt: "Screenshot of a canvas with a rectangle on it", width: "2.5cm"}}}
+{{figure {url: "img/canvas_fill.png", alt: "Üzerinde dikdörtgen bulunan bir tuvalin ekran görüntüsü", width: "2.5cm"}}}
 
 if}}
 
 {{index SVG, coordinates}}
 
-Just like in HTML (and SVG), the coordinate system that the canvas uses puts (0, 0) at the upper-left corner, and the positive y-((axis)) goes down from there. This means (10, 10) is 10 pixels below and to the right of the upper-left corner.
+Tıpkı HTML'de (ve SVG'de) olduğu gibi, tuvalin kullandığı koordinat sistemi (0,0)'ı sol üst köşeye koyar ve pozitif y-((eksen)) oradan aşağı iner. Yani (10,10) sol üst köşenin 10 piksel altında ve sağındadır.
 
 {{id fill_stroke}}
 
-## Lines and surfaces
+## Çizgiler ve yüzeyler
 
 {{index filling, stroking, drawing, SVG}}
 
-In the ((canvas)) interface, a shape can be _filled_, meaning its area is given a certain color or pattern, or it can be _stroked_, which means a ((line)) is drawn along its edge. SVG uses the same terminology.
+((Canvas)) arayüzünde, bir şekil _doldurulabilir_, yani alanına belirli bir renk veya desen verilebilir veya _okşanabilir_, yani kenarı boyunca bir ((çizgi)) çizilebilir. Aynı terminoloji SVG tarafından da kullanılır.
 
 {{index "fillRect method", "strokeRect method"}}
 
-The `fillRect` method fills a ((rectangle)). It takes first the x- and y-((coordinates)) of the rectangle's upper-left corner, then its width, and then its height. A similar method called `strokeRect` draws the ((outline)) of a rectangle.
+`fillRect` yöntemi bir ((dikdörtgen)) doldurur. Önce dikdörtgenin sol üst köşesinin x- ve y-((koordinatlarını)), sonra genişliğini ve sonra da yüksekliğini alır. Benzer bir yöntem olan `strokeRect`, bir dikdörtgenin ((anahatlarını)) çizer.
 
 {{index [state, "of canvas"]}}
 
-Neither method takes any further parameters. The color of the fill, thickness of the stroke, and so on, are not determined by an argument to the method, as you might reasonably expect, but rather by properties of the context object.
+Her iki yöntem de başka parametre almaz. Dolgunun rengi, konturun kalınlığı ve benzerleri, yöntemin bir argümanı tarafından değil (makul olarak bekleyebileceğiniz gibi), bağlam nesnesinin özellikleri tarafından belirlenir.
 
 {{index filling, "fillStyle property"}}
 
-The `fillStyle` property controls the way shapes are filled. It can be set to a string that specifies a ((color)), using the color notation used by ((CSS)).
+`fillStyle` özelliği şekillerin doldurulma şeklini kontrol eder. ((CSS)) tarafından kullanılan renk gösterimini kullanarak bir ((renk)) belirten bir dizeye ayarlanabilir.
 
 {{index stroking, "line width", "strokeStyle property", "lineWidth property", canvas}}
 
-The `strokeStyle` property works similarly but determines the color used for a stroked line. The width of that line is determined by the `lineWidth` property, which may contain any positive number.
+`strokeStyle` özelliği de benzer şekilde çalışır, ancak konturlu bir çizgi için kullanılan rengi belirler. Bu çizginin genişliği, herhangi bir pozitif sayı içerebilen `lineWidth` özelliği tarafından belirlenir.
 
 ```{lang: html}
 <canvas></canvas>
@@ -143,21 +143,21 @@ The `strokeStyle` property works similarly but determines the color used for a s
 
 {{if book
 
-This code draws two blue squares, using a thicker line for the second one.
+Bu kod, ikincisi için daha kalın bir çizgi kullanarak iki mavi kare çizer.
 
-{{figure {url: "img/canvas_stroke.png", alt: "Screenshot showing two outlined squares", width: "5cm"}}}
+{{figure {url: "img/canvas_stroke.png", alt: "İki ana hatlı kareyi gösteren ekran görüntüsü", width: "5cm"}}}
 
 if}}
 
 {{index "default value", [canvas, size]}}
 
-When no `width` or `height` attribute is specified, as in the example, a canvas element gets a default width of 300 pixels and height of 150 pixels.
+Örnekte olduğu gibi `width` veya `height` niteliği belirtilmediğinde, bir canvas öğesi varsayılan olarak 300 piksel genişlik ve 150 piksel yükseklik alır.
 
-## Paths
+## Yollar
 
 {{index [path, canvas], [interface, design], [canvas, path]}}
 
-A path is a sequence of ((line))s. The 2D canvas interface takes a peculiar approach to describing such a path. It is done entirely through ((side effect))s. Paths are not values that can be stored and passed around. Instead, if you want to do something with a path, you make a sequence of method calls to describe its shape.
+Bir yol, ((çizgi))lerin bir dizisidir. 2B tuval arayüzü böyle bir yolu tanımlamak için kendine özgü bir yaklaşım benimser. Bu tamamen ((yan etki))ler aracılığıyla yapılır. Yollar saklanabilen ve aktarılabilen değerler değildir. Bunun yerine, bir yolla bir şey yapmak istiyorsanız, şeklini tanımlamak için bir dizi yöntem çağrısı yaparsınız.
 
 ```{lang: html}
 <canvas></canvas>
@@ -174,19 +174,19 @@ A path is a sequence of ((line))s. The 2D canvas interface takes a peculiar appr
 
 {{index canvas, "stroke method", "lineTo method", "moveTo method", shape}}
 
-This example creates a path with a number of horizontal ((line)) segments and then strokes it using the `stroke` method. Each segment created with `lineTo` starts at the path's _current_ position. That position is usually the end of the last segment, unless `moveTo` was called. In that case, the next segment would start at the position passed to `moveTo`.
+Bu örnek, bir dizi yatay ((çizgi)) parçadan oluşan bir yol oluşturur ve ardından `stroke` yöntemini kullanarak bu yolu konturlar. `lineTo` ile oluşturulan her segment yolun _current_ konumundan başlar. Bu konum, `moveTo` çağrılmadığı sürece, genellikle son segmentin sonudur. Bu durumda, bir sonraki segment `moveTo` metoduna aktarılan pozisyondan başlar.
 
 {{if book
 
-The path described by the previous program looks like this:
+Önceki program tarafından tanımlanan yol şu şekildedir:
 
-{{figure {url: "img/canvas_path.png", alt: "Screenshot showing a number of vertical lines", width: "2.1cm"}}}
+{{figure {url: "img/canvas_path.png", alt: "Bir dizi dikey çizgiyi gösteren ekran görüntüsü", width: "2.1cm"}}}
 
 if}}
 
 {{index [path, canvas], filling, [path, closing], "fill method"}}
 
-When filling a path (using the `fill` method), each ((shape)) is filled separately. A path can contain multiple shapes—each `moveTo` motion starts a new one. But the path needs to be _closed_ (meaning its start and end are in the same position) before it can be filled. If the path is not already closed, a line is added from its end to its start, and the shape enclosed by the completed path is filled.
+Bir yol doldurulurken (`fill` yöntemi kullanılarak), her ((shape)) ayrı ayrı doldurulur. Bir yol birden fazla şekil içerebilir - her `moveTo` hareketi yeni bir tane başlatır. Ancak yolun doldurulabilmesi için önce _kapalı_ olması (yani başlangıç ve bitişinin aynı konumda olması) gerekir. Yol zaten kapalı değilse, sonundan başlangıcına bir çizgi eklenir ve tamamlanan yol tarafından çevrelenen şekil doldurulur.
 
 ```{lang: html}
 <canvas></canvas>
@@ -200,27 +200,27 @@ When filling a path (using the `fill` method), each ((shape)) is filled separate
 </script>
 ```
 
-This example draws a filled triangle. Note that only two of the triangle's sides are explicitly drawn. The third, from the lower-right corner back to the top, is implied and wouldn't be there if you stroked the path.
+Bu örnekte içi dolu bir üçgen çizilmektedir. Üçgenin kenarlarından yalnızca ikisinin açıkça çizildiğine dikkat edin. Üçüncüsü, sağ alt köşeden yukarıya doğru, ima edilmiştir ve yolu vurduğunuzda orada olmayacaktır.
 
 {{if book
 
-{{figure {url: "img/canvas_triangle.png", alt: "Screenshot showing a filled path", width: "2.2cm"}}}
+{{figure {url: "img/canvas_triangle.png", alt: "Doldurulmuş bir yolu gösteren ekran görüntüsü", width: "2.2cm"}}}
 
 if}}
 
 {{index "stroke method", "closePath method", [path, closing], canvas}}
 
-You could also use the `closePath` method to explicitly close a path by adding an actual ((line)) segment back to the path's start. This segment _is_ drawn when stroking the path.
+Ayrıca, yolun başlangıcına gerçek bir ((çizgi)) segment ekleyerek bir yolu açıkça kapatmak için `closePath` yöntemini de kullanabilirsiniz. Bu parça, yola vurulduğunda \_çizilir.
 
-## Curves
+## Eğriler
 
 {{index [path, canvas], canvas, drawing}}
 
-A path may also contain ((curve))d ((line))s. These are unfortunately a bit more involved to draw.
+Bir yol ayrıca ((eğri))d ((çizgi))ler de içerebilir. Bunların çizimi ne yazık ki biraz daha karmaşıktır.
 
 {{index "quadraticCurveTo method"}}
 
-The `quadraticCurveTo` method draws a curve to a given point. To determine the curvature of the line, the method is given a ((control point)) as well as a destination point. Imagine this control point as _attracting_ the line, giving it its curve. The line won't go through the control point, but its direction at the start and end points will be such that a straight line in that direction would point toward the control point. The following example illustrates this:
+`quadraticCurveTo` yöntemi, verilen bir noktaya bir eğri çizer. Çizginin eğriliğini belirlemek için, yönteme bir hedef noktasının yanı sıra bir ((kontrol noktası)) verilir. Bu kontrol noktasını çizgiyi _çeken_ ve ona eğrisini veren nokta olarak düşünün. Çizgi kontrol noktasından geçmeyecektir, ancak başlangıç ve bitiş noktalarındaki yönü, o yöndeki düz bir çizginin kontrol noktasını göstereceği şekilde olacaktır. Aşağıdaki örnek bunu göstermektedir:
 
 ```{lang: html}
 <canvas></canvas>
@@ -238,19 +238,19 @@ The `quadraticCurveTo` method draws a curve to a given point. To determine the c
 
 {{if book
 
-It produces a path that looks like this:
+Şuna benzeyen bir yol üretir:
 
-{{figure {url: "img/canvas_quadraticcurve.png", alt: "Screenshot of a quadratic curve", width: "2.3cm"}}}
+{{figure {url: "img/canvas_quadraticcurve.png", alt: "İkinci dereceden bir eğrinin ekran görüntüsü", width: "2.3cm"}}}
 
 if}}
 
 {{index "stroke method"}}
 
-We draw a ((quadratic curve)) from the left to the right, with (60, 10) as the control point, and then draw two ((line)) segments going through that control point and back to the start of the line. The result somewhat resembles a _((Star Trek))_ insignia. You can see the effect of the control point: the lines leaving the lower corners start off in the direction of the control point and then ((curve)) toward their target.
+Kontrol noktası (60,10) olacak şekilde soldan sağa doğru bir ((ikinci dereceden eğri)) çiziyoruz ve ardından bu kontrol noktasından geçip doğrunun başlangıcına geri dönen iki ((doğru)) parçası çiziyoruz. Sonuç biraz _((Star Trek))_ amblemine benziyor. Kontrol noktasının etkisini görebilirsiniz: alt köşelerden çıkan çizgiler kontrol noktası yönünde başlar ve sonra hedeflerine doğru ((eğrilir)).
 
 {{index canvas, "bezierCurveTo method"}}
 
-The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((control point)), this method has two—one for each of the ((line))'s end points. Here is a similar sketch to illustrate the behavior of such a curve:
+`bezierCurveTo` yöntemi de benzer türde bir eğri çizer. Tek bir ((kontrol noktası)) yerine, bunun iki tane ((çizgi))'nin uç noktalarının her biri için bir tane vardır. İşte böyle bir eğrinin davranışını göstermek için benzer bir taslak:
 
 ```{lang: html}
 <canvas></canvas>
@@ -267,25 +267,25 @@ The `bezierCurveTo` method draws a similar kind of curve. Instead of a single ((
 </script>
 ```
 
-The two control points specify the direction at both ends of the curve. The farther they are away from their corresponding point, the more the curve will "bulge" in that direction.
+İki kontrol noktası eğrinin her iki ucundaki yönü belirler. Karşılık gelen noktadan ne kadar uzakta olurlarsa, eğri o yönde o kadar fazla "çıkıntı" yapacaktır.
 
 {{if book
 
-{{figure {url: "img/canvas_beziercurve.png", alt: "Screenshot of a bezier curve", width: "2.2cm"}}}
+{{figure {url: "img/canvas_beziercurve.png", alt: "Bir bezier eğrisinin ekran görüntüsü", width: "2.2cm"}}}
 
 if}}
 
 {{index "trial and error"}}
 
-Such ((curve))s can be hard to work with—it's not always clear how to find the ((control point))s that provide the ((shape)) you are looking for. Sometimes you can compute them, and sometimes you'll just have to find a suitable value by trial and error.
+Bu tür ((eğri))lerle çalışmak zor olabilir - aradığınız ((şekli)) sağlayan ((kontrol noktası))ları nasıl bulacağınız her zaman net değildir. Bazen bunları hesaplayabilirsiniz, bazen de deneme yanılma yoluyla uygun bir değer bulmanız gerekir.
 
 {{index "arc method", arc}}
 
-The `arc` method is a way to draw a line that curves along the edge of a circle. It takes a pair of ((coordinates)) for the arc's center, a radius, and then a start angle and end angle.
+`arc` yöntemi, bir dairenin kenarı boyunca kıvrılan bir çizgi çizmenin bir yoludur. Yay merkezi için bir çift ((koordinat)), bir yarıçap ve ardından bir başlangıç açısı ve bitiş açısı alır.
 
 {{index pi, "Math.PI constant"}}
 
-Those last two parameters make it possible to draw only part of the circle. The ((angle))s are measured in ((radian))s, not ((degree))s. This means a full ((circle)) has an angle of 2π, or `2 * Math.PI`, which is about 6.28. The angle starts counting at the point to the right of the circle's center and goes clockwise from there. You can use a start of 0 and an end bigger than 2π (say, 7) to draw a full circle.
+Bu son iki parametre dairenin sadece bir kısmını çizmeyi mümkün kılar. ((açı))lar ((derece))lerle değil ((radyan))larla ölçülür. Bu, tam bir ((daire))'nin 2π veya `2 * Math.PI` açısına sahip olduğu anlamına gelir, bu da yaklaşık 6.28'dir. Açı, dairenin merkezinin sağındaki noktadan saymaya başlar ve oradan saat yönünde ilerler. Tam bir daire çizmek için 0'lık bir başlangıç ve 2π'den büyük bir son (örneğin 7) kullanabilirsiniz.
 
 ```{lang: html}
 <canvas></canvas>
@@ -302,11 +302,11 @@ Those last two parameters make it possible to draw only part of the circle. The 
 
 {{index "moveTo method", "arc method", [path, " canvas"]}}
 
-The resulting picture contains a ((line)) from the right of the full circle (first call to `arc`) to the right of the quarter-((circle)) (second call).
+Sonuçta ortaya çıkan resim, tam dairenin sağından (`arc`'a ilk çağrı) çeyrek-((daire))'nin sağına (ikinci çağrı) bir ((çizgi)) içerir. Diğer yol çizme yöntemlerinde olduğu gibi, `arc` ile çizilen bir çizgi bir önceki yol parçasına bağlanır. Bunu önlemek için `moveTo` çağrısı yapabilir veya yeni bir yol başlatabilirsiniz.
 
 {{if book
 
-{{figure {url: "img/canvas_circle.png", alt: "Screenshot of a circle", width: "4.9cm"}}}
+{{figure {url: "img/canvas_circle.png", alt: "Bir dairenin ekran görüntüsü", width: "4.9cm"}}}
 
 if}}
 
@@ -314,13 +314,13 @@ Like other path-drawing methods, a line drawn with `arc` is connected to the pre
 
 {{id pie_chart}}
 
-## Drawing a pie chart
+## Pasta grafiği çizme
 
 {{index "pie chart example"}}
 
-Imagine you've just taken a ((job)) at EconomiCorp, Inc. Your first assignment is to draw a pie chart of its customer satisfaction ((survey)) results.
+EconomiCorp, Inc. şirketinde yeni bir ((iş)) aldığınızı ve ilk görevinizin müşteri memnuniyeti ((anket)) sonuçlarının bir pasta grafiğini çizmek olduğunu düşünün.
 
-The `results` binding contains an array of objects that represent the survey responses.
+`results` bağlayıcısı, anket yanıtlarını temsil eden bir dizi nesne içerir.
 
 ```{sandbox: "pie", includeCode: true}
 const results = [
@@ -333,7 +333,7 @@ const results = [
 
 {{index "pie chart example"}}
 
-To draw a pie chart, we draw a number of pie slices, each made up of an ((arc)) and a pair of ((line))s to the center of that arc. We can compute the ((angle)) taken up by each arc by dividing a full circle (2π) by the total number of responses and then multiplying that number (the angle per response) by the number of people who picked a given choice.
+Bir pasta grafiği çizmek için, her biri bir ((yay)) ve bu yayın merkezine bir çift ((çizgi))'den oluşan bir dizi pasta dilimi çizeriz. Tam bir daireyi (2π) toplam yanıt sayısına bölerek ve ardından bu sayıyı (yanıt başına açı) belirli bir seçeneği işaretleyen kişi sayısıyla çarparak her bir yay tarafından kaplanan ((açıyı)) hesaplayabiliriz.
 
 ```{lang: html, sandbox: "pie"}
 <canvas width="200" height="200"></canvas>
@@ -360,15 +360,15 @@ To draw a pie chart, we draw a number of pie slices, each made up of an ((arc)) 
 
 {{if book
 
-This draws the following chart:
+Bu, aşağıdaki tabloyu çizer:
 
-{{figure {url: "img/canvas_pie_chart.png", alt: "Screenshot showing a pie chart", width: "5cm"}}}
+{{figure {url: "img/canvas_pie_chart.png", alt: "Pasta grafiğini gösteren ekran görüntüsü", width: "5cm"}}}
 
 if}}
 
-But a chart that doesn't tell us what the slices mean isn't very helpful. We need a way to draw text to the ((canvas)).
+Ancak dilimlerin ne anlama geldiğini bize söylemeyen bir grafik çok yararlı değildir. Metni ((tuval)) üzerine çizmek için bir yola ihtiyacımız var.
 
-## Text
+## Metin
 
 {{index stroking, filling, "fillStyle property", "fillText method", "strokeText method"}}
 
@@ -384,25 +384,25 @@ A 2D canvas drawing context provides the methods `fillText` and `strokeText`. Th
 </script>
 ```
 
-You can specify the size, style, and ((font)) of the text with the `font` property. This example just gives a font size and family name. It is also possible to add `italic` or `bold` to the start of the string to select a style.
+2B tuval çizim bağlamı `fillText` ve `strokeText` yöntemlerini sağlar. İkincisi harflerin ana hatlarını çizmek için yararlı olabilir, ancak genellikle ihtiyacınız olan şey `fillText`tir. Verilen ((metin)) ana hatlarını geçerli `fillStyle` ile dolduracaktır.
 
-{{index "fillText method", "strokeText method", "textAlign property", "textBaseline property"}}
+Metnin boyutunu, stilini ve ((yazı tipi)) `font` özelliği ile belirtebilirsiniz. Bu örnek sadece bir yazı tipi boyutu ve aile adı verir. Bir stil seçmek için dizenin başına `italic` veya `bold` eklemek de mümkündür.
 
-The last two arguments to `fillText` and `strokeText` provide the position at which the font is drawn. By default, they indicate the position of the start of the text's alphabetic baseline, which is the line that letters "stand" on, not counting hanging parts in letters such as _j_ or _p_. You can change the horizontal position by setting the `textAlign` property to `"end"` or `"center"` and the vertical position by setting `textBaseline` to `"top"`, `"middle"`, or `"bottom"`.
+`fillText` ve `strokeText` için son iki bağımsız değişken, yazı tipinin çizileceği konumu sağlar. Varsayılan olarak, metnin alfabetik taban çizgisinin başlangıcının konumunu belirtirler; bu, _j_ veya _p_ gibi harflerdeki asılı kısımları saymazsak, harflerin "üzerinde durduğu" çizgidir. Yatay konumu `textAlign` özelliğini `"end"` veya `"center"` olarak ayarlayarak, dikey konumu ise `textBaseline` özelliğini `"top"`, `"middle"` veya `"bottom"` olarak ayarlayarak değiştirebilirsiniz.
 
 {{index "pie chart example"}}
 
-We'll come back to our pie chart, and the problem of ((label))ing the slices, in the [exercises](canvas#exercise_pie_chart) at the end of the chapter.
+Pasta grafiğimize ve dilimleri ((etiketleme)) sorununa bölümün sonundaki [alıştırmalar](canvas#exercise_pie_chart) kısmında geri döneceğiz.
 
-## Images
+## Görüntüler
 
 {{index "vector graphics", "bitmap graphics"}}
 
-In computer ((graphics)), a distinction is often made between _vector_ graphics and _bitmap_ graphics. The first is what we have been doing so far in this chapter—specifying a picture by giving a logical description of ((shape))s. Bitmap graphics, on the other hand, don't specify actual shapes but rather work with ((pixel)) data (rasters of colored dots).
+Bilgisayar ((grafikleri))nde, _vektör_ grafikleri ve _bitmap_ grafikleri arasında genellikle bir ayrım yapılır. İlk olarak bu bölümde şu ana kadar yaptığımız şey, bir resmi ((şekil))lerin mantıksal bir tanımını vererek belirlemektir. Öte yandan, bitmap grafikleri, gerçek şekilleri belirtmez, bunun yerine ((piksel)) verileriyle (renkli noktaların rastraları) çalışır.
 
 {{index "load event", "event handling", "img (HTML tag)", "drawImage method"}}
 
-The `drawImage` method allows us to draw ((pixel)) data onto a ((canvas)). This pixel data can originate from an `<img>` element or from another canvas. The following example creates a detached `<img>` element and loads an image file into it. But the method cannot immediately start drawing from this picture because the browser may not have loaded it yet. To deal with this, we register a `"load"` event handler and do the drawing after the image has loaded.
+`drawImage` metodu, bir ((canvas)) üzerine ((piksel)) verisi çizmemizi sağlar. Bu piksel verisi bir `<img>` öğesinden veya başka bir canvas'tan gelebilir. Aşağıdaki örnek, bağımsız bir `<img>` öğesi oluşturur ve içine bir görüntü dosyası yükler. Ancak, bu resimden hemen çizmeye başlayamaz çünkü tarayıcı henüz yüklemeyi tamamlamamış olabilir. Bunu çözmek için bir `"load"` olay işleyicisi kaydederiz ve resim yüklendikten sonra çizimi yaparız.
 
 ```{lang: html}
 <canvas></canvas>
@@ -420,27 +420,27 @@ The `drawImage` method allows us to draw ((pixel)) data onto a ((canvas)). This 
 
 {{index "drawImage method", scaling}}
 
-By default, `drawImage` will draw the image at its original size. You can also give it two additional arguments to specify the width and height of the drawn image, when those aren't the same as the origin image.
+Varsayılan olarak, `drawImage`, resmi orijinal boyutunda çizecektir. Ayrıca farklı bir genişlik ve yükseklik ayarlamak için iki ek argüman verebilirsiniz.
 
-When `drawImage` is given _nine_ arguments, it can be used to draw only a fragment of an image. The second through fifth arguments indicate the rectangle (x, y, width, and height) in the source image that should be copied, and the sixth to ninth arguments give the rectangle (on the canvas) into which it should be copied.
+`drawImage`'e _dokuz_ argüman verildiğinde, yalnızca bir resmin bir parçasını çizmek için kullanılabilir. İkinci ila beşinci argümanlar, kaynak görüntüde kopyalanması gereken dikdörtgeni (x, y, width ve height) belirtir ve altıncı ila dokuzuncu argümanlar, bunun kopyalanması gereken (canvas üzerindeki) dikdörtgeni belirtir.
 
 {{index "player", "pixel art"}}
 
-This can be used to pack multiple _((sprite))s_ (image elements) into a single image file and then draw only the part you need. For example, this picture contains a game character in multiple ((pose))s:
+Bu, birden fazla _((sprite))_ (görüntü öğesi) öğesini tek bir görüntü dosyasına sığdırmak ve ardından yalnızca ihtiyacınız olan kısmı çizmek için kullanılabilir. Örneğin, birden fazla ((poz))da oyun karakteri içeren bu resme sahibiz:
 
-{{figure {url: "img/player_big.png", alt: "Pixel art showing a computer game character in 10 different poses. The first 8 form its running animation cycle, the 9th has the character standing still, and the 10th shows him jumping.", width: "6cm"}}}
+{{figure {url: "img/player_big.png", alt: "Bir bilgisayar oyunu karakterini 10 farklı pozda gösteren piksel sanatı. İlk 8'i koşma animasyon döngüsünü oluşturuyor, 9'uncuda karakter hareketsiz duruyor ve 10'uncusu zıplamasını gösteriyor.", width: "6cm"}}}
 
 {{index [animation, "platform game"]}}
 
-By alternating which pose we draw, we can show an animation that looks like a walking character.
+Hangi pozu çizeceğimizi değiştirerek, yürüyen bir karakter gibi görünen bir animasyon gösterebiliriz.
 
 {{index "fillRect method", "clearRect method", clearing}}
 
-To animate a ((picture)) on a ((canvas)), the `clearRect` method is useful. It resembles `fillRect`, but instead of coloring the rectangle, it makes it ((transparent)), removing the previously drawn pixels.
+Bir ((tuval)) üzerindeki bir ((resmi)) canlandırmak için `clearRect` yöntemi kullanışlıdır. Bu yöntem `fillRect` yöntemine benzer, ancak dikdörtgeni renklendirmek yerine, önceden çizilmiş pikselleri kaldırarak ((saydam)) hale getirir.
 
 {{index "setInterval function", "img (HTML tag)"}}
 
-We know that each _((sprite))_, each subpicture, is 24 ((pixel))s wide and 30 pixels high. The following code loads the image and then sets up an interval (repeated timer) to draw the next ((frame)):
+Her _((sprite))_, her alt resmin 24 ((piksel)) genişliğinde ve 30 piksel yüksekliğinde olduğunu biliyoruz. Aşağıdaki kod görüntüyü yükler ve ardından bir sonraki ((frame)) çizmek için bir aralık (tekrarlanan zamanlayıcı) ayarlar:
 
 ```{lang: html}
 <canvas></canvas>
@@ -466,19 +466,19 @@ We know that each _((sprite))_, each subpicture, is 24 ((pixel))s wide and 30 pi
 
 {{index "remainder operator", "% operator", [animation, "platform game"]}}
 
-The `cycle` binding tracks our position in the animation. For each ((frame)), it is incremented and then clipped back to the 0 to 7 range by using the remainder operator. This binding is then used to compute the x-coordinate that the sprite for the current pose has in the picture.
+`cycle` bağı, animasyondaki konumumuzu izler. Her bir ((kare)) için arttırılır ve ardından kalan operatörü kullanılarak 0 ile 7 aralığına geri döndürülür. Bu bağlam, mevcut poz için sprite'ın resimdeki x koordinatını hesaplamak için kullanılır.
 
-## Transformation
+## Dönüşüm
 
 {{index transformation, mirroring}}
 
 {{indexsee flipping, mirroring}}
 
-What if we want our character to walk to the left instead of to the right? We could draw another set of sprites, of course. But we could also instruct the ((canvas)) to draw the picture the other way round.
+Peki ya karakterimizin sağa değil de sola yürümesini istersek? Elbette başka bir sprite seti çizebiliriz. Ancak ((canvas))'a resmi ters yönde çizmesini de söyleyebiliriz.
 
 {{index "scale method", scaling}}
 
-Calling the `scale` method will cause anything drawn after it to be scaled. This method takes two parameters, one to set a horizontal scale and one to set a vertical scale.
+`scale` metodunu çağırmak, ondan sonra çizilen her şeyin ölçeklenmesine neden olur. Bu metod iki parametre alır: biri yatay ölçeği, diğeri dikey ölçeği ayarlamak için kullanılır.
 
 ```{lang: html}
 <canvas></canvas>
@@ -494,37 +494,37 @@ Calling the `scale` method will cause anything drawn after it to be scaled. This
 
 {{if book
 
-Because of the call to `scale`, the circle is drawn three times as wide and half as high.
+`scale` çağrısından dolayı, daire üç kat geniş ve yarı yüksek olarak çizilir.
 
-{{figure {url: "img/canvas_scale.png", alt: "Screenshot of a scaled circle", width: "6.6cm"}}}
+{{figure {url: "img/canvas_scale.png", alt: "Ölçeklendirilmiş bir dairenin ekran görüntüsü", width: "6.6cm"}}}
 
 if}}
 
 {{index mirroring}}
 
-Scaling will cause everything about the drawn image, including the ((line width)), to be stretched out or squeezed together as specified. Scaling by a negative amount will flip the picture around. The flipping happens around point (0, 0), which means it will also flip the direction of the coordinate system. When a horizontal scaling of -1 is applied, a shape drawn at _x_ position 100 will end up at what used to be position -100.
+Ölçekleme, çizilen resimdeki her şeyi, ((çizgi genişliği)) de dahil olmak üzere belirtilen şekilde genişletir veya sıkıştırır. Negatif bir miktarla ölçekleme yapmak resmi ters çevirir. Ters çevirme, (0,0) noktasında gerçekleşir, bu da koordinat sisteminin yönünü de tersine çevireceği anlamına gelir. -1 yatay ölçek uygulandığında, x konumunda 100 olan bir şekil, artık -100 olan konumda sona erer.
 
 {{index "drawImage method"}}
 
-To turn a picture around, we can't simply add `cx.scale(-1, 1)` before the call to `drawImage`. That would move our picture outside of the ((canvas)), where it won't be visible. We could adjust the ((coordinates)) given to `drawImage` to compensate for this by drawing the image at _x_ position -50 instead of 0. Another solution, which doesn't require the code doing the drawing to know about the scale change, is to adjust the ((axis)) around which the scaling happens.
+Bu nedenle, bir resmi ters çevirmek için `drawImage` çağrısından önce basitçe `cx.scale(-1, 1)` ekleyemeyiz çünkü bu, resmimizi ((canvas)) dışına taşıyacak ve bu da görünmez olmasına neden olacaktır. Bu durumu telafi etmek için resmi x konumunda 0 yerine -50'de çizerek `drawImage`'a verilen ((koordinatları)) ayarlayabilirsiniz. Çizim yapan kodun ölçek değişikliğinden haberdar olmasını gerektirmeyen bir başka çözüm ise ölçeklemenin gerçekleştiği ((eksen))i ayarlamaktır.
 
 {{index "rotate method", "translate method", transformation}}
 
-There are several other methods besides `scale` that influence the coordinate system for a ((canvas)). You can rotate subsequently drawn shapes with the `rotate` method and move them with the `translate` method. The interesting—and confusing—thing is that these transformations _stack_, meaning that each one happens relative to the previous transformations.
+`scale` dışında, bir ((canvas)) için koordinat sistemini etkileyen birkaç başka metod daha vardır. `rotate` metodunu kullanarak daha sonra çizilen şekilleri döndürebilir ve `translate` metodu ile onları hareket ettirebilirsiniz. İlginç—ve kafa karıştırıcı—olan şey, bu dönüşümlerin _üst üste binmesi_, yani her birinin önceki dönüşümlere göre gerçekleşmesidir.
 
 {{index "rotate method", "translate method"}}
 
-If we translate by 10 horizontal pixels twice, everything will be drawn 20 pixels to the right. If we first move the center of the coordinate system to (50, 50) and then rotate by 20 ((degree))s (about 0.1π ((radian))s), that rotation will happen _around_ point (50, 50).
+Yani, iki kez 10 yatay piksel kadar öteleme yaparsak, her şey sağa doğru 20 piksel kaydırılacaktır. İlk olarak koordinat sisteminin merkezini (50,50) noktasına taşıyıp ardından 20 ((derece)) (yaklaşık 0.1π ((radyan))) döndürürsek, bu döndürme _(50,50) noktası etrafında_ gerçekleşecektir.
 
-{{figure {url: "img/transform.svg", alt: "Diagram showing the result of stacking transformations. The first diagram translates and then rotates, causing the translation to happen normally and rotation to happen around the target of the translation. The second diagram first rotates, and then translates, causing the rotation to happen around the origin and the translation direction to be tilted by that rotation.", width: "9cm"}}}
+{{figure {url: "img/transform.svg", alt: "Dönüşümlerin üst üste binmesinin sonucunu gösteren diyagram. İlk diyagram, önce öteleme yapar ve ardından döndürme yapar, bu da ötelemenin normal şekilde gerçekleşmesine ve döndürmenin ötelemenin hedefi etrafında gerçekleşmesine neden olur. İkinci diyagram, önce döndürür ve ardından öteleme yapar, bu da döndürmenin orijin etrafında olmasına ve öteleme yönünün bu döndürme ile eğilmesine neden olur.", width: "9cm"}}}
 
 {{index coordinates}}
 
-But if we _first_ rotate by 20 degrees and _then_ translate by (50, 50), the translation will happen in the rotated coordinate system and thus produce a different orientation. The order in which transformations are applied matters.
+Ancak önce 20 derece döndürme ve _sonra_ (50,50) öteleme yaparsak, öteleme döndürülmüş koordinat sisteminde gerçekleşir ve böylece farklı bir yönlenme oluşturur. Dönüşümlerin uygulanma sırası önemlidir.
 
 {{index axis, mirroring}}
 
-To flip a picture around the vertical line at a given _x_ position, we can do the following:
+Belirli bir x konumundaki dikey çizgi etrafında bir resmi ters çevirmek için şu adımları izleyebiliriz:
 
 ```{includeCode: true}
 function flipHorizontally(context, around) {
@@ -536,15 +536,15 @@ function flipHorizontally(context, around) {
 
 {{index "flipHorizontally method"}}
 
-We move the y-((axis)) to where we want our ((mirror)) to be, apply the mirroring, and finally move the y-axis back to its proper place in the mirrored universe. The following picture explains why this works:
+Y-((ekseni))ni aynanın olması gereken yere taşıyoruz, aynalamayı uyguluyoruz ve son olarak y-ekseni aynalanmış evrendeki doğru yerine geri taşıyoruz. Aşağıdaki resim bunun neden işe yaradığını açıklıyor:
 
-{{figure {url: "img/mirror.svg", alt: "Diagram showing the effect of translating and mirroring a triangle", width: "8cm"}}}
+{{figure {url: "img/mirror.svg", alt: "Üçgenin taşınması ve aynalanmasının etkisini gösteren diyagram", width: "8cm"}}}
 
 {{index "translate method", "scale method", transformation, canvas}}
 
-This shows the coordinate systems before and after mirroring across the central line. The triangles are numbered to illustrate each step. If we draw a triangle at a positive _x_ position, it would, by default, be in the place where triangle 1 is. A call to `flipHorizontally` first does a translation to the right, which gets us to triangle 2. It then scales, flipping the triangle over to position 3. This is not where it should be, if it were mirrored in the given line. The second `translate` call fixes this—it "cancels" the initial translation and makes triangle 4 appear exactly where it should.
+Bu, merkez çizgi boyunca aynalanmadan önce ve sonraki koordinat sistemlerini gösterir. Üçgenler, her adımı açıklamak için numaralandırılmıştır. Eğer pozitif bir x konumunda bir üçgen çizersek, varsayılan olarak üçgen 1'in bulunduğu yerde olurdu. `flipHorizontally` çağrısı ilk olarak sağa doğru bir öteleme yapar, bu da bizi üçgen 2'ye getirir. Ardından ölçeklendirme yapılır ve üçgeni pozisyon 3'e çevirir. Bu, verilen çizgide aynalanmış olması durumunda olması gereken yer değildir. İkinci `translate` çağrısı bunu düzeltir—ilk ötelemeyi "iptal eder" ve üçgen 4'ü tam olarak olması gereken yere getirir.
 
-We can now draw a mirrored character at position (100, 0) by flipping the world around the character's vertical center.
+Şimdi, karakterin dikey merkezi etrafında dünyayı çevirerek (100,0) konumunda aynalanmış bir karakter çizebiliriz.
 
 ```{lang: html}
 <canvas></canvas>
@@ -561,23 +561,23 @@ We can now draw a mirrored character at position (100, 0) by flipping the world 
 </script>
 ```
 
-## Storing and clearing transformations
+## Dönüşümlerin depolanması ve temizlenmesi
 
 {{index "side effect", canvas, transformation}}
 
-Transformations stick around. Everything else we draw after ((drawing)) that mirrored character would also be mirrored. That might be inconvenient.
+Dönüşümler kalıcıdır. Aynalanmış karakteri çizdikten sonra çizdiğimiz her şey de aynalanmış olacaktır. Bu, rahatsız edici olabilir.
 
-It is possible to save the current transformation, do some drawing and transforming, and then restore the old transformation. This is usually the proper thing to do for a function that needs to temporarily transform the coordinate system. First, we save whatever transformation the code that called the function was using. Then the function does its thing, adding more transformations on top of the current transformation. Finally, we revert to the transformation we started with.
+Geçerli dönüşümü kaydedip, bazı çizimler ve dönüşümler yapıp, ardından eski dönüşümü geri yüklemek mümkündür. Bu, genellikle koordinat sistemini geçici olarak dönüştürmesi gereken bir fonksiyon için yapılması gereken uygun bir işlemdir. İlk olarak, fonksiyonu çağıran kodun kullandığı dönüşüm ne olursa olsun kaydedilir. Ardından, fonksiyon kendi işlemlerini yapar ve mevcut dönüşümün üzerine daha fazla dönüşüm ekler. Son olarak, başladığımız dönüşüme geri döneriz.
 
 {{index "save method", "restore method", [state, "of canvas"]}}
 
-The `save` and `restore` methods on the 2D ((canvas)) context do this ((transformation)) management. They conceptually keep a stack of transformation states. When you call `save`, the current state is pushed onto the stack, and when you call `restore`, the state on top of the stack is taken off and used as the context's current transformation. You can also call `resetTransform` to fully reset the transformation.
+2D ((canvas)) bağlamındaki `save` ve `restore` metodları, bu ((dönüşüm)) yönetimini yapar. Kavramsal olarak, bir dönüşüm durumu yığını tutarlar. `save` çağrıldığında, mevcut durum yığına itilir ve `restore` çağrıldığında, yığının üstündeki durum alınır ve bağlamın geçerli dönüşümü olarak kullanılır. Ayrıca `resetTransform` çağrısıyla dönüşümü tamamen sıfırlayabilirsiniz.
 
 {{index "branching recursion", "fractal example", recursion}}
 
-The `branch` function in the following example illustrates what you can do with a function that changes the transformation and then calls a function (in this case itself), which continues drawing with the given transformation.
+Aşağıdaki örnekteki `branch` fonksiyonu, dönüşümü değiştiren ve ardından (bu durumda kendisi) bir fonksiyonu çağıran bir fonksiyonla neler yapabileceğinizi gösterir. Bu fonksiyon, verilen dönüşümle çizim yapmaya devam eder.
 
-This function draws a treelike shape by drawing a line, moving the center of the coordinate system to the end of the line, and calling itself twice—first rotated to the left and then rotated to the right. Every call reduces the length of the branch drawn, and the recursion stops when the length drops below 8.
+Bu fonksiyon, bir çizgi çizerek, koordinat sisteminin merkezini çizginin sonuna taşıyarak ve kendisini iki kez çağırarak—ilk önce sola, sonra sağa döndürerek—ağaç benzeri bir şekil çizer. Her çağrı, çizilen dalın uzunluğunu azaltır ve uzunluk 8'in altına düştüğünde özyineleme durur.
 
 ```{lang: html}
 <canvas width="600" height="300"></canvas>
@@ -601,31 +601,31 @@ This function draws a treelike shape by drawing a line, moving the center of the
 
 {{if book
 
-The result is a simple fractal.
+Sonuç, basit bir fraktal olur.
 
-{{figure {url: "img/canvas_tree.png", alt: "Screenshot of a fractal", width: "5cm"}}}
+{{figure {url: "img/canvas_tree.png", alt: "Fraktalın ekran görüntüsü", width: "5cm"}}}
 
 if}}
 
 {{index "save method", "restore method", canvas, "rotate method"}}
 
-If the calls to `save` and `restore` were not there, the second recursive call to `branch` would end up with the position and rotation created by the first call. It would be connected not to the current branch but rather to the innermost, rightmost branch drawn by the first call. The resulting shape might also be interesting, but it is definitely not a tree.
+Eğer `save` ve `restore` çağrıları olmasaydı, `branch` fonksiyonunun ikinci özyinelemeli çağrısı, ilk çağrı tarafından oluşturulan konum ve döndürme ile sonuçlanırdı. Mevcut dala bağlı olmazdı, bunun yerine ilk çağrı tarafından çizilen en içteki, en sağdaki dala bağlı olurdu. Ortaya çıkan şekil de ilginç olabilir, ancak kesinlikle bir ağaç olmazdı.
 
 {{id canvasdisplay}}
 
-## Back to the game
+## Oyuna geri dönelim
 
 {{index "drawImage method"}}
 
-We now know enough about ((canvas)) drawing to start working on a ((canvas))-based ((display)) system for the ((game)) from the [previous chapter](game). The new display will no longer be showing just colored boxes. Instead, we'll use `drawImage` to draw pictures that represent the game's elements.
+Artık ((canvas)) çizimi hakkında yeterince bilgiye sahibiz, [önceki bölümdeki](game) ((oyun)) için ((canvas)) tabanlı bir ((görüntüleme)) sistemi üzerinde çalışmaya başlayabiliriz. Yeni görüntüleme sistemi artık sadece renkli kutular göstermeyecek. Bunun yerine, oyunun öğelerini temsil eden resimleri çizmek için `drawImage` kullanacağız.
 
 {{index "CanvasDisplay class", "DOMDisplay class", [interface, object]}}
 
-We define another display object type called `CanvasDisplay`, supporting the same interface as `DOMDisplay` from [Chapter ?](game#domdisplay)—namely, the methods `syncState` and `clear`.
+`DOMDisplay` gibi bir arabirimi destekleyen, `CanvasDisplay` adında başka bir görüntüleme nesne türü tanımlıyoruz, yani `syncState` ve `clear` metodları.
 
 {{index [state, "in objects"]}}
 
-This object keeps a little more information than `DOMDisplay`. Rather than using the scroll position of its DOM element, it tracks its own ((viewport)), which tells us which part of the level we are currently looking at. Finally, it keeps a `flipPlayer` property so that even when the player is standing still, it keeps facing the direction in which it last moved.
+Bu nesne, `DOMDisplay`'den biraz daha fazla bilgi tutar. DOM öğesinin kaydırma konumunu kullanmak yerine, şu anda seviyenin hangi bölümüne baktığımızı bize bildiren kendi ((görünüm alanını)) izler. Son olarak, oyuncu sabit durduğunda bile son hareket ettiği yöne bakmasını sağlamak için bir `flipPlayer` özelliği tutar.
 
 ```{sandbox: "game", includeCode: true}
 class CanvasDisplay {
@@ -652,7 +652,7 @@ class CanvasDisplay {
 }
 ```
 
-The `syncState` method first computes a new viewport and then draws the game scene at the appropriate position.
+`syncState` metodu, önce yeni bir görünüm alanı (viewport) hesaplar ve ardından oyun sahnesini uygun konumda çizer.
 
 ```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.syncState = function(state) {
@@ -665,11 +665,11 @@ CanvasDisplay.prototype.syncState = function(state) {
 
 {{index scrolling, clearing}}
 
-Contrary to `DOMDisplay`, this display style _does_ have to redraw the background on every update. Because shapes on a canvas are just ((pixel))s, after we draw them there is no good way to move them (or remove them). The only way to update the canvas display is to clear it and redraw the scene. We may also have scrolled, which requires the background to be in a different position.
+`DOMDisplay`'in aksine, bu görüntüleme stili her güncellemede arka planı yeniden çizmek zorundadır. Çünkü bir canvas üzerindeki şekiller sadece ((piksel))lerden oluşur; onları çizdikten sonra hareket ettirmek veya kaldırmak için iyi bir yol yoktur. Canvas görüntülemeyi güncellemenin tek yolu, canvas'ı temizlemek ve sahneyi yeniden çizmektir. Ayrıca kaydırma yapmış olabiliriz, bu da arka planın farklı bir konumda olmasını gerektirir.
 
 {{index "CanvasDisplay class"}}
 
-The `updateViewport` method is similar to `DOMDisplay`'s `scrollPlayerIntoView` method. It checks whether the player is too close to the edge of the screen and moves the ((viewport)) when this is the case.
+`updateViewport` metodu, `DOMDisplay`'in `scrollPlayerIntoView` metoduna benzer. Oyuncunun ekranın kenarına çok yakın olup olmadığını kontrol eder ve bu durumda ((görünüm alanını)) hareket ettirir.
 
 ```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.updateViewport = function(state) {
@@ -694,9 +694,9 @@ CanvasDisplay.prototype.updateViewport = function(state) {
 
 {{index boundary, "Math.max function", "Math.min function", clipping}}
 
-The calls to `Math.max` and `Math.min` ensure that the viewport does not end up showing space outside of the level. `Math.max(x, 0)` makes sure the resulting number is not less than zero. `Math.min` similarly guarantees that a value stays below a given bound.
+`Math.max` ve `Math.min` çağrıları, görünüm alanının seviyenin dışındaki alanı göstermemesini sağlar. `Math.max(x, 0)`, elde edilen sayının sıfırdan küçük olmadığından emin olur. Benzer şekilde, `Math.min` bir değerin belirli bir sınırın altında kalmasını garanti eder.
 
-When ((clearing)) the display, we'll use a slightly different ((color)) depending on whether the game is won (brighter) or lost (darker).
+Görüntüleme ((temizlenirken)), oyunun kazanılıp kazanılmadığına bağlı olarak (kazanıldıysa daha parlak, kaybedildiyse daha koyu) biraz farklı bir ((renk)) kullanacağız.
 
 ```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.clearDisplay = function(status) {
@@ -714,7 +714,7 @@ CanvasDisplay.prototype.clearDisplay = function(status) {
 
 {{index "Math.floor function", "Math.ceil function", rounding}}
 
-To draw the background, we run through the tiles that are visible in the current viewport, using the same trick used in the `touches` method from the [previous chapter](game#touches).
+Arka planı çizmek için, [önceki bölümdeki](game#touches) `touches` metodunda kullanılan aynı yöntemi kullanarak, mevcut görünüm alanında görünen fayanslar arasında dolaşırız. Bu sayede sadece görünüm alanında olan fayanslar işlenir ve çizilir.
 
 ```{sandbox: "game", includeCode: true}
 let otherSprites = document.createElement("img");
@@ -744,25 +744,25 @@ CanvasDisplay.prototype.drawBackground = function(level) {
 
 {{index "drawImage method", sprite, tile}}
 
-Tiles that are not empty are drawn with `drawImage`. The `otherSprites` image contains the pictures used for elements other than the player. It contains, from left to right, the wall tile, the lava tile, and the sprite for a coin.
+Boş olmayan fayanslar `drawImage` ile çizilir. `otherSprites` resmi, oyuncu dışında kalan öğeler için kullanılan resimleri içerir. Soldan sağa, duvar fayansı, lav fayansı ve bir para sprite'ı içerir.
 
-{{figure {url: "img/sprites_big.png", alt: "Pixel art showing three sprites: a piece of wall, made out of small white stones, a square of orange lava, and a round coin.", width: "1.4cm"}}}
+{{figure {url: "img/sprites_big.png", alt: "Piksel sanatı, üç sprite'ı gösteriyor: küçük beyaz taşlardan yapılmış bir duvar parçası, bir kare turuncu lav ve yuvarlak bir para.", width: "1.4cm"}}}
 
 {{index scaling}}
 
-Background tiles are 20 by 20 pixels, since we'll use the same scale as in `DOMDisplay`. Thus, the offset for lava tiles is 20 (the value of the `scale` binding), and the offset for walls is 0.
+Arka plan fayansları 20 x 20 pikseldir, çünkü `DOMDisplay`'de kullandığımız ölçeği (scale) aynı şekilde kullanacağız. Bu nedenle, lav fayanslarının kaydırma değeri 20'dir (`scale` bağlamının değeri) ve duvarlar için kaydırma değeri 0'dır.
 
 {{index drawing, "load event", "drawImage method"}}
 
-We don't bother waiting for the sprite image to load. Calling `drawImage` with an image that hasn't been loaded yet will simply do nothing. Thus, we might fail to draw the game properly for the first few ((frame))s while the image is still loading, but that isn't a serious problem. Since we keep updating the screen, the correct scene will appear as soon as the loading finishes.
+Sprite resmi yüklenmesini beklemiyoruz. Henüz yüklenmemiş bir resimle `drawImage` çağrısı yapmak, hiçbir şey yapmaz. Bu nedenle, resim hala yüklenirken ilk birkaç ((kare))de oyunu doğru şekilde çizemeyebiliriz, ancak bu ciddi bir sorun değildir. Ekranı sürekli olarak güncellediğimiz için yükleme tamamlandığında doğru sahne görünecektir.
 
 {{index "player", [animation, "platform game"], drawing}}
 
-The ((walking)) character shown earlier will be used to represent the player. The code that draws it needs to pick the right ((sprite)) and direction based on the player's current motion. The first eight sprites contain a walking animation. When the player is moving along a floor, we cycle through them based on the current time. We want to switch frames every 60 milliseconds, so the ((time)) is divided by 60 first. When the player is standing still, we draw the ninth sprite. During jumps, which are recognized by the fact that the vertical speed is not zero, we use the tenth, rightmost sprite.
+Daha önce gösterilen ((yürüyen)) karakter, oyuncuyu temsil etmek için kullanılacaktır. Bunu çizen kod, oyuncunun mevcut hareketine göre doğru ((sprite))'ı ve yönü seçmelidir. İlk sekiz sprite, bir yürüme animasyonu içerir. Oyuncu bir zeminde hareket ederken, mevcut zamana göre bu animasyon kareleri arasında geçiş yaparız. Kareleri her 60 milisaniyede bir değiştirmek istiyoruz, bu yüzden ((zaman)) önce 60'a bölünür. Oyuncu hareketsiz durduğunda, dokuzuncu sprite'ı çizeriz. Dikey hızın sıfır olmamasıyla tanınan zıplamalar sırasında, sağdaki onuncu sprite'ı kullanırız.
 
 {{index "flipHorizontally function", "CanvasDisplay class"}}
 
-Because the ((sprite))s are slightly wider than the player object—24 instead of 16 pixels to allow some space for feet and arms—the method has to adjust the x-coordinate and width by a given amount (`playerXOverlap`).
+Çünkü ((sprite))ler, ayaklar ve kollar için biraz yer sağlamak amacıyla oyuncu nesnesinden biraz daha geniştir—24 piksel yerine 16 piksel—, metod x-koordinatını ve genişliği belirli bir miktar (`playerXOverlap`) ayarlamak zorundadır.
 
 ```{sandbox: "game", includeCode: true}
 let playerSprites = document.createElement("img");
@@ -795,7 +795,7 @@ CanvasDisplay.prototype.drawPlayer = function(player, x, y,
 };
 ```
 
-The `drawPlayer` method is called by `drawActors`, which is responsible for drawing all the actors in the game.
+`drawPlayer` metodu, oyundaki tüm aktörleri çizmekten sorumlu olan `drawActors` tarafından çağrılır.
 
 ```{sandbox: "game", includeCode: true}
 CanvasDisplay.prototype.drawActors = function(actors) {
@@ -816,15 +816,15 @@ CanvasDisplay.prototype.drawActors = function(actors) {
 };
 ```
 
-When ((drawing)) something that is not the ((player)), we look at its type to find the offset of the correct sprite. The ((lava)) tile is found at offset 20, and the ((coin)) sprite is found at 40 (two times `scale`).
+Oyuncu dışındaki bir şeyi ((çizerken)), doğru sprite'ın kaydırma değerini bulmak için türüne bakarız. ((Lava)) fayansı 20 kaydırma değerinde, ((coin)) sprite'ı ise 40 kaydırma değerinde (`scale`'in iki katı) bulunur.
 
 {{index viewport}}
 
-We have to subtract the viewport's position when computing the actor's position, since (0, 0) on our ((canvas)) corresponds to the top left of the viewport, not the top left of the level. We could also have used `translate` for this. Either way works.
+Aktörün pozisyonunu hesapladığımızda görünüm alanının konumunu çıkarmamız gerekir çünkü (0,0) canvas'ımızda seviyenin sol üst köşesi yerine görünüm alanının sol üst köşesine karşılık gelir. Bunun için `translate` de kullanılabilirdi. Her iki yöntem de işe yarar.
 
 {{if interactive
 
-This document plugs the new display into `runGame`:
+Bu belge, yeni görüntüleme sistemini `runGame`'e bağlar:
 
 ```{lang: html, sandbox: game, focus: yes, startCode: true}
 <body>
@@ -840,87 +840,91 @@ if}}
 
 {{index [game, screenshot], [game, "with canvas"]}}
 
-That concludes the new ((display)) system. The resulting game looks something like this:
+Bu, yeni ((görüntüleme)) sistemini tamamlar. Ortaya çıkan oyun aşağıdaki gibi görünür:
 
-{{figure {url: "img/canvas_game.png", alt: "Screenshot of the game as shown on canvas", width: "8cm"}}}
+{{figure {url: "img/canvas_game.png", alt: "Canvas üzerinde gösterilen oyunun ekran görüntüsü", width: "8cm"}}}
 
 if}}
 
 {{id graphics_tradeoffs}}
 
-## Choosing a graphics interface
+## Bir grafik arayüzü seçme
 
-When you need to generate graphics in the browser, you can choose between plain HTML, ((SVG)), and ((canvas)). There is no single _best_ approach that works in all situations. Each option has strengths and weaknesses.
+Bu nedenle, tarayıcıda grafik üretmeniz gerektiğinde, düz HTML, ((SVG)) ve ((canvas)) arasında seçim yapabilirsiniz. Tüm durumlarda işe yarayan tek bir _en iyi_ yaklaşım yoktur. Her seçeneğin güçlü ve zayıf yönleri vardır.
 
 {{index "text wrapping"}}
 
-Plain HTML has the advantage of being simple. It also integrates well with ((text)). Both SVG and canvas allow you to draw text, but they won't help you position that text or wrap it when it takes up more than one line. In an HTML-based picture, it is much easier to include blocks of text.
+Düz HTML'nin basit olma avantajı vardır. Ayrıca, ((metin)) ile iyi entegre olur. Hem SVG hem de canvas metin çizmenizi sağlar, ancak bu metni konumlandırmanıza veya birden fazla satır aldığında sarmanıza yardımcı olmaz. HTML tabanlı bir resimde, metin bloklarını dahil etmek çok daha kolaydır.
 
 {{index zooming, SVG}}
 
-SVG can be used to produce ((crisp)) ((graphics)) that look good at any zoom level. Unlike HTML, it is designed for drawing and is thus more suitable for that purpose.
+SVG, herhangi bir yakınlaştırma seviyesinde iyi görünen keskin ((grafikler)) üretmek için kullanılabilir. HTML'den farklı olarak, çizim için tasarlanmıştır ve bu nedenle bu amaç için daha uygundur.
 
 {{index [DOM, graphics], SVG, "event handling", ["data structure", tree]}}
 
-Both SVG and HTML build up a data structure (the DOM) that represents your picture. This makes it possible to modify elements after they are drawn. If you need to repeatedly change a small part of a big ((picture)) in response to what the user is doing or as part of an ((animation)), doing it in a canvas can be needlessly expensive. The DOM also allows us to register mouse event handlers on every element in the picture (even on shapes drawn with SVG). You can't do that with canvas.
+Hem SVG hem de HTML, resminizi temsil eden bir veri yapısı (DOM) oluşturur. Bu, çizildikten sonra öğeleri değiştirmenizi sağlar. Kullanıcının yaptığı şeye yanıt olarak veya bir ((animasyon))un parçası olarak büyük bir ((resmin)) küçük bir bölümünü tekrar tekrar değiştirmeniz gerekiyorsa, bunu canvas'ta yapmak gereksiz yere pahalı olabilir. DOM ayrıca resimdeki her öğe üzerinde (SVG ile çizilen şekillerde bile) fare olay işleyicileri kaydetmemize olanak tanır. Bunu canvas ile yapamazsınız.
 
 {{index performance, optimization, "ray tracer"}}
 
-But ((canvas))'s ((pixel))-oriented approach can be an advantage when drawing a huge number of tiny elements. The fact that it does not build up a data structure but only repeatedly draws onto the same pixel surface gives canvas a lower cost per shape. There are also effects that are only practical with a canvas element, such as rendering a scene one ((pixel)) at a time (for example, using a ray tracer) or postprocessing an image with JavaScript (blurring or distorting it).
+Ancak ((canvas))'ın piksel odaklı yaklaşımı, çok sayıda küçük öğe çizerken avantaj sağlayabilir. Bir veri yapısı oluşturmaması ve yalnızca aynı piksel yüzeyine tekrar tekrar çizim yapması nedeniyle, canvas her şekil için daha düşük maliyete sahiptir.
 
-In some cases, you may want to combine several of these techniques. For example, you might draw a ((graph)) with ((SVG)) or ((canvas)) but show ((text))ual information by positioning an HTML element on top of the picture.
+{{index "ray tracer"}}
+
+Bir sahneyi bir seferde bir piksel olarak işlemek (örneğin, bir ışın izleyici kullanarak) veya bir görüntüyü JavaScript ile son işleme tabi tutmak (bulanıklaştırma veya bozma gibi) gibi bazı efektler, sadece bir piksel tabanlı yaklaşımla gerçekçi bir şekilde ele alınabilir.
+
+Bazı durumlarda, bu tekniklerin birkaçını birleştirmek isteyebilirsiniz. Örneğin, bir ((grafik))i ((SVG)) veya ((canvas)) ile çizebilir, ancak resmin üzerinde bir HTML öğesi konumlandırarak ((metin))sel bilgileri gösterebilirsiniz.
 
 {{index display}}
 
-For nondemanding applications, it really doesn't matter much which interface you choose. The display we built for our game in this chapter could have been implemented using any of these three ((graphics)) technologies, since it does not need to draw text, handle mouse interaction, or work with an extraordinarily large number of elements.
+Düşük gereksinimli uygulamalarda, hangi arayüzü seçeceğiniz gerçekten çok önemli değildir. Bu bölümde oyunumuz için oluşturduğumuz görüntüleme, metin çizmeye, fare etkileşimini işlemeye veya olağanüstü büyük sayıda öğe ile çalışmaya gerek duymadığı için, bu üç ((grafik)) teknolojisinden herhangi biri kullanılarak uygulanabilirdi.
 
-## Summary
+## Özet
 
-In this chapter we discussed techniques for drawing graphics in the browser, focusing on the `<canvas>` element.
+Bu bölümde, tarayıcıda grafik çizme tekniklerini, özellikle `<canvas>` öğesine odaklanarak ele aldık.
 
-A canvas node represents an area in a document that our program may draw on. This drawing is done through a drawing context object, created with the `getContext` method.
+Bir canvas düğümü, programımızın üzerinde çizebileceği bir belge alanını temsil eder. Bu çizim, `getContext` metodu ile oluşturulan bir çizim bağlamı nesnesi aracılığıyla yapılır.
 
-The 2D drawing interface allows us to fill and stroke various shapes. The context's `fillStyle` property determines how shapes are filled. The `strokeStyle` and `lineWidth` properties control the way lines are drawn.
+2D çizim arayüzü, çeşitli şekilleri doldurmamıza ve çizmemize olanak tanır. Bağlamın `fillStyle` özelliği, şekillerin nasıl doldurulacağını belirler. `strokeStyle` ve `lineWidth` özellikleri, çizgilerin nasıl çizileceğini kontrol eder.
 
-Rectangles and pieces of text can be drawn with a single method call. The `fillRect` and `strokeRect` methods draw rectangles, and the `fillText` and `strokeText` methods draw text. To create custom shapes, we must first build up a path.
+Dikdörtgenler ve metin parçaları tek bir metod çağrısı ile çizilebilir. `fillRect` ve `strokeRect` metodları dikdörtgenleri çizer, `fillText` ve `strokeText` metodları ise metin çizer. Özel şekiller oluşturmak için önce bir yol oluşturmamız gerekir.
 
 {{index stroking, filling}}
 
-Calling `beginPath` starts a new path. A number of other methods add lines and curves to the current path. For example, `lineTo` can add a straight line. When a path is finished, it can be filled with the `fill` method or stroked with the `stroke` method.
+`beginPath` çağrısı, yeni bir yol başlatır. Bir dizi başka metod, mevcut yola çizgiler ve eğriler ekler. Örneğin, `lineTo` düz bir çizgi ekleyebilir. Bir yol tamamlandığında, `fill` metodu ile doldurulabilir veya `stroke` metodu ile çizilebilir.
 
-Moving pixels from an image or another canvas onto our canvas is done with the `drawImage` method. By default, this method draws the whole source image, but by giving it more parameters, you can copy a specific area of the image. We used this for our game by copying individual poses of the game character out of an image that contained many such poses.
+Bir görüntüden veya başka bir canvastan pikselleri canvasımıza taşımak `drawImage` metodu ile yapılır. Varsayılan olarak, bu metot tüm kaynak görüntüyü çizer, ancak ona daha fazla parametre vererek görüntünün belirli bir alanını kopyalayabilirsiniz. Oyunumuzda, bu yöntemi, birden fazla poz içeren bir görüntüden oyun karakterinin tek tek pozlarını kopyalamak için kullandık.
 
-Transformations allow you to draw a shape in multiple orientations. A 2D drawing context has a current transformation that can be changed with the `translate`, `scale`, and `rotate` methods. These will affect all subsequent drawing operations. A transformation state can be saved with the `save` method and restored with the `restore` method.
+Dönüşümler, bir şekli birden fazla yönde çizmenize olanak tanır. Bir 2D çizim bağlamı, `translate`, `scale` ve `rotate` metodları ile değiştirilebilen mevcut bir dönüşüme sahiptir. Bu, sonraki tüm çizim işlemlerini etkiler. Bir dönüşüm durumu `save` metodu ile kaydedilebilir ve `restore` metodu ile geri yüklenebilir.
 
-When showing an animation on a canvas, the `clearRect` method can be used to clear part of the canvas before redrawing it.
+Canvas üzerinde bir animasyon gösterilirken, yeniden çizmeden önce canvasın bir kısmını temizlemek için `clearRect` metodu kullanılabilir.
 
-## Exercises
+## Egzersizler
 
-### Shapes
+### Şekiller
 
 {{index "shapes (exercise)"}}
 
-Write a program that draws the following ((shape))s on a ((canvas)):
+Aşağıdaki ((şekil))leri bir ((canvas)) üzerine çizen bir program yazın:
 
 {{index rotation}}
 
-1. A ((trapezoid)) (a ((rectangle)) that is wider on one side)
+1. Bir ((trapezoid)) (bir tarafı daha geniş olan bir ((dikdörtgen)))
 
-2. A red ((diamond)) (a rectangle rotated 45 degrees or ¼π radians)
+2. Kırmızı bir ((elmas)) (45 derece veya ¼π radyan döndürülmüş bir dikdörtgen)
 
-3. A zigzagging ((line))
+3. Zigzag şeklinde bir ((çizgi))
 
-4. A ((spiral)) made up of 100 straight line segments
+4. 100 düz çizgi parçasından oluşan bir ((spiral))
 
-5. A yellow ((star))
+5. Sarı bir ((yıldız))
 
-{{figure {url: "img/exercise_shapes.png", alt: "Picture showing the shapes you are asked to draw", width: "8cm"}}}
+{{figure {url: "img/exercise_shapes.png", alt: "Çizmeniz istenen şekilleri gösteren resim", width: "8cm"}}}
 
-When drawing the last two shapes, you may want to refer to the explanation of `Math.cos` and `Math.sin` in [Chapter ?](dom#sin_cos), which describes how to get coordinates on a circle using these functions.
+Son iki şekli çizerken, bu fonksiyonları kullanarak bir çember üzerindeki koordinatları nasıl elde edeceğinizi açıklayan [bölüm ?](dom#sin_cos) içindeki `Math.cos` ve `Math.sin` açıklamasına başvurmak isteyebilirsiniz.
 
 {{index readability, "hardcoding"}}
 
-I recommend creating a function for each shape. Pass the position, and optionally other properties such as the size or the number of points, as parameters. The alternative, which is to hardcode numbers all over your code, tends to make the code needlessly hard to read and modify.
+Her şekil için bir fonksiyon oluşturmanızı öneririm. Pozisyonu ve isteğe bağlı olarak boyut veya nokta sayısı gibi diğer özellikleri parametre olarak geçirin. Alternatif olarak, kodunuzda her yere sabit sayılar yazmak, kodu gereksiz yere okunması ve değiştirilmesi zor hale getirme eğilimindedir.
 
 {{if interactive
 
@@ -939,35 +943,35 @@ if}}
 
 {{index [path, canvas], "shapes (exercise)"}}
 
-The ((trapezoid)) (1) is easiest to draw using a path. Pick suitable center coordinates and add each of the four corners around the center.
+((Trapezoid)) (1) bir yol kullanılarak çizilmesi en kolay olanıdır. Uygun merkez koordinatlarını seçin ve merkezin etrafına dört köşeyi ekleyin.
 
 {{index "flipHorizontally function", rotation}}
 
-The ((diamond)) (2) can be drawn the straightforward way, with a path, or the interesting way, with a `rotate` ((transformation)). To use rotation, you will have to apply a trick similar to what we did in the `flipHorizontally` function. Because you want to rotate around the center of your rectangle and not around the point (0, 0), you must first `translate` to there, then rotate, and then translate back.
+((Diamond)) (2) bir yol ile doğrudan veya ilginç bir şekilde `rotate` ((dönüşüm))ü kullanarak çizilebilir. Dönüşüm kullanmak için, `flipHorizontally` fonksiyonunda yaptığımıza benzer bir hile uygulamanız gerekecek. Dikdörtgeninizin merkezi etrafında ve (0,0) noktası etrafında döndürmek istemediğinizden, önce oraya `translate` yapmalı, sonra döndürmeli ve ardından geri `translate` yapmalısınız.
 
-Make sure you reset the transformation after drawing any shape that creates one.
+Herhangi bir şekil çizdikten sonra, oluşturulan dönüşümün sıfırlandığından emin olun.
 
 {{index "remainder operator", "% operator"}}
 
-For the ((zigzag)) (3) it becomes impractical to write a new call to `lineTo` for each line segment. Instead, you should use a ((loop)). You can have each iteration draw either two ((line)) segments (right and then left again) or one, in which case you must use the evenness (`% 2`) of the loop index to determine whether to go left or right.
+((Zigzag)) (3) için, her bir çizgi parçası için yeni bir `lineTo` çağrısı yazmak pratik olmaz. Bunun yerine bir ((döngü)) kullanmalısınız. Her yineleme iki ((çizgi)) segmenti (önce sağa, sonra tekrar sola) çizebilir veya bir segment çizebilir; bu durumda döngü indeksinin çiftliğini (`% 2`) kullanarak sola mı yoksa sağa mı gideceğinizi belirlemelisiniz.
 
-You'll also need a loop for the ((spiral)) (4). If you draw a series of points, with each point moving farther along a circle around the spiral's center, you get a circle. If, during the loop, you vary the radius of the circle on which you are putting the current point and go around more than once, the result is a spiral.
+((Spiral)) (4) için de bir döngüye ihtiyacınız olacak. Eğer spiral merkezinin etrafında bir daire boyunca ilerleyen bir dizi nokta çizerseniz, bir daire elde edersiniz. Döngü sırasında, mevcut noktayı koyduğunuz dairenin yarıçapını değiştirir ve birden fazla kez çevirirseniz, sonuç bir spiral olur.
 
 {{index "quadraticCurveTo method"}}
 
-The ((star)) (5) depicted is built out of `quadraticCurveTo` lines. You could also draw one with straight lines. Divide a circle into eight pieces for a star with eight points, or however many pieces you want. Draw lines between these points, making them curve toward the center of the star. With `quadraticCurveTo`, you can use the center as the control point.
+Görseldeki ((yıldız)) (5), `quadraticCurveTo` çizgilerinden oluşmuştur. Düz çizgilerle de bir yıldız çizebilirsiniz. Sekiz noktaya sahip bir yıldız için bir çemberi sekiz parçaya bölün veya istediğiniz kadar parça yapın. Bu noktalar arasında çizgiler çizin, onları yıldızın merkezine doğru eğin. `quadraticCurveTo` ile merkezi kontrol noktası olarak kullanabilirsiniz.
 
 hint}}
 
 {{id exercise_pie_chart}}
 
-### The pie chart
+### Pasta grafiği
 
 {{index label, text, "pie chart example"}}
 
-[Earlier](canvas#pie_chart) in the chapter, we saw an example program that drew a pie chart. Modify this program so that the name of each category is shown next to the slice that represents it. Try to find a pleasing-looking way to automatically position this text that would work for other datasets as well. You may assume that categories are big enough to leave enough room for their labels.
+Bölümün [daha önceki](canvas#pie_chart) kısmında, bir pasta grafiği çizen örnek bir program gördük. Bu programı, her kategorinin adının, onu temsil eden dilimin yanında gösterilecek şekilde değiştireceğiz. Diğer veri setleri için de işe yarayacak, hoş görünümlü bir yol bulmaya çalışın. Kategorilerin, etiketleri için yeterince alan bırakacak kadar büyük olduğunu varsayabilirsiniz.
 
-You might need `Math.sin` and `Math.cos` again, which are described in [Chapter ?](dom#sin_cos).
+Yine `Math.sin` ve `Math.cos` fonksiyonlarına ihtiyaç duyabilirsiniz; bu fonksiyonlar [bölüm ?](dom#sin_cos) içinde açıklanmıştır.
 
 {{if interactive
 
@@ -1000,11 +1004,11 @@ if}}
 
 {{index "fillText method", "textAlign property", "textBaseline property", "pie chart example"}}
 
-You will need to call `fillText` and set the context's `textAlign` and `textBaseline` properties in such a way that the text ends up where you want it.
+Etiketlerin konumlandırılması için `fillText` çağırmanız ve bağlamın `textAlign` ve `textBaseline` özelliklerini metnin istediğiniz yerde olması için ayarlamanız gerekecek.
 
-A sensible way to position the labels would be to put the text on the line going from the center of the pie through the middle of the slice. You don't want to put the text directly against the side of the pie but rather move the text out to the side of the pie by a given number of pixels.
+Etiketleri konumlandırmanın mantıklı bir yolu, metni pastanın merkezinden dilimin ortasından geçen çizgi üzerinde yerleştirmek olacaktır. Metni pastanın yanına doğrudan koymak yerine, pastanın kenarından belirli bir piksel sayısı kadar dışarı taşımak isteyebilirsiniz.
 
-The ((angle)) of this line is `currentAngle + 0.5 * sliceAngle`. The following code finds a position on this line 120 pixels from the center:
+Bu çizginin ((açısı)) `currentAngle + 0.5 * sliceAngle` şeklindedir. Aşağıdaki kod, merkezden 120 piksel uzaklıkta bu çizgi üzerindeki bir konumu bulur:
 
 ```{test: no}
 let middleAngle = currentAngle + 0.5 * sliceAngle;
@@ -1012,19 +1016,19 @@ let textX = Math.cos(middleAngle) * 120 + centerX;
 let textY = Math.sin(middleAngle) * 120 + centerY;
 ```
 
-For `textBaseline`, the value `"middle"` is probably appropriate when using this approach. What to use for `textAlign` depends on which side of the circle we are on. On the left, it should be `"right"`, and on the right, it should be `"left"`, so that the text is positioned away from the pie.
+`textBaseline` için `"middle"` değeri, bu yaklaşımı kullanırken muhtemelen uygun olacaktır. `textAlign` için hangi değerin kullanılacağı, çemberin hangi tarafında olduğumuza bağlıdır. Sol tarafta, `"right"` kullanılmalı ve sağ tarafta `"left"` kullanılmalı, böylece metin pastadan uzağa konumlandırılır.
 
 {{index "Math.cos function"}}
 
-If you are not sure how to find out which side of the circle a given angle is on, look to the explanation of `Math.cos` in [Chapter ?](dom#sin_cos). The cosine of an angle tells us which x-coordinate it corresponds to, which in turn tells us exactly which side of the circle we are on.
+Belirli bir açının çemberin hangi tarafında olduğunu nasıl bulacağınızdan emin değilseniz, [bölüm ?](dom#sin_cos) içindeki `Math.cos` açıklamasına bakabilirsiniz. Bir açının kosinüsü, hangi x-koordinatına karşılık geldiğini ve dolayısıyla tam olarak çemberin hangi tarafında olduğumuzu bize bildirir.
 
 hint}}
 
-### A bouncing ball
+### Zıplayan bir top
 
 {{index [animation, "bouncing ball"], "requestAnimationFrame function", bouncing}}
 
-Use the `requestAnimationFrame` technique that we saw in [Chapter ?](dom#animationFrame) and [Chapter ?](game#runAnimation) to draw a ((box)) with a bouncing ((ball)) in it. The ball moves at a constant ((speed)) and bounces off the box's sides when it hits them.
+[Bölüm ?](dom#animationFrame) ve [bölüm ?](game#runAnimation) içinde gördüğümüz `requestAnimationFrame` tekniğini kullanarak bir ((kutu)) içinde zıplayan bir ((top)) çizin. Top sabit bir ((hız))da hareket eder ve kutunun kenarlarına çarptığında sekerek geri döner.
 
 {{if interactive
 
@@ -1055,37 +1059,36 @@ if}}
 
 {{index "strokeRect method", animation, "arc method"}}
 
-A ((box)) is easy to draw with `strokeRect`. Define a binding that holds its size, or define two bindings if your box's width and height differ. To create a round ((ball)), start a path and call `arc(x, y, radius, 0, 7)`, which creates an arc going from zero to more than a whole circle. Then fill the path.
+Bir ((kutu)) `strokeRect` ile kolayca çizilebilir. Kutu genişliği ve yüksekliği farklıysa, boyutunu tutan bir bağlama veya iki bağlama tanımlayın. Yuvarlak bir ((top)) oluşturmak için bir yol başlatın ve `arc(x, y, radius, 0, 7)` çağrısı yapın; bu, sıfırdan tam bir çemberden daha fazlasına kadar bir yay oluşturur. Ardından yolu doldurun.
 
 {{index "collision detection", "Vec class"}}
 
-To model the ball's position and ((speed)), you can use the `Vec` class from [Chapter ?](game#vector)[ (which is available on this page)]{if interactive}. Give it a starting speed, preferably one that is not purely vertical or horizontal, and for every ((frame)) multiply that speed by the amount of time that elapsed. When the ball gets too close to a vertical wall, invert the _x_ component in its speed. Likewise, invert the _y_ component when it hits a horizontal wall.
+Topun konumunu ve ((hızını)) modellemek için [bölüm ?](game#vector) içindeki `Vec` sınıfını kullanabilirsiniz [(bu sayfada mevcuttur)]{if interactive}. Başlangıçta, tercihen tamamen dikey veya yatay olmayan bir hız verin ve her ((kare))de bu hızı geçen zaman miktarıyla çarpın. Top dikey bir duvara çok yaklaştığında, hızının x bileşenini ters çevirin. Aynı şekilde, yatay bir duvara çarptığında y bileşenini ters çevirin.
 
 {{index "clearRect method", clearing}}
 
-After finding the ball's new position and speed, use `clearRect` to delete the scene and redraw it using the new position.
+Topun yeni konumunu ve hızını bulduktan sonra, sahneyi silmek için `clearRect` kullanın ve yeni konumunu kullanarak sahneyi yeniden çizin.
 
 hint}}
 
-### Precomputed mirroring
+### Önceden hesaplanmış yansıtma
 
 {{index optimization, "bitmap graphics", mirror}}
 
-One unfortunate thing about ((transformation))s is that they slow down the drawing of bitmaps. The position and size of each ((pixel)) have to be transformed, and though it is possible that ((browser))s will get cleverer about transformation in the ((future)), they currently cause a measurable increase in the time it takes to draw a bitmap.
+Dönüşümlerin (transformations) talihsiz bir yanı, bit eşlemlerinin (bitmaps) çizimini yavaşlatmalarıdır. Her ((piksel))in konumu ve boyutu dönüştürülmek zorundadır ve ((gelecekte)) tarayıcıların dönüşüm konusunda daha akıllı hale gelmesi mümkün olsa da, şu anda bu işlem bir bit eşlem çizmek için geçen sürede ölçülebilir bir artışa neden olur.
 
-In a game like ours, where we are drawing only a single transformed sprite, this is a nonissue. But imagine that we need to draw hundreds of characters or thousands of rotating particles from an explosion.
+Bizimki gibi sadece tek bir dönüştürülmüş sprite çizen bir oyunda bu bir sorun değildir. Ancak, yüzlerce karakter veya bir patlamadan gelen binlerce dönen parçacık çizmemiz gerektiğini hayal edin.
 
-Think of a way to draw an inverted character without loading additional image files and without having to make transformed `drawImage` calls every frame.
+Ek resim dosyaları yüklemeden ve her karede dönüştürülmüş `drawImage` çağrıları yapmadan ters çevrilmiş bir karakter çizmenin bir yolunu düşünün.
 
 {{hint
 
 {{index mirror, scaling, "drawImage method"}}
 
-The key to the solution is the fact that we can use a ((canvas)) element as a source image when using `drawImage`. It is possible to create an extra `<canvas>` element, without adding it to the document, and draw our inverted sprites to it, once. When drawing an actual frame, we just copy the already inverted sprites to the main canvas.
+Çözümün anahtarı, `drawImage` kullanırken bir ((canvas)) öğesini kaynak resim olarak kullanabilmemizdir. Belgeye eklemeden, ek bir `<canvas>` öğesi oluşturmak ve ters çevrilmiş sprite'larımızı bir kez ona çizmek mümkündür. Gerçek bir kare çizerken, sadece önceden ters çevrilmiş sprite'ları ana canvas'a kopyalarız.
 
 {{index "load event"}}
 
-Some care would be required because images do not load instantly. We do the inverted drawing only once, and if we do it before the image loads, it won't draw anything. A `"load"` handler on the image can be used to draw the inverted images to the extra canvas. This canvas can be used as a drawing source immediately (it'll simply be blank until we draw the character onto it).
+Dikkat edilmesi gereken bazı noktalar vardır, çünkü görüntüler anında yüklenmez. Ters çevrilmiş çizim işlemi yalnızca bir kez yapılır ve eğer görüntü yüklenmeden önce yaparsak, hiçbir şey çizilmeyecektir. Görüntü üzerine bir `"load"` olay işleyicisi yerleştirilebilir ve bu, ters çevrilmiş görüntüleri ek canvas'a çizebilir. Bu canvas, hemen bir çizim kaynağı olarak kullanılabilir (karakteri üzerine çizene kadar sadece boş olacaktır).
 
 hint}}
-

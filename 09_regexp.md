@@ -835,19 +835,19 @@ Düzenli ifadeler, dizelerdeki kalıpları temsil eden nesnelerdir. Bu kalıplar
 | `/[^abc]/` | Bir karakter kümesinde _olmayan_ herhangi bir karakter
 | `/[0-9]/` | Belirli bir karakter aralığındaki herhangi bir karakter
 | `/x+/` | `'x'` kalıbının bir veya daha fazla tekrarı
-| `/x+?/` | 'x'`kalıbının açgözlü olmayan bir veya daha fazla belirişi
-|`/x\*/`     | Sıfır veya daha fazla beliriş
-|`/x?/`     | Sıfır veya bir beliriş
+| `/x+?/` | `'x'`kalıbının açgözlü olmayan bir veya daha fazla belirişi
+|`/x\*/` | Sıfır veya daha fazla beliriş
+|`/x?/` | Sıfır veya bir beliriş
 |`/x{2,4}/` | İkiden dörde kadar beliriş
-|`/(abc)/`  | Bir grup
-|`/a|b|c/`  | Kalıplardan bir tanesi
-|`/\d/`     | Herhangi bir rakam karakteri
-|`/\w/`     | Alfasayısal bir karakter ("kelime karakteri")
-|`/\s/`     | Herhangi bir boşluk karakteri
-|`/./`      | Yeni satır dışında herhangi bir karakter
+|`/(abc)/` | Bir grup
+|`/a|b|c/` | Kalıplardan bir tanesi
+|`/\d/` | Herhangi bir rakam karakteri
+|`/\w/` | Alfasayısal bir karakter ("kelime karakteri")
+|`/\s/` | Herhangi bir boşluk karakteri
+|`/./` | Yeni satır dışında herhangi bir karakter
 |`/\p{L}/u` | Herhangi bir harf karakter
-|`/^/`      | Girdi başlangıcı
-|`/$/`      | Girdi sonu
+|`/^/` | Girdi başlangıcı
+|`/$/` | Girdi sonu
 |`/(?=a)/` | İleri görüşlü bir test
 
 Düzenli ifade, verilen bir dizenin onunla eşleşip eşleşmediğini test etmek için `test` metoduna sahiptir. Ayrıca, bir eşleşme bulunduğunda, tüm eşleşen grupları içeren bir dizi döndüren `exec` adında bir metod da vardır. Böyle bir dizi, eşleşmenin nerede başladığını gösteren bir `index` özelliğine sahiptir.

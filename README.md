@@ -1,6 +1,6 @@
 # Eloquent JavaScript
 
-These are the sources used to build the third edition of Eloquent
+These are the sources used to build the fourth edition of Eloquent
 JavaScript (https://eloquentjavascript.net).
 
 Feedback welcome, in the form of issues and pull requests.
@@ -18,7 +18,7 @@ set up is a pain):
 
     apt-get install texlive texlive-xetex fonts-inconsolata fonts-symbola texlive-lang-chinese inkscape
     make book.pdf
-
+    
 ## Translating
 
 Translations are very much welcome. The license this book is published

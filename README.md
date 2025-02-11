@@ -18,7 +18,7 @@ set up is a pain):
 
     apt-get install texlive texlive-xetex fonts-inconsolata fonts-symbola texlive-lang-chinese inkscape
     make book.pdf
-    
+
 ## Translating
 
 Translations are very much welcome. The license this book is published

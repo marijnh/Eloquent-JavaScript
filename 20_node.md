@@ -4,54 +4,54 @@
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-A student asked, 'The programmers of old used only simple machines and no programming languages, yet they made beautiful programs. Why do we use complicated machines and programming languages?' Fu-Tzu replied, 'The builders of old used only sticks and clay, yet they made beautiful huts.'
+Bir öğrenci sordu: "Eski programcılar yalnızca basit makineler ve programlama dilleri kullanmadan güzel programlar yaptılar. Neden karmaşık makineler ve programlama dilleri kullanıyoruz?" Fu-Tzu cevap verdi: "Eski inşaatçılar yalnızca çubuklar ve kili kullanarak güzel kulübeler yaptılar."
 
 quote}}
 
 {{index "Yuan-Ma", "Book of Programming"}}
 
-{{figure {url: "img/chapter_picture_20.jpg", alt: "Illustration showing a telephone pole with a tangle of wires going in all directions", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_20.jpg", alt: "Bir telefon direği üzerinde dört bir yana karmaşık şekilde dağılmış tellerin gösterildiği bir illüstrasyon.", chapter: "framed"}}}
 
 {{index "command line"}}
 
-So far, we've used the JavaScript language in a single environment: the browser. This chapter and the [next one](skillsharing) will briefly introduce ((Node.js)), a program that allows you to apply your JavaScript skills outside of the browser. With it, you can build anything from small command line tools to HTTP ((server))s that power dynamic ((website))s.
+Şu ana kadar yalnızca tarayıcı ortamında JavaScript dilini kullandık. Bu bölüm ve [bir sonraki bölüm](skillsharing), JavaScript becerilerinizi tarayıcı dışında da kullanmanıza olanak tanıyan `((Node.js))` adında bir programı kısa bir şekilde tanıtacaktır. Bu araç sayesinde, küçük komut satırı araçlarından dinamik `((website))`leri çalıştıran HTTP `((server))`lerine kadar birçok şeyi oluşturabilirsiniz.
 
-These chapters aim to teach you the main concepts that Node.js uses and to give you enough information to write useful programs for it. They do not try to be a complete, or even a thorough, treatment of the platform.
+Bu bölümler, Node.js’in temel konseptlerini öğretmeyi amaçlıyor ve bu platformda faydalı programlar yazmak için yeterli bilgi sağlıyor. Platformun tam ve kapsamlı bir açıklamasını hedeflemiyor.
 
 {{if interactive
 
-Whereas you could run the code in previous chapters directly on these pages, because it was either raw JavaScript or written for the browser, the code samples in this chapter are written for Node and often won't run in the browser.
+Önceki bölümlerdeki kodu doğrudan bu sayfalarda çalıştırabiliyordunuz çünkü ya ham JavaScript'ti ya da tarayıcı için yazılmıştı; ancak bu bölümdeki örnekler Node için yazılmış durumda ve genellikle tarayıcıda çalıştırılamazlar.
 
 if}}
 
-If you want to follow along and run the code in this chapter, you'll need to install Node.js version 18 or higher. To do so, go to [_https://nodejs.org_](https://nodejs.org) and follow the installation instructions for your operating system. You can also find further ((documentation)) for Node.js there.
+Bu bölümü takip edip örnek kodları çalıştırmak isterseniz, Node.js sürüm 18 veya daha üstünü yüklemeniz gerekiyor. Bunu yapmak için [_https://nodejs.org_](https://nodejs.org) adresine gidin ve işletim sisteminize uygun yükleme talimatlarını takip edin. Ayrıca Node.js için daha fazla `((documentation))` bilgisine de buradan ulaşabilirsiniz.
 
-## Background
+## Arka Plan
 
 {{index responsiveness, input, [network, speed]}}
 
-When building systems that communicate over the network, the way you manage input and ((output))—that is, the reading and writing of data to and from the network and ((hard drive))—can make a big difference in how quickly a system responds to the user or to network requests.
+Ağ üzerinden iletişim kuran sistemler yazarken yaşanan en zor sorunlardan biri, giriş ve `((output))` yönetimidir—yani ağdan ve ağlara veri okuma ve yazma işlemleriyle `((hard drive))` arasındaki veri taşınması. Verileri taşımak zaman alır ve bunu akıllıca `((scheduling))` yapmak, bir sistemin kullanıcıya ya da ağ isteklerine yanıt verme hızında büyük fark yaratabilir.
 
 {{index ["asynchronous programming", "in Node.js"]}}
 
-In such programs, asynchronous programming is often helpful. It allows the program to send and receive data from and to multiple devices at the same time without complicated thread management and synchronization.
+Bu tür programlarda asenkron programlama genellikle yardımcıdır. Asenkron programlama, karmaşık thread yönetimi ve senkronizasyon olmadan aynı anda birden fazla cihazdan veri alıp göndermeyi sağlar.
 
 {{index "programming language", "Node.js", standard}}
 
-Node was initially conceived for the purpose of making asynchronous programming easy and convenient. JavaScript lends itself well to a system like Node. It is one of the few programming languages that does not have a built-in way to do input and output. Thus, JavaScript could be fit onto Node's rather eccentric approach to network and filesystem programming without ending up with two inconsistent interfaces. In 2009, when Node was being designed, people were already doing callback-based programming in the browser, so the ((community)) around the language was used to an asynchronous programming style.
+Node, başlangıçta asenkron programlamayı kolay ve kullanışlı hale getirmek amacıyla tasarlandı. JavaScript, Node gibi bir sistem için uygundur. JavaScript, yerleşik bir giriş-çıkış yöntemi bulunmayan nadir programlama dillerinden biridir. Böylece, JavaScript'in, Node'un giriş-çıkış açısından biraz sıra dışı yaklaşımına uyarlanması, iki tutarsız arayüzün ortaya çıkmasına sebep olmadan gerçekleştirilmiştir. 2009'da Node tasarlandığında, tarayıcıda zaten geri çağırma tabanlı programlamalar yapan insanlar vardı, bu nedenle ((community)), dilin asenkron programlama tarzına alışkındı.
 
-## The node command
+## Node Komutu
 
 {{index "node program"}}
 
-When ((Node.js)) is installed on a system, it provides a program called `node`, which is used to run JavaScript files. Say you have a file `hello.js`, containing this code:
+Bir sistemde ((Node.js)) kurulduğunda, JavaScript dosyalarını çalıştırmak için kullanılan `node` adında bir program sağlar. Diyelim ki `hello.js` adında bir dosyanız var ve şu kodu içeriyor:
 
 ```
 let message = "Hello world";
 console.log(message);
 ```
 
-You can then run `node` from the ((command line)) like this to execute the program:
+`node` komutunu şu şekilde kullanabilirsiniz:
 
 ```{lang: null}
 $ node hello.js
@@ -60,11 +60,11 @@ Hello world
 
 {{index "console.log"}}
 
-The `console.log` method in Node does something similar to what it does in the browser. It prints out a piece of text. But in Node, the text will go to the process's ((standard output)) stream rather than to a browser's ((JavaScript console)). When running `node` from the command line, that means you see the logged values in your ((terminal)).
+Node'daki `console.log` metodu, tarayıcıda yaptığı işlemlerle benzer şekilde çalışır. Bir metni ekrana yazdırır. Ancak Node'da bu yazdırılan metin, tarayıcının ((JavaScript console)) yerine işlemin ((standart çıktı)) akışına gider. `node` komutunu komut satırından çalıştırdığınızda, bu durumda yazdırılan değerleri ((terminal)) üzerinde görürsünüz.
 
 {{index "node program", "read-eval-print loop"}}
 
-If you run `node` without giving it a file, it provides you with a prompt at which you can type JavaScript code and immediately see the result.
+Eğer `node` komutunu bir dosya vermeden çalıştırırsanız, JavaScript kodu yazabileceğiniz bir istemci (prompt) sağlanır ve yazdığınız kodun sonucunu anında görebilirsiniz.
 
 ```{lang: null}
 $ node
@@ -78,11 +78,11 @@ $
 
 {{index "process object", "global scope", [binding, global], "exit method", "status code"}}
 
-The `process` binding, just like the `console` binding, is available globally in Node. It provides various ways to inspect and manipulate the current program. The `exit` method ends the process and can be given an exit status code, which tells the program that started `node` (in this case, the command line shell) whether the program completed successfully (code zero) or encountered an error (any other code).
+`process` bağlaması, `console` bağlaması gibi Node'da küresel olarak mevcut bir bağlamadır. Mevcut programı incelemek ve manipüle etmek için çeşitli yöntemler sunar. `exit` metodu, işlemi sonlandırır ve bir çıkış durumu kodu verilebilir. Bu durum kodu, `node` komutunu başlatan programa (bu örnekte komut satırı kabuğu) işlemin başarılı bir şekilde tamamlandığını (kod sıfır) ya da bir hata ile karşılaştığını (başka bir kod) belirtir.
 
 {{index "command line", "argv property"}}
 
-To find the command line arguments given to your script, you can read `process.argv`, which is an array of strings. Note that it also includes the name of the `node` command and your script name, so the actual arguments start at index 2. If `showargv.js` contains the statement `console.log(process.argv)`, you could run it like this:
+Komut dosyanıza verilen komut satırı argümanlarını bulmak için, dizelerden oluşan bir dizi olan `process.argv` dosyasını okuyabilirsiniz. Bu dizinin `node` komutunun adını ve komut dosyanızın adını da içerdiğini, dolayısıyla gerçek argümanların 2. dizinden başladığını unutmayın. Eğer `showargv.js` `console.log(process.argv)` ifadesini içeriyorsa, bunu şu şekilde çalıştırabilirsiniz:
 
 ```{lang: null}
 $ node showargv.js one --and two
@@ -91,38 +91,38 @@ $ node showargv.js one --and two
 
 {{index [binding, global]}}
 
-All the ((standard)) JavaScript global bindings, such as `Array`, `Math`, and `JSON`, are also present in Node's environment. Browser-related functionality, such as `document` or `prompt`, is not.
+`Array`, `Math` ve `JSON` gibi tüm ((standart)) JavaScript global bağları Node ortamında da mevcuttur. Tarayıcı ile ilgili `document` veya `prompt` gibi işlevler ise mevcut değildir.
 
-## Modules
+## Modüller
 
 {{index "Node.js", "global scope", "module loader"}}
 
-Beyond the bindings I mentioned, such as `console` and `process`, Node puts few additional bindings in the global scope. If you want to access built-in functionality, you have to ask the module system for it.
+Bahsettiğim `console` ve `process` gibi bağlayıcıların ötesinde, Node global kapsama birkaç ek bağlayıcı koyar. Yerleşik işlevselliğe erişmek istiyorsanız, modül sisteminden bunu istemeniz gerekir.
 
 {{index "require function"}}
 
-Node started out using the ((CommonJS)) module system, based on the `require` function, which we saw in [Chapter ?](modules#commonjs). It will still use this system by default when you load a `.js` file.
+Node, [Bölüm ?](modules#commonjs)'de gördüğümüz `require` fonksiyonuna dayanan ((CommonJS)) modül sistemini kullanmaya başladı. Bir `.js` dosyası yüklediğinizde varsayılan olarak bu sistemi kullanmaya devam edecektir.
 
 {{index "import keyword", "ES modules"}}
 
-But today, Node also supports the more modern ES module system. When a script's filename ends in `.mjs`, it is considered to be such a module, and you can use `import` and `export` in it (but not `require`). We will use ES modules in this chapter.
+Ancak daha modern ES modül sistemini de destekler. Bir betiğin dosya adı `.mjs` ile bitiyorsa, böyle bir modül olarak kabul edilir ve içinde `import` ve `export` kullanabilirsiniz (ancak `require` kullanamazsınız). Bu bölümde ES modüllerini kullanacağız.
 
 {{index [path, "filesystem"], "relative path", resolution}}
 
-When importing a module—whether with `require` or `import`—Node has to resolve the given string to an actual ((file)) that it can load. Names that start with `/`, `./`, or `../` are resolved as files, relative to the current module's path. Here, `.` stands for the current directory, `../` for one directory up, and `/` for the root of the filesystem. If you ask for `"./graph.mjs"` from the file `/tmp/robot/robot.mjs`, Node will try to load the file `/tmp/robot/graph.mjs`.
+Bir modülü içe aktarırken -ister `require` ister `import` ile olsun-Node, verilen dizeyi yükleyebileceği gerçek bir ((dosya)) olarak çözümlemek zorundadır. `/`, `./` veya `../` ile başlayan isimler, geçerli modülün yoluna göre dosya olarak çözümlenir. Burada `.` geçerli dizini, `../` bir dizin yukarıyı ve `/` dosya sisteminin kökünü temsil eder. Yani `/tmp/robot/robot.mjs` dosyasından `“./graph.mjs”` isterseniz, Node `/tmp/robot/graph.mjs` dosyasını yüklemeye çalışacaktır.
 
 {{index "node_modules directory", directory}}
 
-When a string that does not look like a relative or absolute path is imported, it is assumed to refer to either a built-in ((module)) or a module installed in a `node_modules` directory. For example, importing from `"node:fs"` will give you Node's built-in filesystem module. Importing `"robot"` might try to load the library found in `node_modules/robot/`. It's common to install such libraries using ((NPM)), which we'll return to in a moment.
+Göreceli veya mutlak yol gibi görünmeyen bir dize içe aktarıldığında, yerleşik ((modül)) veya `node_modules` dizininde yüklü bir modüle başvurduğu varsayılır. Örneğin, `“node:fs”` modülünü içe aktarmak size Node'un yerleşik dosya sistemi modülünü verecektir. Ve `“robot”` içe aktarıldığında `node_modules/robot/` dizininde bulunan kütüphane yüklenmeye çalışılabilir. Bu tür kütüphaneleri yüklemenin yaygın bir yolu, birazdan geri döneceğimiz ((NPM)) kullanmaktır.
 
 {{index "import keyword", "Node.js", "garble example"}}
 
-Let's set up a small project consisting of two files. The first one, called `main.mjs`, defines a script that can be called from the ((command line)) to reverse a string.
+İki dosyadan oluşan küçük bir proje kuralım. Bunlardan ilki olan `main.mjs`, bir dizeyi tersine çevirmek için ((komut satırından)) çağrılabilecek bir betik tanımlar.
 
 ```
 import {reverse} from "./reverse.mjs";
 
-// Index 2 holds the first actual command line argument
+// Index 2 ilk gerçek komut satırı argümanını tutar
 let argument = process.argv[2];
 
 console.log(reverse(argument));
@@ -130,7 +130,7 @@ console.log(reverse(argument));
 
 {{index reuse, "Array.from function", "join method"}}
 
-The file `reverse.mjs` defines a library for reversing strings, which can be used both by this command line tool and by other scripts that need direct access to a string-reversing function.
+The `reverse.mjs` file defines a library for string reversal that can be used both by this command line tool and by other scripts that need direct access to string reversal functionality.
 
 ```
 export function reverse(string) {
@@ -140,24 +140,24 @@ export function reverse(string) {
 
 {{index "export keyword", "ES modules", [interface, module]}}
 
-Remember that `export` is used to declare that a binding is part of the module's interface. That allows `main.mjs` to import and use the function.
+Bir bağlayıcının modülün arayüzünün bir parçası olduğunu bildirmek için `export` kullanıldığını unutmayın. Bu `main.mjs`nin fonksiyonu içe aktarmasına ve kullanmasına izin verir.
 
-We can now call our tool like this:
+Artık aracımızı şu şekilde çağırabiliriz:
 
 ```{lang: null}
 $ node main.mjs JavaScript
 tpircSavaJ
 ```
 
-## Installing with NPM
+## NPM ile kurulum
 
 {{index NPM, "Node.js", "npm program", library}}
 
-NPM, introduced in [Chapter ?](modules#modules_npm), is an online repository of JavaScript ((module))s, many of which are specifically written for Node. When you install Node on your computer, you also get the `npm` command, which you can use to interact with this repository.
+[Bölüm ?](modules#modules_npm)'de tanıtılan NPM, birçoğu Node için özel olarak yazılmış JavaScript ((modül))lerinden oluşan çevrimiçi bir depodur. Node'u bilgisayarınıza kurduğunuzda, bu depo ile etkileşimde bulunmak için kullanabileceğiniz `npm` komutunu da alırsınız.
 
 {{index "ini package"}}
 
-NPM's main use is ((download))ing packages. We saw the `ini` package in [Chapter ?](modules#modules_ini). We can use NPM to fetch and install that package on our computer.
+NPM'nin ana kullanım alanı paketleri ((indirmek))tir. [Bölüm ?](modules#modules_ini)'de `ini` paketini gördük. Bu paketi bilgisayarımıza getirmek ve kurmak için NPM'yi kullanabiliriz.
 
 ```{lang: null}
 $ npm install ini
@@ -171,17 +171,17 @@ $ node
 
 {{index "require function", "node_modules directory", "npm program"}}
 
-After running `npm install`, ((NPM)) will have created a directory called `node_modules`. Inside that directory will be an `ini` directory that contains the ((library)). You can open it and look at the code. When we import `"ini"`, this library is loaded, and we can call its `parse` property to parse a configuration file.
+`npm install` çalıştırıldıktan sonra, ((NPM)) `node_modules` adında bir dizin oluşturacaktır. Bu dizinin içinde ((kütüphane)) içeren bir `ini` dizini olacaktır. Bunu açabilir ve koda bakabilirsiniz. `“ini"`yi içe aktardığımızda, bu kütüphane yüklenir ve bir yapılandırma dosyasını ayrıştırmak için `parse` özelliğini çağırabiliriz.
 
-By default, NPM installs packages under the current directory rather than in a central place. If you are used to other package managers, this may seem unusual, but it has advantages—it puts each application in full control of the packages it installs and makes it easier to manage versions and clean up when removing an application.
+NPM varsayılan olarak paketleri merkezi bir yer yerine geçerli dizinin altına yükler. Diğer paket yöneticilerine alışkınsanız, bu alışılmadık görünebilir, ancak avantajları vardır - her uygulamanın yüklediği paketleri tam olarak kontrol etmesini sağlar ve sürümleri yönetmeyi ve bir uygulamayı kaldırırken temizlemeyi kolaylaştırır.
 
-### Package files
+### Paket dosyaları
 
 {{index "package.json", dependency}}
 
-After running `npm install` to install some package, you will find not only a `node_modules` directory but also a file called `package.json` in your current directory. It is recommended to have such a file for each project. You can create it manually or run `npm init`. This file contains information about the project, such as its name and ((version)), and lists its dependencies.
+Bir paketi yüklemek için `npm install` çalıştırdıktan sonra, yalnızca bir `node_modules` dizini değil, aynı zamanda geçerli dizininizde `package.json` adlı bir dosya da bulacaksınız. Her proje için böyle bir dosyanın olması tavsiye edilir. Bu dosyayı elle oluşturabilir ya da `npm init` komutunu çalıştırabilirsiniz. Bu dosya, proje hakkında adı ve ((sürüm)) gibi bilgileri içerir ve bağımlılıklarını listeler.
 
-The robot simulation from [Chapter ?](robot), as modularized in the exercise in [Chapter ?](modules#modular_robot), might have a `package.json` file like this:
+[Bölüm ?](robot)'daki robot simülasyonu, [Bölüm ?](modules#modular_robot)'daki alıştırmada modülerleştirildiği gibi, aşağıdaki gibi bir `package.json` dosyasına sahip olabilir:
 
 ```{lang: "json"}
 {
@@ -200,37 +200,37 @@ The robot simulation from [Chapter ?](robot), as modularized in the exercise in 
 
 {{index "npm program", tool}}
 
-When you run `npm install` without naming a package to install, NPM will install the dependencies listed in `package.json`. When you install a specific package that is not already listed as a dependency, NPM will add it to `package.json`.
+Yüklenecek bir paket belirtmeden `npm install` komutunu çalıştırdığınızda, NPM `package.json` dosyasında listelenen bağımlılıkları yükleyecektir. Daha önce bağımlılık olarak listelenmemiş belirli bir paketi yüklediğinizde, NPM bunu `package.json` dosyasına ekleyecektir.
 
-### Versions
+### Versiyonlar
 
 {{index "package.json", dependency, evolution}}
 
-A `package.json` file lists both the program's own ((version)) and versions for its dependencies. Versions are a way to deal with the fact that ((package))s evolve separately, and code written to work with a package as it existed at one point may not work with a later, modified version of the package.
+Bir `package.json` dosyası hem programın kendi ((sürüm))'ünü hem de bağımlılıklarının sürümlerini listeler. Sürümler, ((paket))'lerin ayrı ayrı geliştiği gerçeğiyle başa çıkmanın bir yoludur ve bir noktada var olduğu şekliyle bir paketle çalışmak için yazılan kod, paketin daha sonraki, değiştirilmiş bir sürümüyle çalışmayabilir.
 
 {{index compatibility}}
 
-NPM demands that its packages follow a schema called _((semantic versioning))_, which encodes some information about which versions are _compatible_ (don't break the old interface) in the version number. A semantic version consists of three numbers separated by periods, such as `2.3.0`. Every time new functionality is added, the middle number has to be incremented. Every time compatibility is broken, so that existing code that uses the package might not work with the new version, the first number has to be incremented.
+NPM, paketlerinin _((semantic versioning))_ adı verilen ve sürüm numarasında hangi sürümlerin _uyumlu_ (eski arayüzü bozmayan) olduğu hakkında bazı bilgileri kodlayan bir şemayı takip etmesini talep eder. Anlamsal bir sürüm, `2.3.0` gibi noktalarla ayrılmış üç sayıdan oluşur. Her yeni işlevsellik eklendiğinde, ortadaki sayı artırılmalıdır. Uyumluluk her bozulduğunda, böylece paketi kullanan mevcut kod yeni sürümle çalışmayabilir, ilk sayı artırılmalıdır.
 
 {{index "caret character"}}
 
-A caret character (`^`) in front of the version number for a dependency in `package.json` indicates that any version compatible with the given number may be installed. For example, `"^2.3.0"` would mean that any version greater than or equal to 2.3.0 and less than 3.0.0 is allowed.
+`package.json`'daki bir bağımlılığın sürüm numarasının önündeki şapka karakteri (`^`), verilen numarayla uyumlu herhangi bir sürümün yüklenebileceğini gösterir. Örneğin, `“^2.3.0”`, 2.3.0'dan büyük veya eşit ve 3.0.0'dan küçük herhangi bir sürüme izin verildiği anlamına gelir.
 
 {{index publishing}}
 
-The `npm` command is also used to publish new packages or new versions of packages. If you run `npm publish` in a ((directory)) that has a `package.json` file, it will publish a package with the name and version listed in the JSON file to the registry. Anyone can publish packages to NPM—though only under a package name that isn't in use yet, since it wouldn't be good if random people could update existing packages.
+`npm` komutu yeni paketleri veya paketlerin yeni sürümlerini yayınlamak için de kullanılır. Bir `package.json` dosyasına sahip bir ((dizin)) içinde `npm publish` komutunu çalıştırırsanız, JSON dosyasında listelenen ad ve sürüme sahip bir paketi kayıt defterine yayınlayacaktır. Herkes NPM'de paket yayınlayabilir-ancak sadece henüz kullanılmayan bir paket adı altında, çünkü rastgele kişilerin mevcut paketleri güncelleyebilmesi iyi olmaz.
 
-This book won't delve further into the details of ((NPM)) usage. Refer to [_https://npmjs.com_](https://npmjs.com) for further documentation and a way to search for packages.
+Bu kitap ((NPM)) kullanımının ayrıntılarına daha fazla girmeyecektir. Daha fazla dokümantasyon ve paket arama yöntemi için [_https://npmjs.org_](https://npmjs.org) adresine bakın.
 
-## The filesystem module
+## Dosya sistemi modülü
 
 {{index directory, "node:fs package", "Node.js", [file, access]}}
 
-One of the most commonly used built-in modules in Node is the `node:fs` module, which stands for _((filesystem))_. It exports functions for working with files and directories.
+Node'da en sık kullanılan yerleşik modüllerden biri _((dosya sistemi))_ anlamına gelen `node:fs` modülüdür. Dosya ve dizinlerle çalışmak için fonksiyonları dışa aktarır.
 
 {{index "readFile function", "callback function"}}
 
-For example, the function called `readFile` reads a file and then calls a callback with the file's contents.
+Örneğin, `readFile` adlı işlev bir dosyayı okur ve ardından dosyanın içeriğiyle birlikte bir geri arama çağırır.
 
 ```
 import {readFile} from "node:fs";
@@ -242,7 +242,7 @@ readFile("file.txt", "utf8", (error, text) => {
 
 {{index "Buffer class"}}
 
-The second argument to `readFile` indicates the _((character encoding))_ used to decode the file into a string. There are several ways in which ((text)) can be encoded to ((binary data)), but most modern systems use ((UTF-8)). Unless you have reasons to believe another encoding is used, pass `"utf8"` when reading a text file. If you do not pass an encoding, Node will assume you are interested in the binary data and will give you a `Buffer` object instead of a string. This is an ((array-like object)) that contains numbers representing the bytes (8-bit chunks of data) in the files.
+`readFile`'ın ikinci argümanı, dosyayı bir dizeye dönüştürmek için kullanılan _((karakter kodlaması))_ kodunu belirtir. ((metin))'in ((ikili veri))'ye kodlanmasının çeşitli yolları vardır, ancak çoğu modern sistem ((UTF-8)) kullanır. Bu nedenle, başka bir kodlama kullanıldığına inanmak için nedenleriniz yoksa, bir metin dosyasını okurken `“utf8”` kodunu geçirin. Bir kodlama geçmezseniz, Node ikili verilerle ilgilendiğinizi varsayacak ve size bir dize yerine bir `Buffer` nesnesi verecektir. Bu, dosyalardaki baytları (8 bitlik veri parçaları) temsil eden sayıları içeren bir ((dizi benzeri nesne)).
 
 ```
 import {readFile} from "node:fs";
@@ -255,7 +255,7 @@ readFile("file.txt", (error, buffer) => {
 
 {{index "writeFile function", "filesystem", [file, access]}}
 
-A similar function, `writeFile`, is used to write a file to disk.
+Benzer bir işlev olan `writeFile`, bir dosyayı diske yazmak için kullanılır.
 
 ```
 import {writeFile} from "node:fs";
@@ -267,19 +267,19 @@ writeFile("graffiti.txt", "Node was here", err => {
 
 {{index "Buffer class", "character encoding"}}
 
-Here it was not necessary to specify the encoding—`writeFile` will assume that when it is given a string to write, rather than a `Buffer` object, it should write it out as text using its default character encoding, which is ((UTF-8)).
+Burada kodlamayı belirtmek gerekli değildi - `writeFile` kendisine yazması için bir `Buffer` nesnesi yerine bir dize verildiğinde, bunu varsayılan karakter kodlaması olan ((UTF-8)) kullanarak metin olarak yazması gerektiğini varsayacaktır.
 
 {{index "node:fs package", "readdir function", "stat function", "rename function", "unlink function"}}
 
-The `node:fs` module contains many other useful functions: `readdir` will give you the files in a ((directory)) as an array of strings, `stat` will retrieve information about a file, `rename` will rename a file, `unlink` will remove one, and so on. See the documentation at [_https://nodejs.org_](https://nodejs.org) for specifics.
+`node:fs` modülü başka birçok faydalı fonksiyon içerir: `readdir` bir ((dizin)) içindeki dosyaları bir dizi olarak döndürür, `stat` bir dosya hakkında bilgi alır, `rename` bir dosyayı yeniden adlandırır, `unlink` bir dosyayı kaldırır, vb. Ayrıntılar için [_https://nodejs.org_](https://nodejs.org) adresindeki belgelere bakın.
 
 {{index ["asynchronous programming", "in Node.js"], "Node.js", "error handling", "callback function"}}
 
-Most of these take a callback function as the last parameter, which they call either with an error (the first argument) or with a successful result (the second). As we saw in [Chapter ?](async), there are downsides to this style of programming—the biggest one being that error handling becomes verbose and error prone.
+Bunların çoğu son parametre olarak ya bir hata (ilk argüman) ya da başarılı bir sonuç (ikinci) ile çağırdıkları bir geri arama fonksiyonu alır. [Bölüm ?](async)'de gördüğümüz gibi, bu tarz programlamanın dezavantajları vardır; bunlardan en önemlisi hata işlemenin ayrıntılı ve hataya açık hale gelmesidir.
 
 {{index "Promise class", "node:fs/promises package"}}
 
-The `node:fs/promises` module exports most of the same functions as the old `node:fs` module but uses promises rather than callback functions.
+`node:fs/promises` modülü eski `node:fs` modülüyle aynı işlevlerin çoğunu dışa aktarır, ancak geri arama işlevleri yerine vaatler kullanır.
 
 ```
 import {readFile} from "node:fs/promises";
@@ -289,7 +289,7 @@ readFile("file.txt", "utf8")
 
 {{index "synchronous programming", "node:fs package", "readFileSync function"}}
 
-Sometimes you don't need asynchronicity and it just gets in the way. Many of the functions in `node:fs` also have a synchronous variant, which has the same name with `Sync` added to the end. For example, the synchronous version of `readFile` is called `readFileSync`.
+Bazen eşzamansızlığa ihtiyacınız olmaz ve bu sadece yolunuza çıkar. `node:fs` içindeki fonksiyonların birçoğunun, sonuna `Sync` eklenmiş aynı isme sahip senkronize bir versiyonu da vardır. Örneğin, `readFile` fonksiyonunun senkron versiyonu `readFileSync` olarak adlandırılır.
 
 ```
 import {readFileSync} from "node:fs";
@@ -299,17 +299,17 @@ console.log("The file contains:",
 
 {{index optimization, performance, blocking}}
 
-Note that while such a synchronous operation is being performed, your program is stopped entirely. If it should be responding to the user or to other machines on the network, being stuck on a synchronous action might produce annoying delays.
+Böyle bir eşzamanlı işlem gerçekleştirilirken programınızın tamamen durdurulduğunu unutmayın. Kullanıcıya veya ağdaki diğer makinelere yanıt vermesi gerekiyorsa, eşzamanlı bir eylemde takılı kalmak can sıkıcı gecikmelere neden olabilir.
 
-## The HTTP module
+## HTTP modülü
 
 {{index "Node.js", "node:http package", [HTTP, server]}}
 
-Another central module is called `node:http`. It provides functionality for running an HTTP ((server)).
+Bir diğer merkezi modül `node:http` olarak adlandırılır. HTTP ((sunucu))ları çalıştırmak ve HTTP ((istek))leri yapmak için işlevsellik sağlar.
 
 {{index "listening (TCP)", "listen method", "createServer function"}}
 
-This is all it takes to start an HTTP server:
+Bir HTTP sunucusu başlatmak için gereken tek şey budur:
 
 ```
 import {createServer} from "node:http";
@@ -326,63 +326,63 @@ console.log("Listening! (port 8000)");
 
 {{index port, localhost}}
 
-If you run this script on your own machine, you can point your web browser at [_http://localhost:8000/hello_](http://localhost:8000/hello) to make a request to your server. It will respond with a small HTML page.
+Bu betiği kendi makinenizde çalıştırırsanız, sunucunuza bir istekte bulunmak için web tarayıcınızı [_http://localhost:8000/hello_](http://localhost:8000/hello) adresine yönlendirebilirsiniz. Küçük bir HTML sayfası ile yanıt verecektir.
 
 {{index "createServer function", HTTP}}
 
-The function passed as the argument to `createServer` is called every time a client connects to the server. The `request` and `response` bindings are objects representing the incoming and outgoing data. The first contains information about the ((request)), such as its `url` property, which tells us to what URL the request was made.
+`createServer`'a argüman olarak aktarılan fonksiyon, bir istemci sunucuya her bağlandığında çağrılır. `request` ve `response` bağları gelen ve giden verileri temsil eden nesnelerdir. İlki, isteğin hangi URL'ye yapıldığını söyleyen `url` özelliği gibi ((istek)) hakkında bilgiler içerir.
 
-When you open that page in your browser, it sends a request to your own computer. This causes the server function to run and send back a response, which you can then see in the browser.
+Yani, bu sayfayı tarayıcınızda açtığınızda, kendi bilgisayarınıza bir istek gönderir. Bu, sunucu işlevinin çalışmasına ve daha sonra tarayıcıda görebileceğiniz bir yanıt göndermesine neden olur.
 
 {{index "200 (HTTP status code)", "Content-Type header", "writeHead method"}}
 
-To send something to the client, you call methods on the `response` object. The first, `writeHead`, will write out the ((response)) ((header))s (see [Chapter ?](http#headers)). You give it the status code (200 for "OK" in this case) and an object that contains header values. The example sets the `Content-Type` header to inform the client that we'll be sending back an HTML document.
+İstemciye bir şey göndermek için `response` nesnesi üzerindeki yöntemleri çağırırsınız. İlki, `writeHead`, ((yanıt)) ((başlık))ları yazacaktır (bkz. [Bölüm ?](http#headers)). Ona durum kodunu (bu durumda “OK” için 200) ve başlık değerlerini içeren bir nesne verirsiniz. Örnek, istemciye bir HTML belgesi göndereceğimizi bildirmek için `Content-Type` başlığını ayarlar.
 
 {{index "writable stream", "body (HTTP)", stream, "write method", "end method"}}
 
-Next, the actual response body (the document itself) is sent with `response.write`. You're allowed to call this method multiple times if you want to send the response piece by piece—for example, to stream data to the client as it becomes available. Finally, `response.end` signals the end of the response.
+Ardından, asıl yanıt gövdesi (belgenin kendisi) `response.write` ile gönderilir. Yanıtı parça parça göndermek istiyorsanız, örneğin istemciye kullanılabilir hale geldikçe veri akışı sağlamak için bu yöntemi birden çok kez çağırmanıza izin verilir. Son olarak, `response.end` yanıtın sona erdiğini bildirir.
 
 {{index "listen method"}}
 
-The call to `server.listen` causes the ((server)) to start waiting for connections on ((port)) 8000. This is why you have to connect to _localhost:8000_ to speak to this server, rather than just _localhost_, which would use the default port 80.
+`server.listen` çağrısı ((sunucu))'nun ((port)) 8000 üzerinde bağlantı beklemeye başlamasına neden olur. Bu nedenle, bu sunucuyla konuşmak için varsayılan 80 numaralı bağlantı noktasını kullanacak olan _localhost_ yerine _localhost:8000_ adresine bağlanmanız gerekir.
 
 {{index "Node.js", "kill process"}}
 
-When you run this script, the process just sits there and waits. When a script is listening for events—in this case, network connections—`node` will not automatically exit when it reaches the end of the script. To close it, press [ctrl]{keyname}-C.
+Bu betiği çalıştırdığınızda, süreç orada oturur ve bekler. Bir kod olayları dinlerken (bu durumda, ağ bağlantıları), kodun sonuna ulaştığında `node` otomatik olarak çıkmayacaktır. Kapatmak için [control] tuşuna basın{keyname}-C.
 
 {{index [method, HTTP]}}
 
-A real web ((server)) usually does more than the one in the example—it looks at the request's ((method)) (the `method` property) to see what action the client is trying to perform and looks at the request's ((URL)) to find out on which resource this action is being performed. We'll see a more advanced server [later in this chapter](node#file_server).
+Gerçek bir web ((sunucu)) genellikle örnektekinden daha fazlasını yapar - istemcinin hangi eylemi gerçekleştirmeye çalıştığını görmek için isteğin ((yöntem))'ine (`method` özelliği) bakar ve bu eylemin hangi kaynak üzerinde gerçekleştirildiğini bulmak için isteğin ((URL))'sine bakar. Daha gelişmiş bir sunucuyu [bu bölümün ilerleyen kısımlarında](node#file_server) göreceğiz.
 
 {{index "node:http package", "request function", "fetch function", [HTTP, client]}}
 
-The `node:http` module also provides a `request` function that can be used to make HTTP requests. However, it is a lot more cumbersome to use than `fetch`, which we saw in [Chapter ?](http). Fortunately, `fetch` is also available in Node as a global binding. Unless you want to do something very specific, such as processing the response document piece by piece as the data comes in over the network, I recommend sticking to `fetch`.
+`node:http` modülü ayrıca HTTP istekleri yapmak için kullanılabilecek bir `request` fonksiyonu da sağlar. Ancak, kullanımı [Bölüm ?](http)'de gördüğümüz `fetch` fonksiyonundan çok daha zahmetlidir. Neyse ki, `fetch` Node'da global bir bağlayıcı olarak da mevcuttur. Veriler ağ üzerinden geldikçe yanıt belgesini parça parça işlemek gibi çok özel bir şey yapmak istemiyorsanız, `fetch` kullanmanızı öneririm.
 
-## Streams
+## Stream'ler
 
 {{index "Node.js", stream, "writable stream", "callback function", ["asynchronous programming", "in Node.js"], "write method", "end method", "Buffer class"}}
 
-The response object that the HTTP server could write to is an example of a _writable stream_ object, which is a widely used concept in Node. Such objects have a `write` method that can be passed a string or a `Buffer` object to write something to the stream. Their `end` method closes the stream and optionally takes a value to write to the stream before closing. Both of these methods can also be given a callback as an additional argument, which they will call when the writing or closing has finished.
+HTTP sunucusunun yazabileceği yanıt nesnesi, Node'da yaygın olarak kullanılan bir _writable stream_ nesnesi örneğidir. Bu tür nesneler, bir akışa bir şey yazmak için bir string veya bir `Buffer` nesnesi geçirilebilen bir `write` metoduna sahiptir. `end` metodları akışı kapatır ve kapatmadan önce akışa yazmak için isteğe bağlı bir değer alabilir. Bu metodların her ikisine de ek bir argüman olarak bir callback verilebilir ve yazma veya kapatma işlemi tamamlandığında bu callback çağrılır.
 
 {{index "createWriteStream function", "writeFile function", [file, stream]}}
 
-It is possible to create a writable stream that points at a file with the `createWriteStream` function from the `node:fs` module. You can then use the `write` method on the resulting object to write the file one piece at a time rather than in one shot, as with `writeFile`.
+`node:fs` modülünden `createWriteStream` fonksiyonuyla bir dosyaya işaret eden bir writable stream oluşturmak mümkündür. Ortaya çıkan nesne üzerindeki `write` metodu, dosyayı `writeFile` ile tek seferde yazmaktan ziyade, parça parça yazmak için kullanılabilir.
 
 {{index "createServer function", "request function", "event handling", "readable stream"}}
 
-_Readable ((stream))s_ are a little more involved. The `request` argument to the HTTP server's callback is a readable stream. Reading from a stream is done using event handlers rather than methods.
+\_Readable ((stream))\_ler biraz daha karmaşıktır. HTTP sunucusunun callback'ine iletilen `request` argümanı bir readable stream'dir. Bir akıştan okuma işlemi, metodlar yerine event handler'lar kullanılarak yapılır.
 
 {{index "on method", "addEventListener method"}}
 
-Objects that emit events in Node have a method called `on` that is similar to the `addEventListener` method in the browser. You give it an event name and then a function, and it will register that function to be called whenever the given event occurs.
+Node'da olay yayını yapan nesnelerin, tarayıcıdaki `addEventListener` metoduna benzer bir `on` metodu vardır. Bu metoda bir olay adı ve bir fonksiyon verirsiniz; belirtilen olay gerçekleştiğinde bu fonksiyon çağrılır.
 
 {{index "createReadStream function", "data event", "end event", "readable stream"}}
 
-Readable ((stream))s have `"data"` and `"end"` events. The first is fired every time data comes in, and the second is called whenever the stream is at its end. This model is most suited for _streaming_ data that can be immediately processed, even when the whole document isn't available yet. A file can be read as a readable stream by using the `createReadStream` function from `node:fs`.
+_Readable ((stream))\_ler `"data"` ve `"end"` olaylarına sahiptir. İlki, her veri geldiğinde tetiklenir; ikincisi ise akışın sonuna gelindiğinde çağrılır. Bu model, tüm belge henüz mevcut olmasa bile hemen işlenebilecek \_streaming_ veri için en uygunudur. Bir dosya, `node:fs` modülünden `createReadStream` fonksiyonu kullanılarak readable stream olarak okunabilir.
 
 {{index "upcasing server example", capitalization, "toUpperCase method"}}
 
-This code creates a ((server)) that reads request bodies and streams them back to the client as all-uppercase text:
+Bu kod, istek gövdelerini okuyan ve bunları büyük harfli metin olarak istemciye geri gönderen bir ((server)) oluşturur:
 
 ```
 import {createServer} from "node:http";
@@ -396,9 +396,9 @@ createServer((request, response) => {
 
 {{index "Buffer class", "toString method"}}
 
-The `chunk` value passed to the data handler will be a binary `Buffer`. We can convert this to a string by decoding it as UTF-8 encoded characters with its `toString` method.
+Veri handler'ına iletilen `chunk` değeri bir ikili `Buffer` olacaktır. Bu, `toString` metodu ile UTF-8 kodlu karakterler olarak çözülerek bir string'e dönüştürülebilir.
 
-The following piece of code, when run with the uppercasing server active, will send a request to that server and write out the response it gets:
+Aşağıdaki kod parçası, büyük harfe dönüştürme sunucusu aktifken çalıştırıldığında, bu sunucuya bir istek gönderecek ve aldığı yanıtı yazdıracaktır:
 
 ```
 fetch("http://localhost:8000/", {
@@ -410,23 +410,23 @@ fetch("http://localhost:8000/", {
 
 {{id file_server}}
 
-## A file server
+## Bir dosya sunucusu
 
 {{index "file server example", "Node.js", [HTTP, server]}}
 
-Let's combine our newfound knowledge about HTTP ((server))s and working with the ((filesystem)) to create a bridge between the two: an HTTP server that allows ((remote access)) to a filesystem. Such a server has all kinds of uses—it allows web applications to store and share data, or it can give a group of people shared access to a bunch of files.
+HTTP ((server))ler ve ((file system)) ile çalışma konusundaki yeni bilgilerimizi birleştirerek, dosya sistemine ((remote access)) sağlayan bir HTTP sunucusu oluşturabiliriz. Böyle bir sunucunun birçok kullanım alanı vardır—web uygulamalarının veri depolamasına ve paylaşmasına olanak tanır ya da bir grup insana bir dizi dosyaya ortak erişim sağlar.
 
 {{index [path, URL], "GET method", "PUT method", "DELETE method", [file, resource]}}
 
-When we treat files as HTTP ((resource))s, the HTTP methods `GET`, `PUT`, and `DELETE` can be used to read, write, and delete the files, respectively. We will interpret the path in the request as the path of the file that the request refers to.
+Dosyaları HTTP ((resource))leri olarak ele aldığımızda, HTTP metodları olan `GET`, `PUT` ve `DELETE`, sırasıyla dosyaları okumak, yazmak ve silmek için kullanılabilir. İstek yolunu, isteğin atıfta bulunduğu dosyanın yolu olarak yorumlayacağız.
 
 {{index [path, "filesystem"], "relative path"}}
 
-We probably don't want to share our whole filesystem, so we'll interpret these paths as starting in the server's working ((directory)), which is the directory in which it was started. If I ran the server from `/tmp/public/` (or `C:\tmp\public\` on Windows), then a request for `/file.txt` should refer to `/tmp/public/file.txt` (or `C:\tmp\public\file.txt`).
+Muhtemelen tüm dosya sistemimizi paylaşmak istemeyiz, bu yüzden bu yolları sunucunun çalışma ((directory))sinde (sunucunun başlatıldığı dizin) başladığı şekilde yorumlayacağız. Eğer sunucuyu `/tmp/public/` (veya Windows'ta `C:\tmp\public\`) dizininden çalıştırırsam, `/file.txt` için yapılan bir istek `/tmp/public/file.txt` (veya `C:\tmp\public\file.txt`) dosyasına atıfta bulunmalıdır.
 
 {{index "file server example", "Node.js", "methods object", "Promise class"}}
 
-We'll build the program piece by piece, using an object called `methods` to store the functions that handle the various HTTP methods. Method handlers are `async` functions that get the request object as their argument and return a promise that resolves to an object that describes the response.
+Programı parça parça oluşturacağız ve çeşitli HTTP metodlarını işleyen fonksiyonları depolamak için `methods` adında bir nesne kullanacağız. Metod işleyicileri, istek nesnesini argüman olarak alan ve yanıtı tanımlayan bir nesneye çözümlenen bir promise döndüren `async` fonksiyonlardır.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {createServer} from "node:http";
@@ -455,23 +455,23 @@ async function notAllowed(request) {
 
 {{index "405 (HTTP status code)"}}
 
-This starts a server that just returns 405 error responses, which is the code used to indicate that the server refuses to handle a given method.
+Bu, sunucunun yalnızca 405 hata yanıtlarını döndürmesini sağlar. Bu kod, sunucunun belirli bir metodu işlemeyi reddettiğini belirtmek için kullanılır.
 
 {{index "500 (HTTP status code)", "error handling", "error response"}}
 
-When a request handler's promise is rejected, the `catch` call translates the error into a response object, if it isn't one already, so that the server can send back an error response to inform the client that it failed to handle the request.
+Bir istek işleyicisinin promisi reddedildiğinde, `catch` çağrısı hatayı bir yanıt nesnesine dönüştürür (eğer zaten bir yanıt nesnesi değilse), böylece sunucu, isteği işleyemediğini müşteriye bildirmek için bir hata yanıtı gönderebilir.
 
 {{index "200 (HTTP status code)", "Content-Type header"}}
 
-The `status` field of the response description may be omitted, in which case it defaults to 200 (OK). The content type, in the `type` property, can also be left off, in which case the response is assumed to be plain text.
+Yanıt tanımındaki `status` alanı atlanabilir ve bu durumda varsayılan olarak 200 (OK) olur. `type` özelliğinde belirtilen içerik türü de bırakılabilir ve bu durumda yanıtın düz metin olduğu varsayılır.
 
 {{index "end method", "pipe method", stream}}
 
-When the value of `body` is a ((readable stream)), it will have a `pipe` method that we can use to forward all content from a readable stream to a ((writable stream)). If not, it is assumed to be either `null` (no body), a string, or a buffer, and it is passed directly to the ((response))'s `end` method.
+`body` değerinin bir ((readable stream)) olması durumunda, tüm içeriği bir readable stream'den bir ((writable stream))e iletmek için kullanılan bir `pipe` metodu olacaktır. Eğer değilse, `null` (gövde yok), bir string veya bir buffer olduğu varsayılır ve doğrudan ((response))'un `end` metoduna iletilir.
 
 {{index [path, URL], "urlPath function", "URL class", parsing, [escaping, "in URLs"], "decodeURIComponent function", "startsWith method"}}
 
-To figure out which file path corresponds to a request URL, the `urlPath` function uses the built-in `URL` class (which also exists in the browser) to parse the URL. This constructor expects a full URL, not just the part starting with the slash that we get from `request.url`, so we give it a dummy domain name to fill in. It extracts its pathname, which will be something like `"/file.txt"`, decodes that to get rid of the `%20`-style escape codes, and resolves it relative to the program's working directory.
+Bir istek URL'sinin hangi dosya yoluna karşılık geldiğini anlamak için, `urlPath` fonksiyonu Node'un yerleşik `node:url` modülünü kullanarak URL'yi ayrıştırır. Bu fonksiyon, `"/file.txt"` gibi bir `pathname` alır, `%20` tarzı kaçış kodlarını temizlemek için çözer ve bunu programın çalışma dizinine göre çözümler.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {resolve, sep} from "node:path";
@@ -489,25 +489,25 @@ function urlPath(url) {
 }
 ```
 
-As soon as you set up a program to accept network requests, you have to start worrying about ((security)). In this case, if we aren't careful, it is likely that we'll accidentally expose our whole ((filesystem)) to the network.
+Bir programı ağ isteklerini kabul edecek şekilde kurduğunuzda, ((security)) endişeleriyle ilgilenmeye başlamalısınız. Bu durumda dikkatli olmazsak, tüm ((file system))imizi ağa açma riski taşırız.
 
-File paths are strings in Node. To map such a string to an actual file, there's a nontrivial amount of interpretation going on. Paths may, for example, include `../` to refer to a parent directory. One obvious source of problems would be requests for paths like `/../secret_file`.
+Dosya yolları Node'da string şeklindedir. Bu tür bir string'i gerçek bir dosyaya eşlemek için karmaşık bir yorumlama işlemi yapılır. Örneğin, `../` dizinin üstüne atıfta bulunmak için kullanılabilir. Dolayısıyla `/../secret_file` gibi yollarla yapılan istekler sorunlara neden olabilir.
 
 {{index "node:path package", "resolve function", "cwd function", "process object", "403 (HTTP status code)", "sep binding", ["backslash character", "as path separator"], "slash character"}}
 
-To avoid such problems, `urlPath` uses the `resolve` function from the `node:path` module, which resolves relative paths. It then verifies that the result is _below_ the working directory. The `process.cwd` function (where `cwd` stands for _current working directory_) can be used to find this working directory. The `sep` binding from the `node:path` package is the system's path separator—a backslash on Windows and a forward slash on most other systems. When the path doesn't start with the base directory, the function throws an error response object, using the HTTP status code indicating that access to the resource is forbidden.
+Bu tür sorunları önlemek için, `urlPath` fonksiyonu `node:path` modülünden `resolve` fonksiyonunu kullanır; bu fonksiyon, ilişkisel yolları çözer. Daha sonra bu yolun çalışma dizininin _altında_ olduğunu doğrular. `process.cwd` fonksiyonu (burada `cwd` "current working directory"nin kısaltmasıdır) çalışma dizinini bulmak için kullanılır. `node:path` paketinden gelen `sep` bağlamı, sistemin yol ayırıcı sembolüdür—Windows'ta bir ters eğik çizgi (`\`) ve çoğu sistemde ileri eğik çizgi (`/`) şeklindedir. Eğer yol temel dizinle başlamıyorsa, fonksiyon bir hata yanıt nesnesi oluşturur ve erişimin yasak olduğunu belirten HTTP durum kodu döner.
 
 {{index "file server example", "Node.js", "GET method", [file, resource]}}
 
-We'll set up the `GET` method to return a list of files when reading a ((directory)) and to return the file's content when reading a regular file.
+Bir ((dizin)) okurken bir dosya listesi döndürmek ve normal bir dosyayı okurken dosyanın içeriğini döndürmek için `GET` yöntemini ayarlayacağız.
 
 {{index "media type", "Content-Type header", "mime-types package"}}
 
-One tricky question is what kind of `Content-Type` header we should set when returning a file's content. Since these files could be anything, our server can't simply return the same content type for all of them. ((NPM)) can help us again here. The `mime-types` package (content type indicators like `text/plain` are also called _((MIME type))s_) knows the correct type for a large number of ((file extension))s.
+Zor bir soru, bir dosyanın içeriğini döndürürken ne tür bir `Content-Type` başlığı belirlememiz gerektiğidir. Bu dosyalar herhangi bir şey olabileceğinden, sunucumuz hepsi için aynı içerik türünü döndüremez. ((NPM)) burada bize yine yardımcı olabilir. `mime-types` paketi (`text/plain` gibi içerik türü göstergeleri _((MIME type))s_ olarak da adlandırılır) çok sayıda ((file extension))s için doğru türü bilir.
 
 {{index "npm program"}}
 
-The following `npm` command, in the directory where the server script lives, installs a specific version of `mime`:
+Aşağıdaki `npm` komutu, sunucu betiğinin bulunduğu dizine `mime`ın belirli bir sürümünü yükler:
 
 ```{lang: null}
 $ npm install mime-types@2.1.0
@@ -515,7 +515,7 @@ $ npm install mime-types@2.1.0
 
 {{index "404 (HTTP status code)", "stat function", [file, resource]}}
 
-When a requested file does not exist, the correct HTTP status code to return is 404. We'll use the `stat` function, which looks up information about a file, to find out both whether the file exists and whether it is a ((directory)).
+İstenen bir dosya mevcut olmadığında, döndürülmesi gereken doğru HTTP durum kodu 404'tür. Hem dosyanın var olup olmadığını hem de bir ((dizin)) olup olmadığını öğrenmek için bir dosya hakkında bilgi arayan `stat` fonksiyonunu kullanacağız.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {createReadStream} from "node:fs";
@@ -542,21 +542,21 @@ methods.GET = async function(request) {
 
 {{index "createReadStream function", ["asynchronous programming", "in Node.js"], "error handling", "ENOENT (status code)", "Error type", inheritance}}
 
-Because it has to touch the disk and thus might take a while, `stat` is asynchronous. Since we're using promises rather than callback style, it has to be imported from `node:fs/promises` instead of directly from `node:fs`.
+Diske dokunmak zorunda olduğu ve bu nedenle biraz zaman alabileceği için `stat` asenkrondur. Geri çağırma tarzı yerine vaatler kullandığımız için, doğrudan `node:fs` yerine `promises` içinden içe aktarılması gerekir.
 
-When the file does not exist, `stat` will throw an error object with a `code` property of `"ENOENT"`. These somewhat obscure, ((Unix))-inspired codes are how you recognize error types in Node.
+Dosya mevcut olmadığında, `stat` `code` özelliği `“ENOENT”` olan bir hata nesnesi atacaktır. Bu biraz belirsiz, ((Unix))'ten esinlenen kodlar, Node'daki hata türlerini nasıl tanıdığınızı gösterir.
 
 {{index "Stats type", "stat function", "isDirectory method"}}
 
-The `stats` object returned by `stat` tells us a number of things about a ((file)), such as its size (`size` property) and its ((modification date)) (`mtime` property). Here we are interested in the question of whether it is a ((directory)) or a regular file, which the `isDirectory` method tells us.
+`stat` tarafından döndürülen `stats` nesnesi bize bir ((dosya)) hakkında boyutu (`size` özelliği) ve ((değişiklik tarihi)) (`mtime` özelliği) gibi bir dizi şey söyler. Burada, `isDirectory` yönteminin bize söylediği gibi, bir ((dizin)) mi yoksa normal bir dosya mı olduğu sorusuyla ilgileniyoruz.
 
 {{index "readdir function"}}
 
-We use `readdir` to read the array of files in a ((directory)) and return it to the client. For normal files, we create a readable stream with `createReadStream` and return that as the body, along with the content type that the `mime` package gives us for the file's name.
+Bir ((dizin)) içindeki dosya dizisini okumak ve istemciye döndürmek için `readdir` kullanıyoruz. Normal dosyalar için `createReadStream` ile okunabilir bir akış oluşturur ve bunu `mime` paketinin dosya adı için bize verdiği içerik türüyle birlikte gövde olarak döndürürüz.
 
 {{index "Node.js", "file server example", "DELETE method", "rmdir function", "unlink function"}}
 
-The code to handle `DELETE` requests is slightly simpler.
+`DELETE` isteklerini işlemek için kullanılan kod biraz daha basittir.
 
 ```{includeCode: ">code/file_server.mjs"}
 import {rmdir, unlink} from "node:fs/promises";
@@ -578,15 +578,15 @@ methods.DELETE = async function(request) {
 
 {{index "204 (HTTP status code)", "body (HTTP)"}}
 
-When an ((HTTP)) ((response)) does not contain any data, the status code 204 ("no content") can be used to indicate this. Since the response to deletion doesn't need to transmit any information beyond whether the operation succeeded, that is a sensible thing to return here.
+Bir ((HTTP)) ((yanıt)) herhangi bir veri içermediğinde, bunu belirtmek için durum kodu 204 (“içerik yok”) kullanılabilir. Silme işlemine verilen yanıtın, işlemin başarılı olup olmadığının ötesinde herhangi bir bilgi iletmesi gerekmediğinden, burada döndürülecek en mantıklı şey budur.
 
 {{index idempotence, "error response"}}
 
-You may be wondering why trying to delete a nonexistent file returns a success status code rather than an error. When the file being deleted is not there, you could say that the request's objective is already fulfilled. The ((HTTP)) standard encourages us to make requests _idempotent_, which means that making the same request multiple times produces the same result as making it once. In a way, if you try to delete something that's already gone, the effect you were trying to create has been achieved—the thing is no longer there.
+Var olmayan bir dosyayı silmeye çalışmanın neden bir hata yerine başarı durum kodu döndürdüğünü merak ediyor olabilirsiniz. Silinmek istenen dosya orada olmadığında, isteğin amacının zaten yerine getirildiğini söyleyebilirsiniz. ((HTTP)) standardı bizi istekleri _idempotent_ yapmaya teşvik eder, bu da aynı isteği birden fazla kez yapmanın bir kez yapmakla aynı sonucu vereceği anlamına gelir. Bir bakıma, zaten gitmiş olan bir şeyi silmeye çalışırsanız, yapmaya çalıştığınız etki elde edilmiştir - o şey artık orada değildir.
 
 {{index "file server example", "Node.js", "PUT method"}}
 
-This is the handler for `PUT` requests:
+Bu `PUT` istekleri için işleyicidir:
 
 ```{includeCode: ">code/file_server.mjs"}
 import {createWriteStream} from "node:fs";
@@ -609,19 +609,19 @@ methods.PUT = async function(request) {
 
 {{index overwriting, "204 (HTTP status code)", "error event", "finish event", "createWriteStream function", "pipe method", stream}}
 
-We don't need to check whether the file exists this time—if it does, we'll just overwrite it. We again use `pipe` to move data from a readable stream to a writable one, in this case from the request to the file. But since `pipe` isn't written to return a promise, we have to write a wrapper, `pipeStream`, that creates a promise around the outcome of calling `pipe`.
+Bu sefer dosyanın var olup olmadığını kontrol etmemize gerek yok, eğer varsa üzerine yazacağız. Verileri okunabilir bir akıştan yazılabilir bir akışa, bu durumda istekten dosyaya taşımak için yine `pipe` kullanıyoruz. Ancak `pipe` bir promise döndürmek için yazılmadığından, `pipe` çağrısının sonucu etrafında bir promise oluşturan bir wrapper, `pipeStream` yazmamız gerekiyor.
 
 {{index "error event", "finish event"}}
 
-When something goes wrong when opening the file, `createWriteStream` will still return a stream, but that stream will fire an `"error"` event. The stream from the request may also fail—for example, if the network goes down. So we wire up both streams' `"error"` events to reject the promise. When `pipe` is done, it will close the output stream, which causes it to fire a `"finish"` event. That's the point at which we can successfully resolve the promise (returning nothing).
+Dosya açılırken bir şeyler ters giderse, `createWriteStream` yine de bir akış döndürür, ancak bu akış bir `“error”` olayı tetikler. İstekten gelen akış da başarısız olabilir, örneğin ağ çökerse. Bu nedenle, her iki akışın `“error”` olaylarını vaadi reddetmek için bağlarız. `pipe` işi bittiğinde, çıktı akışını kapatacak ve bu da `“finish”` olayını ateşlemesine neden olacaktır. Bu, vaadi başarıyla çözebileceğimiz (hiçbir şey döndürmeyen) noktadır.
 
 {{index download, "file server example", "Node.js"}}
 
-The full script for the server is available at [_https://eloquentjavascript.net/code/file_server.mjs_](https://eloquentjavascript.net/code/file_server.mjs). You can download that and, after installing its dependencies, run it with Node to start your own file server. And, of course, you can modify and extend it to solve this chapter's exercises or to experiment.
+Sunucu için tam betik [_https://eloquentjavascript.net/code/file_server.mjs_](https://eloquentjavascript.net/code/file_server.mjs) adresinde mevcuttur. Bunu indirebilir ve bağımlılıklarını yükledikten sonra kendi dosya sunucunuzu başlatmak için Node ile çalıştırabilirsiniz. Ve tabii ki, bu bölümün alıştırmalarını çözmek ya da deney yapmak için onu değiştirebilir ve genişletebilirsiniz.
 
 {{index "body (HTTP)", "curl program", [HTTP, client], [method, HTTP]}}
 
-The command line tool `curl`, widely available on ((Unix))-like systems (such as macOS and Linux), can be used to make HTTP ((request))s. The following session briefly tests our server. The `-X` option is used to set the request's method, and `-d` is used to include a request body.
+((Unix)) benzeri sistemlerde (macOS ve Linux gibi) yaygın olarak bulunan komut satırı aracı `curl`, HTTP ((istek)) yapmak için kullanılabilir. Aşağıdaki oturum sunucumuzu kısaca test etmektedir. `-X` seçeneği isteğin yöntemini ayarlamak için, `-d` seçeneği ise istek gövdesini eklemek için kullanılır.
 
 ```{lang: null}
 $ curl http://localhost:8000/file.txt
@@ -634,65 +634,65 @@ $ curl http://localhost:8000/file.txt
 File not found
 ```
 
-The first request for `file.txt` fails since the file does not exist yet. The `PUT` request creates the file, and behold, the next request successfully retrieves it. After deleting it with a `DELETE` request, the file is again missing.
+Dosya henüz mevcut olmadığından `file.txt` için yapılan ilk istek başarısız olur. `PUT` isteği dosyayı oluşturur ve bir sonraki istek dosyayı başarıyla alır. Bir `DELETE` isteği ile sildikten sonra, dosya yine kayıptır.
 
-## Summary
+## Özet
 
 {{index "Node.js"}}
 
-Node is a nice, small system that lets us run JavaScript in a nonbrowser context. It was originally designed for network tasks to play the role of a node in a network, but it lends itself to all kinds of scripting tasks. If writing JavaScript is something you enjoy, automating tasks with Node may work well for you.
+Node, JavaScript'i tarayıcı dışı bir bağlamda çalıştırmamızı sağlayan güzel ve küçük bir sistemdir. Başlangıçta bir ağdaki _node_ rolünü oynamak üzere ağ görevleri için tasarlanmıştır. Ancak kendini her türlü komut dosyası görevine borçludur ve JavaScript yazmak hoşunuza giden bir şeyse, Node ile görevleri otomatikleştirmek işe yarar.
 
-NPM provides packages for everything you can think of (and quite a few things you'd probably never think of), and it allows you to fetch and install those packages with the `npm` program. Node comes with a number of built-in modules, including the `node:fs` module for working with the filesystem and the `node:http` module for running HTTP servers.
+NPM, aklınıza gelebilecek her şey için (ve muhtemelen hiç aklınıza gelmeyecek birkaç şey için) paketler sağlar ve bu paketleri `npm` programı ile getirip yüklemenize olanak tanır. Node, dosya sistemiyle çalışmak için `node:fs` modülü ve HTTP sunucularını çalıştırmak için `node:http` modülü de dahil olmak üzere bir dizi yerleşik modülle birlikte gelir.
 
-All input and output in Node is done asynchronously, unless you explicitly use a synchronous variant of a function, such as `readFileSync`. Node originally used callbacks for asynchronous functionality, but the `node:fs/promises` package provides a promise-based interface to the filesystem.
+Node'daki tüm girdi ve çıktılar, `readFileSync` gibi bir fonksiyonun senkronize bir varyantını açıkça kullanmadığınız sürece asenkron olarak yapılır. Node başlangıçta asenkron işlevsellik için geri aramalar kullanıyordu, ancak `node:fs/promises` paketi dosya sistemine vaat tabanlı bir arayüz sağlar.
 
-## Exercises
+## Egzersizler
 
-### Search tool
+### Arama aracı
 
 {{index grep, "search problem", "search tool (exercise)"}}
 
-On ((Unix)) systems, there is a command line tool called `grep` that can be used to quickly search files for a ((regular expression)).
+((Unix)) sistemlerinde, bir ((düzenli ifade)) için dosyaları hızlı bir şekilde aramak için kullanılabilen `grep` adlı bir komut satırı aracı vardır.
 
-Write a Node script that can be run from the ((command line)) and acts somewhat like `grep`. It treats its first command line argument as a regular expression and treats any further arguments as files to search. It outputs the names of any file whose content matches the regular expression.
+((Komut satırından)) çalıştırılabilen ve bir şekilde `grep` gibi davranan bir Node betiği yazın. İlk komut satırı argümanını düzenli bir ifade olarak ele alır ve diğer argümanları aranacak dosyalar olarak değerlendirir. İçeriği düzenli ifadeyle eşleşen herhangi bir dosyanın adını çıktı olarak vermelidir.
 
-When that works, extend it so that when one of the arguments is a ((directory)), it searches through all files in that directory and its subdirectories.
+Bu işe yaradığında, argümanlardan biri ((dizin)) olduğunda, o dizindeki ve alt dizinlerindeki tüm dosyaları arayacak şekilde genişletin.
 
 {{index ["asynchronous programming", "in Node.js"], "synchronous programming"}}
 
-Use asynchronous or synchronous filesystem functions as you see fit. Setting things up so that multiple asynchronous actions are requested at the same time might speed things up a little, but not a huge amount, since most filesystems can read only one thing at a time.
+Uygun gördüğünüz şekilde eşzamansız veya eşzamanlı dosya sistemi işlevlerini kullanın. İşleri aynı anda birden fazla eşzamansız eylem talep edilecek şekilde ayarlamak işleri biraz hızlandırabilir, ancak çoğu dosya sistemi bir seferde yalnızca bir şeyi okuyabildiğinden çok büyük bir miktar değil.
 
 {{hint
 
 {{index "RegExp class", "search tool (exercise)"}}
 
-Your first command line argument, the ((regular expression)), can be found in `process.argv[2]`. The input files come after that. You can use the `RegExp` constructor to go from a string to a regular expression object.
+İlk komut satırı argümanınız olan ((düzenli ifade)), `process.argv[2]` içinde bulunabilir. Girdi dosyaları bundan sonra gelir. Bir dizeden düzenli ifade nesnesine geçmek için `RegExp` yapıcısını kullanabilirsiniz.
 
 {{index "readFileSync function"}}
 
-Doing this synchronously, with `readFileSync`, is more straightforward, but if you use `node:fs/promises` to get promise-returning functions and write an `async` function, the code looks similar.
+Bunu `readFileSync` ile eşzamanlı olarak yapmak daha basittir, ancak söz döndüren işlevleri almak için `fs/promises` kullanırsanız ve bir `async` işlevi yazarsanız, kod benzer görünür.
 
 {{index "stat function", "statSync function", "isDirectory method"}}
 
-To figure out whether something is a directory, you can again use `stat` (or `statSync`) and the stats object's `isDirectory` method.
+Bir şeyin dizin olup olmadığını anlamak için yine `stat` (veya `statSync`) ve stats nesnesinin `isDirectory` yöntemini kullanabilirsiniz.
 
 {{index "readdir function", "readdirSync function"}}
 
-Exploring a directory is a branching process. You can do it either by using a recursive function or by keeping an array of work (files that still need to be explored). To find the files in a directory, you can call `readdir` or `readdirSync`. Note the strange capitalization—Node's filesystem function naming is loosely based on standard Unix functions, such as `readdir`, that are all lowercase, but then it adds `Sync` with a capital letter.
+Bir dizini keşfetmek dallanan bir süreçtir. Bunu ya özyinelemeli bir fonksiyon kullanarak ya da bir dizi iş (hala keşfedilmesi gereken dosyalar) tutarak yapabilirsiniz. Bir dizindeki dosyaları bulmak için `readdir` veya `readdirSync` fonksiyonlarını çağırabilirsiniz. Garip büyük harfe dikkat edin-Node'un dosya sistemi fonksiyon isimlendirmesi, `readdir` gibi standart Unix fonksiyonlarına gevşek bir şekilde dayanır, hepsi küçük harftir, ancak daha sonra büyük harfle `Sync` ekler.
 
-To go from a filename read with `readdir` to a full path name, you have to combine it with the name of the directory, either putting `sep` from `node:path` between them or using the `join` function from that same package.
+`readdir` ile okunan bir dosya adından tam bir yol adına gitmek için, ya `node:path`ten `sep`i aralarına koyarak ya da aynı paketten `join` kullanarak dizinin adıyla birleştirmeniz gerekir.
 
 hint}}
 
-### Directory creation
+### Dizin oluşturma
 
 {{index "file server example", "directory creation (exercise)", "rmdir function"}}
 
-Though the `DELETE` method in our file server is able to delete directories (using `rmdir`), the server currently does not provide any way to _create_ a ((directory)).
+Dosya sunucumuzdaki `DELETE` yöntemi dizinleri silebilse de (`rmdir` kullanarak), sunucu şu anda bir ((dizin)) _oluşturmak_ için herhangi bir yol sağlamamaktadır.
 
 {{index "MKCOL method", "mkdir function"}}
 
-Add support for the `MKCOL` method ("make collection"), which should create a directory by calling `mkdir` from the `node:fs` module. `MKCOL` is not a widely used HTTP method, but it does exist for this same purpose in the _((WebDAV))_ standard, which specifies a set of conventions on top of ((HTTP)) that make it suitable for creating documents.
+`MKCOL` yöntemi (“make collection”) için destek ekleyin, bu yöntem `node:fs` modülünden `mkdir` çağrısı yaparak bir dizin oluşturmalıdır. `MKCOL` yaygın olarak kullanılan bir HTTP yöntemi değildir, ancak _((WebDAV))_ standardında aynı amaç için mevcuttur, bu da ((HTTP)) üzerinde belge oluşturmak için uygun hale getiren bir dizi kural belirtir.
 
 ```{hidden: true, includeCode: ">code/file_server.mjs"}
 import {mkdir} from "node:fs/promises";
@@ -716,40 +716,40 @@ methods.MKCOL = async function(request) {
 
 {{index "directory creation (exercise)", "file server example", "MKCOL method", "mkdir function", idempotency, "400 (HTTP status code)"}}
 
-You can use the function that implements the `DELETE` method as a blueprint for the `MKCOL` method. When no file is found, try to create a directory with `mkdir`. When a directory exists at that path, you can return a 204 response so that directory creation requests are idempotent. If a nondirectory file exists here, return an error code. Code 400 ("bad request") would be appropriate.
+`DELETE` yöntemini uygulayan işlevi `MKCOL` yöntemi için bir taslak olarak kullanabilirsiniz. Dosya bulunamadığında, `mkdir` ile bir dizin oluşturmaya çalışın. Bu yolda bir dizin bulunduğunda, dizin oluşturma isteklerinin idempotent olması için 204 yanıtı döndürebilirsiniz. Burada dizin olmayan bir dosya varsa, bir hata kodu döndürün. Kod 400 (“kötü istek”) uygun olacaktır.
 
 hint}}
 
-### A public space on the web
+### Web'de kamusal bir alan
 
 {{index "public space (exercise)", "file server example", "Content-Type header", website}}
 
-Since the file server serves up any kind of file and even includes the right `Content-Type` header, you can use it to serve a website. Given that this server allows everybody to delete and replace files, this would make for an interesting kind of website: one that can be modified, improved, and vandalized by everybody who takes the time to make the right HTTP request.
+Dosya sunucusu her türlü dosyayı sunduğundan ve hatta doğru `Content-Type` başlığını içerdiğinden, bunu bir web sitesi sunmak için kullanabilirsiniz. Herkesin dosyaları silmesine ve değiştirmesine izin verdiğinden, ilginç bir web sitesi türü olacaktır: doğru HTTP isteğini oluşturmak için zaman ayıran herkes tarafından değiştirilebilen, geliştirilebilen ve tahrip edilebilen bir web sitesi.
 
-Write a basic ((HTML)) page that includes a simple JavaScript file. Put the files in a directory served by the file server and open them in your browser.
+Basit bir JavaScript dosyası içeren temel bir ((HTML)) sayfası yazın. Dosyaları dosya sunucusu tarafından sunulan bir dizine koyun ve tarayıcınızda açın.
 
-Next, as an advanced exercise or even a ((weekend project)), combine all the knowledge you gained from this book to build a more user-friendly interface for modifying the website—from _inside_ the website.
+Daha sonra, ileri düzey bir alıştırma veya hatta bir ((hafta sonu projesi)) olarak, bu kitaptan edindiğiniz tüm bilgileri birleştirerek web sitesini _içinden_ değiştirmek için daha kullanıcı dostu bir arayüz oluşturun.
 
-Use an HTML ((form)) to edit the content of the files that make up the website, allowing the user to update them on the server by using HTTP requests, as described in [Chapter ?](http).
+Web sitesini oluşturan dosyaların içeriğini düzenlemek için bir HTML ((form)) kullanın ve [Bölüm ?](http)'de açıklandığı gibi kullanıcının HTTP isteklerini kullanarak bunları sunucuda güncellemesine izin verin.
 
-Start by making only a single file editable. Then make it so that the user can select which file to edit. Use the fact that our file server returns lists of files when reading a directory.
+Sadece tek bir dosyayı düzenlenebilir hale getirerek başlayın. Daha sonra kullanıcının hangi dosyayı düzenleyeceğini seçebilmesini sağlayın. Dosya sunucumuzun bir dizini okurken dosya listeleri döndürdüğü gerçeğini kullanın.
 
 {{index overwriting}}
 
-Don't work directly in the code exposed by the file server, since if you make a mistake, you are likely to damage the files there. Instead, keep your work outside of the publicly accessible directory and copy it there when testing.
+Doğrudan dosya sunucusu tarafından açığa çıkarılan kodda çalışmayın, çünkü bir hata yaparsanız buradaki dosyalara zarar verebilirsiniz. Bunun yerine, çalışmanızı herkesin erişebileceği dizinin dışında tutun ve test ederken oraya kopyalayın.
 
 {{hint
 
 {{index "file server example", "textarea (HTML tag)", "fetch function", "relative path", "public space (exercise)"}}
 
-You can create a `<textarea>` element to hold the content of the file that is being edited. A `GET` request, using `fetch`, can retrieve the current content of the file. You can use relative URLs like _index.html_, instead of [_http://localhost:8000/index.html_](http://localhost:8000/index.html), to refer to files on the same server as the running script.
+Düzenlenmekte olan dosyanın içeriğini tutmak için bir `<textarea>` öğesi oluşturabilirsiniz. Bir `GET` isteği, `fetch` kullanarak dosyanın geçerli içeriğini alabilir. Çalışan kodla aynı sunucudaki dosyalara başvurmak için [_http://localhost:8000/index.html_](http://localhost:8000/index.html) yerine _index.html_ gibi göreli URL'ler kullanabilirsiniz.
 
 {{index "form (HTML tag)", "submit event", "PUT method"}}
 
-Then, when the user clicks a button (you can use a `<form>` element and `"submit"` event), make a `PUT` request to the same URL, with the content of the `<textarea>` as the request body, to save the file.
+Ardından, kullanıcı bir düğmeye tıkladığında (bir `<form>` öğesi ve `“submit”` olayı kullanabilirsiniz), dosyayı kaydetmek için istek gövdesi olarak `<textarea>` içeriği ile aynı URL'ye bir `PUT` isteği yapın.
 
 {{index "select (HTML tag)", "option (HTML tag)", "change event"}}
 
-You can then add a `<select>` element that contains all the files in the server's top ((directory)) by adding `<option>` elements containing the lines returned by a `GET` request to the URL `/`. When the user selects another file (a `"change"` event on the field), the script must fetch and display that file. When saving a file, use the currently selected filename.
+Daha sonra, `/` URL'sine bir `GET` isteği tarafından döndürülen satırları içeren `<option>` öğeleri ekleyerek sunucunun üst kısmındaki ((dizin)) tüm dosyaları içeren bir `<select>` öğesi ekleyebilirsiniz. Kullanıcı başka bir dosya seçtiğinde (alanda bir `“change”` olayı), kod bu dosyayı almalı ve görüntülemelidir. Bir dosyayı kaydederken, o anda seçili olan dosya adını kullanın.
 
 hint}}

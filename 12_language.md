@@ -1,44 +1,44 @@
 {{meta {load_files: ["code/chapter/12_language.js"], zip: "node/html"}}}
 
-# Project: A Programming Language
+# Proje: Bir Programlama Dili
 
 {{quote {author: "Hal Abelson and Gerald Sussman", title: "Structure and Interpretation of Computer Programs", chapter: true}
 
-The evaluator, which determines the meaning of expressions in a programming language, is just another program.
+Evaluator, bir programlama dilindeki ifadelerin anlamını belirleyen, sadece başka bir programdır.
 
 quote}}
 
 {{index "Abelson, Hal", "Sussman, Gerald", SICP, "project chapter"}}
 
-{{figure {url: "img/chapter_picture_12.jpg", alt: "Illustration showing an egg with holes in it, showing smaller eggs inside, which in turn have even smaller eggs in them, and so on", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_12.jpg", alt: "İçinde delikler olan bir yumurtayı gösteren, içinde daha küçük yumurtaların olduğu ve bunların içinde daha da küçük yumurtaların bulunduğu illüstrasyon.", chapter: "framed"}}}
 
-Building your own ((programming language)) is surprisingly easy (as long as you do not aim too high) and very enlightening.
+Kendi ((programming language))'inizi oluşturmak şaşırtıcı derecede kolaydır (çok yüksek hedefler koymadığınız sürece) ve oldukça aydınlatıcıdır.
 
-The main thing I want to show in this chapter is that there's no ((magic)) involved in building a programming language. I've often felt that some human inventions were so immensely clever and complicated that I'd never be able to understand them. But with a little reading and experimenting, they often turn out to be quite mundane.
+Bu bölümde göstermek istediğim ana şey, bir programlama dili oluşturmanın içinde ((büyü)) olmadığının anlaşılmasıdır. İnsan icatlarının bazıları o kadar inanılmaz derecede zeki ve karmaşık görünmüştür ki, onları asla anlayamayacağımı düşünmüşümdür. Ancak biraz okuma ve deneme ile genellikle oldukça sıradan oldukları ortaya çıkar.
 
 {{index "Egg language", [abstraction, "in Egg"]}}
 
-We will build a programming language called Egg. It will be a tiny, simple language—but one that is powerful enough to express any computation you can think of. It will allow simple ((abstraction)) based on ((function))s.
+Egg adında bir programlama dili oluşturacağız. Küçük ve basit bir dil olacak, ancak aklınıza gelebilecek herhangi bir hesaplamayı ifade edebilecek kadar güçlü olacak. Basit ((soyutlamalar)) sağlayacaktır ve ((fonksiyon))lara dayalı olacaktır.
 
 {{id parsing}}
 
-## Parsing
+## Ayrıştırma(Parsing)
 
 {{index parsing, validation, [syntax, "of Egg"]}}
 
-The most immediately visible part of a programming language is its _syntax_, or notation. A _parser_ is a program that reads a piece of text and produces a data structure that reflects the structure of the program contained in that text. If the text does not form a valid program, the parser should point out the error.
+Bir programlama dilinin en hemen görülebilir kısmı, onun _syntax_ veya gösterimidir. Bir _parser_, bir metin parçasını okuyup, o metinde bulunan programın yapısını yansıtan bir veri yapısı üreten bir programdır. Metin geçerli bir program oluşturmuyorsa, parser hatayı belirtmelidir.
 
 {{index "special form", [function, application]}}
 
-Our language will have a simple and uniform syntax. Everything in Egg is an ((expression)). An expression can be the name of a binding, a number, a string, or an _application_. Applications are used for function calls but also for constructs such as `if` or `while`.
+Dilimiz basit ve tekdüze bir sözdizimine sahip olacak. Egg'deki her şey bir ((ifade))dir. Bir ifade bir bağlama adı, bir sayı, bir string veya bir _aplikasyon_ olabilir. Aplikasyonlar fonksiyon çağrıları için kullanılır ancak `if` veya `while` gibi yapılar için de kullanılır.
 
 {{index "double-quote character", parsing, [escaping, "in strings"], [whitespace, syntax]}}
 
-To keep the parser simple, strings in Egg do not support anything like backslash escapes. A string is simply a sequence of characters that are not double quotes, wrapped in double quotes. A number is a sequence of digits. Binding names can consist of any character that is not whitespace and that does not have a special meaning in the syntax.
+Parser'ı basit tutmak için, Egg'deki stringler ters eğik çizgi kaçışlarını desteklemez. Bir string, çift tırnak içinde yer alan çift tırnak olmayan karakterlerden oluşan bir dizidir. Bir sayı, basamaklardan oluşan bir dizidir. Bağlama adları, boşluk olmayan ve sözdiziminde özel bir anlamı olmayan herhangi bir karakterden oluşabilir.
 
 {{index "comma character", [parentheses, arguments]}}
 
-Applications are written the way they are in JavaScript, by putting parentheses after an expression and having any number of ((argument))s between those parentheses, separated by commas.
+Aplikasyonlar JavaScript'te olduğu gibi yazılır, bir ifadenin ardından parantez koyarak ve bu parantezler arasında virgülle ayrılmış herhangi bir sayıda ((argümanlar)) koyarak.
 
 ```{lang: null}
 do(define(x, 10),
@@ -49,17 +49,17 @@ do(define(x, 10),
 
 {{index block, [syntax, "of Egg"]}}
 
-The ((uniformity)) of the ((Egg language)) means that things that are ((operator))s in JavaScript (such as `>`) are normal bindings in this language, applied just like other ((function))s. Since the syntax has no concept of a block, we need a `do` construct to represent doing multiple things in sequence.
+((Egg language))'in ((tekdüzeliği)), JavaScript'teki `>` gibi ((operator))lerin bu dilde normal bağlamalar olduğu anlamına gelir ve diğer fonksiyonlar gibi uygulanırlar. Ve sözdiziminde blok kavramı olmadığından, birden fazla şeyi ardışık olarak yapmak için bir `do` yapısına ihtiyacımız var.
 
 {{index "type property", parsing, ["data structure", tree]}}
 
-The data structure that the parser will use to describe a program consists of ((expression)) objects, each of which has a `type` property indicating the kind of expression it is and other properties to describe its content.
+Parser'ın bir programı tanımlamak için kullanacağı veri yapısı, her biri hangi tür ifade olduğunu belirten bir `type` özelliğine ve içeriğini tanımlayan diğer özelliklere sahip ((expression)) nesnelerinden oluşur.
 
 {{index identifier}}
 
-Expressions of type `"value"` represent literal strings or numbers. Their `value` property contains the string or number value that they represent. Expressions of type `"word"` are used for identifiers (names). Such objects have a `name` property that holds the identifier's name as a string. Finally, `"apply"` expressions represent applications. They have an `operator` property that refers to the expression that is being applied, as well as an `args` property that holds an array of argument expressions.
+`"value"` türündeki ifadeler, literal string veya sayıları temsil eder. Bunların `value` özelliği, temsil ettikleri string veya sayı değerini içerir. `"word"` türündeki ifadeler, tanımlayıcılar (isimler) için kullanılır. Bu tür nesneler, tanımlayıcının adını string olarak tutan bir `name` özelliğine sahiptir. Son olarak, `"apply"` ifadeleri uygulamaları temsil eder. Bunların uygulanan ifadeye başvuran bir `operator` özelliği ve bir dizi argüman ifadesi tutan bir `args` özelliği vardır.
 
-The `>(x, 5)` part of the previous program would be represented like this:
+Önceki programın `>(x, 5)` kısmı şu şekilde temsil edilir:
 
 ```{lang: "json"}
 {
@@ -74,27 +74,27 @@ The `>(x, 5)` part of the previous program would be represented like this:
 
 {{indexsee "abstract syntax tree", "syntax tree", ["data structure", tree]}}
 
-Such a data structure is called a _((syntax tree))_. If you imagine the objects as dots and the links between them as lines between those dots, as shown in the following diagram, the structure has a ((tree))like shape. The fact that expressions contain other expressions, which in turn might contain more expressions, is similar to the way tree branches split and split again.
+Bu tür bir veri yapısına _((syntax tree))_ denir. Nesneleri noktalar olarak ve bunlar arasındaki bağlantıları bu noktalar arasındaki çizgiler olarak hayal ederseniz, ((tree)) benzeri bir şekle sahiptir. İfadelerin diğer ifadeleri içermesi, onların da daha fazla ifade içermesi, ağaç dallarının bölünmesi ve tekrar bölünmesine benzer.
 
-{{figure {url: "img/syntax_tree.svg", alt: "A diagram showing the structure of the syntax tree for the example program. The root is labeled 'do' and has two children, one labeled 'define' and one labeled 'if'. Those in turn have more children, describing their content.", width: "5cm"}}}
+{{figure {url: "img/syntax_tree.svg", alt: "Örnek programın sözdizimi ağacının yapısını gösteren diyagram. Kök 'do' olarak etiketlenmiştir ve biri 'define' ve diğeri 'if' etiketli iki çocuğu vardır. Bunların da içeriklerini açıklayan daha fazla çocuğu var.", width: "5cm"}}}
 
 {{index parsing}}
 
-Contrast this to the parser we wrote for the configuration file format in [Chapter ?](regexp#ini), which had a simple structure: it split the input into lines and handled those lines one at a time. There were only a few simple forms that a line was allowed to have.
+Bunu, [Chapter ?](<(regexp#ini)>)'deki yapılandırma dosyası biçimi için yazdığımız parser ile karşılaştırın; bu parser, basit bir yapıya sahipti: girdiyi satırlara böldü ve bu satırları tek tek ele aldı. Bir satırın sahip olabileceği sadece birkaç basit form vardı.
 
 {{index recursion, [nesting, "of expressions"]}}
 
-Here we must find a different approach. Expressions are not separated into lines, and they have a recursive structure. Application expressions _contain_ other expressions.
+Burada farklı bir yaklaşım bulmalıyız. İfadeler satırlara ayrılmamış ve yinelemeli bir yapıya sahiptir. Application ifadeleri diğer ifadeleri _içerir_.
 
 {{index elegance}}
 
-Fortunately, this problem can be solved very well by writing a parser function that is recursive in a way that reflects the recursive nature of the language.
+Neyse ki, bu sorun, dilin yinelemeli doğasını yansıtan yinelemeli bir parser fonksiyonu yazarak çok iyi çözülebilir.
 
 {{index "parseExpression function", "syntax tree"}}
 
-We define a function `parseExpression` that takes a string as input. It returns an object containing the data structure for the expression at the start of the string, along with the part of the string left after parsing this expression. When parsing subexpressions (the argument to an application, for example), this function can be called again, yielding the argument expression as well as the text that remains. This text may in turn contain more arguments or may be the closing parenthesis that ends the list of arguments.
+Bir string'i girdi olarak alan ve string'in başlangıcındaki ifade için veri yapısını içeren bir nesne ve bu ifadeyi ayrıştırdıktan sonra kalan string'i döndüren bir `parseExpression` fonksiyonu tanımlarız. Alt ifadeleri ayrıştırırken (örneğin bir application'ın argümanı), bu fonksiyon tekrar çağrılabilir, böylece argüman ifadesi ve kalan metin elde edilir. Bu metin sırayla daha fazla argüman içerebilir veya argüman listesini sonlandıran kapanış parantezi olabilir.
 
-This is the first part of the parser:
+Bu parser'ın ilk kısmıdır:
 
 ```{includeCode: true}
 function parseExpression(program) {
@@ -122,15 +122,15 @@ function skipSpace(string) {
 
 {{index "skipSpace function", [whitespace, syntax]}}
 
-Because Egg, like JavaScript, allows any amount of whitespace between its elements, we have to repeatedly cut the whitespace off the start of the program string. The `skipSpace` function helps with this.
+Egg, JavaScript gibi, elemanları arasında herhangi bir miktarda boşluk bulunmasına izin verdiğinden, program string'inin başlangıcındaki boşlukları tekrar tekrar kesmemiz gerekir. `skipSpace` fonksiyonu bu konuda yardımcı olur.
 
 {{index "literal expression", "SyntaxError type"}}
 
-After skipping any leading space, `parseExpression` uses three ((regular expression))s to spot the three atomic elements that Egg supports: strings, numbers, and words. The parser constructs a different kind of data structure depending on which expression matches. If the input does not match one of these three forms, it is not a valid expression, and the parser throws an error. We use the `SyntaxError` constructor here. This is an exception class defined by the standard, like `Error`, but more specific.
+Herhangi bir önde gelen boşluğu geçtikten sonra, `parseExpression` Egg'in desteklediği üç atomik elemanı tespit etmek için üç ((regular expression)) kullanır: stringler, sayılar ve kelimeler. Parser, hangisi eşleşirse ona bağlı olarak farklı bir veri yapısı oluşturur. Girdi bu üç formdan birine uymuyorsa, geçerli bir ifade değildir ve parser bir hata oluşturur. `Error` yerine `SyntaxError`'ı kullanırız çünkü bu biraz daha spesifiktir—aynı zamanda geçersiz bir JavaScript programı çalıştırılmaya çalışıldığında oluşturulan hata türüdür.
 
 {{index "parseApply function"}}
 
-We then cut off the part that was matched from the program string and pass that, along with the object for the expression, to `parseApply`, which checks whether the expression is an application. If so, it parses a parenthesized list of arguments.
+Sonra eşleşen kısmı program string'inden kesip, bunu ifade için nesne ile birlikte `parseApply`'a geçiririz, bu ifade bir application olup olmadığını kontrol eder. Eğer öyleyse, parantezli bir argüman listesi ayrıştırır.
 
 ```{includeCode: true}
 function parseApply(expr, program) {
@@ -157,13 +157,17 @@ function parseApply(expr, program) {
 
 {{index parsing, recursion}}
 
-If the next character in the program is not an opening parenthesis, this is not an application, and `parseApply` returns the expression it was given. Otherwise, it skips the opening parenthesis and creates the ((syntax tree)) object for this application expression. It then recursively calls `parseExpression` to parse each argument until a closing parenthesis is found. The recursion is indirect, through `parseApply` and `parseExpression` calling each other.
+Programdaki bir sonraki karakter açılış parantezi değilse, bu bir application değildir ve `parseApply` verilen ifadeyi döner.
 
-Because an application expression can itself be applied (such as in `multiplier(2)(1)`), `parseApply` must, after it has parsed an application, call itself again to check whether another pair of parentheses follows.
+{{index recursion}}
+
+Aksi takdirde, açılış parantezini atlar ve bu application ifadesi için ((syntax tree)) nesnesini oluşturur. Daha sonra, kapanış parantezi bulunana kadar her argümanı ayrıştırmak için `parseExpression`'ı yinelemeli olarak çağırır. Yineleme dolaylıdır, `parseApply` ve `parseExpression` birbirlerini çağırır.
+
+Bir application ifadesi kendisi uygulanabilir (örneğin `multiplier(2)(1)`), bu yüzden `parseApply` bir application ayrıştırdıktan sonra, başka bir parantez çifti olup olmadığını kontrol etmek için kendisini tekrar çağırmalıdır.
 
 {{index "syntax tree", "Egg language", "parse function"}}
 
-This is all we need to parse Egg. We wrap it in a convenient `parse` function that verifies that it has reached the end of the input string after parsing the expression (an Egg program is a single expression), and that gives us the program's data structure.
+Egg'i ayrıştırmak için ihtiyacımız olan her şey bu kadar. Bunu, bir ifadeyi ayrıştırdıktan sonra girdi string'inin sonuna ulaşıldığını doğrulayan ve bize programın veri yapısını veren uygun bir `parse` fonksiyonuna sararız (bir Egg programı tek bir ifadedir).
 
 ```{includeCode: strip_log, test: join}
 function parse(program) {
@@ -183,13 +187,13 @@ console.log(parse("+(a, 10)"));
 
 {{index "error message"}}
 
-It works! It doesn't give us very helpful information when it fails and doesn't store the line and column on which each expression starts, which might be helpful when reporting errors later, but it's good enough for our purposes.
+İşe yarıyor! Başarısız olduğunda çok yardımcı bilgi vermiyor ve her ifadenin başladığı satır ve sütunu saklamıyor, bu da daha sonra hataları bildirirken faydalı olabilir, ancak bizim amaçlarımız için yeterince iyi.
 
-## The evaluator
+## Değerlendirici(Evaluator)
 
 {{index "evaluate function", evaluation, interpretation, "syntax tree", "Egg language"}}
 
-What can we do with the syntax tree for a program? Run it, of course! And that is what the evaluator does. You give it a syntax tree and a scope object that associates names with values, and it will evaluate the expression that the tree represents and return the value that this produces.
+Bir program için ((syntax tree)) ile ne yapabiliriz? Elbette çalıştırabiliriz! Ve değerlendirici tam olarak bunu yapar. Ona bir ((syntax tree)) ve isimleri değerlerle ilişkilendiren bir kapsam nesnesi verirsiniz ve bu, ağacın temsil ettiği ifadeyi değerlendirir ve ürettiği değeri döndürür.
 
 ```{includeCode: true}
 const specialForms = Object.create(null);
@@ -223,27 +227,27 @@ function evaluate(expr, scope) {
 
 {{index "literal expression", scope}}
 
-The evaluator has code for each of the ((expression)) types. A literal value expression produces its value. (For example, the expression `100` evaluates to the number 100.) For a binding, we must check whether it is actually defined in the scope and, if it is, fetch the binding's value.
+Değerlendirici, her ((expression)) türü için koda sahiptir. Bir literal değer ifadesi kendi değerini üretir. (Örneğin, `100` ifadesi sadece 100 sayısını değerlendirir.) Bir bağlama için, bunun kapsamda gerçekten tanımlanıp tanımlanmadığını kontrol etmemiz ve eğer öyleyse, bağlamanın değerini almamız gerekir.
 
 {{index [function, application]}}
 
-Applications are more involved. If they are a ((special form)), like `if`, we do not evaluate anything—we just and pass the argument expressions, along with the scope, to the function that handles this form. If it is a normal call, we evaluate the operator, verify that it is a function, and call it with the evaluated arguments.
+Application'lar daha karmaşıktır. Eğer `if` gibi bir ((special form)) iseler, hiçbir şeyi değerlendirmeyiz ve argüman ifadelerini, kapsamla birlikte, bu formu yöneten fonksiyona geçiririz. Eğer normal bir çağrıysa, operatörü değerlendiririz, bunun bir fonksiyon olduğunu doğrularız ve değerlendirilmiş argümanlarla çağırırız.
 
-We use plain JavaScript function values to represent Egg's function values. We will come back to this [later](language#egg_fun), when the special form `fun` is defined.
+Egg'in fonksiyon değerlerini temsil etmek için sade JavaScript fonksiyon değerlerini kullanırız. Bu konuya daha [sonra](<(language#egg_fun)>), `fun` adı verilen ((special form)) tanımlandığında döneceğiz.
 
 {{index readability, "evaluate function", recursion, parsing}}
 
-The recursive structure of `evaluate` resembles the structure of the parser, and both mirror the structure of the language itself. It would also be possible to combine the parser and the evaluator into one function and evaluate during parsing, but splitting them up this way makes the program clearer and more flexible.
+`evaluate`'in yinelemeli yapısı, parser'ın benzer yapısına benzer ve her ikisi de dilin yapısını yansıtır. Parser ve değerlendiriciyi tek bir fonksiyona birleştirmek ve ayrıştırma sırasında değerlendirmek de mümkündür. Ancak bu şekilde ayırmak programı daha net ve esnek kılar.
 
 {{index "Egg language", interpretation}}
 
-This is really all that's needed to interpret Egg. It's that simple. But without defining a few special forms and adding some useful values to the ((environment)), you can't do much with this language yet.
+Egg'i yorumlamak için gereken her şey gerçekten bu kadar basittir. Ama birkaç özel form tanımlamadan ve ((environment))'a bazı kullanışlı değerler eklemeden, bu dil ile pek bir şey yapamazsınız.
 
-## Special forms
+## Özel formlar
 
 {{index "special form", "specialForms object"}}
 
-The `specialForms` object is used to define special syntax in Egg. It associates words with functions that evaluate such forms. It is currently empty. Let's add `if`.
+`specialForms` nesnesi, Egg'de özel sözdizimini tanımlamak için kullanılır. Bu, sözcükleri bu formaları değerlendiren fonksiyonlarla ilişkilendirir. Şu anda boş. `if` ekleyelim.
 
 ```{includeCode: true}
 specialForms.if = (args, scope) => {
@@ -259,17 +263,17 @@ specialForms.if = (args, scope) => {
 
 {{index "conditional execution", "ternary operator", "?: operator", "conditional operator"}}
 
-Egg's `if` construct expects exactly three arguments. It will evaluate the first, and if the result isn't the value `false`, it will evaluate the second. Otherwise, the third gets evaluated. This `if` form is more similar to JavaScript's ternary `?:` operator than to JavaScript's `if`. It is an expression, not a statement, and it produces a value—namely, the result of the second or third argument.
+Egg'in `if` yapısı tam olarak üç argüman bekler. İlkini değerlendirecek ve eğer sonuç `false` değilse, ikincisini değerlendirecektir. Aksi takdirde, üçüncü değerlendirilir. Bu `if` formu, JavaScript'in `if`'inden çok JavaScript'in üçlü `?:` operatörüne benzer. Bir bildiri değil, ifadedir ve bir değer üretir, yani ikinci veya üçüncü argümanın sonucunu üretir.
 
 {{index Boolean}}
 
-Egg also differs from JavaScript in how it handles the condition value to `if`. It will treat only the value `false` as false, not things like zero or the empty string.
+Egg ayrıca `if` koşul değerini nasıl ele aldığında JavaScript'ten farklıdır. Sıfır veya boş string gibi şeyleri `false` olarak değerlendirmeyecek, sadece kesin değer `false` olarak değerlendirecektir.
 
 {{index "short-circuit evaluation"}}
 
-The reason we need to represent `if` as a special form rather than a regular function is that all arguments to functions are evaluated before the function is called, whereas `if` should evaluate only _either_ its second or its third argument, depending on the value of the first.
+`if`'i düzenli bir fonksiyon yerine özel bir form olarak temsil etmemizin nedeni, fonksiyonlara tüm argümanlar fonksiyon çağrılmadan önce değerlendirilir, oysa `if` yalnızca ya ikinci _ya da_ üçüncü argümanını değerlendirmelidir, ilk argümanın değerine bağlı olarak.
 
-The `while` form is similar.
+`while` formu benzerdir.
 
 ```{includeCode: true}
 specialForms.while = (args, scope) => {
@@ -286,7 +290,7 @@ specialForms.while = (args, scope) => {
 };
 ```
 
-Another basic building block is `do`, which executes all its arguments from top to bottom. Its value is the value produced by the last argument.
+Diğer bir temel yapı taşı `do`'dur, tüm argümanlarını yukarıdan aşağıya doğru yürütür. Onun değeri, son argümanın ürettiği değerdir.
 
 ```{includeCode: true}
 specialForms.do = (args, scope) => {
@@ -300,7 +304,7 @@ specialForms.do = (args, scope) => {
 
 {{index ["= operator", "in Egg"], [binding, "in Egg"]}}
 
-To be able to create bindings and give them new values, we also create a form called `define`. It expects a word as its first argument and an expression producing the value to assign to that word as its second argument. Since `define`, like everything, is an expression, it must return a value. We'll make it return the value that was assigned (just like JavaScript's `=` operator).
+Bağlamalar oluşturup onlara yeni değerler atayabilmek için, `define` adında bir form da oluştururuz. İlk argüman olarak bir kelime ve bu kelimeye atanacak değeri üreten bir ifade bekler. `define`, her şey gibi, bir ifade olduğundan, bir değer döndürmelidir. Bu değeri atanmış olan değeri döndürecek şekilde yapacağız (tıpkı JavaScript'in `=` operatörü gibi).
 
 ```{includeCode: true}
 specialForms.define = (args, scope) => {
@@ -313,13 +317,13 @@ specialForms.define = (args, scope) => {
 };
 ```
 
-## The environment
+## Ortam
 
 {{index "Egg language", "evaluate function", [binding, "in Egg"]}}
 
-The ((scope)) accepted by `evaluate` is an object with properties whose names correspond to binding names and whose values correspond to the values those bindings are bound to. Let's define an object to represent the ((global scope)).
+`evaluate` tarafından kabul edilen ((scope)), isimleri bağlama isimlerine ve değerleri bu bağlamalara karşılık gelen değerlere karşılık gelen özellikleri olan bir nesnedir. ((global scope))'u temsil etmek için bir nesne tanımlayalım.
 
-To be able to use the `if` construct we just defined, we must have access to ((Boolean)) values. Since there are only two Boolean values, we do not need special syntax for them. We simply bind two names to the values `true` and `false` and use them.
+Yeni tanımladığımız `if` yapısını kullanabilmek için, ((Boolean)) değerlere erişimimiz olmalıdır. Yalnızca iki Boolean değeri olduğundan, bunlar için özel bir sözdizimine ihtiyacımız yoktur. İki ismi `true` ve `false` değerlerine bağlar ve kullanırız.
 
 ```{includeCode: true}
 const topScope = Object.create(null);
@@ -328,7 +332,7 @@ topScope.true = true;
 topScope.false = false;
 ```
 
-We can now evaluate a simple expression that negates a Boolean value.
+Artık bir Boolean değerini tersine çeviren basit bir ifadeyi değerlendirebiliriz.
 
 ```
 let prog = parse(`if(true, false, true)`);
@@ -338,7 +342,7 @@ console.log(evaluate(prog, topScope));
 
 {{index arithmetic, "Function constructor"}}
 
-To supply basic ((arithmetic)) and ((comparison)) ((operator))s, we will also add some function values to the ((scope)). In the interest of keeping the code short, we'll use `Function` to synthesize a bunch of operator functions in a loop instead of defining them individually.
+Temel ((arithmetic)) ve ((comparison)) ((operator))ları sağlamak için, ((scope))'a bazı fonksiyon değerleri de ekleyeceğiz. Kodu kısa tutmak adına, her birini ayrı ayrı tanımlamak yerine, bir döngüde bir grup operatör fonksiyonu üretmek için `Function` kullanacağız.
 
 ```{includeCode: true}
 for (let op of ["+", "-", "*", "/", "==", "<", ">"]) {
@@ -346,7 +350,7 @@ for (let op of ["+", "-", "*", "/", "==", "<", ">"]) {
 }
 ```
 
-It is also useful to have a way to ((output)) values, so we'll wrap `console.log` in a function and call it `print`.
+Değerleri ((output)) etmek için bir yol da faydalıdır, bu yüzden `console.log`'u bir fonksiyon içine sarıp `print` olarak adlandıracağız.
 
 ```{includeCode: true}
 topScope.print = value => {
@@ -357,7 +361,7 @@ topScope.print = value => {
 
 {{index parsing, "run function"}}
 
-That gives us enough elementary tools to write simple programs. The following function provides a convenient way to parse a program and run it in a fresh scope:
+Bu, basit programlar yazmak için yeterli temel araçları sağlar. Aşağıdaki fonksiyon, bir programı ayrıştırmak ve bunu yeni bir kapsamda çalıştırmak için kullanışlı bir yol sağlar:
 
 ```{includeCode: true}
 function run(program) {
@@ -367,7 +371,7 @@ function run(program) {
 
 {{index "Object.create function", prototype}}
 
-We'll use object prototype chains to represent nested scopes so that the program can add bindings to its local scope without changing the top-level scope.
+Yerleşik kapsamları temsil etmek için nesne prototip zincirlerini kullanacağız, böylece program, üst düzey kapsamı değiştirmeden yerel kapsamına bağlamalar ekleyebilir.
 
 ```
 run(`
@@ -383,15 +387,17 @@ do(define(total, 0),
 
 {{index "summing example", "Egg language"}}
 
-This is the program we've seen several times before that computes the sum of the numbers 1 to 10, expressed in Egg. It is clearly uglier than the equivalent JavaScript program—but not bad for a language implemented in fewer than 150 ((lines of code)).
+Bu, 1'den 10'a kadar olan sayıların toplamını hesaplayan ve Egg'de ifade edilen programdır. Açıkça JavaScript eşdeğerinden daha çirkindir—ancak 150'den az ((lines of code)) ile uygulanmış bir dil için fena değil.
 
 {{id egg_fun}}
 
-## Functions
+## Fonksiyonlar
 
 {{index function, "Egg language"}}
 
-A programming language without functions is a poor programming language indeed. Fortunately, it isn't hard to add a `fun` construct, which treats its last argument as the function's body and uses all arguments before that as the names of the function's parameters.
+Fonksiyonsuz bir programlama dili gerçekten zayıf bir programlama dilidir.
+
+Neyse ki, son argümanını fonksiyonun gövdesi olarak ele alan ve ondan önceki tüm argümanları fonksiyonun parametre isimleri olarak kullanan bir `fun` yapısını eklemek zor değildir.
 
 ```{includeCode: true}
 specialForms.fun = (args, scope) => {
@@ -421,7 +427,7 @@ specialForms.fun = (args, scope) => {
 
 {{index "local scope"}}
 
-Functions in Egg get their own local scope. The function produced by the `fun` form creates this local scope and adds the argument bindings to it. It then evaluates the function body in this scope and returns the result.
+Egg'deki fonksiyonlar kendi yerel kapsamlarını alır. `fun` formu tarafından üretilen fonksiyon bu yerel kapsamı oluşturur ve argüman bağlamalarını ona ekler. Daha sonra fonksiyon gövdesini bu kapsamda değerlendirir ve sonucu döndürür.
 
 ```{startCode: true}
 run(`
@@ -440,37 +446,39 @@ do(define(pow, fun(base, exp,
 // → 1024
 ```
 
-## Compilation
+## Derleme(Compilation)
 
 {{index interpretation, compilation}}
 
-What we have built is an interpreter. During evaluation, it acts directly on the representation of the program produced by the parser.
+İnşaa etmiş olduğumuz şey bir yorumlayıcıdır. Değerlendirme sırasında, parser tarafından üretilen programın temsilinde doğrudan çalışır.
 
 {{index efficiency, performance, [binding, definition], [memory, speed]}}
 
-_Compilation_ is the process of adding another step between the parsing and the running of a program, which transforms the program into something that can be evaluated more efficiently by doing as much work as possible in advance. For example, in well-designed languages it is obvious, for each use of a binding, which binding is being referred to, without actually running the program. This can be used to avoid looking up the binding by name every time it is accessed, instead directly fetching it from some predetermined memory location.
+_Compilation_, bir programın çalıştırılmasından önceki adımlardan birini ekleyerek programı daha verimli bir şekilde değerlendirilebilecek bir şeye dönüştürme sürecidir. Örneğin, iyi tasarlanmış dillerde, bir bağlamanın her kullanımının hangi bağlamaya atıfta bulunduğu, programı gerçekten çalıştırmadan açıktır. Bu, bağlamayı her erişildiğinde adla aramak yerine, doğrudan önceden belirlenmiş bir bellek konumundan almayı sağlayabilir.
 
-Traditionally, ((compilation)) involves converting the program to ((machine code)), the raw format that a computer's processor can execute. But any process that converts a program to a different representation can be thought of as compilation.
+Geleneksel olarak, ((compilation)), programı, bir bilgisayarın işlemcisinin çalıştırabileceği ham format olan ((machine code))'a dönüştürmeyi içerir. Ancak, programı farklı bir temsile dönüştüren herhangi bir süreç derleme olarak düşünülebilir.
 
 {{index simplicity, "Function constructor", transpilation}}
 
-It would be possible to write an alternative ((evaluation)) strategy for Egg, one that first converts the program to a JavaScript program, uses `Function` to invoke the JavaScript compiler on it, and runs the result. When done right, this would make Egg run very fast while still being quite simple to implement.
+Egg için alternatif bir ((değerlendirme(evaluation))) stratejisi yazmak mümkündür; programı önce bir JavaScript programına dönüştüren, `Function` kullanarak JavaScript derleyicisini çağıran ve ardından sonucu çalıştıran bir strateji. Doğru yapıldığında, bu Egg'i çok hızlı çalıştırır ve hala oldukça basit bir şekilde uygulanabilir.
 
-If you are interested in this topic and willing to spend some time on it, I encourage you to try to implement such a compiler as an exercise.
+Eğer bu konuyla ilgileniyorsanız ve biraz zaman ayırmaya istekliyseniz, böyle bir derleyiciyi bir egzersiz olarak uygulamayı denemenizi öneririm.
 
-## Cheating
+## Hile yapmak
 
 {{index "Egg language"}}
 
-When we defined `if` and `while`, you probably noticed that they were more or less trivial wrappers around JavaScript's own `if` and `while`. Similarly, the values in Egg are just regular old JavaScript values. Bridging the gap to a more primitive system, such as the machine code the processor understands, takes more effort—but the way it works resembles what we are doing here.
+`if` ve `while` tanımladığımızda, bunların JavaScript'in kendi `if` ve `while` yapılarının etrafında daha az veya daha çok basit sarmalayıcılar olduğunu fark etmiş olabilirsiniz. Benzer şekilde, Egg'deki değerler sadece eski normal JavaScript değerleridir.
 
-Though the toy language in this chapter doesn't do anything that couldn't be done better in JavaScript, there _are_ situations where writing small languages helps get real work done.
+Egg'in JavaScript üzerine inşa edilmiş uygulaması ile bir programlama dilini doğrudan bir makinenin sağladığı ham fonksiyonellik üzerine inşa etmek için gereken iş ve karmaşıklığı karşılaştırırsanız, fark çok büyüktür. Her şeye rağmen, bu örnek size ((programlama dillerinin)) nasıl çalıştığı konusunda bir izlenim vermeyi amaçladı.
 
-Such a language does not have to resemble a typical programming language. If JavaScript didn't come equipped with regular expressions, for example, you could write your own parser and evaluator for regular expressions.
+Ve bir şeyler yapmaya gelince, hile yapmak her şeyi kendiniz yapmaktan daha etkilidir. Bu bölümdeki oyuncak dil JavaScript'te daha iyi yapılamayacak bir şey yapmıyor olsa da, küçük diller yazmanın gerçek işleri halletmeye yardımcı olduğu durumlar _vardır_.
+
+Böyle bir dil tipik bir programlama diline benzemek zorunda değildir. Örneğin, JavaScript düzenli ifadelerle donatılmış olarak gelmeseydi, kendi düzenli ifadelerinizi ayrıştırıcı ve değerlendirici olarak yazabilirdiniz.
 
 {{index "parser generator"}}
 
-Or imagine you are building a program that makes it possible to quickly create parsers by providing a logical description of the language they need to parse. You could define a specific notation for that, and a compiler that compiles it to a parser program.
+Ya da dev bir robotik ((dinazor)) inşa ettiğinizi ve onun ((davranışını)) programlamanız gerektiğini hayal edin. JavaScript bunu yapmanın en etkili yolu olmayabilir. Bunun yerine şöyle görünen bir dil seçebilirsiniz:
 
 ```{lang: null}
 expr = number | string | name | application
@@ -486,15 +494,15 @@ application = expr '(' (expr (',' expr)*)? ')'
 
 {{index expressivity}}
 
-This is what is usually called a _((domain-specific language))_, a language tailored to express a narrow domain of knowledge. Such a language can be more expressive than a general-purpose language because it is designed to describe exactly the things that need to be described in its domain and nothing else.
+Bu genellikle ((domain-özel dil)) olarak adlandırılır, belirli bir bilgi alanını ifade etmek için tasarlanmış bir dil. Böyle bir dil, genel amaçlı bir dilden daha ifadeli olabilir çünkü tam olarak ifade edilmesi gereken şeyleri ifade etmek için tasarlanmıştır ve başka hiçbir şeyi.
 
-## Exercises
+## Egzersizler
 
-### Arrays
+### Diziler
 
 {{index "Egg language", "arrays in egg (exercise)", [array, "in Egg"]}}
 
-Add support for arrays to Egg by adding the following three functions to the top scope: `array(...values)` to construct an array containing the argument values, `length(array)` to get an array's length, and `element(array, n)` to fetch the *n*th element from an array.
+Egg'e diziler için destek ekleyin, en üst kapsama aşağıdaki üç fonksiyonu ekleyerek: `array(...values)` argüman değerlerini içeren bir dizi oluşturmak için, `length(array)` bir dizinin uzunluğunu almak için ve `element(array, n)` bir diziden n^inci^ öğeyi almak için.
 
 {{if interactive
 
@@ -526,21 +534,21 @@ if}}
 
 {{index "arrays in egg (exercise)"}}
 
-The easiest way to do this is to represent Egg arrays with JavaScript arrays.
+Bunu yapmanın en kolay yolu, Egg dizilerini JavaScript dizileri ile temsil etmektir.
 
 {{index "slice method"}}
 
-The values added to the top scope must be functions. By using a rest argument (with triple-dot notation), the definition of `array` can be _very_ simple.
+En üst kapsama eklenen değerler fonksiyon olmalıdır. Bir rest argümanı (üç nokta notasyonu ile) kullanarak, `array` tanımını _çok_ basit hale getirebiliriz.
 
 hint}}
 
-### Closure
+### Kapanış(Closure)
 
 {{index closure, [function, scope], "closure in egg (exercise)"}}
 
-The way we have defined `fun` allows functions in Egg to reference the surrounding scope, allowing the function's body to use local values that were visible at the time the function was defined, just like JavaScript functions do.
+`fun`'ı tanımlama şeklimiz, Egg'deki fonksiyonların çevreleyen kapsamı referans almasına izin verir, bu da fonksiyonun gövdesinin fonksiyonun tanımlandığı anda görünen yerel değerleri kullanmasına izin verir, tıpkı JavaScript fonksiyonları gibi.
 
-The following program illustrates this: function `f` returns a function that adds its argument to `f`'s argument, meaning that it needs access to the local ((scope)) inside `f` to be able to use binding `a`.
+Aşağıdaki program bunu göstermektedir: `f` fonksiyonu, argümanını `f`'nin argümanına ekleyen bir fonksiyon döndürür, bu da `a` bağlamına ulaşabilmesi için `f` içindeki lokal kapsama(scope) erişimi olmasını gerektirir..
 
 ```
 run(`
@@ -550,29 +558,29 @@ do(define(f, fun(a, fun(b, +(a, b)))),
 // → 9
 ```
 
-Go back to the definition of the `fun` form and explain which mechanism causes this to work.
+`fun` formunun tanımına geri dönün ve bunun çalışmasını sağlayan mekanizmayı açıklayın.
 
 {{hint
 
 {{index closure, "closure in egg (exercise)"}}
 
-Again, we are riding along on a JavaScript mechanism to get the equivalent feature in Egg. Special forms are passed the local scope in which they are evaluated so that they can evaluate their subforms in that scope. The function returned by `fun` has access to the `scope` argument given to its enclosing function and uses that to create the function's local ((scope)) when it is called.
+Yine, JavaScript mekanizmasını kullanarak Egg'de eşdeğer özelliği elde ediyoruz. Özel formlar, kendi alt formlarını bu kapsamda değerlendirebilmeleri için değerlendirildikleri yerel kapsamı alırlar. `fun` tarafından döndürülen fonksiyon, kapsayıcı fonksiyonuna verilen `scope` argümanına erişir ve çağrıldığında fonksiyonun yerel ((kapsamını)) oluşturmak için bunu kullanır.
 
 {{index compilation}}
 
-This means that the ((prototype)) of the local scope will be the scope in which the function was created, which makes it possible to access bindings in that scope from the function. This is all there is to implementing closure (though to compile it in a way that is actually efficient, you'd need to do some more work).
+Bu, yerel kapsamın ((prototipinin)) fonksiyonun oluşturulduğu kapsam olacağı anlamına gelir, bu da bu kapsamda bağlamalara fonksiyondan erişmeyi mümkün kılar. Bu, kapanışı(closure) uygulamak için gereken her şeydir (ancak bunu gerçekten verimli bir şekilde derlemek için biraz daha fazla iş yapmanız gerekir).
 
 hint}}
 
-### Comments
+### Yorumlar
 
 {{index "hash character", "Egg language", "comments in egg (exercise)"}}
 
-It would be nice if we could write ((comment))s in Egg. For example, whenever we find a hash sign (`#`), we could treat the rest of the line as a comment and ignore it, similar to `//` in JavaScript.
+Egg'de ((yorum)) yazabilmek güzel olurdu. Örneğin, bir hash işareti (`#`) bulduğumuzda, satırın geri kalanını bir yorum olarak ele alabilir ve JavaScript'teki `//` gibi görmezden gelebiliriz.
 
 {{index "skipSpace function"}}
 
-We do not have to make any big changes to the parser to support this. We can simply change `skipSpace` to skip comments as if they are ((whitespace)) so that all the points where `skipSpace` is called will now also skip comments. Make this change.
+Bunu desteklemek için ayrıştırıcıda büyük değişiklikler yapmamıza gerek yok. `skipSpace`'i, yorumları ((whitespace)) gibi atlayacak şekilde değiştirebiliriz, böylece `skipSpace`'in çağrıldığı tüm noktalar artık yorumları da atlayacaktır. Bu değişikliği yapın.
 
 {{if interactive
 
@@ -592,35 +600,36 @@ console.log(parse("a # one\n   # two\n()"));
 //    operator: {type: "word", name: "a"},
 //    args: []}
 ```
+
 if}}
 
 {{hint
 
 {{index "comments in egg (exercise)", [whitespace, syntax]}}
 
-Make sure your solution handles multiple comments in a row, with whitespace potentially between or after them.
+Çözümünüzün, arka arkaya birden fazla yorumu, aralarında veya sonrasında potansiyel olarak boşluklarla birlikte ele aldığından emin olun.
 
-A ((regular expression)) is probably the easiest way to solve this. Write something that matches "whitespace or a comment, zero or more times". Use the `exec` or `match` method and look at the length of the first element in the returned array (the whole match) to find out how many characters to slice off.
+Bir ((düzenli ifade)) muhtemelen bunu çözmenin en kolay yoludur. "Boşluk veya yorum, sıfır veya daha fazla kez" eşleşen bir şey yazın. `exec` veya `match` metodunu kullanın ve döndürülen dizinin ilk öğesinin (tüm eşleşme) uzunluğuna bakarak ne kadar karakter dilimleneceğini bulun.
 
 hint}}
 
-### Fixing scope
+### Kapsamı düzeltme
 
 {{index [binding, definition], assignment, "fixing scope (exercise)"}}
 
-Currently, the only way to assign a binding a value is `define`. This construct acts as a way both to define new bindings and to give existing ones a new value.
+Şu anda bir bağlamaya değer atamanın tek yolu `define`. Bu yapı, yeni bağlamalar tanımlamanın ve mevcut olanlara yeni bir değer vermenin bir yolu olarak işlev görür.
 
 {{index "local binding"}}
 
-This ((ambiguity)) causes a problem. When you try to give a nonlocal binding a new value, you will end up defining a local one with the same name instead. Some languages work like this by design, but I've always found it an awkward way to handle ((scope)).
+Bu ((belirsizlik)) bir soruna yol açar. Yerel olmayan bir bağlamaya yeni bir değer vermeye çalıştığınızda, bunun yerine aynı ada sahip yerel bir bağlama tanımlarsınız. Bazı diller bu şekilde tasarlanmıştır, ancak ((kapsamı)) bu şekilde ele almanın her zaman garip bir yol olduğunu düşündüm.
 
 {{index "ReferenceError type"}}
 
-Add a special form `set`, similar to `define`, which gives a binding a new value, updating the binding in an outer scope if it doesn't already exist in the inner scope. If the binding is not defined at all, throw a `ReferenceError` (another standard error type).
+Yerel kapsamda zaten yoksa, dış kapsamda bir bağlamayı güncelleyerek yeni bir değer veren `define`'a benzer bir özel form `set` ekleyin. Bağlama hiç tanımlanmamışsa, bir `ReferenceError` (başka bir standart hata türü) atın.
 
 {{index "hasOwn function", prototype, "getPrototypeOf function"}}
 
-The technique of representing scopes as simple objects, which has made things convenient so far, will get in your way a little at this point. You might want to use the `Object.getPrototypeOf` function, which returns the prototype of an object. Also remember that you can use `Object.hasOwn` to find out if a given object has a property.
+Kapsamları basit nesneler olarak temsil etme tekniği, şu ana kadar işleri kolaylaştırmış olsa da, bu noktada sizi biraz engelleyecektir. Bir nesnenin prototipini döndüren `Object.getPrototypeOf` fonksiyonunu kullanmak isteyebilirsiniz. Ayrıca, belirli bir nesnenin bir özelliğe sahip olup olmadığını öğrenmek için `Object.hasOwn` kullanabileceğinizi unutmayın.
 
 {{if interactive
 
@@ -639,16 +648,17 @@ do(define(x, 4),
 run(`set(quux, true)`);
 // → Some kind of ReferenceError
 ```
+
 if}}
 
 {{hint
 
 {{index [binding, "compilation of"], assignment, "getPrototypeOf function", "hasOwn function", "fixing scope (exercise)"}}
 
-You will have to loop through one ((scope)) at a time, using `Object.getPrototypeOf` to go to the next outer scope. For each scope, use `Object.hasOwn` to find out whether the binding, indicated by the `name` property of the first argument to `set`, exists in that scope. If it does, set it to the result of evaluating the second argument to `set` and then return that value.
+Bir sonraki dış kapsama geçmek için `Object.getPrototypeOf` kullanarak her seferinde bir ((kapsamı))ı döngüye almak zorunda kalacaksınız. Her kapsam için, `set`'in ilk argümanının `name` özelliği ile belirtilen bağlamanın o kapsamda olup olmadığını öğrenmek için `Object.hasOwn` kullanın. Eğer varsa, onu `set`'in ikinci argümanının değerlendirme sonucuna ayarlayın ve ardından bu değeri döndürün.
 
 {{index "global scope", "run-time error"}}
 
-If the outermost scope is reached (`Object.getPrototypeOf` returns `null`) and we haven't found the binding yet, it doesn't exist, and an error should be thrown.
+En dış kapsama ulaşıldığında (`Object.getPrototypeOf` null döndürür) ve hala bağlamayı bulamadıysanız, o bağlama mevcut değildir ve bir hata atılmalıdır.
 
 hint}}

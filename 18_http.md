@@ -1,26 +1,26 @@
 {{meta {}}}
 
-# HTTP and Forms
+# HTTP ve Formlar
 
-{{quote {author: "Tim Berners-Lee", chapter: true}
+{{quote {author: "Roy Fielding", title: "Mimari Tarzlar ve Ağ Tabanlı Yazılım Mimarilerinin Tasarımı", chapter: true}
 
-What was often difficult for people to understand about the design was that there was nothing else beyond URLs, HTTP and HTML. There was no central computer 'controlling' the web, no single network on which these protocols worked, not even an organisation anywhere that 'ran' the Web. The Web was not a physical 'thing' that existed in a certain 'place'. It was a 'space' in which information could exist.
+İletişim doğası gereği durumsuz olmalıdır [...] öyle ki istemciden sunucuya yapılan her talep, talebin anlaşılması için gerekli tüm bilgileri içermelidir ve sunucuda depolanmış herhangi bir bağlamdan yararlanamaz.
 
 quote}}
 
 {{index "Fielding, Roy"}}
 
-{{figure {url: "img/chapter_picture_18.jpg", alt: "Illustration showing a web sign-up form on a parchment scroll", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_18.jpg", alt: "Parşömen parşömen üzerinde bir web kayıt formunu gösteren illüstrasyon", chapter: "framed"}}}
 
 {{index [browser, environment]}}
 
-The Hypertext Transfer Protocol, introduced in [Chapter ?](browser#web), is the mechanism through which data is requested and provided on the ((World Wide Web)). This chapter describes the ((protocol)) in more detail and explains the way browser JavaScript has access to it.
+[Bölüm ?](browser#web) içinde daha önce bahsedilen _Hypertext Transfer Protocol_, ((World Wide Web))'de verilerin talep edildiği ve sağlandığı mekanizmadır. Bu bölüm ((protokol))'ü daha ayrıntılı olarak tanımlamakta ve tarayıcı JavaScript'in buna nasıl eriştiğini açıklamaktadır.
 
-## The protocol
+## Protokol
 
 {{index "IP address"}}
 
-If you type _eloquentjavascript.net/18_http.html_ in your browser's ((address bar)), the ((browser)) first looks up the ((address)) of the server associated with _eloquentjavascript.net_ and tries to open a ((TCP)) ((connection)) to it on ((port)) 80, the default port for ((HTTP)) traffic. If the ((server)) exists and accepts the connection, the browser might send something like this:
+Tarayıcınızın ((adres çubuğuna)) _eloquentjavascript.net/18_http.html_ yazarsanız, ((tarayıcı)) önce _eloquentjavascript.net_ ile ilişkili sunucunun ((adresini)) arar ve ((HTTP)) trafiği için varsayılan bağlantı noktası olan ((bağlantı noktası)) 80'de ((TCP)) ((bağlantı)) açmaya çalışır. Eğer ((sunucu)) mevcutsa ve bağlantıyı kabul ederse, tarayıcı buna benzer bir şey gönderebilir:
 
 ```{lang: http}
 GET /18_http.html HTTP/1.1
@@ -28,7 +28,7 @@ Host: eloquentjavascript.net
 User-Agent: Your browser's name
 ```
 
-Then the server responds, through that same connection.
+Ardından sunucu aynı bağlantı üzerinden yanıt verir.
 
 ```{lang: http}
 HTTP/1.1 200 OK
@@ -40,11 +40,11 @@ Last-Modified: Fri, 13 Oct 2023 10:05:41 GMT
 ... the rest of the document
 ```
 
-The browser takes the part of the ((response)) after the blank line, its _body_ (not to be confused with the HTML `<body>` tag), and displays it as an ((HTML)) document.
+Tarayıcı, ((yanıt))'ın boş satırdan sonraki kısmını, _body_ (HTML `<body>` etiketiyle karıştırılmamalıdır) alır ve bunu bir ((HTML)) belgesi olarak görüntüler.
 
 {{index HTTP}}
 
-The information sent by the client is called the _((request))_. It starts with this line:
+İstemci tarafından gönderilen bilgiye _((istek))_ denir. Bu satır ile başlar:
 
 ```{lang: http}
 GET /18_http.html HTTP/1.1
@@ -52,19 +52,19 @@ GET /18_http.html HTTP/1.1
 
 {{index "DELETE method", "PUT method", "GET method", [method, HTTP]}}
 
-The first word is the _method_ of the ((request)). `GET` means that we want to _get_ the specified resource. Other common methods are `DELETE` to delete a resource, `PUT` to create or replace it, and `POST` to send information to it. Note that the ((server)) is not obliged to carry out every request it gets. If you walk up to a random website and tell it to `DELETE` its main page, it'll probably refuse.
+İlk kelime ((istek))'in _metod_'udur. `GET` belirtilen kaynağı _get_ etmek istediğimiz anlamına gelir. Diğer yaygın yöntemler bir kaynağı silmek için `DELETE`, oluşturmak ya da değiştirmek için `PUT` ve ona bilgi göndermek için `POST`'tur. ((Sunucu))'nun aldığı her isteği yerine getirmek zorunda olmadığını unutmayın. Rastgele bir web sitesine gidip ana sayfasını `DELETE` etmesini söylerseniz, muhtemelen reddedecektir.
 
 {{index [path, URL], GitHub, [file, resource]}}
 
-The part after the method name is the path of the _((resource))_ the request applies to. In the simplest case, a resource is simply a file on the ((server)), but the protocol doesn't require it to be. A resource may be anything that can be transferred _as if_ it is a file. Many servers generate the responses they produce on the fly. For example, if you open [_https://github.com/marijnh_](https://github.com/marijnh), the server looks in its database for a user named "marijnh", and if it finds one, it will generate a profile page for that user.
+Yöntem adından sonraki kısım, isteğin uygulandığı _((kaynağın))_ yoludur. En basit durumda, bir kaynak basitçe ((sunucu)) üzerindeki bir dosyadır, ancak protokol öyle olmasını gerektirmez. Bir kaynak, bir dosyaymış gibi aktarılabilen herhangi bir şey olabilir. Birçok sunucu ürettikleri yanıtları anında oluşturur. Örneğin, [_https://github.com/marijnh_](https://github.com/marijnh) adresini açarsanız, sunucu veritabanında "marijnh" adında bir kullanıcı arar ve bulursa, bu kullanıcı için bir profil sayfası oluşturur.
 
-After the resource path, the first line of the request mentions `HTTP/1.1` to indicate the ((version)) of the ((HTTP)) ((protocol)) it is using.
+Kaynak yolundan sonra, isteğin ilk satırı, kullandığı ((HTTP)) ((protokol))'ün ((sürüm))'ünü belirtmek için `HTTP/1.1`den bahseder.
 
-In practice, many sites use HTTP version 2, which supports the same concepts as version 1.1 but is a lot more complicated so that it can be faster. Browsers will automatically switch to the appropriate protocol version when talking to a given server, and the outcome of a request is the same regardless of which version is used. Because version 1.1 is more straightforward and easier to play around with, we'll use that to illustrate the protocol.
+Pratikte birçok site, 1.1 sürümüyle aynı kavramları destekleyen ancak daha hızlı olabilmek için çok daha karmaşık olan HTTP sürüm 2'yi kullanır. Tarayıcılar belirli bir sunucuyla konuşurken otomatik olarak uygun protokol sürümüne geçer ve bir isteğin sonucu hangi sürümün kullanıldığına bakılmaksızın aynıdır. Sürüm 1.1 daha basit ve üzerinde oynaması daha kolay olduğu için buna odaklanacağız.
 
 {{index "status code"}}
 
-The server's ((response)) will start with a version as well, followed by the status of the response, first as a three-digit status code and then as a human-readable string.
+Sunucunun ((yanıtı)) da bir sürümle başlayacak, ardından önce üç basamaklı bir durum kodu ve ardından insan tarafından okunabilir bir dize olarak yanıtın durumu gelecektir.
 
 ```{lang: http}
 HTTP/1.1 200 OK
@@ -72,13 +72,13 @@ HTTP/1.1 200 OK
 
 {{index "200 (HTTP status code)", "error response", "404 (HTTP status code)"}}
 
-Status codes starting with a 2 indicate that the request succeeded. Codes starting with 4 mean there was something wrong with the ((request)). The most famous HTTP status code is probably 404, which means that the resource could not be found. Codes that start with 5 mean an error happened on the ((server)) and the request is not to blame.
+2 ile başlayan durum kodları isteğin başarılı olduğunu gösterir. 4 ile başlayan kodlar ((istek)) ile ilgili bir sorun olduğu anlamına gelir. 404 muhtemelen en ünlü HTTP durum kodudur - kaynağın bulunamadığı anlamına gelir. 5 ile başlayan kodlar ((sunucu)) üzerinde bir hata olduğu ve isteğin suçlanamayacağı anlamına gelir.
 
 {{index HTTP}}
 
 {{id headers}}
 
-The first line of a request or response may be followed by any number of _((header))s_. These are lines in the form `name: value` that specify extra information about the request or response. These headers were part of the example ((response)):
+Bir istek veya yanıtın ilk satırını herhangi bir sayıda _((header))s_ takip edebilir. Bunlar, istek veya yanıt hakkında ekstra bilgi belirten `name: value` biçimindeki satırlardır. Bu başlıklar örnek ((yanıt))'ın bir parçasıydı:
 
 ```{lang: null}
 Content-Length: 87320
@@ -88,25 +88,25 @@ Last-Modified: Fri, 13 Oct 2023 10:05:41 GMT
 
 {{index "Content-Length header", "Content-Type header", "Last-Modified header"}}
 
-This tells us the size and type of the response document. In this case, it is an HTML document of 87,320 bytes. It also tells us when that document was last modified.
+Bu bize yanıt belgesinin boyutunu ve türünü gösterir. Bu durumda, 87.320 baytlık bir HTML belgesidir. Ayrıca bize bu belgenin en son ne zaman değiştirildiğini de söyler.
 
-The client and server are free to decide what ((header))s to include in their ((request))s or ((response))s. But some of them are necessary for things to work. For example, without a `Content-Type` header in the response, the browser won't know how to display the document.
+İstemci ve sunucu, ((istek))lerine veya ((yanıt))larına hangi ((başlık))ları ekleyeceklerine karar vermekte özgürdür. Ancak bunların bazıları işlerin yürümesi için gereklidir. Örneğin, yanıtta `Content-Type` başlığı olmadan, tarayıcı belgeyi nasıl görüntüleyeceğini bilemez.
 
 {{index "GET method", "DELETE method", "PUT method", "POST method", "body (HTTP)"}}
 
-After the headers, both requests and responses may include a blank line followed by a body, which contains the actual document being sent. `GET` and `DELETE` requests don't send along any data, but `PUT` and `POST` requests do. Some response types, such as error responses, also don't require a body.
+Başlıklardan sonra, hem istekler hem de yanıtlar boş bir satır ve ardından gönderilen gerçek belgeyi içeren bir gövde içerebilir. `GET` ve `DELETE` istekleri herhangi bir veri göndermez, ancak `PUT` ve `POST` istekleri gönderir. Hata yanıtları gibi bazı yanıt türleri de bir gövde gerektirmez.
 
-## Browsers and HTTP
+## Tarayıcılar ve HTTP
 
 {{index HTTP, [file, resource]}}
 
-As we saw, a ((browser)) will make a request when we enter a ((URL)) in its ((address bar)). When the resulting HTML page references other files, such as ((image))s and JavaScript files, it will retrieve those as well.
+Örnekte gördüğümüz gibi, bir ((tarayıcı)), ((adres çubuğuna)) bir ((URL)) girdiğimizde bir istekte bulunacaktır. Ortaya çıkan HTML sayfası ((resim)) ve JavaScript dosyaları gibi diğer dosyalara referans verdiğinde, bunlar da alınır.
 
 {{index parallelism, "GET method"}}
 
-A moderately complicated ((website)) can easily include anywhere from 10 to 200 ((resource))s. To be able to fetch those quickly, browsers will make several `GET` requests simultaneously, rather than waiting for the responses one at a time.
+Orta derecede karmaşık bir ((web sitesi)) kolayca 10 ila 200 ((kaynak)) içerebilir. Bunları hızlı bir şekilde alabilmek için, tarayıcılar yanıtları teker teker beklemek yerine aynı anda birkaç `GET` isteği yapacaktır.
 
-HTML pages may include _((form))s_, which allow the user to fill out information and send it to the server. This is an example of a form:
+HTML sayfaları, kullanıcının bilgileri doldurmasına ve sunucuya göndermesine olanak tanıyan _((form))lar_ içerebilir. Bu bir form örneğidir:
 
 ```{lang: html}
 <form method="GET" action="example/message.html">
@@ -118,9 +118,9 @@ HTML pages may include _((form))s_, which allow the user to fill out information
 
 {{index form, "method attribute", "GET method"}}
 
-This code describes a form with two ((field))s: a small one asking for a name and a larger one to write a message in. When you click the Send ((button)), the form is _submitted_, meaning that the content of its field is packed into an HTTP request and the browser navigates to the result of that request.
+Bu kod, iki ((alan)) içeren bir formu tanımlamaktadır: küçük olanı bir ad sorar ve daha büyük olanı bir mesaj yazmak içindir. Gönder ((düğmesini)) tıkladığınızda, form _gönderilir_, yani alanının içeriği bir HTTP isteğine paketlenir ve tarayıcı bu isteğin sonucuna gider.
 
-When the `<form>` element's `method` attribute is `GET` (or is omitted), the information in the form is added to the end of the `action` URL as a _((query string))_. The browser might make a request to this URL:
+`<form>` öğesinin `method` niteliği `GET` olduğunda (veya atlandığında), formdaki bilgiler `action` URL'sinin sonuna _((query string))_ olarak eklenir. Tarayıcı bu URL'ye bir istekte bulunabilir:
 
 ```{lang: null}
 GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
@@ -128,11 +128,11 @@ GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
 
 {{index "ampersand character"}}
 
-The ((question mark)) indicates the end of the path part of the URL and the start of the query. It is followed by pairs of names and values, corresponding to the `name` attribute on the form field elements and the content of those elements, respectively. An ampersand character (`&`) is used to separate the pairs.
+((soru işareti)) URL'nin yol kısmının sonunu ve sorgunun başlangıcını gösterir. Bunu, sırasıyla form alanı öğelerindeki `name` niteliğine ve bu öğelerin içeriğine karşılık gelen ad ve değer çiftleri izler. Çiftleri ayırmak için bir ampersand karakteri (`&`) kullanılır.
 
 {{index [escaping, "in URLs"], "hexadecimal number", "encodeURIComponent function", "decodeURIComponent function"}}
 
-The actual message encoded in the URL is "Yes?" but the question mark is replaced by a strange code. Some characters in query strings must be escaped. The question mark, represented as `%3F`, is one of those. There seems to be an unwritten rule that every format needs its own way of escaping characters. This one, called _((URL encoding))_, uses a ((percent sign)) followed by two hexadecimal (base 16) digits that encode the character code. In this case, 3F, which is 63 in decimal notation, is the code of a question mark character. JavaScript provides the `encodeURIComponent` and `decodeURIComponent` functions to encode and decode this format.
+URL'de kodlanan asıl mesaj "Evet mi?" şeklindedir, ancak soru işareti garip bir kodla değiştirilmiştir. Sorgu dizelerindeki bazı karakterlerin öncelenmesi gerekir. Soru işareti, `%3F` olarak gösterilir, bunlardan biridir. Her formatın kendi karakter kaçış yöntemine ihtiyacı olduğuna dair yazılı olmayan bir kural var gibi görünüyor. Bu, _((URL kodlaması))_ olarak adlandırılır ve bir ((yüzde işareti)) ve ardından karakter kodunu kodlayan iki onaltılık (taban 16) basamak kullanır. Bu durumda, ondalık gösterimde 63 olan 3F, bir soru işareti karakterinin kodudur. JavaScript, bu biçimi kodlamak ve kodunu çözmek için `encodeURIComponent` ve `decodeURIComponent` işlevlerini sağlar.
 
 ```
 console.log(encodeURIComponent("Yes?"));
@@ -143,7 +143,7 @@ console.log(decodeURIComponent("Yes%3F"));
 
 {{index "body (HTTP)", "POST method"}}
 
-If we change the `method` attribute of the HTML form in the example we saw earlier to `POST`, the ((HTTP)) request made to submit the ((form)) will use the `POST` method and put the ((query string)) in the body of the request rather than adding it to the URL.
+Daha önce gördüğümüz örnekteki HTML formunun `method` özelliğini `POST` olarak değiştirirsek, ((formu)) göndermek için yapılan ((HTTP)) isteği `POST` yöntemini kullanacak ve ((query string)) URL'ye eklemek yerine isteğin gövdesine koyacaktır.
 
 ```{lang: http}
 POST /example/message.html HTTP/1.1
@@ -153,9 +153,9 @@ Content-type: application/x-www-form-urlencoded
 name=Jean&message=Yes%3F
 ```
 
-`GET` requests should be used for requests that do not have ((side effect))s but simply ask for information. Requests that change something on the server, for example creating a new account or posting a message, should be expressed with other methods, such as `POST`. Client-side software such as a browser knows that it shouldn't blindly make `POST` requests but will often implicitly make `GET` requests—to prefetch a resource it believes the user will soon need, for example.
+`GET` istekleri, ((yan etkisi)) olmayan ancak sadece bilgi isteyen istekler için kullanılmalıdır. Sunucuda bir şeyi değiştiren istekler, örneğin yeni bir hesap oluşturma veya bir mesaj gönderme, `POST` gibi diğer yöntemlerle ifade edilmelidir. Tarayıcı gibi istemci tarafı yazılımlar körü körüne `POST` istekleri yapmamaları gerektiğini bilirler, ancak genellikle dolaylı olarak `GET` istekleri yaparlar - örneğin kullanıcının yakında ihtiyaç duyacağını düşündüğü bir kaynağı önceden almak için.
 
-We'll come back to forms and how to interact with them from JavaScript [later in the chapter](http#forms).
+Formlara ve JavaScript'ten onlarla nasıl etkileşim kuracağımıza [bölümün ilerleyen kısımlarında] geri döneceğiz (http#forms).
 
 {{id fetch}}
 
@@ -163,7 +163,7 @@ We'll come back to forms and how to interact with them from JavaScript [later in
 
 {{index "fetch function", "Promise class", [interface, module]}}
 
-The interface through which browser JavaScript can make HTTP requests is called `fetch`.
+Tarayıcı JavaScript'inin HTTP istekleri yapabildiği arayüze `fetch` adı verilir. Nispeten yeni olduğu için, uygun bir şekilde vaatleri kullanır.
 
 ```{test: no}
 fetch("example/data.txt").then(response => {
@@ -176,17 +176,17 @@ fetch("example/data.txt").then(response => {
 
 {{index "Response class", "status property", "headers property"}}
 
-Calling `fetch` returns a promise that resolves to a `Response` object holding information about the server's response, such as its status code and its headers. The headers are wrapped in a `Map`-like object that treats its keys (the header names) as case insensitive because header names are not supposed to be case sensitive. This means  `headers.get("Content-Type")` and `headers.get("content-TYPE")` will return the same value.
+`fetch` çağrısı, durum kodu ve başlıkları gibi sunucunun yanıtı hakkında bilgi tutan bir `Response` nesnesine çözümlenen bir söz döndürür. Başlıklar, anahtarlarını (başlık adları) büyük/küçük harf duyarsız olarak ele alan `Map` benzeri bir nesneye sarılır, çünkü başlık adlarının büyük/küçük harf duyarlı olması gerekmez. Bu, `headers.get("Content-Type")` ve `headers.get("content-TYPE")` öğelerinin aynı değeri döndüreceği anlamına gelir.
 
-Note that the promise returned by `fetch` resolves successfully even if the server responded with an error code. It can also be rejected if there is a network error or if the ((server)) to which that the request is addressed can't be found.
+Sunucu bir hata koduyla yanıt verse bile `fetch` tarafından döndürülen sözün başarıyla çözümlendiğini unutmayın. Bir ağ hatası varsa veya isteğin gönderildiği ((sunucu)) bulunamazsa da reddedilebilir.
 
 {{index [path, URL], "relative URL"}}
 
-The first argument to `fetch` is the URL that should be requested. When that ((URL)) doesn't start with a protocol name (such as _http:_), it is treated as _relative_, which means it is interpreted relative to the current document. When it starts with a slash (/), it replaces the current path, which is the part after the server name. When it does not, the part of the current path up to and including its last ((slash character)) is put in front of the relative URL.
+`fetch`'e ilk argüman, talep edilmesi gereken URL'dir. Bu ((URL)) bir protokol adıyla başlamadığında (_http:_ gibi), _relative_ olarak ele alınır, yani geçerli belgeye göre yorumlanır. Eğik çizgi (/) ile başladığında, sunucu adından sonraki kısım olan geçerli yolun yerini alır. Aksi takdirde, geçerli yolun son ((eğik çizgi karakteri)) kısmına kadar olan kısmı göreli URL'nin önüne konur.
 
 {{index "text method", "body (HTTP)", "Promise class"}}
 
-To get at the actual content of a response, you can use its `text` method. Because the initial promise is resolved as soon as the response's headers have been received and because reading the response body might take a while longer, this again returns a promise.
+Bir yanıtın gerçek içeriğine ulaşmak için `text` yöntemini kullanabilirsiniz. İlk söz, yanıtın üstbilgileri alınır alınmaz çözümlendiğinden ve yanıt gövdesini okumak biraz daha uzun sürebileceğinden, bu yine bir söz döndürür.
 
 ```{test: no}
 fetch("example/data.txt")
@@ -197,11 +197,11 @@ fetch("example/data.txt")
 
 {{index "json method"}}
 
-A similar method, called `json`, returns a promise that resolves to the value you get when parsing the body as ((JSON)) or rejects if it's not valid JSON.
+Benzer bir yöntem olan `json`, gövdeyi ((JSON)) olarak çözümlediğinizde elde ettiğiniz değeri çözümleyen veya geçerli JSON değilse reddeden bir söz döndürür.
 
 {{index "GET method", "body (HTTP)", "DELETE method", "method property"}}
 
-By default, `fetch` uses the `GET` method to make its request and does not include a request body. You can configure it differently by passing an object with extra options as a second argument. For example, this request tries to delete `example/data.txt`:
+Varsayılan olarak, `fetch` istek yapmak için `GET` yöntemini kullanır ve bir istek gövdesi içermez. İkinci argüman olarak ekstra seçenekler içeren bir nesne ileterek farklı şekilde yapılandırabilirsiniz. Örneğin, bu istek `example/data.txt` dosyasını silmeye çalışır:
 
 ```{test: no}
 fetch("example/data.txt", {method: "DELETE"}).then(resp => {
@@ -212,11 +212,11 @@ fetch("example/data.txt", {method: "DELETE"}).then(resp => {
 
 {{index "405 (HTTP status code)"}}
 
-The 405 status code means "method not allowed", an HTTP server's way of saying "I'm afraid I can't do that".
+405 durum kodu, HTTP sunucusunun "bunu yapamam" deme şekli olan "yönteme izin verilmiyor" anlamına gelir.
 
 {{index "Range header", "body property", "headers property"}}
 
-To add a request body for a `PUT` or `POST` request, you can include a `body` option. To set headers, there's the `headers` option. For example, this request includes a `Range` header, which instructs the server to return only part of a document.
+Bir istek gövdesi eklemek için bir `body` seçeneği ekleyebilirsiniz. Başlıkları ayarlamak için `headers` seçeneği vardır. Örneğin, bu istek, sunucuya bir belgenin yalnızca bir kısmını döndürmesi talimatını veren bir `Range` başlığı içerir.
 
 ```{test: no}
 fetch("example/data.txt", {headers: {Range: "bytes=8-19"}})
@@ -225,75 +225,75 @@ fetch("example/data.txt", {headers: {Range: "bytes=8-19"}})
 // → the content
 ```
 
-The browser will automatically add some request ((header))s, such as "Host" and those needed for the server to figure out the size of the body. But adding your own headers is often useful to include things such as authentication information or to tell the server which file format you'd like to receive.
+Tarayıcı, "Host" gibi bazı istek ((başlık))larını ve sunucunun gövde boyutunu anlaması için gerekenleri otomatik olarak ekleyecektir. Ancak kendi başlıklarınızı eklemek, kimlik doğrulama bilgileri gibi şeyleri dahil etmek veya sunucuya hangi dosya biçimini almak istediğinizi söylemek için genellikle yararlıdır.
 
 {{id http_sandbox}}
 
-## HTTP sandboxing
+## HTTP kum havuzlamak
 
 {{index sandbox, [browser, security]}}
 
-Making ((HTTP)) requests in web page scripts once again raises concerns about ((security)). The person who controls the script might not have the same interests as the person on whose computer it is running. More specifically, if I visit _themafia.org_, I do not want its scripts to be able to make a request to _mybank.com_, using identifying information from my browser, with instructions to transfer away all my money.
+Web sayfası komut dosyalarında ((HTTP)) istekleri yapmak bir kez daha ((güvenlik)) ile ilgili endişeleri gündeme getirmektedir. Komut dosyasını kontrol eden kişi, bilgisayarında komut dosyası çalışan kişiyle aynı çıkarlara sahip olmayabilir. Daha açık bir ifadeyle, _themafia.org_ adresini ziyaret ettiğimde, script'in tarayıcımdaki kimlik bilgilerini kullanarak _mybank.com_ adresine tüm paramı transfer etme talimatları içeren bir talepte bulunmasını istemiyorum.
 
-For this reason, browsers protect us by disallowing scripts to make HTTP requests to other ((domain))s (names such as _themafia.org_ and _mybank.com_).
+Bu nedenle tarayıcılar, komut dosyalarının diğer ((domain))lere (_themafia.org_ ve _mybank.com_ gibi isimler) HTTP istekleri yapmasına izin vermeyerek bizi korur.
 
 {{index "Access-Control-Allow-Origin header", "cross-domain request"}}
 
-This can be an annoying problem when building systems that want to access several domains for legitimate reasons. Fortunately, ((server))s can include a ((header)) like this in their ((response)) to explicitly indicate to the browser that it is okay for the request to come from another domain:
+Bu, meşru nedenlerle birkaç etki alanına erişmek isteyen sistemler oluştururken can sıkıcı bir sorun olabilir. Neyse ki, ((sunucu))'lar ((yanıt))'larına bunun gibi bir ((başlık)) ekleyerek tarayıcıya isteğin başka bir etki alanından gelmesinin uygun olduğunu açıkça belirtebilirler:
 
 ```{lang: null}
 Access-Control-Allow-Origin: *
 ```
 
-## Appreciating HTTP
+## HTTP'i takdir etmek
 
 {{index client, HTTP, [interface, HTTP]}}
 
-When building a system that requires ((communication)) between a JavaScript program running in the ((browser)) (client-side) and a program on a ((server)) (server-side), there are several different ways to model this communication.
+((Tarayıcı)) (istemci tarafı) üzerinde çalışan bir JavaScript programı ile ((sunucu)) (sunucu tarafı) üzerindeki bir program arasında ((iletişim)) gerektiren bir sistem oluştururken, bu iletişimi modellemenin birkaç farklı yolu vardır.
 
 {{index [network, abstraction], abstraction}}
 
-A commonly used model is that of _((remote procedure call))s_. In this model, communication follows the patterns of normal function calls, except that the function is actually running on another machine. Calling it involves making a request to the server that includes the function's name and arguments. The response to that request contains the returned value.
+Yaygın olarak kullanılan bir model _((remote procedure call))s_ modelidir. Bu modelde iletişim, işlevin aslında başka bir makinede çalışıyor olması dışında, normal işlev çağrılarının kalıplarını izler. Fonksiyonun çağrılması, sunucuya fonksiyonun adını ve argümanlarını içeren bir istek yapılmasını içerir. Bu isteğe verilen yanıt, döndürülen değeri içerir.
 
-When thinking in terms of remote procedure calls, HTTP is just a vehicle for communication, and you will most likely write an abstraction layer that hides it entirely.
+Uzaktan yordam çağrıları açısından düşündüğünüzde, HTTP sadece iletişim için bir araçtır ve büyük olasılıkla bunu tamamen gizleyen bir soyutlama katmanı yazacaksınız.
 
 {{index "media type", "document format", [method, HTTP]}}
 
-Another approach is to build your communication around the concept of ((resource))s and ((HTTP)) methods. Instead of a remote procedure called `addUser`, you use a `PUT` request to `/users/larry`. Instead of encoding that user's properties in function arguments, you define a JSON document format (or use an existing format) that represents a user. The body of the `PUT` request to create a new resource is then such a document. A resource is fetched by making a `GET` request to the resource's URL (for example, `/users/larry`), which again returns the document representing the resource.
+Diğer bir yaklaşım ise iletişiminizi ((kaynak)) ve ((HTTP)) yöntemleri kavramı etrafında oluşturmaktır. `addUser` adlı bir uzak prosedür yerine, `/users/larry` için bir `PUT` isteği kullanırsınız. Kullanıcının özelliklerini işlev argümanlarında kodlamak yerine, kullanıcıyı temsil eden bir JSON belge biçimi tanımlarsınız (veya mevcut bir biçimi kullanırsınız). Yeni bir kaynak oluşturmak için `PUT` isteğinin gövdesi böyle bir belgedir. Bir kaynak, kaynağın URL'sine (örneğin, `/user/larry`) bir `GET` isteği yapılarak getirilir ve bu istek yine kaynağı temsil eden belgeyi döndürür.
 
-This second approach makes it easier to use some of the features that HTTP provides, such as support for caching resources (keeping a copy of a resource on the client for fast access). The concepts used in HTTP, which are well designed, can provide a helpful set of principles to design your server interface around.
+Bu ikinci yaklaşım, kaynakların önbelleğe alınması (hızlı erişim için istemcide bir kopyasının tutulması) desteği gibi HTTP'nin sağladığı bazı özelliklerin kullanılmasını kolaylaştırır. HTTP'de kullanılan ve iyi tasarlanmış olan kavramlar, sunucu arayüzünüzü tasarlamak için yararlı bir dizi ilke sağlayabilir.
 
-## Security and HTTPS
+## Güvenlik ve HTTPS
 
 {{index "man-in-the-middle", security, HTTPS, [network, security]}}
 
-Data traveling over the internet tends to follow a long, dangerous road. To get to its destination, it must hop through anything from coffee shop Wi-Fi hotspots to networks controlled by various companies and states. At any point along its route, it may be inspected or even modified.
+İnternet üzerinden seyahat eden veriler uzun ve tehlikeli bir yol izleme eğilimindedir. Hedefine ulaşmak için kahve dükkanı Wi-Fi bağlantı noktalarından çeşitli şirketler ve devletler tarafından kontrol edilen ağlara kadar her yerden geçmesi gerekir. Güzergahı boyunca herhangi bir noktada denetlenebilir ve hatta değiştirilebilir.
 
 {{index tampering}}
 
-If it is important that something remain secret, such as the ((password)) to your ((email)) account, or that it arrive at its destination unmodified, such as the account number you transfer money to via your bank's website, plain HTTP is not good enough.
+((E-posta)) hesabınızın ((parolası)) gibi bir şeyin gizli kalması veya bankanızın web sitesi üzerinden para aktardığınız hesap numarası gibi hedefine değiştirilmeden ulaşması önemliyse, düz HTTP yeterince iyi değildir.
 
 {{index cryptography, encryption}}
 
 {{indexsee "Secure HTTP", HTTPS, [browser, security]}}
 
-The secure ((HTTP)) protocol, used for ((URL))s starting with _https://_, wraps HTTP traffic in a way that makes it harder to read and tamper with. Before exchanging data, the client verifies that the server is who it claims to be by asking it to prove that it has a cryptographic ((certificate)) issued by a certificate authority that the browser recognizes. Next, all data going over the ((connection)) is encrypted in a way that should prevent eavesdropping and tampering.
+_https://_ ile başlayan ((URL))ler için kullanılan güvenli ((HTTP)) protokolü, HTTP trafiğini okumayı ve kurcalamayı zorlaştıracak şekilde sarar. Veri alışverişinden önce istemci, sunucunun iddia ettiği kişi olduğunu, tarayıcının tanıdığı bir sertifika yetkilisi tarafından verilen kriptografik ((sertifika)) sahibi olduğunu kanıtlamasını isteyerek doğrular. Daha sonra, ((bağlantı)) üzerinden giden tüm veriler, gizli dinleme ve kurcalamayı önleyecek şekilde şifrelenir.
 
-Thus, when it works right, ((HTTPS)) prevents other people from impersonating the website you are trying to talk to _and_ from snooping on your communication. It's not perfect, and there have been various incidents where HTTPS failed because of forged or stolen certificates and broken software, but it is a _lot_ safer than plain HTTP.
+Böylece, doğru çalıştığında, ((HTTPS)) diğer kişilerin konuşmaya çalıştığınız web sitesini taklit etmesini _ve_ iletişiminizi gözetlemesini önler. Mükemmel değildir ve HTTPS'nin sahte veya çalıntı sertifikalar ve bozuk yazılımlar nedeniyle başarısız olduğu çeşitli olaylar olmuştur, ancak düz HTTP'den _çok_ daha güvenlidir.
 
 {{id forms}}
 
-## Form fields
+## Form alanları
 
-Forms were originally designed for the pre-JavaScript web to allow websites to send user-submitted information in an HTTP request. This design assumes that interaction with the server always happens by navigating to a new page.
+Formlar ilk olarak JavaScript öncesi Web için, web sitelerinin kullanıcı tarafından gönderilen bilgileri bir HTTP isteğiyle göndermesini sağlamak üzere tasarlanmıştır. Bu tasarım, sunucu ile etkileşimin her zaman yeni bir sayfaya gidilerek gerçekleştiğini varsayar.
 
 {{index [DOM, fields]}}
 
-However, the form elements are part of the DOM, like the rest of the page, and the DOM elements that represent form ((field))s support a number of properties and events that are not present on other elements. These make it possible to inspect and control such input fields with JavaScript programs and do things such as adding new functionality to a form or using forms and fields as building blocks in a JavaScript application.
+Ancak öğeleri sayfanın geri kalanı gibi DOM'un bir parçasıdır ve form ((alan))'ları temsil eden DOM öğeleri diğer öğelerde bulunmayan bir dizi özelliği ve olayı destekler. Bunlar, bu tür giriş alanlarını JavaScript programlarıyla incelemeyi ve kontrol etmeyi ve bir forma yeni işlevler eklemek veya formları ve alanları bir JavaScript uygulamasında yapı taşları olarak kullanmak gibi şeyler yapmayı mümkün kılar.
 
 {{index "form (HTML tag)"}}
 
-A web form consists of any number of input ((field))s grouped in a `<form>` tag. HTML allows several different styles of fields, ranging from simple on/off checkboxes to drop-down menus and fields for text input. This book won't try to comprehensively discuss all field types, but we'll start with a rough overview.
+Bir web formu, bir `<form>` etiketi içinde gruplandırılmış herhangi bir sayıda girdi ((alan)) içerir. HTML, basit açma/kapama onay kutularından açılır menülere ve metin girişi için alanlara kadar çeşitli farklı alan stillerine izin verir. Bu kitap tüm alan türlerini kapsamlı bir şekilde tartışmaya çalışmayacaktır, ancak kabaca bir genel bakışla başlayacağız.
 
 {{index "input (HTML tag)", "type attribute"}}
 
@@ -303,17 +303,17 @@ A lot of field types use the `<input>` tag. This tag's `type` attribute is used 
 
 {{table {cols: [1,5]}}}
 
-| `text`     | A single-line ((text field))
+| `text` | A single-line ((text field))
 | `password` | Same as `text` but hides the text that is typed
 | `checkbox` | An on/off switch
-| `color`    | A color
-| `date`     | A calendar date
-| `radio`    | (Part of) a ((multiple-choice)) field
-| `file`     | Allows the user to choose a file from their computer
+| `color` | A color
+| `date` | A calendar date
+| `radio` | (Part of) a ((multiple-choice)) field
+| `file` | Allows the user to choose a file from their computer
 
 {{index "value attribute", "checked attribute", "form (HTML tag)"}}
 
-Form fields do not necessarily have to appear in a `<form>` tag. You can put them anywhere in a page. Such form-less fields cannot be ((submit))ted (only a form as a whole can), but when responding to input with JavaScript, we often don't want to submit our fields normally anyway.
+Form alanlarının mutlaka bir `<form>` etiketi içinde görünmesi gerekmez. Bunları sayfanın herhangi bir yerine koyabilirsiniz. Bu tür formsuz alanlar ((submit)) edilemez (yalnızca bir bütün olarak form edilebilir), ancak JavaScript ile girdiye yanıt verirken, genellikle alanlarımızı normal şekilde göndermek istemeyiz.
 
 ```{lang: html}
 <p><input type="text" value="abc"> (text)</p>
@@ -329,17 +329,17 @@ Form fields do not necessarily have to appear in a `<form>` tag. You can put the
 
 {{if book
 
-The fields created with this HTML code look like this:
+Bu HTML kodu ile oluşturulan alanlar aşağıdaki gibi görünür:
 
-{{figure {url: "img/form_fields.png", alt: "Screenshot showing various types of input tags", width: "4cm"}}}
+{{figure {url: "img/form_fields.png", alt: "Çeşitli giriş etiketi türlerini gösteren ekran görüntüsü", width: "4cm"}}}
 
 if}}
 
-The JavaScript interface for such elements differs with the type of the element.
+Bu tür öğeler için JavaScript arayüzü, öğenin türüne göre farklılık gösterir.
 
 {{index "textarea (HTML tag)", "text field"}}
 
-Multiline text fields have their own tag, `<textarea>`, mostly because using an attribute to specify a multiline starting value would be awkward. The `<textarea>` tag requires a matching `</textarea>` closing tag and uses the text between those two, instead of the `value` attribute, as starting text.
+Çok satırlı metin alanlarının kendine özgü bir etiketi vardır: `<textarea>`. Bunun nedeni, çok satırlı bir başlangıç değerini belirtmek için bir özellik kullanmanın garip olmasıdır. `<textarea>` etiketi, bir eşleşen `</textarea>` kapanış etiketine ihtiyaç duyar ve başlangıç metni olarak `value` özelliği yerine bu iki etiket arasındaki metni kullanır.
 
 ```{lang: html}
 <textarea>
@@ -351,7 +351,7 @@ three
 
 {{index "select (HTML tag)", "option (HTML tag)", "multiple choice", "drop-down menu"}}
 
-Finally, the `<select>` tag is used to create a field that allows the user to select from a number of predefined options.
+Son olarak, `<select>` etiketi, kullanıcının önceden tanımlanmış seçenekler arasından seçim yapmasını sağlayan bir alan oluşturmak için kullanılır.
 
 ```{lang: html}
 <select>
@@ -363,31 +363,31 @@ Finally, the `<select>` tag is used to create a field that allows the user to se
 
 {{if book
 
-Such a field looks like this:
+Böyle bir alan şu şekilde görünür:
 
-{{figure {url: "img/form_select.png", alt: "Screenshot showing a select field", width: "4cm"}}}
+{{figure {url: "img/form_select.png", alt: "Ekran görüntüsü, bir `<select>` alanını gösteriyor.", width: "4cm"}}}
 
 if}}
 
 {{index "change event"}}
 
-Whenever the value of a form field changes, it will fire a `"change"` event.
+Bir form alanının değeri her değiştiğinde, bir `"change"` olayı tetiklenir.
 
-## Focus
+## Odak
 
 {{index keyboard, focus}}
 
 {{indexsee "keyboard focus", focus}}
 
-Unlike most elements in HTML documents, form fields can get _keyboard ((focus))_. When clicked, moved to with [tab]{keyname}, or activated in some other way, they become the currently active element and the recipient of keyboard ((input)).
+HTML belgelerindeki çoğu elementin aksine, form alanları _klavye ((odak))_ alabilir. Tıklandığında, [tab]{keyname} tuşu ile geçildiğinde veya başka bir şekilde etkinleştirildiğinde, o anda aktif olan element haline gelir ve klavye ((girdisi)) alıcısı olur.
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
-Thus, you can type into a ((text field)) only when it is focused. Other fields respond differently to keyboard events. For example, a `<select>` menu tries to move to the option that contains the text the user typed and responds to the arrow keys by moving its selection up and down.
+Bu nedenle, bir ((metin alanı))na yalnızca odaklanıldığında yazabilirsiniz. Diğer alanlar klavye olaylarına farklı şekilde tepki verir. Örneğin, bir `<select>` menüsü, kullanıcının yazdığı metni içeren seçeneğe geçmeye çalışır ve ok tuşlarına yukarı ve aşağı seçim yaparak yanıt verir.
 
 {{index "focus method", "blur method", "activeElement property"}}
 
-We can control ((focus)) from JavaScript with the `focus` and `blur` methods. The first moves focus to the DOM element it is called on, and the second removes focus. The value in `document.activeElement` corresponds to the currently focused element.
+JavaScript ile ((odak)) kontrolünü `focus` ve `blur` metodlarıyla sağlayabiliriz. İlk metod, çağrıldığı DOM elementine odaklanmayı taşır, ikinci metod ise odağı kaldırır. `document.activeElement` içindeki değer, şu anda odaklanılmış olan elemana karşılık gelir.
 
 ```{lang: html}
 <input type="text">
@@ -403,11 +403,11 @@ We can control ((focus)) from JavaScript with the `focus` and `blur` methods. Th
 
 {{index "autofocus attribute"}}
 
-For some pages, the user is expected to want to interact with a form field immediately. JavaScript can be used to ((focus)) this field when the document is loaded, but HTML also provides the `autofocus` attribute, which produces the same effect while letting the browser know what we are trying to achieve. This gives the browser the option to disable the behavior when it is not appropriate, such as when the user has put the focus on something else.
+Bazı sayfalarda, kullanıcının bir form alanıyla hemen etkileşime geçmesi beklenir. Belge yüklendiğinde JavaScript kullanılarak bu alan ((odaklanabilir)), ancak HTML ayrıca aynı etkiyi sağlayan `autofocus` özelliğini sunar ve tarayıcının ne yapmaya çalıştığımızı anlamasını sağlar. Bu, tarayıcıya, kullanıcının odağı başka bir yere koyduğu durumlarda bu davranışı devre dışı bırakma seçeneği sunar.
 
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
-Browsers allow the user to move the focus through the document by pressing [tab]{keyname} to move to the next focusable element, and [shift-tab]{keyname} to move back to the previous element. By default, elements are visited in the order in which they appear in the document. It is possible to use the `tabindex` attribute to change this order. The following example document will let the focus jump from the text input to the OK button, rather than going through the help link first:
+Tarayıcılar ayrıca kullanıcının [tab]{keyname} tuşunu basarak odağı belge boyunca hareket ettirmesine, bir sonraki odaklanabilir elemente geçmesine ve [shift-tab]{keyname} tuşunu basarak bir önceki elemana geri dönmesine olanak tanır. Varsayılan olarak, elemanlar belgede göründükleri sırayla ziyaret edilir. Bu sıralamayı değiştirmek için `tabindex` özelliği kullanılabilir. Aşağıdaki örnek belge, odağın önce yardım bağlantısına gitmek yerine, metin girişinden OK butonuna atlamasına olanak tanır:
 
 ```{lang: html, focus: true}
 <input type="text" tabindex=1> <a href=".">(help)</a>
@@ -416,40 +416,40 @@ Browsers allow the user to move the focus through the document by pressing [tab]
 
 {{index "tabindex attribute"}}
 
-By default, most types of HTML elements cannot be focused. You can add a `tabindex` attribute to any element to make it focusable. A `tabindex` of 0 makes an element focusable without affecting the focus order.
+Varsayılan olarak, çoğu HTML elemanı odaklanabilir değildir. Ancak, odaklanabilir hale getirmek için herhangi bir elemana `tabindex` özelliği ekleyebilirsiniz. Bir `tabindex` değeri 0 olan bir eleman, odak sırasını etkilemeden odaklanabilir hale gelir.
 
-## Disabled fields
+## Engelli alanlar
 
 {{index "disabled attribute"}}
 
-All ((form)) ((field))s can be _disabled_ through their `disabled` attribute. It is an ((attribute)) that can be specified without value—the fact that it is present at all disables the element.
+Tüm ((form)) ((alanları)) `disabled` özelliği aracılığıyla _devre dışı_ bırakılabilir. Bu, değeri olmadan belirtilebilen bir ((özelliktir)); yalnızca mevcut olması, elementi devre dışı bırakır.
 
 ```{lang: html}
 <button>I'm all right</button>
 <button disabled>I'm out</button>
 ```
 
-Disabled fields cannot be ((focus))ed or changed, and browsers make them look gray and faded.
+Devre dışı alanlar ((odaklanamaz)) veya değiştirilemez ve tarayıcılar, bunları gri ve solmuş şekilde gösterir.
 
 {{if book
 
-{{figure {url: "img/button_disabled.png", alt: "Screenshot of a disabled button", width: "3cm"}}}
+{{figure {url: "img/button_disabled.png", alt: "Devre dışı bırakılmış bir butonun ekran görüntüsü", width: "3cm"}}}
 
 if}}
 
 {{index "user experience"}}
 
-When a program is in the process of handling an action caused by some ((button)) or other control that might require communication with the server and thus take a while, it can be a good idea to disable the control until the action finishes. That way, when the user gets impatient and clicks it again, they don't accidentally repeat their action.
+Bir program, bazı ((buton)) veya başka bir kontrol tarafından tetiklenen ve sunucu ile iletişim gerektirebilecek (ve dolayısıyla bir süre alabilecek) bir eylemi işlerken, eylem bitene kadar kontrolü devre dışı bırakmak iyi bir fikir olabilir. Böylece, kullanıcı sabırsızlanıp tekrar tıkladığında, eylemi yanlışlıkla tekrarlamamış olur.
 
-## The form as a whole
+## Formun tamamı
 
 {{index "array-like object", "form (HTML tag)", "form property", "elements property"}}
 
-When a ((field)) is contained in a `<form>` element, its DOM element will have a `form` property linking back to the form's DOM element. The `<form>` element, in turn, has a property called `elements` that contains an array-like collection of the fields inside it.
+Bir ((alan)) bir `<form>` elemanının içinde bulunduğunda, DOM elemanı, formun DOM elemanına geri bağlanan bir `form` özelliğine sahip olacaktır. `<form>` elemanı ise, içinde bulunan alanların array-benzeri bir koleksiyonunu içeren `elements` adında bir özelliğe sahiptir.
 
 {{index "elements property", "name attribute"}}
 
-The `name` attribute of a form field determines the way its value will be identified when the form is ((submit))ted. It can also be used as a property name when accessing the form's `elements` property, which acts both as an array-like object (accessible by number) and a ((map)) (accessible by name).
+Bir form alanının `name` özelliği, form ((gönderildiğinde)) değerinin nasıl tanımlanacağını belirler. Ayrıca, formun `elements` özelliğine erişirken bir özellik adı olarak da kullanılabilir; bu özellik hem array-benzeri bir nesne (sayıyla erişilebilir) hem de bir ((harita)) (isimle erişilebilir) olarak işlev görür.
 
 ```{lang: html}
 <form action="example/submit.html">
@@ -470,11 +470,11 @@ The `name` attribute of a form field determines the way its value will be identi
 
 {{index "button (HTML tag)", "type attribute", submit, "enter key"}}
 
-A button with a `type` attribute of `submit` will, when pressed, cause the form to be submitted. Pressing [enter]{keyname} when a form field is focused has the same effect.
+Bir `type` özelliği `submit` olan bir buton, tıklandığında formun gönderilmesine neden olur. Bir form alanı odaklandığında [enter]{keyname} tuşuna basmak aynı etkiye yol açar.
 
 {{index "submit event", "event handling", "preventDefault method", "page reload", "GET method", "POST method"}}
 
-Submitting a ((form)) normally means that the ((browser)) navigates to the page indicated by the form's `action` attribute, using either a `GET` or a `POST` ((request)). But before that happens, a `"submit"` event is fired. You can handle this event with JavaScript and prevent this default behavior by calling `preventDefault` on the event object.
+Bir ((form))u göndermek genellikle, ((tarayıcı))nın formun `action` özelliğinde belirtilen sayfaya, ya bir `GET` ya da bir `POST` ((isteği)) kullanarak yönlendirilmesi anlamına gelir. Ancak bundan önce, bir `"submit"` olayı tetiklenir. Bu olayı JavaScript ile işleyebilir ve olay nesnesi üzerinde `preventDefault` çağrısı yaparak bu varsayılan davranışı engelleyebilirsiniz.
 
 ```{lang: html}
 <form>
@@ -492,21 +492,21 @@ Submitting a ((form)) normally means that the ((browser)) navigates to the page 
 
 {{index "submit event", validation}}
 
-Intercepting `"submit"` events in JavaScript has various uses. We can write code to verify that the values the user entered make sense and immediately show an error message instead of submitting the form. Or we can disable the regular way of submitting the form entirely, as in the example, and have our program handle the input, possibly using `fetch` to send it to a server without reloading the page.
+JavaScript'te `"submit"` olaylarını yakalamanın çeşitli kullanımları vardır. Kullanıcının girdiği değerlerin mantıklı olup olmadığını doğrulayan bir kod yazabilir ve formu göndermek yerine hemen bir hata mesajı gösterebiliriz. Veya formun gönderilme işleminin normal yolunu tamamen devre dışı bırakabiliriz, örneğin bu örnekte olduğu gibi, ve programımızın girdiyi işlemesini sağlayabiliriz, muhtemelen sayfayı yenilemeden sunucuya göndermek için `fetch` kullanarak.
 
-## Text fields
+## Metin alanları
 
 {{index "value attribute", "input (HTML tag)", "text field", "textarea (HTML tag)", [DOM, fields], [interface, object]}}
 
-Fields created by `<textarea>` tags, or `<input>` tags with a type of `text` or `password`, share a common interface. Their DOM elements have a `value` property that holds their current content as a string value. Setting this property to another string changes the field's content.
+`<textarea>` etiketleriyle oluşturulan alanlar veya `text` veya `password` türünde olan `<input>` etiketleri, ortak bir arayüze sahiptir. Bu elemanların DOM elemanları, mevcut içeriklerini bir string değeri olarak tutan bir `value` özelliğine sahiptir. Bu özelliği başka bir string ile ayarlamak, alanın içeriğini değiştirir.
 
 {{index "selectionStart property", "selectionEnd property"}}
 
-The `selectionStart` and `selectionEnd` properties of ((text field))s give us information about the ((cursor)) and ((selection)) in the ((text)). When nothing is selected, these two properties hold the same number, indicating the position of the cursor. For example, 0 indicates the start of the text, and 10 indicates the cursor is after the 10^th^ ((character)). When part of the field is selected, the two properties will differ, giving us the start and end of the selected text. Like `value`, these properties may also be written to.
+((Metin alanı))nın `selectionStart` ve `selectionEnd` özellikleri, ((kursor)) ve ((seçim)) hakkında bize bilgi verir. Hiçbir şey seçilmediğinde, bu iki özellik aynı sayıyı tutar ve bu da kursorun konumunu belirtir. Örneğin, 0 metnin başlangıcını, 10 ise kursorun 10^'uncu^ ((karakter))den sonrasını belirtir. Alanın bir kısmı seçildiğinde, bu iki özellik farklı olur ve bize seçilen metnin başlangıcını ve sonunu verir. `value` gibi, bu özelliklere de yazılabilir.
 
 {{index Khasekhemwy, "textarea (HTML tag)", keyboard, "event handling"}}
 
-Imagine you are writing an article about Khasekhemwy, last pharaoh of the Second Dynasty, but have some trouble spelling his name. The following code wires up a `<textarea>` tag with an event handler that, when you press F2, inserts the string "Khasekhemwy" for you.
+Farz edelim ki Khasekhemwy hakkında bir makale yazıyorsunuz, ancak adını yazmakta zorlanıyorsunuz. Aşağıdaki kod, F2 tuşuna basıldığında "Khasekhemwy" stringini sizin için ekleyen bir olay işleyicisiyle bir `<textarea>` etiketini bağlar.
 
 ```{lang: html}
 <textarea></textarea>
@@ -531,13 +531,13 @@ Imagine you are writing an article about Khasekhemwy, last pharaoh of the Second
 
 {{index "replaceSelection function", "text field"}}
 
-The `replaceSelection` function replaces the currently selected part of a text field's content with the given word and then moves the ((cursor)) after that word so that the user can continue typing.
+`replaceSelection` fonksiyonu, bir metin alanının mevcut seçili kısmını verilen kelimeyle değiştirir ve ardından ((kursor))u o kelimenin sonrasına taşır, böylece kullanıcı yazmaya devam edebilir.
 
 {{index "change event", "input event"}}
 
-The `"change"` event for a ((text field)) does not fire every time something is typed. Rather, it fires when the field loses ((focus)) after its content was changed. To respond immediately to changes in a text field, you should register a handler for the `"input"` event instead, which fires every time the user types a character, deletes text, or otherwise manipulates the field's content.
+Bir ((metin alanı)) için `"change"` olayı, her seferinde bir şey yazıldığında tetiklenmez. Bunun yerine, alanın içeriği değiştikten sonra odağını kaybettiğinde tetiklenir. Bir metin alanındaki değişikliklere hemen yanıt vermek için, bunun yerine kullanıcı her karakter yazdığında, metin sildiğinde veya alanın içeriğini başka şekilde manipüle ettiğinde tetiklenen `"input"` olayı için bir işleyici kaydetmelisiniz.
 
-The following example shows a text field and a counter displaying the current length of the text in the field:
+Aşağıdaki örnek, bir metin alanını ve alandaki metnin mevcut uzunluğunu gösteren bir sayacı gösterir:
 
 ```{lang: html}
 <input type="text"> length: <span id="length">0</span>
@@ -550,11 +550,11 @@ The following example shows a text field and a counter displaying the current le
 </script>
 ```
 
-## Checkboxes and radio buttons
+## Onay kutuları ve radyo düğmeleri
 
 {{index "input (HTML tag)", "checked attribute"}}
 
-A ((checkbox)) field is a binary toggle. Its value can be extracted or changed through its `checked` property, which holds a Boolean value.
+Bir ((checkbox)) alanı ikili bir anahtarlamadır. Değeri, bir Boolean değeri tutan `checked` özelliği aracılığıyla alınabilir veya değiştirilebilir.
 
 ```{lang: html}
 <label>
@@ -571,11 +571,11 @@ A ((checkbox)) field is a binary toggle. Its value can be extracted or changed t
 
 {{index "for attribute", "id attribute", focus, "label (HTML tag)", labeling}}
 
-The `<label>` tag associates a piece of document with an input ((field)). Clicking anywhere on the label will activate the field, which focuses it and toggles its value when it is a checkbox or radio button.
+`<label>` etiketi, bir belge parçasını bir input ((alanı))yla ilişkilendirir. Etikete herhangi bir yere tıklamak, alanı etkinleştirir, ona odaklanır ve eğer bir checkbox veya radyo butonuysa, değerini değiştirir.
 
 {{index "input (HTML tag)", "multiple-choice"}}
 
-A ((radio button)) is similar to a checkbox, but it's implicitly linked to other radio buttons with the same `name` attribute so that only one of them can be active at any time.
+Bir ((radyo butonu)), bir checkbox'a benzer, ancak aynı `name` özelliğine sahip diğer radyo butonlarıyla örtük olarak ilişkilendirilir, böylece yalnızca bir tanesi her zaman aktif olabilir.
 
 ```{lang: html}
 Color:
@@ -600,29 +600,29 @@ Color:
 
 {{index "name attribute", "querySelectorAll method"}}
 
-The ((square brackets)) in the CSS query given to `querySelectorAll` are used to match attributes. It selects elements whose `name` attribute is `"color"`.
+`querySelectorAll`'a verilen CSS sorgusunda, ((köşeli parantezler)) özellikleri eşleştirmek için kullanılır. Bu, `name` özelliği `"color"` olan elemanları seçer.
 
-## Select fields
+## Seçim alanları
 
 {{index "select (HTML tag)", "multiple-choice", "option (HTML tag)"}}
 
-Select fields are conceptually similar to radio buttons—they also allow the user to choose from a set of options. But where a radio button puts the layout of the options under our control, the appearance of a `<select>` tag is determined by the browser.
+Select alanları, kavramsal olarak radyo butonlarına benzer—kullanıcının bir dizi seçenek arasından seçim yapmasına olanak tanır. Ancak bir radyo butonu seçeneklerin düzenini bizim kontrolümüze bırakırken, `<select>` etiketinin görünümü tarayıcı tarafından belirlenir.
 
 {{index "multiple attribute", "drop-down menu"}}
 
-Select fields also have a variant more akin to a list of checkboxes rather than radio boxes. When given the `multiple` attribute, a `<select>` tag will allow the user to select any number of options, rather than just a single option. Whereas a regular select field is drawn as a _drop-down_ control, which shows the inactive options only when you open it, a field with `multiple` enabled shows multiple options at the same time, allowing the user to enable or disable them individually.
+Select alanlarının, radyo kutularına değil, daha çok bir dizi checkbox'a benzeyen bir varyantı da vardır. `multiple` özelliği verildiğinde, bir `<select>` etiketi, kullanıcıya yalnızca bir seçenek yerine istediği sayıda seçenek seçme olanağı tanır. Bu, çoğu tarayıcıda, genellikle seçenekleri yalnızca açıldığında gösteren bir _açılır_ kontrolü olarak çizilen normal bir select alanından farklı olarak görüntülenir.
 
 {{index "option (HTML tag)", "value attribute"}}
 
-Each `<option>` tag has a value. This value can be defined with a `value` attribute. When that is not given, the ((text)) inside the option will count as its value. The `value` property of a `<select>` element reflects the currently selected option. For a `multiple` field, though, this property doesn't mean much, since it will give the value of only _one_ of the currently selected options.
+Her `<option>` etiketinin bir değeri vardır. Bu değer, bir `value` özelliği ile tanımlanabilir. Eğer bu verilmemişse, seçeneğin içindeki ((metin)) değeri olarak sayılır. Bir `<select>` elemanının `value` özelliği, şu anda seçili olan seçeneği yansıtır. Ancak bir `multiple` alanı için bu özellik çok anlamlı değildir, çünkü yalnızca şu anda seçili olan _bir_ seçeneğin değerini verir.
 
 {{index "select (HTML tag)", "options property", "selected attribute"}}
 
-The `<option>` tags for a `<select>` field can be accessed as an array-like object through the field's `options` property. Each option has a property called `selected`, which indicates whether that option is currently selected. The property can also be written to select or deselect an option.
+Bir `<select>` alanı için `<option>` etiketlerine, alanın `options` özelliği aracılığıyla array-benzeri bir nesne olarak erişilebilir. Her seçeneğin, o seçeneğin şu anda seçili olup olmadığını belirten `selected` adında bir özelliği vardır. Bu özellik, bir seçeneği seçmek veya seçiliğini kaldırmak için de yazılabilir.
 
 {{index "multiple attribute", "binary number"}}
 
-This example extracts the selected values from a `multiple` select field and uses them to compose a binary number from individual bits. Hold [ctrl]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
+Bu örnek, bir `multiple` select alanından seçili değerleri çıkarır ve bunları bireysel bitlerden bir ikili sayı oluşturmak için kullanır. Birden fazla seçenek seçmek için [control]{keyname} tuşunu (veya bir Mac'te [command]{keyname} tuşunu) basılı tutun.
 
 ```{lang: html}
 <select multiple>
@@ -646,13 +646,13 @@ This example extracts the selected values from a `multiple` select field and use
 </script>
 ```
 
-## File fields
+## Dosya alanları
 
 {{index file, "hard drive", "filesystem", security, "file field", "input (HTML tag)"}}
 
-File fields were originally designed as a way to ((upload)) files from the user's machine through a form. In modern browsers, they also provide a way to read such files from JavaScript programs. The field acts as a kind of gatekeeper. The script cannot simply start reading private files from the user's computer, but if the user selects a file in such a field, the browser interprets that action to mean that the script may read the file.
+Dosya alanları, başlangıçta kullanıcının bilgisayarından bir dosya yüklemek için bir form aracılığıyla tasarlanmıştı. Modern tarayıcılarda, bunlar aynı zamanda JavaScript programlarından bu tür dosyaları okuma yolu da sağlar. Alan, bir tür kapı bekçisi gibi davranır. Script, kullanıcının bilgisayarındaki özel dosyaları doğrudan okumaya başlayamaz, ancak kullanıcı bu alanda bir dosya seçtiğinde, tarayıcı bu eylemi scriptin dosyayı okuyabileceği şeklinde yorumlar.
 
-A file field usually looks like a button labeled with something like "choose file" or "browse", with information about the chosen file next to it.
+Bir dosya alanı genellikle "dosya seç" veya "göz at" gibi bir etiketle yazılmış bir buton gibi görünür ve yanındaki seçilen dosya hakkında bilgi içerir.
 
 ```{lang: html}
 <input type="file">
@@ -670,17 +670,17 @@ A file field usually looks like a button labeled with something like "choose fil
 
 {{index "multiple attribute", "files property"}}
 
-The `files` property of a ((file field)) element is an ((array-like object)) (once again, not a real array) containing the files chosen in the field. It is initially empty. The reason there isn't simply a `file` property is that file fields also support a `multiple` attribute, which makes it possible to select multiple files at the same time.
+Bir ((dosya alanı)) elemanının `files` özelliği, alanda seçilen dosyaları içeren bir ((array-benzeri nesne))dir (yine, gerçek bir dizi değildir). Başlangıçta boştur. Basitçe bir `file` özelliği olmamasının nedeni, dosya alanlarının aynı zamanda bir `multiple` özelliğini desteklemesidir; bu da aynı anda birden fazla dosya seçmeyi mümkün kılar.
 
 {{index "File type"}}
 
-The objects in `files` have properties such as `name` (the filename), `size` (the file's size in bytes, which are chunks of 8 bits), and `type` (the media type of the file, such as `text/plain` or `image/jpeg`).
+`files` içindeki nesneler, `name` (dosya adı), `size` (dosyanın boyutu byte cinsinden, 8 bitlik parçalar), ve `type` (dosyanın medya türü, örneğin `text/plain` veya `image/jpeg`) gibi özelliklere sahiptir.
 
 {{index ["asynchronous programming", "reading files"], "file reading", "FileReader class"}}
 
 {{id filereader}}
 
-What it does not have is a property that contains the content of the file. Getting at that is a little more involved. Since reading a file from disk can take time, the interface is asynchronous to avoid freezing the window.
+Dosyanın içeriğini içeren bir özelliğe sahip değildir. Buna erişmek biraz daha karmaşıktır. Diskten bir dosya okumak zaman alabileceğinden, belgenin donmaması için arayüzün asenkron olması gerekir.
 
 ```{lang: html}
 <input type="file" multiple>
@@ -701,11 +701,11 @@ What it does not have is a property that contains the content of the file. Getti
 
 {{index "FileReader class", "load event", "readAsText method", "result property"}}
 
-Reading a file is done by creating a `FileReader` object, registering a `"load"` event handler for it, and calling its `readAsText` method, giving it the file we want to read. Once loading finishes, the reader's `result` property contains the file's content.
+Bir dosya okumak, bir `FileReader` nesnesi oluşturmak, ona bir `"load"` olay işleyicisi kaydetmek ve `readAsText` metodunu çağırarak okumak istediğimiz dosyayı vermekle yapılır. Yükleme tamamlandığında, okuyucunun `result` özelliği dosyanın içeriğini içerir.
 
 {{index "error event", "FileReader class", "Promise class"}}
 
-`FileReader`s also fire an `"error"` event when reading the file fails for any reason. The error object itself will end up in the reader's `error` property. This interface was designed before promises became part of the language. You could wrap it in a promise like this:
+`FileReader`'lar, dosya okuma herhangi bir nedenle başarısız olduğunda bir `"error"` olayı da tetikler. Hata nesnesi, okuyucunun `error` özelliğinde bulunur. Bu arayüz, promises dilin bir parçası olmadan önce tasarlanmıştır. Bunu bir promise içinde şöyle sarmalayabilirsiniz:
 
 ```
 function readFileText(file) {
@@ -720,19 +720,19 @@ function readFileText(file) {
 }
 ```
 
-## Storing data client-side
+## Verilerin istemci tarafında depolanması
 
 {{index "web application"}}
 
-Simple ((HTML)) pages with a bit of JavaScript can be a great format for "((mini application))s"—small helper programs that automate basic tasks. By connecting a few form ((field))s with event handlers, you can do anything from converting between centimeters and inches to computing passwords from a master password and a website name.
+Basit ((HTML)) sayfaları ve biraz JavaScript, "((mini uygulama))lar" için harika bir format olabilir—temel görevleri otomatikleştiren küçük yardımcı programlar. Birkaç form ((alanı))nı olay işleyicileriyle bağlayarak, santimetre ve inç arasında dönüşüm yapmaktan, bir ana şifre ve bir web sitesi adıyla şifreler hesaplamaya kadar her şeyi yapabilirsiniz.
 
 {{index persistence, [binding, "as state"], [browser, storage]}}
 
-When such an application needs to remember something between sessions, you cannot use JavaScript bindings—those are thrown away every time the page is closed. You could set up a server, connect it to the internet, and have your application store something there (we'll see how to do that in [Chapter ?](node)). But that's a lot of extra work and complexity. Sometimes it's enough to just keep the data in the ((browser)).
+Böyle bir uygulama oturumlar arasında bir şey hatırlaması gerektiğinde, JavaScript bağlamaları kullanamazsınız—bunlar sayfa her kapandığında silinir. Bir sunucu kurabilir, onu İnternete bağlayabilir ve uygulamanızın verileri orada depolamasını sağlayabilirsiniz. Bunu nasıl yapacağımızı [Bölüm ?](node)'de göreceğiz. Ama bu, çok fazla ekstra iş ve karmaşıklık anlamına gelir. Bazen veriyi sadece ((tarayıcı))da tutmak yeterli olabilir.
 
 {{index "localStorage object", "setItem method", "getItem method", "removeItem method"}}
 
-The `localStorage` object can be used to store data in a way that survives ((page reload))s. This object allows you to file string values under names.
+`localStorage` nesnesi, verilerin ((sayfa yeniden yükleme))lerine rağmen saklanmasını sağlar. Bu nesne, adlar altında dize (string) değerler dosyalamanıza olanak tanır.
 
 ```
 localStorage.setItem("username", "marijn");
@@ -743,19 +743,19 @@ localStorage.removeItem("username");
 
 {{index "localStorage object"}}
 
-A value in `localStorage` sticks around until it is overwritten or is removed with `removeItem`, or the user clears their local data.
+`localStorage`'daki bir değer, üzerine yazılana kadar kalır, `removeItem` ile silinir veya kullanıcı yerel verilerini temizlerse kaldırılır.
 
 {{index security}}
 
-Sites from different ((domain))s get different storage compartments. That means data stored in `localStorage` by a given website can, in principle, be read (and overwritten) only by scripts on that same site.
+Farklı ((domain))lerden gelen siteler, farklı depolama bölmeleri alır. Bu, bir web sitesinin `localStorage`'a kaydettiği verilerin, prensipte yalnızca o aynı sitedeki betikler tarafından okunabilir (ve üzerine yazılabilir) olduğu anlamına gelir.
 
 {{index "localStorage object"}}
 
-Browsers do enforce a limit on the size of the data a site can store in `localStorage`. That restriction, along with the fact that filling up people's ((hard drive))s with junk is not really profitable, prevents the feature from eating up too much space.
+Tarayıcılar, bir sitenin `localStorage`'a depolayabileceği veri miktarı üzerinde bir sınır koyar. Bu kısıtlama, ayrıca insanların ((hard disk))lerini gereksiz verilerle doldurmanın gerçekten karlı olmaması gerçeği, bu özelliğin çok fazla alan kaplamasını engeller.
 
 {{index "localStorage object", "note-taking example", "select (HTML tag)", "button (HTML tag)", "textarea (HTML tag)"}}
 
-The following code implements a crude note-taking application. It keeps a set of named notes and allows the user to edit notes and create new ones.
+Aşağıdaki kod, basit bir not alma uygulamasını uygular. Adlandırılmış bir dizi not tutar ve kullanıcıya notları düzenleme ve yenilerini oluşturma imkanı verir.
 
 ```{lang: html, startCode: true}
 Notes: <select></select> <button>Add</button><br>
@@ -807,23 +807,23 @@ Notes: <select></select> <button>Add</button><br>
 
 {{index "getItem method", JSON, "?? operator", "default value"}}
 
-The script gets its starting state from the `"Notes"` value stored in `localStorage` or, if that's missing, creates an example state that has only a shopping list in it. Reading a field that does not exist from `localStorage` will yield `null`. Passing `null` to `JSON.parse` will make it parse the string `"null"` and return `null`. Thus, the `??` operator can be used to provide a default value in a situation like this.
+Betik, başlangıç durumunu `localStorage`'da depolanan `"Notes"` değerinden alır veya bu değer eksikse içinde yalnızca bir alışveriş listesi bulunan örnek bir durum oluşturur. `localStorage`'dan var olmayan bir alan okunduğunda `null` döner. `null`'ı `JSON.parse`'a geçirmek, `"null"` dizesini çözümlemesine ve `null` döndürmesine neden olur. Bu nedenle, `||` operatörü, böyle bir durumda varsayılan bir değer sağlamak için kullanılabilir.
 
-The `setState` method makes sure the DOM is showing a given state and stores the new state to `localStorage`. Event handlers call this function to move to a new state.
+`setState` metodu, DOM'un verilen bir durumu gösterdiğinden emin olur ve yeni durumu `localStorage`'a depolar. Olay işleyicileri, yeni bir duruma geçmek için bu fonksiyonu çağırır.
 
 {{index [object, creation], property, "computed property"}}
 
-The `...` syntax in the example is used to create a new object that is a clone of the old `state.notes`, but with one property added or overwritten. It uses ((spread)) syntax to first add the properties from the old object and then set a new property. The ((square brackets)) notation in the object literal is used to create a property whose name is based on some dynamic value.
+Örnekteki `...` sözdizimi, eski `state.notes` nesnesinin bir kopyasını oluşturan yeni bir nesne yaratmak için kullanılır, ancak bir özellik eklenir veya üzerine yazılır. İlk olarak eski nesneden özellikleri eklemek için ((spread)) sözdizimi kullanılır, ardından yeni bir özellik atanır. Nesne literal'inde ((square brackets)) gösterimi, adının bazı dinamik değerlere dayalı olduğu bir özellik oluşturmak için kullanılır.
 
 {{index "sessionStorage object", [browser, storage]}}
 
-There is another object, similar to `localStorage`, called `sessionStorage`. The difference between the two is that the content of `sessionStorage` is forgotten at the end of each _((session))_, which for most browsers means whenever the browser is closed.
+`localStorage`'a benzer bir başka nesne daha vardır, o da `sessionStorage`'dır. İkisi arasındaki fark, `sessionStorage`'ın içeriğinin her _((session))_ sonunda unutulmasıdır; bu, çoğu tarayıcı için tarayıcı kapandığında anlamına gelir.
 
-## Summary
+## Özet
 
-In this chapter, we discussed how the HTTP protocol works. A _client_ sends a request, which contains a method (usually `GET`) and a path that identifies a resource. The _server_ then decides what to do with the request and responds with a status code and a response body. Both requests and responses may contain headers that provide additional information.
+Bu bölümde, HTTP protokolünün nasıl çalıştığını tartıştık. Bir _istemci_ bir istek gönderir, bu istek genellikle bir `GET` metodu ve bir kaynağı tanımlayan bir yol içerir. _Sunucu_ ise isteği ne yapacağına karar verir ve bir durum kodu ve yanıt gövdesi ile yanıt verir. Hem istekler hem de yanıtlar, ek bilgi sağlayan başlıklar içerebilir.
 
-The interface through which browser JavaScript can make HTTP requests is called `fetch`. Making a request looks like this:
+Tarayıcı JavaScript'inin HTTP istekleri yapabileceği arayüz `fetch` olarak adlandırılır. Bir istek yapmak şu şekilde görünür:
 
 ```
 fetch("/18_http.html").then(r => r.text()).then(text => {
@@ -831,38 +831,40 @@ fetch("/18_http.html").then(r => r.text()).then(text => {
 });
 ```
 
-Browsers make `GET` requests to fetch the resources needed to display a web page. A page may also contain forms, which allow information entered by the user to be sent as a request for a new page when the form is submitted.
+Tarayıcılar, bir web sayfasını görüntülemek için gerekli kaynakları almak amacıyla `GET` istekleri yapar. Bir sayfa ayrıca, kullanıcı tarafından girilen bilgilerin, form gönderildiğinde yeni bir sayfa için istek olarak gönderilmesine olanak tanıyan formlar içerebilir.
 
-HTML can represent various types of form fields, such as text fields, checkboxes, multiple-choice fields, and file pickers. Such fields can be inspected and manipulated with JavaScript. They fire the `"change"` event when changed, fire the `"input"` event when text is typed, and receive keyboard events when they have keyboard focus. Properties like `value` (for text and select fields) or `checked` (for checkboxes and radio buttons) are used to read or set the field's content.
+HTML, metin alanları, onay kutuları, çoktan seçmeli alanlar ve dosya seçiciler gibi çeşitli form alanlarını temsil edebilir.
 
-When a form is submitted, a `"submit"` event is fired on it. A JavaScript handler can call `preventDefault` on that event to disable the browser's default behavior. Form field elements may also occur outside of a form tag.
+Bu tür alanlar JavaScript ile denetlenebilir ve manipüle edilebilir. Değiştirildiklerinde `"change"` olayı tetiklerler, metin yazıldığında `"input"` olayı tetiklerler ve klavye odaklandığında klavye olaylarını alırlar. `value` (metin ve seçme alanları için) veya `checked` (onay kutuları ve radyo düğmeleri için) gibi özellikler, alanın içeriğini okumak veya ayarlamak için kullanılır.
 
-When the user has selected a file from their local filesystem in a file picker field, the `FileReader` interface can be used to access the content of this file from a JavaScript program.
+Bir form gönderildiğinde, üzerine bir `"submit"` olayı tetiklenir. Bir JavaScript işleyicisi, bu olay üzerinde `preventDefault` çağrısı yaparak tarayıcının varsayılan davranışını devre dışı bırakabilir. Form alanı elemanları, bir form etiketi dışında da bulunabilir.
 
-The `localStorage` and `sessionStorage` objects can be used to save information in a way that survives page reloads. The first object saves the data forever (or until the user decides to clear it), and the second saves it until the browser is closed.
+Kullanıcı, bir dosya seçici alanında yerel dosya sisteminden bir dosya seçtiğinde, `FileReader` arayüzü, JavaScript programından bu dosyanın içeriğine erişmek için kullanılabilir.
 
-## Exercises
+`localStorage` ve `sessionStorage` nesneleri, sayfa yeniden yüklense bile bilgiyi kaydetmek için kullanılabilir. İlk nesne veriyi sonsuza kadar (veya kullanıcı temizlemeye karar verene kadar) saklar, ikinci nesne ise veriyi tarayıcı kapatılana kadar saklar.
 
-### Content negotiation
+## Egzersizler
+
+### İçerik müzakeresi
 
 {{index "Accept header", "media type", "document format", "content negotiation (exercise)"}}
 
-One of the things HTTP can do is called _content negotiation_. The `Accept` request header is used to tell the server what type of document the client would like to get. Many servers ignore this header, but when a server knows of various ways to encode a resource, it can look at this header and send the one that the client prefers.
+HTTP'nin yapabileceği şeylerden biri de _içerik müzakeresi_ olarak adlandırılır. `Accept` istek başlığı, istemcinin almak istediği belge türünü sunucuya bildirmek için kullanılır. Birçok sunucu bu başlığı görmezden gelir, ancak bir sunucu, bir kaynağı kodlamak için çeşitli yollar bildiğinde, bu başlığa bakarak istemcinin tercih ettiği belgeyi gönderebilir.
 
 {{index "MIME type"}}
 
-The URL [_https://eloquentjavascript.net/author_](https://eloquentjavascript.net/author) is configured to respond with either plaintext, HTML, or JSON, depending on what the client asks for. These formats are identified by the standardized _((media type))s_ `text/plain`, `text/html`, and `application/json`.
+[_https://eloquentjavascript.net/author_](https://eloquentjavascript.net/author) URL'su, istemcinin talep ettiği formata göre düz metin, HTML veya JSON ile yanıt verecek şekilde yapılandırılmıştır. Bu formatlar, standartlaştırılmış _((medya türü))_ `text/plain`, `text/html` ve `application/json` ile tanımlanır.
 
 {{index "headers property", "fetch function"}}
 
-Send requests to fetch all three formats of this resource. Use the `headers` property in the options object passed to `fetch` to set the header named `Accept` to the desired media type.
+Bu kaynağın tüm üç formatını almak için istekler gönderin. `fetch`'e geçirilen seçenekler nesnesinde `headers` özelliğini kullanarak `Accept` başlığını istenen medya türüne ayarlayın.
 
-Finally, try asking for the media type `application/rainbows+unicorns` and see which status code that produces.
+Son olarak, `application/rainbows+unicorns` medya türünü istemeyi deneyin ve hangi durum kodunu ürettiğine bakın.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 ```
 
 if}}
@@ -871,23 +873,23 @@ if}}
 
 {{index "content negotiation (exercise)"}}
 
-Base your code on the `fetch` examples [earlier in the chapter](http#fetch).
+Kodunuzu, [önceki bölümlerdeki `fetch` örneklerine](http#fetch) dayandırın.
 
 {{index "406 (HTTP status code)", "Accept header"}}
 
-Asking for a bogus media type will return a response with code 406, "Not acceptable", which is the code a server should return when it can't fulfill the `Accept` header.
+Geçersiz bir medya türü istemek, 406 kodlu bir yanıt döndürecektir, "Kabul Edilemez" anlamına gelir. Bu, bir sunucunun `Accept` başlığını yerine getiremeyeceği zaman döndürmesi gereken koddur.
 
 hint}}
 
-### A JavaScript workbench
+### Bir JavaScript çalışma tezgahı
 
 {{index "JavaScript console", "workbench (exercise)"}}
 
-Build an interface that allows users to type and run pieces of JavaScript code.
+İnsanların JavaScript kodu yazıp çalıştırmalarına olanak tanıyan bir arayüz oluşturun.
 
 {{index "textarea (HTML tag)", "button (HTML tag)", "Function constructor", "error message"}}
 
-Put a button next to a `<textarea>` field that, when pressed, uses the `Function` constructor we saw in [Chapter ?](modules#eval) to wrap the text in a function and call it. Convert the return value of the function, or any error it raises, to a string and display it below the text field.
+Yanına bir `<textarea>` alanı ekleyin ve bu alana basıldığında, [Bölüm ?](modules#eval)'de gördüğümüz `Function` constructor'ını kullanarak metni bir fonksiyonla sarıp çağıran bir buton ekleyin. Fonksiyonun döndürdüğü değeri veya oluşturduğu hatayı bir string'e çevirin ve bu metni, metin alanının altına görüntüleyin.
 
 {{if interactive
 
@@ -897,7 +899,7 @@ Put a button next to a `<textarea>` field that, when pressed, uses the `Function
 <pre id="output"></pre>
 
 <script>
-  // Your code here.
+  // Kodunuz buraya.
 </script>
 ```
 
@@ -907,39 +909,39 @@ if}}
 
 {{index "click event", "mousedown event", "Function constructor", "workbench (exercise)"}}
 
-Use `document.querySelector` or `document.getElementById` to get access to the elements defined in your HTML. An event handler for `"click"` or `"mousedown"` events on the button can get the `value` property of the text field and call `Function` on it.
+HTML'nizde tanımlanan elemanlara erişmek için `document.querySelector` veya `document.getElementById` kullanın. Butona tıklama veya fareyle tıklama `"click"` ya da `"mousedown"` olayları için bir olay işleyicisi, metin alanının `value` özelliğini alabilir ve buna `Function` çağırabilir.
 
 {{index "try keyword", "exception handling"}}
 
-Make sure you wrap both the call to `Function` and the call to its result in a `try` block so you can catch the exceptions it produces. In this case, we really don't know what type of exception we are looking for, so catch everything.
+Hem `Function` çağrısını hem de sonucuna yapılan çağrıyı bir `try` bloğuna sarmayı unutmayın, böylece ürettiği istisnaları yakalayabilirsiniz. Bu durumda, hangi türde bir istisna ile karşılaşacağımızı gerçekten bilmiyoruz, bu yüzden her şeyi yakalayın.
 
 {{index "textContent property", output, text, "createTextNode method", "newline character"}}
 
-The `textContent` property of the output element can be used to fill it with a string message. Or, if you want to keep the old content around, create a new text node using `document.createTextNode` and append it to the element. Remember to add a newline character to the end so that not all output appears on a single line.
+Çıktı öğesinin `textContent` özelliği, onu bir metin mesajı ile doldurmak için kullanılabilir. Veya eski içeriği korumak istiyorsanız, `document.createTextNode` kullanarak yeni bir metin düğümü oluşturun ve bunu öğeye ekleyin. Unutmayın, tüm çıktının tek bir satırda görünmemesi için sonuna bir satır sonu karakteri eklemelisiniz.
 
 hint}}
 
-### Conway's Game of Life
+### Conway'in Hayat Oyunu
 
 {{index "game of life (exercise)", "artificial life", "Conway's Game of Life"}}
 
-Conway's Game of Life is a simple ((simulation)) that creates artificial "life" on a ((grid)), each cell of which is either alive or not. In each ((generation)) (turn), the following rules are applied:
+Conway'nin Hayat Oyunu, her hücresinin ya canlı ya da ölü olduğu bir ((ızgara)) üzerinde yapay "hayat" yaratan basit bir ((simülasyon))dur. Her ((nesil)) (tur), aşağıdaki kurallar uygulanır:
 
-* Any live ((cell)) with fewer than two or more than three live   ((neighbor))s dies.
+- İki veya daha fazla canlı ((komşu))ya sahip olan herhangi bir canlı ((hücre)) ölür.
 
-* Any live cell with two or three live neighbors lives on to the next   generation.
+- İki veya üç canlı komşuya sahip olan herhangi bir canlı hücre bir sonraki nesile geçer.
 
-* Any dead cell with exactly three live neighbors becomes a live cell.
+- Tam olarak üç canlı komşuya sahip olan herhangi bir ölü hücre, canlı bir hücreye dönüşür.
 
-A _neighbor_ is defined as any adjacent cell, including diagonally adjacent ones.
+Bir _komşu_, herhangi bir komşu hücreyi, çapraz komşular dahil olmak üzere tanımlar.
 
 {{index "pure function"}}
 
-Note that these rules are applied to the whole grid at once, not one square at a time. That means the counting of neighbors is based on the situation at the start of the generation, and changes happening to neighbor cells during this generation should not influence the new state of a given cell.
+Bu kuralların tamamının bir kerede, tüm ızgaraya uygulandığını unutmayın, her bir kareye tek tek değil. Bu, komşuların sayılmasının neslin başlangıcındaki duruma dayandığı anlamına gelir ve bu nesil sırasında komşu hücrelerde meydana gelen değişiklikler, belirli bir hücrenin yeni durumunu etkilememelidir.
 
 {{index "Math.random function"}}
 
-Implement this game using whichever ((data structure)) you find appropriate. Use `Math.random` to populate the grid with a random pattern initially. Display it as a grid of ((checkbox)) ((field))s, with a ((button)) next to it to advance to the next ((generation)). When the user checks or unchecks the checkboxes, their changes should be included when computing the next generation.
+Bu oyunu, uygun bulduğunuz herhangi bir ((veri yapısı))nı kullanarak uygulayın. İlk başta ızgarayı rastgele bir desenle doldurmak için `Math.random` kullanın. Bunu, yanına bir ((düğme)) ekleyerek ve her bir ((checkbox)) ((alan))ı olarak ızgarayı görüntüleyerek yapın, böylece bir sonraki ((nesil))e geçiş sağlanabilir. Kullanıcı onay kutularını işaretlediğinde veya işaretini kaldırdığında, bu değişiklikler bir sonraki nesli hesaplamada dikkate alınmalıdır.
 
 {{if interactive
 
@@ -948,7 +950,7 @@ Implement this game using whichever ((data structure)) you find appropriate. Use
 <button id="next">Next generation</button>
 
 <script>
-  // Your code here.
+  // Kodunuz buraya.
 </script>
 ```
 
@@ -958,18 +960,18 @@ if}}
 
 {{index "game of life (exercise)"}}
 
-To solve the problem of having the changes conceptually happen at the same time, try to see the computation of a ((generation)) as a ((pure function)), which takes one ((grid)) and produces a new grid that represents the next turn.
+Değişikliklerin kavramsal olarak aynı anda gerçekleşmesi sorununu çözmek için, ((nesil)) hesaplamasını bir ((saf fonksiyon)) olarak görmeye çalışın; bu fonksiyon, bir ((ızgara)) alır ve bir sonraki turu temsil eden yeni bir ızgara üretir.
 
-Representing the matrix can be done with a single array of width × height elements, storing values row by row, so, for example, the third element in the fifth row is (using zero-based indexing) stored at position 4 × _width_ + 2. You can count live ((neighbor))s with two nested loops, looping over adjacent coordinates in both dimensions. Take care not to count cells outside of the field and to ignore the cell in the center, whose neighbors we are counting.
+Matrisin temsil edilmesi, genişlik × yükseklik öğeleri içeren tek bir diziyle yapılabilir, değerler satır satır saklanır, bu nedenle örneğin beşinci satırdaki üçüncü öğe (sıfır tabanlı indeksleme kullanarak) 4 × _genişlik_ + 2 pozisyonunda saklanır. Canlı ((komşu)) sayısını, her iki boyutta bitişik koordinatlar üzerinde dönen iki iç içe döngüyle sayabilirsiniz. Alanın dışındaki hücreleri saymamaya ve saydığımız hücrenin komşusu olan merkez hücresini görmezden gelmeye dikkat edin.
 
 {{index "event handling", "change event"}}
 
-Ensuring that changes to ((checkbox))es take effect on the next generation can be done in two ways. An event handler could notice these changes and update the current grid to reflect them, or you could generate a fresh grid from the values in the checkboxes before computing the next turn.
+((Checkbox))lerdeki değişikliklerin bir sonraki nesilde etkili olmasını sağlamak iki şekilde yapılabilir. Bir olay işleyicisi bu değişiklikleri fark edebilir ve mevcut ızgarayı yansıtacak şekilde güncelleyebilir, ya da bir sonraki dönüşü hesaplamadan önce, checkbox'lardaki değerlerden taze bir ızgara oluşturabilirsiniz.
 
-If you choose to go with event handlers, you might want to attach ((attribute))s that identify the position that each checkbox corresponds to so that it is easy to find out which cell to change.
+Olay işleyicilerini tercih ederseniz, her checkbox'ın hangi hücreye karşılık geldiğini kolayca bulmak için her bir checkbox'a pozisyonu tanımlayan ((özellik))ler eklemek isteyebilirsiniz.
 
 {{index drawing, "table (HTML tag)", "br (HTML tag)"}}
 
-To draw the grid of checkboxes, you can either use a `<table>` element (see [Chapter ?](dom#exercise_table)) or simply put them all in the same element and put `<br>` (line break) elements between the rows.
+Checkbox'ların ızgarasını çizmek için ya bir `<table>` elementi kullanabilirsiniz (bkz. [Bölüm ?](dom#exercise_table)) ya da hepsini aynı elementte toplayıp satırlar arasına `<br>` (satır sonu) elemanları ekleyebilirsiniz.
 
 hint}}

@@ -144,7 +144,7 @@ let renderer = {
   code_inline(token) {
     if (noStarch)
       return `\\texttt{${escape(token.content)}}`
-    else if (token.content.indexOf("`"))
+    else if (token.content.indexOf("`") > -1)
       return `\\lstinline|${token.content}|`
     else
       return `\\lstinline\`${token.content}\``

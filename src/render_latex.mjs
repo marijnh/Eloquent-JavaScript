@@ -45,7 +45,6 @@ function escape(str) {
     return escapeChar(match)
   })
 }
-function miniEscape(str) { return str.replace(/[`]/g, escapeChar) }
 
 function escapeIndexChar(ch) {
   switch (ch) {
@@ -145,8 +144,10 @@ let renderer = {
   code_inline(token) {
     if (noStarch)
       return `\\texttt{${escape(token.content)}}`
+    else if (token.content.indexOf("`"))
+      return `\\lstinline|${token.content}|`
     else
-      return `\\lstinline\`${miniEscape(token.content)}\``
+      return `\\lstinline\`${token.content}\``
   },
 
   strong_open() { return "\\textbf{" },

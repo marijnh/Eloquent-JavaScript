@@ -1,10 +1,10 @@
 {{meta {docid: values}}}
 
-# Values, Types, and Operators
+# Değerler, Tipler ve Operatörler
 
 {{quote {author: "Master Yuan-Ma", title: "The Book of Programming", chapter: true}
 
-Below the surface of the machine, the program moves. Without effort, it expands and contracts. In great harmony, electrons scatter and regroup. The forms on the monitor are but ripples on the water. The essence stays invisibly below.
+Makinenin yüzeyinin altında, program hareket eder. Çaba sarf etmeden genişler ve daralır. Büyük bir uyum içinde, elektronlar dağılır ve yeniden gruplanır. Monitördeki formlar sadece suyun üstünde dalgalar gibiyken öz ise görünmez bir şekilde altta kalır.
 
 quote}}
 
@@ -14,42 +14,42 @@ quote}}
 
 {{index "binary data", data, bit, memory}}
 
-In the computer's world, there is only data. You can read data, modify data, create new data—but that which isn't data cannot be mentioned. All this data is stored as long sequences of bits and is thus fundamentally alike.
+Bilgisayarın dünyasında, sadece veri vardır. Veriyi okuyabilir, değiştirebilir, yeni veri oluşturabilirsiniz - ancak veri olmayan şeylerden bahsedilemez. Tüm bu veriler, sıfır ve birlerden oluşan bitlerin bir araya geldiği uzun diziler olarak depolanır ve bu nedenle temel olarak birbirlerine benzerler.
 
 {{index CD, signal}}
 
-_Bits_ are any kind of two-valued things, usually described as zeros and ones. Inside the computer, they take forms such as a high or low electrical charge, a strong or weak signal, or a shiny or dull spot on the surface of a CD. Any piece of discrete information can be reduced to a sequence of zeros and ones and thus represented in bits.
+_Bitler_, genellikle sıfırlar ve birler olarak tanımlanan her türlü iki değerli şeydir. Bilgisayarın içinde, yüksek veya düşük bir elektrik yükü, güçlü veya zayıf bir sinyal veya bir CD'nin yüzeyinde parlak veya mat bir leke gibi şekiller alırlar. Herhangi bir soyut bilgi parçası, sıfırların ve birlerin bir dizisine indirgenebilir ve bu şekilde bitlerle temsil edilebilir.
 
 {{index "binary number", "decimal number"}}
 
-For example, we can express the number 13 in bits. This works the same way as a decimal number, but instead of 10 different ((digit))s, we have only 2, and the weight of each increases by a factor of 2 from right to left. Here are the bits that make up the number 13, with the weights of the digits shown below them:
+Örneğin, sayı 13'ü bitlerle ifade edebiliriz. Bu, ondalık bir sayıyla aynı çalışır, ancak 10 farklı ((rakam)) yerine yalnızca 2 tane vardır ve her birinin ağırlığı sağdan sola doğru bir faktörle artar. İşte 13'ü oluşturan bitler ve rakamların ağırlıkları aşağıda gösterilmiştir:
 
 ```{lang: null}
    0   0   0   0   1   1   0   1
  128  64  32  16   8   4   2   1
 ```
 
-That's the binary number 00001101. Its nonzero digits stand for 8, 4, and 1, and add up to 13.
+Bu, ikili sayı 00001101. Sıfır olmayan rakamlar, 8, 4 ve 1'i temsil eder ve toplamda 13'e eşittir.
 
-## Values
+## Değerler
 
 {{index [memory, organization], "volatile data storage", "hard drive"}}
 
-Imagine a sea of bits—an ocean of them. A typical modern computer has more than 100 billion bits in its volatile data storage (working memory). Nonvolatile storage (the hard disk or equivalent) tends to have yet a few orders of magnitude more.
+Bitlerden oluşan bir denizi, bir okyanusu hayal edin. Tipik bir modern bilgisayarın, geçici veri depolama alanında (çalışma belleği) 100 milyarın üzerinde biti vardır. Kalıcı depolamaysa(sabit disk veya benzeri) genellikle birkaç kat daha fazla sayıda bit barındırır.
 
-To be able to work with such quantities of bits without getting lost, we separate them into chunks that represent pieces of information. In a JavaScript environment, those chunks are called _((value))s_. Though all values are made of bits, they play different roles. Every value has a ((type)) that determines its role. Some values are numbers, some values are pieces of text, some values are functions, and so on.
+Bu miktardaki bitlerle kaybolmadan çalışabilmek için, onları bilgi parçalarını temsil eden parçalara ayırırız. Bir JavaScript ortamında, bu parçalara ((_değer_))ler denir. Tüm değerler bitlerden oluşsa da, farklı roller üstlenirler. Her değerin rolünü belirleyen bir ((_tür_))ü vardır. Bazı değerler sayıdır, bazıları metin parçalarıdır, bazıları fonksiyonlardır ve benzeri.
 
 {{index "garbage collection"}}
 
-To create a value, you must merely invoke its name. This is convenient. You don't have to gather building material for your values or pay for them. You just call for one, and _whoosh_, you have it. Of course, values are not really created from thin air. Each one has to be stored somewhere, and if you want to use a gigantic number of them at the same time, you might run out of computer memory. Fortunately, this is a problem only if you need them all simultaneously. As soon as you no longer use a value, it will dissipate, leaving behind its bits to be recycled as building material for the next generation of values.
+Bir değer oluşturmak için, yalnızca adını çağırmanız gerekir. Bu kullanışlıdır. Değerleriniz için yapı malzemesini toplamanıza veya ödeme yapmanıza gerek yoktur. Sadece bir tane çağırırsınız ve _şup_, ona sahip olursunuz. Tabii ki, değerler gerçekten birdenbire hiçlikten yaratılmaz. Her biri bir yerde depolanmalıdır ve eğer hepsini aynı anda kullanmak isterseniz, bilgisayar belleği tükenebilir. Neyse ki, bu sadece hepsine aynı anda ihtiyacınız varsa bir problem olur. Bir değeri artık kullanmadığınızda, o dağılır ve arkasında bitlerini bırakır, böylece bir sonraki nesil değerler için yapı malzemesi olarak geri dönüştürülebilir.
 
-The remainder of this chapter introduces the atomic elements of JavaScript programs, that is, the simple value types and the operators that can act on such values.
+Bu bölümün geri kalanı, JavaScript programlarının atomik unsurlarını, yani basit değer tiplerini ve bu tür değerler üzerinde işlem yapabilen operatörleri tanıtır.
 
-## Numbers
+## Sayılar
 
 {{index [syntax, number], number, [number, notation]}}
 
-Values of the _number_ type are, unsurprisingly, numeric values. In a JavaScript program, they are written as follows:
+_Sayı_ türündeki değerler, beklenildiği gibi, sayısal değerlerdir. Bir JavaScript programında, şu şekilde yazılırlar:
 
 ```
 13
@@ -57,21 +57,22 @@ Values of the _number_ type are, unsurprisingly, numeric values. In a JavaScript
 
 {{index "binary number"}}
 
-Using that in a program will cause the bit pattern for the number 13 to come into existence inside the computer's memory.
+Bunu bir programda kullanmak, bilgisayar belleğinde sayı 13 için bit deseninin varlığını ortaya çıkarır.
 
 {{index [number, representation], bit}}
 
-JavaScript uses a fixed number of bits, 64 of them, to store a single number value. There are only so many patterns you can make with 64 bits, which limits the number of different numbers that can be represented. With _N_ decimal ((digit))s, you can represent 10^N^ numbers. Similarly, given 64 binary digits, you can represent 2^64^ different numbers, which is about 18 quintillion (an 18 with 18 zeros after it). That's a lot.
+JavaScript, bir adet sayı değeri saklamak için sabit olarak 64 bit kullanır. 64 bit ile yapabileceğiniz sadece belirli bir sayıda desen vardır, bu da temsil edilebilecek farklı sayıların sayısını sınırlar. _N_ ondalık ((basamak)) ile 10^N^ adet farklı sayıyı temsil edebilirsiniz. Benzer şekilde, 64 adet ikilik sayı basamakları ile 2^64^ farklı sayıyı temsil edebilirsiniz, bu da yaklaşık olarak 18 katrilyon (18'in arkasında 18 sıfır olan bir sayı), yani çok fazla.
 
-Computer memory used to be much smaller, and people tended to use groups of 8 or 16 bits to represent their numbers. It was easy to accidentally _((overflow))_ such small numbers—to end up with a number that did not fit into the given number of bits. Today, even computers that fit in your pocket have plenty of memory, so you are free to use 64-bit chunks, and you need to worry about overflow only when dealing with truly astronomical numbers.
+Bilgisayar belleği eskiden çok daha küçüktü ve insanlar sayılarını temsil etmek için 8 veya 16 bitlik gruplar kullanma eğilimindeydi. Bu tür küçük sayılarla işlemler yaparken kazara ((taşma)) durumuyla karşılaşmak, yani verilen bit sayısını aşan bir sayıya yanlışlıkla ulaşmak kolaydı. Bugün, cebinizdeki telefon adlı bilgisayarlar bile yeterince belleğe sahiptir, bu yüzden 64 bitlik parçaları özgürce kullanabilirsiniz ve gerçekten astronomik sayılarla uğraşmadığınız sürece taşma sorunuyla ilgilenmeniz gerekmez.
 
 {{index sign, "floating-point number", "sign bit"}}
 
-Not all whole numbers less than 18 quintillion fit in a JavaScript number, though. Those bits also store negative numbers, so one bit indicates the sign of the number. A bigger issue is representing nonwhole numbers. To do this, some of the bits are used to store the position of the decimal point. The actual maximum whole number that can be stored is more in the range of 9 quadrillion (15 zeros)—which is still pleasantly huge.
+The actual maximum whole number that can be stored is more in the range of 9 quadrillion (15 zeros)—which is still pleasantly huge.
+Ancak, 18 katrilyonun altında kalan tüm tam sayılar bir JavaScript sayısına sığmaz. Bu bitler ayrıca negatif sayıları da saklar, bu nedenle bir bit sayının artı veya eksi olup olmadığını gösterir. Daha büyük bir sorunsa tam olmayan sayıları temsil etmektir. Bunun için, sayı bitlerinin bazıları ondalık noktanın konumunu saklamak için kullanılır. Depolanabilen asıl maksimum tam sayı, 9 katrilyon aralığındadır (15 sıfır).
 
 {{index [number, notation], "fractional number"}}
 
-Fractional numbers are written using a dot:
+Kesirli sayılar bir nokta kullanılarak yazılır:
 
 ```
 9.81
@@ -79,23 +80,24 @@ Fractional numbers are written using a dot:
 
 {{index exponent, "scientific notation", [number, notation]}}
 
-For very big or very small numbers, you may also use scientific notation by adding an _e_ (for _exponent_), followed by the exponent of the number.
+For very big or very small numbers, you may also use scientific notation by adding an _e_ (for _exponent_), followed by the exponent of the number:
+Çok büyük veya çok küçük sayılar için, sayının üssünü belirten bir e (((_üs/exponent_)) için) ekleyerek bilimsel gösterim de kullanabilirsiniz:
 
 ```
 2.998e8
 ```
 
-That's 2.998 × 10^8^ = 299,800,000.
+Bu, 2.998 × 10^8^ = 299,800,000'dir.
 
 {{index pi, [number, "precision of"], "floating-point number"}}
 
-Calculations with whole numbers (also called _((integer))s_) that are smaller than the aforementioned 9 quadrillion are guaranteed to always be precise. Unfortunately, calculations with fractional numbers are generally not. Just as π (pi) cannot be precisely expressed by a finite number of decimal digits, many numbers lose some precision when only 64 bits are available to store them. This is a shame, but it causes practical problems only in specific situations. The important thing is to be aware of it and treat fractional digital numbers as approximations, not as precise values.
+Yukarıda bahsedilen 9 katrilyonun altındaki tüm tam sayılarla yapılan hesaplamalar her zaman kesindir. Ne yazık ki, tam olmayan sayılarla yapılan hesaplamalarsa genellikle kesin değildir. Pi (π) gibi birçok sayı, yalnızca 64 bit kullanılarak saklandığında bazı hassasiyetlerini kaybeder. Bu bir dezavantaj olsa da yalnızca belirli durumlarda yalnızca pratik problemlere neden olur. Önemli olan bunun farkında olmak ve tam olmayan sayıları kesin değerler olarak değil, yaklaşımlar olarak ele almaktır.
 
-### Arithmetic
+### Aritmetik
 
 {{index [syntax, operator], operator, "binary operator", arithmetic, addition, multiplication}}
 
-The main thing to do with numbers is arithmetic. Arithmetic operations such as addition or multiplication take two number values and produce a new number from them. Here is what they look like in JavaScript:
+Sayılarla yapılan temel işlem aritmetiktir. Toplama veya çarpma gibi aritmetik işlemler iki sayı değerini alır ve bunlardan yeni bir sayı üretir. JavaScript'te bunlar şu şekildedir:
 
 ```{meta: "expr"}
 100 + 4 * 11
@@ -103,11 +105,11 @@ The main thing to do with numbers is arithmetic. Arithmetic operations such as a
 
 {{index [operator, application], asterisk, "plus character", "* operator", "+ operator"}}
 
-The `+` and `*` symbols are called _operators_. The first stands for addition and the second stands for multiplication. Putting an operator between two values will apply it to those values and produce a new value.
+`+` ve `*` sembolleri ((_operatör_)) olarak adlandırılır. İlk sembol toplamayı temsil eder ve ikincisi çarpma işlemini temsil eder. İki değer arasına bir operatör koymak işlemin bu değerlere uygulanmasına ve yeni bir değer üretmesine sebep olur.
 
 {{index grouping, parentheses, precedence}}
 
-Does this example mean "Add 4 and 100, and multiply the result by 11", or is the multiplication done before the adding? As you might have guessed, the multiplication happens first. As in mathematics, you can change this by wrapping the addition in parentheses.
+Bu örnek, "4'e 100'ü ekle ve sonucu 11 ile çarp" mı demektir, yoksa çarpma işlemi eklemeden önce mi yapılır? Tahmin ettiğiniz gibi, çarpma önce gerçekleşir. Matematikte olduğu gibi, bunu parantez içine alarak değiştirebilirsiniz:
 
 ```{meta: "expr"}
 (100 + 4) * 11
@@ -115,33 +117,32 @@ Does this example mean "Add 4 and 100, and multiply the result by 11", or is the
 
 {{index "hyphen character", "slash character", division, subtraction, minus, "- operator", "/ operator"}}
 
-For subtraction, there is the `-` operator. Division can be done with the `/` operator.
+Çıkarma için `-` operatörü bulunur. Bölme işlemi `/` operatörü ile yapılır.
 
-When operators appear together without parentheses, the order in which they are applied is determined by the _((precedence))_ of the operators. The example shows that multiplication comes before addition. The `/` operator has the same precedence as `*`. Likewise, `+` and `-` have the same precedence. When multiple operators with the same precedence appear next to each other, as in `1 - 2 + 1`, they are applied left to right: `(1 - 2) + 1`.
+Operatörler parantez olmadan bir araya geldiğinde, uygulanma sırası operatörlerin ((_önceliği_)) tarafından belirlenir. Örnek, çarpmanın toplamadan önce geldiğini gösterir. `/` operatörünün önceliği `*` ile aynıdır. Benzer şekilde, `+` ve `-` aynı önceliğe sahiptir. Aynı önceliğe sahip birden çok operatör yan yana geldiğinde, örneğin `1 - 2 + 1`, soldan sağa uygulanır: `(1 - 2) + 1`.
 
-Don't worry too much about these precedence rules. When in doubt, just add parentheses.
+Bu öncelik kuralları hakkında çok fazla endişelenmeyin. Şüphede kaldığınızda, sadece parantez ekleyin.
 
 {{index "modulo operator", division, "remainder operator", "% operator"}}
 
-There is one more arithmetic operator, which you might not immediately recognize. The `%` symbol is used to represent the _remainder_ operation. `X % Y` is the remainder of dividing `X` by `Y`. For example, `314 % 100` produces `14`, and `144 % 12` gives `0`. The remainder operator's precedence is the same as that of multiplication and division. You'll also often see this operator referred to as _modulo_.
+Hemen tanıyamayabileceğiniz biraz farklı olan bir aritmetik operatör daha var. `%` sembolü _kalan_ işlemi temsil etmek için kullanılır. `X % Y`, `X`'i `Y` ile böldüğünüzde kalanı verir. Örneğin, `314 % 100` `14` üretir ve `144 % 12` ise `0` verir. Kalan operatörünün önceliği, çarpma ve bölme işlemiyle aynıdır. Bu operatör aynı zamanda _modülo_ olarak da adlandırılır.
 
-### Special numbers
+### Özel sayılar
 
 {{index [number, "special values"], infinity}}
 
-There are three special values in JavaScript that are considered numbers but don't behave like normal numbers. The first two are `Infinity` and `-Infinity`, which represent the positive and negative infinities. `Infinity - 1` is still `Infinity`, and so on. Don't put too much trust in infinity-based computation, though. It isn't mathematically sound, and it will quickly lead to the next special number: `NaN`.
-
+JavaScript'te normal sayılar gibi davranmayan ancak sayı olarak değerlendirilen üç adet özel değer vardır. İlk ikisi `Infinity` ve `-Infinity`, pozitif ve negatif sonsuzlukları temsil eder. `Infinity - 1` hala `Infinity`'dir ve benzeri. Ancak sonsuzluk tabanlı hesaplara fazla güvenmeyin. Matematiksel olarak sağlam değildir ve hızla bir sonraki özel sayıya yol açacaktır: `NaN`.
 {{index NaN, "not a number", "division by zero"}}
 
-`NaN` stands for "not a number", even though it _is_ a value of the number type. You'll get this result when you, for example, try to calculate `0 / 0` (zero divided by zero), `Infinity - Infinity`, or any number of other numeric operations that don't yield a meaningful result.
+`NaN`, "sayı değil" anlamına gelir, ancak _sayı türünden bir değerdir_. Örneğin `0 / 0` (sıfır bölü sıfır), `Infinity - Infinity` veya anlamlı bir sonuç vermeyen diğer sayısal işlemleri hesaplamaya çalıştığınızda da bu sonucu alırsınız.
 
-## Strings
+## Dizeler
 
 {{indexsee "grave accent", backtick}}
 
 {{index [syntax, string], text, character, [string, notation], "single-quote character", "double-quote character", "quotation mark", backtick}}
 
-The next basic data type is the _((string))_. Strings are used to represent text. They are written by enclosing their content in quotes.
+Sonraki temel veri türü _((dize))_ dir. Dizeler metni temsil etmek için kullanılır. İçeriklerini tırnak işaretleri içine alarak yazılırlar.
 
 ```
 `Down on the sea`
@@ -149,28 +150,29 @@ The next basic data type is the _((string))_. Strings are used to represent text
 'Float on the ocean'
 ```
 
-You can use single quotes, double quotes, or backticks to mark strings, as long as the quotes at the start and the end of the string match.
+Dizeleri işaretlemek için başlangıç ve sonundaki tırnaklar eşleştiği sürece tek tırnak, çift tırnak veya ters tırnaklar kullanabilirsiniz.
 
 {{index "line break", "newline character"}}
 
-You can put almost anything between quotes to have JavaScript make a string value out of it. But a few characters are more difficult. You can imagine how putting quotes between quotes might be hard, since they will look like the end of the string. _Newlines_ (the characters you get when you press [enter]{keyname}) can be included only when the string is quoted with backticks (`` ` ``).
+JavaScript'te neredeyse her şeyi tırnaklar arasına koyarak dize değeri yapmasını sağlayabilirsiniz. Ancak birkaç karakter daha zordur. Tırnakların arasına tırnak koymak zor olabilir, çünkü bunlar dizenin sonu gibi görünecektir. _Satır sonları_ (klavyede [enter]{keyname} tuşuna basarak elde edilen karakter) yalnızca ters tırnaklarla (`` ` ``) alıntılanmış dizelerde dahil edilebilir.
 
 {{index [escaping, "in strings"], ["backslash character", "in strings"]}}
 
-To make it possible to include such characters in a string, the following notation is used: a backslash (`\`) inside quoted text indicates that the character after it has a special meaning. This is called _escaping_ the character. A quote that is preceded by a backslash will not end the string but be part of it. When an `n` character occurs after a backslash, it is interpreted as a newline. Similarly, a `t` after a backslash means a ((tab character)). Take the following string:
+Bu tür karakterleri bir dizeye dahil etmeyi mümkün kılmak için ters bölü çubuğu (`\`) gösterimi kullanılır ve tırnak içindeki metin içinde onun sonrasındaki karakterin özel bir anlamı olduğunu belirtir. Bu, karakterin _kaçırılması_ olarak adlandırılır. Bir ters bölü çubuğundan sonra gelen bir tırnak dizeyi sonlandırmaz, ancak onun bir parçası olur. Bir ters bölü çubuğu (`\`) sonrasında bir `n` karakteri varsa, bu bir satır sonu olarak yorumlanır. Benzer şekilde, bir ters bölü çubuğu (`\`) sonrasında bir `t` karakteri, bir ((tab karakteri)) anlamına gelir. Aşağıdaki dizeyi düşünün:
 
 ```
 "This is the first line\nAnd this is the second"
 ```
 
-This is the actual text in that string:
+Bu, dizenin gerçek metni:
 
 ```{lang: null}
 This is the first line
 And this is the second
 ```
 
-There are, of course, situations where you want a backslash in a string to be just a backslash, not a special code. If two backslashes follow each other, they will collapse together, and only one will be left in the resulting string value. This is how the string "_A newline character is written like `"`\n`"`._" can be expressed:
+This is how the string "_A newline character is written like `"`\n`"`._" can be expressed:
+Elbette, bir dizeye bir ters bölü çubuğunun özel bir kod değil yalnızca bir ters bölü çubuğu olmasını istediğiniz durumlar da vardır. Ardışık olarak iki ters bölü çubuğu takip ederse, bunlar birleşir ve sonuçta değer dizesinde yalnızca bir tane kalır. Aşağıdaki dize "_A newline character is written like `"`\n`"`._" olarak ifade edilebilir:
 
 ```
 "A newline character is written like \"\\n\"."
@@ -180,37 +182,40 @@ There are, of course, situations where you want a backslash in a string to be ju
 
 {{index [string, representation], Unicode, character}}
 
-Strings, too, have to be modeled as a series of bits to be able to exist inside the computer. The way JavaScript does this is based on the _((Unicode))_ standard. This standard assigns a number to virtually every character you would ever need, including characters from Greek, Arabic, Japanese, Armenian, and so on. If we have a number for every character, a string can be described by a sequence of numbers. And that's what JavaScript does.
+Dizeler de bilgisayarın içinde var olabilmek için bir dizi bitler olarak modellenmelidir. JavaScript'in bunu yapmasının yolu _((Unicode))_ standardına dayanmaktadır. Bu standart, Yunanca, Arapça, Japonca, Ermenice ve diğer diller de dahil olmak üzere ihtiyacınız olan hemen hemen her karaktere bir spesifik bir numara atar. Her karakter için bir sayımız olduğuna göre, bir dize bir dizi numara ile açıklanabilir. Ve işte JavaScript bunu yapıyor.
 
 {{index "UTF-16", emoji}}
 
-There's a complication though: JavaScript's representation uses 16 bits per string element, which can describe up to 2^16^ different characters. However, Unicode defines more characters than that—about twice as many, at this point. So some characters, such as many emoji, take up two "character positions" in JavaScript strings. We'll come back to this in [Chapter ?](higher_order#code_units).
+Ancak bir karmaşıklık var: JavaScript dize temsilinde dizenin her karakterini temsil etmek için ancak 16 bit yani 2^16^ değerine kadar farklı karakteri açıklayabiliyor. Ancak Unicode, bu noktada, bunun yaklaşık iki katı kadar daha fazla karakteri tanımlar. Bu nedenle, birçok emoji gibi bazı karakterler, JavaScript dizelerinde iki "karakter konumu" kaplar. Buna [bölüm ?'da](higher_order#code_units)'da geri döneceğiz.
 
 {{index "+ operator", concatenation}}
 
 Strings cannot be divided, multiplied, or subtracted. The `+` operator _can_ be used on them, not to add, but to _concatenate_—to glue two strings together. The following line will produce the string `"concatenate"`:
+Dizeler bölünemez, çarpılamaz veya çıkarılamaz. `+` operatörü onlar üzerinde _kullanılabilir_, ancak ekleme değil iki diziyi _birleştirmek_, yani yapıştırmak için. Aşağıdaki satır `"concatenate"` dizesini üretecektir:
 
 ```{meta: "expr"}
 "con" + "cat" + "e" + "nate"
 ```
 
-String values have a number of associated functions (_methods_) that can be used to perform other operations on them. I'll say more about these in [Chapter ?](data#methods).
+String values have a number of associated functions (_methods_) that can be used to perform other operations on them. I'll say more about these in .
+Dize değerleri üzerinde, onlarla diğer işlemleri gerçekleştirmek için kullanılabilecek bir dizi ilgili fonksiyonlar(_metodlar_) bulunur. Bunlar hakkında daha fazla bilgiyi [bölüm ?'da](data#methods) vereceğim.
 
 {{index interpolation, backtick}}
 
-Strings written with single or double quotes behave very much the same—the only difference lies in which type of quote you need to escape inside of them. Backtick-quoted strings, usually called _((template literals))_, can do a few more tricks. Apart from being able to span lines, they can also embed other values.
+Tek tırnak veya çift tırnakla yazılan dizeler çok benzer şekilde davranır—tek fark, içlerinde hangi tür tırnak karakterini kaçırmanız gerektiğindedir. Geri tırnakla oluşturulmuş dizeler, genellikle _((template literals))_ olarak adlandırılır ve birkaç daha iyi şeyler vardır. Satır soru karakterlerini içlerinde yazabilmenizin yanı sıra, dizenizin içerisine başka dinamik değerler de gömmenizi sağlarlar.
 
 ```{meta: "expr"}
 `half of 100 is ${100 / 2}`
 ```
 
-When you write something inside `${}` in a template literal, its result will be computed, converted to a string, and included at that position. This example produces the string `"half of 100 is 50"`.
+When you write something inside `${}` in a template literal, its result will be computed, converted to a string, and included at that position. This example produces "_half of 100 is 50_".
+Bir şablon literalde `${}` içine bir şey yazarsanız, sonucu hesaplanır, bir dizeye dönüştürülür ve dizenin içerisinde yazdığınız o konumda dahil edilir. Bu örnek "_half of 100 is 50_" dizesini üretir.
 
-## Unary operators
+## Tekil operatörler
 
 {{index operator, "typeof operator", type}}
 
-Not all operators are symbols. Some are written as words. One example is the `typeof` operator, which produces a string value naming the type of the value you give it.
+Tüm operatörler semboller olarak yazılmaz, bazıları kelimeler olarak yazılır. Bu operatörlere bir örnek `typeof` operatörüdür. Bu operatör verdiğiniz değerin türünün adını içeren bir dize değeri üretir.
 
 ```
 console.log(typeof 4.5)
@@ -223,28 +228,28 @@ console.log(typeof "x")
 
 {{id "console.log"}}
 
-We will use `console.log` in example code to indicate that we want to see the result of evaluating something. (More about that in the [next chapter](program_structure).)
+Örnek kodlarda değerlendirmek istediğimiz kodun sonucunu görebilmek için `console.log` kullanacağız. Bununla ilgili daha fazla bilgiye [sonraki bölümde](program_structure) ulaşabilirsiniz.
 
 {{index negation, "- operator", "binary operator", "unary operator"}}
 
-The other operators shown so far in this chapter all operated on two values, but `typeof` takes only one. Operators that use two values are called _binary_ operators, while those that take one are called _unary_ operators. The minus operator (`-`) can be used both as a binary operator and as a unary operator.
+Bu bölümde şimdiye kadar gösterilen diğer operatörlerin hepsi iki değer üzerinde işlem yaparken, typeof sadece bir değer alır. İki değer kullanan operatörler _ikili operatörler_ olarak adlandırılırken, bir tane alanlar _tekil operatörler_ olarak adlandırılır. Eksi operatörü hem ikili operatör olarak hem de tekil operatör olarak kullanılabilir.
 
 ```
 console.log(- (10 - 2))
 // → -8
 ```
 
-## Boolean values
+## Boolean değerleri
 
 {{index Boolean, operator, true, false, bit}}
 
-It is often useful to have a value that distinguishes between only two possibilities, like "yes" and "no" or "on" and "off". For this purpose, JavaScript has a _Boolean_ type, which has just two values, true and false, written as those words.
+"Evet" ve "hayır" veya "açık" ve "kapalı" gibi yalnızca iki olasılığı birbirinden ayıran bir değere sahip olmak genellikle faydalıdır. Bu amaçla JavaScript'te, birebir bu kelimelerle `true` ve `false` olarak yazılan ve yalnızca iki değere sahip olan bir _Boolean_ türü vardır.
 
-### Comparison
+### Karşılaştırma
 
 {{index comparison}}
 
-Here is one way to produce Boolean values:
+İşte Boolean değerlerini üretmenin bir yolu:
 
 ```
 console.log(3 > 2)
@@ -255,9 +260,9 @@ console.log(3 < 2)
 
 {{index [comparison, "of numbers"], "> operator", "< operator", "greater than", "less than"}}
 
-The `>` and `<` signs are the traditional symbols for "is greater than" and "is less than", respectively. They are binary operators. Applying them results in a Boolean value that indicates whether they hold true in this case.
+`>` ve `<` işaretleri, sırasıyla "büyüktür" ve "küçüktür" için geleneksel sembollerdir. Bunlar ikili operatörlerdir. Bu operatörleri kullanmak, bu durumda doğru olup olmadığını gösteren bir Boolean değeri üretir.
 
-Strings can be compared in the same way.
+Dizeler de aynı şekilde karşılaştırılabilir:
 
 ```
 console.log("Aardvark" < "Zoroaster")
@@ -266,11 +271,11 @@ console.log("Aardvark" < "Zoroaster")
 
 {{index [comparison, "of strings"]}}
 
-The way strings are ordered is roughly alphabetic but not really what you'd expect to see in a dictionary: uppercase letters are always "less" than lowercase ones, so `"Z" < "a"`, and nonalphabetic characters (!, -, and so on) are also included in the ordering. When comparing strings, JavaScript goes over the characters from left to right, comparing the ((Unicode)) codes one by one.
+Dizelerin sıralanma şekli yaklaşık olarak alfabetiktir, ancak bir sözlükte görmeyi beklediğiniz gibi değildir: büyük harfler her zaman küçük harflerden "daha azdır", bu nedenle "Z" < "a" ifadesi doğrudur ve alfabetik olmayan karakterler (!, -, ve benzeri) de sıralamaya dahildir. Dizeler karşılaştırıldığında, JavaScript karakterleri soldan sağa doğru geçer ve onlara atanmış sayısal değerlerden oluşan Unicode kodlarını bir birine karşı karşılaştırır.
 
 {{index equality, ">= operator", "<= operator", "== operator", "!= operator"}}
 
-Other similar operators are `>=` (greater than or equal to), `<=` (less than or equal to), `==` (equal to), and `!=` (not equal to).
+Diğer benzer operatörler `>=` (büyük eşittir), `<=` (küçük eşittir), `==` (eşittir) ve `!=` (eşit değildir).
 
 ```
 console.log("Garnet" != "Ruby")
@@ -281,24 +286,24 @@ console.log("Pearl" == "Amethyst")
 
 {{index [comparison, "of NaN"], NaN}}
 
-There is only one value in JavaScript that is not equal to itself, and that is `NaN` ("not a number").
+JavaScript'te kendine eşit olmayan yalnızca bir değer vardır, o da NaN ("not a number").
 
 ```
 console.log(NaN == NaN)
 // → false
 ```
 
-`NaN` is supposed to denote the result of a nonsensical computation, and as such, it isn't equal to the result of any _other_ nonsensical computations.
+`NaN`, anlamsız bir hesaplamanın sonucunu belirtmek için kullanılır ve bu nedenle, başka anlamsız hesaplamaların sonucuyla da eşit değildir.
 
-### Logical operators
+### Mantıksal operatörler
 
 {{index reasoning, "logical operators"}}
 
-There are also some operations that can be applied to Boolean values themselves. JavaScript supports three logical operators: _and_, _or_, and _not_. These can be used to "reason" about Booleans.
+Boolean değerlere kendilerine uygulanabilen bazı işlemler de vardır. JavaScript, üç mantıksal operatörü destekler: _ve_, _veya_ ve _değil_. Bunlar, Boolean değerleri hakkında "akıl yürütmek" için kullanılabilir.
 
 {{index "&& operator", "logical and"}}
 
-The `&&` operator represents logical _and_. It is a binary operator, and its result is true only if both the values given to it are true.
+`&&` operatörü mantıksal _ve_'yi temsil eder. Bu, ikili bir operatördür ve verilen değerlerin her ikisi de doğruysa sonucu `true` değeri olur.
 
 ```
 console.log(true && false)
@@ -309,7 +314,7 @@ console.log(true && true)
 
 {{index "|| operator", "logical or"}}
 
-The `||` operator denotes logical _or_. It produces true if either of the values given to it is true.
+`||` operatörü, mantıksal _veya_'yı gösterir. Verilen değerlerden herhangi biri doğru ise `true` değerini üretir.
 
 ```
 console.log(false || true)
@@ -321,10 +326,11 @@ console.log(false || false)
 {{index negation, "! operator"}}
 
 _Not_ is written as an exclamation mark (`!`). It is a unary operator that flips the value given to it—`!true` produces `false` and `!false` gives `true`.
+_Değil operatörü_, bir tekil operatör olarak ünlem işareti (`!`) ile yazılır. Verilen değeri ters çeviren bir operatördür — `!true`, `false` değerini üretir ve `!false` ise `true` değerini üretir.
 
 {{index precedence}}
 
-When mixing these Boolean operators with arithmetic and other operators, it is not always obvious when parentheses are needed. In practice, you can usually get by with knowing that of the operators we have seen so far, `||` has the lowest precedence, then comes `&&`, then the comparison operators (`>`, `==`, and so on), and then the rest. This order has been chosen such that, in typical expressions like the following one, as few parentheses as possible are necessary:
+Bu Boolean operatörlerini aritmetik ve diğer operatörlerle karıştırdığınızda, parantezlere ne zaman ihtiyaç duyacağımız her zaman çok da belli değildir. Uygulamada, şimdiye kadar gördüğümüz operatörlerden, `||` operatörünün en düşük önceliğe sahip olduğunu, sonra `&&` operatörünün daha öncelikli olduğunu, ardından karşılaştırma operatörlerinin (`>`, `==`, vb.) ve sonra geri kalanın daha öncelikli olduğunu bilerek işleri genellikle yürütebilirsiniz. Bu sıra, aşağıdaki gibi tipik ifadelerde mümkün olduğunca az parantez gerektirecek şekilde seçilmiştir:
 
 ```{meta: "expr"}
 1 + 1 == 2 && 10 * 10 > 50
@@ -332,7 +338,7 @@ When mixing these Boolean operators with arithmetic and other operators, it is n
 
 {{index "conditional execution", "ternary operator", "?: operator", "conditional operator", "colon character", "question mark"}}
 
-The last logical operator we will look at is not unary, not binary, but _ternary_, operating on three values. It is written with a question mark and a colon, like this:
+Bakacağımız son mantıksal operatör, tekil değil, ikili değil, ancak üç değere işlem yapan üçlü operatördür. Soru işareti ve iki nokta üst üste ile şu şekilde yazılır:
 
 ```
 console.log(true ? 1 : 2);
@@ -341,23 +347,23 @@ console.log(false ? 1 : 2);
 // → 2
 ```
 
-This one is called the _conditional_ operator (or sometimes just _the ternary operator_ since it is the only such operator in the language). The operator uses the value to the left of the question mark to decide which of the two other values to "pick". If you write `a ? b : c`, the result will be `b` when `a` is true and `c` otherwise.
+Bu, _koşullu_ operatör olarak adlandırılır (veya bazen sadece _üçlü operatör_ olarak adlandırılır, çünkü dildeki bu türde var olan tek operatördür). Operatör, soru işaretinin solundaki değeri iki diğer değerden hangisini "seçeceğine" karar vermek için kullanır. `a ? b : c` yazarsanız, `a` değeri `true` olduğunda sonuç `b` veya `a` değeri `false`olduğu takdirde sonuç `c` olur.
 
-## Empty values
+## Boş değerler
 
 {{index undefined, null}}
 
-There are two special values, written `null` and `undefined`, that are used to denote the absence of a _meaningful_ value. They are themselves values, but they carry no information.
+_Anlamlı_ bir değerin yokluğunu belirtmek için kullanılan `null` ve `undefined` olarak yazılan iki özel değer vardır. Kendileri, kendi başlarına birer değerdirler ancak hiçbir bilgi taşımazlar.
 
-Many operations in the language that don't produce a meaningful value yield `undefined` simply because they have to yield _some_ value.
+Dil içinde herhangi bir değer üretmeyen bir işlem, _herhangi bir_ değeri üretmek zorunda olduğundan ötürü sadece `undefined` değerini üretir.
 
-The difference in meaning between `undefined` and `null` is an accident of JavaScript's design, and it doesn't matter most of the time. In cases where you actually have to concern yourself with these values, I recommend treating them as mostly interchangeable.
+`undefined` ve `null` arasındaki anlam farkı, JavaScript'in tasarımının bir kazasıdır ve çoğu zaman önemli değildir. Bu değerlerle gerçekten ilgilenmeniz gereken durumlarda, onları genellikle birbirinin yerine kullanılabilir olarak ele almanızı öneririm.
 
-## Automatic type conversion
+## Otomatik tür dönüşümü
 
 {{index NaN, "type coercion"}}
 
-In the [introduction](intro), I mentioned that JavaScript goes out of its way to accept almost any program you give it, even programs that do odd things. This is nicely demonstrated by the following expressions:
+Giriş bölümünde, JavaScript'in hemen hemen her türde programı kabul etmeye çalıştığını, hatta garip şeyler yapan programları bile kabul ettiğini belirttim. Bunun güzel bir örneği aşağıdaki ifadelerle gösterilmiştir:
 
 ```
 console.log(8 * null)
@@ -374,15 +380,15 @@ console.log(false == 0)
 
 {{index "+ operator", arithmetic, "* operator", "- operator"}}
 
-When an operator is applied to the "wrong" type of value, JavaScript will quietly convert that value to the type it needs, using a set of rules that often aren't what you want or expect. This is called _((type coercion))_. The `null` in the first expression becomes `0` and the `"5"` in the second expression becomes `5` (from string to number). Yet in the third expression, `+` tries string concatenation before numeric addition, so the `1` is converted to `"1"` (from number to string).
+Bir operatörün "yanlış" türdeki bir değere uygulandığında, JavaScript o değeri sessizce ihtiyaç duyduğu türe dönüştürür, ancak bunu genellikle istemediğiniz veya beklemediğiniz kurallar kullanarak yapar. Buna _((tür dönüşümü))_ denir. İlk ifadedeki `null` `0` olur ve ikinci ifadedeki `"5"` değeri `5`'e dönüşür olur (dize türünden sayıya). Ancak üçüncü ifadede `+`, sayısal eklemeye geçmeden önce dize birleştirme denemesi yapar, bu nedenle `1` değeri "1" değerine dönüştürülür (sayıdan dizeye).
 
 {{index "type coercion", [number, "conversion to"]}}
 
-When something that doesn't map to a number in an obvious way (such as `"five"` or `undefined`) is converted to a number, you get the value `NaN`. Further arithmetic operations on `NaN` keep producing `NaN`, so if you find yourself getting one of those in an unexpected place, look for accidental type conversions.
+Açık bir şekilde bir sayıya eşlenmeyen bir şey (örneğin, `"five"` veya `undefined`) sayıya dönüştürüldüğünde, `NaN` değerini elde edersiniz. `NaN` üzerinde yapılan daha fazla aritmetik işlemler, sürekli olarak `NaN` üretir, bu nedenle beklenmedik bir yerde bunlardan birini bulursanız, kazara oluşma ihtimali olan tür dönüşümlerini arayın.
 
 {{index null, undefined, [comparison, "of undefined values"], "== operator"}}
 
-When comparing values of the same type using the `==` operator, the outcome is easy to predict: you should get true when both values are the same, except in the case of `NaN`. But when the types differ, JavaScript uses a complicated and confusing set of rules to determine what to do. In most cases, it just tries to convert one of the values to the other value's type. However, when `null` or `undefined` occurs on either side of the operator, it produces true only if both sides are one of `null` or `undefined`.
+`==` operatörünü kullanarak aynı türdeki değerleri karşılaştırdığınızda, sonucu tahmin etmek kolaydır: her iki değer de aynı olduğunda `true` değerini almalısınız, tabii `NaN` durumunda hariç. Ancak türler farklı olduğunda, JavaScript ne yapacağını belirlemek ve bir değeri diğer değerin türüne çevirip işlemi devam ettirebilmek için karmaşık ve kafa karıştırıcı bir kural seti kullanır. Çoğu durumda, sadece değerlerden birini diğer değerin türüne dönüştürmeye çalışır. Ancak, operatörün herhangi bir tarafında `null` veya `undefined` göründüğünde, yalnızca her iki tarafın da `null` veya `undefined` değerlerinden biri olduğunda `true` değerini üretir.
 
 ```
 console.log(null == undefined);
@@ -391,23 +397,24 @@ console.log(null == 0);
 // → false
 ```
 
-That behavior is often useful. When you want to test whether a value has a real value instead of `null` or `undefined`, you can compare it to `null` with the `==` or `!=` operator.
+Bu davranış genellikle yararlıdır. Bir değerin `null` veya `undefined` yerine gerçek bir değer olup olmadığını test etmek istediğinizde, onu `==` veya `!=` operatörü ile null ile karşılaştırabilirsiniz.
 
 {{index "type coercion", [Boolean, "conversion to"], "=== operator", "!== operator", comparison}}
 
-What if you want to test whether something refers to the precise value `false`? Expressions like `0 == false` and `"" == false` are also true because of automatic type conversion. When you do _not_ want any type conversions to happen, there are two additional operators: `===` and `!==`. The first tests whether a value is _precisely_ equal to the other, and the second tests whether it is not precisely equal. Thus `"" === false` is false, as expected.
+The first tests whether a value is _precisely_ equal to the other, and the second tests whether it is not precisely equal. Thus `"" === false` is false as expected.
+Peki ya bir şeyin tam olarak `false` değeri olup olmadığını test etmek istiyorsanız ne olacak? `0 == false` ve `"" == false` gibi ifadeler, otomatik tür dönüşümünden ötürü aynı şekilde `true` değerine çözümlenirler. Herhangi bir tür dönüşümü olmasını _istemiyorsanız_, iki ek operatör vardır: `===` ve `!==`. İlk, bir değerin tam olarak diğerine eşit olup olmadığını test eder ve ikincisi, _tam olarak_ eşit olup olmadığını test eder. Bu nedenle, `"" === false`, ifadesi beklenildiği gibi `false` değerine çözümlenir.
 
-I recommend using the three-character comparison operators defensively to prevent unexpected type conversions from tripping you up. But when you're certain the types on both sides will be the same, there is no problem with using the shorter operators.
+Beklenmedik tür dönüşümlerinin sizi zorlamasını önlemek adına üç karakterli karşılaştırma operatörlerini kullanmanızı öneririm. Ancak eğer her iki taraftaki türlerin aynı olacağından eminseniz, kısa operatörleri kullanmakta da bir sorun yoktur.
 
-### Short-circuiting of logical operators
+### Mantıksal operatörlerin kısa devre davranışı
 
 {{index "type coercion", [Boolean, "conversion to"], operator}}
 
-The logical operators `&&` and `||` handle values of different types in a peculiar way. They will convert the value on their left side to Boolean type in order to decide what to do, but depending on the operator and the result of that conversion, they will return either the _original_ left-hand value or the right-hand value.
+`&&` ve `||` mantıksal operatörler, farklı türlerdeki değerleri ilginç bir şekilde işlemektedirler. Ne yapacaklarına karar vermek için sol taraftaki değeri Boolean türüne dönüştürürler, ancak operatöre ve bu dönüşümün sonucuna bağlı olarak, ya _orijinal_ sol taraf değerini ya da sağ taraf değerini döndürürler.
 
 {{index "|| operator"}}
 
-The `||` operator, for example, will return the value to its left when that value can be converted to true and will return the value on its right otherwise. This has the expected effect when the values are Boolean and does something analogous for values of other types.
+Örneğin, `||` operatörü, sol taraftaki değeri `true` değerine dönüştürebiliyorsa o değeri döndürür, aksi takdirde sağ taraftaki değeri döndürür. Bu, değerlerin Boolean olduğunda beklenen etkiyi yapar ve diğer türlerdeki değerler için de benzer bir şey yapar.
 
 ```
 console.log(null || "user")
@@ -418,11 +425,11 @@ console.log("Agnes" || "user")
 
 {{index "default value"}}
 
-We can use this functionality as a way to fall back on a default value. If you have a value that might be empty, you can put `||` after it with a replacement value. If the initial value can be converted to false, you'll get the replacement instead. The rules for converting strings and numbers to Boolean values state that `0`, `NaN`, and the empty string (`""`) count as false, while all the other values count as true. That means `0 || -1` produces `-1`, and `"" || "!?"` yields `"!?"`.
+Bu işlevselliği bir varsayılan değere yedek olarak düşmek adına kullanabiliriz. Boş olabilecek bir değeriniz varsa sonrasına `||` operatörünü yazıp yerine varsayılan bir değer olarak gelmesini istediğiniz diğer değeri yazabilirsiniz. Başlangıç ​​değeri eğer `false` değerine dönüştürülebiliyorsa, operatör sonrasına yazdığınız değeri varsayılan değer olarak alırsınız. Dizeleri ve sayıları Boolean değerlere dönüştürme kuralları, `0`, `NaN` ve boş dize (`""`) değerlerinin `false` değeri olarak sayıldığını, diğer tüm değerlerinse `true`değeri olarak sayıldığını belirtir. Bu, `0 || -1` ifadesinin `-1` değerini üreteceğini ve `"" || "!?"` ifadesinin `"!?"`değerini vereceği anlamına gelir.
 
 {{index "?? operator", null, undefined}}
 
-The `??` operator resembles `||` but returns the value on the right only if the one on the left is `null` or `undefined`, not if it is some other value that can be converted to `false`. Often, this is preferable to the behavior of `||`.
+`??` operatörü, `||` operatörüne benzer şekilde çalışır ancak soldaki değer yalnızca `null` veya `undefined` değerlerinden biri olduğunda sağdaki değeri döndürür. Genel olarak `??` operatörün davranışı `||` operatörün davranışı yerine tercih edilir.
 
 ```
 console.log(0 || 100);
@@ -435,18 +442,18 @@ console.log(null ?? 100);
 
 {{index "&& operator"}}
 
-The `&&` operator works similarly but the other way around. When the value to its left is something that converts to false, it returns that value, and otherwise it returns the value on its right.
+`&&` operatörü de benzer şekilde çalışır ancak tam tersi şekildedir. Soldaki ifade `false` değerine dönüştürülebilecek bir şey ise, o değeri döndürür ve aksi takdirde sağdaki değeri döndürür.
 
-Another important property of these two operators is that the part to their right is evaluated only when necessary. In the case of `true || X`, no matter what `X` is—even if it's a piece of program that does something _terrible_—the result will be true, and `X` is never evaluated. The same goes for `false && X`, which is false and will ignore `X`. This is called _((short-circuit evaluation))_.
+Bu iki operatörün bir başka önemli özelliği de, operatörün sağ tarafında kalan ifadeleri yalnızca gerekli olduğunda değerlendirmeleridir. `true || X` durumunda, `X` ne olursa olsun - hatta o bir program parçasıysa ve korkunç bir şey yapsa bile - sonuç `true` değeri olacaktır ve `X` asla değerlendirilmeyecektir. Aynı şey, false && X için de geçerlidir, bu false'tur ve X göz ardı edilir. Buna _((kısa devre değerlendirme))_ denir.
 
 {{index "ternary operator", "?: operator", "conditional operator"}}
 
-The conditional operator works in a similar way. Of the second and third values, only the one that is selected is evaluated.
+Koşullu operatör de benzer bir şekilde çalışır. İkinci ve üçüncü değerlerden yalnızca seçilen değer değerlendirilecektir.
 
-## Summary
+## Özet
 
-We looked at four types of JavaScript values in this chapter: numbers, strings, Booleans, and undefined values. Such values are created by typing in their name (`true`, `null`) or value (`13`, `"abc"`).
+Bu bölümde dört tür JavaScript değerine baktık: sayılar, dizeler, Booleans ve tanımsız değerler. Bu tür değerler, adlarını (`true`, `null`) veya değerlerini (`13`, `"abc"`) yazarak oluşturulur.
 
-You can combine and transform values with operators. We saw binary operators for arithmetic (`+`, `-`, `*`, `/`, and `%`), string concatenation (`+`), comparison (`==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=`), and logic (`&&`, `||`, `??`), as well as several unary operators (`-` to negate a number, `!` to negate logically, and `typeof` to find a value's type) and a ternary operator (`?:`) to pick one of two values based on a third value.
+Operatörlerle değerleri birleştirebilir ve dönüştürebilirsiniz. Aritmetik (`+`, `-`, `*`, `/`, ve `%`), dize birleştirme (`+`), karşılaştırma (`==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=`) ve mantık (`&&`, `||`, `??`) için ikili operatörler, tekil operatörler (bir sayıyı negatif yapmak için `-`, mantıksal olarak olumsuzlamak için `!` ve bir değerin türünü bulmak için `typeof`) ve bir üçüncü bir değere göre diğer iki değerden birisini seçmek adına var olan tek üçlü operatörü (`?:`) gördük.
 
-This gives you enough information to use JavaScript as a pocket calculator but not much more. The [next chapter](program_structure) will start tying these expressions together into basic programs.
+Bu, JavaScript'i bir cep hesap makinesi olarak kullanmanız için yeterli bilgiyi verir, ancak çok daha fazlası değil. [Sonraki bölüm](program_structure), bu ifadeleri temel programlara bağlamamıza yardımcı olacak.

@@ -1,49 +1,51 @@
 {{meta {load_files: ["code/chapter/06_object.js"], zip: "node/html"}}}
 
-# The Secret Life of Objects
+# Nesnelerin Gizli Yaşamı
 
 {{quote {author: "Barbara Liskov", title: "Programming with Abstract Data Types", chapter: true}
 
-An abstract data type is realized by writing a special kind of program […] which defines the type in terms of the operations which can be performed on it.
+Bir soyut veri türü, üzerinde gerçekleştirilebilecek işlemler açısından türü tanımlayan bir programı […] yazarak gerçekleştirilir.
 
 quote}}
 
 {{index "Liskov, Barbara", "abstract data type"}}
 
-{{figure {url: "img/chapter_picture_6.jpg", alt: "Illustration of a rabbit next to its prototype, a schematic representation of a rabbit", chapter: framed}}}
+{{figure {url: "img/chapter_picture_6.jpg", alt: "Bir tavşanın prototipinin yanında bir tavşanın şematik temsili resmi", chapter: framed}}}
 
-[Chapter ?](data) introduced JavaScript's objects as containers that hold other data. In programming culture, _((object-oriented programming))_ is a set of techniques that use objects as the central principle of program organization. Though no one really agrees on its precise definition, object-oriented programming has shaped the design of many programming languages, including JavaScript. This chapter describes the way these ideas can be applied in JavaScript.
+[Chapter ?](data) introduced JavaScript's objects, as containers that hold other data.
 
-## Abstract Data Types
+Programlama kültüründe, _((nesne yönelimli programlama))_ adında bir şey var, nesneleri program organizasyonunun merkezi prensibi olarak kullanan bir teknik seti. Kesin tanımı hakkında herkes gerçekten anlaşmıyor olsa da, nesne yönelimli programlama birçok programlama dilinin tasarımını şekillendirmiştir, bunlar arasında JavaScript de bulunur. Bu bölüm, bu fikirlerin JavaScript'te nasıl uygulanabileceğini açıklanmaktadır.
+
+## Soyut Veri Türleri
 
 {{index "abstract data type", type, "mixer example"}}
 
-The main idea in object-oriented programming is to use objects, or rather _types_ of objects, as the unit of program organization. Setting up a program as a number of strictly separated object types provides a way to think about its structure and thus to enforce some kind of discipline, preventing everything from becoming entangled.
+Nesne yönelimli programlamadaki ana fikir, nesneleri veya daha doğrusu nesne türlerini, program organizasyonunun birimi olarak kullanmaktır. Programı birkaç sıkı şekilde ayrılmış nesne türü olarak ayarlamak, yapısını düşünmenin bir yolunu sağlar ve böylece her şeyin karışmasını önleyerek bir tür disiplin uygular.
 
-The way to do this is to think of objects somewhat like you'd think of an electric mixer or other consumer ((appliance)). The people who design and assemble a mixer have to do specialized work requiring material science and understanding of electricity. They cover all that up in a smooth plastic shell so that the people who only want to mix pancake batter don't have to worry about all that—they have to understand only the few knobs that the mixer can be operated with.
+Bunu yapmanın yolu, nesneleri bir elektrikli mikser veya diğer tüketici ((alet)) gibi düşünmektir. Bir mikser tasarlayan ve monte eden insanlar vardır ve bunlar malzeme bilimi ve elektrik anlayışı gerektiren özelleşmiş işleri yapmak zorundadır. Tüm bunları pürüzsüz bir plastik kabuk içine kapatırlar, böylece sadece pancake hamurunu karıştırmak isteyen insanların bunlarla ilgilenmesine gerek kalmaz—sadece mikserin çalıştırılabilmesi için birkaç düğmeyi anlamaları yeterlidir.
 
 {{index "class"}}
 
-Similarly, an _abstract data type_, or _object class_, is a subprogram that may contain arbitrarily complicated code but exposes a limited set of methods and properties that people working with it are supposed to use. This allows large programs to be built up out of a number of appliance types, limiting the degree to which these different parts are entangled by requiring them to only interact with each other in specific ways.
+Benzer şekilde, bir soyut veri türü veya nesne sınıfı, onunla çalışan kişilerin kullanması gereken sınırlı bir yöntem ve özellik setini açığa çıkarabilen, ancak karmaşık kod içerebilen bir alt programdır. Bu, büyük programların birçok alet türü üzerine kurulabilmesine olanak tanır ve bu farklı parçaların sadece belirli yollarla birbirleriyle etkileşime girmesini gerektirerek bu parçaların birbirleriyle karışmasını sınırlar.
 
 {{index encapsulation, isolation, modularity}}
 
-If a problem is found in one such object class, it can often be repaired or even completely rewritten without impacting the rest of the program. Even better, it may be possible to use object classes in multiple different programs, avoiding the need to recreate their functionality from scratch. You can think of JavaScript's built-in data structures, such as arrays and strings, as such reusable abstract data types.
+Eğer bir nesne sınıfında bir problem bulunursa, genellikle bu, programın geri kalanını etkilemeden onarılabilir veya tamamen yeniden yazılabilir.
+
+Daha da iyisi, farklı programlardaki birden çok nesne sınıflarını kullanmak mümkün olabilir, bu da bunların işlevselliğini baştan başlatmaya gerek kalmadan kullanılabilir hale getirir. JavaScript'in dahili veri yapılarını, diziler ve dizeler gibi, böyle yeniden kullanılabilir soyut veri türleri olarak düşünebilirsiniz.
 
 {{id interface}}
 {{index [interface, object]}}
 
-Each abstract data type has an _interface_, the collection of operations that external code can perform on it. Any details beyond that interface are _encapsulated_, treated as internal to the type and of no concern to the rest of the program.
-
-Even basic things like numbers can be thought of as an abstract data type whose interface allows us to add them, multiply them, compare them, and so on. In fact, the fixation on single _objects_ as the main unit of organization in classical object-oriented programming is somewhat unfortunate since useful pieces of functionality often involve a group of different object classes working closely together.
+Her soyut veri türünün bir _arayüzü_ vardır, bu dış kodun onun üzerinde gerçekleştirebileceği işlemlerin koleksiyonudur. Sayılar gibi temel şeyler bile, onları ekleyebilme, çarpabilme, karşılaştırabilme gibi işlemleri gerçekleştirebileceğimiz bir arayüz olarak düşünülebilir. Aslında, klasik nesne yönelimli programlamada ana organizasyon birimi olarak tek _nesnelerin_ odaklanılması biraz talihsizdir çünkü sıklıkla kullanışlı işlev parçaları bir grup farklı nesne sınıfının bir araya gelmesiyle gerçekleşmektedir.
 
 {{id obj_methods}}
 
-## Methods
+## Metodlar
 
 {{index "rabbit example", method, [property, access]}}
 
-In JavaScript, methods are nothing more than properties that hold function values. This is a simple method:
+JavaScript'te metodlar, yalnızca fonksiyon değerlerini tutan özelliklerdir. Bu, basit bir metottur:
 
 ```{includeCode: "top_lines:6"}
 function speak(line) {
@@ -60,24 +62,24 @@ hungryRabbit.speak("Got any carrots?");
 
 {{index "this binding", "method call"}}
 
-Typically a method needs to do something with the object on which it was called. When a function is called as a method—looked up as a property and immediately called, as in `object.method()`—the binding called `this` in its body automatically points at the object on which it was called.
+Tipik olarak, bir yöntem, üzerinde çağrıldığı nesneyle bir şeyler yapması gerekir. Bir işlev bir yöntem olarak çağrıldığında—`object.method()` ifadesinde de olduğu gibi bir özellik aranıp çağırılır— `this` adlı bağlantı çağırılan fonksiyonun vücudu içinde otomatik olarak çağrıldığı nesneye işaret eder.
 
 {{id call_method}}
 
 {{index "call method"}}
 
-You can think of `this` as an extra ((parameter)) that is passed to the function in a different way than regular parameters. If you want to provide it explicitly, you can use a function's `call` method, which takes the `this` value as its first argument and treats further arguments as normal parameters.
+`this` değerini, normal parametrelerden farklı bir şekilde bir fonskiyona verilen bir ek ((parametre)) olarak düşünebilirsiniz. Açıkça sağlamak isterseniz, bir fonksiyonun `call` metodunu kullanabilirsiniz, bu yöntem `this` değerini ilk argümanı olarak alır ve diğer argümanları normal parametreler olarak işler.
 
 ```
 speak.call(whiteRabbit, "Hurry");
 // → The white rabbit says 'Hurry'
 ```
 
-Since each function has its own `this` binding whose value depends on the way it is called, you cannot refer to the `this` of the wrapping scope in a regular function defined with the `function` keyword.
+Her fonksiyonun, değeri nasıl çağrıldığına bağlı olan kendi `this` bağlantısı olduğundan, bir `function` anahtar sözcüğü ile tanımlanan sıradan bir fonksiyonda kapsamın dışındaki `this` değerine başvuramazsınız.
 
 {{index "this binding", "arrow function"}}
 
-Arrow functions are different—they do not bind their own `this` but can see the `this` binding of the scope around them. Thus, you can do something like the following code, which references `this` from inside a local function:
+Ok fonksiyonları farklıdır—kendi `this` değerlerini bağlamazlar, ancak etraflarındaki kapsamın `this` bağlamını görebilirler. Bu nedenle, yerel bir fonksiyonun içinden `this` değerine ulaşan aşağıdaki gibi bir kod yazabilirsiniz:
 
 ```
 let finder = {
@@ -90,21 +92,21 @@ console.log(finder.find([4, 5]));
 // → true
 ```
 
-A property like `find(array)` in an object expression is a shorthand way of defining a method. It creates a property called `find` and gives it a function as its value.
+Nesne ifadesindeki `find(array)` gibi bir özellik, bir metod tanımlamanın kısa yoludur. `find` adında bir özellik oluşturur ve değeri olarak bir fonksiyon verir.
 
-If I had written the argument to `some` using the `function` keyword, this code wouldn't work.
+Eğer `some` metoduna geçirilen argümanı `function` anahtar kelimesini kullanarak yazmış olsaydım, bu kod çalışmazdı.
 
 {{id prototypes}}
 
-## Prototypes
+## Prototipler
 
-One way to create a rabbit object type with a `speak` method would be to create a helper function that has a rabbit type as its parameter and returns an object holding that as its `type` property and our speak function in its `speak` property.
+Bir `speak` metoduna sahip soyut bir tavşan türü oluşturmanın bir yolu, tavşan türünü parametre olarak alan ve bu türün tip özelliği ve konuşma fonksiyonunu içeren bir nesneyi döndüren bir yardımcı fonksiyon oluşturmaktır.
 
-All rabbits share that same method. Especially for types with many methods, it would be nice if there were a way to keep a type's methods in a single place, rather than adding them to each object individually.
+Tüm tavşanlar aynı yöntemi paylaşırlar. Özellikle çok sayıda metoda sahip türler için, bir türün yöntemlerini her nesneye ayrı ayrı eklemek yerine tek bir yerde tutmanın bir yolu olsa iyi olurdu.
 
 {{index [property, inheritance], [object, property], "Object prototype"}}
 
-In JavaScript, _((prototype))s_ are the way to do that. Objects can be linked to other objects, to magically get all the properties that other object has. Plain old objects created with `{}` notation are linked to an object called `Object.prototype`.
+JavaScript'te, _((prototipler))_ bunu yapmanın yoludur. Nesneler, diğer nesnelere bağlanarak diğer nesnenin sahip olduğu tüm özellikleri sihirli bir şekilde alabilirler. `{}` gösterimiyle oluşturulan normal nesneler, `Object.prototype` olarak adlandırılan bir nesneye bağlıdır.
 
 {{index "toString method"}}
 
@@ -116,9 +118,9 @@ console.log(empty.toString());
 // → [object Object]
 ```
 
-It looks like we just pulled a property out of an empty object. But in fact, `toString` is a method stored in `Object.prototype`, meaning it is available in most objects.
+Boş bir nesneden bir özellik çıkardık gibi görünüyor. Ancak aslında `toString`, `Object.prototype` içinde depolanan bir yöntemdir, bu da çoğu nesnede mevcut olduğu anlamına gelir.
 
-When an object gets a request for a property that it doesn't have, its prototype will be searched for the property. If that doesn't have it, the _prototype's_ prototype is searched, and so on until an object without prototype is reached (`Object.prototype` is such an object).
+Bir nesne sahip olmadığı bir özelliğe istek aldığında, prototipi içinde bu özellik aranır. Eğer o prototip de bu özelliğe sahip değilse, _onun da_ prototipi aranır ve `Object.prototype` gibi artık bir prototip barındırmayan objeye kadar bu arama devam eder.
 
 ```
 console.log(Object.getPrototypeOf({}) == Object.prototype);
@@ -129,11 +131,11 @@ console.log(Object.getPrototypeOf(Object.prototype));
 
 {{index "getPrototypeOf function"}}
 
-As you'd guess, `Object.getPrototypeOf` returns the prototype of an object.
+Tahmin edebileceğiniz gibi, `Object.getPrototypeOf` bir nesnenin prototipini döndürür.
 
 {{index inheritance, "Function prototype", "Array prototype", "Object prototype"}}
 
-Many objects don't directly have `Object.prototype` as their ((prototype)) but instead have another object that provides a different set of default properties. Functions derive from `Function.prototype` and arrays derive from `Array.prototype`.
+Birçok nesnenin ((prototipi)) olarak doğrudan `Object.prototype`'a sahip olmadığı, ancak farklı bir varsayılan özellik kümesi sağlayan başka bir nesneye sahip olduğu durumlar vardır. Fonksiyonlar `Function.prototype`'tan, diziler ise `Array.prototype`'tan türemiştir.
 
 ```
 console.log(Object.getPrototypeOf(Math.max) ==
@@ -145,11 +147,11 @@ console.log(Object.getPrototypeOf([]) == Array.prototype);
 
 {{index "Object prototype"}}
 
-Such a prototype object will itself have a prototype, often `Object.prototype`, so that it still indirectly provides methods like `toString`.
+Bu tür bir prototip nesnesinin kendisinin de genellikle `Object.prototype` gibi bir prototipi olacaktır ki böylece hala `toString` gibi yöntemlere erişim sağlayabilsin.
 
 {{index "rabbit example", "Object.create function"}}
 
-You can use `Object.create` to create an object with a specific ((prototype)).
+Belirli bir ((prototip)) ile bir nesne oluşturmak için `Object.create`'i kullanabilirsiniz.
 
 ```{includeCode: "top_lines: 7"}
 let protoRabbit = {
@@ -165,23 +167,23 @@ blackRabbit.speak("I am fear and darkness");
 
 {{index "shared property"}}
 
-The "proto" rabbit acts as a container for the properties shared by all rabbits. An individual rabbit object, like the black rabbit, contains properties that apply only to itself—in this case its type—and derives shared properties from its prototype.
+"proto" tavşanı, tüm tavşanlar tarafından paylaşılan özellikleri içeren bir konteyner olarak davranır. Bir bireysel tavşan nesnesi, kendisine sadece kendi üzerine uygulanan özellikleri içerir—bu durumda tipi—ve paylaşılan özellikleri prototipinden türetir.
 
 {{id classes}}
 
-## Classes
+## Class'lar
 
 {{index "object-oriented programming", "abstract data type"}}
 
-JavaScript's ((prototype)) system can be interpreted as a somewhat free-form take on abstract data types or ((class))es. A _class_ defines the shape of a type of object—what methods and properties it has. Such an object is called an _((instance))_ of the class.
+JavaScript'in ((prototip)) sistemi, soyut veri tipleri veya ((sınıf))larının biraz serbest bir şekilde ele alınmış hali olarak yorumlanabilir. Bir sınıf, bir nesne türünün şeklini tanımlar—hangi yöntemlere ve özelliklere sahip olduğunu belirtir. Bu tür bir nesne, sınıfın bir ((örneği)) olarak adlandırılır.
 
 {{index [property, inheritance]}}
 
-Prototypes are useful for defining properties for which all instances of a class share the same value. Properties that differ per instance, such as our rabbits' `type` property, need to be stored directly in the objects themselves.
+Prototipler, bir sınıfın tüm örneklerinin aynı değere sahip olmasını istediğiniz özelliklerin tanımlanması için kullanışlıdır. Örneğin tavşanlarımızın tip özelliği gibi örnek başına farklı olan özellikler, doğrudan nesnelerin kendilerinde saklanmalıdır.
 
 {{id constructors}}
 
-To create an instance of a given class, you have to make an object that derives from the proper prototype, but you _also_ have to make sure it itself has the properties that instances of this class are supposed to have. This is what a _((constructor))_ function does.
+Belirli bir sınıfın bir örneğini oluşturmak için, uygun prototipten türeyen bir nesne yapmak zorundasınız, ancak ayrıca, kendisinin de bu sınıfın örneklerinin sahip olması gereken özelliklere sahip olduğundan emin olmanız gerekir. Bu, bir ((constructor)) fonksiyonun ne yaptığını gösterir.
 
 ```
 function makeRabbit(type) {
@@ -191,7 +193,7 @@ function makeRabbit(type) {
 }
 ```
 
-JavaScript's ((class)) notation makes it easier to define this type of function, along with a ((prototype)) object.
+JavaScript'in ((sınıf)) notasyonu, bu tür bir fonksiyonu tanımlamayı ((prototip)) nesnesiyle kolaylaştırır.
 
 {{index "rabbit example", constructor}}
 
@@ -208,17 +210,17 @@ class Rabbit {
 
 {{index "prototype property", [braces, class]}}
 
-The `class` keyword starts a ((class declaration)), which allows us to define a constructor and a set of methods together. Any number of methods may be written inside the declaration's braces. This code has the effect of defining a binding called `Rabbit`, which holds a function that runs the code in `constructor` and has a `prototype` property that holds the `speak` method.
+`class` anahtar kelimesi, bir ((sınıf bildirimi)) başlatır ve bir constructor ve bir dizi yöntemi bir arada tanımlamamıza olanak tanır. Bildirimin parantezleri içinde herhangi bir sayıda yöntem yazılabilir. Bu kod, `constructor` içindeki kodu çalıştıran ve `speak` yöntemini içeren bir `prototype` özelliğini tutan Rabbit adında bir bağlantı tanımlar.
 
 {{index "new operator", "this binding", [object, creation]}}
 
-This function cannot be called like a normal function. Constructors, in JavaScript, are called by putting the keyword `new` in front of them. Doing so creates a fresh instance object whose prototype is the object from the function's `prototype` property, then runs the function with `this` bound to the new object, and finally returns the object.
+Bu fonksiyon normal bir şekilde çağrılamaz. JavaScript'te, constructor'ları çağırmak için önlerine `new` anahtar kelimesini koymak gerekir. Bunu yapınca, fonksiyonun `prototype` özelliğini prototip olarak barındıran yeni bir obje oluşturulur ve fonksiyonun `this` bağlamını bu yeni oluşturulan objeye bağlayarak fonksiyonu çağırır, son olarak objeyi döndürür.
 
 ```{includeCode: true}
 let killerRabbit = new Rabbit("killer");
 ```
 
-In fact, `class` was only introduced in the 2015 edition of JavaScript. Any function can be used as a constructor, and before 2015, the way to define a class was to write a regular function and then manipulate its `prototype` property.
+Aslında, `class` JavaScript'in 2015 versiyonunda tanıtıldı. Herhangi bir fonksiyon bir constructor olarak kullanılabilir, ki zaten 2015'ten önce class tanımlamanın yolu normal bir fonksiyon yazıp ardından onun prototype özelliğini manipüle etmekti.
 
 ```
 function ArchaicRabbit(type) {
@@ -230,15 +232,15 @@ ArchaicRabbit.prototype.speak = function(line) {
 let oldSchoolRabbit = new ArchaicRabbit("old school");
 ```
 
-For this reason, all non-arrow functions start with a `prototype` property holding an empty object.
+Ok notasyonunda yazılmayan tüm fonksiyonların boş bir obje barındıran `prototype` özelliğiyle başlamasının sebebi budur.
 
 {{index capitalization}}
 
-By convention, the names of constructors are capitalized so that they can easily be distinguished from other functions.
+Geleneksel olarak, constructor adları diğer fonksiyonlardan kolayca ayırt edilebilmeleri için büyük harfle yazılır.
 
 {{index "prototype property", "getPrototypeOf function"}}
 
-It is important to understand the distinction between the way a prototype is associated with a constructor (through its `prototype` property) and the way objects _have_ a prototype (which can be found with `Object.getPrototypeOf`). The actual prototype of a constructor is `Function.prototype` since constructors are functions. The constructor function's `prototype` _property_ holds the prototype used for instances created through it.
+Bir ((prototipin)) bir constructor ile ilişkilendirilme şekli (onun prototype _özelliği_ aracılığıyla) ve bir nesnenin zaten var olan prototipi(bu, `Object.getPrototypeOf` ile bulunabilir) arasındaki farkı anlamanız önemlidir. Bir constructor gerçek prototipi, constructor'lar fonksiyon olduklarından ötürü `Function.prototype`'dır. `prototype` _özelliği_, bunun aracılığıyla oluşturulan örnekler için kullanılan prototipi tutar.
 
 ```
 console.log(Object.getPrototypeOf(Rabbit) ==
@@ -251,7 +253,7 @@ console.log(Object.getPrototypeOf(killerRabbit) ==
 
 {{index constructor}}
 
-Constructors will typically add some per-instance properties to `this`. It is also possible to declare properties directly in the ((class declaration)). Unlike methods, such properties are added to ((instance)) objects and not the prototype.
+Constructor'lar, genellikle `this`'e örnek başı değer atanacak birkaç özellik ekler. Özellikleri ayrıca ((sınıf bildirimi)) içinde doğrudan bildirmek de mümkündür. Metodların aksine, böyle özellikler ((örnek)) nesnelere eklenir, prototipe değil.
 
 ```
 class Particle {
@@ -262,7 +264,7 @@ class Particle {
 }
 ```
 
-Like `function`, `class` can be used both in statements and in expressions. When used as an expression, it doesn't define a binding but just produces the constructor as a value. You are allowed to omit the class name in a class expression.
+`function` gibi, `class` hem beyanlarda hem de ifadelerde kullanılabilir. Bir ifade olarak kullanıldığında, bir bağlantı tanımlamaz, ancak sadece constructor'ı bir değer olarak üretir. Bir sınıf ifadesinde sınıf adının atlanması mümkündür.
 
 ```
 let object = new class { getWord() { return "hello"; } };
@@ -270,16 +272,15 @@ console.log(object.getWord());
 // → hello
 ```
 
-
-## Private Properties
+## Özel Özellikler
 
 {{index [property, private], [property, public], "class declaration"}}
 
-It is common for classes to define some properties and ((method))s for internal use that are not part of their ((interface)). These are called _private_ properties, as opposed to _public_ ones, which are part of the object's external interface.
+Sınıfların iç kullanım için ((arayüzlerinin)) bir parçası olmayan bazı özellik ve ((metodlar)) oluşturması yaygındır. Bunlara arayüzün parçası olan _public_ özelliklerin aksine _private_ özellikler denir.
 
 {{index [method, private]}}
 
-To declare a private method, put a `#` sign in front of its name. Such methods can be called only from inside the `class` declaration that defines them.
+Private metod tanımlamak için isminin başına `#` işareti koy. Bu metodlar sadece onları tanımlayan sınıf içerisinden çağırılabilir.
 
 ```
 class SecretiveObject {
@@ -293,13 +294,11 @@ class SecretiveObject {
 }
 ```
 
-When a class does not declare a constructor, it will automatically get an empty one.
+Eğer `#getSecret`'ı sınıf dışından çağımaya çalışırsan bir hata alırsın çünkü onun varlığı sıvıf içerisinde tamamen dış dünyadan saklıdır.
 
-If you try to call `#getSecret` from outside the class, you get an error. Its existence is entirely hidden inside the class declaration.
+Private örnek özelliklerini kullanabilmek için onları önce tanımlamalısın. Normal özellikler onlara sadece bir değer vererek tanımlanabilir ancak private özellikler sınıf içerisinde tanımlanmak zorundadırlar.
 
-To use private instance properties, you must declare them. Regular properties can be created by just assigning to them, but private properties _must_ be declared in the class declaration to be available at all.
-
-This class implements an appliance for getting a random whole number below a given maximum number. It has only one ((public)) property: `getNumber`.
+Bu sınıf verilen bir maksimum sayının altında rastgele bir sayı gösterecek bir cihazı implemente etmektedir ve sadece bir ((public)) özelliği vardır: `getNumber`.
 
 ```
 class RandomSource {
@@ -313,11 +312,11 @@ class RandomSource {
 }
 ```
 
-## Overriding derived properties
+## Türetilmiş özellikleri geçersiz kılma
 
 {{index "shared property", overriding, [property, inheritance]}}
 
-When you add a property to an object, whether it is present in the prototype or not, the property is added to the object _itself_. If there was already a property with the same name in the prototype, this property will no longer affect the object, as it is now hidden behind the object's own property.
+Bir nesneye bir özellik eklediğinde içerisinde o özellik zaten var olsa da olmasa da o özellik nesnenin _kendisine_ eklenir. Eğer prototipte zaten aynı adda bir özellik varsa bu özellik artık o nesneyi o özelliğin başka bir nesneye ait olmasından ötürü etkilemeyecektir.
 
 ```
 Rabbit.prototype.teeth = "small";
@@ -334,17 +333,17 @@ console.log(Rabbit.prototype.teeth);
 
 {{index [prototype, diagram]}}
 
-The following diagram sketches the situation after this code has run. The `Rabbit` and `Object` ((prototype))s lie behind `killerRabbit` as a kind of backdrop, where properties that are not found in the object itself can be looked up.
+Aşağıdaki diyahram durumu kod çalıştıktan sonra açıklamakta. `Rabbit` ve `Object` ((prototip))leri `killerRabbit`'te aranan özelliklerin kendisinde bulunamayınca bakılacak yedek yerler olarak durmaktadırlar.
 
 {{figure {url: "img/rabbits.svg", alt: "A diagram showing the object structure of rabbits and their prototypes. There is a box for the 'killerRabbit' instance (holding instance properties like 'type'), with its two prototypes, 'Rabbit.prototype' (holding the 'speak' method) and 'Object.prototype' (holding methods like 'toString') stacked behind it.",width: "8cm"}}}
 
 {{index "shared property"}}
 
-Overriding properties that exist in a prototype can be a useful thing to do. As the rabbit teeth example shows, overriding can be used to express exceptional properties in instances of a more generic class of objects while letting the nonexceptional objects take a standard value from their prototype.
+Prototipte var olan özelliklere yeni değerler atamak faydalı olabilir. `rabbit.teeth` örneği bunu göstermektedir, yeni değerler atamak istisnai olmayan nesnelerin prototiplerinden standart bir değeri almasına izin verirken, daha genel nesne sınıfının örneklerinde istisnai özellikleri ifade etmek için kullanılabilir.
 
 {{index "toString method", "Array prototype", "Function prototype"}}
 
-Overriding is also used to give the standard function and array prototypes a different `toString` method than the basic object prototype.
+Var olan bir özelliğe yeni bir değer atamak, standart fonksiyon ve dizi prototiplerine temel nesne prototipinden farklı bir `toString` metodu vermek için de kullanılır.
 
 ```
 console.log(Array.prototype.toString ==
@@ -356,22 +355,22 @@ console.log([1, 2].toString());
 
 {{index "toString method", "join method", "call method"}}
 
-Calling `toString` on an array gives a result similar to calling `.join(",")` on it—it puts commas between the values in the array. Directly calling `Object.prototype.toString` with an array produces a different string. That function doesn't know about arrays, so it simply puts the word _object_ and the name of the type between square brackets.
+Bir dizide `toString` çağırmak, ona `.join(",")` çağırmakla benzer bir sonuç verir—dizideki değerler arasına virgül koyar. Bir diziye doğrudan `Object.prototype.toString` çağırmak farklı bir dize üretir. Bu fonksiyon diziler hakkında bilgi sahibi değildir, bu nedenle sadece _object_ kelimesini ve türün adını köşeli parantezler arasına koyar.
 
 ```
 console.log(Object.prototype.toString.call([1, 2]));
 // → [object Array]
 ```
 
-## Maps
+## Map'ler
 
 {{index "map method"}}
 
-We saw the word _map_ used in the [previous chapter](higher_order#map) for an operation that transforms a data structure by applying a function to its elements. Confusing as it is, in programming the same word is used for a related but rather different thing.
+Bir [önceki bölümde](higher_order#map) _map_ kelimesini, öğelerine bir fonksiyon uygulayarak bir veri yapısını dönüştüren bir işlem için kullanıldığını gördük. Kafa karıştırıcı olmasına rağmen, programlamada aynı kelime ilişkili ancak farklı bir şey için de kullanılır.
 
 {{index "map (data structure)", "ages example", ["data structure", map]}}
 
-A _map_ (noun) is a data structure that associates values (the keys) with other values. For example, you might want to map names to ages. It is possible to use objects for this.
+Bir _map_ (isim) değerleri (anahtarlar) diğer değerlerle ilişkilendiren bir veri yapısıdır. Örneğin, isimleri yaşlara eşlemek isteyebilirsiniz. Bunun için nesneleri kullanmak mümkündür.
 
 ```
 let ages = {
@@ -390,11 +389,11 @@ console.log("Is toString's age known?", "toString" in ages);
 
 {{index "Object.prototype", "toString method"}}
 
-Here, the object's property names are the people's names and the property values are their ages. But we certainly didn't list anybody named toString in our map. Yet because plain objects derive from `Object.prototype`, it looks like the property is there.
+Burada, nesnenin özellik adları insanların isimleri, özellik değerleri ise yaşlarıdır. Ancak kesinlikle haritamızda `toString` adında birini listelemedik. Yine de basit nesneler `Object.prototype`'tan türedikleri için, özellik orada gibi görünüyor.
 
 {{index "Object.create function", prototype}}
 
-For this reason, using plain objects as maps is dangerous. There are several possible ways to avoid this problem. First, you can create objects with _no_ prototype. If you pass `null` to `Object.create`, the resulting object will not derive from `Object.prototype` and can be safely used as a map.
+Bu nedenle, basit nesneleri haritalar olarak kullanmak tehlikelidir. Bu sorunu önlemenin birkaç olası yolu vardır. İlk olarak, hiçbir prototipe sahip olmayan nesneler oluşturmak mümkündür. `Object.create`'e `null` verirseniz, sonuçta elde edilen nesne `Object.prototype`'tan türetilmez ve güvenli bir şekilde bir map olarak kullanılabilir.
 
 ```
 console.log("toString" in Object.create(null));
@@ -403,11 +402,11 @@ console.log("toString" in Object.create(null));
 
 {{index [property, naming]}}
 
-Object property names must be strings. If you need a map whose keys can't easily be converted to strings—such as objects—you cannot use an object as your map.
+Nesne özellik adları dize olmalıdır. Anahtarları kolayca dizilere dönüştürülemeyen bir map'e ihtiyacınız varsa—örneğin nesneler—bir nesneyi map'iniz olarak kullanamazsınız.
 
 {{index "Map class"}}
 
-Fortunately, JavaScript comes with a class called `Map` that is written for this exact purpose. It stores a mapping and allows any type of keys.
+Neyse ki, JavaScript, tam olarak bu amaca yönelik olan `Map` adında bir sınıf ile gelir. Bir eşleme saklar ve her türden anahtara izin verir.
 
 ```
 let ages = new Map();
@@ -425,11 +424,11 @@ console.log(ages.has("toString"));
 
 {{index [interface, object], "set method", "get method", "has method", encapsulation}}
 
-The methods `set`, `get`, and `has` are part of the interface of the `Map` object. Writing a data structure that can quickly update and search a large set of values isn't easy, but we don't have to worry about that. Someone else did it for us, and we can go through this simple interface to use their work.
+`set`, `get` ve `has` yöntemleri, `Map` nesnesinin arayüzünün bir parçasıdır. Büyük bir değer kümesini hızlı bir şekilde güncelleme ve arama yapabilen bir veri yapısı yazmak kolay değildir, ancak bununla ilgilenmemiz gerekmez. Başkası bunu bizim için yaptı ve bu basit arayüzü kullanarak çalışmalarını kullanabiliriz.
 
 {{index "hasOwn function", "in operator"}}
 
-If you do have a plain object that you need to treat as a map for some reason, it is useful to know that `Object.keys` returns only an object's _own_ keys, not those in the prototype. As an alternative to the `in` operator, you can use the `Object.hasOwn` function, which ignores the object's prototype.
+Herhangi bir nedenden ötürü basit bir nesneye bir map gibi davranmanız gerekiyorsa, `Object.keys`'in yalnızca bir nesnenin kendi anahtarlarını döndürdüğünü, prototiptekilerini döndürmediğini bilmeniz faydalı olabilir. `in` operatörü yerine, nesnenin prototipini yok sayan `Object.hasOwn` fonksiyonunu kullanabilirsiniz.
 
 ```
 console.log(Object.hasOwn({x: 1}, "x"));
@@ -438,11 +437,11 @@ console.log(Object.hasOwn({x: 1}, "toString"));
 // → false
 ```
 
-## Polymorphism
+## Polimorfizm
 
 {{index "toString method", "String function", polymorphism, overriding, "object-oriented programming"}}
 
-When you call the `String` function (which converts a value to a string) on an object, it will call the `toString` method on that object to try to create a meaningful string from it. I mentioned that some of the standard prototypes define their own version of `toString` so they can create a string that contains more useful information than `"[object Object]"`. You can also do that yourself.
+Bir değeri dizeye dönüştüren `String` fonksiyonunu bir nesne üzerinde çağırdığınızda, bu nesne üzerinde `toString` yöntemini çağırarak ondan anlamlı bir dize oluşturmaya çalışır. Bazı standart prototiplerin kendi `toString` versiyonlarını tanımladığını belirttim, böylece `"[object Object]"`'ten daha kullanışlı bilgiler içeren bir dize oluşturabilirler. Kendiniz de bunu yapabilirsiniz.
 
 ```{includeCode: "top_lines: 3"}
 Rabbit.prototype.toString = function() {
@@ -455,13 +454,13 @@ console.log(String(killerRabbit));
 
 {{index "object-oriented programming", [interface, object]}}
 
-This is a simple instance of a powerful idea. When a piece of code is written to work with objects that have a certain interface—in this case, a `toString` method—any kind of object that happens to support this interface can be plugged into the code and will be able to work with it.
+Bu, güçlü bir fikrin basit bir örneğidir. Bir kod parçası, belirli bir arayüzü olan nesnelerle çalışmak üzere yazıldığında—bu durumda bir `toString` yöntemi—bu arayüzü destekleyen herhangi bir nesne kodun içine eklenerek ve onunla çalışabilir.
 
-This technique is called _polymorphism_. Polymorphic code can work with values of different shapes, as long as they support the interface it expects.
+Bu teknik, _polimorfizm_ olarak adlandırılır. Polimorfik kod, beklediği arayüzü destekleyen farklı şekillerdeki değerlerle çalışabilir.
 
 {{index "forEach method"}}
 
-An example of a widely used interface is that of ((array-like object))s that have a `length` property holding a number and numbered properties for each of their elements. Both arrays and strings support this interface, as do various other objects, some of which we'll see later in the chapters about the browser. Our implementation of `forEach` from [Chapter ?](higher_order) works on anything that provides this interface. In fact, so does `Array.prototype.forEach`.
+Yaygın olarak kullanılan örnek olarak verilebilecek bir arayüz örneği, `length` özelliği tutan ve her bir eleman için numaralandırılmış özelliklere sahip ((dizi benzeri nesneler))'in arayüzüdür. Diziler ve dizeler bu arayüzü destekler, aynı şekilde bazı diğer nesneler de destekler, bunlardan bazılarını daha sonra browser hakkındaki bölümlerde göreceğiz. [Bölüm ?](higher_order) içindeki `forEach` uygulamamız, bu arayüzü sağlayan her şeyde çalışır. Aslında, `Array.prototype.forEach` da aynı şekilde çalışır.
 
 ```
 Array.prototype.forEach.call({
@@ -473,13 +472,13 @@ Array.prototype.forEach.call({
 // → B
 ```
 
-## Getters, setters, and statics
+## Getter'lar, setter'lar, and static'ler
 
 {{index [interface, object], [property, definition], "Map class"}}
 
-Interfaces often contain plain properties, not just methods. For example, `Map` objects have a `size` property that tells you how many keys are stored in them.
+Arayüzler sadece yöntemler değil, genellikle özellikler içerir. Örneğin, `Map` nesnelerinin bir `size` özelliği vardır ve içlerinde saklanan anahtarların sayısını belirtir.
 
-It is not necessary for such an object to compute and store such a property directly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called _((getter))s_ and are defined by writing `get` in front of the method name in an object expression or class declaration.
+Böyle bir bir nesnenin bir özelliği doğrudan örnekte hesaplaması ve saklaması gerekli değildir. Doğrudan erişilen özellikler bile bir yöntem çağrısını gizleyebilir. Böyle yöntemlere ((getter)) denir ve bunlar bir nesne ifadesi veya sınıf bildirimi içinde yöntem adının önüne `get` yazarak tanımlanır.
 
 ```{test: no}
 let varyingSize = {
@@ -496,7 +495,7 @@ console.log(varyingSize.size);
 
 {{index "temperature example"}}
 
-Whenever someone reads from this object's `size` property, the associated method is called. You can do a similar thing when a property is written to, using a _((setter))_.
+Bu nesnenin `size` özelliğinden okuma yapıldığında, ilişkili yöntem çağrılır. Bir özelliğe bir değer atandığında _((setter))_ kullanarak benzer bir şey yapabilirsiniz.
 
 ```{startCode: true, includeCode: "top_lines: 16"}
 class Temperature {
@@ -523,33 +522,27 @@ console.log(temp.celsius);
 // → 30
 ```
 
-The `Temperature` class allows you to read and write the temperature in either degrees ((Celsius)) or degrees ((Fahrenheit)), but internally it stores only Celsius and automatically converts to and from Celsius in the `fahrenheit` getter and setter.
+`Temperature` sınıfı, sıcaklığı ((°C)) veya ((°F)) olarak okumaya ve yazmaya izin verir, ancak içsel olarak sadece °C'ı depolar ve °F değerini değiştirmek veya okumak istediğinde °C değerini getter ve setter'da formüller kullanarak °F'a çevirir.
 
 {{index "static method", "static property"}}
 
-Sometimes you want to attach some properties directly to your constructor function rather than to the prototype. Such methods won't have access to a class instance but can, for example, be used to provide additional ways to create instances.
+Bazen, yöntemleri prototip yerine doğrudan constructor fonksiyona eklemek istersiniz. Bu tür yöntemlerin bir sınıf örneğine erişimi olmaz ancak örneğin başka yollarla oluşturulması için kullanılabilirler.
 
-Inside a class declaration, methods or properties that have `static` written before their name are stored on the constructor. For example, the `Temperature` class allows you to write `Temperature.fromFahrenheit(100)` to create a temperature using degrees Fahrenheit.
+Sınıf bildirimi içinde, adlarının önünde `static` yazılı olan yöntemler veya özellikler kurucuda saklanır. Bu nedenle, `Temperature` sınıfı, °F cinsinden bir sıcaklık oluşturmak için `Temperature.fromFahrenheit(100)` yazmanıza izin verir.
 
-```
-let boil = Temperature.fromFahrenheit(212);
-console.log(boil.celsius);
-// → 100
-```
-
-## Symbols
+## Symbol'ler
 
 {{index "for/of loop", "iterator interface"}}
 
-I mentioned in [Chapter ?](data#for_of_loop) that a `for`/`of` loop can loop over several kinds of data structures. This is another case of polymorphism—such loops expect the data structure to expose a specific interface, which arrays and strings do. And we can also add this interface to our own objects! But before we can do that, we need to briefly take a look at the symbol type.
+[Bölüm ?](data#for_of_loop) içinde bir `for/of` döngüsünün çeşitli veri yapıları üzerinde döngü yapabileceğini belirttim. Bu, başka bir polimorfizm örneğidir—bu tür döngüler, beklenen arayüzü ortaya koyan veri yapısını bekler, diziler ve dizeler de buna uyum sağlar. Ve kendi nesnelerimize de bu arayüzü ekleyebiliriz! Ancak bunu yapmadan önce, sembol türüne kısaca bir göz atmak gerekir.
 
-It is possible for multiple interfaces to use the same property name for different things. For example, on array-like objects, `length` refers to the number of elements in the collection. But an object interface describing a hiking route could use `length` to provide the length of the route in meters. It would not be possible for an object to conform to both these interfaces.
+Birden çok arayüzün, farklı şeyler için aynı özellik adını kullanması mümkündür. Örneğin, dizi benzeri nesnelerde, `length` koleksiyondaki öğelerin miktarına atıfta bulunur. Ancak bir yürüyüş rotasını tanımlayan bir nesne arayüzü, `length`'i rotanın metre cinsinden uzunluğunu sağlamak için kullanabilir. Böyle bir objenin bu iki arayüze uyum sağlaması mümkün değildir.
 
-An object trying to be a route and array-like (maybe to enumerate its waypoints) is somewhat far-fetched, and this kind of problem isn't that common in practice. For things like the iteration protocol, though, the language designers needed a type of property that _really_ doesn't conflict with any others. So in 2015, _((symbol))s_ were added to the language.
+Bir nesnenin hem rota hem de dizilere benzer arayüze sahip olmaya çalışması (belki de noktalarını numaralandırmak için) biraz abartılıdır ve bu tür bir sorun pratikte o kadar yaygın değildir. Ancak iterasyon protokolü gibi şeyler için, dil tasarımcıları bu tür bir özellik türüne _gerçekten_ başka hiçbir şeyle çelişmeyen bir tür özellik türüne ihtiyaç duyuyordu. Bu nedenle, 2015 yılında _((semboller))_ dilin bir parçası olarak eklendi.
 
 {{index "Symbol function", [property, naming]}}
 
-Most properties, including all those we have seen so far, are named with strings. But it is also possible to use symbols as property names. Symbols are values created with the `Symbol` function. Unlike strings, newly created symbols are unique—you cannot create the same symbol twice.
+Şimdiye kadar gördüğümüz tüm özellikler de dahil olmak üzere, çoğu özellik dizelerle adlandırılır. Ancak sembollerin özellik adı olarak da kullanılması mümkündür. Semboller, `Symbol` fonksiyonuyla oluşturulan değerlerdir. Dizelerin aksine, yeni oluşturulan semboller benzersizdir—aynı sembolü iki kez oluşturamazsınız.
 
 ```
 let sym = Symbol("name");
@@ -560,9 +553,9 @@ console.log(killerRabbit[sym]);
 // → 55
 ```
 
-The string you pass to `Symbol` is included when you convert it to a string and can make it easier to recognize a symbol when, for example, showing it in the console. But it has no meaning beyond that—multiple symbols may have the same name.
+`Symbol`'e verdiğiniz dize, onu bir dizeye dönüştürdüğünüzde dahil edilir ve bir sembolü, örneğin, konsolda gösterirken tanımayı daha kolay hale getirir. Ancak bundan başka bir anlamı yoktur—birden çok sembol aynı adı taşıyabilir.
 
-Being both unique and usable as property names makes symbols suitable for defining interfaces that can peacefully live alongside other properties, no matter what their names are.
+Hem benzersiz hem de özellik adları olarak kullanılabilir olmaları, sembollerin adları ne olursa olsun diğer özelliklerle bir arada barış içinde yaşayabilen arayüzleri tanımlamak için uygun olmalarını sağlar.
 
 ```{includeCode: "top_lines: 1"}
 const length = Symbol("length");
@@ -576,7 +569,7 @@ console.log([1, 2][length]);
 
 {{index [property, naming]}}
 
-It is possible to include symbol properties in object expressions and classes by using ((square bracket))s around the property name. That causes the expression between the brackets to be evaluated to produce the property name, analogous to the square bracket property access notation.
+Nesne ifadelerinde ve sınıflarda sembol özelliklerini kullanmak için ((köşeli parantez))lerle sararak özellik adını kullanmak mümkündür. Bu, köşeli parantez özelliği erişim notasyonuna benzer şekilde, parantezler arasındaki ifadenin değerlendirilerek özellik adının oluşturulmasını sağlar.
 
 ```
 let myTrip = {
@@ -589,19 +582,19 @@ console.log(myTrip[length], myTrip.length);
 // → 21500 2
 ```
 
-## The iterator interface
+## Yineleyici arayüzü
 
 {{index "iterable interface", "Symbol.iterator symbol", "for/of loop"}}
 
-The object given to a `for`/`of` loop is expected to be _iterable_. This means it has a method named with the `Symbol.iterator` symbol (a symbol value defined by the language, stored as a property of the `Symbol` function).
+`for/of` döngüsüne verilen nesnenin _yinelenilebilir_ olması beklenir. Bu, `Symbol.iterator` sembolü ile adlandırılmış bir metoda (dil tarafından tanımlanan bir sembol değeri, `Symbol` fonksiyonunun bir özelliği olarak saklanır) sahip olması anlamına gelir.
 
 {{index "iterator interface", "next method"}}
 
-When called, that method should return an object that provides a second interface, _iterator_. This is the actual thing that iterates. It has a `next` method that returns the next result. That result should be an object with a `value` property that provides the next value, if there is one, and a `done` property, which should be true when there are no more results and false otherwise.
+Çağrıldığında, bu yöntem, ikinci bir arayüz olan _yineleyiciyi_ sağlayan bir nesne döndürmelidir. Bu, gerçekten yineleyen şeydir. Bir sonraki sonucu döndüren `next` yöntemine sahiptir. Bu sonuç, bir sonraki değeri sağlayan bir `value` özelliği ve daha çok sonuçların olup olmadığını belirten `done` özelliğine sahip bir nesne olmalıdır.
 
-Note that the `next`, `value`, and `done` property names are plain strings, not symbols. Only `Symbol.iterator`, which is likely to be added to a _lot_ of different objects, is an actual symbol.
+`next`, `value`, ve `done` özellik adlarının düz dize olduğunu, semboller olmadığını unutmayın. Yalnızca _birçok_ farklı nesnelere eklenebilecek olan `Symbol.iterator` gerçek bir semboldür.
 
-We can directly use this interface ourselves.
+Bu arayüzü doğrudan kendimiz kullanabiliriz.
 
 ```
 let okIterator = "OK"[Symbol.iterator]();
@@ -615,7 +608,7 @@ console.log(okIterator.next());
 
 {{index ["data structure", list], "linked list", collection}}
 
-Let's implement an iterable data structure similar to the linked list from the exercise in [Chapter ?](data). We'll write the list as a class this time.
+[Chapter ?](data) alıştırmasındaki linked list benzeri bir yinelenebilir veri yapısı uygulayalım. Bu sefer listeyi bir sınıf olarak yazacağız.
 
 ```{includeCode: true}
 class List {
@@ -638,9 +631,9 @@ class List {
 }
 ```
 
-Note that `this`, in a static method, points at the constructor of the class, not an instance—there is no instance around when a static method is called.
+Statik bir yöntemdeki `this`, bir örneğe değil, sınıfın constructor fonksiyonuna işaret eder—bir statik yöntem çağrıldığında bir örnek yoktur.
 
-Iterating over a list should return all the list's elements from start to end. We'll write a separate class for the iterator.
+Bir liste üzerinde yinelendiğinde, listenin tüm öğeleri baştan sona döndürülmelidir. Yineleyici için ayrı bir sınıf yazacağız.
 
 {{index "ListIterator class"}}
 
@@ -661,9 +654,9 @@ class ListIterator {
 }
 ```
 
-The class tracks the progress of iterating through the list by updating its `list` property to move to the next list object whenever a value is returned and reports that it is done when that list is empty (null).
+`ListIterator` sınıfı, bir değer döndürüldüğünde `list` özelliğini güncelleyerek listedeki öğelerin üzerinden yinelenebilme ilerlemesini takip eder ve bu liste boş olduğunda (null) işlemi tamamlandığını bildirir.
 
-Let's set up the `List` class to be iterable. Throughout this book, I'll occasionally use after-the-fact prototype manipulation to add methods to classes so that the individual pieces of code remain small and self contained. In a regular program, where there is no need to split the code into small pieces, you'd declare these methods directly in the class instead.
+`List` sınıfını yinelemeli hale getirelim. Bu kitap boyunca, kod parçalarının küçük ve kendi kendine yeten kalmasını sağlamak için sınıflara yöntemler eklemek adına prototip manipülasyonunu zaman zaman kullanacağım. Normal bir programda, kodun küçük parçalara ayrılmasına gerek olmadığında, bu yöntemleri doğrudan sınıfta bildirirsiniz.
 
 ```{includeCode: true}
 List.prototype[Symbol.iterator] = function() {
@@ -673,7 +666,7 @@ List.prototype[Symbol.iterator] = function() {
 
 {{index "for/of loop"}}
 
-We can now loop over a list with `for`/`of`.
+Artık bir liste üzerinde `for`/`of` ile döngü yapabiliriz.
 
 ```
 let list = List.fromArray([1, 2, 3]);
@@ -687,24 +680,24 @@ for (let element of list) {
 
 {{index spread}}
 
-The `...` syntax in array notation and function calls similarly works with any iterable object. For example, you can use `[...value]` to create an array containing the elements in an arbitrary iterable object.
+Array notasyonunda ve fonksiyon çağrılarında `...` herhangi bir yinelemeli nesneyle çalışır. Bu nedenle örneğin, `[...value]` kullanarak bir yinelenebilir nesnedeki öğeleri içeren bir dizi oluşturabilirsiniz.
 
 ```
 console.log([..."PCI"]);
 // → ["P", "C", "I"]
 ```
 
-## Inheritance
+## Kalıtım
 
 {{index inheritance, "linked list", "object-oriented programming", "LengthList class"}}
 
-Imagine we need a list type much like the `List` class we saw before, but because we will be asking for its length all the time, we don't want it to have to scan through its `rest` every time. Instead, we want to store the length in every instance for efficient access.
+`List` sınıfında gördüğümüz gibi, bir listeye benzer bir liste tipine ihtiyacımız olduğunu hayal edin, ancak sürekli olarak uzunluğunu isteyeceğimiz için, her seferinde `rest` özelliğini taramasını istemiyoruz ve bunun yerine her örnekte uzunluğu verimli bir erişim için saklamak istiyoruz.
 
 {{index overriding, prototype}}
 
-JavaScript's prototype system makes it possible to create a _new_ class, much like the old class, but with new definitions for some of its properties. The prototype for the new class derives from the old prototype but adds a new definition for, say, the `length` getter.
+JavaScript'in prototip sistemi, bir sınıfa, eskiden olduğu gibi, ancak bazı özelliklerinin yeni tanımları ile bir _yeni_ sınıf oluşturmayı mümkün kılar. Yeni sınıfın prototipi, eski prototipten türetilir ancak, diyelim ki, `length` getter metodu için için yeni bir tanım ekler.
 
-In object-oriented programming terms, this is called _((inheritance))_. The new class inherits properties and behavior from the old class.
+Nesne tabanlı programlama terimleriyle, buna _((kalıtım))_ denir. Yeni sınıf, eski sınıftan özellikler ve davranış alır.
 
 ```{includeCode: "top_lines: 12"}
 class LengthList extends List {
@@ -724,23 +717,23 @@ console.log(LengthList.fromArray([1, 2, 3]).length);
 // → 3
 ```
 
-The use of the word `extends` indicates that this class shouldn't be directly based on the default `Object` prototype but on some other class. This is called the _((superclass))_. The derived class is the _((subclass))_.
+`extends` kelimesinin kullanımı, bu sınıfın doğrudan varsayılan `Object` prototipi yerine başka bir sınıfa dayandırılması gerektiğini gösterir. Buna _((üst sınıf))_ denir. Türetilmiş sınıf, _((alt sınıf))_ tır.
 
-To initialize a `LengthList` instance, the constructor calls the constructor of its superclass through the `super` keyword. This is necessary because if this new object is to behave (roughly) like a `List`, it is going to need the instance properties that lists have.
+Bir `LengthList` örneğini başlatmak için, constructor, `super` anahtar kelimesi aracılığıyla üst sınıfının constructor fonksiyonunu çağırır. Bu, bu yeni nesne bir `List` gibi davranacaksa, listelerin sahip olduğu örnek özelliklere ihtiyacı olacağı için gereklidir.
 
-The constructor then stores the list's length in a private property. If we had written `this.length` there, the class's own getter would have been called, which doesn't work yet since `#length` hasn't been filled in yet. We can use `super.something` to call methods and getters on the superclass's prototype, which is often useful.
+Constructor fonksiyonu, ardından listenin uzunluğunu private bir özelliğe saklar. Orada `this.length` yazsaydık, sınıfın kendi getter metodu çağrılırdı, ki bu henüz çalışmaz, çünkü `#length` henüz doldurulmadı. `super.something` kullanarak üst sınıfın prototipi üzerinde metodlar ve getter metodları çağırmak sıkça kullanışlıdır.
 
-Inheritance allows us to build slightly different data types from existing data types with relatively little work. It is a fundamental part of the object-oriented tradition, alongside encapsulation and polymorphism. But while the latter two are now generally regarded as wonderful ideas, inheritance is more controversial.
+Kalıtım, var olan veri türlerinden kolayca biraz farklı veri türleri oluşturmamıza izin verir. Bu, kapsülleme ve polimorfizm ile birlikte nesne tabanlı geleneğin temel bir parçasıdır. Ancak, son ikisi şimdi genellikle harika fikirler olarak kabul edilirken, kalıtım daha tartışmalıdır.
 
 {{index complexity, reuse, "class hierarchy"}}
 
-Whereas ((encapsulation)) and polymorphism can be used to _separate_ pieces of code from one another, reducing the tangledness of the overall program, ((inheritance)) fundamentally ties classes together, creating _more_ tangle. When inheriting from a class, you usually have to know more about how it works than when simply using it. Inheritance can be a useful tool to make some types of programs more succinct, but it shouldn't be the first tool you reach for, and you probably shouldn't actively go looking for opportunities to construct class hierarchies (family trees of classes).
+((Kapsülleme)) ve polimorfizm kodları birbirinden _ayırmak_ için kullanılabilirken, ((kalıtım)) temel olarak sınıfları birbirine bağlar, ve birbirine daha bağlı kodlar yaratır. Bir sınıftan kalıtım alırken, sınıfı sadece kullanmak yerine genellikle nasıl çalıştığı hakkında daha fazla bilgi sahibi olmanız gerekir. Kalıtım, bazı türdeki programları daha kısa hale getirmek için kullanışlı bir araç olabilir, ancak bunu kullanmaya yeltendiğiniz ilk araç olmamalıdır ve daha çok sınıf hiyerarşileri (sınıf ağaçları) oluşturma fırsatlarını aktif olarak aramamalısınız.
 
-## The instanceof operator
+## instanceof operatörü
 
 {{index type, "instanceof operator", constructor, object}}
 
-It is occasionally useful to know whether an object was derived from a specific class. For this, JavaScript provides a binary operator called `instanceof`.
+Nesnenin belirli bir sınıftan türetildiğini bilmek zaman zaman faydalı olabilir. Bunun için JavaScript, `instanceof` adında bir ikili operatör sağlar.
 
 ```
 console.log(
@@ -756,44 +749,44 @@ console.log([1] instanceof Array);
 
 {{index inheritance}}
 
-The operator will see through inherited types, so a `LengthList` is an instance of `List`. The operator can also be applied to standard constructors like `Array`. Almost every object is an instance of `Object`.
+Operatör, kalıtılmış türleri görür, bu nedenle bir `LengthList`, `List` sınıfının bir örneğidir. Operatör ayrıca `Array` gibi standart constructor fonksiyonlarına da uygulanabilir. Hemen hemen her nesne `Object` sınıfının bir örneğidir.
 
-## Summary
+## Özet
 
-Objects do more than just hold their own properties. They have prototypes, which are other objects. They'll act as if they have properties they don't have as long as their prototype has that property. Simple objects have `Object.prototype` as their prototype.
+Nesneler, kendi özelliklerini tutmanın ötesinde daha fazlasını yaparlar. Başka nesneler olan prototipleri vardır. Prototiplerinde bulunduğu sürece, sahip olmadıkları bir özelliğe sahipmiş gibi davranırlar. Basit nesnelerin prototipi `Object.prototype`'dır.
 
-Constructors, which are functions whose names usually start with a capital letter, can be used with the `new` operator to create new objects. The new object's prototype will be the object found in the `prototype` property of the constructor. You can make good use of this by putting the properties that all values of a given type share into their prototype. There's a `class` notation that provides a clear way to define a constructor and its prototype.
+Genellikle büyük harfle başlayan adları olan constructor fonksiyonlar, `new` operatörünün kullanımıyla yeni nesneler oluşturmak için kullanılabilir. Yeni nesnenin prototipi, constructor fonksiyonunun `prototype` özelliğinde bulunan nesne olacaktır. Verilen bir veri türün paylaştığı tüm özellikleri prototip nesnesine koyarak bundan fayda sağlayabilirsiniz. Bir constructor fonksiyonu ve onun prototipini net bir şekilde tanımlamanın temiz bir yolunu sağlayan `class` notasyonunu kullanabilirsiniz.
 
-You can define getters and setters to secretly call methods every time an object's property is accessed. Static methods are methods stored in a class's constructor rather than its prototype.
+Herhangi bir nesnenin herhangi bir özelliği erişildiğinde gizlice çağırılacak getter ve setter metodları tanımlayabilirsiniz. Statik metodlar, bir sınıfın constructor fonksiyonunda saklanan metodlardır, prototipinde değil.
 
-The `instanceof` operator can, given an object and a constructor, tell you whether that object is an instance of that constructor.
+`instanceof` operatörüne bir nesne ve bir constructor fonksiyonu verildiğinde, nesnenin o constructor fonksiyonunun bir örneği olup olmadığını size söyler.
 
-One useful thing to do with objects is to specify an interface for them and tell everybody that they are supposed to talk to your object only through that interface. The rest of the details that make up your object are now _encapsulated_, hidden behind the interface. You can use private properties to hide a part of your object from the outside world.
+Nesnelerle yapılacak yararlı şeylerden biri, onlar için bir arayüz belirtmek ve herkesin nesnenizle sadece o arayüz aracılığıyla iletişim kurması gerektiğini söylemektir. Nesnenizi oluşturan diğer ayrıntılar artık _kapsülleme_ aracılığıyla gizlenmiş olur ve arayüzün arkasında saklanır. Nesnenizin bir kısmını dış dünyadan gizlemek için private özellikler kullanabilirsiniz.
 
-More than one type may implement the same interface. Code written to use an interface automatically knows how to work with any number of different objects that provide the interface. This is called _polymorphism_.
+Birden fazla tür aynı arayüzü implemente edebilir. Bir arayüzü kullanmak için yazılmış kod, arayüzü sağlayan herhangi bir sayıda farklı nesneyle nasıl çalışılacağını otomatik olarak bilir. Buna _polimorfizm_ denir.
 
-When implementing multiple classes that differ in only some details, it can be helpful to write the new classes as _subclasses_ of an existing class, _inheriting_ part of its behavior.
+Birbirinden yalnızca bazı ayrıntılarda farklılık gösteren birden çok sınıfı implemente ederken, yeni sınıfları var olan bir sınıfın alt sınıfları olarak yazmak, davranışlarının bir kısmını kalıtım yoluyla alarak kullanmanıza yardımcı olabilir.
 
-## Exercises
+## Egzersizler
 
 {{id exercise_vector}}
 
-### A vector type
+### Bir vektör türü
 
 {{index dimensions, "Vec class", coordinates, "vector (exercise)"}}
 
-Write a ((class)) `Vec` that represents a vector in two-dimensional space. It takes `x` and `y` parameters (numbers), that it saves to properties of the same name.
+İki boyutlu uzayda bir vektörü temsil eden bir `Vec` adında ((Sınıf)) yazın. Parametre olarak `x` ve `y` (sayılar) alır ve bunları aynı adla özelliklere kaydeder.
 
 {{index addition, subtraction}}
 
-Give the `Vec` prototype two methods, `plus` and `minus`, that take another vector as a parameter and return a new vector that has the sum or difference of the two vectors' (`this` and the parameter) _x_ and _y_ values.
+`Vec` prototipine `plus` ve `minus` adında başka bir vektörü parametre olarak alan ve iki vektörün (`this` ve parametre) _x_ ve _y_ değerlerinin toplamını veya farkını döndüren iki ((metod)) tanımlayın.
 
-Add a ((getter)) property `length` to the prototype that computes the length of the vector—that is, the distance of the point (_x_, _y_) from the origin (0, 0).
+Prototipe, vektörün uzunluğunu hesaplayan `length` adında ((getter)) özelliği ekleyin - yani, noktanın (x, y) başlangıç noktasından (0, 0) uzaklığını hesaplar.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 console.log(new Vec(1, 2).plus(new Vec(2, 3)));
 // → Vec{x: 3, y: 5}
@@ -802,45 +795,46 @@ console.log(new Vec(1, 2).minus(new Vec(2, 3)));
 console.log(new Vec(3, 4).length);
 // → 5
 ```
+
 if}}
 
 {{hint
 
 {{index "vector (exercise)"}}
 
-Look back to the `Rabbit` class example if you're unsure how `class` declarations look.
+Eğer `class` beyanlarının nasıl göründüğünden emin değilseniz `Rabbit` sınıfı örneğine geri dönün.
 
 {{index Pythagoras, "defineProperty function", "square root", "Math.sqrt function"}}
 
-Adding a getter property to the constructor can be done by putting the word `get` before the method name. To compute the distance from (0, 0) to (x, y), you can use the Pythagorean theorem, which says that the square of the distance we are looking for is equal to the square of the x-coordinate plus the square of the y-coordinate. Thus, [√(x^2^ + y^2^)]{if html}[[$\sqrt{x^2 + y^2}$]{latex}]{if tex} is the number you want. `Math.sqrt` is the way you compute a square root in JavaScript and `x ** 2` can be used to square a number.
+Constructor fonksiyonuna bir ((getter)) özelliği eklemek, metod adından önce `get` kelimesini koymak suretiyle yapılabilir. (0, 0) ile (x, y) arasındaki mesafeyi hesaplamak için, aradığımız mesafenin karesinin, x-koordinatının karesi artı y-koordinatının karesiyle eşit olduğunu söyleyen Pisagor teoremini kullanabilirsiniz. Böylece, [√(x^2^ + y^2^)]{if html}[[$\sqrt{x^2 + y^2}$]{latex}]{if tex} istediğiniz sayıdır. JavaScript'te karekökü hesaplamak için `Math.sqrt` kullanılır ve bir sayının karesini almak için `x ** 2` kullanılanılır.
 
 hint}}
 
-### Groups
+### Gruplar
 
 {{index "groups (exercise)", "Set class", "Group class", "set (data structure)"}}
 
 {{id groups}}
 
-The standard JavaScript environment provides another data structure called `Set`. Like an instance of `Map`, a set holds a collection of values. Unlike `Map`, it does not associate other values with those—it just tracks which values are part of the set. A value can be part of a set only once—adding it again doesn't have any effect.
+Standart JavaScript ortamı, `Set` adında başka bir veri yapısı sağlar. Bir `Map` örneği gibi, bir küme bir değerler koleksiyonunu tutar. `Map`'in aksine, bunlarla ilişkilendirilmiş başka değerlerle ilgilenmez - sadece hangi değerlerin kümenin bir parçası olduğunu izler. Bir değer sadece bir kez kümenin parçası olabilir - tekrar eklenmesinin herhangi bir etkisi olmaz.
 
 {{index "add method", "delete method", "has method"}}
 
-Write a class called `Group` (since `Set` is already taken). Like `Set`, it has `add`, `delete`, and `has` methods. Its constructor creates an empty group, `add` adds a value to the group (but only if it isn't already a member), `delete` removes its argument from the group (if it was a member), and `has` returns a Boolean value indicating whether its argument is a member of the group.
+`Set` ismi zaten alınmış olduğundan ötürü `Group` adında bir sınıf yazın. `Set` gibi, `add`, `delete` ve `has` metodlarına sahip olsun. Constructor fonksiyonu boş bir grup oluştursun, `add` bir değeri eğer zaten bir üye değilse gruba eklesin, `delete` argümanını eğer bir üyeyse grubun içinden kaldırsın ve `has` argümanının grubun bir üyesi olup olmadığını gösteren bir Boolean değeri döndürsün.
 
 {{index "=== operator", "indexOf method"}}
 
-Use the `===` operator, or something equivalent such as `indexOf`, to determine whether two values are the same.
+İki değerin aynı olup olmadığını belirlemek için `===` operatörünü veya `indexOf` gibi bir şeyi kullanın.
 
 {{index "static method"}}
 
-Give the class a static `from` method that takes an iterable object as its argument and creates a group that contains all the values produced by iterating over it.
+Sınıfta, bir yinelenebilen bir nesneyi argüman olarak alan ve üzerinde yinelemeyi gerçekleştirerek üretilen tüm değerleri içeren bir grup oluşturan bir statik `from` ((metodu)) oluşturun.
 
 {{if interactive
 
 ```{test: no}
 class Group {
-  // Your code here.
+  // Kodunuz buraya.
 }
 
 let group = Group.from([10, 20]);
@@ -860,38 +854,38 @@ if}}
 
 {{index "groups (exercise)", "Group class", "indexOf method", "includes method"}}
 
-The easiest way to do this is to store an array of group members in an instance property. The `includes` or `indexOf` methods can be used to check whether a given value is in the array.
+Bunu yapmanın en kolay yolu, bir örnek özelliğinde grup üyelerinin bir dizisini depolamaktır. `includes` veya `indexOf` metotları, verilen bir değerin dizide olup olmadığını kontrol etmek için kullanılabilir.
 
 {{index "push method"}}
 
-Your class's ((constructor)) can set the member collection to an empty array. When `add` is called, it must check whether the given value is in the array or add it otherwise, possibly using `push`.
+Sınıfınızın ((constructor)) fonksiyonu, üye koleksiyonunu boş bir diziye atayabilir. `add` çağrıldığında, verilen değerin dizide olup olmadığını kontrol etmeli ve `push` gibi bir fonksiyonla eklemelidir.
 
 {{index "filter method"}}
 
-Deleting an element from an array, in `delete`, is less straightforward, but you can use `filter` to create a new array without the value. Don't forget to overwrite the property holding the members with the newly filtered version of the array.
+Diziden bir öğe silmek, `delete` daha karmaşıktır, ancak o değerin içinde bulunmadığı yeni bir dizi oluşturmak için `filter` kullanabilirsiniz. Üyeleri tutan özelliği, dizinin bu yeniden filtrelenmiş versiyonuyla atamayı unutmayın.
 
 {{index "for/of loop", "iterable interface"}}
 
-The `from` method can use a `for`/`of` loop to get the values out of the iterable object and call `add` to put them into a newly created group.
+`from` metodu, yinelenebilir nesneden değerleri almak ve bunları yeni oluşturulan bir gruba `add` metodu aracılığıyla koymak için `for`/`of` döngüsünü kullanabilir.
 
 hint}}
 
-### Iterable groups
+### Yinelenebilir gruplar
 
 {{index "groups (exercise)", [interface, object], "iterator interface", "Group class"}}
 
 {{id group_iterator}}
 
-Make the `Group` class from the previous exercise iterable. Refer  to the section about the iterator interface earlier in the chapter if you aren't clear on the exact form of the interface anymore.
+Önceki alıştırmadan `Group` sınıfını yinelenebilir yapın. Eğer arayüzün tam olarak nasıl olduğundan emin değilseniz, bölümdeki yineleme arayüzünün yapısı hakkındaki bölüme bakın.
 
-If you used an array to represent the group's members, don't just return the iterator created by calling the `Symbol.iterator` method on the array. That would work, but it defeats the purpose of this exercise.
+Grubun üyelerini temsil etmek için bir dizi kullandıysanız, dizideki direk `Symbol.iterator` metodunu çağırarak oluşturulan yineleyiciyi döndürmeyin. Bu çalışır, ancak bu alıştırmanın amacını boşa çıkarır.
 
-It is okay if your iterator behaves strangely when the group is modified during iteration.
+Grubun yinelenme sırasında grubun değiştirilmesi durumunda yineleyicinizin garip davranması sorun değil.
 
 {{if interactive
 
 ```{test: no}
-// Your code here (and the code from the previous exercise)
+// Kodunuz buraya.(önceki egzersizden olan kodunuz da dahil olmak üzere)
 
 for (let value of Group.from(["a", "b", "c"])) {
   console.log(value);
@@ -907,8 +901,8 @@ if}}
 
 {{index "groups (exercise)", "Group class", "next method"}}
 
-It is probably worthwhile to define a new class `GroupIterator`. Iterator instances should have a property that tracks the current position in the group. Every time `next` is called, it checks whether it is done and, if not, moves past the current value and returns it.
+Muhtemelen yeni bir `GroupIterator` sınıfını tanımlamak faydalı olacaktır. `Iterator` örnekleri, grubun mevcut konumunu izleyen bir özelliğe sahip olmalıdır. `next` her çağırıldığında tamamlanıp tamamlanmadığını kontrol eder ve tamamlanmadıysa mevcut değerin ötesine geçip onu döndürür.
 
-The `Group` class itself gets a method named by `Symbol.iterator` that, when called, returns a new instance of the iterator class for that group.
+`Group` sınıfı `Symbol.iterator` tarafından adlandırılan bir ((metod)) alır ve çağrıldığında, o grup için yeni bir `Iterator` sınıfı örneğini döndürür.
 
 hint}}

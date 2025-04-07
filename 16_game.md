@@ -1,10 +1,10 @@
 {{meta {load_files: ["code/chapter/16_game.js", "code/levels.js", "code/_stop_keys.js"], zip: "html include=[\"css/game.css\"]"}}}
 
-# Project: A Platform Game
+# Project: Bir Platform Oyunu
 
-{{quote {author: "Iain Banks", title: "The Player of Games", chapter: true}
+{{quote {author: "Iain Banks", title: "Oyunların Oyuncusu", chapter: true}
 
-All reality is a game.
+Bütün gerçeklik bir oyundur.
 
 quote}}
 
@@ -12,63 +12,63 @@ quote}}
 
 {{figure {url: "img/chapter_picture_16.jpg", alt: "Illustration showing a computer game character jumping over lava in a two dimensional world", chapter: "framed"}}}
 
-Much of my initial fascination with computers, like that of many nerdy kids, had to do with computer ((game))s. I was drawn into the tiny simulated ((world))s that I could manipulate and in which stories (sort of) unfolded—more, I suppose, because of the way I projected my ((imagination)) into them than because of the possibilities they actually offered.
+Bilgisayarlara olan ilk hayranlığımın çoğu, birçok nerd çocuk gibi, bilgisayar ((oyun))larıyla ilgiliydi. Manipüle edebileceğim ve hikayelerin (bir şekilde) ortaya çıktığı minik simüle edilmiş ((dünya))lara çekildim - sanırım, aslında sundukları olasılıklardan çok, ((hayal gücümü)) onlara yansıtma şeklimden dolayı.
 
-I don't wish a ((career)) in game programming on anyone. As with the ((music)) industry, the discrepancy between the number of eager young people wanting to work in it and the actual demand for such people creates a rather unhealthy environment. But writing games for fun is amusing.
+Oyun programlamada kimseye bir ((kariyer)) dilemem. ((Müzik)) endüstrisi gibi, bu alanda çalışmak isteyen istekli gençlerin sayısı ile bu tür insanlara olan gerçek talep arasındaki tutarsızlık oldukça sağlıksız bir ortam yaratır. Ancak eğlence için oyun yazmak eğlencelidir.
 
 {{index "jump-and-run game", dimensions}}
 
-This chapter will walk through the implementation of a small ((platform game)). Platform games (or "jump and run" games) are games that expect the ((player)) to move a figure through a ((world)), which is usually two-dimensional and viewed from the side, while jumping over and onto things.
+Bu bölüm küçük bir ((platform oyunu)) uygulamasını ele alacaktır. Platform oyunları (veya "zıpla ve koş" oyunları), ((oyuncunun)) genellikle iki boyutlu ve yandan görülen bir ((dünya)) içinde bir figürü hareket ettirmesini ve bu sırada şeylerin üzerinden ve üstüne atlamasını bekleyen oyunlardır.
 
-## The game
+## Oyun
 
 {{index minimalism, "Palef, Thomas", "Dark Blue (game)"}}
 
-Our ((game)) will be roughly based on [Dark Blue](http://www.lessmilk.com/games/10)[ (_www.lessmilk.com/games/10_)]{if book} by Thomas Palef. I chose that game because it is both entertaining and minimalist and because it can be built without too much ((code)). It looks like this:
+((Oyunumuz)) kabaca Thomas Palef'in [Dark Blue](http://www.lessmilk.com/games/10)[ (_www.lessmilk.com/games/10_)]{if book} adlı kitabına dayanacak. Bu oyunu seçtim çünkü hem eğlenceli hem de minimalist ve çok fazla ((kod)) olmadan inşa edilebilir. Şuna benziyor:
 
-{{figure {url: "img/darkblue.png", alt: "Screenshot of the 'Dark Blue' game, showing a world made out of colored boxes. There's a black box representing the player, standing on lines of white against a blue background. Small yellow coins float in the air, and some parts of the background are red, representing lava."}}}
+{{figure {url: "img/darkblue.png", alt: "Renkli kutulardan oluşan bir dünyayı gösteren 'Dark Blue' oyununun ekran görüntüsü. Mavi bir arka plan üzerinde beyaz çizgiler üzerinde duran oyuncuyu temsil eden siyah bir kutu var. Küçük sarı paralar havada süzülüyor ve arka planın bazı kısımları lavı temsil eden kırmızı renkte."}}}
 
 {{index coin, lava}}
 
-The dark ((box)) represents the ((player)), whose task is to collect the yellow boxes (coins) while avoiding the red stuff (lava). A ((level)) is completed when all coins have been collected.
+Koyu ((kutu)), görevi kırmızı şeylerden (lav) kaçınırken sarı kutuları (madeni paralar) toplamak olan ((oyuncu)) temsil eder. Tüm paralar toplandığında bir ((seviye)) tamamlanır.
 
 {{index keyboard, jumping}}
 
-The player can walk around with the left and right arrow keys and can jump with the up arrow. Jumping is this game character's specialty. It can reach several times its own height and can change direction in midair. This may not be entirely realistic, but it helps give the player the feeling of being in direct control of the on-screen ((avatar)).
+Oyuncu sol ve sağ ok tuşları ile etrafta dolaşabilir ve yukarı ok ile zıplayabilir. Zıplamak bu oyun karakterinin bir özelliğidir. Kendi yüksekliğinin birkaç katına ulaşabilir ve havada yön değiştirebilir. Bu tamamen gerçekçi olmayabilir, ancak oyuncuya ekrandaki ((avatar)) üzerinde doğrudan kontrol sahibi olduğu hissini vermeye yardımcı olur.
 
 {{index "fractional number", discretization, "artificial life", "electronic life"}}
 
-The ((game)) consists of a static ((background)), laid out like a ((grid)), with the moving elements overlaid on that background. Each field on the grid is either empty, solid, or ((lava)). The moving elements are the player, coins, and certain pieces of lava. The positions of these elements are not constrained to the grid—their coordinates may be fractional, allowing smooth ((motion)).
+((Oyun)), bir ((ızgara)) gibi yerleştirilmiş statik bir ((arka plan)) ve bu arka planın üzerine yerleştirilmiş hareketli öğelerden oluşur. Izgaradaki her alan boş, katı veya ((lav)) şeklindedir. Hareketli öğeler oyuncu, madeni paralar ve belirli lav parçalarıdır. Bu öğelerin konumları ızgarayla kısıtlı değildir - koordinatları kesirli olabilir ve yumuşak ((hareket)) sağlar.
 
-## The technology
+## Teknoloji
 
 {{index "event handling", keyboard, [DOM, graphics]}}
 
-We will use the ((browser)) DOM to display the game, and we'll read user input by handling key events.
+((Tarayıcı)) kullanacağız oyunu görüntülemek için DOM'u kullanacağız ve tuş olaylarını işleyerek kullanıcı girdisini okuyacağız.
 
 {{index rectangle, "background (CSS)", "position (CSS)", graphics}}
 
-The screen- and keyboard-related code is only a small part of the work we need to do to build this ((game)). Since everything looks like colored ((box))es, drawing is uncomplicated: we create DOM elements and use styling to give them a background color, size, and position.
+Ekran ve klavyeyle ilgili kod, bu ((oyunu)) oluşturmak için yapmamız gereken işin yalnızca küçük bir kısmıdır. Her şey renkli ((kutu))'lar gibi göründüğünden, çizim karmaşık değildir: DOM öğeleri oluştururuz ve onlara bir arka plan rengi, boyutu ve konumu vermek için stil kullanırız
 
 {{index "table (HTML tag)"}}
 
-We can represent the background as a table, since it is an unchanging ((grid)) of squares. The free-moving elements can be overlaid using absolutely positioned elements.
+Karelerden oluşan değişmeyen bir ((ızgara)) olduğu için arka planı bir tablo olarak temsil edebiliriz. Serbest hareket eden öğeler, kesinlikle konumlandırılmış öğeler kullanılarak üst üste bindirilebilir.
 
 {{index performance, [DOM, graphics]}}
 
-In games and other programs that should animate ((graphics)) and respond to user ((input)) without noticeable delay, ((efficiency)) is important. Although the DOM was not originally designed for high-performance graphics, it is actually better at this than you would expect. You saw some ((animation))s in [Chapter ?](dom#animation). On a modern machine, a simple game like this performs well, even if we don't worry about ((optimization)) very much.
+Oyunlarda ve ((grafikleri)) canlandırması ve kullanıcı ((girdisine)) fark edilir bir gecikme olmadan yanıt vermesi gereken diğer programlarda ((verimlilik)) önemlidir. DOM başlangıçta yüksek performanslı grafikler için tasarlanmamış olsa da, aslında bu konuda beklediğinizden daha iyidir. [Bölüm ?](dom#animation) içinde bazı ((animasyon))'lar gördünüz. Modern bir makinede, ((optimizasyon)) hakkında çok fazla endişelenmesek bile, bunun gibi basit bir oyun iyi performans gösterir.
 
 {{index canvas, [DOM, graphics]}}
 
-In the [next chapter](canvas), we will explore another ((browser)) technology, the `<canvas>` tag, which provides a more traditional way to draw graphics, working in terms of shapes and ((pixel))s rather than DOM elements.
+[Bir sonraki bölümde](canvas), DOM öğeleri yerine şekiller ve ((piksel)) açısından çalışarak grafik çizmek için daha geleneksel bir yol sağlayan başka bir ((tarayıcı)) teknolojisi olan `<canvas>` etiketini keşfedeceğiz.
 
-## Levels
+## Seviyeler
 
 {{index dimensions}}
 
-We'll want a human-readable, human-editable way to specify levels. Since it is okay for everything to start out on a grid, we could use big strings in which each character represents an element—either a part of the background grid or a moving element.
+Seviyeleri belirtmek için insan tarafından okunabilir, insan tarafından düzenlenebilir bir yol isteyeceğiz. Her şeyin bir ızgara üzerinde başlaması uygun olduğundan, her karakterin bir öğeyi temsil ettiği büyük dizeler kullanabiliriz - ya arka plan ızgarasının bir parçası ya da hareketli bir öğe.
 
-The plan for a small level might look like this:
+Küçük bir seviye için plan şöyle görünebilir:
 
 ```{includeCode: true}
 let simpleLevelPlan = `
@@ -85,13 +85,13 @@ let simpleLevelPlan = `
 
 {{index level}}
 
-Periods are empty space, hash (`#`) characters are walls, and plus signs are lava. The ((player))'s starting position is the ((at sign)) (`@`). Every O character is a coin, and the equal sign (`=`) at the top is a block of lava that moves back and forth horizontally.
+Noktalar boş alan, hash (`#`) karakterleri duvar ve artı işaretleri lavdır. ((oyuncu))'nun başlangıç pozisyonu ((at işareti)) (`@`)'dir. Her O karakteri bir madeni paradır ve en üstteki eşittir işareti (`=`) yatay olarak ileri geri hareket eden bir lav bloğudur.
 
 {{index bouncing}}
 
-We'll support two additional kinds of moving ((lava)): the pipe character (`|`) creates vertically moving blobs, and `v` indicates _dripping_ lava—vertically moving lava that doesn't bounce back and forth but only moves down, jumping back to its start position when it hits the floor.
+İki ek hareketli ((lav)) türünü destekleyeceğiz: boru karakteri (`|`) dikey olarak hareket eden lekeler oluşturur ve `v` _damlayan_ lavı gösterir - ileri geri zıplamayan, sadece aşağı doğru hareket eden ve yere çarptığında başlangıç konumuna geri sıçrayan dikey olarak hareket eden lav.
 
-A whole ((game)) consists of multiple ((level))s that the ((player)) must complete. A level is completed when all ((coin))s have been collected. If the player touches ((lava)), the current level is restored to its starting position, and the player may try again.
+Bütün bir ((oyun)), ((oyuncu))'nun tamamlaması gereken birden fazla ((seviye))'den oluşur. Tüm ((jeton))lar toplandığında bir seviye tamamlanmış olur. Oyuncu ((lav))'a dokunursa, mevcut seviye başlangıç konumuna geri yüklenir ve oyuncu tekrar deneyebilir.
 
 {{id level}}
 
@@ -99,7 +99,7 @@ A whole ((game)) consists of multiple ((level))s that the ((player)) must comple
 
 {{index "Level class"}}
 
-The following ((class)) stores a ((level)) object. Its argument should be the string that defines the level.
+Aşağıdaki ((class)) bir ((level)) nesnesini saklar. Argümanı, seviyeyi tanımlayan dize olmalıdır.
 
 ```{includeCode: true}
 class Level {
@@ -126,27 +126,27 @@ class Level {
 
 {{index "trim method", "split method", [whitespace, trimming]}}
 
-The `trim` method is used to remove whitespace at the start and end of the plan string. This allows our example plan to start with a newline so that all lines are directly below each other. The remaining string is split on ((newline character))s, and each line is spread into an array, producing arrays of characters.
+Plan dizesinin başındaki ve sonundaki boşlukları kaldırmak için `trim` yöntemi kullanılır. Bu, örnek planımızın bir yeni satırla başlamasını sağlar, böylece tüm satırlar doğrudan birbirinin altında olur. Kalan dize ((yeni satır karakteri))lere bölünür ve her satır bir diziye yayılarak karakter dizileri üretilir.
 
 {{index [array, "as matrix"]}}
 
-So `rows` holds an array of arrays of characters, the rows of the plan. We can derive the level's width and height from these. But we must still separate the moving elements from the background grid. We'll call moving elements _actors_. They'll be stored in an array of objects. The background will be an array of arrays of strings, holding field types such as `"empty"`, `"wall"`, or `"lava"`.
+Yani `rows` karakter dizilerinden oluşan bir diziyi, planın satırlarını tutar. Seviyenin genişliğini ve yüksekliğini bunlardan türetebiliriz. Ancak yine de hareketli öğeleri arka plan ızgarasından ayırmalıyız. Hareketli öğelere _aktörler_ diyeceğiz. Bunlar bir dizi nesne içinde saklanacaktır. Arka plan, `"empty"`, `"wall"` veya `"lava"` gibi alan türlerini tutan dizelerden oluşan bir dizi olacaktır.
 
 {{index "map method"}}
 
-To create these arrays, we map over the rows and then over their content. Remember that `map` passes the array index as a second argument to the mapping function, which tells us the x- and y-coordinates of a given character. Positions in the game will be stored as pairs of coordinates, with the upper left being 0,0 and each background square being 1 unit high and wide.
+Bu dizileri oluşturmak için, satırları ve ardından içeriklerini eşleriz. Unutmayın ki `map` dizinin indeksini eşleme fonksiyonuna ikinci bir argüman olarak aktarır, bu da bize belirli bir karakterin x ve y koordinatlarını söyler. Oyundaki konumlar, sol üst 0,0 ve her arka plan karesi 1 birim yüksekliğinde ve genişliğinde olacak şekilde koordinat çiftleri olarak saklanacaktır.
 
 {{index "static method"}}
 
-To interpret the characters in the plan, the `Level` constructor uses the `levelChars` object, which, for each character used in the level descriptions, holds a string if it is a background type, and a class if it produces an actor. When `type` is an actor class, its static `create` method is used to create an object, which is added to `startActors`, and the mapping function returns `"empty"` for this background square.
+Plandaki karakterleri yorumlamak için, `Level` kurucusu, seviye açıklamalarında kullanılan her karakter için, bir arka plan türüyse bir dize ve bir aktör üretiyorsa bir sınıf tutan `levelChars` nesnesini kullanır. `type` bir aktör sınıfı olduğunda, `startActors` öğesine eklenen bir nesne oluşturmak için statik `create` yöntemi kullanılır ve eşleme işlevi bu arka plan karesi için `"empty"` döndürür.
 
 {{index "Vec class"}}
 
-The position of the actor is stored as a `Vec` object. This is a two-dimensional vector, an object with `x` and `y` properties, as seen in the exercises of [Chapter ?](object#exercise_vector).
+Aktörün konumu bir `Vec` nesnesi olarak saklanır. Bu iki boyutlu bir vektördür, [bölüm ?](object#exercise_vector) içindeki alıştırmalarında görüldüğü gibi `x` ve `y` özelliklerine sahip bir nesnedir.
 
 {{index [state, in objects]}}
 
-As the game runs, actors will end up in different places or even disappear entirely (as coins do when collected). We'll use a `State` class to track the state of a running game.
+Oyun çalıştıkça, aktörler farklı yerlere gidecek veya hatta tamamen kaybolacaktır (madeni paraların toplandığında yaptığı gibi). Çalışan bir oyunun durumunu izlemek için bir `State` sınıfı kullanacağız.
 
 ```{includeCode: true}
 class State {
@@ -166,25 +166,25 @@ class State {
 }
 ```
 
-The `status` property will switch to `"lost"` or `"won"` when the game has ended.
+Oyun sona erdiğinde `status` özelliği `"lost"` veya `"won"` olarak değişecektir.
 
-This is again a persistent data structure—updating the game state creates a new state and leaves the old one intact.
+Bu yine kalıcı bir veri yapısıdır-oyun durumunu güncellemek yeni bir durum oluşturur ve eskisini olduğu gibi bırakır.
 
-## Actors
+## Aktörler
 
 {{index actor, "Vec class", [interface, object]}}
 
-Actor objects represent the current position and state of a given moving element (player, coin, or mobile lava) in our game. All actor objects conform to the same interface. They have `size` and `pos` properties holding the size and the coordinates of the upper-left corner of the rectangle representing this actor, and an `update` method.
+Aktör nesneleri, oyunumuzdaki belirli bir hareketli öğenin mevcut konumunu ve durumunu temsil eder. Tüm aktör nesneleri aynı arayüze uygundur. Onların `pos` özelliği elemanın sol üst köşesinin koordinatlarını tutar ve `size` özelliği de boyutunu tutar.
 
-This `update` method is used to compute their new state and position after a given time step. It simulates the thing the actor does—moving in response to the arrow keys for the player and bouncing back and forth for the lava—and returns a new, updated actor object.
+Daha sonra, belirli bir zaman adımından sonra yeni durumlarını ve konumlarını hesaplamak için kullanılan bir `update` yöntemine sahiptirler. Aktörün yaptığı şeyi simüle eder -oyuncu için ok tuşlarına yanıt olarak hareket eder ve lav için ileri geri zıplar- ve yeni, güncellenmiş bir aktör nesnesi döndürür.
 
-A `type` property contains a string that identifies the type of the actor—`"player"`, `"coin"`, or `"lava"`. This is useful when drawing the game—the look of the rectangle drawn for an actor is based on its type.
+Bir `type` özelliği, aktörün türünü tanımlayan bir dize içerir - `"player"`, `"coin"` veya `"lava"`. Bu, oyunu çizerken kullanışlıdır; bir aktör için çizilen dikdörtgenin görünümü aktörün türüne bağlıdır.
 
-Actor classes have a static `create` method that is used by the `Level` constructor to create an actor from a character in the level plan. It is given the coordinates of the character and the character itself, which is necessary because the `Lava` class handles several different characters.
+Aktör sınıfları, seviye planındaki bir karakterden bir aktör oluşturmak için `Level` kurucusu tarafından kullanılan statik bir `create` yöntemine sahiptir. Karakterin koordinatları ve karakterin kendisi verilir; `Lava` sınıfı birkaç farklı karakteri işlediği için bu gereklidir.
 
 {{id vector}}
 
-This is the `Vec` class that we'll use for our two-dimensional values, such as the position and size of actors.
+Bu, aktörlerin konumu ve boyutu gibi iki boyutlu değerlerimiz için kullanacağımız `Vec` sınıfıdır.
 
 ```{includeCode: true}
 class Vec {
@@ -202,13 +202,13 @@ class Vec {
 
 {{index "times method", multiplication}}
 
-The `times` method scales a vector by a given number. It will be useful when we need to multiply a speed vector by a time interval to get the distance traveled during that time.
+`times` yöntemi bir vektörü belirli bir sayı ile ölçeklendirir. Bir hız vektörünü bir zaman aralığıyla çarparak o süre içinde kat edilen mesafeyi elde etmemiz gerektiğinde faydalı olacaktır.
 
-The different types of actors get their own classes, since their behavior is very different. Let's define these classes. We'll get to their `update` methods later.
+Farklı aktör türleri, davranışları çok farklı olduğu için kendi sınıflarına sahip olurlar. Şimdi bu sınıfları tanımlayalım. Onların `update` yöntemlerine daha sonra değineceğiz.
 
 {{index simulation, "Player class"}}
 
-The player class has a `speed` property that stores its current speed to simulate momentum and gravity.
+Oyuncu sınıfı, momentum ve yerçekimini simüle etmek için mevcut hızını depolayan bir `speed` özelliğine sahiptir.
 
 ```{includeCode: true}
 class Player {
@@ -228,15 +228,15 @@ class Player {
 Player.prototype.size = new Vec(0.8, 1.5);
 ```
 
-Because a player is one-and-a-half squares high, its initial position is set to be half a square above the position where the `@` character appeared. This way, its bottom aligns with the bottom of the square where it appeared.
+Bir oyuncu bir buçuk kare yüksekliğinde olduğu için, ilk konumu `@` karakterinin göründüğü konumdan yarım kare yukarıda olacak şekilde ayarlanır. Bu şekilde, alt kısmı göründüğü karenin alt kısmıyla hizalanır.
 
-The `size` property is the same for all instances of `Player`, so we store it on the prototype rather than on the instances themselves. We could have used a ((getter)) like `type`, but that would create and return a new `Vec` object every time the property is read, which would be wasteful. (Strings, being ((immutable)), don't have to be re-created every time they are evaluated.)
+Boyut özelliği tüm `Player` örnekleri için aynıdır, bu nedenle bunu örneklerin kendileri yerine prototipte saklarız. `type` gibi bir ((getter)) kullanabilirdik, ancak bu, özellik her okunduğunda yeni bir `Vec` nesnesi oluşturacak ve döndürecektir, bu da israf olacaktır. (Dizeler, ((değişmez)) olduklarından, her değerlendirildiklerinde yeniden oluşturulmaları gerekmez).
 
 {{index "Lava class", bouncing}}
 
-When constructing a `Lava` actor, we need to initialize the object differently depending on the character it is based on. Dynamic lava moves along at its current speed until it hits an obstacle. At that point, if it has a `reset` property, it will jump back to its start position (dripping). If it does not, it will invert its speed and continue in the other direction (bouncing).
+Bir `Lava` aktörü oluştururken, nesneyi dayandığı karaktere bağlı olarak farklı şekilde başlatmamız gerekir. Dinamik lav, bir engele çarpana kadar mevcut hızında ilerler. Bu noktada, eğer `reset` özelliğine sahipse, başlangıç konumuna (damlayarak) geri atlayacaktır. Eğer yoksa, hızını tersine çevirir ve diğer yönde devam eder (zıplama).
 
-The `create` method looks at the character that the `Level` constructor passes and creates the appropriate lava actor.
+`create` yöntemi `Level` kurucusunun aktardığı karaktere bakar ve uygun lav aktörünü oluşturur.
 
 ```{includeCode: true}
 class Lava {
@@ -264,7 +264,7 @@ Lava.prototype.size = new Vec(1, 1);
 
 {{index "Coin class", animation}}
 
-`Coin` actors are relatively simple. They mostly just sit in their place. But to liven up the game a little, they are given a "wobble", a slight vertical back-and-forth motion. To track this, a coin object stores a base position as well as a `wobble` property that tracks the ((phase)) of the bouncing motion. Together, these determine the coin's actual position (stored in the `pos` property).
+`coin` aktörleri nispeten basittir. Çoğunlukla sadece yerlerinde otururlar. Ancak oyunu biraz canlandırmak için, onlara hafif bir dikey ileri geri hareket olan bir "yalpalama" verilir. Bunu izlemek için, bir madeni para nesnesi bir temel konumun yanı sıra zıplama hareketinin ((fazını)) izleyen bir `wobble` özelliği saklar. Bunlar birlikte madeni paranın gerçek konumunu belirler (`pos` özelliğinde saklanır).
 
 ```{includeCode: true}
 class Coin {
@@ -288,15 +288,15 @@ Coin.prototype.size = new Vec(0.6, 0.6);
 
 {{index "Math.random function", "random number", "Math.sin function", sine, wave}}
 
-In [Chapter ?](dom#sin_cos), we saw that `Math.sin` gives us the y-coordinate of a point on a circle. That coordinate goes back and forth in a smooth waveform as we move along the circle, which makes the sine function useful for modeling a wavy motion.
+[Bölüm ?](dom#sin_cos) içinde, `Math.sin`'in bize daire üzerindeki bir noktanın y-koordinatını verdiğini gördük. Bu koordinat, daire boyunca hareket ettikçe düzgün bir dalga formunda ileri geri gider, bu da sinüs fonksiyonunu dalgalı bir hareketi modellemek için kullanışlı hale getirir.
 
 {{index pi}}
 
-To avoid a situation where all coins move up and down synchronously, the starting phase of each coin is randomized. The period of `Math.sin`'s wave, the width of a wave it produces, is 2π. We multiply the value returned by `Math.random` by that number to give the coin a random starting position on the wave.
+Tüm madeni paraların eşzamanlı olarak yukarı ve aşağı hareket ettiği bir durumdan kaçınmak için, her madeni paranın başlangıç aşaması rastgele belirlenir. `Math.sin` dalgasının periyodu, yani ürettiği dalganın genişliği 2π'dir. Madeni paraya dalga üzerinde rastgele bir başlangıç konumu vermek için `Math.random` tarafından döndürülen değeri bu sayı ile çarpıyoruz.
 
 {{index map, [object, "as map"]}}
 
-We can now define the `levelChars` object that maps plan characters to either background grid types or actor classes.
+Artık plan karakterlerini arka plan ızgara türlerine veya aktör sınıflarına eşleyen `levelChars` nesnesini tanımlayabiliriz.
 
 ```{includeCode: true}
 const levelChars = {
@@ -306,7 +306,7 @@ const levelChars = {
 };
 ```
 
-That gives us all the parts needed to create a `Level` instance.
+Bu bize bir `Level` örneği oluşturmak için gereken tüm parçaları verir.
 
 ```{includeCode: strip_log}
 let simpleLevel = new Level(simpleLevelPlan);
@@ -314,25 +314,39 @@ console.log(`${simpleLevel.width} by ${simpleLevel.height}`);
 // → 22 by 9
 ```
 
-The task ahead is to display such levels on the screen and to model time and motion inside them.
+Önümüzdeki görev, bu seviyeleri ekranda görüntülemek ve içlerindeki zaman ve hareketi modellemektir.
+
+## Bir yük olarak kapsülleme
+
+{{index "programming style", "program size", complexity}}
+
+Bu bölümdeki kodların çoğu iki nedenden dolayı ((kapsülleme)) hakkında çok fazla endişelenmez. Birincisi, kapsülleme fazladan çaba gerektirir. Programları büyütür ve ek kavram ve arayüzlerin tanıtılmasını gerektirir. Bir okuyucunun gözleri kamaşmadan önce ona ancak bu kadar çok kod atabileceğiniz için, programı küçük tutmaya gayret ettim.
+
+{{index [interface, design]}}
+
+İkincisi, bu oyundaki çeşitli unsurlar birbirine o kadar sıkı bağlıdır ki, bunlardan birinin davranışı değişirse, diğerlerinin aynı kalması pek olası değildir. Unsurlar arasındaki arayüzler, oyunun çalışma şekli hakkında pek çok varsayımı kodlar hale gelecektir. Bu da onları çok daha az etkili hale getirir - sistemin bir parçasını değiştirdiğinizde, bunun diğer parçaları nasıl etkileyeceği konusunda endişelenmeniz gerekir çünkü arayüzleri yeni durumu kapsamayacaktır.
+
+Bir sistemdeki bazı _((kesme noktası))lar_ kendilerini titiz arayüzler yoluyla ayırmaya iyi bir şekilde borçludur, ancak diğerleri değildir. Uygun bir sınır olmayan bir şeyi kapsüllemeye çalışmak, çok fazla enerji harcamanın kesin bir yoludur. Bu hatayı yaptığınızda, genellikle arayüzlerinizin garip bir şekilde büyük ve ayrıntılı hale geldiğini ve program geliştikçe sık sık değiştirilmeleri gerektiğini fark edeceksiniz.
+
+{{index graphics, encapsulation, graphics}}
+
+Kapsülleyeceğimiz tek bir şey var, o da ((çizim)) alt sistemi. Bunun nedeni, aynı oyunu [bir sonraki bölümde](canvas#canvasdisplay) farklı bir şekilde ((görüntüleyeceğiz)). Çizimi bir arayüzün arkasına koyarak, aynı oyun programını oraya yükleyebilir ve yeni bir ekran ((modülü)) takabiliriz.
 
 {{id domdisplay}}
 
-## Drawing
+## Çizmek
 
 {{index graphics, encapsulation, "DOMDisplay class", [DOM, graphics]}}
 
-In the [next chapter](canvas#canvasdisplay), we'll ((display)) the same game in a different way. To make that possible, we put the drawing logic behind an interface and pass it to the game as an argument. That way, we can use the same game program with different new display ((module))s.
-
-A game display object draws a given ((level)) and state. We pass its constructor to the game to allow it to be replaced. The display class we define in this chapter is called `DOMDisplay` because it uses DOM elements to show the level.
+((Çizim)) kodunun kapsüllenmesi, belirli bir ((seviye)) ve durumu gösteren bir _((display))_ nesnesi tanımlanarak yapılır. Bu bölümde tanımladığımız görüntüleme türüne `DOMDisplay` adı verilir çünkü seviyeyi göstermek için DOM öğelerini kullanır.
 
 {{index "style attribute", CSS}}
 
-We'll be using a style sheet to set the actual colors and other fixed properties of the elements that make up the game. It would also be possible to directly assign to the elements' `style` property when we create them, but that would produce more verbose programs.
+Oyunu oluşturan öğelerin gerçek renklerini ve diğer sabit özelliklerini ayarlamak için bir stil sayfası kullanacağız. Öğeleri oluştururken doğrudan `style` özelliğine atama yapmak da mümkün olabilir, ancak bu daha ayrıntılı programlar üretecektir.
 
 {{index "class attribute"}}
 
-The following helper function provides a succinct way to create an element and give it some attributes and child nodes:
+Aşağıdaki yardımcı fonksiyon, bir eleman oluşturmak ve ona bazı nitelikler ve alt düğümler vermek için kısa ve öz bir yol sağlar:
 
 ```{includeCode: true}
 function elt(name, attrs, ...children) {
@@ -347,7 +361,7 @@ function elt(name, attrs, ...children) {
 }
 ```
 
-A display is created by giving it a parent element to which it should append itself and a ((level)) object.
+Bir ekran, kendisini eklemesi gereken bir üst öğe ve bir ((level)) nesnesi verilerek oluşturulur.
 
 ```{includeCode: true}
 class DOMDisplay {
@@ -363,11 +377,11 @@ class DOMDisplay {
 
 {{index level}}
 
-The level's ((background)) grid, which never changes, is drawn once. Actors are redrawn every time the display is updated with a given state. The `actorLayer` property will be used to track the element that holds the actors so that they can be easily removed and replaced.
+Seviyenin hiç değişmeyen ((arka plan)) ızgarası bir kez çizilir. Aktörler, ekran belirli bir durumla her güncellendiğinde yeniden çizilir. Aktörleri tutan öğeyi izlemek için `actorLayer` özelliği kullanılır, böylece kolayca kaldırılabilir ve değiştirilebilirler.
 
 {{index scaling, "DOMDisplay class"}}
 
-Our ((coordinates)) and sizes are tracked in ((grid)) units, where a size or distance of 1 means one grid block. When setting ((pixel)) sizes, we will have to scale these coordinates up—everything in the game would be ridiculously small at a single pixel per square. The `scale` constant gives the number of pixels that a single unit takes up on the screen.
+((Koordinatlarımız)) ve boyutlarımız ((ızgara)) birimlerinde izlenir; burada 1'lik bir boyut veya mesafe bir ızgara bloğu anlamına gelir. ((piksel)) boyutlarını ayarlarken, bu koordinatları ölçeklendirmemiz gerekecektir-oyundaki her şey kare başına tek bir pikselde gülünç derecede küçük olacaktır. `scale` sabiti, tek bir birimin ekranda kapladığı piksel sayısını verir.
 
 ```{includeCode: true}
 const scale = 20;
@@ -385,11 +399,11 @@ function drawGrid(level) {
 
 {{index "table (HTML tag)", "tr (HTML tag)", "td (HTML tag)", "spread operator"}}
 
-The `<table>` element's form nicely corresponds to the structure of the `rows` property of the level—each row of the grid is turned into a table row (`<tr>` element). The strings in the grid are used as class names for the table cell (`<td>`) elements. The code uses the spread (triple dot) operator to pass arrays of child nodes to `elt` as separate arguments.
+Belirtildiği gibi, arka plan bir `<table>` öğesi olarak çizilir. Bu, seviyenin `rows` özelliğinin yapısına güzel bir şekilde karşılık gelir - ızgaranın her satırı bir tablo satırına (`<tr>` elemanı) dönüştürülür. Izgaradaki dizeler, tablo hücresi (`<td>`) elemanları için sınıf adları olarak kullanılır. Yayma (üçlü nokta) operatörü, çocuk düğüm dizilerini `elt` öğesine ayrı argümanlar olarak iletmek için kullanılır.
 
 {{id game_css}}
 
-The following ((CSS)) makes the table look like the background we want:
+Aşağıdaki ((CSS)) tablonun istediğimiz arka plan gibi görünmesini sağlar:
 
 ```{lang: "css"}
 .background    { background: rgb(52, 166, 251);
@@ -402,15 +416,15 @@ The following ((CSS)) makes the table look like the background we want:
 
 {{index "padding (CSS)"}}
 
-Some of these (`table-layout`, `border-spacing`, and `padding`) are used to suppress unwanted default behavior. We don't want the layout of the ((table)) to depend upon the contents of its cells, and we don't want space between the ((table)) cells or padding inside them.
+Bunlardan bazıları (`table-layout`, `border-spacing` ve `padding`) istenmeyen varsayılan davranışı bastırmak için kullanılır. ((table))'ın düzeninin hücrelerinin içeriğine bağlı olmasını istemiyoruz ve ((table)) hücreleri arasında boşluk veya içlerinde dolgu istemiyoruz.
 
 {{index "background (CSS)", "rgb (CSS)", CSS}}
 
-The `background` rule sets the background color. CSS allows colors to be specified both as words (`white`) or with a format such as `rgb(R, G, B)`, where the red, green, and blue components of the color are separated into three numbers from 0 to 255. In `rgb(52, 166, 251)`, the red component is 52, green is 166, and blue is 251. Since the blue component is the largest, the resulting color will be bluish. In the `.lava` rule, the first number (red) is the largest.
+`background` kuralı arka plan rengini belirler. CSS, renklerin hem sözcük olarak (`white`) hem de rengin kırmızı, yeşil ve mavi bileşenlerinin 0 ile 255 arasında üç sayıya ayrıldığı `rgb(R, G, B)` gibi bir formatla belirtilmesine izin verir. Yani, `rgb(52, 166, 251)`de kırmızı bileşen 52, yeşil 166 ve mavi 251'dir. Mavi bileşen en büyük olduğundan, ortaya çıkan renk mavimsi olacaktır. `.lava` kuralında ilk sayının (kırmızı) en büyük olduğunu görebilirsiniz.
 
 {{index [DOM, graphics]}}
 
-We draw each ((actor)) by creating a DOM element for it and setting that element's position and size based on the actor's properties. The values must be multiplied by `scale` to go from game units to pixels.
+Her ((aktör)) için bir DOM öğesi oluşturarak ve bu öğenin konumunu ve boyutunu aktörün özelliklerine göre ayarlayarak çiziyoruz. Oyun birimlerinden piksellere geçmek için değerlerin `scale` ile çarpılması gerekir.
 
 ```{includeCode: true}
 function drawActors(actors) {
@@ -427,7 +441,7 @@ function drawActors(actors) {
 
 {{index "position (CSS)", "class attribute"}}
 
-To give an element more than one class, we separate the class names by spaces. In the following ((CSS)) code, the `actor` class gives the actors their absolute position. Their type name is used as an extra class to give them a color. We don't have to define the `lava` class again because we're reusing the class for the lava grid squares we defined earlier.
+Bir öğeye birden fazla sınıf vermek için, sınıf adlarını boşluklarla ayırırız. Yanda gösterilen ((CSS)) kodunda, `actor` sınıfı aktörlere mutlak konumlarını verir. Tür adları, onlara bir renk vermek için ekstra bir sınıf olarak kullanılır. Daha önce tanımladığımız lav ızgarası kareleri için bu sınıfı yeniden kullandığımızdan `lava` sınıfını yeniden tanımlamamız gerekmiyor.
 
 ```{lang: "css"}
 .actor  { position: absolute;            }
@@ -437,7 +451,7 @@ To give an element more than one class, we separate the class names by spaces. I
 
 {{index graphics, optimization, efficiency, [state, "of application"], [DOM, graphics]}}
 
-The `syncState` method is used to make the display show a given state. It first removes the old actor graphics, if any, and then redraws the actors in their new positions. It may be tempting to try to reuse the DOM elements for actors, but to make that work, we would need a lot of additional bookkeeping to associate actors with DOM elements and to make sure we remove elements when their actors vanish. Since there will typically be only a handful of actors in the game, redrawing all of them is not expensive.
+Ekranın belirli bir durumu göstermesini sağlamak için `syncState` yöntemi kullanılır. Önce varsa eski aktör grafiklerini kaldırır ve ardından aktörleri yeni konumlarında yeniden çizer. Aktörler için DOM öğelerini yeniden kullanmayı denemek cazip gelebilir, ancak bunun işe yaraması için, aktörleri DOM öğeleriyle ilişkilendirmek ve aktörleri kaybolduğunda öğeleri kaldırdığımızdan emin olmak için çok fazla ek defter tutmamız gerekir. Oyunda genellikle sadece bir avuç aktör olacağından, hepsini yeniden çizmek pahalı değildir.
 
 ```{includeCode: true}
 DOMDisplay.prototype.syncState = function(state) {
@@ -451,7 +465,7 @@ DOMDisplay.prototype.syncState = function(state) {
 
 {{index level, "class attribute"}}
 
-By adding the level's current status as a class name to the wrapper, we can style the player actor slightly differently when the game is won or lost by adding a ((CSS)) rule that takes effect only when the player has an ((ancestor element)) with a given class.
+Seviyenin mevcut durumunu sarmalayıcıya bir sınıf adı olarak ekleyerek, yalnızca oyuncunun belirli bir sınıfa sahip bir ((ata öğesi)) olduğunda etkili olan bir ((CSS)) kuralı ekleyerek oyun kazanıldığında veya kaybedildiğinde oyuncu aktörünü biraz farklı şekillendirebiliriz.
 
 ```{lang: "css"}
 .lost .player {
@@ -464,13 +478,13 @@ By adding the level's current status as a class name to the wrapper, we can styl
 
 {{index player, "box shadow (CSS)"}}
 
-After touching ((lava)), the player turns dark red, suggesting scorching. When the last coin has been collected, we add two blurred white shadows—one to the upper left and one to the upper right—to create a white halo effect.
+((Lav))'a dokunduktan sonra oyuncunun rengi koyu kırmızıya dönerek kavrulduğunu gösteriyor. Son para toplandığında, beyaz bir hale efekti oluşturmak için biri sol üstte diğeri sağ üstte olmak üzere iki bulanık beyaz gölge ekliyoruz.
 
 {{id viewport}}
 
 {{index "position (CSS)", "max-width (CSS)", "overflow (CSS)", "max-height (CSS)", viewport, scrolling, [DOM, graphics]}}
 
-We can't assume that the level always fits in the _viewport_, the element into which we draw the game. That is why we need the `scrollPlayerIntoView` call: it ensures that if the level is protruding outside the viewport, we scroll that viewport to make sure the player is near its center. The following ((CSS)) gives the game's wrapping DOM element a maximum size and ensures that anything that sticks out of the element's box is not visible. We also give it a relative position so that the actors inside it are positioned relative to the level's upper-left corner.
+Seviyenin her zaman _viewport_-oyunu içine çizdiğimiz öğeye sığdığını varsayamayız. Bu yüzden `scrollPlayerIntoView` çağrısına ihtiyaç vardır. Eğer seviye görüntü alanının dışına taşıyorsa, oyuncunun görüntü alanının merkezine yakın olduğundan emin olmak için görüntü alanını kaydırmamızı sağlar. Aşağıdaki ((CSS)), oyunun saran DOM öğesine maksimum bir boyut verir ve öğenin kutusunun dışına çıkan herhangi bir şeyin görünmemesini sağlar. Ayrıca, içindeki oyuncuların seviyenin sol üst köşesine göre konumlandırılması için ona göreli bir konum veriyoruz.
 
 ```{lang: css}
 .game {
@@ -483,7 +497,7 @@ We can't assume that the level always fits in the _viewport_, the element into w
 
 {{index scrolling}}
 
-In the `scrollPlayerIntoView` method, we find the player's position and update the wrapping element's scroll position. We change the scroll position by manipulating that element's `scrollLeft` and `scrollTop` properties when the player is too close to the edge.
+`scrollPlayerIntoView` yönteminde, oyuncunun konumunu buluruz ve saran öğenin kaydırma konumunu güncelleriz. Oyuncu kenara çok yaklaştığında, bu öğenin `scrollLeft` ve `scrollTop` özelliklerini manipüle ederek kaydırma konumunu değiştiririz.
 
 ```{includeCode: true}
 DOMDisplay.prototype.scrollPlayerIntoView = function(state) {
@@ -514,17 +528,17 @@ DOMDisplay.prototype.scrollPlayerIntoView = function(state) {
 
 {{index center, coordinates, readability}}
 
-The way the player's center is found shows how the methods on our `Vec` type allow computations with objects to be written in a relatively readable way. To find the actor's center, we add its position (its upper-left corner) and half its size. That is the center in level coordinates, but we need it in pixel coordinates, so we then multiply the resulting vector by our display scale.
+Oyuncunun merkezinin bulunma şekli, `Vec` tipimizdeki yöntemlerin nesnelerle hesaplamaların nispeten okunabilir bir şekilde yazılmasına nasıl izin verdiğini göstermektedir. Oyuncunun merkezini bulmak için, konumunu (sol üst köşesi) ve boyutunun yarısını ekliyoruz. Bu, seviye koordinatlarındaki merkezdir, ancak piksel koordinatlarında ihtiyacımız var, bu yüzden ortaya çıkan vektörü ekran ölçeğimizle çarpıyoruz.
 
 {{index validation}}
 
-Next, a series of checks verifies that the player position isn't outside of the allowed range. Note that sometimes this will set nonsense scroll coordinates that are below zero or beyond the element's scrollable area. This is okay—the DOM will constrain them to acceptable values. Setting `scrollLeft` to `-10` will cause it to become `0`.
+Ardından, bir dizi kontrol, oyuncu konumunun izin verilen aralığın dışında olmadığını doğrular. Bunun bazen sıfırın altında veya öğenin kaydırılabilir alanının ötesinde olan saçma kaydırma koordinatlarını ayarlayacağını unutmayın. Bu sorun değildir; DOM bunları kabul edilebilir değerlerle sınırlayacaktır. `scrollLeft` değerinin -10 olarak ayarlanması 0 olmasına neden olacaktır.
 
-While it would have been slightly simpler to always try to scroll the player to the center of the ((viewport)), this creates a rather jarring effect. As you are jumping, the view will constantly shift up and down. It's more pleasant to have a "neutral" area in the middle of the screen where you can move around without causing any scrolling.
+Oynatıcıyı her zaman ((viewport))'un merkezine kaydırmaya çalışmak biraz daha basit olabilirdi. Ancak bu oldukça sarsıcı bir etki yaratır. Siz zıplarken, görünüm sürekli olarak yukarı ve aşağı kayacaktır. Ekranın ortasında herhangi bir kaydırmaya neden olmadan hareket edebileceğiniz "nötr" bir alana sahip olmak daha hoştur.
 
 {{index [game, screenshot]}}
 
-We are now able to display our tiny level.
+Artık küçük seviyemizi görüntüleyebiliyoruz.
 
 ```{lang: html}
 <link rel="stylesheet" href="css/game.css">
@@ -538,39 +552,39 @@ We are now able to display our tiny level.
 
 {{if book
 
-{{figure {url: "img/game_simpleLevel.png", alt: "Screenshot of the rendered level", width: "7cm"}}}
+{{figure {url: "img/game_simpleLevel.png", alt: "Oluşturulan seviyenin ekran görüntüsü", width: "7cm"}}}
 
 if}}
 
 {{index "link (HTML tag)", CSS}}
 
-The `<link>` tag, when used with `rel="stylesheet"`, is a way to load a CSS file into a page. The file `game.css` contains the styles necessary for our game.
+`<link>` etiketi, `rel="stylesheet"` ile birlikte kullanıldığında, bir CSS dosyasını sayfaya yüklemenin bir yoludur. `game.css` dosyası oyunumuz için gerekli stilleri içerir.
 
-## Motion and collision
+## Hareket ve çarpışma
 
 {{index physics, [animation, "platform game"]}}
 
-Now we're at the point where we can start adding motion. The basic approach taken by most games like this is to split ((time)) into small steps and, for each step, move the actors by a distance corresponding to their speed multiplied by the size of the time step. We'll measure time in seconds, so speeds are expressed in units per second.
+Şimdi hareket eklemeye başlayabileceğimiz noktadayız. Bunun gibi çoğu oyun tarafından benimsenen temel yaklaşım, ((zaman)) küçük adımlara bölmek ve her adımda aktörleri hızlarının zaman adımının boyutuyla çarpımına karşılık gelen bir mesafe kadar hareket ettirmektir. Zamanı saniye cinsinden ölçeceğiz, bu nedenle hızlar saniye başına birim olarak ifade edilir.
 
 {{index obstacle, "collision detection"}}
 
-Moving things is easy. The difficult part is dealing with the interactions between the elements. When the player hits a wall or floor, they should not simply move through it. The game must notice when a given motion causes an object to hit another object and respond accordingly. For walls, the motion must be stopped. When hitting a coin, that coin must be collected. When touching lava, the game should be lost.
+Eşyaları taşımak kolaydır. Zor olan kısım, öğeler arasındaki etkileşimlerle başa çıkmaktır. Oyuncu bir duvara veya zemine çarptığında, sadece içinden geçmemelidir. Oyun, belirli bir hareketin bir nesnenin başka bir nesneye çarpmasına neden olduğunu fark etmeli ve buna göre yanıt vermelidir. Duvarlar için hareket durdurulmalıdır. Bir madeni paraya çarpıldığında, para toplanmalıdır. Lavlara dokunulduğunda oyun kaybedilmelidir.
 
-Solving this for the general case is a major task. You can find libraries, usually called _((physics engine))s_, that simulate interaction between physical objects in two or three ((dimensions)). We'll take a more modest approach in this chapter, handling only collisions between rectangular objects and handling them in a rather simplistic way.
+Bunu genel durum için çözmek büyük bir görevdir. Fiziksel nesneler arasındaki etkileşimi iki veya üç ((boyutta)) simüle eden, genellikle _((fizik motoru))s_ olarak adlandırılan kütüphaneler bulabilirsiniz. Bu bölümde daha mütevazı bir yaklaşım benimseyeceğiz, sadece dikdörtgen nesneler arasındaki çarpışmaları ele alacağız ve bunları oldukça basit bir şekilde işleyeceğiz.
 
 {{index bouncing, "collision detection", [animation, "platform game"]}}
 
-Before moving the ((player)) or a block of ((lava)), we test whether the motion would take it inside of a wall. If it does, we simply cancel the motion altogether. The response to such a collision depends on the type of actor—the player will stop, whereas a lava block will bounce back.
+((oyuncu)) veya bir ((lav)) bloğunu hareket ettirmeden önce, hareketin onu bir duvarın içine alıp almayacağını test ederiz. Eğer yaparsa, hareketi tamamen iptal ederiz. Böyle bir çarpışmaya verilecek tepki aktörün türüne bağlıdır; oyuncu dururken lav bloğu geri seker.
 
 {{index discretization}}
 
-This approach requires our ((time)) steps to be rather small, since it will cause motion to stop before the objects actually touch. If the time steps (and thus the motion steps) are too big, the player would end up hovering a noticeable distance above the ground. Another approach, arguably better but more complicated, would be to find the exact collision spot and move there. We will take the simple approach and hide its problems by ensuring the animation proceeds in small steps.
+Bu yaklaşım, ((zaman)) adımlarımızın oldukça küçük olmasını gerektirir çünkü nesneler gerçekten temas etmeden önce hareketin durmasına neden olur. Zaman adımları (ve dolayısıyla hareket adımları) çok büyük olursa, oyuncu yerden belirgin bir mesafe yukarıda asılı kalacaktır. Muhtemelen daha iyi ancak daha karmaşık olan bir başka yaklaşım ise tam çarpışma noktasını bulmak ve oraya hareket etmek olacaktır. Biz basit yaklaşımı benimseyeceğiz ve animasyonun küçük adımlarla ilerlemesini sağlayarak sorunlarını gizleyeceğiz.
 
 {{index obstacle, "touches method", "collision detection"}}
 
 {{id touches}}
 
-This method tells us whether a ((rectangle)) (specified by a position and a size) touches a grid element of the given type.
+Bu yöntem bize bir ((dikdörtgen)) (bir konum ve bir boyut ile belirtilen) verilen türdeki bir ızgara elemanına dokunup dokunmadığını söyler.
 
 ```{includeCode: true}
 Level.prototype.touches = function(pos, size, type) {
@@ -593,13 +607,13 @@ Level.prototype.touches = function(pos, size, type) {
 
 {{index "Math.floor function", "Math.ceil function"}}
 
-The method computes the set of grid squares that the body ((overlap))s with by using `Math.floor` and `Math.ceil` on its ((coordinates)). Remember that ((grid)) squares are 1 by 1 units in size. By ((rounding)) the sides of a box up and down, we get the range of ((background)) squares that the box touches.
+Yöntem, ((koordinatları)) üzerinde `Math.floor` ve `Math.ceil` kullanarak gövdenin ((örtüştüğü)) ızgara kareler kümesini hesaplar. ((Izgara)) karelerinin 1'e 1 birim boyutunda olduğunu unutmayın. Bir kutunun kenarlarını yukarı ve aşağı ((yuvarlayarak)), kutunun temas ettiği ((arka plan)) karelerinin aralığını elde ederiz.
 
-{{figure {url: "img/game-grid.svg", alt: "Diagram showing a grid with a black box overlaid on it. All of the grid squares that are partially covered by the block are marked.", width: "3cm"}}}
+{{figure {url: "img/game-grid.svg", alt: "Üzerine siyah bir kutu yerleştirilmiş bir ızgarayı gösteren diyagram. Blok tarafından kısmen kapsanan tüm ızgara kareleri işaretlenmiştir.", width: "3cm"}}}
 
-We loop over the block of ((grid)) squares found by ((rounding)) the ((coordinates)) and return `true` when a matching square is found. Squares outside of the level are always treated as `"wall"` to ensure that the player can't leave the world and that we won't accidentally try to read outside of the bounds of our `rows` array.
+((koordinatları)) ((yuvarlayarak)) bulunan ((ızgara)) kareler bloğu üzerinde döngü yaparız ve eşleşen bir kare bulunduğunda `true` döndürürüz. Seviyenin dışındaki kareler, oyuncunun dünyayı terk edemeyeceğinden ve yanlışlıkla `rows` dizimizin sınırlarının dışını okumaya çalışmayacağımızdan emin olmak için her zaman `"wall"` olarak kabul edilir.
 
-The state `update` method uses `touches` to figure out whether the player is touching lava.
+Durum `update` yöntemi, oyuncunun lavlara dokunup dokunmadığını anlamak için `touches` kullanır.
 
 ```{includeCode: true}
 State.prototype.update = function(time, keys) {
@@ -623,11 +637,11 @@ State.prototype.update = function(time, keys) {
 };
 ```
 
-The method is passed a time step and a data structure that tells it which keys are being held down. The first thing it does is call the `update` method on all actors, producing an array of updated actors. The actors also get the time step, the keys, and the state so that they can base their update on those. Only the player will actually read keys, since that's the only actor that's controlled by the keyboard.
+Yönteme bir zaman adımı ve hangi anahtarların basılı tutulduğunu söyleyen bir veri yapısı iletilir. Yaptığı ilk şey, tüm aktörler üzerinde `update` yöntemini çağırmak ve güncellenmiş aktörlerden oluşan bir dizi üretmektir. Aktörler ayrıca zaman adımını, anahtarları ve durumu alırlar, böylece güncellemelerini bunlara dayandırabilirler. Klavye tarafından kontrol edilen tek aktör olduğu için aslında sadece oyuncu tuşları okuyacaktır.
 
-If the game is already over, no further processing has to be done (the game can't be won after being lost, or vice versa). Otherwise, the method tests whether the player is touching background lava. If so, the game is lost and we're done. Finally, if the game really is still going on, it sees whether any other actors overlap the player.
+Eğer oyun zaten bitmişse, başka bir işlem yapılmasına gerek yoktur (oyun kaybedildikten sonra kazanılamaz ya da tam tersi). Aksi takdirde, yöntem oyuncunun arka plandaki lavlara dokunup dokunmadığını test eder. Eğer öyleyse, oyun kaybedilir ve işimiz biter. Son olarak, eğer oyun gerçekten devam ediyorsa, başka aktörlerin oyuncuyla çakışıp çakışmadığına bakılır.
 
-Overlap between actors is detected with the `overlap` function. It takes two actor objects and returns `true` when they touch—which is the case when they overlap both along the x-axis and along the y-axis.
+Aktörler arasındaki çakışma `overlap` fonksiyonu ile tespit edilir. İki aktör nesnesi alır ve dokunduklarında true döndürür - bu, hem x ekseni hem de y ekseni boyunca üst üste geldikleri durumdur.
 
 ```{includeCode: true}
 function overlap(actor1, actor2) {
@@ -638,7 +652,7 @@ function overlap(actor1, actor2) {
 }
 ```
 
-If any actor does overlap, its `collide` method gets a chance to update the state. Touching a lava actor sets the game status to `"lost"`. Coins vanish when you touch them and set the status to `"won"` when they are the last coin of the level.
+Herhangi bir aktör çakışırsa, `collide` yöntemi durumu güncelleme şansı elde eder. Bir lav aktörüne dokunmak oyun durumunu `"lost"` olarak ayarlar. Paralar, onlara dokunduğunuzda kaybolur ve seviyenin son parası olduklarında durumu `"won"` olarak ayarlar.
 
 ```{includeCode: true}
 Lava.prototype.collide = function(state) {
@@ -655,11 +669,11 @@ Coin.prototype.collide = function(state) {
 
 {{id actors}}
 
-## Actor updates
+## Aktör güncellemeleri
 
 {{index actor, "Lava class", lava}}
 
-Actor objects' `update` methods take as arguments the time step, the state object, and a `keys` object. The one for the `Lava` actor type ignores the `keys` object.
+Aktör nesnelerinin `update` yöntemleri argüman olarak zaman adımını, durum nesnesini ve bir `keys` nesnesini alır. `Lava` aktör tipi için olan `keys` nesnesini yok sayar.
 
 ```{includeCode: true}
 Lava.prototype.update = function(time, state) {
@@ -676,11 +690,11 @@ Lava.prototype.update = function(time, state) {
 
 {{index bouncing, multiplication, "Vec class", "collision detection"}}
 
-This `update` method computes a new position by adding the product of the ((time)) step and the current speed to its old position. If no obstacle blocks that new position, it moves there. If there is an obstacle, the behavior depends on the type of the ((lava)) block—dripping lava has a `reset` position, to which it jumps back when it hits something. Bouncing lava inverts its speed by multiplying it by `-1` so that it starts moving in the opposite direction.
+Bu `update` yöntemi, ((zaman)) adımı ile mevcut hızın çarpımını eski konumuna ekleyerek yeni bir konum hesaplar. Yeni konumu engelleyen bir engel yoksa, oraya hareket eder. Bir engel varsa, davranış ((lav)) bloğunun türüne bağlıdır - damlayan lavın bir `reset` konumu vardır ve bir şeye çarptığında geri atlar. Zıplayan lav, hızını -1 ile çarparak tersine çevirir, böylece ters yönde hareket etmeye başlar.
 
 {{index "Coin class", coin, wave}}
 
-Coins use their `update` method to wobble. They ignore collisions with the grid, since they are simply wobbling around inside of their own square.
+Madeni paralar sallanmak için `update` yöntemini kullanırlar. Sadece kendi karelerinin içinde yalpaladıkları için ızgara ile çarpışmaları göz ardı ederler.
 
 ```{includeCode: true}
 const wobbleSpeed = 8, wobbleDist = 0.07;
@@ -695,11 +709,11 @@ Coin.prototype.update = function(time) {
 
 {{index "Math.sin function", sine, phase}}
 
-The `wobble` property is incremented to track time and then used as an argument to `Math.sin` to find the new position on the ((wave)). The coin's current position is then computed from its base position and an offset based on this wave.
+Zamanı izlemek için `wobble` özelliği artırılır ve ardından ((dalga)) üzerindeki yeni konumu bulmak için `Math.sin` için bir argüman olarak kullanılır. Madeni paranın mevcut konumu daha sonra temel konumundan ve bu dalgaya dayalı bir ofsetten hesaplanır.
 
 {{index "collision detection", "Player class"}}
 
-That leaves the ((player)) itself. Player motion is handled separately per ((axis)) because hitting the floor should not prevent horizontal motion, and hitting a wall should not stop falling or jumping motion.
+Geriye ((oyuncu))'nun kendisi kalıyor. Oyuncu hareketi her ((axis)) için ayrı ayrı ele alınır çünkü yere çarpmak yatay hareketi engellememelidir ve bir duvara çarpmak düşme veya zıplama hareketini durdurmamalıdır.
 
 ```{includeCode: true}
 const playerXSpeed = 7;
@@ -731,31 +745,31 @@ Player.prototype.update = function(time, state, keys) {
 
 {{index [animation, "platform game"], keyboard}}
 
-The horizontal motion is computed based on the state of the left and right arrow keys. When there's no wall blocking the new position created by this motion, it is used. Otherwise, the old position is kept.
+Yatay hareket, sol ve sağ ok tuşlarının durumuna göre hesaplanır. Bu hareket tarafından oluşturulan yeni konumu engelleyen bir duvar yoksa kullanılır. Aksi takdirde, eski konum korunur.
 
 {{index acceleration, physics}}
 
-Vertical motion works in a similar way but has to simulate ((jumping)) and ((gravity)). The player's vertical speed (`ySpeed`) is first accelerated to account for ((gravity)).
+Dikey hareket benzer şekilde çalışır ancak ((zıplama)) ve ((yerçekimi)) simüle edilmelidir. Oyuncunun dikey hızı (`ySpeed`) ilk olarak ((yerçekimi)) hesaba katmak için hızlandırılır.
 
 {{index "collision detection", keyboard, jumping}}
 
-We check for walls again. If we don't hit any, the new position is used. If there _is_ a wall, there are two possible outcomes. When the up arrow is pressed _and_ we are moving down (meaning the thing we hit is below us), the speed is set to a relatively large, negative value. This causes the player to jump. If that is not the case, the player simply bumped into something, and the speed is set to zero.
+Duvarları tekrar kontrol ederiz. Herhangi birine çarpmazsak, yeni konum kullanılır. Eğer bir duvar varsa, iki olası sonuç vardır. Yukarı oka basıldığında _ve_ aşağı doğru hareket ettiğimizde (yani çarptığımız şey altımızda olduğunda), hız nispeten büyük, negatif bir değere ayarlanır. Bu da oyuncunun zıplamasına neden olur. Eğer durum böyle değilse, oyuncu basitçe bir şeye çarpmıştır ve hız sıfıra ayarlanmıştır.
 
-The gravity strength, ((jumping)) speed, and other ((constant))s in the game were determined by simply trying out some numbers and seeing which ones felt right. You can try experimenting with them.
+Bu oyundaki yerçekimi gücü, ((zıplama)) hızı ve hemen hemen tüm diğer ((sabitler)) tamamen ((deneme yanılma)) ile ayarlanmıştır. Beğendiğim bir kombinasyon bulana kadar değerleri test ettim.
 
-## Tracking keys
+## İzleme tuşları
 
 {{index keyboard}}
 
-For a ((game)) like this, we do not want keys to take effect once per keypress. Rather, we want their effect (moving the player figure) to stay active as long as they are held.
+Bunun gibi bir ((oyun)) için, tuşların her basışta bir kez etkili olmasını istemiyoruz. Aksine, etkilerinin (oyuncu figürünü hareket ettirme) basılı tutuldukları sürece aktif kalmasını istiyoruz.
 
 {{index "preventDefault method"}}
 
-We need to set up a key handler that stores the current state of the left, right, and up arrow keys. We will also want to call `preventDefault` for those keys so that they don't end up ((scrolling)) the page.
+Sol, sağ ve yukarı ok tuşlarının mevcut durumunu saklayan bir tuş işleyici ayarlamamız gerekir. Ayrıca, bu tuşlar için `preventDefault` özelliğini çağırmak isteyeceğiz, böylece sayfayı ((kaydırma)) sonlandırmayacaklar.
 
 {{index "trackKeys function", "key code", "event handling", "addEventListener method"}}
 
-The following function, when given an array of key names, will return an object that tracks the current position of those keys. It registers event handlers for `"keydown"` and `"keyup"` events and, when the key code in the event is present in the set of codes that it is tracking, updates the object.
+Aşağıdaki fonksiyon, bir dizi anahtar adı verildiğinde, bu anahtarların geçerli konumunu izleyen bir nesne döndürür. `"keydown"` ve `"keyup"` olayları için olay işleyicileri kaydeder ve olaydaki anahtar kodu, izlediği kod kümesinde mevcut olduğunda nesneyi günceller.
 
 ```{includeCode: true}
 function trackKeys(keys) {
@@ -777,19 +791,19 @@ const arrowKeys =
 
 {{index "keydown event", "keyup event"}}
 
-The same handler function is used for both event types. It looks at the event object's `type` property to determine whether the key state should be updated to true (`"keydown"`) or false (`"keyup"`).
+Her iki olay türü için de aynı işleyici işlevi kullanılır. Anahtar durumunun true (`"keydown"`) veya false (`"keyup"`) olarak güncellenmesi gerekip gerekmediğini belirlemek için olay nesnesinin `type` özelliğine bakar.
 
 {{id runAnimation}}
 
-## Running the game
+## Oyunu çalıştırmak
 
 {{index "requestAnimationFrame function", [animation, "platform game"]}}
 
-The `requestAnimationFrame` function, which we saw in [Chapter ?](dom#animationFrame), provides a good way to animate a game. But its interface is quite primitive—using it requires us to track the time at which our function was called the last time around and call `requestAnimationFrame` again after every frame.
+[Bölüm ?](dom#animationFrame) içinde gördüğümüz `requestAnimationFrame` fonksiyonu bir oyunu canlandırmak için iyi bir yol sağlar. Ancak arayüzü oldukça ilkeldir - onu kullanmak, fonksiyonumuzun en son çağrıldığı zamanı takip etmemizi ve her kareden sonra `requestAnimationFrame` fonksiyonunu tekrar çağırmamızı gerektirir.
 
 {{index "runAnimation function", "callback function", [function, "as value"], [function, "higher-order"], [animation, "platform game"]}}
 
-Let's define a helper function that wraps all that in a convenient interface and allows us to simply call `runAnimation`, giving it a function that expects a time difference as an argument and draws a single frame. When the frame function returns the value `false`, the animation stops.
+Bu sıkıcı kısımları kullanışlı bir arayüzle saran ve basitçe `runAnimation` çağrısı yapmamızı sağlayan bir yardımcı fonksiyon tanımlayalım ve ona argüman olarak bir zaman farkı bekleyen ve tek bir kare çizen bir fonksiyon verelim. Frame fonksiyonu `false` değerini döndürdüğünde animasyon durur.
 
 ```{includeCode: true}
 function runAnimation(frameFunc) {
@@ -808,13 +822,13 @@ function runAnimation(frameFunc) {
 
 {{index time, discretization}}
 
-I have set a maximum frame step of 100 milliseconds (one-tenth of a second). When the browser tab or window with our page is hidden, `requestAnimationFrame` calls will be suspended until the tab or window is shown again. In this case, the difference between `lastTime` and `time` will be the entire time in which the page was hidden. Advancing the game by that much in a single step would look silly and might cause weird side effects, such as the player falling through the floor.
+Maksimum çerçeve adımını 100 milisaniye (saniyenin onda biri) olarak belirledim. Sayfamızın bulunduğu tarayıcı sekmesi veya penceresi gizlendiğinde, `requestAnimationFrame` çağrıları sekme veya pencere tekrar gösterilinceye kadar askıya alınacaktır. Bu durumda, `lastTime` ile `time` arasındaki fark, sayfanın gizlendiği sürenin tamamı olacaktır. Oyunu tek bir adımda bu kadar ilerletmek aptalca görünür ve oyuncunun yere düşmesi gibi garip yan etkilere neden olabilir.
 
-The function also converts the time steps to seconds, which are an easier quantity to think about than milliseconds.
+Fonksiyon ayrıca zaman adımlarını milisaniyeden daha kolay düşünülebilen saniyelere dönüştürür.
 
 {{index "callback function", "runLevel function", [animation, "platform game"]}}
 
-The `runLevel` function takes a `Level` object and a ((display)) constructor and returns a promise. It displays the level (in `document.body`) and lets the user play through it. When the level is finished (lost or won), `runLevel` waits one more second (to let the user see what happens) and then clears the display, stops the animation, and resolves the promise to the game's end status.
+`runLevel` fonksiyonu bir `Level` nesnesi ve bir ((display)) yapıcı alır ve bir söz döndürür. Seviyeyi görüntüler (`document.body` içinde) ve kullanıcının oynamasına izin verir. Seviye bittiğinde (kaybedildiğinde veya kazanıldığında), `runLevel` bir saniye daha bekler (kullanıcının ne olduğunu görmesini sağlamak için) ve ardından ekranı temizler, animasyonu durdurur ve sözü oyunun bitiş durumuna çözer.
 
 ```{includeCode: true}
 function runLevel(level, Display) {
@@ -842,7 +856,7 @@ function runLevel(level, Display) {
 
 {{index "runGame function"}}
 
-A game is a sequence of ((level))s. Whenever the ((player)) dies, the current level is restarted. When a level is completed, we move on to the next level. This can be expressed by the following function, which takes an array of level plans (strings) and a ((display)) constructor:
+Bir oyun bir dizi ((seviye))dir. ((oyuncu)) her öldüğünde, mevcut seviye yeniden başlatılır. Bir seviye tamamlandığında, bir sonraki seviyeye geçilir. Bu, bir dizi seviye planı (string) ve bir ((display)) yapıcısı alan aşağıdaki fonksiyonla ifade edilebilir:
 
 ```{includeCode: true}
 async function runGame(plans, Display) {
@@ -857,11 +871,11 @@ async function runGame(plans, Display) {
 
 {{index "asynchronous programming", "event handling"}}
 
-Because we made `runLevel` return a promise, `runGame` can be written using an `async` function, as shown in [Chapter ?](async). It returns another promise, which resolves when the player finishes the game.
+`runLevel`ın bir promise döndürmesini sağladığımız için, `runGame` [Bölüm ?](async) içinde gösterildiği gibi bir `async` fonksiyonu kullanılarak yazılabilir. Oyuncu oyunu bitirdiğinde çözümlenen başka bir söz döndürür.
 
 {{index game, "GAME_LEVELS dataset"}}
 
-There is a set of ((level)) plans available in the `GAME_LEVELS` binding in [this chapter's sandbox](https://eloquentjavascript.net/code#16)[ ([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if book}. This page feeds them to `runGame`, starting an actual game.
+[Bu bölümün sanal alanı](https://eloquentjavascript.net/code#16)[ ([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if book} içinde `GAME_LEVELS` bağlayıcısında bir dizi ((seviye)) planı mevcuttur. Bu sayfa onları `runGame` ile besleyerek gerçek bir oyun başlatır.
 
 ```{sandbox: null, focus: yes, lang: html, startCode: true}
 <link rel="stylesheet" href="css/game.css">
@@ -875,21 +889,21 @@ There is a set of ((level)) plans available in the `GAME_LEVELS` binding in [thi
 
 {{if interactive
 
-See if you can beat those. I had fun building them.
+Bakalım onları yenebilecek misin? Onları yaparken çok eğlendim.
 
 if}}
 
-## Exercises
+## Egzersizler
 
-### Game over
+### Oyun bitti
 
 {{index "lives (exercise)", game}}
 
-It's traditional for ((platform game))s to have the player start with a limited number of _lives_ and subtract one life each time they die. When the player is out of lives, the game restarts from the beginning.
+((Platform oyunları)) için geleneksel olan, oyuncunun sınırlı sayıda _can_ ile başlaması ve her öldüğünde bir can eksiltmesidir. Oyuncunun canı bittiğinde, oyun baştan başlar.
 
 {{index "runGame function"}}
 
-Adjust `runGame` to implement lives. Have the player start with three. Output the current number of lives (using `console.log`) every time a level starts.
+Canları uygulamak için `runGame`i ayarlayın. Oyuncunun üç canla başlamasını sağlayın. Bir seviye her başladığında mevcut can sayısını (`console.log` kullanarak) çıktı olarak verin.
 
 {{if interactive
 
@@ -914,19 +928,23 @@ Adjust `runGame` to implement lives. Have the player start with three. Output th
 
 if}}
 
-### Pausing the game
+### Oyunu durdurmak
 
 {{index "pausing (exercise)", "escape key", keyboard, "runLevel function", "event handling"}}
 
-Make it possible to pause (suspend) and unpause the game by pressing [esc]{keyname}. You can do this by changing the `runLevel` function to set up a keyboard event handler that interrupts or resumes the animation whenever [esc]{keyname} is hit.
+Esc tuşuna basarak oyunu duraklatmayı (askıya almayı) ve duraklatmayı kaldırmayı mümkün kılın.
+
+{{index "runLevel function", "event handling"}}
+
+Bu, `runLevel` işlevini başka bir klavye olay işleyicisi kullanacak şekilde değiştirerek ve Esc tuşuna her basıldığında animasyonu keserek veya devam ettirerek yapılabilir.
 
 {{index "runAnimation function"}}
 
-The `runAnimation` interface may not look like it is suitable for this at first glance, but it is if you rearrange the way `runLevel` calls it.
+İlk bakışta `runAnimation` arayüzü bunun için uygun gibi görünmeyebilir, ancak `runLevel` arayüzünü çağırma şeklini yeniden düzenlerseniz uygundur.
 
 {{index [binding, global], "trackKeys function"}}
 
-When you have that working, there's something else you can try. The way we've been registering keyboard event handlers is somewhat problematic. The `arrowKeys` object is currently a global binding, and its event handlers are kept around even when no game is running. You could say they _((leak))_ out of our system. Extend `trackKeys` to provide a way to unregister its handlers, then change `runLevel` to register its handlers when it starts and unregister them again when it is finished.
+Bunu çalıştırdığınızda, deneyebileceğiniz başka bir şey daha var. Klavye olay işleyicilerini kaydetme şeklimiz biraz sorunlu. `arrowKeys` nesnesi şu anda küresel bir bağlayıcıdır ve olay işleyicileri oyun çalışmadığında bile etrafta tutulur. Sistemimizden _((sızıntı))_ yaptıklarını söyleyebilirsiniz. `trackKeys`i genişleterek işleyicilerinin kaydını kaldırmanın bir yolunu sağlayın ve ardından `runLevel`ı, başladığında işleyicilerini kaydedecek ve bittiğinde tekrar kaydını kaldıracak şekilde değiştirin.
 
 {{if interactive
 
@@ -968,29 +986,29 @@ if}}
 
 {{index "pausing (exercise)", [animation, "platform game"]}}
 
-An animation can be interrupted by returning `false` from the function given to `runAnimation`. It can be continued by calling `runAnimation` again.
+Bir animasyon `runAnimation`a verilen fonksiyondan `false` döndürülerek kesilebilir. Animasyon `runAnimation` tekrar çağrılarak devam ettirilebilir.
 
 {{index closure}}
 
-So we need to communicate the fact that we are pausing the game to the function given to `runAnimation`. For that, you can use a binding that both the event handler and that function have access to.
+Bu yüzden oyunu duraklattığımızı `runAnimation`a verilen fonksiyona iletmemiz gerekiyor. Bunun için, hem olay işleyicinin hem de bu fonksiyonun erişebileceği bir bağlayıcı kullanabilirsiniz.
 
 {{index "event handling", "removeEventListener method", [function, "as value"]}}
 
-When finding a way to unregister the handlers registered by `trackKeys`, remember that the _exact_ same function value that was passed to `addEventListener` must be passed to `removeEventListener` to successfully remove a handler. Thus, the `handler` function value created in `trackKeys` must be available to the code that unregisters the handlers.
+`trackKeys` tarafından kaydedilen işleyicilerin kaydını silmenin bir yolunu bulurken, bir işleyiciyi başarıyla kaldırmak için `addEventListener` fonksiyonuna aktarılan _aynı_ fonksiyon değerinin `removeEventListener` fonksiyonuna da aktarılması gerektiğini unutmayın. Bu nedenle, `trackKeys` içinde oluşturulan `handler` fonksiyon değeri, işleyicilerin kaydını kaldıran kod tarafından kullanılabilir olmalıdır.
 
-You can add a property to the object returned by `trackKeys`, containing either that function value or a method that handles the unregistering directly.
+`trackKeys` tarafından döndürülen nesneye, bu işlev değerini ya da kaydı kaldırma işlemini doğrudan gerçekleştiren bir yöntemi içeren bir özellik ekleyebilirsiniz.
 
 hint}}
 
-### A monster
+### Bir canavar
 
 {{index "monster (exercise)"}}
 
-It is traditional for platform games to have enemies that you can defeat by jumping on top of them. This exercise asks you to add such an actor type to the game.
+Platform oyunlarında yenmek için üzerine atlayabileceğiniz düşmanların olması gelenekseldir. Bu alıştırma sizden oyuna böyle bir aktör tipi eklemenizi istiyor.
 
-We'll call this actor a monster. Monsters move only horizontally. You can make them move in the direction of the player, bounce back and forth like horizontal lava, or have any other movement pattern you want. The class doesn't have to handle falling, but it should make sure the monster doesn't walk through walls.
+Biz buna canavar diyeceğiz. Canavarlar sadece yatay olarak hareket eder. Oyuncunun yönünde hareket etmelerini, yatay lav gibi ileri geri sıçramalarını veya istediğiniz herhangi bir hareket modeline sahip olmalarını sağlayabilirsiniz. Sınıfın düşmeyi idare etmesi gerekmez, ancak canavarın duvarlardan geçmediğinden emin olmalıdır.
 
-When a monster touches the player, the effect depends on whether the player is jumping on top of them or not. You can approximate this by checking whether the player's bottom is near the monster's top. If this is the case, the monster disappears. If not, the game is lost.
+Bir canavar oyuncuya dokunduğunda, etki oyuncunun üzerine atlayıp atlamadığına bağlıdır. Oyuncunun alt kısmının canavarın üst kısmına yakın olup olmadığını kontrol ederek bunu yaklaşık olarak yapabilirsiniz. Eğer durum böyleyse, canavar kaybolur. Değilse, oyun kaybedilir.
 
 {{if interactive
 
@@ -1043,12 +1061,12 @@ if}}
 
 {{index "monster (exercise)", "persistent data structure"}}
 
-If you want to implement a type of motion that is stateful, such as bouncing, make sure you store the necessary state in the actor object—include it as a constructor argument and add it as a property.
+Zıplama gibi duruma bağlı bir hareket türü uygulamak istiyorsanız, gerekli durumu aktör nesnesinde sakladığınızdan emin olun; bunu yapıcı argüman olarak dahil edin ve bir özellik olarak ekleyin.
 
-Remember that `update` returns a _new_ object rather than changing the old one.
+Unutmayın ki `update` eskisini değiştirmek yerine _new_ bir nesne döndürür.
 
 {{index "collision detection"}}
 
-When handling collision, find the player in `state.actors` and compare its position to the monster's position. To get the _bottom_ of the player, you have to add its vertical size to its vertical position. The creation of an updated state will resemble either `Coin`'s `collide` method (removing the actor) or `Lava`'s (changing the status to `"lost"`), depending on the player position.
+Çarpışmayı ele alırken, oyuncuyu `state.actors` içinde bulun ve konumunu canavarın konumuyla karşılaştırın. Oyuncunun _altını_ elde etmek için, dikey boyutunu dikey konumuna eklemeniz gerekir. Güncellenmiş bir durumun oluşturulması, oyuncunun konumuna bağlı olarak ya `Coin`in `collide` yöntemine (aktörü kaldırmak) ya da `Lava`nınkine (durumu `lost` olarak değiştirmek) benzeyecektir.
 
 hint}}

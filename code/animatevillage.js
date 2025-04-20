@@ -33,15 +33,15 @@
       this.node = outer.appendChild(doc.createElement("div"))
       this.node.style.cssText = "position: relative; line-height: 0.1; margin-left: 10px"
       this.map = this.node.appendChild(doc.createElement("img"))
-      let imgPath = "img/"
-      if (/\/code($|\/)/.test(outer.ownerDocument.defaultView.location)) imgPath = "../" + imgPath
-      console.log(outer.ownerDocument.defaultView.location.toString(), /\/code($|\/)/.test(outer.ownerDocument.defaultView.localation), imgPath)
-      this.map.src = imgPath + "village2x.png"
+      this.imgPath = "img/"
+      if (/\/code($|\/)/.test(outer.ownerDocument.defaultView.location)) this.imgPath = "../" + this.imgPath
+      console.log(outer.ownerDocument.defaultView.location.toString(), /\/code($|\/)/.test(outer.ownerDocument.defaultView.localation), this.imgPath)
+      this.map.src = this.imgPath + "village2x.png"
       this.map.style.cssText = "vertical-align: -8px"
       this.robotElt = this.node.appendChild(doc.createElement("div"))
       this.robotElt.style.cssText = `position: absolute; transition: left ${0.8 / speed}s, top ${0.8 / speed}s;`
       let robotPic = this.robotElt.appendChild(doc.createElement("img"))
-      robotPic.src = imgPath + "robot_moving2x.gif"
+      robotPic.src = this.imgPath + "robot_moving2x.gif"
       this.parcels = []
 
       this.text = this.node.appendChild(doc.createElement("span"))
@@ -75,7 +75,7 @@
         heights[place] += 14
         let node = document.createElement("div")
         let offset = placeKeys.indexOf(address) * 16
-        node.style.cssText = "position: absolute; height: 16px; width: 16px; background-image: url(img/parcel2x.png); background-position: 0 -" + offset + "px";
+        node.style.cssText = `position: absolute; height: 16px; width: 16px; background-image: url(${this.imgPath}parcel2x.png); background-position: 0 -${offset}px`;
         if (place == this.worldState.place) {
           node.style.left = "25px"
           node.style.bottom = (20 + height) + "px"
@@ -99,7 +99,7 @@
       if (this.worldState.parcels.length == 0) {
         this.button.remove()
         this.text.textContent = ` Finished after ${this.turn} turns`
-        this.robotElt.firstChild.src = "img/robot_idle2x.png"
+        this.robotElt.firstChild.src = this.imgPath + "robot_idle2x.png"
       } else {
         this.schedule()
       }
@@ -113,12 +113,12 @@
       if (this.timeout == null) {
         this.schedule()
         this.button.textContent = "Stop"
-        this.robotElt.firstChild.src = "img/robot_moving2x.gif"
+        this.robotElt.firstChild.src = this.imgPath + "robot_moving2x.gif"
       } else {
         clearTimeout(this.timeout)
         this.timeout = null
         this.button.textContent = "Start"
-        this.robotElt.firstChild.src = "img/robot_idle2x.png"
+        this.robotElt.firstChild.src = this.imgPath + "robot_idle2x.png"
       }
     }
   }

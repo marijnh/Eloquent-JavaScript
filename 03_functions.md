@@ -1,8 +1,8 @@
-# Functions
+# Fonksiyonlar
 
 {{quote {author: "Donald Knuth", chapter: true}
 
-People think that computer science is the art of geniuses but the actual reality is the opposite, just many people doing things that build on each other, like a wall of mini stones.
+İnsanlar bilgisayar biliminin sadece dahilerin ortaya koyabileceği bir sanat olduğunu düşünüyorlar ancak durum tam olarak öyle değil, sadece birbirini takip eden birçok insanın küçük taşlarla bir duvar oluşturması gibi.
 
 quote}}
 
@@ -12,19 +12,19 @@ quote}}
 
 {{index function, [code, "structure of"]}}
 
-Functions are one of the most central tools in JavaScript programming. The concept of wrapping a piece of program in a value has many uses. It gives us a way to structure larger programs, to reduce repetition, to associate names with subprograms, and to isolate these subprograms from each other.
+Fonksiyonlar, JavaScript programlamasındaki en merkezi araçlardan biridir. Bir program parçasını bir değere sarma kavramının birçok yararlı kullanımı vardır. Daha büyük programları yapılandırmanın, tekrarı azaltmanın, alt programları isimlendirmenin ve bu alt programları birbirinden izole etmenin bir yolunu sağlar.
 
-The most obvious application of functions is defining new ((vocabulary)). Creating new words in prose is usually bad style, but in programming, it is indispensable.
+Fonksiyonların en açık uygulamalarından biri yeni ((kelime dağarcığı)) tanımlamaktır. Konuşma dilinde yeni kelimeler oluşturmak genellikle kötü bir stildir ancak programlamada bu bir vazgeçilmezdir.
 
 {{index abstraction, vocabulary}}
 
-Typical adult English speakers have some 20,000 words in their vocabulary. Few programming languages come with 20,000 commands built in. And the vocabulary that _is_ available tends to be more precisely defined, and thus less flexible, than in human language. Therefore, we _have_ to introduce new words to avoid excessive verbosity.
+Tipik yetişkin İngilizce konuşanların kelime dağarcığında yaklaşık 20.000 kelime bulunmaktadır ancak muhtemelen hiç bir programlama dili 20.000 komutla beraber gelmez. Ayrıca, mevcut olan kelime dağarcığı da daha kesin bir şekilde tanımlanmıştır ve bundan ötürü insan dilindeki kadar esnek olmaz. Bu nedenle, aşırı ayrıntıdan kaçınmak için yeni kelimeler tanıtmamız gerekmektedir.
 
-## Defining a function
+## Fonksiyonlar tanımlamak
 
 {{index "square example", [function, definition], [binding, definition]}}
 
-A function definition is a regular binding where the value of the binding is a function. For example, this code defines `square` to refer to a function that produces the square of a given number:
+Bir fonksiyon tanımı, değeri bir fonksiyon olan basit bir bağlantıdır. Örneğin, bu kod, `square` bağlantısını bir sayının karesini üreten bir fonksiyona atayacak sağlayacak şekilde tanımlar:
 
 ```
 const square = function(x) {
@@ -38,11 +38,11 @@ console.log(square(12));
 {{indexsee "curly braces", braces}}
 {{index [braces, "function body"], block, [syntax, function], "function keyword", [function, body], [function, "as value"], [parentheses, arguments]}}
 
-A function is created with an expression that starts with the keyword `function`. Functions have a set of _((parameter))s_ (in this case, only `x`) and a _body_, which contains the statements that are to be executed when the function is called. The body of a function created this way must always be wrapped in braces, even when it consists of only a single ((statement)).
+Bir fonksiyon, `function` anahtar kelimesiyle başlayan bir ifade ile oluşturulur. Fonksiyonların bir dizi _((parametre))leri_ (bu durumda sadece `x`) ve çağrıldığında yürütülecek ((ifade))leri içeren bir _gövdesi_ vardır. Bu şekilde oluşturulan bir fonksiyonun gövdesi yalnızca tek bir ((beyan)) içerse bile her zaman süslü parantezlerle sarılmalıdır.
 
 {{index "roundTo example"}}
 
-A function can have multiple parameters or no parameters at all. In the following example, `makeNoise` does not list any parameter names, whereas `roundTo` (which rounds `n` to the nearest multiple of `step`) lists two:
+Bir fonksiyon birden fazla parametreye sahip olabilirken ayrıca hiç parametreye sahip olmayabilir. Aşağıdaki örnekte, `makeNoise` hiçbir parametre adı listelemezken (`n`'yi `step`'in en yakın katına yuvarlayan) `roundTo` iki parametre listeler:
 
 ```
 const makeNoise = function() {
@@ -63,26 +63,26 @@ console.log(roundTo(23, 10));
 
 {{index "return value", "return keyword", undefined}}
 
-Some functions, such as `roundTo` and `square`, produce a value, and some don't, such as `makeNoise`, whose only result is a ((side effect)). A `return` statement determines the value the function returns. When control comes across such a statement, it immediately jumps out of the current function and gives the returned value to the code that called the function. A `return` keyword without an expression after it will cause the function to return `undefined`. Functions that don't have a `return` statement at all, such as `makeNoise`, similarly return `undefined`.
+Bazı `roundTo` ve `square` gibi fonksiyonlar bir değer üretirken bazılarıysa `makeNoise` gibi sadece bir ((yan etki))ye sebep olur. Bir `return` beyanı, fonksiyonun çalıştırıldığında döndüreceği değeri belirler. Program kontrolü böyle bir beyanla karşılaştığında, derhal mevcut fonksiyondan çıkar ve fonksiyonu çağıran koda o beyanda belirtilen değeri verir. Bir ifade verilmeden yazılan `return` anahtar kelimesi, fonksiyonun `undefined` değerini döndürmesine neden olur. `makeNoise` gibi hiçbir `return` beyanı olmayan fonksiyonlar da benzer şekilde `undefined` döndürürler.
 
 {{index parameter, [function, application], [binding, "from parameter"]}}
 
-Parameters to a function behave like regular bindings, but their initial values are given by the _caller_ of the function, not the code in the function itself.
+Bir fonksiyona gelen parametreler sıradan değişkenlerde olan bağlantılar gibi davranırlar ancak kendilerinin başlangıç değerlerini fonksiyon içindeki kod tarafından değil, fonksiyonun çağırıcısı tarafından alırlar.
 
-## Bindings and scopes
+## Bağlantılar ve kapsamlar
 
 {{indexsee "top-level scope", "global scope"}}
 {{index "var keyword", "global scope", [binding, global], [binding, "scope of"]}}
 
-Each binding has a _((scope))_, which is the part of the program in which the binding is visible. For bindings defined outside of any function, block, or module (see [Chapter ?](modules)), the scope is the whole program—you can refer to such bindings wherever you want. These are called _global_.
+Her bağlantının bir *((kapsam))*ı vardır ve belirli bağlantılar belirli kapsamların içinde görünürdürler. Herhangi bir fonksiyon, blok veya modül(bkz. [Bölüm ?](modules)) içinde olmayacak şekilde tanımlanmış bağlantılar için kapsam tüm programdır - bu tür bağlantılara istediğiniz yerden ulaşabilirsiniz. Bunlara _global_ denir.
 
 {{index "local scope", [binding, local]}}
 
-Bindings created for function ((parameter))s or declared inside a function can be referenced only in that function, so they are known as _local_ bindings. Every time the function is called, new instances of these bindings are created. This provides some isolation between functions—each function call acts in its own little world (its local environment) and can often be understood without knowing a lot about what's going on in the global environment.
+Ancak bir fonksiyon parametreleri için oluşturulan bağlantılar veya bir fonksiyon içinde oluşturulan bağlantılar yalnızca o fonksiyon içerisinden ulaşılabilir, bu yüzden _yerel_ bağlantılar olarak bilinirler. Her fonksiyon çağrıldığında, bu bağlamaların yeni kopyaları oluşturulur. Bu, fonksiyonlar arasında bir izolasyon sağlar - her fonksiyon çağrısı kendi küçük dünyasında (yerel ortamında) hareket eder ve genellikle global ortamda neler olduğunu çok fazla bilmeden anlaşılabilir.
 
 {{index "let keyword", "const keyword", "var keyword"}}
 
-Bindings declared with `let` and `const` are in fact local to the _((block))_ in which they are declared, so if you create one of those inside of a loop, the code before and after the loop cannot "see" it. In pre-2015 JavaScript, only functions created new scopes, so old-style bindings, created with the `var` keyword, are visible throughout the whole function in which they appear—or throughout the global scope, if they are not in a function.
+`let` ve `const` ile oluşturulan bağlantılar aslında oluşturuldukları _((blok))_ için yereldirler, bundan ötürü döngü içinde bir bağlantı oluşturursanız, döngüden önceki ve sonraki kod onu "göremez". 2015 öncesi JavaScript'te, fonksiyonlar yeni kapsam oluşturabilen tek yapı oldukları için, `var` anahtar kelimesiyle oluşturulan eski tarz bağlantılar, bulundukları fonksiyonun tamamında - veya bir fonksiyon içinde değillerse, global kapsamda görünürlerdi.
 
 ```
 let x = 10;   // global
@@ -94,7 +94,7 @@ if (true) {
 
 {{index [binding, visibility]}}
 
-Each ((scope)) can "look out" into the scope around it, so `x` is visible inside the block in the example. The exception is when multiple bindings have the same name—in that case, code can see only the innermost one. For example, when the code inside the `halve` function refers to `n`, it is seeing its _own_ `n`, not the global `n`.
+Her ((kapsam)), çevresindeki kapsamlara "bakabilir", bu yüzden örnekteki bloğun içinde `x` görülebilir durumdadır. Tek istisna, birden fazla aynı isimli bağlantının durumda, kod yalnızca en içteki bağlantıyı görebilir. Örneğin, `halve` fonksiyonu içindeki kod `n`'ye atıfta bulunduğunda, global kapsamdaki `n` değerini değil, kendi `n` değerini görür. Buna içerideki aynı isimdeki bir bağlantının dışarıdaki aynı isimdeki bir bağlantıyı gölgelemesinden ötürü "gölgeleme" denir ve kafa karışıklığına sebep olabileceğinden ötürü önlenilmeye çalışılmalıdır.
 
 ```
 const halve = function(n) {
@@ -110,15 +110,15 @@ console.log(n);
 
 {{id scoping}}
 
-## Nested scope
+### Gömülü kapsamlar
 
 {{index [nesting, "of functions"], [nesting, "of scope"], scope, "inner function", "lexical scoping"}}
 
-JavaScript distinguishes not just global and local bindings. Blocks and functions can be created inside other blocks and functions, producing multiple degrees of locality.
+JavaScript, sadece _global_ ve _yerel_ bağlantıları ayırt etmez. Bloklar ve fonksiyonlar diğer bloklar ve fonksiyonlar içinde oluşturulabilir, böylece çoklu kapsamlar oluştururlar.
 
 {{index "landscape example"}}
 
-For example, this function—which outputs the ingredients needed to make a batch of hummus—has another function inside it:
+Örneğin, humus yapmak için gerekli malzemeleri çıkaran bu fonksiyon, içinde başka bir fonksiyona sahiptir:
 
 ```
 const hummus = function(factor) {
@@ -140,19 +140,19 @@ const hummus = function(factor) {
 
 {{index [function, scope], scope}}
 
-The code inside the `ingredient` function can see the `factor` binding from the outer function, but its local bindings, such as `unit` or `ingredientAmount`, are not visible in the outer function.
+`ingredient` fonksiyonunun içindeki kod, dış fonksiyon `factor` bağlantısını görebilir. Ancak, `unit` veya `ingredientAmount` gibi içerisinde barındırdığı yerel bağlantılar dış fonksiyondan görülemez.
 
-The set of bindings visible inside a block is determined by the place of that block in the program text. Each local scope can also see all the local scopes that contain it, and all scopes can see the global scope. This approach to binding visibility is called _((lexical scoping))_.
+Bir bloğun içinde görünür olan bağlantılar kümesi, o bloğun program metnindeki konumuna göre belirlenir. Her yerel kapsam, kendisini içeren tüm yerel kapsamları görebilir ve tüm kapsamlar da global kapsamı görebilir. Bu bağlantılardaki bu görünürlük yaklaşımına ((lexical scoping(sözcüksel kapsam belirleme))) denir.
 
-## Functions as values
+## Değer olarak fonksiyonlar
 
 {{index [function, "as value"], [binding, definition]}}
 
-A function binding usually simply acts as a name for a specific piece of the program. Such a binding is defined once and never changed. This makes it easy to confuse the function and its name.
+Bir fonksiyon bağlantısı genellikle basitçe programın belirli bir parçası için bir isim olarak işlev görür ve bu tür bir bağlantılar bir kez tanımlanıp asla tekrardan değiştirilmezler. Bu, fonksiyonu ve adını karıştırmayı kolaylaştırır.
 
 {{index [binding, assignment]}}
 
-But the two are different. A function value can do all the things that other values can do—you can use it in arbitrary ((expression))s, not just call it. It is possible to store a function value in a new binding, pass it as an argument to a function, and so on. Similarly, a binding that holds a function is still just a regular binding and can, if not constant, be assigned a new value, like so:
+Ancak, ikisi farklıdır. Bir fonksiyon değeri, diğer değerlerin yapabileceği tüm işleri yapabilir - onu sadece çağırmakla kalmaz, istediğiniz yerde kullanabilirsiniz. Bir fonksiyon değerini yeni bir bağlantıya depolamak ve bir fonksiyona bir argüman olarak iletmek vb. mümkündür. Benzer şekilde, fonksiyon tutan bir bağlantı, hala yalnızca sıradan bir bağlantıdır ve eğer sabit bir şekilde oluşturulmadıysa(`const`) kendisine şu şekilde yeni bir değer atanabilir:
 
 ```{test: no}
 let launchMissiles = function() {
@@ -165,13 +165,13 @@ if (safeMode) {
 
 {{index [function, "higher-order"]}}
 
-In [Chapter ?](higher_order), we'll discuss the interesting things that we can do by passing function values to other functions.
+[Bölüm ?](higher_order)'da, fonksiyon değerlerini diğer fonksiyonlara argüman olarak vererek yapılabilen ilginç şeyleri tartışacağız.
 
-## Declaration notation
+## Beyan notasyonu
 
 {{index [syntax, function], "function keyword", "square example", [function, definition], [function, declaration]}}
 
-There is a slightly shorter way to create a function binding. When the `function` keyword is used at the start of a statement, it works differently:
+Bir işlev bağlantısı oluşturmanın biraz daha kısa bir yolu vardır. `function` anahtar kelimesi bir ifadenin başında kullanıldığında, farklı şekilde çalışır.
 
 ```{test: wrap}
 function square(x) {
@@ -181,9 +181,9 @@ function square(x) {
 
 {{index future, "execution order"}}
 
-This is a function _declaration_. The statement defines the binding `square` and points it at the given function. It is slightly easier to write and doesn't require a semicolon after the function.
+Bu bir fonksiyon _beyanıdır_. Beyan, `square` bağlantısını tanımlar ve onu verilen fonksiyona işaret eder. Yazması biraz daha kolaydır ve işlevden sonra noktalı virgül gerektirmez.
 
-There is one subtlety with this form of function definition.
+Bu fonksiyon tanımlama formuyla alakalı bir nüans vardır.
 
 ```
 console.log("The future says:", future());
@@ -193,13 +193,13 @@ function future() {
 }
 ```
 
-The preceding code works, even though the function is defined _below_ the code that uses it. Function declarations are not part of the regular top-to-bottom flow of control. They are conceptually moved to the top of their scope and can be used by all the code in that scope. This is sometimes useful because it offers the freedom to order code in a way that seems the clearest, without worrying about having to define all functions before they are used.
+Fonksiyon, kullanıldığı kodun _altında_ tanımlanmış olsa bile önceki kod çalışır. Fonksiyon bildirimleri, düzenli olarak yukarıdan aşağıya kontrol akışının bir parçası değildir. Kavramsal olarak içinde bulundukları kapsamın en üstüne taşınır ve bu kapsamdaki tüm kod tarafından kullanılabilir. Bu bazen yararlı olabilir çünkü tüm fonksiyonların kullanılmadan önce tanımlanması gerekmeksizin kodu en net sayılan şekilde düzenleme özgürlüğü sunar.
 
-## Arrow functions
+## Ok notasyonu
 
 {{index function, "arrow function"}}
 
-There's a third notation for functions, which looks very different from the others. Instead of the `function` keyword, it uses an arrow (`=>`) made up of an equal sign and a greater-than character (not to be confused with the greater-than-or-equal operator, which is written `>=`):
+Fonksiyonlar için diğerlerinden çok farklı görünen üçüncü bir gösterim var. `function` anahtar kelimesi yerine, büyük eşittir operatörüyle(`>=`) karıştırılmaması gereken eşitlik ve büyüktür işaretlerinden oluşan bir ok (`=>`) kullanır.
 
 ```{test: wrap}
 const roundTo = (n, step) => {
@@ -210,11 +210,11 @@ const roundTo = (n, step) => {
 
 {{index [function, body]}}
 
-The arrow comes _after_ the list of parameters and is followed by the function's body. It expresses something like "this input (the ((parameter))s) produces this result (the body)".
+Ok, parametre listesinin ardından gelir ve işlevin gövdesi takip eder. "Bu giriş (parametreler) bu sonucu (gövdeyi) üretir" gibi bir şey ifade eder.
 
 {{index [braces, "function body"], "square example", [parentheses, arguments]}}
 
-When there is only one parameter name, you can omit the parentheses around the parameter list. If the body is a single expression rather than a ((block)) in braces, that expression will be returned from the function. So, these two definitions of `square` do the same thing:
+Tek bir parametre adı olduğunda, parametre listesinin etrafındaki parantezleri yazmanıza gerek yoktur. Gövde, süslü parantezlerle oluşturulmuş bir blok yerine, tek satırlık bir ifade ise bu ifade fonksiyondan `return` anahtar kelimesini kullanmadan kullanmışçasına döndürmenizi sağlar. Bu nedenle, bu iki square tanımı aynı şeyi yapar:
 
 ```
 const square1 = (x) => { return x * x; };
@@ -223,7 +223,7 @@ const square2 = x => x * x;
 
 {{index [parentheses, arguments]}}
 
-When an arrow function has no parameters at all, its parameter list is just an empty set of parentheses.
+Bir ok işlevinin hiç parametresi olmadığında, parametre listesi yalnızca boş bir parantez kümesidir.
 
 ```
 const horn = () => {
@@ -233,16 +233,16 @@ const horn = () => {
 
 {{index verbosity}}
 
-There's no deep reason to have both arrow functions and `function` expressions in the language. Apart from a minor detail, which we'll discuss in [Chapter ?](object), they do the same thing. Arrow functions were added in 2015, mostly to make it possible to write small function expressions in a less verbose way. We'll use them often in [Chapter ?](higher_order).
+Dilin bir fonksiyonu hem ok fonksiyonlarıyla hem de `function` anahtar kelimesiyle oluşturulma olasılığını sağlamasının derin bir nedeni yoktur. Küçük bir ayrıntı dışında, [Bölüm ?](object)'da da konuşacağımız gibi bunlar aynı işi yaparlar. Ok fonksiyonları 2015 yılında daha rahat bir şekilde küçük fonksiyon ifadelerini yazmayı mümkün kılmak adına eklendi. [Bölüm ?](higher_order)'da çokça kullanacağız.
 
 {{id stack}}
 
-## The call stack
+## Çağrı yığını
 
 {{indexsee stack, "call stack"}}
 {{index "call stack", [function, application]}}
 
-The way control flows through functions is somewhat involved. Let's take a closer look at it. Here is a simple program that makes a few function calls:
+Kontrolün fonksiyonlar arasında nasıl akış gösterdiği biraz karmaşıktır, hadi buna daha yakından bakalım. İşte birkaç fonksiyon çağrısı yapan basit bir program:
 
 ```
 function greet(who) {
@@ -254,9 +254,9 @@ console.log("Bye");
 
 {{index ["control flow", functions], "execution order", "console.log"}}
 
-A run through this program goes roughly like this: the call to `greet` causes control to jump to the start of that function (line 2). The function calls `console.log`, which takes control, does its job, and then returns control to line 2. There, it reaches the end of the `greet` function, so it returns to the place that called it—line 4. The line after that calls `console.log` again. After that returns, the program reaches its end.
+Bu programın çalışması yaklaşık olarak şöyle gider: `greet` fonksiyonuna yapılan çağrı, kontrolün o fonksiyonun başına (2. satır) atlamasına neden olur. Fonksiyon, `console.log`'u çağırır, kontrolü alır, işini yapar ve ardından kontrolü 2. satıra geri verir. Orada `greet` fonksiyonunun sonuna ulaşır, bu nedenle onu çağıran yere geri döner, ki bu da 4. satırdır. Bundan sonra bir sonraki satır tekrar `console.log` çağrısı yapar. Dönüş yaptıktan sonra, program sonuna ulaşır.
 
-We could show the flow of control schematically like this:
+Kontrol akışını şematik olarak şöyle gösterebiliriz:
 
 ```{lang: null}
 not in function
@@ -270,13 +270,13 @@ not in function
 
 {{index "return keyword", [memory, call stack]}}
 
-Because a function has to jump back to the place that called it when it returns, the computer must remember the context from which the call happened. In one case, `console.log` has to return to the `greet` function when it is done. In the other case, it returns to the end of the program.
+Bir fonksiyona dönüş yapıldığında çağrıldığı yere geri kontrol akışının geri dönebilmesi için, bilgisayarın, çağrının nereden yapıldığı bağlamını hatırlaması gerekir. Bir durumda, `console.log`, işi bittiğinde `greet` fonksiyonuna dönmelidir. Diğer bir durumdaysa programın sonuna dönmelidir.
 
-The place where the computer stores this context is the _((call stack))_. Every time a function is called, the current context is stored on top of this stack. When a function returns, it removes the top context from the stack and uses that context to continue execution.
+Bilgisayarın bu bağlamı sakladığı yer _((çağrı yığını))_ dır. Bir fonksiyon çağrıldığında, mevcut bağlam bu yığının üstüne depolanır. Bir işlev döndüğünde, yığının üstündeki bağlamı kaldırır ve kaldırdığı bu bağlamı programı yürütmeye devam etmek için kullanır.
 
 {{index "infinite loop", "stack overflow", recursion}}
 
-Storing this stack requires space in the computer's memory. When the stack grows too big, the computer will fail with a message like "out of stack space" or "too much recursion". The following code illustrates this by asking the computer a really hard question that causes an infinite back-and-forth between two functions. Or rather, it _would_ be infinite, if the computer had an infinite stack. As it is, we will run out of space, or "blow the stack".
+Bu yığını saklamak, bilgisayarın belleğinde yer gerektirir. Yığın çok büyük hale geldiğinde, bilgisayar "yığın depolama alanı kalmadı" veya "çok fazla özyineleme yapıldı" gibi bir hata mesajıyla başarısız olacaktır. Aşağıdaki kod, bilgisayara sonsuz geriye doğru gidip gelme gerektiren gerçekten zor bir soru sorarak bunu gösterir. Aslında, bilgisayarın gerçekten sonsuz bir yığını olsaydı _sonsuz olurdu_ ancak şu anki durumda alanı tüketir ve "yığı taşarız".
 
 ```{test: no}
 function chicken() {
@@ -289,11 +289,11 @@ console.log(chicken() + " came first.");
 // → ??
 ```
 
-## Optional Arguments
+## Opsiyonel argümanlar
 
 {{index argument, [function, application]}}
 
-The following code is allowed and executes without any problem:
+Aşağıdaki koda izin verilir ve herhangi bir sorun olmaksızın çalışır:
 
 ```
 function square(x) { return x * x; }
@@ -301,13 +301,15 @@ console.log(square(4, true, "hedgehog"));
 // → 16
 ```
 
-We defined `square` with only one ((parameter)). Yet when we call it with three, the language doesn't complain. It ignores the extra arguments and computes the square of the first one.
+`square`'i yalnızca bir ((parametre)) ile tanımladık. Ancak üç adet argümanla çağırdığımızda JavaScript'in şikayet etmediğini ve ek argümanları yok sayıp ilk argümanın karesini hesapladığını gözlemliyoruz.
 
 {{index undefined}}
 
-JavaScript is extremely broad-minded about the number of arguments you can pass to a function. If you pass too many, the extra ones are ignored. If you pass too few, the missing parameters are assigned the value `undefined`.
+JavaScript, bir işleve kaç argüman geçirdiğiniz konusunda son derece açık fikirlidir. Çok fazla argüman verirseniz, fazladan olanlar yok sayılır. Çok az argüman verirseniz, eksik parametreler `undefined` değerine otomatik olarak atanır.
 
-The downside of this is that it is possible—likely, even—that you'll accidentally pass the wrong number of arguments to functions. And no one will tell you about it. The upside is that you can use this behavior to allow a function to be called with different numbers of arguments. For example, this `minus` function tries to imitate the `-` operator by acting on either one or two arguments:
+Bunun dezavantajı, fonksiyonlara olası olarak yanlış sayıda argüman verecek olursanız size kimsenin bundan haber vermeyecek olmasıdır.
+
+Avantajı ise, bu davranışın bir fonksiyonun farklı sayılarda argümanlarla çağrılmasına izin vermek için kullanılabilmesidir. Örneğin, bu `minus` fonksiyonu, bir veya iki argümanla etkileşime girerek `-` operatörünü taklit etmeye çalışır:
 
 ```
 function minus(a, b) {
@@ -324,7 +326,11 @@ console.log(minus(10, 5));
 {{id roundTo}}
 {{index "optional argument", "default value", parameter, ["= operator", "for default value"] "roundTo example"}}
 
-If you write an `=` operator after a parameter, followed by an expression, the value of that expression will replace the argument when it is not given. For example, this version of `roundTo` makes its second argument optional. If you don't provide it or pass the value `undefined`, it will default to one:
+Bir parametrenin ardından `=` operatörünü yazar ve onu bir ifade ile takip ederseniz, o parametre için bir argüman değeri verilmediğinde o verdiğiniz ifade, parametrenin varsayılan argüman değeri haline gelir.
+
+{{index "roundTo example"}}
+
+Örneğin, bu versiyon `roundTo` fonksiyonunun ikinci argümanını opsiyonel hale getirir. Eğer `undefined` değerini argüman olarak vermezseniz, o ikinci parametrenin varsayılan argüman değeri 1 olacaktır.
 
 ```{test: wrap}
 function roundTo(n, step = 1) {
@@ -340,20 +346,20 @@ console.log(roundTo(4.5, 2));
 
 {{index "console.log"}}
 
-The [next chapter](data#rest_parameters) will introduce a way in which a function body can get at the whole list of arguments it was passed. This is helpful because it allows a function to accept any number of arguments. For example, `console.log` does this, outputting all the values it is given:
+[Sonraki bölümde](data#rest_parameters), bir fonksiyon gövdesinin aldığı tüm argüman listesine nasıl erişebileceğimizi göreceğiz. Bu, bir fonksiyonun herhangi bir sayıda argümanı kabul etmesini mümkün kılar. Örneğin, `console.log` bunu yapar ve kendisine verilen tüm değerleri çıktı olarak gösterir.
 
 ```
 console.log("C", "O", 2);
 // → C O 2
 ```
 
-## Closure
+## Kapama
 
 {{index "call stack", "local binding", [function, "as value"], scope}}
 
-The ability to treat functions as values, combined with the fact that local bindings are re-created every time a function is called, brings up an interesting question: What happens to local bindings when the function call that created them is no longer active?
+Fonksiyonları herhangi bir değer olarak ele alabilme yeteneği ve fonksiyonların her çağrıldığında yerel bağlantılarının yeniden oluşturulması özellikleri ortaya ilginç bir soru çıkarır. Yerel bağlara onları oluşturan fonksiyon çağrısı artık etkin değilken ne olur?
 
-The following code shows an example of this. It defines a function, `wrapValue`, that creates a local binding. It then returns a function that accesses and returns this local binding.
+Aşağıdaki kod, bunun bir örneğini gösterir. Bir yerel bağlantı oluşturan `wrapValue` adında bir fonksiyon tanımlar. Ardından bu yerel bağlantıya erişen ve bunu döndüren bir fonksiyon döndürür.
 
 ```
 function wrapValue(n) {
@@ -369,13 +375,13 @@ console.log(wrap2());
 // → 2
 ```
 
-This is allowed and works as you'd hope—both instances of the binding can still be accessed. This situation is a good demonstration of the fact that local bindings are created anew for every call, and different calls don't affect each other's local bindings.
+Bu izin verilir ve umduğunuz gibi çalışır - her iki ayrı yaratılmış bağlam hala erişilebilir. Bu durum, yerel bağlantıların her çağrı için yeniden oluşturulduğunu ve farklı çağrıların birbirlerinin yerel bağlantılarını etkilemediğini iyi bir şekilde gösterir.
 
-This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called _((closure))_. A function that references bindings from local scopes around it is called _a_ closure. This behavior not only frees you from having to worry about the lifetimes of bindings but also makes it possible to use function values in some creative ways.
+Kapsayan bir kapsamdaki belirli bir yerel bağlantının yaratılmış spesifik bir değerine başvurabilmeyi sağlayan bu özellik _((kapama))_ olarak adlandırılır. Etrafındaki kapsamlardan yerel bağlantı veya bağlantılarını kullanan bir fonksiyonun kullandığı özelliğe kapama denir. Bu davranış, bağlantıların yaşam süreleri hakkında endişelenmenize gerek olmadığı için sizi serbest bırakmakla kalmaz, aynı zamanda fonksiyon değerlerini bazı yaratıcı şekillerde kullanmanızı mümkün kılar.
 
 {{index "multiplier function"}}
 
-With a slight change, we can turn the previous example into a way to create functions that multiply by an arbitrary amount.
+Önceki örneği hafif bir değişiklikle vereceğimiz herhangi bir miktarı istediğimiz herhangi bir miktarla çarpan fonksiyonlar oluştucak bir haline getirebiliriz.
 
 ```
 function multiplier(factor) {
@@ -389,19 +395,19 @@ console.log(twice(5));
 
 {{index [binding, "from parameter"]}}
 
-The explicit `local` binding from the `wrapValue` example isn't really needed since a parameter is itself a local binding.
+`wrapValue` örneğindeki `local` bağlantısı bir parametre zaten kendisi de yerel bir bağlantı olduğundan ötürü gerekli değildir.
 
 {{index [function, "model of"]}}
 
-Thinking about programs like this takes some practice. A good mental model is to think of function values as containing both the code in their body and the environment in which they are created. When called, the function body sees the environment in which it was created, not the environment in which it is called.
+Bu tür programları düşünmek biraz pratik gerektirir. İyi bir zihinsel model, fonksiyon değerlerininin hem içindeki kodu ve hem de oluşturuldukları ortamı içerdiklerini düşünmektir. Çağrıldığında, fonksiyon gövdesi oluşturulduğu ortamı görür, çağrıldığı yerin ortamını değil.
 
-In the previous example, `multiplier` is called and creates an environment in which its `factor` parameter is bound to 2. The function value it returns, which is stored in `twice`, remembers this environment so that when that is called, it multiplies its argument by 2.
+Örnekte, `multiplier` çağrılır ve `factor` parametresinin 2'ye bağlı olduğu bir ortam oluşturur. `twice` bağlantısı içinde depolanan bu döndürülen fonksiyon değeri, o ortamı hatırlar ki çağrıldığında argümanını 2 ile çarpar.
 
-## Recursion
+## Özyineleme
 
 {{index "power example", "stack overflow", recursion, [function, application]}}
 
-It is perfectly okay for a function to call itself, as long as it doesn't do it so often that it overflows the stack. A function that calls itself is called _recursive_. Recursion allows some functions to be written in a different style. Take, for example, this `power` function, which does the same as the `**` (exponentiation) operator:
+Bir fonksiyonun yığını taşırmadığı sürece kendini çağırması tamamen normaldir. Kendini çağıran bir fonskiyon _özyineleyici_ bir fonksiyon olarak adlandırılır. Özyineleyicilik, bazı işlevlerin farklı bir tarzda yazılmasına olanak tanır. Örneğin, `**` (üs alma) operatörü ile aynı işi yapan bu `power` adlı fonksiyona bakın:
 
 ```{test: wrap}
 function power(base, exponent) {
@@ -418,36 +424,39 @@ console.log(power(2, 3));
 
 {{index loop, readability, mathematics}}
 
-This is rather close to the way mathematicians define exponentiation and arguably describes the concept more clearly than the loop we used in [Chapter ?](program_structure). The function calls itself multiple times with ever smaller exponents to achieve the repeated multiplication.
+Bu, matematikçilerin üs alma işlemini tanımlama şekline oldukça yakındır ve tartışmaya açık bir şekilde [Bölüm ?](program_structure)'da kullandığımız döngüden daha açık bir şekilde kavramı tanımlar. Tekrarlı çarpma işlemini gerçekleştirmek için her seferinde daha küçük üslerle kendini birden çok kez çağırır.
 
 {{index [function, application], efficiency}}
 
-However, this implementation has one problem: in typical JavaScript implementations, it's about three times slower than a version using a `for` loop. Running through a simple loop is generally cheaper than calling a function multiple times.
+Ancak bu uygulamanın bir sorunu var: tipik JavaScript uygulamalarında, döngü kullanan bir versiyondan yaklaşık üç kat daha yavaştır. Basit bir döngüden geçmek, bir fonksiyonu birden çok kez çağırmaktan genellikle performans bakımından daha ucuzdur.
 
 {{index optimization}}
 
-The dilemma of speed versus ((elegance)) is an interesting one. You can see it as a kind of continuum between human-friendliness and machine-friendliness. Almost any program can be made faster by making it bigger and more convoluted. The programmer has to find an appropriate balance.
+Hızlılıkla ((zarafet)) arasındaki ikilem ilginçtir. Bu, insan dostu ve makine dostu olmak arasında bir tür devam eden bir durum olarak görülebilir. Neredeyse her program, onu daha büyük ve daha karmaşık hale getirerek daha hızlı hale getirilebilir. Programcının burada uygun bir dengeyi kendisinin belirlemesi gerekmektedir.
 
-In the case of the `power` function, an inelegant (looping) version is still fairly simple and easy to read. It doesn't make much sense to replace it with a recursive function. Often, though, a program deals with such complex concepts that giving up some efficiency in order to make the program more straightforward is helpful.
+Often, though, a program deals with such complex concepts that giving up some efficiency in order to make the program more straightforward is helpful.
+`power` fonksiyonunun durumunda, zarif olmayan (döngü kullanan) bir versiyon hala oldukça basit ve okunması kolaydır. Onu özyinelemeli bir fonksiyonla değiştirmenin pek mantıklı değildir. Ancak, bir program genellikle öyle kompleks durumlarla ilgilenir ki programı daha anlaşılır hale getirmek için bazen verimliliğinden vazgeçmek daha mantıklıdır.
 
 {{index profiling}}
 
-Worrying about efficiency can be a distraction. It's yet another factor that complicates program design, and when you're doing something that's already difficult, that extra thing to worry about can be paralyzing.
+Verimlilik hakkında endişelenmek dikkati dağıtabilir. Bu, program tasarımını karmaşıklaştıran başka bir faktördür ve zaten zor olan bir şey yaparken, bu ekstra düşünme nedeniyle felç olabilirsiniz.
 
 {{index "premature optimization"}}
 
-Therefore, you should generally start by writing something that's correct and easy to understand. If you're worried that it's too slow—which it usually isn't since most code simply isn't executed often enough to take any significant amount of time—you can measure afterward and improve it if necessary.
+Bu nedenle, genellikle doğru ve anlaşılması kolay olan bir şey yazarak başlamalısınız. Genellikle çoğu kod önemli miktarda çalıştırılmadığından ötürü aldığı zaman hakkında çok da endişelenmenize gerek yoktur, sonradan ölçebilir ve gerektiğinde iyileştirebilirsiniz.
 
 {{index "branching recursion"}}
 
-Recursion is not always just an inefficient alternative to looping. Some problems really are easier to solve with recursion than with loops. Most often these are problems that require exploring or processing several "branches", each of which might branch out again into even more branches.
+Özyineleme, sadece döngülerin verimsiz bir alternatifi değildir. Bazı problemler gerçekten özyineleme aracılığıyla döngülerden daha kolay bir şekilde çözülebilir. Çoğunlukla bunlar, birden çok "dal" keşfetmeyi veya işlemeyi gerektiren problemlerdir, her bir dal daha fazla dala ayrılabilir.
 
 {{id recursive_puzzle}}
 {{index recursion, "number puzzle example"}}
 
-Consider this puzzle: by starting from the number 1 and repeatedly either adding 5 or multiplying by 3, an infinite set of numbers can be produced. How would you write a function that, given a number, tries to find a sequence of such additions and multiplications that produces that number? For example, the number 13 could be reached by first multiplying by 3 and then adding 5 twice, whereas the number 15 cannot be reached at all.
+Bu bulmacayı düşünün: Sayı 1'den başlayarak ve tekrarlanarak ya 5 eklenerek ya da 3 ile çarpılarak, sonsuz bir sayı kümesi üretilebilir. Verilen bir sayıyı üreten böyle bir toplama ve çarpma dizisi bulmaya çalışan bir fonksiyonu nasıl yazarsınız?
 
-Here is a recursive solution:
+Örneğin, sayı 13'e, önce 3 ile çarpılarak ve ardından 5 iki kez eklenerek ulaşılabilirken, sayı 15 hiçbir şekilde ulaşılamaz.
+
+İşte bir özyinelemeli bir çözüm:
 
 ```
 function findSolution(target) {
@@ -468,19 +477,19 @@ console.log(findSolution(24));
 // → (((1 * 3) + 5) * 3)
 ```
 
-Note that this program doesn't necessarily find the _shortest_ sequence of operations. It is satisfied when it finds any sequence at all.
+Bu programın _en kısa_ işlem dizisini bulması gerekmediğini lütfen unutmayın, kendisi herhangi bir diziyi bulduğunda memnun olur.
 
-It's okay if you don't see how this code works right away. Let's work through it since it makes for a great exercise in recursive thinking.
+Hemen nasıl çalıştığını görmüyorsanız endişelenmeyin. Bunun üzerinde çalışalım, çünkü bu, özyinelemeli düşünme pratiği için harika bir alıştırmadır.
 
-The inner function `find` does the actual recursing. It takes two ((argument))s: the current number and a string that records how we reached this number. If it finds a solution, it returns a string that shows how to get to the target. If it can find no solution starting from this number, it returns `null`.
+İçeride bulunan `find`, gerçek özyinelemeli işlemi yapmaktadır. İki ((argüman)) alır: mevcut sayı ve bu sayıya nasıl ulaştığımızı kaydeden bir dize. Bir çözüm bulursa, hedefe nasıl ulaşılacağını gösteren bir dize döndürür. Bu sayıdan başlayarak bir çözüm bulunamazsa, `null` döndürür.
 
 {{index null, "?? operator", "short-circuit evaluation"}}
 
-To do this, the function performs one of three actions. If the current number is the target number, the current history is a way to reach that target, so it is returned. If the current number is greater than the target, there's no sense in further exploring this branch because both adding and multiplying will only make the number bigger, so it returns `null`. Finally, if we're still below the target number, the function tries both possible paths that start from the current number by calling itself twice, once for addition and once for multiplication. If the first call returns something that is not `null`, it is returned. Otherwise, the second call is returned, regardless of whether it produces a string or `null`.
+Bunu yapmak için işlev üç eylemden birini gerçekleştirir. Eğer mevcut sayı hedef sayı ise, mevcut geçmiş, hedefe ulaşmanın bir yoludur, bu yüzden döndürülür. Eğer mevcut sayı hedeften büyükse, bu dalı daha fazla keşfetmenin bir anlamı yoktur çünkü hem eklemek hem de çarpmak sayıyı sadece daha büyük yapar, bu yüzden `null` döndürür. Son olarak, hala hedef sayıdan daha düşükse, fonksiyon mevcut sayıdan başlayan her iki olası yolu da denemek için kendisini iki kez çağırır, bir kez toplama ve bir kez çarpma için. İlk çağrı `null` döndürmeyen bir şey döndürürse, bu döndürülür. Aksi takdirde, ikinci çağrı, dize veya `null` üretip üretmediğine bakılmasızın döndürülür.
 
 {{index "call stack"}}
 
-To better understand how this function produces the effect we're looking for, let's look at all the calls to `find` that are made when searching for a solution for the number 13:
+Bu fonksiyonun istediğimiz etkiyi nasıl ürettiğini daha iyi anlamak için, 13 sayısı için bir çözüm ararken yapılan tüm `find` çağrılarına bakalım.
 
 ```{lang: null}
 find(1, "1")
@@ -498,34 +507,34 @@ find(1, "1")
         found!
 ```
 
-The indentation indicates the depth of the call stack. The first time `find` is called, the function starts by calling itself to explore the solution that starts with `(1 + 5)`. That call will further recurse to explore _every_ continued solution that yields a number less than or equal to the target number. Since it doesn't find one that hits the target, it returns `null` back to the first call. There the `??` operator causes the call that explores `(1 * 3)` to happen. This search has more luck—its first recursive call, through yet _another_ recursive call, hits upon the target number. That innermost call returns a string, and each of the `??` operators in the intermediate calls passes that string along, ultimately returning the solution.
+Girinti, çağrı yığınının derinliğini gösterir. `find` ilk kez çağrıldığında, `(1 + 5)` ile başlayan çözümü keşfetmek için kendisini çağırarak başlar. Bu çağrı, hedef sayıya eşit veya daha küçük bir sayı üreten _her_ çözümü keşfetmek için fonksiyonu tekrar eder. Hedefe ulaşan bir çözüm bulamadığından ötürü ilk çağrıya `null` döner. İlk çağrıda, `??` operatörü `(1 * 3)` ile keşfeden çağrının olmasını sağlar. Bu aramanın şansı yaver gider - ilk özyineleyici çağrısı, henüz başka bir özyineleyici çağrı aracılığıyla hedef sayıya ulaşır. En içteki çağrı bir dize döndürür, ve ara çağrılardaki her `??` operatörü bu diziyi çıktı olarak vererek sonunda çözümü döndürür.
 
-## Growing functions
+## Büyüyen fonksiyonlar
 
 {{index [function, definition]}}
 
-There are two more or less natural ways for functions to be introduced into programs.
+Programlara fonksiyonların tanıtılması için az buçuk doğal olan iki yol vardır.
 
 {{index repetition}}
 
-The first occurs when you find yourself writing similar code multiple times. You'd prefer not to do that, as having more code means more space for mistakes to hide and more material to read for people trying to understand the program. So you take the repeated functionality, find a good name for it, and put it into a function.
+İlk olarak, benzer kodları birden çok kez yazdığınızı fark edersiniz. Bunu yapmak istemezsiniz. Daha fazla kod, hataların saklanabileceği daha fazla alan ve programı anlamaya çalışan insanlar için okunacak daha fazla materyal demektir. Bu nedenle, tekrarlanan kodu alır, ona iyi bir isim bulur ve bir fonksiyon içine koyarsınız.
 
-The second way is that you find you need some functionality that you haven't written yet and that sounds like it deserves its own function. You start by naming the function, and then write its body. You might even start writing code that uses the function before you actually define the function itself.
+İkinci yol, henüz yazmadığınız ancak kendi fonksiyonunu hak eden bazı koda ihtiyacınız olduğunu fark ettiğinizdir. Fonksiyonu adlandırmakla başlayacak ve ardından gövdesini yazacaksınız. Hatta fonksiyonu tanımlamadan önce fonksiyonu kullanan kodu yazmaya bile başlayabilirsiniz.
 
 {{index [function, naming], [binding, naming]}}
 
-How difficult it is to find a good name for a function is a good indication of how clear a concept it is that you're trying to wrap. Let's go through an example.
+Bir fonksiyon için iyi bir ad bulmanın ne kadar zor olduğu, kod yazmaya çalıştığınız kavramın ne kadar net olduğunun iyi bir göstergesidir. Bir örnek üzerinden geçelim.
 
 {{index "farm example"}}
 
-We want to write a program that prints two numbers: the numbers of cows and chickens on a farm, with the words `Cows` and `Chickens` after them and zeros padded before both numbers so that they are always three digits long:
+Bir çiftlikteki ineklerin ve tavukların sayısını, ardından her iki sayının yanına `Cows` ve `Chickens` kelimelerini ve her iki sayının da her zaman üç basamaklı olacak şekilde önceden doldurulmuş sıfırlarını yazdıran bir program yazmak istiyoruz.
 
 ```{lang: null}
 007 Cows
 011 Chickens
 ```
 
-This asks for a function of two arguments—the number of cows and the number of chickens. Let's get coding.
+Bu, iki argümanlı bir fonksiyon gerektirir - ineklerin sayısı ve tavukların sayısı. Hadi kodlamaya başlayalım.
 
 ```
 function printFarmInventory(cows, chickens) {
@@ -545,13 +554,13 @@ printFarmInventory(7, 11);
 
 {{index ["length property", "for string"], "while loop"}}
 
-Writing `.length` after a string expression will give us the length of that string. Thus, the `while` loops keep adding zeros in front of the number strings until they are at least three characters long.
+Bir dize ifadesinin sonuna `.length` yazmak bize o dizenin uzunluğunu verecektir. Bu nedenle, `while` döngüleri, sayı dizelerinin en az üç karakter uzunluğunda olana kadar önüne sıfırlar eklemeye devam eder.
 
-Mission accomplished! But just as we are about to send the farmer the code (along with a hefty invoice), she calls and tells us she's also started keeping pigs, and couldn't we please extend the software to also print pigs?
+Görev tamamlandı! Ancak, çiftlik sahibine kodu (birlikte ciddi bir fatura ile) gönderecekken, bizi arar ve ayrıca domuzları da yazdırmak için yazılımı genişletemeyiz mi diye bize sorar.
 
 {{index "copy-paste programming"}}
 
-We sure can. But just as we're in the process of copying and pasting those four lines one more time, we stop and reconsider. There has to be a better way. Here's a first attempt:
+Tabii ki yapabiliriz. Ancak, o dört satırı bir kez daha kopyalayıp yapıştırma sürecindeyken durur ve yeniden düşünürüz. Daha iyi bir yol olmalı. İşte bu bizim ilk denememiz:
 
 ```
 function printZeroPaddedWithLabel(number, label) {
@@ -573,11 +582,11 @@ printFarmInventory(7, 11, 3);
 
 {{index [function, naming]}}
 
-It works! But that name, `printZeroPaddedWithLabel`, is a little awkward. It conflates three things—printing, zero-padding, and adding a label—into a single function.
+İşe yarıyor! Ancak, `printZeroPaddedWithLabel` adı biraz garip. Üç şeyi - yazdırma, sıfır dolgusu ve bir etiket ekleme - tek bir işlevde birleştiriyor gibi görünüyor.
 
 {{index "zeroPad function"}}
 
-Instead of lifting out the repeated part of our program wholesale, let's try to pick out a single _concept_:
+Programımızın tekrar eden kısmını toptan dışarı çıkarmak yerine, tek bir _kavram_ seçmeye çalışalım.
 
 ```
 function zeroPad(number, width) {
@@ -599,36 +608,38 @@ printFarmInventory(7, 16, 3);
 
 {{index readability, "pure function"}}
 
-A function with a nice, obvious name like `zeroPad` makes it easier for someone who reads the code to figure out what it does. Such a function is also useful in more situations than just this specific program. For example, you could use it to help print nicely aligned tables of numbers.
+`zeroPad` gibi güzel, açık bir adı olan bir fonksiyon, kodu okuyan birinin ne yaptığını anlamasını kolaylaştırır. Ve böyle bir fonksiyon, sadece bu belirli program için değil, daha fazla durumda da kullanışlıdır. Örneğin, sayıların güzelce hizalanmış tablolarını konsola yazdırmaya yardımcı olmak için de kullanabilirsiniz.
 
 {{index [interface, design]}}
 
-How smart and versatile _should_ our function be? We could write anything, from a terribly simple function that can only pad a number to be three characters wide to a complicated generalized number-formatting system that handles fractional numbers, negative numbers, alignment of decimal dots, padding with different characters, and so on.
+İşlevimiz ne kadar zeki ve çok yönlü olmalıdır? Çok basit sadece üç karakter genişliğinde bir sayı dolgusunu yapabilen bir fonksiyondan karmaşık genelleştirilmiş tam olmayan sayıları, negatif satıları, tam olmayan sayılardaki noktaları, farklı karakterlerle dolgu yapmayı da halledebilen bir sayı biçimlendirme sistemi oluşturmaya kadar her şeyi yazabiliriz.
 
-A useful principle is to refrain from adding cleverness unless you are absolutely sure you're going to need it. It can be tempting to write general "((framework))s" for every bit of functionality you come across. Resist that urge. You won't get any real work done—you'll be too busy writing code that you never use.
+Kullanışlı bir prensip, kesinlikle ihtiyacınız olduğundan emin olmadıkça, zekiğe girmemektir. Karşılaştığınız her işlev için genel "((çerçeve))ler" yazma dürtüsüne karşı koyun. Eğer bu prensipi takip etmezseniz gerçekten bir iş yapamayıp - sadece hiç kullanmayacağınız kod yazacaksınız.
 
 {{id pure}}
-## Functions and side effects
+
+## Fonksiyonlar ve yan etkiler
 
 {{index "side effect", "pure function", [function, purity]}}
 
-Functions can be roughly divided into those that are called for their side effects and those that are called for their return value (though it is also possible to both have side effects and return a value).
+Fonksiyonlar, yan etkileri için çağrılanlar ve dönüş değeri için çağrılanlar olarak kabaca ikiye ayrılabilir. (Ancak hem yan etkilere sahip olmak ve hem de bir değer döndürmek kesinlikle mümkündür.)
 
 {{index reuse}}
 
-The first helper function in the ((farm example)), `printZeroPaddedWithLabel`, is called for its side effect: it prints a line. The second version, `zeroPad`, is called for its return value. It is no coincidence that the second is useful in more situations than the first. Functions that create values are easier to combine in new ways than functions that directly perform side effects.
+((Çiftlik örneğinde))ki ilk yardımcı fonksiyon olan `printZeroPaddedWithLabel`, yan etkisi için çağrılır: bir satır yazdırır. İkinci sürüm olan zeroPad`, dönüş değeri için çağrılır. İkincisinin birinciden daha fazla durumda kullanışlı olması tesadüf değildir. Değerler üreten fonksiyonlar, doğrudan yan etki yapan fonksiyonlardan daha kolay yeni şekillerde birleştirilebilmektedirler.
 
 {{index substitution}}
 
-A _pure_ function is a specific kind of value-producing function that not only has no side effects but also doesn't rely on side effects from other code—for example, it doesn't read global bindings whose value might change. A pure function has the pleasant property that, when called with the same arguments, it always produces the same value (and doesn't do anything else). A call to such a function can be substituted by its return value without changing the meaning of the code. When you are not sure that a pure function is working correctly, you can test it by simply calling it and know that if it works in that context, it will work in any context. Nonpure functions tend to require more scaffolding to test.
+Bir _saf_ fonksiyon, yalnızca yan etkisi olmayan belirli bir türde bir değer üreten bir fonksiyon değil, ayrıca diğer kodlardan yan etkileri de almayan bir işlevdir - örneğin, değeri değişebilecek global bağlantıları okumaz. Saflık fonksiyonu, aynı argümanlarla çağrıldığında her zaman aynı değeri üreten (ve başka bir şey yapmayan) hoş bir özelliğe sahiptir. Böyle bir fonksiyonun çağrısı, kodun anlamını değiştirmeden döndürdüğü değeri kullanarak değiştirilebilir. Bir saf fonksiyonun doğru çalışıp çalışmadığından emin değilseniz, onu sadece çağırarak test edebilir ve eğer bu bağlamda çalışıyorsa, herhangi bir bağlamda da çalışacağını bilirsiniz. Saf olmayan fonksiyonların test edilmesi daha fazla destekleme gerektirir.
 
 {{index optimization, "console.log"}}
 
-Still, there's no need to feel bad when writing functions that are not pure. Side effects are often useful. There's no way to write a pure version of `console.log`, for example, and `console.log` is good to have. Some operations are also easier to express in an efficient way when we use side effects.
+Yine de, saf olmayan fonksiyonlar yazdığınızda kötü hissetmenize gerek yok. Yan etkiler genellikle yararlıdır. Örneğin, `console.log`'un saf bir versiyonunu yazmanın bir yolu yoktur ve `console.log`'un olması iyidir. Bazı işlemler, yan etkileri kullanarak daha verimli bir şekilde ifade edilebilir.
 
-## Summary
+## Özet
 
-This chapter taught you how to write your own functions. The `function` keyword, when used as an expression, can create a function value. When used as a statement, it can be used to declare a binding and give it a function as its value. Arrow functions are yet another way to create functions.
+The `function` keyword, when used as an expression, can create a function value. When used as a statement, it can be used to declare a binding and give it a function as its value. Arrow functions are yet another way to create functions.
+Bu bölüm, size kendi fonksiyonlarınızı yazmayı öğretti. `function` anahtar kelimesi, bir ifade olarak kullanıldığında bir fonksiyon değeri oluşturabilir. Bir beyan olarak kullanıldığında, bir bağlantıyı bildirmek ve ona bir fonksiyon değeri olarak vermek için kullanılabilir. Ok fonksiyonlarıysa fonksiyon oluşturmanın başka bir yoludur.
 
 ```
 // Define f to hold a function value
@@ -645,64 +656,65 @@ function g(a, b) {
 let h = a => a % 3;
 ```
 
-A key part of understanding functions is understanding scopes. Each block creates a new scope. Parameters and bindings declared in a given scope are local and not visible from the outside. Bindings declared with `var` behave differently—they end up in the nearest function scope or the global scope.
+İşlevleri anlamanın temel yönlerinden biri kapsamları anlamaktır. Her blok yeni bir kapsam oluşturur. Bir kapsam içindeki parametreler ve bağlantılar yerel olup dışarıdan görünmez. `var` ile bildirilen bağlantılar farklı davranır - bunlar en yakın fonksiyon kapsamına veya global kapsama yerleşirler.
 
-Separating the tasks your program performs into different functions is helpful. You won't have to repeat yourself as much, and functions can help organize a program by grouping code into pieces that do specific things.
+Programınızın yaptığı görevleri farklı fonksiyonlara ayırmak yararlıdır. Kendinizi tekrar etmek zorunda kalmazsınız ve fonksiyonlar, kodu belirli şeyler yapan parçalara gruplayarak bir programı düzenlemenize yardımcı olabilir.
 
-## Exercises
+## Egzersizler
 
 ### Minimum
 
 {{index "Math object", "minimum (exercise)", "Math.min function", minimum}}
 
-The [previous chapter](program_structure#return_values) introduced the standard function `Math.min` that returns its smallest argument. We can write a function like that ourselves now. Define the function `min` that takes two arguments and returns their minimum.
+[Önceki bölüm](program_structure#return_values), en küçük verilen argümanını döndüren standart `Math.min` işlevini tanıttı. Şimdi buna benzer bir şey yapabiliriz. İki argüman alan ve bunların minimumunu döndüren `min` adında bir fonksiyon yazın.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 console.log(min(0, 10));
 // → 0
 console.log(min(0, -10));
 // → -10
 ```
+
 if}}
 
 {{hint
 
 {{index "minimum (exercise)"}}
 
-If you have trouble putting braces and parentheses in the right place to get a valid function definition, start by copying one of the examples in this chapter and modifying it.
+Eğer süslü parantezleri ve normal parantezleri doğru yerlere koyarak bir geçerli fonksiyon tanımı elde etmekte zorlanıyorsanız, bir önceki bölümdeki örneklerden birini kopyalayıp onu değiştirerek başlayabilirsiniz.
 
 {{index "return keyword"}}
 
-A function may contain multiple `return` statements.
+Bir fonksiyon birden fazla `return` beyanını içinde bulundurabilir.
 
 hint}}
 
-### Recursion
+### Özyineleme
 
 {{index recursion, "isEven (exercise)", "even number"}}
 
-We've seen that we can use `%` (the remainder operator) to test whether a number is even or odd by using `% 2` to see whether it's divisible by two. Here's another way to define whether a positive whole number is even or odd:
+`%` (kalan işlemcisi) operatörünün bir sayının çift mi yoksa tek mi olduğunu test etmek için 2'ye bölünüp bölünmediğini anlamak adına `% 2` kullanılabileceğini gördük. İşte bir pozitif tam sayının çift veya tek olup olmadığını tanımlamanın başka bir yolu:
 
-- Zero is even.
+- Sıfır çifttir.
 
-- One is odd.
+- Bir tektir.
 
-- For any other number _N_, its evenness is the same as _N_ - 2.
+- Herhangi bir _N_ sayısı için _N_ - 2 çifttir.
 
-Define a recursive function `isEven` corresponding to this description. The function should accept a single parameter (a positive, whole number) and return a Boolean.
+Bu tanıma karşılık gelen özyinelemeli bir fonksiyon olan `isEven` fonksiyonunu tanımlayın. Fonksiyon tek bir parametre kabul etmeli (pozitif, tam sayı) ve Bir Boole değeri döndürmelidir.
 
 {{index "stack overflow"}}
 
-Test it on 50 and 75. See how it behaves on -1. Why? Can you think of a way to fix this?
+Fonksiyonu 50 ve 75 üzerinde test edin. -1'de nasıl davrandığını görün. Neden? Bunun nasıl düzeltilebileceğini düşünebilir misiniz?
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 console.log(isEven(50));
 // → true
@@ -718,28 +730,28 @@ if}}
 
 {{index "isEven (exercise)", ["if keyword", chaining], recursion}}
 
-Your function will likely look somewhat similar to the inner `find` function in the recursive `findSolution` [example](functions#recursive_puzzle) in this chapter, with an `if`/`else if`/`else` chain that tests which of the three cases applies. The final `else`, corresponding to the third case, makes the recursive call. Each of the branches should contain a `return` statement or in some other way arrange for a specific value to be returned.
+Fonksiyonunuz muhtemelen bu bölümdeki özyinelemeli `findSolution` [örneğindeki](functions#recursive_puzzle) iç `find` fonksiyona oldukça benzer görünecek ve üç durumdan hangisinin uygulandığını test eden bir `if/else` `if/else` zinciri ile olacak. Üçüncü duruma karşılık gelen son `else`, özyinelemeli çağrıyı yapar. Her bir dal, belirli bir değerin döndürülmesini sağlamak için bir `return` beyanı içermelidir veya başka bir şekilde düzenlenmelidir.
 
 {{index "stack overflow"}}
 
-When given a negative number, the function will recurse again and again, passing itself an ever more negative number, thus getting further and further away from returning a result. It will eventually run out of stack space and abort.
+Negatif bir sayı verildiğinde, fonksiyon kendisine negatif bir sayı vererek tekrar tekrar özyinelemeye girecek, böylece sonuç döndürmekten giderek daha uzaklaşacaktır. Sonunda, yığın alanı tükenecek ve işlem iptal edilecektir.
 
 hint}}
 
-### Bean counting
+### Fasulye sayımı
 
 {{index "bean counting (exercise)", [string, indexing], "zero-based counting", ["length property", "for string"]}}
 
-You can get the *N*th character, or letter, from a string by writing `[N]` after the string (for example, `string[2]`). The resulting value will be a string containing only one character (for example, `"b"`). The first character has position 0, which causes the last one to be found at position `string.length - 1`. In other words, a two-character string has length 2, and its characters have positions 0 and 1.
+Bir diziden (örneğin `string[2]` olarak) N'inci karakterini veya harfini alabilirsiniz. Elde edilen değer, yalnızca bir karakter içeren bir dizedir (örneğin, `"b"`). İlk karakterin konumu 0 olduğu için, son karakterin konumu `string.length - 1` pozisyonunda bulunur. Başka bir deyişle, iki karakterlik bir dizenin uzunluğu 2'dir ve karakterleri 0 ve 1 konumunda bulunur.
 
-Write a function called `countBs` that takes a string as its only argument and returns a number that indicates how many uppercase B characters there are in the string.
+Tek bir argüman olarak bir dize alan ve dizide kaç büyük `"B"` karakteri olduğunu gösteren bir sayı döndüren `countBs` adında bir fonksiyon yazın.
 
-Next, write a function called `countChar` that behaves like `countBs`, except it takes a second argument that indicates the character that is to be counted (rather than counting only uppercase B characters). Rewrite `countBs` to make use of this new function.
+Sonraki adımda, `countBs` gibi davranan ancak sadece bütük "B" dizesini saymak yerine sayılacak karakteri de belirtecek ikinci bir argüman alan `countChar` adında bir fonksiyon yazın. `countBs` işlevini bu yeni işlevi kullanacak şekilde tekrar yazın.
 
 {{if interactive
 
 ```{test: no}
-// Your code here.
+// Kodunuz buraya.
 
 console.log(countBs("BOB"));
 // → 2
@@ -753,10 +765,10 @@ if}}
 
 {{index "bean counting (exercise)", ["length property", "for string"], "counter variable"}}
 
-Your function will need a ((loop)) that looks at every character in the string. It can run an index from zero to one below its length (`< string.length`). If the character at the current position is the same as the one the function is looking for, it adds 1 to a counter variable. Once the loop has finished, the counter can be returned.
+İşleviniz, dizedeki her karaktere bakan bir ((döngü)) gerektirecektir. Döngü, sıfırdan dizenin uzunluğunun bir altına kadar bir dizini çalıştırabilir (`< string.length`). Mevcut konumdaki karakter fonksiyonun aradığı karakterle aynıysa, sayaç bağlantısındaki değeri 1 artırır. Döngü tamamlandığında, sayaç sonuç olarak `return` beyanı aracılığıyla döndürülebilir.
 
 {{index "local binding"}}
 
-Take care to make all the bindings used in the function _local_ to the function by properly declaring them with the `let` or `const` keyword.
+Fonksiyonda kullanılan tüm bağlantıların `let` veya `const` anahtar kelimelerini kullanarak düzgün bir şekilde fonksiyon içerisinde yerel halde olmasını sağlayın.
 
 hint}}

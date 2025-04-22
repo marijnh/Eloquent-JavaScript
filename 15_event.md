@@ -1,32 +1,32 @@
-# Handling Events
+# Olayların Ele Alınması
 
-{{quote {author: "Marcus Aurelius", title: Meditations, chapter: true}
+{{quote {author: "Marcus Aurelius", title: Meditasyonlar, chapter: true}
 
-You have power over your mind—not outside events. Realize this, and you will find strength.
+Zihniniz üzerinde gücünüz var, dışarıdaki olaylar üzerinde değil. Bunun farkına varın ve güç bulacaksınız.
 
 quote}}
 
 {{index stoicism, "Marcus Aurelius", input, timeline}}
 
-{{figure {url: "img/chapter_picture_15.jpg", alt: "Illustration showing a Rube Goldberg machine involving a ball, a see-saw, a pair of scissors, and a hammer, which affect each other in a chain reaction that turns on a lightbulb.", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_15.jpg", alt: "Bir ampulü yakan zincirleme reaksiyonda birbirlerini etkileyen bir top, bir tahterevalli, bir makas ve bir çekiç içeren bir Rube Goldberg makinesini gösteren illüstrasyon.", chapter: "framed"}}}
 
-Some programs work with direct user input, such as mouse and keyboard actions. That kind of input isn't available ahead of time, as a well-organized data structure—it comes in piece by piece, in real time, and the program must respond to it as it happens.
+Bazı programlar fare ve klavye eylemleri gibi doğrudan kullanıcı girdileriyle çalışır. Bu tür bir girdi, iyi organize edilmiş bir veri yapısı olarak önceden mevcut değildir; parça parça, gerçek zamanlı olarak gelir ve programın buna gerçekleştiği anda yanıt vermesi gerekir.
 
-## Event handlers
+## Olay işleyicileri
 
 {{index polling, button, "real-time"}}
 
-Imagine an interface where the only way to find out whether a key on the ((keyboard)) is being pressed is to read the current state of that key. To be able to react to keypresses, you would have to constantly read the key's state to catch it before it is released again. It would be dangerous to perform other time-intensive computations, since you might miss a keypress.
+((Klavye)) üzerindeki bir tuşa basılıp basılmadığını öğrenmenin tek yolunun o tuşun mevcut durumunu okumak olduğu bir arayüz hayal edin. Tuşa basıldığında tepki verebilmek için, tuşun durumunu sürekli olarak okumanız gerekir, böylece tekrar bırakılmadan önce yakalayabilirsiniz. Bir tuşa basmayı kaçırabileceğiniz için diğer zaman yoğun hesaplamaları yapmak tehlikeli olacaktır.
 
-Some primitive machines handle input like this. A step up from this is for the hardware or operating system to notice the keypress and put it in a queue. A program can then periodically check the queue for new events and react to what it finds there.
+Bazı ilkel makineler girişi bu şekilde ele alır. Bunun bir adım ötesi, donanımın ya da işletim sisteminin tuşa basıldığını fark etmesi ve bunu bir kuyruğa koymasıdır. Bir program daha sonra yeni olaylar için kuyruğu periyodik olarak kontrol edebilir ve orada bulduklarına tepki verebilir.
 
 {{index responsiveness, "user experience"}}
 
-Of course, the program has to remember to look at the queue, and to do it often because any time between the key being pressed and the program noticing the event will cause the software to feel unresponsive. This approach is called _((polling))_. Most programmers prefer to avoid it.
+Elbette kuyruğa bakmayı ve bunu sık sık yapmayı hatırlaması gerekir, çünkü tuşa basılmasıyla programın olayı fark etmesi arasında geçen herhangi bir süre yazılımın tepkisiz kalmasına neden olacaktır. Bu yaklaşıma _((polling))_ denir. Çoğu programcı bundan kaçınmayı tercih eder.
 
 {{index "callback function", "event handling"}}
 
-A better mechanism is for the system to actively notify the code when an event occurs. Browsers do this by allowing us to register functions as _handlers_ for specific events.
+Daha iyi bir mekanizma, bir olay meydana geldiğinde sistemin kodumuzu aktif olarak bilgilendirmesidir. Tarayıcılar bunu, belirli olaylar için işlevleri _handlers_ olarak kaydetmemize izin vererek yapar.
 
 ```{lang: html}
 <p>Click this document to activate the handler.</p>
@@ -39,13 +39,13 @@ A better mechanism is for the system to actively notify the code when an event o
 
 {{index "click event", "addEventListener method", "window object", [browser, window]}}
 
-The `window` binding refers to a built-in object provided by the browser. It represents the browser window that contains the document. Calling its `addEventListener` method registers the second argument to be called whenever the event described by its first argument occurs.
+`window` bağlayıcısı, tarayıcı tarafından sağlanan yerleşik bir nesneyi ifade eder. Belgeyi içeren tarayıcı penceresini temsil eder. addEventListener` yöntemi çağrıldığında, ilk bağımsız değişken tarafından tanımlanan olay gerçekleştiğinde çağrılmak üzere ikinci bağımsız değişken kaydedilir.
 
-## Events and DOM nodes
+## Olaylar ve DOM düğümleri
 
 {{index "addEventListener method", "event handling", "window object", browser, [DOM, events]}}
 
-Each browser event handler is registered in a context. In the previous example, we called `addEventListener` on the `window` object to register a handler for the whole window. Such a method can also be found on DOM elements and some other types of objects. Event listeners are called only when the event happens in the context of the object on which they are registered.
+Her tarayıcı olay işleyicisi bir bağlama kaydedilir. Önceki örnekte, tüm pencere için bir işleyici kaydetmek üzere `window` nesnesi üzerinde `addEventListener` yöntemini çağırdık. Böyle bir yöntem DOM öğelerinde ve diğer bazı nesne türlerinde de bulunabilir. Olay dinleyicileri yalnızca kaydedildikleri nesnenin bağlamında olay gerçekleştiğinde çağrılır.
 
 ```{lang: html}
 <button>Click me</button>
@@ -60,17 +60,17 @@ Each browser event handler is registered in a context. In the previous example, 
 
 {{index "click event", "button (HTML tag)"}}
 
-That example attaches a handler to the button node. Clicks on the button cause that handler to run, but clicks on the rest of the document do not.
+Bu örnek, düğme düğümüne bir işleyici ekler. Düğmeye tıklandığında bu işleyici çalışır, ancak belgenin geri kalanına tıklandığında işleyici çalışmaz.
 
 {{index "onclick attribute", encapsulation}}
 
-Giving a node an `onclick` attribute has a similar effect. This works for most types of events—you can attach a handler through the attribute whose name is the event name with `on` in front of it.
+Bir düğüme `onclick` niteliği vermek de benzer bir etkiye sahiptir. Bu, çoğu olay türü için işe yarar; adı olay adı olan ve önünde `on` bulunan öznitelik aracılığıyla bir işleyici ekleyebilirsiniz.
 
-But a node can have only one `onclick` attribute, so you can register only one handler per node that way. The `addEventListener` method allows you to add any number of handlers meaning it's safe to add handlers even if there is already another handler on the element.
+Ancak bir düğümün yalnızca bir `onclick` niteliği olabilir, bu nedenle bu şekilde düğüm başına yalnızca bir işleyici kaydedebilirsiniz. addEventListener` yöntemi, istediğiniz sayıda işleyici eklemenize olanak tanır, böylece öğe üzerinde zaten başka bir işleyici olsa bile işleyici eklemek güvenlidir.
 
 {{index "removeEventListener method"}}
 
-The `removeEventListener` method, called with arguments similar to `addEventListener`, removes a handler.
+`addEventListener` yöntemine benzer argümanlarla çağrılan `removeEventListener` yöntemi bir işleyiciyi kaldırır.
 
 ```{lang: html}
 <button>Act-once button</button>
@@ -86,13 +86,13 @@ The `removeEventListener` method, called with arguments similar to `addEventList
 
 {{index [function, "as value"]}}
 
-The function given to `removeEventListener` has to be the same function value given to `addEventListener`. When you need to unregister a handler, you'll want to give the handler function a name (`once`, in the example) to be able to pass the same function value to both methods.
+`removeEventListener` metoduna verilen fonksiyon, `addEventListener` metoduna verilen fonksiyon değeri ile aynı olmalıdır. Bu nedenle, bir işleyicinin kaydını kaldırmak için, her iki yönteme de aynı işlev değerini aktarabilmek için işleve bir ad (örnekte `once`) vermek isteyeceksiniz.
 
-## Event objects
+## Olay nesneleri
 
 {{index "button property", "event handling"}}
 
-Though we have ignored it so far, event handler functions are passed an argument: the _((event object))_. This object holds additional information about the event. For example, if we want to know _which_ ((mouse button)) was pressed, we can look at the event object's `button` property.
+Şimdiye kadar göz ardı etmiş olsak da, olay işleyici işlevlerine bir argüman aktarılır: _((olay nesnesi))_. Bu nesne olay hakkında ek bilgiler tutar. Örneğin, _hangi_ ((fare düğmesine)) basıldığını bilmek istiyorsak, olay nesnesinin `button` özelliğine bakabiliriz.
 
 ```{lang: html}
 <button>Click me any way you want</button>
@@ -112,9 +112,9 @@ Though we have ignored it so far, event handler functions are passed an argument
 
 {{index "event type", "type property"}}
 
-The information stored in an event object differs per type of event. (We'll discuss different types later in the chapter.) The object's `type` property always holds a string identifying the event (such as `"click"` or `"mousedown"`).
+Bir olay nesnesinde saklanan bilgiler olay türüne göre farklılık gösterir. Bölümün ilerleyen kısımlarında farklı türleri tartışacağız. Nesnenin `type` özelliği her zaman olayı tanımlayan bir dize tutar (örneğin `“click”` veya `“mousedown”`).
 
-## Propagation
+## Yayılma
 
 {{index "event propagation", "parent node"}}
 
@@ -122,19 +122,19 @@ The information stored in an event object differs per type of event. (We'll disc
 
 {{indexsee propagation, "event propagation"}}
 
-For most event types, handlers registered on nodes with children will also receive events that happen in the children. If a button inside a paragraph is clicked, event handlers on the paragraph will also see the click event.
+Çoğu olay türü için, çocukları olan düğümlerde kayıtlı işleyiciler, çocuklarda meydana gelen olayları da alır. Bir paragrafın içindeki bir düğmeye tıklanırsa, paragraftaki olay işleyicileri de tıklama olayını görür.
 
 {{index "event handling"}}
 
-But if both the paragraph and the button have a handler, the more specific handler—the one on the button—gets to go first. The event is said to _propagate_ outward from the node where it happened to that node's parent node and on to the root of the document. Finally, after all handlers registered on a specific node have had their turn, handlers registered on the whole ((window)) get a chance to respond to the event.
+Ancak hem paragrafın hem de düğmenin bir işleyicisi varsa, daha spesifik olan işleyici - düğmedeki - önce gider. Olayın gerçekleştiği düğümden o düğümün üst düğümüne ve belgenin köküne doğru _propagate_ ettiği söylenir. Son olarak, belirli bir düğüm üzerinde kayıtlı tüm işleyiciler sıralarını aldıktan sonra, tüm ((pencere)) üzerinde kayıtlı işleyiciler olaya yanıt verme şansına sahip olur.
 
 {{index "stopPropagation method", "click event"}}
 
-At any point, an event handler can call the `stopPropagation` method on the event object to prevent handlers further up from receiving the event. This can be useful when, for example, you have a button inside another clickable element and you don't want clicks on the button to activate the outer element's click behavior.
+Herhangi bir noktada, bir olay işleyici olay nesnesi üzerinde `stopPropagation` yöntemini çağırarak daha yukarıdaki işleyicilerin olayı almasını engelleyebilir. Bu, örneğin, başka bir tıklanabilir öğenin içinde bir düğmeniz olduğunda ve düğmeye tıklandığında dış öğenin tıklama davranışının etkinleştirilmesini istemediğinizde yararlı olabilir.
 
 {{index "mousedown event", "pointer event"}}
 
-The following example registers `"mousedown"` handlers on both a button and the paragraph around it. When clicked with the right mouse button, the handler for the button calls `stopPropagation`, which will prevent the handler on the paragraph from running. When the button is clicked with another ((mouse button)), both handlers will run.
+Aşağıdaki örnek, hem bir düğme hem de etrafındaki paragraf üzerinde `“mousedown”` işleyicilerini kaydeder. Farenin sağ tuşuyla tıklandığında, düğmenin işleyicisi `stopPropagation` öğesini çağırır ve bu da paragraftaki işleyicinin çalışmasını engeller. Düğmeye başka bir ((fare düğmesi)) ile tıklandığında, her iki işleyici de çalışacaktır.
 
 ```{lang: html}
 <p>A paragraph with a <button>button</button>.</p>
@@ -153,9 +153,9 @@ The following example registers `"mousedown"` handlers on both a button and the 
 
 {{index "event propagation", "target property"}}
 
-Most event objects have a `target` property that refers to the node where they originated. You can use this property to ensure that you're not accidentally handling something that propagated up from a node you do not want to handle.
+Çoğu olay nesnesi, kaynaklandıkları düğümü ifade eden bir `target` özelliğine sahiptir. Bu özelliği, işlemek istemediğiniz bir düğümden yayılan bir şeyi yanlışlıkla işlemediğinizden emin olmak için kullanabilirsiniz.
 
-It is also possible to use the `target` property to cast a wide net for a specific type of event. For example, if you have a node containing a long list of buttons, it may be more convenient to register a single click handler on the outer node and have it use the `target` property to figure out whether a button was clicked, rather than registering individual handlers on all of the buttons.
+Belirli bir olay türü için geniş bir ağ oluşturmak amacıyla `target` özelliğini kullanmak da mümkündür. Örneğin, uzun bir düğme listesi içeren bir düğümünüz varsa, tüm düğmelere ayrı ayrı işleyiciler kaydetmek yerine, dış düğümde tek bir tıklama işleyicisi kaydetmek ve bir düğmenin tıklanıp tıklanmadığını anlamak için `target` özelliğini kullanmasını sağlamak daha uygun olabilir.
 
 ```{lang: html}
 <button>A</button>
@@ -170,19 +170,19 @@ It is also possible to use the `target` property to cast a wide net for a specif
 </script>
 ```
 
-## Default actions
+## Varsayılan eylemler
 
 {{index scrolling, "default behavior", "event handling"}}
 
-Many events have a default action. If you click a ((link)), you will be taken to the link's target. If you press the down arrow, the browser will scroll the page down. If you right-click, you'll get a context menu. And so on.
+Birçok olayın kendileriyle ilişkili varsayılan bir eylemi vardır. Eğer bir ((link))'e tıklarsanız, linkin hedefine yönlendirilirsiniz. Aşağı oka basarsanız, tarayıcı sayfayı aşağı kaydırır. Sağ tıklarsanız, bir içerik menüsü alırsınız. Ve bu böyle devam eder.
 
 {{index "preventDefault method"}}
 
-For most types of events, the JavaScript event handlers are called _before_ the default behavior takes place. If the handler doesn't want this normal behavior to happen, typically because it has already taken care of handling the event, it can call the `preventDefault` method on the event object.
+Çoğu olay türü için JavaScript olay işleyicileri varsayılan davranış gerçekleşmeden _önce_ çağrılır. İşleyici bu normal davranışın gerçekleşmesini istemiyorsa, genellikle olayı zaten ele aldığı için, olay nesnesi üzerinde `preventDefault` yöntemini çağırabilir.
 
 {{index expectation}}
 
-This can be used to implement your own ((keyboard)) shortcuts or ((context menu)). It can also be used to obnoxiously interfere with the behavior that users expect. For example, here is a link that cannot be followed:
+Bu, kendi ((klavye)) kısayollarınızı veya ((içerik menüsü)) uygulamak için kullanılabilir. Ayrıca kullanıcıların beklediği davranışa iğrenç bir şekilde müdahale etmek için de kullanılabilir. Örneğin, burada takip edilemeyen bir bağlantı var:
 
 ```{lang: html}
 <a href="https://developer.mozilla.org/">MDN</a>
@@ -197,15 +197,15 @@ This can be used to implement your own ((keyboard)) shortcuts or ((context menu)
 
 {{index usability}}
 
-Try not to do such things without a really good reason. It'll be unpleasant for people who use your page when expected behavior is broken.
+Gerçekten iyi bir nedeniniz olmadıkça böyle şeyler yapmamaya çalışın. Beklenen davranış bozulduğunda sayfanızı kullanan kişiler için hoş olmayacaktır.
 
-Depending on the browser, some events can't be intercepted at all. On Chrome, for example, the ((keyboard)) shortcut to close the current tab ([ctrl]{keyname}-W or [command]{keyname}-W) cannot be handled by JavaScript.
+Tarayıcıya bağlı olarak, bazı olaylar hiç yakalanamaz. Örneğin Chrome'da, geçerli sekmeyi kapatmak için kullanılan ((klavye)) kısayolu ([control]{keyname}-W veya [command]{keyname}-W) JavaScript tarafından işlenemez.
 
-## Key events
+## Tuş olayları
 
 {{index keyboard, "keydown event", "keyup event", "event handling"}}
 
-When a key on the keyboard is pressed, your browser fires a `"keydown"` event. When it is released, you get a `"keyup"` event.
+Klavyedeki bir tuşa basıldığında, tarayıcınız bir `“keydown”` olayı başlatır. Bırakıldığında, bir `“keyup”` olayı alırsınız.
 
 ```{lang: html, focus: true}
 <p>This page turns violet when you hold the V key.</p>
@@ -225,15 +225,15 @@ When a key on the keyboard is pressed, your browser fires a `"keydown"` event. W
 
 {{index "repeating key"}}
 
-Despite its name, `"keydown"` fires not only when the key is physically pushed down. When a key is pressed and held, the event fires again every time the key _repeats_. Sometimes you have to be careful about this. For example, if you add a button to the DOM when a key is pressed and remove it again when the key is released, you might accidentally add hundreds of buttons when the key is held down longer.
+Adına rağmen, `“keydown”` sadece tuş fiziksel olarak aşağı itildiğinde ateşlenmez. Bir tuşa basıldığında ve basılı tutulduğunda, tuş her _tekrar_ ettiğinde olay tekrar ateşlenir. Bazen bu konuda dikkatli olmanız gerekir. Örneğin, bir tuşa basıldığında DOM'a bir düğme eklerseniz ve tuş bırakıldığında tekrar kaldırırsanız, tuş daha uzun süre basılı tutulduğunda yanlışlıkla yüzlerce düğme ekleyebilirsiniz.
 
 {{index "key property"}}
 
-The previous example looks at the `key` property of the event object to see which key the event is about. This property holds a string that, for most keys, corresponds to the thing that pressing that key would type. For special keys such as [enter]{keyname}, it holds a string that names the key (`"Enter"`, in this case). If you hold [shift]{keyname} while pressing a key, that might also influence the name of the key—`"v"` becomes `"V"`, and `"1"` may become `"!"`, if that is what pressing [shift]{keyname}-1 produces on your keyboard.
+Örnekte, olayın hangi tuşla ilgili olduğunu görmek için olay nesnesinin `key` özelliğine bakılmıştır. Bu özellik, çoğu tuş için o tuşa basıldığında yazılacak şeye karşılık gelen bir dize tutar. [enter]{keyname} gibi özel tuşlar için, tuşu adlandıran bir dize tutar (bu durumda `“Enter”`). Bir tuşa basarken [shift]{keyname} tuşunu basılı tutarsanız, bu tuşun adını da etkileyebilir - `“v”` `“V”` olur ve `“1”` `“!”` olabilir, eğer [shift]{keyname}-1 tuşuna basmak klavyenizde bunu üretiyorsa.
 
 {{index "modifier key", "shift key", "control key", "alt key", "meta key", "command key", "ctrlKey property", "shiftKey property", "altKey property", "metaKey property"}}
 
-Modifier keys such as [shift]{keyname}, [ctrl]{keyname}, [alt]{keyname}, and [meta]{keyname} ([command]{keyname} on Mac) generate key events just like normal keys. When looking for key combinations, you can also find out whether these keys are held down by looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of keyboard and mouse events.
+[shift]{keyname}, [control]{keyname}, [alt]{keyname} ve [meta]{keyname} ([command]{keyname} Mac'te) gibi değiştirici tuşlar, tıpkı normal tuşlar gibi tuş olayları oluşturur. Ancak tuş kombinasyonlarını ararken, klavye ve fare olaylarının `shiftKey`, `ctrlKey`, `altKey` ve `metaKey` özelliklerine bakarak bu tuşların basılı tutulup tutulmadığını da öğrenebilirsiniz.
 
 ```{lang: html, focus: true}
 <p>Press Control-Space to continue.</p>
@@ -248,39 +248,39 @@ Modifier keys such as [shift]{keyname}, [ctrl]{keyname}, [alt]{keyname}, and [me
 
 {{index "button (HTML tag)", "tabindex attribute", [DOM, events]}}
 
-The DOM node where a key event originates depends on the element that has ((focus)) when the key is pressed. Most nodes cannot have focus unless you give them a `tabindex` attribute, but things like ((link))s, buttons, and form fields can. We'll come back to form ((field))s in [Chapter ?](http#forms). When nothing in particular has focus, `document.body` acts as the target node of key events.
+Bir tuş olayının kaynaklandığı DOM düğümü, tuşa basıldığında ((focus)) olan öğeye bağlıdır. Çoğu düğüm `tabindex` niteliği verilmediği sürece odağa sahip olamaz, ancak ((link))ler, düğmeler ve form alanları gibi şeyler olabilir. Form ((alan))larına [Bölüm ?](http#forms) içinde geri döneceğiz. Belirli bir şey odağa sahip olmadığında, `document.body` anahtar olayların hedef düğümü olarak hareket eder.
 
-When the user is typing text, using key events to figure out what is being typed is problematic. Some platforms, most notably the ((virtual keyboard)) on ((Android)) ((phone))s, don't fire key events. But even when you have an old-fashioned keyboard, some types of text input don't match keypresses in a straightforward way, such as _input method editor_ (_((IME))_) software used by people whose scripts don't fit on a keyboard, where multiple keystrokes are combined to create characters.
+Kullanıcı metin yazarken, ne yazıldığını anlamak için tuş olaylarını kullanmak sorunludur. Bazı platformlar, özellikle de ((Android)) ((telefon))lardaki ((sanal klavye)), tuş olaylarını ateşlemez. Ancak eski moda bir klavyeniz olduğunda bile, bazı metin girişi türleri, komut dosyaları klavyeye sığmayan kişiler tarafından kullanılan _input method editor_ (((IME))) yazılımı gibi, karakterleri oluşturmak için birden fazla tuş vuruşunun birleştirildiği tuş basışlarıyla doğrudan eşleşmez.
 
-To notice when something was typed, elements that you can type into, such as the `<input>` and `<textarea>` tags, fire `"input"` events whenever the user changes their content. To get the actual content that was typed, it is best to directly read it from the focused field, which we discuss in [Chapter ?](http#forms).
+Bir şeyin ne zaman yazıldığını fark etmek için, `<input>` ve `<textarea>` etiketleri gibi içine yazabileceğiniz öğeler, kullanıcı içeriğini değiştirdiğinde `“input”` olaylarını tetikler. Yazılan gerçek içeriği almak için, en iyisi bunu doğrudan odaklanılan alandan okumaktır. [Bölüm ?](http#forms) nasıl yapılacağını gösterecektir.
 
-## Pointer events
+## İşaret etme olayları
 
-There are currently two widely used ways to point at things on a screen: mice (including devices that act like mice, such as touchpads and trackballs) and touchscreens. These produce different kinds of events.
+Şu anda ekranda bir şeyleri işaret etmenin yaygın olarak kullanılan iki yolu vardır: fareler (dokunmatik yüzeyler ve iztopları gibi fare gibi davranan cihazlar dahil) ve dokunmatik ekranlar. Bunlar farklı türde olaylar üretir.
 
-### Mouse clicks
+### Mouse tıklamaları
 
 {{index "mousedown event", "mouseup event", "mouse cursor"}}
 
-Pressing a ((mouse button)) causes a number of events to fire. The `"mousedown"` and `"mouseup"` events are similar to `"keydown"` and `"keyup"` and fire when the button is pressed and released. These happen on the DOM nodes that are immediately below the mouse pointer when the event occurs.
+Bir ((fare düğmesine)) basmak bir dizi olayın tetiklenmesine neden olur. `“mousedown"` ve `‘mouseup’` olayları, `‘keydown’` ve `‘keyup’` olaylarına benzer ve düğmeye basılıp bırakıldığında gerçekleşir. Bunlar, olay gerçekleştiğinde fare işaretçisinin hemen altında bulunan DOM düğümlerinde gerçekleşir.
 
 {{index "click event"}}
 
-After the `"mouseup"` event, a `"click"` event fires on the most specific node that contained both the press and the release of the button. For example, if I press down the mouse button on one paragraph and then move the pointer to another paragraph and release the button, the `"click"` event will happen on the element that contains both those paragraphs.
+`“mouseup“` olayından sonra, düğmeye hem basılmasını hem de bırakılmasını içeren en belirli düğümde bir `”click"` olayı gerçekleşir. Örneğin, bir paragrafta fare düğmesine basarsam ve ardından işaretçiyi başka bir paragrafa taşıyıp düğmeyi bırakırsam, `“click”` olayı her iki paragrafı da içeren öğede gerçekleşir.
 
 {{index "dblclick event", "double click"}}
 
-If two clicks happen close together, a `"dblclick"` (double-click) event also fires, after the second click event.
+İki tıklama birbirine yakın gerçekleşirse, ikinci tıklama olayından sonra bir `“dblclick”` (çift tıklama) olayı da ateşlenir.
 
 {{index pixel, "clientX property", "clientY property", "pageX property", "pageY property", "event object"}}
 
-To get precise information about the place where a mouse event happened, you can look at its `clientX` and `clientY` properties, which contain the event's ((coordinates)) (in pixels) relative to the upper-left corner of the window, or `pageX` and `pageY`, which are relative to the upper-left corner of the whole document (which may be different when the window has been scrolled).
+Bir fare olayının gerçekleştiği yer hakkında kesin bilgi almak için, olayın pencerenin sol üst köşesine göre ((koordinatlarını)) (piksel cinsinden) içeren `clientX` ve `clientY` özelliklerine veya tüm belgenin sol üst köşesine göre olan `pageX` ve `pageY` özelliklerine bakabilirsiniz (pencere kaydırıldığında farklı olabilir).
 
 {{index "border-radius (CSS)", "absolute positioning", "drawing program example"}}
 
 {{id mouse_drawing}}
 
-The following program implements a primitive drawing application. Every time you click the document, it adds a dot under your mouse pointer.
+Aşağıda ilkel bir çizim programı uygulanmaktadır. Belgeye her tıkladığınızda, fare işaretçinizin altına bir nokta ekler. Daha az ilkel bir çizim programı için [bölüm ?](paint) içine bakın.
 
 ```{lang: html}
 <style>
@@ -306,17 +306,15 @@ The following program implements a primitive drawing application. Every time you
 </script>
 ```
 
-We'll create a less primitive drawing application in [Chapter ?](paint).
-
-### Mouse motion
+### Mouse hareketi
 
 {{index "mousemove event"}}
 
-Every time the mouse pointer moves, a `"mousemove"` event fires. This event can be used to track the position of the mouse. A common situation in which this is useful is when implementing some form of mouse-((dragging)) functionality.
+Fare işaretçisi her hareket ettiğinde, bir `“mousemove”` olayı ateşlenir. Bu olay, farenin konumunu izlemek için kullanılabilir. Bunun yararlı olduğu yaygın bir durum, bir tür fare-((sürükleme)) işlevselliğinin uygulanmasıdır.
 
 {{index "draggable bar example"}}
 
-As an example, the following program displays a bar and sets up event handlers so that dragging to the left or right on this bar makes it narrower or wider:
+Örnek olarak, aşağıdaki program bir çubuk görüntüler ve bu çubuk üzerinde sola veya sağa sürüklemenin çubuğu daraltması veya genişletmesi için olay işleyicileri ayarlar:
 
 ```{lang: html, startCode: true}
 <p>Drag the bar to change its width:</p>
@@ -348,41 +346,41 @@ As an example, the following program displays a bar and sets up event handlers s
 
 {{if book
 
-The resulting page looks like this:
+Ortaya çıkan sayfa şu şekilde görünür:
 
-{{figure {url: "img/drag-bar.png", alt: "Picture of a draggable bar", width: "5.3cm"}}}
+{{figure {url: "img/drag-bar.png", alt: "Sürüklenebilir çubuk resmi", width: "5.3cm"}}}
 
 if}}
 
 {{index "mouseup event", "mousemove event"}}
 
-Note that the `"mousemove"` handler is registered on the whole ((window)). Even if the mouse goes outside of the bar during resizing, as long as the button is held, we still want to update its size.
+`“mousemove"` işleyicisinin tüm ((pencere)) üzerinde kayıtlı olduğuna dikkat edin. Yeniden boyutlandırma sırasında fare çubuğun dışına çıksa bile, düğme basılı tutulduğu sürece boyutunu güncellemek isteriz.
 
 {{index "buttons property", "button property", "bitfield"}}
 
-We must stop resizing the bar when the mouse button is released. For that, we can use the `buttons` property (note the plural), which tells us about the buttons that are currently held down. When it is 0, no buttons are down. When buttons are held, the value of the `buttons` property is the sum of the codes for those buttons—the left button has code 1, the right button 2, and the middle one 4. With the left and right buttons held, for example, the value of `buttons` will be 3.
+Fare düğmesi bırakıldığında çubuğun yeniden boyutlandırılmasını durdurmalıyız. Bunun için, bize o anda basılı tutulan düğmeler hakkında bilgi veren `buttons` özelliğini (çoğul olduğuna dikkat edin) kullanabiliriz. Bu değer sıfır olduğunda, hiçbir düğme basılı değildir. Düğmeler basılı tutulduğunda, değeri bu düğmelerin kodlarının toplamıdır - sol düğme 1, sağ düğme 2 ve ortadaki düğme 4 koduna sahiptir. Örneğin sol ve sağ düğmeler basılı tutulduğunda `buttons` değeri 3 olacaktır.
 
-Note that the order of these codes is different from the one used by `button`, where the middle button came before the right one. As mentioned, consistency isn't a strong point of the browser's programming interface.
+Bu kodların sırasının, ortadaki düğmenin sağdakinden önce geldiği `button` tarafından kullanılandan farklı olduğuna dikkat edin. Belirtildiği gibi, tutarlılık tarayıcının programlama arayüzünün güçlü bir noktası değildir.
 
-### Touch events
+### Dokunma olayları
 
 {{index touch, "mousedown event", "mouseup event", "click event"}}
 
-The style of graphical browser that we use was designed with mouse interfaces in mind, at a time where touchscreens were rare. To make the web "work" on early touchscreen phones, browsers for those devices pretended, to a certain extent, that touch events were mouse events. If you tap your screen, you'll get `"mousedown"`, `"mouseup"`, and `"click"` events.
+Kullandığımız grafik tarayıcı tarzı, dokunmatik ekranların nadir olduğu bir dönemde fare arayüzleri düşünülerek tasarlanmıştır. Web'in ilk dokunmatik ekranlı telefonlarda “çalışmasını” sağlamak için, bu cihazlara yönelik tarayıcılar bir dereceye kadar dokunma olaylarının fare olayları olduğunu varsaymıştır. Ekranınıza dokunursanız, `“mousedown”`, `“mouseup”` ve `“click”` olaylarını alırsınız.
 
-But this illusion isn't very robust. A touchscreen doesn't work like a mouse: it doesn't have multiple buttons, you can't track the finger when it isn't on the screen (to simulate `"mousemove"`), and it allows multiple fingers to be on the screen at the same time.
+Ancak bu yanılsama çok sağlam değildir. Dokunmatik ekran fareden farklı çalışır: birden fazla düğmesi yoktur, ekranda değilken parmağınızı takip edemezsiniz (“mousemove”`ı simüle etmek için) ve aynı anda birden fazla parmağın ekranda olmasına izin verir.
 
-Mouse events cover touch interaction only in straightforward cases—if you add a `"click"` handler to a button, touch users will still be able to use it. But something like the resizeable bar in the previous example does not work on a touchscreen.
+Fare olayları yalnızca basit durumlarda dokunmatik etkileşimi kapsar - bir düğmeye `“click”` işleyicisi eklerseniz, dokunmatik kullanıcılar bunu kullanmaya devam edebilir. Ancak önceki örnekteki yeniden boyutlandırılabilir çubuk gibi bir şey dokunmatik ekranda çalışmaz.
 
 {{index "touchstart event", "touchmove event", "touchend event"}}
 
-There are specific event types fired by touch interaction. When a finger starts touching the screen, you get a `"touchstart"` event. When it is moved while touching, `"touchmove"` events fire.  Finally, when it stops touching the screen, you'll see a `"touchend"` event.
+Dokunma etkileşimi tarafından ateşlenen belirli olay türleri vardır. Bir parmak ekrana dokunmaya başladığında, bir `“touchstart”` olayı elde edersiniz. Dokunurken hareket ettirildiğinde, `“touchmove”` olayları ateşlenir. Son olarak, ekrana dokunmayı bıraktığında, bir `“touchend”` olayı görürsünüz.
 
 {{index "touches property", "clientX property", "clientY property", "pageX property", "pageY property"}}
 
-Because many touchscreens can detect multiple fingers at the same time, these events don't have a single set of coordinates associated with them. Rather, their ((event object))s have a `touches` property, which holds an ((array-like object)) of points, each of which has its own `clientX`, `clientY`, `pageX`, and `pageY` properties.
+Birçok dokunmatik ekran aynı anda birden fazla parmağı algılayabildiğinden, bu olayların kendileriyle ilişkili tek bir koordinat kümesi yoktur. Bunun yerine, ((olay nesnesi)), her biri kendi `clientX`, `clientY`, `pageX` ve `pageY` özelliklerine sahip olan bir ((dizi benzeri nesne)) nokta tutan bir `touches` özelliğine sahiptir.
 
-You could do something like this to show red circles around every touching finger:
+Dokunan her parmağın etrafında kırmızı daireler göstermek için böyle bir şey yapabilirsiniz:
 
 ```{lang: html}
 <style>
@@ -412,15 +410,15 @@ You could do something like this to show red circles around every touching finge
 
 {{index "preventDefault method"}}
 
-You'll often want to call `preventDefault` in touch event handlers to override the browser's default behavior (which may include scrolling the page on swiping) and to prevent the mouse events from being fired, for which you may _also_ have a handler.
+Tarayıcının varsayılan davranışını (kaydırma sırasında sayfanın kaydırılmasını içerebilir) geçersiz kılmak ve _ayrıca_ bir işleyiciye sahip olabileceğiniz fare olaylarının tetiklenmesini önlemek için genellikle dokunma olayı işleyicilerinde `preventDefault'u çağırmak isteyeceksiniz.
 
-## Scroll events
+## Kaydırma etkinlikleri
 
 {{index scrolling, "scroll event", "event handling"}}
 
-Whenever an element is scrolled, a `"scroll"` event is fired on it. This has various uses, such as knowing what the user is currently looking at (for disabling off-screen ((animation))s or sending ((spy)) reports to your evil headquarters) or showing some indication of progress (by highlighting part of a table of contents or showing a page number).
+Bir öğe kaydırıldığında, üzerinde bir `“scroll”` olayı tetiklenir. Bunun, kullanıcının o anda neye baktığını bilmek (ekran dışı ((animasyon))ları devre dışı bırakmak veya şeytani karargahınıza ((casus)) raporları göndermek için) veya bazı ilerleme göstergelerini göstermek (içindekiler tablosunun bir kısmını vurgulayarak veya bir sayfa numarası göstererek) gibi çeşitli kullanımları vardır.
 
-The following example draws a ((progress bar)) above the document and updates it to fill up as you scroll down:
+Aşağıdaki örnek, belgenin üzerine bir ((ilerleme çubuğu)) çizer ve siz aşağı kaydırdıkça dolacak şekilde günceller:
 
 ```{lang: html}
 <style>
@@ -447,29 +445,29 @@ The following example draws a ((progress bar)) above the document and updates it
 
 {{index "unit (CSS)", scrolling, "position (CSS)", "fixed positioning", "absolute positioning", percentage, "repeat method"}}
 
-Giving an element a `position` of `fixed` acts much like an `absolute` position but also prevents it from scrolling along with the rest of the document. The effect is to make our progress bar stay at the top. Its width is changed to indicate the current progress. We use `%`, rather than `px`, as a unit when setting the width so that the element is sized relative to the page width.
+Bir öğeye `fixed` bir `position` vermek, `absolute` bir konum gibi davranır, ancak aynı zamanda belgenin geri kalanıyla birlikte kaymasını da önler. Bunun etkisi, ilerleme çubuğumuzun en üstte kalmasını sağlamaktır. Genişliği mevcut ilerlemeyi gösterecek şekilde değiştirilir. Genişliği ayarlarken birim olarak `px` yerine `%` kullanırız, böylece öğe sayfa genişliğine göre boyutlandırılır.
 
 {{index "innerHeight property", "innerWidth property", "pageYOffset property"}}
 
-The global `innerHeight` binding gives us the height of the window, which we must subtract from the total scrollable height—you can't keep scrolling when you hit the bottom of the document. There's also an `innerWidth` for the window width. By dividing `pageYOffset`, the current scroll position, by the maximum scroll position and multiplying by 100, we get the percentage for the progress bar.
+Global `innerHeight` bağlayıcısı bize pencerenin yüksekliğini verir, bunu toplam kaydırılabilir yükseklikten çıkarmamız gerekir-belgenin altına ulaştığınızda kaydırmaya devam edemezsiniz. Pencere genişliği için de bir `innerWidth` vardır. Geçerli kaydırma konumu olan `pageYOffset`i maksimum kaydırma konumuna bölerek ve 100 ile çarparak ilerleme çubuğunun yüzdesini elde ederiz.
 
 {{index "preventDefault method"}}
 
-Calling `preventDefault` on a scroll event does not prevent the scrolling from happening. In fact, the event handler is called only _after_ the scrolling takes place.
+Bir kaydırma olayında `preventDefault` çağrısı yapmak kaydırmanın gerçekleşmesini engellemez. Aslında, olay işleyici yalnızca kaydırma gerçekleştikten _sonra_ çağrılır.
 
-## Focus events
+## Odak etkinlikleri
 
 {{index "event handling", "focus event", "blur event"}}
 
-When an element gains ((focus)), the browser fires a `"focus"` event on it. When it loses focus, the element gets a `"blur"` event.
+Bir öğe ((odak)) kazandığında, tarayıcı üzerinde bir `“focus”` olayı ateşler. Odağı kaybettiğinde, öğe bir `“blur”` olayı alır.
 
 {{index "event propagation"}}
 
-Unlike the events discussed earlier, these two events do not propagate. A handler on a parent element is not notified when a child element gains or loses focus.
+Daha önce tartışılan olayların aksine, bu iki olay yayılmaz. Bir üst öğedeki işleyici, bir alt öğe odak kazandığında veya kaybettiğinde bilgilendirilmez.
 
 {{index "input (HTML tag)", "help text example"}}
 
-The following example displays help text for the ((text field)) that currently has focus:
+Aşağıdaki örnek, o anda odağa sahip olan ((metin alanı)) için yardım metnini görüntüler:
 
 ```{lang: html}
 <p>Name: <input type="text" data-help="Your full name"></p>
@@ -493,43 +491,43 @@ The following example displays help text for the ((text field)) that currently h
 
 {{if book
 
-This screenshot shows the help text for the age field:
+Bu ekran görüntüsü yaş alanı için yardım metnini göstermektedir.
 
-{{figure {url: "img/help-field.png", alt: "Screenshot of the help text below the age field", width: "4.4cm"}}}
+{{figure {url: "img/help-field.png", alt: "Yaş alanının altındaki yardım metninin ekran görüntüsü", width: "4.4cm"}}}
 
 if}}
 
 {{index "focus event", "blur event"}}
 
-The ((window)) object will receive `"focus"` and `"blur"` events when the user moves from or to the browser tab or window in which the document is shown.
+((`window`)) nesnesi, kullanıcı belgenin gösterildiği tarayıcı sekmesinden veya penceresinden hareket ettiğinde `“focus”` ve `“blur”` olaylarını alacaktır.
 
-## Load event
+## Yükleme olayı
 
 {{index "script (HTML tag)", "load event"}}
 
-When a page finishes loading, the `"load"` event fires on the window and the document body objects. This is often used to schedule ((initialization)) actions that require the whole ((document)) to have been built. Remember that the content of `<script>` tags is run immediately when the tag is encountered. This may be too soon, for example when the script needs to do something with parts of the document that appear after the `<script>` tag.
+Bir sayfa yüklenmeyi bitirdiğinde, `“load”` olayı pencere ve belge gövdesi nesneleri üzerinde ateşlenir. Bu genellikle tüm ((belgenin)) oluşturulmasını gerektiren ((başlatma)) eylemlerini zamanlamak için kullanılır. `<script>` etiketlerinin içeriğinin, etiketle karşılaşıldığında hemen çalıştırıldığını unutmayın. Bu, örneğin komut dosyasının belgenin `<script>` etiketinden sonra görünen bölümleriyle bir şeyler yapması gerektiğinde çok erken olabilir.
 
 {{index "event propagation", "img (HTML tag)"}}
 
-Elements such as ((image))s and script tags that load an external file also have a `"load"` event that indicates the files they reference were loaded. Like the focus-related events, loading events do not propagate.
+Harici bir dosya yükleyen ((görüntü))ler ve script etiketleri gibi öğeler de referans verdikleri dosyaların yüklendiğini gösteren bir `“load”` olayına sahiptir. Odakla ilgili olaylar gibi, yükleme olayları da yayılmaz.
 
 {{index "beforeunload event", "page reload", "preventDefault method"}}
 
-When you close page or navigate away from it (for example, by following a link), a `"beforeunload"` event fires. The main use of this event is to prevent the user from accidentally losing work by closing a document. If you prevent the default behavior on this event _and_ set the `returnValue` property on the event object to a string, the browser will show the user a dialog asking if they really want to leave the page. That dialog might include your string, but because some malicious sites try to use these dialogs to confuse people into staying on their page to look at dodgy weight-loss ads, most browsers no longer display them.
+Bir sayfa kapatıldığında veya sayfadan uzaklaşıldığında (örneğin, bir bağlantı takip edilerek), bir `“beforeunload”` olayı ateşlenir. Bu olayın ana kullanımı, kullanıcının bir belgeyi kapatarak yanlışlıkla işini kaybetmesini önlemektir. Bu olayda varsayılan davranışı engellerseniz _ve_ olay nesnesindeki `returnValue` özelliğini bir dizeye ayarlarsanız, tarayıcı kullanıcıya sayfadan gerçekten ayrılmak isteyip istemediğini soran bir iletişim kutusu gösterecektir. Bu iletişim kutusu sizin dizenizi içerebilir, ancak bazı kötü niyetli siteler bu iletişim kutularını kullanarak insanların kafasını karıştırıp sayfalarında kalmalarını ve tehlikeli zayıflama reklamlarına bakmalarını sağlamaya çalıştığından, çoğu tarayıcı artık bunları göstermemektedir.
 
 {{id timeline}}
 
-## Events and the event loop
+## Olaylar ve olay döngüsü
 
 {{index "requestAnimationFrame function", "event handling", timeline, "script (HTML tag)"}}
 
-In the context of the event loop, as discussed in [Chapter ?](async), browser event handlers behave like other asynchronous notifications. They are scheduled when the event occurs but must wait for other scripts that are running to finish before they get a chance to run.
+[Bölüm ?](async) içinde tartışıldığı gibi olay döngüsü bağlamında, tarayıcı olay işleyicileri diğer asenkron bildirimler gibi davranır. Olay meydana geldiğinde zamanlanırlar, ancak çalışma şansı bulmadan önce çalışan diğer komut dosyalarının bitmesini beklemeleri gerekir.
 
-The fact that events can be processed only when nothing else is running means that if the event loop is tied up with other work, any interaction with the page (which happens through events) will be delayed until there's time to process it. So if you schedule too much work, either with long-running event handlers or with lots of short-running ones, the page will become slow and cumbersome to use.
+Olayların yalnızca başka hiçbir şey çalışmıyorken işlenebilmesi gerçeği, olay döngüsünün başka işlerle meşgul olması durumunda, sayfayla (olaylar aracılığıyla gerçekleşen) her türlü etkileşimin işlenecek zaman bulunana kadar erteleneceği anlamına gelir. Dolayısıyla, uzun süre çalışan olay işleyicileriyle ya da çok sayıda kısa süre çalışan olay işleyicileriyle çok fazla iş planlarsanız, sayfa yavaşlayacak ve kullanımı hantal hale gelecektir.
 
-For cases where you _really_ do want to do some time-consuming thing in the background without freezing the page, browsers provide something called _((web worker))s_. A worker is a JavaScript process that runs alongside the main script, on its own timeline.
+Sayfayı dondurmadan arka planda zaman alıcı bir şey yapmak istediğiniz durumlar için tarayıcılar _((web worker))s_ adı verilen bir şey sağlar. Çalışan, ana komut dosyasının yanında, kendi zaman çizelgesinde çalışan bir JavaScript işlemidir.
 
-Imagine that squaring a number is a heavy, long-running computation that we want to perform in a separate ((thread)). We could write a file called `code/squareworker.js` that responds to messages by computing a square and sending a message back.
+Bir sayının karesini almanın, ayrı bir ((thread)) içinde gerçekleştirmek istediğimiz ağır ve uzun süren bir hesaplama olduğunu düşünün. Bir kare hesaplayarak ve geri bir mesaj göndererek mesajlara yanıt veren `code/squareworker.js` adlı bir dosya yazabiliriz.
 
 ```
 addEventListener("message", event => {
@@ -537,9 +535,9 @@ addEventListener("message", event => {
 });
 ```
 
-To avoid the problems of having multiple ((thread))s touching the same data, workers do not share their ((global scope)) or any other data with the main script's environment. Instead, you have to communicate with them by sending messages back and forth.
+Aynı veriye dokunan birden fazla ((iş parçacığı)) olmasından kaynaklanan sorunlardan kaçınmak için, işçiler ((global kapsam)) veya başka herhangi bir veriyi ana kodun ortamıyla paylaşmazlar. Bunun yerine, ileri geri mesajlar göndererek onlarla iletişim kurmanız gerekir.
 
-This code spawns a worker running that script, sends it a few messages, and outputs the responses.
+Bu kod, söz konusu betiği çalıştıran bir işçiyi ortaya çıkarır, ona birkaç mesaj gönderir ve yanıtları çıktı olarak verir.
 
 ```{test: no}
 let squareWorker = new Worker("code/squareworker.js");
@@ -552,13 +550,17 @@ squareWorker.postMessage(24);
 
 {{index "postMessage method", "message event"}}
 
-The `postMessage` function sends a message, which will cause a `"message"` event to fire in the receiver. The script that created the worker sends and receives messages through the `Worker` object, whereas the worker talks to the script that created it by sending and listening directly on its ((global scope)). Only values that can be represented as JSON can be sent as messages—the other side will receive a _copy_ of them, rather than the value itself.
+`postMessage` fonksiyonu, alıcıda bir `“message”` olayının tetiklenmesine neden olacak bir mesaj gönderir. Çalışanı oluşturan kod `Worker` nesnesi aracılığıyla mesaj gönderir ve alır, çalışan ise doğrudan ((global kapsam)) göndererek ve dinleyerek kendisini oluşturan kodla konuşur. Yalnızca JSON olarak temsil edilebilen değerler mesaj olarak gönderilebilir; karşı taraf değerin kendisi yerine bir _kopyasını_ alır.
 
-## Timers
+## Zamanlayıcılar
 
 {{index timeout, "setTimeout function", "clearTimeout function"}}
 
-The `setTimeout` function we saw in [Chapter ?](async) schedules another function to be called later, after a given number of milliseconds. Sometimes you need to cancel a function you have scheduled. You can do this by storing the value returned by `setTimeout` and calling `clearTimeout` on it.
+`setTimeout` fonksiyonunu [bölüm ?](async) içinde gördük. Belirli bir milisaniye sayısından sonra başka bir fonksiyonun çağrılmasını planlar.
+
+{{index "clearTimeout function"}}
+
+Bazen zamanladığınız bir işlevi iptal etmeniz gerekir. Bu, `setTimeout` tarafından döndürülen değeri saklayarak ve üzerinde `clearTimeout` çağrısı yaparak yapılır.
 
 ```
 let bombTimer = setTimeout(() => {
@@ -573,11 +575,11 @@ if (Math.random() < 0.5) { // 50% chance
 
 {{index "cancelAnimationFrame function", "requestAnimationFrame function"}}
 
-The `cancelAnimationFrame` function works in the same way as `clearTimeout`. Calling it on a value returned by `requestAnimationFrame` will cancel that frame (assuming it hasn't already been called).
+`cancelAnimationFrame` fonksiyonu `clearTimeout` ile aynı şekilde çalışır - `requestAnimationFrame` tarafından döndürülen bir değer üzerinde çağrılması o kareyi iptal eder (daha önce çağrılmadığını varsayarak).
 
 {{index "setInterval function", "clearInterval function", repetition}}
 
-A similar set of functions, `setInterval` and `clearInterval`, are used to set timers that should repeat every _X_ milliseconds.
+Benzer bir fonksiyon seti olan `setInterval` ve `clearInterval`, her _X_ milisaniyede bir _tekrarlanması_ gereken zamanlayıcıları ayarlamak için kullanılır.
 
 ```
 let ticks = 0;
@@ -590,19 +592,19 @@ let clock = setInterval(() => {
 }, 200);
 ```
 
-## Debouncing
+## Geri tepme(debouncing)
 
 {{index optimization, "mousemove event", "scroll event", blocking}}
 
-Some types of events have the potential to fire rapidly many times in a row, such as the `"mousemove"` and `"scroll"` events. When handling such events, you must be careful not to do anything too time-consuming or your handler will take up so much time that interaction with the document starts to feel slow.
+Bazı olay türleri hızlı bir şekilde, arka arkaya birçok kez tetiklenme potansiyeline sahiptir (örneğin `“mousemove”` ve `“scroll”` olayları). Bu tür olayları işlerken, çok zaman alıcı bir şey yapmamaya dikkat etmelisiniz, aksi takdirde işleyiciniz o kadar çok zaman alır ki, belge ile etkileşim yavaş hissettirmeye başlar.
 
 {{index "setTimeout function"}}
 
-If you do need to do something nontrivial in such a handler, you can use `setTimeout` to make sure you are not doing it too often. This is usually called _((debouncing))_ the event. There are several slightly different approaches to this.
+Böyle bir işleyicide önemsiz bir şey yapmanız gerekiyorsa, bunu çok sık yapmadığınızdan emin olmak için `setTimeout` kullanabilirsiniz. Buna genellikle _((debouncing))_ olay adı verilir. Bu konuda biraz farklı birkaç yaklaşım vardır.
 
 {{index "textarea (HTML tag)", "clearTimeout function", "keydown event"}}
 
-For example, suppose we want to react when the user has typed something, but we don't want to do it immediately for every input event. When they are ((typing)) quickly, we just want to wait until a pause occurs. Instead of immediately performing an action in the event handler, we set a timeout. We also clear the previous timeout (if any) so that when events occur close together (closer than our timeout delay), the timeout from the previous event will be canceled.
+İlk örnekte, kullanıcı bir şey yazdığında tepki vermek istiyoruz, ancak bunu her girdi olayı için hemen yapmak istemiyoruz. Hızlı bir şekilde ((yazdıklarında)), sadece bir duraklama gerçekleşene kadar beklemek istiyoruz. Olay işleyicide hemen bir eylem gerçekleştirmek yerine, bir zaman aşımı ayarlıyoruz. Ayrıca önceki zaman aşımını (varsa) temizleriz, böylece olaylar birbirine yakın olduğunda (zaman aşımı gecikmemizden daha yakın), önceki olayın zaman aşımı iptal edilir.
 
 ```{lang: html}
 <textarea>Type something here...</textarea>
@@ -618,11 +620,11 @@ For example, suppose we want to react when the user has typed something, but we 
 
 {{index "sloppy programming"}}
 
-Giving an undefined value to `clearTimeout` or calling it on a timeout that has already fired has no effect. Thus, we don't have to be careful about when to call it, and we simply do so for every event.
+`clearTimeout`'a tanımlanmamış bir değer vermenin veya zaten ateşlenmiş bir zaman aşımında çağırmanın hiçbir etkisi yoktur. Bu nedenle, onu ne zaman çağıracağımız konusunda dikkatli olmamız gerekmez ve bunu her olay için yaparız.
 
 {{index "mousemove event"}}
 
-We can use a slightly different pattern if we want to space responses so that they're separated by at least a certain length of ((time)) but want to fire them _during_ a series of events, not just afterward. For example, we might want to respond to `"mousemove"` events by showing the current coordinates of the mouse, but only every 250 milliseconds.
+Yanıtları en az belirli bir ((zaman)) uzunluğuyla ayrılacak şekilde yerleştirmek istiyorsak, ancak bunları sadece sonrasında değil, bir dizi olay sırasında ateşlemek istiyorsak biraz farklı bir model kullanabiliriz.Örneğin, `“mousemove”` olaylarına farenin geçerli koordinatlarını göstererek yanıt vermek isteyebiliriz, ancak yalnızca her 250 milisaniyede bir.
 
 ```{lang: html}
 <script>
@@ -640,33 +642,35 @@ We can use a slightly different pattern if we want to space responses so that th
 </script>
 ```
 
-## Summary
+## Özet
 
-Event handlers make it possible to detect and react to events happening in our web page. The `addEventListener` method is used to register such a handler.
+Olay işleyicileri, web sayfamızda meydana gelen olayları tespit etmeyi ve bunlara tepki vermeyi mümkün kılar. Böyle bir işleyiciyi kaydetmek için `addEventListener` yöntemi kullanılır.
 
-Each event has a type (`"keydown"`, `"focus"`, and so on) that identifies it. Most events are called on a specific DOM element and then propagate to that element's ancestors, allowing handlers associated with those elements to handle them.
+Her olayın onu tanımlayan bir türü (`“keydown”`, `“focus”`, vb.) vardır. Çoğu olay belirli bir DOM öğesinde çağrılır ve ardından bu öğenin atalarına _propagate_ edilerek bu öğelerle ilişkili işleyicilerin bunları işlemesine izin verilir.
 
-When an event handler is called, it's passed an event object with additional information about the event. This object also has methods that allow us to stop further propagation (`stopPropagation`) and prevent the browser's default handling of the event (`preventDefault`).
+Bir olay işleyicisi çağrıldığında, olay hakkında ek bilgiler içeren bir olay nesnesi aktarılır. Bu nesne ayrıca daha fazla yayılmayı durdurmamıza (`stopPropagation`) ve tarayıcının olayı varsayılan olarak işlemesini engellememize (`preventDefault`) izin veren yöntemlere sahiptir.
 
-Pressing a key fires `"keydown"` and `"keyup"` events. Pressing a mouse button fires `"mousedown"`, `"mouseup"`, and `"click"` events. Moving the mouse fires `"mousemove"` events. Touchscreen interaction will result in `"touchstart"`, `"touchmove"`, and `"touchend"` events.
+Bir tuşa basmak `“keydown”` ve `“keyup”` olaylarını tetikler. Bir fare düğmesine basmak `“mousedown”`, `“mouseup”` ve `“click”` olaylarını tetikler. Farenin hareket ettirilmesi `“mousemove”` olaylarını ateşler. Dokunmatik ekran etkileşimi `“touchstart”`, `“touchmove”` ve `“touchend”` olaylarına neden olur.
 
-Scrolling can be detected with the `"scroll"` event, and focus changes can be detected with the `"focus"` and `"blur"` events. When the document finishes loading, a `"load"` event fires on the window.
+Kaydırma `“scroll”` olayı ile, odak değişiklikleri ise `“focus”` ve `“blur”` olayları ile algılanabilir. Belge yüklenmeyi bitirdiğinde, pencerede bir `“load”` olayı ateşlenir.
 
-## Exercises
+Translated with DeepL.com (free version)
 
-### Balloon
+## Egzersizler
+
+### Balon
 
 {{index "balloon (exercise)", "arrow key"}}
 
-Write a page that displays a ((balloon)) (using the balloon ((emoji)), 🎈). When you press the up arrow, it should inflate (grow) 10 percent. When you press the down arrow, it should deflate (shrink) 10 percent.
+Bir ((balon)) gösteren bir sayfa yazın (balon ((emoji)) kullanarak, 🎈). Yukarı oka bastığınızda yüzde 10 şişmeli (büyümeli) ve aşağı oka bastığınızda yüzde 10 sönmelidir (küçülmelidir).
 
 {{index "font-size (CSS)"}}
 
-You can control the size of text (emoji are text) by setting the `font-size` CSS property (`style.fontSize`) on its parent element. Remember to include a unit in the value—for example, pixels (`10px`).
+Üst öğesinde `font-size` CSS özelliğini (`style.fontSize`) ayarlayarak metnin (emoji metindir) boyutunu kontrol edebilirsiniz. Değere bir birim eklemeyi unutmayın; örneğin, piksel (`10px`).
 
-The key names of the arrow keys are `"ArrowUp"` and `"ArrowDown"`. Make sure the keys change only the balloon, without scrolling the page.
+Ok tuşlarının anahtar adları `“ArrowUp”` ve `“ArrowDown”` şeklindedir. Tuşların sayfayı kaydırmadan yalnızca balonu değiştirdiğinden emin olun.
 
-Once you have that working, add a feature where if you blow up the balloon past a certain size, it “explodes”. In this case, exploding means that it is replaced with an 💥 emoji, and the event handler is removed (so that you can't inflate or deflate the explosion).
+Bu işe yaradığında, balonu belirli bir boyutu geçecek şekilde şişirdiğinizde patlayacağı bir özellik ekleyin. Bu durumda patlaması, bir 💥 emojisi ile değiştirilmesi ve olay işleyicisinin kaldırılması anlamına gelir (böylece patlamayı şişiremez veya söndüremezsiniz).
 
 {{if interactive
 
@@ -674,7 +678,7 @@ Once you have that working, add a feature where if you blow up the balloon past 
 <p>🎈</p>
 
 <script>
-  // Your code here
+  // Kodunuz buraya
 </script>
 ```
 
@@ -684,29 +688,31 @@ if}}
 
 {{index "keydown event", "key property", "balloon (exercise)"}}
 
-You'll want to register a handler for the `"keydown"` event and look at `event.key` to figure out whether the up or down arrow key was pressed.
+`“keydown"` olayı için bir işleyici kaydetmek ve yukarı veya aşağı ok tuşuna basılıp basılmadığını anlamak için `event.key` olayına bakmak isteyeceksiniz.
 
-The current size can be kept in a binding so that you can base the new size on it. It'll be helpful to define a function that updates the size—both the binding and the style of the balloon in the DOM—so that you can call it from your event handler, and possibly also once when starting, to set the initial size.
+Geçerli boyut bir bağlayıcıda tutulabilir, böylece yeni boyutu buna dayandırabilirsiniz. Boyutu (hem bağlayıcıyı hem de DOM'daki balonun stilini) güncelleyen bir fonksiyon tanımlamak yararlı olacaktır; böylece olay işleyicinizden ve muhtemelen başlangıçta ilk boyutu ayarlamak için bir kez çağırabilirsiniz.
 
 {{index "replaceChild method", "textContent property"}}
 
-You can change the balloon to an explosion by replacing the text node with another one (using `replaceChild`) or by setting the `textContent` property of its parent node to a new string.
+Metin düğümünü başka bir düğümle değiştirerek (`replaceChild` kullanarak) veya üst düğümünün `textContent` özelliğini yeni bir dizeye ayarlayarak balonu bir patlamaya dönüştürebilirsiniz.
 
 hint}}
 
-### Mouse trail
+### Fare izi
 
 {{index animation, "mouse trail (exercise)"}}
 
-In JavaScript's early days, which was the high time of ((gaudy home pages)) with lots of animated images, people came up with some truly inspiring ways to use the language. One of these was the _mouse trail_—a series of elements that would follow the mouse pointer as you moved it across the page.
+JavaScript'in ilk günlerinde, yani çok sayıda animasyonlu görüntünün yer aldığı ((şatafatlı ana sayfalar)) zamanında, insanlar dili kullanmak için gerçekten ilham verici yollar buldular.
+
+Bunlardan biri _mouse trail_ idi - fare işaretçisini sayfada hareket ettirdiğinizde onu takip eden bir dizi öğe.
 
 {{index "absolute positioning", "background (CSS)"}}
 
-In this exercise, I want you to implement a mouse trail. Use absolutely positioned `<div>` elements with a fixed size and background color (refer to the [code](event#mouse_drawing) in the "Mouse Clicks" section for an example). Create a bunch of these elements and, when the mouse moves, display them in the wake of the mouse pointer.
+In this exercise, I want you to implement a mouse trail. Use absolutely positioned `<div>` elements with a fixed size and background color (refer to the [code](event#mouse_drawing) in the “Mouse Clicks” section for an example). Create a bunch of such elements and, when the mouse moves, display them in the wake of the mouse pointer.
 
 {{index "mousemove event"}}
 
-There are various possible approaches here. You can make your trail as simple or as complex as you want. A simple solution to start with is to keep a fixed number of trail elements and cycle through them, moving the next one to the mouse's current position every time a `"mousemove"` event occurs.
+Bu alıştırmada, sizden bir fare izi uygulamanızı istiyorum. Sabit bir boyuta ve arka plan rengine sahip, kesinlikle konumlandırılmış `<div>` öğeleri kullanın (örnek için “Fare Tıklamaları” bölümündeki [code](event#mouse_drawing) kısmına bakın). Bu tür öğelerden bir grup oluşturun ve fare hareket ettiğinde bunları fare işaretçisinin ardından görüntüleyin.
 
 {{if interactive
 
@@ -734,29 +740,29 @@ if}}
 
 {{index "mouse trail (exercise)"}}
 
-Creating the elements is best done with a loop. Append them to the document to make them show up. To be able to access them later to change their position, you'll want to store the elements in an array.
+Öğeleri oluşturmak en iyi şekilde bir döngü ile yapılır. Gösterilmelerini sağlamak için bunları belgeye ekleyin. Daha sonra konumlarını değiştirmek üzere bunlara erişebilmek için öğeleri bir dizide saklamak isteyeceksiniz.
 
 {{index "mousemove event", [array, indexing], "remainder operator", "% operator"}}
 
-Cycling through them can be done by keeping a ((counter variable)) and adding 1 to it every time the `"mousemove"` event fires. The remainder operator (`% elements.length`) can then be used to get a valid array index to pick the element you want to position during a given event.
+Bir ((sayaç değişkeni)) tutarak ve `“mousemove”` olayı her ateşlendiğinde buna 1 ekleyerek bunlar arasında geçiş yapılabilir. Kalan operatörü (`% elements.length`) daha sonra belirli bir olay sırasında konumlandırmak istediğiniz öğeyi seçmek için geçerli bir dizi indeksi elde etmek için kullanılabilir.
 
 {{index simulation, "requestAnimationFrame function"}}
 
-Another interesting effect can be achieved by modeling a simple ((physics)) system. Use the `"mousemove"` event only to update a pair of bindings that track the mouse position. Then use `requestAnimationFrame` to simulate the trailing elements being attracted to the position of the mouse pointer. At every animation step, update their position based on their position relative to the pointer (and, optionally, a speed that is stored for each element). Figuring out a good way to do this is up to you.
+Bir başka ilginç etki de basit bir ((fizik)) sistemi modelleyerek elde edilebilir. `“mousemove"`olayını yalnızca fare konumunu izleyen bir çift binding'i güncellemek için kullanın. Daha sonra `requestAnimationFrame` kullanarak fare işaretçisinin konumuna çekilen arkadaki öğeleri simüle edin. Her animasyon adımında, işaretçiye göre konumlarını (ve isteğe bağlı olarak her öğe için depolanan bir hızı) temel alarak konumlarını güncelleyin. Bunu yapmanın iyi bir yolunu bulmak size kalmış.
 
 hint}}
 
-### Tabs
+### Sekmeler
 
 {{index "tabbed interface (exercise)"}}
 
-Tabbed panels are common in user interfaces. They allow you to select an interface panel by choosing from a number of tabs "sticking out" above an element.
+Sekmeli paneller kullanıcı arayüzlerinde yaygın olarak kullanılır. Bir öğenin üzerine “yapışan” bir dizi sekme arasından seçim yaparak bir arayüz paneli seçmenize olanak tanırlar.
 
 {{index "button (HTML tag)", "display (CSS)", "hidden element", "data attribute"}}
 
-Implement a simple tabbed interface. Write a function, `asTabs`, that takes a DOM node and creates a tabbed interface showing the child elements of that node. It should insert a list of `<button>` elements at the top of the node, one for each child element, containing text retrieved from the `data-tabname` attribute of the child. All but one of the original children should be hidden (given a `display` style of `none`). The currently visible node can be selected by clicking the buttons.
+Bu egzersizde basit bir sekmeli arayüz uygulamanız gerekiyor. Bir DOM düğümü alan ve o düğümün alt öğelerini gösteren bir sekmeli arayüz oluşturan `asTabs` adlı bir fonksiyon yazın. Düğümün en üstüne, her bir alt öğe için `data-tabname` özniteliğinden alınan metni içeren birer `<button>` elementi içeren bir liste eklemelidir. Orijinal çocuklardan biri hariç hepsi gizlenmeli (gizli stil olarak `none` verilmelidir). Şu anda görünür düğüm, butonlara tıklanarak seçilebilir.
 
-When that works, extend it to style the button for the currently selected tab differently so that it is obvious which tab is selected.
+Bu çalıştığında, mevcut seçili sekmenin düğmesini farklı bir şekilde stillendirerek hangi sekmenin seçildiğinin belirgin olmasını sağlayın.
 
 {{if interactive
 
@@ -780,14 +786,14 @@ if}}
 
 {{index "text node", "childNodes property", "live data structure", "tabbed interface (exercise)", [whitespace, "in HTML"]}}
 
-One pitfall you might run into is that you can't directly use the node's `childNodes` property as a collection of tab nodes. For one thing, when you add the buttons, they will also become child nodes and end up in this object because it is a live data structure. For another, the text nodes created for the whitespace between the nodes are also in `childNodes` but should not get their own tabs. You can use `children` instead of `childNodes` to ignore text nodes.
+Karşılaşabileceğiniz bir tuzak, düğümün `childNodes` özelliğini doğrudan sekme düğümleri koleksiyonu olarak kullanamamaktır. Birincisi, butonları eklediğinizde, bunlar da çocuk düğümler haline gelecek ve bu nesneye dahil olacaktır çünkü bu canlı bir veri yapısıdır. İkincisi, düğümler arasındaki boşluk için oluşturulan metin düğümleri de `childNodes` içinde yer alır ancak kendi sekmelerini almamalıdır. Metin düğümlerini göz ardı etmek için `childNodes` yerine `children` kullanabilirsiniz.
 
 {{index "TEXT_NODE code", "nodeType property"}}
 
-You could start by building up an array of tabs so that you have easy access to them. To implement the styling of the buttons, you could store objects that contain both the tab panel and its button.
+Sekmelerin kolay erişimini sağlamak için bir dizi sekme oluşturarak başlayabilirsiniz. Butonların stilini uygulamak için, hem sekme panelini hem de butonunu içeren nesneleri saklayabilirsiniz.
 
-I recommend writing a separate function for changing tabs. You can either store the previously selected tab and change only the styles needed to hide that and show the new one, or you can just update the style of all tabs every time a new tab is selected.
+Sekmeleri değiştirmek için ayrı bir fonksiyon yazmanızı öneririm. Ya daha önce seçilen sekmeyi saklayıp sadece onu gizlemek ve yenisini göstermek için gereken stilleri değiştirebilir ya da her yeni sekme seçildiğinde tüm sekmelerin stilini güncelleyebilirsiniz.
 
-You might want to call this function immediately to make the interface start with the first tab visible.
+Arayüzün ilk sekme görünür olacak şekilde başlaması için bu fonksiyonu hemen çağırmak isteyebilirsiniz..
 
 hint}}

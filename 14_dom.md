@@ -1,26 +1,26 @@
-# The Document Object Model
+# Belge Nesne Modeli(Document Object Model)
 
-{{quote {author: "Friedrich Nietzsche", title: "Beyond Good and Evil", chapter: true}
+{{quote {author: "Friedrich Nietzsche", title: "İyinin ve Kötünün Ötesinde", chapter: true}
 
-Too bad! Same old story! Once you've finished building your house you notice you've accidentally learned something that you really should have known—before you started.
+Çok kötü! Aynı eski hikaye! Evinizi inşa etmeyi bitirdikten sonra, başlamadan önce gerçekten bilmeniz gereken bir şeyi yanlışlıkla öğrendiğinizi fark edersiniz.
 
 quote}}
 
-{{figure {url: "img/chapter_picture_14.jpg", alt: "Illustration showing a tree with letters, pictures, and gears hanging on its branches", chapter: "framed"}}}
+{{figure {url: "img/chapter_picture_14.jpg", alt: "Dallarında harfler, resimler ve dişliler asılı bir ağacı gösteren illüstrasyon", chapter: "framed"}}}
 
 {{index drawing, parsing}}
 
-When you open a web page, your browser retrieves the page's ((HTML)) text and parses it, much like our parser from [Chapter ?](language#parsing) parsed programs. The browser builds up a model of the document's ((structure)) and uses this model to draw the page on the screen.
+Bir web sayfası açtığınızda, tarayıcınız sayfanın ((HTML)) metnini alır ve bunu, [bölüm ?](language#parsing) içindeki ayrıştırıcımızın programları ayrıştırdığı gibi ayrıştırır. Tarayıcı, belgenin ((yapısı))nın bir modelini oluşturur ve bu modeli sayfayı ekranda çizmek için kullanır.
 
 {{index "live data structure"}}
 
-This representation of the ((document)) is one of the toys that a JavaScript program has available in its ((sandbox)). It is a ((data structure)) that you can read or modify. It acts as a _live_ data structure: when it's modified, the page on the screen is updated to reflect the changes.
+Bu ((belgenin)) temsili, JavaScript programının ((sandbox)) içinde kullanabileceği oyuncaklardan biridir. Okuyabileceğiniz veya değiştirebileceğiniz bir ((veri yapısı))dır. Bu, _canlı_ bir veri yapısı olarak işlev görür: değiştirildiğinde, ekrandaki sayfa değişiklikleri yansıtacak şekilde güncellenir.
 
-## Document structure
+## Doküman yapısı
 
 {{index [HTML, structure]}}
 
-You can imagine an HTML document as a nested set of ((box))es. Tags such as `<body>` and `</body>` enclose other ((tag))s, which in turn contain other tags or ((text)). Here's the example document from the [previous chapter](browser):
+Bir HTML belgesini, iç içe geçmiş bir dizi ((kutu)) olarak hayal edebilirsiniz. `<body>` ve `</body>` gibi etiketler, diğer ((etiket))leri kapsar, bu etiketler de sırasıyla başka etiketler veya ((metin)) içerir. İşte [önceki bölümdeki](browser) örnek belge:
 
 ```{lang: html, sandbox: "homepage"}
 <!doctype html>
@@ -39,95 +39,95 @@ You can imagine an HTML document as a nested set of ((box))es. Tags such as `<bo
 
 This page has the following structure:
 
-{{figure {url: "img/html-boxes.svg", alt: "Diagram showing an HTML document as a set of nested boxes. The outer box is labeled 'html' and contains two boxes labeled 'head' and 'body'. Inside those are further boxes, with some of the innermost boxes containing the document's text.", width: "7cm"}}}
+{{figure {url: "img/html-boxes.svg", alt: "Bir HTML belgesini iç içe geçmiş kutular kümesi olarak gösteren diyagram. Dış kutu 'html' olarak etiketlenmiştir ve 'head' ve 'body' olarak etiketlenmiş iki kutu içerir. Bunların içinde başka kutular vardır ve en içteki kutulardan bazıları belgenin metnini içerir.", width: "7cm"}}}
 
 {{indexsee "Document Object Model", DOM}}
 
-The data structure the browser uses to represent the document follows this shape. For each box, there is an object, which we can interact with to find out things such as what HTML tag it represents and which boxes and text it contains. This representation is called the _Document Object Model_, or _((DOM))_ for short.
+Tarayıcının belgeyi temsil etmek için kullandığı veri yapısı bu şekli takip eder. Her kutu için, hangi HTML etiketini temsil ettiğini ve içerdiği kutu ve metinleri öğrenmek için etkileşime girebileceğimiz bir nesne vardır. Bu temsile _Document Object Model_ veya kısaca ((DOM)) denir.
 
 {{index "documentElement property", "head property", "body property", "html (HTML tag)", "body (HTML tag)", "head (HTML tag)"}}
 
-The global binding `document` gives us access to these objects. Its `documentElement` property refers to the object representing the `<html>` tag. Since every HTML document has a head and a body, it also has `head` and `body` properties pointing at those elements.
+Küresel `document` bağı, bu nesnelere erişim sağlar. `documentElement` özelliği, `<html>` etiketini temsil eden nesneye atıfta bulunur. Her HTML belgesinde bir baş ve bir gövde bulunduğundan, `head` ve `body` özelliklerine de sahiptir, bu öğelere işaret eder.
 
-## Trees
+## Ağaçlar
 
 {{index [nesting, "of objects"]}}
 
-Think back to the ((syntax tree))s from [Chapter ?](language#parsing) for a moment. Their structures are strikingly similar to the structure of a browser's document. Each _((node))_ may refer to other nodes, _children_, which in turn may have their own children. This shape is typical of nested structures, where elements can contain subelements that are similar to themselves.
+Bir an için [bölüm ?](language#parsing) ((sözdizim ağacı))na geri dönün. Yapıları, bir tarayıcının belgesinin yapısına çarpıcı biçimde benzer. Her bir _((düğüm))_, başka düğümlere, yani _çocuklar_, atıfta bulunabilir, bu da kendi çocuklarına sahip olabilir. Bu şekil, öğelerin kendilerine benzer alt öğeler içerebileceği iç içe geçmiş yapılara özgüdür.
 
 {{index "documentElement property", [DOM, tree]}}
 
-We call a data structure a _((tree))_ when it has a branching structure, no ((cycle))s (a node may not contain itself, directly or indirectly), and a single, well-defined _((root))_. In the case of the DOM, `document.documentElement` serves as the root.
+Bir veri yapısına, dallanma yapısına sahip olduğunda, ((döngü))süz (bir düğüm doğrudan veya dolaylı olarak kendisini içeremez) ve tek, iyi tanımlanmış bir _((kök))_ olduğunda _((ağaç))_ denir. DOM durumunda, `document.documentElement` kök olarak hizmet eder.
 
 {{index sorting, ["data structure", "tree"], "syntax tree"}}
 
-Trees come up a lot in computer science. In addition to representing recursive structures such as HTML documents or programs, they are often used to maintain sorted ((set))s of data because elements can usually be found or inserted more efficiently in a tree than in a flat array.
+Ağaçlar bilgisayar biliminde sıkça karşımıza çıkar. HTML belgeleri veya programlar gibi özyinelemeli yapıları temsil etmenin yanı sıra, genellikle sıralı ((küme))ler veri tutmak için kullanılırlar çünkü ağaçlarda öğeler düz bir dizidekinden daha verimli bir şekilde bulunabilir veya eklenebilir.
 
 {{index "leaf node", "Egg language"}}
 
-A typical tree has different kinds of ((node))s. The syntax tree for [the Egg language](language) had identifiers, values, and application nodes. Application nodes may have children, whereas identifiers and values are _leaves_, or nodes without children.
+Tipik bir ağaç, farklı türde ((düğüm))lere sahiptir. [Egg dilinin](language) sözdizim ağacında tanımlayıcılar, değerler ve uygulama düğümleri vardı. Uygulama düğümleri çocuklara sahip olabilirken, tanımlayıcılar ve değerler _yaprak düğümleri_, yani çocuksuz düğümlerdi.
 
 {{index "body property", [HTML, structure]}}
 
-The same goes for the DOM. Nodes for _((element))s_, which represent HTML tags, determine the structure of the document. These can have ((child node))s. An example of such a node is `document.body`. Some of these children can be ((leaf node))s, such as pieces of ((text)) or ((comment)) nodes.
+Aynı durum DOM için de geçerlidir. HTML etiketlerini temsil eden _((öğe))_ düğümleri, belgenin yapısını belirler. Bu düğümler ((çocuk düğüm))lere sahip olabilir. Bu tür bir düğüme örnek olarak `document.body` verilebilir. Bu çocuklardan bazıları ((yaprak düğüm))ler olabilir, örneğin ((metin)) parçaları veya ((yorum)) düğümleri gibi.
 
 {{index "text node", element, "ELEMENT_NODE code", "COMMENT_NODE code", "TEXT_NODE code", "nodeType property"}}
 
-Each DOM node object has a `nodeType` property, which contains a code (number) that identifies the type of node. Elements have code 1, which is also defined as the constant property `Node.ELEMENT_NODE`. Text nodes, representing a section of text in the document, get code 3 (`Node.TEXT_NODE`). Comments have code 8 (`Node.COMMENT_NODE`).
+Her DOM düğüm nesnesinin, düğüm türünü tanımlayan bir kod (sayı) içeren bir `nodeType` özelliği vardır. Öğeler, sabit özellik `Node.ELEMENT_NODE` olarak tanımlanan 1 koduna sahiptir. Belgede bir metin bölümünü temsil eden metin düğümleri 3 kodunu (`Node.TEXT_NODE`) alır. Yorumlar 8 koduna (`Node.COMMENT_NODE`) sahiptir.
 
-Another way to visualize our document ((tree)) is as follows:
+Belgemizi ((ağacı)) görselleştirmenin bir başka yolu da aşağıdaki gibidir:
 
-{{figure {url: "img/html-tree.svg", alt: "Diagram showing the HTML document as a tree, with arrows from parent nodes to child nodes", width: "8cm"}}}
+{{figure {url: "img/html-tree.svg", alt: "HTML belgesini üst düğümlerden alt düğümlere giden oklarla bir ağaç olarak gösteren diyagram", width: "8cm"}}}
 
-The leaves are text nodes, and the arrows indicate parent-child relationships between nodes.
+Yapraklar metin düğümleridir ve oklar düğümler arasındaki ebeveyn-çocuk ilişkilerini gösterir.
 
 {{id standard}}
 
-## The standard
+## Standart
 
 {{index "programming language", [interface, design], [DOM, interface]}}
 
-Using cryptic numeric codes to represent node types is not a very JavaScript-like thing to do. Later in this chapter, we'll see that other parts of the DOM interface also feel cumbersome and alien. This is because the DOM interface wasn't designed for JavaScript alone. Rather, it tries to be a language-neutral interface that can be used in other systems as well—not just for HTML but also for ((XML)), which is a generic ((data format)) with an HTML-like syntax.
+Düğüm türlerini temsil etmek için şifreli sayısal kodlar kullanmak pek JavaScript tarzı bir yaklaşım değildir. Bu bölümün ilerleyen kısımlarında, DOM arayüzünün diğer bölümlerinin de sıkıcı ve yabancı hissettirdiğini göreceğiz. Bunun nedeni, DOM arayüzünün sadece JavaScript için tasarlanmamış olmasıdır. Bunun yerine, sadece HTML için değil, aynı zamanda HTML benzeri bir söz dizimine sahip genel bir ((veri formatı)) olan ((XML)) gibi diğer sistemlerde de kullanılabilecek dil tarafsız bir arayüz olmaya çalışır.
 
 {{index consistency, integration}}
 
-This is unfortunate. Standards are often useful. But in this case, the advantage (cross-language consistency) isn't all that compelling. Having an interface that is properly integrated with the language you're using will save you more time than having a familiar interface across languages.
+Bu talihsiz bir durum. Standartlar genellikle yararlıdır. Ancak bu durumda, avantaj (diller arası tutarlılık) pek çekici değil. Kullandığınız dil ile düzgün bir şekilde entegre edilmiş bir arayüze sahip olmak, diller arası tanıdık bir arayüze sahip olmaktan daha fazla zaman kazandıracaktır.
 
 {{index "array-like object", "NodeList type"}}
 
-As an example of this poor integration, consider the `childNodes` property that element nodes in the DOM have. This property holds an array-like object with a `length` property and properties labeled by numbers to access the child nodes. But it is an instance of the `NodeList` type, not a real array, so it does not have methods such as `slice` and `map`.
+Bu kötü entegrasyona bir örnek olarak, DOM’daki öğe düğümlerinin sahip olduğu `childNodes` özelliğini düşünün. Bu özellik, bir `length` özelliği olan ve çocuk düğümlere erişmek için numaralarla etiketlenmiş özellikler içeren dizi benzeri bir nesne tutar. Ancak bu, gerçek bir dizi olmayan `NodeList` türünün bir örneğidir, bu yüzden `slice` ve `map` gibi metodlara sahip değildir.
 
 {{index [interface, design], [DOM, construction], "side effect"}}
 
-Then there are issues that are simply caused by poor design. For example, there is no way to create a new node and immediately add children or ((attribute))s to it. Instead, you have to first create it and then add the children and attributes one by one, using side effects. Code that interacts heavily with the DOM tends to get long, repetitive, and ugly.
+Daha sonra, basitçe kötü tasarım olan sorunlar var. Örneğin, yeni bir düğüm oluşturup hemen çocukları veya ((özellik))leri eklemenin bir yolu yoktur. Bunun yerine, önce düğümü oluşturmalı ve ardından çocukları ve özellikleri tek tek yan etkiler kullanarak eklemelisiniz. DOM ile yoğun etkileşimde bulunan kodlar genellikle uzun, tekrarlayıcı ve çirkin olur.
 
 {{index library}}
 
-But these flaws aren't fatal. Since JavaScript allows us to create our own ((abstraction))s, it is possible to design improved ways to express the operations we are performing. Many libraries intended for browser programming come with such tools.
+Ancak bu kusurlar ölümcül değil. JavaScript, kendi ((soyutlama))larımızı oluşturmamıza izin verdiği için, gerçekleştirdiğiniz işlemleri ifade etmenin daha iyi yollarını tasarlamak mümkündür. Tarayıcı programlaması için tasarlanmış birçok kütüphane, bu tür araçlarla birlikte gelir.
 
-## Moving through the tree
+## Ağaç içerisinden ilerlemek
 
 {{index pointer}}
 
-DOM nodes contain a wealth of ((link))s to other nearby nodes. The following diagram illustrates these:
+DOM düğümleri, yakındaki diğer düğümlere çok sayıda ((bağlantı)) içerir. Aşağıdaki diyagram bunları göstermektedir:
 
-{{figure {url: "img/html-links.svg", alt: "Diagram that shows the links between DOM nodes. The 'body' node is shown as a box, with a 'firstChild' arrow pointing at the 'h1' node at its start, a 'lastChild' arrow pointing at the last paragraph node, and 'childNodes' arrow pointing at an array of links to all its children. The middle paragraph has a 'previousSibling' arrow pointing at the node before it, a 'nextSibling' arrow to the node after it, and a 'parentNode' arrow pointing at the 'body' node.", width: "6cm"}}}
+{{figure {url: "img/html-links.svg", alt: "DOM düğümleri arasındaki bağlantıları gösteren diyagram. 'body' düğümü, başlangıcındaki 'h1' düğümünü işaret eden bir 'firstChild' oku, son paragraf düğümünü işaret eden bir 'lastChild' oku ve tüm çocuklarına giden bir dizi bağlantıyı işaret eden 'childNodes' oku ile bir kutu olarak gösterilir. Ortadaki paragrafın kendisinden önceki düğümü gösteren bir 'previousSibling' oku, kendisinden sonraki düğümü gösteren bir 'nextSibling' oku ve 'body' düğümünü gösteren bir 'parentNode' oku vardır.”, width: ”6cm"}}}
 
 {{index "child node", "parentNode property", "childNodes property"}}
 
-Although the diagram shows only one link of each type, every node has a `parentNode` property that points to the node it is part of, if any. Likewise, every element node (node type 1) has a `childNodes` property that points to an ((array-like object)) holding its children.
+Diyagram sadece her türden bir bağlantıyı gösterse de, her düğümün, eğer varsa, bir parçası olduğu düğümü işaret eden bir `parentNode` özelliği vardır. Aynı şekilde, her öğe düğümü (düğüm türü 1) çocuklarını tutan dizi benzeri bir nesneyi işaret eden bir `childNodes` özelliğine sahiptir.
 
 {{index "firstChild property", "lastChild property", "previousSibling property", "nextSibling property"}}
 
-In theory, you could move anywhere in the tree using just these parent and child links. But JavaScript also gives you access to a number of additional convenience links. The `firstChild` and `lastChild` properties point to the first and last child elements or have the value `null` for nodes without children. Similarly, `previousSibling` and `nextSibling` point to adjacent nodes, which are nodes with the same parent that appear immediately before or after the node itself. For a first child, `previousSibling` will be null, and for a last child, `nextSibling` will be null.
+Teoride, sadece bu ana ve çocuk bağlantıları kullanarak ağaçta herhangi bir yere hareket edebilirsiniz. Ancak JavaScript, size bir dizi ek kolaylık bağlantısı da sunar. `firstChild` ve `lastChild` özellikleri, ilk ve son çocuk öğeleri işaret eder veya çocuğu olmayan düğümler için `null` değerine sahiptir. Benzer şekilde, `previousSibling` ve `nextSibling`, aynı ebeveyne sahip ve düğümün hemen öncesinde veya sonrasında görünen bitişik düğümleri işaret eder. İlk çocuk için, `previousSibling` null olacaktır ve son çocuk için `nextSibling` null olacaktır.
 
 {{index "children property", "text node", element}}
 
-There's also the `children` property, which is like `childNodes` but contains only element (type 1) children, not other types of child nodes. This can be useful when you aren't interested in text nodes.
+Ayrıca, `children` özelliği de vardır, bu `childNodes` gibidir ancak sadece öğe (tür 1) çocukları içerir, diğer türde çocuk düğümleri içermez. Bu, metin düğümleriyle ilgilenmediğinizde yararlı olabilir.
 
 {{index "talksAbout function", recursion, [nesting, "of objects"]}}
 
-When dealing with a nested data structure like this one, recursive functions are often useful. The following function scans a document for ((text node))s containing a given string and returns `true` when it has found one:
+Bu tür iç içe geçmiş bir veri yapısı ile çalışırken, özyinelemeli fonksiyonlar genellikle faydalıdır. Aşağıdaki fonksiyon, bir belgeyi belirli bir dizeyi içeren ((metin düğümü))ler için tarar ve birini bulduğunda `true` döndürür:
 
 {{id talksAbout}}
 
@@ -151,17 +151,17 @@ console.log(talksAbout(document.body, "book"));
 
 {{index "nodeValue property"}}
 
-The `nodeValue` property of a text node holds the string of text that it represents.
+Bir metin düğümünün `nodeValue` özelliği, temsil ettiği metin dizesini tutar.
 
 ## Finding elements
 
 {{index [DOM, querying], "body property", "hard-coding", [whitespace, "in HTML"]}}
 
-Navigating these ((link))s among parents, children, and siblings is often useful. But if we want to find a specific node in the document, reaching it by starting at `document.body` and following a fixed path of properties is a bad idea. Doing so bakes assumptions into our program about the precise structure of the document—a structure you might want to change later. Another complicating factor is that text nodes are created even for the whitespace between nodes. The example document's `<body>` tag has not just three children (`<h1>` and two `<p>` elements), but seven: those three, plus the spaces before, after, and between them.
+Bu ((link))leri ebeveynler, çocuklar ve kardeşler arasında gezdirmek genellikle yararlıdır. Ancak belgede belirli bir düğümü bulmak istiyorsak, `document.body` adresinden başlayıp sabit bir özellik yolunu izleyerek ona ulaşmak kötü bir fikirdir. Bunu yapmak, programımıza belgenin kesin yapısı hakkında varsayımlar ekler - daha sonra değiştirmek isteyebileceğiniz bir yapı. Bir başka karmaşık faktör de metin düğümlerinin düğümler arasındaki boşluklar için bile oluşturulmasıdır. Örnek belgenin `<body>` etiketinin sadece üç alt öğesi (`<h1>` ve iki `<p>` öğesi) değil, aslında yedi alt öğesi vardır: bu üç öğe, artı onlardan önceki, sonraki ve aralarındaki boşluklar.
 
 {{index "search problem", "href attribute", "getElementsByTagName method"}}
 
-If we want to get the `href` attribute of the link in that document, we don't want to say something like "Get the second child of the sixth child of the document body". It'd be better if we could say "Get the first link in the document". And we can.
+Dolayısıyla, o belgedeki bağlantının `href` niteliğini almak istiyorsak, “Belge gövdesinin altıncı çocuğunun ikinci çocuğunu al” gibi bir şey söylemek istemeyiz. “Belgedeki ilk bağlantıyı al” diyebilseydik daha iyi olurdu. Öyle de yapabiliriz.
 
 ```{sandbox: "homepage"}
 let link = document.body.getElementsByTagName("a")[0];
@@ -170,11 +170,11 @@ console.log(link.href);
 
 {{index "child node"}}
 
-All element nodes have a `getElementsByTagName` method, which collects all elements with the given tag name that are descendants (direct or indirect children) of that node and returns them as an ((array-like object)).
+Tüm öğe düğümleri, verilen etiket adına sahip olan ve bu düğümün torunları (doğrudan veya dolaylı çocukları) olan tüm öğeleri toplayan ve bunları bir ((dizi benzeri nesne)) olarak döndüren bir `getElementsByTagName` yöntemine sahiptir.
 
 {{index "id attribute", "getElementById method"}}
 
-To find a specific _single_ node, you can give it an `id` attribute and use `document.getElementById` instead.
+Belirli bir _single_ düğümü bulmak için, ona bir `id` niteliği verebilir ve bunun yerine `document.getElementById` kullanabilirsiniz.
 
 ```{lang: html}
 <p>My ostrich Gertrude:</p>
@@ -188,13 +188,13 @@ To find a specific _single_ node, you can give it an `id` attribute and use `doc
 
 {{index "getElementsByClassName method", "class attribute"}}
 
-A third, similar method is `getElementsByClassName`, which, like `getElementsByTagName`, searches through the contents of an element node and retrieves all elements that have the given string in their `class` attribute.
+Üçüncü ve benzer bir yöntem olan `getElementsByClassName`, `getElementsByTagName` gibi, bir öğe düğümünün içeriğini arar ve `class` niteliğinde verilen dizeye sahip tüm öğeleri alır.
 
-## Changing the document
+## Dokümanı değiştirmek
 
 {{index "side effect", "removeChild method", "appendChild method", "insertBefore method", [DOM, construction], [DOM, modification]}}
 
-Almost everything about the DOM data structure can be changed. The shape of the document tree can be modified by changing parent-child relationships. Nodes have a `remove` method to remove them from their current parent node. To add a child node to an element node, we can use `appendChild`, which puts it at the end of the list of children, or `insertBefore`, which inserts the node given as the first argument before the node given as the second argument.
+DOM veri yapısıyla ilgili neredeyse her şey değiştirilebilir. Belge ağacının şekli, ebeveyn-çocuk ilişkileri değiştirilerek değiştirilebilir. Düğümler, onları mevcut ebeveyn düğümlerinden kaldırmak için bir `remove` yöntemine sahiptir. Bir eleman düğümüne bir çocuk düğüm eklemek için, onu çocuk listesinin sonuna koyan `appendChild` veya ilk argüman olarak verilen düğümü ikinci argüman olarak verilen düğümden önce ekleyen `insertBefore` kullanabiliriz.
 
 ```{lang: html}
 <p>One</p>
@@ -207,17 +207,21 @@ Almost everything about the DOM data structure can be changed. The shape of the 
 </script>
 ```
 
-A node can exist in the document in only one place. Thus, inserting paragraph _Three_ in front of paragraph _One_ will first remove it from the end of the document and then insert it at the front, resulting in _Three_/_One_/_Two_. All operations that insert a node somewhere will, as a ((side effect)), cause it to be removed from its current position (if it has one).
+Bir düğüm belgede yalnızca tek bir yerde bulunabilir. Bu nedenle, _Three_ paragrafını _One_ paragrafının önüne eklemek, önce onu belgenin sonundan kaldıracak ve sonra öne ekleyecek ve _Three_/_One_/_Two_ ile sonuçlanacaktır. Bir düğümü bir yere ekleyen tüm işlemler, ((yan etki)) olarak, mevcut konumundan (eğer varsa) kaldırılmasına neden olacaktır.
 
 {{index "insertBefore method", "replaceChild method"}}
 
-The `replaceChild` method is used to replace a child node with another one. It takes as arguments two nodes: a new node and the node to be replaced. The replaced node must be a child of the element the method is called on. Note that both `replaceChild` and `insertBefore` expect the _new_ node as their first argument.
+Bir alt düğümü başka bir düğümle değiştirmek için `replaceChild` yöntemi kullanılır. Argüman olarak iki düğüm alır: yeni bir düğüm ve değiştirilecek düğüm. Değiştirilen düğüm, yöntemin çağrıldığı öğenin bir çocuğu olmalıdır. Hem `replaceChild` hem de `insertBefore` yöntemlerinin ilk argüman olarak _new_ düğümünü beklediğini unutmayın.
 
-## Creating nodes
+## Düğümler oluşturmak
 
 {{index "alt attribute", "img (HTML tag)", "createTextNode method"}}
 
-Say we want to write a script that replaces all ((image))s (`<img>` tags) in the document with the text held in their `alt` attributes, which specifies an alternative textual representation of the image. This involves not only removing the images but also adding a new text node to replace them.
+Belgedeki tüm ((image))leri (`<img>` etiketleri), `alt` niteliklerinde tutulan ve görüntünün alternatif bir metinsel temsilini belirten metinle değiştiren bir kod yazmak istediğimizi varsayalım.
+
+{{index "createTextNode method"}}
+
+Bu sadece resimleri kaldırmayı değil, aynı zamanda onların yerine yeni bir metin düğümü eklemeyi de içerir.
 
 ```{lang: html}
 <p>The <img src="img/cat.png" alt="Cat"> in the
@@ -241,15 +245,15 @@ Say we want to write a script that replaces all ((image))s (`<img>` tags) in the
 
 {{index "text node"}}
 
-Given a string, `createTextNode` gives us a text node that we can insert into the document to make it show up on the screen.
+Bir dize verildiğinde, `createTextNode` bize ekranda görünmesini sağlamak için belgeye ekleyebileceğimiz bir metin düğümü verir.
 
 {{index "live data structure", "getElementsByTagName method", "childNodes property"}}
 
-The loop that goes over the images starts at the end of the list. This is necessary because the node list returned by a method like `getElementsByTagName` (or a property like `childNodes`) is _live_. That is, it is updated as the document changes. If we started from the front, removing the first image would cause the list to lose its first element so that the second time the loop repeats, where `i` is 1, it would stop because the length of the collection is now also 1.
+Görüntülerin üzerinden geçen döngü listenin sonundan başlar. Bu gereklidir çünkü `getElementsByTagName` gibi bir yöntem (ya da `childNodes` gibi bir özellik) tarafından döndürülen düğüm listesi _canlıdır_. Yani, belge değiştikçe güncellenir. Eğer en baştan başlasaydık, ilk resmi kaldırmak listenin ilk elemanını kaybetmesine neden olurdu, böylece `i`nin 1 olduğu döngü ikinci kez tekrarlandığında, koleksiyonun uzunluğu artık 1 olduğu için dururdu.
 
 {{index "slice method"}}
 
-If you want a _solid_ collection of nodes, as opposed to a live one, you can convert the collection to a real array by calling `Array.from`.
+Canlı bir koleksiyon yerine _solid_ bir düğüm koleksiyonu istiyorsanız, `Array.from` komutunu çağırarak koleksiyonu gerçek bir diziye dönüştürebilirsiniz.
 
 ```
 let arrayish = {0: "one", 1: "two", length: 2};
@@ -260,13 +264,13 @@ console.log(array.map(s => s.toUpperCase()));
 
 {{index "createElement method"}}
 
-To create ((element)) nodes, you can use the `document.createElement` method. This method takes a tag name and returns a new empty node of the given type.
+((eleman)) düğümleri oluşturmak için `document.createElement` yöntemini kullanabilirsiniz. Bu yöntem bir etiket adı alır ve verilen türde yeni bir boş düğüm döndürür.
 
 {{index "Popper, Karl", [DOM, construction], "elt function"}}
 
 {{id elt}}
 
-The following example defines a utility `elt`, which creates an element node and treats the rest of its arguments as children to that node. This function is then used to add an attribution to a quote.
+Aşağıdaki örnek, bir element düğümü oluşturan ve argümanlarının geri kalanını bu düğümün çocukları olarak ele alan bir `elt` yardımcı programı tanımlar. Bu fonksiyon daha sonra bir alıntıya atıf eklemek için kullanılır.
 
 ```{lang: html}
 <blockquote id="quote">
@@ -296,21 +300,21 @@ The following example defines a utility `elt`, which creates an element node and
 
 {{if book
 
-This is what the resulting document looks like:
+Ortaya çıkan belge bu şekilde görünür:
 
-{{figure {url: "img/blockquote.png", alt: "Rendered picture of the blockquote with attribution", width: "8cm"}}}
+{{figure {url: "img/blockquote.png", alt: "Blok alıntının atıfla birlikte işlenmiş resmi", width: "8cm"}}}
 
 if}}
 
-## Attributes
+## Özellikler
 
 {{index "href attribute", [DOM, attributes]}}
 
-Some element ((attribute))s, such as `href` for links, can be accessed through a property of the same name on the element's ((DOM)) object. This is the case for most commonly used standard attributes.
+Bazı öğe ((özellik))leri, bağlantılar için `href` gibi, öğenin ((DOM)) nesnesindeki aynı isimli bir özellik aracılığıyla erişilebilir. Bu, çoğu yaygın olarak kullanılan standart özellikler için geçerlidir.
 
 {{index "data attribute", "getAttribute method", "setAttribute method", attribute}}
 
-HTML allows you to set any attribute you want on nodes. This can be useful because it allows you to store extra information in a document. To read or change custom attributes, which aren't available as regular object properties, you have to use the `getAttribute` and `setAttribute` methods.
+Ancak HTML, düğümler üzerinde istediğiniz herhangi bir özelliği ayarlamanıza izin verir. Bu, bir belgede ek bilgi saklamanızı sağladığı için kullanışlı olabilir. Kendi özellik adlarınızı oluşturduğunuzda, bu tür özellikler öğenin düğümünde özellik olarak bulunmaz. Bunun yerine, onlarla çalışmak için `getAttribute` ve `setAttribute` metodlarını kullanmanız gerekir.
 
 ```{lang: html}
 <p data-classified="secret">The launch code is 00000000.</p>
@@ -326,27 +330,27 @@ HTML allows you to set any attribute you want on nodes. This can be useful becau
 </script>
 ```
 
-It is recommended to prefix the names of such made-up attributes with `data-` to ensure they do not conflict with any other attributes.
+Bu tür oluşturulan özellik adlarının diğer özelliklerle çakışmamasını sağlamak için bu adlara `data-` öneki eklemeniz önerilir.
 
 {{index "getAttribute method", "setAttribute method", "className property", "class attribute"}}
 
-There is a commonly used attribute, `class`, which is a ((keyword)) in the JavaScript language. For historical reasons—some old JavaScript implementations could not handle property names that matched keywords—the property used to access this attribute is called `className`. You can also access it under its real name, `"class"`, with the `getAttribute` and `setAttribute` methods.
+JavaScript dilinde bir ((anahtar kelime)) olan `class` adında yaygın olarak kullanılan bir özellik vardır. Tarihsel nedenlerden dolayı—bazı eski JavaScript uygulamaları anahtar kelimelerle eşleşen özellik adlarını işleyemiyordu—bu özelliğe erişmek için kullanılan özellik `className` olarak adlandırılır. Ayrıca, `getAttribute` ve `setAttribute` metodlarını kullanarak, gerçek adı olan `"class"` altında da erişebilirsiniz.
 
-## Layout
+## Düzen
 
 {{index layout, "block element", "inline element", "p (HTML tag)", "h1 (HTML tag)", "a (HTML tag)", "strong (HTML tag)"}}
 
-You may have noticed that different types of elements are laid out differently. Some, such as paragraphs (`<p>`) or headings (`<h1>`), take up the whole width of the document and are rendered on separate lines. These are called _block_ elements. Others, such as links (`<a>`) or the `<strong>` element, are rendered on the same line with their surrounding text. Such elements are called _inline_ elements.
+Farklı türdeki öğelerin farklı şekillerde yerleştirildiğini fark etmiş olabilirsiniz. Paragraflar (`<p>`) veya başlıklar (`<h1>`) gibi bazıları belgenin tüm genişliğini kaplar ve ayrı satırlarda görüntülenir. Bunlara block öğeler denir. Diğerleri, bağlantılar (`<a>`) veya `<strong>` öğesi gibi, çevreleyen metinle aynı satırda görüntülenir. Bu tür öğelere _inline_ öğeler denir.
 
 {{index drawing}}
 
-For any given document, browsers are able to compute a layout, which gives each element a size and position based on its type and content. This layout is then used to actually draw the document.
+Herhangi bir belge için, tarayıcılar her öğeye, türüne ve içeriğine göre bir boyut ve konum veren bir düzen hesaplayabilir. Bu düzen daha sonra belgeyi çizmek için kullanılır.
 
 {{index "border (CSS)", "offsetWidth property", "offsetHeight property", "clientWidth property", "clientHeight property", dimensions}}
 
-The size and position of an element can be accessed from JavaScript. The `offsetWidth` and `offsetHeight` properties give you the space the element takes up in _((pixel))s_. A pixel is the basic unit of measurement in the browser. It traditionally corresponds to the smallest dot that the screen can draw, but on modern displays, which can draw _very_ small dots, that may no longer be the case, and a browser pixel may span multiple display dots.
+Bir öğenin boyutu ve konumu JavaScript’ten erişilebilir. `offsetWidth` ve `offsetHeight` özellikleri, öğenin kapladığı alanı _((piksel))_ olarak verir. Bir piksel, tarayıcıda temel ölçü birimidir. Geleneksel olarak, ekranın çizebileceği en küçük nokta ile eşleşir, ancak modern ekranlarda, _çok_ küçük noktalar çizebildiği için bu durum geçerli olmayabilir ve bir tarayıcı pikseli birden fazla ekran noktasını kapsayabilir.
 
-Similarly, `clientWidth` and `clientHeight` give you the size of the space _inside_ the element, ignoring border width.
+Benzer şekilde, `clientWidth` ve `clientHeight` özellikleri, kenarlık genişliğini görmezden gelerek öğenin _içindeki_ alanın boyutunu verir.
 
 ```{lang: html}
 <p style="border: 3px solid red">
@@ -364,9 +368,9 @@ Similarly, `clientWidth` and `clientHeight` give you the size of the space _insi
 
 {{if book
 
-Giving a paragraph a border causes a rectangle to be drawn around it.
+Bir paragrafa kenarlık eklemek, etrafında bir dikdörtgen çizilmesine neden olur.
 
-{{figure {url: "img/boxed-in.png", alt: "Rendered picture of a paragraph with a border", width: "8cm"}}}
+{{figure {url: "img/boxed-in.png", alt: "Kenarlıklı bir paragrafın çizilmiş resmi", width: "8cm"}}}
 
 if}}
 
@@ -374,15 +378,15 @@ if}}
 
 {{id boundingRect}}
 
-The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left`, and `right` properties, indicating the pixel positions of the sides of the element relative to the upper left of the screen. If you want pixel positions relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
+Bir öğenin ekrandaki kesin konumunu bulmanın en etkili yolu `getBoundingClientRect` metodudur. Bu metot, öğenin kenarlarının ekranın sol üst köşesine göre piksel konumlarını belirten `top`, `bottom`, `left` ve `right` özelliklerine sahip bir nesne döndürür. Bu konumları tüm belgeye göre almak isterseniz, mevcut kaydırma pozisyonunu eklemeniz gerekir; bu pozisyonu `pageXOffset` ve `pageYOffset` bağlamlarında bulabilirsiniz.
 
 {{index "offsetHeight property", "getBoundingClientRect method", drawing, laziness, performance, efficiency}}
 
-Laying out a document can be quite a lot of work. In the interest of speed, browser engines do not immediately re-layout a document every time you change it but wait as long as they can before doing so. When a JavaScript program that changed the document finishes running, the browser will have to compute a new layout to draw the changed document to the screen. When a program _asks_ for the position or size of something by reading properties such as `offsetHeight` or calling `getBoundingClientRect`, providing that information also requires computing a ((layout)).
+Bir belgenin düzenini oluşturmak oldukça zahmetli bir iş olabilir. Hız açısından, tarayıcı motorları, bir belgeyi her değiştirdiğinizde hemen yeniden düzenlemez, olabildiğince bekler. Belgeyi değiştiren bir JavaScript programı çalışmayı bitirdiğinde, tarayıcı değiştirilmiş belgeyi ekrana çizmek için yeni bir düzen hesaplamak zorunda kalır. Bir program `offsetHeight` gibi özellikleri okuyarak veya `getBoundingClientRect` çağırarak bir şeyin konumunu veya boyutunu sorduğunda, doğru bilgi sağlamak da bir ((layout)) hesaplamayı gerektirir.
 
 {{index "side effect", optimization, benchmark}}
 
-A program that repeatedly alternates between reading DOM layout information and changing the DOM forces a lot of layout computations to happen and will consequently run very slowly. The following code is an example of this. It contains two different programs that build up a line of _X_ characters 2,000 pixels wide and measures the time each one takes.
+DOM düzen bilgilerini okuma ve DOM’u değiştirme arasında sürekli gidip gelen bir program, çok sayıda düzen hesaplaması yapılmasına zorlar ve bu nedenle çok yavaş çalışır. Aşağıdaki kod bunun bir örneğidir. 2.000 piksel genişliğinde _X_ karakterlerinden oluşan bir satır oluşturan ve her birinin ne kadar sürdüğünü ölçen iki farklı program içerir.
 
 ```{lang: html, test: nonumbers}
 <p><span id="one"></span></p>
@@ -413,15 +417,15 @@ A program that repeatedly alternates between reading DOM layout information and 
 </script>
 ```
 
-## Styling
+## Stillendirme
 
 {{index "block element", "inline element", style, "strong (HTML tag)", "a (HTML tag)", underline}}
 
-We have seen that different HTML elements are drawn differently. Some are displayed as blocks, others inline. Some add styling—`<strong>` makes its content ((bold)), and `<a>` makes it blue and underlines it.
+Farklı HTML öğelerinin farklı şekilde çizildiğini gördük. Bazıları blok olarak, bazıları satır içi olarak görüntülenir. Bazıları stil ekler—`<strong>`, içeriğini ((kalın)) yapar ve `<a>`, içeriğini mavi yapar ve altını çizer.
 
 {{index "img (HTML tag)", "default behavior", "style attribute"}}
 
-The way an `<img>` tag shows an image or an `<a>` tag causes a link to be followed when it is clicked is strongly tied to the element type. But we can change the styling associated with an element, such as the text color or underline. Here is an example that uses the `style` property:
+Bir `<img>` etiketinin bir görüntüyü nasıl gösterdiği veya bir `<a>` etiketinin üzerine tıklandığında bir bağlantının nasıl takip edileceği, öğe türüyle güçlü bir şekilde ilişkilidir. Ancak bir öğe ile ilişkilendirilen stili, örneğin metin rengi veya alt çizgi gibi, değiştirebiliriz. İşte `style` özelliğini kullanan bir örnek:
 
 ```{lang: html}
 <p><a href=".">Normal link</a></p>
@@ -430,19 +434,19 @@ The way an `<img>` tag shows an image or an `<a>` tag causes a link to be follow
 
 {{if book
 
-The second link will be green instead of the default link color:
+İkinci bağlantı, varsayılan bağlantı renginin yerine yeşil olacak.
 
-{{figure {url: "img/colored-links.png", alt: "Rendered picture of a normal blue link and a styled green link", width: "2.2cm"}}}
+{{figure {url: "img/colored-links.png", alt: "Normal mavi bağlantı ve stil verilmiş yeşil bağlantının çizilmiş resmi", width: "2.2cm"}}}
 
 if}}
 
 {{index "border (CSS)", "color (CSS)", CSS, "colon character"}}
 
-A style attribute may contain one or more _((declaration))s_, which are a property (such as `color`) followed by a colon and a value (such as `green`). When there is more than one declaration, they must be separated by ((semicolon))s, as in `"color: red; border: none"`.
+Bir stil niteliği bir veya daha fazla _((declaration))s_ içerebilir; bunlar bir özellik (örneğin `color`), ardından iki nokta üst üste ve bir değerdir (örneğin `green`). Birden fazla bildirim olduğunda, `“color: red; border: none”` gibi ((noktalı virgül))ler ile ayrılmalıdırlar.
 
 {{index "display (CSS)", layout}}
 
-A lot of aspects of the document can be influenced by styling. For example, the `display` property controls whether an element is displayed as a block or an inline element.
+Bir stil niteliği bir veya daha fazla _((declaration))s_ içerebilir; bunlar bir özellik (örneğin `color`), ardından iki nokta üst üste ve bir değerdir (örneğin `green`). Birden fazla bildirim olduğunda, `“color: red; border: none”` gibi ((noktalı virgül))ler ile ayrılmalıdırlar.
 
 ```{lang: html}
 This text is displayed <strong>inline</strong>,
@@ -452,17 +456,17 @@ This text is displayed <strong>inline</strong>,
 
 {{index "hidden element"}}
 
-The `block` tag will end up on its own line, since ((block element))s are not displayed inline with the text around them. The last tag is not displayed at all—`display: none` prevents an element from showing up on the screen. This is a way to hide elements. It is often preferable to removing them from the document entirely because it makes it easy to reveal them again later.
+((Blok öğesi))ler etraflarındaki metinle birlikte satır içinde görüntülenmediğinden `block` etiketi kendi satırında sonlanacaktır. Son etiket hiç görüntülenmez-`display: none` bir öğenin ekranda görünmesini engeller. Bu, öğeleri gizlemenin bir yoludur. Genellikle belgeden tamamen kaldırmaya tercih edilir çünkü daha sonra tekrar ortaya çıkarmayı kolaylaştırır.
 
 {{if book
 
-{{figure {url: "img/display.png", alt: "Different display styles", width: "4cm"}}}
+{{figure {url: "img/display.png", alt: "Farklı ekran stilleri", width: "4cm"}}}
 
 if}}
 
 {{index "color (CSS)", "style attribute"}}
 
-JavaScript code can directly manipulate the style of an element through the element's `style` property. This property holds an object that has properties for all possible style properties. The values of these properties are strings, which we can write to in order to change a particular aspect of the element's style.
+JavaScript kodu, bir öğenin stilini, öğenin `style` özelliği aracılığıyla doğrudan değiştirebilir. Bu özellik, tüm olası stil özellikleri için özelliklere sahip bir nesne tutar. Bu özelliklerin değerleri, öğenin stilinin belirli bir yönünü değiştirmek için yazabileceğimiz dizelerdir.
 
 ```{lang: html}
 <p id="para" style="color: purple">
@@ -478,16 +482,16 @@ JavaScript code can directly manipulate the style of an element through the elem
 
 {{index "camel case", capitalization, "hyphen character", "font-family (CSS)"}}
 
-Some style property names contain hyphens, such as `font-family`. Because such property names are awkward to work with in JavaScript (you'd have to say `style["font-family"]`), the property names in the `style` object for such properties have their hyphens removed and the letters after them capitalized (`style.fontFamily`).
+Bazı stil özellik adları `font-family` gibi kısa çizgiler içerir. Bu tür özellik adlarıyla JavaScript'te çalışmak zor olduğundan (`style[“font-family”]` demeniz gerekir), bu tür özellikler için `style` nesnesindeki özellik adlarının tire işaretleri kaldırılır ve kendilerinden sonraki harfler büyük yazılır (`style.fontFamily`).
 
-## Cascading styles
+## Basamaklı stiller
 
 {{index "rule (CSS)", "style (HTML tag)"}}
 
 {{indexsee "Cascading Style Sheets", CSS}}
 {{indexsee "style sheet", CSS}}
 
-The styling system for HTML is called _((CSS))_, for _Cascading Style Sheets_. A _style sheet_ is a set of rules for how to style elements in a document. It can be given inside a `<style>` tag.
+HTML için biçimlendirme sistemi, _COPYascading Style Sheets_ için ((CSS)) olarak adlandırılır. Bir _style sheet_, bir belgedeki öğelerin nasıl biçimlendirileceğine ilişkin bir dizi kuraldır. Bir `<style>` etiketi içinde verilebilir.
 
 ```{lang: html}
 <style>
@@ -501,15 +505,15 @@ The styling system for HTML is called _((CSS))_, for _Cascading Style Sheets_. A
 
 {{index "rule (CSS)", "font-weight (CSS)", overlay}}
 
-The _((cascading))_ in the name refers to the fact that multiple such rules are combined to produce the final style for an element. In the example, the default styling for `<strong>` tags, which gives them `font-weight: bold`, is overlaid by the rule in the `<style>` tag, which adds `font-style` and `color`.
+İsimdeki _((cascading))_ kısmı, bir öğenin nihai stilini oluşturmak için birden fazla kuralın birleştirildiği gerçeğine atıfta bulunur. Örnekte, `<strong>` etiketleri için varsayılan stil olan `font-weight: bold`, `font-style` ve `color` ekleyen `<style>` etiketindeki kuralla birleşir.
 
 {{index "style (HTML tag)", "style attribute"}}
 
-When multiple rules define a value for the same property, the most recently read rule gets a higher ((precedence)) and wins. For example, if the rule in the `<style>` tag included `font-weight: normal`, contradicting the default `font-weight` rule, the text would be normal, _not_ bold. Styles in a `style` attribute applied directly to the node have the highest precedence and always win.
+Birden fazla kural aynı özellik için bir değer tanımladığında, en son okunan kural daha yüksek bir ((öncelik)) kazanır ve galip gelir. Dolayısıyla, `<style>` etiketindeki kural `font-weight: normal` içeriyorsa ve bu, varsayılan `font-weight` kuralıyla çelişiyorsa, metin normal olur, kalın değil. Doğrudan düğüme uygulanan bir `style` özelliğindeki stiller en yüksek önceliğe sahiptir ve her zaman kazanır.
 
 {{index uniqueness, "class attribute", "id attribute"}}
 
-It is possible to target things other than ((tag)) names in CSS rules. A rule for `.abc` applies to all elements with `"abc"` in their `class` attribute. A rule for `#xyz` applies to the element with an `id` attribute of `"xyz"` (which should be unique within the document).
+CSS kurallarında ((etiket)) adları dışında başka şeyleri hedeflemek de mümkündür. `.abc` için bir kural, `class` özelliğinde `"abc"` bulunan tüm öğelere uygulanır. `#xyz` için bir kural ise `id` özelliği `"xyz"` olan öğeye uygulanır (bu özellik belge içinde benzersiz olmalıdır).
 
 ```{lang: "css"}
 .subtle {
@@ -528,21 +532,25 @@ p#main.a.b {
 
 {{index "rule (CSS)"}}
 
-The ((precedence)) rule favoring the most recently defined rule applies only when the rules have the same _((specificity))_. A rule's specificity is a measure of how precisely it describes matching elements, determined by the number and kind (tag, class, or ID) of element aspects it requires. For example, a rule that targets `p.a` is more specific than rules that target `p` or just `.a` and would thus take precedence over them.
+En son tanımlanan kuralı tercih eden _((öncelik))_ kuralı, yalnızca kuralların aynı _((özgüllük))_ seviyesine sahip olması durumunda geçerlidir. Bir kuralın özgüllüğü, eşleşen öğeleri ne kadar kesin olarak tanımladığının bir ölçüsüdür ve gerektirdiği öğe özelliklerinin (etiket, sınıf veya ID) sayısı ve türüyle belirlenir. Örneğin, `p.a` hedefleyen bir kural, `p` veya sadece `.a` hedefleyen kurallardan daha özgül olduğu için onlardan öncelikli olur.
 
 {{index "direct child node"}}
 
-The notation `p > a {…}` applies the given styles to all `<a>` tags that are direct children of `<p>` tags. Similarly, `p a {…}` applies to all `<a>` tags inside `<p>` tags, whether they are direct or indirect children.
+`p > a {…}` notasyonu, belirtilen stilleri `<p>` etiketlerinin doğrudan çocukları olan tüm `<a>` etiketlerine uygular. Benzer şekilde, `p a {…}`, doğrudan veya dolaylı çocuk olup olmadığına bakılmaksızın, `<p>` etiketlerinin içindeki tüm `<a>` etiketlerine uygulanır.
 
-## Query selectors
+## Sorgu seçicileri
 
 {{index complexity, CSS, "domain-specific language", [DOM, querying]}}
 
-We won't be using style sheets very much in this book. Understanding them is helpful when programming in the browser, but they are complicated enough to warrant a separate book. The main reason I introduced _((selector))_ syntax—the notation used in style sheets to determine which elements a set of styles apply to—is that we can use this same mini-language as an effective way to find DOM elements.
+Bu kitapta stil sayfalarını çok fazla kullanmayacağız. Tarayıcıda programlama yaparken bunları anlamak yararlıdır, ancak ayrı bir kitap gerektirecek kadar karmaşıktırlar.
+
+{{index "domain-specific language", [DOM, querying]}}
+
+Stil sayfalarında bir stil kümesinin hangi öğelere uygulanacağını belirlemek için kullanılan _((selector))_ sözdizimini tanıtmamın ana nedeni, aynı mini dili DOM öğelerini bulmak için etkili bir yol olarak kullanabilmemizdir.
 
 {{index "querySelectorAll method", "NodeList type"}}
 
-The `querySelectorAll` method, which is defined both on the `document` object and on element nodes, takes a selector string and returns a `NodeList` containing all the elements that it matches.
+Hem `document` nesnesi hem de öğe düğümleri üzerinde tanımlanan `querySelectorAll` yöntemi, bir seçici dizesi alır ve eşleştiği tüm öğeleri içeren bir `NodeList` döndürür.
 
 ```{lang: html}
 <p>And if you go chasing
@@ -569,23 +577,23 @@ The `querySelectorAll` method, which is defined both on the `document` object an
 
 {{index "live data structure"}}
 
-Unlike methods such as `getElementsByTagName`, the object returned by `querySelectorAll` is _not_ live. It won't change when you change the document. It is still not a real array, though, so you need to call `Array.from` if you want to treat it like one.
+`getElementsByTagName` gibi yöntemlerin aksine, `querySelectorAll` tarafından döndürülen nesne _canlı_ değildir. Belgeyi değiştirdiğinizde değişmez. Yine de gerçek bir dizi değildir, bu nedenle bir dizi gibi davranmak istiyorsanız `Array.from` öğesini çağırmanız gerekir.
 
 {{index "querySelector method"}}
 
-The `querySelector` method (without the `All` part) works in a similar way. This one is useful if you want a specific single element. It will return only the first matching element, or `null` when no element matches.
+`querySelector` yöntemi (`All` kısmı olmadan) benzer şekilde çalışır. Bu, belirli, tek bir öğe istiyorsanız kullanışlıdır. Yalnızca ilk eşleşen öğeyi veya hiçbir öğe eşleşmediğinde null döndürür.
 
 {{id animation}}
 
-## Positioning and animating
+## Konumlandırma ve canlandırma
 
 {{index "position (CSS)", "relative positioning", "top (CSS)", "left (CSS)", "absolute positioning"}}
 
-The `position` style property influences layout in a powerful way. It has a default value of `static`, meaning the element sits in its normal place in the document. When it is set to `relative`, the element still takes up space in the document, but now the `top` and `left` style properties can be used to move it relative to that normal place. When `position` is set to `absolute`, the element is removed from the normal document flow—that is, it no longer takes up space and may overlap with other elements. Its `top` and `left` properties can be used to absolutely position it relative to the upper-left corner of the nearest enclosing element whose `position` property isn't `static`, or relative to the document if no such enclosing element exists.
+`position` stil özelliği düzeni güçlü bir şekilde etkiler. Varsayılan olarak `static` değerine sahiptir, yani öğe belgedeki normal yerine oturur. `relative` olarak ayarlandığında, öğe belgede hala yer kaplar, ancak artık `top` ve `left` stil özellikleri onu bu normal yere göre hareket ettirmek için kullanılabilir. `position` öğesi `absolute` olarak ayarlandığında, öğe normal belge akışından çıkarılır; yani artık yer kaplamaz ve diğer öğelerle çakışabilir. Ayrıca, `top` ve `left` özellikleri, `position` özelliği `static` olmayan en yakın çevreleyen öğenin sol üst köşesine göre veya böyle bir çevreleyen öğe yoksa belgeye göre kesinlikle konumlandırmak için kullanılabilir.
 
 {{index [animation, "spinning cat"]}}
 
-We can use this to create an animation. The following document displays a picture of a cat that moves around in an ((ellipse)):
+Bunu bir animasyon oluşturmak için kullanabiliriz. Aşağıdaki belge, bir ((elips)) içinde hareket eden bir kedi resmi görüntüler:
 
 ```{lang: html, startCode: true}
 <p style="text-align: center">
@@ -608,71 +616,71 @@ We can use this to create an animation. The following document displays a pictur
 
 {{if book
 
-The gray arrow shows the path along which the image moves.
+Gri ok, görüntünün hareket ettiği yolu gösterir.
 
-{{figure {url: "img/cat-animation.png", alt: "A diagram showing a picture of a cat with a circular arrow indicating its motion", width: "8cm"}}}
+{{figure {url: "img/cat-animation.png", alt: "Hareketini gösteren dairesel bir ok ile bir kedi resmini gösteren bir diyagram", width: "8cm"}}}
 
 if}}
 
 {{index "top (CSS)", "left (CSS)", centering, "relative positioning"}}
 
-Our picture is centered on the page and given a `position` of `relative`. We'll repeatedly update that picture's `top` and `left` styles to move it.
+Resmimiz sayfada ortalanır ve `konum` değeri `göreceli` olarak verilir. Bu resmi taşımak için resmin `top` ve `left` stillerini tekrar tekrar güncelleyeceğiz.
 
 {{index "requestAnimationFrame function", drawing, animation}}
 
 {{id animationFrame}}
 
-The script uses `requestAnimationFrame` to schedule the `animate` function to run whenever the browser is ready to repaint the screen. The `animate` function itself again calls `requestAnimationFrame` to schedule the next update. When the browser window (or tab) is active, this will cause updates to happen at a rate of about 60 per second, which tends to produce a good-looking animation.
+Kod, `animate` fonksiyonunu tarayıcı ekranı yeniden boyamaya hazır olduğunda çalışacak şekilde zamanlamak için `requestAnimationFrame` kullanır. Bir sonraki güncellemeyi zamanlamak için `animate` fonksiyonunun kendisi yine `requestAnimationFrame` fonksiyonunu çağırır. Tarayıcı penceresi (veya sekmesi) aktif olduğunda, bu, güncellemelerin saniyede yaklaşık 60 oranında gerçekleşmesine neden olur ve bu da iyi görünümlü bir animasyon üretme eğilimindedir.
 
 {{index timeline, blocking}}
 
-If we just updated the DOM in a loop, the page would freeze, and nothing would show up on the screen. Browsers do not update their display while a JavaScript program is running, nor do they allow any interaction with the page. This is why we need `requestAnimationFrame`—it lets the browser know that we are done for now, and it can go ahead and do the things that browsers do, such as updating the screen and responding to user actions.
+Eğer DOM'u bir döngü içinde güncelleseydik, sayfa donacak ve ekranda hiçbir şey görünmeyecekti. Tarayıcılar, bir JavaScript programı çalışırken ekranlarını güncellemezler ve sayfayla herhangi bir etkileşime izin vermezler. İşte bu yüzden `requestAnimationFrame`e ihtiyacımız var - tarayıcıya şimdilik işimizin bittiğini bildirir ve tarayıcıların yaptığı, ekranı güncellemek ve kullanıcı eylemlerine yanıt vermek gibi şeyleri yapmaya devam edebilir.
 
 {{index "smooth animation"}}
 
-The animation function is passed the current ((time)) as an argument. To ensure that the motion of the cat per millisecond is stable, it bases the speed at which the angle changes on the difference between the current time and the last time the function ran. If it just moved the angle by a fixed amount per step, the motion would stutter when, for example, another heavy task running on the same computer prevented the function from running for a fraction of a second.
+Animasyon fonksiyonuna argüman olarak mevcut ((zaman)) aktarılır. Kedinin milisaniye başına hareketinin sabit olmasını sağlamak için, açının değişme hızını geçerli zaman ile fonksiyonun son çalıştığı zaman arasındaki farka dayandırır. Açıyı adım başına sabit bir miktarda hareket ettirseydi, örneğin aynı bilgisayarda çalışan başka bir ağır görev, işlevin saniyenin bir kısmı boyunca çalışmasını engellerse hareket takılırdı.
 
 {{index "Math.cos function", "Math.sin function", cosine, sine, trigonometry}}
 
 {{id sin_cos}}
 
-Moving in ((circle))s is done using the trigonometry functions `Math.cos` and `Math.sin`. For those who aren't familiar with these, I'll briefly introduce them, since we will occasionally use them in this book.
+((Daire))lerde hareket etmek `Math.cos` ve `Math.sin` trigonometri fonksiyonları kullanılarak yapılır. Bunlara aşina olmayanlar için, bu kitapta zaman zaman kullanacağımız için kısaca tanıtacağım.
 
 {{index coordinates, pi}}
 
-`Math.cos` and `Math.sin` are useful for finding points that lie on a circle around point (0, 0) with a radius of 1. Both functions interpret their argument as the position on this circle, with 0 denoting the point on the far right of the circle, going clockwise until 2π (about 6.28) has taken us around the whole circle. `Math.cos` tells you the x-coordinate of the point that corresponds to the given position, and `Math.sin` yields the y-coordinate. Positions (or angles) greater than 2π or less than 0 are valid—the rotation repeats so that _a_+2π refers to the same ((angle)) as _a_.
+`Math.cos` ve `Math.sin` yarıçapı bir olan (0,0) noktası etrafındaki bir çember üzerinde yer alan noktaları bulmak için kullanışlıdır. Her iki fonksiyon da argümanlarını bu daire üzerindeki konum olarak yorumlar, sıfır dairenin en sağındaki noktayı gösterir ve 2π (yaklaşık 6.28) bizi tüm dairenin etrafına götürene kadar saat yönünde ilerler. `Math.cos` size verilen konuma karşılık gelen noktanın x koordinatını, `Math.sin` ise y koordinatını verir. 2π'den büyük veya 0'dan küçük konumlar (veya açılar) geçerlidir - dönüş tekrar eder, böylece _a_+2π _a_ ile aynı ((açı)) anlamına gelir.
 
 {{index "PI constant"}}
 
-This unit for measuring angles is called ((radian))s—a full circle is 2π radians, similar to how it is 360 degrees when measuring in degrees. The constant π is available as `Math.PI` in JavaScript.
+Açıları ölçmek için kullanılan bu birim ((radyan))s olarak adlandırılır; tam bir daire 2π radyandır, tıpkı derece cinsinden ölçerken 360 derece olması gibi. π sabiti JavaScript'te `Math.PI` olarak kullanılabilir.
 
-{{figure {url: "img/cos_sin.svg", alt: "Diagram showing the use of cosine and sine to compute coordinates. A circle with radius 1 is shown with two points on it. The angle from the right side of the circle to the point, in radians, is used to compute the position of each point by using 'cos(angle)' for the horizontal distance from the center of the circle and sin(angle) for the vertical distance.", width: "6cm"}}}
+{{figure {url: "img/cos_sin.svg", alt: "Koordinatları hesaplamak için kosinüs ve sinüs kullanımını gösteren diyagram. Yarıçapı 1 olan bir daire, üzerinde iki nokta ile gösterilmiştir. Dairenin sağ tarafından noktaya olan açı, radyan cinsinden, dairenin merkezinden yatay mesafe için 'cos(açı)' ve dikey mesafe için sin(açı) kullanılarak her bir noktanın konumunu hesaplamak için kullanılır.", width: "6cm"}}}
 
 {{index "counter variable", "Math.sin function", "top (CSS)", "Math.cos function", "left (CSS)", ellipse}}
 
-The cat animation code keeps a counter, `angle`, for the current angle of the animation and increments it every time the `animate` function is called. It can then use this angle to compute the current position of the image element. The `top` style is computed with `Math.sin` and multiplied by 20, which is the vertical radius of our ellipse. The `left` style is based on `Math.cos` and multiplied by 200 so that the ellipse is much wider than it is high.
+Kedi animasyonu kodu, animasyonun geçerli açısı için `angle` adında bir sayaç tutar ve `animate` fonksiyonu her çağrıldığında bunu artırır. Daha sonra görüntü öğesinin geçerli konumunu hesaplamak için bu açıyı kullanabilir. `top` stili `Math.sin` ile hesaplanır ve elipsimizin dikey yarıçapı olan 20 ile çarpılır. `left` stili `Math.cos` ile hesaplanır ve elipsin yüksekliğinden çok daha geniş olması için 200 ile çarpılır.
 
 {{index "unit (CSS)"}}
 
-Note that styles usually need _units_. In this case, we have to append `"px"` to the number to tell the browser that we are counting in ((pixel))s (as opposed to centimeters, "ems", or other units). This is easy to forget. Using numbers without units will result in your style being ignored—unless the number is 0, which always means the same thing, regardless of its unit.
+Stillerin genellikle _birimlere_ ihtiyaç duyduğunu unutmayın. Bu durumda, tarayıcıya ((piksel)) cinsinden saydığımızı (santimetre, “ems” veya diğer birimlerin aksine) söylemek için sayıya `“px”` eklememiz gerekir. Bunu unutmak kolaydır. Sayıları birimsiz kullanmak, stilinizin göz ardı edilmesine neden olur - sayı 0 olmadığı sürece, bu da birimi ne olursa olsun her zaman aynı anlama gelir.
 
-## Summary
+## Özet
 
-JavaScript programs may inspect and interfere with the document that the browser is displaying through a data structure called the DOM. This data structure represents the browser's model of the document, and a JavaScript program can modify it to change the visible document.
+JavaScript programları, DOM adı verilen bir veri yapısı aracılığıyla tarayıcının görüntülediği belgeyi inceleyebilir ve müdahale edebilir. Bu veri yapısı tarayıcının belge modelini temsil eder ve bir JavaScript programı görünür belgeyi değiştirmek için bu yapıyı değiştirebilir.
 
-The DOM is organized like a tree, where elements are arranged hierarchically according to the structure of the document. The objects representing elements have properties such as `parentNode` and `childNodes`, which can be used to navigate through this tree.
+DOM, öğelerin belgenin yapısına göre hiyerarşik olarak düzenlendiği bir ağaç gibi organize edilmiştir. Öğeleri temsil eden nesneler, bu ağaçta gezinmek için kullanılabilen `parentNode` ve `childNodes` gibi özelliklere sahiptir.
 
-The way a document is displayed can be influenced by _styling_, both by attaching styles to nodes directly and by defining rules that match certain nodes. There are many different style properties, such as `color` or `display`. JavaScript code can manipulate an element's style directly through its `style` property.
+Bir belgenin görüntülenme şekli, hem düğümlere doğrudan stil ekleyerek hem de belirli düğümlerle eşleşen kurallar tanımlayarak _stillendirme_ tarafından etkilenebilir. `color` veya `display` gibi birçok farklı stil özelliği vardır. JavaScript kodu, bir öğenin stilini doğrudan `style` özelliği aracılığıyla değiştirebilir.
 
-## Exercises
+## Egzersizler
 
 {{id exercise_table}}
 
-### Build a table
+### Bir tablo oluşturun
 
 {{index "table (HTML tag)"}}
 
-An HTML table is built with the following tag structure:
+Bir HTML tablosu aşağıdaki etiket yapısı ile oluşturulur:
 
 ```{lang: html}
 <table>
@@ -691,17 +699,17 @@ An HTML table is built with the following tag structure:
 
 {{index "tr (HTML tag)", "th (HTML tag)", "td (HTML tag)"}}
 
-For each _((row))_, the `<table>` tag contains a `<tr>` tag. Inside of these `<tr>` tags, we can put cell elements: either heading cells (`<th>`) or regular cells (`<td>`).
+Her _((row))_ için, `<table>` etiketi bir `<tr>` etiketi içerir. Bu `<tr>` etiketlerinin içine hücre öğeleri koyabiliriz: başlık hücreleri (`<th>`) veya normal hücreler (`<td>`).
 
-Given a dataset of mountains, an array of objects with `name`, `height`, and `place` properties, generate the DOM structure for a table that enumerates the objects. It has one column per key and one row per object, plus a header row with `<th>` elements at the top, listing the column names.
+Dağlardan oluşan bir veri kümesi, `name`, `height` ve `place` özelliklerine sahip bir dizi nesne verildiğinde, nesneleri numaralandıran bir tablo için DOM yapısını oluşturun. Anahtar başına bir sütun ve nesne başına bir satır, ayrıca en üstte sütun adlarını listeleyen `<th>` öğeleri içeren bir başlık satırı olmalıdır.
 
-Write this so that the columns are automatically derived from the objects, by taking the property names of the first object in the data.
+Bunu, sütunlar verilerdeki ilk nesnenin özellik adlarını alarak nesnelerden otomatik olarak türetilecek şekilde yazın.
 
-Show the resulting table in the document by appending it to the element that has an `id` attribute of `"mountains"`.
+Ortaya çıkan tabloyu, `id` niteliği `“mountains”` olan öğeye ekleyerek belgede gösterin.
 
 {{index "right-aligning", "text-align (CSS)"}}
 
-Once you have this working, right-align cells that contain number values by setting their `style.textAlign` property to `"right"`.
+Bunu çalıştırdıktan sonra, `style.textAlign` özelliğini `“right”` olarak ayarlayarak sayı değerleri içeren hücreleri sağa hizalayın.
 
 {{if interactive
 
@@ -731,27 +739,27 @@ if}}
 
 {{index "createElement method", "table example", "appendChild method"}}
 
-You can use `document.createElement` to create new element nodes, `document.createTextNode` to create text nodes, and the `appendChild` method to put nodes into other nodes.
+Yeni eleman düğümleri oluşturmak için `document.createElement`, metin düğümleri oluşturmak için `document.createTextNode` ve düğümleri diğer düğümlerin içine yerleştirmek için `appendChild` yöntemini kullanabilirsiniz.
 
 {{index "Object.keys function"}}
 
-You'll want to loop over the key names once to fill in the top row and then again for each object in the array to construct the data rows. To get an array of key names from the first object, `Object.keys` will be useful.
+Üst satırı doldurmak için anahtar adları üzerinde bir kez döngü yapmak ve ardından veri satırlarını oluşturmak için dizideki her nesne için tekrar döngü yapmak isteyeceksiniz. İlk nesneden bir dizi anahtar adı almak için `Object.keys` yararlı olacaktır.
 
 {{index "getElementById method", "querySelector method"}}
 
-To add the table to the correct parent node, you can use `document.getElementById` or `document.querySelector` with `"#mountains"` to find the node.
+Tabloyu doğru üst düğüme eklemek için, düğümü bulmak üzere `document.getElementById` veya `document.querySelector` ile `“#mountains”` kullanabilirsiniz.
 
 hint}}
 
-### Elements by tag name
+### Etiket adına göre öğeler
 
 {{index "getElementsByTagName method", recursion}}
 
-The `document.getElementsByTagName` method returns all child elements with a given tag name. Implement your own version of this as a function that takes a node and a string (the tag name) as arguments and returns an array containing all descendant element nodes with the given tag name. Your function should go through the document itself. It may not use a method like `querySelectorAll` to do the work.
+`document.getElementsByTagName` yöntemi, belirli bir etiket adına sahip tüm alt öğeleri döndürür. Bunun kendi versiyonunu, argüman olarak bir düğüm ve bir dize (etiket adı) alan ve verilen etiket adına sahip tüm alt öğe düğümlerini içeren bir dizi döndüren bir fonksiyon olarak uygulayın.
 
 {{index "nodeName property", capitalization, "toLowerCase method", "toUpperCase method"}}
 
-To find the tag name of an element, use its `nodeName` property. But note that this will return the tag name in all uppercase. Use the `toLowerCase` or `toUpperCase` string methods to compensate for this.
+Bir elemanın etiket adını bulmak için `nodeName` özelliğini kullanın. Ancak bunun etiket adını büyük harfle döndüreceğini unutmayın. Bunu telafi etmek için `toLowerCase` veya `toUpperCase` string yöntemlerini kullanın.
 
 {{if interactive
 
@@ -774,35 +782,36 @@ To find the tag name of an element, use its `nodeName` property. But note that t
   // → 2
 </script>
 ```
+
 if}}
 
 {{hint
 
 {{index "getElementsByTagName method", recursion}}
 
-The solution is most easily expressed with a recursive function, similar to the [`talksAbout` function](dom#talksAbout) defined earlier in this chapter.
+Çözüm, bu bölümde daha önce tanımlanan [`talksAbout` fonksiyonuna](dom#talksAbout) benzer özyinelemeli bir fonksiyonla en kolay şekilde ifade edilir.
 
 {{index concatenation, "concat method", closure}}
 
-You could call `byTagname` itself recursively, concatenating the resulting arrays to produce the output. Or you could create an inner function that calls itself recursively and that has access to an array binding defined in the outer function, to which it can add the matching elements it finds. Don't forget to call the ((inner function)) once from the outer function to start the process.
+`byTagname` fonksiyonunun kendisini özyinelemeli olarak çağırabilir ve elde edilen dizileri birleştirerek çıktıyı üretebilirsiniz. Ya da kendisini özyinelemeli olarak çağıran ve dış fonksiyonda tanımlanan bir dizi bağına erişimi olan ve bulduğu eşleşen elemanları ekleyebileceği bir iç fonksiyon oluşturabilirsiniz. İşlemi başlatmak için dış fonksiyondan bir kez ((iç fonksiyon)) çağırmayı unutmayın.
 
 {{index "nodeType property", "ELEMENT_NODE code"}}
 
-The recursive function must check the node type. Here we are interested only in node type 1 (`Node.ELEMENT_NODE`). For such nodes, we must loop over their children and, for each child, see whether the child matches the query while also doing a recursive call on it to inspect its own children.
+Özyinelemeli fonksiyon düğüm tipini kontrol etmelidir. Burada sadece düğüm tipi 1 (`Node.ELEMENT_NODE`) ile ilgileniyoruz. Bu tür düğümler için, çocukları üzerinde döngü yapmalı ve her çocuk için, çocuğun sorguyla eşleşip eşleşmediğine bakmalı ve aynı zamanda kendi çocuklarını incelemek için özyinelemeli bir çağrı yapmalıyız.
 
 hint}}
 
-### The cat's hat
+### Kedinin şapkası
 
 {{index "cat's hat (exercise)", [animation, "spinning cat"]}}
 
-Extend the cat animation defined [earlier](dom#animation) so that both the cat and his hat (`<img src="img/hat.png">`) orbit at opposite sides of the ellipse.
+[Daha önce](dom#animation) tanımlanan kedi animasyonunu genişletin, böylece hem kedi hem de şapkası (`<img src=“img/hat.png”>`) elipsin karşıt taraflarında yörüngeye girsin.
 
-Or make the hat circle around the cat. Or alter the animation in some other interesting way.
+Ya da şapkayı kedinin etrafında döndürün. Ya da animasyonu başka ilginç bir şekilde değiştirin.
 
 {{index "absolute positioning", "top (CSS)", "left (CSS)", "position (CSS)"}}
 
-To make positioning multiple objects easier, you'll probably want to switch to absolute positioning. This means that `top` and `left` are counted relative to the upper left of the document. To avoid using negative coordinates, which would cause the image to move outside of the visible page, you can add a fixed number of pixels to the position values.
+Birden fazla nesnenin konumlandırılmasını kolaylaştırmak için mutlak konumlandırmaya geçmek muhtemelen iyi bir fikirdir. Bu, `top` ve `left` değerlerinin belgenin sol üst köşesine göre sayılacağı anlamına gelir. Görüntünün görünür sayfanın dışına çıkmasına neden olacak negatif koordinatlar kullanmaktan kaçınmak için, konum değerlerine sabit sayıda piksel ekleyebilirsiniz.
 
 {{if interactive
 
@@ -835,6 +844,6 @@ if}}
 
 {{hint
 
-`Math.cos` and `Math.sin` measure angles in radians, where a full circle is 2π. For a given angle, you can get the opposite angle by adding half of this, which is `Math.PI`. This can be useful for putting the hat on the opposite side of the orbit.
+`Math.cos` ve `Math.sin` açıları radyan cinsinden ölçer, burada tam bir daire 2π'dir. Belirli bir açı için, bunun yarısını ekleyerek karşıt açıyı elde edebilirsiniz, bu da `Math.PI`dır. Bu, şapkayı yörüngenin karşı tarafına yerleştirmek için yararlı olabilir.
 
 hint}}

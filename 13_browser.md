@@ -1,6 +1,6 @@
 # JavaScript and the Browser
 
-{{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A Very Short Personal Pistory", chapter: true}
+{{quote {author: "Tim Berners-Lee", title: "The World Wide Web: A Very Short Personal History", chapter: true}
 
 The dream behind the web is of a common information space in which we communicate by sharing information. Its universality is essential: the fact that a hypertext link can point to anything, be it personal, local or global, be it draft or highly polished.
 

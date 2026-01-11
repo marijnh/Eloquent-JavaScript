@@ -130,7 +130,7 @@ function updateState(state, action) {
 
 {{index "period character"}}
 
-This pattern, in which object ((spread)) is used to first add the properties an existing object and then override some of those, is common in JavaScript code that uses ((immutable)) objects.
+This pattern, in which object ((spread)) is used to first add the properties of an existing object and then override some of those, is common in JavaScript code that uses ((immutable)) objects.
 
 ## DOM building
 

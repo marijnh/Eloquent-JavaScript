@@ -118,7 +118,7 @@ HTML pages may include _((form))s_, which allow the user to fill out information
 
 {{index form, "method attribute", "GET method"}}
 
-This code describes a form with two ((field))s: a small one asking for a name and a larger one to write a message in. When you click the Send ((button)), the form is _submitted_, meaning that the content of its field is packed into an HTTP request and the browser navigates to the result of that request.
+This code describes a form with two ((field))s: a small one asking for a name and a larger one to write a message in. When you click the Send ((button)), the form is _submitted_, meaning that the content of its fields is packed into an HTTP request and the browser navigates to the result of that request.
 
 When the `<form>` element's `method` attribute is `GET` (or is omitted), the information in the form is added to the end of the `action` URL as a _((query string))_. The browser might make a request to this URL:
 

@@ -34,9 +34,8 @@ jobs:
       
       - name: Build Arabic translation
         run: |
-          cd ar
-          node build.mjs
-          touch html/.nojekyll
+          node ar/build.mjs
+          touch ar/html/.nojekyll
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

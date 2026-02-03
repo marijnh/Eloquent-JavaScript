@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>جافاسكريبت بليغ - النسخة العربية</title>
+  <link rel="stylesheet" href="css/ejs.css">
+  <link rel="stylesheet" href="css/ejs-rtl.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    article {
+      background: white;
+      margin: 2em auto;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      max-width: 45em;
+    }
+    .cover-section {
+      text-align: center;
+      margin-bottom: 2em;
+    }
+    .cover-section img {
+      max-width: 300px;
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 0.3em;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 1.2em;
+      margin-bottom: 1.5em;
+    }
+    .chapter-list {
+      list-style: none;
+      padding: 0;
+    }
+    .chapter-list li {
+      margin: 0.5em 0;
+      padding: 0.8em;
+      background: #f8f9fa;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .chapter-list li:hover {
+      background: #e9ecef;
+    }
+    .chapter-list a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+    }
+    .chapter-list .part-header {
+      background: #333;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 1.5em;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.2em 0.6em;
+      border-radius: 3px;
+      font-size: 0.8em;
+      margin-right: 0.5em;
+    }
+    .status-done {
+      background: #28a745;
+      color: white;
+    }
+    .status-progress {
+      background: #ffc107;
+      color: #333;
+    }
+    .status-pending {
+      background: #6c757d;
+      color: white;
+    }
+    .translation-info {
+      background: #e7f3ff;
+      border-right: 4px solid #0066cc;
+      padding: 1em;
+      margin: 1.5em 0;
+      border-radius: 4px;
+    }
+    .links-section {
+      margin-top: 2em;
+      padding-top: 1em;
+      border-top: 2px solid #eee;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.8em 1.5em;
+      background: #0066cc;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 0.5em;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #0052a3;
+    }
+    .original-link {
+      color: #666;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <div class="cover-section">
+      <img src="../html/img/cover.jpg" alt="غلاف الكتاب">
+      <h1>جافاسكريبت بليغ</h1>
+      <div class="subtitle">Eloquent JavaScript</div>
+      <div>النسخة العربية - الطبعة الرابعة (2024)</div>
+      <p>ترجمة: zeyad sleem</p>
+    </div>
+
+    <div class="translation-info">
+      <h3>🌟 عن الترجمة العربية</h3>
+      <p>هذه ترجمة عربية لكتاب "Eloquent JavaScript" الشهير للمؤلف Marijn Haverbeke. الكتاب الأصلي مرخص تحت رخصة Creative Commons BY-NC 3.0.</p>
+      <p><strong>أسلوب الترجمة:</strong> المصطلحات التقنية (variable, function, loop...) تُترجم للعربي مع الإبقاء على المصطلح الإنجليزي بين قوسين عند أول استخدام. تعليقات الكود مكتوبة بالعربية لتسهيل الفهم.</p>
+      <p><strong>آخر تحديث:</strong> فبراير 2026</p>
+    </div>
+
+    <h2>📚 جدول المحتويات</h2>
+    
+    <ol class="chapter-list">
+      <li>
+        <a href="00_intro.html">
+          <span class="status-badge status-done">مكتمل</span>
+          مقدمة (Introduction)
+        </a>
+      </li>
+      
+      <li class="part-header">الجزء الأول: اللغة (Part 1: Language)</li>
+      
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          القيم، الأنواع، والعوامل (Values, Types, and Operators)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          بنية البرنامج (Program Structure)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          الدوال (Functions)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          هياكل البيانات: الكائنات والمصفوفات (Data Structures: Objects and Arrays)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          الدوال عالية المستوى (Higher-order Functions)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          الحياة السرية للكائنات (The Secret Life of Objects)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          مشروع: روبوت (Project: A Robot)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          العلل والأخطاء (Bugs and Errors)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          التعبيرات النمطية (Regular Expressions)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          الوحدات (Modules)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          البرمجة غير المتزامنة (Asynchronous Programming)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          مشروع: لغة برمجة (Project: A Programming Language)
+        </a>
+      </li>
+      
+      <li class="part-header">الجزء الثاني: المتصفح (Part 2: Browser)</li>
+      
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          جافاسكريبت والمتصفح (JavaScript and the Browser)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          نموذج كائن المستند (The Document Object Model)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          معالجة الأحداث (Handling Events)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          مشروع: لعبة منصة (Project: A Platform Game)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          الرسم على Canvas (Drawing on Canvas)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          HTTP والنماذج (HTTP and Forms)
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          مشروع: محرر رسومات (Project: A Pixel Art Editor)
+        </a>
+      </li>
+      
+      <li class="part-header">الجزء الثالث: Node (Part 3: Node)</li>
+      
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          Node.js
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="status-badge status-pending">قريباً</span>
+          مشروع: موقع مشاركة المهارات (Project: Skill-Sharing Website)
+        </a>
+      </li>
+    </ol>
+
+    <div class="links-section">
+      <h2>🔗 روابط مفيدة</h2>
+      <p>
+        <a class="btn" href="GLOSSARY.md">المعجم التقني 📖</a>
+        <a class="btn" href="https://github.com/marijnh/Eloquent-JavaScript">المشروع الأصلي على GitHub</a>
+      </p>
+      <p class="original-link">
+        📖 <a href="https://eloquentjavascript.net">الموقع الرسمي للكتاب</a> | 
+        🛒 <a href="https://nostarch.com/eloquent-javascript-4th-edition">شراء النسخة الورقية</a>
+      </p>
+    </div>
+
+    <div style="margin-top: 2em; padding-top: 1em; border-top: 1px solid #eee; text-align: center; color: #666; font-size: 0.9em;">
+      <p>هذه الترجمة مرخصة تحت نفس رخصة الكتاب الأصلي: Creative Commons BY-NC 3.0</p>
+      <p>تم إنشاء هذا الموقع باستخدام نظام بناء مخصص للترجمة العربية</p>
+    </div>
+  </article>
+</body>
+</html>

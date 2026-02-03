@@ -1,297 +1,141 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+<html dir="rtl" lang="ar">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>جافاسكريبت بليغ - النسخة العربية</title>
-  <link rel="stylesheet" href="css/ejs.css">
-  <link rel="stylesheet" href="css/ejs-rtl.css">
+  <title>Eloquent JavaScript</title>
+  <link rel=stylesheet href="css/ejs.css">
   <style>
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-    }
-    article {
-      background: white;
-      margin: 2em auto;
-      padding: 2em;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      max-width: 45em;
-    }
-    .cover-section {
-      text-align: center;
-      margin-bottom: 2em;
-    }
-    .cover-section img {
-      max-width: 300px;
-      border-radius: 4px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      color: #333;
-      margin-bottom: 0.3em;
-    }
-    .subtitle {
-      color: #666;
-      font-size: 1.2em;
-      margin-bottom: 1.5em;
-    }
-    .chapter-list {
-      list-style: none;
-      padding: 0;
-    }
-    .chapter-list li {
-      margin: 0.5em 0;
-      padding: 0.8em;
-      background: #f8f9fa;
-      border-radius: 4px;
-      transition: background 0.2s;
-    }
-    .chapter-list li:hover {
-      background: #e9ecef;
-    }
-    .chapter-list a {
-      text-decoration: none;
-      color: #333;
-      display: block;
-    }
-    .chapter-list .part-header {
-      background: #333;
-      color: white;
-      font-weight: bold;
-      text-align: center;
-      margin-top: 1.5em;
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 0.2em 0.6em;
-      border-radius: 3px;
-      font-size: 0.8em;
-      margin-right: 0.5em;
-    }
-    .status-done {
-      background: #28a745;
-      color: white;
-    }
-    .status-progress {
-      background: #ffc107;
-      color: #333;
-    }
-    .status-pending {
-      background: #6c757d;
-      color: white;
-    }
-    .translation-info {
-      background: #e7f3ff;
-      border-right: 4px solid #0066cc;
-      padding: 1em;
-      margin: 1.5em 0;
-      border-radius: 4px;
-    }
-    .links-section {
-      margin-top: 2em;
-      padding-top: 1em;
-      border-top: 2px solid #eee;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.8em 1.5em;
-      background: #0066cc;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      margin: 0.5em;
-      transition: background 0.2s;
-    }
-    .btn:hover {
-      background: #0052a3;
-    }
-    .original-link {
-      color: #666;
-      font-size: 0.9em;
-    }
+    article { display: flex; margin: 0 2em; flex-wrap: wrap; max-width: none; max-width: calc(38em + 500px); }
+    #cover { flex-basis: 480px; max-width: 35em; flex-grow: 1; margin-right: 3em; }
+    #contents { flex-basis: 500px; flex-grow: 1; max-width: 35em;  }
+    #links { flex-basis: 100%; max-width: 35em; }
+    li.contents-intro:before { display: none; }
+    .toc h3 { float: right; font-family: inherit; margin: 0; font-weight: normal; font-size: 90%; }
+    @media screen and (max-width: 585px) { .toc h3 { display: none }}
+    @media screen and (max-width: 500px) { #cover { margin-right: 0 } article { margin: 0 } }
+    ul.links { list-style-type: circle; }
+    img.logo { vertical-align: text-top; padding: 0px 4px; border: 0; }
   </style>
 </head>
-<body>
-  <article>
-    <div class="cover-section">
-      <img src="../html/img/cover.jpg" alt="غلاف الكتاب">
-      <h1>جافاسكريبت بليغ</h1>
-      <div class="subtitle">Eloquent JavaScript</div>
-      <div>النسخة العربية - الطبعة الرابعة (2024)</div>
-      <p>ترجمة: zeyad sleem</p>
-    </div>
 
-    <div class="translation-info">
-      <h3>🌟 عن الترجمة العربية</h3>
-      <p>هذه ترجمة عربية لكتاب "Eloquent JavaScript" الشهير للمؤلف Marijn Haverbeke. الكتاب الأصلي مرخص تحت رخصة Creative Commons BY-NC 3.0.</p>
-      <p><strong>أسلوب الترجمة:</strong> المصطلحات التقنية (variable, function, loop...) تُترجم للعربي مع الإبقاء على المصطلح الإنجليزي بين قوسين عند أول استخدام. تعليقات الكود مكتوبة بالعربية لتسهيل الفهم.</p>
-      <p><strong>آخر تحديث:</strong> فبراير 2026</p>
-    </div>
+<article>
+<div id=cover>
 
-    <h2>📚 جدول المحتويات</h2>
-    
-    <ol class="chapter-list">
-      <li>
-        <a href="00_intro.html">
-          <span class="status-badge status-done">مكتمل</span>
-          مقدمة (Introduction)
-        </a>
-      </li>
-      
-      <li class="part-header">الجزء الأول: اللغة (Part 1: Language)</li>
-      
-      <li>
-        <a href="01_values.html">
-          <span class="status-badge status-done">مكتمل</span>
-          القيم، الأنواع، والعوامل (Values, Types, and Operators)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          بنية البرنامج (Program Structure)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          الدوال (Functions)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          هياكل البيانات: الكائنات والمصفوفات (Data Structures: Objects and Arrays)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          الدوال عالية المستوى (Higher-order Functions)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          الحياة السرية للكائنات (The Secret Life of Objects)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          مشروع: روبوت (Project: A Robot)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          العلل والأخطاء (Bugs and Errors)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          التعبيرات النمطية (Regular Expressions)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          الوحدات (Modules)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          البرمجة غير المتزامنة (Asynchronous Programming)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          مشروع: لغة برمجة (Project: A Programming Language)
-        </a>
-      </li>
-      
-      <li class="part-header">الجزء الثاني: المتصفح (Part 2: Browser)</li>
-      
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          جافاسكريبت والمتصفح (JavaScript and the Browser)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          نموذج كائن المستند (The Document Object Model)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          معالجة الأحداث (Handling Events)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          مشروع: لعبة منصة (Project: A Platform Game)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          الرسم على Canvas (Drawing on Canvas)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          HTTP والنماذج (HTTP and Forms)
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          مشروع: محرر رسومات (Project: A Pixel Art Editor)
-        </a>
-      </li>
-      
-      <li class="part-header">الجزء الثالث: Node (Part 3: Node)</li>
-      
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          Node.js
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="status-badge status-pending">قريباً</span>
-          مشروع: موقع مشاركة المهارات (Project: Skill-Sharing Website)
-        </a>
-      </li>
-    </ol>
+  <p style="margin: 1em 0">
+    <a href="https://nostarch.com/eloquent-javascript-4th-edition">
+      <img src="img/cover.jpg" alt="صورة الغلاف" style="border: 1px solid black; max-width: 100%; box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.4)">
+    </a>
+  </p>
 
-    <div class="links-section">
-      <h2>🔗 روابط مفيدة</h2>
-      <p>
-        <a class="btn" href="GLOSSARY.md">المعجم التقني 📖</a>
-        <a class="btn" href="https://github.com/marijnh/Eloquent-JavaScript">المشروع الأصلي على GitHub</a>
-      </p>
-      <p class="original-link">
-        📖 <a href="https://eloquentjavascript.net">الموقع الرسمي للكتاب</a> | 
-        🛒 <a href="https://nostarch.com/eloquent-javascript-4th-edition">شراء النسخة الورقية</a>
-      </p>
-    </div>
+  <h1>Eloquent JavaScript <div style="font-size: 70%">جافا سكريبت البليغة</div><div style="font-size: 70%">الإصدار الرابع (2024)</div></h1>
 
-    <div style="margin-top: 2em; padding-top: 1em; border-top: 1px solid #eee; text-align: center; color: #666; font-size: 0.9em;">
-      <p>هذه الترجمة مرخصة تحت نفس رخصة الكتاب الأصلي: Creative Commons BY-NC 3.0</p>
-      <p>تم إنشاء هذا الموقع باستخدام نظام بناء مخصص للترجمة العربية</p>
-    </div>
-  </article>
-</body>
-</html>
+  <p>هذا كتاب عن جافا سكريبت، البرمجة، وعجائب العالم الرقمي. يمكنك قراءته عبر الإنترنت هنا، أو شراء
+  <a href="https://nostarch.com/eloquent-javascript-4th-edition">نسختك الورقية</a>.</p>
+
+  <p>تأليف Marijn Haverbeke.</p>
+
+  <div style="font-size: 80%">
+  <p>مرخص بموجب
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/">رخصة المشاع الإبداعي نَسب المُصنَّف - غير تجاري</a>.
+  جميع الأكواد في هذا الكتاب يمكن اعتبارها مرخصة بموجب
+  <a href="https://eloquentjavascript.net/code/LICENSE">رخصة MIT</a>.</p>
+
+  <p>الرسوم التوضيحية بواسطة فنانين متعددين: الغلاف
+  بواسطة <a href="http://www.pechane.com/">Péchane Sumi-e</a>. رسوم الفصول
+  بواسطة <a href="http://madalinatantareanu.com/">Madalina
+  Tantareanu</a>. فن البكسل في الفصلين 7 و 16 بواسطة Antonio Perdomo
+  Pastor. مخططات التعبيرات النمطية في الفصل 9 تم إنشاؤها
+  باستخدام <a href="https://regexper.com">regexper.com</a> بواسطة Jeff
+  Avallone. مفهوم اللعبة للفصل 16
+  بواسطة <a href="http://lessmilk.com">Thomas Palef</a>.</p>
+  </div>
+
+</div>
+
+<div id=contents>
+
+  <h2>المحتويات</h2>
+
+  <ol class=toc>
+    <li class="contents-intro"><a href="00_intro.html">مقدمة</a>
+    <li>
+      <h3>(الجزء 1: اللغة)</h3>
+      <a href="01_values.html">القيم، الأنواع، والعوامل</a>
+    </li>
+    <li><a href="02_program_structure.html">هيكل البرنامج</a>
+    <li><a href="03_functions.html">الدوال</a>
+    <li><a href="04_data.html">هياكل البيانات: الكائنات والمصفوفات</a>
+    <li><a href="05_higher_order.html">الدوال من الرتبة العليا</a>
+    <li><a href="06_object.html">الحياة السرية للكائنات</a>
+    <li><a href="07_robot.html">مشروع: روبوت</a>
+    <li><a href="08_error.html">العلل والأخطاء</a>
+    <li><a href="09_regexp.html">التعابير النمطية</a>
+    <li><a href="10_modules.html">الوحدات (Modules)</a>
+    <li><a href="11_async.html">البرمجة غير المتزامنة</a>
+    <li><a href="12_language.html">مشروع: لغة برمجة</a>
+    <li>
+      <h3>(الجزء 2: المتصفح)</h3>
+      <a href="13_browser.html">جافا سكريبت والمتصفح</a>
+    </li>
+    <li><a href="14_dom.html">نموذج كائن المستند (DOM)</a>
+    <li><a href="15_event.html">معالجة الأحداث</a>
+    <li><a href="16_game.html">مشروع: لعبة منصة</a>
+    <li><a href="17_canvas.html">الرسم على اللوحة (Canvas)</a>
+    <li><a href="18_http.html">HTTP والنماذج</a>
+    <li><a href="19_paint.html">مشروع: محرر فن البكسل</a>
+    <li>
+      <h3>(الجزء 3: Node)</h3>
+      <a href="20_node.html">Node.js</a>
+    </li>
+    <li><a href="21_skillsharing.html">مشروع: موقع مشاركة المهارات</a>
+  </ol>
+
+</div>
+
+<div id=links>
+
+  <p>نسخة ورقية من Eloquent JavaScript، تتضمن فصلاً إضافياً، يتم إصدارها
+  بواسطة <a href="https://nostarch.com/eloquent-javascript-4th-edition">No Starch Press</a>.</p>
+
+  <h2>صفحات أخرى</h2>
+
+  <ul class="links">
+    <li><a href="code">صندوق الرمل للكود وحلول التمارين</a></li>
+    <li><a href="errata.html">تصويبات الكتاب الورقي</a></li>
+    <li><a href="Eloquent_JavaScript.pdf">هذا الكتاب كملف PDF واحد</a> (&amp; <a href="Eloquent_JavaScript_small.pdf">نسخة صغيرة للمحمول</a>)</li>
+    <li><a href="https://eloquentjavascript.net/Eloquent_JavaScript.epub">هذا الكتاب كملف EPUB</a></li>
+    <li><a href="https://eloquentjavascript.net/Eloquent_JavaScript.mobi">هذا الكتاب كملف MOBI (Kindle)</a></li>
+    <li><a href="https://eloquentjavascript.net/1st_edition">النسخة الأولى من الكتاب</a></li>
+    <li><a href="https://eloquentjavascript.net/2nd_edition">النسخة الثانية من الكتاب</a></li>
+    <li><a href="https://eloquentjavascript.net/3rd_edition">النسخة الثالثة من الكتاب</a></li>
+  </ul>
+
+  <h2>الترجمات</h2>
+
+  <h3>الإصدار الرابع</h3>
+
+  <ul class=translations>
+    <li><a href="https://eloquent-javascript-es.vercel.app/">Español (Spanish)</a></li>
+    <li><a href="index.html">عَرَبِيّ (Arabic) - هذا الموقع</a></li>
+  </ul>
+
+  <h3>الإصدار الثالث</h3>
+
+  <ul class=translations>
+    <li><a href="https://academy.hsoub.com/files/27-%D8%A7%D9%84%D8%A8%D8%B1%D9%85%D8%AC%D8%A9-%D8%A8%D9%84%D8%BA%D8%A9-%D8%AC%D8%A7%D9%81%D8%A7%D8%B3%D9%83%D8%B1%D8%A8%D8%AA/">عَرَبِيّ (Arabic)</a></li>
+    <li><a href="http://eloquentjs.ir/">فارسی (Persian)</a></li>
+    <li><a href="https://eloquentjs-es.thedojo.mx/">Español (Spanish, partial)</a></li>
+  </ul>
+
+  <h3>الإصدار الثاني</h3>
+
+  <ul class=translations>
+    <li><a href="https://rabahboudia.gitbooks.io/arabic-eloquent-js/content/index.html">عَرَبِيّ‎ (Arabic)</a></li>
+    <li><a href="https://to6esko.github.io/">Български (Bulgarian)</a></li>
+    <li><a href="https://github.com/braziljs/eloquente-javascript">Português (Portuguese)</a></li>
+    <li><a href="https://karmazzin.gitbooks.io/eloquentjavascript_ru/content/">Русский (Russian)</a></li>
+  </ul>
+
+</div>
+</article>

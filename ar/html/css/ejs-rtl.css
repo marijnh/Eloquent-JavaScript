@@ -1,66 +1,36 @@
 /* Arabic RTL Styles for Eloquent JavaScript */
-/* This file contains RTL-specific overrides for Arabic text */
+/* Simplified for maximum compatibility with original design */
 
-/* Set RTL direction for the whole document */
-article {
+/* Main RTL setting */
+article, html[dir="rtl"] {
   direction: rtl;
   text-align: right;
+}
+
+/* Typography override */
+body {
+  font-family: 'Traditional Arabic', 'Scheherazade', Georgia, serif;
 }
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  direction: rtl;
   text-align: right;
 }
 
-/* Paragraphs */
-p {
-  direction: rtl;
-  text-align: right;
+/* Navigation */
+nav {
+  text-align: left; /* Keep nav arrows logical (Prev -> Next) or flip if desired */
+  direction: ltr;   /* Often better to keep nav LTR for arrows */
 }
 
-/* Lists - RTL support */
-ol, ul {
-  direction: rtl;
+/* Lists */
+ul, ol {
   padding-right: 2em;
   padding-left: 0;
 }
 
-li {
-  direction: rtl;
-  text-align: right;
-}
-
-/* Keep code blocks LTR for readability */
-pre, code, .snippet {
-  direction: ltr;
-  text-align: left;
-  font-family: 'PT Mono', 'Courier New', monospace;
-}
-
-/* Mixed content handling */
-:dir(rtl) code,
-:dir(rtl) pre {
-  direction: ltr;
-  text-align: left;
-  unicode-bidi: embed;
-}
-
-/* Ensure code within Arabic text displays correctly */
-p code,
-li code,
-h1 code,
-h2 code,
-h3 code {
-  direction: ltr;
-  unicode-bidi: embed;
-  display: inline-block;
-}
-
-/* Quotation blocks */
+/* Blockquotes */
 blockquote {
-  direction: rtl;
-  text-align: right;
   border-right: 3px solid #ccc;
   border-left: none;
   padding-right: 1em;
@@ -68,185 +38,35 @@ blockquote {
   margin-right: 0;
 }
 
-/* Figures and captions */
-figure {
-  direction: rtl;
-}
-
-figcaption {
-  text-align: center;
-}
-
-/* Tables */
-table {
-  direction: rtl;
-}
-
-th, td {
-  text-align: right;
-}
-
-/* Navigation - keep LTR for consistency with book navigation */
-nav {
+/* Code blocks - Keep LTR */
+pre, code, .snippet {
   direction: ltr;
   text-align: left;
 }
 
-/* Links styling for RTL */
-a {
-  direction: rtl;
-}
-
-/* Chapter headings */
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 0.5em;
-}
-
-/* Section headings */
-h2 {
-  font-size: 1.8em;
-  margin-top: 1.5em;
-  margin-bottom: 0.8em;
-  border-bottom: 2px solid #333;
-  padding-bottom: 0.2em;
-}
-
-h3 {
-  font-size: 1.4em;
-  margin-top: 1.2em;
-}
-
-/* Index links and references */
-.index-ref {
-  direction: rtl;
-}
-
-/* Exercise sections */
-.exercise {
-  direction: rtl;
-  text-align: right;
-  background: #f5f5f5;
-  padding: 1em;
-  border-right: 3px solid #333;
-  margin: 1em 0;
-}
-
-/* Solution sections */
-.solution {
-  direction: rtl;
-  text-align: right;
-}
-
-/* Footnotes */
-.footnote {
-  direction: rtl;
-  text-align: right;
-  font-size: 0.9em;
-  color: #666;
-}
-
-/* Ensure proper line height for mixed content */
-body {
-  line-height: 1.6;
-  /* Use a font that supports Arabic well */
-  font-family: Georgia, 'Traditional Arabic', 'Arial', 'Nimbus Roman No9 L', serif;
-}
-
-/* Special handling for inline English terms in Arabic text */
-span.term-en {
+/* Mixed content handling */
+p code, li code {
   direction: ltr;
   unicode-bidi: embed;
-  font-style: italic;
-}
-
-/* Popup/dialog boxes */
-div.popup {
-  direction: rtl;
-  text-align: right;
-}
-
-/* Interactive elements */
-button, input, select {
-  direction: rtl;
-}
-
-/* Code comments in Arabic should still be RTL */
-.cm-comment {
-  direction: rtl;
-  text-align: right;
-}
-
-/* Syntax highlighting adjustments for RTL */
-.syntax-comment {
-  direction: rtl;
-}
-
-/* Mobile responsiveness for RTL */
-@media screen and (max-width: 800px) {
-  article {
-    padding: 1em 0.5em 3em;
-  }
-  
-  pre {
-    font-size: 14px;
-    padding: 5px;
-  }
-}
-
-/* Ensure chapter navigation works in RTL */
-.chapter-nav {
-  direction: rtl;
-  display: flex;
-  justify-content: space-between;
-  margin: 2em 0;
-}
-
-.chapter-nav a {
   display: inline-block;
 }
 
-.chapter-nav .prev {
+/* Tables */
+td, th {
   text-align: right;
 }
 
-.chapter-nav .next {
-  text-align: left;
+/* Index Page Specifics */
+.toc h3 {
+  float: left; /* Flip from right to left */
 }
 
-/* Glossary terms */
-.glossary-term {
-  direction: rtl;
-  border-bottom: 1px dotted #666;
-  cursor: help;
+/* Cover Image */
+#cover {
+  margin-left: 3em;
+  margin-right: 0;
 }
 
-/* Note boxes */
-.note {
-  direction: rtl;
-  text-align: right;
-  background: #fffacd;
-  border-right: 4px solid #ffd700;
-  padding: 1em;
-  margin: 1em 0;
-}
-
-/* Warning boxes */
-.warning {
-  direction: rtl;
-  text-align: right;
-  background: #ffe4e1;
-  border-right: 4px solid #dc143c;
-  padding: 1em;
-  margin: 1em 0;
-}
-
-/* Tip boxes */
-.tip {
-  direction: rtl;
-  text-align: right;
-  background: #e0ffe0;
-  border-right: 4px solid #228b22;
-  padding: 1em;
-  margin: 1em 0;
+@media screen and (max-width: 500px) {
+  #cover { margin-left: 0; }
 }

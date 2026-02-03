@@ -42,7 +42,7 @@ Eloquent-JavaScript/
 | الوصف | الرابط | الحالة |
 |-------|--------|--------|
 | **الـ Pull Request** | https://github.com/marijnh/Eloquent-JavaScript/pull/597 | ✅ مفتوح |
-| **الموقع العربي** | https://zeyadsleem.github.io/Eloquent-JavaScript/ar/html/ | ✅ يعمل |
+| **الموقع العربي** | https://zeyadsleem.github.io/Eloquent-JavaScript/ | ✅ يعمل |
 | **الـ Fork** | https://github.com/zeyadsleem/Eloquent-JavaScript | ✅ عام |
 | **الكتاب الأصلي** | https://eloquentjavascript.net | ✅ مرتبط |
 
@@ -61,7 +61,7 @@ Eloquent-JavaScript/
 ## 🚀 ما هو جاهز الآن
 
 ### 1. ✅ الموقع يعمل على GitHub Pages
-**الرابط:** https://zeyadsleem.github.io/Eloquent-JavaScript/ar/html/
+**الرابط:** https://zeyadsleem.github.io/Eloquent-JavaScript/
 
 **المتاح حالياً:**
 - ✅ صفحة رئيسية بالعربية
@@ -85,7 +85,7 @@ Eloquent-JavaScript/
 **الموقع:** `html/index.html` السطر 122  
 **النص:**
 ```html
-<li><a href="https://zeyadsleem.github.io/Eloquent-JavaScript/ar/html/">
+<li><a href="https://zeyadsleem.github.io/Eloquent-JavaScript/">
   عَرَبِيّ (Arabic) - by zeyad sleem
 </a></li>
 ```
@@ -251,7 +251,7 @@ function calculateSum(a, b) {
 
 | الوصف | الرابط |
 |-------|--------|
-| 🌐 **الموقع العربي** | https://zeyadsleem.github.io/Eloquent-JavaScript/ar/html/ |
+| 🌐 **الموقع العربي** | https://zeyadsleem.github.io/Eloquent-JavaScript/ |
 | 📝 **الـ Pull Request** | https://github.com/marijnh/Eloquent-JavaScript/pull/597 |
 | 📁 **المستودع** | https://github.com/zeyadsleem/Eloquent-JavaScript |
 | 📚 **الكتاب الأصلي** | https://eloquentjavascript.net |
@@ -290,7 +290,7 @@ cd /home/zeyad/projects/Eloquent-JavaScript
 ## 📞 للتواصل والمساعدة
 
 **GitHub:** @zeyadsleem  
-**الموقع:** https://zeyadsleem.github.io/Eloquent-JavaScript/ar/html/  
+**الموقع:** https://zeyadsleem.github.io/Eloquent-JavaScript/  
 **الـ PR:** https://github.com/marijnh/Eloquent-JavaScript/pull/597
 
 ---
